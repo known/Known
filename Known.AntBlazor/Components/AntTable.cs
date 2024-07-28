@@ -17,6 +17,7 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
             Resizable = Model.Resizable;
             RowKey = Model.RowKey;
             HidePagination = !Model.ShowPager;
+            PageSizeChanged = this.Callback<int>(e => PageIndex = 1);
             if (Model.TreeChildren != null)
                 TreeChildren = Model.TreeChildren;
             if (Model.RowClass != null)

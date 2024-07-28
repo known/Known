@@ -28,8 +28,8 @@
 
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-    private InteractiveServerRenderMode InteractiveMode => new(false);
-    //private InteractiveAutoRenderMode InteractiveMode => new(false);
+    //private InteractiveServerRenderMode InteractiveMode => new(false);
+    private InteractiveAutoRenderMode InteractiveMode => new(false);
     private string ipAddress;
     private bool isMobile;
 

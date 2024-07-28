@@ -187,8 +187,7 @@
             return;
 
         isQuering = true;
-        if (!Config.IsClient)
-            await StateChangedAsync();
+        await StateChangedAsync();
         var watch = Stopwatcher.Start<TItem>();
         if (Model.Criteria.IsQuery)
             Model.Criteria.PageIndex = 1;
@@ -204,8 +203,7 @@
         Model.SelectedRows = [];
         watch.Write($"Changed {Model.Criteria.PageIndex}");
         isQuering = false;
-        if (!Config.IsClient)
-            await StateChangedAsync();
+        await StateChangedAsync();
     }
 
     private async void OnRowClick(RowData<TItem> row)

@@ -7,6 +7,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     private IAutoService Service;
     private IModuleService Module;
     private bool isEditPage;
+    private string pageId;
 
     [Parameter] public string PageId { get; set; }
 
@@ -28,8 +29,12 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
-        InitTable();
-        await base.RefreshAsync();
+        if (pageId != PageId)
+        {
+            pageId = PageId;
+            InitTable();
+            await base.RefreshAsync();
+        }
     }
 
     protected override void BuildPage(RenderTreeBuilder builder)
