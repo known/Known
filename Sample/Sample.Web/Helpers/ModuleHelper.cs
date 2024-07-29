@@ -6,6 +6,9 @@ class ModuleHelper
     {
         Config.OnAddModule = modules =>
         {
+            var baseData = modules.FirstOrDefault(m => m.Name == "基础数据");
+            modules.Add(GetCompanyForm(baseData.Id));
+
             var bizApply = GetModule("BizApply", "业务申请", "appstore", ModuleType.Menu.ToString(), 2);
             modules.Add(bizApply);
             modules.Add(GetBaApplyList(bizApply.Id));
@@ -19,6 +22,28 @@ class ModuleHelper
         return new SysModule { ParentId = "0", Code = code, Name = name, Icon = icon, Target = target, Sort = sort, Enabled = true };
     }
 
+    #region 基础数据
+    private static SysModule GetCompanyForm(string parentId)
+    {
+        return new SysModule
+        {
+            ParentId = parentId,
+            Code = "CompanyForm",
+            Name = "企业信息",
+            Icon = "idcard",
+            Description = "维护企业基本资料。",
+            Target = ModuleType.Page.ToString(),
+            Url = "/bds/company",
+            Sort = 0,
+            Enabled = true,
+            EntityData = "",
+            PageData = "",
+            FormData = ""
+        };
+    }
+    #endregion
+
+    #region 业务申请
     private static SysModule GetBaApplyList(string parentId)
     {
         return new SysModule
@@ -80,4 +105,5 @@ class ModuleHelper
             FormData = "{\"Width\":800,\"Maximizable\":false,\"DefaultMaximized\":false,\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":true,\"MultiFile\":false,\"Id\":\"BizNo\",\"Name\":\"业务单号\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"BizTitle\",\"Name\":\"业务名称\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"BizContent\",\"Name\":\"业务内容\",\"Type\":1,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"BizFile\",\"Name\":\"业务附件\",\"Type\":10,\"Length\":null,\"Required\":false}]}"
         };
     }
+    #endregion
 }
