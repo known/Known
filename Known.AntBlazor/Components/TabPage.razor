@@ -28,7 +28,7 @@
     [Parameter] public RenderFragment TabContent { get; set; }
     [Parameter] public RenderFragment TabRight { get; set; }
     [Parameter] public RenderFragment TabBottom { get; set; }
-    [Parameter] public Action<string> OnChange { get; set; }
+    [Parameter] public Func<string, Task> OnChange { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -36,7 +36,7 @@
         if (current != activeKey)
         {
             current = activeKey;
-            OnChange?.Invoke(current);
+            await OnChange?.Invoke(current);
         }
     }
 }

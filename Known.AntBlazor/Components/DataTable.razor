@@ -181,29 +181,32 @@
         });
     }
 
-    private async void OnChange(QueryModel<TItem> query)
+    private async Task OnChange(QueryModel<TItem> query)
     {
         if (Model.OnQuery == null || isQuering)
             return;
 
         isQuering = true;
         await StateChangedAsync();
-        var watch = Stopwatcher.Start<TItem>();
-        if (Model.Criteria.IsQuery)
-            Model.Criteria.PageIndex = 1;
-        Model.Criteria.PageIndex = query.PageIndex;
-        Model.Criteria.PageSize = query.PageSize;
-        if (query.SortModel != null)
+        await Task.Run(async () =>
         {
-            var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
-            Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
-        }
-        Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
-        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
-        Model.SelectedRows = [];
-        watch.Write($"Changed {Model.Criteria.PageIndex}");
-        isQuering = false;
-        await StateChangedAsync();
+            var watch = Stopwatcher.Start<TItem>();
+            if (Model.Criteria.IsQuery)
+                Model.Criteria.PageIndex = 1;
+            Model.Criteria.PageIndex = query.PageIndex;
+            Model.Criteria.PageSize = query.PageSize;
+            if (query.SortModel != null)
+            {
+                var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+                Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
+            }
+            Model.Criteria.SumColumns = Model.Columns.Where(c => c.IsSum).Select(c => c.Id).ToList();
+            Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            Model.SelectedRows = [];
+            watch.Write($"Changed {Model.Criteria.PageIndex}");
+            isQuering = false;
+            await StateChangedAsync();
+        });
     }
 
     private async void OnRowClick(RowData<TItem> row)
