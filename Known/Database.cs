@@ -1157,48 +1157,45 @@ class CommandInfo
 
     internal string GetPagingSql(DatabaseType type, PagingCriteria criteria)
     {
-        var order = string.Empty;
-        if (criteria.PageIndex <= 0)
-            return GetPagingSqlByNone(criteria, ref order);
-
         if (type == DatabaseType.Access)
-            return GetPagingSqlByAccess(criteria, out order);
+            return GetPagingSqlByAccess(criteria);
 
-        if (criteria.OrderBys != null)
+        var order = string.Empty;
+        if (criteria.OrderBys != null && criteria.OrderBys.Length > 0)
             order = string.Join(",", criteria.OrderBys);
-        if (!string.IsNullOrWhiteSpace(order))
-            order = $"order by {order}";
+
+        if (string.IsNullOrWhiteSpace(order))
+            order = "CreateTime desc";
+
+        if (criteria.PageIndex <= 0)
+            return GetPagingSqlByNone(criteria, order);
 
         var startNo = criteria.PageSize * (criteria.PageIndex - 1);
         var endNo = startNo + criteria.PageSize;
         if (type == DatabaseType.MySql)
-            return $"{Text} {order} limit {startNo}, {criteria.PageSize}";
+            return $"{Text} order by {order} limit {startNo}, {criteria.PageSize}";
 
         if (type == DatabaseType.SQLite)
-            return $"{Text} {order} limit {criteria.PageSize} offset {startNo}";
+            return $"{Text} order by {order} limit {criteria.PageSize} offset {startNo}";
 
-        if (!string.IsNullOrWhiteSpace(order))
-            order = $"over ({order})";
         return $@"
 select t.* from (
-    select t1.*,row_number() {order} row_no 
+    select t1.*,row_number() over (order by {order}) row_no 
     from ({Text}) t1
 ) t where t.row_no>{startNo} and t.row_no<={endNo}";
     }
 
-    private string GetPagingSqlByNone(PagingCriteria criteria, ref string order)
+    private string GetPagingSqlByNone(PagingCriteria criteria, string order)
     {
-        if (criteria.OrderBys != null)
-            order = string.Join(",", criteria.OrderBys);
-
         if (string.IsNullOrEmpty(order))
             return Text;
 
         return $"{Text} order by {order}";
     }
 
-    private string GetPagingSqlByAccess(PagingCriteria criteria, out string order)
+    private string GetPagingSqlByAccess(PagingCriteria criteria)
     {
+        var order = string.Empty;
         if (criteria.OrderBys != null)
         {
             order = string.Join(",", criteria.OrderBys);

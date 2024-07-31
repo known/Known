@@ -72,6 +72,11 @@ dotnet new known --name=MyApp
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
+### 项目连接
+
+- 模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
+- JxcLite：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
+
 ### AntDesign界面截图
 
 效果图|效果图
