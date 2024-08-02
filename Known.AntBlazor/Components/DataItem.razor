@@ -3,7 +3,7 @@
 <AntCol Span="Span" Class="@Class">
     @if (NoForm)
     {
-        <FieldItem Label="@Label" Style="@Style">
+        <FieldItem Label="@Label" Class="@Class" Style="@Style">
             <div class="ant-form-item-control-input">
                 <div class="ant-form-item-control-input-content">
                     @ChildContent
@@ -13,7 +13,7 @@
     }
     else
     {
-        <FormItem Label="@Label" Required="Required" Rules="rules">
+        <FormItem Label="@Label" Class="@Class" Style="@Style" Required="Required" Rules="rules">
             <DataItemValue IsFixed Value="this">
                 @ChildContent
             </DataItemValue>
@@ -27,8 +27,8 @@
     public Type Type { get; set; } = typeof(string);
 
     [Parameter] public int Span { get; set; }
-    [Parameter] public string Style { get; set; }
     [Parameter] public string Class { get; set; }
+    [Parameter] public string Style { get; set; }
     [Parameter] public string Label { get; set; }
     [Parameter] public bool NoForm { get; set; }
     [Parameter] public bool Required { get; set; }

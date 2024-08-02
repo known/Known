@@ -42,8 +42,17 @@ public class CssBuilder
 
     public string BuildStyle()
     {
-        var style = string.Join(";", dicStyles.Select(s => $"{s.Key}:{s.Value}")) + ";";
-        style += string.Join("", styles);
+        var style = string.Empty;
+        if (dicStyles != null && dicStyles.Count > 0)
+            style += string.Join(";", dicStyles.Select(s => $"{s.Key}:{s.Value}")) + ";";
+        if (styles != null && styles.Count > 0)
+        {
+            foreach (var item in styles)
+            {
+                var itemStyle = item.EndsWith(';') ? item : $"{item};";
+                style += itemStyle;
+            }
+        }
         return style;
     }
 }

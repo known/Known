@@ -18,9 +18,9 @@ public static class ElementExtension
     public static RenderTreeBuilder Canvas(this RenderTreeBuilder builder) => builder.OpenElement("canvas");
     public static RenderTreeBuilder IFrame(this RenderTreeBuilder builder) => builder.OpenElement("iframe");
 
-    public static RenderTreeBuilder Attribute(this RenderTreeBuilder builder, string name, object value, bool checkNull = false)
+    public static RenderTreeBuilder Attribute(this RenderTreeBuilder builder, string name, object value, bool checkNull = true)
     {
-        if (checkNull && value == null)
+        if (checkNull && (value == null || string.IsNullOrWhiteSpace(value?.ToString())))
             return builder;
 
         builder.AddAttribute(1, name, value);
@@ -34,7 +34,7 @@ public static class ElementExtension
     public static RenderTreeBuilder Href(this RenderTreeBuilder builder, string href) => builder.Attribute("href", href);
     public static RenderTreeBuilder Src(this RenderTreeBuilder builder, string src) => builder.Attribute("src", src);
     public static RenderTreeBuilder Role(this RenderTreeBuilder builder, string role) => builder.Attribute("role", role);
-    public static RenderTreeBuilder OnClick(this RenderTreeBuilder builder, object onclick) => builder.Attribute("onclick", onclick, true);
+    public static RenderTreeBuilder OnClick(this RenderTreeBuilder builder, object onclick) => builder.Attribute("onclick", onclick);
 
     public static RenderTreeBuilder PreventDefault(this RenderTreeBuilder builder)
     {
