@@ -4,15 +4,15 @@
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<SysUser>
 {
-    private IUserService userService;
+    private IUserService Service;
     [CascadingParameter] private SysUserProfile Parent { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        userService = await CreateServiceAsync<IUserService>();
+        Service = await CreateServiceAsync<IUserService>();
         var data = Parent?.User;
-        data ??= await userService.GetUserAsync(CurrentUser.Id);
+        data ??= await Service.GetUserAsync(CurrentUser.Id);
         Model = new FormModel<SysUser>(this)
         {
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 8 },
@@ -42,7 +42,7 @@ public class UserEditForm : BaseEditForm<SysUser>
 
     protected override Task<Result> OnSaveAsync(SysUser model)
     {
-        return userService.UpdateUserAsync(model);
+        return Service.UpdateUserAsync(model);
     }
 
     protected override void OnSuccess()

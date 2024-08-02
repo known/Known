@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Components;
 
 public class StepForm : BaseComponent
 {
@@ -23,7 +23,8 @@ public class StepForm : BaseComponent
             {
                 builder.Div("kui-steps-content", () =>
                 {
-                    builder.Fragment(Model.Items[Model.Current].Content);
+                    if (Model.Items != null && Model.Items.Count > 0)
+                        builder.Fragment(Model.Items[Model.Current].Content);
                 });
                 builder.FormAction(() =>
                 {
@@ -71,11 +72,11 @@ public class StepForm : BaseComponent
         await SaveAsync(true);
     }
 
-    private async Task<bool> SaveAsync(bool isClose = false)
+    private async Task<bool> SaveAsync(bool isComplete = false)
     {
         if (IsView)
             return true;
 
-        return await OnSave?.Invoke(isClose);
+        return await OnSave?.Invoke(isComplete);
     }
 }

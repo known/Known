@@ -1,6 +1,6 @@
 ﻿namespace Known.Pages;
 
-public class ModuleForm : BaseStepForm
+class ModuleForm : BaseStepForm
 {
     private StepForm stepForm;
 
@@ -112,12 +112,12 @@ public class ModuleForm : BaseStepForm
                .Build();
     }
 
-    private async Task<bool> SaveAsync(bool isClose = false)
+    private async Task<bool> SaveAsync(bool isComplete = false)
     {
         if (!Model.Validate())
             return false;
 
-        await Model.SaveAsync(isClose);
+        await Model.SaveAsync(isComplete);
         return true;
     }
 
