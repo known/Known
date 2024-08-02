@@ -7,6 +7,7 @@ public interface ISystemService : IService
     [AllowAnonymous] Task<InstallInfo> GetInstallAsync();
     [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
     Task<SystemDataInfo> GetSystemDataAsync();
+    [AllowAnonymous] Task<Result> TestConnectionAsync(DatabaseInfo info);
     [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
     Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
@@ -30,39 +31,33 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         await SystemRepository.SaveConfigAsync(db, key, json);
     }
 
-    //public async Task<T> GetConfigAsync<T>(string key)
-    //{
-    //    var json = await SystemRepository.GetConfigAsync(Database, key);
-    //    return Utils.FromJson<T>(json);
-    //}
-
-    //public async Task<Result> SaveConfigAsync(ConfigInfo info)
-    //{
-    //    await Platform.System.SaveConfigAsync(Database, info.Key, info.Value);
-    //    return Result.Success(Language.Success(Language.Save));
-    //}
-
     //Install
     public async Task<InstallInfo> GetInstallAsync()
     {
-        var info = GetInstall();
-        //await Platform.Dictionary.RefreshCacheAsync();
-        await CheckKeyAsync();
+        var info = await GetInstallDataAysnc();
+        info.Databases = Config.App.Connections.Select(c => new DatabaseInfo
+        {
+            Name = c.Name,
+            Type = c.DatabaseType.ToString(),
+            ConnectionString = c.GetDefaultConnectionString()
+        }).ToList();
         return info;
     }
 
-    //public async Task<Result> UpdateKeyAsync(InstallInfo info)
-    //{
-    //    if (info == null)
-    //        return Result.Error(Language["Tip.InstallRequired"]);
-
-    //    if (!Utils.HasNetwork())
-    //        return Result.Error(Language["Tip.NotNetwork"]);
-
-    //    var result = await PlatformHelper.UpdateKeyAsync?.Invoke(info);
-    //    return result ?? Result.Success("");
-    //    return Result.Success("");
-    //}
+    public async Task<Result> TestConnectionAsync(DatabaseInfo info)
+    {
+        try
+        {
+            var type = Utils.ConvertTo<DatabaseType>(info.Type);
+            var database = new Database(type, info.ConnectionString);
+            await database.OpenAsync();
+            return Result.Success(Language["Tip.ConnectSuccess"]);
+        }
+        catch (Exception ex)
+        {
+            return Result.Error(ex.Message);
+        }
+    }
 
     public async Task<Result> SaveInstallAsync(InstallInfo info)
     {
@@ -72,19 +67,15 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         if (info.AdminPassword != info.Password1)
             return Result.Error(Language["Tip.PwdNotEqual"]);
 
+        Config.App.SetConnection(info.Databases);
+        await Database.InitializeAsync();
+
         var modules = ModuleHelper.GetModules();
         var company = GetCompany(info);
         var user = GetUser(info);
         var orga = GetOrganization(info);
         var sys = GetSystem(info);
-        var path = GetProductKeyPath();
-        Utils.SaveFile(path, info.ProductKey);
-
-        var database = new Database
-        {
-            Context = Context,
-            User = new UserInfo { AppId = user.AppId, CompNo = user.CompNo, UserName = user.UserName, Name = user.Name }
-        };
+        var database = GetDatabase(user);
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
             await SaveConfigAsync(db, KeySystem, sys);
@@ -94,8 +85,26 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             await db.SaveAsync(orga);
         });
         if (result.IsValid)
-            result.Data = await GetInstallAsync();
+        {
+            AppHelper.SaveProductKey(info.ProductKey);
+            result.Data = await GetInstallDataAysnc();
+        }
         return result;
+    }
+
+    private Database GetDatabase(SysUser user)
+    {
+        return new Database
+        {
+            Context = Context,
+            User = new UserInfo
+            {
+                AppId = user.AppId,
+                CompNo = user.CompNo,
+                UserName = user.UserName,
+                Name = user.Name
+            }
+        };
     }
 
     //System
@@ -126,23 +135,30 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     internal static async Task<SystemInfo> GetSystemAsync(Database db)
     {
-        if (!Config.App.IsPlatform || db.User == null)
+        try
         {
-            var json = await SystemRepository.GetConfigAsync(db, KeySystem);
-            return Utils.FromJson<SystemInfo>(json);
+            if (!Config.App.IsPlatform || db.User == null)
+            {
+                var json = await SystemRepository.GetConfigAsync(db, KeySystem);
+                return Utils.FromJson<SystemInfo>(json);
+            }
+
+            var company = await CompanyRepository.GetCompanyAsync(db);
+            if (company == null)
+                return GetSystem(db.User);
+
+            return Utils.FromJson<SystemInfo>(company.SystemData);
         }
-
-        var company = await CompanyRepository.GetCompanyAsync(db);
-        if (company == null)
-            return GetSystem(db.User);
-
-        return Utils.FromJson<SystemInfo>(company.SystemData);
+        catch
+        {
+            //系统未安装，返回null
+            return null;
+        }
     }
 
     public async Task<Result> SaveKeyAsync(SystemInfo info)
     {
-        var path = GetProductKeyPath();
-        Utils.SaveFile(path, info.ProductKey);
+        AppHelper.SaveProductKey(info.ProductKey);
         await SaveConfigAsync(Database, KeySystem, info);
         return await CheckKeyAsync();
     }
@@ -165,17 +181,17 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return Result.Success(Language.Success(Language.Save));
     }
 
-    private static InstallInfo GetInstall()
+    private async Task<InstallInfo> GetInstallDataAysnc()
     {
         var app = Config.App;
-        var path = GetProductKeyPath();
         var info = new InstallInfo
         {
             AppName = app.Name,
             ProductId = app.ProductId,
-            ProductKey = Utils.ReadFile(path),
+            ProductKey = AppHelper.GetProductKey(),
             AdminName = Constants.SysUserName
         };
+        await CheckKeyAsync();
         return info;
     }
 
@@ -196,10 +212,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         return new SystemInfo
         {
-            CompNo = info.CompNo,
-            CompName = info.CompName,
-            AppName = Config.App.Name,
-            UserDefaultPwd = "888888"
+            CompNo = info?.CompNo,
+            CompName = info?.CompName,
+            AppName = Config.App.Name
         };
     }
 
@@ -243,12 +258,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             Code = info.CompNo,
             Name = info.CompName
         };
-    }
-
-    private static string GetProductKeyPath()
-    {
-        var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        return Path.Combine(path, "Known", $"{Config.App.Id}.key");
     }
 
     private async Task<Result> CheckKeyAsync()

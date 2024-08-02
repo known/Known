@@ -21,16 +21,12 @@ public static class Extension
         }
     }
 
-    public static async void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        Config.CoreAssemblies.Add(typeof(Extension).Assembly);
         action?.Invoke(Config.App);
 
-        if (Config.App.Connections != null && Config.App.Connections.Count > 0)
-        {
-            Database.RegisterConnections(Config.App.Connections);
-            await Database.InitializeAsync();
-        }
-
+        Database.RegisterConnections();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped<ICompanyService, CompanyService>();

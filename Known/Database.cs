@@ -37,7 +37,7 @@ public class Database : IDisposable
         }
     }
 
-    private Database(DatabaseType databaseType, string connString, UserInfo user = null)
+    internal Database(DatabaseType databaseType, string connString, UserInfo user = null)
     {
         Init(databaseType, connString, user);
     }
@@ -52,11 +52,13 @@ public class Database : IDisposable
     #endregion
 
     #region Static
-    public static void RegisterConnections(List<ConnectionInfo> connections)
+    internal static void RegisterConnections()
     {
+        var connections = Config.App.Connections;
         if (connections == null || connections.Count == 0)
             return;
 
+        AppHelper.LoadConnections(connections);
         var dbFactories = connections.ToDictionary(k => k.DatabaseType.ToString(), v => v.ProviderType);
         if (dbFactories != null && dbFactories.Count > 0)
         {
@@ -73,17 +75,28 @@ public class Database : IDisposable
     internal static async Task InitializeAsync()
     {
         var db = new Database();
-        var count = await db.ScalarAsync<int?>("select count(*) from SysModule");
+        int? count = null;
+        try
+        {
+            count = await db.ScalarAsync<int?>("select count(*) from SysModule");
+        }
+        catch
+        {
+        }
+
         if (count == null)
         {
+            Logger.Info("Data table is initializing...");
             var name = db.DatabaseType == DatabaseType.Npgsql ? "MySql" : db.DatabaseType.ToString();
-            var script = Utils.GetResource(typeof(Database).Assembly, $"{name}.sql");
-            if (string.IsNullOrWhiteSpace(script))
-                return;
+            foreach (var item in Config.CoreAssemblies)
+            {
+                var script = Utils.GetResource(item, $"{name}.sql");
+                if (string.IsNullOrWhiteSpace(script))
+                    return;
 
-            Console.WriteLine("Data table is initializing...");
-            await db.ExecuteAsync(script);
-            Console.WriteLine("Data table is initialized");
+                await db.ExecuteAsync(script);
+            }
+            Logger.Info("Data table is initialized");
         }
     }
     #endregion
@@ -200,49 +213,33 @@ public class Database : IDisposable
 
     public async Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        try
-        {
-            var info = new CommandInfo(DatabaseType, sql, param);
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            var scalar = cmd.ExecuteScalar();
-            cmd.Parameters.Clear();
-            if (info.IsClose)
-                conn.Close();
-            return Utils.ConvertTo<T>(scalar);
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, sql);
-            return default;
-        }
+        var info = new CommandInfo(DatabaseType, sql, param);
+        var cmd = await PrepareCommandAsync(conn, trans, info);
+        var scalar = cmd.ExecuteScalar();
+        cmd.Parameters.Clear();
+        if (info.IsClose)
+            conn.Close();
+        return Utils.ConvertTo<T>(scalar);
     }
 
     public async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
-        try
+        var data = new List<T>();
+        var info = new CommandInfo(DatabaseType, sql, param);
+        var cmd = await PrepareCommandAsync(conn, trans, info);
+        using (var reader = cmd.ExecuteReader())
         {
-            var data = new List<T>();
-            var info = new CommandInfo(DatabaseType, sql, param);
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            using (var reader = cmd.ExecuteReader())
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    var obj = Utils.ConvertTo<T>(reader[0]);
-                    data.Add(obj);
-                }
+                var obj = Utils.ConvertTo<T>(reader[0]);
+                data.Add(obj);
             }
+        }
 
-            cmd.Parameters.Clear();
-            if (info.IsClose)
-                conn.Close();
-            return data;
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, sql);
-            return [];
-        }
+        cmd.Parameters.Clear();
+        if (info.IsClose)
+            conn.Close();
+        return data;
     }
 
     public Task<T> QueryAsync<T>(string sql, object param = null)
@@ -266,76 +263,68 @@ public class Database : IDisposable
 
     public async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
     {
-        try
+        var watch = Stopwatcher.Start<T>();
+        SetAutoQuery(ref sql, criteria);
+
+        if (conn.State != ConnectionState.Open)
+            conn.Open();
+
+        byte[] exportData = null;
+        Dictionary<string, object> sums = null;
+        var pageData = new List<T>();
+        var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
+        var cmd = await PrepareCommandAsync(conn, trans, info);
+        cmd.CommandText = info.CountSql;
+        var value = cmd.ExecuteScalar();
+        var total = Utils.ConvertTo<int>(value);
+        watch.Watch("Total");
+        if (total > 0)
         {
-            var watch = Stopwatcher.Start<T>();
-            SetAutoQuery(ref sql, criteria);
+            if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
+                criteria.PageIndex = -1;
 
-            if (conn.State != ConnectionState.Open)
-                conn.Open();
-
-            byte[] exportData = null;
-            Dictionary<string, object> sums = null;
-            var pageData = new List<T>();
-            var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            cmd.CommandText = info.CountSql;
-            var value = cmd.ExecuteScalar();
-            var total = Utils.ConvertTo<int>(value);
-            watch.Watch("Total");
-            if (total > 0)
+            cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+            watch.Watch("Paging");
+            using (var reader = cmd.ExecuteReader())
             {
-                if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
-                    criteria.PageIndex = -1;
-
-                cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                watch.Watch("Paging");
-                using (var reader = cmd.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        var obj = ConvertTo<T>(reader);
-                        pageData.Add((T)obj);
-                    }
-                }
-                watch.Watch("Convert");
-                if (criteria.ExportMode == ExportMode.None)
-                {
-                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
-                    {
-                        cmd.CommandText = info.GetSumSql(criteria);
-                        watch.Watch("Suming");
-                        using (var reader1 = cmd.ExecuteReader())
-                        {
-                            if (reader1 != null && reader1.Read())
-                                sums = GetDictionary(reader1);
-                        }
-                        watch.Watch("Sum");
-                    }
+                    var obj = ConvertTo<T>(reader);
+                    pageData.Add((T)obj);
                 }
             }
-
-            cmd.Parameters.Clear();
-            if (conn.State != ConnectionState.Closed)
-                conn.Close();
-
-            if (criteria.ExportMode != ExportMode.None)
+            watch.Watch("Convert");
+            if (criteria.ExportMode == ExportMode.None)
             {
-                exportData = GetExportData(criteria, pageData);
-                watch.Watch("Export");
+                if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
+                {
+                    cmd.CommandText = info.GetSumSql(criteria);
+                    watch.Watch("Suming");
+                    using (var reader1 = cmd.ExecuteReader())
+                    {
+                        if (reader1 != null && reader1.Read())
+                            sums = GetDictionary(reader1);
+                    }
+                    watch.Watch("Sum");
+                }
             }
-
-            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
-                pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-
-            watch.WriteLog();
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Sums = sums };
         }
-        catch (Exception ex)
+
+        cmd.Parameters.Clear();
+        if (conn.State != ConnectionState.Closed)
+            conn.Close();
+
+        if (criteria.ExportMode != ExportMode.None)
         {
-            HandleException(ex, sql);
-            return new PagingResult<T>();
+            exportData = GetExportData(criteria, pageData);
+            watch.Watch("Export");
         }
+
+        if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
+            pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+
+        watch.WriteLog();
+        return new PagingResult<T>(total, pageData) { ExportData = exportData, Sums = sums };
     }
 
     private void SetAutoQuery(ref string sql, PagingCriteria criteria)
@@ -360,91 +349,75 @@ public class Database : IDisposable
 
     public async Task<PagingResult<Dictionary<string, object>>> QueryPageDictionaryAsync(string sql, PagingCriteria criteria)
     {
-        try
-        {
-            var watch = Stopwatcher.Start<Dictionary<string, object>>();
-            if (conn.State != ConnectionState.Open)
-                conn.Open();
+        var watch = Stopwatcher.Start<Dictionary<string, object>>();
+        if (conn.State != ConnectionState.Open)
+            conn.Open();
 
-            byte[] exportData = null;
-            Dictionary<string, object> sums = null;
-            var pageData = new List<Dictionary<string, object>>();
-            var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            cmd.CommandText = info.CountSql;
-            var scalar = cmd.ExecuteScalar();
-            var total = Utils.ConvertTo<int>(scalar);
-            watch.Watch("Total");
-            if (total > 0)
+        byte[] exportData = null;
+        Dictionary<string, object> sums = null;
+        var pageData = new List<Dictionary<string, object>>();
+        var info = new CommandInfo(DatabaseType, sql, criteria.ToParameters(User));
+        var cmd = await PrepareCommandAsync(conn, trans, info);
+        cmd.CommandText = info.CountSql;
+        var scalar = cmd.ExecuteScalar();
+        var total = Utils.ConvertTo<int>(scalar);
+        watch.Watch("Total");
+        if (total > 0)
+        {
+            cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
+            watch.Watch("Paging");
+            using (var reader = cmd.ExecuteReader())
             {
-                cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
-                watch.Watch("Paging");
-                using (var reader = cmd.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        var dic = GetDictionary(reader);
-                        pageData.Add(dic);
-                    }
-                }
-                watch.Watch("Convert");
-                if (criteria.ExportMode == ExportMode.None)
-                {
-                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
-                    {
-                        cmd.CommandText = info.GetSumSql(criteria);
-                        watch.Watch("Suming");
-                        using (var reader1 = cmd.ExecuteReader())
-                        {
-                            if (reader1 != null && reader1.Read())
-                                sums = GetDictionary(reader1);
-                        }
-                        watch.Watch("Sum");
-                    }
+                    var dic = GetDictionary(reader);
+                    pageData.Add(dic);
                 }
             }
-
-            cmd.Parameters.Clear();
-            if (conn.State != ConnectionState.Closed)
-                conn.Close();
-
-            if (criteria.ExportMode != ExportMode.None)
+            watch.Watch("Convert");
+            if (criteria.ExportMode == ExportMode.None)
             {
-                exportData = GetExportData(criteria, pageData);
-                watch.Watch("Export");
+                if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
+                {
+                    cmd.CommandText = info.GetSumSql(criteria);
+                    watch.Watch("Suming");
+                    using (var reader1 = cmd.ExecuteReader())
+                    {
+                        if (reader1 != null && reader1.Read())
+                            sums = GetDictionary(reader1);
+                    }
+                    watch.Watch("Sum");
+                }
             }
-
-            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
-                pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-
-            watch.WriteLog();
-            return new PagingResult<Dictionary<string, object>>(total, pageData) { ExportData = exportData, Sums = sums };
         }
-        catch (Exception ex)
+
+        cmd.Parameters.Clear();
+        if (conn.State != ConnectionState.Closed)
+            conn.Close();
+
+        if (criteria.ExportMode != ExportMode.None)
         {
-            HandleException(ex, sql);
-            return new PagingResult<Dictionary<string, object>>();
+            exportData = GetExportData(criteria, pageData);
+            watch.Watch("Export");
         }
+
+        if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
+            pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+
+        watch.WriteLog();
+        return new PagingResult<Dictionary<string, object>>(total, pageData) { ExportData = exportData, Sums = sums };
     }
 
     public async Task<DataTable> QueryTableAsync(string sql, object param = null)
     {
-        try
+        var data = new DataTable();
+        var info = new CommandInfo(DatabaseType, sql, param);
+        using (var reader = await ExecuteReaderAsync(info))
         {
-            var data = new DataTable();
-            var info = new CommandInfo(DatabaseType, sql, param);
-            using (var reader = await ExecuteReaderAsync(info))
-            {
-                if (reader != null)
-                    data.Load(reader);
-            }
-            return data;
+            if (reader != null)
+                data.Load(reader);
         }
-        catch (Exception ex)
-        {
-            HandleException(ex, sql);
-            return new DataTable();
-        }
+        return data;
     }
     #endregion
 
@@ -850,98 +823,53 @@ public class Database : IDisposable
     #region Private
     private async Task<int> ExecuteNonQueryAsync(CommandInfo info)
     {
-        try
-        {
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            var value = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            if (info.IsClose)
-                conn.Close();
-            return value;
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, info);
-            return 0;
-        }
+        var cmd = await PrepareCommandAsync(conn, trans, info);
+        var value = cmd.ExecuteNonQuery();
+        cmd.Parameters.Clear();
+        if (info.IsClose)
+            conn.Close();
+        return value;
     }
 
     private async Task<DbDataReader> ExecuteReaderAsync(CommandInfo info)
     {
-        try
-        {
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            var reader = info.IsClose
-                       ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
-                       : cmd.ExecuteReader();
-            cmd.Parameters.Clear();
-            return reader;
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex, info);
-            return null;
-        }
+        var cmd = await PrepareCommandAsync(conn, trans, info);
+        var reader = info.IsClose
+                   ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
+                   : cmd.ExecuteReader();
+        cmd.Parameters.Clear();
+        return reader;
     }
 
     private async Task<T> QueryAsync<T>(CommandInfo info)
     {
-        try
+        T obj = default;
+        using (var reader = await ExecuteReaderAsync(info))
         {
-            T obj = default;
-            using (var reader = await ExecuteReaderAsync(info))
+            if (reader != null && reader.Read())
             {
-                if (reader != null && reader.Read())
-                {
-                    obj = (T)ConvertTo<T>(reader);
-                }
+                obj = (T)ConvertTo<T>(reader);
             }
-            if (trans == null)
-                conn.Close();
-            return obj;
         }
-        catch (Exception ex)
-        {
-            HandleException(ex, info);
-            return default;
-        }
+        if (trans == null)
+            conn.Close();
+        return obj;
     }
 
     private async Task<List<T>> QueryListAsync<T>(CommandInfo info)
     {
-        try
+        var lists = new List<T>();
+        using (var reader = await ExecuteReaderAsync(info))
         {
-            var lists = new List<T>();
-            using (var reader = await ExecuteReaderAsync(info))
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    var obj = ConvertTo<T>(reader);
-                    lists.Add((T)obj);
-                }
+                var obj = ConvertTo<T>(reader);
+                lists.Add((T)obj);
             }
-            if (trans == null)
-                conn.Close();
-            return lists;
         }
-        catch (Exception ex)
-        {
-            HandleException(ex, info);
-            return [];
-        }
-    }
-
-    private static void HandleException(Exception ex, string sql)
-    {
-        Logger.Exception(ex);
-        Logger.Error(sql);
-    }
-
-    private void HandleException(Exception ex, CommandInfo info)
-    {
-        HandleException(ex, info.ToString());
-        if (info.IsClose)
+        if (trans == null)
             conn.Close();
+        return lists;
     }
 
     private static object ConvertTo<T>(DbDataReader reader)

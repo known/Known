@@ -23,6 +23,7 @@ public sealed class Config
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
+    internal static List<Assembly> CoreAssemblies { get; } = [];
     internal static List<ActionInfo> Actions { get; set; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
@@ -38,6 +39,8 @@ public sealed class Config
 
         if (isAdditional)
             Assemblies.Add(assembly);
+        else
+            CoreAssemblies.Add(assembly);
         AddActions(assembly);
         Language.Initialize(assembly);
 
@@ -252,6 +255,21 @@ public class AppInfo
 
         return Connections.FirstOrDefault(c => c.Name == name);
     }
+
+    internal void SetConnection(List<DatabaseInfo> infos)
+    {
+        if (infos == null || infos.Count == 0)
+            return;
+
+        foreach (var info in infos)
+        {
+            var conn = GetConnection(info.Name);
+            if (conn != null)
+                conn.ConnectionString = info.ConnectionString;
+        }
+
+        AppHelper.SaveConnections(Connections);
+    }
 }
 
 public class ApiMethodInfo
@@ -275,4 +293,25 @@ public class ConnectionInfo
     public DatabaseType DatabaseType { get; set; }
     public Type ProviderType { get; set; }
     public string ConnectionString { get; set; }
+
+    internal string GetDefaultConnectionString()
+    {
+        switch (DatabaseType)
+        {
+            case DatabaseType.Access:
+                return "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx";
+            case DatabaseType.SQLite:
+                return "Data Source=..\\Sample.db";
+            case DatabaseType.SqlServer:
+                return "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;";
+            case DatabaseType.Oracle:
+                return "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;";
+            case DatabaseType.MySql:
+                return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
+            case DatabaseType.Npgsql:
+                return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
+            default:
+                return string.Empty;
+        }
+    }
 }

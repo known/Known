@@ -122,12 +122,12 @@ public static class UIExtension
     public static Task WarningAsync(this IUIService service, string message) => service.Toast(message, StyleType.Warning);
     public static async void Error(this IUIService service, string message) => await service.ErrorAsync(message);
     public static Task ErrorAsync(this IUIService service, string message) => service.Toast(message, StyleType.Error);
-
-    public static async void Result(this IUIService service, Result result, Func<Task> onSuccess = null)
+    public static async void Result(this IUIService service, Result result, Func<Task> onSuccess = null) => await service.ResultAsync(result, onSuccess);
+    public static async Task ResultAsync(this IUIService service, Result result, Func<Task> onSuccess = null)
     {
         if (!result.IsValid)
         {
-            service.Error(result.Message);
+            await service.ErrorAsync(result.Message);
             return;
         }
 
