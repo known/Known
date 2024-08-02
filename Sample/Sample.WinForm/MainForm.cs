@@ -55,12 +55,12 @@ public partial class MainForm : Form
             info.ContentRoot = Application.StartupPath;
             info.Assembly = typeof(Program).Assembly;
             //数据库连接
-            info.Connections = [new Known.ConnectionInfo
+            info.Connections = [new ConnectionInfo
             {
                 Name = "Default",
                 DatabaseType = DatabaseType.SQLite,
                 ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
-                ConnectionString = "Data Source=..\\Sample.db"
+                //ConnectionString = "Data Source=..\\Sample.db"
                 //DatabaseType = DatabaseType.Access,
                 //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
                 //ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}";
