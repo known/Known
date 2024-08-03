@@ -1,5 +1,4 @@
 ﻿@inherits BaseComponent
-@typeparam TItem where TItem : class, new()
 
 <div class="boot-query">
 @if (Model.QueryColumns != null && Model.QueryColumns.Count > 0)
@@ -10,7 +9,7 @@
     @for (var i = 0; i < length; i++)
     {
         var item = Model.QueryColumns[i];
-        var itemName = Language.GetString<TItem>(item);
+        var itemName = Language.GetString(item);
         var itemType = "String";
         if (item.Property != null)
             itemType = item.Property.PropertyType.Name;
@@ -19,7 +18,7 @@
             @if (!string.IsNullOrWhiteSpace(item.Category))
             {
                 var codes = Cache.GetCodes(item.Category).ToCodes(item.IsQueryAll ? Language["All"] : "");
-                <BootstrapInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
+                <BootInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
                 @* <BootSelect Codes="codes" @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" /> *@
             }
             else if (itemType.Contains("DateTime"))
@@ -28,7 +27,7 @@
             }
             else
             {
-                <BootstrapInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
+                <BootInput @bind-Value="@(Model.QueryData[item.Id].Value)" style="width:180px" />
             }
         </div>
     }
@@ -49,7 +48,7 @@
 @code {
     bool _expand = false;
 
-    [Parameter] public TableModel<TItem> Model { get; set; }
+    [Parameter] public TableModel Model { get; set; }
 
     private async Task OnSearchAsync()
     {
@@ -64,5 +63,5 @@
         return Task.CompletedTask;
     }
 
-    private void ShowAdvSearch() => Model.ShowAdvancedSearch();
+    private void ShowAdvSearch() => Model.ShowAdvancedSearch(App);
 }

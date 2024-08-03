@@ -40,7 +40,7 @@
         base.OnInitialized();
     }
 
-    public async Task RefreshAsync()
+    public async override Task RefreshAsync()
     {
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         StateHasChanged();

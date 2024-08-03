@@ -1,15 +1,10 @@
-﻿using Known.Blazor;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
+﻿namespace Known.BootBlazor.Components;
 
-namespace Known.BootBlazor.Components;
-
-public class BootCaptcha : BootstrapBlazor.Components.BootstrapInput<string>
+public class BootCaptcha : BootstrapInput<string>
 {
     private KCaptcha captcha;
 
-    [Parameter] public CaptchaOption Option { get; set; }
+    [Parameter] public Known.Components.CaptchaOption Option { get; set; }
 
     public bool Validate(out string message) => captcha.Validate(Value, out message);
 

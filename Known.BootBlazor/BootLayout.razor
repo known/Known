@@ -1,26 +1,26 @@
-﻿@inherits AdminPage
+﻿@inherits PageLayout
 
 <Layout SideWidth="0" IsFullSide ShowFooter ShowCollapseBar MenuBarIcon="fa fa-bars">
     <Header>
         <div class="kui-header">
             <Breadcrumb Value="@CrumbItems" />
-            <NavTopRight OnMenuClick="OnMenuClick" />
+            <TopNavRight OnMenuClick="OnMenuClick" />
         </div>
     </Header>
     <Side>
         <div class="boot-banner">
-            <div class="boot-logo"><img src="@Index.LogoUrl" /></div>
+            <div class="boot-logo"></div>
         </div>
         <Menu DisableNavigation IsVertical IsAccordion Items="SideMenuItems" OnClick="OnSideMenuClick" />
     </Side>
     <Main>
         @if (Context.UserSetting.MultiTab)
         {
-            <PageTabs @ref="tabs" Menu="CurrentMenu" Items="TabMenus" />
+            
         }
         else
         {
-            <PageSingle @ref="page" Menu="CurrentMenu" />
+            <div class="kui-page-body">@Body</div>
         }
     </Main>
     <Footer>
@@ -36,12 +36,8 @@
 </Layout>
 
 @code{
-    private PageTabs tabs;
-    private PageSingle page;
     private List<BreadcrumbItem> CrumbItems = [];
     private List<BootstrapBlazor.Components.MenuItem> SideMenuItems = [];
-
-    [CascadingParameter] private IndexPage Index { get; set; }
 
     protected override async Task OnInitAsync()
     {
@@ -50,25 +46,12 @@
         SideMenuItems = UserMenus.ToSideMenuItems(Context);
     }
 
-    protected override void RefreshPage()
-    {
-        base.RefreshPage();
-        tabs?.StateChanged();
-        page?.StateChanged();
-    }
-
     private void OnHome() => OnMenuClick("home");
 
     private void OnMenuClick(string id)
     {
         switch (id)
         {
-            case "home":
-                Context.NavigateToHome();
-                break;
-            case "profile":
-                Context.NavigateToUserProfile();
-                break;
             case "logout":
                 UI.Confirm(Language["Tip.Exits"], SignOutAsync);
                 break;
@@ -84,7 +67,7 @@
                 if (item.Id == sub.Id)
                 {
                     CrumbItems = GetBreadcrumbItems(sub);
-                    Context.Navigate(sub);
+                    //Context.Navigate(sub);
                     break;
                 }
             }
@@ -92,7 +75,7 @@
         return Task.CompletedTask;
     }
 
-    private List<BreadcrumbItem> GetBreadcrumbItems(Known.MenuItem item = null)
+    private List<BreadcrumbItem> GetBreadcrumbItems(MenuInfo item = null)
     {
         var items = new List<BreadcrumbItem>();
         items.Add(new BreadcrumbItem(Language.Home));

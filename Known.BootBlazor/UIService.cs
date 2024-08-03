@@ -1,12 +1,4 @@
-﻿using BootstrapBlazor.Components;
-using Known.Blazor;
-using Known.BootBlazor.Components;
-using Known.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Rendering;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Known.BootBlazor;
+﻿namespace Known.BootBlazor;
 
 public class UIService(DialogService dialogService, MessageService messageService) : IUIService
 {
@@ -87,26 +79,14 @@ public class UIService(DialogService dialogService, MessageService messageServic
         }
     }
 
-    public void Toast(string message, StyleType style = StyleType.Success)
+    public Task Toast(string message, StyleType style = StyleType.Success)
     {
-        //switch (style)
-        //{
-        //    case StyleType.Success:
-        //        await _message.Show(new MessageOption { Content = message });
-        //        break;
-        //    case StyleType.Info:
-        //        await _message.Show(new MessageOption { Content = message });
-        //        break;
-        //    case StyleType.Warning:
-        //        await _message.Show(new MessageOption { Content = message });
-        //        break;
-        //    case StyleType.Error:
-        //        await _message.Show(new MessageOption { Content = message });
-        //        break;
-        //    default:
-        //        await _message.Show(new MessageOption { Content = message });
-        //        break;
-        //}
+        return Task.CompletedTask;
+    }
+
+    public Task Notice(string message, StyleType style = StyleType.Success)
+    {
+        return Task.CompletedTask;
     }
 
     public void Alert(string message, Func<Task> action = null)
@@ -208,9 +188,9 @@ public class UIService(DialogService dialogService, MessageService messageServic
         builder.Component<Toolbar>().Set(c => c.Model, model).Build();
     }
 
-    public void BuildQuery<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+    public void BuildQuery(RenderTreeBuilder builder, TableModel model)
     {
-        builder.Component<QueryForm<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<QueryForm>().Set(c => c.Model, model).Build();
     }
 
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
@@ -246,7 +226,17 @@ public class UIService(DialogService dialogService, MessageService messageServic
         }).Build();
     }
 
-    public void BuildTag(RenderTreeBuilder builder, string text)
+    public void BuildAlert(RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
+    {
+        builder.Component<Alert>()
+               //.Set(c => c.ShowIcon, true)
+               //.Set(c => c.Style, "margin-bottom:10px;")
+               //.Set(c => c.Color, type.ToString().ToLower())
+               .Set(c => c.ChildContent, b => b.Text(text))
+               .Build();
+    }
+
+    public void BuildTag(RenderTreeBuilder builder, string text, string color = null)
     {
         var name = Language?.GetCode(text);
         builder.Component<Tag>()

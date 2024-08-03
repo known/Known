@@ -1,8 +1,4 @@
-﻿using BootstrapBlazor.Components;
-using Known.Blazor;
-using Microsoft.AspNetCore.Components;
-
-namespace Known.BootBlazor.Components;
+﻿namespace Known.BootBlazor.Components;
 
 class BootTree : Tree
 {
@@ -18,7 +14,7 @@ class BootTree : Tree
         base.OnInitialized();
     }
 
-    private List<TreeItem> ToTreeItems(List<MenuItem> items)
+    private List<TreeItem> ToTreeItems(List<MenuInfo> items)
     {
         var nodes = new List<TreeItem>();
         foreach (var item in items)
@@ -28,7 +24,7 @@ class BootTree : Tree
         return nodes;
     }
 
-    private void AddTreeItem(List<TreeItem> nodes, MenuItem item, bool isCollapsed = true)
+    private void AddTreeItem(List<TreeItem> nodes, MenuInfo item, bool isCollapsed = true)
     {
         var node = new TreeItem
         {
@@ -51,7 +47,7 @@ class BootTree : Tree
 
     private Task OnTreeClick(TreeItem node)
     {
-        var item = node.Tag as MenuItem;
+        var item = node.Tag as MenuInfo;
         item.Checked = node.Checked;
         Model.OnNodeClick?.Invoke(item);
         return Task.CompletedTask;
@@ -61,7 +57,7 @@ class BootTree : Tree
     {
         foreach (var node in nodes)
         {
-            var item = node.Tag as MenuItem;
+            var item = node.Tag as MenuInfo;
             item.Checked = node.Checked;
             Model.OnNodeCheck?.Invoke(item);
         }
