@@ -7,6 +7,7 @@ Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
@@ -28,7 +29,7 @@ builder.Services.AddApp(info =>
         //ProviderType = typeof(Npgsql.NpgsqlFactory),
         //DatabaseType = DatabaseType.SqlServer,
         //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-        ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
+        //ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
     }];
 });
 
@@ -47,8 +48,10 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAntiforgery();
 app.UseApp();
+app.MapRazorPages();
 app.MapRazorComponents<App>()   
    .AddInteractiveServerRenderMode()
    .AddInteractiveWebAssemblyRenderMode()
