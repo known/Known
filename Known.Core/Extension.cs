@@ -53,7 +53,7 @@ public static class Extension
 
     public static void UseKnown(this WebApplication app)
     {
-        //app.MapControllers();
+        app.UseResponseCompression();
         app.UseStaticFiles();
         var webFiles = Config.GetUploadPath(true);
         app.UseStaticFiles(new StaticFileOptions

@@ -12,6 +12,7 @@ public static class AppConfig
 
     public const string Branch = "Known";
     public const string SubTitle = "基于Blazor的企业级快速开发框架";
+    public static string AppId => "KIMS";
     public static string AppName => "Known信息管理系统";
 
     public static void AddSample(this IServiceCollection services)
@@ -22,7 +23,7 @@ public static class AppConfig
         services.AddKnown(info =>
         {
             //项目ID、名称、类型、程序集
-            info.Id = "KIMS";
+            info.Id = AppId;
             info.Name = AppName;
             info.IsLanguage = true;
             info.IsTheme = true;

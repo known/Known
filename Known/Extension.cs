@@ -23,6 +23,8 @@ public static class Extension
 
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        Config.Version.LoadBuildTime();
+        FileLogger.Start();
         Config.CoreAssemblies.Add(typeof(Extension).Assembly);
         action?.Invoke(Config.App);
 
@@ -43,6 +45,7 @@ public static class Extension
 
     public static void AddKnownClient(this IServiceCollection services, Action<ClientInfo> action = null)
     {
+        Config.IsClient = true;
         var info = new ClientInfo();
         action?.Invoke(info);
 

@@ -8,7 +8,7 @@ public sealed class Config
     public const string GiteeUrl = "https://gitee.com/known/Known";
     public const string GithubUrl = "https://github.com/known/Known";
 
-    public static bool IsClient { get; set; }
+    public static bool IsClient { get; internal set; }
     public static string HostUrl { get; set; }
     public static string DateFormat { get; set; } = "yyyy-MM-dd";
     public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:ss";
@@ -178,13 +178,11 @@ public class VersionInfo
 
     internal VersionInfo(Assembly assembly)
     {
-        if (!Config.IsClient)
-            BuildTime = GetBuildTime();
         if (assembly != null)
         {
             var version = assembly.GetName().Version;
             AppVersion = $"{Config.App.Id} V{version.Major}.{version.Minor}";
-            SoftVersion = GetSoftVersion(version, BuildTime);
+            SoftVersion = $"V{version.Major}.{version.Minor}.{version.Build}";
         }
 
         var version1 = typeof(VersionInfo).Assembly.GetName().Version;
@@ -196,6 +194,14 @@ public class VersionInfo
     public string FrameVersion { get; set; }
     public DateTime BuildTime { get; set; }
 
+    internal void LoadBuildTime()
+    {
+        var dateTime = GetBuildTime();
+        var count = dateTime.Year - 2000 + dateTime.Month + dateTime.Day;
+        BuildTime = dateTime;
+        SoftVersion = $"{SoftVersion}.{count}";
+    }
+
     private static DateTime GetBuildTime()
     {
         var path = AppDomain.CurrentDomain.BaseDirectory;
@@ -205,12 +211,6 @@ public class VersionInfo
         //var version = assembly.GetName().Version;
         //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
         //return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-    }
-
-    private static string GetSoftVersion(Version version, DateTime date)
-    {
-        var count = date.Year - 2000 + date.Month + date.Day;
-        return $"V{version.Major}.{version.Minor}.{version.Build}.{count}";
     }
 }
 

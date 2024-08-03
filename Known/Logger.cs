@@ -65,13 +65,10 @@ class FileLogger : ILogger
     private static readonly ConcurrentQueue<string> infos = new();
     private static readonly ConcurrentQueue<string> debugs = new();
 
-    static FileLogger()
+    internal static void Start()
     {
-        if (!Config.IsClient)
-        {
-            var thread = new Thread(FlushQueue) { IsBackground = true };
-            thread.Start();
-        }
+        var thread = new Thread(FlushQueue) { IsBackground = true };
+        thread.Start();
     }
 
     public void Error(Exception ex) => Logger.Exception(ex);
