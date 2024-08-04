@@ -7,9 +7,9 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
 [![Nuget](https://img.shields.io/nuget/v/Known.svg?color=red&logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 [![Nuget](https://img.shields.io/nuget/dt/Known.svg?logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
+
 ![.NET](https://img.shields.io/badge/.NET-8.0-green)
 ![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
-
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 - 官网：[http://known.pumantech.com](http://known.pumantech.com)
@@ -41,7 +41,6 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 --安装模板
 dotnet new install KnownTemplate
 --创建项目
---host参数：full(默认)/web/winform
 dotnet new known --name=MyApp
 ```
 
