@@ -164,7 +164,7 @@ static class ComponentExtension
 
     internal static void AntSelect(this RenderTreeBuilder builder, InputModel<string> model)
     {
-        builder.Component<AntCodeSelect>()
+        builder.Component<AntSelectCode>()
                .Set(c => c.Disabled, model.Disabled)
                .Set(c => c.Placeholder, model.Placeholder)
                .Set(c => c.DataSource, model.Codes)

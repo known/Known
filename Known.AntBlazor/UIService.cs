@@ -15,7 +15,7 @@ public class UIService(ModalService modalService, MessageService messageService,
             return typeof(AntAutoComplete);
         
         if (fieldType == FieldType.Select)
-            return typeof(AntCodeSelect);
+            return typeof(AntSelectCode);
 
         if (fieldType == FieldType.CheckBox)
             return typeof(Checkbox);
