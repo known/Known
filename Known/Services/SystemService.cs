@@ -71,18 +71,16 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         await Database.InitializeAsync();
 
         var modules = ModuleHelper.GetModules();
-        var company = GetCompany(info);
-        var user = GetUser(info);
-        var orga = GetOrganization(info);
         var sys = GetSystem(info);
-        var database = GetDatabase(user);
+        var database = GetDatabase(info);
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
-            await SaveConfigAsync(db, KeySystem, sys);
+            await db.DeleteAllAsync<SysModule>();
             await db.SaveDatasAsync(modules);
-            await db.SaveAsync(company);
-            await db.SaveAsync(user);
-            await db.SaveAsync(orga);
+            await SaveConfigAsync(db, KeySystem, sys);
+            await SaveCompanyAsync(db, info, sys);
+            await SaveOrganizationAsync(db, info);
+            await SaveUserAsync(db, info);
         });
         if (result.IsValid)
         {
@@ -92,19 +90,61 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return result;
     }
 
-    private Database GetDatabase(SysUser user)
+    private Database GetDatabase(InstallInfo info)
     {
         return new Database
         {
             Context = Context,
             User = new UserInfo
             {
-                AppId = user.AppId,
-                CompNo = user.CompNo,
-                UserName = user.UserName,
-                Name = user.Name
+                AppId = Config.App.Id,
+                CompNo = info.CompNo,
+                UserName = info.AdminName.ToLower(),
+                Name = info.AdminName
             }
         };
+    }
+
+    private static async Task SaveCompanyAsync(Database db, InstallInfo info, SystemInfo sys)
+    {
+        var company = await CompanyRepository.GetCompanyAsync(db);
+        company ??= new SysCompany();
+        company.AppId = Config.App.Id;
+        company.CompNo = info.CompNo;
+        company.Code = info.CompNo;
+        company.Name = info.CompName;
+        company.SystemData = Utils.ToJson(sys);
+        await db.SaveAsync(company);
+    }
+
+    private static async Task SaveOrganizationAsync(Database db, InstallInfo info)
+    {
+        var org = await CompanyRepository.GetOrganizationAsync(db, info.CompNo);
+        org ??= new SysOrganization();
+        org.AppId = Config.App.Id;
+        org.CompNo = info.CompNo;
+        org.ParentId = "0";
+        org.Code = info.CompNo;
+        org.Name = info.CompName;
+        await db.SaveAsync(org);
+    }
+
+    private static async Task SaveUserAsync(Database db, InstallInfo info)
+    {
+        var userName = info.AdminName.ToLower();
+        var user = await UserRepository.GetUserByUserNameAsync(db, userName);
+        user ??= new SysUser();
+        user.AppId = Config.App.Id;
+        user.CompNo = info.CompNo;
+        user.OrgNo = info.CompNo;
+        user.UserName = userName;
+        user.Password = Utils.ToMd5(info.AdminPassword);
+        user.Name = info.AdminName;
+        user.EnglishName = info.AdminName;
+        user.Gender = "Male";
+        user.Role = "Admin";
+        user.Enabled = true;
+        await db.SaveAsync(user);
     }
 
     //System
@@ -215,48 +255,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             CompNo = info?.CompNo,
             CompName = info?.CompName,
             AppName = Config.App.Name
-        };
-    }
-
-    private static SysCompany GetCompany(InstallInfo info)
-    {
-        var sys = GetSystem(info);
-        return new SysCompany
-        {
-            AppId = Config.App.Id,
-            CompNo = info.CompNo,
-            Code = info.CompNo,
-            Name = info.CompName,
-            SystemData = Utils.ToJson(sys)
-        };
-    }
-
-    private static SysUser GetUser(InstallInfo info)
-    {
-        return new SysUser
-        {
-            AppId = Config.App.Id,
-            CompNo = info.CompNo,
-            OrgNo = info.CompNo,
-            UserName = info.AdminName.ToLower(),
-            Password = Utils.ToMd5(info.AdminPassword),
-            Name = info.AdminName,
-            EnglishName = info.AdminName,
-            Gender = "Male",
-            Role = "Admin",
-            Enabled = true
-        };
-    }
-
-    private static SysOrganization GetOrganization(InstallInfo info)
-    {
-        return new SysOrganization
-        {
-            AppId = Config.App.Id,
-            CompNo = info.CompNo,
-            ParentId = "0",
-            Code = info.CompNo,
-            Name = info.CompName
         };
     }
 

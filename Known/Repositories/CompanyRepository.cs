@@ -16,6 +16,12 @@ class CompanyRepository
         return db.QueryListAsync<SysOrganization>(sql, new { db.User.CompNo });
     }
 
+    internal static Task<SysOrganization> GetOrganizationAsync(Database db, string code)
+    {
+        var sql = "select * from SysOrganization where CompNo=@CompNo and Code=@code";
+        return db.QueryAsync<SysOrganization>(sql, new { db.User.CompNo, code });
+    }
+
     internal static async Task<bool> ExistsSubOrganizationAsync(Database db, string id)
     {
         var sql = "select count(*) from SysOrganization where ParentId=@id";

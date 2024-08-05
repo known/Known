@@ -12,6 +12,13 @@ public class InstallForm : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+
+        if (Context.System != null)
+        {
+            App?.NavigateTo("/login");
+            return;
+        }
+
         Service = await CreateServiceAsync<ISystemService>();
         Step.AddStep("Title.Database", BuildDatabase);
         Step.AddStep("Title.SystemInfo", BuildSystem);
