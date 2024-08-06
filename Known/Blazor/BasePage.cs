@@ -14,17 +14,7 @@ public class BasePage : BaseComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        await JS.RunVoidAsync(@"
-var body = $('body').height();
-var header = 64;
-var tabs = $('.kui-page > .ant-tabs').length ? 55 : 10;
-var query = $('.kui-query').length ? 61 : -43;
-var toolbar = $('.kui-table > .ant-tabs').length ? 56 : 52;
-var tableHead = 42;
-var cardHeight = body-header-tabs-62;
-var tableHeight = body-header-tabs-query-toolbar-tableHead-50;
-$('.kui-card .ant-tabs-content-holder').css('height', cardHeight+'px');
-$('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', tableHeight+'px');");
+        await JS.RunVoidAsync(UIConfig.FillHeightScript);
     }
 
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
