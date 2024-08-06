@@ -33,15 +33,17 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var user = Utils.MapTo<UserInfo>(entity);
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
-        await SetUserInfoAsync(Database, user);
-        await SetUserWeixinAsync(Database, user);
+        var database = Database;
+        await database.OpenAsync();
+        await SetUserInfoAsync(database, user);
+        await SetUserWeixinAsync(database, user);
+        await database.CloseAsync();
         cachedUsers[user.Token] = user;
 
         var type = LogType.Login.ToString();
         if (info.IsMobile)
             type = "APP" + type;
 
-        var database = Database;
         database.User = user;
         return await database.TransactionAsync(Language["Login"], async db =>
         {
@@ -96,18 +98,19 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (CurrentUser == null)
             return new AdminInfo();
 
-        await Database.OpenAsync();
-        var modules = await Database.QueryListAsync<SysModule>();
+        var db = Database;
+        await db.OpenAsync();
+        var modules = await db.QueryListAsync<SysModule>();
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
-            AppName = await UserHelper.GetSystemNameAsync(Database),
-            MessageCount = await UserRepository.GetMessageCountAsync(Database),
-            UserMenus = await UserHelper.GetUserMenusAsync(Database),
-            UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(Database, SettingInfo.KeyInfo),
-            Codes = await DictionaryService.GetDictionariesAsync(Database)
+            AppName = await UserHelper.GetSystemNameAsync(db),
+            MessageCount = await UserRepository.GetMessageCountAsync(db),
+            UserMenus = await UserHelper.GetUserMenusAsync(db),
+            UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(db, SettingInfo.KeyInfo),
+            Codes = await DictionaryService.GetDictionariesAsync(db)
         };
-        await Database.CloseAsync();
+        await db.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
     }

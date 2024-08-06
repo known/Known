@@ -149,7 +149,7 @@ public class Database : IDisposable
     {
         if (conn != null && conn.State != ConnectionState.Closed)
             conn.Close();
-
+        conn.Dispose();
         return Task.CompletedTask;
     }
 
@@ -285,13 +285,20 @@ public class Database : IDisposable
 
             cmd.CommandText = info.GetPagingSql(DatabaseType, criteria);
             watch.Watch("Paging");
-            using (var reader = cmd.ExecuteReader())
+            try
             {
-                while (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    var obj = ConvertTo<T>(reader);
-                    pageData.Add((T)obj);
+                    while (reader.Read())
+                    {
+                        var obj = ConvertTo<T>(reader);
+                        pageData.Add((T)obj);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
             }
             watch.Watch("Convert");
             if (criteria.ExportMode == ExportMode.None)
@@ -851,7 +858,7 @@ public class Database : IDisposable
                 obj = (T)ConvertTo<T>(reader);
             }
         }
-        if (trans == null)
+        if (info.IsClose)
             conn.Close();
         return obj;
     }
@@ -867,7 +874,7 @@ public class Database : IDisposable
                 lists.Add((T)obj);
             }
         }
-        if (trans == null)
+        if (info.IsClose)
             conn.Close();
         return lists;
     }
