@@ -67,7 +67,7 @@ public partial class MainForm : Form
                 //DatabaseType = DatabaseType.MySql,
                 //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
                 //ConnectionString = "Data Source=localhost;port=3306;Initial Catalog=Sample;user id={userId};password={password};Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-                //DatabaseType = DatabaseType.Npgsql,
+                //DatabaseType = DatabaseType.PgSql,
                 //ProviderType = typeof(Npgsql.NpgsqlFactory),
                 //ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
                 //DatabaseType = DatabaseType.SqlServer,

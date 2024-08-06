@@ -35,6 +35,9 @@ class AppHelper
 
         foreach (var connection in connections)
         {
+            if (!string.IsNullOrEmpty(connection.ConnectionString))
+                continue;
+
             var index = lines.IndexOf(connection.Name);
             if (index >= 0 && lines.Count > index + 1)
                 connection.ConnectionString = lines[index + 1];

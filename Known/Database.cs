@@ -9,7 +9,7 @@ public enum DatabaseType
     SqlServer,
     Oracle,
     MySql,
-    Npgsql
+    PgSql
 }
 
 public class Database : IDisposable
@@ -87,7 +87,7 @@ public class Database : IDisposable
         if (count == null)
         {
             Logger.Info("Data table is initializing...");
-            var name = db.DatabaseType == DatabaseType.Npgsql ? "MySql" : db.DatabaseType.ToString();
+            var name = db.DatabaseType.ToString();
             foreach (var item in Config.CoreAssemblies)
             {
                 var script = Utils.GetResource(item, $"{name}.sql");
@@ -974,7 +974,7 @@ public class Database : IDisposable
 
     private string FormatSQL(string text)
     {
-        if (DatabaseType == DatabaseType.Npgsql)
+        if (DatabaseType == DatabaseType.PgSql)
         {
             text = text.Replace(" Type", " \"Type\"")
                        .Replace(" Name", " \"Name\"");
@@ -1294,7 +1294,7 @@ select t.* from (
     {
         if (databaseType == DatabaseType.Access)
             return $"`{columnName}`";
-        else if (databaseType == DatabaseType.Npgsql)
+        else if (databaseType == DatabaseType.PgSql)
             return $"\"{columnName}\"";
 
         return columnName;

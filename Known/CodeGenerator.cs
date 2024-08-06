@@ -43,8 +43,9 @@ class CodeGenerator : ICodeGenerator
             case DatabaseType.Oracle:
                 return GetOracleScript(entity.Id, columns, maxLength);
             case DatabaseType.MySql:
-            case DatabaseType.Npgsql:
                 return GetMySqlScript(entity.Id, columns, maxLength);
+            case DatabaseType.PgSql:
+                return GetPgSqlScript(entity.Id, columns, maxLength);
             default:
                 return string.Empty;
         }
@@ -247,6 +248,43 @@ class CodeGenerator : ICodeGenerator
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "datetime";
+        else if (item.Type == FieldType.Number)
+            type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
+        else
+            type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"varchar({item.Length})";
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
+
+        return type;
+    }
+
+    private static string GetPgSqlScript(string tableName, List<FieldInfo> columns, int maxLength)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("create table {0} (", tableName);
+        var index = 0;
+        foreach (var item in columns)
+        {
+            var comma = ++index == columns.Count ? "" : ",";
+            var required = item.Required ? "not null" : "null";
+            var column = $"{item.Id}";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetPgSqlDbType(item);
+            if (item.Id == "Id")
+                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
+            else
+                sb.AppendLine($"    {column} {type} {required}{comma}");
+        }
+        sb.AppendLine(");");
+        return sb.ToString();
+    }
+
+    private static string GetPgSqlDbType(FieldInfo item)
+    {
+        string type;
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
+            type = "date";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else

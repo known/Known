@@ -308,7 +308,7 @@ public class ConnectionInfo
                 return "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;";
             case DatabaseType.MySql:
                 return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-            case DatabaseType.Npgsql:
+            case DatabaseType.PgSql:
                 return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
             default:
                 return string.Empty;
