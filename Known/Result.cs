@@ -205,9 +205,9 @@ public class PagingCriteria
         }
     }
 
-    internal Dictionary<string, string> ToParameters(UserInfo user)
+    internal Dictionary<string, object> ToParameters(UserInfo user)
     {
-        var parameter = new Dictionary<string, string>
+        var parameter = new Dictionary<string, object>
         {
             ["AppId"] = user.AppId,
             ["CompNo"] = user.CompNo

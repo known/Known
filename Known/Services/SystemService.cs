@@ -68,7 +68,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             return Result.Error(Language["Tip.PwdNotEqual"]);
 
         Config.App.SetConnection(info.Databases);
-        await Database.InitializeAsync();
+        await DBHelper.InitializeAsync();
 
         var modules = ModuleHelper.GetModules();
         var sys = GetSystem(info);

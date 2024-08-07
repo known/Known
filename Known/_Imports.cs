@@ -23,6 +23,7 @@ global using System.Text.Json.Serialization;
 global using Known.Blazor;
 global using Known.Cells;
 global using Known.Components;
+global using Known.Data;
 global using Known.Designers;
 global using Known.Entities;
 global using Known.Extensions;
