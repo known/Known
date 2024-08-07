@@ -308,6 +308,12 @@ public class Database : IDisposable
     #endregion
 
     #region Entity
+    public Task<int?> CountAsync<T>()
+    {
+        var info = builder.GetCountCommand<T>();
+        return ScalarAsync<int?>(info);
+    }
+
     public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase
     {
         if (string.IsNullOrEmpty(id))
@@ -632,11 +638,14 @@ public class Database : IDisposable
         if (item.Value is DateTime time)
             return DatabaseType == DatabaseType.Access ? time.ToString() : time;
 
-        var value = item.Value.ToString();
-        if (isTrim)
-            value = value.Trim('\r', '\n').Trim();
+        if (item.Value is string value)
+        {
+            if (isTrim)
+                value = value.Trim('\r', '\n').Trim();
+            return value;
+        }
 
-        return value;
+        return item.Value;
     }
 
     private void Init(DatabaseType databaseType, string connString, UserInfo user = null)

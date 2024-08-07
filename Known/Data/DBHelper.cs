@@ -28,7 +28,7 @@ internal class DBHelper
         int? count = null;
         try
         {
-            count = await db.ScalarAsync<int?>("select count(*) from SysModule");
+            count = await db.CountAsync<SysModule>();
         }
         catch
         {

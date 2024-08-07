@@ -120,6 +120,13 @@ select t.* from (
         return new CommandInfo(this, sql, new { id });
     }
 
+    public CommandInfo GetCountCommand<T>()
+    {
+        var tableName = GetTableName<T>(true);
+        var sql = $"select count(*) from {tableName}";
+        return new CommandInfo(this, sql);
+    }
+
     public CommandInfo GetCountCommand(string tableName, string id)
     {
         var sql = $"select count(*) from {FormatName(tableName)} where {FormatName("Id")}=@id";
