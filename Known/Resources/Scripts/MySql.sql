@@ -28,7 +28,7 @@
 create table `SysConfig` (
     `AppId`       varchar(50)   not null,
     `ConfigKey`   varchar(50)   not null,
-    `ConfigValue` varchar(4000) not null,
+    `ConfigValue` text          not null,
     PRIMARY KEY(`AppId`,`ConfigKey`)
 );
 
@@ -105,7 +105,7 @@ create table `SysTask` (
     `Status`     varchar(50)   not null,
     `BeginTime`  datetime      null,
     `EndTime`    datetime      null,
-    `Note`       varchar(4000) null,
+    `Note`       text          null,
     PRIMARY KEY(`Id`)
 );
 
@@ -245,7 +245,7 @@ create table `SysNotice` (
     `CompNo`      varchar(50)   not null,
     `Status`      varchar(50)   not null,
     `Title`       varchar(50)   not null,
-    `Content`     varchar(4000) null,
+    `Content`     text          null,
     `PublishBy`   varchar(50)   null,
     `PublishTime` datetime      null,
     PRIMARY KEY(`Id`)
@@ -267,7 +267,7 @@ create table `SysMessage` (
     `MsgLevel`   varchar(50)   not null,
     `Category`   varchar(50)   null,
     `Subject`    varchar(250)  not null,
-    `Content`    varchar(4000) not null,
+    `Content`    text          not null,
     `FilePath`   varchar(500)  null,
     `IsHtml`     varchar(50)   not null,
     `Status`     varchar(50)   not null,
@@ -302,7 +302,7 @@ create table `SysFlow` (
     `ApplyTime`  datetime     null,
     `VerifyBy`   varchar(50)  null,
     `VerifyTime` datetime     null,
-    `VerifyNote` varchar(500) null,
+    `VerifyNote` text         null,
     PRIMARY KEY(`Id`)
 );
 
@@ -321,7 +321,7 @@ create table `SysFlowLog` (
     `ExecuteBy`   varchar(50)   not null,
     `ExecuteTime` datetime      not null,
     `Result`      varchar(50)   not null,
-    `Note`        varchar(1000) null,
+    `Note`        text          null,
     PRIMARY KEY(`Id`)
 );
 

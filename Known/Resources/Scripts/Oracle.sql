@@ -302,7 +302,7 @@ create table SysFlow(
     ApplyTime  date           null,
     VerifyBy   varchar2(50)   null,
     VerifyTime date           null,
-    VerifyNote varchar2(500)  null
+    VerifyNote varchar2(4000) null
 );
 alter table SysFlow add constraint PK_SysFlow primary key(Id);
 
@@ -321,7 +321,7 @@ create table SysFlowLog(
     ExecuteBy   varchar2(50)   not null,
     ExecuteTime date           not null,
     Result      varchar2(50)   not null,
-    Note        varchar2(1000) null
+    Note        varchar2(4000) null
 );
 alter table SysFlowLog add constraint PK_SysFlowLog primary key(Id);
 

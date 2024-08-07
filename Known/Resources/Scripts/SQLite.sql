@@ -235,7 +235,7 @@ CREATE TABLE [SysNotice] (
     [CompNo]      varchar(50)    NOT NULL,
     [Status]      nvarchar(50)   NOT NULL,
     [Title]       nvarchar(50)   NOT NULL,
-    [Content]     nvarchar(4000) NULL,
+    [Content]     ntext          NULL,
     [PublishBy]   nvarchar(50)   NULL,
     [PublishTime] datetime       NULL
 );
@@ -256,7 +256,7 @@ CREATE TABLE [SysMessage] (
     [MsgLevel]   nvarchar(50)   NOT NULL,
     [Category]   nvarchar(50)   NULL,
     [Subject]    nvarchar(250)  NOT NULL,
-    [Content]    nvarchar(4000) NOT NULL,
+    [Content]    ntext          NOT NULL,
     [FilePath]   nvarchar(500)  NULL,
     [IsHtml]     varchar(50)    NOT NULL,
     [Status]     nvarchar(50)   NOT NULL,
@@ -290,7 +290,7 @@ CREATE TABLE [SysFlow] (
     [ApplyTime]  datetime      NULL,
     [VerifyBy]   nvarchar(50)  NULL,
     [VerifyTime] datetime      NULL,
-    [VerifyNote] nvarchar(500) NULL
+    [VerifyNote] ntext         NULL
 );
 
 CREATE TABLE [SysFlowLog] (
@@ -308,7 +308,7 @@ CREATE TABLE [SysFlowLog] (
     [ExecuteBy]   nvarchar(50)   NOT NULL,
     [ExecuteTime] datetime       NOT NULL,
     [Result]      nvarchar(50)   NOT NULL,
-    [Note]        nvarchar(1000) NULL
+    [Note]        ntext          NULL
 );
 
 CREATE TABLE [SysWeixin] (
