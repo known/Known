@@ -262,20 +262,16 @@ class CodeGenerator : ICodeGenerator
     private static string GetPgSqlScript(string tableName, List<FieldInfo> columns, int maxLength)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("create table {0} (", tableName);
-        var index = 0;
+        sb.AppendLine("CREATE TABLE \"{0}\" (", tableName);
         foreach (var item in columns)
         {
-            var comma = ++index == columns.Count ? "" : ",";
-            var required = item.Required ? "not null" : "null";
-            var column = $"{item.Id}";
+            var required = item.Required ? " NOT NULL" : "";
+            var column = $"\"{item.Id}\"";
             column = GetColumnName(column, maxLength + 2);
             var type = GetPgSqlDbType(item);
-            if (item.Id == "Id")
-                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
-            else
-                sb.AppendLine($"    {column} {type} {required}{comma}");
+            sb.AppendLine($"    {column} {type}{required},");
         }
+        sb.AppendLine("    PRIMARY KEY(\"Id\")");
         sb.AppendLine(");");
         return sb.ToString();
     }
@@ -288,10 +284,10 @@ class CodeGenerator : ICodeGenerator
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
-            type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"varchar({item.Length})";
+            type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"character varying({item.Length})";
 
-        if (type.Length < 16)
-            type += new string(' ', 16 - type.Length);
+        if (type.Length < 24)
+            type += new string(' ', 24 - type.Length);
 
         return type;
     }
