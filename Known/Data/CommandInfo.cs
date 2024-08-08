@@ -16,11 +16,11 @@ public class CommandInfo
     internal bool IsSave { get; set; }
     internal bool IsClose { get; set; }
     public string Prefix { get; }
-    public string Text { get; set; }
-    public string CountSql { get; set; }
-    public string PageSql { get; set; }
-    public string SumSql { get; set; }
-    public Dictionary<string, object> Params { get; set; }
+    public string Text { get; internal set; }
+    public string CountSql { get; internal set; }
+    public string PageSql { get; internal set; }
+    public string SumSql { get; internal set; }
+    public Dictionary<string, object> Params { get; internal set; }
 
     public void SetParameters(DataRow row)
     {

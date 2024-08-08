@@ -209,8 +209,8 @@ public class PagingCriteria
     {
         var parameter = new Dictionary<string, object>
         {
-            ["AppId"] = user.AppId,
-            ["CompNo"] = user.CompNo
+            [nameof(EntityBase.AppId)] = user.AppId,
+            [nameof(EntityBase.CompNo)] = user.CompNo
         };
 
         if (Query != null && Query.Count > 0)
@@ -222,18 +222,6 @@ public class PagingCriteria
         }
         return parameter;
     }
-
-    //public string GetQueryValue(string id)
-    //{
-    //    if (Query == null)
-    //        return string.Empty;
-
-    //    var query = Query.FirstOrDefault(q => q.Id == id);
-    //    if (query == null)
-    //        return string.Empty;
-
-    //    return query.Value;
-    //}
 
     internal bool HasQuery(string id)
     {

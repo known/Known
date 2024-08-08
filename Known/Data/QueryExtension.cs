@@ -5,7 +5,9 @@ public static class QueryExtension
     public static Task<PagingResult<T>> QueryPageAsync<T>(this Database db, PagingCriteria criteria)
     {
         var tableName = db.Builder.GetTableName<T>(true);
-        var sql = $"select * from {tableName} where {db.Builder.FormatName("CompNo")}=@CompNo";
+        var compNo = nameof(EntityBase.CompNo);
+        var compName = db.Builder.FormatName(compNo);
+        var sql = $"select * from {tableName} where {compName}=@{compNo}";
         return db.QueryPageAsync<T>(sql, criteria);
     }
 

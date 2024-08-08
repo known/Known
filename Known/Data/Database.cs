@@ -318,7 +318,7 @@ public class Database : IDisposable
     {
         if (string.IsNullOrEmpty(id))
             return default;
-        
+
         var info = Builder.GetSelectCommand<T>(id);
         return QueryAsync<T>(info);
     }
@@ -456,24 +456,24 @@ public class Database : IDisposable
         if (data == null || data.Count == 0)
             return 0;
 
-        var id = data.GetValue<string>("Id");
+        var id = data.GetValue<string>(nameof(EntityBase.Id));
         var info = Builder.GetCountCommand(tableName, id);
         var count = await ScalarAsync<int>(info);
         if (count > 0)
         {
-            data["Version"] = data.GetValue<int>("Version") + 1;
-            return await UpdateAsync(tableName, "Id", data);
+            data[nameof(EntityBase.Version)] = data.GetValue<int>(nameof(EntityBase.Version)) + 1;
+            return await UpdateAsync(tableName, nameof(EntityBase.Id), data);
         }
 
         if (string.IsNullOrWhiteSpace(id))
-            data["Id"] = Utils.GetGuid();
-        data["CreateBy"] = User.UserName;
-        data["CreateTime"] = DateTime.Now;
-        data["ModifyBy"] = User.UserName;
-        data["ModifyTime"] = DateTime.Now;
-        data["Version"] = 1;
-        data["AppId"] = User.AppId;
-        data["CompNo"] = User.CompNo;
+            data[nameof(EntityBase.Id)] = Utils.GetGuid();
+        data[nameof(EntityBase.CreateBy)] = User.UserName;
+        data[nameof(EntityBase.CreateTime)] = DateTime.Now;
+        data[nameof(EntityBase.ModifyBy)] = User.UserName;
+        data[nameof(EntityBase.ModifyTime)] = DateTime.Now;
+        data[nameof(EntityBase.Version)] = 1;
+        data[nameof(EntityBase.AppId)] = User.AppId;
+        data[nameof(EntityBase.CompNo)] = User.CompNo;
         return await InsertAsync(tableName, data);
     }
 
@@ -642,16 +642,18 @@ public class Database : IDisposable
             return DatabaseType == DatabaseType.Access ? time.ToString() : time;
 
         if (item.Value is string value)
-            return isTrim ? value.Trim('\r', '\n').Trim() : value;
+            return isTrim ? TrimValue(value) : value;
 
         if (item.Value is JsonElement element)
         {
             var valueString = element.ToString();
-            return isTrim ? valueString.Trim('\r', '\n').Trim() : valueString;
+            return isTrim ? TrimValue(valueString) : valueString;
         }
 
         return item.Value;
     }
+
+    private static string TrimValue(string value) => value.Trim('\r', '\n').Trim();
 
     private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
     {

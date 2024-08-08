@@ -31,6 +31,9 @@ class SqlBuilder
         return builder;
     }
 
+    private string IdName => FormatName(nameof(EntityBase.Id));
+    private string CreateTimeName => FormatName(nameof(EntityBase.CreateTime));
+
     internal DatabaseType DatabaseType { get; set; }
 
     public virtual string Prefix => "@";
@@ -110,7 +113,7 @@ select t.* from (
         }
         else
         {
-            sql += $" order by {FormatName("CreateTime")}";
+            sql += $" order by {CreateTimeName}";
         }
         return new CommandInfo(this, sql, paramters);
     }
@@ -127,7 +130,7 @@ select t.* from (
         var paramters = new Dictionary<string, object>();
         for (int i = 0; i < ids.Length; i++)
         {
-            idTexts.Add($"{FormatName("Id")}=@id{i}");
+            idTexts.Add($"{IdName}=@id{i}");
             paramters.Add($"id{i}", ids[i]);
         }
 
@@ -139,7 +142,7 @@ select t.* from (
 
     public CommandInfo GetSelectCommand(string tableName, string id)
     {
-        var sql = $"select * from {FormatName(tableName)} where {FormatName("Id")}=@id";
+        var sql = $"select * from {FormatName(tableName)} where {IdName}=@id";
         return new CommandInfo(this, sql, new { id });
     }
 
@@ -168,7 +171,7 @@ select t.* from (
 
     public CommandInfo GetCountCommand(string tableName, string id)
     {
-        var sql = $"select count(*) from {FormatName(tableName)} where {FormatName("Id")}=@id";
+        var sql = $"select count(*) from {FormatName(tableName)} where {IdName}=@id";
         return new CommandInfo(this, sql, new { id });
     }
 
@@ -270,7 +273,7 @@ select t.* from (
 
     public CommandInfo GetDeleteCommand(string tableName, string id)
     {
-        var sql = $"delete from {FormatName(tableName)} where {FormatName("Id")}=@id";
+        var sql = $"delete from {FormatName(tableName)} where {IdName}=@id";
         return new CommandInfo(this, sql, new { id });
     }
 
@@ -294,7 +297,7 @@ select t.* from (
             changeKeys.Add($"{FormatName(key)}=@{key}");
         }
         var column = string.Join(",", [.. changeKeys]);
-        var sql = $"update {FormatName(tableName)} set {column} where {FormatName("Id")}=@Id";
+        var sql = $"update {FormatName(tableName)} set {column} where {IdName}=@Id";
         changes["Id"] = entity.Id;
         return new CommandInfo(this, sql, changes);
     }
@@ -325,7 +328,7 @@ select t.* from (
             order = string.Join(",", criteria.OrderBys);
 
         if (string.IsNullOrWhiteSpace(order))
-            order = $"{FormatName("CreateTime")} desc";
+            order = $"{CreateTimeName} desc";
 
         if (criteria.PageIndex <= 0)
             return $"{text} order by {order}";
