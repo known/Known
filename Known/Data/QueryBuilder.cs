@@ -25,10 +25,11 @@ public class QueryBuilder<T>
 
     public QueryBuilder<T> Where(Expression<Func<T, bool>> expression)
     {
+        WhereSql = string.Empty;
         if (expression.Body is BinaryExpression be)
-            ExpressionRouter(be.Left, be.Right, be.NodeType);
+            RouteExpression(be.Left, be.Right, be.NodeType);
         else
-            ExpressionRouter(expression.Body);
+            RouteExpression(expression.Body);
         return this;
     }
 
@@ -66,13 +67,13 @@ public class QueryBuilder<T>
         return db.QueryListAsync<T>(info);
     }
 
-    private void ExpressionRouter(Expression left, Expression right, ExpressionType type)
+    private void RouteExpression(Expression left, Expression right, ExpressionType type)
     {
-        var field = ExpressionRouter(left);
+        var field = RouteExpression(left);
         if (field != null)
             WhereSql += builder.FormatName($"{field}");
         WhereSql += ExpressionHelper.TypeCast(type);
-        var value = ExpressionRouter(right);
+        var value = RouteExpression(right);
         if (value == null)
         {
             if (WhereSql.EndsWith("="))
@@ -87,77 +88,143 @@ public class QueryBuilder<T>
         }
     }
 
-    private object ExpressionRouter(Expression exp, object fieldName = null)
+    private object RouteExpression(Expression exp, object fieldName = null)
     {
+        if (exp is NewArrayExpression ae)
+            return RouteExpression(ae);
+
+        if (exp is ConstantExpression ce)
+            return ce.Value;
+
+        if (exp is MemberExpression me) //d.Enabled
+        {
+            if (!exp.ToString().StartsWith("value"))
+                return RouteExpression(me);
+            return RouteExpressionValue(exp, fieldName);
+        }
+
         if (exp is BinaryExpression be)
         {
-            ExpressionRouter(be.Left, be.Right, be.NodeType);
-        }
-        else if (exp is NewArrayExpression ae)
-        {
-            var sb = new StringBuilder();
-            //var index = 0;
-            foreach (Expression ex in ae.Expressions)
-            {
-                //var key = $"@{fieldName}{index++}";
-                //Parameters[key] = ExpressionRouter(ex);
-                //sb.Append($"{key},");
-                sb.Append(ExpressionRouter(ex));
-                sb.Append(',');
-            }
-            return sb.ToString(0, sb.Length - 1);
+            RouteExpression(be.Left, be.Right, be.NodeType);
         }
         else if (exp is MethodCallExpression mce)
         {
-            var field = ExpressionRouter(mce.Arguments[0]);
-            var name = builder.FormatName($"{field}");
-            if (mce.Method.Name == nameof(WhereExtension.Like))
-                WhereSql += string.Format("{0} like {1}", name, ExpressionRouter(mce.Arguments[1]));
-            else if (mce.Method.Name == nameof(WhereExtension.NotLike))
-                WhereSql += string.Format("{0} not like {1}", name, ExpressionRouter(mce.Arguments[1]));
-            else if (mce.Method.Name == nameof(WhereExtension.In))
-                WhereSql += string.Format("{0} in ({1})", name, ExpressionRouter(mce.Arguments[1]));
-            else if (mce.Method.Name == nameof(WhereExtension.NotIn))
-                WhereSql += string.Format("{0} not in ({1})", name, ExpressionRouter(mce.Arguments[1]));
+            RouteExpression(mce);
         }
-        else if (exp is UnaryExpression ue)
+        else if (exp is UnaryExpression ue) //!d.Enabled  ue.NodeType=Not  ue.Operand =d.Enabled
         {
-            //!d.Enabled
-            //ue.NodeType=Not
-            //ue.Operand =d.Enabled
             if (ue.NodeType == ExpressionType.Not)
                 WhereSql += "Not";
-            ExpressionRouter(ue.Operand);
-        }
-        else if (exp is MemberExpression me)
-        {
-            //d.Enabled
-            if (!exp.ToString().StartsWith("value"))
-            {
-                if (WhereSql.EndsWith("Not"))
-                {
-                    WhereSql = WhereSql[..^3] + builder.FormatName(me.Member.Name) + "='False'";
-                    return null;
-                }
-                else if (me.Member.ToString().Contains("Boolean"))
-                {
-                    WhereSql = WhereSql + builder.FormatName(me.Member.Name) + "='True'";
-                    return null;
-                }
-                return me.Member.Name;
-            }
-
-            var value = Expression.Lambda(exp).Compile().DynamicInvoke();
-            if (value.ToString().Contains("[]"))
-            {
-
-            }
-            return value;
-        }
-        else if (exp is ConstantExpression ce)
-        {
-            return ce.Value;
+            RouteExpression(ue.Operand);
         }
         return null;
+    }
+
+    private string RouteExpression(NewArrayExpression ae)
+    {
+        var sb = new StringBuilder();
+        //var index = 0;
+        foreach (Expression ex in ae.Expressions)
+        {
+            //var key = $"{fieldName}{index++}";
+            //Parameters[key] = ExpressionRouter(ex);
+            //sb.Append($"@{key},");
+            sb.Append(RouteExpression(ex));
+            sb.Append(',');
+        }
+        return sb.ToString(0, sb.Length - 1);
+    }
+
+    private void RouteExpression(MethodCallExpression mce)
+    {
+        if (mce.Method.Name == nameof(string.Contains))
+            SetLikeWhere(mce, "%{0}%");
+        else if (mce.Method.Name == nameof(string.StartsWith))
+            SetLikeWhere(mce, "{0}%");
+        else if (mce.Method.Name == nameof(string.EndsWith))
+            SetLikeWhere(mce, "%{0}");
+        else if (mce.Method.Name == nameof(WhereExtension.In))
+            SetArrayWhere(mce, "in");
+        else if (mce.Method.Name == nameof(WhereExtension.NotIn))
+            SetArrayWhere(mce, "not in");
+    }
+
+    private string RouteExpression(MemberExpression me)
+    {
+        if (WhereSql.EndsWith("Not"))
+        {
+            WhereSql = WhereSql[..^3] + builder.FormatName(me.Member.Name) + "='False'";
+            return null;
+        }
+        else if (me.Member.ToString().Contains("Boolean"))
+        {
+            WhereSql = WhereSql + builder.FormatName(me.Member.Name) + "='True'";
+            return null;
+        }
+        return me.Member.Name;
+    }
+
+    private object RouteExpressionValue(Expression exp, object fieldName = null)
+    {
+        var value = Expression.Lambda(exp).Compile().DynamicInvoke();
+        if (value == null)
+            return null;
+
+        if (value is int[] ints)
+            return GetArrayWhere(fieldName, ints);
+
+        if (value is string[] values)
+            return GetArrayWhere(fieldName, values);
+
+        return value;
+    }
+
+    private object GetArrayWhere<TItem>(object fieldName, TItem[] values)
+    {
+        var sb = new StringBuilder();
+        var index = 0;
+        foreach (var item in values)
+        {
+            var key = $"{fieldName}{index++}";
+            Parameters[key] = item;
+            sb.Append($"@{key},");
+        }
+        return sb.ToString(0, sb.Length - 1);
+    }
+
+    private void SetLikeWhere(MethodCallExpression mce, string format)
+    {
+        if (mce.Object == null)
+        {
+            var arg0 = RouteExpression(mce.Arguments[0]);
+            var arg1 = RouteExpression(mce.Arguments[1]);
+            WhereSql += $"{arg0} in ({arg1})";
+        }
+        else if (mce.Object.NodeType == ExpressionType.MemberAccess)
+        {
+            var field = RouteExpression(mce.Object);
+            var name = builder.FormatName($"{field}");
+            var value = RouteExpression(mce.Arguments[0]);
+            Parameters[$"{field}"] = string.Format(format, value);
+            WhereSql += $"{name} like @{field}";
+        }
+    }
+
+    private void SetArrayWhere(MethodCallExpression mce, string format)
+    {
+        if (mce.Object == null)
+        {
+            var arg0 = RouteExpression(mce.Arguments[0]);
+            var arg1 = RouteExpression(mce.Arguments[1], arg0);
+            WhereSql += $"{arg0} {format} ({arg1})";
+        }
+        else if (mce.Object.NodeType == ExpressionType.MemberAccess)
+        {
+            var field = RouteExpression(mce.Object);
+            var name = builder.FormatName($"{field}");
+            var value = RouteExpression(mce.Arguments[0]);
+            Parameters[$"{field}"] = string.Format(format, value);
+            WhereSql += $"{name} {format} ({field})";
+        }
     }
 }

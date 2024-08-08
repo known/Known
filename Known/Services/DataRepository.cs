@@ -9,22 +9,6 @@ class DataRepository
         return db.QueryListAsync<CountInfo>(sql, new { userName, logType });
     }
 
-    //File
-    internal static Task<List<SysFile>> GetFilesAsync(Database db, string[] bizIds)
-    {
-        var idTexts = new List<string>();
-        var paramters = new Dictionary<string, object>();
-        for (int i = 0; i < bizIds.Length; i++)
-        {
-            idTexts.Add($"BizId=@id{i}");
-            paramters.Add($"id{i}", bizIds[i]);
-        }
-
-        var idText = string.Join(" or ", idTexts.ToArray());
-        var sql = $"select * from SysFile where {idText} order by CreateTime";
-        return db.QueryListAsync<SysFile>(sql, paramters);
-    }
-
     //User
     internal static async Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria)
     {
@@ -45,12 +29,6 @@ where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
         }
         criteria.Fields[nameof(SysUser.Name)] = "a.Name";
         return await db.QueryPageAsync<SysUser>(sql, criteria);
-    }
-
-    internal static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName)
-    {
-        var sql = $"select * from SysUser where Role like '%{roleName}%'";
-        return db.QueryListAsync<SysUser>(sql);
     }
 
     //Account

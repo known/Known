@@ -348,11 +348,8 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrWhiteSpace(bizIds))
             return null;
 
-        //var ids = bizIds.Split(',');
-        //return db.QueryListAsync<SysFlow>(d => d.BizId.In(ids));
-        var ids = bizIds.Replace(",", "','");
-        var sql = $"select * from SysFlow where BizId in ('{ids}')";
-        return db.QueryListAsync<SysFlow>(sql);
+        var ids = bizIds.Split(',');
+        return db.QueryListAsync<SysFlow>(d => d.BizId.In(ids));
     }
 
     private static void SetPrevToCurrStep(SysFlow info)

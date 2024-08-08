@@ -180,6 +180,11 @@ class UserService(Context context) : ServiceBase(context), IUserService
         }, model);
     }
 
+    internal static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName)
+    {
+        return db.QueryListAsync<SysUser>(d => d.Role.Contains(roleName));
+    }
+
     internal static async Task SyncUserAsync(Database db, SysUser user)
     {
         var model = await db.QueryAsync<SysUser>(d => d.UserName == user.UserName);
@@ -208,67 +213,4 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 await db.InsertDataAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
         }
     }
-
-    //Setting
-    //public async Task<Result> DeleteSettingAsync(SettingFormInfo info)
-    //{
-    //    var user = CurrentUser;
-    //    if (user == null)
-    //        return Result.Error(Language["Tip.NoLogin"]);
-
-    //    var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
-    //    if (setting == null)
-    //        return Result.Error(Language.NotExists.Format("设置"));
-
-    //    await Database.DeleteAsync(setting);
-    //    return Result.Success(Language.DeleteSuccess);
-    //}
-
-    //public async Task<Result> SaveSettingAsync(SettingFormInfo info)
-    //{
-    //    var user = CurrentUser;
-    //    if (user == null)
-    //        return Result.Error(Language["Tip.NoLogin"]);
-
-    //    var setting = await SettingRepository.GetSettingByUserAsync(Database, info.Type, info.Name);
-    //    setting ??= new SysSetting { BizType = info.Type, BizName = info.Name };
-    //    setting.BizData = info.Data;
-    //    await Database.SaveAsync(setting);
-    //    return Result.Success(Language.SaveSuccess);
-    //}
-
-    //Message
-    //public Task<PagingResult<SysMessage>> QueryMessagesAsync(PagingCriteria criteria)
-    //{
-    //    criteria.SetQuery(nameof(SysMessage.UserId), CurrentUser.UserName);
-    //    return UserRepository.QueryMessagesAsync(Database, criteria);
-    //}
-
-    //public async Task<Result> DeleteMessagesAsync(List<SysMessage> entities)
-    //{
-    //    if (entities == null || entities.Count == 0)
-    //        return Result.Error(Language.SelectOneAtLeast);
-
-    //    return await Database.TransactionAsync(Language.Delete, async db =>
-    //    {
-    //        foreach (var item in entities)
-    //        {
-    //            await db.DeleteAsync(item);
-    //        }
-    //    });
-    //}
-
-    //public async Task<Result> SaveMessageAsync(SysMessage model)
-    //{
-    //    var vr = model.Validate(Context);
-    //    if (!vr.IsValid)
-    //        return vr;
-
-    //    var result = await Database.TransactionAsync(Language.Save, async db =>
-    //    {
-    //        await db.SaveAsync(model);
-    //    });
-    //    result.Data = UserRepository.GetMessageCountAsync(Database);
-    //    return result;
-    //}
 }

@@ -147,11 +147,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     {
         var info = await SystemService.GetSystemAsync(db);
         user.AvatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
-        user.IsTenant = user.CompNo != info.CompNo;
-        user.AppName = info.AppName;
+        user.IsTenant = user.CompNo != info?.CompNo;
+        user.AppName = info?.AppName;
         if (user.IsAdmin)
             user.AppId = Config.App.Id;
-        user.CompName = info.CompName;
+        user.CompName = info?.CompName;
         if (!string.IsNullOrEmpty(user.OrgNo))
         {
             var org = await db.QueryAsync<SysOrganization>(d => d.AppId == user.AppId && d.CompNo == user.CompNo && d.Code == user.OrgNo);

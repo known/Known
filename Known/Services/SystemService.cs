@@ -165,16 +165,24 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     //System
     public async Task<SystemInfo> GetSystemAsync()
     {
-        var info = await GetSystemAsync(Database);
-        if (info != null)
+        try
         {
-            info.ProductKey = null;
-            info.UserDefaultPwd = null;
-            //var install = GetInstall();
-            //info.ProductId = install.ProductId;
-            //info.ProductKey = install.ProductKey;
+            var info = await GetSystemAsync(Database);
+            if (info != null)
+            {
+                info.ProductKey = null;
+                info.UserDefaultPwd = null;
+                //var install = GetInstall();
+                //info.ProductId = install.ProductId;
+                //info.ProductKey = install.ProductKey;
+            }
+            return info;
         }
-        return info;
+        catch
+        {
+            //系统未安装，返回null
+            return null;
+        }
     }
 
     public async Task<SystemDataInfo> GetSystemDataAsync()
@@ -190,25 +198,17 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     internal static async Task<SystemInfo> GetSystemAsync(Database db)
     {
-        try
+        if (!Config.App.IsPlatform || db.User == null)
         {
-            if (!Config.App.IsPlatform || db.User == null)
-            {
-                var json = await GetConfigAsync(db, KeySystem);
-                return Utils.FromJson<SystemInfo>(json);
-            }
-
-            var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
-            if (company == null)
-                return GetSystem(db.User);
-
-            return Utils.FromJson<SystemInfo>(company.SystemData);
+            var json = await GetConfigAsync(db, KeySystem);
+            return Utils.FromJson<SystemInfo>(json);
         }
-        catch
-        {
-            //系统未安装，返回null
-            return null;
-        }
+
+        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
+        if (company == null)
+            return GetSystem(db.User);
+
+        return Utils.FromJson<SystemInfo>(company.SystemData);
     }
 
     public async Task<Result> SaveKeyAsync(SystemInfo info)

@@ -91,7 +91,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
-            return DataRepository.GetFilesAsync(db, bizIds);
+            return db.Query<SysFile>().Where(d => d.BizId.In(bizIds)).OrderBy(d => d.CreateTime).ToListAsync();
 
         if (!bizId.Contains('_'))
             return GetFilesByBizIdAsync(db, bizId);
