@@ -12,7 +12,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
     {
-        return RoleRepository.QueryRolesAsync(Database, criteria);
+        return Database.QueryPageAsync<SysRole>(criteria);
     }
 
     public async Task<Result> DeleteRolesAsync(List<SysRole> models)

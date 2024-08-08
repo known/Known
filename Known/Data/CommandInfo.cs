@@ -8,6 +8,7 @@ public class CommandInfo
     {
         Prefix = builder.Prefix;
         Text = text?.Replace("@", Prefix);
+        //Console.WriteLine(Text);
         if (param != null)
             Params = MapToDictionary(param);
     }

@@ -19,7 +19,10 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()
     {
-        var categories = await DictionaryRepository.GetCategoriesAsync(Database);
+        var categories = await Database.Query<SysDictionary>()
+                 .Where(d => d.Enabled && d.CompNo == CurrentUser.CompNo && d.Category == Constants.DicCategory)
+                 .OrderBy(d => d.Sort)
+                 .ToListAsync();
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
     }
 
@@ -27,7 +30,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [nameof(SysDictionary.Sort)];
-        return DictionaryRepository.QueryDictionariesAsync(Database, criteria);
+        return Database.QueryPageAsync<SysDictionary>(criteria);
     }
 
     public async Task<Result> DeleteDictionariesAsync(List<SysDictionary> models)
@@ -39,7 +42,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         {
             foreach (var item in models)
             {
-                await DictionaryRepository.DeleteDictionariesAsync(db, item.Code);
+                await db.DeleteAsync<SysDictionary>(d => d.CompNo == db.User.CompNo && d.Category == item.Code);
                 await db.DeleteAsync(item);
             }
         });
@@ -52,7 +55,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         if (!vr.IsValid)
             return vr;
 
-        var exists = await DictionaryRepository.ExistsDictionary(Database, model);
+        var exists = await Database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
         if (exists)
             return Result.Error(Language["Tip.DicCodeExists"]);
 
@@ -63,7 +66,10 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 
     internal static async Task<List<CodeInfo>> GetDictionariesAsync(Database db)
     {
-        var entities = await DictionaryRepository.GetDictionariesAsync(db);
+        var entities = await db.Query<SysDictionary>()
+                               .Where(d => d.Enabled)
+                               .OrderBy(d => d.Category).OrderBy(d => d.Sort)
+                               .ToListAsync();
         var codes = entities.Select(e =>
         {
             var code = e.Code;

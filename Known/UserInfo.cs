@@ -2,6 +2,7 @@
 
 public enum GenderType { Male, Female }
 
+[Table(nameof(SysUser))]
 public class UserInfo
 {
     public string Id { get; set; }

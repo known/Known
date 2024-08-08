@@ -11,13 +11,12 @@ class UserHelper
         return appName;
     }
 
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db, List<SysModule> modules)
     {
         var user = db.User;
         if (user == null)
             return [];
 
-        var modules = await ModuleRepository.GetModulesAsync(db);
         if (user.IsAdmin)
             return modules.ToMenus(true);
 

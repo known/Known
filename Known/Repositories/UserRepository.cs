@@ -30,34 +30,25 @@ where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
         return db.QueryListAsync<SysUser>(sql);
     }
 
-    internal static async Task<bool> ExistsUserNameAsync(Database db, string id, string userName)
+    internal static Task<bool> ExistsUserNameAsync(Database db, string id, string userName)
     {
-        var sql = "select count(*) from SysUser where Id<>@id and UserName=@userName";
-        return await db.ScalarAsync<int>(sql, new { id, userName }) > 0;
+        return db.ExistsAsync<SysUser>(d => d.Id != id && d.UserName == userName);
     }
 
-    //internal static Task<int> GetUserCountAsync(Database db)
-    //{
-    //    var sql = "select count(*) from SysUser where CompNo=@CompNo";
-    //    return db.ScalarAsync<int>(sql, new { db.User.CompNo });
-    //}
-
-    internal static Task<List<string>> GetUserRolesAsync(Database db, string userId)
+    internal static async Task<List<string>> GetUserRolesAsync(Database db, string userId)
     {
-        var sql = "select RoleId from SysUserRole where UserId=@userId";
-        return db.ScalarsAsync<string>(sql, new { userId });
+        var roles = await db.QueryListAsync<SysUserRole>(d => d.UserId == userId);
+        return roles.Select(r => r.RoleId).ToList();
     }
 
     internal static Task<int> DeleteUserRolesAsync(Database db, string userId)
     {
-        var sql = "delete from SysUserRole where UserId=@userId";
-        return db.ExecuteAsync(sql, new { userId });
+        return db.DeleteAsync<SysUserRole>(d => d.UserId == userId);
     }
 
     internal static Task<int> AddUserRoleAsync(Database db, string userId, string roleId)
     {
-        var sql = "insert into SysUserRole(UserId,RoleId) values(@userId,@roleId)";
-        return db.ExecuteAsync(sql, new { userId, roleId });
+        return db.InsertDataAsync(new SysUserRole { UserId = userId, RoleId = roleId });
     }
 
     //Account
@@ -71,45 +62,22 @@ where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
 
     internal static Task<SysUser> GetUserByUserNameAsync(Database db, string userName)
     {
-        var sql = "select * from SysUser where UserName=@userName";
-        return db.QueryAsync<SysUser>(sql, new { userName });
+        return db.QueryAsync<SysUser>(d => d.UserName == userName);
     }
 
     internal static Task<UserInfo> GetUserInfoByIdAsync(Database db, string id)
     {
-        var sql = "select * from SysUser where Id=@id";
-        return db.QueryAsync<UserInfo>(sql, new { id });
+        return db.QueryAsync<UserInfo>(d => d.Id == id);
     }
 
     internal static Task<UserInfo> GetUserInfoAsync(Database db, string userName)
     {
-        var sql = "select * from SysUser where UserName=@userName";
-        return db.QueryAsync<UserInfo>(sql, new { userName });
+        return db.QueryAsync<UserInfo>(d => d.UserName == userName);
     }
 
     internal static Task<SysUser> GetUserAsync(Database db, string userName, string password)
     {
         password = Utils.ToMd5(password);
-        var sql = "select * from SysUser where UserName=@userName and Password=@password";
-        return db.QueryAsync<SysUser>(sql, new { userName, password });
-    }
-
-    internal static Task<string> GetOrgNameAsync(Database db, string appId, string compNo, string orgNo)
-    {
-        var sql = "select Name from SysOrganization where AppId=@appId and CompNo=@compNo and Code=@orgNo";
-        return db.ScalarAsync<string>(sql, new { appId, compNo, orgNo });
-    }
-
-    //Message
-    //internal static Task<PagingResult<SysMessage>> QueryMessagesAsync(Database db, PagingCriteria criteria)
-    //{
-    //    var sql = "select * from SysMessage where CompNo=@CompNo";
-    //    return db.QueryPageAsync<SysMessage>(sql, criteria);
-    //}
-
-    internal static Task<int> GetMessageCountAsync(Database db)
-    {
-        var sql = $"select count(*) from SysMessage where UserId=@UserName and Status='{Constants.UMStatusUnread}'";
-        return db.ScalarAsync<int>(sql, new { db.User.UserName });
+        return db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
     }
 }

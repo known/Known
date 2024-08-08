@@ -16,7 +16,7 @@ public interface ISystemService : IService
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
-    internal const string KeySystem = "SystemInfo";
+    private const string KeySystem = "SystemInfo";
 
     //Config
     public static async Task<T> GetConfigAsync<T>(Database db, string key)
@@ -119,7 +119,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     private static async Task SaveOrganizationAsync(Database db, InstallInfo info)
     {
-        var org = await CompanyRepository.GetOrganizationAsync(db, info.CompNo);
+        var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == db.User.CompNo && d.Code == info.CompNo);
         org ??= new SysOrganization();
         org.AppId = Config.App.Id;
         org.CompNo = info.CompNo;
@@ -269,7 +269,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [$"{nameof(SysTask.CreateTime)} desc"];
-        return SystemRepository.QueryTasksAsync(Database, criteria);
+        return Database.QueryPageAsync<SysTask>(criteria);
     }
 
     //Log
@@ -277,7 +277,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [$"{nameof(SysLog.CreateTime)} desc"];
-        return SystemRepository.QueryLogsAsync(Database, criteria);
+        return Database.QueryPageAsync<SysLog>(criteria);
     }
 
     //internal async Task<Result> DeleteLogsAsync(string data)
@@ -304,7 +304,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             var module = log.Content.StartsWith("/page/")
                        ? await Database.QueryByIdAsync<SysModule>(log.Content.Substring(6))
-                       : await ModuleRepository.GetModuleByUrlAsync(Database, log.Content);
+                       : await Database.QueryAsync<SysModule>(d => d.Url == log.Content);
             log.Target = module?.Name;
         }
 

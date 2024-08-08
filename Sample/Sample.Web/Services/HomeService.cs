@@ -8,20 +8,23 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         if (user == null)
             return new HomeInfo();
 
-        return new HomeInfo
+        var db = Database;
+        await db.OpenAsync();
+        var info = new HomeInfo
         {
-            VisitMenuIds = await Logger.GetVisitMenuIdsAsync(Database, user.UserName, 12),
-            Statistics = await GetStatisticsInfoAsync()
+            VisitMenuIds = await Logger.GetVisitMenuIdsAsync(db, user.UserName, 12),
+            Statistics = await GetStatisticsInfoAsync(db)
         };
+        await db.CloseAsync();
+        return info;
     }
 
-    private async Task<StatisticsInfo> GetStatisticsInfoAsync()
+    private async Task<StatisticsInfo> GetStatisticsInfoAsync(Database db)
     {
-        await Database.OpenAsync();
         var info = new StatisticsInfo
         {
-            UserCount = await HomeRepository.GetUserCountAsync(Database),
-            LogCount = await HomeRepository.GetLogCountAsync(Database)
+            UserCount = await HomeRepository.GetUserCountAsync(db),
+            LogCount = await HomeRepository.GetLogCountAsync(db)
         };
         var now = DateTime.Now;
         var endDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1).Day;
@@ -29,13 +32,12 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         for (int i = 1; i <= endDay; i++)
         {
             var date = new DateTime(now.Year, now.Month, i);
-            seriesLog[i.ToString("00")] = await HomeRepository.GetLogCountAsync(Database, date);
+            seriesLog[i.ToString("00")] = await HomeRepository.GetLogCountAsync(db, date);
         }
         info.LogDatas =
         [
             new ChartDataInfo { Name = Language["Home.VisitCount"], Series = seriesLog }
         ];
-        await Database.CloseAsync();
         return info;
     }
 }

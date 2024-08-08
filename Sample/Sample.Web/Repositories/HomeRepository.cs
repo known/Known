@@ -15,7 +15,7 @@ class HomeRepository
     internal static Task<int> GetLogCountAsync(Database db, DateTime date)
     {
         var day = date.ToString("yyyy-MM-dd");
-        var sql = $@"select count(1) from SysLog where CompNo=@CompNo and CreateTime between '{day} 00:00:00' and '{day} 23:59:59'";
+        var sql = $@"select count(*) from SysLog where CompNo=@CompNo and CreateTime between '{day} 00:00:00' and '{day} 23:59:59'";
         if (db.DatabaseType == DatabaseType.Access)
             sql = sql.Replace("'", "#");
         return db.ScalarAsync<int>(sql, new { db.User.CompNo });

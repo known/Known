@@ -72,7 +72,10 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
     private static string GetDefaultData(UserInfo user) => Utils.ToJson(new { Code = user.CompNo, Name = user.CompName });
 
     //Organization
-    public Task<List<SysOrganization>> GetOrganizationsAsync() => CompanyRepository.GetOrganizationsAsync(Database);
+    public Task<List<SysOrganization>> GetOrganizationsAsync()
+    {
+        return Database.QueryListAsync<SysOrganization>(d => d.CompNo == CurrentUser.CompNo);
+    }
 
     public async Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models)
     {
@@ -81,7 +84,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
 
         foreach (var model in models)
         {
-            if (await CompanyRepository.ExistsSubOrganizationAsync(Database, model.Id))
+            if (await Database.ExistsAsync<SysOrganization>(d => d.ParentId == model.Id))
                 return Result.Error(Language["Tip.OrgDeleteExistsChild"]);
         }
 

@@ -2,28 +2,12 @@
 
 class FileRepository
 {
-    internal static Task<PagingResult<SysFile>> QueryFilesAsync(Database db, PagingCriteria criteria)
-    {
-        var sql = "select * from SysFile where AppId=@AppId and CompNo=@CompNo";
-        return db.QueryPageAsync<SysFile>(sql, criteria);
-    }
-
-    //internal static async Task<bool> HasFilesAsync(Database db, string bizId)
-    //{
-    //    var sql = "select count(*) from SysFile where BizId=@bizId";
-    //    return await db.ScalarAsync<int>(sql, new { bizId }) > 0;
-    //}
-
     internal static Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
     {
-        var sql = "select * from SysFile where BizId=@bizId order by CreateTime";
-        return db.QueryListAsync<SysFile>(sql, new { bizId });
-    }
-
-    internal static Task<List<SysFile>> GetFilesAsync(Database db, string bizId, string bizType)
-    {
-        var sql = "select * from SysFile where BizId=@bizId and Type=@bizType order by CreateTime";
-        return db.QueryListAsync<SysFile>(sql, new { bizId, bizType });
+        return db.Query<SysFile>()
+                 .Where(d => d.BizId == bizId)
+                 .OrderBy(d => d.CreateTime)
+                 .ToListAsync();
     }
 
     internal static Task<List<SysFile>> GetFilesAsync(Database db, string[] bizIds)

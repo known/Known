@@ -2,12 +2,6 @@
 
 class RoleRepository
 {
-    internal static Task<PagingResult<SysRole>> QueryRolesAsync(Database db, PagingCriteria criteria)
-    {
-        var sql = "select * from SysRole where AppId=@AppId and CompNo=@CompNo";
-        return db.QueryPageAsync<SysRole>(sql, criteria);
-    }
-
     internal static Task<List<SysRole>> GetRolesAsync(Database db)
     {
         var sql = "select * from SysRole where AppId=@AppId and CompNo=@CompNo and Enabled='True' order by CreateTime";

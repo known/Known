@@ -4,9 +4,9 @@ public class Database : IDisposable
 {
     private DbConnection conn;
     private DbTransaction trans;
-    private SqlBuilder builder;
 
     private string TransId { get; set; }
+    internal SqlBuilder Builder { get; set; }
 
     #region Constructors
     public Database() : this("Default") { }
@@ -100,7 +100,7 @@ public class Database : IDisposable
         if (data == null || data.Rows.Count == 0)
             return;
 
-        var info = builder.GetInsertCommand(data);
+        var info = Builder.GetInsertCommand(data);
         foreach (DataRow item in data.Rows)
         {
             info.SetParameters(item);
@@ -112,20 +112,20 @@ public class Database : IDisposable
     #region SQL
     public Task<int> ExecuteAsync(string sql, object param = null)
     {
-        var info = builder.GetCommand(sql, param);
+        var info = Builder.GetCommand(sql, param);
         return ExecuteNonQueryAsync(info);
     }
 
     public Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        var info = builder.GetCommand(sql, param);
+        var info = Builder.GetCommand(sql, param);
         return ScalarAsync<T>(info);
     }
 
     public async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
         var data = new List<T>();
-        var info = builder.GetCommand(sql, param);
+        var info = Builder.GetCommand(sql, param);
         var cmd = await PrepareCommandAsync(conn, trans, info);
         using (var reader = cmd.ExecuteReader())
         {
@@ -144,26 +144,26 @@ public class Database : IDisposable
 
     public Task<T> QueryAsync<T>(string sql, object param = null)
     {
-        var info = builder.GetCommand(sql, param);
+        var info = Builder.GetCommand(sql, param);
         return QueryAsync<T>(info);
     }
 
     public Task<List<T>> QueryListAsync<T>(string sql, object param = null)
     {
-        var info = builder.GetCommand(sql, param);
+        var info = Builder.GetCommand(sql, param);
         return QueryListAsync<T>(info);
     }
 
     public Task<List<T>> QueryListAsync<T>(int topSize, string sql, object param = null)
     {
-        var info = builder.GetTopCommand(topSize, sql, param);
+        var info = Builder.GetTopCommand(topSize, sql, param);
         return QueryListAsync<T>(info);
     }
 
     public async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
     {
         var watch = Stopwatcher.Start<T>();
-        WhereHelper.SetAutoQuery(ref sql, builder, criteria);
+        WhereHelper.SetAutoQuery(ref sql, Builder, criteria);
 
         if (conn.State != ConnectionState.Open)
             conn.Open();
@@ -171,7 +171,7 @@ public class Database : IDisposable
         byte[] exportData = null;
         Dictionary<string, object> sums = null;
         var pageData = new List<T>();
-        var info = builder.GetCommand(sql, criteria, User);
+        var info = Builder.GetCommand(sql, criteria, User);
         var cmd = await PrepareCommandAsync(conn, trans, info);
         cmd.CommandText = info.CountSql;
         var value = cmd.ExecuteScalar();
@@ -242,7 +242,7 @@ public class Database : IDisposable
         byte[] exportData = null;
         Dictionary<string, object> sums = null;
         var pageData = new List<Dictionary<string, object>>();
-        var info = builder.GetCommand(sql, criteria, User);
+        var info = Builder.GetCommand(sql, criteria, User);
         var cmd = await PrepareCommandAsync(conn, trans, info);
         cmd.CommandText = info.CountSql;
         var scalar = cmd.ExecuteScalar();
@@ -297,7 +297,7 @@ public class Database : IDisposable
     public async Task<DataTable> QueryTableAsync(string sql, object param = null)
     {
         var data = new DataTable();
-        var info = builder.GetCommand(sql, param);
+        var info = Builder.GetCommand(sql, param);
         using (var reader = await ExecuteReaderAsync(info))
         {
             if (reader != null)
@@ -310,7 +310,7 @@ public class Database : IDisposable
     #region Entity
     public Task<int?> CountAsync<T>()
     {
-        var info = builder.GetCountCommand<T>();
+        var info = Builder.GetCountCommand<T>();
         return ScalarAsync<int?>(info);
     }
 
@@ -319,13 +319,13 @@ public class Database : IDisposable
         if (string.IsNullOrEmpty(id))
             return default;
         
-        var info = builder.GetSelectCommand<T>(id);
+        var info = Builder.GetSelectCommand<T>(id);
         return QueryAsync<T>(info);
     }
 
     public Task<List<T>> QueryListAsync<T>() where T : EntityBase
     {
-        var info = builder.GetSelectCommand<T>();
+        var info = Builder.GetSelectCommand<T>();
         return QueryListAsync<T>(info);
     }
 
@@ -334,19 +334,19 @@ public class Database : IDisposable
         if (ids == null || ids.Length == 0)
             return null;
 
-        var info = builder.GetSelectCommand<T>(ids);
+        var info = Builder.GetSelectCommand<T>(ids);
         return QueryListAsync<T>(info);
     }
 
     public Task<int> DeleteAllAsync<T>() where T : EntityBase
     {
-        var info = builder.GetDeleteCommand<T>();
+        var info = Builder.GetDeleteCommand<T>();
         return ExecuteNonQueryAsync(info);
     }
 
     public Task<int> DeleteAsync<T>(string id) where T : EntityBase
     {
-        var info = builder.GetDeleteCommand<T>(id);
+        var info = Builder.GetDeleteCommand<T>(id);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -363,7 +363,7 @@ public class Database : IDisposable
         if (data == null)
             return Task.FromResult(0);
 
-        var info = builder.GetInsertCommand(data);
+        var info = Builder.GetInsertCommand(data);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -379,7 +379,7 @@ public class Database : IDisposable
             conn.Open();
         }
 
-        var info = builder.GetInsertCommand<T>();
+        var info = Builder.GetInsertCommand<T>();
         foreach (var item in datas)
         {
             info.SetParameters(item);
@@ -424,7 +424,7 @@ public class Database : IDisposable
         else
         {
             entity.Version += 1;
-            var info1 = builder.GetSelectCommand<T>(entity.Id);
+            var info1 = Builder.GetSelectCommand<T>(entity.Id);
             var original = await QueryAsync<Dictionary<string, object>>(info1);
             entity.SetOriginal(original);
         }
@@ -432,7 +432,7 @@ public class Database : IDisposable
         entity.ModifyBy = User.UserName;
         entity.ModifyTime = DateTime.Now;
 
-        var info = builder.GetSaveCommand(entity);
+        var info = Builder.GetSaveCommand(entity);
         info.IsSave = true;
         await ExecuteNonQueryAsync(info);
         entity.IsNew = false;
@@ -457,7 +457,7 @@ public class Database : IDisposable
             return 0;
 
         var id = data.GetValue<string>("Id");
-        var info = builder.GetCountCommand(tableName, id);
+        var info = Builder.GetCountCommand(tableName, id);
         var count = await ScalarAsync<int>(info);
         if (count > 0)
         {
@@ -482,7 +482,7 @@ public class Database : IDisposable
         if (string.IsNullOrEmpty(id))
             return Task.FromResult(0);
 
-        var info = builder.GetDeleteCommand(tableName, id);
+        var info = Builder.GetDeleteCommand(tableName, id);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -491,7 +491,7 @@ public class Database : IDisposable
         if (data == null || data.Count == 0)
             return Task.FromResult(0);
 
-        var info = builder.GetInsertCommand(tableName, data);
+        var info = Builder.GetInsertCommand(tableName, data);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -500,7 +500,7 @@ public class Database : IDisposable
         if (data == null || data.Count == 0)
             return Task.FromResult(0);
 
-        var info = builder.GetUpdateCommand(tableName, keyField, data);
+        var info = Builder.GetUpdateCommand(tableName, keyField, data);
         return ExecuteNonQueryAsync(info);
     }
     #endregion
@@ -528,7 +528,7 @@ public class Database : IDisposable
     #endregion
 
     #region Private
-    private async Task<int> ExecuteNonQueryAsync(CommandInfo info)
+    internal async Task<int> ExecuteNonQueryAsync(CommandInfo info)
     {
         var cmd = await PrepareCommandAsync(conn, trans, info);
         var value = cmd.ExecuteNonQuery();
@@ -548,7 +548,7 @@ public class Database : IDisposable
         return reader;
     }
 
-    private async Task<T> ScalarAsync<T>(CommandInfo info)
+    internal async Task<T> ScalarAsync<T>(CommandInfo info)
     {
         var cmd = await PrepareCommandAsync(conn, trans, info);
         var scalar = cmd.ExecuteScalar();
@@ -558,7 +558,7 @@ public class Database : IDisposable
         return Utils.ConvertTo<T>(scalar);
     }
 
-    private async Task<T> QueryAsync<T>(CommandInfo info)
+    internal async Task<T> QueryAsync<T>(CommandInfo info)
     {
         T obj = default;
         using (var reader = await ExecuteReaderAsync(info))
@@ -573,7 +573,7 @@ public class Database : IDisposable
         return obj;
     }
 
-    private async Task<List<T>> QueryListAsync<T>(CommandInfo info)
+    internal async Task<List<T>> QueryListAsync<T>(CommandInfo info)
     {
         var lists = new List<T>();
         using (var reader = await ExecuteReaderAsync(info))
@@ -635,14 +635,19 @@ public class Database : IDisposable
         if (item.Value == null)
             return DBNull.Value;
 
+        if (item.Value is bool boolean)
+            return boolean.ToString();
+
         if (item.Value is DateTime time)
             return DatabaseType == DatabaseType.Access ? time.ToString() : time;
 
         if (item.Value is string value)
+            return isTrim ? value.Trim('\r', '\n').Trim() : value;
+
+        if (item.Value is JsonElement element)
         {
-            if (isTrim)
-                value = value.Trim('\r', '\n').Trim();
-            return value;
+            var valueString = element.ToString();
+            return isTrim ? valueString.Trim('\r', '\n').Trim() : valueString;
         }
 
         return item.Value;
@@ -650,7 +655,7 @@ public class Database : IDisposable
 
     private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
     {
-        builder = SqlBuilder.Create(databaseType);
+        Builder = SqlBuilder.Create(databaseType);
         DatabaseType = databaseType;
         ConnectionString = connString;
         User = user;

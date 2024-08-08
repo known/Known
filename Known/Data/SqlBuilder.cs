@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace Known.Data;
 
-namespace Known.Data;
-
-public class SqlBuilder
+class SqlBuilder
 {
     internal static SqlBuilder Create(DatabaseType type)
     {
@@ -85,11 +83,36 @@ select t.* from (
         return new CommandInfo(this, text, param);
     }
 
-    public CommandInfo GetSelectCommand<T>()
+    internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder)
     {
         var tableName = GetTableName<T>(true);
-        var sql = $"select * from {tableName} order by {FormatName("CreateTime")}";
-        return new CommandInfo(this, sql);
+        var sql = $"select * from {tableName}";
+        if (!string.IsNullOrWhiteSpace(builder.WhereSql))
+            sql += $" where {builder.WhereSql}";
+        if (!string.IsNullOrWhiteSpace(builder.OrderSql))
+            sql += $" order by {builder.OrderSql}";
+        return new CommandInfo(this, sql, builder.Parameters);
+    }
+
+    public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null)
+    {
+        var tableName = GetTableName<T>(true);
+        var sql = $"select * from {tableName}";
+        var paramters = new Dictionary<string, object>();
+        if (expression != null)
+        {
+            var qb = new QueryBuilder<T>(this).Where(expression);
+            if (!string.IsNullOrWhiteSpace(qb.WhereSql))
+            {
+                paramters = qb.Parameters;
+                sql += $" where {qb.WhereSql}";
+            }
+        }
+        else
+        {
+            sql += $" order by {FormatName("CreateTime")}";
+        }
+        return new CommandInfo(this, sql, paramters);
     }
 
     public CommandInfo GetSelectCommand<T>(string id)
@@ -120,11 +143,27 @@ select t.* from (
         return new CommandInfo(this, sql, new { id });
     }
 
-    public CommandInfo GetCountCommand<T>()
+    internal CommandInfo GetCountCommand<T>(QueryBuilder<T> builder)
     {
         var tableName = GetTableName<T>(true);
         var sql = $"select count(*) from {tableName}";
-        return new CommandInfo(this, sql);
+        if (!string.IsNullOrWhiteSpace(builder.WhereSql))
+            sql += $" where {builder.WhereSql}";
+        return new CommandInfo(this, sql, builder.Parameters);
+    }
+
+    public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null)
+    {
+        var tableName = GetTableName<T>(true);
+        var sql = $"select count(*) from {tableName}";
+        var paramters = new Dictionary<string, object>();
+        if (expression != null)
+        {
+            var qb = new QueryBuilder<T>(this).Where(expression);
+            paramters = qb.Parameters;
+            sql += $" where {qb.WhereSql}";
+        }
+        return new CommandInfo(this, sql, paramters);
     }
 
     public CommandInfo GetCountCommand(string tableName, string id)
@@ -197,15 +236,30 @@ select t.* from (
             changeKeys.Add($"{FormatName(key)}=@{key}");
         }
         var column = string.Join(",", [.. changeKeys]);
-        var sql = $"update {FormatName(tableName)} set {column} where {keyField}=@{keyField}";
+
+        var keyFields = new List<string>();
+        var keys = keyField.Split(',');
+        foreach (var key in keys)
+        {
+            keyFields.Add($"{FormatName(key)}=@{key}");
+        }
+        var where = string.Join(" and ", keyFields);
+        var sql = $"update {FormatName(tableName)} set {column} where {where}";
         return new CommandInfo(this, sql, data);
     }
 
-    public CommandInfo GetDeleteCommand<T>()
+    public CommandInfo GetDeleteCommand<T>(Expression<Func<T, bool>> expression = null)
     {
         var tableName = GetTableName<T>(true);
         var sql = $"delete from {tableName}";
-        return new CommandInfo(this, sql);
+        var paramters = new Dictionary<string, object>();
+        if (expression != null)
+        {
+            var qb = new QueryBuilder<T>(this).Where(expression);
+            paramters = qb.Parameters;
+            sql += $" where {qb.WhereSql}";
+        }
+        return new CommandInfo(this, sql, paramters);
     }
 
     public CommandInfo GetDeleteCommand<T>(string id)
@@ -245,7 +299,7 @@ select t.* from (
         return new CommandInfo(this, sql, changes);
     }
 
-    private string GetTableName<T>(bool format = false)
+    internal string GetTableName<T>(bool format = false)
     {
         var tableName = string.Empty;
         var type = typeof(T);

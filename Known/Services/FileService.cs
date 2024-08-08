@@ -47,7 +47,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [$"{nameof(SysFile.CreateTime)} desc"];
-        return FileRepository.QueryFilesAsync(Database, criteria);
+        return Database.QueryPageAsync<SysFile>(criteria);
     }
 
     public async Task<Result> DeleteFileAsync(SysFile file)
@@ -94,20 +94,11 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
         var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
         var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-        return FileRepository.GetFilesAsync(db, bizId1, bizType);
+        return db.Query<SysFile>()
+                 .Where(d => d.BizId == bizId1 && d.Type == bizType)
+                 .OrderBy(d => d.CreateTime)
+                 .ToListAsync();
     }
-
-    //internal Task<bool> HasFilesAsync(string bizId) => FileRepository.HasFilesAsync(Database, bizId);
-
-    //public async Task<FileUrlInfo> GetFileUrlAsync(string bizId)
-    //{
-    //    var files = await GetFilesAsync(bizId);
-    //    if (files == null || files.Count == 0)
-    //        return null;
-
-    //    var file = files.FirstOrDefault();
-    //    return file.FileUrl;
-    //}
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {

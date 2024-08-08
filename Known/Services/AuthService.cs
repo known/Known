@@ -100,13 +100,13 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         var db = Database;
         await db.OpenAsync();
-        var modules = await db.QueryListAsync<SysModule>();
+        var modules = await ModuleRepository.GetModulesAsync(db);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(db),
-            MessageCount = await UserRepository.GetMessageCountAsync(db),
-            UserMenus = await UserHelper.GetUserMenusAsync(db),
+            MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.UserName && d.Status == Constants.UMStatusUnread),
+            UserMenus = await UserHelper.GetUserMenusAsync(db, modules),
             UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(db, SettingInfo.KeyInfo),
             Codes = await DictionaryService.GetDictionariesAsync(db)
         };
@@ -145,21 +145,17 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
     private static async Task SetUserInfoAsync(Database db, UserInfo user)
     {
-        var sys = await SystemService.GetConfigAsync<SystemInfo>(db, SystemService.KeySystem);
+        var info = await SystemService.GetSystemAsync(db);
         user.AvatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
-        user.IsTenant = user.CompNo != sys.CompNo;
-        user.AppName = Config.App.Name;
+        user.IsTenant = user.CompNo != info.CompNo;
+        user.AppName = info.AppName;
         if (user.IsAdmin)
             user.AppId = Config.App.Id;
-
-        var info = await SystemService.GetSystemAsync(db);
-        user.AppName = info.AppName;
         user.CompName = info.CompName;
         if (!string.IsNullOrEmpty(user.OrgNo))
         {
-            var orgName = await UserRepository.GetOrgNameAsync(db, user.AppId, user.CompNo, user.OrgNo);
-            if (string.IsNullOrEmpty(orgName))
-                orgName = user.CompName;
+            var org = await db.QueryAsync<SysOrganization>(d => d.AppId == user.AppId && d.CompNo == user.CompNo && d.Code == user.OrgNo);
+            var orgName = org?.Name ?? user.CompName;
             user.OrgName = orgName;
             if (string.IsNullOrEmpty(user.CompName))
                 user.CompName = orgName;
