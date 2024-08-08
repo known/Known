@@ -59,6 +59,6 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
 
     private static Task<SysSetting> GetUserSettingAsync(Database db, string bizType)
     {
-        return db.QueryAsync<SysSetting>(d => d.CreateBy == db.User.UserName && d.BizData == bizType);
+        return db.QueryAsync<SysSetting>(d => d.CreateBy == db.User.UserName && d.BizType == bizType);
     }
 }
