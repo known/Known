@@ -24,7 +24,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
 
         foreach (var model in models)
         {
-            if (await ModuleRepository.ExistsChildAsync(Database, model.Id))
+            if (await Database.ExistsAsync<SysModule>(d => d.ParentId == model.Id))
                 return Result.Error(Language["Tip.ModuleDeleteExistsChild"]);
         }
 
@@ -73,7 +73,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             var sort = model.IsMoveUp ? model.Sort - 1 : model.Sort + 1;
-            var module = await ModuleRepository.GetModuleAsync(db, model.ParentId, sort);
+            var module = await db.QueryAsync<SysModule>(d => d.ParentId == model.ParentId && d.Sort == sort);
             if (module != null)
             {
                 module.Sort = model.Sort;

@@ -35,10 +35,4 @@ where a.Id=b.BizId and a.CompNo=@CompNo";
         var sql = $"select max(BizNo) from TbApply where CompNo=@CompNo and BizNo like '{prefix}%'";
         return db.ScalarAsync<string>(sql, new { db.User.CompNo });
     }
-
-    internal static Task<PagingResult<TbApplyList>> QueryApplyListsAsync(Database db, PagingCriteria criteria)
-    {
-        var sql = "select * from TbApplyList where HeadId=@HeadId";
-        return db.QueryPageAsync<TbApplyList>(sql, criteria);
-    }
 }

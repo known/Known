@@ -15,7 +15,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
         var userName = info.UserName.ToLower();
-        var entity = await UserRepository.GetUserAsync(Database, userName, info.Password);
+        var entity = await GetUserAsync(Database, userName, info.Password);
         if (entity == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);
 
@@ -86,7 +86,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (user != null)
             return user;
 
-        user = await UserRepository.GetUserInfoAsync(db, userName);
+        user = await db.QueryAsync<UserInfo>(d => d.UserName == userName);
         await SetUserInfoAsync(db, user);
         return user;
     }
@@ -100,7 +100,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         var db = Database;
         await db.OpenAsync();
-        var modules = await ModuleRepository.GetModulesAsync(db);
+        var modules = await Repository.GetModulesAsync(db);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
@@ -134,7 +134,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (errors.Count > 0)
             return Result.Error(string.Join(Environment.NewLine, errors.ToArray()));
 
-        var entity = await UserRepository.GetUserAsync(Database, user.UserName, info.OldPwd);
+        var entity = await GetUserAsync(Database, user.UserName, info.OldPwd);
         if (entity == null)
             return Result.Error(Language["Tip.CurPwdInvalid"]);
 
@@ -170,5 +170,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         user.OpenId = weixin.OpenId;
         user.AvatarUrl = weixin.HeadImgUrl;
+    }
+
+    private static Task<SysUser> GetUserAsync(Database db, string userName, string password)
+    {
+        password = Utils.ToMd5(password);
+        return db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
     }
 }

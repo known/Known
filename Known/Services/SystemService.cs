@@ -21,14 +21,22 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     //Config
     public static async Task<T> GetConfigAsync<T>(Database db, string key)
     {
-        var json = await SystemRepository.GetConfigAsync(db, key);
+        var json = await Repository.GetConfigAsync(db, key);
         return Utils.FromJson<T>(json);
     }
 
     public static async Task SaveConfigAsync(Database db, string key, object value)
     {
-        var json = Utils.ToJson(value);
-        await SystemRepository.SaveConfigAsync(db, key, json);
+        var appId = Config.App.Id;
+        var data = new Dictionary<string, object>();
+        data[nameof(SysConfig.AppId)] = appId;
+        data[nameof(SysConfig.ConfigKey)] = key;
+        data[nameof(SysConfig.ConfigValue)] = Utils.ToJson(value);
+        var scalar = await db.CountAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
+        if (scalar > 0)
+            await db.UpdateAsync(nameof(SysConfig), "AppId,ConfigKey", data);
+        else
+            await db.InsertAsync(nameof(SysConfig), data);
     }
 
     //Install
@@ -107,7 +115,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     private static async Task SaveCompanyAsync(Database db, InstallInfo info, SystemInfo sys)
     {
-        var company = await CompanyRepository.GetCompanyAsync(db);
+        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
         company ??= new SysCompany();
         company.AppId = Config.App.Id;
         company.CompNo = info.CompNo;
@@ -132,7 +140,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     private static async Task SaveUserAsync(Database db, InstallInfo info)
     {
         var userName = info.AdminName.ToLower();
-        var user = await UserRepository.GetUserByUserNameAsync(db, userName);
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
         user ??= new SysUser();
         user.AppId = Config.App.Id;
         user.CompNo = info.CompNo;
@@ -179,11 +187,11 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             if (!Config.App.IsPlatform || db.User == null)
             {
-                var json = await SystemRepository.GetConfigAsync(db, KeySystem);
+                var json = await Repository.GetConfigAsync(db, KeySystem);
                 return Utils.FromJson<SystemInfo>(json);
             }
 
-            var company = await CompanyRepository.GetCompanyAsync(db);
+            var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
             if (company == null)
                 return GetSystem(db.User);
 
@@ -207,7 +215,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         if (Config.App.IsPlatform)
         {
-            var company = await CompanyRepository.GetCompanyAsync(Database);
+            var company = await Database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
             if (company == null)
                 return Result.Error(Language["Tip.CompanyNotExists"]);
 

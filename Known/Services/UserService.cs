@@ -19,21 +19,26 @@ class UserService(Context context) : ServiceBase(context), IUserService
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return UserRepository.QueryUsersAsync(Database, criteria);
+        return Repository.QueryUsersAsync(Database, criteria);
     }
 
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
 
     public async Task<SysUser> GetUserDataAsync(string id)
     {
-        var user = await Database.QueryByIdAsync<SysUser>(id);
+        var db = Database;
+        await db.OpenAsync();
+        var user = await db.QueryByIdAsync<SysUser>(id);
         user ??= new SysUser();
-        var roles = await RoleRepository.GetRolesAsync(Database);
-        var roleIds = await UserRepository.GetUserRolesAsync(Database, user.Id);
-        //var datas = PlatformHelper.UserDatas?.Invoke(Database);
+        var roles = await db.Query<SysRole>().Where(d => d.CompNo == db.User.CompNo && d.Enabled)
+                            .OrderBy(d => d.CreateTime).ToListAsync();
+        var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
+        var roleIds = userRoles?.Select(r => r.RoleId).ToList();
+        //var datas = PlatformHelper.UserDatas?.Invoke(db);
         user.Roles = roles.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
         user.RoleIds = roleIds.ToArray();
         //user.Datas = datas?.ToArray();
+        await db.CloseAsync();
         return user;
     }
 
@@ -47,7 +52,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             foreach (var item in models)
             {
                 await db.DeleteAsync(item);
-                await UserRepository.DeleteUserRolesAsync(db, item.Id);
+                await db.DeleteAsync<SysUserRole>(d => d.UserId == item.Id);
             }
         });
     }
@@ -149,7 +154,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         if (vr.IsValid)
         {
             model.UserName = model.UserName.ToLower();
-            if (await UserRepository.ExistsUserNameAsync(Database, model.Id, model.UserName))
+            if (await Database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
             {
                 vr.AddError(Language["Tip.UserNameExists"]);
             }
@@ -161,13 +166,13 @@ class UserService(Context context) : ServiceBase(context), IUserService
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             model.Role = string.Empty;
-            await UserRepository.DeleteUserRolesAsync(db, model.Id);
+            await db.DeleteAsync<SysUserRole>(d => d.UserId == model.Id);
             if (roles != null && roles.Count > 0)
             {
                 model.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
                 foreach (var item in roles)
                 {
-                    await UserRepository.AddUserRoleAsync(db, model.Id, item.Id);
+                    await db.InsertDataAsync(new SysUserRole { UserId = model.Id, RoleId = item.Id });
                 }
             }
             await db.SaveAsync(model);
@@ -177,7 +182,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
 
     internal static async Task SyncUserAsync(Database db, SysUser user)
     {
-        var model = await UserRepository.GetUserByUserNameAsync(db, user.UserName);
+        var model = await db.QueryAsync<SysUser>(d => d.UserName == user.UserName);
         if (model == null)
         {
             model = new SysUser
@@ -198,9 +203,9 @@ class UserService(Context context) : ServiceBase(context), IUserService
             else if (info != null)
                 model.Password = Utils.ToMd5(info.UserDefaultPwd);
             await db.SaveAsync(model);
-            var role = await RoleRepository.GetRoleByNameAsync(db, user.Role);
+            var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
             if (role != null)
-                await UserRepository.AddUserRoleAsync(db, model.Id, role.Id);
+                await db.InsertDataAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
         }
     }
 

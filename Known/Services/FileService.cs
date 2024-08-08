@@ -15,7 +15,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
     //Public
     internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
-        var files = await FileRepository.GetFilesAsync(db, bizId);
+        var files = await Repository.GetFilesAsync(db, bizId);
         await DeleteFilesAsync(db, files, oldFiles);
     }
 
@@ -62,7 +62,11 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     public async Task<ImportFormInfo> GetImportAsync(string bizId)
     {
-        var task = await SystemRepository.GetTaskByBizIdAsync(Database, bizId);
+        var user = Database.User;
+        var task = await Database.Query<SysTask>()
+                 .Where(d => d.CompNo == user.CompNo && d.CreateBy == user.UserName && d.BizId == bizId)
+                 .OrderByDescending(d => d.CreateTime)
+                 .FirstAsync();
         return ImportHelper.GetImport(Context, bizId, task);
     }
 
@@ -87,10 +91,10 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
-            return FileRepository.GetFilesAsync(db, bizIds);
+            return Repository.GetFilesAsync(db, bizIds);
 
         if (!bizId.Contains('_'))
-            return FileRepository.GetFilesAsync(db, bizId);
+            return Repository.GetFilesAsync(db, bizId);
 
         var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
         var bizType = bizId.Substring(bizId.IndexOf('_') + 1);

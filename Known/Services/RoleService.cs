@@ -25,20 +25,24 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
             foreach (var item in models)
             {
                 await db.DeleteAsync(item);
-                await RoleRepository.DeleteRoleUsersAsync(db, item.Id);
-                await RoleRepository.DeleteRoleModulesAsync(db, item.Id);
+                await db.DeleteAsync<SysUserRole>(d => d.RoleId == item.Id);
+                await db.DeleteAsync<SysRoleModule>(d => d.RoleId == item.Id);
             }
         });
     }
 
     public async Task<SysRole> GetRoleAsync(string roleId)
     {
+        var db = Database;
+        await db.OpenAsync();
         var info = string.IsNullOrWhiteSpace(roleId)
                  ? new SysRole()
-                 : await Database.QueryByIdAsync<SysRole>(roleId);
+                 : await db.QueryByIdAsync<SysRole>(roleId);
         info ??= new SysRole();
-        info.Modules = await ModuleRepository.GetModulesAsync(Database);
-        info.MenuIds = await RoleRepository.GetRoleModuleIdsAsync(Database, roleId);
+        info.Modules = await Repository.GetModulesAsync(db);
+        var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
+        info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
+        await db.CloseAsync();
         return info;
     }
 
@@ -51,12 +55,12 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
-            await RoleRepository.DeleteRoleModulesAsync(db, model.Id);
+            await db.DeleteAsync<SysRoleModule>(d => d.RoleId == model.Id);
             if (model.MenuIds != null && model.MenuIds.Count > 0)
             {
                 foreach (var item in model.MenuIds)
                 {
-                    await RoleRepository.AddRoleModuleAsync(db, model.Id, item);
+                    await db.InsertDataAsync(new SysRoleModule { RoleId = model.Id, ModuleId = item });
                 }
             }
         }, model);

@@ -4,9 +4,37 @@ sealed class TaskHelper
 {
     private TaskHelper() { }
 
+    internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
+    {
+        var db = new Database { Context = new Context(CultureInfo.CurrentCulture.Name) };
+        var task = await db.Query<SysTask>().Where(d => d.Type == bizType && d.Status == TaskStatus.Pending)
+                           .OrderBy(d => d.CreateTime).FirstAsync();
+        if (task == null)
+            return;
+
+        await RunAsync(db, task, action);
+    }
+
+    private static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
+    {
+        var userName = task.CreateBy;
+        db.User = await db.QueryAsync<UserInfo>(d => d.UserName == userName);
+
+        task.BeginTime = DateTime.Now;
+        task.Status = TaskStatus.Running;
+        await db.SaveAsync(task);
+
+        var result = await action.Invoke(db, task);
+        task.EndTime = DateTime.Now;
+        task.Status = result.IsValid ? TaskStatus.Success : TaskStatus.Failed;
+        task.Note = result.Message;
+        await db.SaveAsync(task);
+        return result;
+    }
+
     private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
-        var task = await SystemRepository.GetTaskByTypeAsync(db, type);
+        var task = await GetTaskByTypeAsync(db, type);
         if (task == null)
             return null;
 
@@ -21,7 +49,7 @@ sealed class TaskHelper
 
     private static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
     {
-        var task = await SystemRepository.GetTaskByTypeAsync(db, type);
+        var task = await GetTaskByTypeAsync(db, type);
         if (task != null)
         {
             switch (task.Status)
@@ -44,30 +72,11 @@ sealed class TaskHelper
         return Result.Success(db.Context?.Language["Tip.TaskAddSuccess"]);
     }
 
-    internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
+    private static Task<SysTask> GetTaskByTypeAsync(Database db, string type)
     {
-        var db = new Database { Context = new Context(CultureInfo.CurrentCulture.Name) };
-        var task = await SystemRepository.GetPendingTaskByTypeAsync(db, bizType);
-        if (task == null)
-            return;
-
-        await RunAsync(db, task, action);
-    }
-
-    internal static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
-    {
-        var userName = task.CreateBy;
-        db.User = await UserRepository.GetUserInfoAsync(db, userName);
-
-        task.BeginTime = DateTime.Now;
-        task.Status = TaskStatus.Running;
-        await db.SaveAsync(task);
-
-        var result = await action.Invoke(db, task);
-        task.EndTime = DateTime.Now;
-        task.Status = result.IsValid ? TaskStatus.Success : TaskStatus.Failed;
-        task.Note = result.Message;
-        await db.SaveAsync(task);
-        return result;
+        return db.Query<SysTask>()
+                 .Where(d => d.CompNo == db.User.CompNo && d.Type == type)
+                 .OrderByDescending(d => d.CreateTime)
+                 .FirstAsync();
     }
 }

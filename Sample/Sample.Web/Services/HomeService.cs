@@ -23,8 +23,8 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
     {
         var info = new StatisticsInfo
         {
-            UserCount = await HomeRepository.GetUserCountAsync(db),
-            LogCount = await HomeRepository.GetLogCountAsync(db)
+            UserCount = await db.CountAsync<SysUser>(d => d.CompNo == db.User.CompNo),
+            LogCount = await db.CountAsync<SysLog>(d => d.CompNo == db.User.CompNo)
         };
         var now = DateTime.Now;
         var endDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1).Day;

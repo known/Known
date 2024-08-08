@@ -22,7 +22,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         }
         else
         {
-            var json = await SystemRepository.GetConfigAsync(Database, KeyCompany);
+            var json = await Repository.GetConfigAsync(Database, KeyCompany);
             if (string.IsNullOrEmpty(json))
                 json = GetDefaultData(Database.User);
             return json;
@@ -33,7 +33,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
     {
         if (Config.App.IsPlatform)
         {
-            var company = await CompanyRepository.GetCompanyAsync(Database);
+            var company = await Database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
             if (company == null)
                 return Result.Error(Language["Tip.CompanyNotExists"]);
 
@@ -49,7 +49,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
 
     private static async Task<string> GetCompanyDataAsync(Database db)
     {
-        var company = await CompanyRepository.GetCompanyAsync(db);
+        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
         if (company == null)
             return GetDefaultData(db.User);
 
@@ -102,7 +102,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         var vr = model.Validate(Context);
         if (vr.IsValid)
         {
-            if (await CompanyRepository.ExistsOrganizationAsync(Database, model))
+            if (await Database.ExistsAsync<SysOrganization>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Code == model.Code))
                 vr.AddError(Language["Tip.OrgCodeExists"]);
         }
         if (!vr.IsValid)

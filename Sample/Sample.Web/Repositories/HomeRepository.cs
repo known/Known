@@ -2,16 +2,6 @@
 
 class HomeRepository
 {
-    internal static Task<int> GetUserCountAsync(Database db)
-    {
-        return db.ScalarAsync<int>("select count(*) from SysUser where CompNo=@CompNo", new { db.User.CompNo });
-    }
-
-    internal static Task<int> GetLogCountAsync(Database db)
-    {
-        return db.ScalarAsync<int>("select count(*) from SysLog where CompNo=@CompNo", new { db.User.CompNo });
-    }
-
     internal static Task<int> GetLogCountAsync(Database db, DateTime date)
     {
         var day = date.ToString("yyyy-MM-dd");

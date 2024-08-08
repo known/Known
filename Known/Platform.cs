@@ -3,7 +3,7 @@
 public class Platform
 {
     //User
-    public static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName) => UserRepository.GetUsersByRoleAsync(db, roleName);
+    public static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName) => Repository.GetUsersByRoleAsync(db, roleName);
     public static Task SyncUserAsync(Database db, SysUser user) => UserService.SyncUserAsync(db, user);
 
     //File

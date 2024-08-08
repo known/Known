@@ -94,7 +94,7 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
     #region ApplyList
     public Task<PagingResult<TbApplyList>> QueryApplyListsAsync(PagingCriteria criteria)
     {
-        return ApplyRepository.QueryApplyListsAsync(Database, criteria);
+        return Database.QueryPageAsync<TbApplyList>(criteria);
     }
 
     public async Task<Result> DeleteApplyListsAsync(List<TbApplyList> models)
