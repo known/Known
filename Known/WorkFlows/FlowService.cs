@@ -53,7 +53,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<Result> SubmitFlowAsync(FlowFormInfo info)
     {
-        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -99,7 +99,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.RevokeReason"]);
 
-        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -131,7 +131,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<Result> AssignFlowAsync(FlowFormInfo info)
     {
-        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -168,7 +168,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (!isPass && string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.ReturnReason"]);
 
-        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -242,7 +242,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.RestartReason"]);
 
-        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -273,7 +273,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.StopReason"]);
 
-        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -341,6 +341,18 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             Result = result,
             Note = note
         });
+    }
+
+    private static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)
+    {
+        if (string.IsNullOrWhiteSpace(bizIds))
+            return null;
+
+        //var ids = bizIds.Split(',');
+        //return db.QueryListAsync<SysFlow>(d => d.BizId.In(ids));
+        var ids = bizIds.Replace(",", "','");
+        var sql = $"select * from SysFlow where BizId in ('{ids}')";
+        return db.QueryListAsync<SysFlow>(sql);
     }
 
     private static void SetPrevToCurrStep(SysFlow info)

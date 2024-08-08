@@ -87,7 +87,7 @@ public class QueryBuilder<T>
         }
     }
 
-    private object ExpressionRouter(Expression exp)
+    private object ExpressionRouter(Expression exp, object fieldName = null)
     {
         if (exp is BinaryExpression be)
         {
@@ -96,8 +96,12 @@ public class QueryBuilder<T>
         else if (exp is NewArrayExpression ae)
         {
             var sb = new StringBuilder();
+            //var index = 0;
             foreach (Expression ex in ae.Expressions)
             {
+                //var key = $"@{fieldName}{index++}";
+                //Parameters[key] = ExpressionRouter(ex);
+                //sb.Append($"{key},");
                 sb.Append(ExpressionRouter(ex));
                 sb.Append(',');
             }
@@ -105,15 +109,16 @@ public class QueryBuilder<T>
         }
         else if (exp is MethodCallExpression mce)
         {
-            var name = ExpressionRouter(mce.Arguments[0]);
-            if (mce.Method.Name == "Like")
-                WhereSql += string.Format("({0} like {1})", builder.FormatName($"{name}"), ExpressionRouter(mce.Arguments[1]));
-            else if (mce.Method.Name == "NotLike")
-                WhereSql += string.Format("({0} Not like {1})", builder.FormatName($"{name}"), ExpressionRouter(mce.Arguments[1]));
-            else if (mce.Method.Name == "In")
-                WhereSql += string.Format("{0} In ({1})", builder.FormatName($"{name}"), ExpressionRouter(mce.Arguments[1]));
-            else if (mce.Method.Name == "NotIn")
-                WhereSql += string.Format("{0} Not In ({1})", builder.FormatName($"{name}"), ExpressionRouter(mce.Arguments[1]));
+            var field = ExpressionRouter(mce.Arguments[0]);
+            var name = builder.FormatName($"{field}");
+            if (mce.Method.Name == nameof(WhereExtension.Like))
+                WhereSql += string.Format("{0} like {1}", name, ExpressionRouter(mce.Arguments[1]));
+            else if (mce.Method.Name == nameof(WhereExtension.NotLike))
+                WhereSql += string.Format("{0} not like {1}", name, ExpressionRouter(mce.Arguments[1]));
+            else if (mce.Method.Name == nameof(WhereExtension.In))
+                WhereSql += string.Format("{0} in ({1})", name, ExpressionRouter(mce.Arguments[1]));
+            else if (mce.Method.Name == nameof(WhereExtension.NotIn))
+                WhereSql += string.Format("{0} not in ({1})", name, ExpressionRouter(mce.Arguments[1]));
         }
         else if (exp is UnaryExpression ue)
         {
@@ -141,7 +146,13 @@ public class QueryBuilder<T>
                 }
                 return me.Member.Name;
             }
-            return Expression.Lambda(exp).Compile().DynamicInvoke();
+
+            var value = Expression.Lambda(exp).Compile().DynamicInvoke();
+            if (value.ToString().Contains("[]"))
+            {
+
+            }
+            return value;
         }
         else if (exp is ConstantExpression ce)
         {

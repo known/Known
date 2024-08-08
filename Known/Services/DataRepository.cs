@@ -61,15 +61,4 @@ where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
   and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
         return db.ScalarsAsync<string>(sql, new { userId });
     }
-
-    //Flow
-    internal static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)
-    {
-        if (string.IsNullOrWhiteSpace(bizIds))
-            return null;
-
-        var ids = bizIds.Replace(",", "','");
-        var sql = $"select * from SysFlow where BizId in ('{ids}')";
-        return db.QueryListAsync<SysFlow>(sql);
-    }
 }

@@ -42,7 +42,7 @@ internal class DBHelper
             {
                 var script = Utils.GetResource(item, $"{name}.sql");
                 if (string.IsNullOrWhiteSpace(script))
-                    return;
+                    continue;
 
                 await db.ExecuteAsync(script);
             }
