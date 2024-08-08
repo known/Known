@@ -20,7 +20,7 @@ class UserHelper
         if (user.IsAdmin)
             return modules.ToMenus(true);
 
-        var moduleIds = await Repository.GetUserModuleIdsAsync(db, user.Id);
+        var moduleIds = await DataRepository.GetUserModuleIdsAsync(db, user.Id);
         var userModules = new List<SysModule>();
         foreach (var item in modules)
         {

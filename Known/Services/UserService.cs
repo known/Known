@@ -19,7 +19,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return Repository.QueryUsersAsync(Database, criteria);
+        return DataRepository.QueryUsersAsync(Database, criteria);
     }
 
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);

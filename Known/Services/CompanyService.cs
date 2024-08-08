@@ -22,7 +22,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         }
         else
         {
-            var json = await Repository.GetConfigAsync(Database, KeyCompany);
+            var json = await SystemService.GetConfigAsync(Database, KeyCompany);
             if (string.IsNullOrEmpty(json))
                 json = GetDefaultData(Database.User);
             return json;

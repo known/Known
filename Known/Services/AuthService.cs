@@ -100,7 +100,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         var db = Database;
         await db.OpenAsync();
-        var modules = await Repository.GetModulesAsync(db);
+        var modules = await ModuleService.GetModulesAsync(db);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
@@ -164,7 +164,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
     private static async Task SetUserWeixinAsync(Database db, UserInfo user)
     {
-        var weixin = await WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
+        var weixin = await WeixinService.GetWeixinByUserIdAsync(db, user.Id);
         if (weixin == null)
             return;
 

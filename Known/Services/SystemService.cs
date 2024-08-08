@@ -21,8 +21,15 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     //Config
     public static async Task<T> GetConfigAsync<T>(Database db, string key)
     {
-        var json = await Repository.GetConfigAsync(db, key);
+        var json = await GetConfigAsync(db, key);
         return Utils.FromJson<T>(json);
+    }
+
+    internal static async Task<string> GetConfigAsync(Database db, string key)
+    {
+        var appId = Config.App.Id;
+        var config = await db.QueryAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
+        return config?.ConfigValue;
     }
 
     public static async Task SaveConfigAsync(Database db, string key, object value)
@@ -187,7 +194,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             if (!Config.App.IsPlatform || db.User == null)
             {
-                var json = await Repository.GetConfigAsync(db, KeySystem);
+                var json = await GetConfigAsync(db, KeySystem);
                 return Utils.FromJson<SystemInfo>(json);
             }
 

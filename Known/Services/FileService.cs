@@ -15,7 +15,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
     //Public
     internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
-        var files = await Repository.GetFilesAsync(db, bizId);
+        var files = await GetFilesByBizIdAsync(db, bizId);
         await DeleteFilesAsync(db, files, oldFiles);
     }
 
@@ -91,10 +91,10 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
-            return Repository.GetFilesAsync(db, bizIds);
+            return DataRepository.GetFilesAsync(db, bizIds);
 
         if (!bizId.Contains('_'))
-            return Repository.GetFilesAsync(db, bizId);
+            return GetFilesByBizIdAsync(db, bizId);
 
         var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
         var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
@@ -157,6 +157,11 @@ class FileService(Context context) : ServiceBase(context), IFileService
     //    var files = await FileRepository.GetFilesAsync(db, bizId, bizType);
     //    await DeleteFilesAsync(db, files, oldFiles);
     //}
+
+    private static Task<List<SysFile>> GetFilesByBizIdAsync(Database db, string bizId)
+    {
+        return db.Query<SysFile>().Where(d => d.BizId == bizId).OrderBy(d => d.CreateTime).ToListAsync();
+    }
 
     private static async Task DeleteFilesAsync(Database db, List<SysFile> files, List<string> oldFiles)
     {

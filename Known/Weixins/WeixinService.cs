@@ -18,7 +18,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     {
         var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
         if (info != null && !string.IsNullOrWhiteSpace(userId))
-            info.User = await WeixinRepository.GetWeixinByUserIdAsync(Database, userId);
+            info.User = await GetWeixinByUserIdAsync(Database, userId);
         return info;
     }
 
@@ -30,12 +30,17 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
 
     //public Task<SysWeixin> GetWeixinByOpenIdAsync(string openId)
     //{
-    //    return WeixinRepository.GetWeixinByOpenIdAsync(Database, openId);
+    //    return WeixinHelper.GetWeixinByOpenIdAsync(Database, openId);
     //}
 
     public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
     {
-        return WeixinRepository.GetWeixinByUserIdAsync(Database, userId);
+        return GetWeixinByUserIdAsync(Database, userId);
+    }
+
+    internal static Task<SysWeixin> GetWeixinByUserIdAsync(Database db, string userId)
+    {
+        return db.QueryAsync<SysWeixin>(d => d.UserId == userId);
     }
     #endregion
 
@@ -61,7 +66,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
 
     public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
     {
-        var weixin = await WeixinRepository.GetWeixinByUserIdAsync(Database, user.Token);
+        var weixin = await GetWeixinByUserIdAsync(Database, user.Token);
         if (weixin == null)
             return null;
 

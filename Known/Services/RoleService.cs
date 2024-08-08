@@ -39,7 +39,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
                  ? new SysRole()
                  : await db.QueryByIdAsync<SysRole>(roleId);
         info ??= new SysRole();
-        info.Modules = await Repository.GetModulesAsync(db);
+        info.Modules = await ModuleService.GetModulesAsync(db);
         var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
         info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
         await db.CloseAsync();

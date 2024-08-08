@@ -3,7 +3,7 @@
 public class Platform
 {
     //User
-    public static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName) => Repository.GetUsersByRoleAsync(db, roleName);
+    public static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName) => DataRepository.GetUsersByRoleAsync(db, roleName);
     public static Task SyncUserAsync(Database db, SysUser user) => UserService.SyncUserAsync(db, user);
 
     //File
@@ -18,6 +18,6 @@ public class Platform
     public static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null) => FlowService.AddFlowLogAsync(db, bizId, stepName, result, note, time);
 
     //Weixin
-    public static Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => WeixinRepository.GetWeixinByUserIdAsync(db, user.Id);
+    public static Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => WeixinService.GetWeixinByUserIdAsync(db, user.Id);
     public static Task<Result> SendTemplateMessageAsync(TemplateInfo info) => WeixinApi.SendTemplateMessageAsync(info);
 }

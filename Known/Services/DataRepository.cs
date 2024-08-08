@@ -1,15 +1,7 @@
 ﻿namespace Known.Services;
 
-class Repository
+class DataRepository
 {
-    //Config
-    internal static async Task<string> GetConfigAsync(Database db, string key)
-    {
-        var appId = Config.App.Id;
-        var config = await db.QueryAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
-        return config?.ConfigValue;
-    }
-
     //Log
     internal static Task<List<CountInfo>> GetLogCountsAsync(Database db, string userName, string logType)
     {
@@ -18,11 +10,6 @@ class Repository
     }
 
     //File
-    internal static Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
-    {
-        return db.Query<SysFile>().Where(d => d.BizId == bizId).OrderBy(d => d.CreateTime).ToListAsync();
-    }
-
     internal static Task<List<SysFile>> GetFilesAsync(Database db, string[] bizIds)
     {
         var idTexts = new List<string>();
@@ -36,18 +23,6 @@ class Repository
         var idText = string.Join(" or ", idTexts.ToArray());
         var sql = $"select * from SysFile where {idText} order by CreateTime";
         return db.QueryListAsync<SysFile>(sql, paramters);
-    }
-
-    //Module
-    internal static async Task<List<SysModule>> GetModulesAsync(Database db)
-    {
-        var modules = await db.QueryListAsync<SysModule>(d => d.Enabled);
-        if (db.User.IsTenantAdmin())
-        {
-            modules.RemoveModule("SysModuleList");
-            modules.RemoveModule("SysTenantList");
-        }
-        return modules;
     }
 
     //User
@@ -85,5 +60,16 @@ where a.AppId=@AppId and a.CompNo=@CompNo and a.UserName<>'admin'";
 where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
   and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
         return db.ScalarsAsync<string>(sql, new { userId });
+    }
+
+    //Flow
+    internal static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)
+    {
+        if (string.IsNullOrWhiteSpace(bizIds))
+            return null;
+
+        var ids = bizIds.Replace(",", "','");
+        var sql = $"select * from SysFlow where BizId in ('{ids}')";
+        return db.QueryListAsync<SysFlow>(sql);
     }
 }

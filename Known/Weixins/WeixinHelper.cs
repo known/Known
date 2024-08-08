@@ -15,7 +15,7 @@ public sealed class WeixinHelper
 
         var db = new Database();
         db.User = AuthService.GetUserByToken(token);
-        var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, user.OpenId);
+        var weixin = await GetWeixinByOpenIdAsync(db, user.OpenId);
         if (weixin == null)
         {
             user.MPAppId = WeixinApi.AppId;
@@ -30,7 +30,7 @@ public sealed class WeixinHelper
         try
         {
             var db = new Database();
-            var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, openId);
+            var weixin = await GetWeixinByOpenIdAsync(db, openId);
             weixin ??= new SysWeixin();
             weixin.MPAppId = WeixinApi.AppId;
             weixin.OpenId = openId;
@@ -60,7 +60,7 @@ public sealed class WeixinHelper
         try
         {
             var db = new Database();
-            var weixin = await WeixinRepository.GetWeixinByOpenIdAsync(db, openId);
+            var weixin = await GetWeixinByOpenIdAsync(db, openId);
             if (weixin == null)
                 return string.Empty;
 
@@ -74,5 +74,10 @@ public sealed class WeixinHelper
             Logger.Exception(ex);
             return string.Empty;
         }
+    }
+
+    private static Task<SysWeixin> GetWeixinByOpenIdAsync(Database db, string openId)
+    {
+        return db.QueryAsync<SysWeixin>(d => d.OpenId == openId);
     }
 }

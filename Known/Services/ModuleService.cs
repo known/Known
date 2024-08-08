@@ -102,4 +102,15 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
             await db.SaveAsync(model);
         }, model);
     }
+
+    internal static async Task<List<SysModule>> GetModulesAsync(Database db)
+    {
+        var modules = await db.QueryListAsync<SysModule>(d => d.Enabled);
+        if (db.User.IsTenantAdmin())
+        {
+            modules.RemoveModule("SysModuleList");
+            modules.RemoveModule("SysTenantList");
+        }
+        return modules;
+    }
 }

@@ -20,7 +20,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
-        return FlowRepository.QueryFlowLogsAsync(Database, criteria);
+        return Database.QueryPageAsync<SysFlowLog>(criteria);
     }
 
     public async Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)
@@ -30,7 +30,8 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (info == null)
             return new FlowInfo();
 
-        var logs = await FlowRepository.GetFlowLogsAsync(Database, bizId);
+        var logs = await Database.Query<SysFlowLog>().Where(d => d.BizId == bizId)
+                                 .OrderBy(d => d.ExecuteTime).ToListAsync();
         if (logs != null && logs.Count > 0)
         {
             var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
@@ -52,7 +53,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<Result> SubmitFlowAsync(FlowFormInfo info)
     {
-        var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -98,7 +99,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.RevokeReason"]);
 
-        var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -130,7 +131,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<Result> AssignFlowAsync(FlowFormInfo info)
     {
-        var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -167,7 +168,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (!isPass && string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.ReturnReason"]);
 
-        var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -241,7 +242,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.RestartReason"]);
 
-        var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -272,7 +273,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.StopReason"]);
 
-        var flows = await FlowRepository.GetFlowsAsync(Database, info.BizId);
+        var flows = await DataRepository.GetFlowsAsync(Database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
@@ -322,8 +323,8 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     internal static async Task DeleteFlowAsync(Database db, string bizId)
     {
-        await FlowRepository.DeleteFlowLogsAsync(db, bizId);
-        await FlowRepository.DeleteFlowAsync(db, bizId);
+        await db.DeleteAsync<SysFlowLog>(d => d.BizId == bizId);
+        await db.DeleteAsync<SysFlow>(d => d.BizId == bizId);
     }
 
     internal static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null)
