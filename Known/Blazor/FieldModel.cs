@@ -53,10 +53,19 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             {
                 var data = Form.Data as Dictionary<string, object>;
                 data.TryGetValue(Column.Id, out object value);
-                if (Column.Type != FieldType.Date && Column.Type != FieldType.DateTime)
-                    return value;
-
-                return Utils.ConvertTo<DateTime?>(value);
+                switch (Column.Type)
+                {
+                    case FieldType.Date:
+                    case FieldType.DateTime:
+                        return Utils.ConvertTo<DateTime?>(value);
+                    case FieldType.Number:
+                        return Utils.ConvertTo<decimal?>(value);
+                    case FieldType.Switch:
+                    case FieldType.CheckBox:
+                        return Utils.ConvertTo<bool>(value);
+                    default:
+                        return value?.ToString();
+                }
             }
 
             if (Form.Data == null)
