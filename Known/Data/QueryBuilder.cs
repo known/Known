@@ -49,6 +49,12 @@ public class QueryBuilder<T>
         return this;
     }
 
+    public async Task<int> CountAsync()
+    {
+        var info = builder.GetCountCommand(this);
+        return await db.ScalarAsync<int>(info);
+    }
+
     public async Task<bool> ExistsAsync()
     {
         var info = builder.GetCountCommand(this);
@@ -194,11 +200,15 @@ public class QueryBuilder<T>
 
     private void SetLikeWhere(MethodCallExpression mce, string format)
     {
+        var isNot = WhereSql.EndsWith("Not");
+        if (isNot)
+            WhereSql = WhereSql[..^3];
         if (mce.Object == null)
         {
             var arg0 = RouteExpression(mce.Arguments[0]);
             var arg1 = RouteExpression(mce.Arguments[1]);
-            WhereSql += $"{arg0} in ({arg1})";
+            var operate = isNot ? "not in" : "in";
+            WhereSql += $"{arg0} {operate} ({arg1})";
         }
         else if (mce.Object.NodeType == ExpressionType.MemberAccess)
         {
@@ -206,7 +216,8 @@ public class QueryBuilder<T>
             var name = builder.FormatName($"{field}");
             var value = RouteExpression(mce.Arguments[0]);
             Parameters[$"{field}"] = string.Format(format, value);
-            WhereSql += $"{name} like @{field}";
+            var operate = isNot ? "not like" : "like";
+            WhereSql += $"{name} {operate} @{field}";
         }
     }
 

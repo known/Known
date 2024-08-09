@@ -178,10 +178,10 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             }
             return info;
         }
-        catch
+        catch (Exception ex)
         {
-            //系统未安装，返回null
-            return null;
+            Logger.Exception(ex);
+            return null;//系统未安装，返回null
         }
     }
 

@@ -41,8 +41,5 @@ public static class QueryExtension
         return db.ExecuteNonQueryAsync(info);
     }
 
-    public static QueryBuilder<T> Query<T>(this Database db)
-    {
-        return new QueryBuilder<T>(db);
-    }
+    public static QueryBuilder<T> Query<T>(this Database db) => new(db);
 }
