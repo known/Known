@@ -53,6 +53,7 @@
   "Button.Update": "修改",
   "Button.OK": "确定",
   "Button.Cancel": "取消",
+  "Button.Add": "添加",
   "Button.New": "新增",
   "Button.Edit": "编辑",
   "Button.Delete": "删除",
@@ -89,6 +90,7 @@
   "Button.Reapply": "重新申请",
   "Button.ResetPassword": "重置密码",
   "Button.ChangeDepartment": "更换部门",
+  "Button.AddCategory": "添加类别",
 
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.Exits": "确定要退出系统？",
@@ -168,6 +170,7 @@
   "Import.TemplateFill": "填写：{text}",
 
   "PleaseSelect": "请选择",
+  "PleaseSelectInput": "请选择或输入",
   "All": "全部",
   "Collapse": "折叠",
   "Expand": "展开",

@@ -53,6 +53,7 @@
   "Button.Update": "Update",
   "Button.OK": "OK",
   "Button.Cancel": "Cancel",
+  "Button.Add": "Add",
   "Button.New": "New",
   "Button.Edit": "Edit",
   "Button.Delete": "Delete",
@@ -89,6 +90,7 @@
   "Button.Reapply": "Reapply",
   "Button.ResetPassword": "Reset Password",
   "Button.ChangeDepartment": "Change Department",
+  "Button.AddCategory": "Add Category",
 
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.Exits": "Are you sure to exit the system?",
@@ -168,6 +170,7 @@
   "Import.TemplateFill": "Fill in: {text}",
 
   "PleaseSelect": "Please select",
+  "PleaseSelectInput": "Please select or input",
   "AllSelect": "All",
   "Collapse": "Collapse",
   "Expand": "Expand",

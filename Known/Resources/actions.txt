@@ -25,7 +25,7 @@ Revoke           | 撤回    | undo         | primary
 Assign           | 分配    | user-switch  | primary
 Verify           | 审核    | check        | primary
 Pass             | 审核通过 | check-circle | primary
-Return           | 审核退回 | close-circle | primary
+Fail             | 审核退回 | close-circle | primary
 Reapply          | 重新申请 | redo         | primary
 
 ResetPassword    | 重置密码 | lock        | primary

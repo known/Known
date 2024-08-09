@@ -26,11 +26,21 @@ public class Language
         }
     }
 
-    public static List<ActionInfo> Items => [
-        new ActionInfo { Id = "zh-CN", Name = "简体中文", Icon = "简" },
-        new ActionInfo { Id = "zh-TW", Name = "繁体中文", Icon = "繁" },
-        new ActionInfo { Id = "en-US", Name = "English", Icon = "EN" }
-    ];
+    private static List<ActionInfo> items;
+    public static List<ActionInfo> Items
+    {
+        get
+        {
+            items ??= [
+                new ActionInfo { Id = "zh-CN", Name = "简体中文", Icon = "简" },
+                new ActionInfo { Id = "zh-TW", Name = "繁体中文", Icon = "繁" },
+                new ActionInfo { Id = "en-US", Name = "English", Icon = "EN" },
+                new ActionInfo { Id = "vi-VN", Name = "Việt Nam", Icon = "VN" }
+            ];
+            return items;
+        }
+    }
+
     public string Home => this["Menu.Home"];
 
     internal string SelectOne => this["Tip.SelectOne"];

@@ -13,7 +13,7 @@ public class AntAutoComplete : AutoComplete<CodeInfo>
         if (Item != null)
         {
             Item.Type = typeof(string);
-            emptyText = "请选择或输入";//Item.Language.GetString("PleaseSelect");
+            emptyText = Item.Language.GetString("PleaseSelectInput");
         }
         Placeholder = emptyText;
         OptionFormat = item => item.Value.Name;

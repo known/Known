@@ -53,6 +53,7 @@
   "Button.Update": "修改",
   "Button.OK": "確定",
   "Button.Cancel": "取消",
+  "Button.Add": "添加",
   "Button.New": "新增",
   "Button.Edit": "編輯",
   "Button.Delete": "删除",
@@ -89,6 +90,7 @@
   "Button.Reapply": "重新申請",
   "Button.ResetPassword": "重置密碼",
   "Button.ChangeDepartment": "更換部門",
+  "Button.AddCategory": "添加類別",
 
   "Tip.SwitchUIType": "在此處切換介面類型",
   "Tip.Exits": "確定要退出系統？",
@@ -168,6 +170,7 @@
   "Import.TemplateFill": "填寫：{text}",
 
   "PleaseSelect": "請選擇",
+  "PleaseSelectInput": "請選擇或輸入",
   "AllSelect": "全部",
   "Collapse": "折疊",
   "Expand": "展開",
