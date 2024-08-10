@@ -182,7 +182,7 @@ public class QueryBuilder<T>
         }
         else if (exp is MethodCallExpression mce)
         {
-            RouteExpression(mce);
+            return RouteExpression(mce);
         }
         else if (exp is UnaryExpression ue) //!d.Enabled  ue.NodeType=Not  ue.Operand =d.Enabled
         {
@@ -208,20 +208,22 @@ public class QueryBuilder<T>
         return sb.ToString(0, sb.Length - 1);
     }
 
-    private void RouteExpression(MethodCallExpression mce)
+    private object RouteExpression(MethodCallExpression mce)
     {
         if (mce.Method.Name == nameof(string.Contains))
-            SetLikeWhere(mce, "%{0}%");
+            return SetLikeWhere(mce, "%{0}%");
         else if (mce.Method.Name == nameof(string.StartsWith))
-            SetLikeWhere(mce, "{0}%");
+            return SetLikeWhere(mce, "{0}%");
         else if (mce.Method.Name == nameof(string.EndsWith))
-            SetLikeWhere(mce, "%{0}");
+            return SetLikeWhere(mce, "%{0}");
         else if (mce.Method.Name == nameof(WhereExtension.In))
-            SetArrayWhere(mce, "in");
+            return SetArrayWhere(mce, "in");
         else if (mce.Method.Name == nameof(WhereExtension.NotIn))
-            SetArrayWhere(mce, "not in");
+            return SetArrayWhere(mce, "not in");
         else if (mce.Method.Name == nameof(WhereExtension.Between))
-            SetArrayWhere(mce, "between");
+            return SetArrayWhere(mce, "between");
+        else
+            return RouteExpressionValue(mce);
     }
 
     private string RouteExpression(MemberExpression me)
@@ -267,7 +269,7 @@ public class QueryBuilder<T>
         return sb.ToString(0, sb.Length - 1);
     }
 
-    private void SetLikeWhere(MethodCallExpression mce, string format)
+    private object SetLikeWhere(MethodCallExpression mce, string format)
     {
         var isNot = WhereSql.EndsWith("Not");
         if (isNot)
@@ -289,9 +291,10 @@ public class QueryBuilder<T>
             var operate = isNot ? "not like" : "like";
             WhereSql += $"{fieldName} {operate} @{field}";
         }
+        return null;
     }
 
-    private void SetArrayWhere(MethodCallExpression mce, string format)
+    private object SetArrayWhere(MethodCallExpression mce, string format)
     {
         if (mce.Object == null)
         {
@@ -320,5 +323,6 @@ public class QueryBuilder<T>
             Parameters[$"{field}"] = string.Format(format, value);
             WhereSql += $"{fieldName} {format} (@{field})";
         }
+        return null;
     }
 }
