@@ -19,11 +19,6 @@ class UserService(Context context) : ServiceBase(context), IUserService
     //User
     public async Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        //        var sql = @"
-        //select a.*,b.Name as Department 
-        //from SysUser a 
-        //left join SysOrganization b on b.Id=a.OrgNo 
-        //where a.CompNo=@CompNo and a.UserName<>'admin'";
         var db = Database;
         var orgNoId = nameof(SysUser.OrgNo);
         var orgNo = criteria.GetParameter<string>(orgNoId);
@@ -35,8 +30,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             else
                 criteria.RemoveQuery(orgNoId);
         }
-        criteria.Fields[nameof(SysUser.Name)] = "a.Name";
-        //return await db.QueryPageAsync<SysUser>(sql, criteria);
+        criteria.Fields[nameof(SysUser.Name)] = "SysUser.Name";
         return await db.Select<SysUser>()
                        .LeftJoin<SysOrganization>((a, b) => b.Id == a.OrgNo)
                        .Select<SysOrganization>(d => d.Name, "Department")

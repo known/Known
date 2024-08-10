@@ -153,6 +153,7 @@ public class PagingCriteria
     public string[] OrderBys { get; set; }
 
     public Dictionary<string, string> Fields { get; set; }
+    internal Dictionary<string, object> CmdParams { get; set; }
 
     public void Clear()
     {
@@ -220,6 +221,18 @@ public class PagingCriteria
                 parameter[item.Id] = item.ParamValue;
             }
         }
+
+        if (CmdParams != null && CmdParams.Count > 0)
+        {
+            foreach (var item in CmdParams)
+            {
+                if (parameter.ContainsKey(item.Key))
+                    continue;
+
+                parameter[item.Key] = item.Value;
+            }
+        }
+
         return parameter;
     }
 

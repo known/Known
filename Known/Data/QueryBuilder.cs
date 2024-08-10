@@ -168,6 +168,7 @@ public class QueryBuilder<T>
     public Task<PagingResult<TItem>> ToPageAsync<TItem>(PagingCriteria criteria)
     {
         var info = builder.GetSelectCommand(this);
+        criteria.CmdParams = info.Params;
         return db.QueryPageAsync<TItem>(info.Text, criteria);
     }
 

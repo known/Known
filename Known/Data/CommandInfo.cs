@@ -8,7 +8,7 @@ public class CommandInfo
     {
         Prefix = builder.Prefix;
         Text = text?.Replace("@", Prefix);
-        Console.WriteLine(Text);
+        //Console.WriteLine(Text);
         if (param != null)
             Params = MapToDictionary(param);
     }
@@ -41,7 +41,7 @@ public class CommandInfo
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.AppendLine(Text);
+        sb.AppendLine($"Text:{Text}");
         if (Params != null && Params.Count > 0)
         {
             sb.AppendLine(", Params:");

@@ -2,7 +2,7 @@
 
 class QueryHelper
 {
-    internal static void SetAutoQuery(ref string sql, SqlBuilder builder, PagingCriteria criteria)
+    internal static void SetAutoQuery<T>(ref string sql, SqlBuilder builder, PagingCriteria criteria)
     {
         var querys = new List<QueryInfo>();
         foreach (var item in criteria.Query)
@@ -18,11 +18,11 @@ class QueryHelper
         foreach (var item in querys)
         {
             if (!sql.Contains($"@{item.Id}"))
-                SetQuery(ref sql, builder, criteria, item.Type, item.Id);
+                SetQuery<T>(ref sql, builder, criteria, item.Type, item.Id);
         }
     }
 
-    private static void SetQuery(ref string sql, SqlBuilder builder, PagingCriteria criteria, QueryType type, string key, string field = null)
+    private static void SetQuery<T>(ref string sql, SqlBuilder builder, PagingCriteria criteria, QueryType type, string key, string field = null)
     {
         if (criteria.ExportMode == ExportMode.All)
             return;
@@ -38,7 +38,11 @@ class QueryHelper
         if (criteria.Fields.ContainsKey(key))
             field = criteria.Fields[key];
 
-        field = builder.FormatName(field);
+        var fields = field.Split('.');
+        if (fields.Length > 1)
+            field = builder.GetColumnName(fields[0], fields[1]);
+        else
+            field = builder.GetColumnName<T>(field);
         switch (type)
         {
             case QueryType.Equal:
