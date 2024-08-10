@@ -11,7 +11,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.6" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
         <!--<PackageReference Include="Npgsql" Version="8.0.3" />
         <PackageReference Include="MySqlConnector" Version="2.3.7" />
 	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
@@ -20,7 +20,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.61" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.80" />
         <ProjectReference Include="..\Sample.Web\Sample.Web.csproj" />
     </ItemGroup>
 
