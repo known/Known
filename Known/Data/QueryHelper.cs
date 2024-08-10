@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class WhereHelper
+class QueryHelper
 {
     internal static void SetAutoQuery(ref string sql, SqlBuilder builder, PagingCriteria criteria)
     {

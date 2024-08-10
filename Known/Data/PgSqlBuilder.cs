@@ -2,8 +2,5 @@
 
 class PgSqlBuilder : SqlBuilder
 {
-    public override string FormatName(string name)
-    {
-        return $"\"{name}\"";
-    }
+    public override string FormatName(string name) => $"\"{name}\"";
 }

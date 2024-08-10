@@ -2,10 +2,7 @@
 
 class MySqlBuilder : SqlBuilder
 {
-    protected override string GetTopSql(int size, string text)
-    {
-        return $"{text} limit 0, {size}";
-    }
+    protected override string GetTopSql(int size, string text) => $"{text} limit 0, {size}";
 
     protected override string GetPageSql(string text, string order, PagingCriteria criteria)
     {

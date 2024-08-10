@@ -17,9 +17,31 @@ public interface IUserService : IService
 class UserService(Context context) : ServiceBase(context), IUserService
 {
     //User
-    public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
+    public async Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return DataRepository.QueryUsersAsync(Database, criteria);
+        //        var sql = @"
+        //select a.*,b.Name as Department 
+        //from SysUser a 
+        //left join SysOrganization b on b.Id=a.OrgNo 
+        //where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var db = Database;
+        var orgNoId = nameof(SysUser.OrgNo);
+        var orgNo = criteria.GetParameter<string>(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
+        }
+        criteria.Fields[nameof(SysUser.Name)] = "a.Name";
+        //return await db.QueryPageAsync<SysUser>(sql, criteria);
+        return await db.Select<SysUser>()
+                       .LeftJoin<SysOrganization>((a, b) => b.Id == a.OrgNo)
+                       .Select<SysOrganization>(d => d.Name, "Department")
+                       .Where(d => d.CompNo == db.User.CompNo && d.UserName != "admin")
+                       .ToPageAsync(criteria);
     }
 
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);

@@ -2,10 +2,7 @@
 
 class AccessBuilder : SqlBuilder
 {
-    public override string FormatName(string name)
-    {
-        return $"`{name}`";
-    }
+    public override string FormatName(string name) => $"`{name}`";
 
     protected override string GetPageSql(string text, string order, PagingCriteria criteria)
     {

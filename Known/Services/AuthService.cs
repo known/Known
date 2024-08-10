@@ -132,7 +132,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             errors.Add(Language["Tip.PwdNotEqual"]);
 
         if (errors.Count > 0)
-            return Result.Error(string.Join(Environment.NewLine, errors.ToArray()));
+            return Result.Error(string.Join(Environment.NewLine, errors));
 
         var entity = await GetUserAsync(Database, user.UserName, info.OldPwd);
         if (entity == null)
@@ -154,7 +154,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         user.CompName = info?.CompName;
         if (!string.IsNullOrEmpty(user.OrgNo))
         {
-            var org = await db.QueryAsync<SysOrganization>(d => d.AppId == user.AppId && d.CompNo == user.CompNo && d.Code == user.OrgNo);
+            var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == user.CompNo && d.Code == user.OrgNo);
             var orgName = org?.Name ?? user.CompName;
             user.OrgName = orgName;
             if (string.IsNullOrEmpty(user.CompName))

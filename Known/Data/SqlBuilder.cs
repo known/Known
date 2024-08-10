@@ -88,11 +88,12 @@ select t.* from (
 
     internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder)
     {
-        var tableName = GetTableName<T>(true);
         var select = builder.SelectSql;
         if (string.IsNullOrWhiteSpace(select))
             select = "*";
-        var sql = $"select {select} from {tableName}";
+        var sql = $"select {select} from {builder.TableName}";
+        if (!string.IsNullOrWhiteSpace(builder.JoinSql))
+            sql += builder.JoinSql;
         if (!string.IsNullOrWhiteSpace(builder.WhereSql))
             sql += $" where {builder.WhereSql}";
         if (!string.IsNullOrWhiteSpace(builder.GroupSql))
@@ -307,10 +308,10 @@ select t.* from (
         return new CommandInfo(this, sql, changes);
     }
 
-    internal string GetTableName<T>(bool format = false)
+    internal string GetTableName<T>(bool format = false) => GetTableName(typeof(T), format);
+    internal string GetTableName(Type type, bool format = false)
     {
         var tableName = string.Empty;
-        var type = typeof(T);
         var attrs = type.GetCustomAttributes(true);
         foreach (var item in attrs)
         {
@@ -324,6 +325,19 @@ select t.* from (
             tableName = type.Name;
 
         return format ? FormatName(tableName) : tableName;
+    }
+
+    internal string GetColumnName<T>(object field) => GetColumnName(typeof(T), field);
+    internal string GetColumnName(Type type, object field)
+    {
+        var tableName = GetTableName(type, true);
+        return GetColumnName(tableName, field);
+    }
+
+    internal string GetColumnName(string tableName, object field)
+    {
+        var name = FormatName($"{field}");
+        return $"{tableName}.{name}";
     }
 
     private string GetPageSql(string text, PagingCriteria criteria)

@@ -20,7 +20,11 @@ class UserHelper
         if (user.IsAdmin)
             return modules.ToMenus(true);
 
-        var moduleIds = await DataRepository.GetUserModuleIdsAsync(db, user.Id);
+        //var moduleIds = await DataRepository.GetUserModuleIdsAsync(db, user.Id);
+        var sql = @"select a.ModuleId from SysRoleModule a 
+where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
+  and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
+        var moduleIds = await db.ScalarsAsync<string>(sql, new { user.Id });
         var userModules = new List<SysModule>();
         foreach (var item in modules)
         {

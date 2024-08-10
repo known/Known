@@ -163,7 +163,7 @@ public class Database : IDisposable
     public async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
     {
         var watch = Stopwatcher.Start<T>();
-        WhereHelper.SetAutoQuery(ref sql, Builder, criteria);
+        QueryHelper.SetAutoQuery(ref sql, Builder, criteria);
 
         if (conn.State != ConnectionState.Open)
             conn.Open();
