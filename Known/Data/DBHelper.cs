@@ -61,7 +61,7 @@ internal class DBHelper
         var properties = TypeHelper.Properties(type);
         foreach (var item in dic)
         {
-            var property = properties.FirstOrDefault(p => p.Name == item.Key);
+            var property = properties.FirstOrDefault(p => p.Name.Equals(item.Key, StringComparison.CurrentCultureIgnoreCase));
             if (property != null)
             {
                 var value = Utils.ConvertTo(property.PropertyType, item.Value);

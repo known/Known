@@ -62,7 +62,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             cachedUsers.TryRemove(token, out UserInfo _);
 
         if (user != null)
-            await Logger.AddLogAsync(Database, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
+        {
+            using var db = new Database();
+            db.User = user;
+            await Logger.AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
+        }
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 

@@ -337,9 +337,9 @@ select t.* from (
     internal string GetColumnName(string tableName, object field)
     {
         var name = FormatName($"{field}");
-        if (DatabaseType != DatabaseType.PgSql)
-            return name;
-        return $"{tableName}.{name}";
+        //if (DatabaseType != DatabaseType.PgSql)
+        return name;
+        //return $"{tableName}.{name}";
     }
 
     private string GetPageSql(string text, PagingCriteria criteria)

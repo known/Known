@@ -38,11 +38,11 @@ class QueryHelper
         if (criteria.Fields.ContainsKey(key))
             field = criteria.Fields[key];
 
-        var fields = field.Split('.');
-        if (fields.Length > 1)
-            field = builder.GetColumnName(fields[0], fields[1]);
-        else
-            field = builder.GetColumnName<T>(field);
+        //var fields = field.Split('.');
+        //if (fields.Length > 1)
+        //    field = builder.GetColumnName(fields[0], fields[1]);
+        //else
+        //    field = builder.GetColumnName<T>(field);
         switch (type)
         {
             case QueryType.Equal:

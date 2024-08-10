@@ -17,20 +17,20 @@ class ExpressionHelper(SqlBuilder builder)
             RouteExpression<T>(expression.Body);
     }
 
-    public string RouteExpression<T, T1>(Expression<Func<T, T1, bool>> expression)
-    {
-        WhereSql = string.Empty;
-        Parameters = [];
-        if (expression.Body is BinaryExpression be)
-        {
-            var left = RouteExpression<T1>(be.Left);
-            WhereSql += $"{left}";
-            WhereSql += CastType(be.NodeType);
-            var right = RouteExpression<T>(be.Right);
-            WhereSql += $"{right}";
-        }
-        return WhereSql;
-    }
+    //public string RouteExpression<T, T1>(Expression<Func<T, T1, bool>> expression)
+    //{
+    //    WhereSql = string.Empty;
+    //    Parameters = [];
+    //    if (expression.Body is BinaryExpression be)
+    //    {
+    //        var left = RouteExpression<T1>(be.Left);
+    //        WhereSql += $"{left}";
+    //        WhereSql += CastType(be.NodeType);
+    //        var right = RouteExpression<T>(be.Right);
+    //        WhereSql += $"{right}";
+    //    }
+    //    return WhereSql;
+    //}
 
     private object RouteExpression<T>(Expression exp, object paramName = null)
     {

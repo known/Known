@@ -31,14 +31,14 @@ public class QueryBuilder<T>
     internal string OrderSql => string.Join(",", orderBys);
     internal Dictionary<string, object> Parameters { get; private set; }
 
-    public QueryBuilder<T> LeftJoin<T1>(Expression<Func<T, T1, bool>> expression)
-    {
-        var tableName = builder.GetTableName<T1>(true);
-        var helper = new ExpressionHelper(builder);
-        var where = helper.RouteExpression(expression);
-        joins.Add($" left join {tableName} on {where}");
-        return this;
-    }
+    //public QueryBuilder<T> LeftJoin<T1>(Expression<Func<T, T1, bool>> expression)
+    //{
+    //    var tableName = builder.GetTableName<T1>(true);
+    //    var helper = new ExpressionHelper(builder);
+    //    var where = helper.RouteExpression(expression);
+    //    joins.Add($" left join {tableName} on {where}");
+    //    return this;
+    //}
 
     public QueryBuilder<T> Select(params Expression<Func<T, object>>[] selectors)
     {

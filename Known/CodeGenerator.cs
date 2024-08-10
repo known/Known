@@ -262,16 +262,17 @@ class CodeGenerator : ICodeGenerator
     private static string GetPgSqlScript(string tableName, List<FieldInfo> columns, int maxLength)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("CREATE TABLE \"{0}\" (", tableName);
+        sb.AppendLine("CREATE TABLE {0} (", tableName);
         foreach (var item in columns)
         {
             var required = item.Required ? " NOT NULL" : "";
-            var column = $"\"{item.Id}\"";
+            var column = $"{item.Id}";
             column = GetColumnName(column, maxLength + 2);
             var type = GetPgSqlDbType(item);
-            sb.AppendLine($"    {column} {type}{required},");
+            var line = $"    {column} {type}".TrimEnd();
+            sb.AppendLine($"    {line}{required},");
         }
-        sb.AppendLine("    PRIMARY KEY(\"Id\")");
+        sb.AppendLine("    PRIMARY KEY(Id)");
         sb.AppendLine(");");
         return sb.ToString();
     }
@@ -279,8 +280,10 @@ class CodeGenerator : ICodeGenerator
     private static string GetPgSqlDbType(FieldInfo item)
     {
         string type;
-        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
+        if (item.Type == FieldType.Date)
             type = "date";
+        else if (item.Type == FieldType.DateTime)
+            type = "timestamp without time zone";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
