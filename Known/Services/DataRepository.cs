@@ -2,13 +2,6 @@
 
 class DataRepository
 {
-    //Log
-    internal static Task<List<CountInfo>> GetLogCountsAsync(Database db, string userName, string logType)
-    {
-        var sql = "select Target as Field1,count(*) as TotalCount from SysLog where CreateBy=@userName and Type=@logType group by Target";
-        return db.QueryListAsync<CountInfo>(sql, new { userName, logType });
-    }
-
     //User
     internal static async Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria)
     {

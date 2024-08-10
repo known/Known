@@ -44,6 +44,7 @@ public class CommandInfo
         sb.AppendLine(Text);
         if (Params != null && Params.Count > 0)
         {
+            sb.AppendLine(", Params:");
             foreach (var item in Params)
             {
                 sb.AppendLine($"{item.Key}={item.Value}");

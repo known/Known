@@ -22,7 +22,13 @@ public sealed class Logger
 
     public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
     {
-        var logs = await DataRepository.GetLogCountsAsync(db, userName, LogType.Page.ToString());
+        var type = LogType.Page.ToString();
+        var logs = await db.Query<SysLog>()
+                 .Select(d => d.Target, nameof(CountInfo.Field1))
+                 .SelectCount(nameof(CountInfo.TotalCount))
+                 .Where(d => d.CreateBy == userName && d.Type == type)
+                 .GroupBy(d => d.Target)
+                 .ToListAsync<CountInfo>();
         logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();
     }

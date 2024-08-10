@@ -68,7 +68,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
     {
         var entities = await db.Query<SysDictionary>()
                                .Where(d => d.Enabled)
-                               .OrderBy(d => d.Category).OrderBy(d => d.Sort)
+                               .OrderBy(d => d.Category, d => d.Sort)
                                .ToListAsync();
         var codes = entities.Select(e =>
         {

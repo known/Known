@@ -4,6 +4,8 @@ public class QueryBuilder<T>
 {
     private readonly Database db;
     private readonly SqlBuilder builder;
+    private readonly List<string> selects = [];
+    private readonly List<string> groupBys = [];
     private readonly List<string> orderBys = [];
 
     internal QueryBuilder(Database db) : this(db.Builder)
@@ -19,9 +21,45 @@ public class QueryBuilder<T>
         Parameters = [];
     }
 
+    internal string SelectSql => string.Join(",", selects);
     internal string WhereSql { get; private set; }
+    internal string GroupSql => string.Join(",", groupBys);
     internal string OrderSql => string.Join(",", orderBys);
     internal Dictionary<string, object> Parameters { get; private set; }
+
+    public QueryBuilder<T> Select(params Expression<Func<T, object>>[] selectors)
+    {
+        foreach (var selector in selectors)
+        {
+            var pi = TypeHelper.Property(selector);
+            var name = builder.FormatName(pi.Name);
+            selects.Add(name);
+        }
+        return this;
+    }
+
+    public QueryBuilder<T> Select(Expression<Func<T, object>> selector, string nameAs)
+    {
+        var pi = TypeHelper.Property(selector);
+        var name = builder.FormatName(pi.Name);
+        var asName = builder.FormatName(nameAs);
+        selects.Add($"{name} as {asName}");
+        return this;
+    }
+
+    public QueryBuilder<T> SelectCount(string nameAs = null)
+    {
+        if (string.IsNullOrWhiteSpace(nameAs))
+        {
+            selects.Add("count(*)");
+        }
+        else
+        {
+            var asName = builder.FormatName(nameAs);
+            selects.Add($"count(*) as {asName}");
+        }
+        return this;
+    }
 
     public QueryBuilder<T> Where(Expression<Func<T, bool>> expression)
     {
@@ -33,19 +71,36 @@ public class QueryBuilder<T>
         return this;
     }
 
-    public QueryBuilder<T> OrderBy(Expression<Func<T, object>> selector)
+    public QueryBuilder<T> GroupBy(params Expression<Func<T, object>>[] selectors)
     {
-        var pi = TypeHelper.Property(selector);
-        var name = builder.FormatName(pi.Name);
-        orderBys.Add(name);
+        foreach (var selector in selectors)
+        {
+            var pi = TypeHelper.Property(selector);
+            var name = builder.FormatName(pi.Name);
+            groupBys.Add(name);
+        }
         return this;
     }
 
-    public QueryBuilder<T> OrderByDescending(Expression<Func<T, object>> selector)
+    public QueryBuilder<T> OrderBy(params Expression<Func<T, object>>[] selectors)
     {
-        var pi = TypeHelper.Property(selector);
-        var name = builder.FormatName(pi.Name);
-        orderBys.Add($"{name} desc");
+        foreach (var selector in selectors)
+        {
+            var pi = TypeHelper.Property(selector);
+            var name = builder.FormatName(pi.Name);
+            orderBys.Add(name);
+        }
+        return this;
+    }
+
+    public QueryBuilder<T> OrderByDescending(params Expression<Func<T, object>>[] selectors)
+    {
+        foreach (var selector in selectors)
+        {
+            var pi = TypeHelper.Property(selector);
+            var name = builder.FormatName(pi.Name);
+            orderBys.Add($"{name} desc");
+        }
         return this;
     }
 
@@ -67,10 +122,22 @@ public class QueryBuilder<T>
         return db.QueryAsync<T>(info);
     }
 
+    public Task<TItem> FirstAsync<TItem>()
+    {
+        var info = builder.GetSelectCommand(this);
+        return db.QueryAsync<TItem>(info);
+    }
+
     public Task<List<T>> ToListAsync()
     {
         var info = builder.GetSelectCommand(this);
         return db.QueryListAsync<T>(info);
+    }
+
+    public Task<List<TItem>> ToListAsync<TItem>()
+    {
+        var info = builder.GetSelectCommand(this);
+        return db.QueryListAsync<TItem>(info);
     }
 
     private void RouteExpression(Expression left, Expression right, ExpressionType type)
@@ -153,6 +220,8 @@ public class QueryBuilder<T>
             SetArrayWhere(mce, "in");
         else if (mce.Method.Name == nameof(WhereExtension.NotIn))
             SetArrayWhere(mce, "not in");
+        else if (mce.Method.Name == nameof(WhereExtension.Between))
+            SetArrayWhere(mce, "between");
     }
 
     private string RouteExpression(MemberExpression me)
@@ -205,19 +274,20 @@ public class QueryBuilder<T>
             WhereSql = WhereSql[..^3];
         if (mce.Object == null)
         {
-            var arg0 = RouteExpression(mce.Arguments[0]);
+            var field = RouteExpression(mce.Arguments[0]);
+            var fieldName = builder.FormatName($"{field}");
             var arg1 = RouteExpression(mce.Arguments[1]);
             var operate = isNot ? "not in" : "in";
-            WhereSql += $"{arg0} {operate} ({arg1})";
+            WhereSql += $"{fieldName} {operate} ({arg1})";
         }
         else if (mce.Object.NodeType == ExpressionType.MemberAccess)
         {
             var field = RouteExpression(mce.Object);
-            var name = builder.FormatName($"{field}");
+            var fieldName = builder.FormatName($"{field}");
             var value = RouteExpression(mce.Arguments[0]);
             Parameters[$"{field}"] = string.Format(format, value);
             var operate = isNot ? "not like" : "like";
-            WhereSql += $"{name} {operate} @{field}";
+            WhereSql += $"{fieldName} {operate} @{field}";
         }
     }
 
@@ -225,17 +295,30 @@ public class QueryBuilder<T>
     {
         if (mce.Object == null)
         {
-            var arg0 = RouteExpression(mce.Arguments[0]);
-            var arg1 = RouteExpression(mce.Arguments[1], arg0);
-            WhereSql += $"{arg0} {format} ({arg1})";
+            var field = RouteExpression(mce.Arguments[0]);
+            var fieldName = builder.FormatName($"{field}");
+            if (format == "between")
+            {
+                var arg1 = RouteExpression(mce.Arguments[1]);
+                var arg2 = RouteExpression(mce.Arguments[2]);
+                if (arg1 is DateTime && db.DatabaseType == DatabaseType.Access)
+                    WhereSql += $"{fieldName} between #{arg1}# and #{arg2}#";
+                else
+                    WhereSql += $"{fieldName} between '{arg1}' and '{arg2}'";
+            }
+            else
+            {
+                var arg1 = RouteExpression(mce.Arguments[1], field);
+                WhereSql += $"{fieldName} {format} ({arg1})";
+            }
         }
         else if (mce.Object.NodeType == ExpressionType.MemberAccess)
         {
             var field = RouteExpression(mce.Object);
-            var name = builder.FormatName($"{field}");
+            var fieldName = builder.FormatName($"{field}");
             var value = RouteExpression(mce.Arguments[0]);
             Parameters[$"{field}"] = string.Format(format, value);
-            WhereSql += $"{name} {format} ({field})";
+            WhereSql += $"{fieldName} {format} (@{field})";
         }
     }
 }

@@ -36,8 +36,9 @@ class WhereHelper
             return;
 
         if (criteria.Fields.ContainsKey(key))
-            field = builder.FormatName(criteria.Fields[key]);
+            field = criteria.Fields[key];
 
+        field = builder.FormatName(field);
         switch (type)
         {
             case QueryType.Equal:

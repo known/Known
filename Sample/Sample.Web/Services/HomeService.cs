@@ -32,12 +32,22 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         for (int i = 1; i <= endDay; i++)
         {
             var date = new DateTime(now.Year, now.Month, i);
-            seriesLog[i.ToString("00")] = await HomeRepository.GetLogCountAsync(db, date);
+            seriesLog[i.ToString("00")] = await GetLogCountAsync(db, date);
         }
         info.LogDatas =
         [
             new ChartDataInfo { Name = Language["Home.VisitCount"], Series = seriesLog }
         ];
         return info;
+    }
+
+    private static Task<int> GetLogCountAsync(Database db, DateTime date)
+    {
+        var day = date.ToString("yyyy-MM-dd");
+        var begin = DateTime.Parse($"{day} 00:00:00");
+        var end = DateTime.Parse($"{day} 23:59:59");
+        return db.Query<SysLog>()
+                 .Where(d => d.CompNo == db.User.CompNo && d.CreateTime.Between(begin, end))
+                 .CountAsync();
     }
 }

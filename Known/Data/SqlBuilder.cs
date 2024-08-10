@@ -89,9 +89,14 @@ select t.* from (
     internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder)
     {
         var tableName = GetTableName<T>(true);
-        var sql = $"select * from {tableName}";
+        var select = builder.SelectSql;
+        if (string.IsNullOrWhiteSpace(select))
+            select = "*";
+        var sql = $"select {select} from {tableName}";
         if (!string.IsNullOrWhiteSpace(builder.WhereSql))
             sql += $" where {builder.WhereSql}";
+        if (!string.IsNullOrWhiteSpace(builder.GroupSql))
+            sql += $" group by {builder.GroupSql}";
         if (!string.IsNullOrWhiteSpace(builder.OrderSql))
             sql += $" order by {builder.OrderSql}";
         return new CommandInfo(this, sql, builder.Parameters);
@@ -325,7 +330,17 @@ select t.* from (
     {
         var order = string.Empty;
         if (criteria.OrderBys != null && criteria.OrderBys.Length > 0)
-            order = string.Join(",", criteria.OrderBys);
+        {
+            var orderBys = new List<string>();
+            foreach (var item in criteria.OrderBys)
+            {
+                var fields = item.Split(' ');
+                var field = FormatName(fields[0]);
+                var sort = fields.Length > 1 ? $" {fields[1]}" : "";
+                orderBys.Add($"{field}{sort}");
+            }
+            order = string.Join(",", orderBys);
+        }
 
         if (string.IsNullOrWhiteSpace(order))
             order = $"{CreateTimeName} desc";
