@@ -25,10 +25,15 @@ class ModuleHelper
         var json = Utils.ToJson(modules);
         var bytes = Encoding.UTF8.GetBytes(json);
         using (var stream = new MemoryStream())
-        using (var gzip = new GZipStream(stream, CompressionMode.Compress))
+        using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
         {
             await gzip.WriteAsync(bytes, 0, bytes.Length);
-            return stream.ToArray();
+            await gzip.FlushAsync();
+            stream.Position = 0;
+
+            var buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
         }
     }
 
