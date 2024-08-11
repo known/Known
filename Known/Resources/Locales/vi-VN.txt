@@ -147,6 +147,8 @@
   "Tip.TaskAddSuccess": "Thêm nhiệm vụ thành công, vui lòng truy vấn kết quả sau！",
   "Tip.TableHasData": "Bảng dữ liệu có dữ liệu và không thể thực thi！",
   "Tip.ExecuteSuccess": "Thực hiện thành công！",
+  "Tip.DataQuering": "Truy vấn dữ liệu...",
+  "Tip.DataExporting": "Xuất dữ liệu...",
 
   "Import.Tips": "Mẹo: Vui lòng tải lên một tệp đính kèm định dạng txt hoặc Excel riêng lẻ！",
   "Import.IsAsync": "Nhập không đồng bộ",

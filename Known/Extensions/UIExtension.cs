@@ -23,12 +23,12 @@ public static class UIExtension
 
     public static Task QueryDataAsync(this BaseLayout app, Func<Task> action)
     {
-        return app?.ShowSpinAsync("数据查询中...", action);
+        return app?.ShowSpinAsync(app?.Language["Tip.DataQuering"], action);
     }
 
     public static async Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode = ExportMode.Query) where TItem : class, new()
     {
-        await app?.ShowSpinAsync("数据导出中...", async () =>
+        await app?.ShowSpinAsync(app?.Language["Tip.DataExporting"], async () =>
         {
             table.Criteria.ExportMode = mode;
             table.Criteria.ExportColumns = table.GetExportColumns();

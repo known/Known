@@ -147,6 +147,8 @@
   "Tip.TaskAddSuccess": "Task added successfully, please check the results later!",
   "Tip.TableHasData": "The data table contains data and cannot be executed!",
   "Tip.ExecuteSuccess": "Execution successful!",
+  "Tip.DataQuering": "Data query in progress...",
+  "Tip.DataExporting": "Data export in progress...",
 
   "Import.Tips": "Tip: Please upload a single txt or Excel format attachment!",
   "Import.IsAsync": "Asynchronous",
