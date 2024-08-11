@@ -2,6 +2,36 @@
 
 class ModuleHelper
 {
+    internal static async Task ImportModulesAsync(Database db, FileDataInfo info)
+    {
+        using (var stream = new MemoryStream(info.Bytes))
+        using (var reader = new MemoryStream())
+        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
+        {
+            await gzip.CopyToAsync(reader);
+            var json = Encoding.UTF8.GetString(reader.ToArray());
+            var modules = Utils.FromJson<List<SysModule>>(json);
+            if (modules != null && modules.Count > 0)
+            {
+                await db.DeleteAllAsync<SysModule>();
+                await db.InsertDatasAsync(modules);
+            }
+        }
+    }
+
+    internal static async Task<byte[]> ExportModulesAsync(Database db)
+    {
+        var modules = await db.QueryListAsync<SysModule>();
+        var json = Utils.ToJson(modules);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        using (var stream = new MemoryStream())
+        using (var gzip = new GZipStream(stream, CompressionMode.Compress))
+        {
+            await gzip.WriteAsync(bytes, 0, bytes.Length);
+            return stream.ToArray();
+        }
+    }
+
     internal static List<SysModule> GetModules()
     {
         var modules = new List<SysModule>();

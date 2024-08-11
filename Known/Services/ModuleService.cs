@@ -4,6 +4,8 @@ public interface IModuleService : IService
 {
     Task<List<SysModule>> GetModulesAsync();
     Task<SysModule> GetModuleAsync(string id);
+    Task<FileDataInfo> ExportModulesAsync();
+    Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info);
     Task<Result> DeleteModulesAsync(List<SysModule> models);
     Task<Result> CopyModulesAsync(List<SysModule> models);
     Task<Result> MoveModulesAsync(List<SysModule> models);
@@ -16,6 +18,33 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
     public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
 
     public Task<SysModule> GetModuleAsync(string id) => Database.QueryByIdAsync<SysModule>(id);
+
+    public async Task<FileDataInfo> ExportModulesAsync()
+    {
+        var info = new FileDataInfo();
+        info.Name = $"SysModule_{Config.App.Id}.kmd";
+        info.Bytes = await ModuleHelper.ExportModulesAsync(Database);
+        return info;
+    }
+
+    public async Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info)
+    {
+        var key = nameof(FileFormInfo.BizType);
+        if (info == null || info.Files == null || !info.Files.ContainsKey(key))
+            return Result.Error(Language["Import.SelectFile"]);
+
+        try
+        {
+            var file = info.Files[key][0];
+            await ModuleHelper.ImportModulesAsync(Database, file);
+            return Result.Success(Language.Success(Language.Import));
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return Result.Error(ex.Message);
+        }
+    }
 
     public async Task<Result> DeleteModulesAsync(List<SysModule> models)
     {

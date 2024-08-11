@@ -204,6 +204,7 @@ public class ColumnInfo
     public string Align { get; set; }
 
     internal bool IsForm { get; set; }
+    public string Label { get; set; }
     public string Category { get; set; }
     public string Placeholder { get; set; }
     public int Row { get; set; } = 1;

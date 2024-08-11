@@ -94,6 +94,7 @@
 
   "Tip.SwitchUIType": "Chuyển đổi kiểu giao diện ở đây",
   "Tip.Exits": "Đảm bảo bạn muốn thoát khỏi hệ thống？",
+  "Tip.ImportModules": "Xác định rằng bạn muốn nhập mô-đun hệ thống thay thế？",
   "Tip.ConfirmDelete": "Hãy chắc chắn rằng bạn muốn xóa {name}？",
   "Tip.ConfirmDeleteRecord": "Hãy chắc chắn rằng bạn muốn xóa bản ghi？",
   "Tip.ConfirmRecordName": "Xác định bản ghi cần {text} chọn？",
@@ -156,6 +157,7 @@
   "Import.Error": "Thông tin sai",
   "Import.SelectFile": "Vui lòng chọn Import File！",
   "Import.Importing": "Đang nhập...",
+  "Import.File": "Nhập tập tin",
   "Import.Template": "Nhập mẫu",
   "Import.Size": "Kích thước：",
   "Import.FileImporting": "Chờ background import...",

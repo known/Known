@@ -94,6 +94,7 @@
 
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.Exits": "确定要退出系统？",
+  "Tip.ImportModules": "确定要导入替换系统模块？",
   "Tip.ConfirmDelete": "确定要删除{name}？",
   "Tip.ConfirmDeleteRecord": "确定要删除该记录？",
   "Tip.ConfirmRecordName": "确定要{text}选中的记录？",
@@ -156,6 +157,7 @@
   "Import.Error": "错误信息",
   "Import.SelectFile": "请选择导入文件！",
   "Import.Importing": "正在导入中...",
+  "Import.File": "导入文件",
   "Import.Template": "导入模板",
   "Import.Size": "大小：",
   "Import.FileImporting": "等待后台导入中...",

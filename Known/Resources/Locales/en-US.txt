@@ -94,6 +94,7 @@
 
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.Exits": "Are you sure to exit the system?",
+  "Tip.ImportModules": "Are you sure to import the replacement system module？",
   "Tip.ConfirmDelete": "Are you sure to delete {name}?",
   "Tip.ConfirmDeleteRecord": "Are you sure to delete this record?",
   "Tip.ConfirmRecordName": "Are you sure to {text} the selected record?",
@@ -156,6 +157,7 @@
   "Import.Error": "Error",
   "Import.SelectFile": "Please select the import file!",
   "Import.Importing": "Importing...",
+  "Import.File": "File",
   "Import.Template": "Template",
   "Import.Size": "Size:",
   "Import.FileImporting": "Waiting for background import...",

@@ -94,6 +94,7 @@
 
   "Tip.SwitchUIType": "在此處切換介面類型",
   "Tip.Exits": "確定要退出系統？",
+  "Tip.ImportModules": "確定要導入替換系統模塊？",
   "Tip.ConfirmDelete": "確定要删除{name}？",
   "Tip.ConfirmDeleteRecord": "確定要删除該記錄？",
   "Tip.ConfirmRecordName": "確定要{text}選中的記錄？",
@@ -156,6 +157,7 @@
   "Import.Error": "錯誤資訊",
   "Import.SelectFile": "請選擇導入檔案！",
   "Import.Importing": "正在導入中…",
+  "Import.File": "導入檔案",
   "Import.Template": "導入範本",
   "Import.Size": "大小：",
   "Import.FileImporting": "等待後臺導入中…",

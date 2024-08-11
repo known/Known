@@ -4,7 +4,7 @@
 [Route("/sys/modules")]
 public class SysModuleList : BasePage<SysModule>
 {
-    private IModuleService moduleService;
+    private IModuleService Service;
     private List<SysModule> modules;
     private MenuInfo current;
     private int total;
@@ -14,7 +14,7 @@ public class SysModuleList : BasePage<SysModule>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        moduleService = await CreateServiceAsync<IModuleService>();
+        Service = await CreateServiceAsync<IModuleService>();
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
@@ -100,25 +100,50 @@ public class SysModuleList : BasePage<SysModule>
             return;
         }
 
-        table.NewForm(moduleService.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+        table.NewForm(Service.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
-    public void Edit(SysModule row) => table.EditForm(moduleService.SaveModuleAsync, row);
-    public void Delete(SysModule row) => table.Delete(moduleService.DeleteModulesAsync, row);
-    public void DeleteM() => table.DeleteM(moduleService.DeleteModulesAsync);
+    public void Edit(SysModule row) => table.EditForm(Service.SaveModuleAsync, row);
+    public void Delete(SysModule row) => table.Delete(Service.DeleteModulesAsync, row);
+    public void DeleteM() => table.DeleteM(Service.DeleteModulesAsync);
     public void Copy() => table.SelectRows(OnCopy);
     public void Move() => table.SelectRows(OnMove);
     public void MoveUp(SysModule row) => OnMove(row, true);
     public void MoveDown(SysModule row) => OnMove(row, false);
-    public void Import() { }
-    public void Export() { }
+
+    public void Import()
+    {
+        var form = new FormModel<FileFormInfo>(this)
+        {
+            Title = Language.GetImportTitle(PageName),
+            ConfirmText = Language["Tip.ImportModules"],
+            Data = new FileFormInfo(),
+            OnSaveFile = Service.ImportModulesAsync,
+            OnSaved = async d => await RefreshAsync()
+        };
+        form.AddRow().AddColumn(Language["Import.File"], c => c.BizType, c => c.Type = FieldType.File);
+        UI.ShowForm(form);
+    }
+
+    public async void Export()
+    {
+        await App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>
+        {
+            var info = await Service.ExportModulesAsync();
+            if (info != null && info.Bytes != null && info.Bytes.Length > 0)
+            {
+                var stream = new MemoryStream(info.Bytes);
+                await JS.DownloadFileAsync(info.Name, stream);
+            }
+        });
+    }
 
     private void OnCopy(List<SysModule> rows)
     {
         ShowTreeModal(Language["Title.CopyTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
-            return moduleService.CopyModulesAsync(rows);
+            return Service.CopyModulesAsync(rows);
         });
     }
 
@@ -127,14 +152,14 @@ public class SysModuleList : BasePage<SysModule>
         ShowTreeModal(Language["Title.MoveTo"], node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
-            return moduleService.MoveModulesAsync(rows);
+            return Service.MoveModulesAsync(rows);
         });
     }
 
     private async void OnMove(SysModule row, bool isMoveUp)
     {
         row.IsMoveUp = isMoveUp;
-        var result = await moduleService.MoveModuleAsync(row);
+        var result = await Service.MoveModuleAsync(row);
         UI.Result(result, RefreshAsync);
     }
 
@@ -146,7 +171,7 @@ public class SysModuleList : BasePage<SysModule>
 
     private async Task<TreeModel> OnTreeModelChanged()
     {
-        modules = await moduleService.GetModulesAsync();
+        modules = await Service.GetModulesAsync();
         if (modules != null && modules.Count > 0)
         {
             tree.Data = modules.ToMenuItems(ref current);

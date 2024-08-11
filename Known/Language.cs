@@ -118,7 +118,7 @@ public class Language
     public string GetString(string id, string label) => this[id].Replace("{label}", this[label]);
     public string GetString(string id, string label, int? length) => GetString(id, label).Replace("{length}", $"{length}");
     internal string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
-
+    internal string GetImportTitle(string name) => this["Title.Import"].Replace("{name}", name);
     public string GetTitle(string title) => GetText("Title", title);
     public string GetCode(string code) => GetText("Code", code);
     public string Required(string label) => GetString("Valid.Required", label);

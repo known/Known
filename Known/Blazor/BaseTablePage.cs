@@ -2,7 +2,7 @@
 
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
-    private string ImportTitle => Language["Title.Import"].Replace("{name}", PageName);
+    private string ImportTitle => Language.GetImportTitle(PageName);
     protected TableModel<TItem> Table { get; set; }
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
