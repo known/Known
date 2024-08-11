@@ -21,7 +21,7 @@ class ModuleHelper
         modules.Add(GetSysTask(system.Id));
         modules.Add(GetSysFile(system.Id));
         modules.Add(GetSysLog(system.Id));
-        modules.Add(GetSysModule(system.Id));
+        //modules.Add(GetSysModule(system.Id));
         return modules;
     }
 

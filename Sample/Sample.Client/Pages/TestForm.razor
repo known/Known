@@ -1,0 +1,29 @@
+﻿@page "/test"
+@inherits BaseForm<TestInfo>
+
+<TestInfoForm Form="Model" ShowAction>
+    <AntRow>
+        <DataItem Span="8" Label="Text" Required>
+            <AntInput @bind-Value="@context.Text" />
+        </DataItem>
+        <DataItem Span="8" Label="Text" Required>
+            <AntAutoComplete @bind-Value="@context.Text" Options="Texts" OnSelectionChange="e=>Model.Data.Note=e.Label" />
+        </DataItem>
+        <DataItem Span="8" Label="Date" Required>
+            <AntDatePicker @bind-RangeValue="@context.Date" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Span="8" Label="Number" Required>
+            <AntInteger @bind-Value="@context.Number" />
+        </DataItem>
+        <DataItem Span="8" Label="Decimal" Required>
+            <AntDecimal @bind-Value="@context.Decimal" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Span="24" Label="备注" Required>
+            <AntTextArea @bind-Value="@context.Note" />
+        </DataItem>
+    </AntRow>
+</TestInfoForm>

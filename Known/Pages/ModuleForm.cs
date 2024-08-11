@@ -32,7 +32,16 @@ class ModuleForm : BaseStepForm
         Model.OnFieldChanged = OnFieldChanged;
         if (!IsPageEdit)
         {
-            Model.Field(f => f.Icon).Template(BuildIconField);
+            Model.AddRow().AddColumn(c => c.Code)
+                          .AddColumn(c => c.Name)
+                          .AddColumn(c => c.Icon, c => c.Template = BuildIconField);
+            Model.AddRow().AddColumn(c => c.Target, c =>
+            {
+                c.Category = nameof(ModuleType);
+                c.Type = FieldType.RadioList;
+            }).AddColumn(c => c.Sort).AddColumn(c => c.Enabled);
+            Model.AddRow().AddColumn(c => c.Url).AddColumn(c => c.Description);
+            Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
             Step.AddStep("BasicInfo", BuildDataForm);
             Step.AddStep("ModelSetting", BuildModuleModel);
             //Step.AddStep("FlowSetting", BuildModuleFlow);
@@ -208,7 +217,7 @@ class IconPicker : BasePicker<IconInfo>
                            //if (key == "FontAwesome")
                            //    builder.Span(item.Icon, "");
                            //else
-                               builder.Icon(item.Icon);
+                           builder.Icon(item.Icon);
                            builder.Span("name", item.Icon);
                        })
                        .Close();

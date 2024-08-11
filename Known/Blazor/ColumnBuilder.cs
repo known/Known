@@ -53,7 +53,14 @@ public class ColumnBuilder<TItem> where TItem : class, new()
             column.ReadOnly = readOnly;
         return this;
     }
-    
+
+    public ColumnBuilder<TItem> ViewLink()
+    {
+        if (column != null)
+            column.IsViewLink = true;
+        return this;
+    }
+
     public ColumnBuilder<TItem> Sum()
     {
         if (column != null)
@@ -82,6 +89,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
             column.Category = category;
             column.IsQueryAll = isAll;
         }
+        return this;
+    }
+
+    public ColumnBuilder<TItem> Align(string align)
+    {
+        if (column != null)
+            column.Align = align;
         return this;
     }
 

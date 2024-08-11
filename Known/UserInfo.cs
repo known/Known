@@ -29,7 +29,7 @@ public class UserInfo
     public string OpenId { get; set; }
     internal bool IsTenant { get; set; }
     internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
-    private bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
+    public bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
     internal bool IsTenantAdmin() => CompNo == UserName;
 
     public bool IsRole(string role)

@@ -32,7 +32,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     {
         builder.Cascading<IAntForm>(this, b =>
         {
-            base.BuildRenderTree(b);
+            b.Div("kui-form", () => base.BuildRenderTree(b));
             if (ShowAction && !Form.IsView)
             {
                 b.FormAction(() =>

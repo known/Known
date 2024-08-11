@@ -45,6 +45,7 @@ public class Language
 
     internal string SelectOne => this["Tip.SelectOne"];
     public string SelectOneAtLeast => this["Tip.SelectOneAtLeast"];
+    public string SysModule => this["Menu.SysModuleList"];
 
     public string OK => this["Button.OK"];
     public string Cancel => this["Button.Cancel"];

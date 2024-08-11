@@ -31,14 +31,35 @@ public class SysModuleList : BasePage<SysModule>
         table = new TableModel<SysModule>(this)
         {
             FormType = typeof(ModuleForm),
-            FormTitle = row => $"{PageName} - {row.ParentName} > {row.Name}",
+            FormTitle = row => $"{Language.SysModule} - {row.ParentName} > {row.Name}",
+            Form = new FormInfo { Width = 1200, Maximizable = true },
             RowKey = r => r.Id,
             ShowPager = false,
+            SelectType = TableSelectType.Checkbox,
             OnQuery = OnQueryModulesAsync
         };
-        table.Initialize(this);
-        table.Column(c => c.Name).Template(BuildName);
-        table.Column(c => c.Target).Template((b, r) => b.Tag(r.Target));
+
+        table.Toolbar.ShowCount = 6;
+        table.Toolbar.AddAction(nameof(New));
+        table.Toolbar.AddAction(nameof(DeleteM));
+        table.Toolbar.AddAction(nameof(Copy));
+        table.Toolbar.AddAction(nameof(Move));
+        table.Toolbar.AddAction(nameof(Import));
+        table.Toolbar.AddAction(nameof(Export));
+
+        table.AddColumn(c => c.Code).Width(130).ViewLink();
+        table.AddColumn(c => c.Name).Width(120).Template(BuildName);
+        table.AddColumn(c => c.Description).Width(180);
+        table.AddColumn(c => c.Target).Width(80).Template((b, r) => b.Tag(r.Target));
+        table.AddColumn(c => c.Url).Width(150);
+        table.AddColumn(c => c.Sort).Width(60).Align("center");
+        table.AddColumn(c => c.Enabled).Width(60).Align("center");
+        table.AddColumn(c => c.Note).Width(150);
+
+        table.AddAction(nameof(Edit));
+        table.AddAction(nameof(Delete));
+        table.AddAction(nameof(MoveUp));
+        table.AddAction(nameof(MoveDown));
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -85,11 +106,12 @@ public class SysModuleList : BasePage<SysModule>
     public void Edit(SysModule row) => table.EditForm(moduleService.SaveModuleAsync, row);
     public void Delete(SysModule row) => table.Delete(moduleService.DeleteModulesAsync, row);
     public void DeleteM() => table.DeleteM(moduleService.DeleteModulesAsync);
-
     public void Copy() => table.SelectRows(OnCopy);
     public void Move() => table.SelectRows(OnMove);
     public void MoveUp(SysModule row) => OnMove(row, true);
     public void MoveDown(SysModule row) => OnMove(row, false);
+    public void Import() { }
+    public void Export() { }
 
     private void OnCopy(List<SysModule> rows)
     {
