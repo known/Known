@@ -305,6 +305,7 @@ create table `SysFlow` (
     `VerifyNote` text         null,
     PRIMARY KEY(`Id`)
 );
+create index idx_SysFlow_Biz on SysFlow (BizId);
 
 create table `SysFlowLog` (
     `Id`          varchar(50)   not null,

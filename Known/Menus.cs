@@ -208,6 +208,7 @@ public class ColumnInfo
     public string Placeholder { get; set; }
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
+    public int? Span { get; set; }
     public FieldType Type { get; set; }
     public bool MultiFile { get; set; }
     public bool Required { get; set; }
@@ -257,6 +258,7 @@ public class ColumnInfo
         Name = info.Name;
         Row = info.Row;
         Column = info.Column;
+        Span = info.Span;
         Type = info.Type;
         MultiFile = info.MultiFile;
         ReadOnly = info.ReadOnly;

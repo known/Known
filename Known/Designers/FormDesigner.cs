@@ -68,6 +68,7 @@ class FormDesigner : BaseViewDesigner<FormInfo>
 
         field.Row = info.Row;
         field.Column = info.Column;
+        field.Span = info.Span;
         field.Type = info.Type;
         field.Required = info.Required;
         field.Category = info.Category;

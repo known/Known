@@ -334,6 +334,7 @@
   "Align": "Canh lề",
   "Row": "Số dòng",
   "Column": "Số cột",
+  "Span": "Khoảng",
   "Placeholder": "Bộ giữ chỗ",
   "ReadOnly": "Chỉ đọc",
   "MultiFile": "Nhiều phụ kiện",

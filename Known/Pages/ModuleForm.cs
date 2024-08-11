@@ -39,8 +39,11 @@ class ModuleForm : BaseStepForm
             {
                 c.Category = nameof(ModuleType);
                 c.Type = FieldType.RadioList;
-            }).AddColumn(c => c.Sort).AddColumn(c => c.Enabled);
-            Model.AddRow().AddColumn(c => c.Url).AddColumn(c => c.Description);
+                c.Span = 16;
+            }).AddColumn(c => c.Sort, c => c.Span = 4)
+              .AddColumn(c => c.Enabled, c => c.Span = 4);
+            Model.AddRow().AddColumn(c => c.Url, c => c.Span = 8)
+                          .AddColumn(c => c.Description, c => c.Span = 16);
             Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
             Step.AddStep("BasicInfo", BuildDataForm);
             Step.AddStep("ModelSetting", BuildModuleModel);

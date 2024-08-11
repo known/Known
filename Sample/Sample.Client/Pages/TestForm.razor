@@ -10,7 +10,7 @@
             <AntAutoComplete @bind-Value="@context.Text" Options="Texts" OnSelectionChange="e=>Model.Data.Note=e.Label" />
         </DataItem>
         <DataItem Span="8" Label="Date" Required>
-            <AntDatePicker @bind-RangeValue="@context.Date" />
+            <AntDatePicker @bind-Value="@context.Date" />
         </DataItem>
     </AntRow>
     <AntRow>

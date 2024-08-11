@@ -334,6 +334,7 @@
   "Align": "Align",
   "Row": "Row",
   "Column": "Column",
+  "Span": "Span",
   "Placeholder": "Placeholder",
   "ReadOnly": "ReadOnly",
   "MultiFile": "MultiFile",

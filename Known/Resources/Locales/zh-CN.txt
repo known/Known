@@ -334,6 +334,7 @@
   "Align": "对齐",
   "Row": "行号",
   "Column": "列号",
+  "Span": "跨度",
   "Placeholder": "占位符",
   "ReadOnly": "只读",
   "MultiFile": "多附件",

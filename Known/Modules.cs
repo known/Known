@@ -67,6 +67,7 @@ public class FormFieldInfo : FieldInfo
 {
     public int Row { get; set; } = 1;
     public int Column { get; set; } = 1;
+    public int? Span { get; set; }
     public string CategoryType { get; set; }
     public string Category { get; set; }
     public string Placeholder { get; set; }

@@ -1,0 +1,54 @@
+﻿@page "/test1"
+
+<div>
+    <Form @ref="form" Model="Model" ValidateOnChange ValidateMode="FormValidateMode.Rules">
+        <FormItem Label="Text" Required>
+            <Input @bind-Value="@context.Text" />
+        </FormItem>
+        <FormItem Label="TextAuto" Required>
+            <AutoComplete @bind-Value="@context.Text" Options="Texts" OnSelectionChange="e=>context.Note=e.Label" />
+        </FormItem>
+        <FormItem Label="Date" Required>
+            <DatePicker @bind-Value="@context.Date" />
+        </FormItem>
+        <FormItem Label="Number" Required>
+            <AntDesign.InputNumber @bind-Value="@context.Number" />
+        </FormItem>
+        <FormItem Label="Decimal" Required>
+            <AntDesign.InputNumber @bind-Value="@context.Decimal" />
+        </FormItem>
+        <FormItem Label="备注" Required>
+            <TextArea @bind-Value="@context.Note" />
+        </FormItem>
+    </Form>
+</div>
+<Button Type="@ButtonType.Primary" OnClick="e=>form.Validate()">确定</Button>
+
+@code {
+    public class TestInfo
+    {
+        public string Text { get; set; }
+        public int? Number { get; set; }
+        public decimal? Decimal { get; set; }
+        public DateTime? Date { get; set; }
+        public string Note { get; set; }
+    }
+
+    private Form<TestInfo> form;
+    private TestInfo Model = new();
+    private List<CodeInfo> Texts = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        for (int i = 0; i < 500; i++)
+        {
+            Texts.Add(new CodeInfo($"Code{i}", $"测试名称{i}"));
+        }
+    }
+
+    private void OnClick(MouseEventArgs arg)
+    {
+        form.Validate();
+    }
+}
