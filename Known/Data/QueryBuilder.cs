@@ -73,31 +73,31 @@ public class QueryBuilder<T>
         return this;
     }
 
-    public QueryBuilder<T> Select(Expression<Func<T, object>> selector, string nameAs)
+    public QueryBuilder<T> Select(Expression<Func<T, object>> selector, string asName)
     {
         var name = GetColumnName(selector);
-        return AddSelect(name, nameAs);
+        return AddSelect(name, asName);
     }
 
-    public QueryBuilder<T> Select<TItem>(Expression<Func<TItem, object>> selector, string nameAs)
+    public QueryBuilder<T> Select<TItem>(Expression<Func<TItem, object>> selector, string asName)
     {
         var name = GetColumnName(selector);
-        return AddSelect(name, nameAs);
+        return AddSelect(name, asName);
     }
 
-    public QueryBuilder<T> SelectCount(string nameAs = null)
+    public QueryBuilder<T> SelectCount(string asName = null)
     {
-        if (string.IsNullOrWhiteSpace(nameAs))
+        if (string.IsNullOrWhiteSpace(asName))
             selects.Add("count(*)");
         else
-            AddSelect("count(*)", nameAs);
+            AddSelect("count(*)", asName);
         return this;
     }
 
-    private QueryBuilder<T> AddSelect(string name, string nameAs)
+    private QueryBuilder<T> AddSelect(string name, string asName)
     {
-        var asName = builder.FormatName(nameAs);
-        selects.Add($"{name} as {asName}");
+        var nameAs = builder.FormatName(asName);
+        selects.Add($"{name} as {nameAs}");
         return this;
     }
 

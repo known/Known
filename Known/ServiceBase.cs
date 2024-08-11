@@ -11,16 +11,9 @@ public abstract class ServiceBase(Context context) : IService
     public UserInfo CurrentUser => Context.CurrentUser;
     public Language Language => Context.Language;
 
-    private Database database;
-    protected virtual Database Database
+    protected virtual Database Database => new()
     {
-        get
-        {
-            database ??= new Database();
-            database.User = CurrentUser;
-            database.Context = Context;
-            return database;
-        }
-        set { database = value; }
-    }
+        User = CurrentUser,
+        Context = Context
+    };
 }
