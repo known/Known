@@ -19,7 +19,7 @@ public class BaQueryList : BaseTablePage<TbApply>
     //重新申请
     public void Reapply() => Table.SelectRows(this.RepeatFlow);
     //导出列表
-    public void Export() { }
+    public async void Export() => await ExportDataAsync();
     //打印
     public async void Print(TbApply row) => await JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
 }

@@ -170,6 +170,9 @@ public class Database : IDisposable
             if (conn.State != ConnectionState.Open)
                 conn.Open();
 
+            if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
+                criteria.PageIndex = -1;
+
             byte[] exportData = null;
             Dictionary<string, object> sums = null;
             var pageData = new List<T>();
@@ -181,8 +184,7 @@ public class Database : IDisposable
             watch.Watch("Total");
             if (total > 0)
             {
-                if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
-                    criteria.PageIndex = -1;
+                
 
                 cmd.CommandText = info.PageSql;
                 watch.Watch("Paging");
@@ -648,6 +650,9 @@ public class Database : IDisposable
 
         if (item.Value is bool boolean)
             return boolean.ToString();
+
+        if (item.Value is Enum)
+            return item.Value.ToString();
 
         if (item.Value is DateTime time)
             return DatabaseType == DatabaseType.Access ? time.ToString() : time;
