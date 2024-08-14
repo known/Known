@@ -13,19 +13,19 @@ public sealed class ImportHelper
         {
             switch (task.Status)
             {
-                case TaskStatus.Pending:
+                case SysTaskStatus.Pending:
                     info.Message = context.Language["Import.TaskPending"];
                     info.IsFinished = false;
                     break;
-                case TaskStatus.Running:
+                case SysTaskStatus.Running:
                     info.Message = context.Language["Import.TaskRunning"];
                     info.IsFinished = false;
                     break;
-                case TaskStatus.Failed:
+                case SysTaskStatus.Failed:
                     info.Message = context.Language["Import.TaskFailed"];
                     info.Error = task.Note;
                     break;
-                case TaskStatus.Success:
+                case SysTaskStatus.Success:
                     info.Message = "";
                     break;
             }
@@ -92,7 +92,7 @@ public sealed class ImportHelper
             Type = form.BizType,
             Name = form.BizName,
             Target = "",
-            Status = TaskStatus.Pending
+            Status = SysTaskStatus.Pending
         };
     }
 

@@ -30,8 +30,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (info == null)
             return new FlowInfo();
 
-        var logs = await Database.Query<SysFlowLog>().Where(d => d.BizId == bizId)
-                                 .OrderBy(d => d.ExecuteTime).ToListAsync();
+        var logs = await Repository.GetFlowLogsAsync(Database, bizId);
         if (logs != null && logs.Count > 0)
         {
             var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();

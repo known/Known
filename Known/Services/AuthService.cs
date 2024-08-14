@@ -63,7 +63,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         if (user != null)
         {
-            using var db = new Database();
+            using var db = Platform.CreateDatabase();
             db.User = user;
             await Logger.AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
         }
@@ -109,8 +109,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var info = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(db),
-            MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.UserName && d.Status == Constants.UMStatusUnread),
-            UserMenus = await UserHelper.GetUserMenusAsync(db, modules),
+            MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.User.UserName && d.Status == Constants.UMStatusUnread),
+            UserMenus = await UserHelper.GetUserMenusAsync(Repository, db, modules),
             UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(db, SettingInfo.KeyInfo),
             Codes = await DictionaryService.GetDictionariesAsync(db)
         };

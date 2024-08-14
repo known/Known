@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-internal class DBHelper
+public class DBUtils
 {
     internal static void RegisterConnections()
     {
@@ -24,7 +24,7 @@ internal class DBHelper
 
     internal static async Task InitializeAsync()
     {
-        var db = new Database();
+        var db = Platform.CreateDatabase();
         int? count = null;
         try
         {
@@ -50,7 +50,7 @@ internal class DBHelper
         }
     }
 
-    internal static object ConvertTo<T>(DbDataReader reader)
+    public static object ConvertTo<T>(IDataReader reader)
     {
         var dic = GetDictionary(reader);
         var type = typeof(T);
@@ -75,7 +75,16 @@ internal class DBHelper
         return obj;
     }
 
-    internal static Dictionary<string, object> GetDictionary(DbDataReader reader)
+    public static Dictionary<string, object> ToDictionary(object value)
+    {
+        if (value is Dictionary<string, object> dictionary)
+            return dictionary;
+
+        var dic = Utils.MapTo<Dictionary<string, object>>(value);
+        return dic ?? [];
+    }
+
+    public static Dictionary<string, object> GetDictionary(IDataReader reader)
     {
         var dic = new Dictionary<string, object>();
         for (int i = 0; i < reader.FieldCount; i++)
@@ -87,7 +96,7 @@ internal class DBHelper
         return dic;
     }
 
-    internal static byte[] GetExportData<T>(PagingCriteria criteria, List<T> pageData)
+    public static byte[] GetExportData<T>(PagingCriteria criteria, List<T> pageData)
     {
         if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)
             return null;

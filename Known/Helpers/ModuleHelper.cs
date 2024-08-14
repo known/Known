@@ -14,7 +14,7 @@ class ModuleHelper
             if (modules != null && modules.Count > 0)
             {
                 await db.DeleteAllAsync<SysModule>();
-                await db.InsertDatasAsync(modules);
+                await db.InsertListAsync(modules);
             }
         }
     }

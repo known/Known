@@ -9,7 +9,7 @@ public interface ILogger
     void Flush();
 }
 
-enum LogType { Login, Logout, Page }
+public enum LogType { Login, Logout, Page }
 public enum LogLevel { Error, Info, Debug }
 
 public sealed class Logger
@@ -20,14 +20,9 @@ public sealed class Logger
 
     public static LogLevel Level { get; set; }
 
-    public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
+    public static async Task<List<string>> GetVisitMenuIdsAsync(IDataRepository repository, Database db, string userName, int size)
     {
-        var logs = await db.Query<SysLog>()
-                 .Select(d => d.Target, nameof(CountInfo.Field1))
-                 .SelectCount(nameof(CountInfo.TotalCount))
-                 .Where(d => d.CreateBy == userName && d.Type == $"{LogType.Page}")
-                 .GroupBy(d => d.Target)
-                 .ToListAsync<CountInfo>();
+        var logs = await repository.GetVisitLogsAsync(db, userName);
         logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();
     }

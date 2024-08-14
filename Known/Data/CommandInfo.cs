@@ -8,9 +8,9 @@ public class CommandInfo
     {
         Prefix = builder.Prefix;
         Text = text?.Replace("@", Prefix);
-        //Console.WriteLine(Text);
         if (param != null)
-            Params = MapToDictionary(param);
+            Params = DBUtils.ToDictionary(param);
+        Config.App.DBLog?.Invoke(this);
     }
 
     internal bool IsSave { get; set; }
@@ -33,10 +33,7 @@ public class CommandInfo
         }
     }
 
-    public void SetParameters<T>(T data)
-    {
-        Params = MapToDictionary(data);
-    }
+    public void SetParameters<T>(T data) => Params = DBUtils.ToDictionary(data);
 
     public override string ToString()
     {
@@ -51,14 +48,5 @@ public class CommandInfo
             }
         }
         return sb.ToString();
-    }
-
-    internal static Dictionary<string, object> MapToDictionary(object value)
-    {
-        if (value is Dictionary<string, object> dictionary)
-            return dictionary;
-
-        var dic = Utils.MapTo<Dictionary<string, object>>(value);
-        return dic ?? [];
     }
 }

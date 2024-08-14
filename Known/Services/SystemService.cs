@@ -63,9 +63,10 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         try
         {
-            var type = Utils.ConvertTo<DatabaseType>(info.Type);
-            var database = new Database(type, info.ConnectionString);
-            await database.OpenAsync();
+            var db = Platform.CreateDatabase();
+            db.DatabaseType = Utils.ConvertTo<DatabaseType>(info.Type);
+            db.ConnectionString = info.ConnectionString;
+            await db.OpenAsync();
             return Result.Success(Language["Tip.ConnectSuccess"]);
         }
         catch (Exception ex)
@@ -83,7 +84,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             return Result.Error(Language["Tip.PwdNotEqual"]);
 
         Config.App.SetConnection(info.Databases);
-        await DBHelper.InitializeAsync();
+        await DBUtils.InitializeAsync();
 
         var modules = ModuleHelper.GetModules();
         var sys = GetSystem(info);
@@ -107,17 +108,16 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     private Database GetDatabase(InstallInfo info)
     {
-        return new Database
+        var db = Platform.CreateDatabase();
+        db.Context = Context;
+        db.User = new UserInfo
         {
-            Context = Context,
-            User = new UserInfo
-            {
-                AppId = Config.App.Id,
-                CompNo = info.CompNo,
-                UserName = info.AdminName.ToLower(),
-                Name = info.AdminName
-            }
+            AppId = Config.App.Id,
+            CompNo = info.CompNo,
+            UserName = info.AdminName.ToLower(),
+            Name = info.AdminName
         };
+        return db;
     }
 
     private static async Task SaveCompanyAsync(Database db, InstallInfo info, SystemInfo sys)

@@ -4,7 +4,7 @@ public class Constants
 {
     private Constants() { }
 
-    internal const string DicCategory = "DicCategory";
+    public const string DicCategory = "DicCategory";
 
     public const string KeyToken = "Known-Token";
     internal const string KeyClient = "Known-Client";
@@ -37,9 +37,9 @@ public class RegexPattern
 }
 
 [CodeInfo]
-class TaskStatus
+public class SysTaskStatus
 {
-    private TaskStatus() { }
+    private SysTaskStatus() { }
 
     public const string Pending = "Pending";
     public const string Running = "Running";

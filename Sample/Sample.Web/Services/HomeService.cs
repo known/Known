@@ -12,7 +12,7 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         await db.OpenAsync();
         var info = new HomeInfo
         {
-            VisitMenuIds = await Logger.GetVisitMenuIdsAsync(db, user.UserName, 12),
+            VisitMenuIds = await Logger.GetVisitMenuIdsAsync(Repository, db, user.UserName, 12),
             Statistics = await GetStatisticsInfoAsync(db)
         };
         await db.CloseAsync();
@@ -28,26 +28,19 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         };
         var now = DateTime.Now;
         var endDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1).Day;
+        var begin = new DateTime(now.Year, now.Month, 1);
+        var end = new DateTime(now.Year, now.Month, endDay, 23, 59, 59);
+        var logs = await Repository.GetVisitLogsAsync(db, begin, end);
         var seriesLog = new Dictionary<string, object>();
         for (int i = 1; i <= endDay; i++)
         {
-            var date = new DateTime(now.Year, now.Month, i);
-            seriesLog[i.ToString("00")] = await GetLogCountAsync(db, date);
+            var date = new DateTime(now.Year, now.Month, i).ToString("yyyy-MM-dd");
+            seriesLog[i.ToString("00")] = logs?.Count(l => l.CreateTime.ToString("yyyy-MM-dd") == date);
         }
         info.LogDatas =
         [
             new ChartDataInfo { Name = Language["Home.VisitCount"], Series = seriesLog }
         ];
         return info;
-    }
-
-    private static Task<int> GetLogCountAsync(Database db, DateTime date)
-    {
-        var day = date.ToString("yyyy-MM-dd");
-        var begin = DateTime.Parse($"{day} 00:00:00");
-        var end = DateTime.Parse($"{day} 23:59:59");
-        return db.Query<SysLog>()
-                 .Where(d => d.CompNo == db.User.CompNo && d.CreateTime.Between(begin, end))
-                 .CountAsync();
     }
 }

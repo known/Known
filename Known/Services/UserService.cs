@@ -17,31 +17,9 @@ public interface IUserService : IService
 class UserService(Context context) : ServiceBase(context), IUserService
 {
     //User
-    public async Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
+    public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        var db = Database;
-        var sql = @"
-select a.*,b.Name as Department 
-from SysUser a 
-left join SysOrganization b on b.Id=a.OrgNo 
-where a.CompNo=@CompNo and a.UserName<>'admin'";
-        var orgNoId = nameof(SysUser.OrgNo);
-        var orgNo = criteria.GetParameter<string>(orgNoId);
-        if (!string.IsNullOrWhiteSpace(orgNo))
-        {
-            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
-            if (org != null && org.Code != db.User.CompNo)
-                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
-            else
-                criteria.RemoveQuery(orgNoId);
-        }
-        criteria.Fields[nameof(SysUser.Name)] = "a.Name";
-        return await db.QueryPageAsync<SysUser>(sql, criteria);
-        //return await db.Select<SysUser>()
-        //               .LeftJoin<SysOrganization>((a, b) => b.Id == a.OrgNo)
-        //               .Select<SysOrganization>(d => d.Name, "Department")
-        //               .Where(d => d.CompNo == db.User.CompNo && d.UserName != "admin")
-        //               .ToPageAsync(criteria);
+        return Repository.QueryUsersAsync(Database, criteria);
     }
 
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
@@ -52,8 +30,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         await db.OpenAsync();
         var user = await db.QueryByIdAsync<SysUser>(id);
         user ??= new SysUser();
-        var roles = await db.Query<SysRole>().Where(d => d.CompNo == db.User.CompNo && d.Enabled)
-                            .OrderBy(d => d.CreateTime).ToListAsync();
+        var roles = await Repository.GetRolesAsync(db);
         var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
         var roleIds = userRoles?.Select(r => r.RoleId).ToList();
         //var datas = PlatformHelper.UserDatas?.Invoke(db);
@@ -194,7 +171,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 model.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
                 foreach (var item in roles)
                 {
-                    await db.InsertDataAsync(new SysUserRole { UserId = model.Id, RoleId = item.Id });
+                    await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = item.Id });
                 }
             }
             await db.SaveAsync(model);
@@ -232,7 +209,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             await db.SaveAsync(model);
             var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
             if (role != null)
-                await db.InsertDataAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
+                await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
         }
     }
 }

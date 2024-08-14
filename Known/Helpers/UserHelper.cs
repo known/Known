@@ -11,7 +11,7 @@ class UserHelper
         return appName;
     }
 
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db, List<SysModule> modules)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(IDataRepository repository, Database db, List<SysModule> modules)
     {
         var user = db.User;
         if (user == null)
@@ -20,10 +20,7 @@ class UserHelper
         if (user.IsAdmin)
             return modules.ToMenus(true);
 
-        var sql = @"select a.ModuleId from SysRoleModule a 
-where a.RoleId in (select RoleId from SysUserRole where UserId=@UserId)
-  and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
-        var moduleIds = await db.ScalarsAsync<string>(sql, new { UserId = user.Id });
+        var moduleIds = await repository.GetRoleModuleIdsAsync(db, user.Id);
         var userModules = new List<SysModule>();
         foreach (var item in modules)
         {

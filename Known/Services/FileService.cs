@@ -19,7 +19,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
         await DeleteFilesAsync(db, files, oldFiles);
     }
 
-    //internal static async Task<SysFile> SaveFileAsync(Database db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
+    //internal static async Task<SysFile> SaveFileAsync(IDatabase db, AttachFile file, string bizId, string bizType, List<string> oldFiles)
     //{
     //    if (file == null)
     //        return null;
@@ -62,11 +62,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     public async Task<ImportFormInfo> GetImportAsync(string bizId)
     {
-        var user = Database.User;
-        var task = await Database.Query<SysTask>()
-                 .Where(d => d.CompNo == user.CompNo && d.CreateBy == user.UserName && d.BizId == bizId)
-                 .OrderByDescending(d => d.CreateTime)
-                 .FirstAsync();
+        var task = await Repository.GetTaskByBizIdAsync(Database, bizId);
         return ImportHelper.GetImport(Context, bizId, task);
     }
 
@@ -84,24 +80,25 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     public Task<List<SysFile>> GetFilesAsync(string bizId) => GetFilesAsync(Database, bizId);
 
-    internal static Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
+    internal static async Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
     {
         if (string.IsNullOrWhiteSpace(bizId))
-            return Task.FromResult(new List<SysFile>());
+            return new List<SysFile>();
 
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
-            return db.Query<SysFile>().Where(d => d.BizId.In(bizIds)).OrderBy(d => d.CreateTime).ToListAsync();
+        {
+            var files1 = await db.QueryListAsync<SysFile>(d => d.BizId.In(bizIds));
+            return files1?.OrderBy(d => d.CreateTime).ToList();
+        }
 
         if (!bizId.Contains('_'))
-            return GetFilesByBizIdAsync(db, bizId);
+            return await GetFilesByBizIdAsync(db, bizId);
 
         var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
         var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-        return db.Query<SysFile>()
-                 .Where(d => d.BizId == bizId1 && d.Type == bizType)
-                 .OrderBy(d => d.CreateTime)
-                 .ToListAsync();
+        var files = await db.QueryListAsync<SysFile>(d => d.BizId == bizId1 && d.Type == bizType);
+        return files?.OrderBy(d => d.CreateTime).ToList();
     }
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
@@ -158,9 +155,10 @@ class FileService(Context context) : ServiceBase(context), IFileService
     //    await DeleteFilesAsync(db, files, oldFiles);
     //}
 
-    private static Task<List<SysFile>> GetFilesByBizIdAsync(Database db, string bizId)
+    private static async Task<List<SysFile>> GetFilesByBizIdAsync(Database db, string bizId)
     {
-        return db.Query<SysFile>().Where(d => d.BizId == bizId).OrderBy(d => d.CreateTime).ToListAsync();
+        var files = await db.QueryListAsync<SysFile>(d => d.BizId == bizId);
+        return files?.OrderBy(d => d.CreateTime).ToList();
     }
 
     private static async Task DeleteFilesAsync(Database db, List<SysFile> files, List<string> oldFiles)

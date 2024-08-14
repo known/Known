@@ -7,5 +7,6 @@ public enum DatabaseType
     SqlServer,
     Oracle,
     MySql,
-    PgSql
+    PgSql,
+    Other
 }

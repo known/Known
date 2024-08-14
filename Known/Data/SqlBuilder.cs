@@ -213,7 +213,7 @@ select t.* from (
     public CommandInfo GetInsertCommand<T>(T data)
     {
         var tableName = GetTableName<T>();
-        var cmdParams = CommandInfo.MapToDictionary(data);
+        var cmdParams = DBUtils.ToDictionary(data);
         return GetInsertCommand(tableName, cmdParams);
     }
 

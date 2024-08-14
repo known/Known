@@ -60,7 +60,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
             {
                 foreach (var item in model.MenuIds)
                 {
-                    await db.InsertDataAsync(new SysRoleModule { RoleId = model.Id, ModuleId = item });
+                    await db.InsertAsync(new SysRoleModule { RoleId = model.Id, ModuleId = item });
                 }
             }
         }, model);

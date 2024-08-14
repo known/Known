@@ -19,10 +19,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()
     {
-        var categories = await Database.Query<SysDictionary>()
-                 .Where(d => d.Enabled && d.CompNo == CurrentUser.CompNo && d.Category == Constants.DicCategory)
-                 .OrderBy(d => d.Sort)
-                 .ToListAsync();
+        var categories = await Repository.GetDicCategoriesAsync(Database);
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
     }
 
@@ -66,11 +63,8 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 
     internal static async Task<List<CodeInfo>> GetDictionariesAsync(Database db)
     {
-        var entities = await db.Query<SysDictionary>()
-                               .Where(d => d.Enabled)
-                               .OrderBy(d => d.Category, d => d.Sort)
-                               .ToListAsync();
-        var codes = entities.Select(e =>
+        var entities = await db.QueryListAsync<SysDictionary>();
+        var codes = entities.Where(d => d.Enabled).OrderBy(d => d.Category).ThenBy(d => d.Sort).Select(e =>
         {
             var code = e.Code;
             var name = string.IsNullOrWhiteSpace(e.Name)

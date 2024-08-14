@@ -2,6 +2,36 @@
 
 public class Platform
 {
+    private static readonly Dictionary<string, Type> dbTypes = [];
+
+    public static Type RepositoryType { get; set; }
+    public static void RegisterDatabase(Type type, string name = "Default") => dbTypes[name] = type;
+
+    internal static Database CreateDatabase(string name = "Default")
+    {
+        if (!dbTypes.TryGetValue(name, out Type type))
+            return new DefaultDatabase(name);
+
+        if (Activator.CreateInstance(type) is not Database instance)
+            throw new SystemException($"The {type} is not implement Database");
+
+        return instance;
+    }
+
+    internal static IDataRepository CreateRepository()
+    {
+        if (RepositoryType == null)
+            return new DataRepository();
+
+        if (Activator.CreateInstance(RepositoryType) is not IDataRepository instance)
+            throw new SystemException($"The {RepositoryType} is not implement IDatabase");
+
+        return instance;
+    }
+
+    //System
+    public static Task<SystemInfo> GetSystemAsync(Database db) => SystemService.GetSystemAsync(db);
+
     //User
     public static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName) => UserService.GetUsersByRoleAsync(db, roleName);
     public static Task SyncUserAsync(Database db, SysUser user) => UserService.SyncUserAsync(db, user);

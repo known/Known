@@ -11,14 +11,15 @@ class ApplyRepository
 from TbApply a,SysFlow b 
 where a.Id=b.BizId and a.CompNo=@CompNo";
 
+        var userName = db.User.UserName;
         var type = criteria.GetParameter<FlowPageType>("Type");
         switch (type)
         {
             case FlowPageType.Apply:
-                sql += $" and b.BizStatus<>'{FlowStatus.VerifyPass}' and (b.CreateBy='{db.UserName}' or b.ApplyBy='{db.UserName}' or (b.BizStatus='{FlowStatus.Verifing}' and b.ApplyBy='{db.UserName}'))";
+                sql += $" and b.BizStatus<>'{FlowStatus.VerifyPass}' and (b.CreateBy='{userName}' or b.ApplyBy='{userName}' or (b.BizStatus='{FlowStatus.Verifing}' and b.ApplyBy='{userName}'))";
                 break;
             case FlowPageType.Verify:
-                sql += $" and b.BizStatus='{FlowStatus.Verifing}' and b.CurrBy='{db.UserName}'";
+                sql += $" and b.BizStatus='{FlowStatus.Verifing}' and b.CurrBy='{userName}'";
                 break;
             case FlowPageType.Query:
                 sql += $" and b.BizStatus='{FlowStatus.VerifyPass}'";

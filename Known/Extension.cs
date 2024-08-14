@@ -44,7 +44,7 @@ $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', 
         Config.CoreAssemblies.Add(typeof(Extension).Assembly);
         action?.Invoke(Config.App);
 
-        DBHelper.RegisterConnections();
+        DBUtils.RegisterConnections();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped<ICompanyService, CompanyService>();
