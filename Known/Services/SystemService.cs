@@ -50,12 +50,23 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<InstallInfo> GetInstallAsync()
     {
         var info = await GetInstallDataAysnc();
-        info.Databases = Config.App.Connections.Select(c => new DatabaseInfo
+        if (Config.App.Connections != null)
         {
-            Name = c.Name,
-            Type = c.DatabaseType.ToString(),
-            ConnectionString = c.GetDefaultConnectionString()
-        }).ToList();
+            info.Databases = Config.App.Connections.Select(c => new DatabaseInfo
+            {
+                Name = c.Name,
+                Type = c.DatabaseType.ToString(),
+                ConnectionString = c.GetDefaultConnectionString()
+            }).ToList();
+        }
+        else
+        {
+            var db = Platform.CreateDatabase();
+            info.Databases = [new DatabaseInfo {
+                Name = "Default", Type = db.DatabaseType.ToString(),
+                ConnectionString = db.ConnectionString
+            }];
+        }
         return info;
     }
 

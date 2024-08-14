@@ -371,10 +371,10 @@ class DefaultDatabase : Database
         return ExecuteNonQueryAsync(info);
     }
 
-    public async override Task InsertListAsync<T>(List<T> datas)
+    public async override Task<int> InsertListAsync<T>(List<T> datas)
     {
         if (datas == null || datas.Count == 0)
-            return;
+            return 0;
 
         var close = false;
         if (conn.State != ConnectionState.Open)
@@ -383,50 +383,32 @@ class DefaultDatabase : Database
             conn.Open();
         }
 
+        var count = 0;
         var info = Builder.GetInsertCommand<T>();
         foreach (var item in datas)
         {
             info.SetParameters(item);
-            await ExecuteNonQueryAsync(info);
+            count += await ExecuteNonQueryAsync(info);
         }
 
         if (close)
             conn.Close();
+
+        return count;
     }
 
-    public async override Task SaveAsync<T>(T entity)
+    protected override Task<int> SaveDataAsync<T>(T entity)
     {
-        if (entity == null)
-            return;
-
-        if (User == null)
-            throw new SystemException("the user is not null.");
-
-        if (entity.IsNew)
-        {
-            if (entity.CreateBy == "temp")
-                entity.CreateBy = User.UserName;
-            entity.CreateTime = DateTime.Now;
-            if (entity.AppId == "temp")
-                entity.AppId = User.AppId;
-            if (entity.CompNo == "temp")
-                entity.CompNo = User.CompNo;
-        }
-        else
-        {
-            entity.Version += 1;
-            var info1 = Builder.GetSelectCommand<T>(entity.Id);
-            var original = await QueryAsync<Dictionary<string, object>>(info1);
-            entity.SetOriginal(original);
-        }
-
-        entity.ModifyBy = User.UserName;
-        entity.ModifyTime = DateTime.Now;
-
         var info = Builder.GetSaveCommand(entity);
         info.IsSave = true;
-        await ExecuteNonQueryAsync(info);
-        entity.IsNew = false;
+        return ExecuteNonQueryAsync(info);
+    }
+
+    internal override async Task SetOriginalAsync<T>(T entity)
+    {
+        var info = Builder.GetSelectCommand<T>(entity.Id);
+        var original = await QueryAsync<Dictionary<string, object>>(info);
+        entity.SetOriginal(original);
     }
     #endregion
 
@@ -466,30 +448,11 @@ class DefaultDatabase : Database
     #endregion
 
     #region Dictionary
-    public async override Task<int> SaveAsync(string tableName, Dictionary<string, object> data)
+    public override async Task<bool> ExistsAsync(string tableName, string id)
     {
-        if (data == null || data.Count == 0)
-            return 0;
-
-        var id = data.GetValue<string>(nameof(EntityBase.Id));
         var info = Builder.GetCountCommand(tableName, id);
         var count = await ScalarAsync<int>(info);
-        if (count > 0)
-        {
-            data[nameof(EntityBase.Version)] = data.GetValue<int>(nameof(EntityBase.Version)) + 1;
-            return await UpdateAsync(tableName, nameof(EntityBase.Id), data);
-        }
-
-        if (string.IsNullOrWhiteSpace(id))
-            data[nameof(EntityBase.Id)] = Utils.GetGuid();
-        data[nameof(EntityBase.CreateBy)] = User.UserName;
-        data[nameof(EntityBase.CreateTime)] = DateTime.Now;
-        data[nameof(EntityBase.ModifyBy)] = User.UserName;
-        data[nameof(EntityBase.ModifyTime)] = DateTime.Now;
-        data[nameof(EntityBase.Version)] = 1;
-        data[nameof(EntityBase.AppId)] = User.AppId;
-        data[nameof(EntityBase.CompNo)] = User.CompNo;
-        return await InsertAsync(tableName, data);
+        return count > 0;
     }
 
     public override Task<int> DeleteAsync(string tableName, string id)
