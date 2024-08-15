@@ -21,6 +21,7 @@ public abstract class Database : IDisposable
     public abstract Task<List<T>> QueryListAsync<T>(string sql, object param = null);
     public abstract Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression);
     public abstract Task<List<T>> QueryListByIdAsync<T>(string[] ids);
+    public abstract Task<DataTable> QueryTableAsync(string sql, object param = null);
 
     public abstract Task<int> ExecuteAsync(string sql, object param = null);
     public abstract Task<T> ScalarAsync<T>(string sql, object param = null);
@@ -29,15 +30,23 @@ public abstract class Database : IDisposable
     public abstract Task<int> CountAsync<T>(Expression<Func<T, bool>> expression);
     public abstract Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new();
     public abstract Task<int> DeleteAllAsync<T>() where T : class, new();
-
     public abstract Task<int> InsertAsync<T>(T data) where T : class, new();
     public abstract Task<int> InsertListAsync<T>(List<T> datas) where T : class, new();
-    protected abstract Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new();
 
     public abstract Task<bool> ExistsAsync(string tableName, string id);
     public abstract Task<int> DeleteAsync(string tableName, string id);
     public abstract Task<int> InsertAsync(string tableName, Dictionary<string, object> data);
     public abstract Task<int> UpdateAsync(string tableName, string keyField, Dictionary<string, object> data);
+
+    protected abstract Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new();
+
+    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase
+    {
+        if (string.IsNullOrEmpty(id))
+            return default;
+
+        return QueryAsync<T>(d => d.Id == id);
+    }
 
     public async Task<int> SaveAsync(string tableName, Dictionary<string, object> data)
     {
@@ -61,14 +70,6 @@ public abstract class Database : IDisposable
         data[nameof(EntityBase.AppId)] = User.AppId;
         data[nameof(EntityBase.CompNo)] = User.CompNo;
         return await InsertAsync(tableName, data);
-    }
-
-    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase
-    {
-        if (string.IsNullOrEmpty(id))
-            return default;
-
-        return QueryAsync<T>(d => d.Id == id);
     }
 
     public async Task SaveAsync<T>(T entity) where T : EntityBase, new()

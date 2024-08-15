@@ -123,6 +123,8 @@ public class SysUser : EntityBase
     /// </summary>
     public string Data { get; set; }
 
+    public virtual string Department { get; set; }
+
     [Form(Type = "CheckList")]
     [Category("Roles")]
     public virtual string[] RoleIds { get; set; }

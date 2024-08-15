@@ -206,7 +206,7 @@ public class PagingCriteria
         }
     }
 
-    internal Dictionary<string, object> ToParameters(UserInfo user)
+    public Dictionary<string, object> ToParameters(UserInfo user)
     {
         var parameter = new Dictionary<string, object>
         {

@@ -122,8 +122,8 @@ public class Language
     public string GetTitle(string title) => GetText("Title", title);
     public string GetCode(string code) => GetText("Code", code);
     public string Required(string label) => GetString("Valid.Required", label);
-    internal string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
-    internal string Failed(string action) => this["Tip.XXFailed"].Replace("{action}", action);
+    public string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
+    public string Failed(string action) => this["Tip.XXFailed"].Replace("{action}", action);
 
     internal string GetFormTitle(string action, string title)
     {

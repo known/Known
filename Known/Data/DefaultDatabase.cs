@@ -83,7 +83,7 @@ class DefaultDatabase : Database
         return Task.CompletedTask;
     }
 
-    public async override Task<Result> TransactionAsync(string name, Func<Database, Task> action, object data = null)
+    public override async Task<Result> TransactionAsync(string name, Func<Database, Task> action, object data = null)
     {
         using (var db = new DefaultDatabase(DatabaseType, ConnectionString, User))
         {
@@ -138,7 +138,7 @@ class DefaultDatabase : Database
         return ScalarAsync<T>(info);
     }
 
-    public async override Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
+    public override async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
         var data = new List<T>();
         var info = Builder.GetCommand(sql, param);
@@ -176,21 +176,21 @@ class DefaultDatabase : Database
         return QueryListAsync<T>(info);
     }
 
-    public async override Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
+    public override async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
     {
         try
         {
-            var watch = Stopwatcher.Start<T>();
             QueryHelper.SetAutoQuery<T>(ref sql, Builder, criteria);
-
-            if (conn.State != ConnectionState.Open)
-                conn.Open();
 
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+
             byte[] exportData = null;
             Dictionary<string, object> sums = null;
+            var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
             var info = Builder.GetCommand(sql, criteria, User);
             var cmd = await PrepareCommandAsync(conn, trans, info);
@@ -321,7 +321,7 @@ class DefaultDatabase : Database
         }
     }
 
-    public async Task<DataTable> QueryTableAsync(string sql, object param = null)
+    public override async Task<DataTable> QueryTableAsync(string sql, object param = null)
     {
         var data = new DataTable();
         var info = Builder.GetCommand(sql, param);
@@ -371,7 +371,7 @@ class DefaultDatabase : Database
         return ExecuteNonQueryAsync(info);
     }
 
-    public async override Task<int> InsertListAsync<T>(List<T> datas)
+    public override async Task<int> InsertListAsync<T>(List<T> datas)
     {
         if (datas == null || datas.Count == 0)
             return 0;
@@ -536,7 +536,7 @@ class DefaultDatabase : Database
         return reader;
     }
 
-    internal async override Task<T> ScalarAsync<T>(CommandInfo info)
+    internal override async Task<T> ScalarAsync<T>(CommandInfo info)
     {
         var cmd = await PrepareCommandAsync(conn, trans, info);
         var scalar = cmd.ExecuteScalar();
@@ -546,7 +546,7 @@ class DefaultDatabase : Database
         return Utils.ConvertTo<T>(scalar);
     }
 
-    internal async override Task<T> QueryAsync<T>(CommandInfo info)
+    internal override async Task<T> QueryAsync<T>(CommandInfo info)
     {
         T obj = default;
         using (var reader = await ExecuteReaderAsync(info))
@@ -561,7 +561,7 @@ class DefaultDatabase : Database
         return obj;
     }
 
-    internal async override Task<List<T>> QueryListAsync<T>(CommandInfo info)
+    internal override async Task<List<T>> QueryListAsync<T>(CommandInfo info)
     {
         var lists = new List<T>();
         using (var reader = await ExecuteReaderAsync(info))
