@@ -102,7 +102,7 @@ public abstract class Database : IDisposable
         entity.IsNew = false;
     }
 
-    public async Task SaveDatasAsync<T>(List<T> entities) where T : EntityBase, new()
+    public virtual async Task SaveDatasAsync<T>(List<T> entities) where T : EntityBase, new()
     {
         if (entities == null || entities.Count == 0)
             return;
@@ -128,7 +128,7 @@ public abstract class Database : IDisposable
 
     public async Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> expression)
     {
-        var count = await CountAsync<T>(expression);
+        var count = await CountAsync(expression);
         return count > 0;
     }
 
@@ -139,7 +139,7 @@ public abstract class Database : IDisposable
 
     public Task<int> DeleteAsync<T>(string id) where T : EntityBase, new()
     {
-        if (!string.IsNullOrWhiteSpace(id))
+        if (string.IsNullOrWhiteSpace(id))
             return Task.FromResult(0);
 
         return DeleteAsync<T>(d => d.Id == id);
