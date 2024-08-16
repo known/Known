@@ -52,7 +52,7 @@ public static class AppWeb
         {
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
-            info.DBLog = c => Console.WriteLine(c.Text);
+            //info.DBLog = c => Console.WriteLine(c.Text);
             action?.Invoke(info);
         });
 
