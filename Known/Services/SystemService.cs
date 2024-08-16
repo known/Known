@@ -2,15 +2,20 @@
 
 public interface ISystemService : IService
 {
-    Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria);
-    Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
-    [AllowAnonymous] Task<InstallInfo> GetInstallAsync();
     [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
-    Task<SystemDataInfo> GetSystemDataAsync();
+    [AllowAnonymous] Task<InstallInfo> GetInstallAsync();
     [AllowAnonymous] Task<Result> TestConnectionAsync(DatabaseInfo info);
     [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
+
+    Task<SystemDataInfo> GetSystemDataAsync();
     Task<Result> SaveSystemAsync(SystemInfo info);
     Task<Result> SaveKeyAsync(SystemInfo info);
+
+    Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria);
+    Task<Result> DeleteTasksAsync(List<SysTask> models);
+    Task<Result> ResetTasksAsync(List<SysTask> models);
+
+    Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
     Task<Result> AddLogAsync(SysLog log);
 }
 
@@ -19,7 +24,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     private const string KeySystem = "SystemInfo";
 
     //Config
-    public static async Task<T> GetConfigAsync<T>(Database db, string key)
+    internal static async Task<T> GetConfigAsync<T>(Database db, string key)
     {
         var json = await GetConfigAsync(db, key);
         return Utils.FromJson<T>(json);
@@ -32,7 +37,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return config?.ConfigValue;
     }
 
-    public static async Task SaveConfigAsync(Database db, string key, object value)
+    internal static async Task SaveConfigAsync(Database db, string key, object value)
     {
         var appId = Config.App.Id;
         var data = new Dictionary<string, object>();
@@ -44,6 +49,29 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             await db.UpdateAsync(nameof(SysConfig), "AppId,ConfigKey", data);
         else
             await db.InsertAsync(nameof(SysConfig), data);
+    }
+
+    //System
+    public async Task<SystemInfo> GetSystemAsync()
+    {
+        try
+        {
+            var info = await GetSystemAsync(Database);
+            if (info != null)
+            {
+                info.ProductKey = null;
+                info.UserDefaultPwd = null;
+                //var install = GetInstall();
+                //info.ProductId = install.ProductId;
+                //info.ProductKey = install.ProductKey;
+            }
+            return info;
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return null;//系统未安装，返回null
+        }
     }
 
     //Install
@@ -173,29 +201,21 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         await db.SaveAsync(user);
     }
 
-    //System
-    public async Task<SystemInfo> GetSystemAsync()
+    private async Task<InstallInfo> GetInstallDataAysnc()
     {
-        try
+        var app = Config.App;
+        var info = new InstallInfo
         {
-            var info = await GetSystemAsync(Database);
-            if (info != null)
-            {
-                info.ProductKey = null;
-                info.UserDefaultPwd = null;
-                //var install = GetInstall();
-                //info.ProductId = install.ProductId;
-                //info.ProductKey = install.ProductKey;
-            }
-            return info;
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-            return null;//系统未安装，返回null
-        }
+            AppName = app.Name,
+            ProductId = app.ProductId,
+            ProductKey = AppHelper.GetProductKey(),
+            AdminName = Constants.SysUserName
+        };
+        await CheckKeyAsync();
+        return info;
     }
 
+    //System
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
         var info = await GetSystemAsync(Database);
@@ -222,13 +242,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return Utils.FromJson<SystemInfo>(company.SystemData);
     }
 
-    public async Task<Result> SaveKeyAsync(SystemInfo info)
-    {
-        AppHelper.SaveProductKey(info.ProductKey);
-        await SaveConfigAsync(Database, KeySystem, info);
-        return await CheckKeyAsync();
-    }
-
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
         if (Config.App.IsPlatform)
@@ -247,18 +260,11 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return Result.Success(Language.Success(Language.Save));
     }
 
-    private async Task<InstallInfo> GetInstallDataAysnc()
+    public async Task<Result> SaveKeyAsync(SystemInfo info)
     {
-        var app = Config.App;
-        var info = new InstallInfo
-        {
-            AppName = app.Name,
-            ProductId = app.ProductId,
-            ProductKey = AppHelper.GetProductKey(),
-            AdminName = Constants.SysUserName
-        };
-        await CheckKeyAsync();
-        return info;
+        AppHelper.SaveProductKey(info.ProductKey);
+        await SaveConfigAsync(Database, KeySystem, info);
+        return await CheckKeyAsync();
     }
 
     private static SystemInfo GetSystem(InstallInfo info)
@@ -298,6 +304,35 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return Database.QueryPageAsync<SysTask>(criteria);
     }
 
+    public async Task<Result> DeleteTasksAsync(List<SysTask> models)
+    {
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Delete, async db =>
+        {
+            foreach (var item in models)
+            {
+                await db.DeleteAsync(item);
+            }
+        });
+    }
+
+    public async Task<Result> ResetTasksAsync(List<SysTask> models)
+    {
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Reset, async db =>
+        {
+            foreach (var item in models)
+            {
+                item.Status = SysTaskStatus.Pending;
+                await db.SaveAsync(item);
+            }
+        });
+    }
+
     //Log
     public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
     {
@@ -305,22 +340,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             criteria.OrderBys = [$"{nameof(SysLog.CreateTime)} desc"];
         return Database.QueryPageAsync<SysLog>(criteria);
     }
-
-    //internal async Task<Result> DeleteLogsAsync(string data)
-    //{
-    //    var ids = Utils.FromJson<string[]>(data);
-    //    var entities = await Database.QueryListByIdAsync<SysLog>(ids);
-    //    if (entities == null || entities.Count == 0)
-    //        return Result.Error(Language.SelectOneAtLeast);
-
-    //    return await Database.TransactionAsync(Language.Delete, async db =>
-    //    {
-    //        foreach (var item in entities)
-    //        {
-    //            await db.DeleteAsync(item);
-    //        }
-    //    });
-    //}
 
     public async Task<Result> AddLogAsync(SysLog log)
     {
