@@ -6,13 +6,14 @@ public interface IFileService : IService
     Task<List<SysFile>> GetFilesAsync(string bizId);
     Task<ImportFormInfo> GetImportAsync(string bizId);
     Task<byte[]> GetImportRuleAsync(string bizId);
+    Task<Result> DeleteFilesAsync(List<SysFile> models);
     Task<Result> DeleteFileAsync(SysFile file);
     Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
 }
 
 class FileService(Context context) : ServiceBase(context), IFileService
 {
-    //Public
+    //Static
     internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
         var files = await GetFilesByBizIdAsync(db, bizId);
@@ -48,6 +49,24 @@ class FileService(Context context) : ServiceBase(context), IFileService
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [$"{nameof(SysFile.CreateTime)} desc"];
         return Database.QueryPageAsync<SysFile>(criteria);
+    }
+
+    public async Task<Result> DeleteFilesAsync(List<SysFile> models)
+    {
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        var oldFiles = new List<string>();
+        var result = await Database.TransactionAsync(Language.Delete, async db =>
+        {
+            foreach (var item in models)
+            {
+                await DeleteFileAsync(db, item, oldFiles);
+            }
+        });
+        if (result.IsValid)
+            Platform.DeleteFiles(oldFiles);
+        return result;
     }
 
     public async Task<Result> DeleteFileAsync(SysFile file)
@@ -168,12 +187,17 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
         foreach (var item in files)
         {
-            oldFiles.Add(item.Path);
-            if (!string.IsNullOrWhiteSpace(item.ThumbPath))
-                oldFiles.Add(item.ThumbPath);
-
-            await db.DeleteAsync(item);
+            await DeleteFileAsync(db, item, oldFiles);
         }
+    }
+
+    private static async Task DeleteFileAsync(Database db, SysFile item, List<string> oldFiles)
+    {
+        oldFiles.Add(item.Path);
+        if (!string.IsNullOrWhiteSpace(item.ThumbPath))
+            oldFiles.Add(item.ThumbPath);
+
+        await db.DeleteAsync(item);
     }
 
     private static async Task<SysFile> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
