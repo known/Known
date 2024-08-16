@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
-        <Description>Known.AntBlazor是基于AntDesign Blazor的实现Known框架界面的类库。</Description>
-        <Version>1.0.7.2</Version>
+        <Description>Known.SqlSugar是Known框架数据访问支持SqlSugar的类库。</Description>
+        <Version>1.0.0</Version>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>Known, AntDesign, UI, Blazor</PackageTags>
+        <PackageTags>Known, ORM, SqlSugar</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
@@ -15,16 +15,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AntDesign" Version="0.19.1" />
-        <!--<PackageReference Include="AntDesign" Version="0.0.1-v5-*" />-->
+        <PackageReference Include="SqlSugarCore" Version="5.1.4.166" />
         <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include="..\icon.png" />
-        <Content Update="Components\TabPage.razor">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        </Content>
         <None Update="..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>

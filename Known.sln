@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Core", "Known.Core\Kn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{28031FDC-5821-4E6C-A7EA-5E17086929F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.SqlSugar", "Known.SqlSugar\Known.SqlSugar.csproj", "{D5CEFDBA-960E-4B25-AA2A-C3241BC8FAA6}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{07B2A263-C351-48B9-9713-AC67C7BF4415}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "Sample\Sample\Sample.csproj", "{EF128732-EA7C-4DB9-B50D-DB6D85584C84}"
@@ -26,6 +28,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Web", "Sample\Sample.Web\Sample.Web.csproj", "{03F192BD-104A-4D5E-9C15-02FBBB82EA71}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.WinForm", "Sample\Sample.WinForm\Sample.WinForm.csproj", "{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSugarWeb", "Sample\SqlSugarWeb\SqlSugarWeb.csproj", "{E190C06C-5AA7-4F52-ACD1-FB43321ED219}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,14 @@ Global
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5CEFDBA-960E-4B25-AA2A-C3241BC8FAA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5CEFDBA-960E-4B25-AA2A-C3241BC8FAA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5CEFDBA-960E-4B25-AA2A-C3241BC8FAA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5CEFDBA-960E-4B25-AA2A-C3241BC8FAA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,7 @@ Global
 		{28A3F3A6-2F2B-415D-AB84-050FC4C3AD7B} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{03F192BD-104A-4D5E-9C15-02FBBB82EA71} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
+		{E190C06C-5AA7-4F52-ACD1-FB43321ED219} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}
