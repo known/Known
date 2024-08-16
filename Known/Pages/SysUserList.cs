@@ -8,8 +8,8 @@ public class SysUserList : BasePage<SysUser>
     private IUserService Service;
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
-    private TreeModel tree;
-    private TableModel<SysUser> table;
+    private TreeModel Tree;
+    private TableModel<SysUser> Table;
 
     protected override async Task OnPageInitAsync()
     {
@@ -25,7 +25,7 @@ public class SysUserList : BasePage<SysUser>
             Page.Spans = "28";
 
             currentOrg = orgs[0];
-            tree = new TreeModel
+            Tree = new TreeModel
             {
                 ExpandRoot = true,
                 Data = orgs.ToMenuItems(),
@@ -36,22 +36,23 @@ public class SysUserList : BasePage<SysUser>
             Page.AddItem("kui-card", BuildTree);
         }
 
-        table = new TableModel<SysUser>(this)
+        Table = new TableModel<SysUser>(this)
         {
             FormType = typeof(UserForm),
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync
         };
-        table.Initialize(this);
-        table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
+        Table.Toolbar.ShowCount = 6;
+        Table.Initialize(this);
+        Table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
 
         Page.AddItem(BuildTable);
     }
 
-    public override Task RefreshAsync() => table.RefreshAsync();
+    public override Task RefreshAsync() => Table.RefreshAsync();
 
-    private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
-    private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
+    private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, Tree));
+    private void BuildTable(RenderTreeBuilder builder) => builder.Table(Table);
 
     private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {
@@ -60,14 +61,16 @@ public class SysUserList : BasePage<SysUser>
         return Service.QueryUsersAsync(criteria);
     }
 
-    public void New() => table.NewForm(Service.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
-    public void Edit(SysUser row) => table.EditForm(Service.SaveUserAsync, row);
-    public void Delete(SysUser row) => table.Delete(Service.DeleteUsersAsync, row);
-    public void DeleteM() => table.DeleteM(Service.DeleteUsersAsync);
-    public void ResetPassword() => table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
-    public void ChangeDepartment() => table.SelectRows(OnChangeDepartment);
-    public void Enable() => table.SelectRows(Service.EnableUsersAsync, Language.Enable);
-    public void Disable() => table.SelectRows(Service.DisableUsersAsync, Language.Disable);
+    public void New() => Table.NewForm(Service.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    public void Edit(SysUser row) => Table.EditForm(Service.SaveUserAsync, row);
+    public void Delete(SysUser row) => Table.Delete(Service.DeleteUsersAsync, row);
+    public void DeleteM() => Table.DeleteM(Service.DeleteUsersAsync);
+    public void ResetPassword() => Table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
+    public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
+    public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
+    public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
+    public async void Import() => await Table.ShowImportFormAsync();
+    public async void Export() => await Table.ExportDataAsync();
 
     private void OnChangeDepartment(List<SysUser> rows)
     {
@@ -99,7 +102,7 @@ public class SysUserList : BasePage<SysUser>
             {
                 //TODO：更换部门后，部门名称未刷新问题
                 await model.CloseAsync();
-                await table.RefreshAsync();
+                await Table.RefreshAsync();
             });
         };
         UI.ShowDialog(model);
@@ -108,7 +111,7 @@ public class SysUserList : BasePage<SysUser>
     private async void OnNodeClick(MenuInfo item)
     {
         currentOrg = item.Data as SysOrganization;
-        await table.RefreshAsync();
+        await Table.RefreshAsync();
     }
 }
 

@@ -37,6 +37,7 @@ class Importer : BaseComponent
                 {
                     UI.BuildCheckBox(builder, new InputModel<bool>
                     {
+                        Disabled = !isFinished,
                         Placeholder = Language["Import.IsAsync"],
                         Value = Model.IsAsync,
                         ValueChanged = this.Callback<bool>(v => Model.IsAsync = v)
@@ -117,10 +118,13 @@ class Importer : BaseComponent
     private async Task OnDownloadTemplateAsync()
     {
         var bytes = await Service.GetImportRuleAsync(Model.BizId);
-        if (bytes != null && bytes.Length > 0)
+        if (bytes == null || bytes.Length == 0)
         {
-            var stream = new MemoryStream(bytes);
-            await JS.DownloadFileAsync($"{Language["Import.Template"]}_{Model.Name}.xlsx", stream);
+            UI.Error(Language["Import.FileNotExists"]);
+            return;
         }
+
+        var stream = new MemoryStream(bytes);
+        await JS.DownloadFileAsync($"{Language["Import.Template"]}_{Model.Name}.xlsx", stream);
     }
 }

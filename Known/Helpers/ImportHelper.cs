@@ -47,7 +47,7 @@ public sealed class ImportHelper
             var note = !string.IsNullOrWhiteSpace(field.Length) ? $"{field.Length}" : "";
             sheet.SetColumnWidth(i, 13);
             sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
-            var fontColor = field.Required ? System.Drawing.Color.Red : System.Drawing.Color.White;
+            var fontColor = field.Required ? Color.Red : Color.White;
             sheet.SetCellValue(2, i, field.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
         }
         sheet.SetRowHeight(1, 30);
@@ -75,7 +75,7 @@ public sealed class ImportHelper
             sheet.SetColumnWidth(i, 13);
             var note = column.GetImportRuleNote(context);
             sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
-            var fontColor = column.Required ? System.Drawing.Color.Red : System.Drawing.Color.White;
+            var fontColor = column.Required ? Color.Red : Color.White;
             var columnName = context.Language.GetString(column);
             sheet.SetCellValue(2, i, columnName, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
         }

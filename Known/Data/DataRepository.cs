@@ -44,7 +44,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
 
     public Task<List<SysRole>> GetRolesAsync(Database db)
     {
-        var sql = "select * from SysRole where CompNo=@CompNo and Enable='True' order by CreateTime";
+        var sql = "select * from SysRole where CompNo=@CompNo and Enabled='True' order by CreateTime";
         return db.QueryListAsync<SysRole>(sql, new { db.User.CompNo });
     }
 
