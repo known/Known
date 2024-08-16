@@ -2,18 +2,28 @@
 
 sealed class TaskHelper
 {
+    private static bool isPending = false;
+
     private TaskHelper() { }
 
     internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
     {
+        if (isPending)
+            return;
+
+        isPending = true;
         var db = Platform.CreateDatabase();
         db.Context = new Context(CultureInfo.CurrentCulture.Name);
         var repository = Platform.CreateRepository();
         var task = await repository.GetPendingTaskAsync(db, bizType);
         if (task == null)
+        {
+            isPending = false;
             return;
+        }
 
         await RunAsync(db, task, action);
+        isPending = false;
     }
 
     private static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)

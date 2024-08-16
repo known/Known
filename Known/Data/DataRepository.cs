@@ -64,7 +64,7 @@ where a.RoleId in (select RoleId from SysUserRole where UserId=@UserId)
 
     public Task<SysTask> GetPendingTaskAsync(Database db, string bizType)
     {
-        var sql = $"select * SysTask where Status='{SysTaskStatus.Pending}' and Type=@bizType order by CreateTime";
+        var sql = $"select * from SysTask where Status='{SysTaskStatus.Pending}' and Type=@bizType order by CreateTime";
         return db.QueryAsync<SysTask>(sql, new { bizType });
     }
 
