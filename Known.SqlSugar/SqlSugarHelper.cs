@@ -44,20 +44,6 @@ class SqlSugarHelper
         }
     }
 
-    internal static List<SugarParameter> GetSugarParameters(object param)
-    {
-        if (param == null)
-            return null;
-
-        var dic = DBUtils.ToDictionary(param);
-        var list = new List<SugarParameter>();
-        foreach (var item in dic)
-        {
-            list.Add(new SugarParameter(item.Key, item.Value));
-        }
-        return list;
-    }
-
     internal static List<SugarParameter> GetSugarParameters(string sql, PagingCriteria criteria, UserInfo user)
     {
         if (criteria == null)

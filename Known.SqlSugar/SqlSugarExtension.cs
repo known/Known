@@ -2,7 +2,7 @@
 
 static class SqlSugarExtension
 {
-    internal static async Task<T> QueryAsync<T>(this SqlSugarScope sugar, string sql, List<SugarParameter> parameters)
+    internal static async Task<T> QueryAsync<T>(this SqlSugarScope sugar, string sql, object parameters)
     {
         using (var reader = await sugar.Ado.GetDataReaderAsync(sql, parameters))
         {
@@ -10,7 +10,7 @@ static class SqlSugarExtension
         }
     }
 
-    internal static async Task<List<T>> QueryListAsync<T>(this SqlSugarScope sugar, string sql, List<SugarParameter> parameters)
+    internal static async Task<List<T>> QueryListAsync<T>(this SqlSugarScope sugar, string sql, object parameters)
     {
         using (var reader = await sugar.Ado.GetDataReaderAsync(sql, parameters))
         {

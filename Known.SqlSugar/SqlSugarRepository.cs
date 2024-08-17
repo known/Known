@@ -43,9 +43,9 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
     {
         //SQL不兼容
         var sql = @"select a.ModuleId from SysRoleModule a 
-where a.RoleId in (select RoleId from SysUserRole where UserId=@UserId)
-  and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
-        return db.ScalarsAsync<string>(sql, new { UserId = userId });
+where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
+  and exists (select 1 from SysRole where Id=a.RoleId and Enabled=1)";
+        return db.ScalarsAsync<string>(sql, new { userId });
     }
 
     public Task<List<SysDictionary>> GetDicCategoriesAsync(Database db)

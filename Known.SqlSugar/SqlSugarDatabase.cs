@@ -120,8 +120,7 @@ class SqlSugarDatabase : Database
 
     public override Task<T> QueryAsync<T>(string sql, object param = null)
     {
-        var parameters = SqlSugarHelper.GetSugarParameters(param);
-        return sugar.QueryAsync<T>(sql, parameters);
+        return sugar.QueryAsync<T>(sql, param);
     }
 
     public override Task<T> QueryAsync<T>(Expression<Func<T, bool>> expression)
@@ -138,8 +137,7 @@ class SqlSugarDatabase : Database
 
     public override Task<List<T>> QueryListAsync<T>(string sql, object param = null)
     {
-        var parameters = SqlSugarHelper.GetSugarParameters(param);
-        return sugar.QueryListAsync<T>(sql, parameters);
+        return sugar.QueryListAsync<T>(sql, param);
     }
 
     public override Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression)
@@ -156,28 +154,24 @@ class SqlSugarDatabase : Database
 
     public override Task<System.Data.DataTable> QueryTableAsync(string sql, object param = null)
     {
-        var parameters = SqlSugarHelper.GetSugarParameters(param);
-        return sugar.Ado.GetDataTableAsync(sql, parameters);
+        return sugar.Ado.GetDataTableAsync(sql, param);
     }
 
     public override Task<int> ExecuteAsync(string sql, object param = null)
     {
-        var parameters = SqlSugarHelper.GetSugarParameters(param);
-        return sugar.Ado.ExecuteCommandAsync(sql, parameters);
+        return sugar.Ado.ExecuteCommandAsync(sql, param);
     }
 
     public override async Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        var parameters = SqlSugarHelper.GetSugarParameters(param);
-        var scalar = await sugar.Ado.GetScalarAsync(sql, parameters);
+        var scalar = await sugar.Ado.GetScalarAsync(sql, param);
         return Utils.ConvertTo<T>(scalar);
     }
 
     public override async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
         var data = new List<T>();
-        var parameters = SqlSugarHelper.GetSugarParameters(param);
-        using (var reader = await sugar.Ado.GetDataReaderAsync(sql, parameters))
+        using (var reader = await sugar.Ado.GetDataReaderAsync(sql, param))
         {
             while (reader.Read())
             {
