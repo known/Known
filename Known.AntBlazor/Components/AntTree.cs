@@ -8,8 +8,8 @@ public class AntTree : Tree<MenuInfo>
 	{
         base.OnInitialized();
         ShowIcon = true;
-        //CheckOnClickNode = false;
-        DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
+        CheckOnClickNode = false;
+        //DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
         KeyExpression = x => x.DataItem.Id;
         TitleExpression = x => x.DataItem.Name;
         IconExpression = x => x.DataItem.Icon;
@@ -31,9 +31,10 @@ public class AntTree : Tree<MenuInfo>
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
         if (Model.ExpandRoot)
-            ExpandedKeys = [Model.Data?[0]?.Id];
-        SelectedKeys = Model.SelectedKeys;
-        CheckedKeys = Model.CheckedKeys;
+            DefaultExpandedKeys = [Model.Data?[0]?.Id];
+        DefaultSelectedKeys = Model.SelectedKeys;
+        DefaultCheckedKeys = Model.CheckedKeys;
+        DisableCheckKeys = Model.DisableCheckKeys;
     }
 
     private async Task RefreshAsync()
@@ -41,9 +42,10 @@ public class AntTree : Tree<MenuInfo>
         Model = await Model.OnModelChanged?.Invoke();
         DataSource = Model.Data;
         if (Model.ExpandRoot)
-            ExpandedKeys = [Model.Data?[0]?.Id];
-        SelectedKeys = Model.SelectedKeys;
-        CheckedKeys = Model.CheckedKeys;
+            DefaultExpandedKeys = [Model.Data?[0]?.Id];
+        DefaultSelectedKeys = Model.SelectedKeys;
+        DefaultCheckedKeys = Model.CheckedKeys;
+        DisableCheckKeys = Model.DisableCheckKeys;
         StateHasChanged();
     }
 

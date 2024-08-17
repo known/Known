@@ -102,6 +102,8 @@ class RoleForm : BaseForm<SysRole>
         var service = await CreateServiceAsync<IRoleService>();
         var model = await service.GetRoleAsync(Model.Data.Id);
         Model.Data.MenuIds = model.MenuIds;
+        if (Model.IsView)
+            tree.DisableCheckKeys = model.Modules.Select(m => m.Id).ToArray();
         tree.Data = model.Modules?.ToMenuItems(false);
         tree.CheckedKeys = [.. Model.Data.MenuIds];
         return tree;

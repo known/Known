@@ -7,6 +7,7 @@ public class TreeModel
     public bool ExpandRoot { get; set; }
     public string[] SelectedKeys { get; set; }
     public string[] CheckedKeys { get; set; }
+    public string[] DisableCheckKeys { get; set; }
     public List<MenuInfo> Data { get; set; }
     public Action<MenuInfo> OnNodeClick { get; set; }
     public Action<MenuInfo> OnNodeCheck { get; set; }
@@ -15,7 +16,6 @@ public class TreeModel
 
     public Task RefreshAsync()
     {
-        //TODO：CUD时根节点未选中问题
         if (OnRefresh == null)
             return Task.CompletedTask;
 
