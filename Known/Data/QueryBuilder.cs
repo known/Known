@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-public class QueryBuilder<T>
+public class QueryBuilder<T> where T : class, new()
 {
     private readonly Database db;
     private readonly SqlBuilder builder;
@@ -167,7 +167,7 @@ public class QueryBuilder<T>
     }
 
     public Task<PagingResult<T>> ToPageAsync(PagingCriteria criteria) => ToPageAsync<T>(criteria);
-    public Task<PagingResult<TItem>> ToPageAsync<TItem>(PagingCriteria criteria)
+    public Task<PagingResult<TItem>> ToPageAsync<TItem>(PagingCriteria criteria) where TItem : class, new()
     {
         var info = builder.GetSelectCommand(this);
         criteria.CmdParams = info.Params;

@@ -90,7 +90,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (user != null)
             return user;
 
-        user = await db.QueryAsync<UserInfo>(d => d.UserName == userName);
+        user = await UserHelper.GetUserByUserNameAsync(db, userName);
         await SetUserInfoAsync(db, user);
         return user;
     }

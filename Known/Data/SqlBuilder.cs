@@ -86,7 +86,7 @@ select t.* from (
         return new CommandInfo(this, text, param);
     }
 
-    internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder)
+    internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder) where T : class, new()
     {
         var select = builder.SelectSql;
         if (string.IsNullOrWhiteSpace(select))
@@ -103,7 +103,7 @@ select t.* from (
         return new CommandInfo(this, sql, builder.Parameters);
     }
 
-    public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null)
+    public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
         var tableName = GetTableName<T>(true);
         var sql = $"select * from {tableName}";
@@ -152,7 +152,7 @@ select t.* from (
         return new CommandInfo(this, sql, new { id });
     }
 
-    internal CommandInfo GetCountCommand<T>(QueryBuilder<T> builder)
+    internal CommandInfo GetCountCommand<T>(QueryBuilder<T> builder) where T : class, new()
     {
         var tableName = GetTableName<T>(true);
         var sql = $"select count(*) from {tableName}";
@@ -161,7 +161,7 @@ select t.* from (
         return new CommandInfo(this, sql, builder.Parameters);
     }
 
-    public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null)
+    public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
         var tableName = GetTableName<T>(true);
         var sql = $"select count(*) from {tableName}";
@@ -257,7 +257,7 @@ select t.* from (
         return new CommandInfo(this, sql, data);
     }
 
-    public CommandInfo GetDeleteCommand<T>(Expression<Func<T, bool>> expression = null)
+    public CommandInfo GetDeleteCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
         var tableName = GetTableName<T>(true);
         var sql = $"delete from {tableName}";

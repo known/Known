@@ -21,21 +21,21 @@ public abstract class Database : IDisposable
     public abstract Task CloseAsync();
     public abstract Task<Result> TransactionAsync(string name, Func<Database, Task> action, object data = null);
 
-    public abstract Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria);
-    public abstract Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria);
+    public abstract Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria) where T : class, new();
+    public abstract Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria) where T : class, new();
     public abstract Task<T> QueryAsync<T>(string sql, object param = null);
-    public abstract Task<T> QueryAsync<T>(Expression<Func<T, bool>> expression);
-    public abstract Task<List<T>> QueryListAsync<T>();
+    public abstract Task<T> QueryAsync<T>(Expression<Func<T, bool>> expression) where T : class, new();
+    public abstract Task<List<T>> QueryListAsync<T>() where T : class, new();
     public abstract Task<List<T>> QueryListAsync<T>(string sql, object param = null);
-    public abstract Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression);
+    public abstract Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression) where T : class, new();
     public abstract Task<List<T>> QueryListByIdAsync<T>(string[] ids);
     public abstract Task<DataTable> QueryTableAsync(string sql, object param = null);
 
     public abstract Task<int> ExecuteAsync(string sql, object param = null);
     public abstract Task<T> ScalarAsync<T>(string sql, object param = null);
     public abstract Task<List<T>> ScalarsAsync<T>(string sql, object param = null);
-    public abstract Task<int> CountAsync<T>();
-    public abstract Task<int> CountAsync<T>(Expression<Func<T, bool>> expression);
+    public abstract Task<int> CountAsync<T>() where T : class, new();
+    public abstract Task<int> CountAsync<T>(Expression<Func<T, bool>> expression) where T : class, new();
     public abstract Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new();
     public abstract Task<int> DeleteAllAsync<T>() where T : class, new();
     public abstract Task<int> InsertAsync<T>(T data) where T : class, new();
@@ -48,7 +48,7 @@ public abstract class Database : IDisposable
 
     protected abstract Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new();
 
-    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase
+    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase, new()
     {
         if (string.IsNullOrEmpty(id))
             return default;
@@ -134,7 +134,7 @@ public abstract class Database : IDisposable
         return entity;
     }
 
-    public async Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> expression)
+    public async Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
         var count = await CountAsync(expression);
         return count > 0;

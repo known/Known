@@ -11,26 +11,33 @@ sealed class TaskHelper
         if (isPending)
             return;
 
-        isPending = true;
-        var db = Platform.CreateDatabase();
-        db.Context = new Context(CultureInfo.CurrentCulture.Name);
-        var repository = Platform.CreateRepository();
-        var task = await repository.GetPendingTaskAsync(db, bizType);
-        if (task == null)
+        try
         {
-            isPending = false;
-            return;
-        }
+            isPending = true;
+            var db = Platform.CreateDatabase();
+            db.Context = new Context(CultureInfo.CurrentCulture.Name);
+            var repository = Platform.CreateRepository();
+            var task = await repository.GetPendingTaskAsync(db, bizType);
+            if (task == null)
+            {
+                isPending = false;
+                return;
+            }
 
-        await RunAsync(db, task, action);
-        isPending = false;
+            await RunAsync(db, task, action);
+            isPending = false;
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            isPending = false;
+        }
     }
 
     private static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
         var userName = task.CreateBy;
-        db.User = await db.QueryAsync<UserInfo>(d => d.UserName == userName);
-
+        db.User = await UserHelper.GetUserByUserNameAsync(db, userName);
         task.BeginTime = DateTime.Now;
         task.Status = SysTaskStatus.Running;
         await db.SaveAsync(task);
