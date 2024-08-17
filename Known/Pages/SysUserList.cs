@@ -24,7 +24,7 @@ public class SysUserList : BasePage<SysUser>
             Page.Type = PageType.Column;
             Page.Spans = "28";
 
-            currentOrg = orgs[0];
+            currentOrg = orgs.FirstOrDefault(o => o.ParentId == "0");
             Tree = new TreeModel
             {
                 ExpandRoot = true,

@@ -31,17 +31,19 @@ public class AntTree : Tree<MenuInfo>
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
         if (Model.ExpandRoot)
-            DefaultExpandedKeys = [Model.Data?[0]?.Id];
-        DefaultSelectedKeys = Model.SelectedKeys;
-        DefaultCheckedKeys = Model.CheckedKeys;
+            ExpandedKeys = [Model.Data?[0]?.Id];
+        SelectedKeys = Model.SelectedKeys;
+        CheckedKeys = Model.CheckedKeys;
     }
 
     private async Task RefreshAsync()
     {
         Model = await Model.OnModelChanged?.Invoke();
         DataSource = Model.Data;
-        DefaultSelectedKeys = Model.SelectedKeys;
-        DefaultCheckedKeys = Model.CheckedKeys;
+        if (Model.ExpandRoot)
+            ExpandedKeys = [Model.Data?[0]?.Id];
+        SelectedKeys = Model.SelectedKeys;
+        CheckedKeys = Model.CheckedKeys;
         StateHasChanged();
     }
 
