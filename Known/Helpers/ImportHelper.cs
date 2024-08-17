@@ -34,9 +34,41 @@ public sealed class ImportHelper
         return info;
     }
 
-    internal static Task<byte[]> GetDictionaryRuleAsync(Context context, SysModule module)
+    internal static async Task<byte[]> GetImportRuleAsync(Database db, string bizId)
     {
-        var fields = module.Form.Fields;
+        if (bizId.StartsWith("Dictionary"))
+        {
+            var id = bizId.Split('_')[1];
+            var module = await db.QueryByIdAsync<SysModule>(id);
+            return GetImportRule(db.Context, module.Form.Fields);
+        }
+
+        var columns = GetImportColumns(db.Context, bizId);
+        if (columns == null || columns.Count == 0)
+            return [];
+
+        var fields = columns.Select(c => new FormFieldInfo
+        {
+            Id = c.Id,
+            Name = db.Context.Language.GetString(c),
+            Required = c.Required,
+            Length = c.GetImportRuleNote(db.Context)
+        }).ToList();
+        return GetImportRule(db.Context, fields);
+    }
+
+    private static List<ColumnInfo> GetImportColumns(Context context, string bizId)
+    {
+        var import = ImportBase.Create(new ImportContext { Context = context, BizId = bizId });
+        if (import == null)
+            return [];
+
+        import.InitColumns();
+        return import.Columns;
+    }
+
+    private static byte[] GetImportRule(Context context, List<FormFieldInfo> fields)
+    {
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");
         sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
@@ -52,36 +84,7 @@ public sealed class ImportHelper
         }
         sheet.SetRowHeight(1, 30);
         var stream = excel.SaveToStream();
-        return Task.FromResult(stream.ToArray());
-    }
-
-    internal static Task<byte[]> GetImportRuleAsync(Context context, string bizId)
-    {
-        var import = ImportBase.Create(new ImportContext { Context = context, BizId = bizId });
-        if (import == null)
-            return Task.FromResult(Array.Empty<byte>());
-
-        import.InitColumns();
-        if (import.Columns == null || import.Columns.Count == 0)
-            return Task.FromResult(Array.Empty<byte>());
-
-        var excel = ExcelFactory.Create();
-        var sheet = excel.CreateSheet("Sheet1");
-        sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
-        sheet.MergeCells(0, 0, 1, import.Columns.Count);
-        for (int i = 0; i < import.Columns.Count; i++)
-        {
-            var column = import.Columns[i];
-            sheet.SetColumnWidth(i, 13);
-            var note = column.GetImportRuleNote(context);
-            sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
-            var fontColor = column.Required ? Color.Red : Color.White;
-            var columnName = context.Language.GetString(column);
-            sheet.SetCellValue(2, i, columnName, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
-        }
-        sheet.SetRowHeight(1, 30);
-        var stream = excel.SaveToStream();
-        return Task.FromResult(stream.ToArray());
+        return stream.ToArray();
     }
 
     internal static SysTask CreateTask(ImportFormInfo form)
@@ -112,13 +115,7 @@ public sealed class ImportHelper
         return await import.ExecuteAsync(file);
     }
 
-    public static Task ExecuteAsync()
-    {
-        return Task.Run(async () =>
-        {
-            await TaskHelper.RunAsync(BizType, ExecuteAsync);
-        });
-    }
+    public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
 
     public static Result ReadFile<TItem>(Context context, SysFile file, Action<ImportRow<TItem>> action)
     {
@@ -126,38 +123,15 @@ public sealed class ImportHelper
         if (!File.Exists(path))
             return Result.Error(context.Language["Import.FileNotExists"]);
 
-        if (!path.EndsWith(".txt"))
-            return ReadExcelFile<TItem>(context, path, action);
-
-        var columns = string.IsNullOrWhiteSpace(file.Note)
-                    ? []
-                    : ImportFormInfo.GetImportColumns(file.Note);
-        return ReadTextFile<TItem>(context, path, columns, action);
-    }
-
-    private static Result ReadExcelFile<TItem>(Context context, string path, Action<ImportRow<TItem>> action)
-    {
-        var excel = ExcelFactory.Create(path);
-        if (excel == null)
-            return Result.Error(context.Language["Import.ExcelFailed"]);
-
-        var errors = new Dictionary<int, string>();
-        var lines = excel.SheetToDictionaries(0, 2);
-        if (lines == null || lines.Count == 0)
-            return Result.Error(context.Language["Import.DataRequired"]);
-
-        for (int i = 0; i < lines.Count; i++)
+        if (path.EndsWith(".txt"))
         {
-            var item = new ImportRow<TItem>(context);
-            foreach (var line in lines[i])
-            {
-                item[line.Key] = line.Value;
-            }
-            action?.Invoke(item);
-            if (!string.IsNullOrWhiteSpace(item.ErrorMessage))
-                errors.Add(i, item.ErrorMessage);
+            var items = GetImportColumns(context, file.BizId);
+            var columns = items?.Select(context.Language.GetString).ToList();
+            if (columns != null && columns.Count > 0)
+                return ReadTextFile(context, path, columns, action);
         }
-        return ReadResult(context, errors);
+
+        return ReadExcelFile(context, path, action);
     }
 
     private static Result ReadTextFile<TItem>(Context context, string path, List<string> columns, Action<ImportRow<TItem>> action)
@@ -181,6 +155,34 @@ public sealed class ImportHelper
             for (int j = 0; j < columns.Count; j++)
             {
                 item[columns[j]] = items.Length > j ? items[j] : "";
+            }
+            action?.Invoke(item);
+            if (!string.IsNullOrWhiteSpace(item.ErrorMessage))
+                errors.Add(i, item.ErrorMessage);
+        }
+        return ReadResult(context, errors);
+    }
+
+    private static Result ReadExcelFile<TItem>(Context context, string path, Action<ImportRow<TItem>> action)
+    {
+        //用File读取流，再创建Excel实例，适配Docker环境
+        var bytes = File.ReadAllBytes(path);
+        var stream = new MemoryStream(bytes);
+        var excel = ExcelFactory.Create(stream);
+        if (excel == null)
+            return Result.Error(context.Language["Import.ExcelFailed"]);
+
+        var errors = new Dictionary<int, string>();
+        var lines = excel.SheetToDictionaries(0, 2);
+        if (lines == null || lines.Count == 0)
+            return Result.Error(context.Language["Import.DataRequired"]);
+
+        for (int i = 0; i < lines.Count; i++)
+        {
+            var item = new ImportRow<TItem>(context);
+            foreach (var line in lines[i])
+            {
+                item[line.Key] = line.Value;
             }
             action?.Invoke(item);
             if (!string.IsNullOrWhiteSpace(item.ErrorMessage))

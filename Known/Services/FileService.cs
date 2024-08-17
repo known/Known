@@ -87,14 +87,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     public async Task<byte[]> GetImportRuleAsync(string bizId)
     {
-        if (bizId.StartsWith("Dictionary"))
-        {
-            var id = bizId.Split('_')[1];
-            var module = await Database.QueryByIdAsync<SysModule>(id);
-            return await ImportHelper.GetDictionaryRuleAsync(Context, module);
-        }
-
-        return await ImportHelper.GetImportRuleAsync(Context, bizId);
+        return await ImportHelper.GetImportRuleAsync(Database, bizId);
     }
 
     public Task<List<SysFile>> GetFilesAsync(string bizId) => GetFilesAsync(Database, bizId);
