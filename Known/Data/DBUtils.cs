@@ -75,6 +75,11 @@ public class DBUtils
         return obj;
     }
 
+    public static void SetAutoQuery<T>(Database db, ref string sql, PagingCriteria criteria)
+    {
+        QueryHelper.SetAutoQuery<T>(db, ref sql, criteria);
+    }
+
     public static Dictionary<string, object> ToDictionary(object value)
     {
         if (value is Dictionary<string, object> dictionary)
@@ -84,7 +89,7 @@ public class DBUtils
         return dic ?? [];
     }
 
-    public static Dictionary<string, object> GetDictionary(IDataReader reader)
+    internal static Dictionary<string, object> GetDictionary(IDataReader reader)
     {
         var dic = new Dictionary<string, object>();
         for (int i = 0; i < reader.FieldCount; i++)

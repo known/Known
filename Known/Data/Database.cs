@@ -6,8 +6,16 @@ public abstract class Database : IDisposable
     public string ConnectionString { get; set; }
     public Context Context { get; set; }
     public UserInfo User { get; set; }
-    public string UserName => User?.UserName;
-    internal SqlBuilder Builder { get; set; }
+
+    private SqlBuilder builder;
+    internal SqlBuilder Builder
+    {
+        get
+        {
+            builder ??= SqlBuilder.Create(DatabaseType);
+            return builder;
+        }
+    }
 
     public abstract Task OpenAsync();
     public abstract Task CloseAsync();
@@ -146,6 +154,8 @@ public abstract class Database : IDisposable
     }
 
     public void Dispose() => Dispose(true);
+
+    public virtual string GetDateSql(string name, bool withTime = true) => Builder?.GetDateSql(name, withTime);
 
     protected virtual void Dispose(bool isDisposing) { }
 

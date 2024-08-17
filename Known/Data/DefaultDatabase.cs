@@ -180,8 +180,7 @@ class DefaultDatabase : Database
     {
         try
         {
-            QueryHelper.SetAutoQuery<T>(ref sql, Builder, criteria);
-
+            DBUtils.SetAutoQuery<T>(this, ref sql, criteria);
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
@@ -648,7 +647,6 @@ class DefaultDatabase : Database
 
     private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
     {
-        Builder = SqlBuilder.Create(databaseType);
         DatabaseType = databaseType;
         ConnectionString = connString;
         User = user;

@@ -12,6 +12,8 @@ public class QueryBuilder<T>
     internal QueryBuilder(Database db) : this(db.Builder)
     {
         this.db = db;
+        if (db.DatabaseType == DatabaseType.Other)
+            throw new SystemException("Not supporting the DatabaseType.Other.");
     }
 
     internal QueryBuilder(SqlBuilder builder)

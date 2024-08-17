@@ -34,7 +34,7 @@ class SqlBuilder
     private string IdName => FormatName(nameof(EntityBase.Id));
     private string CreateTimeName => FormatName(nameof(EntityBase.CreateTime));
 
-    internal DatabaseType DatabaseType { get; set; }
+    public DatabaseType DatabaseType { get; set; }
 
     public virtual string Prefix => "@";
 

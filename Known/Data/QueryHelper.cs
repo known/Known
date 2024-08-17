@@ -2,7 +2,7 @@
 
 class QueryHelper
 {
-    internal static void SetAutoQuery<T>(ref string sql, SqlBuilder builder, PagingCriteria criteria)
+    internal static void SetAutoQuery<T>(Database db, ref string sql, PagingCriteria criteria)
     {
         var querys = new List<QueryInfo>();
         foreach (var item in criteria.Query)
@@ -18,11 +18,11 @@ class QueryHelper
         foreach (var item in querys)
         {
             if (!sql.Contains($"@{item.Id}"))
-                SetQuery<T>(ref sql, builder, criteria, item.Type, item.Id);
+                SetQuery<T>(db, ref sql, criteria, item.Type, item.Id);
         }
     }
 
-    private static void SetQuery<T>(ref string sql, SqlBuilder builder, PagingCriteria criteria, QueryType type, string key, string field = null)
+    private static void SetQuery<T>(Database db, ref string sql, PagingCriteria criteria, QueryType type, string key, string field = null)
     {
         if (criteria.ExportMode == ExportMode.All)
             return;
@@ -64,29 +64,29 @@ class QueryHelper
                 sql += $" and {field}>=@{key}";
                 break;
             case QueryType.Between:
-                SetLessQuery(ref sql, builder, criteria, field, key, ">=");
-                SetGreatQuery(ref sql, builder, criteria, field, key, "<=");
+                SetLessQuery(db, ref sql, criteria, field, key, ">=");
+                SetGreatQuery(db, ref sql, criteria, field, key, "<=");
                 break;
             case QueryType.BetweenNotEqual:
-                SetLessQuery(ref sql, builder, criteria, field, key, ">");
-                SetGreatQuery(ref sql, builder, criteria, field, key, "<");
+                SetLessQuery(db, ref sql, criteria, field, key, ">");
+                SetGreatQuery(db, ref sql, criteria, field, key, "<");
                 break;
             case QueryType.BetweenLessEqual:
-                SetLessQuery(ref sql, builder, criteria, field, key, ">=");
-                SetGreatQuery(ref sql, builder, criteria, field, key, "<");
+                SetLessQuery(db, ref sql, criteria, field, key, ">=");
+                SetGreatQuery(db, ref sql, criteria, field, key, "<");
                 break;
             case QueryType.BetweenGreatEqual:
-                SetLessQuery(ref sql, builder, criteria, field, key, ">");
-                SetGreatQuery(ref sql, builder, criteria, field, key, "<=");
+                SetLessQuery(db, ref sql, criteria, field, key, ">");
+                SetGreatQuery(db, ref sql, criteria, field, key, "<=");
                 break;
             case QueryType.Contain:
-                SetLikeQuery(ref sql, builder, criteria, field, key, "%{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, key, "%{0}%");
                 break;
             case QueryType.StartWith:
-                SetLikeQuery(ref sql, builder, criteria, field, key, "{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, key, "{0}%");
                 break;
             case QueryType.EndWith:
-                SetLikeQuery(ref sql, builder, criteria, field, key, "%{0}");
+                SetLikeQuery(db, ref sql, criteria, field, key, "%{0}");
                 break;
             case QueryType.Batch:
                 SetBatchQuery(ref sql, criteria, field, key);
@@ -96,10 +96,10 @@ class QueryHelper
         }
     }
 
-    private static void SetLessQuery(ref string sql, SqlBuilder builder, PagingCriteria criteria, string field, string key, string symbol)
+    private static void SetLessQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string symbol)
     {
         var paramName = $"L{key}";
-        var date = builder.GetDateSql(paramName);
+        var date = db.GetDateSql(paramName);
         if (criteria.HasQuery(paramName))
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
@@ -119,10 +119,10 @@ class QueryHelper
         }
     }
 
-    private static void SetGreatQuery(ref string sql, SqlBuilder builder, PagingCriteria criteria, string field, string key, string symbol)
+    private static void SetGreatQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string symbol)
     {
         var paramName = $"G{key}";
-        var date = builder.GetDateSql(paramName);
+        var date = db.GetDateSql(paramName);
         if (criteria.HasQuery(paramName))
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
@@ -142,11 +142,11 @@ class QueryHelper
         }
     }
 
-    private static void SetLikeQuery(ref string sql, SqlBuilder builder, PagingCriteria criteria, string field, string key, string format)
+    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string format)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
         query.ParamValue = string.Format(format, query.Value);
-        if (builder.DatabaseType == DatabaseType.Access)
+        if (db.DatabaseType == DatabaseType.Access)
             sql += $" and {field} like '{query.Value}'";
         else
             sql += $" and {field} like @{key}";
