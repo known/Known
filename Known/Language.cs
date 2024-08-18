@@ -43,29 +43,32 @@ public class Language
 
     public string Home => this["Menu.Home"];
 
-    internal string SelectOne => this["Tip.SelectOne"];
+    public string SelectOne => this["Tip.SelectOne"];
     public string SelectOneAtLeast => this["Tip.SelectOneAtLeast"];
     public string SysModule => this["Menu.SysModuleList"];
 
     public string OK => this["Button.OK"];
     public string Cancel => this["Button.Cancel"];
-    internal string New => this["Button.New"];
+    public string SaveContinue => this["Button.SaveContinue"];
+    public string SaveClose => this["Button.SaveClose"];
+    public string Close => this["Button.Close"];
+    public string New => this["Button.New"];
     public string Edit => this["Button.Edit"];
     public string Delete => this["Button.Delete"];
     public string Save => this["Button.Save"];
     public string Search => this["Button.Search"];
     public string AdvSearch => this["Button.AdvSearch"];
     public string Reset => this["Button.Reset"];
-    internal string Enable => this["Button.Enable"];
-    internal string Disable => this["Button.Disable"];
+    public string Enable => this["Button.Enable"];
+    public string Disable => this["Button.Disable"];
     public string Import => this["Button.Import"];
-    internal string Export => this["Button.Export"];
-    internal string Upload => this["Button.Upload"];
-    internal string Download => this["Button.Download"];
-    internal string Copy => this["Button.Copy"];
-    internal string Submit => this["Button.Submit"];
-    internal string Revoke => this["Button.Revoke"];
-    internal string Authorize => this["Button.Authorize"];
+    public string Export => this["Button.Export"];
+    public string Upload => this["Button.Upload"];
+    public string Download => this["Button.Download"];
+    public string Copy => this["Button.Copy"];
+    public string Submit => this["Button.Submit"];
+    public string Revoke => this["Button.Revoke"];
+    public string Authorize => this["Button.Authorize"];
 
     public static ActionInfo GetLanguage(string name)
     {
@@ -117,15 +120,15 @@ public class Language
     public string GetString<T>(ColumnInfo info) => GetText(typeof(T).Name, info.Id, info.Name);
     public string GetString(string id, string label) => this[id].Replace("{label}", this[label]);
     public string GetString(string id, string label, int? length) => GetString(id, label).Replace("{length}", $"{length}");
-    internal string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
-    internal string GetImportTitle(string name) => this["Title.Import"].Replace("{name}", name);
+    public string GetString(string id, string label, string format) => GetString(id, label).Replace("{format}", format);
+    public string GetImportTitle(string name) => this["Title.Import"].Replace("{name}", name);
     public string GetTitle(string title) => GetText("Title", title);
     public string GetCode(string code) => GetText("Code", code);
     public string Required(string label) => GetString("Valid.Required", label);
     public string Success(string action) => this["Tip.XXSuccess"].Replace("{action}", action);
     public string Failed(string action) => this["Tip.XXFailed"].Replace("{action}", action);
 
-    internal string GetFormTitle(string action, string title)
+    public string GetFormTitle(string action, string title)
     {
         var actionName = this[$"Button.{action}"];
         return this["Title.FormAction"]?.Replace("{action}", actionName).Replace("{title}", title);

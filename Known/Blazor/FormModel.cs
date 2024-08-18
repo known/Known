@@ -36,7 +36,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public bool Draggable { get; set; } = true;
     public bool Resizable { get; set; }
     public bool IsView { get; set; }
-    public TItem Data { get; set; }
+    public bool IsNew => Action == "New";
     public List<FormRow<TItem>> Rows { get; } = [];
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
     public Dictionary<string, FieldModel<TItem>> Fields { get; } = [];
@@ -47,11 +47,16 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Func<Task> OnClose { get; set; }
     public Action OnClosed { get; set; }
     public Action<string> OnFieldChanged { get; set; }
+    public Func<TItem, Task> OnLoadData { get; set; }
     public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
     public Func<TItem, Task<Result>> OnSave { get; set; }
     public Func<TItem, Task<bool>> OnSaving { get; set; }
     public Action<TItem> OnSaved { get; set; }
     public Dictionary<string, List<FileDataInfo>> Files { get; } = [];
+
+    public TItem Data { get; set; }
+    internal TItem DefaultData { get; set; }
+    internal Func<Task<TItem>> DefaultDataAction { get; set; }
 
     public string ClassName
     {
@@ -80,6 +85,27 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return null;
     }
 
+    internal void LoadData()
+    {
+        if (!IsNew)
+            return;
+
+        var data = DefaultData;
+        data ??= new TItem();
+        Data = data;
+    }
+
+    public async Task LoadDataAsync()
+    {
+        if (!IsNew)
+            return;
+
+        var data = DefaultData;
+        data ??= await DefaultDataAction?.Invoke();
+        data ??= new TItem();
+        Data = data;
+    }
+
     public bool HasFile(string key)
     {
         if (Files == null)
@@ -90,14 +116,6 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
         return value.Count > 0;
     }
-
-    //public void StateChanged()
-    //{
-    //    foreach (var item in Fields)
-    //    {
-    //        item.Value.StateChanged();
-    //    }
-    //}
 
     public FormRow<TItem> AddRow(Action<FormRow<TItem>> action = null)
     {
@@ -155,7 +173,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return SaveAsync(isClose);
     }
 
-    public async Task SaveAsync(bool isClose = true)
+    public Task SaveAsync(bool isClose = true) => OnSaveAsync(isClose, false);
+    public Task SaveContinueAsync() => OnSaveAsync(false, true);
+
+    public async Task OnSaveAsync(bool isClose, bool isContinue)
     {
         if (!Validate())
             return;
@@ -172,14 +193,14 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
         if (string.IsNullOrWhiteSpace(confirmText))
         {
-            await OnSaveAsync(isClose);
+            await OnSaveDataAsync(isClose, isContinue);
             return;
         }
 
-        UI.Confirm(confirmText, async () => await OnSaveAsync(isClose));
+        UI.Confirm(confirmText, async () => await OnSaveDataAsync(isClose, isContinue));
     }
 
-    private async Task OnSaveAsync(bool isClose)
+    private async Task OnSaveDataAsync(bool isClose, bool isContinue)
     {
         try
         {
@@ -197,7 +218,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             {
                 result = await OnSave.Invoke(Data);
             }
-            HandleResult(result, isClose);
+            HandleResult(result, isClose, isContinue);
         }
         catch (Exception ex)
         {
@@ -206,7 +227,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal void HandleResult(Result result, bool isClose = true)
+    internal void HandleResult(Result result, bool isClose = true, bool isContinue = false)
     {
         UI.Result(result, async () =>
         {
@@ -214,6 +235,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             OnSaved?.Invoke(data);
             if (isClose && result.IsClose)
                 await CloseAsync();
+            if (isContinue)
+            {
+                //TODO:保存继续
+                Data = new TItem();
+            }
             if (Table != null)
                 await Table.PageRefreshAsync();
             else if (Page != null)
@@ -253,6 +279,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
         Info = info;
         columns = GetFormColumns(info);
+
+        if (info.IsContinue)
+        {
+            Footer = b =>
+            {
+                if (IsNew)
+                    b.Button(Language.SaveContinue, Page.Callback<MouseEventArgs>(async e => await SaveContinueAsync()), "primary");
+                b.Button(Language.SaveClose, Page.Callback<MouseEventArgs>(async e => await SaveAsync()), "primary");
+                b.Button(Language.Close, Page.Callback<MouseEventArgs>(async e => await CloseAsync()));
+            };
+        }
     }
 
     private static List<ColumnInfo> GetFormColumns(FormInfo form)

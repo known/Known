@@ -18,28 +18,13 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     internal bool IsDictionary { get; }
     internal TItem Data { get; }
     internal PropertyInfo Property => Column.Property;
-    //internal Action OnStateChanged { get; set; }
 
     public Type GetPropertyType()
     {
         if (IsDictionary)
         {
             var value = Value;
-            switch (Column.Type)
-            {
-                case FieldType.Date:
-                case FieldType.DateTime:
-                    return value != null ? value.GetType() : typeof(DateTime?);
-                case FieldType.Number:
-                    return value != null ? value.GetType() : typeof(int);
-                case FieldType.Switch:
-                case FieldType.CheckBox:
-                    return typeof(bool);
-                case FieldType.CheckList:
-                    return typeof(string[]);
-                default:
-                    return typeof(string);
-            }
+            return Column.GetPropertyType(value);
         }
 
         return Property?.PropertyType;
@@ -52,20 +37,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             if (IsDictionary)
             {
                 var data = Form.Data as Dictionary<string, object>;
-                data.TryGetValue(Column.Id, out object value);
-                switch (Column.Type)
-                {
-                    case FieldType.Date:
-                    case FieldType.DateTime:
-                        return Utils.ConvertTo<DateTime?>(value);
-                    case FieldType.Number:
-                        return Utils.ConvertTo<decimal?>(value);
-                    case FieldType.Switch:
-                    case FieldType.CheckBox:
-                        return Utils.ConvertTo<bool>(value);
-                    default:
-                        return value?.ToString();
-                }
+                return Column.GetDictionaryValue(data);
             }
 
             if (Form.Data == null)
@@ -85,8 +57,6 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             }
         }
     }
-
-    //public void StateChanged() => OnStateChanged?.Invoke();
 
     public List<CodeInfo> GetCodes(string emptyText = "Please select")
     {

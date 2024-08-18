@@ -53,6 +53,9 @@
   "Button.Update": "Sửa đổi",
   "Button.OK": "Xác định",
   "Button.Cancel": "Hủy bỏ",
+  "Button.SaveContinue": "Xác định Continue",
+  "Button.SaveClose": "Xác định đóng",
+  "Button.Close": "Đóng cửa",
   "Button.Add": "Thêm",
   "Button.New": "Mới",
   "Button.Edit": "Chỉnh sửa",
@@ -231,6 +234,7 @@
   "Designer.FixedHeight": "Chiều cao cố định",
   "Designer.Maximizable": "Phóng to",
   "Designer.DefaultMaximized": "Phóng to mặc định",
+  "Designer.IsContinue": "Lưu tiếp tục",
 
   "Code.Female": "Phụ nữ",
   "Code.Male": "Nam",

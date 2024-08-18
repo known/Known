@@ -53,6 +53,9 @@
   "Button.Update": "修改",
   "Button.OK": "確定",
   "Button.Cancel": "取消",
+  "Button.SaveContinue": "確定繼續",
+  "Button.SaveClose": "確定關閉",
+  "Button.Close": "關閉",
   "Button.Add": "添加",
   "Button.New": "新增",
   "Button.Edit": "編輯",
@@ -231,6 +234,7 @@
   "Designer.FixedHeight": "固定高度",
   "Designer.Maximizable": "最大化",
   "Designer.DefaultMaximized": "默認最大化",
+  "Designer.IsContinue": "保存繼續",
 
   "Code.Female": "女",
   "Code.Male": "男",

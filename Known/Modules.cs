@@ -57,6 +57,7 @@ public class FormInfo
     public double? Width { get; set; }
     public bool Maximizable { get; set; }
     public bool DefaultMaximized { get; set; }
+    public bool IsContinue { get; set; }
     public int? LabelSpan { get; set; }
     public int? WrapperSpan { get; set; }
     public bool NoFooter { get; set; }

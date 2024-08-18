@@ -73,6 +73,12 @@ class FormView : BaseView<FormInfo>
                 Value = Model.DefaultMaximized,
                 ValueChanged = this.Callback<bool>(value => { Model.DefaultMaximized = value; OnPropertyChanged(); })
             }));
+            BuildPropertyItem(builder, "Designer.IsContinue", b => UI.BuildSwitch(b, new InputModel<bool>
+            {
+                Disabled = ReadOnly,
+                Value = Model.IsContinue,
+                ValueChanged = this.Callback<bool>(value => { Model.IsContinue = value; OnPropertyChanged(); })
+            }));
             BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<double?>
             {
                 Disabled = ReadOnly,

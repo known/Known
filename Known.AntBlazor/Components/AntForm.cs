@@ -13,11 +13,16 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         //此问题解决，需要将DataItemValue设为IsFixed
         ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
-        Class = Form?.ClassName;
-        LabelColSpan = Form?.Info?.LabelSpan ?? 0;
-        WrapperColSpan = Form?.Info?.WrapperSpan ?? 0;
-        Model = Form?.Data ?? new();
-        Form?.Initialize();
+        if (Form != null)
+        {
+            Form.OnValidate = Validate;
+            Form.OnLoadData = LoadDataAsync;
+            Class = Form.ClassName;
+            LabelColSpan = Form.Info?.LabelSpan ?? 0;
+            WrapperColSpan = Form.Info?.WrapperSpan ?? 0;
+            Model = Form.Data;
+            Form.Initialize();
+        }
         base.OnInitialized();
     }
 
@@ -44,6 +49,13 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         });
     }
 
-    private async void OnSaveAsync(MouseEventArgs args) => await Form.SaveAsync();
-    private async void OnCloseAsync(MouseEventArgs args) => await Form.CloseAsync();
+    private async void OnSaveAsync(MouseEventArgs args) => await Form?.SaveAsync();
+    private async void OnCloseAsync(MouseEventArgs args) => await Form?.CloseAsync();
+
+    private async Task LoadDataAsync(TItem data)
+    {
+        if (data == null)
+            await Form?.LoadDataAsync();
+        Model = Form?.Data;
+    }
 }

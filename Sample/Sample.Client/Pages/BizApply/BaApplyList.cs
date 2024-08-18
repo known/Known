@@ -26,12 +26,7 @@ public class BaApplyList : BaseTablePage<TbApply>
     }
 
     //新增按钮事件
-    public async void New()
-    {
-        var row = await Service.GetDefaultApplyAsync(ApplyType.Test.ToString());
-        Table.NewForm(Service.SaveApplyAsync, row);
-    }
-
+    public void New() => Table.NewForm(Service.SaveApplyAsync, () => Service.GetDefaultApplyAsync(ApplyType.Test.ToString()));
     //编辑操作
     public void Edit(TbApply row) => Table.EditForm(Service.SaveApplyAsync, row);
     //删除操作

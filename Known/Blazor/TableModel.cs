@@ -184,10 +184,44 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         });
     }
 
-    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("New", onSave, row);
-    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("New", onSave, row);
-    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row) => ShowForm("Edit", onSave, row);
-    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row) => ShowForm("Edit", onSave, row);
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row)
+    {
+        var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSave = onSave };
+        model.LoadData();
+        ShowForm(model);
+    }
+
+    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+    {
+        var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSaveFile = onSave };
+        model.LoadData();
+        ShowForm(model);
+    }
+
+    public async void NewForm(Func<TItem, Task<Result>> onSave, Func<Task<TItem>> row)
+    {
+        var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSave = onSave };
+        await model.LoadDataAsync();
+        ShowForm(model);
+    }
+
+    public async void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, Func<Task<TItem>> row)
+    {
+        var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSaveFile = onSave };
+        await model.LoadDataAsync();
+        ShowForm(model);
+    }
+
+    public void EditForm(Func<TItem, Task<Result>> onSave, TItem row)
+    {
+        ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSave = onSave });
+    }
+
+    public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+    {
+        ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSaveFile = onSave });
+    }
+
     public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, "Delete");
 
     public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
@@ -333,16 +367,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             await RefreshAsync();
 
         OnRefreshed?.Invoke();
-    }
-
-    private void ShowForm(string actionName, Func<TItem, Task<Result>> onSave, TItem row)
-    {
-        ShowForm(new FormModel<TItem>(this) { Action = actionName, Data = row, OnSave = onSave });
-    }
-
-    private void ShowForm(string actionName, Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
-    {
-        ShowForm(new FormModel<TItem>(this) { Action = actionName, Data = row, OnSaveFile = onSave });
     }
 
     private void ShowForm(FormModel<TItem> model)

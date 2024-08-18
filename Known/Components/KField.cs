@@ -1,17 +1,10 @@
 ﻿namespace Known.Components;
 
-public class KField<TItem> : ComponentBase where TItem : class, new()
+public class KField<TItem> : BaseComponent where TItem : class, new()
 {
-    [Inject] public IUIService UI { get; set; }
     [Parameter] public FieldModel<TItem> Model { get; set; }
 
-    //protected override void OnParametersSet()
-    //{
-    //    base.OnParametersSet();
-    //    Model.OnStateChanged = StateChanged;
-    //}
-
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model.Column.Template != null)
         {

@@ -53,6 +53,9 @@
   "Button.Update": "Update",
   "Button.OK": "OK",
   "Button.Cancel": "Cancel",
+  "Button.SaveContinue": "Save Continue",
+  "Button.SaveClose": "Save Close",
+  "Button.Close": "Close",
   "Button.Add": "Add",
   "Button.New": "New",
   "Button.Edit": "Edit",
@@ -231,6 +234,7 @@
   "Designer.FixedHeight": "Fixed Height",
   "Designer.Maximizable": "Maximizable",
   "Designer.DefaultMaximized": "DefaultMaximized",
+  "Designer.IsContinue": "SaveContinue",
 
   "Code.Female": "Female",
   "Code.Male": "Male",
