@@ -20,8 +20,9 @@ public sealed class Logger
 
     public static LogLevel Level { get; set; }
 
-    public static async Task<List<string>> GetVisitMenuIdsAsync(IDataRepository repository, Database db, string userName, int size)
+    public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
     {
+        var repository = Platform.CreateRepository();
         var logs = await repository.GetVisitLogsAsync(db, userName);
         logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();

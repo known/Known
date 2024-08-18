@@ -12,7 +12,7 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         await db.OpenAsync();
         var info = new HomeInfo
         {
-            VisitMenuIds = await Logger.GetVisitMenuIdsAsync(Repository, db, user.UserName, 12),
+            VisitMenuIds = await Logger.GetVisitMenuIdsAsync(db, user.UserName, 12),
             Statistics = await GetStatisticsInfoAsync(db)
         };
         await db.CloseAsync();

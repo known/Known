@@ -6,6 +6,7 @@ public abstract class Database : IDisposable
     public string ConnectionString { get; set; }
     public Context Context { get; set; }
     public UserInfo User { get; set; }
+    public string UserName => User?.UserName;
 
     private SqlBuilder builder;
     internal SqlBuilder Builder
