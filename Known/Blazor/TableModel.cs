@@ -124,8 +124,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     public virtual void Initialize(BasePage page)
     {
+        var menu = page.Context.Current;
         Clear();
-        SetPage(page.Context.Current.Page);
+        SetPage(menu.Model, menu.Page);
         SetPermission(page);
         InitQueryColumns();
     }
@@ -341,7 +342,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         });
     }
 
-    internal void SetPage(PageInfo info)
+    internal void SetPage(EntityInfo model, PageInfo info)
     {
         if (info == null)
             return;
@@ -352,7 +353,14 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
         Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
-        AllColumns = info.Columns?.Select(c => new ColumnInfo(c)).ToList();
+        AllColumns = info.Columns?.Select(c =>
+        {
+            var column = new ColumnInfo(c);
+            var field = model.Fields.FirstOrDefault(f => f.Id == c.Id);
+            if (field != null)
+                column.Type = field.Type;
+            return column;
+        }).ToList();
         Columns.Clear();
         Columns.AddRange(AllColumns);
 

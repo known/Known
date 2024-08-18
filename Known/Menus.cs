@@ -26,6 +26,7 @@ public class MenuInfo
         Target = module.Target;
         Url = module.Url;
         Sort = module.Sort;
+        Model = DataHelper.GetEntity(module.EntityData);
         Page = module.Page;
         Form = module.Form;
         Tools = module.Buttons;
@@ -85,6 +86,7 @@ public class MenuInfo
     public MenuInfo Parent { get; set; }
     public List<MenuInfo> Children { get; set; }
     public object Data { get; set; }
+    public EntityInfo Model { get; set; }
     public PageInfo Page { get; set; }
     public FormInfo Form { get; set; }
     public List<string> Tools { get; set; }

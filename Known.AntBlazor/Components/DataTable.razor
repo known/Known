@@ -20,30 +20,37 @@
 
             var title = Language?.GetString<TItem>(item);
             var width = item.Width > 0 ? item.Width.ToString() : "";
+            RenderFragment<TItem> template = null;
+            Model.Templates?.TryGetValue(item.Id, out template);
             if (isDictionary)
             {
-                if (item.IsViewLink)
-                {
-                    var value = (context as Dictionary<string, object>).GetValue(item.Id);
-                    <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                      Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
-                                      DefaultSortOrder="item.ToSortDirection()"
-                                      Align="@GetColumnAlign(item.Align)">
+                var value = (context as Dictionary<string, object>).GetValue(item.Id);
+                <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
+                                  Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
+                                  DefaultSortOrder="item.ToSortDirection()"
+                                  Align="@GetColumnAlign(item.Align)">
+                    @if (template != null)
+                    {
+                        @template(context)
+                    }
+                    else if (item.Type == FieldType.Switch)
+                    {
+                        var isChecked = Utils.ConvertTo<bool>(value);
+                        <Switch Disabled Value="isChecked" />
+                    }
+                    else if (item.IsViewLink)
+                    {
                         <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
-                    </DictionaryColumn>
-                }
-                else
-                {
-                    <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                      Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
-                                      DefaultSortOrder="item.ToSortDirection()"
-                                      Align="@GetColumnAlign(item.Align)" />
-                }
+                    }
+                    else
+                    {
+                        @GetColumnText(item, value)
+                    }
+                </DictionaryColumn>
             }
             else
             {
-                RenderFragment<TItem> template = null;
-                Model.Templates?.TryGetValue(item.Id, out template);
+                var value = TypeHelper.GetPropertyValue(context, item.Id);
                 <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
                         Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
                         DefaultSortOrder="item.ToSortDirection()"
@@ -65,23 +72,16 @@
                         }
                         else if (item.Type == FieldType.Switch)
                         {
-                            var isChecked = TypeHelper.GetPropertyValue<bool>(context, item.Id);
+                            var isChecked = Utils.ConvertTo<bool>(value);
                             <Switch Disabled Value="isChecked" />
                         }
                         else if (item.IsViewLink)
                         {
-                            var value = TypeHelper.GetPropertyValue(context, item.Id);
                             <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
                         }
                         else
                         {
-                            var value = TypeHelper.GetPropertyValue(context, item.Id);
-                            var text = $"{value}";
-                            if (item.Type == FieldType.Date)
-                                text = $"{value:yyyy-MM-dd}";
-                            if (item.Type == FieldType.DateTime)
-                                text = $"{value:yyyy-MM-dd HH:mm:ss}";
-                            @text
+                            @GetColumnText(item, value)
                         }
                     </ChildContent>
                 </Column>
@@ -244,6 +244,24 @@
         else if (align == "right")
             return ColumnAlign.Right;
         return ColumnAlign.Left;
+    }
+
+    private static string GetColumnText(ColumnInfo item, object value)
+    {
+        var text = $"{value}";
+        if (item.Type == FieldType.Date)
+        {
+            if (value is string)
+                value = Utils.ConvertTo<DateTime?>(value);
+            text = $"{value:yyyy-MM-dd}";
+        }
+        if (item.Type == FieldType.DateTime)
+        {
+            if (value is string)
+                value = Utils.ConvertTo<DateTime?>(value);
+            text = $"{value:yyyy-MM-dd HH:mm:ss}";
+        }
+        return text;
     }
 
     private string GetActionColor(string style) => style == "danger" ? "red-inverse" : "blue-inverse";
