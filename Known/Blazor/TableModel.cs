@@ -57,6 +57,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             InitQueryColumns();
         }
 
+        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         OnAction = page.OnActionClick;
         Toolbar.OnItemClick = page.OnToolClick;
     }
@@ -67,7 +68,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     internal override Type ItemType => typeof(TItem);
 
     public BaseComponent Page { get; }
-    public bool IsDictionary => typeof(TItem) == typeof(Dictionary<string, object>);
+    public bool IsDictionary { get; }
     public bool HasAction => Actions != null && Actions.Count > 0;
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
     public bool ShowToolbar { get; set; } = true;
@@ -187,28 +188,28 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public void NewForm(Func<TItem, Task<Result>> onSave, TItem row)
     {
         var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSave = onSave };
-        model.LoadData();
+        model.LoadDefaultData();
         ShowForm(model);
     }
 
     public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
         var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSaveFile = onSave };
-        model.LoadData();
+        model.LoadDefaultData();
         ShowForm(model);
     }
 
     public async void NewForm(Func<TItem, Task<Result>> onSave, Func<Task<TItem>> row)
     {
         var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSave = onSave };
-        await model.LoadDataAsync();
+        await model.LoadDefaultDataAsync();
         ShowForm(model);
     }
 
     public async void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, Func<Task<TItem>> row)
     {
         var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSaveFile = onSave };
-        await model.LoadDataAsync();
+        await model.LoadDefaultDataAsync();
         ShowForm(model);
     }
 

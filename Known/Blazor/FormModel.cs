@@ -7,6 +7,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     public FormModel(BaseComponent page, bool isAuto = false) : base(page.Context)
     {
+        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         Page = page;
         if (isAuto)
         {
@@ -24,6 +25,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         SetFormInfo(table.Context.Current.Form);
     }
 
+    internal bool IsDictionary { get; }
     internal BaseComponent Page { get; }
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
@@ -85,26 +87,28 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return null;
     }
 
-    internal void LoadData()
+    internal void LoadDefaultData()
     {
         if (!IsNew)
             return;
 
-        var data = DefaultData;
+        var data = GetDefaultData();
         data ??= new TItem();
         Data = data;
     }
 
-    public async Task LoadDataAsync()
+    public async Task LoadDefaultDataAsync()
     {
         if (!IsNew)
             return;
 
-        var data = DefaultData;
+        var data = GetDefaultData();
         data ??= await DefaultDataAction?.Invoke();
         data ??= new TItem();
         Data = data;
     }
+
+    public Task LoadDataAsync(TItem data) => OnLoadData?.Invoke(data);
 
     public bool HasFile(string key)
     {
@@ -235,15 +239,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             OnSaved?.Invoke(data);
             if (isClose && result.IsClose)
                 await CloseAsync();
-            if (isContinue)
-            {
-                //TODO:保存继续
-                Data = new TItem();
-            }
             if (Table != null)
                 await Table.PageRefreshAsync();
             else if (Page != null)
                 await Page.RefreshAsync();
+            if (isContinue)
+                await LoadDataAsync(null);
         });
     }
 
@@ -289,6 +290,34 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
                 b.Button(Language.SaveClose, Page.Callback<MouseEventArgs>(async e => await SaveAsync()), "primary");
                 b.Button(Language.Close, Page.Callback<MouseEventArgs>(async e => await CloseAsync()));
             };
+        }
+    }
+
+    private TItem GetDefaultData()
+    {
+        if (DefaultData == null)
+            return DefaultData;
+
+        if (IsDictionary)
+        {
+            var data = new Dictionary<string, object>();
+            var items = DefaultData as Dictionary<string, object>;
+            foreach (var item in items)
+            {
+                data[item.Key] = item.Value;
+            }
+            return data as TItem;
+        }
+        else
+        {
+            var data = Activator.CreateInstance<TItem>();
+            var properties = TypeHelper.Properties(typeof(TItem));
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(DefaultData);
+                property.SetValue(data, value, null);
+            }
+            return data;
         }
     }
 

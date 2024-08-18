@@ -9,19 +9,17 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         Form = form;
         Column = column;
         Data = form.Data;
-        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
     }
 
     public FormModel<TItem> Form { get; }
     public ColumnInfo Column { get; }
     public bool IsReadOnly => Form.IsView || Column.ReadOnly;
-    internal bool IsDictionary { get; }
     internal TItem Data { get; }
     internal PropertyInfo Property => Column.Property;
 
     public Type GetPropertyType()
     {
-        if (IsDictionary)
+        if (Form.IsDictionary)
         {
             var value = Value;
             return Column.GetPropertyType(value);
@@ -34,7 +32,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     {
         get
         {
-            if (IsDictionary)
+            if (Form.IsDictionary)
             {
                 var data = Form.Data as Dictionary<string, object>;
                 return Column.GetDictionaryValue(data);
@@ -49,7 +47,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         {
             if (!Equals(Value, value) && Form.Data != null)
             {
-                if (IsDictionary)
+                if (Form.IsDictionary)
                     (Form.Data as Dictionary<string, object>)[Column.Id] = value;
                 else if (Column.Property?.SetMethod is not null)
                     Property?.SetValue(Form.Data, value);
