@@ -5,6 +5,7 @@ public interface IAutoService : IService
     Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria);
     Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info);
     Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info);
+    Task<Result> CreateTableAsync(AutoInfo<string> info);
 }
 
 class AutoService(Context context) : ServiceBase(context), IAutoService
@@ -77,10 +78,12 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         }, model);
     }
 
-    public async Task<Result> CreateTableAsync(string tableName, string script)
+    public async Task<Result> CreateTableAsync(AutoInfo<string> info)
     {
         try
         {
+            var tableName = info.PageId;
+            var script = info.Data;
             try
             {
                 var sql = $"select count(*) from {tableName}";

@@ -8,6 +8,7 @@ class EntityView : BaseView<EntityInfo>
     private string tableName;
     private string tableScript;
     private DatabaseType dbType;
+    private IAutoService Auto;
 
     internal override async void SetModel(EntityInfo model)
     {
@@ -19,6 +20,8 @@ class EntityView : BaseView<EntityInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Auto = await CreateServiceAsync<IAutoService>();
+
         table = new(this, true);
         dbType = Database.Create().DatabaseType;
         SetViewData(Model);
@@ -55,7 +58,6 @@ class EntityView : BaseView<EntityInfo>
 
     private void BuildScript(RenderTreeBuilder builder)
     {
-#if DEBUG
         if (!ReadOnly)
         {
             builder.Div("kui-code-action", () =>
@@ -63,18 +65,15 @@ class EntityView : BaseView<EntityInfo>
                 builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
             });
         }
-#endif
         BuildCode(builder, script);
     }
 
-#if DEBUG
     private async void OnExecuteScript(MouseEventArgs args)
     {
-        var service = new AutoService(Context);
-        var result = await service.CreateTableAsync(tableName, tableScript);
+        var info = new AutoInfo<string> { PageId = tableName, Data = tableScript };
+        var result = await Auto.CreateTableAsync(info);
         UI.Result(result);
     }
-#endif
 
     private void SetViewData(EntityInfo model)
     {
