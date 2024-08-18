@@ -13,7 +13,7 @@ public sealed class WeixinHelper
         if (user == null)
             return Result.Error("WeixinUser is null.");
 
-        var db = Platform.CreateDatabase();
+        var db = Database.Create();
         db.User = AuthService.GetUserByToken(token);
         var weixin = await GetWeixinByOpenIdAsync(db, user.OpenId);
         if (weixin == null)
@@ -29,7 +29,7 @@ public sealed class WeixinHelper
     {
         try
         {
-            var db = Platform.CreateDatabase();
+            var db = Database.Create();
             var weixin = await GetWeixinByOpenIdAsync(db, openId);
             weixin ??= new SysWeixin();
             weixin.MPAppId = WeixinApi.AppId;
@@ -59,7 +59,7 @@ public sealed class WeixinHelper
     {
         try
         {
-            var db = Platform.CreateDatabase();
+            var db = Database.Create();
             var weixin = await GetWeixinByOpenIdAsync(db, openId);
             if (weixin == null)
                 return string.Empty;

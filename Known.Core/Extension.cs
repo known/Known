@@ -2,10 +2,12 @@
 
 public static class Extension
 {
+    private static bool IsCompression { get; set; }
     private static bool IsAddWebApi { get; set; }
 
     public static void AddKnownWin(this IServiceCollection services)
     {
+        IsCompression = true;
         services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
@@ -18,6 +20,7 @@ public static class Extension
 
     public static void AddKnownWeb(this IServiceCollection services)
     {
+        IsCompression = true;
         services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
@@ -53,7 +56,9 @@ public static class Extension
 
     public static void UseKnown(this WebApplication app)
     {
-        app.UseResponseCompression();
+        if (IsCompression)
+            app.UseResponseCompression();
+
         app.UseStaticFiles();
         var webFiles = Config.GetUploadPath(true);
         app.UseStaticFiles(new StaticFileOptions

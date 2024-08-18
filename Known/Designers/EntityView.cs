@@ -20,7 +20,7 @@ class EntityView : BaseView<EntityInfo>
     {
         await base.OnInitAsync();
         table = new(this, true);
-        dbType = Platform.CreateDatabase().DatabaseType;
+        dbType = Database.Create().DatabaseType;
         SetViewData(Model);
 
         Tab.AddTab("Designer.Fields", BuildView);

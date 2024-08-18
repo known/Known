@@ -24,7 +24,7 @@ public class DBUtils
 
     internal static async Task InitializeAsync()
     {
-        var db = Platform.CreateDatabase();
+        var db = Database.Create();
         int? count = null;
         try
         {

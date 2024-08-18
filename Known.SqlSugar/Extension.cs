@@ -4,8 +4,8 @@ public static class Extension
 {
     public static void AddKnownSqlSugar(this IServiceCollection services, Action<ConnectionConfig> action)
     {
-        Platform.RepositoryType = typeof(SqlSugarRepository);
-        Platform.RegisterDatabase(typeof(SqlSugarDatabase));
+        Database.RepositoryType = typeof(SqlSugarRepository);
+        Database.Register(typeof(SqlSugarDatabase));
 
         var config = new ConnectionConfig();
         action?.Invoke(config);

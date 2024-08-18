@@ -63,7 +63,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         if (user != null)
         {
-            using var db = Platform.CreateDatabase();
+            using var db = Database.Create();
             db.User = user;
             await Logger.AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
         }

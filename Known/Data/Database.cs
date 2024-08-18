@@ -2,6 +2,33 @@
 
 public abstract class Database : IDisposable
 {
+    private static readonly Dictionary<string, Type> dbTypes = [];
+
+    public static Type RepositoryType { get; set; }
+    public static void Register(Type type, string name = "Default") => dbTypes[name] = type;
+
+    public static Database Create(string name = "Default")
+    {
+        if (!dbTypes.TryGetValue(name, out Type type))
+            return new DefaultDatabase(name);
+
+        if (Activator.CreateInstance(type) is not Database instance)
+            throw new SystemException($"The {type} is not implement Database");
+
+        return instance;
+    }
+
+    internal static IDataRepository CreateRepository()
+    {
+        if (RepositoryType == null)
+            return new DataRepository();
+
+        if (Activator.CreateInstance(RepositoryType) is not IDataRepository instance)
+            throw new SystemException($"The {RepositoryType} is not implement IDatabase");
+
+        return instance;
+    }
+
     public DatabaseType DatabaseType { get; set; }
     public string ConnectionString { get; set; }
     public Context Context { get; set; }

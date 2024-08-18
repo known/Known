@@ -15,7 +15,7 @@ public abstract class ServiceBase(Context context) : IService
     {
         get
         {
-            var db = Platform.CreateDatabase();
+            var db = Database.Create();
             db.User = CurrentUser;
             db.Context = Context;
             return db;
@@ -23,11 +23,11 @@ public abstract class ServiceBase(Context context) : IService
     }
 
     private IDataRepository repository;
-    protected IDataRepository Repository
+    internal IDataRepository Repository
     {
         get
         {
-            repository ??= Platform.CreateRepository();
+            repository ??= Database.CreateRepository();
             return repository;
         }
     }

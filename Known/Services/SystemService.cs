@@ -89,7 +89,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         }
         else
         {
-            var db = Platform.CreateDatabase();
+            var db = Database.Create();
             info.Databases = [new DatabaseInfo {
                 Name = "Default", Type = db.DatabaseType.ToString(),
                 ConnectionString = db.ConnectionString
@@ -102,7 +102,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         try
         {
-            var db = Platform.CreateDatabase();
+            var db = Database.Create();
             db.DatabaseType = Utils.ConvertTo<DatabaseType>(info.Type);
             db.ConnectionString = info.ConnectionString;
             await db.OpenAsync();
@@ -147,7 +147,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     private Database GetDatabase(InstallInfo info)
     {
-        var db = Platform.CreateDatabase();
+        var db = Database.Create();
         db.Context = Context;
         db.User = new UserInfo
         {

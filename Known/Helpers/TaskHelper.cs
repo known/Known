@@ -14,9 +14,9 @@ sealed class TaskHelper
         try
         {
             isPending = true;
-            var db = Platform.CreateDatabase();
+            var db = Database.Create();
             db.Context = new Context(CultureInfo.CurrentCulture.Name);
-            var repository = Platform.CreateRepository();
+            var repository = Database.CreateRepository();
             var task = await repository.GetPendingTaskAsync(db, bizType);
             if (task == null)
             {
