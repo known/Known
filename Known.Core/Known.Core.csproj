@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
         <Description>Known.Core是Known框架后端类库。</Description>
-        <Version>2.0.7</Version>
+        <Version>2.0.8</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, WinForm, Web</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

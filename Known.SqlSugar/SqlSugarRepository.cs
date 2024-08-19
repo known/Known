@@ -49,7 +49,6 @@ class SqlSugarRepository : IDataRepository
 
     public Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId)
     {
-        //SQL不兼容
         //var sql = @"select a.ModuleId from SysRoleModule a 
         //where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
         //  and exists (select 1 from SysRole where Id=a.RoleId and Enabled=1)";
