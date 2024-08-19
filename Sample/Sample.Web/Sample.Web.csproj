@@ -6,10 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
         <!--<PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />-->
         <PackageReference Include="Coravel" Version="5.0.4" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
         <!--<PackageReference Include="Npgsql" Version="8.0.3" />
         <PackageReference Include="MySqlConnector" Version="2.3.7" />
 	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />

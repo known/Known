@@ -66,7 +66,7 @@ static class ValidationExtension
         //String,Number,Boolean,Regexp,Integer,Float,Array,Object,Enum,Date,Url,Email
         var type = FormFieldType.String;
         if (propertyType.IsEnum)
-            type = FormFieldType.Enum;
+            type = FormFieldType.String;
         else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
             type = FormFieldType.Date;
         else if (propertyType.IsArray)
