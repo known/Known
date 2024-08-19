@@ -30,9 +30,7 @@ public class AntDropdown : Dropdown
             ChildContent = BuildTextButton;
 
         if (Items != null && Items.Count > 0)
-        {
             Overlay = BuildOverlay;
-        }
     }
 
     private void BuildIcon(RenderTreeBuilder builder)

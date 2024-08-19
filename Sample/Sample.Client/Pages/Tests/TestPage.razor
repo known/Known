@@ -1,0 +1,32 @@
+﻿@page "/test"
+@inherits BasePage
+
+<AntSelectCode DataSource="Texts" Placeholder="请选择测试文本" />
+<Button OnClick="OnClick">弹窗</Button>
+<TestForm @ref="form" Model="model" />
+<Button Type="@ButtonType.Primary" OnClick="OnSave">确定</Button>
+
+@code {
+    private List<CodeInfo> Texts = TestHelper.GetTexts();
+    private FormModel<TestInfo> model;
+    private TestForm form;
+
+    protected override async Task OnPageInitAsync()
+    {
+        await base.OnPageInitAsync();
+        model = new FormModel<TestInfo>(this);
+        model.Title = "测试窗体";
+        model.Info = new FormInfo { Width = 800 };
+        model.Type = typeof(TestForm);
+        model.Data = new TestInfo();
+        model.Footer = null;
+        model.OnSave = d => Known.Result.SuccessAsync(d.Text, d);
+    }
+
+    private void OnClick()
+    {
+        UI.ShowForm(model);
+    }
+
+    private void OnSave() => model.SaveAsync();
+}

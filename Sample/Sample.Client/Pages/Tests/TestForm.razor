@@ -1,5 +1,4 @@
-﻿@page "/test"
-@inherits BaseForm<TestInfo>
+﻿@inherits BaseForm<TestInfo>
 
 <TestInfoForm Form="Model" ShowAction>
     <AntRow>
@@ -14,6 +13,9 @@
         </DataItem>
     </AntRow>
     <AntRow>
+        <DataItem Span="8" Label="Text" Required>
+            <AntSelectCode @bind-Value="@context.Text" DataSource="Texts" />
+        </DataItem>
         <DataItem Span="8" Label="Number" Required>
             <AntInteger @bind-Value="@context.Number" />
         </DataItem>
@@ -27,3 +29,22 @@
         </DataItem>
     </AntRow>
 </TestInfoForm>
+
+@code {
+    private List<CodeInfo> Texts = [];
+
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+        //Model = new FormModel<TestInfo>(this) { Data = new TestInfo() };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Texts = TestHelper.GetTexts();
+        }
+    }
+}

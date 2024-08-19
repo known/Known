@@ -9,13 +9,11 @@ public class AntSelect : Select<string, string>
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
-        var emptyText = "";
         if (Item != null)
         {
             Item.Type = typeof(string);
-            emptyText = Item.Language.GetString("PleaseSelect");
+            Placeholder = Item.Language.GetString("PleaseSelect");
         }
-        Placeholder = emptyText;
         EnableSearch = true;
         base.OnInitialized();
     }
@@ -37,13 +35,14 @@ public class AntSelectCode : Select<string, CodeInfo>
         {
             Item.Type = typeof(string);
             emptyText = Item.Language.GetString("PleaseSelect");
+            Placeholder = emptyText;
         }
         if (!string.IsNullOrWhiteSpace(Category))
             DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
-        Placeholder = emptyText;
-        EnableSearch = true;
         ValueName = nameof(CodeInfo.Code);
         LabelName = nameof(CodeInfo.Name);
+        EnableSearch = true;
+        AllowClear = true;
         base.OnInitialized();
     }
 }

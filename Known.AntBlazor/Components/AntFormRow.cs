@@ -26,10 +26,7 @@ class AntFormRow<TItem> : BaseComponent where TItem : class, new()
                    .Set(c => c.Label, label)
                    .Set(c => c.Required, column.Required)
                    .Set(c => c.Rules, field.ToRules(Context))
-                   .Set(c => c.ChildContent, b =>
-                   {
-                       b.Component<KField<TItem>>().Set(c => c.Model, field).Build();
-                   })
+                   .Set(c => c.ChildContent, b => b.Component<KField<TItem>>().Set(c => c.Model, field).Build())
                    .Build();
         }
     }

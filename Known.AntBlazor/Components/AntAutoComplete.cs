@@ -9,13 +9,11 @@ public class AntAutoComplete : AutoComplete<CodeInfo>
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
-        var emptyText = "";
         if (Item != null)
         {
             Item.Type = typeof(string);
-            emptyText = Item.Language.GetString("PleaseSelectInput");
+            Placeholder = Item.Language.GetString("PleaseSelectInput");
         }
-        Placeholder = emptyText;
         OptionFormat = item => item.Value.Name;
         base.OnInitialized();
     }
