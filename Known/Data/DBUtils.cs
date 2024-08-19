@@ -91,7 +91,7 @@ public class DBUtils
         {
             var name = reader.GetName(i).Replace("_", "");
             var value = reader[i];
-            dic.Add(name, value == DBNull.Value ? null : value);
+            dic[name] = value == DBNull.Value ? null : value;
         }
         return dic;
     }
