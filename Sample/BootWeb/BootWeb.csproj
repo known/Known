@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Known.SqlSugar\Known.SqlSugar.csproj" />
+        <ProjectReference Include="..\..\Known.BootBlazor\Known.BootBlazor.csproj" />
         <ProjectReference Include="..\Sample.Web\Sample.Web.csproj" />
     </ItemGroup>
 

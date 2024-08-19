@@ -52,11 +52,14 @@ dotnet new known --name=MyApp
 ├─Known.BootBlazor  -> 基于Bootstrap Blazor的界面库。
 ├─Known.Cells       -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Core        -> 基于AspNetCore的服务端类库。
+├─Known.SqlSugar    -> 基于SqlSugar的实现的数据访问类库。
 ├─Sample            -> 示例项目
   ├─Sample          -> 项目类库，包含配置、常量、枚举、实体、模型、服务接口。
   ├─Sample.Client   -> 项目前端，包含配置、路由、页面，基于Castle动态代理访问后端WebApi。
   ├─Sample.Web      -> 项目后端，包含业务逻辑、数据访问，根据服务接口动态生成WebApi。
   ├─Sample.WinForm  -> 框架示例WinForm App。
+  ├─BootWeb         -> 框架BootstrapBlazor示例Web。
+  ├─SqlSugarWeb     -> 框架SqlSugar示例Web。
 ```
 
 ### 主要功能
