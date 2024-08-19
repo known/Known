@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\actions.txt" />
+        <EmbeddedResource Include="Resources\Tables.sql" />
     </ItemGroup>
 
 </Project>
