@@ -236,7 +236,7 @@ public class PagingCriteria
         return parameter;
     }
 
-    internal bool HasQuery(string id)
+    public bool HasQuery(string id)
     {
         if (Query == null)
             return false;

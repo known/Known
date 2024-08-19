@@ -134,9 +134,29 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
         if (propertyType == null)
             return null;
 
-        //TODO：动态数据Value表达式
         LambdaExpression lambda = null;
-        if (model.Property != null)
+        if (model.Form.IsDictionary)
+        {
+            //TODO：动态数据Value表达式
+            //var delegateType = typeof(Func<>).MakeGenericType(typeof(Dictionary<string, object>), propertyType);
+            //var dicParam = Expression.Parameter(typeof(Dictionary<string, object>), "dic");
+            //var keyParam = Expression.Parameter(typeof(string), model.Column.Id);
+            //var methodCall = Expression.Call(typeof(CommonExtension), nameof(CommonExtension.GetValue), [propertyType], dicParam, keyParam);
+            //lambda = Expression.Lambda(delegateType, methodCall, dicParam);
+            //try
+            //{
+            //    var property = Expression.Property(Expression.Constant(model), nameof(model.Value));
+            //    var access = Expression.Convert(property, propertyType);
+            //    lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
+            //    //lambda = Expression.Lambda<Func<object>>(access);
+            //    Console.WriteLine(lambda);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.ToString());
+            //}
+        }
+        else if (model.Property != null)
         {
             var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), model.Property);
             lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);

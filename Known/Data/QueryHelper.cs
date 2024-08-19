@@ -43,6 +43,9 @@ class QueryHelper
         //    field = builder.GetColumnName(fields[0], fields[1]);
         //else
         //    field = builder.GetColumnName<T>(field);
+        if (!sql.Contains("where", StringComparison.OrdinalIgnoreCase))
+            sql += " where 1=1";
+
         switch (type)
         {
             case QueryType.Equal:

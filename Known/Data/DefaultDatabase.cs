@@ -180,7 +180,7 @@ class DefaultDatabase : Database
     {
         try
         {
-            DBUtils.SetAutoQuery<T>(this, ref sql, criteria);
+            QueryHelper.SetAutoQuery<T>(this, ref sql, criteria);
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
@@ -447,6 +447,12 @@ class DefaultDatabase : Database
     #endregion
 
     #region Dictionary
+    public override Task<PagingResult<Dictionary<string, object>>> QueryPageAsync(string tableName, PagingCriteria criteria)
+    {
+        var sql = Builder.GetSelectSql(tableName);
+        return QueryPageAsync<Dictionary<string, object>>(sql, criteria);
+    }
+
     public override async Task<bool> ExistsAsync(string tableName, string id)
     {
         var info = Builder.GetCountCommand(tableName, id);

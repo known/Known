@@ -75,11 +75,6 @@ public class DBUtils
         return obj;
     }
 
-    public static void SetAutoQuery<T>(Database db, ref string sql, PagingCriteria criteria)
-    {
-        QueryHelper.SetAutoQuery<T>(db, ref sql, criteria);
-    }
-
     public static Dictionary<string, object> ToDictionary(object value)
     {
         if (value is Dictionary<string, object> dictionary)

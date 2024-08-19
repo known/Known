@@ -68,6 +68,8 @@ select t.* from (
         return $"select {columns} from ({text}) t";
     }
 
+    public string GetSelectSql(string tableName) => $"select * from {FormatName(tableName)}";
+
     public CommandInfo GetCommand(string sql, object param = null) => new(this, sql, param);
 
     public CommandInfo GetCommand(string sql, PagingCriteria criteria, UserInfo user)
@@ -127,7 +129,8 @@ select t.* from (
     public CommandInfo GetSelectCommand<T>(string id)
     {
         var tableName = GetTableName<T>();
-        return GetSelectCommand(tableName, id);
+        var sql = $"{GetSelectSql(tableName)} where {IdName}=@id";
+        return new CommandInfo(this, sql, new { id });
     }
 
     public CommandInfo GetSelectCommand<T>(string[] ids)
@@ -144,12 +147,6 @@ select t.* from (
         var idText = string.Join(" or ", [.. idTexts]);
         var sql = $"select * from {tableName} where {idText}";
         return new CommandInfo(this, sql, paramters);
-    }
-
-    public CommandInfo GetSelectCommand(string tableName, string id)
-    {
-        var sql = $"select * from {FormatName(tableName)} where {IdName}=@id";
-        return new CommandInfo(this, sql, new { id });
     }
 
     internal CommandInfo GetCountCommand<T>(QueryBuilder<T> builder) where T : class, new()

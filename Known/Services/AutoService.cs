@@ -17,8 +17,8 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (string.IsNullOrWhiteSpace(tableName))
             return Task.FromResult(new PagingResult<Dictionary<string, object>>());
 
-        var sql = $"select * from {tableName} where CompNo=@CompNo";
-        return Database.QueryPageAsync<Dictionary<string, object>>(sql, criteria);
+        criteria.SetQuery(nameof(EntityBase.CompNo), QueryType.Equal, CurrentUser?.CompNo);
+        return Database.QueryPageAsync(tableName, criteria);
     }
 
     public async Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)

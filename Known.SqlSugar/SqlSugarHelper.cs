@@ -44,6 +44,30 @@ class SqlSugarHelper
         }
     }
 
+    internal static List<IConditionalModel> GetSugarWhere(string sql, PagingCriteria criteria)
+    {
+        var models = new List<IConditionalModel>();
+        foreach (var item in criteria.Query)
+        {
+            if (!string.IsNullOrWhiteSpace(item.Value))
+            {
+                var value = item.Value;
+                if (value.Contains('~'))
+                {
+                    item.Type = QueryType.Between;
+                    value = value.Replace('~', ',');
+                }
+                models.Add(new ConditionalModel
+                {
+                    FieldName = item.Id,
+                    ConditionalType = GetConditionalType(item.Type),
+                    FieldValue = value
+                });
+            }
+        }
+        return models;
+    }
+
     internal static List<SugarParameter> GetSugarParameters(string sql, PagingCriteria criteria, UserInfo user)
     {
         if (criteria == null)
@@ -57,5 +81,39 @@ class SqlSugarHelper
                 list.Add(new SugarParameter(item.Key, item.Value));
         }
         return list;
+    }
+
+    private static ConditionalType GetConditionalType(QueryType type)
+    {
+        switch (type)
+        {
+            case QueryType.Equal:
+                return ConditionalType.Equal;
+            case QueryType.NotEqual:
+                return ConditionalType.NoEqual;
+            case QueryType.LessThan:
+                return ConditionalType.LessThan;
+            case QueryType.LessEqual:
+                return ConditionalType.LessThanOrEqual;
+            case QueryType.GreatThan:
+                return ConditionalType.GreaterThan;
+            case QueryType.GreatEqual:
+                return ConditionalType.GreaterThanOrEqual;
+            case QueryType.Between:
+            case QueryType.BetweenNotEqual:
+            case QueryType.BetweenLessEqual:
+            case QueryType.BetweenGreatEqual:
+                return ConditionalType.Range;
+            case QueryType.Contain:
+                return ConditionalType.Like;
+            case QueryType.StartWith:
+                return ConditionalType.LikeLeft;
+            case QueryType.EndWith:
+                return ConditionalType.LikeRight;
+            case QueryType.Batch:
+                return ConditionalType.In;
+            default:
+                return ConditionalType.Equal;
+        }
     }
 }

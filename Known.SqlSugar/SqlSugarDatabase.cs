@@ -53,7 +53,9 @@ class SqlSugarDatabase : Database
     {
         try
         {
-            DBUtils.SetAutoQuery<T>(this, ref sql, criteria);
+            var where = SqlSugarHelper.GetSugarWhere(sql, criteria);
+            var query = sugar.SqlQueryable<T>(sql).Where(where);
+
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
@@ -63,18 +65,18 @@ class SqlSugarDatabase : Database
             Dictionary<string, object> sums = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
-            var parameters = SqlSugarHelper.GetSugarParameters(sql, criteria, User);
-            var countSql = $"select count(*) from ({sql}) t";
-            var total = await sugar.Ado.GetIntAsync(countSql, parameters);
+            var querySql = query.ToSql();
+            var countSql = $"select count(*) from ({querySql.Key}) t";
+            var total = await sugar.Ado.GetIntAsync(countSql, querySql.Value);
             watch.Watch("Total");
             if (total > 0)
             {
                 watch.Watch("Paging");
-                var query = sugar.SqlQueryable<T>(sql).QueryBuilder;
-                query.Take = criteria.PageSize;
-                query.Skip = (criteria.PageIndex - 1) * criteria.PageSize;
-                var pageSql = query.ToSqlString();
-                pageData = await sugar.QueryListAsync<T>(pageSql, parameters);
+                var builder = query.QueryBuilder;
+                builder.Take = criteria.PageSize;
+                builder.Skip = (criteria.PageIndex - 1) * criteria.PageSize;
+                var pageSql = builder.ToSqlString();
+                pageData = await sugar.QueryListAsync<T>(pageSql, querySql.Value);
                 watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
@@ -82,8 +84,8 @@ class SqlSugarDatabase : Database
                     {
                         watch.Watch("Suming");
                         var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
-                        var sumSql = $"select {columns} from ({sql}) t";
-                        sums = await sugar.QueryAsync<Dictionary<string, object>>(sumSql, parameters);
+                        var sumSql = $"select {columns} from ({querySql.Key}) t";
+                        sums = await sugar.QueryAsync<Dictionary<string, object>>(sumSql, querySql.Value);
                         watch.Watch("Sum");
                     }
                 }
@@ -210,6 +212,12 @@ class SqlSugarDatabase : Database
     public override Task<int> InsertListAsync<T>(List<T> datas)
     {
         return sugar.Insertable(datas).ExecuteCommandAsync();
+    }
+
+    public override Task<PagingResult<Dictionary<string, object>>> QueryPageAsync(string tableName, PagingCriteria criteria)
+    {
+        var sql = sugar.Queryable<object>().AS(tableName).ToSqlString();
+        return QueryPageAsync<Dictionary<string, object>>(sql, criteria);
     }
 
     public override async Task<bool> ExistsAsync(string tableName, string id)
