@@ -11,11 +11,20 @@ class SqlSugarRepository : IDataRepository
 
     public async Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria)
     {
-        var sql = @"
-select a.*,b.Name as Department 
-from SysUser a 
-left join SysOrganization b on b.Id=a.OrgNo 
-where a.CompNo=@CompNo and a.UserName<>'admin'";
+        //var sql = @"
+        //select a.*,b.Name as Department 
+        //from SysUser a 
+        //left join SysOrganization b on b.Id=a.OrgNo 
+        //where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var sql = sugar.Queryable<SysUser>()
+                       .LeftJoin<SysOrganization>((u, o) => u.OrgNo == o.Id)
+                       .Where(u => u.CompNo == db.User.CompNo && u.UserName != "admin")
+                       .Select((u, o) => new SysUser
+                       {
+                           Id = u.Id.SelectAll(),
+                           Department = o.Name
+                       })
+                       .ToSqlString();
         var orgNoId = nameof(SysUser.OrgNo);
         var orgNo = criteria.GetParameter<string>(orgNoId);
         if (!string.IsNullOrWhiteSpace(orgNo))
@@ -26,7 +35,6 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             else
                 criteria.RemoveQuery(orgNoId);
         }
-        criteria.Fields[nameof(SysUser.Name)] = "a.Name";
         return await db.QueryPageAsync<SysUser>(sql, criteria);
     }
 
@@ -42,10 +50,17 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
     public Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId)
     {
         //SQL不兼容
-        var sql = @"select a.ModuleId from SysRoleModule a 
-where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
-  and exists (select 1 from SysRole where Id=a.RoleId and Enabled=1)";
-        return db.ScalarsAsync<string>(sql, new { userId });
+        //var sql = @"select a.ModuleId from SysRoleModule a 
+        //where a.RoleId in (select RoleId from SysUserRole where UserId=@userId)
+        //  and exists (select 1 from SysRole where Id=a.RoleId and Enabled=1)";
+        var sql = sugar.Queryable<SysRoleModule>()
+                       .Where(m =>
+                           SqlFunc.Subqueryable<SysUserRole>().Where(u => u.RoleId == m.RoleId && u.UserId == userId).Any() &&
+                           SqlFunc.Subqueryable<SysRole>().Where(r => r.Id == m.RoleId && r.Enabled).Any()
+                       )
+                       .Select(m => m.ModuleId)
+                       .ToSqlString();
+        return db.ScalarsAsync<string>(sql);
     }
 
     public Task<List<SysDictionary>> GetDicCategoriesAsync(Database db)
