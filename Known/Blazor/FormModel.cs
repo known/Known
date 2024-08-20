@@ -311,11 +311,15 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         else
         {
             var data = Activator.CreateInstance<TItem>();
+            var baseProperties = TypeHelper.Properties(typeof(EntityBase));
             var properties = TypeHelper.Properties(typeof(TItem));
-            foreach (var property in properties)
+            foreach (var item in properties)
             {
-                var value = property.GetValue(DefaultData);
-                property.SetValue(data, value, null);
+                if (baseProperties.Any(p => p.Name == item.Name))
+                    continue;
+
+                var value = item.GetValue(DefaultData);
+                item.SetValue(data, value, null);
             }
             return data;
         }
