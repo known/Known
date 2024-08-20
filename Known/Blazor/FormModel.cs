@@ -315,7 +315,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             var properties = TypeHelper.Properties(typeof(TItem));
             foreach (var item in properties)
             {
-                if (baseProperties.Any(p => p.Name == item.Name))
+                if (!item.CanWrite || baseProperties.Any(p => p.Name == item.Name))
                     continue;
 
                 var value = item.GetValue(DefaultData);
