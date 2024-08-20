@@ -26,13 +26,6 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         base.OnInitialized();
     }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender && Form != null)
-            Form.OnValidate = Validate;
-        base.OnAfterRender(firstRender);
-    }
-
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Cascading<IAntForm>(this, b =>

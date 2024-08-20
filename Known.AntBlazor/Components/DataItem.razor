@@ -13,7 +13,7 @@
     }
     else
     {
-        <FormItem Label="@Label" Class="@Class" Style="@Style" Required="Required" Rules="rules">
+        <FormItem Label="@Label" Class="@Class" Style="@Style" Required="Required" Rules="Rules">
             <DataItemValue IsFixed Value="this">
                 @ChildContent
             </DataItemValue>
@@ -22,8 +22,6 @@
 </AntCol>
 
 @code {
-    private FormValidationRule[] rules => Rules ?? this.ToRules(Context);
-
     public Type Type { get; set; } = typeof(string);
 
     [Parameter] public int Span { get; set; }

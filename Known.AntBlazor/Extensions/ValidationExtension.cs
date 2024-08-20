@@ -9,47 +9,30 @@ static class ValidationExtension
         return [rule];
     }
 
-    internal static FormValidationRule[] ToRules(this DataItem item, Context context = null)
-    {
-        var rules = new List<FormValidationRule>();
-        if (item.Required)
-        {
-            var message = context != null
-                        ? context.Language.Required(item.Label)
-                        : $"{item.Label}不能为空！";
-            rules.Add(GetFormRuleRequired(message, item.Type));
-        }
-        return [.. rules];
-    }
-
     internal static FormValidationRule[] ToRules<TItem>(this FieldModel<TItem> model, Context context) where TItem : class, new()
     {
         var column = model.Column;
         if (column == null)
             return [];
 
+        //TODO：动态数据表单验证问题
         var type = model.GetPropertyType();
         var rules = new List<FormValidationRule>();
         if (column.Required && type != typeof(bool))
-        {
-            //TODO：动态数据表单验证问题
             rules.Add(GetFormRuleRequired(context, column, type));
-        }
-        else
-        {
-            var property = column.Property;
-            var min = property?.MinLength();
-            if (min != null)
-                rules.Add(GetFormRuleMin(context, column, min.Value));
 
-            var max = property?.MaxLength();
-            if (max != null)
-                rules.Add(GetFormRuleMax(context, column, max.Value));
+        var property = column.Property;
+        var min = property?.MinLength();
+        if (min != null)
+            rules.Add(GetFormRuleMin(context, column, min.Value));
 
-            var regex = property?.GetCustomAttribute<RegularExpressionAttribute>();
-            if (regex != null)
-                rules.Add(GetFormRuleRegex(regex));
-        }
+        var max = property?.MaxLength();
+        if (max != null)
+            rules.Add(GetFormRuleMax(context, column, max.Value));
+
+        var regex = property?.GetCustomAttribute<RegularExpressionAttribute>();
+        if (regex != null)
+            rules.Add(GetFormRuleRegex(regex));
 
         return [.. rules];
     }
@@ -71,7 +54,7 @@ static class ValidationExtension
             type = FormFieldType.Date;
         else if (propertyType.IsArray)
             type = FormFieldType.Array;
-        else if (propertyType == typeof(int) || propertyType == typeof(int?) || 
+        else if (propertyType == typeof(int) || propertyType == typeof(int?) ||
             propertyType == typeof(long) || propertyType == typeof(long?))
             type = FormFieldType.Integer;
         else if (propertyType == typeof(float) || propertyType == typeof(float?) ||
