@@ -100,7 +100,6 @@ public class SysUserList : BasePage<SysUser>
             var result = await Service.ChangeDepartmentAsync(rows);
             UI.Result(result, async () =>
             {
-                //TODO：更换部门后，部门名称未刷新问题
                 await model.CloseAsync();
                 await Table.RefreshAsync();
             });

@@ -8,14 +8,37 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             form.Fields[column.Id] = this;
         Form = form;
         Column = column;
-        Data = form.Data;
     }
 
     public FormModel<TItem> Form { get; }
     public ColumnInfo Column { get; }
     public bool IsReadOnly => Form.IsView || Column.ReadOnly;
-    internal TItem Data { get; }
     internal PropertyInfo Property => Column.Property;
+
+    public object Value
+    {
+        get
+        {
+            if (Form.Data == null)
+                return null;
+
+            if (Form.IsDictionary)
+                return Column.GetDictionaryValue(Form.Data as Dictionary<string, object>);
+
+            return Property?.GetValue(Form.Data);
+        }
+        set
+        {
+            if (!Equals(Value, value) && Form.Data != null)
+            {
+                if (Form.IsDictionary)
+                    (Form.Data as Dictionary<string, object>)[Column.Id] = value;
+                else if (Property?.SetMethod is not null)
+                    Property?.SetValue(Form.Data, value);
+                Form.OnFieldChanged?.Invoke(Column.Id);
+            }
+        }
+    }
 
     public Type GetPropertyType()
     {
@@ -26,34 +49,6 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         }
 
         return Property?.PropertyType;
-    }
-
-    public object Value
-    {
-        get
-        {
-            if (Form.IsDictionary)
-            {
-                var data = Form.Data as Dictionary<string, object>;
-                return Column.GetDictionaryValue(data);
-            }
-
-            if (Form.Data == null)
-                return null;
-
-            return Property?.GetValue(Form.Data);
-        }
-        set
-        {
-            if (!Equals(Value, value) && Form.Data != null)
-            {
-                if (Form.IsDictionary)
-                    (Form.Data as Dictionary<string, object>)[Column.Id] = value;
-                else if (Column.Property?.SetMethod is not null)
-                    Property?.SetValue(Form.Data, value);
-                Form.OnFieldChanged?.Invoke(Column.Id);
-            }
-        }
     }
 
     public List<CodeInfo> GetCodes(string emptyText = "Please select")
@@ -96,7 +91,8 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
 
             var expression = InputExpression.Create(this);
             attributes["Value"] = Value;
-            attributes["ValueChanged"] = expression?.ValueChanged;
+            if (!IsReadOnly)
+                attributes["ValueChanged"] = expression?.ValueChanged;
             attributes["ValueExpression"] = expression?.ValueExpression;
             return attributes;
         }
@@ -143,22 +139,24 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
             //var keyParam = Expression.Parameter(typeof(string), model.Column.Id);
             //var methodCall = Expression.Call(typeof(CommonExtension), nameof(CommonExtension.GetValue), [propertyType], dicParam, keyParam);
             //lambda = Expression.Lambda(delegateType, methodCall, dicParam);
-            //try
-            //{
-            //    var property = Expression.Property(Expression.Constant(model), nameof(model.Value));
-            //    var access = Expression.Convert(property, propertyType);
-            //    lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
-            //    //lambda = Expression.Lambda<Func<object>>(access);
-            //    Console.WriteLine(lambda);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.ToString());
-            //}
+            try
+            {
+                //var property = Expression.Property(Expression.Constant(model), nameof(model.Value));
+                //var access = Expression.Convert(property, propertyType);
+                //lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
+                //lambda = Expression.Lambda<Func<object>>(access);
+                //lambda = () => (model.Data as Dictionary<string, object>).GetValue(propertyType, model.Column.Id);
+                //Console.WriteLine(lambda);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
         else if (model.Property != null)
         {
-            var access = Expression.Property(Expression.Constant(model.Data, typeof(TItem)), model.Property);
+            // () => Owner.Property
+            var access = Expression.Property(Expression.Constant(model.Form.Data, typeof(TItem)), model.Property);
             lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
         }
 

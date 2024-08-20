@@ -236,6 +236,9 @@ public class ColumnInfo
 
     internal object GetDictionaryValue(Dictionary<string, object> data)
     {
+        if (data == null)
+            return null;
+
         data.TryGetValue(Id, out object value);
         switch (Type)
         {

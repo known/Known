@@ -15,7 +15,6 @@ static class ValidationExtension
         if (column == null)
             return [];
 
-        //TODO：动态数据表单验证问题
         var type = model.GetPropertyType();
         var rules = new List<FormValidationRule>();
         if (column.Required && type != typeof(bool))

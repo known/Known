@@ -49,6 +49,15 @@ public static class CommonExtension
 
         return Utils.ConvertTo<T>(value);
     }
+
+    public static object GetValue(this IDictionary dic, Type type, string key)
+    {
+        var value = dic?.GetValue(key);
+        if (value == null)
+            return default;
+
+        return Utils.ConvertTo(type, value);
+    }
     #endregion
 
     #region Object
