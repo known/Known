@@ -23,7 +23,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
                 return null;
 
             if (Form.IsDictionary)
-                return Column.GetDictionaryValue(Form.Data as Dictionary<string, object>);
+                return GetDictionaryValue(Column, Form.Data as Dictionary<string, object>);
 
             return Property?.GetValue(Form.Data);
         }
@@ -43,10 +43,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     public Type GetPropertyType()
     {
         if (Form.IsDictionary)
-        {
-            var value = Value;
-            return Column.GetPropertyType(value);
-        }
+            return GetPropertyType(Column, Value);
 
         return Property?.PropertyType;
     }
@@ -97,6 +94,52 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             return attributes;
         }
     }
+
+    internal DateTime? ValueAsDateTime => Value as DateTime?;
+    internal int? ValueAsInt => Value as int?;
+    internal decimal? ValueAsDecimal => Value as decimal?;
+    internal bool ValueAsBool => (bool)Value;
+    internal string ValueAsString => Value as string;
+
+    private static object GetDictionaryValue(ColumnInfo column, Dictionary<string, object> data)
+    {
+        if (data == null)
+            return null;
+
+        data.TryGetValue(column.Id, out object value);
+        switch (column.Type)
+        {
+            case FieldType.Date:
+            case FieldType.DateTime:
+                return Utils.ConvertTo<DateTime?>(value);
+            case FieldType.Number:
+                return Utils.ConvertTo<decimal?>(value);
+            case FieldType.Switch:
+            case FieldType.CheckBox:
+                return Utils.ConvertTo<bool>(value);
+            default:
+                return value?.ToString();
+        }
+    }
+
+    private static Type GetPropertyType(ColumnInfo column, object value)
+    {
+        switch (column.Type)
+        {
+            case FieldType.Date:
+            case FieldType.DateTime:
+                return value != null ? value.GetType() : typeof(DateTime?);
+            case FieldType.Number:
+                return value != null ? value.GetType() : typeof(decimal?);
+            case FieldType.Switch:
+            case FieldType.CheckBox:
+                return typeof(bool);
+            case FieldType.CheckList:
+                return typeof(string[]);
+            default:
+                return typeof(string);
+        }
+    }
 }
 
 record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
@@ -133,24 +176,32 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
         LambdaExpression lambda = null;
         if (model.Form.IsDictionary)
         {
-            //TODO：动态数据Value表达式
-            //var delegateType = typeof(Func<>).MakeGenericType(typeof(Dictionary<string, object>), propertyType);
-            //var dicParam = Expression.Parameter(typeof(Dictionary<string, object>), "dic");
-            //var keyParam = Expression.Parameter(typeof(string), model.Column.Id);
-            //var methodCall = Expression.Call(typeof(CommonExtension), nameof(CommonExtension.GetValue), [propertyType], dicParam, keyParam);
-            //lambda = Expression.Lambda(delegateType, methodCall, dicParam);
             try
             {
-                //var property = Expression.Property(Expression.Constant(model), nameof(model.Value));
-                //var access = Expression.Convert(property, propertyType);
-                //lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
-                //lambda = Expression.Lambda<Func<object>>(access);
-                //lambda = () => (model.Data as Dictionary<string, object>).GetValue(propertyType, model.Column.Id);
-                //Console.WriteLine(lambda);
+                MemberExpression access = null;
+                switch (model.Column.Type)
+                {
+                    case FieldType.Date:
+                    case FieldType.DateTime:
+                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsDateTime));
+                        break;
+                    case FieldType.Number:
+                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsDecimal));
+                        break;
+                    case FieldType.Switch:
+                    case FieldType.CheckBox:
+                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsBool));
+                        break;
+                    //case FieldType.CheckList: //return typeof(string[]);
+                    default:
+                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsString));
+                        break;
+                }
+                lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Logger.Exception(ex);
             }
         }
         else if (model.Property != null)

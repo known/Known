@@ -234,47 +234,7 @@ public class ColumnInfo
         return Note;
     }
 
-    internal object GetDictionaryValue(Dictionary<string, object> data)
-    {
-        if (data == null)
-            return null;
-
-        data.TryGetValue(Id, out object value);
-        switch (Type)
-        {
-            case FieldType.Date:
-            case FieldType.DateTime:
-                return Utils.ConvertTo<DateTime?>(value);
-            case FieldType.Number:
-                return Utils.ConvertTo<decimal?>(value);
-            case FieldType.Switch:
-            case FieldType.CheckBox:
-                return Utils.ConvertTo<bool>(value);
-            default:
-                return value?.ToString();
-        }
-    }
-
-    internal Type GetPropertyType(object value)
-    {
-        switch (Type)
-        {
-            case FieldType.Date:
-            case FieldType.DateTime:
-                return value != null ? value.GetType() : typeof(DateTime?);
-            case FieldType.Number:
-                return value != null ? value.GetType() : typeof(int);
-            case FieldType.Switch:
-            case FieldType.CheckBox:
-                return typeof(bool);
-            case FieldType.CheckList:
-                return typeof(string[]);
-            default:
-                return typeof(string);
-        }
-    }
-
-    internal void SetPageColumnInfo(PageColumnInfo info)
+    private void SetPageColumnInfo(PageColumnInfo info)
     {
         if (info == null)
             return;

@@ -8,6 +8,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     private IModuleService Module;
     private bool isEditPage;
     private string pageId;
+    private readonly Dictionary<string, object> defaultData = [];
 
     [Parameter] public string PageId { get; set; }
 
@@ -53,7 +54,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
 
         base.BuildPage(builder);
-        if (CurrentUser != null && CurrentUser.UserName == "admin")
+        if (CurrentUser != null && CurrentUser.IsSystemAdmin())
         {
             builder.Div("kui-page-designer", () =>
             {
@@ -62,7 +63,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
-    public void New() => Table.NewForm(SaveModelAsync, []);
+    public void New() => Table.NewForm(SaveModelAsync, defaultData);
     public void DeleteM() => Table.DeleteM(DeleteModelsAsync);
     public void Edit(Dictionary<string, object> row) => Table.EditForm(SaveModelAsync, row);
     public void Delete(Dictionary<string, object> row) => Table.Delete(DeleteModelsAsync, row);
@@ -74,6 +75,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         Table.Initialize(this);
         Table.OnQuery = OnQueryModelsAsync;
         Table.Criteria.Clear();
+        foreach (var item in Context?.Current?.Model?.Fields)
+        {
+            defaultData[item.Id] = null;
+        }
     }
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryModelsAsync(PagingCriteria criteria)
