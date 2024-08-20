@@ -7,7 +7,7 @@ public class TestInfo
     public string Text { get; set; }
     public int? Number { get; set; }
     public decimal? Decimal { get; set; }
-    public DateTime? Date { get; set; }
+    public DateTime? Date { get; set; } = DateTime.Now;
     public string Note { get; set; }
 }
 

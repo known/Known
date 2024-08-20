@@ -2,22 +2,24 @@
 
 <div>
     <Form @ref="form" Model="Model" ValidateOnChange ValidateMode="FormValidateMode.Rules">
-        <FormItem Label="Text" Required>
+        <FormItem Label="Text" Required Rules="GetRequiredRules(FormFieldType.String)">
             <Input @bind-Value="@context.Text" />
         </FormItem>
-        <FormItem Label="TextAuto" Required>
+        <FormItem Label="TextAuto" Required Rules="GetRequiredRules(FormFieldType.String)">
             <AutoComplete @bind-Value="@context.Text" Options="Texts" OnSelectionChange="e=>context.Note=e.Label" />
         </FormItem>
-        <FormItem Label="Date" Required>
-            <DatePicker @bind-Value="@context.Date" />
+        <FormItem Label="Date" Required Rules="GetRequiredRules(FormFieldType.Date)">
+            <DataItemValue IsFixed Value="item">
+                <DatePicker @bind-Value="@context.Date" />
+            </DataItemValue>
         </FormItem>
-        <FormItem Label="Number" Required>
+        <FormItem Label="Number" Required Rules="GetRequiredRules(FormFieldType.Integer)">
             <AntDesign.InputNumber @bind-Value="@context.Number" />
         </FormItem>
-        <FormItem Label="Decimal" Required>
+        <FormItem Label="Decimal" Required Rules="GetRequiredRules(FormFieldType.Float)">
             <AntDesign.InputNumber @bind-Value="@context.Decimal" />
         </FormItem>
-        <FormItem Label="备注" Required>
+        <FormItem Label="备注" Required Rules="GetRequiredRules(FormFieldType.String)">
             <TextArea @bind-Value="@context.Note" />
         </FormItem>
     </Form>
@@ -37,6 +39,7 @@
     private Form<TestInfo> form;
     private TestInfo Model = new();
     private List<CodeInfo> Texts = [];
+    private DataItem item = new();
 
     protected override void OnInitialized()
     {
@@ -50,5 +53,11 @@
     private void OnClick(MouseEventArgs arg)
     {
         form.Validate();
+    }
+
+    private FormValidationRule[] GetRequiredRules(FormFieldType type)
+    {
+        var rule = new FormValidationRule { Type = type, Required = true, Message = "不能为空！" };
+        return [rule];
     }
 }
