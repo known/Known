@@ -21,7 +21,7 @@ public class BaApplyList : BaseTablePage<TbApply>
         };
         Table.FormType = typeof(ApplyForm);
         Table.RowActions = row => Table.GetFlowRowActions(row); //根据数据状态显示操作按钮
-        Table.OnQuery = criteria => Service.QueryApplysAsync(criteria);
+        Table.OnQuery = Service.QueryApplysAsync;
 		Table.Column(c => c.BizStatus).Template((b, r) => b.Tag(r.BizStatus));//自定义状态列
     }
 

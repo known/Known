@@ -28,9 +28,9 @@ static class OptionExtension
         if (string.IsNullOrWhiteSpace(colmun.DefaultSort))
             return SortDirection.None;
 
-        if (colmun.DefaultSort == "asc")
+        if (colmun.DefaultSort == "asc" || colmun.DefaultSort == "Ascend")
             return SortDirection.Ascending;
-        else if (colmun.DefaultSort == "desc")
+        else if (colmun.DefaultSort == "desc" || colmun.DefaultSort == "Descend")
             return SortDirection.Descending;
 
         return SortDirection.None;

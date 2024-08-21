@@ -50,7 +50,7 @@ public static class ModelExtension
     #endregion
 
     #region Menu
-    internal static List<MenuInfo> ToMenuItems(this List<MenuInfo> menus)
+    public static List<MenuInfo> ToMenuItems(this List<MenuInfo> menus)
     {
         var items = new List<MenuInfo>();
         if (menus == null || menus.Count == 0)

@@ -26,8 +26,8 @@
             {
                 var value = (context as Dictionary<string, object>).GetValue(item.Id);
                 <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                  Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
-                                  DefaultSortOrder="item.ToSortDirection()"
+                                  Ellipsis ShowSorterTooltip="false" Fixed="@item.Fixed"
+                                  Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                                   Align="@GetColumnAlign(item.Align)">
                     @if (template != null)
                     {
@@ -52,8 +52,8 @@
             {
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
                 <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
-                        Ellipsis Sortable ShowSorterTooltip="false" Fixed="@item.Fixed"
-                        DefaultSortOrder="item.ToSortDirection()"
+                        Ellipsis ShowSorterTooltip="false" Fixed="@item.Fixed"
+                        Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                         Align="@GetColumnAlign(item.Align)">
                     <TitleTemplate>
                         @if (!string.IsNullOrWhiteSpace(item.Tooltip))
@@ -234,7 +234,10 @@
     {
         //descend  ascend
         var sort = model.Sort == "descend" ? "desc" : "asc";
-        return $"{model.FieldName} {sort}";
+        var fieldName = model.FieldName;
+        if (string.IsNullOrWhiteSpace(fieldName))
+            fieldName = Model.Columns[model.ColumnIndex - 1].Id;
+        return $"{fieldName} {sort}";
     }
 
     private static ColumnAlign GetColumnAlign(string align)

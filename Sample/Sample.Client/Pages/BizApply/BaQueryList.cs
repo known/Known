@@ -12,7 +12,7 @@ public class BaQueryList : BaseTablePage<TbApply>
         Service = await CreateServiceAsync<IApplyService>();
 
         Table.FormType = typeof(ApplyForm);
-        Table.OnQuery = criteria => Service.QueryApplysAsync(criteria);
+        Table.OnQuery = Service.QueryApplysAsync;
         Table.Column(c => c.BizStatus).Template((b, r) => b.Tag(r.BizStatus));
     }
 
