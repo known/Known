@@ -214,7 +214,7 @@ public class VersionInfo
     }
 }
 
-public enum AppType { Web, Desktop }
+public enum AppType { Web, WebApi, Desktop }
 
 public class AppInfo
 {

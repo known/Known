@@ -92,9 +92,12 @@ public class Language
                 caches[item.Id] = [];
             
             var langs = Utils.FromJson<Dictionary<string, object>>(content);
-            foreach (var lang in langs)
+            if (langs != null && langs.Count > 0)
             {
-                caches[item.Id][lang.Key] = lang.Value;
+                foreach (var lang in langs)
+                {
+                    caches[item.Id][lang.Key] = lang.Value;
+                }
             }
         }
     }

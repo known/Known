@@ -7,8 +7,11 @@ public static class Extension
         Config.StartTime = DateTime.Now;
         Logger.Level = LogLevel.Info;
         action?.Invoke(Config.App);
-        Config.AddApp();
 
+        if (Config.App.Type == AppType.WebApi)
+            return;
+
+        Config.AddApp();
         services.AddScoped<Context>();
         services.AddScoped<JSService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
@@ -39,12 +42,16 @@ $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', 
 
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
-        Config.Version.LoadBuildTime();
-        FileLogger.Start();
-        Config.CoreAssemblies.Add(typeof(Extension).Assembly);
         action?.Invoke(Config.App);
-
         DBUtils.RegisterConnections();
+        FileLogger.Start();
+
+        if (Config.App.Type == AppType.WebApi)
+            return;
+
+        Config.Version?.LoadBuildTime();
+        Config.CoreAssemblies.Add(typeof(Extension).Assembly);
+
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped<ICompanyService, CompanyService>();

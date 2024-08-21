@@ -23,4 +23,10 @@
         <EmbeddedResource Include="Resources\Tables.sql" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="Dockerfile">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>
