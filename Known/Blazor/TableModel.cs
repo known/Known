@@ -98,8 +98,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public Action<ActionInfo, TItem> OnAction { get; set; }
     public Action OnRefreshed { get; set; }
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
-    public RenderFragment ToolbarSlot { get; set; }
+    public RenderFragment<PagingResult<TItem>> TopStatis { get; set; }
     public Func<TItem, string> RowClass { get; set; }
+    internal Func<PagingResult<TItem>, Task> OnRefreshStatis { get; set; }
 
     private List<TItem> dataSource = [];
     public List<TItem> DataSource
@@ -269,6 +270,14 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     public Task ExportDataAsync(ExportMode mode = ExportMode.Query) => ExportDataAsync(PageName, mode);
     public Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query) => Page.App?.ExportDataAsync(this, name, mode);
+
+    public Task RefreshStatisAsync()
+    {
+        if (OnRefreshStatis == null)
+            return Task.CompletedTask;
+
+        return OnRefreshStatis.Invoke(Result);
+    }
 
     public void SelectRow(Action<TItem> action)
     {

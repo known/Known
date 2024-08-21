@@ -62,7 +62,7 @@ class SqlSugarDatabase : Database
             await OpenAsync();
 
             byte[] exportData = null;
-            Dictionary<string, object> stats = null;
+            Dictionary<string, object> statis = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
             var querySql = query.ToSql();
@@ -80,19 +80,19 @@ class SqlSugarDatabase : Database
                 watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
-                    if (criteria.StatColumns != null && criteria.StatColumns.Count > 0)
+                    if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
                     {
                         watch.Watch("Suming");
-                        var statColumns = criteria.StatColumns.Select(c =>
+                        var statisColumns = criteria.StatisColumns.Select(c =>
                         {
                             if (!string.IsNullOrWhiteSpace(c.Expression))
                                 return $"{c.Expression} as {c.Id}";
 
                             return $"{c.Function}({c.Id}) as {c.Id}";
                         });
-                        var columns = string.Join(",", statColumns);
+                        var columns = string.Join(",", statisColumns);
                         var sumSql = $"select {columns} from ({querySql.Key}) t";
-                        stats = await sugar.QueryAsync<Dictionary<string, object>>(sumSql, querySql.Value);
+                        statis = await sugar.QueryAsync<Dictionary<string, object>>(sumSql, querySql.Value);
                         watch.Watch("Sum");
                     }
                 }
@@ -110,7 +110,7 @@ class SqlSugarDatabase : Database
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
 
             watch.WriteLog();
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Stats = stats };
+            return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
         }
         catch (Exception ex)
         {

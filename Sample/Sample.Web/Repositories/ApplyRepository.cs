@@ -27,6 +27,13 @@ where a.Id=b.BizId and a.CompNo=@CompNo";
             default:
                 break;
         }
+        criteria.StatisColumns = [
+            new StatisColumnInfo { Id = nameof(TbApply.Id), Function = "count" },
+            new StatisColumnInfo { 
+                Id = "VerifingCount", 
+                Expression = $"sum(case when BizStatus='{FlowStatus.Verifing}' then 1 else 0 end)" 
+            },
+        ];
         return db.QueryPageAsync<TbApply>(sql, criteria);
     }
 

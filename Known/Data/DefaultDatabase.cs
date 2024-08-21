@@ -184,7 +184,7 @@ class DefaultDatabase : Database
                 conn.Open();
 
             byte[] exportData = null;
-            Dictionary<string, object> stats = null;
+            Dictionary<string, object> statis = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
             var info = Builder.GetCommand(sql, criteria, User);
@@ -208,14 +208,14 @@ class DefaultDatabase : Database
                 watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
-                    if (criteria.StatColumns != null && criteria.StatColumns.Count > 0)
+                    if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
                     {
                         cmd.CommandText = info.StatSql;
                         watch.Watch("Suming");
                         using (var reader1 = cmd.ExecuteReader())
                         {
                             if (reader1 != null && reader1.Read())
-                                stats = DBUtils.GetDictionary(reader1);
+                                statis = DBUtils.GetDictionary(reader1);
                         }
                         watch.Watch("Sum");
                     }
@@ -236,7 +236,7 @@ class DefaultDatabase : Database
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
 
             watch.WriteLog();
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Stats = stats };
+            return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
         }
         catch (Exception ex)
         {

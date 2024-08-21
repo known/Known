@@ -131,7 +131,7 @@
                     if (item.IsSum)
                     {
                         object value = null;
-                        Model.Result?.Stats?.TryGetValue(item.Id, out value);
+                        Model.Result?.Statis?.TryGetValue(item.Id, out value);
                         <SummaryCell>@value</SummaryCell>
                     }
                     else
@@ -216,9 +216,10 @@
             var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
             Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
         }
-        Model.Criteria.StatColumns = Model.Columns.Where(c => c.IsSum).Select(c =>new StatColumnInfo { Id = c.Id }).ToList();
+        Model.Criteria.StatisColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisColumnInfo { Id = c.Id }).ToList();
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         Model.SelectedRows = [];
+        await Model.RefreshStatisAsync();
         watch.Write($"Changed {Model.Criteria.PageIndex}");
     }
 

@@ -64,14 +64,14 @@ select t.* from (
 
     protected virtual string GetStatSql(string text, PagingCriteria criteria)
     {
-        var statColumns = criteria.StatColumns.Select(c =>
+        var statisColumns = criteria.StatisColumns.Select(c =>
         {
             if (!string.IsNullOrWhiteSpace(c.Expression))
                 return $"{c.Expression} as {FormatName(c.Id)}";
 
             return $"{c.Function}({FormatName(c.Id)}) as {FormatName(c.Id)}";
         });
-        var columns = string.Join(",", statColumns);
+        var columns = string.Join(",", statisColumns);
         return $"select {columns} from ({text}) t";
     }
 
