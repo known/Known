@@ -77,9 +77,10 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public bool IsForm { get; set; }
     public TableSelectType SelectType { get; set; }
     public string Name { get; set; }
-    public string FixedWidth { get; set; }
+    //public string FixedWidth { get; set; }
     public string FixedHeight { get; set; }
     public string ActionWidth { get; set; } = "140";
+    public int? PageSize { get; set; }
     public int ActionCount { get; set; } = 2;
     public FormInfo Form { get; set; }
     public Type FormType { get; set; }
@@ -129,6 +130,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         SetPage(menu.Model, menu.Page);
         SetPermission(page);
         InitQueryColumns();
+
+        if (PageSize != null)
+            Criteria.PageSize = PageSize.Value;
     }
 
     public void Clear()
@@ -347,9 +351,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         if (info == null)
             return;
 
-        FixedWidth = info.FixedWidth;
-        FixedHeight = info.FixedHeight;
+        //FixedWidth = info.FixedWidth;
+        //FixedHeight = info.FixedHeight;
         ShowPager = info.ShowPager;
+        if (info.PageSize != null)
+            Criteria.PageSize = info.PageSize.Value;
 
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
         Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();

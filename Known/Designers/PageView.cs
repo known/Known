@@ -74,18 +74,24 @@ class PageView : BaseView<PageInfo>
                 Value = Model.ShowPager,
                 ValueChanged = this.Callback<bool>(value => { Model.ShowPager = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "Designer.FixedWidth", b => UI.BuildText(b, new InputModel<string>
+            BuildPropertyItem(builder, "Designer.PageSize", b => UI.BuildNumber(b, new InputModel<int?>
             {
                 Disabled = ReadOnly,
-                Value = Model.FixedWidth,
-                ValueChanged = this.Callback<string>(value => { Model.FixedWidth = value; OnPropertyChanged(); })
+                Value = Model.PageSize,
+                ValueChanged = this.Callback<int?>(value => { Model.PageSize = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "Designer.FixedHeight", b => UI.BuildText(b, new InputModel<string>
-            {
-                Disabled = ReadOnly,
-                Value = Model.FixedHeight,
-                ValueChanged = this.Callback<string>(value => { Model.FixedHeight = value; OnPropertyChanged(); })
-            }));
+            //BuildPropertyItem(builder, "Designer.FixedWidth", b => UI.BuildText(b, new InputModel<string>
+            //{
+            //    Disabled = ReadOnly,
+            //    Value = Model.FixedWidth,
+            //    ValueChanged = this.Callback<string>(value => { Model.FixedWidth = value; OnPropertyChanged(); })
+            //}));
+            //BuildPropertyItem(builder, "Designer.FixedHeight", b => UI.BuildText(b, new InputModel<string>
+            //{
+            //    Disabled = ReadOnly,
+            //    Value = Model.FixedHeight,
+            //    ValueChanged = this.Callback<string>(value => { Model.FixedHeight = value; OnPropertyChanged(); })
+            //}));
         });
     }
 

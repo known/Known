@@ -230,6 +230,7 @@
   "Designer.LabelSpan": "Label Span",
   "Designer.WrapperSpan": "Wrapper Span",
   "Designer.ShowPager": "Show Pager",
+  "Designer.PageSize": "Page Size",
   "Designer.FixedWidth": "Fixed Width",
   "Designer.FixedHeight": "Fixed Height",
   "Designer.Maximizable": "Maximizable",

@@ -30,8 +30,9 @@ public class PageInfo
 {
     public string Type { get; set; }
     public bool ShowPager { get; set; }
-    public string FixedWidth { get; set; }
-    public string FixedHeight { get; set; }
+    public int? PageSize { get; set; }
+    //public string FixedWidth { get; set; }
+    //public string FixedHeight { get; set; }
     public string[] Tools { get; set; }
     public string[] Actions { get; set; }
     public List<PageColumnInfo> Columns { get; set; } = [];

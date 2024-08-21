@@ -230,6 +230,7 @@
   "Designer.LabelSpan": "標題跨度",
   "Designer.WrapperSpan": "控件跨度",
   "Designer.ShowPager": "顯示分頁",
+  "Designer.PageSize": "每頁大小",
   "Designer.FixedWidth": "固定寬度",
   "Designer.FixedHeight": "固定高度",
   "Designer.Maximizable": "最大化",
