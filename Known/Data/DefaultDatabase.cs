@@ -111,17 +111,19 @@ class DefaultDatabase : Database
         }
     }
 
-    public async Task InsertTableAsync(DataTable data)
+    public override async Task<int> InsertTableAsync(DataTable data)
     {
         if (data == null || data.Rows.Count == 0)
-            return;
+            return 0;
 
+        var count = 0;
         var info = Builder.GetInsertCommand(data);
         foreach (DataRow item in data.Rows)
         {
             info.SetParameters(item);
-            await ExecuteNonQueryAsync(info);
+            count += await ExecuteNonQueryAsync(info);
         }
+        return count;
     }
     #endregion
 
@@ -170,12 +172,6 @@ class DefaultDatabase : Database
         return QueryListAsync<T>(info);
     }
 
-    public Task<List<T>> QueryListAsync<T>(int topSize, string sql, object param = null)
-    {
-        var info = Builder.GetTopCommand(topSize, sql, param);
-        return QueryListAsync<T>(info);
-    }
-
     public override async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria)
     {
         try
@@ -188,7 +184,7 @@ class DefaultDatabase : Database
                 conn.Open();
 
             byte[] exportData = null;
-            Dictionary<string, object> sums = null;
+            Dictionary<string, object> stats = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
             var info = Builder.GetCommand(sql, criteria, User);
@@ -212,14 +208,14 @@ class DefaultDatabase : Database
                 watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
-                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
+                    if (criteria.StatColumns != null && criteria.StatColumns.Count > 0)
                     {
-                        cmd.CommandText = info.SumSql;
+                        cmd.CommandText = info.StatSql;
                         watch.Watch("Suming");
                         using (var reader1 = cmd.ExecuteReader())
                         {
                             if (reader1 != null && reader1.Read())
-                                sums = DBUtils.GetDictionary(reader1);
+                                stats = DBUtils.GetDictionary(reader1);
                         }
                         watch.Watch("Sum");
                     }
@@ -240,83 +236,13 @@ class DefaultDatabase : Database
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
 
             watch.WriteLog();
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Sums = sums };
+            return new PagingResult<T>(total, pageData) { ExportData = exportData, Stats = stats };
         }
         catch (Exception ex)
         {
             Logger.Exception(ex);
             Logger.Error(sql);
             return new PagingResult<T>();
-        }
-    }
-
-    public async Task<PagingResult<Dictionary<string, object>>> QueryPageDictionaryAsync(string sql, PagingCriteria criteria)
-    {
-        try
-        {
-            var watch = Stopwatcher.Start<Dictionary<string, object>>();
-            if (conn.State != ConnectionState.Open)
-                conn.Open();
-
-            byte[] exportData = null;
-            Dictionary<string, object> sums = null;
-            var pageData = new List<Dictionary<string, object>>();
-            var info = Builder.GetCommand(sql, criteria, User);
-            var cmd = await PrepareCommandAsync(conn, trans, info);
-            cmd.CommandText = info.CountSql;
-            var scalar = cmd.ExecuteScalar();
-            var total = Utils.ConvertTo<int>(scalar);
-            watch.Watch("Total");
-            if (total > 0)
-            {
-                cmd.CommandText = info.PageSql;
-                watch.Watch("Paging");
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var dic = DBUtils.GetDictionary(reader);
-                        pageData.Add(dic);
-                    }
-                }
-                watch.Watch("Convert");
-                if (criteria.ExportMode == ExportMode.None)
-                {
-                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
-                    {
-                        cmd.CommandText = info.SumSql;
-                        watch.Watch("Suming");
-                        using (var reader1 = cmd.ExecuteReader())
-                        {
-                            if (reader1 != null && reader1.Read())
-                                sums = DBUtils.GetDictionary(reader1);
-                        }
-                        watch.Watch("Sum");
-                    }
-                }
-            }
-
-            cmd.Parameters.Clear();
-            if (conn.State != ConnectionState.Closed)
-                conn.Close();
-
-            if (criteria.ExportMode != ExportMode.None)
-            {
-                exportData = DBUtils.GetExportData(criteria, pageData);
-                watch.Watch("Export");
-            }
-
-            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
-                pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-
-            watch.WriteLog();
-            return new PagingResult<Dictionary<string, object>>(total, pageData) { ExportData = exportData, Sums = sums };
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-            Logger.Error(sql);
-            return new PagingResult<Dictionary<string, object>>();
         }
     }
 

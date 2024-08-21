@@ -96,7 +96,7 @@ public class PagingResult<T>
 
     public int TotalCount { get; set; }
     public List<T> PageData { get; set; }
-    public Dictionary<string, object> Sums { get; set; }
+    public Dictionary<string, object> Stats { get; set; }
     public object Summary { get; set; }
     public byte[] ExportData { get; set; }
 
@@ -143,7 +143,7 @@ public class PagingCriteria
     public ExportMode ExportMode { get; set; }
     public List<ExportColumnInfo> ExportColumns { get; set; }
     public Dictionary<string, object> Parameters { get; set; }
-    public List<string> SumColumns { get; set; }
+    public List<StatColumnInfo> StatColumns { get; set; }
 
     public bool IsLoad { get; set; }
     public bool IsQuery { get; set; }
@@ -161,7 +161,7 @@ public class PagingCriteria
         IsQuery = false;
         ExportColumns = [];
         Parameters = [];
-        SumColumns = [];
+        StatColumns = [];
         Query = [];
         OrderBys = [];
         Fields = [];
@@ -272,4 +272,11 @@ public class ExportColumnInfo
     public string Name { get; set; }
     public string Category { get; set; }
     public FieldType Type { get; set; }
+}
+
+public class StatColumnInfo
+{
+    public string Id { get; set; }
+    public string Function { get; set; } = "sum";
+    public string Expression { get; set; }
 }

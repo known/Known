@@ -68,6 +68,7 @@ public abstract class Database : IDisposable
     public abstract Task<int> DeleteAllAsync<T>() where T : class, new();
     public abstract Task<int> InsertAsync<T>(T data) where T : class, new();
     public abstract Task<int> InsertListAsync<T>(List<T> datas) where T : class, new();
+    public abstract Task<int> InsertTableAsync(DataTable data);
 
     public abstract Task<PagingResult<Dictionary<string, object>>> QueryPageAsync(string tableName, PagingCriteria criteria);
     public abstract Task<bool> ExistsAsync(string tableName, string id);

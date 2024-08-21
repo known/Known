@@ -62,9 +62,16 @@ select t.* from (
 ) t where t.row_no>{startNo} and t.row_no<={endNo}";
     }
 
-    protected virtual string GetSumSql(string text, PagingCriteria criteria)
+    protected virtual string GetStatSql(string text, PagingCriteria criteria)
     {
-        var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({FormatName(c)}) as {FormatName(c)}"));
+        var statColumns = criteria.StatColumns.Select(c =>
+        {
+            if (!string.IsNullOrWhiteSpace(c.Expression))
+                return $"{c.Expression} as {FormatName(c.Id)}";
+
+            return $"{c.Function}({FormatName(c.Id)}) as {FormatName(c.Id)}";
+        });
+        var columns = string.Join(",", statColumns);
         return $"select {columns} from ({text}) t";
     }
 
@@ -77,15 +84,9 @@ select t.* from (
         var info = new CommandInfo(this, sql);
         info.CountSql = $"select count(*) {sql.Substring(sql.IndexOf("from"))}".Replace("@", Prefix);
         info.PageSql = GetPageSql(sql, criteria).Replace("@", Prefix);
-        info.SumSql = GetSumSql(sql, criteria).Replace("@", Prefix);
+        info.StatSql = GetStatSql(sql, criteria).Replace("@", Prefix);
         info.Params = criteria.ToParameters(user);
         return info;
-    }
-
-    public CommandInfo GetTopCommand(int size, string sql, object param = null)
-    {
-        var text = GetTopSql(size, sql);
-        return new CommandInfo(this, text, param);
     }
 
     internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder) where T : class, new()
@@ -266,12 +267,6 @@ select t.* from (
             sql += $" where {qb.WhereSql}";
         }
         return new CommandInfo(this, sql, paramters);
-    }
-
-    public CommandInfo GetDeleteCommand<T>(string id)
-    {
-        var tableName = GetTableName<T>();
-        return GetDeleteCommand(tableName, id);
     }
 
     public CommandInfo GetDeleteCommand(string tableName, string id)

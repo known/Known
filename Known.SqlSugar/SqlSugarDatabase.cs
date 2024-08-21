@@ -62,7 +62,7 @@ class SqlSugarDatabase : Database
             await OpenAsync();
 
             byte[] exportData = null;
-            Dictionary<string, object> sums = null;
+            Dictionary<string, object> stats = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
             var querySql = query.ToSql();
@@ -80,12 +80,19 @@ class SqlSugarDatabase : Database
                 watch.Watch("Convert");
                 if (criteria.ExportMode == ExportMode.None)
                 {
-                    if (criteria.SumColumns != null && criteria.SumColumns.Count > 0)
+                    if (criteria.StatColumns != null && criteria.StatColumns.Count > 0)
                     {
                         watch.Watch("Suming");
-                        var columns = string.Join(",", criteria.SumColumns.Select(c => $"sum({c}) as {c}"));
+                        var statColumns = criteria.StatColumns.Select(c =>
+                        {
+                            if (!string.IsNullOrWhiteSpace(c.Expression))
+                                return $"{c.Expression} as {c.Id}";
+
+                            return $"{c.Function}({c.Id}) as {c.Id}";
+                        });
+                        var columns = string.Join(",", statColumns);
                         var sumSql = $"select {columns} from ({querySql.Key}) t";
-                        sums = await sugar.QueryAsync<Dictionary<string, object>>(sumSql, querySql.Value);
+                        stats = await sugar.QueryAsync<Dictionary<string, object>>(sumSql, querySql.Value);
                         watch.Watch("Sum");
                     }
                 }
@@ -103,7 +110,7 @@ class SqlSugarDatabase : Database
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
 
             watch.WriteLog();
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Sums = sums };
+            return new PagingResult<T>(total, pageData) { ExportData = exportData, Stats = stats };
         }
         catch (Exception ex)
         {
@@ -212,6 +219,12 @@ class SqlSugarDatabase : Database
     public override Task<int> InsertListAsync<T>(List<T> datas)
     {
         return sugar.Insertable(datas).ExecuteCommandAsync();
+    }
+
+    public override Task<int> InsertTableAsync(System.Data.DataTable data)
+    {
+        var dic = sugar.Utilities.DataTableToDictionaryList(data);
+        return sugar.Insertable(dic).AS(data.TableName).ExecuteCommandAsync();
     }
 
     public override Task<PagingResult<Dictionary<string, object>>> QueryPageAsync(string tableName, PagingCriteria criteria)

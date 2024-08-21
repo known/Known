@@ -19,10 +19,10 @@ public class CommandInfo
     public string Text { get; internal set; }
     public string CountSql { get; internal set; }
     public string PageSql { get; internal set; }
-    public string SumSql { get; internal set; }
+    public string StatSql { get; internal set; }
     public Dictionary<string, object> Params { get; internal set; }
 
-    public void SetParameters(DataRow row)
+    internal void SetParameters(DataRow row)
     {
         Params = [];
         var keys = new List<string>();
@@ -33,7 +33,7 @@ public class CommandInfo
         }
     }
 
-    public void SetParameters<T>(T data) => Params = DBUtils.ToDictionary(data);
+    internal void SetParameters<T>(T data) => Params = DBUtils.ToDictionary(data);
 
     public override string ToString()
     {
