@@ -8,12 +8,12 @@ public static class Extension
     {
         //添加BootstrapBlazor
         services.AddBootstrapBlazor();
+        services.AddScoped<IUIService, UIService>();
 
         BootConfig.Option = new BootstrapOption();
         action?.Invoke(BootConfig.Option);
 
         Config.AddModule(typeof(Extension).Assembly);
-        services.AddScoped<UIService>();
     }
 }
 

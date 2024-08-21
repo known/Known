@@ -1,4 +1,4 @@
-﻿using Sample.Web;
+﻿using BootWeb;
 
 #if DEBUG
 Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -8,8 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents()
-                .AddInteractiveWebAssemblyComponents();
+                .AddInteractiveServerComponents();
 builder.Services.AddApp(info =>
 {
     info.WebRoot = builder.Environment.WebRootPath;
@@ -36,7 +35,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging();
+    //app.UseWebAssemblyDebugging();
     //app.UseCssLiveReload();
 }
 else
@@ -51,8 +50,7 @@ app.UseRouting();
 app.UseAntiforgery();
 app.UseApp();
 app.MapRazorPages();
-app.MapRazorComponents<BootWeb.App>()   
+app.MapRazorComponents<App>()   
    .AddInteractiveServerRenderMode()
-   .AddInteractiveWebAssemblyRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);
 app.Run();
