@@ -137,6 +137,7 @@ class PageView : BaseView<PageInfo>
     {
         OnChanged?.Invoke(Model);
         table.SetPage(Entity, Model);
+        table.SetQueryColumns();
         StateChanged();
     }
 
@@ -148,6 +149,7 @@ class PageView : BaseView<PageInfo>
             Entity = Entity
         };
         table.SetPage(Entity, Model);
+        table.SetQueryColumns();
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
     }
 }

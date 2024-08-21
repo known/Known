@@ -3,6 +3,7 @@
 public class TableModel(UIContext context) : BaseModel(context)
 {
     public bool AdvSearch { get; set; }
+    public object DefaultQuery { get; set; }
     public List<ColumnInfo> QueryColumns { get; } = [];
     public Dictionary<string, QueryInfo> QueryData { get; } = [];
     public PagingCriteria Criteria { get; } = new();
@@ -54,7 +55,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         {
             AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
             Columns = AllColumns;
-            InitQueryColumns();
         }
 
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
@@ -129,7 +129,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         Clear();
         SetPage(menu.Model, menu.Page);
         SetPermission(page);
-        InitQueryColumns();
+        SetQueryColumns();
 
         if (PageSize != null)
             Criteria.PageSize = PageSize.Value;
@@ -371,7 +371,25 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
-        InitQueryColumns();
+    }
+
+    internal void SetQueryColumns()
+    {
+        QueryColumns.Clear();
+        if (Columns != null && Columns.Count > 0)
+            QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
+
+        if (QueryColumns != null && QueryColumns.Count > 0)
+        {
+            foreach (var item in QueryColumns)
+            {
+                var info = new QueryInfo(item);
+                info.Value = TypeHelper.GetPropertyValue<string>(DefaultQuery, item.Id);
+                QueryData[item.Id] = info;
+            }
+
+            Criteria.Query = QueryData.Select(d => d.Value).ToList();
+        }
     }
 
     internal async Task PageRefreshAsync()
@@ -415,21 +433,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
                 var info = properties.FirstOrDefault(p => p.Name == item.Id);
                 if (info != null)
                     item.SetPropertyInfo(info);
-            }
-        }
-    }
-
-    private void InitQueryColumns()
-    {
-        QueryColumns.Clear();
-        if (Columns != null && Columns.Count > 0)
-            QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
-
-        if (QueryColumns != null && QueryColumns.Count > 0)
-        {
-            foreach (var item in QueryColumns)
-            {
-                QueryData[item.Id] = new QueryInfo(item);
             }
         }
     }

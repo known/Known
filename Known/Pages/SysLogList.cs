@@ -8,11 +8,13 @@ public class SysLogList : BaseTablePage<SysLog>
 
     protected override async Task OnPageInitAsync()
     {
+        var date = DateTime.Now.ToString("yyyy-MM-dd");
+        DefaultQuery = new { CreateTime = $"{date}~{date}" };
+        
         await base.OnPageInitAsync();
         Service = await CreateServiceAsync<ISystemService>();
 
         Table.OnQuery = Service.QueryLogsAsync;
-        Table.AddQueryColumn(c => c.CreateTime);
         Table.Column(c => c.Type).Template((b, r) => b.Tag(r.Type));
     }
 
