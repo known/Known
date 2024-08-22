@@ -2,7 +2,7 @@
 
 public class LoginPage : BaseComponent
 {
-    private IAuthService authService;
+    private IAuthService Service;
     //private IWeixinService weixinService;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
@@ -13,7 +13,7 @@ public class LoginPage : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        authService = await CreateServiceAsync<IAuthService>();
+        Service = await CreateServiceAsync<IAuthService>();
         //weixinService = await CreateServiceAsync<IWeixinService>();
         //var state = GetWeixinAuthState(user.Token);
         //var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
@@ -72,7 +72,7 @@ public class LoginPage : BaseComponent
 
         OnLogining();
         Model.IPAddress = Context.IPAddress;
-        var result = await authService.SignInAsync(Model);
+        var result = await Service.SignInAsync(Model);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

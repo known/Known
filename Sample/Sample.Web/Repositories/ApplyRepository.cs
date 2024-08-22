@@ -29,10 +29,10 @@ where a.Id=b.BizId and a.CompNo=@CompNo";
         }
         criteria.StatisColumns = [
             new StatisColumnInfo { Id = nameof(TbApply.Id), Function = "count" },
-            new StatisColumnInfo { 
-                Id = "VerifingCount", 
-                Expression = $"sum(case when BizStatus='{FlowStatus.Verifing}' then 1 else 0 end)" 
-            },
+            new StatisColumnInfo { Id = "RevokeCount", Expression = $"sum(case when BizStatus='{FlowStatus.Revoked}' then 1 else 0 end)" },
+            new StatisColumnInfo { Id = "VerifingCount", Expression = $"sum(case when BizStatus='{FlowStatus.Verifing}' then 1 else 0 end)" },
+            new StatisColumnInfo { Id = "PassCount", Expression = $"sum(case when BizStatus='{FlowStatus.VerifyPass}' then 1 else 0 end)" },
+            new StatisColumnInfo { Id = "FailCount", Expression = $"sum(case when BizStatus='{FlowStatus.VerifyFail}' then 1 else 0 end)" }
         ];
         return db.QueryPageAsync<TbApply>(sql, criteria);
     }

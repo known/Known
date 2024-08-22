@@ -4,7 +4,7 @@
 [Route("/sys/organizations")]
 public class SysOrganizationList : BasePage<SysOrganization>
 {
-    private ICompanyService companyService;
+    private ICompanyService Service;
     private MenuInfo current;
     private TreeModel tree;
     private TableModel<SysOrganization> table;
@@ -12,7 +12,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        companyService = await CreateServiceAsync<ICompanyService>();
+        Service = await CreateServiceAsync<ICompanyService>();
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
@@ -67,12 +67,12 @@ public class SysOrganizationList : BasePage<SysOrganization>
             return;
         }
 
-        table.NewForm(companyService.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
+        table.NewForm(Service.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
-    public void Edit(SysOrganization row) => table.EditForm(companyService.SaveOrganizationAsync, row);
-    public void Delete(SysOrganization row) => table.Delete(companyService.DeleteOrganizationsAsync, row);
-    public void DeleteM() => table.DeleteM(companyService.DeleteOrganizationsAsync);
+    public void Edit(SysOrganization row) => table.EditForm(Service.SaveOrganizationAsync, row);
+    public void Delete(SysOrganization row) => table.Delete(Service.DeleteOrganizationsAsync, row);
+    public void DeleteM() => table.DeleteM(Service.DeleteOrganizationsAsync);
 
     private async void OnNodeClick(MenuInfo item)
     {
@@ -82,7 +82,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
 
     private async Task<TreeModel> OnTreeModelChanged()
     {
-        var datas = await companyService.GetOrganizationsAsync();
+        var datas = await Service.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)
         {
             tree.Data = datas.ToMenuItems(ref current);

@@ -4,7 +4,7 @@
 [Route("/sys/dictionaries")]
 public class SysDictionaryList : BaseTablePage<SysDictionary>
 {
-    private IDictionaryService dictionaryService;
+    private IDictionaryService Service;
     private List<CodeInfo> categories;
     private bool isAddCategory;
     private CodeInfo category;
@@ -14,7 +14,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        dictionaryService = await CreateServiceAsync<IDictionaryService>();
+        Service = await CreateServiceAsync<IDictionaryService>();
 
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.RowKey = r => r.Id;
@@ -42,8 +42,8 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         if (isAddCategory)
             await LoadCategoriesAsync();
-
-        await base.RefreshAsync();
+        else
+            await base.RefreshAsync();
     }
 
     private void BuildListBox(RenderTreeBuilder builder)
@@ -85,7 +85,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             return default;
 
         criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
-        var result = await dictionaryService.QueryDictionariesAsync(criteria);
+        var result = await Service.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
     }
@@ -93,33 +93,95 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     public void AddCategory()
     {
         isAddCategory = true;
-        var code = Constants.DicCategory;
-        var dicCate = new CodeInfo(code, code, code, null);
-        NewForm(dicCate, categories.Count, true);
+        var model = new DialogModel
+        {
+            Title = Language.GetString("Button.AddCategory"),
+            Width = 800,
+            Content = b => b.Component<CategoryGrid>()
+                            .Set(c => c.Service, Service)
+                            .Set(c => c.OnRefresh, RefreshAsync)
+                            .Build()
+        };
+        UI.ShowDialog(model);
     }
 
-    public void New() => NewForm(category, total, false);
-    public void Edit(SysDictionary row) => Table.EditForm(dictionaryService.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Table.Delete(dictionaryService.DeleteDictionariesAsync, row);
-    public void DeleteM() => Table.DeleteM(dictionaryService.DeleteDictionariesAsync);
+    public void New() => NewForm(category, total);
+    public void Edit(SysDictionary row) => Table.EditForm(Service.SaveDictionaryAsync, row);
+    public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+    public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
     public void Import() => ShowImportForm();
 
     private async Task LoadCategoriesAsync()
     {
-        categories = await dictionaryService.GetCategoriesAsync();
+        categories = await Service.GetCategoriesAsync();
         category ??= categories?.FirstOrDefault();
         await OnCategoryClick(category);
         await StateChangedAsync();
     }
 
-    private void NewForm(CodeInfo info, int sort, bool isCategory)
+    private void NewForm(CodeInfo info, int sort)
     {
-        isAddCategory = isCategory;
-        Table.NewForm(dictionaryService.SaveDictionaryAsync, new SysDictionary
+        isAddCategory = false;
+        Table.NewForm(Service.SaveDictionaryAsync, new SysDictionary
         {
             Category = info?.Code,
             CategoryName = info?.Name,
             Sort = sort + 1
         });
+    }
+}
+
+class CategoryGrid : BaseTable<SysDictionary>
+{
+    private readonly CodeInfo category = new(Constants.DicCategory, Constants.DicCategory, Constants.DicCategory, null);
+    private int total;
+
+    [Parameter] public IDictionaryService Service { get; set; }
+    [Parameter] public Func<Task> OnRefresh { get; set; }
+
+    public override async Task RefreshAsync()
+    {
+        await base.RefreshAsync();
+        await OnRefresh?.Invoke();
+    }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Table.ShowPager = true;
+        Table.OnQuery = QueryDictionariesAsync;
+        Table.Form = new FormInfo { Width = 500 };
+        Table.Toolbar.AddAction(nameof(New));
+        Table.AddColumn(c => c.Code, true).Width(100);
+        Table.AddColumn(c => c.Name, true).Width(100);
+        Table.AddColumn(c => c.Sort).Width(80);
+        Table.AddColumn(c => c.Enabled).Width(80);
+        Table.AddColumn(c => c.Note).Width(200);
+        Table.AddAction(nameof(Edit));
+        Table.AddAction(nameof(Delete));
+    }
+
+    public void New()
+    {
+        Table.NewForm(Service.SaveDictionaryAsync, new SysDictionary
+        {
+            Category = category.Code,
+            CategoryName = category.Name,
+            Sort = total + 1
+        });
+    }
+
+    public void Edit(SysDictionary row) => Table.EditForm(Service.SaveDictionaryAsync, row);
+    public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+
+    private async Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
+    {
+        if (category == null)
+            return default;
+
+        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
+        var result = await Service.QueryDictionariesAsync(criteria);
+        total = result.TotalCount;
+        return result;
     }
 }

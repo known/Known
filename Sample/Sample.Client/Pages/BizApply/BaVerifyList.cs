@@ -13,15 +13,6 @@ public class BaVerifyList : BaseTablePage<TbApply>
 
         Table.FormType = typeof(ApplyForm);
         Table.OnQuery = Service.QueryApplysAsync;
-        Table.TopStatis = this.BuildTree<PagingResult<TbApply>>((b, r) =>
-        {
-            var sb = new System.Text.StringBuilder();
-            sb.Append("<div style=\"padding-left:10px;color:#108ee9;\">");
-            sb.Append($"总数：<span style=\"font-weight:bold\">{r?.TotalCount}</span>，");
-            sb.Append($"待审核：<span style=\"font-weight:bold\">{r?.Statis?.GetValue<int>("VerifingCount")}</span>");
-            sb.Append("</div>");
-            b.Markup(sb.ToString());
-        });
         Table.Column(c => c.BizStatus).Template((b, r) => b.Tag(r.BizStatus));
     }
 

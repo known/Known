@@ -4,22 +4,22 @@
 [Route("/sys/roles")]
 public class SysRoleList : BaseTablePage<SysRole>
 {
-    private IRoleService roleService;
+    private IRoleService Service;
 
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        roleService = await CreateServiceAsync<IRoleService>();
+        Service = await CreateServiceAsync<IRoleService>();
 
         Table.FormType = typeof(RoleForm);
-        Table.OnQuery = roleService.QueryRolesAsync;
+        Table.OnQuery = Service.QueryRolesAsync;
         Table.RowKey = r => r.Id;
     }
 
-    public void New() => Table.NewForm(roleService.SaveRoleAsync, new SysRole());
-    public void Edit(SysRole row) => Table.EditForm(roleService.SaveRoleAsync, row);
-    public void Delete(SysRole row) => Table.Delete(roleService.DeleteRolesAsync, row);
-    public void DeleteM() => Table.DeleteM(roleService.DeleteRolesAsync);
+    public void New() => Table.NewForm(Service.SaveRoleAsync, new SysRole());
+    public void Edit(SysRole row) => Table.EditForm(Service.SaveRoleAsync, row);
+    public void Delete(SysRole row) => Table.Delete(Service.DeleteRolesAsync, row);
+    public void DeleteM() => Table.DeleteM(Service.DeleteRolesAsync);
 }
 
 class RoleForm : BaseForm<SysRole>

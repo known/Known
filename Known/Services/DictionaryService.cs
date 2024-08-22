@@ -35,6 +35,12 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        foreach (var model in models)
+        {
+            if (await Database.ExistsAsync<SysDictionary>(d => d.Category == model.Code))
+                return Result.Error(Language["Tip.DicDeleteExistsChild"]);
+        }
+
         return await Database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in models)

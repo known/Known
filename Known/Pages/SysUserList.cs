@@ -116,12 +116,12 @@ public class SysUserList : BasePage<SysUser>
 
 class UserForm : BaseForm<SysUser>
 {
-    private IUserService userService;
+    private IUserService Service;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        userService = await CreateServiceAsync<IUserService>();
+        Service = await CreateServiceAsync<IUserService>();
 
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
@@ -133,7 +133,7 @@ class UserForm : BaseForm<SysUser>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var user = await userService.GetUserDataAsync(Model.Data.Id);
+            var user = await Service.GetUserDataAsync(Model.Data.Id);
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;
         }

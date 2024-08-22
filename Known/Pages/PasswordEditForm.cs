@@ -4,12 +4,12 @@
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
-    private IAuthService authService;
+    private IAuthService Service;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        authService = await CreateServiceAsync<IAuthService>();
+        Service = await CreateServiceAsync<IAuthService>();
         Model = new FormModel<PwdFormInfo>(this, true)
         {
             Info = new FormInfo { LabelSpan = 4, WrapperSpan = 6 },
@@ -37,7 +37,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
         if (!Model.Validate())
             return;
 
-        var result = await authService.UpdatePasswordAsync(Model.Data);
+        var result = await Service.UpdatePasswordAsync(Model.Data);
         UI.Result(result);
     }
 }

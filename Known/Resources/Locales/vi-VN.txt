@@ -140,6 +140,7 @@
   "Tip.OrgDeleteExistsChild": "Cấu trúc tổ chức con tồn tại và không thể xóa！",
   "Tip.OrgCodeExists": "Mã tổ chức đã tồn tại！",
   "Tip.DicCodeExists": "Mã hóa từ điển dữ liệu đã tồn tại！",
+  "Tip.DicDeleteExistsChild": "Từ điển dữ liệu tồn tại và không thể xóa!",
   "Tip.RefreshSuccess": "Làm mới thành công！",
   "Tip.FileNotExists": "Tập tin không tồn tại！",
   "Tip.ModuleDeleteExistsChild": "Mô-đun con tồn tại, không thể xóa！",
