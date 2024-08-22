@@ -16,7 +16,7 @@ public class AntLanguage : BaseComponent
                .Set(c => c.Context, Context)
                .Set(c => c.Icon, "translation")
                .Set(c => c.Text, current?.Icon)
-               .Set(c => c.Items, Language.Items)
+               .Set(c => c.Items, Language.Items.Where(i => i.Visible).ToList())
                .Set(c => c.OnItemClick, OnLanguageChanged)
                .Build();
     }
