@@ -55,14 +55,17 @@ class SqlSugarHelper
                 if (value.Contains('~'))
                 {
                     item.Type = QueryType.Between;
-                    value = value.Replace('~', ',');
+                    value = GetDateString(value);
                 }
-                models.Add(new ConditionalModel
+                if (!string.IsNullOrWhiteSpace(value))
                 {
-                    FieldName = item.Id,
-                    ConditionalType = GetConditionalType(item.Type),
-                    FieldValue = value
-                });
+                    models.Add(new ConditionalModel
+                    {
+                        FieldName = item.Id,
+                        ConditionalType = GetConditionalType(item.Type),
+                        FieldValue = value
+                    });
+                }
             }
         }
         return models;
@@ -81,6 +84,17 @@ class SqlSugarHelper
                 list.Add(new SugarParameter(item.Key, item.Value));
         }
         return list;
+    }
+
+    private static string GetDateString(string value)
+    {
+        var dates = new List<string>();
+        var values = value.Split('~');
+        if (values.Length > 0 && !string.IsNullOrWhiteSpace(values[0]))
+            dates.Add(values[0] + " 00:00:00");
+        if (values.Length > 1 && !string.IsNullOrWhiteSpace(values[1]))
+            dates.Add(values[1] + " 23:59:59");
+        return string.Join(',', dates);
     }
 
     private static ConditionalType GetConditionalType(QueryType type)
