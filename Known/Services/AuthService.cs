@@ -33,6 +33,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var user = Utils.MapTo<UserInfo>(entity);
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
+        SetUserAvatar(entity, user);
         var database = Database;
         await database.OpenAsync();
         await SetUserInfoAsync(database, user);
@@ -147,10 +148,17 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 
+    private static void SetUserAvatar(SysUser entity, UserInfo user)
+    {
+        var avatarUrl = entity.GetExtension<string>(nameof(UserInfo.AvatarUrl));
+        if (string.IsNullOrWhiteSpace(avatarUrl))
+            avatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
+        user.AvatarUrl = avatarUrl;
+    }
+
     private static async Task SetUserInfoAsync(Database db, UserInfo user)
     {
         var info = await SystemService.GetSystemAsync(db);
-        user.AvatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
         user.IsTenant = user.CompNo != info?.CompNo;
         user.AppName = info?.AppName;
         if (user.IsAdmin)
@@ -173,7 +181,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             return;
 
         user.OpenId = weixin.OpenId;
-        user.AvatarUrl = weixin.HeadImgUrl;
+        if (!string.IsNullOrWhiteSpace(weixin.HeadImgUrl))
+            user.AvatarUrl = weixin.HeadImgUrl;
     }
 
     private static Task<SysUser> GetUserAsync(Database db, string userName, string password)

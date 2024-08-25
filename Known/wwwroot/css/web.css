@@ -147,13 +147,6 @@
 
 :root[theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45, 46, 46), rgb(40, 41, 41));}
 
-/*UserProfile*/
-.kui-user-avatar {text-align:center;}
-.kui-user-avatar img {width:100px;height:100px;margin:20px auto;}
-.kui-user-info {padding:20px;}
-.kui-user-info li {list-style:none;text-align:justify;margin-bottom:10px;}
-.kui-user-info li span {color:var(--kui-color);font-size:0.9rem;}
-
 /*Import*/
 .kui-import {grid-template-rows:20px 50px auto;}
 .kui-import .item {display:flex;margin:8px 0;align-items:center;}
@@ -167,11 +160,22 @@
 .kui-form-files {margin-top:5px;}
 .kui-form-files span {margin-right:5px;}
 .kui-upload {display:flex;}
-.kui-upload .kui-button {
+.kui-upload .kui-button, .kui-upload-button {
     border:1px solid var(--kui-border-color);border-radius:3px;padding:0 10px;margin-right:10px;
     height:30px;line-height:30px;position:relative;
 }
-.kui-upload .kui-button input {position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;outline:0;}
+.kui-upload .kui-button input, .kui-upload-button input {
+    position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;outline:0;
+}
+.kui-upload-button {display:inline;padding:5px 10px;}
+
+/*UserProfile*/
+.kui-user-avatar {text-align:center;padding:20px 0;}
+.kui-user-avatar img {display:block;width:100px;height:100px;margin:0 auto;}
+.kui-user-info {padding:20px;}
+.kui-user-info li {list-style:none;text-align:justify;margin-bottom:10px;}
+.kui-user-info li span {color:var(--kui-color);font-size:0.9rem;}
+.kui-user-avatar .kui-upload-button {border:none;color:#1890ff;}
 
 /*Setting*/
 .kui-form-setting button {margin:0 5px;}

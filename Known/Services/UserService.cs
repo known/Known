@@ -10,6 +10,7 @@ public interface IUserService : IService
     Task<Result> EnableUsersAsync(List<SysUser> models);
     Task<Result> DisableUsersAsync(List<SysUser> models);
     Task<Result> SetUserPwdsAsync(List<SysUser> models);
+    Task<Result> UpdateAvatarAsync(AvatarInfo info);
     Task<Result> UpdateUserAsync(SysUser model);
     Task<Result> SaveUserAsync(SysUser model);
 }
@@ -119,6 +120,21 @@ class UserService(Context context) : ServiceBase(context), IUserService
         });
     }
 
+    public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    {
+        var entity = await Database.QueryByIdAsync<SysUser>(info.UserId);
+        if (entity == null)
+            return Result.Error(Language["Tip.NoUser"]);
+
+        var attach = new AttachFile(info.File, CurrentUser);
+        attach.FilePath = @$"Avatars\{entity.Id}{attach.ExtName}";
+        await attach.SaveAsync();
+        var url = Config.GetFileUrl(attach.FilePath);
+        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
+        await Database.SaveAsync(entity);
+        return Result.Success(Language.Success(Language.Save), url);
+    }
+
     public async Task<Result> UpdateUserAsync(SysUser model)
     {
         if (model == null)
@@ -175,7 +191,6 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 }
             }
             await db.SaveAsync(model);
-            //PlatformHelper.SetBizUser(db, model);
         }, model);
     }
 

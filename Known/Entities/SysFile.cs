@@ -85,7 +85,7 @@ public class SysFile : EntityBase
             if (string.IsNullOrWhiteSpace(path))
                 path = Path;
 
-            return GetFileUrl(path, IsWeb);
+            return Config.GetFileUrl(path, IsWeb);
         }
     }
 
@@ -96,18 +96,9 @@ public class SysFile : EntityBase
             return new FileUrlInfo
             {
                 FileName = Name,
-                ThumbnailUrl = GetFileUrl(ThumbPath, IsWeb),
-                OriginalUrl = GetFileUrl(Path, IsWeb)
+                ThumbnailUrl = Config.GetFileUrl(ThumbPath, IsWeb),
+                OriginalUrl = Config.GetFileUrl(Path, IsWeb)
             };
         }
-    }
-
-    private static string GetFileUrl(string filePath, bool isWeb = false)
-    {
-        if (string.IsNullOrWhiteSpace(filePath))
-            return string.Empty;
-
-        var path = filePath.Replace("\\", "/");
-        return isWeb ? $"Files/{path}" : $"UploadFiles/{path}";
     }
 }

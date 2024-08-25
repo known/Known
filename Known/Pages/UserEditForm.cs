@@ -45,8 +45,21 @@ public class UserEditForm : BaseEditForm<SysUser>
         return Service.UpdateUserAsync(model);
     }
 
-    protected override void OnSuccess()
+    protected override void OnSuccess(Result result)
     {
-        Parent?.UpdateProfileInfo();
+        var entity = result.DataAs<SysUser>();
+        if (entity != null)
+        {
+            var user = CurrentUser;
+            user.Name = entity.Name;
+            user.EnglishName = entity.EnglishName;
+            user.Gender = entity.Gender;
+            user.Phone = entity.Phone;
+            user.Mobile = entity.Mobile;
+            user.Email = entity.Email;
+            user.Note = entity.Note;
+            App?.SetCurrentUserAsync(user);
+        }
+        Navigation.Refresh(true);
     }
 }

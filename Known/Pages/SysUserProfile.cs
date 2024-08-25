@@ -4,8 +4,7 @@
 [Route("/profile")]
 public class SysUserProfile : BasePage<SysUser>
 {
-    private IUserService Service;
-    private SysUserProfileInfo info;
+    internal IUserService Service { get; private set; }
     internal SysUser User { get; private set; }
 
     protected override async Task OnPageInitAsync()
@@ -22,10 +21,8 @@ public class SysUserProfile : BasePage<SysUser>
 
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
-    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build(value => info = value));
+    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build());
     private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
-
-    internal void UpdateProfileInfo() => info?.StateChanged();
 }
 
 class SysUserProfileInfo : BaseComponent
@@ -35,7 +32,18 @@ class SysUserProfileInfo : BaseComponent
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         var User = Parent.User;
-        builder.Div("kui-user-avatar", () => builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />"));
+        builder.Div("kui-user-avatar", () =>
+        {
+            builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />");
+            builder.Div("kui-upload-button", () =>
+            {
+                builder.Icon("edit");
+                builder.Span(Language.Edit);
+                builder.Component<InputFile>()
+                       .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnFileChanged))
+                       .Build();
+            });
+        });
         builder.Ul("kui-user-info", () =>
         {
             BuildUserInfoItem(builder, "user", $"{User?.Name}({User?.UserName})");
@@ -47,13 +55,30 @@ class SysUserProfileInfo : BaseComponent
         });
     }
 
-    private void BuildUserInfoItem(RenderTreeBuilder builder, string icon, string text)
+    private static void BuildUserInfoItem(RenderTreeBuilder builder, string icon, string text)
     {
         builder.Li(() =>
         {
             builder.Icon(icon);
             builder.Span(text);
         });
+    }
+
+    private async void OnFileChanged(InputFileChangeEventArgs e)
+    {
+        var file = await e.File.CreateFileAsync();
+        var info = new AvatarInfo { UserId = Parent?.User?.Id, File = file };
+        var result = await Parent?.Service?.UpdateAvatarAsync(info);
+        if (!result.IsValid)
+        {
+            UI.Error(result.Message);
+            return;
+        }
+
+        var user = CurrentUser;
+        user.AvatarUrl = result.DataAs<string>();
+        App?.SetCurrentUserAsync(user);
+        Navigation.Refresh(true);
     }
 }
 

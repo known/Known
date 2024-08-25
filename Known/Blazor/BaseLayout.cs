@@ -77,7 +77,7 @@ public class BaseLayout : LayoutComponentBase
     public virtual Task ShowSpinAsync(string text, Func<Task> action) => Task.CompletedTask;
     public virtual Task StateChangedAsync() => InvokeAsync(StateHasChanged);
 
-    private async Task SetCurrentUserAsync(UserInfo user)
+    public async Task SetCurrentUserAsync(UserInfo user)
     {
         if (AuthProvider != null)
             await AuthProvider.SetUserAsync(user);

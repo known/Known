@@ -82,3 +82,9 @@ public class UserInfo
         return db.SaveAsync(model);
     }
 }
+
+public class AvatarInfo
+{
+    public string UserId { get; set; }
+    public FileDataInfo File { get; set; }
+}

@@ -3,6 +3,7 @@
 public class EntityBase
 {
     private Dictionary<string, object> original;
+    private Dictionary<string, object> extension;
 
     public EntityBase()
     {
@@ -71,5 +72,24 @@ public class EntityBase
         }
 
         return Result.Success("");
+    }
+
+    public T GetExtension<T>(string key)
+    {
+        if (string.IsNullOrWhiteSpace(Extension))
+            return default;
+
+        extension = Utils.FromJson<Dictionary<string, object>>(Extension);
+        if (!extension.TryGetValue(key, out object value))
+            return default;
+
+        return Utils.ConvertTo<T>(value);
+    }
+
+    public void SetExtension(string key, object value)
+    {
+        extension ??= [];
+        extension[key] = value;
+        Extension = Utils.ToJson(extension);
     }
 }

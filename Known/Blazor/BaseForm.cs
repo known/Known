@@ -79,7 +79,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     }
 
     protected virtual Task<Result> OnSaveAsync(TItem model) => Result.SuccessAsync("");
-    protected virtual void OnSuccess() { }
+    protected virtual void OnSuccess(Result result) { }
 
     private async void OnSaveAsync(MouseEventArgs arg)
     {
@@ -89,7 +89,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
         var result = await OnSaveAsync(Model.Data);
         UI.Result(result, () =>
         {
-            OnSuccess();
+            OnSuccess(result);
             isEdit = false;
             return StateChangedAsync();
         });

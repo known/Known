@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Space Class="kui-nav" Size="@("24")">
+<Space Class="kui-nav" Size="@("18")">
     <SpaceItem>
         <Tooltip Title="@Language["Nav.HomePage"]">
             <a href="/"><Icon Type="home" /></a>
@@ -14,7 +14,10 @@
         <SpaceItem Style="width:40px;text-align:center;"><AntLanguage /></SpaceItem>
     }
     <SpaceItem>
-        <AntDropdown Context="Context" Text="@CurrentUser?.Name" Items="UserItems" OnItemClick="e=>OnItemClick(e)" />
+        <AntDropdown Context="Context" Items="UserItems" OnItemClick="e=>OnItemClick(e)">
+            <Avatar Src="@CurrentUser?.AvatarUrl" />
+            <span>@CurrentUser?.Name</span>
+        </AntDropdown>
     </SpaceItem>
     @if (Config.App.IsTheme)
     {

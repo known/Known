@@ -63,6 +63,20 @@ public sealed class Config
         }
     }
 
+    public static string GetStaticFileUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(App.WebRoot))
+            return url;
+
+        var fileName = Path.Combine(App.WebRoot, url);
+        if (!File.Exists(fileName))
+            return url;
+
+        var fileInfo = new FileInfo(fileName);
+        var time = fileInfo.LastWriteTime.ToString("yyMMddHHmmss");
+        return $"{url}?v={time}";
+    }
+
     public static string GetUploadPath(bool isWeb = false)
     {
         if (isWeb)
@@ -88,24 +102,19 @@ public sealed class Config
         return uploadPath;
     }
 
-    public static string GetStaticFileUrl(string url)
-    {
-        if (string.IsNullOrWhiteSpace(App.WebRoot))
-            return url;
-
-        var fileName = Path.Combine(App.WebRoot, url);
-        if (!File.Exists(fileName))
-            return url;
-
-        var fileInfo = new FileInfo(fileName);
-        var time = fileInfo.LastWriteTime.ToString("yyMMddHHmmss");
-        return $"{url}?v={time}";
-    }
-
     public static string GetUploadPath(string filePath, bool isWeb = false)
     {
         var path = GetUploadPath(isWeb);
         return Path.Combine(path, filePath);
+    }
+
+    internal static string GetFileUrl(string filePath, bool isWeb = false)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+            return string.Empty;
+
+        var path = filePath.Replace("\\", "/");
+        return isWeb ? $"Files/{path}" : $"UploadFiles/{path}";
     }
 
     internal static void AddApp()
