@@ -35,7 +35,7 @@ export class KBlazor {
     }
     static setLocalStorage(key, value) {
         if (value)
-            localStorage.setItem(key, JSON.stringify(value));
+            localStorage.setItem(key, value);
         else
             localStorage.removeItem(key);
     }
@@ -44,7 +44,7 @@ export class KBlazor {
     }
     static setSessionStorage(key, value) {
         if (value)
-            sessionStorage.setItem(key, JSON.stringify(value));
+            sessionStorage.setItem(key, value);
         else
             sessionStorage.removeItem(key);
     }

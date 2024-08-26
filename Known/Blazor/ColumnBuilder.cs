@@ -113,6 +113,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    public ColumnBuilder<TItem> Sort()
+    {
+        if (column != null)
+            column.IsSort = true;
+        return this;
+    }
+
     public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
     public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
 

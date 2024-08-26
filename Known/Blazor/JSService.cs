@@ -7,7 +7,7 @@ public class JSService
 
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=240630").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=240826").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -47,7 +47,7 @@ public class JSService
     #endregion
 
     #region Storage
-    public async Task<T> GetLocalStorageAsync<T>(string key, bool encrypt = false)
+    public async Task<T> GetLocalStorageAsync<T>(string key, bool encrypt = true)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
         if (string.IsNullOrWhiteSpace(value))
@@ -56,11 +56,27 @@ public class JSService
         if (!encrypt)
             return Utils.FromJson<T>(value);
 
-        var json = DecryptString(value);
-        return Utils.FromJson<T>(json);
+        try
+        {
+            var json = DecryptString(value);
+            return Utils.FromJson<T>(json);
+        }
+        catch
+        {
+            try
+            {
+                var data = Utils.FromJson<T>(value);
+                await SetLocalStorageAsync(key, data);
+                return data;
+            }
+            catch
+            {
+                return default;
+            }
+        }
     }
 
-    public async Task SetLocalStorageAsync(string key, object data, bool encrypt = false)
+    public async Task SetLocalStorageAsync(string key, object data, bool encrypt = true)
     {
         if (!encrypt)
         {
@@ -72,32 +88,7 @@ public class JSService
         await InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
     }
 
-    private readonly string KeyLanguage = "Known_Language";
-    internal Task<string> GetCurrentLanguageAsync() => GetLocalStorageAsync<string>(KeyLanguage);
-    public Task SetCurrentLanguageAsync(string language) => SetLocalStorageAsync(KeyLanguage, language);
-
-    private readonly string KeyTheme = "Known_Theme";
-    public async Task<string> GetCurrentThemeAsync()
-    {
-        var theme = await GetLocalStorageAsync<string>(KeyTheme);
-        if (string.IsNullOrWhiteSpace(theme))
-        {
-            var hour = DateTime.Now.Hour;
-            theme = hour > 6 && hour < 20 ? "light" : "dark";
-        }
-        await SetThemeAsync(theme);
-        return theme;
-    }
-    public async Task SetCurrentThemeAsync(string theme)
-    {
-        await SetThemeAsync(theme);
-        await SetLocalStorageAsync(KeyTheme, theme);
-    }
-    private Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
-
-    private readonly string KeyLoginInfo = "Known_LoginInfo";
-    internal Task<T> GetLoginInfoAsync<T>() => GetLocalStorageAsync<T>(KeyLoginInfo);
-    internal Task SetLoginInfoAsync(object value) => SetLocalStorageAsync(KeyLoginInfo, value);
+    internal Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
     public async Task<T> GetSessionStorageAsync<T>(string key)
     {
@@ -115,10 +106,6 @@ public class JSService
         await InvokeVoidAsync("KBlazor.setSessionStorage", key, value);
     }
 
-    private readonly string KeyUserInfo = "Known_User";
-    public Task<UserInfo> GetUserInfoAsync() => GetSessionStorageAsync<UserInfo>(KeyUserInfo);
-    public Task SetUserInfoAsync(object data) => SetSessionStorageAsync(KeyUserInfo, data);
-
     private static string EncryptString(object value)
     {
         var json = Utils.ToJson(value);
@@ -128,11 +115,10 @@ public class JSService
 
     private static string DecryptString(string value)
     {
-        var json = Utils.FromJson<string>(value);
-        if (string.IsNullOrWhiteSpace(json))
+        if (string.IsNullOrWhiteSpace(value))
             return null;
 
-        var bytes = Convert.FromBase64String(json);
+        var bytes = Convert.FromBase64String(value);
         return Encoding.UTF8.GetString(bytes);
     }
     #endregion
