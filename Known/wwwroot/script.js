@@ -26,6 +26,17 @@ export class KBlazor {
     static highlight(code, language) {
         return Prism.highlight(code, Prism.languages[language], language);
     }
+    static setStyle(match, href) {
+        let item = Array.from(document.getElementsByTagName('link')).find((item) =>
+            item.getAttribute('href')?.match(match)
+        );
+        if (!item) {
+            item = document.createElement('link');
+            item.rel = 'stylesheet';
+            document.head.appendChild(item);
+        }
+        item.href = href;
+    }
     static setTheme(theme) {
         $('html').attr('theme', theme);
     }

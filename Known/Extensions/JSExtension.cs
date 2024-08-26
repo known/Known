@@ -20,11 +20,17 @@ public static class JSExtension
     internal static Task<T> GetLoginInfoAsync<T>(this JSService js) => js.GetLocalStorageAsync<T>(KeyLoginInfo);
     internal static Task SetLoginInfoAsync(this JSService js, object value) => js.SetLocalStorageAsync(KeyLoginInfo, value);
 
-    public static Task<string> GetCurrentSizeAsync(this JSService js) => js.GetLocalStorageAsync<string>(KeySize);
-    public static Task SetCurrentSizeAsync(this JSService js, string size) => js.SetLocalStorageAsync(KeySize, size);
+    internal static Task<string> GetCurrentSizeAsync(this JSService js) => js.GetLocalStorageAsync<string>(KeySize);
+    internal static async Task SetCurrentSizeAsync(this JSService js, string size)
+    {
+        var item = UIConfig.Sizes.FirstOrDefault(s => s.Id == size);
+        if (item != null)
+            await js.SetStyleAsync(item.Style, item.Url);
+        await js.SetLocalStorageAsync(KeySize, size);
+    }
 
     internal static Task<string> GetCurrentLanguageAsync(this JSService js) => js.GetLocalStorageAsync<string>(KeyLanguage);
-    public static Task SetCurrentLanguageAsync(this JSService js, string language) => js.SetLocalStorageAsync(KeyLanguage, language);
+    internal static Task SetCurrentLanguageAsync(this JSService js, string language) => js.SetLocalStorageAsync(KeyLanguage, language);
 
     public static async Task<string> GetCurrentThemeAsync(this JSService js)
     {

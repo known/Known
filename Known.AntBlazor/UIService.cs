@@ -326,6 +326,18 @@ public class UIService(ModalService modalService, MessageService messageService,
         builder.Component<DataTabs>().Set(c => c.Model, model).Build();
     }
 
+    public void BuildDropdown(RenderTreeBuilder builder, DropdownModel model)
+    {
+        builder.Component<AntDropdown>()
+               .Set(c => c.Icon, model?.Icon)
+               .Set(c => c.Text, model?.Text)
+               .Set(c => c.TextIcon, model?.TextIcon)
+               .Set(c => c.TextButton, model?.TextButton)
+               .Set(c => c.Items, model?.Items)
+               .Set(c => c.OnItemClick, model?.OnItemClick)
+               .Build();
+    }
+
     public void BuildAlert(RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
     {
         builder.Component<Alert>()

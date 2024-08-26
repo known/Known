@@ -411,6 +411,8 @@
   "Nav.FullScreen": "Full Screen",
   "Nav.ExitScreen": "Exit Full Screen",
   "Nav.ClearCache": "Clear Cache",
+  "Nav.SizeDefault": "Default",
+  "Nav.SizeCompact": "Compact",
   "Nav.Profile": "Profile",
   "Nav.Exit": "Sign Out",
 

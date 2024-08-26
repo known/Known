@@ -36,18 +36,6 @@ public class PageLayout : BaseLayout
         }
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            //非Server模式，JS不能在初始化中调用
-            if (Config.App.IsTheme)
-                Context.Theme = await JS.GetCurrentThemeAsync();
-            Context.CurrentLanguage = await JS.GetCurrentLanguageAsync();
-        }
-    }
-
     protected override async Task OnParametersSetAsync()
     {
         try

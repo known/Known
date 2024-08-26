@@ -5,7 +5,6 @@ public class AntDropdown : Dropdown
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
-    [Parameter] public Context Context { get; set; }
     [Parameter] public string Icon { get; set; }
     [Parameter] public string Text { get; set; }
     [Parameter] public string TextIcon { get; set; }
@@ -89,7 +88,7 @@ public class AntDropdown : Dropdown
                .Close();
     }
 
-    private void BuildItemName(RenderTreeBuilder builder, ActionInfo item)
+    private static void BuildItemName(RenderTreeBuilder builder, ActionInfo item)
     {
         if (!string.IsNullOrWhiteSpace(item.Icon))
         {
@@ -98,7 +97,6 @@ public class AntDropdown : Dropdown
                    .Set(c => c.Theme, "outline")
                    .Build();
         }
-        var itemName = Context?.Language.GetString(item);
-        builder.Span(itemName);
+        builder.Span(item.Name);
     }
 }

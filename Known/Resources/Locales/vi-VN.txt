@@ -411,6 +411,8 @@
   "Nav.FullScreen": "Hiển thị toàn màn hình",
   "Nav.ExitScreen": "Thoát toàn màn hình",
   "Nav.ClearCache": "Xóa bộ nhớ cache",
+  "Nav.SizeDefault": "Mặc định",
+  "Nav.SizeCompact": "Nhỏ gọn",
   "Nav.Profile": "Trung tâm cá nhân",
   "Nav.Exit": "Thoát an toàn",
 

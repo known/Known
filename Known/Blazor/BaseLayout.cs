@@ -32,6 +32,33 @@ public class BaseLayout : LayoutComponentBase
         }
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            //JS不能在初始化中调用
+            if (Config.App.IsSize)
+            {
+                var size = await JS.GetCurrentSizeAsync();
+                if (string.IsNullOrWhiteSpace(size))
+                    size = Context.UserSetting.Size;
+                if (string.IsNullOrWhiteSpace(size))
+                    size = Config.App.DefaultSize;
+                await JS.SetCurrentSizeAsync(size);
+            }
+            if (Config.App.IsLanguage)
+            {
+                var language = await JS.GetCurrentLanguageAsync();
+                if (string.IsNullOrWhiteSpace(language))
+                    language = Context.UserSetting.Language;
+                Context.CurrentLanguage = language;
+            }
+            if (Config.App.IsTheme)
+                Context.Theme = await JS.GetCurrentThemeAsync();
+        }
+    }
+
     protected virtual Task OnInitAsync() => Task.CompletedTask;
 
     public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);

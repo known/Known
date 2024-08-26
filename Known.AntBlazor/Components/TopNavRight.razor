@@ -9,9 +9,13 @@
     <SpaceItem Class="kui-nav-full">
         <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
     </SpaceItem>
+    @if (Config.App.IsSize)
+    {
+        <SpaceItem><KSysSize /></SpaceItem>
+    }
     @if (Config.App.IsLanguage)
     {
-        <SpaceItem Style="width:40px;text-align:center;"><AntLanguage /></SpaceItem>
+        <SpaceItem Style="width:40px;text-align:center;"><KLanguage /></SpaceItem>
     }
     <SpaceItem>
         <AntDropdown Context="Context" Items="UserItems" OnItemClick="e=>OnItemClick(e)">

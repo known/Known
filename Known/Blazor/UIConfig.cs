@@ -6,6 +6,7 @@ public class UIConfig
 
     public static string SysModuleUrl { get; set; } = "/sys/modules";
     public static string FillHeightScript { get; set; }
+    public static List<ActionInfo> Sizes { get; set; } = [];
     public static Dictionary<string, List<string>> Icons { get; set; } = [];
 
     internal static List<MenuInfo> Menus { get; } = [];

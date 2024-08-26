@@ -232,12 +232,14 @@ public class AppInfo
     public AppType Type { get; set; } = AppType.Web;
     public Assembly Assembly { get; set; }
     public bool IsPlatform { get; set; }
+    public bool IsSize { get; set; }
     public bool IsLanguage { get; set; }
     public bool IsTheme { get; set; }
     public string WebRoot { get; set; }
     public string ContentRoot { get; set; }
     public string UploadPath { get; set; }
     public long UploadMaxSize { get; set; } = 1024 * 1024 * 50;
+    public string DefaultSize { get; set; } = "Default";
     public int DefaultPageSize { get; set; } = 10;
     public string JsPath { get; set; }
     public string ProductId { get; set; }

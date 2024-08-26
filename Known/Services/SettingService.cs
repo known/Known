@@ -4,7 +4,8 @@ public interface ISettingService : IService
 {
     Task<string> GetUserSettingAsync(string bizType);
     Task<Result> DeleteUserSettingAsync(string bizType);
-    Task<Result> SaveUserSettingAsync(string bizType, object bizData);
+    Task<Result> SaveUserSettingAsync(SettingInfo info);
+    Task<Result> SaveUserSettingAsync(SettingFormInfo info);
 }
 
 class SettingService(Context context) : ServiceBase(context), ISettingService
@@ -17,7 +18,34 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
 
         return setting.BizData;
     }
-    
+
+    public async Task<Result> DeleteUserSettingAsync(string bizType)
+    {
+        var setting = await GetUserSettingAsync(Database, bizType);
+        if (setting != null)
+            await Database.DeleteAsync(setting);
+        return Result.Success(Language.Success(Language.Delete));
+    }
+
+    public Task<Result> SaveUserSettingAsync(SettingInfo info)
+    {
+        return SaveUserSettingAsync(new SettingFormInfo
+        {
+            BizType = SettingInfo.KeyInfo,
+            BizData = info
+        });
+    }
+
+    public async Task<Result> SaveUserSettingAsync(SettingFormInfo info)
+    {
+        var setting = await GetUserSettingAsync(Database, info.BizType);
+        setting ??= new SysSetting();
+        setting.BizType = info.BizType;
+        setting.BizData = Utils.ToJson(info.BizData);
+        await Database.SaveAsync(setting);
+        return Result.Success(Language.Success(Language.Save));
+    }
+
     internal static async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
     {
         var setting = await GetUserSettingAsync(db, bizType);
@@ -25,36 +53,6 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
             return default;
 
         return setting.DataAs<T>();
-    }
-
-    internal static async Task DeleteUserSettingAsync(Database db, string bizType)
-    {
-        var setting = await GetUserSettingAsync(db, bizType);
-        if (setting == null)
-            return;
-
-        await db.DeleteAsync(setting);
-    }
-
-    public async Task<Result> DeleteUserSettingAsync(string bizType)
-    {
-        await DeleteUserSettingAsync(Database, bizType);
-        return Result.Success(Language.Success(Language.Delete));
-    }
-
-    internal static async Task SaveUserSettingAsync(Database db, string bizType, object bizData)
-    {
-        var setting = await GetUserSettingAsync(db, bizType);
-        setting ??= new SysSetting();
-        setting.BizType = bizType;
-        setting.BizData = Utils.ToJson(bizData);
-        await db.SaveAsync(setting);
-    }
-
-    public async Task<Result> SaveUserSettingAsync(string bizType, object bizData)
-    {
-        await SaveUserSettingAsync(Database, bizType, bizData);
-        return Result.Success(Language.Success(Language.Save));
     }
 
     private static Task<SysSetting> GetUserSettingAsync(Database db, string bizType)

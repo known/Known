@@ -15,6 +15,10 @@ public static class Extension
 
         Config.AddModule(typeof(Extension).Assembly);
 
+        UIConfig.Sizes = [
+            new ActionInfo { Id = "Default", Style = "ant-design-blazor", Url = "_content/AntDesign/css/ant-design-blazor.css" },
+            new ActionInfo { Id = "Compact", Style = "ant-design-blazor", Url = "_content/AntDesign/css/ant-design-blazor.compact.css" }
+        ];
         UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties()
             .Select(x => (string)x.GetValue(null))
             .Where(x => x is not null)

@@ -36,9 +36,18 @@ public class SettingInfo
 
     public SettingInfo()
     {
-        Accordion = true;
+        Reset();
     }
 
+    public string Size { get; set; }
+    public string Language { get; set; }
+    public string Theme { get; set; }
     [Form] public bool Accordion { get; set; }
     [Form] public bool MultiTab { get; set; }
+
+    internal void Reset()
+    {
+        Accordion = true;
+        MultiTab = false;
+    }
 }

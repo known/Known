@@ -26,6 +26,12 @@ public class PwdFormInfo
     public string NewPwd1 { get; set; }
 }
 
+public class SettingFormInfo
+{
+    public string BizType { get; set; }
+    public object BizData { get; set; }
+}
+
 public class UploadInfo<TModel>
 {
     public UploadInfo() { }

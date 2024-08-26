@@ -7,7 +7,7 @@ public class JSService
 
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=240826").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=2408262213").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -47,14 +47,11 @@ public class JSService
     #endregion
 
     #region Storage
-    public async Task<T> GetLocalStorageAsync<T>(string key, bool encrypt = true)
+    public async Task<T> GetLocalStorageAsync<T>(string key)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
         if (string.IsNullOrWhiteSpace(value))
             return default;
-
-        if (!encrypt)
-            return Utils.FromJson<T>(value);
 
         try
         {
@@ -76,18 +73,13 @@ public class JSService
         }
     }
 
-    public async Task SetLocalStorageAsync(string key, object data, bool encrypt = true)
+    public async Task SetLocalStorageAsync(string key, object data)
     {
-        if (!encrypt)
-        {
-            await InvokeVoidAsync("KBlazor.setLocalStorage", key, data);
-            return;
-        }
-
         var value = EncryptString(data);
         await InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
     }
 
+    internal Task SetStyleAsync(string match, string href) => InvokeVoidAsync("KBlazor.setStyle", match, href);
     internal Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
     public async Task<T> GetSessionStorageAsync<T>(string key)
@@ -108,6 +100,9 @@ public class JSService
 
     private static string EncryptString(object value)
     {
+        if (value == null)
+            return null;
+
         var json = Utils.ToJson(value);
         var bytes = Encoding.UTF8.GetBytes(json);
         return Convert.ToBase64String(bytes);

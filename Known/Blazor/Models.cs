@@ -24,6 +24,16 @@ public class DialogModel
     }
 }
 
+public class DropdownModel
+{
+    public string Icon { get; set; }
+    public string Text { get; set; }
+    public string TextIcon { get; set; }
+    public string TextButton { get; set; }
+    public List<ActionInfo> Items { get; set; }
+    public Action<ActionInfo> OnItemClick { get; set; }
+}
+
 public class InputModel<TValue>
 {
     public bool Disabled { get; set; }

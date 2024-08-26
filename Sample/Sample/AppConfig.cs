@@ -25,6 +25,7 @@ public static class AppConfig
             //项目ID、名称、类型、程序集
             info.Id = AppId;
             info.Name = AppName;
+            info.IsSize = true;
             info.IsLanguage = true;
             info.IsTheme = true;
             info.Assembly = typeof(AppConfig).Assembly;

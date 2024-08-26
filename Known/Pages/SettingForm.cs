@@ -30,7 +30,7 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void SaveAsync(MouseEventArgs arg)
     {
-        var result = await Service.SaveUserSettingAsync(SettingInfo.KeyInfo, Model.Data);
+        var result = await Service.SaveUserSettingAsync(Model.Data);
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
@@ -40,10 +40,10 @@ public class SettingForm : BaseForm<SettingInfo>
 
     private async void ResetAsync(MouseEventArgs arg)
     {
-        var result = await Service.DeleteUserSettingAsync(SettingInfo.KeyInfo);
+        Model.Data.Reset();
+        var result = await Service.SaveUserSettingAsync(Model.Data);
         if (result.IsValid)
         {
-            Model.Data = new();
             Context.UserSetting = Model.Data;
             await App?.StateChangedAsync();
         }
