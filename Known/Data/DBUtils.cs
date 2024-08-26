@@ -36,7 +36,7 @@ public class DBUtils
 
         if (count == null)
         {
-            Logger.Info("Data table is initializing...");
+            Console.WriteLine("Table is initializing...");
             var name = db.DatabaseType.ToString();
             foreach (var item in Config.CoreAssemblies)
             {
@@ -46,7 +46,7 @@ public class DBUtils
 
                 await db.ExecuteAsync(script);
             }
-            Logger.Info("Data table is initialized");
+            Console.WriteLine("Table is initialized.");
         }
     }
 

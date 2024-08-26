@@ -11,26 +11,40 @@ sealed class TaskHelper
         if (isPending)
             return;
 
+        isPending = true;
+        var db = Database.Create();
+        db.Context = new Context(CultureInfo.CurrentCulture.Name);
+        var task = await GetTaskAsync(db, bizType);
+        if (task == null)
+        {
+            isPending = false;
+            return;
+        }
+
         try
         {
-            isPending = true;
-            var db = Database.Create();
-            db.Context = new Context(CultureInfo.CurrentCulture.Name);
-            var repository = Database.CreateRepository();
-            var task = await repository.GetPendingTaskAsync(db, bizType);
-            if (task == null)
-            {
-                isPending = false;
-                return;
-            }
-
             await RunAsync(db, task, action);
-            isPending = false;
         }
         catch (Exception ex)
         {
             Logger.Exception(ex);
+        }
+        finally
+        {
             isPending = false;
+        }
+    }
+
+    private static async Task<SysTask> GetTaskAsync(Database db, string bizType)
+    {
+        try
+        {
+            var repository = Database.CreateRepository();
+            return await repository.GetPendingTaskAsync(db, bizType);
+        }
+        catch
+        {
+            return null;
         }
     }
 

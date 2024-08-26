@@ -67,9 +67,8 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             }
             return info;
         }
-        catch (Exception ex)
+        catch
         {
-            Logger.Exception(ex);
             return null;//系统未安装，返回null
         }
     }
@@ -122,9 +121,11 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         if (info.AdminPassword != info.Password1)
             return Result.Error(Language["Tip.PwdNotEqual"]);
 
+        Console.WriteLine("Known Install");
+        Console.WriteLine($"{info.CompNo}-{info.CompName}");
         Config.App.SetConnection(info.Databases);
         await DBUtils.InitializeAsync();
-
+        Console.WriteLine("Module is installing...");
         var modules = ModuleHelper.GetModules();
         var sys = GetSystem(info);
         var database = GetDatabase(info);
@@ -142,6 +143,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             AppHelper.SaveProductKey(info.ProductKey);
             result.Data = await GetInstallDataAysnc();
         }
+        Console.WriteLine("Module is installed.");
         return result;
     }
 
