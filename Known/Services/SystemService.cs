@@ -101,9 +101,8 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         try
         {
+            Config.App.SetConnection([info]);
             var db = Database.Create();
-            db.DatabaseType = Utils.ConvertTo<DatabaseType>(info.Type);
-            db.ConnectionString = info.ConnectionString;
             await db.OpenAsync();
             return Result.Success(Language["Tip.ConnectSuccess"]);
         }

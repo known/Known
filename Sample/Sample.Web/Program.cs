@@ -29,7 +29,7 @@ builder.Services.AddApp(info =>
         //ProviderType = typeof(Npgsql.NpgsqlFactory),
         //DatabaseType = DatabaseType.SqlServer,
         //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-        //ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
+        ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
     }];
 });
 

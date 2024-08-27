@@ -21,7 +21,7 @@ static class ComponentExtension
         builder.Component<Icon>()
                .Set(c => c.Type, type)
                .Set(c => c.Theme, "outline")
-               .Set(c => c.OnClick, onClick)
+               .Set(c => c.OnClick, onClick.Value)
                .Build();
     }
 
