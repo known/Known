@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class OracleBuilder : SqlBuilder
+class OracleProvider : DbProvider
 {
     public override string Prefix => ":";
 

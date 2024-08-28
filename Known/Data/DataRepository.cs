@@ -18,11 +18,10 @@ class DataRepository : IDataRepository
 {
     public async Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria)
     {
-        var sql = @"
-select a.*,b.Name as Department 
-from SysUser a 
-left join SysOrganization b on b.Id=a.OrgNo 
-where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var sql = $@"select a.*,b.{db.FormatName("Name")} as {db.FormatName("Department")} 
+from {db.FormatName("SysUser")} a 
+left join {db.FormatName("SysOrganization")} b on b.{db.FormatName("Id")}=a.{db.FormatName("OrgNo")} 
+where a.{db.FormatName("CompNo")}=@CompNo and a.{db.FormatName("UserName")}<>'admin'";
         var orgNoId = nameof(SysUser.OrgNo);
         var orgNo = criteria.GetParameter<string>(orgNoId);
         if (!string.IsNullOrWhiteSpace(orgNo))
@@ -33,7 +32,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             else
                 criteria.RemoveQuery(orgNoId);
         }
-        criteria.Fields[nameof(SysUser.Name)] = "a.Name";
+        criteria.Fields[nameof(SysUser.Name)] = $"a.{db.FormatName("Name")}";
         return await db.QueryPageAsync<SysUser>(sql, criteria);
         //return await db.Select<SysUser>()
         //               .LeftJoin<SysOrganization>((a, b) => b.Id == a.OrgNo)
@@ -44,63 +43,96 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
 
     public Task<List<SysRole>> GetRolesAsync(Database db)
     {
-        var sql = "select * from SysRole where CompNo=@CompNo and Enabled='True' order by CreateTime";
-        return db.QueryListAsync<SysRole>(sql, new { db.User.CompNo });
+        //select * from SysRole where CompNo=@CompNo and Enabled='True' order by CreateTime
+        var info = db.Query<SysRole>()
+                     .Where(d => d.CompNo == db.User.CompNo && d.Enabled)
+                     .OrderBy(d => d.CreateTime)
+                     .ToCommand();
+        return db.QueryListAsync<SysRole>(info);
     }
 
     public Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId)
     {
-        var sql = @"select a.ModuleId from SysRoleModule a 
-where a.RoleId in (select RoleId from SysUserRole where UserId=@UserId)
-  and exists (select 1 from SysRole where Id=a.RoleId and Enabled='True')";
+        var sql = $@"select a.{db.FormatName("ModuleId")} from {db.FormatName("SysRoleModule")} a 
+where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.FormatName("SysUserRole")} where {db.FormatName("UserId")}=@UserId)
+  and exists (select 1 from {db.FormatName("SysRole")} where {db.FormatName("Id")}=a.{db.FormatName("RoleId")} and {db.FormatName("Enabled")}='True')";
         return db.ScalarsAsync<string>(sql, new { UserId = userId });
     }
 
     public Task<List<SysDictionary>> GetDicCategoriesAsync(Database db)
     {
-        var sql = $"select * from SysDictionary where Enabled='True' and Category='{Constants.DicCategory}' and CompNo=@CompNo order by Sort";
-        return db.QueryListAsync<SysDictionary>(sql, new { db.User.CompNo });
+        //select * from SysDictionary where Enabled='True' and Category='{Constants.DicCategory}' and CompNo=@CompNo order by Sort
+        var info = db.Query<SysDictionary>()
+                     .Where(d => d.CompNo == db.User.CompNo && d.Enabled && d.Category == Constants.DicCategory)
+                     .OrderBy(d => d.Sort)
+                     .ToCommand();
+        return db.QueryListAsync<SysDictionary>(info);
     }
 
     public Task<SysTask> GetPendingTaskAsync(Database db, string bizType)
     {
-        var sql = $"select * from SysTask where Status='{SysTaskStatus.Pending}' and Type=@bizType order by CreateTime";
-        return db.QueryAsync<SysTask>(sql, new { bizType });
+        //select * from SysTask where Status='{SysTaskStatus.Pending}' and Type=@bizType order by CreateTime
+        var info = db.Query<SysTask>()
+                     .Where(d => d.CompNo == db.User.CompNo && d.Status == SysTaskStatus.Pending && d.Type == bizType)
+                     .OrderBy(d => d.CreateTime)
+                     .ToCommand();
+        return db.QueryAsync<SysTask>(info);
     }
 
     public Task<SysTask> GetTaskByTypeAsync(Database db, string type)
     {
-        var sql = "select * from SysTask where CompNo=@CompNo and Type=@type order by CreateTime desc";
-        return db.QueryAsync<SysTask>(sql, new { db.User.CompNo, type });
+        //select * from SysTask where CompNo=@CompNo and Type=@type order by CreateTime desc
+        var info = db.Query<SysTask>()
+                     .Where(d => d.CompNo == db.User.CompNo && d.Type == type)
+                     .OrderByDescending(d => d.CreateTime)
+                     .ToCommand();
+        return db.QueryAsync<SysTask>(info);
     }
 
     public Task<SysTask> GetTaskByBizIdAsync(Database db, string bizId)
     {
-        var sql = "select * from SysTask where CompNo=@CompNo and CreateBy=@UserName and BizId=@bizId order by CreateTime desc";
-        return db.QueryAsync<SysTask>(sql, new { db.User.CompNo, db.User.UserName, bizId });
+        //select * from SysTask where CompNo=@CompNo and CreateBy=@UserName and BizId=@bizId order by CreateTime desc
+        var info = db.Query<SysTask>()
+                     .Where(d => d.CompNo == db.User.CompNo && d.CreateBy == db.UserName && d.BizId == bizId)
+                     .OrderByDescending(d => d.CreateTime)
+                     .ToCommand();
+        return db.QueryAsync<SysTask>(info);
     }
 
     public Task<List<SysLog>> GetVisitLogsAsync(Database db, DateTime begin, DateTime end)
     {
+        //select * from SysLog where CompNo=@CompNo and CreateTime between '{arg1}' and '{arg2}'
         var arg1 = begin.ToString("yyyy-MM-dd HH:mm:ss");
         var arg2 = end.ToString("yyyy-MM-dd HH:mm:ss");
-        var sql = $"select * from SysLog where CompNo=@CompNo and CreateTime between '{arg1}' and '{arg2}'";
-        return db.QueryListAsync<SysLog>(sql, new { db.User.CompNo });
+        var info = db.Query<SysLog>()
+                     .Where(d => d.CompNo == db.User.CompNo && d.CreateTime.Between(arg1, arg2))
+                     .ToCommand();
+        return db.QueryListAsync<SysLog>(info);
     }
 
     public Task<List<CountInfo>> GetVisitLogsAsync(Database db, string userName)
     {
-        var sql = $@"
-select Target as Field1,count(*) as TotalCount 
-from SysLog 
-where Type='{LogType.Page}' and CreateBy=@userName 
-group by Target";
-        return db.QueryListAsync<CountInfo>(sql, new { userName });
+        //select Target as Field1,count(*) as TotalCount 
+        //from SysLog 
+        //where Type='{LogType.Page}' and CreateBy=@userName 
+        //group by Target
+        var info = db.Query<SysLog>()
+                     .Select(d => d.Target, nameof(CountInfo.Field1))
+                     .SelectCount(nameof(CountInfo.TotalCount))
+                     //.Select(d => new CountInfo { Field1 = d.Target, TotalCount = Sql.Count() })
+                     .Where(d => d.Type == $"{LogType.Page}" && d.CreateBy == userName)
+                     .GroupBy(d => d.Target)
+                     .ToCommand();
+        return db.QueryListAsync<CountInfo>(info);
     }
 
     public Task<List<SysFlowLog>> GetFlowLogsAsync(Database db, string bizId)
     {
-        var sql = "select * from SysFlowLog where BizId=@bizId order by ExecuteTime";
-        return db.QueryListAsync<SysFlowLog>(sql, new { bizId });
+        //select * from SysFlowLog where BizId=@bizId order by ExecuteTime
+        var info = db.Query<SysFlowLog>()
+                     .Where(d => d.BizId == bizId)
+                     .OrderBy(d => d.CreateTime)
+                     .ToCommand();
+        return db.QueryListAsync<SysFlowLog>(info);
     }
 }

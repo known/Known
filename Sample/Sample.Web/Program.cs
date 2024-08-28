@@ -29,6 +29,8 @@ builder.Services.AddApp(info =>
         //ProviderType = typeof(Npgsql.NpgsqlFactory),
         //DatabaseType = DatabaseType.SqlServer,
         //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
+        //DatabaseType = DatabaseType.DM,
+        //ProviderType = typeof(Dm.DmClientFactory),
         ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
     }];
 });

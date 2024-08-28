@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class SQLiteBuilder : SqlBuilder
+class SQLiteProvider : DbProvider
 {
     protected override string GetPageSql(string text, string order, PagingCriteria criteria)
     {

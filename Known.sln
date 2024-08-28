@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.AntBlazor", "Known.AntBlazor\Known.AntBlazor.csproj", "{69EB6A63-AAD1-411E-8473-DF7BE4A23737}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.BootBlazor", "Known.BootBlazor\Known.BootBlazor.csproj", "{279CA066-116A-4BB7-AFE8-A56B4BABB8EA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Core", "Known.Core\Known.Core.csproj", "{BEA20DB8-1EC5-45C8-A2B2-1D4708087B07}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Cells", "Known.Cells\Known.Cells.csproj", "{28031FDC-5821-4E6C-A7EA-5E17086929F2}"
@@ -35,8 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.WinForm", "Sample\Sa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlSugarWeb", "Sample\SqlSugarWeb\SqlSugarWeb.csproj", "{E190C06C-5AA7-4F52-ACD1-FB43321ED219}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BootWeb", "Sample\BootWeb\BootWeb.csproj", "{1751EC45-BE63-4067-929F-F4527BCDE61F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,10 +47,6 @@ Global
 		{69EB6A63-AAD1-411E-8473-DF7BE4A23737}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69EB6A63-AAD1-411E-8473-DF7BE4A23737}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69EB6A63-AAD1-411E-8473-DF7BE4A23737}.Release|Any CPU.Build.0 = Release|Any CPU
-		{279CA066-116A-4BB7-AFE8-A56B4BABB8EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{279CA066-116A-4BB7-AFE8-A56B4BABB8EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{279CA066-116A-4BB7-AFE8-A56B4BABB8EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{279CA066-116A-4BB7-AFE8-A56B4BABB8EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BEA20DB8-1EC5-45C8-A2B2-1D4708087B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BEA20DB8-1EC5-45C8-A2B2-1D4708087B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEA20DB8-1EC5-45C8-A2B2-1D4708087B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,10 +83,6 @@ Global
 		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E190C06C-5AA7-4F52-ACD1-FB43321ED219}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1751EC45-BE63-4067-929F-F4527BCDE61F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1751EC45-BE63-4067-929F-F4527BCDE61F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1751EC45-BE63-4067-929F-F4527BCDE61F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1751EC45-BE63-4067-929F-F4527BCDE61F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,7 +94,6 @@ Global
 		{45B76CE0-5D69-46CF-B4B8-9E1348F3A3DF} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{E190C06C-5AA7-4F52-ACD1-FB43321ED219} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
-		{1751EC45-BE63-4067-929F-F4527BCDE61F} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}

@@ -49,7 +49,6 @@ dotnet new known --name=MyApp
 ```
 ├─Known             -> 框架类库，包含通用前后端、内置组件、内置模块。
 ├─Known.AntBlazor   -> 基于AntDesign Blazor的界面库。
-├─Known.BootBlazor  -> 基于Bootstrap Blazor的界面库。
 ├─Known.Cells       -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Core        -> 基于AspNetCore的服务端类库。
 ├─Known.SqlSugar    -> 基于SqlSugar的实现的数据访问类库。
@@ -59,7 +58,6 @@ dotnet new known --name=MyApp
   ├─Sample.Web      -> 项目后端，包含业务逻辑、数据访问，根据服务接口动态生成WebApi。
   ├─Sample.WebApi   -> 框架示例WebApi。
   ├─Sample.WinForm  -> 框架示例WinForm App。
-  ├─BootWeb         -> 框架BootstrapBlazor示例Web。
   ├─SqlSugarWeb     -> 框架SqlSugar示例Web。
 ```
 

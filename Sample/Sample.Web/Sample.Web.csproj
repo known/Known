@@ -10,10 +10,11 @@
         <!--<PackageReference Include="Toolbelt.AspNetCore.CssLiveReloader" Version="1.1.4" />-->
         <PackageReference Include="Coravel" Version="5.0.4" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
-        <!--<PackageReference Include="Npgsql" Version="8.0.3" />
+        <!--<PackageReference Include="System.Data.OleDb" Version="8.0.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
         <PackageReference Include="MySqlConnector" Version="2.3.7" />
-	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />-->
+        <PackageReference Include="Npgsql" Version="8.0.3" />
+        <PackageReference Include="DM.DmProvider" Version="8.3.1.25526" />-->
         <ProjectReference Include="..\..\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
         <ProjectReference Include="..\Sample.Client\Sample.Client.csproj" />

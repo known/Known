@@ -8,5 +8,6 @@ public enum DatabaseType
     Oracle,
     MySql,
     PgSql,
+    DM,
     Other
 }

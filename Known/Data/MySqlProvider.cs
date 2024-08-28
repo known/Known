@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class MySqlBuilder : SqlBuilder
+class MySqlProvider : DbProvider
 {
     protected override string GetTopSql(int size, string text) => $"{text} limit 0, {size}";
 

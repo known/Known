@@ -35,13 +35,13 @@ public abstract class Database : IDisposable
     public UserInfo User { get; set; }
     public string UserName => User?.UserName;
 
-    private SqlBuilder builder;
-    internal SqlBuilder Builder
+    private DbProvider provider;
+    internal DbProvider Provider
     {
         get
         {
-            builder ??= SqlBuilder.Create(DatabaseType);
-            return builder;
+            provider ??= DbProvider.Create(DatabaseType);
+            return provider;
         }
     }
 
@@ -151,7 +151,7 @@ public abstract class Database : IDisposable
         }
     }
 
-    public async Task<T> InsertAsync<T>(T entity, bool newId = true) where T : EntityBase, new()
+    public async Task<T> InsertAsync<T>(T entity, bool newId) where T : EntityBase, new()
     {
         if (entity == null)
             return entity;
@@ -185,12 +185,14 @@ public abstract class Database : IDisposable
 
     public void Dispose() => Dispose(true);
 
-    public virtual string GetDateSql(string name, bool withTime = true) => Builder?.GetDateSql(name, withTime);
+    public virtual string GetDateSql(string name, bool withTime = true) => Provider?.GetDateSql(name, withTime);
 
     protected virtual void Dispose(bool isDisposing) { }
 
+    internal string FormatName(string name) => Provider?.FormatName(name);
     internal virtual Task SetOriginalAsync<T>(T entity) where T : EntityBase, new() => Task.CompletedTask;
     internal virtual Task<T> ScalarAsync<T>(CommandInfo info) => Task.FromResult(default(T));
+    internal virtual Task<List<T>> ScalarsAsync<T>(CommandInfo info) => Task.FromResult(new List<T>());
     internal virtual Task<T> QueryAsync<T>(CommandInfo info) => Task.FromResult(default(T));
     internal virtual Task<List<T>> QueryListAsync<T>(CommandInfo info) => Task.FromResult(new List<T>());
 }

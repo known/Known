@@ -1,8 +1,8 @@
 ﻿namespace Known.Data;
 
-class ExpressionHelper(SqlBuilder builder)
+class ExpressionHelper(DbProvider provider)
 {
-    private readonly SqlBuilder builder = builder;
+    private readonly DbProvider provider = provider;
 
     internal string WhereSql { get; private set; }
     internal Dictionary<string, object> Parameters { get; private set; }
@@ -125,7 +125,7 @@ class ExpressionHelper(SqlBuilder builder)
         var type = me.Member.DeclaringType;
         if (type == typeof(EntityBase))
             type = typeof(T);
-        var field = builder.GetColumnName(type, name);
+        var field = provider.GetColumnName(type, name);
         if (WhereSql.EndsWith("Not"))
         {
             WhereSql = WhereSql[..^3] + $"{field}='False'";
@@ -200,7 +200,7 @@ class ExpressionHelper(SqlBuilder builder)
             {
                 var arg1 = RouteExpression<T>(mce.Arguments[1]);
                 var arg2 = RouteExpression<T>(mce.Arguments[2]);
-                if (arg1 is DateTime && builder.DatabaseType == DatabaseType.Access)
+                if (arg1 is DateTime && provider.DatabaseType == DatabaseType.Access)
                     WhereSql += $"{field} between #{arg1}# and #{arg2}#";
                 else
                     WhereSql += $"{field} between '{arg1}' and '{arg2}'";

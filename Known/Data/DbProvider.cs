@@ -1,29 +1,32 @@
 ﻿namespace Known.Data;
 
-class SqlBuilder
+class DbProvider
 {
-    internal static SqlBuilder Create(DatabaseType type)
+    internal static DbProvider Create(DatabaseType type)
     {
-        var builder = new SqlBuilder();
+        var builder = new DbProvider();
         switch (type)
         {
             case DatabaseType.Access:
-                builder = new AccessBuilder();
+                builder = new AccessProvider();
                 break;
             case DatabaseType.SQLite:
-                builder = new SQLiteBuilder();
+                builder = new SQLiteProvider();
                 break;
             case DatabaseType.SqlServer:
-                builder = new SqlServerBuilder();
+                builder = new SqlServerProvider();
                 break;
             case DatabaseType.Oracle:
-                builder = new OracleBuilder();
+                builder = new OracleProvider();
                 break;
             case DatabaseType.MySql:
-                builder = new MySqlBuilder();
+                builder = new MySqlProvider();
                 break;
             case DatabaseType.PgSql:
-                builder = new PgSqlBuilder();
+                builder = new PgSqlProvider();
+                break;
+            case DatabaseType.DM:
+                builder = new DMProvider();
                 break;
         }
 
@@ -94,7 +97,7 @@ select t.* from (
         var select = builder.SelectSql;
         if (string.IsNullOrWhiteSpace(select))
             select = "*";
-        var sql = $"select {select} from {builder.TableName}";
+        var sql = $"select {select} from {FormatName(builder.TableName)}";
         if (!string.IsNullOrWhiteSpace(builder.JoinSql))
             sql += builder.JoinSql;
         if (!string.IsNullOrWhiteSpace(builder.WhereSql))
@@ -108,8 +111,8 @@ select t.* from (
 
     public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
-        var tableName = GetTableName<T>(true);
-        var sql = $"select * from {tableName}";
+        var tableName = GetTableName<T>();
+        var sql = $"select * from {FormatName(tableName)}";
         var paramters = new Dictionary<string, object>();
         if (expression != null)
         {
@@ -130,7 +133,7 @@ select t.* from (
     public CommandInfo GetSelectCommand<T>(string id)
     {
         var tableName = GetTableName<T>();
-        var sql = $"{GetSelectSql(tableName)} where {IdName}=@id";
+        var sql = $"select * from {FormatName(tableName)} where {IdName}=@id";
         return new CommandInfo(this, sql, new { id });
     }
 
@@ -144,16 +147,16 @@ select t.* from (
             paramters.Add($"id{i}", ids[i]);
         }
 
-        var tableName = GetTableName<T>(true);
+        var tableName = GetTableName<T>();
         var idText = string.Join(" or ", [.. idTexts]);
-        var sql = $"select * from {tableName} where {idText}";
+        var sql = $"select * from {FormatName(tableName)} where {idText}";
         return new CommandInfo(this, sql, paramters);
     }
 
     internal CommandInfo GetCountCommand<T>(QueryBuilder<T> builder) where T : class, new()
     {
-        var tableName = GetTableName<T>(true);
-        var sql = $"select count(*) from {tableName}";
+        var tableName = GetTableName<T>();
+        var sql = $"select count(*) from {FormatName(tableName)}";
         if (!string.IsNullOrWhiteSpace(builder.WhereSql))
             sql += $" where {builder.WhereSql}";
         return new CommandInfo(this, sql, builder.Parameters);
@@ -161,8 +164,8 @@ select t.* from (
 
     public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
-        var tableName = GetTableName<T>(true);
-        var sql = $"select count(*) from {tableName}";
+        var tableName = GetTableName<T>();
+        var sql = $"select count(*) from {FormatName(tableName)}";
         var paramters = new Dictionary<string, object>();
         if (expression != null)
         {
@@ -195,7 +198,7 @@ select t.* from (
 
     public CommandInfo GetInsertCommand<T>()
     {
-        var tableName = GetTableName<T>(true);
+        var tableName = GetTableName<T>();
         var cmdParams = ToDictionary<T>();
         var keys = new List<string>();
         foreach (var key in cmdParams.Keys)
@@ -204,7 +207,7 @@ select t.* from (
         }
         var cloumn = string.Join(",", [.. keys]);
         var value = string.Join(",", keys.Select(k => $"@{k}").ToArray());
-        var sql = $"insert into {tableName}({cloumn}) values({value})";
+        var sql = $"insert into {FormatName(tableName)}({cloumn}) values({value})";
         return new CommandInfo(this, sql);
     }
 
@@ -257,8 +260,8 @@ select t.* from (
 
     public CommandInfo GetDeleteCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
-        var tableName = GetTableName<T>(true);
-        var sql = $"delete from {tableName}";
+        var tableName = GetTableName<T>();
+        var sql = $"delete from {FormatName(tableName)}";
         var paramters = new Dictionary<string, object>();
         if (expression != null)
         {
@@ -300,8 +303,8 @@ select t.* from (
         return new CommandInfo(this, sql, changes);
     }
 
-    internal string GetTableName<T>(bool format = false) => GetTableName(typeof(T), format);
-    internal string GetTableName(Type type, bool format = false)
+    internal string GetTableName<T>() => GetTableName(typeof(T));
+    internal string GetTableName(Type type)
     {
         var tableName = string.Empty;
         var attrs = type.GetCustomAttributes(true);
@@ -316,13 +319,13 @@ select t.* from (
         if (string.IsNullOrWhiteSpace(tableName))
             tableName = type.Name;
 
-        return format ? FormatName(tableName) : tableName;
+        return tableName;
     }
 
     internal string GetColumnName<T>(object field) => GetColumnName(typeof(T), field);
     internal string GetColumnName(Type type, object field)
     {
-        var tableName = GetTableName(type, true);
+        var tableName = GetTableName(type);
         return GetColumnName(tableName, field);
     }
 

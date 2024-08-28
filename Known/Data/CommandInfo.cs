@@ -4,7 +4,7 @@ public class CommandInfo
 {
     public CommandInfo() { }
 
-    internal CommandInfo(SqlBuilder builder, string text, object param = null)
+    internal CommandInfo(DbProvider builder, string text, object param = null)
     {
         Prefix = builder.Prefix;
         Text = text?.Replace("@", Prefix);

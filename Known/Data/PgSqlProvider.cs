@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class PgSqlBuilder : SqlBuilder
+class PgSqlProvider : DbProvider
 {
     //public override string FormatName(string name) => $"\"{name}\"";
 }

@@ -117,7 +117,7 @@ class DefaultDatabase : Database
             return 0;
 
         var count = 0;
-        var info = Builder.GetInsertCommand(data);
+        var info = Provider.GetInsertCommand(data);
         foreach (DataRow item in data.Rows)
         {
             info.SetParameters(item);
@@ -130,45 +130,31 @@ class DefaultDatabase : Database
     #region SQL
     public override Task<int> ExecuteAsync(string sql, object param = null)
     {
-        var info = Builder.GetCommand(sql, param);
+        var info = Provider.GetCommand(sql, param);
         return ExecuteNonQueryAsync(info);
     }
 
     public override Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        var info = Builder.GetCommand(sql, param);
+        var info = Provider.GetCommand(sql, param);
         return ScalarAsync<T>(info);
     }
 
-    public override async Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
+    public override Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
-        var data = new List<T>();
-        var info = Builder.GetCommand(sql, param);
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        using (var reader = cmd.ExecuteReader())
-        {
-            while (reader.Read())
-            {
-                var obj = Utils.ConvertTo<T>(reader[0]);
-                data.Add(obj);
-            }
-        }
-
-        cmd.Parameters.Clear();
-        if (info.IsClose)
-            conn.Close();
-        return data;
+        var info = Provider.GetCommand(sql, param);
+        return ScalarsAsync<T>(info);
     }
 
     public override Task<T> QueryAsync<T>(string sql, object param = null)
     {
-        var info = Builder.GetCommand(sql, param);
+        var info = Provider.GetCommand(sql, param);
         return QueryAsync<T>(info);
     }
 
     public override Task<List<T>> QueryListAsync<T>(string sql, object param = null)
     {
-        var info = Builder.GetCommand(sql, param);
+        var info = Provider.GetCommand(sql, param);
         return QueryListAsync<T>(info);
     }
 
@@ -187,7 +173,7 @@ class DefaultDatabase : Database
             Dictionary<string, object> statis = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
-            var info = Builder.GetCommand(sql, criteria, User);
+            var info = Provider.GetCommand(sql, criteria, User);
             var cmd = await PrepareCommandAsync(conn, trans, info);
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
@@ -249,7 +235,7 @@ class DefaultDatabase : Database
     public override async Task<DataTable> QueryTableAsync(string sql, object param = null)
     {
         var data = new DataTable();
-        var info = Builder.GetCommand(sql, param);
+        var info = Provider.GetCommand(sql, param);
         using (var reader = await ExecuteReaderAsync(info))
         {
             if (reader != null)
@@ -262,13 +248,13 @@ class DefaultDatabase : Database
     #region Entity
     public override Task<int> CountAsync<T>()
     {
-        var info = Builder.GetCountCommand<T>();
+        var info = Provider.GetCountCommand<T>();
         return ScalarAsync<int>(info);
     }
 
     public override Task<List<T>> QueryListAsync<T>()
     {
-        var info = Builder.GetSelectCommand<T>();
+        var info = Provider.GetSelectCommand<T>();
         return QueryListAsync<T>(info);
     }
 
@@ -277,13 +263,13 @@ class DefaultDatabase : Database
         if (ids == null || ids.Length == 0)
             return null;
 
-        var info = Builder.GetSelectCommand<T>(ids);
+        var info = Provider.GetSelectCommand<T>(ids);
         return QueryListAsync<T>(info);
     }
 
     public override Task<int> DeleteAllAsync<T>()
     {
-        var info = Builder.GetDeleteCommand<T>();
+        var info = Provider.GetDeleteCommand<T>();
         return ExecuteNonQueryAsync(info);
     }
 
@@ -292,7 +278,7 @@ class DefaultDatabase : Database
         if (data == null)
             return Task.FromResult(0);
 
-        var info = Builder.GetInsertCommand(data);
+        var info = Provider.GetInsertCommand(data);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -309,7 +295,7 @@ class DefaultDatabase : Database
         }
 
         var count = 0;
-        var info = Builder.GetInsertCommand<T>();
+        var info = Provider.GetInsertCommand<T>();
         foreach (var item in datas)
         {
             info.SetParameters(item);
@@ -324,14 +310,14 @@ class DefaultDatabase : Database
 
     protected override Task<int> SaveDataAsync<T>(T entity)
     {
-        var info = Builder.GetSaveCommand(entity);
+        var info = Provider.GetSaveCommand(entity);
         info.IsSave = true;
         return ExecuteNonQueryAsync(info);
     }
 
     internal override async Task SetOriginalAsync<T>(T entity)
     {
-        var info = Builder.GetSelectCommand<T>(entity.Id);
+        var info = Provider.GetSelectCommand<T>(entity.Id);
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);
     }
@@ -340,34 +326,34 @@ class DefaultDatabase : Database
     #region Expression
     public override Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria)
     {
-        var tableName = Builder.GetTableName<T>(true);
+        var tableName = Provider.GetTableName<T>();
         var compNo = nameof(EntityBase.CompNo);
-        var compName = Builder.FormatName(compNo);
+        var compName = Provider.FormatName(compNo);
         var sql = $"select * from {tableName} where {compName}=@{compNo}";
         return QueryPageAsync<T>(sql, criteria);
     }
 
     public override Task<T> QueryAsync<T>(Expression<Func<T, bool>> expression)
     {
-        var info = Builder.GetSelectCommand(expression);
+        var info = Provider.GetSelectCommand(expression);
         return QueryAsync<T>(info);
     }
 
     public override Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression)
     {
-        var info = Builder.GetSelectCommand(expression);
+        var info = Provider.GetSelectCommand(expression);
         return QueryListAsync<T>(info);
     }
 
     public override Task<int> CountAsync<T>(Expression<Func<T, bool>> expression)
     {
-        var info = Builder.GetCountCommand(expression);
+        var info = Provider.GetCountCommand(expression);
         return ScalarAsync<int>(info);
     }
 
     public override Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression)
     {
-        var info = Builder.GetDeleteCommand(expression);
+        var info = Provider.GetDeleteCommand(expression);
         return ExecuteNonQueryAsync(info);
     }
     #endregion
@@ -375,13 +361,13 @@ class DefaultDatabase : Database
     #region Dictionary
     public override Task<PagingResult<Dictionary<string, object>>> QueryPageAsync(string tableName, PagingCriteria criteria)
     {
-        var sql = Builder.GetSelectSql(tableName);
+        var sql = Provider.GetSelectSql(tableName);
         return QueryPageAsync<Dictionary<string, object>>(sql, criteria);
     }
 
     public override async Task<bool> ExistsAsync(string tableName, string id)
     {
-        var info = Builder.GetCountCommand(tableName, id);
+        var info = Provider.GetCountCommand(tableName, id);
         var count = await ScalarAsync<int>(info);
         return count > 0;
     }
@@ -391,7 +377,7 @@ class DefaultDatabase : Database
         if (string.IsNullOrEmpty(id))
             return Task.FromResult(0);
 
-        var info = Builder.GetDeleteCommand(tableName, id);
+        var info = Provider.GetDeleteCommand(tableName, id);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -400,7 +386,7 @@ class DefaultDatabase : Database
         if (data == null || data.Count == 0)
             return Task.FromResult(0);
 
-        var info = Builder.GetInsertCommand(tableName, data);
+        var info = Provider.GetInsertCommand(tableName, data);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -409,7 +395,7 @@ class DefaultDatabase : Database
         if (data == null || data.Count == 0)
             return Task.FromResult(0);
 
-        var info = Builder.GetUpdateCommand(tableName, keyField, data);
+        var info = Provider.GetUpdateCommand(tableName, keyField, data);
         return ExecuteNonQueryAsync(info);
     }
     #endregion
@@ -449,62 +435,131 @@ class DefaultDatabase : Database
     #region Private
     internal async Task<int> ExecuteNonQueryAsync(CommandInfo info)
     {
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        var value = cmd.ExecuteNonQuery();
-        cmd.Parameters.Clear();
-        if (info.IsClose)
-            conn.Close();
-        return value;
+        try
+        {
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var value = cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            if (info.IsClose)
+                conn.Close();
+            return value;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(info.ToString());
+            throw new SystemException(ex.Message, ex);
+        }
     }
 
     private async Task<DbDataReader> ExecuteReaderAsync(CommandInfo info)
     {
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        var reader = info.IsClose
-                   ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
-                   : cmd.ExecuteReader();
-        cmd.Parameters.Clear();
-        return reader;
+        try
+        {
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var reader = info.IsClose
+                       ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
+                       : cmd.ExecuteReader();
+            cmd.Parameters.Clear();
+            return reader;
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(info.ToString());
+            Logger.Exception(ex);
+            return null;
+        }
     }
 
     internal override async Task<T> ScalarAsync<T>(CommandInfo info)
     {
-        var cmd = await PrepareCommandAsync(conn, trans, info);
-        var scalar = cmd.ExecuteScalar();
-        cmd.Parameters.Clear();
-        if (info.IsClose)
-            conn.Close();
-        return Utils.ConvertTo<T>(scalar);
+        try
+        {
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var scalar = cmd.ExecuteScalar();
+            cmd.Parameters.Clear();
+            if (info.IsClose)
+                conn.Close();
+            return Utils.ConvertTo<T>(scalar);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(info.ToString());
+            Logger.Exception(ex);
+            return default;
+        }
+    }
+
+    internal override async Task<List<T>> ScalarsAsync<T>(CommandInfo info)
+    {
+        var data = new List<T>();
+        try
+        {
+            var cmd = await PrepareCommandAsync(conn, trans, info);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var obj = Utils.ConvertTo<T>(reader[0]);
+                    data.Add(obj);
+                }
+            }
+
+            cmd.Parameters.Clear();
+            if (info.IsClose)
+                conn.Close();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(info.ToString());
+            Logger.Exception(ex);
+        }
+        return data;
     }
 
     internal override async Task<T> QueryAsync<T>(CommandInfo info)
     {
         T obj = default;
-        using (var reader = await ExecuteReaderAsync(info))
+        try
         {
-            if (reader != null && reader.Read())
+            using (var reader = await ExecuteReaderAsync(info))
             {
-                obj = (T)DBUtils.ConvertTo<T>(reader);
+                if (reader != null && reader.Read())
+                {
+                    obj = (T)DBUtils.ConvertTo<T>(reader);
+                }
             }
+            if (info.IsClose)
+                conn.Close();
         }
-        if (info.IsClose)
-            conn.Close();
+        catch (Exception ex)
+        {
+            Logger.Error(info.ToString());
+            Logger.Exception(ex);
+        }
         return obj;
     }
 
     internal override async Task<List<T>> QueryListAsync<T>(CommandInfo info)
     {
         var lists = new List<T>();
-        using (var reader = await ExecuteReaderAsync(info))
+        try
         {
-            while (reader.Read())
+            using (var reader = await ExecuteReaderAsync(info))
             {
-                var obj = DBUtils.ConvertTo<T>(reader);
-                lists.Add((T)obj);
+                while (reader != null && reader.Read())
+                {
+                    var obj = DBUtils.ConvertTo<T>(reader);
+                    lists.Add((T)obj);
+                }
             }
+            if (info.IsClose)
+                conn.Close();
         }
-        if (info.IsClose)
-            conn.Close();
+        catch (Exception ex)
+        {
+            Logger.Error(info.ToString());
+            Logger.Exception(ex);
+        }
         return lists;
     }
 

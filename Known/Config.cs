@@ -322,6 +322,8 @@ public class ConnectionInfo
                 return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
             case DatabaseType.PgSql:
                 return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
+            case DatabaseType.DM:
+                return "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;";
             default:
                 return string.Empty;
         }

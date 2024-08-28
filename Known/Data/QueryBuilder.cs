@@ -3,23 +3,23 @@
 public class QueryBuilder<T> where T : class, new()
 {
     private readonly Database db;
-    private readonly SqlBuilder builder;
+    private readonly DbProvider provider;
     private readonly List<string> joins = [];
     private readonly List<string> selects = [];
     private readonly List<string> groupBys = [];
     private readonly List<string> orderBys = [];
 
-    internal QueryBuilder(Database db) : this(db.Builder)
+    internal QueryBuilder(Database db) : this(db.Provider)
     {
         this.db = db;
         if (db.DatabaseType == DatabaseType.Other)
             throw new SystemException("Not supporting the DatabaseType.Other.");
     }
 
-    internal QueryBuilder(SqlBuilder builder)
+    internal QueryBuilder(DbProvider provider)
     {
-        this.builder = builder;
-        TableName = builder.GetTableName<T>(true);
+        this.provider = provider;
+        TableName = provider.GetTableName<T>();
         orderBys = [];
         WhereSql = string.Empty;
         Parameters = [];
@@ -42,7 +42,8 @@ public class QueryBuilder<T> where T : class, new()
     //    return this;
     //}
 
-    public QueryBuilder<T> Select(params Expression<Func<T, object>>[] selectors)
+    //TODO：优化Select表达式
+    internal QueryBuilder<T> Select(params Expression<Func<T, object>>[] selectors)
     {
         if (selectors == null || selectors.Length == 0)
         {
@@ -58,11 +59,11 @@ public class QueryBuilder<T> where T : class, new()
         return this;
     }
 
-    public QueryBuilder<T> Select<TItem>(params Expression<Func<TItem, object>>[] selectors)
+    internal QueryBuilder<T> Select<TItem>(params Expression<Func<TItem, object>>[] selectors)
     {
         if (selectors == null || selectors.Length == 0)
         {
-            var tableName = builder.GetTableName<TItem>(true);
+            var tableName = provider.GetTableName<TItem>();
             selects.Add($"{tableName}.*");
         }
         else
@@ -75,37 +76,17 @@ public class QueryBuilder<T> where T : class, new()
         return this;
     }
 
-    public QueryBuilder<T> Select(Expression<Func<T, object>> selector, string asName)
+    internal QueryBuilder<T> Select(Expression<Func<T, object>> selector, string asName)
     {
         var name = GetColumnName(selector);
         return AddSelect(name, asName);
     }
 
-    public QueryBuilder<T> Select<TItem>(Expression<Func<TItem, object>> selector, string asName)
-    {
-        var name = GetColumnName(selector);
-        return AddSelect(name, asName);
-    }
-
-    public QueryBuilder<T> SelectCount(string asName = null)
-    {
-        if (string.IsNullOrWhiteSpace(asName))
-            selects.Add("count(*)");
-        else
-            AddSelect("count(*)", asName);
-        return this;
-    }
-
-    private QueryBuilder<T> AddSelect(string name, string asName)
-    {
-        var nameAs = builder.FormatName(asName);
-        selects.Add($"{name} as {nameAs}");
-        return this;
-    }
+    internal QueryBuilder<T> SelectCount(string asName = null) => AddSelect("count(*)", asName);
 
     public QueryBuilder<T> Where(Expression<Func<T, bool>> expression)
     {
-        var helper = new ExpressionHelper(builder);
+        var helper = new ExpressionHelper(provider);
         helper.RouteExpression(expression);
         WhereSql = helper.WhereSql;
         Parameters = helper.Parameters;
@@ -142,47 +123,61 @@ public class QueryBuilder<T> where T : class, new()
 
     public async Task<int> CountAsync()
     {
-        var info = builder.GetCountCommand(this);
+        var info = provider.GetCountCommand(this);
         return await db.ScalarAsync<int>(info);
     }
 
     public async Task<bool> ExistsAsync()
     {
-        var info = builder.GetCountCommand(this);
+        var info = provider.GetCountCommand(this);
         return await db.ScalarAsync<int>(info) > 0;
     }
 
     public Task<T> FirstAsync() => FirstAsync<T>();
     public Task<TItem> FirstAsync<TItem>()
     {
-        var info = builder.GetSelectCommand(this);
+        var info = provider.GetSelectCommand(this);
         return db.QueryAsync<TItem>(info);
     }
 
     public Task<List<T>> ToListAsync() => ToListAsync<T>();
     public Task<List<TItem>> ToListAsync<TItem>()
     {
-        var info = builder.GetSelectCommand(this);
+        var info = provider.GetSelectCommand(this);
         return db.QueryListAsync<TItem>(info);
     }
 
     public Task<PagingResult<T>> ToPageAsync(PagingCriteria criteria) => ToPageAsync<T>(criteria);
     public Task<PagingResult<TItem>> ToPageAsync<TItem>(PagingCriteria criteria) where TItem : class, new()
     {
-        var info = builder.GetSelectCommand(this);
+        var info = provider.GetSelectCommand(this);
         criteria.CmdParams = info.Params;
         return db.QueryPageAsync<TItem>(info.Text, criteria);
     }
 
+    public CommandInfo ToCommand() => provider.GetSelectCommand(this);
+
     private string GetColumnName(Expression<Func<T, object>> selector)
     {
         var pi = TypeHelper.Property(selector);
-        return builder.GetColumnName(TableName, pi.Name);
+        return provider.GetColumnName(TableName, pi.Name);
     }
 
     private string GetColumnName<TItem>(Expression<Func<TItem, object>> selector)
     {
         var pi = TypeHelper.Property(selector);
-        return builder.GetColumnName<TItem>(pi.Name);
+        return provider.GetColumnName<TItem>(pi.Name);
+    }
+
+    private QueryBuilder<T> AddSelect(string name, string asName = null)
+    {
+        var select = name;
+        if (!string.IsNullOrWhiteSpace(asName))
+        {
+            var nameAs = provider.FormatName(asName);
+            select += $" as {nameAs}";
+        }
+        selects.Add(select);
+        return this;
     }
 }

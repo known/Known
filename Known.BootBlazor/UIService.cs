@@ -226,6 +226,8 @@ public class UIService(DialogService dialogService, MessageService messageServic
         }).Build();
     }
 
+    public void BuildDropdown(RenderTreeBuilder builder, DropdownModel model) { }
+
     public void BuildAlert(RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
     {
         builder.Component<Alert>()
