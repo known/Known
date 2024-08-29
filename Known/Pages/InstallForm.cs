@@ -147,7 +147,7 @@ class FormDatabase : BaseForm<DatabaseInfo>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         base.BuildForm(builder);
-        builder.Div("kui-right", () => builder.Button(Language["Designer.Test"], this.Callback<MouseEventArgs>(OnTest), "primary"));
+        builder.Div("kui-right", () => builder.Button(Language["Designer.Test"], this.Callback<MouseEventArgs>(OnTest)));
     }
 
     private async void OnTest(MouseEventArgs args)

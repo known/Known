@@ -31,7 +31,7 @@
         <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberUser"]
     </FormItem>
     <FormItem>
-        <Button Type="@ButtonType.Primary" Block OnClick="OnUserLogin">@Language["Login"]</Button>
+        <AntButton Name="@Language["Login"]" Type="@ButtonType.Primary" Block OnClick="OnUserLogin" />
     </FormItem>
 </LoginInfoForm>
 
@@ -45,7 +45,7 @@
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
-    private async Task OnUserLogin()
+    private async Task OnUserLogin(MouseEventArgs args)
     {
         if (!form.Validate())
             return;

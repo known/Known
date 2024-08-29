@@ -102,14 +102,13 @@ public static class UIExtension
     #endregion
 
     #region Button
-    public static void Button(this RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick, string style = null)
+    public static void Button(this RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
     {
         action.OnClick = onClick;
-        action.Style = style;
         builder.Component<KButton>().Set(c => c.Action, action).Build();
     }
 
-    public static void Button(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string style = null)
+    public static void Button(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string style = "primary")
     {
         var action = new ActionInfo { Name = name, OnClick = onClick, Style = style };
         builder.Component<KButton>().Set(c => c.Action, action).Build();

@@ -62,7 +62,7 @@ class EntityView : BaseView<EntityInfo>
         {
             builder.Div("kui-code-action", () =>
             {
-                builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript), "primary");
+                builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript));
             });
         }
         BuildCode(builder, script);

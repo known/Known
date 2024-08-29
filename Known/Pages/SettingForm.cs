@@ -22,8 +22,8 @@ public class SettingForm : BaseForm<SettingInfo>
             base.BuildForm(builder);
             builder.Div("center", () =>
             {
-                builder.Button(Language.Save, this.Callback<MouseEventArgs>(SaveAsync), "primary");
-                builder.Button(Language.Reset, this.Callback<MouseEventArgs>(ResetAsync));
+                builder.Button(Language.Save, this.Callback<MouseEventArgs>(SaveAsync));
+                builder.Button(Language.Reset, this.Callback<MouseEventArgs>(ResetAsync), "default");
             });
         });
     }

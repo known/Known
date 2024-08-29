@@ -13,7 +13,7 @@ MoveDown         | 下移    | down         | primary
 Enable           | 启用    | check-circle | primary
 Disable          | 禁用    | close-circle | primary
 Print            | 打印    | printer      | primary
-Reset            | 重置    | undo         | default
+Reset            | 重置    | undo         | primary
 Save             | 保存    | save         | primary
 OK               | 确定    | check        | primary
 Cancel           | 取消    | close        | 

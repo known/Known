@@ -16,7 +16,7 @@
                 }
                 else
                 {
-                    <Button Disabled="@(!item.Enabled)" Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
+                    <AntButton Name="@itemName" Enabled="item.Enabled" Type="@item.Style" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
                 }
             }
             var mores = items.Skip(Model.ShowCount - 1).ToList();
@@ -33,7 +33,7 @@
                 }
                 else
                 {
-                    <Button Disabled="@(!item.Enabled)" Danger="@(item.Style=="danger")" Type="@ButtonType.Primary" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)">@itemName</Button>
+                    <AntButton Name="@itemName" Enabled="item.Enabled" Type="@item.Style" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
                 }
             }
         }

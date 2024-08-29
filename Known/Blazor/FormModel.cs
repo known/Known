@@ -286,9 +286,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
             Footer = b =>
             {
                 if (IsNew)
-                    b.Button(Language.SaveContinue, Page.Callback<MouseEventArgs>(async e => await SaveContinueAsync()), "primary");
-                b.Button(Language.SaveClose, Page.Callback<MouseEventArgs>(async e => await SaveAsync()), "primary");
-                b.Button(Language.Close, Page.Callback<MouseEventArgs>(async e => await CloseAsync()));
+                    b.Button(Language.SaveContinue, Page.Callback<MouseEventArgs>(async e => await SaveContinueAsync()));
+                b.Button(Language.SaveClose, Page.Callback<MouseEventArgs>(async e => await SaveAsync()));
+                b.Button(Language.Close, Page.Callback<MouseEventArgs>(async e => await CloseAsync()), "default");
             };
         }
     }

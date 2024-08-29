@@ -20,7 +20,7 @@
         <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberPhone"]
     </FormItem>
     <FormItem>
-        <Button Type="@ButtonType.Primary" Block OnClick="OnPhoneLogin">@Language["Login"]</Button>
+        <AntButton Name="@Language["Login"]" Type="@ButtonType.Primary" Block OnClick="OnPhoneLogin" />
     </FormItem>
 </LoginInfoForm>
 
@@ -49,7 +49,7 @@
         };
     }
 
-    private async Task OnPhoneLogin()
+    private async Task OnPhoneLogin(MouseEventArgs args)
     {
         if (!form.Validate())
             return;

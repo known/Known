@@ -26,7 +26,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
                 base.BuildForm(builder);
                 builder.FormButton(() =>
                 {
-                    builder.Button(Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync), "primary");
+                    builder.Button(Language["Button.ConfirmUpdate"], this.Callback<MouseEventArgs>(OnSaveAsync));
                 });
             });
         });

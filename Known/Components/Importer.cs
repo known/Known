@@ -32,7 +32,7 @@ class Importer : BaseComponent
             {
                 BuildInputFile(builder);
                 if (isFinished)
-                    builder.Button(Language.Import, this.Callback<MouseEventArgs>(OnImportAsync), "primary");
+                    builder.Button(Language.Import, this.Callback<MouseEventArgs>(OnImportAsync));
                 builder.Div("async", () =>
                 {
                     UI.BuildCheckBox(builder, new InputModel<bool>

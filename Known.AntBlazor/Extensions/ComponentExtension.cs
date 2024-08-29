@@ -36,31 +36,21 @@ static class ComponentExtension
 
     internal static void AntButton(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string type = ButtonType.Primary)
     {
-        builder.Component<Button>()
+        builder.Component<AntButton>()
+               .Set(c => c.Name, name)
                .Set(c => c.Type, type)
                .Set(c => c.OnClick, onClick)
-               .Set(c => c.ChildContent, b => b.Text(name))
-               .Build();
-    }
-
-    internal static void AntButton(this RenderTreeBuilder builder, string icon, string name, EventCallback<MouseEventArgs> onClick)
-    {
-        builder.Component<Button>()
-               .Set(c => c.Icon, icon)
-               .Set(c => c.Type, ButtonType.Primary)
-               .Set(c => c.OnClick, onClick)
-               .Set(c => c.ChildContent, b => b.Text(name))
                .Build();
     }
 
     internal static void AntButton(this RenderTreeBuilder builder, ActionInfo info)
     {
-        builder.Component<Button>()
-               .Set(c => c.Disabled, !info.Enabled)
+        builder.Component<AntButton>()
+               .Set(c => c.Enabled, info.Enabled)
                .Set(c => c.Icon, info.Icon)
+               .Set(c => c.Name, info.Name)
                .Set(c => c.Type, info.Style)
                .Set(c => c.OnClick, info.OnClick)
-               .Set(c => c.ChildContent, b => b.Text(info.Name))
                .Build();
     }
 
