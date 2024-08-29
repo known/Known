@@ -84,17 +84,8 @@ class RoleForm : BaseForm<SysRole>
 
     private void OnTreeCheck(MenuInfo item)
     {
-        SelectNode(item);
-
-        var btnItems = item.Checked ? btnModel.Codes.Select(o => o.Code).ToArray() : null;
-        var colItems = item.Checked ? colModel.Codes.Select(o => o.Code).ToArray() : null;
-        OnButtonChanged(btnItems);
-        OnColumnChanged(colItems);
-
-        Model.Data.MenuIds.Remove(item.Id);
-        if (item.Checked)
-            Model.Data.MenuIds.Add(item.Id);
-        StateChanged();
+        CheckNode(item, item.Checked);
+        OnTreeClick(item);
     }
 
     private async Task<TreeModel> OnTreeModelChanged()
@@ -111,17 +102,13 @@ class RoleForm : BaseForm<SysRole>
 
     private void OnButtonChanged(string[] items)
     {
-        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"b_{current.Id}"));
-        if (items != null && items.Length > 0)
-            Model.Data.MenuIds.AddRange(items);
+        SetMenuData($"b_{current.Id}", items);
         btnModel.Value = [.. Model.Data.MenuIds];
     }
 
     private void OnColumnChanged(string[] items)
     {
-        Model.Data.MenuIds.RemoveAll(m => m.StartsWith($"c_{current.Id}"));
-        if (items != null && items.Length > 0)
-            Model.Data.MenuIds.AddRange(items);
+        SetMenuData($"c_{current.Id}", items);
         colModel.Value = [.. Model.Data.MenuIds];
     }
 
@@ -136,5 +123,39 @@ class RoleForm : BaseForm<SysRole>
         colModel.Disabled = ChkDisabled;
         colModel.Codes = current.GetAllColumns();
         colModel.Value = [.. Model.Data.MenuIds];
+    }
+
+    private void CheckNode(MenuInfo item, bool isChecked)
+    {
+        if (item.Children.Count > 0)
+        {
+            foreach (var child in item.Children)
+            {
+                CheckNode(child, isChecked);
+            }
+        }
+        else
+        {
+            CheckItem(item, isChecked);
+        }
+    }
+
+    private void CheckItem(MenuInfo item, bool isChecked)
+    {
+        var btnItems = isChecked ? item.GetAllActions().Select(o => o.Code).ToArray() : null;
+        var colItems = isChecked ? item.GetAllColumns().Select(o => o.Code).ToArray() : null;
+        SetMenuData($"b_{item.Id}", btnItems);
+        SetMenuData($"c_{item.Id}", colItems);
+
+        Model.Data.MenuIds.Remove(item.Id);
+        if (isChecked)
+            Model.Data.MenuIds.Add(item.Id);
+    }
+
+    private void SetMenuData(string prefix, string[] items)
+    {
+        Model.Data.MenuIds.RemoveAll(m => m.StartsWith(prefix));
+        if (items != null && items.Length > 0)
+            Model.Data.MenuIds.AddRange(items);
     }
 }
