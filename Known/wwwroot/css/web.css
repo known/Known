@@ -32,13 +32,14 @@
 .kui-tips {color:#1890ff;margin-left:10px;}
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}
+.kui-flex {display:flex;}
 .primary {color:#1890ff;}
 .danger {color:#ed4014;}
 .bg-danger, .bg-danger > td {background-color:#ffccc7 !important;}
 .bg-danger:hover, .bg-danger:hover > td {background-color: #ffa39e !important;}
 .p10 {padding:10px;}
 .app-name {
-    font-weight:bold;margin-top:1rem;margin-bottom:2.5rem;text-align:center;line-height:1.8rem;
+    font-weight:bold;margin-top:0.9rem;margin-bottom:0.9rem;text-align:center;line-height:1.8rem;font-size:1.3rem;
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
 
@@ -127,9 +128,13 @@
 /*Install*/
 .kui-install {position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto;}
 .kui-install .button {text-align:center;}
-.kui-install-head {display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.5rem;padding:30px 200px;}
-.kui-install-head .kui-menu {margin:0;padding:0;padding-top:13px;}
-.kui-install-body {background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:50px 200px;}
+.kui-install-head {display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.2rem;padding:30px 200px;}
+.kui-install-head .kui-menu {margin:0;padding:0;}
+.kui-install-body {
+    background:linear-gradient(135deg, #6da0f5, #c0e9fc);
+    height:500px;padding:50px 200px;overflow: hidden;
+    border-radius:50px 0;/*border-radius:0 0 100% 100% / 0 0 8% 8%;*/
+}
 .kui-install-form {border-radius:5px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);padding:20px;width:500px;height:400px;margin:0 auto;}
 .kui-install-foot {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .kui-install-foot span {margin:0 5px;}

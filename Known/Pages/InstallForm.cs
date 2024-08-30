@@ -42,7 +42,11 @@ public class InstallForm : BaseForm<InstallInfo>
         {
             builder.Div("kui-install-head", () =>
             {
-                builder.Div("", $"{Config.App.Name} - {Language["Install"]}");
+                builder.Div("kui-flex", () =>
+                {
+                    builder.Div().Class("kui-logo").Style("position:initial;height:55px;").Close();
+                    builder.Div("app-name", $"{Config.App.Name} - {Language["Install"]}");
+                });
                 builder.Fragment(TopMenu);
             });
             builder.Div("kui-install-body", () =>
