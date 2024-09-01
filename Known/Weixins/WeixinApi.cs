@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http.Json;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
@@ -38,6 +37,7 @@ public static class WeixinApi
             using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appId}&secret={appSecret}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
+            Logger.Info("AT=" + Utils.ToJson(result));
             return result.GetValue<string>("access_token");
         }
         catch (Exception ex)
@@ -51,6 +51,19 @@ public static class WeixinApi
     {
         //为了通过证书验证，总是返回true
         return true;
+    }
+    #endregion
+
+    #region 二维码
+    //关注公众号，绑定用户二维码
+    public static async Task<string> GetQRCodeUrlAsync(string sceneId)
+    {
+        using var http = new HttpClient();
+        var ticket = await http.CreateTicketAsync(sceneId);
+        if (ticket == null)
+            return string.Empty;
+
+        return GetQRCodeUrl(ticket.Ticket);
     }
     #endregion
 
@@ -91,7 +104,7 @@ public static class WeixinApi
     }
 
     //2.通过ticket换取二维码
-    public static string GetQRCodeUrl(string ticket)
+    private static string GetQRCodeUrl(string ticket)
     {
         ticket = HttpUtility.UrlEncode(ticket);
         return $"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}";
@@ -148,6 +161,7 @@ public static class WeixinApi
     {
         var redirectUri = HttpUtility.UrlEncode(RedirectUri);
         state = HttpUtility.UrlEncode(state);
+        //网页登录二维码
         return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
     }
 

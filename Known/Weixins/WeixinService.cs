@@ -4,7 +4,6 @@ public interface IWeixinService : IService
 {
     Task<WeixinInfo> GetWeixinAsync(string userId);
     Task<SysWeixin> GetWeixinByUserIdAsync(string userId);
-    Task<string> GetQRCodeUrlAsync(string sceneId);
     Task<UserInfo> CheckWeixinAsync(UserInfo user);
     Task<Result> SaveWeixinAsync(WeixinInfo model);
 }
@@ -45,16 +44,6 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     #endregion
 
     #region MP
-    public async Task<string> GetQRCodeUrlAsync(string sceneId)
-    {
-        using var http = new HttpClient();
-        var ticket = await http.CreateTicketAsync(sceneId);
-        if (ticket == null)
-            return string.Empty;
-
-        return WeixinApi.GetQRCodeUrl(ticket.Ticket);
-    }
-
     //public async Task<string> GetAuthorizeUrlAsync(string state)
     //{
     //    var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);

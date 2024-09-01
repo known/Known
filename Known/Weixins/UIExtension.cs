@@ -13,7 +13,7 @@ public static class UIExtension
         if (weixin.User == null)
         {
             //扫码场景ID：{场景ID}_{用户ID}
-            var qrCodeUrl = await service.GetQRCodeUrlAsync($"{option.SceneId}_{user.Id}");
+            var qrCodeUrl = await WeixinApi.GetQRCodeUrlAsync($"{option.SceneId}_{user.Id}");
             ShowWeixinQRCode(page, option, qrCodeUrl, user);
         }
     }
