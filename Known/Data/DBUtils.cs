@@ -25,16 +25,8 @@ public class DBUtils
     internal static async Task InitializeAsync()
     {
         var db = Database.Create();
-        int? count = null;
-        try
-        {
-            count = await db.CountAsync<SysModule>();
-        }
-        catch
-        {
-        }
-
-        if (count == null)
+        var exists = await db.ExistsAsync<SysModule>();
+        if (!exists)
         {
             Console.WriteLine("Table is initializing...");
             var name = db.DatabaseType.ToString();

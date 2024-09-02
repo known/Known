@@ -164,6 +164,21 @@ public abstract class Database : IDisposable
         return entity;
     }
 
+    public async Task<bool> ExistsAsync<T>()
+    {
+        try
+        {
+            var tableName = Provider.GetTableName<T>();
+            var sql = $"select count(*) from {tableName}";
+            var count = await ScalarAsync<int?>(sql);
+            return count > 0;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> ExistsAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
         var count = await CountAsync(expression);
