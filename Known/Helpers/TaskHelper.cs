@@ -51,7 +51,7 @@ sealed class TaskHelper
     private static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
         var userName = task.CreateBy;
-        db.User = await UserHelper.GetUserByUserNameAsync(db, userName);
+        db.User = await Platform.GetUserAsync(db, userName);
         task.BeginTime = DateTime.Now;
         task.Status = SysTaskStatus.Running;
         await db.SaveAsync(task);

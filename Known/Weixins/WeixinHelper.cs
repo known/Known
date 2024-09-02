@@ -2,6 +2,8 @@
 
 public sealed class WeixinHelper
 {
+    private WeixinHelper() { }
+
     public static async Task<Result> AuthorizeAsync(string token, string code)
     {
         using var http = new HttpClient();

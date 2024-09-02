@@ -6,6 +6,7 @@ public class Platform
     public static Task<SystemInfo> GetSystemAsync(Database db) => SystemService.GetSystemAsync(db);
 
     //User
+    public static Task<UserInfo> GetUserAsync(Database db, string userName) => UserHelper.GetUserByUserNameAsync(db, userName);
     public static Task<List<SysUser>> GetUsersByRoleAsync(Database db, string roleName) => UserService.GetUsersByRoleAsync(db, roleName);
     public static Task SyncUserAsync(Database db, SysUser user) => UserService.SyncUserAsync(db, user);
 
