@@ -183,10 +183,13 @@ public sealed class Config
 
 public class VersionInfo
 {
+    private Assembly assembly;
+
     public VersionInfo() { }
 
     internal VersionInfo(Assembly assembly)
     {
+        this.assembly = assembly;
         if (assembly != null)
         {
             var version = assembly.GetName().Version;
@@ -211,15 +214,19 @@ public class VersionInfo
         SoftVersion = $"{SoftVersion}.{count}";
     }
 
-    private static DateTime GetBuildTime()
+    private DateTime GetBuildTime()
     {
         var path = AppDomain.CurrentDomain.BaseDirectory;
-        var fileName = Directory.GetFiles(path, "*.exe").FirstOrDefault();
+        var fileName = Directory.GetFiles(path, "*.exe")?.FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            var version = assembly?.GetName().Version;
+            //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
+            return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+        }
+
         var file = new FileInfo(fileName);
         return file.LastWriteTime;
-        //var version = assembly.GetName().Version;
-        //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
-        //return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
     }
 }
 

@@ -12,7 +12,7 @@ public class Context
         language = new Language(cultureName);
     }
 
-    public UserInfo CurrentUser { get; internal set; }
+    public UserInfo CurrentUser { get; set; }
 
     public string CurrentLanguage
     {
