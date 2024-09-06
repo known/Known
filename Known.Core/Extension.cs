@@ -1,10 +1,17 @@
 ﻿namespace Known.Core;
 
+/// <summary>
+/// 依赖注入扩展类。
+/// </summary>
 public static class Extension
 {
     private static bool IsCompression { get; set; }
     private static bool IsAddWebApi { get; set; }
 
+    /// <summary>
+    /// 添加桌面框架及身份认证支持。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
     public static void AddKnownWin(this IServiceCollection services)
     {
         IsCompression = true;
@@ -18,6 +25,10 @@ public static class Extension
         //        .AddCookie(options => options.LoginPath = new PathString("/login"));
     }
 
+    /// <summary>
+    /// 添加Web框架及身份认证支持。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
     public static void AddKnownWeb(this IServiceCollection services)
     {
         IsCompression = true;
@@ -49,11 +60,19 @@ public static class Extension
         //builder.Services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
     }
 
+    /// <summary>
+    /// 添加自动根据服务接口生成WebApi支持。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
     public static void AddKnownWebApi(this IServiceCollection services)
     {
         IsAddWebApi = true;
     }
 
+    /// <summary>
+    /// 使用框架静态文件和WebApi。
+    /// </summary>
+    /// <param name="app">Web应用程序。</param>
     public static void UseKnown(this WebApplication app)
     {
         if (IsCompression)

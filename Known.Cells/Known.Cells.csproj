@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
         <Description>Known.Cells是基于Aspose.Cells实现的Excel操作类库。</Description>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <Version>1.0.1</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Library, .NET, Excel</PackageTags>

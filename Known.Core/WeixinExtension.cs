@@ -1,7 +1,15 @@
 ﻿namespace Known.Core;
 
+/// <summary>
+/// 微信依赖注入扩展类。
+/// </summary>
 public static class WeixinExtension
 {
+    /// <summary>
+    /// 添加微信框架支持。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="configuration">应用配置。</param>
     public static void AddKnownWeixin(this IServiceCollection services, IConfiguration configuration)
     {
         WeixinApi.GZHId = configuration.GetSection("WxGZHId").Get<string>();
@@ -11,6 +19,10 @@ public static class WeixinExtension
         WeixinApi.Initialize();
     }
 
+    /// <summary>
+    /// 使用微信框架订阅和取消订阅路由。
+    /// </summary>
+    /// <param name="app">Web应用程序。</param>
     public static void UseKnownWeixin(this WebApplication app)
     {
         app.MapGet("/weixin/auth", OnAuthorizeAsync);
