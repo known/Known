@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
         <Description>Known.AntBlazor是基于AntDesign Blazor的实现Known框架界面的类库。</Description>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
         <Version>1.0.9.1</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, AntDesign, UI, Blazor</PackageTags>

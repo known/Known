@@ -1,10 +1,24 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 自定义Ant菜单组件类。
+/// </summary>
 public class AntMenu : BaseComponent
 {
+    /// <summary>
+    /// 取得或设置是否为手风琴菜单。
+    /// </summary>
     [Parameter] public bool Accordion { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单数据列表。
+    /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }
 
+    /// <summary>
+    /// 呈现菜单组件内容。
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Menu>()

@@ -1,11 +1,40 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant表单接口。
+/// </summary>
+public interface IAntForm
+{
+    /// <summary>
+    /// 取得表单是否查看模式。
+    /// </summary>
+    bool IsView { get; }
+}
+
+/// <summary>
+/// 扩展Ant表单组件类。
+/// </summary>
+/// <typeparam name="TItem">表单数据对象类型。</typeparam>
 public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
 {
+    /// <summary>
+    /// 取得表单是否查看模式。
+    /// </summary>
     public bool IsView => Form != null && Form.IsView;
+
+    /// <summary>
+    /// 取得或设置是否显示【确定】和【取消】操作按钮。
+    /// </summary>
     [Parameter] public bool ShowAction { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单组件模型对象实例。
+    /// </summary>
     [Parameter] public FormModel<TItem> Form { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         //为true时，AutoComplete无法选中
@@ -26,6 +55,10 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// 呈现表单组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Cascading<IAntForm>(this, b =>

@@ -2,8 +2,16 @@
 
 namespace Known.AntBlazor;
 
+/// <summary>
+/// 依赖注入扩展类。
+/// </summary>
 public static class Extension
 {
+    /// <summary>
+    /// 添加基于AntDesign Blazor的实现框架界面。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">配置选项。</param>
     public static void AddKnownAntDesign(this IServiceCollection services, Action<AntDesignOption> action = null)
     {
         //添加AntDesign
@@ -41,9 +49,19 @@ $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', 
     }
 }
 
+/// <summary>
+/// AntDesign配置选项类。
+/// </summary>
 public class AntDesignOption
 {
+    /// <summary>
+    /// 取得或设置是否显示页面页脚组件。
+    /// </summary>
     public bool ShowFooter { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面页脚组件。
+    /// </summary>
     public RenderFragment Footer { get; set; }
 }
 

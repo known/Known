@@ -1,17 +1,46 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant下拉菜单组件类。
+/// </summary>
 public class AntDropdown : Dropdown
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 取得或设置图标。
+    /// </summary>
     [Parameter] public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置文本文字。
+    /// </summary>
     [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// 取得或设置文本文字加图标。
+    /// </summary>
     [Parameter] public string TextIcon { get; set; }
+
+    /// <summary>
+    /// 取得或设置文本按钮。
+    /// </summary>
     [Parameter] public string TextButton { get; set; }
+
+    /// <summary>
+    /// 取得或设置下拉菜单操作列表。
+    /// </summary>
     [Parameter] public List<ActionInfo> Items { get; set; }
+
+    /// <summary>
+    /// 取得或设置下拉菜单项单击事件方法。
+    /// </summary>
     [Parameter] public Action<ActionInfo> OnItemClick { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)

@@ -1,12 +1,29 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant表格组件类。
+/// </summary>
+/// <typeparam name="TItem">表格数据对象类型。</typeparam>
 public class AntTable<TItem> : Table<TItem> where TItem : class, new()
 {
+    /// <summary>
+    /// 取得或设置全局错误组件对象级联值实例。
+    /// </summary>
     [CascadingParameter] public KError Error { get; set; }
 
+    /// <summary>
+    /// 取得或设置系统上下文对象实例。
+    /// </summary>
     [Parameter] public Context Context { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格组件模型对象实例。
+    /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         Size = TableSize.Small;
@@ -28,6 +45,9 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// 设置组件参数。
+    /// </summary>
     protected override void OnParametersSet()
     {
         if (Model != null)

@@ -1,10 +1,16 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant选择框组件类。
+/// </summary>
 public class AntSelect : Select<string, string>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -19,13 +25,22 @@ public class AntSelect : Select<string, string>
     }
 }
 
+/// <summary>
+/// 扩展Ant代码表选择框组件类。
+/// </summary>
 public class AntSelectCode : Select<string, CodeInfo>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 取得或设置选择框组件关联的数据字典类别名或可数项目（用逗号分割，如：项目1,项目2）。
+    /// </summary>
     [Parameter] public string Category { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)

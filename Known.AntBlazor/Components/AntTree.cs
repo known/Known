@@ -1,9 +1,18 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant树组件类。
+/// </summary>
 public class AntTree : Tree<MenuInfo>
 {
+    /// <summary>
+    /// 取得或设置树组件模型对象实例。
+    /// </summary>
 	[Parameter] public TreeModel Model { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
 	protected override void OnInitialized()
 	{
         base.OnInitialized();
@@ -21,6 +30,10 @@ public class AntTree : Tree<MenuInfo>
             Model.OnRefresh = RefreshAsync;
     }
 
+    /// <summary>
+    /// 异步设置组件参数。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnParametersSetAsync()
     {
         if (Model == null)

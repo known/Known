@@ -1,15 +1,41 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 自定义Ant按钮组件类，可自动提示加载。
+/// </summary>
 public class AntButton : BaseComponent
 {
     private bool isLoad;
 
+    /// <summary>
+    /// 取得或设置是否是块级按钮。
+    /// </summary>
     [Parameter] public bool Block { get; set; }
+
+    /// <summary>
+    /// 取得或设置按钮图标。
+    /// </summary>
     [Parameter] public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置按钮类型（如：ButtonType.Primary）。
+    /// </summary>
     [Parameter] public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置按钮CSS类名。
+    /// </summary>
     [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// 取得或设置按钮单击事件方法。
+    /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
+    /// <summary>
+    /// 呈现按钮组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         var isDanger = Type == "danger";

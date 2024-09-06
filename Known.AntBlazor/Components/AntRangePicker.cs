@@ -1,13 +1,26 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant日期范围组件类。
+/// </summary>
 public class AntRangePicker : RangePicker<DateTime?[]>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 取得或设置日期范围组件字段绑定值。
+    /// </summary>
     [Parameter] public string RangeValue { get; set; }
+
+    /// <summary>
+    /// 取得或设置日期范围组件字段绑定值改变事件方法。
+    /// </summary>
     [Parameter] public Action<string> RangeValueChanged { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)

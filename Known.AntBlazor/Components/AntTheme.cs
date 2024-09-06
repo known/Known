@@ -1,7 +1,14 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 自定义Ant主题组件类。
+/// </summary>
 public class AntTheme : BaseComponent
 {
+    /// <summary>
+    /// 呈现主题组件内容。
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Switch>()

@@ -1,10 +1,17 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant数值框组件类。
+/// </summary>
+/// <typeparam name="TValue"></typeparam>
 public class AntNumber<TValue> : InputNumber<TValue>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -15,11 +22,17 @@ public class AntNumber<TValue> : InputNumber<TValue>
     }
 }
 
+/// <summary>
+/// 扩展Ant整数输入组件类。
+/// </summary>
 public class AntInteger : InputNumber<int?>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -30,11 +43,17 @@ public class AntInteger : InputNumber<int?>
     }
 }
 
+/// <summary>
+/// 扩展Ant小数输入框组件类。
+/// </summary>
 public class AntDecimal : InputNumber<decimal?>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)

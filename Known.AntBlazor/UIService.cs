@@ -1,6 +1,6 @@
 ﻿namespace Known.AntBlazor;
 
-public class UIService(ModalService modalService, MessageService messageService, INotificationService noticeService) : IUIService
+class UIService(ModalService modalService, MessageService messageService, INotificationService noticeService) : IUIService
 {
     private readonly ModalService _modal = modalService;
     private readonly MessageService _message = messageService;

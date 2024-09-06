@@ -1,9 +1,20 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 自定义数据表单组件类。
+/// </summary>
+/// <typeparam name="TItem">表单数据对象类型。</typeparam>
 public class DataForm<TItem> : BaseComponent where TItem : class, new()
 {
+    /// <summary>
+    /// 取得或设置表单组件模型对象实例。
+    /// </summary>
     [Parameter] public FormModel<TItem> Model { get; set; }
 
+    /// <summary>
+    /// 呈现表单组件内容。
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)

@@ -1,10 +1,16 @@
 ﻿namespace Known.AntBlazor.Components;
 
+/// <summary>
+/// 扩展Ant自动完成下拉框组件。
+/// </summary>
 public class AntAutoComplete : AutoComplete<CodeInfo>
 {
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
     protected override void OnInitialized()
     {
         if (AntForm != null)
