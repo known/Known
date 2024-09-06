@@ -232,6 +232,8 @@
   "Designer.WrapperSpan": "控件跨度",
   "Designer.ShowPager": "显示分页",
   "Designer.PageSize": "每页大小",
+  "Designer.ToolSize": "工具条大小",
+  "Designer.ActionSize": "操作列大小",
   "Designer.FixedWidth": "固定宽度",
   "Designer.FixedHeight": "固定高度",
   "Designer.Maximizable": "最大化",

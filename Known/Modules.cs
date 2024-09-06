@@ -31,6 +31,8 @@ public class PageInfo
     public string Type { get; set; }
     public bool ShowPager { get; set; }
     public int? PageSize { get; set; }
+    public int? ToolSize { get; set; }
+    public int? ActionSize { get; set; }
     //public string FixedWidth { get; set; }
     //public string FixedHeight { get; set; }
     public string[] Tools { get; set; }

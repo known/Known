@@ -366,8 +366,14 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         if (info.PageSize != null)
             Criteria.PageSize = info.PageSize.Value;
 
+        if (info.ToolSize != null)
+            Toolbar.ShowCount = info.ToolSize.Value;
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
+        
+        if (info.ActionSize != null)
+            ActionCount = info.ActionSize.Value;
         Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
+        
         AllColumns = info.Columns?.Select(c =>
         {
             var column = new ColumnInfo(c);

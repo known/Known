@@ -232,6 +232,8 @@
   "Designer.WrapperSpan": "Khoảng điều khiển",
   "Designer.ShowPager": "Hiện phân trang",
   "Designer.PageSize": "Kích thước mỗi trang",
+  "Designer.ToolSize": "Cỡ thanh công cụ",
+  "Designer.ActionSize": "Cỡ cột hành động",
   "Designer.FixedWidth": "Chiều rộng cố định",
   "Designer.FixedHeight": "Chiều cao cố định",
   "Designer.Maximizable": "Phóng to",

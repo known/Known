@@ -80,6 +80,18 @@ class PageView : BaseView<PageInfo>
                 Value = Model.PageSize,
                 ValueChanged = this.Callback<int?>(value => { Model.PageSize = value; OnPropertyChanged(); })
             }));
+            BuildPropertyItem(builder, "Designer.ToolSize", b => UI.BuildNumber(b, new InputModel<int?>
+            {
+                Disabled = ReadOnly,
+                Value = Model.ToolSize,
+                ValueChanged = this.Callback<int?>(value => { Model.ToolSize = value; OnPropertyChanged(); })
+            }));
+            //BuildPropertyItem(builder, "Designer.ActionSize", b => UI.BuildNumber(b, new InputModel<int?>
+            //{
+            //    Disabled = ReadOnly,
+            //    Value = Model.ActionSize,
+            //    ValueChanged = this.Callback<int?>(value => { Model.ActionSize = value; OnPropertyChanged(); })
+            //}));
             //BuildPropertyItem(builder, "Designer.FixedWidth", b => UI.BuildText(b, new InputModel<string>
             //{
             //    Disabled = ReadOnly,

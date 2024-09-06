@@ -18,7 +18,7 @@ public class AntCol : ComponentBase
                           .AddClass(Class)
                           .BuildClass();
         var style = CssBuilder.Default().AddStyle(Style);
-        if (Row.Gutter > 0)
+        if (Row != null && Row.Gutter > 0)
         {
             style.Add("padding-left", $"{Row.Gutter / 2}px");
             style.Add("padding-right", $"{Row.Gutter / 2}px");

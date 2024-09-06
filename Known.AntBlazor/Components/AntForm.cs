@@ -2,7 +2,7 @@
 
 public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
 {
-    public bool IsView => Form.IsView;
+    public bool IsView => Form != null && Form.IsView;
     [Parameter] public bool ShowAction { get; set; }
     [Parameter] public FormModel<TItem> Form { get; set; }
 

@@ -99,9 +99,12 @@
         <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="@Model.ActionWidth" Class="kui-table-action">
             @if (actions.Count > Model.ActionCount)
             {
-                var first = actions[0];
+                var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
                 var mores = actions.Skip(Model.ActionCount - 1).ToList();
-                <Tag Color="@GetActionColor(first.Style)" OnClick="e=>Model.OnAction?.Invoke(first, context)">@first.Name</Tag>
+                foreach (var item in takes)
+                {
+                    <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+                }
                 <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
             }
             else
