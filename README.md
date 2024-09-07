@@ -12,7 +12,7 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 ![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
-- 官网：[http://known.pumantech.com](http://known.pumantech.com)
+- 官网：[http://known.org.cn](http://known.org.cn)
 - Gitee： [https://gitee.com/known/Known](https://gitee.com/known/Known)
 - Github：[https://github.com/known/Known](https://github.com/known/Known)
 

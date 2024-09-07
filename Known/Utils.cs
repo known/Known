@@ -1,13 +1,35 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 系统效用类。
+/// </summary>
 public sealed class Utils
 {
     private Utils() { }
 
     #region Common
+    /// <summary>
+    /// 获取一个GUID字符串。
+    /// </summary>
+    /// <returns></returns>
     public static string GetGuid() => Guid.NewGuid().ToString("N").ToLower().Replace("-", "");
+    
+    /// <summary>
+    /// 将C#对象转换成指定泛型的对象，适用值类型和String。
+    /// </summary>
+    /// <typeparam name="T">转换目标类型。</typeparam>
+    /// <param name="value">被转换的对象值。</param>
+    /// <param name="defaultValue">转换失败默认值。</param>
+    /// <returns></returns>
     public static T ConvertTo<T>(object value, T defaultValue = default) => (T)ConvertTo(typeof(T), value, defaultValue);
 
+    /// <summary>
+    /// 将C#对象转换成指定类型的对象，适用值类型和String。
+    /// </summary>
+    /// <param name="type">转换目标类型。</param>
+    /// <param name="value">被转换的对象值。</param>
+    /// <param name="defaultValue">转换失败默认值。</param>
+    /// <returns></returns>
     public static object ConvertTo(Type type, object value, object defaultValue = null)
     {
         if (value == null || value == DBNull.Value)
@@ -40,6 +62,11 @@ public sealed class Utils
         }
     }
 
+    /// <summary>
+    /// 根据浏览器代理字符串判断是否是移动端请求。
+    /// </summary>
+    /// <param name="agent">浏览器代理字符串。</param>
+    /// <returns></returns>
     public static bool CheckMobile(string agent)
     {
         if (agent.Contains("Windows NT") || agent.Contains("Macintosh"))
@@ -60,6 +87,11 @@ public sealed class Utils
         return flag;
     }
 
+    /// <summary>
+    /// 判断文件名是否是图片文件，可检测（jpeg/jpg/png/gif/bmp）。
+    /// </summary>
+    /// <param name="fileName">文件名。</param>
+    /// <returns></returns>
     public static bool CheckImage(string fileName)
     {
         return fileName.EndsWith(".jpeg")
@@ -69,6 +101,12 @@ public sealed class Utils
             || fileName.EndsWith(".bmp");
     }
 
+    /// <summary>
+    /// 根据前缀和最大编号获取一个新的最大编号，适用于表单自动编号。
+    /// </summary>
+    /// <param name="prefix">编号前缀字符串。</param>
+    /// <param name="maxNo">当前最大编号。</param>
+    /// <returns>最新最大编号。</returns>
     public static string GetMaxFormNo(string prefix, string maxNo)
     {
         var lastNo = maxNo.Replace(prefix, "");
@@ -78,6 +116,13 @@ public sealed class Utils
         return string.Format("{0}{1:D" + length + "}", prefix, no + 1);
     }
 
+    /// <summary>
+    /// 根据前缀、后缀和最大编号获取一个新的最大编号，适用于表单自动编号。
+    /// </summary>
+    /// <param name="prefix">编号前缀字符串。</param>
+    /// <param name="suffix">编号后缀字符串。</param>
+    /// <param name="maxNo">当前最大编号。</param>
+    /// <returns>最新最大编号。</returns>
     public static string GetMaxFormNo(string prefix, string suffix, string maxNo)
     {
         var lastNo = maxNo.Replace(prefix, "").Replace(suffix, "");
@@ -89,9 +134,27 @@ public sealed class Utils
     #endregion
 
     #region Round
+    /// <summary>
+    /// 获取Decimal类型的四舍五入值。
+    /// </summary>
+    /// <param name="value">数值。</param>
+    /// <param name="decimals">保留小数位数。</param>
+    /// <returns></returns>
     public static decimal Round(decimal value, int decimals) => Math.Round(value, decimals, MidpointRounding.AwayFromZero);
+
+    /// <summary>
+    /// 获取Double类型的四舍五入值。
+    /// </summary>
+    /// <param name="value">数值。</param>
+    /// <param name="decimals">保留小数位数。</param>
+    /// <returns></returns>
     public static double Round(double value, int decimals) => Math.Round(value, decimals, MidpointRounding.AwayFromZero);
 
+    /// <summary>
+    /// 获取随机验证码字符串，大小写英文字幕加数字。
+    /// </summary>
+    /// <param name="length">字符串长度。</param>
+    /// <returns></returns>
     public static string GetCaptcha(int length)
     {
         var chars = "abcdefghijkmnpqrstuvwxyz2345678ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -106,6 +169,11 @@ public sealed class Utils
     #endregion
 
     #region Encryptor
+    /// <summary>
+    /// 获取字符串的MD5加密字符串。
+    /// </summary>
+    /// <param name="value">原字符串。</param>
+    /// <returns>MD5加密字符串。</returns>
     public static string ToMd5(string value)
     {
         if (string.IsNullOrEmpty(value))
@@ -122,6 +190,11 @@ public sealed class Utils
         return sb.ToString();
     }
 
+    /// <summary>
+    /// 获取字符串的SHA1加密字符串。
+    /// </summary>
+    /// <param name="value">原字符串。</param>
+    /// <returns>SHA1加密字符串。</returns>
     public static string ToSHA1(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -140,6 +213,11 @@ public sealed class Utils
     #endregion
 
     #region Serialize
+    /// <summary>
+    /// 将对象序列化为JSON字符串（使用.NET内置JSON序列化）。
+    /// </summary>
+    /// <param name="value">对象。</param>
+    /// <returns>JSON字符串。</returns>
     public static string ToJson(object value)
     {
         if (value == null)
@@ -151,6 +229,11 @@ public sealed class Utils
         });
     }
 
+    /// <summary>
+    /// 将JSON字符串转成动态对象（使用.NET内置JSON序列化）。
+    /// </summary>
+    /// <param name="json">JSON字符串。</param>
+    /// <returns>动态对象。</returns>
     public static dynamic ToDynamic(string json)
     {
         if (string.IsNullOrEmpty(json))
@@ -174,6 +257,12 @@ public sealed class Utils
 
     private static string FormatDSJson(string json) => json.Replace("{}", "null").Replace("\"\"", "null");
 
+    /// <summary>
+    /// 将JSON字符串反序列化成指定泛型的对象（使用.NET内置JSON序列化）。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="json">JSON字符串。</param>
+    /// <returns>泛型对象。</returns>
     public static T FromJson<T>(string json)
     {
         if (string.IsNullOrEmpty(json))
@@ -191,6 +280,12 @@ public sealed class Utils
         }
     }
 
+    /// <summary>
+    /// 将JSON字符串反序列化成指定类型的对象（使用.NET内置JSON序列化）。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <param name="json">JSON字符串。</param>
+    /// <returns>对象。</returns>
     public static object FromJson(Type type, string json)
     {
         if (string.IsNullOrEmpty(json))
@@ -208,6 +303,13 @@ public sealed class Utils
         }
     }
 
+    /// <summary>
+    /// 将一个对象映射成指定泛型的对象，两个类型的属性应是包含或包含于关系。
+    /// 通过序列化JSON，再反序列JSON实现。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="value">原对象。</param>
+    /// <returns>泛型对象。</returns>
     public static T MapTo<T>(object value)
     {
         if (value == null)
@@ -222,6 +324,12 @@ public sealed class Utils
     #endregion
 
     #region Resource
+    /// <summary>
+    /// 根据资源文件名获取程序集中资源文件内容。
+    /// </summary>
+    /// <param name="assembly">程序集。</param>
+    /// <param name="name">资源文件名。</param>
+    /// <returns>资源文件内容。</returns>
     public static string GetResource(Assembly assembly, string name)
     {
         var text = string.Empty;
@@ -242,15 +350,10 @@ public sealed class Utils
         return text;
     }
 
-    public static string GetFileName(string fileName)
-    {
-        if (string.IsNullOrWhiteSpace(fileName))
-            return string.Empty;
-
-        var file = new FileInfo(fileName);
-        return file.Name;
-    }
-
+    /// <summary>
+    /// 确信文件路径可用，如果没创建，则创建。
+    /// </summary>
+    /// <param name="fileName">文件路径。</param>
     public static void EnsureFile(string fileName)
     {
         if (string.IsNullOrWhiteSpace(fileName))
@@ -263,6 +366,12 @@ public sealed class Utils
         }
     }
 
+    /// <summary>
+    /// 复制文件。
+    /// </summary>
+    /// <param name="sourceFileName">原文件路径。</param>
+    /// <param name="destFileName">目标文件路径。</param>
+    /// <param name="overwrite">是否覆盖目标文件，默认True。</param>
     public static void CopyFile(string sourceFileName, string destFileName, bool overwrite = true)
     {
         var info = new FileInfo(destFileName);
@@ -272,6 +381,11 @@ public sealed class Utils
         File.Copy(sourceFileName, destFileName, overwrite);
     }
 
+    /// <summary>
+    /// 读取一个文件内容。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
+    /// <returns></returns>
     public static string ReadFile(string path)
     {
         if (string.IsNullOrEmpty(path))
@@ -283,6 +397,11 @@ public sealed class Utils
         return File.ReadAllText(path);
     }
 
+    /// <summary>
+    /// 保存文件内容。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
+    /// <param name="content">文件内容。</param>
     public static void SaveFile(string path, string content)
     {
         if (string.IsNullOrEmpty(path))
@@ -298,6 +417,11 @@ public sealed class Utils
         File.WriteAllText(path, content);
     }
 
+    /// <summary>
+    /// 保存文件内容。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
+    /// <param name="bytes">文件字节数组。</param>
     public static void SaveFile(string path, byte[] bytes)
     {
         if (string.IsNullOrEmpty(path))
@@ -313,6 +437,10 @@ public sealed class Utils
         File.WriteAllBytes(path, bytes);
     }
 
+    /// <summary>
+    /// 删除一个文件。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
     public static void DeleteFile(string path)
     {
         if (string.IsNullOrEmpty(path))
@@ -326,17 +454,38 @@ public sealed class Utils
     #endregion
 
     #region Color
+    /// <summary>
+    /// 获取一个随机颜色。
+    /// </summary>
+    /// <returns>Color对象。</returns>
     public static Color GetRandomColor()
     {
         var random = new Random();
         return Color.FromArgb(random.Next(255), random.Next(255), random.Next(255));
     }
 
+    /// <summary>
+    /// 根据HTML颜色转换成Color对象。
+    /// </summary>
+    /// <param name="htmlColor">HTML颜色字符串，如：#FFFFFF。</param>
+    /// <returns>Color对象。</returns>
     public static Color FromHtml(string htmlColor) => ColorTranslator.FromHtml(htmlColor);
+
+    /// <summary>
+    /// 将Color对象转换成HTML颜色字符串。
+    /// </summary>
+    /// <param name="color">Color对象。</param>
+    /// <returns>HTML颜色字符串，如：#FFFFFF。</returns>
     public static string ToHtml(Color color) => ColorTranslator.ToHtml(color);
     #endregion
 
     #region Network
+    /// <summary>
+    /// 用Ping检查主机IP或域名是否连接。
+    /// </summary>
+    /// <param name="host">主机IP或域名。</param>
+    /// <param name="timeout">ping超时时间。</param>
+    /// <returns>联网返回True，否则False。</returns>
     public static bool Ping(string host, int timeout = 120)
     {
         try
@@ -354,10 +503,19 @@ public sealed class Utils
         }
     }
 
+    /// <summary>
+    /// 判断主机是否已经连接网络。
+    /// </summary>
+    /// <returns></returns>
     public static bool HasNetwork() => Ping("www.baidu.com");
     #endregion
 
     #region Byte
+    /// <summary>
+    /// 将流对象转换成字节数组。
+    /// </summary>
+    /// <param name="stream">流对象。</param>
+    /// <returns>字节数组。</returns>
     public static byte[] StreamToBytes(Stream stream)
     {
         if (stream == null)
@@ -369,6 +527,11 @@ public sealed class Utils
         return bytes;
     }
 
+    /// <summary>
+    /// 将HEX编码转换成字节数组。
+    /// </summary>
+    /// <param name="hexString">HEX编码字符串。</param>
+    /// <returns>字节数组。</returns>
     public static byte[] HexToBytes(string hexString)
     {
         if (string.IsNullOrEmpty(hexString))
@@ -387,6 +550,12 @@ public sealed class Utils
         return bytes;
     }
 
+    /// <summary>
+    /// 将字节数组转换成HEX编码字符串。
+    /// </summary>
+    /// <param name="bytes">字节数组。</param>
+    /// <param name="separator">HEX编码分隔符，默认空格。</param>
+    /// <returns>HEX编码字符串。</returns>
     public static string BytesToHex(byte[] bytes, string separator = " ")
     {
         if (bytes == null || bytes.Length == 0)
@@ -399,81 +568,6 @@ public sealed class Utils
         }
 
         return string.Join(separator, items.ToArray());
-    }
-    #endregion
-
-    #region Pinyin
-    public static string GetPinyin(string value)
-    {
-        string temp = "";
-        int iLen = value.Length;
-        for (var i = 0; i <= iLen - 1; i++)
-        {
-            temp += GetCharSpellCode(value.Substring(i, 1));
-        }
-        return temp;
-    }
-
-    private static string GetCharSpellCode(string value)
-    {
-        long iCnChar;
-        byte[] ZW = Encoding.Default.GetBytes(value);
-
-        if (ZW.Length == 1)
-            return value.ToUpper();
-
-        int i1 = ZW[0];
-        int i2 = ZW[1];
-        iCnChar = i1 * 256 + i2;
-
-        if ((iCnChar >= 45217) && (iCnChar <= 45252))
-            return "A";
-        else if ((iCnChar >= 45253) && (iCnChar <= 45760))
-            return "B";
-        else if ((iCnChar >= 45761) && (iCnChar <= 46317))
-            return "C";
-        else if ((iCnChar >= 46318) && (iCnChar <= 46825))
-            return "D";
-        else if ((iCnChar >= 46826) && (iCnChar <= 47009))
-            return "E";
-        else if ((iCnChar >= 47010) && (iCnChar <= 47296))
-            return "F";
-        else if ((iCnChar >= 47297) && (iCnChar <= 47613))
-            return "G";
-        else if ((iCnChar >= 47614) && (iCnChar <= 48118))
-            return "H";
-        else if ((iCnChar >= 48119) && (iCnChar <= 49061))
-            return "J";
-        else if ((iCnChar >= 49062) && (iCnChar <= 49323))
-            return "K";
-        else if ((iCnChar >= 49324) && (iCnChar <= 49895))
-            return "L";
-        else if ((iCnChar >= 49896) && (iCnChar <= 50370))
-            return "M";
-        else if ((iCnChar >= 50371) && (iCnChar <= 50613))
-            return "N";
-        else if ((iCnChar >= 50614) && (iCnChar <= 50621))
-            return "O";
-        else if ((iCnChar >= 50622) && (iCnChar <= 50905))
-            return "P";
-        else if ((iCnChar >= 50906) && (iCnChar <= 51386))
-            return "Q";
-        else if ((iCnChar >= 51387) && (iCnChar <= 51445))
-            return "R";
-        else if ((iCnChar >= 51446) && (iCnChar <= 52217))
-            return "S";
-        else if ((iCnChar >= 52218) && (iCnChar <= 52697))
-            return "T";
-        else if ((iCnChar >= 52698) && (iCnChar <= 52979))
-            return "W";
-        else if ((iCnChar >= 52980) && (iCnChar <= 53640))
-            return "X";
-        else if ((iCnChar >= 53689) && (iCnChar <= 54480))
-            return "Y";
-        else if ((iCnChar >= 54481) && (iCnChar <= 55289))
-            return "Z";
-
-        return "?";
     }
     #endregion
 }

@@ -5,6 +5,9 @@
 /// </summary>
 public class SysModule : EntityBase
 {
+    /// <summary>
+    /// 构造函数。
+    /// </summary>
     public SysModule()
     {
         Enabled = true;
@@ -91,7 +94,14 @@ public class SysModule : EntityBase
     [MaxLength(500)]
     public string Note { get; set; }
 
+    /// <summary>
+    /// 取得或设置上级模块名称。
+    /// </summary>
     public virtual string ParentName { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否上移。
+    /// </summary>
     public virtual bool IsMoveUp { get; set; }
 
     private PageInfo page;

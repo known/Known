@@ -5,6 +5,9 @@
 /// </summary>
 public class SysUser : EntityBase
 {
+    /// <summary>
+    /// 构造函数。
+    /// </summary>
     public SysUser()
     {
         Enabled = true;
@@ -123,13 +126,24 @@ public class SysUser : EntityBase
     /// </summary>
     public string Data { get; set; }
 
+    /// <summary>
+    /// 取得或设置用户部门名称。
+    /// </summary>
     public virtual string Department { get; set; }
 
+    /// <summary>
+    /// 取得或设置用户关联的角色ID集合。
+    /// </summary>
     [Form(Type = "CheckList")]
     [Category("Roles")]
     public virtual string[] RoleIds { get; set; }
-    public virtual string[] DataIds { get; set; }
 
+    // 取得或设置用户关联的数据权限ID集合。
+    //public virtual string[] DataIds { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统角色代码表列表。
+    /// </summary>
     public virtual List<CodeInfo> Roles { get; set; }
-    public virtual List<CodeInfo> Datas { get; set; }
+    //public virtual List<CodeInfo> Datas { get; set; }
 }

@@ -1,7 +1,13 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 菜单信息类。
+/// </summary>
 public class MenuInfo
 {
+    /// <summary>
+    /// 构造函数，创建一个菜单信息类的实例。
+    /// </summary>
     public MenuInfo()
     {
         Visible = true;
@@ -67,32 +73,134 @@ public class MenuInfo
         Icon = icon;
     }
 
+    /// <summary>
+    /// 取得或设置菜单ID。
+    /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置上级菜单ID。
+    /// </summary>
     public string ParentId { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单代码。
+    /// </summary>
     public string Code { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单名称。
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单图标。
+    /// </summary>
     public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单描述信息。
+    /// </summary>
     public string Description { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单目标类型（Menu/Page/Custom/IFrame）。
+    /// </summary>
     public string Target { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单URL。
+    /// </summary>
     public string Url { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单返回URL，适用于APP移动端应用。
+    /// </summary>
     public string BackUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单背景颜色，适用于APP移动端应用。
+    /// </summary>
     public string Color { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单显示顺序。
+    /// </summary>
     public int Sort { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单徽章数量，适用于APP移动端应用。。
+    /// </summary>
     public int Badge { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单是否可见。
+    /// </summary>
     public bool Visible { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单是否可用。
+    /// </summary>
     public bool Enabled { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单是否可关闭，适用于多标签页。
+    /// </summary>
     public bool Closable { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单是否勾选，适用于角色权限配置。
+    /// </summary>
     public bool Checked { get; set; }
+
+    /// <summary>
+    /// 取得或设置上级菜单对象。
+    /// </summary>
     public MenuInfo Parent { get; set; }
+
+    /// <summary>
+    /// 取得或设置子菜单对象列表。
+    /// </summary>
     public List<MenuInfo> Children { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的数据对象。
+    /// </summary>
     public object Data { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的实体模型对象。
+    /// </summary>
     public EntityInfo Model { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的页面模型对象。
+    /// </summary>
     public PageInfo Page { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的表单模型对象。
+    /// </summary>
     public FormInfo Form { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的工具条权限按钮列表。
+    /// </summary>
     public List<string> Tools { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的表格操作列权限按钮列表。
+    /// </summary>
     public List<string> Actions { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的页面表格权限栏位信息列表。
+    /// </summary>
     public List<PageColumnInfo> Columns { get; set; }
 
+    /// <summary>
+    /// 取得菜单对应的路由URL。
+    /// </summary>
     public string RouteUrl
     {
         get
@@ -135,8 +243,14 @@ public class MenuInfo
     }
 }
 
+/// <summary>
+/// 操作信息类。
+/// </summary>
 public class ActionInfo
 {
+    /// <summary>
+    /// 构造函数，创建一个操作信息类的实例。
+    /// </summary>
     public ActionInfo()
     {
         Enabled = true;
@@ -146,6 +260,11 @@ public class ActionInfo
 
     internal ActionInfo(string idOrName) : this(null, idOrName) { }
 
+    /// <summary>
+    /// 构造函数，创建一个操作信息类的实例。
+    /// </summary>
+    /// <param name="context">系统上下文对象。</param>
+    /// <param name="idOrName">操作按钮ID或名称。</param>
     public ActionInfo(Context context, string idOrName) : this()
     {
         Id = idOrName;
@@ -167,17 +286,55 @@ public class ActionInfo
         Icon = icon;
     }
 
+    /// <summary>
+    /// 取得或设置操作ID。
+    /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作名称。
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作图标。
+    /// </summary>
     public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作URL。
+    /// </summary>
     public string Url { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作样式，如：primary，danger等。
+    /// </summary>
     public string Style { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作是否可用。
+    /// </summary>
     public bool Enabled { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作是否可见。
+    /// </summary>
     public bool Visible { get; set; }
+
+    /// <summary>
+    /// 取得或设置子操作列表。
+    /// </summary>
     public List<ActionInfo> Children { get; }
+
+    /// <summary>
+    /// 取得或设置操作单击事件方法。
+    /// </summary>
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 }
 
+/// <summary>
+/// 栏位信息类。
+/// </summary>
 public class ColumnInfo
 {
     internal ColumnInfo(string id, RenderFragment template)
@@ -190,37 +347,141 @@ public class ColumnInfo
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
     internal ColumnInfo(PropertyInfo info) => SetPropertyInfo(info);
 
+    /// <summary>
+    /// 取得或设置栏位ID。
+    /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位名称。
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位提示文字。
+    /// </summary>
     public string Tooltip { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否可见，默认True。
+    /// </summary>
     public bool IsVisible { get; set; } = true;
 
+    /// <summary>
+    /// 取得或设置栏位是否是汇总字段。
+    /// </summary>
     public bool IsSum { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是排序字段。
+    /// </summary>
     public bool IsSort { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位默认排序方法（升序/降序）。
+    /// </summary>
     public string DefaultSort { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是查看连接（设为True，才可在线配置表单，为False，则默认为普通查询表格）。
+    /// </summary>
     public bool IsViewLink { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是查询条件。
+    /// </summary>
     public bool IsQuery { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位查询条件下拉框是否显示【全部】。
+    /// </summary>
     public bool IsQueryAll { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位固定列位置（left/right）。
+    /// </summary>
     public string Fixed { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位宽度。
+    /// </summary>
     public int Width { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位对齐方式（left/center/right）。
+    /// </summary>
     public string Align { get; set; }
 
     internal bool IsForm { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏标题名称。
+    /// </summary>
     public string Label { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段数据字典类别。
+    /// </summary>
     public string Category { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段控件占位符文本。
+    /// </summary>
     public string Placeholder { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段行号，默认1。
+    /// </summary>
     public int Row { get; set; } = 1;
+
+    /// <summary>
+    /// 取得或设置表单字段列号，默认1。
+    /// </summary>
     public int Column { get; set; } = 1;
+
+    /// <summary>
+    /// 取得或设置表单字段跨度大小，整行跨度为24。
+    /// </summary>
     public int? Span { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位字段类型。
+    /// </summary>
     public FieldType Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段附件是否可多选。
+    /// </summary>
     public bool MultiFile { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段是否必填。
+    /// </summary>
     public bool Required { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段是否为只读。
+    /// </summary>
     public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段代码表列表。
+    /// </summary>
     public List<CodeInfo> Codes { get; set; }
 
+    /// <summary>
+    /// 取得或设置表单字段呈现模板。
+    /// </summary>
     public RenderFragment Template { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位关联的对象属性。
+    /// </summary>
     public PropertyInfo Property { get; private set; }
 
+    /// <summary>
+    /// 取得或设置栏位备注。
+    /// </summary>
     public string Note { get; set; }
 
     internal string GetImportRuleNote(Context context)

@@ -39,6 +39,11 @@ class RedisReply
     internal const string Pong = "PONG";
 }
 
+/// <summary>
+/// Redis客户端类。
+/// </summary>
+/// <param name="host">Redis主机地址，默认localhost。</param>
+/// <param name="port">Redis主机端口，默认6379。</param>
 public class RedisClient(string host = "localhost", int? port = 6379) : IDisposable
 {
     private readonly string host = host;
@@ -46,13 +51,40 @@ public class RedisClient(string host = "localhost", int? port = 6379) : IDisposa
     private Socket socket;
     private readonly byte[] buffer = new byte[100000];
 
+    /// <summary>
+    /// 取得或设置访问密码。
+    /// </summary>
     public string Password { get; set; }
 
+    /// <summary>
+    /// 释放Redis客户端连接。
+    /// </summary>
     public virtual void Dispose() => Close();
+
+    /// <summary>
+    /// Ping服务器。
+    /// </summary>
+    /// <returns></returns>
     public bool Ping() => ExecuteCommand(RedisCmd.PING).Equals(RedisReply.Pong);
+
+    /// <summary>
+    /// 选择Redis服务器。
+    /// </summary>
+    /// <returns></returns>
     public bool Select() => ExecuteCommand(RedisCmd.SELECT).Equals(RedisReply.Success);
+
+    /// <summary>
+    /// 获取服务器版本信息。
+    /// </summary>
+    /// <returns></returns>
     public string GetServerInfo() => ExecuteCommand(RedisCmd.INFO).ToString();
 
+    /// <summary>
+    /// 获取缓存泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="key">缓存键。</param>
+    /// <returns>泛型对象。</returns>
     public T Get<T>(string key)
     {
         var result = ExecuteCommand(RedisCmd.GET, key);
@@ -63,6 +95,14 @@ public class RedisClient(string host = "localhost", int? port = 6379) : IDisposa
         return Utils.FromJson<T>(json);
     }
 
+    /// <summary>
+    /// 设置缓存泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="key">缓存键。</param>
+    /// <param name="value">泛型对象。</param>
+    /// <param name="expire">过期时长。</param>
+    /// <returns>返回是否设置成功。</returns>
     public bool Set<T>(string key, T value, int? expire = null)
     {
         var json = Utils.ToJson(value);
@@ -79,6 +119,12 @@ public class RedisClient(string host = "localhost", int? port = 6379) : IDisposa
         return ExecuteCommand(RedisCmd.SET, key, json).Equals(RedisReply.Success);
     }
 
+    /// <summary>
+    /// 删除缓存对象。
+    /// </summary>
+    /// <param name="key">缓存键。</param>
+    /// <returns></returns>
+    /// <exception cref="Exception">未应答异常。</exception>
     public int Delete(string key)
     {
         var reply = ExecuteCommand(RedisCmd.DEL, key).ToString();

@@ -1,12 +1,31 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 抽象HTTP拦截器类。
+/// </summary>
+/// <typeparam name="T">拦截对象类型。</typeparam>
+/// <param name="provider">依赖注入服务提供者。</param>
 public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T : class
 {
     private readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
+    /// <summary>
+    /// 取得依赖注入服务工厂实例。
+    /// </summary>
     protected IServiceScopeFactory ServiceFactory { get; } = provider;
+
+    /// <summary>
+    /// 创建HTTP客户端实例抽象方法。
+    /// </summary>
+    /// <returns></returns>
     protected abstract Task<HttpClient> CreateClientAsync();
 
+    /// <summary>
+    /// 发送HTTP请求。
+    /// </summary>
+    /// <param name="method">方法信息。</param>
+    /// <param name="arguments">方法参数集合。</param>
+    /// <returns>请求结果对象。</returns>
     protected async Task<object> SendAsync(MethodInfo method, object[] arguments)
     {
         var stream = await ReadStreamAsync(method, arguments);
@@ -19,6 +38,13 @@ public abstract class HttpInterceptor<T>(IServiceScopeFactory provider) where T 
         return await JsonSerializer.DeserializeAsync(stream, method.ReturnType, jsonOptions);
     }
 
+    /// <summary>
+    /// 发送HTTP请求。
+    /// </summary>
+    /// <typeparam name="TResult">结果泛型类型。</typeparam>
+    /// <param name="method">方法信息。</param>
+    /// <param name="arguments">方法参数集合。</param>
+    /// <returns>请求结果泛型对象。</returns>
     protected async Task<TResult> SendAsync<TResult>(MethodInfo method, object[] arguments)
     {
         var stream = await ReadStreamAsync(method, arguments);

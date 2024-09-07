@@ -1,5 +1,9 @@
 ﻿namespace Known.Blazor;
 
+/// <summary>
+/// 字段组件模型类。
+/// </summary>
+/// <typeparam name="TItem">表单数据类型。</typeparam>
 public class FieldModel<TItem> : BaseModel where TItem : class, new()
 {
     internal FieldModel(FormModel<TItem> form, ColumnInfo column) : base(form.Context)
@@ -10,11 +14,26 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         Column = column;
     }
 
+    /// <summary>
+    /// 取得字段模型对应的表单模型。
+    /// </summary>
     public FormModel<TItem> Form { get; }
+
+    /// <summary>
+    /// 取得字段关联的栏位配置信息。
+    /// </summary>
     public ColumnInfo Column { get; }
+
+    /// <summary>
+    /// 取得字段是否为只读（表单只读或字段只读）。
+    /// </summary>
     public bool IsReadOnly => Form.IsView || Column.ReadOnly;
+
     internal PropertyInfo Property => Column.Property;
 
+    /// <summary>
+    /// 取得或设置字段值。
+    /// </summary>
     public object Value
     {
         get
@@ -40,6 +59,10 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
+    /// <summary>
+    /// 获取字段对应属性的类型。
+    /// </summary>
+    /// <returns></returns>
     public Type GetPropertyType()
     {
         if (Form.IsDictionary)
@@ -48,6 +71,11 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         return Property?.PropertyType;
     }
 
+    /// <summary>
+    /// 获取下拉框代码表列表。
+    /// </summary>
+    /// <param name="emptyText">空值占位符提示，默认请选择。</param>
+    /// <returns>代码表列表。</returns>
     public List<CodeInfo> GetCodes(string emptyText = "Please select")
     {
         if (!string.IsNullOrWhiteSpace(emptyText))

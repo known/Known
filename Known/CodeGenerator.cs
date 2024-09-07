@@ -1,11 +1,47 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 代码生成器接口。
+/// </summary>
 public interface ICodeGenerator
 {
+    /// <summary>
+    /// 获取数据库建表脚本。
+    /// </summary>
+    /// <param name="dbType">数据库类型。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>建表脚本。</returns>
     string GetScript(DatabaseType dbType, EntityInfo entity);
+
+    /// <summary>
+    /// 获取实体类代码。
+    /// </summary>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>实体类代码。</returns>
     string GetEntity(EntityInfo entity);
+
+    /// <summary>
+    /// 获取页面组件代码。
+    /// </summary>
+    /// <param name="page">页面模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>页面组件代码。</returns>
     string GetPage(PageInfo page, EntityInfo entity);
+
+    /// <summary>
+    /// 获取业务逻辑服务层代码。
+    /// </summary>
+    /// <param name="page">页面模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>业务逻辑服务层代码。</returns>
     string GetService(PageInfo page, EntityInfo entity);
+
+    /// <summary>
+    /// 获取数据依赖访问层代码。
+    /// </summary>
+    /// <param name="page">页面模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>数据依赖访问层代码。</returns>
     string GetRepository(PageInfo page, EntityInfo entity);
 }
 

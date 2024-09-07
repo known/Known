@@ -1,5 +1,9 @@
 ﻿namespace Known.Data;
 
+/// <summary>
+/// 查询建造者类。
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class QueryBuilder<T> where T : class, new()
 {
     private readonly Database db;
@@ -84,6 +88,11 @@ public class QueryBuilder<T> where T : class, new()
 
     internal QueryBuilder<T> SelectCount(string asName = null) => AddSelect("count(*)", asName);
 
+    /// <summary>
+    /// 获取Where表达式语句。
+    /// </summary>
+    /// <param name="expression">条件表达式。</param>
+    /// <returns>查询建造者。</returns>
     public QueryBuilder<T> Where(Expression<Func<T, bool>> expression)
     {
         var helper = new ExpressionHelper(provider);
@@ -93,6 +102,11 @@ public class QueryBuilder<T> where T : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 获取Group By语句表达式。
+    /// </summary>
+    /// <param name="selectors">Group By字段属性选择表达式。</param>
+    /// <returns>查询建造者。</returns>
     public QueryBuilder<T> GroupBy(params Expression<Func<T, object>>[] selectors)
     {
         foreach (var selector in selectors)
@@ -102,6 +116,11 @@ public class QueryBuilder<T> where T : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 获取Order By升序语句表达式。
+    /// </summary>
+    /// <param name="selectors">Order By字段属性选择表达式。</param>
+    /// <returns>查询建造者。</returns>
     public QueryBuilder<T> OrderBy(params Expression<Func<T, object>>[] selectors)
     {
         foreach (var selector in selectors)
@@ -111,6 +130,11 @@ public class QueryBuilder<T> where T : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 获取Order By降序语句表达式。
+    /// </summary>
+    /// <param name="selectors">Order By字段属性选择表达式。</param>
+    /// <returns>查询建造者。</returns>
     public QueryBuilder<T> OrderByDescending(params Expression<Func<T, object>>[] selectors)
     {
         foreach (var selector in selectors)
@@ -121,33 +145,73 @@ public class QueryBuilder<T> where T : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 异步查询建造者构建的数据数量。
+    /// </summary>
+    /// <returns>数据数量。</returns>
     public async Task<int> CountAsync()
     {
         var info = provider.GetCountCommand(this);
         return await db.ScalarAsync<int>(info);
     }
 
+    /// <summary>
+    /// 异步判断建造者构建的数据是否存在。
+    /// </summary>
+    /// <returns>是否存在。</returns>
     public async Task<bool> ExistsAsync()
     {
         var info = provider.GetCountCommand(this);
         return await db.ScalarAsync<int>(info) > 0;
     }
 
+    /// <summary>
+    /// 异步查询建造者构建的单条数据。
+    /// </summary>
+    /// <returns>单条数据。</returns>
     public Task<T> FirstAsync() => FirstAsync<T>();
+
+    /// <summary>
+    /// 异步查询建造者构建的单条数据。
+    /// </summary>
+    /// <typeparam name="TItem">泛型类型。</typeparam>
+    /// <returns>单条数据。</returns>
     public Task<TItem> FirstAsync<TItem>()
     {
         var info = provider.GetSelectCommand(this);
         return db.QueryAsync<TItem>(info);
     }
 
+    /// <summary>
+    /// 异步查询建造者构建的多条数据。
+    /// </summary>
+    /// <returns>多条数据。</returns>
     public Task<List<T>> ToListAsync() => ToListAsync<T>();
+
+    /// <summary>
+    /// 异步查询建造者构建的多条数据。
+    /// </summary>
+    /// <typeparam name="TItem">泛型类型。</typeparam>
+    /// <returns>多条数据。</returns>
     public Task<List<TItem>> ToListAsync<TItem>()
     {
         var info = provider.GetSelectCommand(this);
         return db.QueryListAsync<TItem>(info);
     }
 
+    /// <summary>
+    /// 异步查询建造者构建的分页数据。
+    /// </summary>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页数据。</returns>
     public Task<PagingResult<T>> ToPageAsync(PagingCriteria criteria) => ToPageAsync<T>(criteria);
+
+    /// <summary>
+    /// 异步查询建造者构建的分页数据。
+    /// </summary>
+    /// <typeparam name="TItem">泛型类型。</typeparam>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页数据。</returns>
     public Task<PagingResult<TItem>> ToPageAsync<TItem>(PagingCriteria criteria) where TItem : class, new()
     {
         var info = provider.GetSelectCommand(this);
@@ -155,6 +219,10 @@ public class QueryBuilder<T> where T : class, new()
         return db.QueryPageAsync<TItem>(info.Text, criteria);
     }
 
+    /// <summary>
+    /// 将查询建造者转成数据库访问命令信息对象。
+    /// </summary>
+    /// <returns>数据库访问命令信息对象。</returns>
     public CommandInfo ToCommand() => provider.GetSelectCommand(this);
 
     private string GetColumnName(Expression<Func<T, object>> selector)

@@ -1,11 +1,25 @@
 ﻿namespace Known.Blazor;
 
+/// <summary>
+/// 表格组件基类。
+/// </summary>
+/// <typeparam name="TItem">表格行数据类型。</typeparam>
 public class BaseTable<TItem> : BaseComponent where TItem : class, new()
 {
+    /// <summary>
+    /// 取得表格组件模型对象实例。
+    /// </summary>
     protected TableModel<TItem> Table { get; private set; }
 
+    /// <summary>
+    /// 取得表格选中行对象列表。
+    /// </summary>
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
+    /// <summary>
+    /// 异步初始化表格组件，默认关闭高级搜索。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -16,13 +30,35 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
 
+    /// <summary>
+    /// 呈现表格组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder) => builder.Table(Table);
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
+    /// <summary>
+    /// 刷新表格。
+    /// </summary>
+    /// <returns></returns>
     public override Task RefreshAsync() => Table.RefreshAsync();
+
+    /// <summary>
+    /// 表格行上移虚方法。
+    /// </summary>
+    /// <param name="row">行对象。</param>
     public virtual void MoveUp(TItem row) => MoveRow(row, true);
+
+    /// <summary>
+    /// 表格行下移虚方法。
+    /// </summary>
+    /// <param name="row">行对象。</param>
     public virtual void MoveDown(TItem row) => MoveRow(row, false);
 
+    /// <summary>
+    /// 删除表格行。
+    /// </summary>
+    /// <param name="row">行对象。</param>
     protected void DeleteRow(TItem row)
     {
         if (Table.DataSource == null || Table.DataSource.Count == 0)

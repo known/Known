@@ -1,16 +1,87 @@
 ﻿namespace Known.Data;
 
+/// <summary>
+/// 系统框架数据依赖接口。
+/// </summary>
 public interface IDataRepository
 {
+    /// <summary>
+    /// 异步查询用户分页数据。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页查询结果。</returns>
     Task<PagingResult<SysUser>> QueryUsersAsync(Database db, PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步获取系统角色列表。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <returns>系统角色列表。</returns>
     Task<List<SysRole>> GetRolesAsync(Database db);
+
+    /// <summary>
+    /// 异步获取用户角色模块ID列表。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="userId">用户ID。</param>
+    /// <returns>用户角色模块ID列表。</returns>
     Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId);
+
+    /// <summary>
+    /// 异步获取数据字典类型列表。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <returns>数据字典类型列表。</returns>
     Task<List<SysDictionary>> GetDicCategoriesAsync(Database db);
+
+    /// <summary>
+    /// 异步获取第一个待执行的系统定时任务。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="bizType">业务类型。</param>
+    /// <returns>系统定时任务。</returns>
     Task<SysTask> GetPendingTaskAsync(Database db, string bizType);
+
+    /// <summary>
+    /// 异步获取系统定时任务。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="type">任务类型。</param>
+    /// <returns>系统定时任务。</returns>
     Task<SysTask> GetTaskByTypeAsync(Database db, string type);
+
+    /// <summary>
+    /// 异步获取系统定时任务。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="bizId">业务数据ID。</param>
+    /// <returns>系统定时任务。</returns>
     Task<SysTask> GetTaskByBizIdAsync(Database db, string bizId);
+
+    /// <summary>
+    /// 异步获取系统日志列表。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="begin">查询开始日期。</param>
+    /// <param name="end">查询结束日期。</param>
+    /// <returns>系统日志列表。</returns>
     Task<List<SysLog>> GetVisitLogsAsync(Database db, DateTime begin, DateTime end);
+
+    /// <summary>
+    /// 异步获取用户常用模块日志统计信息。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="userName">用户名。</param>
+    /// <returns>用户常用模块日志统计信息。</returns>
     Task<List<CountInfo>> GetVisitLogsAsync(Database db, string userName);
+
+    /// <summary>
+    /// 异步获取工作流日志列表。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="bizId">业务数据ID。</param>
+    /// <returns>工作流日志列表。</returns>
     Task<List<SysFlowLog>> GetFlowLogsAsync(Database db, string bizId);
 }
 

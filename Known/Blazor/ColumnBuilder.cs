@@ -1,10 +1,17 @@
 ﻿namespace Known.Blazor;
 
+/// <summary>
+/// 表格栏位建造者类，提供一系列表格栏位代码操作。
+/// </summary>
+/// <typeparam name="TItem"></typeparam>
 public class ColumnBuilder<TItem> where TItem : class, new()
 {
     private readonly string id;
     private readonly ColumnInfo column;
 
+    /// <summary>
+    /// 取得表格组件模型对象。
+    /// </summary>
     public TableModel<TItem> Table { get; }
 
     internal ColumnBuilder(ColumnInfo column, TableModel<TItem> table = null)
@@ -16,6 +23,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
             id = column.Id;
     }
 
+    /// <summary>
+    /// 设置表格栏位呈现模板。
+    /// </summary>
+    /// <param name="template">呈现模板。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Template(RenderFragment template)
     {
         if (column != null)
@@ -23,6 +35,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位呈现模板。
+    /// </summary>
+    /// <param name="template">呈现模板。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Template(Action<RenderTreeBuilder, TItem> template)
     {
         if (string.IsNullOrWhiteSpace(id))
@@ -33,6 +50,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位宽度。
+    /// </summary>
+    /// <param name="width">宽度。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Width(int width)
     {
         if (column != null)
@@ -40,6 +62,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备栏位是否可见。
+    /// </summary>
+    /// <param name="visible">是否可见。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Visible(bool visible)
     {
         if (column != null)
@@ -47,6 +74,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备栏位是否只读。
+    /// </summary>
+    /// <param name="readOnly">是否只读。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> ReadOnly(bool readOnly)
     {
         if (column != null)
@@ -54,6 +86,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位为查看连接。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> ViewLink()
     {
         if (column != null)
@@ -61,6 +97,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位为汇总字段。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Sum()
     {
         if (column != null)
@@ -68,13 +108,23 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位显示名称。
+    /// </summary>
+    /// <param name="name">显示名称。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Name(string name)
     {
         if (column != null)
             column.Name = name;
         return this;
     }
-    
+
+    /// <summary>
+    /// 设备表格栏位的提示信息。
+    /// </summary>
+    /// <param name="tooltip">提示信息。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Tooltip(string tooltip)
     {
         if (column != null)
@@ -82,6 +132,12 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位关联的代码表类别。
+    /// </summary>
+    /// <param name="category">代码表类别。</param>
+    /// <param name="isAll">下拉查询是否显示全部。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Category(string category, bool isAll = true)
     {
         if (column != null)
@@ -92,6 +148,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位对齐方式。
+    /// </summary>
+    /// <param name="align">对齐方式（left/center/right）。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Align(string align)
     {
         if (column != null)
@@ -99,6 +160,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位为固定列。
+    /// </summary>
+    /// <param name="fixType">固定类型（left/right）。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Fixed(string fixType)
     {
         if (column != null)
@@ -106,6 +172,11 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位字段类。
+    /// </summary>
+    /// <param name="type">字段类型。</param>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Type(FieldType type)
     {
         if (column != null)
@@ -113,6 +184,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位为排序字段。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Sort()
     {
         if (column != null)
@@ -120,7 +195,16 @@ public class ColumnBuilder<TItem> where TItem : class, new()
         return this;
     }
 
+    /// <summary>
+    /// 设备表格栏位默认升序。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
+
+    /// <summary>
+    /// 设备表格栏位默认降序。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
 
     private ColumnBuilder<TItem> DefaultSort(string sort)

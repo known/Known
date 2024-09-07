@@ -1,5 +1,8 @@
 ﻿namespace Known.Extensions;
 
+/// <summary>
+/// UI服务扩展类。
+/// </summary>
 public static class UIExtension
 {
     #region Form
@@ -26,6 +29,15 @@ public static class UIExtension
         return app?.ShowSpinAsync(app?.Language["Tip.DataQuering"], action);
     }
 
+    /// <summary>
+    /// 异步导出表格数据，默认按查询结果导出。
+    /// </summary>
+    /// <typeparam name="TItem">导出数据类型。</typeparam>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="table">导出表格模型对象实例。</param>
+    /// <param name="name">导出文件名。</param>
+    /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
+    /// <returns></returns>
     public static async Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode = ExportMode.Query) where TItem : class, new()
     {
         await app?.ShowSpinAsync(app?.Language["Tip.DataExporting"], async () =>

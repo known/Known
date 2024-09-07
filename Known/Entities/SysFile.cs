@@ -75,8 +75,14 @@ public class SysFile : EntityBase
     [MaxLength(500)]
     public string ThumbPath { get; set; }
 
+    /// <summary>
+    /// 取得是否是wwwroot附件。
+    /// </summary>
     public virtual bool IsWeb => Category1 == "WWW";
 
+    /// <summary>
+    /// 取得附件URL。
+    /// </summary>
     public virtual string Url
     {
         get
@@ -89,6 +95,9 @@ public class SysFile : EntityBase
         }
     }
 
+    /// <summary>
+    /// 取得附件URL信息。
+    /// </summary>
     public virtual FileUrlInfo FileUrl
     {
         get

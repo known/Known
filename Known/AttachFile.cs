@@ -1,5 +1,8 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 系统附件类。
+/// </summary>
 public class AttachFile
 {
     private readonly FileDataInfo file;
@@ -24,15 +27,55 @@ public class AttachFile
     }
 
     internal bool IsWeb { get; set; }
+
+    /// <summary>
+    /// 取得附件大小。
+    /// </summary>
     public long Size { get; }
+
+    /// <summary>
+    /// 取得附件原始文件名。
+    /// </summary>
     public string SourceName { get; }
+
+    /// <summary>
+    /// 取得附件扩展名。
+    /// </summary>
     public string ExtName { get; }
+
+    /// <summary>
+    /// 取得附件文件名，同原始文件名。
+    /// </summary>
     public string FileName { get; }
+
+    /// <summary>
+    /// 取得附件路径。
+    /// </summary>
     public string FilePath { get; internal set; }
+
+    /// <summary>
+    /// 取得图片附件缩略图路径。
+    /// </summary>
     public string ThumbPath { get; internal set; }
+
+    /// <summary>
+    /// 取得或设置附件关联的业务数据ID。
+    /// </summary>
     public string BizId { get; set; }
+
+    /// <summary>
+    /// 取得或设置附件关联的业务类型。
+    /// </summary>
     public string BizType { get; set; }
+
+    /// <summary>
+    /// 取得或设置附件类别1。
+    /// </summary>
     public string Category1 { get; set; }
+
+    /// <summary>
+    /// 取得或设置附件类别2。
+    /// </summary>
     public string Category2 { get; set; }
 
     internal async Task SaveAsync()

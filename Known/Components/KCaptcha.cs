@@ -1,12 +1,29 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 验证码选项类。
+/// </summary>
 public class CaptchaOption
 {
+    /// <summary>
+    /// 取得或设置验证码图片URL。
+    /// </summary>
     public string ImgUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置短信验证码倒计时长度。
+    /// </summary>
     public int SMSCount { get; set; }
+
+    /// <summary>
+    /// 取得或设置短信验证码验证委托。
+    /// </summary>
     public Func<Task<Result>> SMSAction { get; set; }
 }
 
+/// <summary>
+/// 验证码组件类。
+/// </summary>
 public class KCaptcha : BaseComponent
 {
     private readonly string id;
@@ -22,6 +39,9 @@ public class KCaptcha : BaseComponent
     private bool IsLocalImage => !IsSMS && !IsRemoteImage;
     private string SmsText => Language["Captcha.Fetch"];
 
+    /// <summary>
+    /// 构造函数，创建一个验证码组件类的实例。
+    /// </summary>
     public KCaptcha()
     {
         id = Utils.GetGuid();
@@ -29,8 +49,17 @@ public class KCaptcha : BaseComponent
         Option = new CaptchaOption();
     }
 
+    /// <summary>
+    /// 取得或设置验证码选项。
+    /// </summary>
     [Parameter] public CaptchaOption Option { get; set; }
 
+    /// <summary>
+    /// 校验验证码。
+    /// </summary>
+    /// <param name="value">验证码字符串。</param>
+    /// <param name="message">验证错误信息。</param>
+    /// <returns>是否验证成功。</returns>
     public bool Validate(string value, out string message)
     {
         message = string.Empty;
@@ -42,6 +71,10 @@ public class KCaptcha : BaseComponent
         return true;
     }
 
+    /// <summary>
+    /// 异步初始化验证码组件。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -55,6 +88,10 @@ public class KCaptcha : BaseComponent
         }
     }
 
+    /// <summary>
+    /// 呈现验证码组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (IsSMS)
@@ -65,6 +102,11 @@ public class KCaptcha : BaseComponent
             BuildCanvas(builder);
     }
 
+    /// <summary>
+    /// 验证码组件呈现后，调用js绘制验证码。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (IsLocalImage && (firstRender || code != lastCode))
@@ -75,6 +117,10 @@ public class KCaptcha : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    /// <summary>
+    /// 释放验证码组件对象。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnDisposeAsync()
     {
         await base.OnDisposeAsync();

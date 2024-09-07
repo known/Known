@@ -1,10 +1,17 @@
 ﻿namespace Known.Blazor;
 
+/// <summary>
+/// JS服务类。
+/// </summary>
 public class JSService
 {
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
     private readonly Lazy<Task<IJSObjectReference>> appTask;
 
+    /// <summary>
+    /// 构造函数，创建一个JS服务类的实例。
+    /// </summary>
+    /// <param name="jsRuntime">JS运行时对象。</param>
     public JSService(IJSRuntime jsRuntime)
     {
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=2408262213").AsTask());
@@ -13,12 +20,25 @@ public class JSService
     }
 
     #region Invoke
+    /// <summary>
+    /// 异步调用项目JS方法，返回结果（即由Config.App.JsPath = "./script.js";设置的JS文件）。
+    /// </summary>
+    /// <typeparam name="T">JS执行结果返回类型。</typeparam>
+    /// <param name="identifier">JS方法标识。</param>
+    /// <param name="args">JS方法参数。</param>
+    /// <returns>指定泛型的对象。</returns>
     public async Task<T> InvokeAppAsync<T>(string identifier, params object[] args)
     {
         var module = await appTask.Value;
         return await module.InvokeAsync<T>(identifier, args);
     }
 
+    /// <summary>
+    /// 异步调用项目JS方法，无返回结果（即由Config.App.JsPath = "./script.js";设置的JS文件）。
+    /// </summary>
+    /// <param name="identifier">JS方法标识。</param>
+    /// <param name="args">JS方法参数。</param>
+    /// <returns></returns>
     public async Task InvokeAppVoidAsync(string identifier, params object[] args)
     {
         var module = await appTask.Value;
@@ -39,14 +59,45 @@ public class JSService
     #endregion
 
     #region Common
+    /// <summary>
+    /// 异步执行一段JS脚本，返回执行结果对象。
+    /// </summary>
+    /// <param name="script">JS脚本。</param>
+    /// <returns>执行结果对象。</returns>
     public Task<object> RunAsync(string script) => InvokeAsync<object>("KBlazor.runScript", script);
+
+    /// <summary>
+    /// 异步执行一段JS脚本，无返回结果。
+    /// </summary>
+    /// <param name="script">JS脚本。</param>
+    /// <returns></returns>
     public Task RunVoidAsync(string script) => InvokeVoidAsync("KBlazor.runScriptVoid", script);
+
+    /// <summary>
+    /// 异步单击前端指定ID的控件。
+    /// </summary>
+    /// <param name="clientId">前端控件ID。</param>
+    /// <returns></returns>
     public Task ClickAsync(string clientId) => InvokeVoidAsync("KBlazor.elemClick", clientId);
+
+    /// <summary>
+    /// 异步将前端控件设为是否可用。
+    /// </summary>
+    /// <param name="clientId">前端控件ID。</param>
+    /// <param name="enabled">是否可用。</param>
+    /// <returns></returns>
     public Task EnabledAsync(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
+    
     internal Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
     #endregion
 
     #region Storage
+    /// <summary>
+    /// 异步获取浏览器加密存储的泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型对象类型。</typeparam>
+    /// <param name="key">对象存储键。</param>
+    /// <returns>泛型对象。</returns>
     public async Task<T> GetLocalStorageAsync<T>(string key)
     {
         var value = await InvokeAsync<string>("KBlazor.getLocalStorage", key);
@@ -73,6 +124,12 @@ public class JSService
         }
     }
 
+    /// <summary>
+    /// 异步设置浏览器加密存储对象。
+    /// </summary>
+    /// <param name="key">对象存储键。</param>
+    /// <param name="data">对象数据。</param>
+    /// <returns></returns>
     public async Task SetLocalStorageAsync(string key, object data)
     {
         var value = EncryptString(data);
@@ -82,6 +139,12 @@ public class JSService
     internal Task SetStyleAsync(string match, string href) => InvokeVoidAsync("KBlazor.setStyle", match, href);
     internal Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
+    /// <summary>
+    /// 异步获取浏览器加密会话存储的泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型对象类型。</typeparam>
+    /// <param name="key">对象存储键。</param>
+    /// <returns>泛型对象。</returns>
     public async Task<T> GetSessionStorageAsync<T>(string key)
     {
         var value = await InvokeAsync<string>("KBlazor.getSessionStorage", key);
@@ -92,6 +155,12 @@ public class JSService
         return Utils.FromJson<T>(json);
     }
 
+    /// <summary>
+    /// 异步设置浏览器加密会话存储对象。
+    /// </summary>
+    /// <param name="key">对象存储键。</param>
+    /// <param name="data">对象数据。</param>
+    /// <returns></returns>
     public async Task SetSessionStorageAsync(string key, object data)
     {
         var value = EncryptString(data);
@@ -119,11 +188,26 @@ public class JSService
     #endregion
 
     #region Screen
+    /// <summary>
+    /// 异步全屏显示系统。
+    /// </summary>
+    /// <returns></returns>
     public Task OpenFullScreenAsync() => InvokeVoidAsync("KBlazor.openFullScreen");
+
+    /// <summary>
+    /// 异步关闭全屏显示。
+    /// </summary>
+    /// <returns></returns>
     public Task CloseFullScreenAsync() => InvokeVoidAsync("KBlazor.closeFullScreen");
     #endregion
 
     #region Print
+    /// <summary>
+    /// 异步调用浏览器打印组件内容。
+    /// </summary>
+    /// <typeparam name="T">组件类型。</typeparam>
+    /// <param name="action">组件内容操作方法。</param>
+    /// <returns></returns>
     public async Task PrintAsync<T>(Action<ComponentRenderer<T>> action) where T : Microsoft.AspNetCore.Components.IComponent
     {
         var services = new ServiceCollection();
@@ -137,12 +221,29 @@ public class JSService
         await PrintAsync(content);
     }
 
+    /// <summary>
+    /// 异步调用浏览器打印HTML内容。
+    /// </summary>
+    /// <param name="content">HTML内容。</param>
+    /// <returns></returns>
     public Task PrintAsync(string content) => InvokeVoidAsync("KBlazor.printContent", content);
     #endregion
 
     #region Download
+    /// <summary>
+    /// 异步下载文件。
+    /// </summary>
+    /// <param name="fileName">文件名。</param>
+    /// <param name="url">下载地址。</param>
+    /// <returns></returns>
     public Task DownloadFileAsync(string fileName, string url) => InvokeVoidAsync("KBlazor.downloadFileByUrl", fileName, url);
 
+    /// <summary>
+    /// 异步下载文件流。
+    /// </summary>
+    /// <param name="fileName">文件名。</param>
+    /// <param name="stream">文件流。</param>
+    /// <returns></returns>
     public async Task DownloadFileAsync(string fileName, Stream stream)
     {
         var module = await moduleTask.Value;
@@ -152,6 +253,12 @@ public class JSService
     #endregion
 
     #region Pdf
+    /// <summary>
+    /// 异步显示PDF文件。
+    /// </summary>
+    /// <param name="id">PDF前端控件ID。</param>
+    /// <param name="stream">PDF文件流。</param>
+    /// <returns></returns>
     public async Task ShowPdfAsync(string id, Stream stream)
     {
         if (stream == null)
@@ -164,8 +271,28 @@ public class JSService
     #endregion
 
     #region Image
+    /// <summary>
+    /// 异步预览图片。
+    /// </summary>
+    /// <param name="inputElem">图片附件上传组件实例。</param>
+    /// <param name="imgElem">图片预览Img控件实例。</param>
+    /// <returns></returns>
     public Task PreviewImageAsync(ElementReference? inputElem, ElementReference imgElem) => InvokeVoidAsync("KBlazor.previewImage", inputElem, imgElem);
+
+    /// <summary>
+    /// 根据Img控件ID预览图片。
+    /// </summary>
+    /// <param name="inputElem">图片附件上传组件实例。</param>
+    /// <param name="imgId">图片前端Img控件ID。</param>
+    /// <returns></returns>
     public Task PreviewImageByIdAsync(ElementReference? inputElem, string imgId) => InvokeVoidAsync("KBlazor.previewImageById", inputElem, imgId);
+    
+    /// <summary>
+    /// 异步绘制验证码组件。
+    /// </summary>
+    /// <param name="id">验证码控件ID。</param>
+    /// <param name="code">验证码字符串。</param>
+    /// <returns></returns>
     public Task CaptchaAsync(string id, string code) => InvokeVoidAsync("KBlazor.captcha", id, code);
     #endregion
 

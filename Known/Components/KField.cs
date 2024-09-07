@@ -1,9 +1,20 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 表单字段组件类。
+/// </summary>
+/// <typeparam name="TItem">表单数据类型。</typeparam>
 public class KField<TItem> : BaseComponent where TItem : class, new()
 {
+    /// <summary>
+    /// 取得或设置表单字段模型配置对象。
+    /// </summary>
     [Parameter] public FieldModel<TItem> Model { get; set; }
 
+    /// <summary>
+    /// 呈现表单字段组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model.Column.Template != null)

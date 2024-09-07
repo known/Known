@@ -1,9 +1,28 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 查询信息类。
+/// </summary>
 public class QueryInfo
 {
+    /// <summary>
+    /// 构造函数，创建一个查询信息类的实例。
+    /// </summary>
     public QueryInfo() { }
+
+    /// <summary>
+    /// 构造函数，创建一个查询信息类的实例，查询操作类型默认为包含于。
+    /// </summary>
+    /// <param name="id">查询字段ID。</param>
+    /// <param name="value">查询字段值。</param>
     public QueryInfo(string id, string value) : this(id, QueryType.Contain, value) { }
+
+    /// <summary>
+    /// 构造函数，创建一个查询信息类的实例。
+    /// </summary>
+    /// <param name="id">查询字段ID。</param>
+    /// <param name="type">查询操作类型。</param>
+    /// <param name="value">查询字段值。</param>
     public QueryInfo(string id, QueryType type, string value)
     {
         Id = id;
@@ -24,25 +43,62 @@ public class QueryInfo
         }
     }
 
+    /// <summary>
+    /// 取得或设置查询字段ID。
+    /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置查询字段值。
+    /// </summary>
     public string Value { get; set; }
+
+    /// <summary>
+    /// 取得或设置查询操作类型。
+    /// </summary>
     public QueryType Type { get; set; }
+
     internal string ParamValue { get; set; }
 }
 
+/// <summary>
+/// 系统设置信息类。
+/// </summary>
 public class SettingInfo
 {
     internal const string KeyInfo = "UserSetting";
 
+    /// <summary>
+    /// 构造函数，创建一个系统设置信息类的实例。
+    /// </summary>
     public SettingInfo()
     {
         Reset();
     }
 
+    /// <summary>
+    /// 取得或设置系统当前字体大小。
+    /// </summary>
     public string Size { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统当前语言。
+    /// </summary>
     public string Language { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统当前主题。
+    /// </summary>
     public string Theme { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统菜单是否是手风琴。
+    /// </summary>
     [Form] public bool Accordion { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统是否多标签页模式。
+    /// </summary>
     [Form] public bool MultiTab { get; set; }
 
     internal void Reset()

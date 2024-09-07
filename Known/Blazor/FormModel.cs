@@ -1,10 +1,19 @@
 ﻿namespace Known.Blazor;
 
+/// <summary>
+/// 表单模型信息类。
+/// </summary>
+/// <typeparam name="TItem">表单数据类型。</typeparam>
 public class FormModel<TItem> : BaseModel where TItem : class, new()
 {
     private bool isInitColumns = false;
     private List<ColumnInfo> columns = [];
 
+    /// <summary>
+    /// 构造函数，创建一个表单模型信息类的实例。
+    /// </summary>
+    /// <param name="page">表单关联的页面。</param>
+    /// <param name="isAuto">是否根据表单数据类型自动生成布局，默认否。</param>
     public FormModel(BaseComponent page, bool isAuto = false) : base(page.Context)
     {
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
@@ -29,37 +38,148 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal BaseComponent Page { get; }
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单标题。
+    /// </summary>
     public string Title { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单CSS类名。
+    /// </summary>
     public string Class { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单保存确认提示框信息。
+    /// </summary>
     public string ConfirmText { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单保存确认提示框信息回调方法。
+    /// </summary>
     public Func<string> OnConfirmText { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单配置信息。
+    /// </summary>
     public FormInfo Info { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单是否窄宽标题。
+    /// </summary>
     public bool SmallLabel { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单对话框是否可拖动。
+    /// </summary>
     public bool Draggable { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置表单对话框是否可调整大小。
+    /// </summary>
     public bool Resizable { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单是否是查看模式。
+    /// </summary>
     public bool IsView { get; set; }
+
+    /// <summary>
+    /// 取得表单是否是新增表单，当Action为New时。
+    /// </summary>
     public bool IsNew => Action == "New";
+
+    /// <summary>
+    /// 取得表单字段布局行列表。
+    /// </summary>
     public List<FormRow<TItem>> Rows { get; } = [];
+
+    /// <summary>
+    /// 取得表单字段代码表字典。
+    /// </summary>
     public Dictionary<string, List<CodeInfo>> Codes { get; } = [];
+
+    /// <summary>
+    /// 取得表单字段模型信息字典。
+    /// </summary>
     public Dictionary<string, FieldModel<TItem>> Fields { get; } = [];
+
+    /// <summary>
+    /// 取得或设置表单的组件类型。
+    /// </summary>
     public Type Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单对话框头部自定义组件。
+    /// </summary>
     public RenderFragment Header { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单对话框底部自定义组件。
+    /// </summary>
     public RenderFragment Footer { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单验证委托，当呈现抽象UI表单赋值。
+    /// </summary>
     public Func<bool> OnValidate { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单对话框关闭委托，显示对话框时赋值。
+    /// </summary>
     public Func<Task> OnClose { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单关闭操作时调用的委托。
+    /// </summary>
     public Action OnClosed { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段值改变时调用的委托。
+    /// </summary>
     public Action<string> OnFieldChanged { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单加载时调用的委托。
+    /// </summary>
     public Func<TItem, Task> OnLoadData { get; set; }
+
+    /// <summary>
+    /// 取得或设置附件表单保存时调用的委托。
+    /// </summary>
     public Func<UploadInfo<TItem>, Task<Result>> OnSaveFile { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单保存时调用的委托。
+    /// </summary>
     public Func<TItem, Task<Result>> OnSave { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单保存前调用的委托。
+    /// </summary>
     public Func<TItem, Task<bool>> OnSaving { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单保存后调用的委托。
+    /// </summary>
     public Action<TItem> OnSaved { get; set; }
+
+    /// <summary>
+    /// 取得表单附件字段附件数据信息字典。
+    /// </summary>
     public Dictionary<string, List<FileDataInfo>> Files { get; } = [];
 
+    /// <summary>
+    /// 取得或设置表单关联的数据对象。
+    /// </summary>
     public TItem Data { get; set; }
+
     internal TItem DefaultData { get; set; }
     internal Func<Task<TItem>> DefaultDataAction { get; set; }
 
+    /// <summary>
+    /// 取得表单CSS类名。
+    /// </summary>
     public string ClassName
     {
         get
@@ -97,6 +217,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         Data = data;
     }
 
+    /// <summary>
+    /// 异步加载表单默认数据。
+    /// </summary>
+    /// <returns></returns>
     public async Task LoadDefaultDataAsync()
     {
         if (!IsNew)
@@ -108,8 +232,18 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         Data = data;
     }
 
+    /// <summary>
+    /// 异步加载表单数据。
+    /// </summary>
+    /// <param name="data">表单数据。</param>
+    /// <returns></returns>
     public Task LoadDataAsync(TItem data) => OnLoadData?.Invoke(data);
 
+    /// <summary>
+    /// 判断表单是否有附件。
+    /// </summary>
+    /// <param name="key">附件字段ID。</param>
+    /// <returns>是否有附件。</returns>
     public bool HasFile(string key)
     {
         if (Files == null)
@@ -121,6 +255,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return value.Count > 0;
     }
 
+    /// <summary>
+    /// 以编码方式添加表单行布局。
+    /// </summary>
+    /// <param name="action">行内子组件委托。</param>
+    /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddRow(Action<FormRow<TItem>> action = null)
     {
         var row = new FormRow<TItem>(this);
@@ -129,6 +268,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return row;
     }
 
+    /// <summary>
+    /// 根据属性选择表达式返回表单字段栏位建造者。
+    /// </summary>
+    /// <typeparam name="TValue">字段属性类型。</typeparam>
+    /// <param name="selector">属性选择表达式。</param>
+    /// <returns>字段栏位建造者。</returns>
     public ColumnBuilder<TItem> Field<TValue>(Expression<Func<TItem, TValue>> selector)
     {
         var property = TypeHelper.Property(selector);
@@ -136,6 +281,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return new ColumnBuilder<TItem>(column);
     }
 
+    /// <summary>
+    /// 初始化表单布局。
+    /// </summary>
     public void Initialize()
     {
         if (isInitColumns)
@@ -145,6 +293,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         InitColumns();
     }
 
+    /// <summary>
+    /// 获取表单标题。
+    /// </summary>
+    /// <returns></returns>
     public string GetFormTitle()
     {
         if (!string.IsNullOrWhiteSpace(Title))
@@ -156,6 +308,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return Language?.GetFormTitle(Action, title);
     }
 
+    /// <summary>
+    /// 验证表单字段。
+    /// </summary>
+    /// <returns>是否通过。</returns>
     public bool Validate()
     {
         if (OnValidate == null)
@@ -164,6 +320,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         return OnValidate.Invoke();
     }
 
+    /// <summary>
+    /// 关闭表单对话框。
+    /// </summary>
+    /// <returns></returns>
     public async Task CloseAsync()
     {
         if (OnClose != null)
@@ -171,15 +331,37 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         OnClosed?.Invoke();
     }
 
+    /// <summary>
+    /// 保存表单数据。
+    /// </summary>
+    /// <param name="onSaved">保存后委托。</param>
+    /// <param name="isClose">是否关闭对话框，默认是。</param>
+    /// <returns></returns>
     public Task SaveAsync(Action<TItem> onSaved, bool isClose = true)
     {
         OnSaved = onSaved;
         return SaveAsync(isClose);
     }
 
+    /// <summary>
+    /// 保存表单数据。
+    /// </summary>
+    /// <param name="isClose">是否关闭对话框，默认是。</param>
+    /// <returns></returns>
     public Task SaveAsync(bool isClose = true) => OnSaveAsync(isClose, false);
+
+    /// <summary>
+    /// 保存表单数据继续添加新数据。
+    /// </summary>
+    /// <returns></returns>
     public Task SaveContinueAsync() => OnSaveAsync(false, true);
 
+    /// <summary>
+    /// 保存表单数据。
+    /// </summary>
+    /// <param name="isClose">是否关闭对话框。</param>
+    /// <param name="isContinue">是否继续添加新数据。</param>
+    /// <returns></returns>
     public async Task OnSaveAsync(bool isClose, bool isContinue)
     {
         if (!Validate())
@@ -349,6 +531,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     }
 }
 
+/// <summary>
+/// 表单行操作类。
+/// </summary>
+/// <typeparam name="TItem">表单数据类型。</typeparam>
 public class FormRow<TItem> where TItem : class, new()
 {
     internal FormRow(FormModel<TItem> form)
@@ -356,12 +542,40 @@ public class FormRow<TItem> where TItem : class, new()
         Form = form;
     }
 
+    /// <summary>
+    /// 取得表单行对应表单模型对象。
+    /// </summary>
     public FormModel<TItem> Form { get; }
+
+    /// <summary>
+    /// 取得表单行关联的字段列表。
+    /// </summary>
     public List<FieldModel<TItem>> Fields { get; } = [];
 
+    /// <summary>
+    /// 添加一列表单只读文本字段。
+    /// </summary>
+    /// <param name="id">字段属性ID。</param>
+    /// <param name="text">字段显示文本。</param>
+    /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddColumn(string id, string text) => AddColumn(id, b => b.Text(text));
+
+    /// <summary>
+    /// 添加一列表单呈现模板字段。
+    /// </summary>
+    /// <param name="id">字段属性ID。</param>
+    /// <param name="template">字段呈现模板。</param>
+    /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddColumn(string id, RenderFragment template) => AddColumn(new ColumnInfo(id, template));
 
+    /// <summary>
+    /// 添加一列表单字段。
+    /// </summary>
+    /// <typeparam name="TValue">字段属性类型。</typeparam>
+    /// <param name="label">字段标题。</param>
+    /// <param name="selector">字段属性选择表达式。</param>
+    /// <param name="action">字段参数设置委托方法。</param>
+    /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddColumn<TValue>(string label, Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {
         return AddColumn(selector, c =>
@@ -371,6 +585,13 @@ public class FormRow<TItem> where TItem : class, new()
         });
     }
 
+    /// <summary>
+    /// 添加一列表单字段。
+    /// </summary>
+    /// <typeparam name="TValue">字段属性类型。</typeparam>
+    /// <param name="selector">字段属性选择表达式。</param>
+    /// <param name="action">字段参数设置委托方法。</param>
+    /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {
         var property = TypeHelper.Property(selector);
@@ -379,6 +600,11 @@ public class FormRow<TItem> where TItem : class, new()
         return AddColumn(column);
     }
 
+    /// <summary>
+    /// 添加多列表单字段。
+    /// </summary>
+    /// <param name="columns">表单字段列对象列表。</param>
+    /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddColumn(params ColumnInfo[] columns)
     {
         foreach (var item in columns)

@@ -109,7 +109,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     public void Edit(SysDictionary row) => Table.EditForm(Service.SaveDictionaryAsync, row);
     public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
     public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
-    public void Import() => ShowImportForm();
+    public async void Import() => await ShowImportAsync();
 
     private async Task LoadCategoriesAsync()
     {

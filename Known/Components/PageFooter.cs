@@ -1,7 +1,14 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 框架默认页面页脚组件类。
+/// </summary>
 public class PageFooter : ComponentBase
 {
+    /// <summary>
+    /// 呈现页面页面组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Markup($@"<div>

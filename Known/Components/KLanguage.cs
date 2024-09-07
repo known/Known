@@ -1,12 +1,22 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 多语言下拉框组件类。
+/// </summary>
 public class KLanguage : BaseComponent
 {
     private ActionInfo current;
     private ISettingService Service;
 
+    /// <summary>
+    /// 取得或设置下拉框图标，默认为translation。
+    /// </summary>
     [Parameter] public string Icon { get; set; } = "translation";
 
+    /// <summary>
+    /// 异步初始化多语言下拉框组件。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -14,6 +24,10 @@ public class KLanguage : BaseComponent
         current = Language.GetLanguage(Context.CurrentLanguage);
     }
 
+    /// <summary>
+    /// 呈现多语言下拉框组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         UI.BuildDropdown(builder, new DropdownModel

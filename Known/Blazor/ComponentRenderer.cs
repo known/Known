@@ -1,5 +1,9 @@
 ﻿namespace Known.Blazor;
 
+/// <summary>
+/// 打印组件呈现类。
+/// </summary>
+/// <typeparam name="T">组件类型。</typeparam>
 public class ComponentRenderer<T> where T : Microsoft.AspNetCore.Components.IComponent
 {
     private const string ChildContent = nameof(ChildContent);
@@ -8,34 +12,45 @@ public class ComponentRenderer<T> where T : Microsoft.AspNetCore.Components.ICom
     private readonly Dictionary<string, object> parameters = new(StringComparer.Ordinal);
     private readonly ComTemplater templater;
 
+    /// <summary>
+    /// 构造函数，创建一个打印组件呈现类的实例。
+    /// </summary>
     public ComponentRenderer()
     {
         templater = new ComTemplater();
     }
 
-    public ComponentRenderer<T> AddServiceProvider(IServiceProvider serviceProvider)
+    internal ComponentRenderer<T> AddServiceProvider(IServiceProvider serviceProvider)
     {
         templater.AddServiceProvider(serviceProvider);
         return this;
     }
 
-    public ComponentRenderer<T> Set<TValue>(Expression<Func<T, TValue>> parameterSelector, TValue value)
+    /// <summary>
+    /// 设置打印组件参数。
+    /// </summary>
+    /// <typeparam name="TValue">组件参数对象类型。</typeparam>
+    /// <param name="selector">组件参数属性选择表达式。</param>
+    /// <param name="value">组件参数对象。</param>
+    /// <returns>打印组件呈现对象。</returns>
+    /// <exception cref="ArgumentNullException">参数值为空异常。</exception>
+    public ComponentRenderer<T> Set<TValue>(Expression<Func<T, TValue>> selector, TValue value)
     {
         if (value is null)
             throw new ArgumentNullException(nameof(value));
 
-        parameters.Add(GetParameterName(parameterSelector), value);
+        parameters.Add(GetParameterName(selector), value);
         return this;
     }
 
-    private static string GetParameterName<TValue>(Expression<Func<T, TValue>> parameterSelector)
+    private static string GetParameterName<TValue>(Expression<Func<T, TValue>> selector)
     {
-        if (parameterSelector is null)
-            throw new ArgumentNullException(nameof(parameterSelector));
+        if (selector is null)
+            throw new ArgumentNullException(nameof(selector));
 
-        if (parameterSelector.Body is not MemberExpression memberExpression ||
+        if (selector.Body is not MemberExpression memberExpression ||
             memberExpression.Member is not PropertyInfo propInfoCandidate)
-            throw new ArgumentException($"The parameter selector '{parameterSelector}' does not resolve to a public property on the component '{typeof(T)}'.", nameof(parameterSelector));
+            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the component '{typeof(T)}'.", nameof(selector));
 
         var propertyInfo = propInfoCandidate.DeclaringType != componentType
             ? componentType.GetProperty(propInfoCandidate.Name, propInfoCandidate.PropertyType)
@@ -44,12 +59,12 @@ public class ComponentRenderer<T> where T : Microsoft.AspNetCore.Components.ICom
         var paramAttr = propertyInfo?.GetCustomAttribute<ParameterAttribute>(inherit: true);
 
         if (propertyInfo is null || paramAttr is null)
-            throw new ArgumentException($"The parameter selector '{parameterSelector}' does not resolve to a public property on the component '{typeof(T)}' with a [Parameter] or [CascadingParameter] attribute.", nameof(parameterSelector));
+            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the component '{typeof(T)}' with a [Parameter] or [CascadingParameter] attribute.", nameof(selector));
 
         return propertyInfo.Name;
     }
 
-    public string Render() => templater.RenderComponent<T>(parameters);
+    internal string Render() => templater.RenderComponent<T>(parameters);
 }
 
 class ComTemplater

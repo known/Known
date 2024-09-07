@@ -23,5 +23,10 @@ public class SysSetting : EntityBase
     /// </summary>
     public string BizData { get; set; }
 
+    /// <summary>
+    /// 将业务数据JSON转换成泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <returns>泛型对象。</returns>
     public T DataAs<T>() => Utils.FromJson<T>(BizData);
 }

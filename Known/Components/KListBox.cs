@@ -1,13 +1,31 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 列表框组件类。
+/// </summary>
 public class KListBox : BaseComponent
 {
     private string curItem;
 
+    /// <summary>
+    /// 取得或设置列表项对象列表。
+    /// </summary>
     [Parameter] public List<CodeInfo> Items { get; set; }
+
+    /// <summary>
+    /// 取得或设置列表项单击事件。
+    /// </summary>
     [Parameter] public Func<CodeInfo, Task> OnItemClick { get; set; }
+
+    /// <summary>
+    /// 取得或设置列表项呈现模板。
+    /// </summary>
     [Parameter] public RenderFragment<CodeInfo> ItemTemplate { get; set; }
 
+    /// <summary>
+    /// 呈现列表框组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Ul().Class("kui-list-box").Children(() =>

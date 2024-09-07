@@ -5,6 +5,9 @@
 /// </summary>
 public class SysDictionary : EntityBase
 {
+    /// <summary>
+    /// 构造函数。
+    /// </summary>
     public SysDictionary()
     {
         Enabled = true;

@@ -1,7 +1,15 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 框架配置扩展类。
+/// </summary>
 public static class Extension
 {
+    /// <summary>
+    /// 添加框架配置。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">系统配置方法。</param>
     public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
         Config.StartTime = DateTime.Now;
@@ -24,6 +32,11 @@ public static class Extension
         }
     }
 
+    /// <summary>
+    /// 添加框架后端配置。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">系统配置方法。</param>
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
         action?.Invoke(Config.App);
@@ -50,6 +63,11 @@ public static class Extension
         services.AddScoped<IWeixinService, WeixinService>();
     }
 
+    /// <summary>
+    /// 添加框架客户端配置。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">客户端配置方法。</param>
     public static void AddKnownClient(this IServiceCollection services, Action<ClientInfo> action = null)
     {
         Config.IsClient = true;

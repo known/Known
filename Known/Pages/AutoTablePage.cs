@@ -67,7 +67,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     public void DeleteM() => Table.DeleteM(DeleteModelsAsync);
     public void Edit(Dictionary<string, object> row) => Table.EditForm(SaveModelAsync, row);
     public void Delete(Dictionary<string, object> row) => Table.Delete(DeleteModelsAsync, row);
-    public void Import() => ShowImportForm();
+    public async void Import() => await ShowImportAsync();
     public async void Export() => await ExportDataAsync();
 
     private void InitTable()

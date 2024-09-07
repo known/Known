@@ -1,18 +1,48 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 上传组件类。
+/// </summary>
 public class KUpload : BaseComponent
 {
     private IFileService Service;
     private List<SysFile> sysFiles;
     private readonly List<FileDataInfo> files = [];
 
+    /// <summary>
+    /// 取得或设置是否显示上传按钮。
+    /// </summary>
     [Parameter] public bool IsButton { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否点击文件名连接直接在浏览器中打开文件。
+    /// </summary>
     [Parameter] public bool OpenFile { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传组件关联字段值。
+    /// </summary>
     [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传组件是否支持多文件上传。
+    /// </summary>
     [Parameter] public bool MultiFile { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传组件是否支持文件夹上传。
+    /// </summary>
     [Parameter] public bool Directory { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传组件文件改变事件委托。
+    /// </summary>
     [Parameter] public Action<List<FileDataInfo>> OnFilesChanged { get; set; }
 
+    /// <summary>
+    /// 刷新上传组件内容。
+    /// </summary>
+    /// <returns></returns>
     public override async Task RefreshAsync()
     {
         if (string.IsNullOrWhiteSpace(Value))
@@ -22,18 +52,31 @@ public class KUpload : BaseComponent
         await StateChangedAsync();
     }
 
+    /// <summary>
+    /// 设置上传组件关联字段值。
+    /// </summary>
+    /// <param name="value"></param>
     public async void SetValue(string value)
     {
         Value = value;
         await RefreshAsync();
     }
 
+    /// <summary>
+    /// 异步初始化组件。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IFileService>();
     }
 
+    /// <summary>
+    /// 上传组件呈现后，调用后端接口加载附件列表。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -47,6 +90,10 @@ public class KUpload : BaseComponent
         }
     }
 
+    /// <summary>
+    /// 呈现上传组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (IsButton)

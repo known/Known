@@ -1,5 +1,8 @@
 ﻿namespace Known.Data;
 
+/// <summary>
+/// 数据库操作效用类。
+/// </summary>
 public class DBUtils
 {
     internal static void RegisterConnections()
@@ -42,6 +45,12 @@ public class DBUtils
         }
     }
 
+    /// <summary>
+    /// 将DataReader转换成泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="reader">DataReader。</param>
+    /// <returns>泛型对象。</returns>
     public static object ConvertTo<T>(IDataReader reader)
     {
         var dic = GetDictionary(reader);
@@ -67,6 +76,11 @@ public class DBUtils
         return obj;
     }
 
+    /// <summary>
+    /// 将匿名参数对象转换成字典对象。
+    /// </summary>
+    /// <param name="value">匿名参数对象。</param>
+    /// <returns>字典对象。</returns>
     public static Dictionary<string, object> ToDictionary(object value)
     {
         if (value is Dictionary<string, object> dictionary)
@@ -88,6 +102,13 @@ public class DBUtils
         return dic;
     }
 
+    /// <summary>
+    /// 获取导出文件字节数组。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <param name="pageData">查询结果数据列表。</param>
+    /// <returns>导出文件字节数组。</returns>
     public static byte[] GetExportData<T>(PagingCriteria criteria, List<T> pageData)
     {
         if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)

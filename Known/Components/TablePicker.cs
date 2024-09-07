@@ -1,11 +1,25 @@
 ﻿namespace Known.Components;
 
+/// <summary>
+/// 表格弹出选择器组件类。
+/// </summary>
+/// <typeparam name="TItem"></typeparam>
 public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
 {
-    protected TableModel<TItem> Table;
+    /// <summary>
+    /// 取得表格组件配置模型对象。
+    /// </summary>
+    protected TableModel<TItem> Table { get; private set; }
 
+    /// <summary>
+    /// 取得表格选中行绑定的数据对象列表。
+    /// </summary>
     public override List<TItem> SelectedItems => Table.SelectedRows?.ToList();
 
+    /// <summary>
+    /// 异步初始化表格选择器组件。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -19,13 +33,24 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
         };
     }
 
+    /// <summary>
+    /// 呈现表格选择器内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildContent(RenderTreeBuilder builder) => builder.Table(Table);
 }
 
+/// <summary>
+/// 系统用户弹窗选择器组件类。
+/// </summary>
 public class UserPicker : TablePicker<SysUser>
 {
     private IUserService Service;
 
+    /// <summary>
+    /// 异步初始化系统用户弹窗选择器组件。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

@@ -1,25 +1,87 @@
 ﻿namespace Known;
 
+/// <summary>
+/// 框架全局配置类。
+/// </summary>
 public sealed class Config
 {
     private Config() { }
 
-    public const string SiteUrl = "http://known.pumantech.com";
+    /// <summary>
+    /// 框架官网网址。
+    /// </summary>
+    public const string SiteUrl = "http://known.org.cn";
+
+    /// <summary>
+    /// 框架Gitee项目网址。
+    /// </summary>
     public const string GiteeUrl = "https://gitee.com/known/Known";
+
+    /// <summary>
+    /// 框架GitHub项目网址。
+    /// </summary>
     public const string GithubUrl = "https://github.com/known/Known";
 
+    /// <summary>
+    /// 取得是否是客户端。
+    /// </summary>
     public static bool IsClient { get; internal set; }
+
+    /// <summary>
+    /// 取得或设置系统主机地址或域名。
+    /// </summary>
     public static string HostUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置日期格式，默认：yyyy-MM-dd。
+    /// </summary>
     public static string DateFormat { get; set; } = "yyyy-MM-dd";
-    public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:ss";
+
+    /// <summary>
+    /// 取得或设置日期时间格式，默认：yyyy-MM-dd HH:mm。
+    /// </summary>
+    public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm";
+
+    /// <summary>
+    /// 取得或设置系统退出动作，适用桌面程序。
+    /// </summary>
     public static Action OnExit { get; set; }
+
+    /// <summary>
+    /// 取得系统配置信息。
+    /// </summary>
     public static AppInfo App { get; } = new();
+
+    /// <summary>
+    /// 取得系统版本信息。
+    /// </summary>
     public static VersionInfo Version { get; private set; }
+
+    /// <summary>
+    /// 取得系统程序集列表。
+    /// </summary>
     public static List<Assembly> Assemblies { get; } = [];
+
+    /// <summary>
+    /// 取得框架自动解析服务接口生成的WebApi类型列表。
+    /// </summary>
     public static List<Type> ApiTypes { get; } = [];
+
+    /// <summary>
+    /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
+    /// </summary>
     public static List<ApiMethodInfo> ApiMethods { get; } = [];
+
+    /// <summary>
+    /// 取得或设置系统菜单信息列表。
+    /// </summary>
     public static List<MenuInfo> AppMenus { get; set; }
+
+    /// <summary>
+    /// 取得或设置注入系统模块初始化数据，系统安装时，会调用项目注入的模块信息，自动安装。
+    /// </summary>
     public static Action<List<SysModule>> OnAddModule { get; set; }
+
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
@@ -29,6 +91,11 @@ public sealed class Config
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
 
+    /// <summary>
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类，以及CodeInfo特效的代码表类。
+    /// </summary>
+    /// <param name="assembly">模块程序集。</param>
+    /// <param name="isAdditional">是否附加到路由组件，默认True。</param>
     public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
         if (assembly == null)
@@ -63,6 +130,11 @@ public sealed class Config
         }
     }
 
+    /// <summary>
+    /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
     public static string GetStaticFileUrl(string url)
     {
         if (string.IsNullOrWhiteSpace(App.WebRoot))
@@ -77,6 +149,11 @@ public sealed class Config
         return $"{url}?v={time}";
     }
 
+    /// <summary>
+    /// 获取上传文件夹路径。
+    /// </summary>
+    /// <param name="isWeb">是否是wwwroot文件。</param>
+    /// <returns>文件夹物理路径。</returns>
     public static string GetUploadPath(bool isWeb = false)
     {
         if (isWeb)
@@ -102,6 +179,12 @@ public sealed class Config
         return uploadPath;
     }
 
+    /// <summary>
+    /// 获取一个文件物理路径。
+    /// </summary>
+    /// <param name="filePath">文件路径。</param>
+    /// <param name="isWeb">是否是wwwroot文件。</param>
+    /// <returns>文件物理路径。</returns>
     public static string GetUploadPath(string filePath, bool isWeb = false)
     {
         var path = GetUploadPath(isWeb);
@@ -181,10 +264,16 @@ public sealed class Config
     }
 }
 
+/// <summary>
+/// 系统版本信息类。
+/// </summary>
 public class VersionInfo
 {
-    private Assembly assembly;
+    private readonly Assembly assembly;
 
+    /// <summary>
+    /// 构造函数，创建一个系统版本信息类的实例。
+    /// </summary>
     public VersionInfo() { }
 
     internal VersionInfo(Assembly assembly)
@@ -201,9 +290,24 @@ public class VersionInfo
         FrameVersion = $"Known V{version1.Major}.{version1.Minor}.{version1.Build}";
     }
 
+    /// <summary>
+    /// 取得或设置系统版本号。
+    /// </summary>
     public string AppVersion { get; set; }
+
+    /// <summary>
+    /// 取得或设置软件版本号。
+    /// </summary>
     public string SoftVersion { get; set; }
+
+    /// <summary>
+    /// 取得或设置框架版本号。
+    /// </summary>
     public string FrameVersion { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统编译时间。
+    /// </summary>
     public DateTime BuildTime { get; set; }
 
     internal void LoadBuildTime()
@@ -230,30 +334,133 @@ public class VersionInfo
     }
 }
 
-public enum AppType { Web, WebApi, Desktop }
+/// <summary>
+/// 项目类型枚举。
+/// </summary>
+public enum AppType
+{
+    /// <summary>
+    /// Web项目。
+    /// </summary>
+    Web,
+    /// <summary>
+    /// WebApi项目。
+    /// </summary>
+    WebApi,
+    /// <summary>
+    /// 桌面项目。
+    /// </summary>
+    Desktop
+}
 
+/// <summary>
+/// 系统配置信息类。
+/// </summary>
 public class AppInfo
 {
+    /// <summary>
+    /// 取得或设置系统ID。
+    /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统名称。
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统类型，默认Web。
+    /// </summary>
     public AppType Type { get; set; } = AppType.Web;
+
+    /// <summary>
+    /// 取得或设置系统入口程序集。
+    /// </summary>
     public Assembly Assembly { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统是否为平台多租户。
+    /// </summary>
     public bool IsPlatform { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统主页顶部菜单是否显示字体大小切换。
+    /// </summary>
     public bool IsSize { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统主页顶部菜单是否显示语言切换。
+    /// </summary>
     public bool IsLanguage { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统主页顶部菜单是否显示主题切换。
+    /// </summary>
     public bool IsTheme { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统Web根目录。
+    /// </summary>
     public string WebRoot { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统内容根目录。
+    /// </summary>
     public string ContentRoot { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统附件上传位置。
+    /// </summary>
     public string UploadPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统附件上传最大长度，默认50M。
+    /// </summary>
     public long UploadMaxSize { get; set; } = 1024 * 1024 * 50;
+
+    /// <summary>
+    /// 取得或设置系统默认字体大小，默认为Default。
+    /// </summary>
     public string DefaultSize { get; set; } = "Default";
+
+    /// <summary>
+    /// 取得或设置系统表格默认分页大小，默认20。
+    /// </summary>
     public int DefaultPageSize { get; set; } = 10;
+
+    /// <summary>
+    /// 取得或设置系统JS脚本文件路径。
+    /// </summary>
     public string JsPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统产品ID。
+    /// </summary>
     public string ProductId { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统版权信息。
+    /// </summary>
     public string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
+
+    /// <summary>
+    /// 取得或设置系统软件许可信息。
+    /// </summary>
     public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
+
+    /// <summary>
+    /// 取得或设置系统数据库连接信息列表。
+    /// </summary>
     public List<ConnectionInfo> Connections { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统授权验证方法，如果设置，则页面会先校验系统License，不通过，则显示框架内置的未授权面板。
+    /// </summary>
     public Func<SystemInfo, Result> CheckSystem { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统数据库日志处理方法。
+    /// </summary>
     public Action<CommandInfo> DBLog { get; set; }
 
     internal Result CheckSystemInfo(SystemInfo info)
@@ -291,26 +498,77 @@ public class AppInfo
     }
 }
 
+
+/// <summary>
+/// WebApi方法信息类。
+/// </summary>
 public class ApiMethodInfo
 {
+    /// <summary>
+    /// 取得或设置方法ID。
+    /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置方法路由地址。
+    /// </summary>
     public string Route { get; set; }
+
+    /// <summary>
+    /// 取得或设置方法HTTP请求方式。
+    /// </summary>
     public HttpMethod HttpMethod { get; set; }
+
+    /// <summary>
+    /// 取得或设置方法信息。
+    /// </summary>
     public MethodInfo MethodInfo { get; set; }
+
+    /// <summary>
+    /// 取得或设置方法参数集合。
+    /// </summary>
     public ParameterInfo[] Parameters { get; set; }
 }
 
+/// <summary>
+/// 客户端信息类。
+/// </summary>
 public class ClientInfo
 {
+    /// <summary>
+    /// 取得或设置客户端动态代理请求Api拦截器类型。
+    /// </summary>
     public Func<Type, Type> InterceptorType { get; set; }
+
+    /// <summary>
+    /// 取得或设置客户端动态代理请求拦截器提供者。
+    /// </summary>
     public Func<Type, object, object> InterceptorProvider { get; set; }
 }
 
+/// <summary>
+/// 数据库连接信息类。
+/// </summary>
 public class ConnectionInfo
 {
+    /// <summary>
+    /// 取得或设置数据库连接名称。
+    /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置数据库类型。
+    /// </summary>
     public DatabaseType DatabaseType { get; set; }
+
+    /// <summary>
+    /// 取得或设置数据库访问的ADO.NET提供者类型。
+    /// </summary>
     public Type ProviderType { get; set; }
+
+    /// <summary>
+    /// 取得或设置数据库连接字符串。
+    /// </summary>
     public string ConnectionString { get; set; }
 
     internal string GetDefaultConnectionString()

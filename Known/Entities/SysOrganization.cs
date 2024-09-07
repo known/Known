@@ -37,6 +37,13 @@ public class SysOrganization : EntityBase
     [MaxLength(500)]
     public string Note { get; set; }
 
+    /// <summary>
+    /// 取得或设置上级组织名称。
+    /// </summary>
     public virtual string ParentName { get; set; }
+
+    /// <summary>
+    /// 取得或设置组织代码加名称。
+    /// </summary>
     public virtual string FullName => $"{Code}-{Name}";
 }

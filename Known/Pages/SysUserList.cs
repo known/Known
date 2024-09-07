@@ -69,7 +69,7 @@ public class SysUserList : BasePage<SysUser>
     public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
     public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
     public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
-    public async void Import() => await Table.ShowImportFormAsync();
+    public async void Import() => await Table.ShowImportsync();
     public async void Export() => await Table.ExportDataAsync();
 
     private void OnChangeDepartment(List<SysUser> rows)

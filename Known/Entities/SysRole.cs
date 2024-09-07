@@ -5,6 +5,9 @@
 /// </summary>
 public class SysRole : EntityBase
 {
+    /// <summary>
+    /// 构造函数。
+    /// </summary>
     public SysRole()
     {
         Enabled = true;
@@ -29,6 +32,13 @@ public class SysRole : EntityBase
     [MaxLength(500)]
     public string Note { get; set; }
 
+    /// <summary>
+    /// 取得或设置角色关联的模块列表。
+    /// </summary>
     public virtual List<SysModule> Modules { get; set; }
+
+    /// <summary>
+    /// 取得或设置角色关联的菜单ID列表。
+    /// </summary>
     public virtual List<string> MenuIds { get; set; }
 }
