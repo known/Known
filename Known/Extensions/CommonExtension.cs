@@ -1,5 +1,8 @@
 ﻿namespace Known.Extensions;
 
+/// <summary>
+/// 通用扩展类。
+/// </summary>
 public static class CommonExtension
 {
     #region String
@@ -13,6 +16,11 @@ public static class CommonExtension
     #endregion
 
     #region Enum
+    /// <summary>
+    /// 获取枚举字段描述。
+    /// </summary>
+    /// <param name="value">枚举字段值。</param>
+    /// <returns>枚举字段描述。</returns>
     public static string GetDescription(this Enum value)
     {
         var type = value.GetType();
@@ -27,6 +35,12 @@ public static class CommonExtension
     #endregion
 
     #region Dictionary
+    /// <summary>
+    /// 获取字典项目值。
+    /// </summary>
+    /// <param name="dic">字典对象。</param>
+    /// <param name="key">字典项目键。</param>
+    /// <returns>字典项目值。</returns>
     public static object GetValue(this IDictionary dic, string key)
     {
         if (dic == null)
@@ -41,6 +55,13 @@ public static class CommonExtension
         return dic[key];
     }
 
+    /// <summary>
+    /// 获取字典项目泛型值。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="dic">字典对象。</param>
+    /// <param name="key">字典项目键。</param>
+    /// <returns>字典项目泛型值。</returns>
     public static T GetValue<T>(this IDictionary dic, string key)
     {
         var value = dic?.GetValue(key);
@@ -50,6 +71,13 @@ public static class CommonExtension
         return Utils.ConvertTo<T>(value);
     }
 
+    /// <summary>
+    /// 获取字典项目指定类型值。
+    /// </summary>
+    /// <param name="dic">字典对象。</param>
+    /// <param name="type">指定类型。</param>
+    /// <param name="key">字典项目键。</param>
+    /// <returns>字典项目指定类型值。</returns>
     public static object GetValue(this IDictionary dic, Type type, string key)
     {
         var value = dic?.GetValue(key);
@@ -61,6 +89,12 @@ public static class CommonExtension
     #endregion
 
     #region Object
+    /// <summary>
+    /// 合并两个对象。
+    /// </summary>
+    /// <param name="obj1">对象1。</param>
+    /// <param name="obj2">对象2。</param>
+    /// <returns>合并后的对象。</returns>
     public static object Merge(this object obj1, object obj2)
     {
         if (obj1 == null) return null;
@@ -95,6 +129,14 @@ public static class CommonExtension
         return mergedObject;
     }
 
+    /// <summary>
+    /// 合并两个泛型对象，返回动态对象。
+    /// </summary>
+    /// <typeparam name="TLeft">对象1类型。</typeparam>
+    /// <typeparam name="TRight">对象2类型。</typeparam>
+    /// <param name="left">对象1。</param>
+    /// <param name="right">对象2。</param>
+    /// <returns>合并后的对象。</returns>
     public static ExpandoObject Merge<TLeft, TRight>(this TLeft left, TRight right)
     {
         var expando = new ExpandoObject();
@@ -113,16 +155,31 @@ public static class CommonExtension
     //    return property?.GetCustomAttribute<RequiredAttribute>() is not null;
     //}
 
+    /// <summary>
+    /// 获取属性关联的DisplayName特性的显示名称。
+    /// </summary>
+    /// <param name="property">属性对象。</param>
+    /// <returns>属性显示名称。</returns>
     public static string DisplayName(this PropertyInfo property)
     {
         return property?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
     }
 
+    /// <summary>
+    /// 获取属性关联的MinLength特性的长度。
+    /// </summary>
+    /// <param name="property">属性对象。</param>
+    /// <returns>属性最小长度。</returns>
     public static int? MinLength(this PropertyInfo property)
     {
         return property?.GetCustomAttribute<MinLengthAttribute>()?.Length;
     }
 
+    /// <summary>
+    /// 获取属性关联的MaxLength特性的长度。
+    /// </summary>
+    /// <param name="property">属性对象。</param>
+    /// <returns>属性最大长度。</returns>
     public static int? MaxLength(this PropertyInfo property)
     {
         return property?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
@@ -149,6 +206,11 @@ public static class CommonExtension
     #endregion
 
     #region Method
+    /// <summary>
+    /// 判断方法是否是匿名访问方法。
+    /// </summary>
+    /// <param name="method">方法对象。</param>
+    /// <returns>是否匿名访问方法。</returns>
     public static bool AllowAnonymous(this MethodInfo method)
     {
         return method?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
@@ -156,6 +218,11 @@ public static class CommonExtension
     #endregion
 
     #region Http
+    /// <summary>
+    /// 获取页面路由BaseUri后面的相对URL。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    /// <returns>相对URL。</returns>
     public static string GetPageUrl(this NavigationManager navigation)
     {
         var baseUrl = navigation.BaseUri.TrimEnd('/');
@@ -164,7 +231,7 @@ public static class CommonExtension
     #endregion
 
     #region File
-    public static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file)
+    internal static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file)
     {
         using var stream = new MemoryStream();
         await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(stream);
@@ -177,6 +244,11 @@ public static class CommonExtension
         };
     }
 
+    /// <summary>
+    /// 异步创建浏览器上传的附件，如果是图片，则压缩高清图后再上传。
+    /// </summary>
+    /// <param name="file">浏览器附件对象。</param>
+    /// <returns>附件数据对象。</returns>
     public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file)
     {
         if (!Utils.CheckImage(file.Name))

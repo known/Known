@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 用户个人中心页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/profile")]
 public class SysUserProfile : BasePage<SysUser>
@@ -7,6 +10,10 @@ public class SysUserProfile : BasePage<SysUser>
     internal IUserService Service { get; private set; }
     internal SysUser User { get; private set; }
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -19,6 +26,10 @@ public class SysUserProfile : BasePage<SysUser>
         Page.AddItem("kui-card", BuildUserTabs);
     }
 
+    /// <summary>
+    /// 构建页面内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build());

@@ -1,5 +1,8 @@
 ﻿namespace Known.WorkFlows;
 
+/// <summary>
+/// 工作流扩展类。
+/// </summary>
 public static class FlowExtension
 {
     internal static List<ItemModel> GetFlowStepItems(this FlowInfo info)
@@ -10,6 +13,13 @@ public static class FlowExtension
         return info.Steps.Select(s => new ItemModel(s.Id, s.Name)).ToList();
     }
 
+    /// <summary>
+    /// 获取工作流表格行操作按钮列表。
+    /// </summary>
+    /// <typeparam name="TItem">表格数据类型。</typeparam>
+    /// <param name="table">表格配置模型。</param>
+    /// <param name="row">表格行绑定的对象。</param>
+    /// <returns>操作按钮列表。</returns>
     public static List<ActionInfo> GetFlowRowActions<TItem>(this TableModel<TItem> table, TItem row) where TItem : FlowEntity, new()
     {
         var actions = new List<ActionInfo>();
@@ -25,42 +35,90 @@ public static class FlowExtension
     }
 
     #region FlowAction
+    /// <summary>
+    /// 弹出提交工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="page">页面组件对象。</param>
+    /// <param name="row">表单绑定的对象。</param>
     public static void SubmitFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
         page.ViewForm(FormViewType.Submit, row);
     }
 
+    /// <summary>
+    /// 弹出提交工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="rows">流程数据对象列表。</param>
     public static async void SubmitFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Submit"], rows, service.SubmitFlowAsync);
     }
 
+    /// <summary>
+    /// 弹出撤回工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="row">流程数据对象。</param>
     public static void RevokeFlow<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new() => component.RevokeFlow([row]);
 
+    /// <summary>
+    /// 弹出撤回工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="rows">流程数据对象列表。</param>
     public static async void RevokeFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Revoke"], rows, service.RevokeFlowAsync);
     }
 
+    /// <summary>
+    /// 弹出指派工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="row">流程数据对象。</param>
     public static async void AssignFlow<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Assign"], [row], service.AssignFlowAsync);
     }
 
+    /// <summary>
+    /// 弹出审核工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="page">页面组件对象。</param>
+    /// <param name="row">流程数据对象。</param>
     public static void VerifyFlow<TItem>(this BasePage<TItem> page, TItem row) where TItem : FlowEntity, new()
     {
         page.ViewForm(FormViewType.Verify, row);
     }
 
+    /// <summary>
+    /// 弹出停止工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="rows">流程数据对象列表。</param>
     public static async void StopFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Stop"], rows, service.StopFlowAsync);
     }
 
+    /// <summary>
+    /// 弹出重新申请工作流表单对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="rows">流程数据对象列表。</param>
     public static async void RepeatFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();

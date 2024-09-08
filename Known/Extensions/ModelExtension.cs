@@ -1,8 +1,17 @@
 ﻿namespace Known.Extensions;
 
+/// <summary>
+/// 数据模型扩展类。
+/// </summary>
 public static class ModelExtension
 {
     #region CodeInfo
+    /// <summary>
+    /// 往代码表列表中插入空文本字符串。
+    /// </summary>
+    /// <param name="codes">代码表列表。</param>
+    /// <param name="emptyText">空文本字符串，默认空。</param>
+    /// <returns>新代码表列表。</returns>
     public static List<CodeInfo> ToCodes(this List<CodeInfo> codes, string emptyText = "")
     {
         var infos = new List<CodeInfo>();
@@ -50,6 +59,11 @@ public static class ModelExtension
     #endregion
 
     #region Menu
+    /// <summary>
+    /// 将菜单信息列表转成树形结构。
+    /// </summary>
+    /// <param name="menus">菜单信息列表。</param>
+    /// <returns>树形菜单列表。</returns>
     public static List<MenuInfo> ToMenuItems(this List<MenuInfo> menus)
     {
         var items = new List<MenuInfo>();
@@ -208,6 +222,15 @@ public static class ModelExtension
     #endregion
 
     #region File
+    /// <summary>
+    /// 获取附件字段的文件对象列表。
+    /// </summary>
+    /// <param name="files">表单的附件字典。</param>
+    /// <param name="user">当前用户。</param>
+    /// <param name="key">字段名。</param>
+    /// <param name="bizType">业务类型。</param>
+    /// <param name="bizPath">业务路径。</param>
+    /// <returns>文件对象列表。</returns>
     public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
 
     internal static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, FileFormInfo form)

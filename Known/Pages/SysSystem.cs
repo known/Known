@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 关于系统页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/sys/info")]
 public class SysSystem : BaseTabPage
@@ -7,6 +10,10 @@ public class SysSystem : BaseTabPage
     private ISystemService Service;
     internal SystemDataInfo Data { get; private set; }
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -18,6 +25,10 @@ public class SysSystem : BaseTabPage
         Tab.AddTab("WeChatSetting", b => b.Component<WeChatSetting>().Build());
     }
 
+    /// <summary>
+    /// 构建页面内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     internal async Task<Result> SaveSystemAsync(SystemInfo info)

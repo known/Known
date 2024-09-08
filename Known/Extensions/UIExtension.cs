@@ -6,14 +6,44 @@
 public static class UIExtension
 {
     #region Form
+    /// <summary>
+    /// 呈现表单页面内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="child">子内容委托。</param>
     public static void FormPage(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page", child);
+
+    /// <summary>
+    /// 呈现表单页面操作按钮。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="child">子内容委托。</param>
     public static void FormPageButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page-button", child);
+    
     internal static void FormButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-button", child);
+
+    /// <summary>
+    /// 呈现表单操作按钮。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="child">子内容委托。</param>
     public static void FormAction(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-action", child);
+
+    /// <summary>
+    /// 呈现表单标题。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="text">表单标题。</param>
     public static void FormTitle(this RenderTreeBuilder builder, string text) => builder.Component<KTitle>().Set(c => c.Text, text).Build();
     #endregion
 
     #region Page
+    /// <summary>
+    /// 呈现表格组件。
+    /// </summary>
+    /// <typeparam name="TItem">表格数据类型。</typeparam>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">表格配置模型。</param>
     public static void Table<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
         builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
@@ -24,6 +54,12 @@ public static class UIExtension
         service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
 
+    /// <summary>
+    /// 异步查询数据，显示Loading提示。
+    /// </summary>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="action">查询数据委托。</param>
+    /// <returns></returns>
     public static Task QueryDataAsync(this BaseLayout app, Func<Task> action)
     {
         return app?.ShowSpinAsync(app?.Language["Tip.DataQuering"], action);
@@ -76,6 +112,12 @@ public static class UIExtension
     #endregion
 
     #region Form
+    /// <summary>
+    /// 呈现一个提示框。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="text">提示文本。</param>
+    /// <param name="type">提示框类型，默认Info。</param>
     public static void Alert(this RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
     {
         builder.Component<KAlert>()
@@ -84,6 +126,12 @@ public static class UIExtension
                .Build();
     }
 
+    /// <summary>
+    /// 呈现一个标签。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="text">标签文本。</param>
+    /// <param name="color">标签颜色。</param>
     public static void Tag(this RenderTreeBuilder builder, string text, string color = null)
     {
         builder.Component<KTag>()
@@ -92,6 +140,12 @@ public static class UIExtension
                .Build();
     }
 
+    /// <summary>
+    /// 呈现一个图标。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="onClick">图标单击事件。</param>
     public static void Icon(this RenderTreeBuilder builder, string icon, EventCallback<MouseEventArgs>? onClick = null)
     {
         if (string.IsNullOrWhiteSpace(icon))
@@ -103,6 +157,12 @@ public static class UIExtension
                .Build();
     }
 
+    /// <summary>
+    /// 呈现一个分组框。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="title">分组框标题。</param>
+    /// <param name="child">子内容委托。</param>
     public static void GroupBox(this RenderTreeBuilder builder, string title, Action child)
     {
         builder.Div("kui-group-box", () =>
@@ -114,12 +174,25 @@ public static class UIExtension
     #endregion
 
     #region Button
+    /// <summary>
+    /// 呈现一个按钮。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="action">操作信息。</param>
+    /// <param name="onClick">按钮单击事件。</param>
     public static void Button(this RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
     {
         action.OnClick = onClick;
         builder.Component<KButton>().Set(c => c.Action, action).Build();
     }
 
+    /// <summary>
+    /// 呈现一个按钮。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="name">按钮名称。</param>
+    /// <param name="onClick">按钮单击事件。</param>
+    /// <param name="style">按钮样式，默认primary。</param>
     public static void Button(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string style = "primary")
     {
         var action = new ActionInfo { Name = name, OnClick = onClick, Style = style };
@@ -128,13 +201,66 @@ public static class UIExtension
     #endregion
 
     #region Toast
+    /// <summary>
+    /// 呈现信息提示。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="message">提示文本。</param>
     public static async void Info(this IUIService service, string message) => await service.InfoAsync(message);
+
+    /// <summary>
+    /// 异步呈现信息提示。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="message">提示文本。</param>
+    /// <returns></returns>
     public static Task InfoAsync(this IUIService service, string message) => service.Toast(message, StyleType.Info);
+
+    /// <summary>
+    /// 呈现警告提示。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="message">警告文本。</param>
     public static async void Warning(this IUIService service, string message) => await service.WarningAsync(message);
+
+    /// <summary>
+    /// 异步呈现警告提示。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="message">警告文本。</param>
+    /// <returns></returns>
     public static Task WarningAsync(this IUIService service, string message) => service.Toast(message, StyleType.Warning);
+
+    /// <summary>
+    /// 呈现错误提示。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="message">错误文本。</param>
     public static async void Error(this IUIService service, string message) => await service.ErrorAsync(message);
+
+    /// <summary>
+    /// 异步呈现错误提示。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="message">错误文本。</param>
+    /// <returns></returns>
     public static Task ErrorAsync(this IUIService service, string message) => service.Toast(message, StyleType.Error);
+
+    /// <summary>
+    /// 显示后端返回的操作结果。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="result">后端操作结果。</param>
+    /// <param name="onSuccess">后端操作成功回调委托。</param>
     public static async void Result(this IUIService service, Result result, Func<Task> onSuccess = null) => await service.ResultAsync(result, onSuccess);
+
+    /// <summary>
+    /// 异步显示后端返回的操作结果。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="result">后端操作结果。</param>
+    /// <param name="onSuccess">后端操作成功回调委托。</param>
+    /// <returns></returns>
     public static async Task ResultAsync(this IUIService service, Result result, Func<Task> onSuccess = null)
     {
         if (!result.IsValid)

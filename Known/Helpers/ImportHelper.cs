@@ -1,5 +1,8 @@
 ﻿namespace Known.Helpers;
 
+/// <summary>
+/// 数据导入帮助者类。
+/// </summary>
 public sealed class ImportHelper
 {
     internal const string BizType = "ImportFiles";
@@ -115,8 +118,20 @@ public sealed class ImportHelper
         return await import.ExecuteAsync(file);
     }
 
+    /// <summary>
+    /// 异步执行数据导入定时任务。
+    /// </summary>
+    /// <returns></returns>
     public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
 
+    /// <summary>
+    /// 读取导入文件并处理导入逻辑。
+    /// </summary>
+    /// <typeparam name="TItem">导入数据类型。</typeparam>
+    /// <param name="context">上下文对象。</param>
+    /// <param name="file">导入文件对象。</param>
+    /// <param name="action">导入处理委托。</param>
+    /// <returns>导入结果。</returns>
     public static Result ReadFile<TItem>(Context context, SysFile file, Action<ImportRow<TItem>> action)
     {
         var path = Config.GetUploadPath(file.Path);

@@ -2,6 +2,9 @@
 
 namespace Known.Helpers;
 
+/// <summary>
+/// 类型帮助者类。
+/// </summary>
 public sealed class TypeHelper
 {
     private TypeHelper() { }
@@ -77,6 +80,12 @@ public sealed class TypeHelper
         return fields;
     }
 
+    /// <summary>
+    /// 获取数据对象属性值。
+    /// </summary>
+    /// <param name="model">数据对象。</param>
+    /// <param name="name">属性名称。</param>
+    /// <returns>属性值。</returns>
     public static object GetPropertyValue(object model, string name)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
@@ -89,6 +98,13 @@ public sealed class TypeHelper
         return property.GetValue(model);
     }
 
+    /// <summary>
+    /// 获取数据对象属性泛型值。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="model">数据对象。</param>
+    /// <param name="name">属性名称。</param>
+    /// <returns>属性泛型值。</returns>
     public static T GetPropertyValue<T>(object model, string name)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
@@ -102,6 +118,12 @@ public sealed class TypeHelper
         return Utils.ConvertTo<T>(value);
     }
 
+    /// <summary>
+    /// 设置数据对象属性值。
+    /// </summary>
+    /// <param name="model">数据对象。</param>
+    /// <param name="name">属性名称。</param>
+    /// <param name="value">属性值。</param>
     public static void SetPropertyValue(object model, string name, object value)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
@@ -115,6 +137,13 @@ public sealed class TypeHelper
         }
     }
 
+    /// <summary>
+    /// 设置泛型对象属性值。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="model">泛型对象。</param>
+    /// <param name="name">属性名称。</param>
+    /// <param name="value">属性值。</param>
     public static void SetPropertyValue<T>(T model, string name, object value)
     {
         if (model == null || string.IsNullOrWhiteSpace(name))
@@ -129,18 +158,38 @@ public sealed class TypeHelper
     }
 
     private static readonly ConcurrentDictionary<string, PropertyInfo[]> typeProperties = new();
+    /// <summary>
+    /// 获取内存缓存的类型属性集合。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <returns>属性集合。</returns>
     public static PropertyInfo[] Properties(Type type)
     {
         return typeProperties.GetOrAdd(type.FullName, type.GetProperties());
     }
 
     private static readonly ConcurrentDictionary<string, PropertyInfo> properties = new();
+    /// <summary>
+    /// 获取内存缓存的类型属性。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <param name="name">属性名。</param>
+    /// <returns>属性信息。</returns>
     public static PropertyInfo Property(Type type, string name)
     {
         var key = $"{type.FullName}.{name}";
         return properties.GetOrAdd(key, type.GetProperty(name));
     }
 
+    /// <summary>
+    /// 根据选择表达式获取属性信息。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <typeparam name="TValue">属性值类型。</typeparam>
+    /// <param name="selector">选择表达式。</param>
+    /// <returns>属性信息。</returns>
+    /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
+    /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
     public static PropertyInfo Property<T, TValue>(Expression<Func<T, TValue>> selector)
     {
         if (selector is null)
@@ -159,6 +208,14 @@ public sealed class TypeHelper
         return propertyInfo;
     }
 
+    /// <summary>
+    /// 根据选择表达式获取属性信息。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <param name="selector">选择表达式。</param>
+    /// <returns>属性信息。</returns>
+    /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
+    /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
     public static PropertyInfo Property<T>(Expression<Func<T, object>> selector)
     {
         if (selector is null)
@@ -192,6 +249,11 @@ public sealed class TypeHelper
         return unary != null ? unary.Operand as MemberExpression : null;
     }
 
+    /// <summary>
+    /// 创建一个动态类型。
+    /// </summary>
+    /// <param name="keyValues">类型属性字典。</param>
+    /// <returns>动态类型。</returns>
     public static Type CreateType(Dictionary<string, Type> keyValues)
     {
         var assemblyName = new AssemblyName("DynamicAssembly");

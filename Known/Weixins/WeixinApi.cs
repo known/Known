@@ -5,15 +5,37 @@ using System.Web;
 
 namespace Known.Weixins;
 
+/// <summary>
+/// 微信Api操作类。
+/// </summary>
 public static class WeixinApi
 {
     private static string AccessToken = "";
+
+    /// <summary>
+    /// 取得或设置公众号ID。
+    /// </summary>
     public static string GZHId { get; set; }
+
+    /// <summary>
+    /// 取得或设置微信公众号AppId。
+    /// </summary>
     public static string AppId { get; set; }
+
+    /// <summary>
+    /// 取得或设置微信公众号安全密钥。
+    /// </summary>
     public static string AppSecret { get; set; }
+
+    /// <summary>
+    /// 取得或设置微信公众绑定的服务器URL。
+    /// </summary>
     public static string RedirectUri { get; set; }
 
     #region 初始化接口
+    /// <summary>
+    /// 初始化微信接口，定时刷新访问Token。
+    /// </summary>
     public static void Initialize()
     {
         ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
@@ -55,7 +77,11 @@ public static class WeixinApi
     #endregion
 
     #region 二维码
-    //关注公众号，绑定用户二维码
+    /// <summary>
+    /// 异步获取关注公众号，绑定用户的二维码。
+    /// </summary>
+    /// <param name="sceneId">场景ID。</param>
+    /// <returns>绑定二维码URL。</returns>
     public static async Task<string> GetQRCodeUrlAsync(string sceneId)
     {
         using var http = new HttpClient();
@@ -68,7 +94,12 @@ public static class WeixinApi
     #endregion
 
     #region 账号管理
-    //1.创建二维码ticket
+    /// <summary>
+    /// 1.异步创建二维码ticket。
+    /// </summary>
+    /// <param name="http">http客户端。</param>
+    /// <param name="sceneId">场景ID。</param>
+    /// <returns>二维码ticket。</returns>
     public static async Task<TicketInfo> CreateTicketAsync(this HttpClient http, string sceneId)
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
@@ -103,13 +134,23 @@ public static class WeixinApi
         }
     }
 
-    //2.通过ticket换取二维码
+    /// <summary>
+    /// 2.通过ticket换取二维码URL。
+    /// </summary>
+    /// <param name="ticket">二维码ticket。</param>
+    /// <returns>二维码URL。</returns>
     private static string GetQRCodeUrl(string ticket)
     {
         ticket = HttpUtility.UrlEncode(ticket);
         return $"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket={ticket}";
     }
 
+    /// <summary>
+    /// 异步获取微信用户信息。
+    /// </summary>
+    /// <param name="http">http客户端。</param>
+    /// <param name="openId">用户OpenId。</param>
+    /// <returns>微信用户信息。</returns>
     public static async Task<SysWeixin> GetUserInfoAsync(this HttpClient http, string openId)
     {
         try
@@ -155,8 +196,13 @@ public static class WeixinApi
     #endregion
 
     #region 网页授权
-    //1.用户同意授权，获取code
-    //  同意返回redirect_uri/?code=CODE&state=STATE
+    /// <summary>
+    /// 1.用户同意授权，获取code。
+    /// 同意返回redirect_uri/?code=CODE&amp;state=STATE
+    /// </summary>
+    /// <param name="state">自定义状态字符串。</param>
+    /// <param name="scope">范围，默认：snsapi_userinfo。</param>
+    /// <returns>跳转到业务系统的URL。</returns>
     public static string GetAuthorizeUrl(string state, string scope = "snsapi_userinfo")
     {
         var redirectUri = HttpUtility.UrlEncode(RedirectUri);
@@ -165,7 +211,12 @@ public static class WeixinApi
         return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={AppId}&redirect_uri={redirectUri}&response_type=code&scope={scope}&state={state}#wechat_redirect";
     }
 
-    //2.通过code换取网页授权access_token
+    /// <summary>
+    /// 2.通过code换取网页授权access_token。
+    /// </summary>
+    /// <param name="http">http客户端。</param>
+    /// <param name="code">网页授权code。</param>
+    /// <returns>微信认证Token。</returns>
     public static async Task<AuthorizeToken> GetAuthorizeTokenAsync(this HttpClient http, string code)
     {
         try
@@ -190,7 +241,12 @@ public static class WeixinApi
         }
     }
 
-    //3.刷新access_token（如果需要）
+    /// <summary>
+    /// 3.刷新access_token（如果需要）
+    /// </summary>
+    /// <param name="http">http客户端。</param>
+    /// <param name="refreshToken">刷新Token。</param>
+    /// <returns>刷新Token。</returns>
     public static async Task<AuthorizeRefreshToken> GetAuthorizeRefreshTokenAsync(this HttpClient http, string refreshToken)
     {
         try
@@ -213,7 +269,13 @@ public static class WeixinApi
         }
     }
 
-    //4.拉取用户信息(需scope为 snsapi_userinfo)
+    /// <summary>
+    /// 4.拉取用户信息(需scope为 snsapi_userinfo)
+    /// </summary>
+    /// <param name="http">http客户端。</param>
+    /// <param name="accessToken">访问Token。</param>
+    /// <param name="openId">用户OpenId。</param>
+    /// <returns>微信用户信息。</returns>
     public static async Task<SysWeixin> GetUserInfoAsync(this HttpClient http, string accessToken, string openId)
     {
         try
@@ -243,9 +305,15 @@ public static class WeixinApi
         }
     }
 
-    //附：检验授权凭证（access_token）是否有效
-    //正确返回：{ "errcode":0,"errmsg":"ok"}
-    //错误返回：{ "errcode":40003,"errmsg":"invalid openid"}
+    /// <summary>
+    /// 附：检验授权凭证（access_token）是否有效
+    /// 正确返回：{ "errcode":0,"errmsg":"ok"}
+    /// 错误返回：{ "errcode":40003,"errmsg":"invalid openid"}
+    /// </summary>
+    /// <param name="http">http客户端。</param>
+    /// <param name="accessToken">访问Token。</param>
+    /// <param name="openId">用户OpenId。</param>
+    /// <returns>检验结果。</returns>
     public static async Task<Result> CheckAccessTokenAsync(this HttpClient http, string accessToken, string openId)
     {
         try
@@ -268,7 +336,11 @@ public static class WeixinApi
     #endregion
 
     #region 模板消息
-    //发送模板消息
+    /// <summary>
+    /// 异步发送微信模板消息。
+    /// </summary>
+    /// <param name="info">模板消息对象。</param>
+    /// <returns>发送结果。</returns>
     public static async Task<Result> SendTemplateMessageAsync(TemplateInfo info)
     {
         if (string.IsNullOrWhiteSpace(AccessToken))

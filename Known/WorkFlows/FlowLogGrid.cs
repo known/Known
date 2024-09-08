@@ -1,11 +1,21 @@
 ﻿namespace Known.WorkFlows;
 
+/// <summary>
+/// 工作流程记录表格组件类。
+/// </summary>
 public class FlowLogGrid : BaseTable<SysFlowLog>
 {
     private IFlowService Service;
 
+    /// <summary>
+    /// 取得或设置业务数据ID。
+    /// </summary>
     [Parameter] public string BizId { get; set; }
 
+    /// <summary>
+    /// 异步初始化表格。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

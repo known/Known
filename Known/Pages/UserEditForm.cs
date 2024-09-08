@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 用户信息表单组件类。
+/// </summary>
 [StreamRendering]
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<SysUser>
@@ -7,6 +10,10 @@ public class UserEditForm : BaseEditForm<SysUser>
     private IUserService Service;
     [CascadingParameter] private SysUserProfile Parent { get; set; }
 
+    /// <summary>
+    /// 异步初始化表单。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -28,6 +35,10 @@ public class UserEditForm : BaseEditForm<SysUser>
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
     }
 
+    /// <summary>
+    /// 构建表单内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildFormContent(RenderTreeBuilder builder)
     {
         builder.FormPage(() =>
@@ -40,11 +51,20 @@ public class UserEditForm : BaseEditForm<SysUser>
         });
     }
 
+    /// <summary>
+    /// 异步保存用户表单信息。
+    /// </summary>
+    /// <param name="model">用户信息。</param>
+    /// <returns>保存结果。</returns>
     protected override Task<Result> OnSaveAsync(SysUser model)
     {
         return Service.UpdateUserAsync(model);
     }
 
+    /// <summary>
+    /// 用户保存成功后，设置当前用户信息，刷新页面。
+    /// </summary>
+    /// <param name="result"></param>
     protected override void OnSuccess(Result result)
     {
         var entity = result.DataAs<SysUser>();

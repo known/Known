@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 系统模块管理页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/sys/modules")]
 public class SysModuleList : BasePage<SysModule>
@@ -11,6 +14,10 @@ public class SysModuleList : BasePage<SysModule>
     private TreeModel tree;
     private TableModel<SysModule> table;
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -62,6 +69,11 @@ public class SysModuleList : BasePage<SysModule>
         table.AddAction(nameof(MoveDown));
     }
 
+    /// <summary>
+    /// 页面呈现后，调和后台数据。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -69,6 +81,10 @@ public class SysModuleList : BasePage<SysModule>
             await tree.RefreshAsync();
     }
 
+    /// <summary>
+    /// 异步刷新页面。
+    /// </summary>
+    /// <returns></returns>
     public override async Task RefreshAsync()
     {
         await tree.RefreshAsync();
@@ -92,6 +108,9 @@ public class SysModuleList : BasePage<SysModule>
         return Task.FromResult(result);
     }
 
+    /// <summary>
+    /// 弹出新增表单对话框。
+    /// </summary>
     public void New()
     {
         if (current == null)
@@ -103,14 +122,48 @@ public class SysModuleList : BasePage<SysModule>
         table.NewForm(Service.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
+    /// <summary>
+    /// 弹出编辑表单对话框。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Edit(SysModule row) => table.EditForm(Service.SaveModuleAsync, row);
+
+    /// <summary>
+    /// 删除一条数据。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Delete(SysModule row) => table.Delete(Service.DeleteModulesAsync, row);
+
+    /// <summary>
+    /// 批量删除多条数据。
+    /// </summary>
     public void DeleteM() => table.DeleteM(Service.DeleteModulesAsync);
+
+    /// <summary>
+    /// 复制多个模块到另一个模块下面。
+    /// </summary>
     public void Copy() => table.SelectRows(OnCopy);
+
+    /// <summary>
+    /// 移动多个模块到另一个模块下面。
+    /// </summary>
     public void Move() => table.SelectRows(OnMove);
+
+    /// <summary>
+    /// 上移一个模块。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void MoveUp(SysModule row) => OnMove(row, true);
+
+    /// <summary>
+    /// 下移一个模块。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void MoveDown(SysModule row) => OnMove(row, false);
 
+    /// <summary>
+    /// 导入模块数据。
+    /// </summary>
     public void Import()
     {
         var form = new FormModel<FileFormInfo>(this)
@@ -125,6 +178,9 @@ public class SysModuleList : BasePage<SysModule>
         UI.ShowForm(form);
     }
 
+    /// <summary>
+    /// 导出模块数据。
+    /// </summary>
     public async void Export()
     {
         await App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>

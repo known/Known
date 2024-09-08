@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 数据字典模块页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/sys/dictionaries")]
 public class SysDictionaryList : BaseTablePage<SysDictionary>
@@ -11,6 +14,10 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private int total;
     private string searchKey;
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -22,6 +29,11 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.Column(c => c.Category).Template((b, r) => b.Text(r.CategoryName));
     }
 
+    /// <summary>
+    /// 页面呈现后，调用后台数据。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -29,6 +41,10 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             await LoadCategoriesAsync();
     }
 
+    /// <summary>
+    /// 构建页面内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("kui-row-28", () =>
@@ -38,6 +54,10 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         });
     }
 
+    /// <summary>
+    /// 异步刷新页面。
+    /// </summary>
+    /// <returns></returns>
     public override async Task RefreshAsync()
     {
         if (isAddCategory)
@@ -90,6 +110,9 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         return result;
     }
 
+    /// <summary>
+    /// 弹出添加类别对话框。
+    /// </summary>
     public void AddCategory()
     {
         isAddCategory = true;
@@ -105,10 +128,31 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         UI.ShowDialog(model);
     }
 
+    /// <summary>
+    /// 弹出新增表单对话框。
+    /// </summary>
     public void New() => NewForm(category, total);
-    public void Edit(SysDictionary row) => Table.EditForm(Service.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+
+    /// <summary>
+    /// 批量删除多条数据。
+    /// </summary>
     public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
+
+    /// <summary>
+    /// 弹出编辑表单对话框。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
+    public void Edit(SysDictionary row) => Table.EditForm(Service.SaveDictionaryAsync, row);
+
+    /// <summary>
+    /// 删除一条数据。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
+    public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+
+    /// <summary>
+    /// 弹出数据导入对话框。
+    /// </summary>
     public async void Import() => await ShowImportAsync();
 
     private async Task LoadCategoriesAsync()

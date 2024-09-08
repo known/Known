@@ -1,9 +1,16 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 系统设置表单组件类。
+/// </summary>
 public class SettingForm : BaseForm<SettingInfo>
 {
     private ISettingService Service;
 
+    /// <summary>
+    /// 异步初始化设置表单。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -15,6 +22,10 @@ public class SettingForm : BaseForm<SettingInfo>
         };
     }
 
+    /// <summary>
+    /// 呈现设置表单内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-setting", () =>

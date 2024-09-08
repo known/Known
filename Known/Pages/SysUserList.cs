@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 系统用户管理页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/sys/users")]
 public class SysUserList : BasePage<SysUser>
@@ -11,6 +14,10 @@ public class SysUserList : BasePage<SysUser>
     private TreeModel Tree;
     private TableModel<SysUser> Table;
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -49,6 +56,10 @@ public class SysUserList : BasePage<SysUser>
         Page.AddItem(BuildTable);
     }
 
+    /// <summary>
+    /// 异步刷新页面。
+    /// </summary>
+    /// <returns></returns>
     public override Task RefreshAsync() => Table.RefreshAsync();
 
     private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, Tree));
@@ -61,15 +72,56 @@ public class SysUserList : BasePage<SysUser>
         return Service.QueryUsersAsync(criteria);
     }
 
+    /// <summary>
+    /// 弹出新增表单对话框。
+    /// </summary>
     public void New() => Table.NewForm(Service.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+
+    /// <summary>
+    /// 弹出编辑表单对话框。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Edit(SysUser row) => Table.EditForm(Service.SaveUserAsync, row);
+
+    /// <summary>
+    /// 删除一条数据。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Delete(SysUser row) => Table.Delete(Service.DeleteUsersAsync, row);
+
+    /// <summary>
+    /// 批量删除多条数据。
+    /// </summary>
     public void DeleteM() => Table.DeleteM(Service.DeleteUsersAsync);
+
+    /// <summary>
+    /// 批量重置用户默认密码。
+    /// </summary>
     public void ResetPassword() => Table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
+
+    /// <summary>
+    /// 批量切换用户所属部门。
+    /// </summary>
     public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
+
+    /// <summary>
+    /// 批量启用用户。
+    /// </summary>
     public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
+
+    /// <summary>
+    /// 批量禁用用户。
+    /// </summary>
     public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
+
+    /// <summary>
+    /// 弹出数据导入对话框。
+    /// </summary>
     public async void Import() => await Table.ShowImportsync();
+
+    /// <summary>
+    /// 导出表格数据。
+    /// </summary>
     public async void Export() => await Table.ExportDataAsync();
 
     private void OnChangeDepartment(List<SysUser> rows)

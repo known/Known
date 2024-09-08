@@ -1,15 +1,28 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 登录页面组件类。
+/// </summary>
 public class LoginPage : BaseComponent
 {
     private IAuthService Service;
     //private IWeixinService weixinService;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
+    /// <summary>
+    /// 登录表单信息。
+    /// </summary>
     protected LoginFormInfo Model = new();
 
+    /// <summary>
+    /// 取得或设置登录成功后返回的URL。
+    /// </summary>
     [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
 
+    /// <summary>
+    /// 异步初始化登录组件。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -26,6 +39,11 @@ public class LoginPage : BaseComponent
         //}
     }
 
+    /// <summary>
+    /// 登录组件呈现后，调用JS获取本地记忆的用户名。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -43,7 +61,15 @@ public class LoginPage : BaseComponent
         }
     }
 
+    /// <summary>
+    /// 登录提交前调用的验证虚方法。
+    /// </summary>
     protected virtual void OnLogining() { }
+
+    /// <summary>
+    /// 登录提交成功后调用的虚方法。
+    /// </summary>
+    /// <param name="user">登录用户信息。</param>
     protected virtual void OnLogined(UserInfo user)
     {
         if (Context.IsMobile)
@@ -52,6 +78,10 @@ public class LoginPage : BaseComponent
             Navigation.NavigateTo(ReturnUrl ?? "/");
     }
 
+    /// <summary>
+    /// 登录按钮事件方法。
+    /// </summary>
+    /// <returns></returns>
     protected async Task OnUserLogin()
     {
         if (!Model.Remember)
@@ -88,6 +118,11 @@ public class LoginPage : BaseComponent
         }
     }
 
+    /// <summary>
+    /// 调用身份认证提供者，异步设置当前登录用户信息
+    /// </summary>
+    /// <param name="user">当前用户信息。</param>
+    /// <returns></returns>
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
         await AuthProvider?.SetUserAsync(user);

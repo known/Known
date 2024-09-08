@@ -1,7 +1,16 @@
 ﻿namespace Known.Weixins;
 
+/// <summary>
+/// 微信UI扩展类。
+/// </summary>
 public static class UIExtension
 {
+    /// <summary>
+    /// 异步显示微信二维码。
+    /// </summary>
+    /// <param name="page">页面组件。</param>
+    /// <param name="option">二维码选项。</param>
+    /// <returns></returns>
     public static async Task ShowWeixinQRCodeAsync(this BasePage page, QRCodeOption option)
     {
         var user = page.CurrentUser;

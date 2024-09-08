@@ -1,11 +1,18 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 角色管理模块页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/sys/roles")]
 public class SysRoleList : BaseTablePage<SysRole>
 {
     private IRoleService Service;
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -16,9 +23,26 @@ public class SysRoleList : BaseTablePage<SysRole>
         Table.RowKey = r => r.Id;
     }
 
+    /// <summary>
+    /// 弹出新增表单对话框。
+    /// </summary>
     public void New() => Table.NewForm(Service.SaveRoleAsync, new SysRole());
+
+    /// <summary>
+    /// 弹出编辑表单对话框。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Edit(SysRole row) => Table.EditForm(Service.SaveRoleAsync, row);
+
+    /// <summary>
+    /// 删除一条数据。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Delete(SysRole row) => Table.Delete(Service.DeleteRolesAsync, row);
+
+    /// <summary>
+    /// 批量删除多条数据。
+    /// </summary>
     public void DeleteM() => Table.DeleteM(Service.DeleteRolesAsync);
 }
 

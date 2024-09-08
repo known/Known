@@ -1,14 +1,28 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 安装页面表单组件类。
+/// </summary>
 public class InstallForm : BaseForm<InstallInfo>
 {
     private ISystemService Service;
     private readonly StepModel Step = new();
     private readonly Dictionary<string, FormDatabase> formDBs = [];
 
+    /// <summary>
+    /// 取得或设置页面组件顶部菜单模板。
+    /// </summary>
     [Parameter] public RenderFragment TopMenu { get; set; }
+
+    /// <summary>
+    /// 取得或设置安装成功后回调方法。
+    /// </summary>
     [Parameter] public Action<InstallInfo> OnInstall { get; set; }
 
+    /// <summary>
+    /// 异步初始化安装表单。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -26,6 +40,11 @@ public class InstallForm : BaseForm<InstallInfo>
         Model = new FormModel<InstallInfo>(this);
     }
 
+    /// <summary>
+    /// 安装表单呈现后，调用后端数据。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -36,6 +55,10 @@ public class InstallForm : BaseForm<InstallInfo>
         }
     }
 
+    /// <summary>
+    /// 构建安装表单内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-install", () =>

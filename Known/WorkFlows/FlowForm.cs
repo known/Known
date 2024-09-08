@@ -1,12 +1,23 @@
 ﻿namespace Known.WorkFlows;
 
+/// <summary>
+/// 工作流表单基类。
+/// </summary>
+/// <typeparam name="TItem">表单数据类型。</typeparam>
 public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 {
     private IFlowService Flow;
     private readonly StepModel step = new();
 
+    /// <summary>
+    /// 取得或设置表单配置模型对象。
+    /// </summary>
     [Parameter] public FormModel<TItem> Model { get; set; }
 
+    /// <summary>
+    /// 异步初始化表单。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -14,6 +25,11 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model.Data.Id).Build());
     }
 
+    /// <summary>
+    /// 表单呈现后，异步调用后端流程数据。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -28,6 +44,10 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
         }
     }
 
+    /// <summary>
+    /// 构建表单内容。
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, step);
@@ -35,15 +55,30 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     }
 }
 
+/// <summary>
+/// 工作流表单。
+/// </summary>
+/// <typeparam name="TItem">表单数据类型。</typeparam>
 public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 {
     private IFlowService Service;
     private readonly FlowFormInfo info = new();
     private FlowFormModel flow;
 
+    /// <summary>
+    /// 取得或设置表单配置模型对象。
+    /// </summary>
     [Parameter] public FormModel<TItem> Model { get; set; }
+
+    /// <summary>
+    /// 取得或设置构建表单内容委托。
+    /// </summary>
     [Parameter] public Action<RenderTreeBuilder> Content { get; set; }
 
+    /// <summary>
+    /// 异步初始化表单。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -51,6 +86,10 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         Service = await CreateServiceAsync<IFlowService>();
     }
 
+    /// <summary>
+    /// 呈现流程表单内容。
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-content", () => Content?.Invoke(builder));

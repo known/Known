@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 无代码表格页面组件类。
+/// </summary>
 [StreamRendering]
 [Route("/page/{PageId}")]
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
@@ -10,8 +13,15 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     private string pageId;
     private readonly Dictionary<string, object> defaultData = [];
 
+    /// <summary>
+    /// 取得或设置页面模块ID。
+    /// </summary>
     [Parameter] public string PageId { get; set; }
 
+    /// <summary>
+    /// 异步刷新页面。
+    /// </summary>
+    /// <returns></returns>
     public override async Task RefreshAsync()
     {
         if (isEditPage)
@@ -20,6 +30,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         await base.RefreshAsync();
     }
 
+    /// <summary>
+    /// 异步初始化页面。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
@@ -27,6 +41,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         Module = await CreateServiceAsync<IModuleService>();
     }
 
+    /// <summary>
+    /// 异步设置页面参数。
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
@@ -38,6 +56,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
+    /// <summary>
+    /// 构建页面内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         if (Context.Current == null)
@@ -63,11 +85,36 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         }
     }
 
+    /// <summary>
+    /// 弹出新增表单对话框。
+    /// </summary>
     public void New() => Table.NewForm(SaveModelAsync, defaultData);
+
+    /// <summary>
+    /// 批量删除多条数据。
+    /// </summary>
     public void DeleteM() => Table.DeleteM(DeleteModelsAsync);
+
+    /// <summary>
+    /// 弹出编辑表单对话框。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Edit(Dictionary<string, object> row) => Table.EditForm(SaveModelAsync, row);
+
+    /// <summary>
+    /// 删除一条数据。
+    /// </summary>
+    /// <param name="row">表格行绑定的对象。</param>
     public void Delete(Dictionary<string, object> row) => Table.Delete(DeleteModelsAsync, row);
+
+    /// <summary>
+    /// 弹出数据导入对话框。
+    /// </summary>
     public async void Import() => await ShowImportAsync();
+
+    /// <summary>
+    /// 导出表格数据。
+    /// </summary>
     public async void Export() => await ExportDataAsync();
 
     private void InitTable()
