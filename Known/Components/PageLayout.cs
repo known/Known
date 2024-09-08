@@ -68,13 +68,13 @@ public class PageLayout : BaseLayout
     {
         try
         {
-            var pageId = "";
+            var pageRoute = "";
             Context.Url = Navigation.GetPageUrl();
             if (Context.Url.StartsWith("/page/"))
-                pageId = Context.Url.Split("/")[2];
+                pageRoute = Context.Url.Substring(6);
             //Logger.Info($"Layout={Context.Url}");
             await base.OnParametersSetAsync();
-            Context.SetCurrentMenu(pageId);
+            Context.SetCurrentMenu(pageRoute);
             if (Context.Current != null && !Config.IsClient)
             {
                 await SystemService.AddLogAsync(new SysLog

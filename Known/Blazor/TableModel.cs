@@ -316,9 +316,9 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="page"></param>
     public virtual void Initialize(BasePage page)
     {
-        var menu = page.Context.Current;
+        var menu = page?.Context?.Current;
         Clear();
-        SetPage(menu.Model, menu.Page);
+        SetPage(menu?.Model, menu?.Page);
         SetPermission(page);
         SetQueryColumns();
 

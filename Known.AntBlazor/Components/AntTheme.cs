@@ -8,7 +8,7 @@ public class AntTheme : BaseComponent
     /// <summary>
     /// 呈现主题组件内容。
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Switch>()

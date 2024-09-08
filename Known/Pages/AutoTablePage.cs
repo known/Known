@@ -4,19 +4,20 @@
 /// 无代码表格页面组件类。
 /// </summary>
 [StreamRendering]
-[Route("/page/{PageId}")]
+[Route("/page/{*PageRoute}")]
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
     private IAutoService Service;
     private IModuleService Module;
     private bool isEditPage;
-    private string pageId;
+    private string pageRoute;
     private readonly Dictionary<string, object> defaultData = [];
+    private string PageId { get; set; }
 
     /// <summary>
-    /// 取得或设置页面模块ID。
+    /// 取得或设置页面路由。
     /// </summary>
-    [Parameter] public string PageId { get; set; }
+    [Parameter] public string PageRoute { get; set; }
 
     /// <summary>
     /// 异步刷新页面。
@@ -48,9 +49,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
-        if (pageId != PageId)
+        if (pageRoute != PageRoute)
         {
-            pageId = PageId;
+            pageRoute = PageRoute;
+            PageId = Context.Current?.Id;
             InitTable();
             await base.RefreshAsync();
         }
@@ -122,9 +124,13 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         Table.Initialize(this);
         Table.OnQuery = OnQueryModelsAsync;
         Table.Criteria.Clear();
-        foreach (var item in Context?.Current?.Model?.Fields)
+        var fields = Context?.Current?.Model?.Fields;
+        if (fields != null && fields.Count > 0)
         {
-            defaultData[item.Id] = null;
+            foreach (var item in fields)
+            {
+                defaultData[item.Id] = null;
+            }
         }
     }
 

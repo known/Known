@@ -214,6 +214,47 @@ public sealed class Utils
 
     #region Serialize
     /// <summary>
+    /// 将对象序列化为XML字符串（使用.NET内置XML序列化）。
+    /// </summary>
+    /// <param name="value">对象。</param>
+    /// <returns>XML字符串。</returns>
+    public static string ToXml(object value)
+    {
+        if (value == null)
+            return null;
+
+        var settings = new XmlWriterSettings { Indent = true, Encoding = new UTF8Encoding(false) };
+        using (var stream = new MemoryStream())
+        using (var writer = XmlWriter.Create(stream, settings))
+        {
+            var namespaces = new XmlSerializerNamespaces();
+            namespaces.Add("", "");
+            var serializer = new XmlSerializer(value.GetType());
+            serializer.Serialize(writer, value, namespaces);
+            return Encoding.UTF8.GetString(stream.ToArray());
+        }
+    }
+
+    /// <summary>
+    /// 将XML字符串反序列化成指定泛型的对象（使用.NET内置XML序列化）。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="xml">XML字符串。</param>
+    /// <returns>泛型对象。</returns>
+    public static T FromXml<T>(string xml) where T : class
+    {
+        if (string.IsNullOrWhiteSpace(xml))
+            return default(T);
+
+        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+        using (var reader = new StreamReader(stream, Encoding.UTF8))
+        {
+            var serializer = new XmlSerializer(typeof(T));
+            return (T)serializer.Deserialize(reader);
+        }
+    }
+
+    /// <summary>
     /// 将对象序列化为JSON字符串（使用.NET内置JSON序列化）。
     /// </summary>
     /// <param name="value">对象。</param>

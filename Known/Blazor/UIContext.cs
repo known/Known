@@ -107,13 +107,13 @@ public class UIContext : Context
         UserMenus = null;
     }
 
-    internal void SetCurrentMenu(string pageId = "")
+    internal void SetCurrentMenu(string pageRoute = "")
     {
-        Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
+        Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Url == $"/{pageRoute}" || m.Id == pageRoute);
         if (Current == null)
         {
             var menus = IsMobile ? Config.AppMenus : UserMenus;
-            Current = menus?.FirstOrDefault(m => m.Url == Url || m.Id == pageId);
+            Current = menus?.FirstOrDefault(m => m.Url == Url || m.Url == $"/{pageRoute}" || m.Id == pageRoute);
         }
     }
 }

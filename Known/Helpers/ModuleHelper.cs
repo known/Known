@@ -40,7 +40,7 @@ class ModuleHelper
     internal static List<SysModule> GetModules()
     {
         var modules = new List<SysModule>();
-        var baseData = GetModule("BaseData", "基础数据", "database", ModuleType.Menu.ToString(), 1);
+        var baseData = GetModule("BaseData", "基础数据", "database", ModuleType.Menu, 1);
         modules.Add(baseData);
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
@@ -48,7 +48,7 @@ class ModuleHelper
         Config.OnAddModule?.Invoke(modules);
 
         var roots = modules.Count(m => m.ParentId == "0");
-        var system = GetModule("System", "系统管理", "setting", ModuleType.Menu.ToString(), roots + 1);
+        var system = GetModule("System", "系统管理", "setting", ModuleType.Menu, roots + 1);
         modules.Add(system);
         modules.Add(GetSysSystem(system.Id));
         modules.Add(GetSysRole(system.Id));
@@ -56,13 +56,12 @@ class ModuleHelper
         modules.Add(GetSysTask(system.Id));
         modules.Add(GetSysFile(system.Id));
         modules.Add(GetSysLog(system.Id));
-        //modules.Add(GetSysModule(system.Id));
         return modules;
     }
 
-    private static SysModule GetModule(string code, string name, string icon, string target, int sort)
+    private static SysModule GetModule(string code, string name, string icon, ModuleType target, int sort)
     {
-        return new SysModule { ParentId = "0", Code = code, Name = name, Icon = icon, Target = target, Sort = sort, Enabled = true };
+        return new SysModule { ParentId = "0", Code = code, Name = name, Icon = icon, Target = target.ToString(), Sort = sort, Enabled = true };
     }
 
     private static SysModule GetSysDictionary(string parentId)
@@ -74,7 +73,7 @@ class ModuleHelper
             Name = "数据字典",
             Icon = "unordered-list",
             Description = "维护系统所需的下拉框数据源。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/dictionaries",
             Sort = 1,
             Enabled = true,
@@ -101,7 +100,7 @@ class ModuleHelper
             Name = "组织架构",
             Icon = "partition",
             Description = "维护企业组织架构信息。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/organizations",
             Sort = 2,
             Enabled = true,
@@ -141,7 +140,7 @@ class ModuleHelper
             Name = "角色管理",
             Icon = "team",
             Description = "维护系统用户角色及其菜单权限信息。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/roles",
             Sort = 2,
             Enabled = true,
@@ -163,7 +162,7 @@ class ModuleHelper
             Name = "用户管理",
             Icon = "user",
             Description = "维护系统用户账号及角色信息。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/users",
             Sort = 3,
             Enabled = true,
@@ -200,7 +199,7 @@ class ModuleHelper
             Name = "后台任务",
             Icon = "control",
             Description = "查询系统所有定时任务运行情况。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/tasks",
             Sort = 4,
             Enabled = true,
@@ -226,7 +225,7 @@ class ModuleHelper
             Name = "系统附件",
             Icon = "file",
             Description = "查询系统所有附件信息。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/files",
             Sort = 5,
             Enabled = true,
@@ -255,7 +254,7 @@ class ModuleHelper
             Name = "系统日志",
             Icon = "clock-circle",
             Description = "查询系统用户操作日志信息。",
-            Target = ModuleType.Page.ToString(),
+            Target = ModuleType.Custom.ToString(),
             Url = "/sys/logs",
             Sort = 6,
             Enabled = true,
@@ -264,38 +263,6 @@ class ModuleHelper
 操作对象|Target|Text|50|Y
 操作内容|Content|Text",
             PageData = "{\"Type\":null,\"ShowPager\":true,\"FixedWidth\":null,\"FixedHeight\":null,\"Tools\":[\"Export\"],\"Actions\":null,\"Columns\":[{\"Id\":\"Type\",\"Name\":\"操作类型\",\"IsViewLink\":false,\"IsQuery\":true,\"IsQueryAll\":true,\"IsSum\":false,\"IsSort\":true,\"DefaultSort\":null,\"Fixed\":null,\"Width\":100,\"Align\":null},{\"Id\":\"Target\",\"Name\":\"操作对象\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":true,\"DefaultSort\":null,\"Fixed\":null,\"Width\":150,\"Align\":null},{\"Id\":\"Content\",\"Name\":\"操作内容\",\"IsViewLink\":false,\"IsQuery\":true,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":null,\"Align\":null},{\"Id\":\"CreateBy\",\"Name\":\"创建人\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":true,\"DefaultSort\":null,\"Fixed\":null,\"Width\":100,\"Align\":null},{\"Id\":\"CreateTime\",\"Name\":\"创建时间\",\"IsViewLink\":false,\"IsQuery\":true,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":true,\"DefaultSort\":\"Descend\",\"Fixed\":null,\"Width\":150,\"Align\":null}]}"
-        };
-    }
-
-    private static SysModule GetSysModule(string parentId)
-    {
-        return new SysModule
-        {
-            ParentId = parentId,
-            Code = "SysModuleList",
-            Name = "模块管理",
-            Icon = "appstore-add",
-            Description = "维护系统菜单按钮及列表栏位信息。",
-            Target = ModuleType.Page.ToString(),
-            Url = "/sys/modules",
-            Sort = 7,
-            Enabled = true,
-            EntityData = @"系统模块|SysModule
-上级|ParentId|Text|50
-代码|Code|Text|50|Y
-名称|Name|Text|50|Y
-图标|Icon|Text|50
-描述|Description|Text|200
-类型|Target|Text|50
-URL|Url|Text|200
-顺序|Sort|Number
-可用|Enabled|Switch
-实体设置|EntityData|Text
-页面设置|PageData|Text
-表单设置|FormData|Text
-备注|Note|Text|500",
-            PageData = "{\"Type\":null,\"ShowPager\":false,\"FixedWidth\":null,\"FixedHeight\":null,\"Tools\":[\"New\",\"DeleteM\",\"Copy\",\"Move\"],\"Actions\":[\"Edit\",\"Delete\",\"MoveUp\",\"MoveDown\"],\"Columns\":[{\"Id\":\"Code\",\"Name\":\"代码\",\"IsViewLink\":true,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":130,\"Align\":null},{\"Id\":\"Name\",\"Name\":\"名称\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":120,\"Align\":null},{\"Id\":\"Description\",\"Name\":\"描述\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":180,\"Align\":null},{\"Id\":\"Target\",\"Name\":\"类型\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":80,\"Align\":\"center\"},{\"Id\":\"Url\",\"Name\":\"Url\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":150,\"Align\":null},{\"Id\":\"Sort\",\"Name\":\"顺序\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":60,\"Align\":\"center\"},{\"Id\":\"Enabled\",\"Name\":\"可用\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":60,\"Align\":\"center\"},{\"Id\":\"Note\",\"Name\":\"备注\",\"IsViewLink\":false,\"IsQuery\":false,\"IsQueryAll\":false,\"IsSum\":false,\"IsSort\":false,\"DefaultSort\":null,\"Fixed\":null,\"Width\":150,\"Align\":null}]}",
-            FormData = "{\"Width\":1200,\"Maximizable\":true,\"DefaultMaximized\":false,\"LabelSpan\":null,\"WrapperSpan\":null,\"Fields\":[{\"Row\":1,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Code\",\"Name\":\"代码\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":1,\"Column\":2,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Name\",\"Name\":\"名称\",\"Type\":0,\"Length\":null,\"Required\":true},{\"Row\":2,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Icon\",\"Name\":\"图标\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":4,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Description\",\"Name\":\"描述\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":2,\"Column\":2,\"CategoryType\":\"Custom\",\"Category\":\"ModuleType\",\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Target\",\"Name\":\"类型\",\"Type\":7,\"Length\":null,\"Required\":true},{\"Row\":3,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Url\",\"Name\":\"URL\",\"Type\":0,\"Length\":null,\"Required\":false},{\"Row\":3,\"Column\":2,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Enabled\",\"Name\":\"可用\",\"Type\":4,\"Length\":null,\"Required\":true},{\"Row\":5,\"Column\":1,\"CategoryType\":null,\"Category\":null,\"Placeholder\":null,\"ReadOnly\":false,\"MultiFile\":false,\"Id\":\"Note\",\"Name\":\"备注\",\"Type\":1,\"Length\":null,\"Required\":false}]}"
         };
     }
 }

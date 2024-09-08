@@ -8,7 +8,8 @@ class ModuleForm : BaseStepForm
     {
         get
         {
-            if (Model.Data.Target != ModuleType.Page.ToString())
+            var type = Utils.ConvertTo<ModuleType>(Model.Data.Target);
+            if (type != ModuleType.Page && type != ModuleType.Custom)
                 return 1;
 
             var page = Model.Data.Page;

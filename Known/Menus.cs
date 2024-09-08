@@ -205,10 +205,14 @@ public class MenuInfo
     {
         get
         {
-            var url = Url;
-            if (string.IsNullOrWhiteSpace(url) || Target == ModuleType.IFrame.ToString())
-                url = $"/page/{Id}";
-            return url;
+            var type = Utils.ConvertTo<ModuleType>(Target);
+            if (type != ModuleType.Page && type != ModuleType.IFrame)
+                return Url;
+
+            if (string.IsNullOrWhiteSpace(Url))
+                return $"/page/{Id}";
+
+            return Url.StartsWith("/") ? $"/page{Url}" : $"/page/{Url}";
         }
     }
 
