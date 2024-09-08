@@ -57,7 +57,7 @@ class DataHelper
 
         if (lines.Length > 0)
         {
-            var values = lines[0].Split('|');
+            var values = lines[0].Split('|').Select(x => x.Trim()).ToArray();
             if (values.Length > 0) info.Name = values[0];
             if (values.Length > 1) info.Id = values[1];
             if (values.Length > 2) info.IsFlow = values[2] == "Y";
@@ -68,7 +68,7 @@ class DataHelper
             for (int i = 1; i < lines.Length; i++)
             {
                 var field = new FieldInfo();
-                var values = lines[i].Split('|');
+                var values = lines[i].Split('|').Select(x => x.Trim()).ToArray();
                 if (values.Length > 0) field.Name = values[0];
                 if (values.Length > 1) field.Id = values[1];
                 if (values.Length > 2) field.Type = Utils.ConvertTo<FieldType>(values[2]);
