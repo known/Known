@@ -64,7 +64,7 @@ public class UserEditForm : BaseEditForm<SysUser>
     /// <summary>
     /// 用户保存成功后，设置当前用户信息，刷新页面。
     /// </summary>
-    /// <param name="result"></param>
+    /// <param name="result">报错结果对象。</param>
     protected override void OnSuccess(Result result)
     {
         var entity = result.DataAs<SysUser>();

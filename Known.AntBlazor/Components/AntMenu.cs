@@ -18,7 +18,7 @@ public class AntMenu : BaseComponent
     /// <summary>
     /// 呈现菜单组件内容。
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<Menu>()

@@ -32,6 +32,11 @@ public class UIConfig
     /// </summary>
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
+    /// <summary>
+    /// 取得或设置页面标签颜色委托。
+    /// </summary>
+    public static Func<string, string> OnTagColor { get; set; }
+
     internal static List<MenuInfo> Menus { get; } = [];
 
     internal static void SetMenu(MenuInfo info)

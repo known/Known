@@ -3,7 +3,7 @@
 /// <summary>
 /// 表格组件模型信息类。
 /// </summary>
-/// <param name="context"></param>
+/// <param name="context">UI上下文对象。</param>
 public class TableModel(UIContext context) : BaseModel(context)
 {
     /// <summary>
@@ -86,6 +86,25 @@ public class TableModel(UIContext context) : BaseModel(context)
         };
         UI.ShowDialog(model);
     }
+
+    /// <summary>
+    /// 设置默认查询条件数据。
+    /// </summary>
+    public void SetDefaultQuery()
+    {
+        QueryData.Clear();
+        if (QueryColumns == null || QueryColumns.Count == 0)
+            return;
+
+        foreach (var item in QueryColumns)
+        {
+            var info = new QueryInfo(item);
+            info.Value = TypeHelper.GetPropertyValue<string>(DefaultQuery, item.Id);
+            QueryData[item.Id] = info;
+        }
+
+        Criteria.Query = QueryData.Select(d => d.Value).ToList();
+    }
 }
 
 /// <summary>
@@ -97,8 +116,8 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
     /// </summary>
-    /// <param name="page"></param>
-    /// <param name="isAuto"></param>
+    /// <param name="page">页面组件对象。</param>
+    /// <param name="isAuto">是否根据数据类型自动生成表格列。</param>
     public TableModel(BaseComponent page, bool isAuto = false) : base(page.Context)
     {
         AdvSearch = true;
@@ -313,7 +332,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 初始化表格栏位、权限、查询条件。
     /// </summary>
-    /// <param name="page"></param>
+    /// <param name="page">页面组件对象。</param>
     public virtual void Initialize(BasePage page)
     {
         var menu = page?.Context?.Current;
@@ -691,17 +710,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         if (Columns != null && Columns.Count > 0)
             QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
 
-        if (QueryColumns != null && QueryColumns.Count > 0)
-        {
-            foreach (var item in QueryColumns)
-            {
-                var info = new QueryInfo(item);
-                info.Value = TypeHelper.GetPropertyValue<string>(DefaultQuery, item.Id);
-                QueryData[item.Id] = info;
-            }
-
-            Criteria.Query = QueryData.Select(d => d.Value).ToList();
-        }
+        SetDefaultQuery();
     }
 
     internal async Task PageRefreshAsync()

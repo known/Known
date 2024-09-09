@@ -58,8 +58,8 @@ public sealed class Cache
     /// <summary>
     /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
     /// </summary>
-    /// <param name="category"></param>
-    /// <returns></returns>
+    /// <param name="category">代码类别名/</param>
+    /// <returns>代码表列表。</returns>
     public static List<CodeInfo> GetCodes(string category)
     {
         var infos = new List<CodeInfo>();

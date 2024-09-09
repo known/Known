@@ -3,8 +3,6 @@
 /// <summary>
 /// 用户个人中心页面组件类。
 /// </summary>
-[StreamRendering]
-[Route("/profile")]
 public class SysUserProfile : BasePage<SysUser>
 {
     internal IUserService Service { get; private set; }

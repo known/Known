@@ -14,7 +14,7 @@ public class DataForm<TItem> : BaseComponent where TItem : class, new()
     /// <summary>
     /// 呈现表单组件内容。
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)

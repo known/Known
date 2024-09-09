@@ -3,8 +3,6 @@
 /// <summary>
 /// 系统模块管理页面组件类。
 /// </summary>
-[StreamRendering]
-[Route("/sys/modules")]
 public class SysModuleList : BasePage<SysModule>
 {
     private IModuleService Service;

@@ -133,8 +133,8 @@ public sealed class Config
     /// <summary>
     /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。
     /// </summary>
-    /// <param name="url"></param>
-    /// <returns></returns>
+    /// <param name="url">静态文件URL。</param>
+    /// <returns>带版本号的静态文件URL。</returns>
     public static string GetStaticFileUrl(string url)
     {
         if (string.IsNullOrWhiteSpace(App.WebRoot))

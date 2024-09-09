@@ -47,7 +47,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     /// <summary>
     /// 构建表单内容。
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         UI.BuildSteps(builder, step);
@@ -89,7 +89,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     /// <summary>
     /// 呈现流程表单内容。
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-content", () => Content?.Invoke(builder));

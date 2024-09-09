@@ -9,7 +9,7 @@ public static class ElementExtension
     /// 呈现一个HTML元素的开头标签。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    /// <param name="elementName"></param>
+    /// <param name="elementName">HTML元素名。</param>
     /// <returns>呈现树建造者。</returns>
     public static RenderTreeBuilder OpenElement(this RenderTreeBuilder builder, string elementName)
     {

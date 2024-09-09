@@ -184,10 +184,10 @@ public class Language
     public string Authorize => this["Button.Authorize"];
 
     /// <summary>
-    /// 根据语言标识货物语言项目。
+    /// 根据语言标识获取语言项目。
     /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
+    /// <param name="name">语言标识</param>
+    /// <returns>语言项目对象。</returns>
     public static ActionInfo GetLanguage(string name)
     {
         if (string.IsNullOrWhiteSpace(name))

@@ -12,7 +12,7 @@ public class CssBuilder
     /// <summary>
     /// 构造函数，创建一个CSS样式建造者类的实例。
     /// </summary>
-    /// <param name="className"></param>
+    /// <param name="className">CSS类名。</param>
     protected CssBuilder(string className)
     {
         AddClass(className);

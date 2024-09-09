@@ -61,10 +61,10 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected Task ExportDataAsync(ExportMode mode = ExportMode.Query) => Table.ExportDataAsync(mode);
 
     /// <summary>
-    /// 
+    /// 根据导出模式异步导出表格数据，默认按查询结果导出。
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="mode"></param>
+    /// <param name="name">导出文件名称。</param>
+    /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
     /// <returns></returns>
     protected Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query) => Table.ExportDataAsync(name, mode);
 }

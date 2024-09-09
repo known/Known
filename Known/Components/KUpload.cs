@@ -55,7 +55,7 @@ public class KUpload : BaseComponent
     /// <summary>
     /// 设置上传组件关联字段值。
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="value">附件字段值。</param>
     public async void SetValue(string value)
     {
         Value = value;

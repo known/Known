@@ -6,7 +6,6 @@ class UIService(ModalService modalService, MessageService messageService, INotif
     private readonly MessageService _message = messageService;
     private readonly INotificationService _notice = noticeService;
 
-    public static Func<string, string> OnTagColor { get; set; }
     public Language Language { get; set; }
 
     public Type GetInputType(Type dataType, FieldType fieldType)
@@ -375,9 +374,9 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         if (string.IsNullOrWhiteSpace(text))
             return string.Empty;
 
-        if (OnTagColor != null)
+        if (UIConfig.OnTagColor != null)
         {
-            var color = OnTagColor.Invoke(text);
+            var color = UIConfig.OnTagColor.Invoke(text);
             if (!string.IsNullOrWhiteSpace(color))
                 return color;
         }

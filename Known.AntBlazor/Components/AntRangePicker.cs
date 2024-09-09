@@ -28,6 +28,16 @@ public class AntRangePicker : RangePicker<DateTime?[]>
         if (Item != null)
             Item.Type = typeof(string);
         base.OnInitialized();
+        OnChange = this.Callback<DateRangeChangedEventArgs<DateTime?[]>>(OnDateRangeChange);
+    }
+
+    /// <summary>
+    /// 异步设置组件参数。
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
         if (!string.IsNullOrWhiteSpace(RangeValue))
         {
             var values = RangeValue.Split('~');
@@ -36,7 +46,6 @@ public class AntRangePicker : RangePicker<DateTime?[]>
             if (values.Length > 1)
                 Value[1] = Utils.ConvertTo<DateTime?>(values[1]);
         }
-        OnChange = this.Callback<DateRangeChangedEventArgs<DateTime?[]>>(OnDateRangeChange);
     }
 
     private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)

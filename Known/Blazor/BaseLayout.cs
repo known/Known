@@ -117,19 +117,19 @@ public class BaseLayout : LayoutComponentBase
     /// 创建依赖注入的后端服务接口实例。
     /// </summary>
     /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
-    /// <returns></returns>
+    /// <returns>后端服务接口实例。</returns>
     public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
 
     /// <summary>
     /// 导航到指定URL的路由页面。
     /// </summary>
-    /// <param name="url"></param>
+    /// <param name="url">跳转的页面URL。</param>
     public void NavigateTo(string url) => Navigation.NavigateTo(url);
 
     /// <summary>
     /// 导航到指定菜单对应的页面。
     /// </summary>
-    /// <param name="item"></param>
+    /// <param name="item">跳转的菜单对象。</param>
     public void NavigateTo(MenuInfo item)
     {
         if (item == null)

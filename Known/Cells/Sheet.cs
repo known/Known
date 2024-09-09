@@ -199,7 +199,7 @@ public interface ISheet
     /// <summary>
     /// 删除Sheet中的空白行。
     /// </summary>
-    /// <param name="match"></param>
+    /// <param name="match">匹配正则表达式。</param>
     void ClearEmpty(string match = "{.?}|{.+}");
     #endregion
 }

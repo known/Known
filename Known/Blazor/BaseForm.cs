@@ -114,7 +114,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     /// <summary>
     /// 构建表单【编辑】、【保存】和【取消】操作按钮。
     /// </summary>
-    /// <param name="builder"></param>
+    /// <param name="builder">呈现树建造者。</param>
     protected void BuildAction(RenderTreeBuilder builder)
     {
         if (!isEdit)
@@ -131,8 +131,8 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     /// <summary>
     /// 异步保存表单数据虚方法。
     /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
+    /// <param name="model">表单数据对象。</param>
+    /// <returns>保存结果。</returns>
     protected virtual Task<Result> OnSaveAsync(TItem model) => Result.SuccessAsync("");
 
     /// <summary>

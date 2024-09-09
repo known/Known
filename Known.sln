@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		Document\更新日志.md = Document\更新日志.md
+		Document\示例文档.md = Document\示例文档.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj", "{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}"
