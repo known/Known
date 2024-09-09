@@ -94,6 +94,7 @@
   "Button.ResetPassword": "重置密码",
   "Button.ChangeDepartment": "更换部门",
   "Button.AddCategory": "添加类别",
+  "Button.BackHome": "返回首页",
 
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.Exits": "确定要退出系统？",

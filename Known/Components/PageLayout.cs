@@ -68,13 +68,19 @@ public class PageLayout : BaseLayout
     {
         try
         {
-            var pageRoute = "";
-            Context.Url = Navigation.GetPageUrl();
-            if (Context.Url.StartsWith("/page/"))
-                pageRoute = Context.Url.Substring(6);
-            //Logger.Info($"Layout={Context.Url}");
-            await base.OnParametersSetAsync();
+            var url = Navigation.GetPageUrl();
+            //Logger.Info($"Layout={url}");
+            var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
+            Context.Url = url;
             Context.SetCurrentMenu(pageRoute);
+            if (url != "/" && url != "/profile" && !url.StartsWith("/error/"))
+            {
+                if (Context.Current == null)
+                {
+                    Navigation.GoErrorPage("403");
+                    return;
+                }
+            }
             if (Context.Current != null && !Config.IsClient)
             {
                 await SystemService.AddLogAsync(new SysLog

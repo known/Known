@@ -27,6 +27,11 @@ public class UIConfig
     /// </summary>
     public static Dictionary<string, List<string>> Icons { get; set; } = [];
 
+    /// <summary>
+    /// 取得错误页面配置字典。
+    /// </summary>
+    public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
+
     internal static List<MenuInfo> Menus { get; } = [];
 
     internal static void SetMenu(MenuInfo info)
@@ -34,4 +39,20 @@ public class UIConfig
         if (!Menus.Exists(m => m.Url == info.Url))
             Menus.Add(info);
     }
+}
+
+/// <summary>
+/// 错误页面配置信息类。
+/// </summary>
+public class ErrorConfigInfo
+{
+    /// <summary>
+    /// 取得或设置错误代码描述文本。
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
+    /// 取得或设置错误代码自定义模板。
+    /// </summary>
+    public RenderFragment Template { get; set; }
 }

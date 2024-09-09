@@ -228,6 +228,16 @@ public static class CommonExtension
         var baseUrl = navigation.BaseUri.TrimEnd('/');
         return navigation.Uri.Replace(baseUrl, "");
     }
+
+    /// <summary>
+    /// 导航到指定错误码的错误页面。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    /// <param name="code">错误页面代码。</param>
+    public static void GoErrorPage(this NavigationManager navigation, string code)
+    {
+        navigation.NavigateTo($"/error/{code}");
+    }
     #endregion
 
     #region File

@@ -94,6 +94,7 @@
   "Button.ResetPassword": "Reset Password",
   "Button.ChangeDepartment": "Change Department",
   "Button.AddCategory": "Add Category",
+  "Button.BackHome": "Home Page",
 
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.Exits": "Are you sure to exit the system?",

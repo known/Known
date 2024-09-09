@@ -33,6 +33,7 @@
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}
 .kui-flex {display:flex;}
+.kui-error {text-align:center;padding:20px;height:100%;}
 .primary {color:#1890ff;}
 .danger {color:#ed4014;}
 .bg-danger, .bg-danger > td {background-color:#ffccc7 !important;}

@@ -20,6 +20,12 @@ public class SysModuleList : BasePage<SysModule>
     /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
         await base.OnPageInitAsync();
         Service = await CreateServiceAsync<IModuleService>();
 

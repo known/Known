@@ -14,6 +14,8 @@ public static class AppClient
         });
 
         Config.AddModule(typeof(AppClient).Assembly);
+
+        UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
     }
 
     internal static void AddSampleClient(this IServiceCollection services)

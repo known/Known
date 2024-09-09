@@ -94,6 +94,7 @@
   "Button.ResetPassword": "Đặt lại mật khẩu",
   "Button.ChangeDepartment": "Bộ phận thay thế",
   "Button.AddCategory": "Thêm thể loại",
+  "Button.BackHome": "Quay lại trang đầu",
 
   "Tip.SwitchUIType": "Chuyển đổi kiểu giao diện ở đây",
   "Tip.Exits": "Đảm bảo bạn muốn thoát khỏi hệ thống？",
