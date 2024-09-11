@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known.SqlSugar是Known框架数据访问支持SqlSugar的类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, ORM, SqlSugar</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

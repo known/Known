@@ -205,8 +205,7 @@ public class MenuInfo
     {
         get
         {
-            var type = Utils.ConvertTo<ModuleType>(Target);
-            if (type != ModuleType.Page && type != ModuleType.IFrame)
+            if (Target != ModuleType.Page.ToString() && Target != ModuleType.IFrame.ToString())
                 return Url;
 
             if (string.IsNullOrWhiteSpace(Url))

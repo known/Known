@@ -46,7 +46,7 @@ public static class AppWeb
         });
     }
 
-    public static void AddSampleCore(this IServiceCollection services, Action<AppInfo> action = null)
+    private static void AddSampleCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
         services.AddKnownCore(info =>
         {

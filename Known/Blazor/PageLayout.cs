@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Blazor;
 
 /// <summary>
 /// 页面布局模板组件类。
