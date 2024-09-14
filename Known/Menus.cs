@@ -305,7 +305,7 @@ public class ActionInfo
     public string Icon { get; set; }
 
     /// <summary>
-    /// 取得或设置操作URL。
+    /// 取得或设置操作跳转的URL。
     /// </summary>
     public string Url { get; set; }
 

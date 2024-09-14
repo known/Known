@@ -16,7 +16,7 @@ public class AdminInfo
     public int MessageCount { get; set; }
 
     /// <summary>
-    /// 取得或设置当前用户系统设置信息。
+    /// 取得或设置当前用户系统设置信息，如：是否使用多标签页模式。
     /// </summary>
     public SettingInfo UserSetting { get; set; }
 
@@ -26,7 +26,7 @@ public class AdminInfo
     public List<MenuInfo> UserMenus { get; set; }
 
     /// <summary>
-    /// 取得或设置系统代码表信息列表。
+    /// 取得或设置系统数据字典和代码表信息列表，用于前后端分离时，缓存在前端。
     /// </summary>
     public List<CodeInfo> Codes { get; set; }
 }

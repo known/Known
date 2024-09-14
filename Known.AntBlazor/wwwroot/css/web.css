@@ -357,6 +357,7 @@
 .ws-func-menu:hover {color:#1c66b9;}
 .ws-func-menu .anticon {display:block;font-size:2.2rem;margin:8px auto;}
 .ws-func-menu .anticon .icon {width:2.2rem;height:2.2rem;}
+.ws-func-menu .fa {display:block;font-size:1.9rem;margin:8px auto;}
 .ws-func-menu .name {display:block;width:100%;height:25px;overflow:hidden;}
 .ws-func .ant-card-body {padding:20px 10px;}
 

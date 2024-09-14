@@ -8,17 +8,17 @@ public sealed class Config
     private Config() { }
 
     /// <summary>
-    /// 框架官网网址。
+    /// 框架官网网址：http://known.org.cn。
     /// </summary>
     public const string SiteUrl = "http://known.org.cn";
 
     /// <summary>
-    /// 框架Gitee项目网址。
+    /// 框架Gitee项目网址：https://gitee.com/known/Known。
     /// </summary>
     public const string GiteeUrl = "https://gitee.com/known/Known";
 
     /// <summary>
-    /// 框架GitHub项目网址。
+    /// 框架GitHub项目网址：https://github.com/known/Known"。
     /// </summary>
     public const string GithubUrl = "https://github.com/known/Known";
 
@@ -73,7 +73,7 @@ public sealed class Config
     public static List<ApiMethodInfo> ApiMethods { get; } = [];
 
     /// <summary>
-    /// 取得或设置系统菜单信息列表。
+    /// 取得或设置系统移动端菜单信息列表。
     /// </summary>
     public static List<MenuInfo> AppMenus { get; set; }
 
@@ -92,7 +92,7 @@ public sealed class Config
     internal static Dictionary<string, Type> FormTypes { get; } = [];
 
     /// <summary>
-    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类，以及CodeInfo特效的代码表类。
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类，以及CodeInfo特性的代码表类。
     /// </summary>
     /// <param name="assembly">模块程序集。</param>
     /// <param name="isAdditional">是否附加到路由组件，默认True。</param>
@@ -374,12 +374,12 @@ public class AppInfo
     public AppType Type { get; set; } = AppType.Web;
 
     /// <summary>
-    /// 取得或设置系统入口程序集。
+    /// 取得或设置系统入口程序集，用于获取软件版本号。
     /// </summary>
     public Assembly Assembly { get; set; }
 
     /// <summary>
-    /// 取得或设置系统是否为平台多租户。
+    /// 取得或设置系统是否为多租户平台。
     /// </summary>
     public bool IsPlatform { get; set; }
 
@@ -409,7 +409,7 @@ public class AppInfo
     public string ContentRoot { get; set; }
 
     /// <summary>
-    /// 取得或设置系统附件上传位置。
+    /// 取得或设置系统附件上传位置，默认为根目录上级文件夹内的UploadFiles文件夹。
     /// </summary>
     public string UploadPath { get; set; }
 
@@ -424,32 +424,32 @@ public class AppInfo
     public string DefaultSize { get; set; } = "Default";
 
     /// <summary>
-    /// 取得或设置系统表格默认分页大小，默认20。
+    /// 取得或设置系统表格默认分页大小，默认10。
     /// </summary>
     public int DefaultPageSize { get; set; } = 10;
 
     /// <summary>
-    /// 取得或设置系统JS脚本文件路径。
+    /// 取得或设置系统JS脚本文件路径，该文件中的JS方法，可通过JSService的InvokeAppAsync和InvokeAppVoidAsync调用。
     /// </summary>
     public string JsPath { get; set; }
 
     /// <summary>
-    /// 取得或设置系统产品ID。
+    /// 取得或设置【关于系统】模块显示的产品ID。
     /// </summary>
     public string ProductId { get; set; }
 
     /// <summary>
-    /// 取得或设置系统版权信息。
+    /// 取得或设置【关于系统】模块显示的版权信息。
     /// </summary>
     public string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
 
     /// <summary>
-    /// 取得或设置系统软件许可信息。
+    /// 取得或设置【关于系统】模块显示的软件许可信息。
     /// </summary>
     public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
 
     /// <summary>
-    /// 取得或设置系统数据库连接信息列表。
+    /// 取得或设置系统数据库连接信息列表，注意：Default为框架默认数据库连接名称，不要修改。
     /// </summary>
     public List<ConnectionInfo> Connections { get; set; }
 
@@ -515,7 +515,7 @@ public class ApiMethodInfo
     public string Route { get; set; }
 
     /// <summary>
-    /// 取得或设置方法HTTP请求方式。
+    /// 取得或设置方法HTTP请求方式，默认方法名以Get开头的方法为GET请求，其他为POST请求。
     /// </summary>
     public HttpMethod HttpMethod { get; set; }
 
