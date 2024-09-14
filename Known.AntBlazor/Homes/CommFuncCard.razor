@@ -7,7 +7,7 @@
             foreach (var item in Menus)
             {
                 <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(item.RouteUrl, true)">
-                    <Icon Type="@item.Icon" Theme="outline" />
+                    <KIcon Icon="@item.Icon" />
                     <span class="name">@Language?.GetString(item)</span>
                 </div>
             }
