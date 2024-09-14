@@ -370,6 +370,8 @@
   "ReturnToUser": "Trở lại [{user}]",
   "Start": "Bắt đầu",
   "End": "Kết thúc",
+  "HttpMethod": "Phương pháp Http",
+  "Route": "Định tuyến",
   "Theme": "Chủ đề",
   "Accordion": "Thực đơn Accordion",
   "MultiTab": "Trang thẻ",
@@ -417,6 +419,7 @@
   "Nav.SizeDefault": "Mặc định",
   "Nav.SizeCompact": "Nhỏ gọn",
   "Nav.Profile": "Trung tâm cá nhân",
+  "Nav.Development": "Trung tâm phát triển",
   "Nav.Exit": "Thoát an toàn",
 
   "Menu.Home": "Trang chủ",
@@ -433,7 +436,7 @@
   "Menu.SysFileList": "Phụ kiện hệ thống",
   "Menu.SysLogList": "Nhật ký hệ thống",
   "Menu.SysModuleList": "Quản lý mô-đun",
-
+  
   "Greeting0": "Xin chào！{name}，Dường như anh không ở trong không gian của chúng tôi！",
   "Greeting5": "Chào buổi sáng！{name}，Bắt đầu một ngày làm việc của bạn！",
   "Greeting9": "Chào buổi sáng！{name}，Cố lên！",

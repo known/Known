@@ -1,19 +1,11 @@
 ﻿@inherits BaseComponent
 
-<Tabs Animated Class="@Class" @bind-ActiveKey="@current">
+<Tabs Animated Class="@Model.Class" @bind-ActiveKey="@current">
     <TabBarExtraContentLeft>
         @Model.Left
     </TabBarExtraContentLeft>
     <ChildContent>
-        @if (!string.IsNullOrWhiteSpace(Tabs))
-        {
-            var tabs = Tabs.Split(',');
-            foreach (var item in tabs)
-            {
-                <TabPane Key="@item" Tab="@item" />
-            }
-        }
-        else if (Model != null && Model.HasItem)
+        @if (Model != null && Model.HasItem)
         {
             foreach (var item in Model.Items)
             {
@@ -38,8 +30,6 @@
 @code {
     private string current;
 
-    [Parameter] public string Class { get; set; }
-    [Parameter] public string Tabs { get; set; }
     [Parameter] public TabModel Model { get; set; }
     [Parameter] public Action<string> OnChange { get; set; }
 

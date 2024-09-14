@@ -11,7 +11,7 @@ class AdvancedSearch : BaseComponent
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
-        await settingService.SaveUserSettingAsync(new SettingFormInfo
+        await settingService.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingKey,
             BizData = Query

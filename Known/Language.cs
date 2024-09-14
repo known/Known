@@ -69,11 +69,6 @@ public class Language
     public string SelectOneAtLeast => this["Tip.SelectOneAtLeast"];
 
     /// <summary>
-    /// 系统模块。
-    /// </summary>
-    public string SysModule => this["Menu.SysModuleList"];
-
-    /// <summary>
     /// 确定。
     /// </summary>
     public string OK => this["Button.OK"];

@@ -20,18 +20,18 @@ public interface ISettingService : IService
     Task<Result> DeleteUserSettingAsync(string bizType);
 
     /// <summary>
-    /// 异步保存用户设置信息。
+    /// 异步保存用户系统设置信息。
     /// </summary>
     /// <param name="info">用户设置信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveUserSettingAsync(SettingInfo info);
+    Task<Result> SaveUserSettingInfoAsync(SettingInfo info);
 
     /// <summary>
-    /// 异步保存用户设置信息。
+    /// 异步保存用户业务设置信息，如：高级查询。
     /// </summary>
     /// <param name="info">设置表单信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveUserSettingAsync(SettingFormInfo info);
+    Task<Result> SaveUserSettingFormAsync(SettingFormInfo info);
 }
 
 class SettingService(Context context) : ServiceBase(context), ISettingService
@@ -53,16 +53,16 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
         return Result.Success(Language.Success(Language.Delete));
     }
 
-    public Task<Result> SaveUserSettingAsync(SettingInfo info)
+    public Task<Result> SaveUserSettingInfoAsync(SettingInfo info)
     {
-        return SaveUserSettingAsync(new SettingFormInfo
+        return SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingInfo.KeyInfo,
             BizData = info
         });
     }
 
-    public async Task<Result> SaveUserSettingAsync(SettingFormInfo info)
+    public async Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
     {
         var setting = await GetUserSettingAsync(Database, info.BizType);
         setting ??= new SysSetting();

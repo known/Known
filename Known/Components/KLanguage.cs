@@ -46,7 +46,7 @@ public class KLanguage : BaseComponent
         if (CurrentUser != null)
         {
             Context.UserSetting.Language = current.Id;
-            await Service.SaveUserSettingAsync(Context.UserSetting);
+            await Service.SaveUserSettingInfoAsync(Context.UserSetting);
         }
         await JS.SetCurrentLanguageAsync(current.Id);
         Navigation.Refresh(true);

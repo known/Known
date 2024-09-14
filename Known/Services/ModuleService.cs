@@ -46,14 +46,14 @@ public interface IModuleService : IService
     Task<Result> CopyModulesAsync(List<SysModule> models);
 
     /// <summary>
-    /// 异步移动系统模块。
+    /// 异步移动多条系统模块。
     /// </summary>
     /// <param name="models">系统模块列表。</param>
     /// <returns>移动结果。</returns>
     Task<Result> MoveModulesAsync(List<SysModule> models);
 
     /// <summary>
-    /// 异步移动系统模块。
+    /// 异步移动单条系统模块。
     /// </summary>
     /// <param name="model">系统模块信息。</param>
     /// <returns>移动结果。</returns>

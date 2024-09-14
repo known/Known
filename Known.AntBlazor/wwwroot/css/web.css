@@ -116,6 +116,7 @@
 
 /*Profile*/
 .kui-user-info li .anticon {color:#2d8cf0;}
+.kui-development > .ant-tabs-nav {margin:0;}
 
 /*Role*/
 .kui-role .ant-checkbox-group {display:flex;flex-direction:column;padding:5px;}

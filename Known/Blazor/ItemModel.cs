@@ -44,6 +44,11 @@ public class ItemModel(string id, string title)
 public class TabModel
 {
     /// <summary>
+    /// 取得或设置步骤CSS类名。
+    /// </summary>
+    public string Class { get; set; }
+
+    /// <summary>
     /// 取得或设置当前标签。
     /// </summary>
     public string Current { get; set; }

@@ -170,7 +170,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         try
         {
             Config.App.SetConnection([info]);
-            var db = Database.Create();
+            var db = Database.Create(info.Name);
             await db.OpenAsync();
             return Result.Success(Language["Tip.ConnectSuccess"]);
         }

@@ -18,12 +18,6 @@ public class SysModuleList : BasePage<SysModule>
     /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
-        if (!CurrentUser.IsSystemAdmin())
-        {
-            Navigation.GoErrorPage("403");
-            return;
-        }
-
         await base.OnPageInitAsync();
         Service = await CreateServiceAsync<IModuleService>();
 
@@ -42,7 +36,7 @@ public class SysModuleList : BasePage<SysModule>
         table = new TableModel<SysModule>(this)
         {
             FormType = typeof(ModuleForm),
-            FormTitle = row => $"{Language.SysModule} - {row.ParentName} > {row.Name}",
+            FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 1200, Maximizable = true },
             RowKey = r => r.Id,
             ShowPager = false,

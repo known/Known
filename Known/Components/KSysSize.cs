@@ -45,7 +45,7 @@ public class KSysSize : BaseComponent
     private async void OnSizeChanged(ActionInfo info)
     {
         Context.UserSetting.Size = info.Id;
-        await Service.SaveUserSettingAsync(Context.UserSetting);
+        await Service.SaveUserSettingInfoAsync(Context.UserSetting);
         await JS.SetCurrentSizeAsync(info.Id);
         Navigation.Refresh(true);
     }

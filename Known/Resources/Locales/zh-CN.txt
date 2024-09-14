@@ -370,6 +370,8 @@
   "ReturnToUser": "退回给[{user}]",
   "Start": "开始",
   "End": "结束",
+  "HttpMethod": "Http方法",
+  "Route": "路由",
   "Theme": "主题",
   "Accordion": "手风琴菜单",
   "MultiTab": "标签页",
@@ -417,6 +419,7 @@
   "Nav.SizeDefault": "默认",
   "Nav.SizeCompact": "紧凑",
   "Nav.Profile": "个人中心",
+  "Nav.Development": "开发中心",
   "Nav.Exit": "安全退出",
 
   "Menu.Home": "首页",

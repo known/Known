@@ -12,10 +12,12 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
-        <!--<PackageReference Include="Npgsql" Version="8.0.3" />
+        <!--
+        <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
         <PackageReference Include="MySqlConnector" Version="2.3.7" />
-	    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />-->
+        <PackageReference Include="Npgsql" Version="8.0.3" />
+	    -->
         <PackageReference Include="Costura.Fody" Version="5.7.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

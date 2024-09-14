@@ -210,6 +210,7 @@ public sealed class Config
     {
         ApiTypes.Add(type);
         //Console.WriteLine($"api/{type.Name}");
+        var xml = GetAssemblyXml(type.Assembly);
         var controler = type.Name[1..].Replace("Service", "");
         var methods = type.GetMethods();
         foreach (var method in methods)
@@ -220,6 +221,7 @@ public sealed class Config
                 var name = method.Name.Replace("Async", "");
                 info.Id = $"{type.Name}.{method.Name}";
                 info.Route = $"/{controler}/{name}";
+                info.Description = GetMethodSummary(xml, method);
                 info.HttpMethod = name.StartsWith("Get") ? HttpMethod.Get : HttpMethod.Post;
                 info.MethodInfo = method;
                 info.Parameters = method.GetParameters();
@@ -261,6 +263,31 @@ public sealed class Config
             if (values.Length > 3)
                 info.Style = values[3].Trim();
         }
+    }
+
+    private static string GetAssemblyXml(Assembly assembly)
+    {
+        if (IsClient)
+            return string.Empty;
+
+        var fileName = assembly.ManifestModule.Name.Replace(".dll", ".xml");
+        var path = Path.Combine(AppContext.BaseDirectory, fileName);
+        return Utils.ReadFile(path);
+    }
+
+    private static string GetMethodSummary(string xml, MethodInfo info)
+    {
+        if (string.IsNullOrWhiteSpace(xml))
+            return string.Empty;
+
+        var name = $"{info.DeclaringType.FullName}.{info.Name}";
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
+        var node = doc.SelectSingleNode($"/doc/members/member[@name[starts-with(., 'M:{name}')]]/summary");
+        if (node == null)
+            return string.Empty;
+
+        return node.InnerText?.Trim('\n').Trim();
     }
 }
 
@@ -513,6 +540,11 @@ public class ApiMethodInfo
     /// 取得或设置方法路由地址。
     /// </summary>
     public string Route { get; set; }
+
+    /// <summary>
+    /// 取得或设置方法描述。
+    /// </summary>
+    public string Description { get; set; }
 
     /// <summary>
     /// 取得或设置方法HTTP请求方式，默认方法名以Get开头的方法为GET请求，其他为POST请求。

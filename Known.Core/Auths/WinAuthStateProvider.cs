@@ -4,11 +4,11 @@ class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {
     private static UserInfo current;
 
-    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var principal = GetPrincipal(current);
-        var state = new AuthenticationState(principal);
-        return Task.FromResult(state);
+        var user = await GetUserAsync();
+        var principal = GetPrincipal(user);
+        return new AuthenticationState(principal);
     }
 
     public Task<UserInfo> GetUserAsync() => Task.FromResult(current);

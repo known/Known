@@ -1,8 +1,11 @@
-﻿namespace Known.Core.Auths;
+﻿using Microsoft.AspNetCore.Authentication;
 
-class WebAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStateProvider
+namespace Known.Core.Auths;
+
+class WebApiAuthStateProvider(HttpContext context) : AuthenticationStateProvider, IAuthStateProvider
 {
-    private readonly JSService js = js;
+    private const string KeyUser = "Known_User";
+    private readonly HttpContext context = context;
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -11,12 +14,16 @@ class WebAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthSta
         return new AuthenticationState(principal);
     }
 
-    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
+    public Task<UserInfo> GetUserAsync()
+    {
+        //var userName = context.User.Identity.Name;
+        return Task.FromResult(new UserInfo());
+    }
 
     public async Task SetUserAsync(UserInfo user)
     {
-        await js.SetUserInfoAsync(user);
         var principal = GetPrincipal(user);
+        await context.SignInAsync(principal);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
     }
 

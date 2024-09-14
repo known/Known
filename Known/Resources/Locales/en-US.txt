@@ -370,6 +370,8 @@
   "ReturnToUser": "Return to [{user}]",
   "Start": "Start",
   "End": "End",
+  "HttpMethod": "HttpMethod",
+  "Route": "Route",
   "Theme": "Theme",
   "Accordion": "Accordion Menu",
   "MultiTab": "Tabs",
@@ -417,6 +419,7 @@
   "Nav.SizeDefault": "Default",
   "Nav.SizeCompact": "Compact",
   "Nav.Profile": "Profile",
+  "Nav.Development": "Development",
   "Nav.Exit": "Sign Out",
 
   "Menu.Home": "Home",

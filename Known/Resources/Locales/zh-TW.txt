@@ -370,6 +370,8 @@
   "ReturnToUser": "退回給[{user}]",
   "Start": "開始",
   "End": "結束",
+  "HttpMethod": "Http方法",
+  "Route": "路由",
   "Theme": "主題",
   "Accordion": "手風琴選單",
   "MultiTab": "標籤頁",
@@ -417,6 +419,7 @@
   "Nav.SizeDefault": "默認",
   "Nav.SizeCompact": "緊湊",
   "Nav.Profile": "個人中心",
+  "Nav.Development": "開發中心",
   "Nav.Exit": "安全退出",
 
   "Menu.Home": "首頁",

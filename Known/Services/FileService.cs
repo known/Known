@@ -34,14 +34,14 @@ public interface IFileService : IService
     Task<byte[]> GetImportRuleAsync(string bizId);
 
     /// <summary>
-    /// 异步删除系统附件。
+    /// 异步删除多条系统附件。
     /// </summary>
     /// <param name="models">系统附件列表。</param>
     /// <returns>删除结果。</returns>
     Task<Result> DeleteFilesAsync(List<SysFile> models);
 
     /// <summary>
-    /// 异步删除系统附件。
+    /// 异步删除单条系统附件。
     /// </summary>
     /// <param name="file">系统附件对象。</param>
     /// <returns>删除结果。</returns>
