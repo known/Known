@@ -22,6 +22,7 @@ global using System.Text;
 global using System.Text.Encodings.Web;
 global using System.Text.Json;
 global using System.Text.Json.Serialization;
+global using System.Web;
 global using System.Xml;
 global using System.Xml.Serialization;
 global using Known.Blazor;

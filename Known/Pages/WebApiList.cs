@@ -25,20 +25,14 @@ public class WebApiList : BaseTable<ApiMethodInfo>
     /// </summary>
     public void Test(ApiMethodInfo row)
     {
-        var model = new FormModel<ApiMethodInfo>(this);
-        model.Title = $"WebApi{Language["Test"]}";
-        model.SmallLabel = true;
-        model.Data = row;
-        model.AddRow().AddColumn("Route", b =>
-        {
-            b.Text(row.Route);
-            BuildMethod(b, row);
-        });
-        model.AddRow().AddColumn("Description", row.Description);
-        UI.ShowForm(model);
+        var model = new DialogModel();
+        model.Title = $"WebApi{Language["Designer.Test"]}";
+        model.Width = 600;
+        model.Content = b => b.Component<WebApiForm>().Set(c => c.Model, row).Build();
+        UI.ShowDialog(model);
     }
 
-    private static void BuildMethod(RenderTreeBuilder builder, ApiMethodInfo row)
+    internal static void BuildMethod(RenderTreeBuilder builder, ApiMethodInfo row)
     {
         var text = row.HttpMethod.Method;
         var color = text == "GET" ? "cyan" : "blue";
@@ -57,5 +51,176 @@ public class WebApiList : BaseTable<ApiMethodInfo>
                               .ToList();
         var result = new PagingResult<ApiMethodInfo>(methods.Count, pageData);
         return Task.FromResult(result);
+    }
+}
+
+class WebApiForm : BaseComponent
+{
+    private readonly Dictionary<string, string> request = [];
+    private string postData = "";
+    private string result = "";
+
+    [Parameter] public ApiMethodInfo Model { get; set; }
+
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-api-name", Model.Description);
+        builder.Div("kui-api-route", () =>
+        {
+            builder.Div(() =>
+            {
+                WebApiList.BuildMethod(builder, Model);
+                builder.Text(Model.Route);
+            });
+            builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExexute));
+        });
+        builder.Div("kui-api-row", () =>
+        {
+            builder.Div("kui-api-title", Language["Designer.RequestHeaders"]);
+            BuildHeaders(builder);
+        });
+        if (Model.Parameters != null && Model.Parameters.Length > 0)
+        {
+            builder.Div("kui-api-row", () =>
+            {
+                builder.Div("kui-api-title", Language["Designer.RequestParameters"]);
+                BuildParamters(builder);
+            });
+        }
+        builder.Div("kui-api-row", () =>
+        {
+            builder.Div("kui-api-title", Language["Designer.ResponseResults"]);
+            BuildResult(builder);
+        });
+    }
+
+    private void BuildHeaders(RenderTreeBuilder builder)
+    {
+        builder.Ul(() =>
+        {
+            builder.Li(() =>
+            {
+                BuildLabel(builder, "String", Constants.KeyToken);
+                UI.BuildText(builder, new InputModel<string> { Value = CurrentUser.Token, Disabled = true });
+            });
+        });
+    }
+
+    private void BuildParamters(RenderTreeBuilder builder)
+    {
+        if (Model.HttpMethod == HttpMethod.Post)
+        {
+            var param = Model.Parameters[0];
+            if (param.ParameterType != typeof(string))
+            {
+                var value = Activator.CreateInstance(param.ParameterType);
+                postData = FormatJson(value);
+                UI.BuildTextArea(builder, new InputModel<string>
+                {
+                    Rows = 6,
+                    Value = postData,
+                    ValueChanged = this.Callback<string>(value => request[param.Name] = value)
+                });
+            }
+            else
+            {
+                BuildGetParameters(builder);
+            }
+        }
+        else
+        {
+            BuildGetParameters(builder);
+        }
+    }
+
+    private void BuildGetParameters(RenderTreeBuilder builder)
+    {
+        builder.Ul(() =>
+        {
+            foreach (var param in Model.Parameters)
+            {
+                builder.Li(() =>
+                {
+                    BuildLabel(builder, param.ParameterType.Name, param.Name);
+                    UI.BuildText(builder, new InputModel<string>
+                    {
+                        Value = "",
+                        ValueChanged = this.Callback<string>(value => request[param.Name] = value)
+                    });
+                });
+            }
+        });
+    }
+
+    private static void BuildLabel(RenderTreeBuilder builder, string type, string name)
+    {
+        builder.Div("kui-api-label", () =>
+        {
+            builder.Tag(type, "geekblue");
+            builder.Label(name);
+        });
+    }
+
+    private void BuildResult(RenderTreeBuilder builder)
+    {
+        var value = Utils.FromJson<object>(result);
+        result = FormatJson(value);
+        builder.Pre().Class("kui-api-result").Text(result).Close();
+    }
+
+    private async void OnExexute(MouseEventArgs args)
+    {
+        var client = new HttpClient();
+        client.BaseAddress = new Uri(Config.HostUrl);
+        client.DefaultRequestHeaders.Add(Constants.KeyToken, CurrentUser.Token);
+        if (Model.HttpMethod == HttpMethod.Post)
+        {
+            var content = GetPostContent();
+            var res = await client.PostAsync(Model.Route, content);
+            result = await res.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            var url = GetRequestUrl();
+            result = await client.GetStringAsync(url);
+        }
+        await StateChangedAsync();
+    }
+
+    private string GetRequestUrl()
+    {
+        var url = Model.Route;
+        if (Model.Parameters != null && Model.Parameters.Length > 0)
+        {
+            var parameters = new List<string>();
+            foreach (var param in Model.Parameters)
+            {
+                var value = HttpUtility.UrlEncode(request.GetValue<string>(param.Name));
+                parameters.Add($"{param.Name}={value}");
+            }
+            url += "?" + string.Join("&", parameters);
+        }
+        return url;
+    }
+
+    private StringContent GetPostContent()
+    {
+        if (Model.Parameters == null || Model.Parameters.Length == 0)
+            return null;
+
+        var param = Model.Parameters[0];
+        var json = request.GetValue<string>(param.Name);
+        if (string.IsNullOrWhiteSpace(json))
+            json = postData;
+        return new StringContent(json, Encoding.UTF8, "application/json");
+    }
+
+    private static string FormatJson(object value)
+    {
+        return JsonSerializer.Serialize(value, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        });
     }
 }

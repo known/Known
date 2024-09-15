@@ -53,6 +53,13 @@ public static class ElementExtension
     public static RenderTreeBuilder Li(this RenderTreeBuilder builder) => builder.OpenElement("li");
 
     /// <summary>
+    /// 呈现一个pre元素。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <returns>呈现树建造者。</returns>
+    public static RenderTreeBuilder Pre(this RenderTreeBuilder builder) => builder.OpenElement("pre");
+
+    /// <summary>
     /// 呈现一个a元素。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>

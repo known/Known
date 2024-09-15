@@ -76,10 +76,16 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)
     {
+        if (string.IsNullOrWhiteSpace(bizId))
+            return new FlowInfo();
+
         var module = await Database.QueryByIdAsync<SysModule>(moduleId);
         var info = DataHelper.GetFlow(module?.FlowData);
         if (info == null)
             return new FlowInfo();
+
+        if (string.IsNullOrWhiteSpace(bizId))
+            return info;
 
         var logs = await Repository.GetFlowLogsAsync(Database, bizId);
         if (logs != null && logs.Count > 0)

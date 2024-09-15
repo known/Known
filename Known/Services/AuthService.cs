@@ -45,7 +45,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
-        var userName = info.UserName.ToLower();
+        var userName = info.UserName?.ToLower();
         var entity = await GetUserAsync(Database, userName, info.Password);
         if (entity == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);

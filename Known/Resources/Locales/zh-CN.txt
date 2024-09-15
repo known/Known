@@ -240,6 +240,9 @@
   "Designer.Maximizable": "最大化",
   "Designer.DefaultMaximized": "默认最大化",
   "Designer.IsContinue": "保存继续",
+  "Designer.RequestHeaders": "请求头",
+  "Designer.RequestParameters": "请求参数",
+  "Designer.ResponseResults": "响应结果",
 
   "Code.Female": "女",
   "Code.Male": "男",

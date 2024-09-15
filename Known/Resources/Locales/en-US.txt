@@ -240,6 +240,9 @@
   "Designer.Maximizable": "Maximizable",
   "Designer.DefaultMaximized": "DefaultMaximized",
   "Designer.IsContinue": "SaveContinue",
+  "Designer.RequestHeaders": "Headers",
+  "Designer.RequestParameters": "Request",
+  "Designer.ResponseResults": "Response",
 
   "Code.Female": "Female",
   "Code.Male": "Male",
