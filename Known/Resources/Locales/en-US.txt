@@ -155,6 +155,7 @@
   "Tip.ExecuteSuccess": "Execution successful!",
   "Tip.DataQuering": "Data query in progress...",
   "Tip.DataExporting": "Data export in progress...",
+  "Tip.EnterKeyword": "Enter Keyword",
 
   "Import.Tips": "Tip: Please upload a single txt or Excel format attachment!",
   "Import.IsAsync": "Asynchronous",
@@ -201,6 +202,7 @@
   "Designer.EditPage": "Edit Page",
   "Designer.Fields": "Fields",
   "Designer.Models": "Models",
+  "Designer.CodeGenerator": "Code Generator",
   "Designer.EntityCode": "Entity Code",
   "Designer.PageCode": "Page Code",
   "Designer.ServiceCode": "Service Code",

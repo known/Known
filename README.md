@@ -90,3 +90,9 @@ dotnet new known --name=MyApp
 ![角色管理](https://foruda.gitee.com/images/1700054617363123970/48133586_14334.png "屏幕截图")|![用户管理](https://foruda.gitee.com/images/1700054722192459256/2308879c_14334.png "屏幕截图")
 ![模块管理](https://foruda.gitee.com/images/1703494369039793921/74a4b867_14334.png "屏幕截图")|![模型设置](https://foruda.gitee.com/images/1703494151446430428/2e136a4e_14334.png "屏幕截图")
 ![页面设置](https://foruda.gitee.com/images/1703494262522668999/941de354_14334.png "屏幕截图")|![表单设置](https://foruda.gitee.com/images/1703494306696925357/beeba7dc_14334.png "屏幕截图")
+
+### 捐赠支持
+
+> 如果你觉得这个框架对你有帮助，你可以请作者喝杯咖啡表示鼓励 ☕️
+
+![捐赠支持](https://foruda.gitee.com/images/1726452783813098766/71768ec0_14334.png "屏幕截图")

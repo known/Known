@@ -155,6 +155,7 @@
   "Tip.ExecuteSuccess": "Thực hiện thành công！",
   "Tip.DataQuering": "Truy vấn dữ liệu...",
   "Tip.DataExporting": "Xuất dữ liệu...",
+  "Tip.EnterKeyword": "Nhập từ khóa",
 
   "Import.Tips": "Mẹo: Vui lòng tải lên một tệp đính kèm định dạng txt hoặc Excel riêng lẻ！",
   "Import.IsAsync": "Nhập không đồng bộ",
@@ -201,6 +202,7 @@
   "Designer.EditPage": "Sửa trang",
   "Designer.Fields": "Danh sách trường",
   "Designer.Models": "Mô hình rắn",
+  "Designer.CodeGenerator": "Trình tạo mã",
   "Designer.EntityCode": "Mã thực thể",
   "Designer.PageCode": "Mã lớp trang",
   "Designer.ServiceCode": "Mã lớp dịch vụ",

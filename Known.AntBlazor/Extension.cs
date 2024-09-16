@@ -45,6 +45,7 @@ var cardHeight = page-tab-tabs-cardDiff;
 var tableDiff = tab > 0 ? 60 : 20;
 var tableHeight = page-tab-query-tabs-toolbar-tableHead-pagination-tableDiff;
 $('.kui-card .ant-tabs-content-holder').css('height', cardHeight+'px');
+$('.kui-card .ant-tabs-content-holder .ant-tabs-content-holder').css('height', (cardHeight-tableHead-15)+'px');
 $('.kui-table .ant-table-body').not('.form-list .ant-table-body').css('height', tableHeight+'px');";
     }
 }

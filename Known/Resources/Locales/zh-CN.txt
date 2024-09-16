@@ -155,6 +155,7 @@
   "Tip.ExecuteSuccess": "执行成功！",
   "Tip.DataQuering": "数据查询中...",
   "Tip.DataExporting": "数据导出中...",
+  "Tip.EnterKeyword": "输入关键字",
 
   "Import.Tips": "提示: 请上传单个txt或Excel格式附件！",
   "Import.IsAsync": "异步导入",
@@ -201,6 +202,7 @@
   "Designer.EditPage": "编辑页面",
   "Designer.Fields": "字段列表",
   "Designer.Models": "实体模型",
+  "Designer.CodeGenerator": "代码生成器",
   "Designer.EntityCode": "实体代码",
   "Designer.PageCode": "页面层代码",
   "Designer.ServiceCode": "服务层代码",

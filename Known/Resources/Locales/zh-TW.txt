@@ -155,6 +155,7 @@
   "Tip.ExecuteSuccess": "執行成功！",
   "Tip.DataQuering": "資料查詢中...",
   "Tip.DataExporting": "數據匯出中...",
+  "Tip.EnterKeyword": "輸入關鍵字",
 
   "Import.Tips": "提示：請上傳單個txt或Excel格式附件！",
   "Import.IsAsync": "非同步導入",
@@ -201,6 +202,7 @@
   "Designer.EditPage": "編輯頁面",
   "Designer.Fields": "欄位清單",
   "Designer.Models": "實體模型",
+  "Designer.CodeGenerator": "代碼生成器",
   "Designer.EntityCode": "實體類程式碼",
   "Designer.PageCode": "頁面層程式碼",
   "Designer.ServiceCode": "服務層程式碼",

@@ -81,10 +81,14 @@
 .kui-group-box .body {padding:1rem;}
 
 /*ListBox*/
-.kui-list-box {margin:10px;padding:1px;overflow:auto;height:100%;min-height:200px;}
-.kui-list-box li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
-.kui-list-box li:hover {background-color:#f1f1f1;}
-.kui-list-box li.active {background-color:#bae7ff;color:#1890ff;border-left-color:#1890ff;}
+.kui-list-box {position:relative;height:100%;}
+.kui-list-box-search {margin:10px;}
+.kui-list-box-body {position:absolute;left:0;right:0;top:0;bottom:0;padding:10px;overflow:auto;}
+.kui-list-box-body li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
+.kui-list-box-body li:hover {background-color:#f1f1f1;}
+.kui-list-box-body li.active {background-color:#bae7ff;color:#1890ff;border-left-color:#1890ff;}
+
+.kui-dictionary .kui-list-box-body {padding-top:0;}
 
 :root[theme=dark] .kui-list-box li:hover, :root[theme=dark] .kui-list-box li.active {background-color:rgba(255, 255, 255, 0.08);}
 
@@ -185,9 +189,6 @@
 
 /*Setting*/
 .kui-form-setting button {margin:0 5px;}
-
-/*Dictionary*/
-.kui-dict-search {margin:10px 10px 0 10px;}
 
 /*Module*/
 .kui-module-icon {position:absolute;top:5px;left:5px;z-index:101;}
