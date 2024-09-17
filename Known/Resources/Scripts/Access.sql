@@ -79,13 +79,13 @@ CREATE TABLE `SysFile` (
     `Category2`  VarChar(50)  NULL,
     `Name`       VarChar(250) NOT NULL,
     `Type`       VarChar(50)  NULL,
-    `Path`       VarChar(250) NOT NULL,
+    `Path`       VarChar(500) NOT NULL,
     `Size`       Long         NOT NULL,
     `SourceName` VarChar(250) NOT NULL,
     `ExtName`    VarChar(50)  NOT NULL,
     `Note`       LongText     NULL,
-    `BizId`      VarChar(50)  NULL,
-    `ThumbPath`  VarChar(250) NULL
+    `BizId`      VarChar(250) NULL,
+    `ThumbPath`  VarChar(500) NULL
 )
 GO
 
@@ -192,8 +192,8 @@ CREATE TABLE `SysRole` (
 GO
 
 CREATE TABLE `SysRoleModule` (
-    `RoleId`   VarChar(50) NOT NULL,
-    `ModuleId` VarChar(50) NOT NULL,
+    `RoleId`   VarChar(50)  NOT NULL,
+    `ModuleId` VarChar(150) NOT NULL,
     CONSTRAINT `PK_SysRoleModule` PRIMARY KEY (`RoleId`,`ModuleId`)
 )
 GO

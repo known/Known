@@ -82,8 +82,8 @@ create table SysFile(
     Size       number(8)      not null,
     SourceName varchar2(250)  not null,
     ExtName    varchar2(50)   not null,
-    Note       varchar2(500)  null,
-    BizId      varchar2(50)   null,
+    Note       varchar2(4000) null,
+    BizId      varchar2(250)  null,
     ThumbPath  varchar2(500)  null
 );
 alter table SysFile add constraint PK_SysFile primary key(Id);
@@ -191,8 +191,8 @@ create table SysRole (
 alter table SysRole add constraint PK_SysRole primary key (Id);
 
 create table SysRoleModule (
-    RoleId   varchar2(50) not null,
-    ModuleId varchar2(50) not null
+    RoleId   varchar2(50)  not null,
+    ModuleId varchar2(150) not null
 );
 alter table SysRoleModule add constraint PK_SysRoleModule primary key (RoleId,ModuleId);
 

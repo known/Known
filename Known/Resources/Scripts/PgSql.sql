@@ -82,8 +82,8 @@ CREATE TABLE SysFile (
     Size       integer                NOT NULL,
     SourceName character varying(250) NOT NULL,
     ExtName    character varying(50)  NOT NULL,
-    Note       character varying(500),
-    BizId      character varying(50),
+    Note       text,
+    BizId      character varying(250),
     ThumbPath  character varying(500),
     PRIMARY KEY(Id)
 );
@@ -191,8 +191,8 @@ CREATE TABLE SysRole (
 );
 
 CREATE TABLE SysRoleModule (
-    RoleId   character varying(50) NOT NULL,
-    ModuleId character varying(50) NOT NULL,
+    RoleId   character varying(50)  NOT NULL,
+    ModuleId character varying(150) NOT NULL,
     PRIMARY KEY (RoleId,ModuleId)
 );
 

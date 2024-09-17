@@ -311,19 +311,20 @@ public abstract class Database : IDisposable
         var id = data.GetValue<string>(nameof(EntityBase.Id));
         if (await ExistsAsync(tableName, id))
         {
-            data[nameof(EntityBase.Version)] = data.GetValue<int>(nameof(EntityBase.Version)) + 1;
+            var version = data.GetValue<int>(nameof(EntityBase.Version)) + 1;
+            DataHelper.SetValue(data, nameof(EntityBase.Version), version);
             return await UpdateAsync(tableName, nameof(EntityBase.Id), data);
         }
 
         if (string.IsNullOrWhiteSpace(id))
-            data[nameof(EntityBase.Id)] = Utils.GetGuid();
-        data[nameof(EntityBase.CreateBy)] = User.UserName;
-        data[nameof(EntityBase.CreateTime)] = DateTime.Now;
-        data[nameof(EntityBase.ModifyBy)] = User.UserName;
-        data[nameof(EntityBase.ModifyTime)] = DateTime.Now;
-        data[nameof(EntityBase.Version)] = 1;
-        data[nameof(EntityBase.AppId)] = User.AppId;
-        data[nameof(EntityBase.CompNo)] = User.CompNo;
+            DataHelper.SetValue(data, nameof(EntityBase.Id), Utils.GetGuid());
+        DataHelper.SetValue(data, nameof(EntityBase.CreateBy), User.UserName);
+        DataHelper.SetValue(data, nameof(EntityBase.CreateTime), DateTime.Now);
+        DataHelper.SetValue(data, nameof(EntityBase.ModifyBy), User.UserName);
+        DataHelper.SetValue(data, nameof(EntityBase.ModifyTime), DateTime.Now);
+        DataHelper.SetValue(data, nameof(EntityBase.Version), 1);
+        DataHelper.SetValue(data, nameof(EntityBase.AppId), User.AppId);
+        DataHelper.SetValue(data, nameof(EntityBase.CompNo), User.CompNo);
         return await InsertAsync(tableName, data);
     }
 

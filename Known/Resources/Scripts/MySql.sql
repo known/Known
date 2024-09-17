@@ -80,10 +80,10 @@ create table `SysFile` (
     `Type`       varchar(50)  null,
     `Path`       varchar(500) not null,
     `Size`       int          not null,
-    `SourceName` varchar(250)  not null,
+    `SourceName` varchar(250) not null,
     `ExtName`    varchar(50)  not null,
-    `Note`       varchar(500) null,
-    `BizId`      varchar(50)  null,
+    `Note`       text         null,
+    `BizId`      varchar(250) null,
     `ThumbPath`  varchar(500) null,
     PRIMARY KEY(`Id`)
 );
@@ -191,8 +191,8 @@ create table `SysRole` (
 );
 
 create table `SysRoleModule` (
-    `RoleId`   varchar(50) not null,
-    `ModuleId` varchar(50) not null,
+    `RoleId`   varchar(50)  not null,
+    `ModuleId` varchar(150) not null,
     PRIMARY KEY (`RoleId`,`ModuleId`)
 );
 

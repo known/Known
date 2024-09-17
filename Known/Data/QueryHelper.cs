@@ -107,7 +107,7 @@ class QueryHelper
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
-            query.ParamValue = $"{query.Value} 00:00:00";
+            query.ParamValue = db.Provider.FormatDate($"{query.Value} 00:00:00");
         }
         else if (criteria.HasQuery(key))
         {
@@ -117,7 +117,7 @@ class QueryHelper
             {
                 sql += $" and {field}{symbol}{date}";
                 var query1 = criteria.SetQuery(paramName, value);
-                query1.ParamValue = $"{value} 00:00:00";
+                query1.ParamValue = db.Provider.FormatDate($"{value} 00:00:00");
             }
         }
     }
@@ -130,7 +130,7 @@ class QueryHelper
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
-            query.ParamValue = $"{query.Value} 23:59:59";
+            query.ParamValue = db.Provider.FormatDate($"{query.Value} 23:59:59");
         }
         else if (criteria.HasQuery(key))
         {
@@ -140,7 +140,7 @@ class QueryHelper
             {
                 sql += $" and {field}{symbol}{date}";
                 var query1 = criteria.SetQuery(paramName, value);
-                query1.ParamValue = $"{value} 23:59:59";
+                query1.ParamValue = db.Provider.FormatDate($"{value} 23:59:59");
             }
         }
     }

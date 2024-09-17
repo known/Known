@@ -42,7 +42,7 @@ class DbProvider
     public virtual string Prefix => "@";
 
     public virtual string FormatName(string name) => name;
-
+    public virtual object FormatDate(string date) => date;
     public virtual string GetDateSql(string name, bool withTime = true) => $"@{name}";
 
     protected virtual string GetTopSql(int size, string text)

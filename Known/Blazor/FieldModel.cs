@@ -42,7 +42,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
                 return null;
 
             if (Form.IsDictionary)
-                return GetDictionaryValue(Column, Form.Data as Dictionary<string, object>);
+                return GetDictionaryValue(Form.Data as Dictionary<string, object>, Column);
 
             return Property?.GetValue(Form.Data);
         }
@@ -51,7 +51,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             if (!Equals(Value, value) && Form.Data != null)
             {
                 if (Form.IsDictionary)
-                    (Form.Data as Dictionary<string, object>)[Column.Id] = value;
+                    DataHelper.SetValue(Form.Data as Dictionary<string, object>, Column.Id, value);
                 else if (Property?.SetMethod is not null)
                     Property?.SetValue(Form.Data, value);
                 Form.OnFieldChanged?.Invoke(Column.Id);
@@ -129,12 +129,12 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     internal bool ValueAsBool => (bool)Value;
     internal string ValueAsString => Value as string;
 
-    private static object GetDictionaryValue(ColumnInfo column, Dictionary<string, object> data)
+    private static object GetDictionaryValue(Dictionary<string, object> data, ColumnInfo column)
     {
         if (data == null)
             return null;
 
-        data.TryGetValue(column.Id, out object value);
+        var value = DataHelper.GetValue(data, column.Id);
         switch (column.Type)
         {
             case FieldType.Date:

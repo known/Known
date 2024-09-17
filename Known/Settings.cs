@@ -58,7 +58,7 @@ public class QueryInfo
     /// </summary>
     public QueryType Type { get; set; }
 
-    internal string ParamValue { get; set; }
+    internal object ParamValue { get; set; }
 }
 
 /// <summary>

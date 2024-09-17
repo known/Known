@@ -96,6 +96,9 @@ public class DBUtils
         for (int i = 0; i < reader.FieldCount; i++)
         {
             var name = reader.GetName(i).Replace("_", "");
+            if (name == "rowno")
+                continue;
+
             var value = reader[i];
             dic[name] = value == DBNull.Value ? null : value;
         }

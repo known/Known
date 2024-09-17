@@ -86,7 +86,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var user = CurrentUser;
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            var id = model.GetValue<string>("Id");
+            var id = model.GetValue<string>(nameof(EntityBase.Id));
             if (string.IsNullOrWhiteSpace(id))
                 id = Utils.GetGuid();
             if (info.Files != null && info.Files.Count > 0)
@@ -99,7 +99,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
                     model[file.Key] = $"{id}_{bizType}";
                 }
             }
-            model["Id"] = id;
+            DataHelper.SetValue(model, nameof(EntityBase.Id), id);
             await db.SaveAsync(tableName, model);
         }, model);
     }

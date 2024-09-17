@@ -49,10 +49,16 @@ public static class CommonExtension
         if (string.IsNullOrWhiteSpace(key))
             return null;
 
-        if (!dic.Contains(key))
-            return null;
+        if (dic.Contains(key))
+            return dic[key];
 
-        return dic[key];
+        if (dic.Contains(key.ToLower()))
+            return dic[key.ToLower()];
+
+        if (dic.Contains(key.ToUpper()))
+            return dic[key.ToUpper()];
+
+        return null;
     }
 
     /// <summary>

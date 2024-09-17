@@ -136,7 +136,28 @@ class DataHelper
     }
     #endregion
 
-    #region Validate
+    #region Dictionary
+    internal static object GetValue(Dictionary<string, object> data, string id)
+    {
+        if (!data.TryGetValue(id, out object value))
+        {
+            if (!data.TryGetValue(id.ToLower(), out value))
+                data.TryGetValue(id.ToUpper(), out value);
+        }
+
+        return value;
+    }
+
+    internal static void SetValue(Dictionary<string, object> data, string id, object value)
+    {
+        var key = id;
+        if (data.ContainsKey(id.ToLower()))
+            key = id.ToLower();
+        else if (data.ContainsKey(id.ToUpper()))
+            key = id.ToUpper();
+        data[key] = value;
+    }
+
     internal static Result Validate(Context context, string tableName, Dictionary<string, object> model)
     {
         var entity = Models.FirstOrDefault(m => m.Id == tableName);
@@ -148,7 +169,7 @@ class DataHelper
         foreach (var field in entity.Fields)
         {
             var errors = new List<string>();
-            model.TryGetValue(field.Id, out object value);
+            var value = GetValue(model, field.Id);
             var valueString = value == null ? "" : value.ToString().Trim();
             if (field.Required && string.IsNullOrWhiteSpace(valueString))
                 errors.Add(context.Language.Required(field.Name));
@@ -162,7 +183,7 @@ class DataHelper
             var result = Result.Error("", dicError);
             foreach (var item in dicError.Values)
             {
-                item.ForEach(m => result.AddError(m));
+                item.ForEach(result.AddError);
             }
             return result;
         }

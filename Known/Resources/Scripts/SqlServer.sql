@@ -82,8 +82,8 @@ CREATE TABLE [SysFile] (
     [Size]       [int]           NOT NULL,
     [SourceName] [nvarchar](250) NOT NULL,
     [ExtName]    [varchar](50)   NOT NULL,
-    [Note]       [nvarchar](500) NULL,
-    [BizId]      [varchar](50)   NULL,
+    [Note]       [ntext]         NULL,
+    [BizId]      [varchar](250)  NULL,
     [ThumbPath]  [nvarchar](500) NULL,
     CONSTRAINT [PK_SysFile] PRIMARY KEY ([Id] ASC)
 );
@@ -191,8 +191,8 @@ CREATE TABLE [SysRole] (
 );
 
 CREATE TABLE [SysRoleModule] (
-    [RoleId]   [varchar](50) NOT NULL,
-    [ModuleId] [varchar](50) NOT NULL,
+    [RoleId]   [varchar](50)  NOT NULL,
+    [ModuleId] [varchar](150) NOT NULL,
     CONSTRAINT [PK_SysRoleModule] PRIMARY KEY ([RoleId] ASC,[ModuleId] ASC)
 );
 

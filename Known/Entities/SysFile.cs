@@ -60,13 +60,12 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [MaxLength(500)]
     public string Note { get; set; }
 
     /// <summary>
     /// 取得或设置业务ID。
     /// </summary>
-    [MaxLength(50)]
+    [MaxLength(250)]
     public string BizId { get; set; }
 
     /// <summary>
