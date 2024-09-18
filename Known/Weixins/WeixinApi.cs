@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Web;
 
 namespace Known.Weixins;
 
@@ -44,10 +43,39 @@ public static class WeixinApi
             while (true)
             {
                 if (!string.IsNullOrWhiteSpace(AppId) && !string.IsNullOrWhiteSpace(AppSecret))
-                    AccessToken = await GetAccessTokenAsync(AppId, AppSecret);
+                    AccessToken = await GetStableAccessTokenAsync(AppId, AppSecret);
                 Thread.Sleep(7000 * 1000);
             }
         });
+    }
+
+    //获取稳定版接口调用凭据
+    //https://mmbizurl.cn/s/JtxxFh33r 
+    private static async Task<string> GetStableAccessTokenAsync(string appId, string appSecret)
+    {
+        try
+        {
+            using var http = new HttpClient();
+            var url = "https://api.weixin.qq.com/cgi-bin/stable_token";
+            var data = new
+            {
+                grant_type = "client_credential",
+                appid = appId,
+                secret = appSecret,
+                force_refresh = true
+            };
+            var result = await http.PostDataAsync(url, data);
+            if (result == null)
+                return null;
+
+            //Logger.Info("AT=" + Utils.ToJson(result));
+            return result.GetValue<string>("access_token");
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return null;
+        }
     }
 
     //获取ACCESS_TOKEN，7200秒过期，需要定时刷新才能调用接口
