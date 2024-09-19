@@ -4,6 +4,7 @@ global using Known.Blazor;
 global using Known.Core.Auths;
 global using Known.Entities;
 global using Known.Extensions;
+global using Known.Helpers;
 global using Known.Services;
 global using Known.Weixins;
 global using Microsoft.AspNetCore.Builder;

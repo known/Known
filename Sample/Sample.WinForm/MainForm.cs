@@ -63,15 +63,15 @@ public partial class MainForm : Form
                 //DatabaseType = DatabaseType.Access,
                 //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
                 //ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}";
+                //DatabaseType = DatabaseType.SqlServer,
+                //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
+                //ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
                 //DatabaseType = DatabaseType.MySql,
                 //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
                 //ConnectionString = "Data Source=localhost;port=3306;Initial Catalog=Sample;user id={userId};password={password};Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
                 //DatabaseType = DatabaseType.PgSql,
                 //ProviderType = typeof(Npgsql.NpgsqlFactory),
                 //ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
-                //DatabaseType = DatabaseType.SqlServer,
-                //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-                //ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
             }];
         });
         Config.OnExit = OnClose;

@@ -5,17 +5,18 @@
 /// </summary>
 public static class Extension
 {
-    private static bool IsCompression { get; set; }
-    private static bool IsAddWebApi { get; set; }
+    private static readonly CoreOption option = new();
 
     /// <summary>
     /// 添加桌面框架及身份认证支持。
     /// </summary>
     /// <param name="services">服务集合。</param>
-    public static void AddKnownWin(this IServiceCollection services)
+    /// <param name="action">配置委托。</param>
+    public static void AddKnownWin(this IServiceCollection services, Action<CoreOption> action = null)
     {
-        IsCompression = true;
-        services.AddResponseCompression();
+        action?.Invoke(option);
+        if (option.IsCompression)
+            services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         //services.AddAuthorizationCore();
@@ -29,10 +30,12 @@ public static class Extension
     /// 添加Web框架及身份认证支持。
     /// </summary>
     /// <param name="services">服务集合。</param>
-    public static void AddKnownWeb(this IServiceCollection services)
+    /// <param name="action">配置委托。</param>
+    public static void AddKnownWeb(this IServiceCollection services, Action<CoreOption> action = null)
     {
-        IsCompression = true;
-        services.AddResponseCompression();
+        action?.Invoke(option);
+        if (option.IsCompression)
+            services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         //services.AddControllers();
@@ -61,21 +64,12 @@ public static class Extension
     }
 
     /// <summary>
-    /// 添加自动根据服务接口生成WebApi支持。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    public static void AddKnownWebApi(this IServiceCollection services)
-    {
-        IsAddWebApi = true;
-    }
-
-    /// <summary>
     /// 使用框架静态文件和WebApi。
     /// </summary>
     /// <param name="app">Web应用程序。</param>
     public static void UseKnown(this WebApplication app)
     {
-        if (IsCompression)
+        if (option.IsCompression)
             app.UseResponseCompression();
 
         app.UseStaticFiles();
@@ -92,7 +86,7 @@ public static class Extension
             RequestPath = "/UploadFiles"
         });
 
-        if (IsAddWebApi)
+        if (option.IsAddWebApi)
             app.UseKnownWebApi();
     }
 

@@ -18,7 +18,6 @@ public static class AppWeb
         {
             case AppType.Web:
                 services.AddKnownWeb();
-                services.AddKnownWebApi();
                 break;
             case AppType.Desktop:
                 services.AddKnownWin();

@@ -21,9 +21,9 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         context = new UIContext();
         context.IPAddress = IPAddress;
         context.IsMobile = IsMobile;
-        base.OnInitialized();
     }
 }

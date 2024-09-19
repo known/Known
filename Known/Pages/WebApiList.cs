@@ -100,8 +100,13 @@ class WebApiForm : BaseComponent
         {
             builder.Li(() =>
             {
+                var token = CurrentUser.Token;
+                var chars = "********";
+                var oldValue1 = token.Substring(4, 8);
+                var oldValue2 = token.Substring(16, 8);
+                var value = token.Replace(oldValue1, chars).Replace(oldValue2, chars);
                 BuildLabel(builder, "String", Constants.KeyToken);
-                UI.BuildText(builder, new InputModel<string> { Value = CurrentUser.Token, Disabled = true });
+                UI.BuildText(builder, new InputModel<string> { Value = value, Disabled = true });
             });
         });
     }

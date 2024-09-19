@@ -24,6 +24,16 @@ public class Context
     public UserInfo CurrentUser { get; set; }
 
     /// <summary>
+    /// 取得或设置上下文请求对象，用于静态组件与后端交互。
+    /// </summary>
+    public IRequest Request { get; set; }
+
+    /// <summary>
+    /// 取得或设置上下文响应对象，用于静态组件与后端交互。
+    /// </summary>
+    public IResponse Response { get; set; }
+
+    /// <summary>
     /// 取得或设置当前语言标准编码，如：zh-CN/zh-TW/en-US。
     /// </summary>
     public string CurrentLanguage
@@ -60,4 +70,36 @@ public class Context
     {
         CurrentUser = AuthService.GetUserByToken(token)
     };
+}
+
+/// <summary>
+/// 系统上下文请求接口，适用于静态组件与后端交互。
+/// </summary>
+public interface IRequest
+{
+    /// <summary>
+    /// 判断 POST 表单是否是指定请求处理者。
+    /// </summary>
+    /// <param name="name">处理者名称</param>
+    /// <returns>是否指定请求处理者。</returns>
+    bool IsHandler(string name);
+
+    /// <summary>
+    /// 获取表单数据泛型类型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <returns>泛型类型对象。</returns>
+    T GetModel<T>();
+}
+
+/// <summary>
+/// 系统上下文响应接口，适用于静态组件与后端交互。
+/// </summary>
+public interface IResponse
+{
+    /// <summary>
+    /// 重定向到指定页面。
+    /// </summary>
+    /// <param name="url">页面地址。</param>
+    void Redirect(string url);
 }
