@@ -16,16 +16,6 @@ public class UIContext : Context
     public IUIService UI { get; set; }
 
     /// <summary>
-    /// 取得或设置是否是移动端。
-    /// </summary>
-    public bool IsMobile { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前请求IP地址。
-    /// </summary>
-    public string IPAddress { get; set; }
-
-    /// <summary>
     /// 取得或设置当前菜单URL。
     /// </summary>
     public string Url { get; set; }

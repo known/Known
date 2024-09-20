@@ -456,8 +456,8 @@ public class PagingCriteria
     {
         var parameter = new Dictionary<string, object>
         {
-            [nameof(EntityBase.AppId)] = user.AppId,
-            [nameof(EntityBase.CompNo)] = user.CompNo
+            [nameof(EntityBase.AppId)] = user?.AppId,
+            [nameof(EntityBase.CompNo)] = user?.CompNo
         };
 
         if (Query != null && Query.Count > 0)

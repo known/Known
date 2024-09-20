@@ -24,6 +24,16 @@ public class Context
     public UserInfo CurrentUser { get; set; }
 
     /// <summary>
+    /// 取得或设置是否是移动端。
+    /// </summary>
+    public bool IsMobile { get; set; }
+
+    /// <summary>
+    /// 取得或设置当前请求IP地址。
+    /// </summary>
+    public string IPAddress { get; set; }
+
+    /// <summary>
     /// 取得或设置上下文请求对象，用于静态组件与后端交互。
     /// </summary>
     public IRequest Request { get; set; }

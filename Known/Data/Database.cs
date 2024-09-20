@@ -348,18 +348,16 @@ public abstract class Database : IDisposable
         if (entity == null)
             return;
 
-        if (User == null)
-            throw new SystemException("the user is not null.");
-
+        var none = "Anonymous";
         if (entity.IsNew)
         {
             if (entity.CreateBy == "temp")
-                entity.CreateBy = User.UserName;
+                entity.CreateBy = User?.UserName ?? none;
             entity.CreateTime = DateTime.Now;
             if (entity.AppId == "temp")
-                entity.AppId = User.AppId;
+                entity.AppId = User?.AppId ?? Config.App.Id;
             if (entity.CompNo == "temp")
-                entity.CompNo = User.CompNo;
+                entity.CompNo = User?.CompNo ?? none;
         }
         else
         {
@@ -367,7 +365,7 @@ public abstract class Database : IDisposable
             await SetOriginalAsync(entity);
         }
 
-        entity.ModifyBy = User.UserName;
+        entity.ModifyBy = User?.UserName ?? none;
         entity.ModifyTime = DateTime.Now;
         await SaveDataAsync(entity);
         entity.IsNew = false;

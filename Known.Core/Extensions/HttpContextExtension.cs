@@ -12,8 +12,8 @@ public static class HttpContextExtension
     /// <param name="context">系统上下文对象。</param>
     public static void SetContext(this HttpContext http, UIContext context)
     {
-        context.IPAddress = http.Connection?.RemoteIpAddress?.ToString();
         context.IsMobile = http.CheckMobile();
+        context.IPAddress = http.Connection?.RemoteIpAddress?.ToString();
         context.Request = ContextFactory.CreateRequest(http);
         context.Response = ContextFactory.CreateResponse(http);
     }

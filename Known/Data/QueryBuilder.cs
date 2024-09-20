@@ -178,7 +178,7 @@ public class QueryBuilder<T> where T : class, new()
     /// <returns>单条数据。</returns>
     public Task<TItem> FirstAsync<TItem>()
     {
-        var info = provider.GetSelectCommand(this);
+        var info = provider.GetSelectCommand(this, true);
         return db.QueryAsync<TItem>(info);
     }
 

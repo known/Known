@@ -92,7 +92,7 @@ select t.* from (
         return info;
     }
 
-    internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder) where T : class, new()
+    internal CommandInfo GetSelectCommand<T>(QueryBuilder<T> builder, bool first = false) where T : class, new()
     {
         var select = builder.SelectSql;
         if (string.IsNullOrWhiteSpace(select))
@@ -106,6 +106,10 @@ select t.* from (
             sql += $" group by {builder.GroupSql}";
         if (!string.IsNullOrWhiteSpace(builder.OrderSql))
             sql += $" order by {builder.OrderSql}";
+
+        if (first)
+            sql = GetTopSql(1, sql);
+
         return new CommandInfo(this, sql, builder.Parameters);
     }
 
