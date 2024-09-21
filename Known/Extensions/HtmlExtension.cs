@@ -130,14 +130,12 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">链接文本。</param>
     /// <param name="url">链接URL</param>
-    /// <param name="download">下载文件名。</param>
-    public static void OpenFile(this RenderTreeBuilder builder, string text, FileUrlInfo url, bool download = false)
+    public static void OpenFile(this RenderTreeBuilder builder, string text, FileUrlInfo url)
     {
         builder.OpenElement(0, "a");
         builder.AddAttribute(1, "href", url.OriginalUrl);
         builder.AddAttribute(2, "target", "_blank");
-        if (download)
-            builder.AddAttribute(3, "download", url.FileName);
+        builder.AddAttribute(3, "download", url.FileName);
         builder.AddContent(4, text);
         builder.CloseElement();
     }

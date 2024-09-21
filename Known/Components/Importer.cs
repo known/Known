@@ -27,7 +27,7 @@ class Importer : BaseComponent
     {
         builder.Div("kui-import", () =>
         {
-            builder.Div("danger", Language["Import.Tips"]);
+            builder.Div("kui-danger", Language["Import.Tips"]);
             builder.Div("item", () =>
             {
                 BuildInputFile(builder);
@@ -51,7 +51,7 @@ class Importer : BaseComponent
                     builder.Link(ErrorMessage, this.Callback(OnErrorMessage));
                 builder.Span("size", fileInfo);
             });
-            var style = string.IsNullOrWhiteSpace(error) ? "primary" : "danger";
+            var style = string.IsNullOrWhiteSpace(error) ? "kui-primary" : "kui-danger";
             builder.Div($"kui-import-message {style}", message);
         });
     }

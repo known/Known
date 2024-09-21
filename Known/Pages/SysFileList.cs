@@ -40,7 +40,7 @@ public class SysFileList : BaseTablePage<SysFile>
 
     private void BuildFileName(RenderTreeBuilder builder, SysFile row)
     {
-        builder.Component<FileLink>().Set(c => c.Item, row).Set(c => c.OpenFile, true).Build();
+        builder.Component<FileLink>().Set(c => c.Item, row).Build();
     }
 
     private void BuildFileSize(RenderTreeBuilder builder, SysFile row)

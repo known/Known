@@ -3,12 +3,11 @@
 class FileLink : BaseComponent
 {
     [Parameter] public SysFile Item { get; set; }
-    [Parameter] public bool OpenFile { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Config.App.Type == AppType.Web)
-            builder.OpenFile(Item.Name, Item.FileUrl, !OpenFile);
+            builder.OpenFile(Item.Name, Item.FileUrl);
         else
             builder.Span("kui-link", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFile(Item)));
     }
@@ -23,7 +22,7 @@ class FileLink : BaseComponent
         if (bytes != null && bytes.Length > 0)
         {
             var stream = new MemoryStream(bytes);
-            await JS.DownloadFileAsync(item.Name, stream);
+            await JS.DownloadFileAsync(item.SourceName, stream);
         }
     }
 }

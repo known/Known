@@ -15,11 +15,6 @@ public class KUpload : BaseComponent
     [Parameter] public bool IsButton { get; set; }
 
     /// <summary>
-    /// 取得或设置是否点击文件名连接直接在浏览器中打开文件。
-    /// </summary>
-    [Parameter] public bool OpenFile { get; set; }
-
-    /// <summary>
     /// 取得或设置上传组件关联字段值。
     /// </summary>
     [Parameter] public string Value { get; set; }
@@ -142,8 +137,8 @@ public class KUpload : BaseComponent
                 builder.Div(() =>
                 {
                     if (!ReadOnly)
-                        builder.Span("kui-link danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
-                    builder.Component<FileLink>().Set(c => c.Item, item).Set(c => c.OpenFile, OpenFile).Build();
+                        builder.Span("kui-link kui-danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
+                    builder.Component<FileLink>().Set(c => c.Item, item).Build();
                 });
             }
         });
