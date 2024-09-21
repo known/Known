@@ -1,19 +1,27 @@
-﻿namespace Known.AntBlazor.Components;
+﻿
+namespace Known.AntBlazor.Components;
 
 /// <summary>
 /// 自定义Ant菜单组件类。
 /// </summary>
 public class AntMenu : BaseComponent
 {
-    /// <summary>
-    /// 取得或设置是否为手风琴菜单。
-    /// </summary>
-    [Parameter] public bool Accordion { get; set; }
+    private SettingInfo info = new();
 
     /// <summary>
     /// 取得或设置菜单数据列表。
     /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }
+
+    /// <summary>
+    /// 异步初始化组件。
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        info = Context.UserSetting;
+    }
 
     /// <summary>
     /// 呈现菜单组件内容。
@@ -23,7 +31,8 @@ public class AntMenu : BaseComponent
     {
         builder.Component<Menu>()
                .Set(c => c.Mode, MenuMode.Inline)
-               .Set(c => c.Accordion, Accordion)
+               .Set(c => c.Theme, info.ToMenuTheme())
+               .Set(c => c.Accordion, info.Accordion)
                .Set(c => c.ChildContent, BuildMenu)
                .Build();
     }

@@ -12,6 +12,7 @@
 :root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
 /*Common*/
+.kui-wrapper {position:fixed;top:0;bottom:0;left:0;right:0;}
 .kui-nav, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
@@ -34,12 +35,12 @@
 .kui-center {text-align:center;}
 .kui-flex {display:flex;}
 .kui-error {text-align:center;padding:20px;height:100%;}
-.primary {color:#1890ff;}
-.danger {color:#ed4014;}
-.bg-danger, .bg-danger > td {background-color:#ffccc7 !important;}
-.bg-danger:hover, .bg-danger:hover > td {background-color: #ffa39e !important;}
-.p10 {padding:10px;}
-.app-name {
+.kui-primary {color:#1890ff;}
+.kui-danger {color:#ed4014;}
+.kui-bg-danger, .kui-bg-danger > td {background-color:#ffccc7 !important;}
+.kui-bg-danger:hover, .kui-bg-danger:hover > td {background-color: #ffa39e !important;}
+.kui-p10 {padding:10px;}
+.kui-app-name {
     font-weight:bold;margin-top:0.9rem;margin-bottom:0.9rem;text-align:center;line-height:1.8rem;font-size:1.3rem;
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }

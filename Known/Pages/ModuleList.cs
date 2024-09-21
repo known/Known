@@ -89,7 +89,7 @@ public class ModuleList : BasePage<SysModule>
         await table.RefreshAsync();
     }
 
-    private void BuildTree(RenderTreeBuilder builder) => builder.Div("p10", () => UI.BuildTree(builder, tree));
+    private void BuildTree(RenderTreeBuilder builder) => builder.Div("kui-p10", () => UI.BuildTree(builder, tree));
     private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)

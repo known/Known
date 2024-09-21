@@ -11,15 +11,25 @@
             else
             {
                 <Layout Style="min-height:100vh;">
-                    <Sider Breakpoint="@BreakpointType.Lg" CollapsedWidth="60" Collapsible>
+                    <Sider @bind-Collapsed="collapsed" Class="@SiderClass" Theme="SiderTheme.Light" CollapsedWidth="60" NoTrigger Collapsible>
                         <div class="kui-logo"></div>
                         <div class="kui-scroll">
-                            <AntMenu Accordion="Context.UserSetting.Accordion" Items="UserMenus" />
+                            <AntMenu Items="UserMenus" />
                         </div>
                     </Sider>
                     <Layout>
                         <Header Class="kui-header">
-                            <TopBreadcrumb Current="Context.Current" />
+                            <div class="kui-header-left">
+                                @if (collapsed)
+                                {
+                                    <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                                }
+                                else
+                                {
+                                    <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                                }
+                                <TopBreadcrumb Current="Context.Current" />
+                            </div>
                             <TopNavRight OnMenuClick="OnMenuClick" />
                         </Header>
                         <Content Class="kui-page">
@@ -49,8 +59,8 @@
         </Spin>
         @if (IsLogin && !Context.IsMobile)
         {
-            <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="300">
-                <SettingForm @ref="setting" />
+            <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="320">
+                <SettingForm OnChanged="OnSettingChanged" />
             </Drawer>
         }
     }
@@ -59,9 +69,15 @@
 @code {
     private string spinTip = "";
     private bool showSpin = false;
-    //Admin
     private bool showSetting = false;
-    private SettingForm setting;
+    private bool collapsed = false;
+    private string SiderClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        collapsed = Context.UserSetting.Collapsed;
+    }
 
     public override async Task ShowSpinAsync(string text, Func<Task> action)
     {
@@ -84,6 +100,13 @@
             showSpin = false;
             await StateChangedAsync();
         });
+    }
+
+    private void OnToggle() => collapsed = !collapsed;
+
+    private void OnSettingChanged(SettingInfo info)
+    {
+        collapsed = info.Collapsed;
     }
 
     //Admin

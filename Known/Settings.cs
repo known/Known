@@ -92,18 +92,30 @@ public class SettingInfo
     public string Theme { get; set; }
 
     /// <summary>
-    /// 取得或设置系统菜单是否是手风琴。
-    /// </summary>
-    [Form] public bool Accordion { get; set; }
-
-    /// <summary>
     /// 取得或设置系统是否多标签页模式。
     /// </summary>
-    [Form] public bool MultiTab { get; set; }
+    public bool MultiTab { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统菜单是否是手风琴。
+    /// </summary>
+    public bool Accordion { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统菜单是否收缩。
+    /// </summary>
+    public bool Collapsed { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统菜单主题。
+    /// </summary>
+    public string MenuTheme { get; set; }
 
     internal void Reset()
     {
-        Accordion = true;
         MultiTab = false;
+        Accordion = true;
+        Collapsed = false;
+        MenuTheme = "Light";
     }
 }

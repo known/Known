@@ -2,6 +2,14 @@
 
 static class OptionExtension
 {
+    internal static MenuTheme ToMenuTheme(this SettingInfo info)
+    {
+        if (info.MenuTheme == "Dark")
+            return MenuTheme.Dark;
+
+        return MenuTheme.Light;
+    }
+
     internal static RadioOption<string>[] ToRadioOptions(this List<CodeInfo> codes)
     {
         if (codes == null || codes.Count == 0)

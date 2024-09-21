@@ -8,6 +8,11 @@ public class SettingForm : BaseForm<SettingInfo>
     private ISettingService Service;
 
     /// <summary>
+    /// 取得或设置系统设置改变方法委托。
+    /// </summary>
+    [Parameter] public Action<SettingInfo> OnChanged { get; set; }
+
+    /// <summary>
     /// 异步初始化设置表单。
     /// </summary>
     /// <returns></returns>
@@ -15,11 +20,19 @@ public class SettingForm : BaseForm<SettingInfo>
     {
         await base.OnInitFormAsync();
         Service = await CreateServiceAsync<ISettingService>();
-        Model = new FormModel<SettingInfo>(this, true)
+        Model = new FormModel<SettingInfo>(this)
         {
             Info = new FormInfo { LabelSpan = 12 },
             Data = Context.UserSetting
         };
+        Model.AddRow().AddColumn(c => c.MultiTab);
+        Model.AddRow().AddColumn(c => c.Accordion);
+        Model.AddRow().AddColumn(c => c.Collapsed);
+        Model.AddRow().AddColumn(c => c.MenuTheme, c =>
+        {
+            c.Category = "Light,Dark";
+            c.Type = FieldType.RadioList;
+        });
     }
 
     /// <summary>
@@ -31,7 +44,7 @@ public class SettingForm : BaseForm<SettingInfo>
         builder.Div("kui-form-setting", () =>
         {
             base.BuildForm(builder);
-            builder.Div("center", () =>
+            builder.Div("kui-center", () =>
             {
                 builder.Button(Language.Save, this.Callback<MouseEventArgs>(SaveAsync));
                 builder.Button(Language.Reset, this.Callback<MouseEventArgs>(ResetAsync), "default");
@@ -45,6 +58,7 @@ public class SettingForm : BaseForm<SettingInfo>
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
+            OnChanged?.Invoke(Context.UserSetting);
             await App?.StateChangedAsync();
         }
     }
@@ -56,6 +70,7 @@ public class SettingForm : BaseForm<SettingInfo>
         if (result.IsValid)
         {
             Context.UserSetting = Model.Data;
+            OnChanged?.Invoke(Context.UserSetting);
             await App?.StateChangedAsync();
         }
     }

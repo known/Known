@@ -1,9 +1,10 @@
-html, body {font-family:'Microsoft YaHei', Arial, sans-serif;width:100%;height:100%;overflow:hidden;}
-.loading {display:flex;width:100%;height:100%;background:url(../img/logo1.png) no-repeat center;}
+html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';width:100%;height:100%;overflow:hidden;}
+.loading {width:100%;height:100%;background:url(../img/logo1.png) no-repeat center;}
 .login, .login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
 .known, .ws-space, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
-.kui-logo {background:url(../img/logo1.png) no-repeat left var(--kui-bgcolor);margin-left:6px;}
-:root[theme=dark] .kui-logo {background:url(../img/logo.png) no-repeat left var(--kui-bgcolor);}
+.kui-logo {background:url(../img/logo1.png) no-repeat left;margin-left:5px;}
+:root[theme=dark] .kui-logo, .kui-menu-dark .kui-logo {background:url(../img/logo.png) no-repeat left;}
+:root[theme=dark] .kui-logo {background-color:var(--kui-bgcolor);}
 
 /*Login*/
 .login {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}

@@ -30,7 +30,7 @@ public class SysUserProfile : BasePage<SysUser>
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
-    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("p10", () => builder.Component<SysUserProfileInfo>().Build());
+    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Div("kui-p10", () => builder.Component<SysUserProfileInfo>().Build());
     private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
 }
 
