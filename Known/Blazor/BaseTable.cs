@@ -27,6 +27,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         Table.AdvSearch = false;
         Table.IsForm = true;
         Table.OnAction = (info, item) => OnAction(info, [item]);
+        Table.ShowSetting = false;
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
 

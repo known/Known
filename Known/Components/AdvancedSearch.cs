@@ -3,7 +3,7 @@
 class AdvancedSearch : BaseComponent
 {
     private string SettingKey => $"UserSearch_{Context.Current.Id}";
-    private ISettingService settingService;
+    private ISettingService Service;
     private List<FieldInfo> fields = [];
     private List<QueryInfo> Query { get; } = [];
 
@@ -11,7 +11,7 @@ class AdvancedSearch : BaseComponent
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
-        await settingService.SaveUserSettingFormAsync(new SettingFormInfo
+        await Service.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingKey,
             BizData = Query
@@ -23,7 +23,7 @@ class AdvancedSearch : BaseComponent
     {
         await base.OnInitAsync();
         fields = TypeHelper.GetFields(ItemType, Language);
-        settingService = await CreateServiceAsync<ISettingService>();
+        Service = await CreateServiceAsync<ISettingService>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -32,7 +32,7 @@ class AdvancedSearch : BaseComponent
         if (firstRender)
         {
             Query.Clear();
-            var json = await settingService.GetUserSettingAsync(SettingKey);
+            var json = await Service.GetUserSettingAsync(SettingKey);
             var items = Utils.FromJson<List<QueryInfo>>(json);
             if (items != null && items.Count > 0)
                 Query.AddRange(items);

@@ -245,6 +245,7 @@
   "Designer.RequestHeaders": "Headers",
   "Designer.RequestParameters": "Request",
   "Designer.ResponseResults": "Response",
+  "Designer.ColumnSettings": "Column Settings",
 
   "Code.Female": "Female",
   "Code.Male": "Male",

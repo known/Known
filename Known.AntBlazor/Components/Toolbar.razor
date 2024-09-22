@@ -12,15 +12,18 @@
                 var itemName = Language.GetString(item);
                 if (item.Children != null && item.Children.Count > 0)
                 {
-                    <AntDropdown Context="Context" TextButton="@itemName" Items="item.Children" OnItemClick="Model.OnItemClick" />
+                    var model = GetDropdownModel(itemName);
+                    model.Items = item.Children;
+                    <AntDropdown Context="Context" Model="model" />
                 }
                 else
                 {
                     <AntButton Name="@itemName" Enabled="item.Enabled" Type="@item.Style" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
                 }
             }
-            var mores = items.Skip(Model.ShowCount - 1).ToList();
-            <AntDropdown Context="Context" TextButton="@Language["Button.More"]" Items="mores" OnItemClick="Model.OnItemClick" />
+            var more = GetDropdownModel(Language["Button.More"]);
+            more.Items = items.Skip(Model.ShowCount - 1).ToList();
+            <AntDropdown Context="Context" Model="more" />
         }
         else
         {
@@ -29,7 +32,9 @@
                 var itemName = Language.GetString(item);
                 if (item.Children != null && item.Children.Count > 0)
                 {
-                    <AntDropdown Context="Context" TextButton="@itemName" Items="item.Children" OnItemClick="Model.OnItemClick" />
+                    var model = GetDropdownModel(itemName);
+                    model.Items = item.Children;
+                    <AntDropdown Context="Context" Model="model" />
                 }
                 else
                 {
@@ -50,5 +55,14 @@
 
         Model.OnRefresh = StateChanged;
         base.OnInitialized();
+    }
+
+    private DropdownModel GetDropdownModel(string textButton)
+    {
+        return new DropdownModel
+        {
+            TextButton = textButton,
+            OnItemClick = Model.OnItemClick
+        };
     }
 }

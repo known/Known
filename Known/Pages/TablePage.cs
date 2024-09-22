@@ -52,7 +52,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
             {
                 Model.Tab.Left = b => b.FormTitle(Model.PageName);
                 if (Model.Toolbar.HasItem)
-                    Model.Tab.Right = b => UI.BuildToolbar(b, Model.Toolbar);
+                    Model.Tab.Right = BuildRight;
                 UI.BuildTabs(builder, Model.Tab);
             }
             else
@@ -66,13 +66,20 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
                                if (Model.TopStatis != null)
                                    b.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
                            });
-                           if (Model.Toolbar.HasItem)
-                               UI.BuildToolbar(b, Model.Toolbar);
+                           b.Div(() => BuildRight(b));
                        })
                        .Build();
             }
             UI.BuildTable(builder, Model);
         });
+    }
+
+    private void BuildRight(RenderTreeBuilder builder)
+    {
+        if (Model.Toolbar.HasItem)
+            UI.BuildToolbar(builder, Model.Toolbar);
+        if (Model.ShowSetting)
+            builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
     }
 }
 

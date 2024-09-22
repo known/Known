@@ -245,6 +245,7 @@
   "Designer.RequestHeaders": "請求頭",
   "Designer.RequestParameters": "請求參數",
   "Designer.ResponseResults": "響應結果",
+  "Designer.ColumnSettings": "列設定",
 
   "Code.Female": "女",
   "Code.Male": "男",

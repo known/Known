@@ -408,7 +408,12 @@ public class ColumnInfo
     /// <summary>
     /// 取得或设置栏位宽度。
     /// </summary>
-    public int Width { get; set; }
+    public int? Width { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位显示顺序。
+    /// </summary>
+    public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置栏位对齐方式（left/center/right）。

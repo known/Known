@@ -12,8 +12,26 @@
     }
     @if (Model.Columns != null && Model.Columns.Count > 0)
     {
+        var columns = Model.Columns.Where(c => c.IsVisible).ToList();
+        Context.UserTableSettings.TryGetValue(Model.SettingId, out List<TableSettingInfo> settings);
+        if (settings != null && settings.Count > 0)
+        {
+            // 根据用户设置排序
+            foreach (var item in columns)
+            {
+                var setting = settings.FirstOrDefault(c => c.Id == item.Id);
+                if (setting != null)
+                {
+                    item.IsVisible = setting.IsVisible;
+                    item.Width = setting.Width;
+                    item.Sort = setting.Sort;
+                }
+            }
+            columns = columns.OrderBy(c => c.Sort).ToList();
+        }
+
         var isDictionary = Model.IsDictionary;
-        foreach (var item in Model.Columns)
+        foreach (var item in columns)
         {
             if (!item.IsVisible)
                 continue;
@@ -94,9 +112,9 @@
         if (actions == null)
             actions = Model.Actions;
         Model.UpdateRowActions?.Invoke(context, actions);
-        actions = actions.Where(a => a.Visible).ToList();
-        actions.ForEach(d => d.Name = Language.GetString(d));
-        <ActionColumn Title="@Language["Title.Action"]" Align="ColumnAlign.Center" Width="@Model.ActionWidth" Class="kui-table-action">
+        actions = actions?.Where(a => a.Visible).ToList();
+        actions?.ForEach(d => d.Name = Language.GetString(d));
+        <ActionColumn Title="@Language["Title.Action"]" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Class="kui-table-action">
             @if (actions.Count > Model.ActionCount)
             {
                 var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
@@ -105,7 +123,13 @@
                 {
                     <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
                 }
-                <AntDropdown Context="Context" Text="@Language["Button.More"]" Items="mores" OnItemClick="e=>Model.OnAction?.Invoke(e, context)" />
+                var model = new DropdownModel
+                {
+                    Text = Language["Button.More"],
+                    Items = mores,
+                    OnItemClick = e => Model.OnAction?.Invoke(e, context)
+                };
+                <AntDropdown Context="Context" Model="model" />
             }
             else
             {
@@ -163,6 +187,8 @@
         var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
         if (totalWidth > 1000)
             scrollX = totalWidth.ToString();
+        Model.OnChanged = StateChanged;
+        Model.OnChangedTask = StateChangedAsync;
         Model.OnRefresh = RefreshTableAsync;
         base.OnInitialized();
     }

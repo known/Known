@@ -84,22 +84,32 @@ public class DialogModel
 public class DropdownModel
 {
     /// <summary>
-    /// 取得或设置下拉框图标。
+    /// 取得或设置触发类型（Click、ContextMenu、Hover、Focus），默认Hover。
+    /// </summary>
+    public string TriggerType { get; set; }
+
+    /// <summary>
+    /// 取得或设置下拉框图标提示信息。
+    /// </summary>
+    public string Tooltip { get; set; }
+
+    /// <summary>
+    /// 取得或设置下拉框显示图标。
     /// </summary>
     public string Icon { get; set; }
 
     /// <summary>
-    /// 取得或设置下拉框文本。
+    /// 取得或设置下拉框显示文本。
     /// </summary>
     public string Text { get; set; }
 
     /// <summary>
-    /// 取得或设置下拉框文本加图标。
+    /// 取得或设置下拉框显示文本加图标。
     /// </summary>
     public string TextIcon { get; set; }
 
     /// <summary>
-    /// 取得或设置下拉框文本按钮。
+    /// 取得或设置下拉框显示文本按钮。
     /// </summary>
     public string TextButton { get; set; }
 
@@ -112,6 +122,11 @@ public class DropdownModel
     /// 取得或设置下拉框项目单击事件委托方法。
     /// </summary>
     public Action<ActionInfo> OnItemClick { get; set; }
+
+    /// <summary>
+    /// 取得或设置下拉框内容模板。
+    /// </summary>
+    public RenderFragment Overlay { get; set; }
 }
 
 /// <summary>
@@ -124,6 +139,16 @@ public class InputModel<TValue>
     /// 取得或设置输入组件是否可用。
     /// </summary>
     public bool Disabled { get; set; }
+    
+    /// <summary>
+    /// 取得或设置CheckBox输入组件是否半选。
+    /// </summary>
+    public bool Indeterminate { get; set; }
+
+    /// <summary>
+    /// 取得或设置CheckBox输入组件文本。
+    /// </summary>
+    public string Label { get; set; }
 
     /// <summary>
     /// 取得或设置输入组件文本占位符。

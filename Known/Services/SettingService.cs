@@ -81,8 +81,17 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
         return setting.DataAs<T>();
     }
 
+    internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(Database db)
+    {
+        var settings = await db.QueryListAsync<SysSetting>(d => d.CreateBy == db.UserName && d.BizType.StartsWith("UserTable_"));
+        if (settings == null || settings.Count == 0)
+            return [];
+
+        return settings.ToDictionary(k => k.BizType, v => v.DataAs<List<TableSettingInfo>>());
+    }
+
     private static Task<SysSetting> GetUserSettingAsync(Database db, string bizType)
     {
-        return db.QueryAsync<SysSetting>(d => d.CreateBy == db.User.UserName && d.BizType == bizType);
+        return db.QueryAsync<SysSetting>(d => d.CreateBy == db.UserName && d.BizType == bizType);
     }
 }

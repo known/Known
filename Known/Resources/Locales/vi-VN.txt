@@ -245,6 +245,7 @@
   "Designer.RequestHeaders": "Đầu yêu cầu",
   "Designer.RequestParameters": "Yêu cầu tham số",
   "Designer.ResponseResults": "Kết quả trả lời",
+  "Designer.ColumnSettings": "Thiết lập cột",
 
   "Code.Female": "Phụ nữ",
   "Code.Male": "Nam",

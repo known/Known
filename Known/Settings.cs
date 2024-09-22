@@ -97,7 +97,7 @@ public class SettingInfo
     public bool MultiTab { get; set; }
 
     /// <summary>
-    /// 取得或设置系统菜单是否是手风琴。
+    /// 取得或设置系统菜单是否是手风琴， 默认是。
     /// </summary>
     public bool Accordion { get; set; }
 
@@ -107,7 +107,7 @@ public class SettingInfo
     public bool Collapsed { get; set; }
 
     /// <summary>
-    /// 取得或设置系统菜单主题。
+    /// 取得或设置系统菜单主题，默认亮色（Light）。
     /// </summary>
     public string MenuTheme { get; set; }
 
@@ -117,5 +117,32 @@ public class SettingInfo
         Accordion = true;
         Collapsed = false;
         MenuTheme = "Light";
+        Config.OnSetting?.Invoke(this);
     }
+}
+
+/// <summary>
+/// 表格列设置信息类。
+/// </summary>
+public class TableSettingInfo
+{
+    /// <summary>
+    /// 取得或设置栏位ID。
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否可见。
+    /// </summary>
+    public bool IsVisible { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位宽度。
+    /// </summary>
+    public int Width { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位显示顺序。
+    /// </summary>
+    public int Sort { get; set; }
 }

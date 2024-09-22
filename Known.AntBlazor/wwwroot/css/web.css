@@ -13,6 +13,15 @@
 .kui-table .ant-table-wrapper {padding:0 10px 10px 10px;}
 .kui-table.form-list .ant-table-wrapper {padding:0 0 10px 0;}
 .kui-table .ant-tabs-nav {margin:0;margin-bottom:10px;}
+.kui-table-setting {
+    background-color:var(--kui-bgcolor);padding:10px;border:1px solid var(--kui-border-color);border-radius:5px;
+    max-height:500px;overflow:auto;
+}
+.kui-table-setting .title {font-weight:bold;margin:0 0 10px 30px;}
+.kui-table-setting .item {display:flex;align-items:center;margin-bottom:5px;}
+.kui-table-setting .item > .anticon {width:30px;cursor:move;color:var(--kui-color);}
+.kui-table-setting .item > .ant-checkbox-wrapper {width:150px;}
+.kui-table-setting .item > .ant-input-number {width:80px;}
 .ant-table-thead > tr > th.kui-table-check {position:sticky;left:0;z-index:101;}
 .ant-table-tbody > tr > td.kui-table-check, .ant-table tfoot > tr > td.kui-table-check {
     position:sticky;left:0;z-index:101;background-color:var(--kui-bgcolor);
@@ -82,6 +91,7 @@
 .ant-tabs-nav {padding:0 10px;}
 .ant-tabs-tab .anticon {margin-right:5px;}
 .ant-tabs-tab-remove {margin-left:0;}
+.ant-tabs-extra-content {display:flex;align-items:center;}
 .ant-table-thead > tr > th {font-weight:bold;}
 .ant-table-cell .ant-tag {cursor:pointer;}
 .ant-table .ant-table-container::after {width:20px;}
@@ -139,6 +149,8 @@
 :root[theme=dark] .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab {
     color:var(--kui-color);border-color:var(--kui-border-color);
 }
+:root[theme=dark] .ant-select-item,
+:root[theme=dark] .ant-pagination-item a,
 :root[theme=dark] .ant-menu-item a,
 :root[theme=dark] .ant-breadcrumb a,
 :root[theme=dark] .ant-breadcrumb li:last-child a,
@@ -159,8 +171,9 @@
 }
 :root[theme=dark] .ant-tree,
 :root[theme=dark] .ant-table,
-:root[theme=dark] .ant-table-thead > tr > th,
 :root[theme=dark] .ant-table .ant-table-container::after,
+:root[theme=dark] .ant-table-thead > tr > th,
+:root[theme=dark] .ant-table-summary,
 :root[theme=dark] .ant-menu,
 :root[theme=dark] .ant-card,
 :root[theme=dark] .ant-card-head,
@@ -174,6 +187,7 @@
 :root[theme=dark] .ant-pagination-next .ant-pagination-item-link,
 :root[theme=dark] .ant-segmented,
 :root[theme=dark] .ant-drawer-content,
+:root[theme=dark] .ant-select-dropdown,
 :root[theme=dark] .ant-input,
 :root[theme=dark] .ant-input-number,
 :root[theme=dark] .ant-input-number-handler-wrap,
@@ -211,6 +225,7 @@
 :root[theme=dark] .ant-empty-normal,
 :root[theme=dark] .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis, 
 :root[theme=dark] .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis,
+:root[theme=dark] .ant-picker-input > input,
 :root[theme=dark] .ant-input-password-icon.anticon,
 :root[theme=dark] .ant-input-number-handler-up-inner,
 :root[theme=dark] .ant-input-number-handler-down-inner,
@@ -246,6 +261,7 @@
 :root[theme=dark] .ant-modal-footer,
 :root[theme=dark] .ant-table-thead > tr > th,
 :root[theme=dark] .ant-table-tbody > tr > td,
+:root[theme=dark] .ant-table-summary > tr > td,
 :root[theme=dark] .ant-tabs-top > .ant-tabs-nav::before, 
 :root[theme=dark] .ant-tabs-bottom > .ant-tabs-nav::before, 
 :root[theme=dark] .ant-tabs-top > div > .ant-tabs-nav::before, 

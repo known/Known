@@ -139,6 +139,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     internal override Type ItemType => typeof(TItem);
 
     /// <summary>
+    /// 取得表格用户列设置ID。
+    /// </summary>
+    public string SettingId => $"UserTable_{Context.Current.Id}";
+
+    /// <summary>
     /// 取得表格关联的页面组件。
     /// </summary>
     public BaseComponent Page { get; }
@@ -159,9 +164,14 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
 
     /// <summary>
-    /// 取得或设置表格是否显示工具条。
+    /// 取得或设置表格是否显示工具条，默认显示。
     /// </summary>
     public bool ShowToolbar { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置表格是否显示列设置，默认显示。
+    /// </summary>
+    public bool ShowSetting { get; set; } = true;
 
     /// <summary>
     /// 取得或设置表格是否显示分页。
@@ -187,7 +197,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// 取得或设置表格名称。
     /// </summary>
     public string Name { get; set; }
-    //public string FixedWidth { get; set; }
 
     /// <summary>
     /// 取得或设置表格固定高度。

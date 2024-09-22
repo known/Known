@@ -25,4 +25,30 @@ public abstract class BaseModel(UIContext context)
     /// 取得上下文当前用户信息实例。
     /// </summary>
     public UserInfo CurrentUser => Context?.CurrentUser;
+
+    /// <summary>
+    /// 取得或设置组件状态改变方法委托。
+    /// </summary>
+    public Action OnChanged { get; set; }
+
+    /// <summary>
+    /// 取得或设置组件状态改变方法委托。
+    /// </summary>
+    public Func<Task> OnChangedTask { get; set; }
+
+    /// <summary>
+    /// 改变组件状态。
+    /// </summary>
+    public void Change()
+    {
+        OnChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// 异步改变组件状态。
+    /// </summary>
+    public Task ChangeAsync()
+    {
+        return OnChangedTask?.Invoke();
+    }
 }

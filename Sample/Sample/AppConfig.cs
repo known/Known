@@ -19,7 +19,14 @@ public static class AppConfig
     {
         Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
-
+        //系统默认设置
+        //Config.OnSetting = s =>
+        //{
+        //    s.MultiTab = true;   // 是否标签页
+        //    s.Accordion = true;   // 是否手风琴
+        //    s.Collapsed = true;   // 是否折叠
+        //    s.MenuTheme = "Dark"; // Light/Dark两种
+        //};
         services.AddKnown(info =>
         {
             //项目ID、名称、类型、程序集

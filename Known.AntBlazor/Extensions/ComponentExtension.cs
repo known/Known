@@ -136,7 +136,8 @@ static class ComponentExtension
         builder.Component<Checkbox>()
                .Set(c => c.Disabled, model.Disabled)
                .Set(c => c.Checked, model.Value)
-               .Set(c => c.Label, model.Placeholder)
+               .Set(c => c.Indeterminate, model.Indeterminate)
+               .Set(c => c.Label, model.Label)
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();

@@ -82,6 +82,11 @@ public sealed class Config
     /// </summary>
     public static Action<List<SysModule>> OnAddModule { get; set; }
 
+    /// <summary>
+    /// 取得或设置默认系统设置方法委托，用于配置系统默认设置。
+    /// </summary>
+    public static Action<SettingInfo> OnSetting { get; set; }
+
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }

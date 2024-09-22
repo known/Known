@@ -327,14 +327,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
 
     public void BuildDropdown(RenderTreeBuilder builder, DropdownModel model)
     {
-        builder.Component<AntDropdown>()
-               .Set(c => c.Icon, model?.Icon)
-               .Set(c => c.Text, model?.Text)
-               .Set(c => c.TextIcon, model?.TextIcon)
-               .Set(c => c.TextButton, model?.TextButton)
-               .Set(c => c.Items, model?.Items)
-               .Set(c => c.OnItemClick, model?.OnItemClick)
-               .Build();
+        builder.Component<AntDropdown>().Set(c => c.Model, model).Build();
     }
 
     public void BuildAlert(RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
