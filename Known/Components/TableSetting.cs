@@ -1,9 +1,7 @@
-﻿
-namespace Known.Components;
+﻿namespace Known.Components;
 
 class TableSetting<TItem> : BaseComponent where TItem : class, new()
 {
-    private string SettingKey => $"UserTable_{Context.Current.Id}";
     private ISettingService Service;
     private List<ColumnInfo> columns = [];
     private ColumnInfo dragging;
@@ -14,22 +12,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
     {
         await base.OnInitAsync();
         Service = await CreateServiceAsync<ISettingService>();
-        columns = Table.Columns.Where(c => c.IsVisible).ToList();
-        Context.UserTableSettings.TryGetValue(SettingKey, out List<TableSettingInfo> settings);
-        if (settings != null && settings.Count > 0)
-        {
-            foreach (var item in columns)
-            {
-                var setting = settings.FirstOrDefault(c => c.Id == item.Id);
-                if (setting != null)
-                {
-                    item.IsVisible = setting.IsVisible;
-                    item.Width = setting.Width;
-                    item.Sort = setting.Sort;
-                }
-            }
-            columns = [.. columns.OrderBy(c => c.Sort)];
-        }
+        columns = Context.GetUserTableColumns(Table);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -57,41 +40,41 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                     Label = Language["Designer.ColumnSettings"],
                     Indeterminate = Indeterminate,
                     Value = CheckAll,
-                    ValueChanged = this.Callback<bool>(v => CheckAllChanged())
+                    ValueChanged = this.Callback((Action<bool>)(v => CheckAllChanged()))
                 });
             });
             foreach (var item in columns)
             {
-                builder.Div().Class("item")
-                       .Attribute("draggable", "true")
-                       .Attribute("ondrop", this.Callback<DragEventArgs>(e => OnDrop(e, item)))
-                       .Attribute("ondragstart", this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
-                       .Attribute("ondragover", "event.preventDefault()")
-                       .Children(() =>
-                       {
-                           builder.Icon("pause");
-                           UI.BuildCheckBox(builder, new InputModel<bool>
-                           {
-                               Label = item.Name,
-                               Value = item.IsVisible,
-                               ValueChanged = this.Callback<bool>(async v =>
-                               {
-                                   item.IsVisible = v;
-                                   await OnColumnChangedAsync();
-                               })
-                           });
-                           UI.BuildNumber(builder, new InputModel<int?>
-                           {
-                               Value = item.Width,
-                               ValueChanged = this.Callback<int?>(async v =>
-                               {
-                                   item.Width = v;
-                                   await OnColumnChangedAsync();
-                               })
-                           });
-                       })
+                builder.Div().Class("item").Draggable()
+                       .OnDrop(this.Callback((Action<DragEventArgs>)(e => OnDrop(e, item))))
+                       .OnDragStart(this.Callback((Action<DragEventArgs>)(e => OnDragStart(e, item))))
+                       .Children(() => BuildSettingItem(builder, item))
                        .Close();
             }
+        });
+    }
+
+    private void BuildSettingItem(RenderTreeBuilder builder, ColumnInfo item)
+    {
+        builder.Icon("pause");
+        UI.BuildCheckBox(builder, new InputModel<bool>
+        {
+            Label = item.Name,
+            Value = item.IsVisible,
+            ValueChanged = this.Callback<bool>(async v =>
+            {
+                item.IsVisible = v;
+                await OnColumnChangedAsync();
+            })
+        });
+        UI.BuildNumber(builder, new InputModel<int?>
+        {
+            Value = item.Width,
+            ValueChanged = this.Callback<int?>(async v =>
+            {
+                item.Width = v;
+                await OnColumnChangedAsync();
+            })
         });
     }
 
@@ -121,10 +104,10 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         }
         await Service.SaveUserSettingFormAsync(new SettingFormInfo
         {
-            BizType = SettingKey,
+            BizType = Table.SettingId,
             BizData = infos
         });
-        Context.UserTableSettings[SettingKey] = infos;
+        Context.UserTableSettings[Table.SettingId] = infos;
         await Table.ChangeAsync();
     }
 

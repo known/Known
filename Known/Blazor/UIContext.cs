@@ -82,6 +82,32 @@ public class UIContext : Context
         return IsInMenu(Current?.Id, buttonId);
     }
 
+    /// <summary>
+    /// 获取用户设置的表格字段列表。
+    /// </summary>
+    /// <typeparam name="TItem">表格数据行类型。</typeparam>
+    /// <param name="table">表格模型对象。</param>
+    /// <returns>用户设置的表格字段列表。</returns>
+    public List<ColumnInfo> GetUserTableColumns<TItem>(TableModel<TItem> table) where TItem : class, new()
+    {
+        var infos = table.Columns.Where(c => c.IsVisible).ToList();
+        UserTableSettings.TryGetValue(table.SettingId, out List<TableSettingInfo> settings);
+        if (settings == null || settings.Count == 0)
+            return infos;
+
+        foreach (var item in infos)
+        {
+            var setting = settings.FirstOrDefault(c => c.Id == item.Id);
+            if (setting != null)
+            {
+                item.IsVisible = setting.IsVisible;
+                item.Width = setting.Width;
+                item.Sort = setting.Sort;
+            }
+        }
+        return [.. infos.OrderBy(c => c.Sort)];
+    }
+
     private bool IsInMenu(string pageId, string buttonId)
     {
         var menu = UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);

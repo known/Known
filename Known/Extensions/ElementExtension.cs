@@ -161,12 +161,38 @@ public static class ElementExtension
     public static RenderTreeBuilder Role(this RenderTreeBuilder builder, string role) => builder.Attribute("role", role);
 
     /// <summary>
-    /// 呈现一个HTML元素的onclick属性。
+    /// 给HTML元素添加可拖拽属性。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    /// <param name="onclick">onclick属性值。</param>
     /// <returns>呈现树建造者。</returns>
-    public static RenderTreeBuilder OnClick(this RenderTreeBuilder builder, object onclick) => builder.Attribute("onclick", onclick);
+    public static RenderTreeBuilder Draggable(this RenderTreeBuilder builder)
+    {
+        return builder.Attribute("draggable", "true").Attribute("ondragover", "event.preventDefault()");
+    }
+
+    /// <summary>
+    /// 给HTML元素添加ondrop属性。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="onDrop">ondrop属性值。</param>
+    /// <returns>呈现树建造者。</returns>
+    public static RenderTreeBuilder OnDrop(this RenderTreeBuilder builder, EventCallback<DragEventArgs> onDrop) => builder.Attribute("ondrop", onDrop);
+
+    /// <summary>
+    /// 给HTML元素添加ondragstart属性。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="onDragStart">ondragstart属性值。</param>
+    /// <returns>呈现树建造者。</returns>
+    public static RenderTreeBuilder OnDragStart(this RenderTreeBuilder builder, EventCallback<DragEventArgs> onDragStart) => builder.Attribute("ondragstart", onDragStart);
+
+    /// <summary>
+    /// 给HTML元素添加onclick属性。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="onClick">onclick属性值。</param>
+    /// <returns>呈现树建造者。</returns>
+    public static RenderTreeBuilder OnClick(this RenderTreeBuilder builder, object onClick) => builder.Attribute("onclick", onClick);
 
     /// <summary>
     /// 阻止HTML元素的onclick属性的默认事件。

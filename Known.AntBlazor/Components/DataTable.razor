@@ -12,24 +12,7 @@
     }
     @if (Model.Columns != null && Model.Columns.Count > 0)
     {
-        var columns = Model.Columns.Where(c => c.IsVisible).ToList();
-        Context.UserTableSettings.TryGetValue(Model.SettingId, out List<TableSettingInfo> settings);
-        if (settings != null && settings.Count > 0)
-        {
-            // 根据用户设置排序
-            foreach (var item in columns)
-            {
-                var setting = settings.FirstOrDefault(c => c.Id == item.Id);
-                if (setting != null)
-                {
-                    item.IsVisible = setting.IsVisible;
-                    item.Width = setting.Width;
-                    item.Sort = setting.Sort;
-                }
-            }
-            columns = columns.OrderBy(c => c.Sort).ToList();
-        }
-
+        var columns = Context.GetUserTableColumns(Model);
         var isDictionary = Model.IsDictionary;
         foreach (var item in columns)
         {

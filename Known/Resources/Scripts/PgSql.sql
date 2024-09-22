@@ -35,9 +35,9 @@ CREATE TABLE SysConfig (
 CREATE TABLE SysSetting (
     Id         character varying(50)  NOT NULL,
     CreateBy   character varying(50)  NOT NULL,
-    CreateTime date                   NOT NULL,
+    CreateTime timestamp without time zone NOT NULL,
     ModifyBy   character varying(50),
-    ModifyTime date,
+    ModifyTime timestamp without time zone,
     Version    integer                NOT NULL,
     Extension  text,
     AppId      character varying(50)  NOT NULL,
