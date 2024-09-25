@@ -2,12 +2,11 @@
 
 class AdvancedSearch : BaseComponent
 {
-    private string SettingKey => $"UserSearch_{Context.Current.Id}";
+    private string SettingKey => $"UserSearch_{Context.Current?.Id}";
     private ISettingService Service;
-    private List<FieldInfo> fields = [];
     private List<QueryInfo> Query { get; } = [];
 
-    [Parameter] public Type ItemType { get; set; }
+    [Parameter] public List<ColumnInfo> Columns { get; set; }
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
@@ -22,7 +21,6 @@ class AdvancedSearch : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        fields = TypeHelper.GetFields(ItemType, Language);
         Service = await CreateServiceAsync<ISettingService>();
     }
 
@@ -49,7 +47,7 @@ class AdvancedSearch : BaseComponent
                 builder.Div("item", () =>
                 {
                     builder.Component<AdvancedSearchItem>()
-                           .Set(c => c.Fields, fields)
+                           .Set(c => c.Columns, Columns)
                            .Set(c => c.Item, item)
                            .Build();
                     builder.Button(new ActionInfo(Context, "Delete"), this.Callback<MouseEventArgs>(e => OnDelete(item)));
@@ -65,9 +63,9 @@ class AdvancedSearch : BaseComponent
 class AdvancedSearchItem : BaseComponent
 {
     private readonly List<CodeInfo> QueryTypes = TypeHelper.GetEnumCodes(typeof(QueryType));
-    private FieldInfo field;
+    private ColumnInfo column;
 
-    [Parameter] public List<FieldInfo> Fields { get; set; }
+    [Parameter] public List<ColumnInfo> Columns { get; set; }
     [Parameter] public QueryInfo Item { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -82,12 +80,12 @@ class AdvancedSearchItem : BaseComponent
         UI.BuildSelect(builder, new InputModel<string>
         {
             Placeholder = Language["PleaseSelect"],
-            Codes = Fields?.Select(f => new CodeInfo(f.Id, f.Name)).ToList(),
+            Codes = Columns?.Select(f => new CodeInfo(f.Id, f.Name)).ToList(),
             Value = item.Id,
             ValueChanged = this.Callback<string>(v =>
             {
                 item.Id = v;
-                field = Fields?.FirstOrDefault(f => f.Id == item.Id);
+                column = Columns?.FirstOrDefault(f => f.Id == item.Id);
             })
         });
     }
@@ -110,7 +108,7 @@ class AdvancedSearchItem : BaseComponent
 
     private void BuildQueryValue(RenderTreeBuilder builder, QueryInfo item)
     {
-        switch (field?.Type)
+        switch (column?.Type)
         {
             case FieldType.Switch:
             case FieldType.CheckBox:
@@ -148,7 +146,7 @@ class AdvancedSearchItem : BaseComponent
     private List<CodeInfo> GetQueryTypes()
     {
         var types = new List<CodeInfo>();
-        switch (field?.Type)
+        switch (column?.Type)
         {
             case FieldType.Switch:
             case FieldType.CheckBox:

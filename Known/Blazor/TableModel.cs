@@ -46,7 +46,7 @@ public class TableModel(UIContext context) : BaseModel(context)
     /// </summary>
     public bool HasToolbar => Toolbar != null && Toolbar.HasItem;
 
-    internal virtual Type ItemType { get; }
+    internal List<ColumnInfo> AllColumns { get; set; }
 
     /// <summary>
     /// 刷新表格数据。
@@ -72,7 +72,7 @@ public class TableModel(UIContext context) : BaseModel(context)
             Title = Language.AdvSearch,
             Width = 700,
             Content = b => b.Component<AdvancedSearch>()
-                            .Set(c => c.ItemType, ItemType)
+                            .Set(c => c.Columns, AllColumns)
                             .Build(value => search = value)
         };
         model.OnOk = async () =>
@@ -133,15 +133,13 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar.OnItemClick = page.OnToolClick;
     }
 
-    internal List<ColumnInfo> AllColumns { get; private set; }
     internal SysModule Module { get; set; }
     internal string PageName => Language.GetString(Context.Current);
-    internal override Type ItemType => typeof(TItem);
 
     /// <summary>
     /// 取得表格用户列设置ID。
     /// </summary>
-    public string SettingId => $"UserTable_{Context.Current.Id}";
+    public string SettingId => $"UserTable_{Context.Current?.Id}";
 
     /// <summary>
     /// 取得表格关联的页面组件。
