@@ -95,6 +95,14 @@ public interface IRequest
     bool IsHandler(string name);
 
     /// <summary>
+    /// 根据控件名称获取指定泛型类型的数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="name">控件名称。</param>
+    /// <returns>泛型类型的数据。</returns>
+    T Get<T>(string name);
+
+    /// <summary>
     /// 获取表单数据泛型类型对象。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>

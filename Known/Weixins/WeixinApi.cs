@@ -33,20 +33,29 @@ public static class WeixinApi
 
     #region 初始化接口
     /// <summary>
+    /// 刷新微信访问Token。
+    /// </summary>
+    /// <returns></returns>
+    public static async Task RefreshTokenAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(AppId) && !string.IsNullOrWhiteSpace(AppSecret))
+            AccessToken = await GetAccessTokenAsync(AppId, AppSecret);
+    }
+
+    /// <summary>
     /// 初始化微信接口，定时刷新访问Token。
     /// </summary>
     public static void Initialize()
     {
         ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
-        Task.Run(async () =>
-        {
-            while (true)
-            {
-                if (!string.IsNullOrWhiteSpace(AppId) && !string.IsNullOrWhiteSpace(AppSecret))
-                    AccessToken = await GetStableAccessTokenAsync(AppId, AppSecret);
-                Thread.Sleep(7000 * 1000);
-            }
-        });
+        //Task.Run(async () =>
+        //{
+        //    while (true)
+        //    {
+        //        await RefreshTokenAsync();
+        //        Thread.Sleep(7000 * 1000);
+        //    }
+        //});
     }
 
     //获取稳定版接口调用凭据
@@ -65,10 +74,7 @@ public static class WeixinApi
                 force_refresh = true
             };
             var result = await http.PostDataAsync(url, data);
-            if (result == null)
-                return null;
-
-            //Logger.Info("AT=" + Utils.ToJson(result));
+            Logger.Info("AT=" + Utils.ToJson(result));
             return result.GetValue<string>("access_token");
         }
         catch (Exception ex)
@@ -87,7 +93,7 @@ public static class WeixinApi
             using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appId}&secret={appSecret}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
-            //Logger.Info("AT=" + Utils.ToJson(result));
+            Logger.Info("AT=" + Utils.ToJson(result));
             return result.GetValue<string>("access_token");
         }
         catch (Exception ex)

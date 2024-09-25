@@ -18,6 +18,17 @@ class WebRequest(HttpContext context) : IRequest
         return handler == name;
     }
 
+    public T Get<T>(string name)
+    {
+        var value = string.Empty;
+        if (Request.Query.ContainsKey(name))
+            value = Request.Query[name];
+        else if (IsPost && Request.Form.ContainsKey(name))
+            value = Request.Form[name];
+
+        return Utils.ConvertTo<T>(value);
+    }
+
     public T GetModel<T>()
     {
         if (!IsPost)
