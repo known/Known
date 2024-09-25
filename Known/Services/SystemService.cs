@@ -131,9 +131,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             {
                 info.ProductKey = null;
                 info.UserDefaultPwd = null;
-                //var install = GetInstall();
-                //info.ProductId = install.ProductId;
-                //info.ProductKey = install.ProductKey;
             }
             return info;
         }
@@ -146,7 +143,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     //Install
     public async Task<InstallInfo> GetInstallAsync()
     {
-        var info = await GetInstallDataAysnc();
+        var info = await GetInstallDataAysnc(false);
         if (Config.App.Connections != null)
         {
             info.Databases = Config.App.Connections.Select(c => new DatabaseInfo
@@ -210,7 +207,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         if (result.IsValid)
         {
             AppHelper.SaveProductKey(info.ProductKey);
-            result.Data = await GetInstallDataAysnc();
+            result.Data = await GetInstallDataAysnc(true);
         }
         Console.WriteLine("Module is installed.");
         return result;
@@ -272,7 +269,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         await db.SaveAsync(user);
     }
 
-    private async Task<InstallInfo> GetInstallDataAysnc()
+    private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
     {
         var app = Config.App;
         var info = new InstallInfo
@@ -282,7 +279,8 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             ProductKey = AppHelper.GetProductKey(),
             AdminName = Constants.SysUserName
         };
-        await CheckKeyAsync();
+        if (isCheck)
+            await CheckKeyAsync(Database);
         return info;
     }
 
@@ -333,9 +331,10 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     public async Task<Result> SaveKeyAsync(SystemInfo info)
     {
+        var db = Database;
         AppHelper.SaveProductKey(info.ProductKey);
-        await SaveConfigAsync(Database, KeySystem, info);
-        return await CheckKeyAsync();
+        await SaveConfigAsync(db, KeySystem, info);
+        return await CheckKeyAsync(db);
     }
 
     private static SystemInfo GetSystem(InstallInfo info)
@@ -361,9 +360,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         };
     }
 
-    private async Task<Result> CheckKeyAsync()
+    internal static async Task<Result> CheckKeyAsync(Database db)
     {
-        var info = await GetSystemAsync();
+        var info = await GetSystemAsync(db);
         return Config.App.CheckSystemInfo(info);
     }
 

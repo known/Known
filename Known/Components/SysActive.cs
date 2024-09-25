@@ -2,7 +2,7 @@
 
 class SysActive : BaseComponent
 {
-    private ISystemService systemService;
+    private ISystemService Service;
     private FormModel<SystemInfo> model;
 
     [Parameter] public Action<bool> OnCheck { get; set; }
@@ -10,17 +10,23 @@ class SysActive : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        systemService = await CreateServiceAsync<ISystemService>();
+        Service = await CreateServiceAsync<ISystemService>();
         model = new FormModel<SystemInfo>(this);
-        model.AddRow().AddColumn(c => c.ProductId);
-        model.AddRow().AddColumn(c => c.ProductKey);
+        model.Data = new SystemInfo();
+        model.AddRow().AddColumn(c => c.ProductId, c => c.ReadOnly = true);
+        model.AddRow().AddColumn(c => c.ProductKey, c => c.Required = true);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-            model.Data = await systemService.GetSystemAsync();
+        {
+            var info = await Service.GetInstallAsync();
+            model.Data.ProductId = info.ProductId;
+            model.Data.ProductKey = info.ProductKey;
+            await StateChangedAsync();
+        }
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -41,7 +47,7 @@ class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = await systemService.SaveKeyAsync(model.Data);
+        var result = await Service.SaveKeyAsync(model.Data);
         UI.Result(result, () =>
         {
             OnCheck?.Invoke(result.IsValid);

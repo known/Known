@@ -136,6 +136,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         var db = Database;
         await db.OpenAsync();
+        await SystemService.CheckKeyAsync(db);
         var modules = await ModuleService.GetModulesAsync(db);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
