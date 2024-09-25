@@ -183,6 +183,8 @@
   "PleaseSelect": "Vui lòng chọn",
   "PleaseSelectInput": "Vui lòng chọn hoặc nhập",
   "All": "Tất cả",
+  "Yes": "Vâng",
+  "No": "Không",
   "Collapse": "Gấp",
   "Expand": "Mở rộng",
   "Custom": "Tùy chỉnh",

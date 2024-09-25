@@ -183,6 +183,8 @@
   "PleaseSelect": "请选择",
   "PleaseSelectInput": "请选择或输入",
   "All": "全部",
+  "Yes": "是",
+  "No": "否",
   "Collapse": "折叠",
   "Expand": "展开",
   "Custom": "自定义",

@@ -50,7 +50,7 @@
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
 .kui-header {top:0;right:0;left:200px;z-index:102;}
 .kui-header-left {display:flex;align-items:center;}
-.kui-header-left .trigger {font-size:18px;margin-top:2px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
+.kui-header-left .trigger {font-size:18px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
 .kui-header-left .trigger:hover {color:#1890ff;}
 .kui-logo {top:0;left:0;width:200px;height:64px;padding-top:5px;padding-left:10px;}
 .kui-scroll {position:fixed;top:64px;left:0;bottom:0;width:200px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}

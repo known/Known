@@ -183,6 +183,8 @@
   "PleaseSelect": "Please select",
   "PleaseSelectInput": "Please select or input",
   "AllSelect": "All",
+  "Yes": "Yes",
+  "No": "No",
   "Collapse": "Collapse",
   "Expand": "Expand",
   "Custom": "Custom",

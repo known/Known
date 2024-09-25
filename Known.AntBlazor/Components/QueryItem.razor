@@ -8,16 +8,16 @@
             var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChanged(Item.Id,v)" />
         }
-        else if (itemType.Contains("DateTime"))
+        else if (itemType.Contains("DateTime") || Item.Type == FieldType.Date || Item.Type == FieldType.DateTime)
         {
             <AntRangePicker @bind-RangeValue="@Data[Item.Id].Value" />
         }
-        else if (itemType.Contains("Boolean"))
+        else if (itemType.Contains("Boolean") || Item.Type == FieldType.Switch || Item.Type == FieldType.CheckBox)
         {
             var codes = new List<CodeInfo>();
             codes.Add(new CodeInfo("", Language["All"]));
-            codes.Add(new CodeInfo("True", "是"));
-            codes.Add(new CodeInfo("False", "否"));
+            codes.Add(new CodeInfo("True", Language["Yes"]));
+            codes.Add(new CodeInfo("False", Language["No"]));
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChanged(Item.Id,v)" />
         }
         else
