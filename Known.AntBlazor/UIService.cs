@@ -189,9 +189,10 @@ class UIService(ModalService modalService, MessageService messageService, INotif
     {
         if (!string.IsNullOrWhiteSpace(message))
         {
+            message = message.Trim([.. Environment.NewLine]);
             if (message.Contains(Environment.NewLine))
             {
-                message = message.Trim([.. Environment.NewLine]).Replace(Environment.NewLine, "<br/>");
+                message = message.Replace(Environment.NewLine, "<br/>");
                 message = $"<div class=\"message\">{message}</div>";
             }
         }

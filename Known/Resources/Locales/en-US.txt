@@ -105,6 +105,7 @@
   "Tip.Page404": "The page does not exist!",
   "Tip.PageTest": "This is the module prototype testing page",
   "Tip.NoMethod": "Method {method} does not exist!",
+  "Tip.SelectCategory": "Please choose a category!",
   "Tip.SelectModule": "Please select a module!",
   "Tip.SelectParentModule": "Please select the superior module first!",
   "Tip.SelectParentOrganization": "Please select a superior organization first!",

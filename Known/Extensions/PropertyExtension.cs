@@ -5,6 +5,8 @@ static class PropertyExtension
     internal static void Validate(this PropertyInfo property, Language language, object value, List<string> errors)
     {
         var label = property.DisplayName();
+        if (string.IsNullOrWhiteSpace(label))
+            label = language.GetString(property.Name);
         var required = property?.GetCustomAttribute<RequiredAttribute>();
         if (required != null && !required.IsValid(value))
         {

@@ -105,6 +105,7 @@
   "Tip.Page404": "Trang không tồn tại！",
   "Tip.PageTest": "Đây là trang thử nghiệm mô đun.",
   "Tip.NoMethod": "{method} phương thức không tồn tại！",
+  "Tip.SelectCategory": "Vui lòng chọn loại!",
   "Tip.SelectModule": "Vui lòng chọn Module！",
   "Tip.SelectParentModule": "Vui lòng chọn module cao hơn！",
   "Tip.SelectParentOrganization": "Vui lòng chọn tổ chức cao hơn trước！",

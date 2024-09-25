@@ -105,6 +105,7 @@
   "Tip.Page404": "頁面不存在！",
   "Tip.PageTest": "這裡是模塊原型測試頁",
   "Tip.NoMethod": "{method}方法不存在！",
+  "Tip.SelectCategory": "請選擇類別！",
   "Tip.SelectModule": "請選擇模塊！",
   "Tip.SelectParentModule": "請先選擇上級模塊！",
   "Tip.SelectParentOrganization": "請先選擇上級組織！",

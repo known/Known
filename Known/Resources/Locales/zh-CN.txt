@@ -105,6 +105,7 @@
   "Tip.Page404": "页面不存在！",
   "Tip.PageTest": "这里是模块原型测试页",
   "Tip.NoMethod": "{method}方法不存在！",
+  "Tip.SelectCategory": "请选择类别！",
   "Tip.SelectModule": "请选择模块！",
   "Tip.SelectParentModule": "请先选择上级模块！",
   "Tip.SelectParentOrganization": "请先选择上级组织！",

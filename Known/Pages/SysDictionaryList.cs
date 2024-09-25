@@ -142,13 +142,19 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private async Task LoadCategoriesAsync()
     {
         categories = await Service.GetCategoriesAsync();
-        category ??= categories?.FirstOrDefault();
+        category = categories?.FirstOrDefault();
         await OnItemClick(category);
         await StateChangedAsync();
     }
 
     private void NewForm(CodeInfo info, int sort)
     {
+        if (category == null)
+        {
+            UI.Error(Language["Tip.SelectCategory"]);
+            return;
+        }
+
         isAddCategory = false;
         Table.NewForm(Service.SaveDictionaryAsync, new SysDictionary
         {
