@@ -30,7 +30,7 @@ public enum DatabaseType
     /// </summary>
     PgSql,
     /// <summary>
-    /// 国产达蒙数据库。
+    /// 国产达梦数据库。
     /// </summary>
     DM,
     /// <summary>

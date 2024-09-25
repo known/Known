@@ -208,7 +208,7 @@ public class MenuInfo
             if (Target != ModuleType.Page.ToString() && Target != ModuleType.IFrame.ToString())
                 return Url;
 
-            if (string.IsNullOrWhiteSpace(Url))
+            if (string.IsNullOrWhiteSpace(Url) || Target == ModuleType.IFrame.ToString())
                 return $"/page/{Id}";
 
             return Url.StartsWith("/") ? $"/page{Url}" : $"/page/{Url}";

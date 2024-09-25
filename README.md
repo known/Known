@@ -13,8 +13,8 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 - 官网：[http://known.org.cn](http://known.org.cn)
-- Gitee： [https://gitee.com/known/Known](https://gitee.com/known/Known)
-- Github：[https://github.com/known/Known](https://github.com/known/Known)
+- 源码： [https://gitee.com/known/Known](https://gitee.com/known/Known)
+- 源码：[https://github.com/known/Known](https://github.com/known/Known)
 
 ### 概述
 
@@ -51,14 +51,12 @@ dotnet new known --name=MyApp
 ├─Known.AntBlazor   -> 基于AntDesign Blazor的界面库。
 ├─Known.Cells       -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Core        -> 基于AspNetCore的服务端类库。
-├─Known.SqlSugar    -> 基于SqlSugar的实现的数据访问类库。
 ├─Sample            -> 示例项目
   ├─Sample          -> 项目类库，包含配置、常量、枚举、实体、模型、服务接口。
   ├─Sample.Client   -> 项目前端，包含配置、路由、页面，基于Castle动态代理访问后端WebApi。
   ├─Sample.Web      -> 项目后端，包含业务逻辑、数据访问，根据服务接口动态生成WebApi。
   ├─Sample.WebApi   -> 框架示例WebApi。
   ├─Sample.WinForm  -> 框架示例WinForm App。
-  ├─SqlSugarWeb     -> 框架SqlSugar示例Web。
 ```
 
 ### 主要功能
@@ -75,7 +73,8 @@ dotnet new known --name=MyApp
 
 ### 项目连接
 
-- 模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
+- 项目模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
+- Known.SqlSugar：[https://gitee.com/known/known-sql-sugar](https://gitee.com/known/known-sql-sugar)
 - JxcLite：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
 
 ### AntDesign界面截图
