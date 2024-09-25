@@ -124,7 +124,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         try
         {
-            var info = await GetSystemAsync(Database);
+            var db = Database;
+            db.EnableLog = false;
+            var info = await GetSystemAsync(db);
             if (info != null)
             {
                 info.ProductKey = null;

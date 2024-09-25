@@ -82,6 +82,8 @@ public abstract class Database : IDisposable
         }
     }
 
+    internal bool EnableLog { get; set; } = true;
+
     /// <summary>
     /// 异步打开数据库。
     /// </summary>

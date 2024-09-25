@@ -446,7 +446,7 @@ class DefaultDatabase : Database
         }
         catch (Exception ex)
         {
-            Logger.Error(info.ToString());
+            HandException(info, ex);
             throw new SystemException(ex.Message, ex);
         }
     }
@@ -464,8 +464,7 @@ class DefaultDatabase : Database
         }
         catch (Exception ex)
         {
-            Logger.Error(info.ToString());
-            Logger.Exception(ex);
+            HandException(info, ex);
             return null;
         }
     }
@@ -483,8 +482,7 @@ class DefaultDatabase : Database
         }
         catch (Exception ex)
         {
-            Logger.Error(info.ToString());
-            Logger.Exception(ex);
+            HandException(info, ex);
             return default;
         }
     }
@@ -510,8 +508,7 @@ class DefaultDatabase : Database
         }
         catch (Exception ex)
         {
-            Logger.Error(info.ToString());
-            Logger.Exception(ex);
+            HandException(info, ex);
         }
         return data;
     }
@@ -533,8 +530,7 @@ class DefaultDatabase : Database
         }
         catch (Exception ex)
         {
-            Logger.Error(info.ToString());
-            Logger.Exception(ex);
+            HandException(info, ex);
         }
         return obj;
     }
@@ -557,10 +553,18 @@ class DefaultDatabase : Database
         }
         catch (Exception ex)
         {
-            Logger.Error(info.ToString());
-            Logger.Exception(ex);
+            HandException(info, ex);
         }
         return lists;
+    }
+
+    private void HandException(CommandInfo info, Exception ex)
+    {
+        if (!EnableLog)
+            return;
+
+        Logger.Error(info.ToString());
+        Logger.Exception(ex);
     }
 
     private Task<DbCommand> PrepareCommandAsync(DbConnection conn, DbTransaction trans, CommandInfo info)
