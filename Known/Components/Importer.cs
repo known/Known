@@ -38,7 +38,7 @@ class Importer : BaseComponent
                     UI.BuildCheckBox(builder, new InputModel<bool>
                     {
                         Disabled = !isFinished,
-                        Placeholder = Language["Import.IsAsync"],
+                        Label = Language["Import.IsAsync"],
                         Value = Model.IsAsync,
                         ValueChanged = this.Callback<bool>(v => Model.IsAsync = v)
                     });

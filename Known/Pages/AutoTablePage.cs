@@ -77,7 +77,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
             return;
         }
 
-        base.BuildPage(builder);
+        builder.Table(Table);
         if (CurrentUser != null && CurrentUser.IsSystemAdmin())
         {
             builder.Div("kui-page-designer", () =>
