@@ -5,7 +5,35 @@
 /// </summary>
 public sealed class WeixinHelper
 {
+    private const string BizType = "WeixinTemplate";
     private WeixinHelper() { }
+
+    /// <summary>
+    /// 异步执行微信模板消息发送定时任务。
+    /// </summary>
+    /// <returns></returns>
+    public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
+
+    internal static SysTask CreateTask(WeixinTemplateInfo info)
+    {
+        return new SysTask
+        {
+            BizId = info.BizId,
+            Type = BizType,
+            Name = info.BizName,
+            Target = Utils.ToJson(info.Template),
+            Status = SysTaskStatus.Pending
+        };
+    }
+
+    private static async Task<Result> ExecuteAsync(Database db, SysTask task)
+    {
+        var info = Utils.FromJson<TemplateInfo>(task.Target);
+        if (info == null)
+            return Result.Error("The template is null.");
+
+        return await WeixinApi.SendTemplateMessageAsync(info);
+    }
 
     /// <summary>
     /// 异步网页授权操作。

@@ -10,6 +10,7 @@ namespace Known.Weixins;
 public static class WeixinApi
 {
     private static string AccessToken = "";
+    private static DateTime RefreshTime = DateTime.MinValue;
 
     /// <summary>
     /// 取得或设置公众号ID。
@@ -38,8 +39,12 @@ public static class WeixinApi
     /// <returns></returns>
     public static async Task RefreshTokenAsync()
     {
-        if (!string.IsNullOrWhiteSpace(AppId) && !string.IsNullOrWhiteSpace(AppSecret))
-            AccessToken = await GetAccessTokenAsync(AppId, AppSecret);
+        if (string.IsNullOrWhiteSpace(AppId) || string.IsNullOrWhiteSpace(AppSecret))
+            return;
+
+        AccessToken = await GetAccessTokenAsync(AppId, AppSecret);
+        if (!string.IsNullOrWhiteSpace(AccessToken))
+            RefreshTime = DateTime.Now;
     }
 
     /// <summary>
@@ -377,6 +382,9 @@ public static class WeixinApi
     /// <returns>发送结果。</returns>
     public static async Task<Result> SendTemplateMessageAsync(TemplateInfo info)
     {
+        if (string.IsNullOrWhiteSpace(AccessToken) || RefreshTime.AddSeconds(3600) < DateTime.Now)
+            await RefreshTokenAsync();
+
         if (string.IsNullOrWhiteSpace(AccessToken))
             return Result.Error("AccessToken is null.");
 

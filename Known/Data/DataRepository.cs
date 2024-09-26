@@ -116,7 +116,7 @@ where a.{db.FormatName("CompNo")}=@CompNo and a.{db.FormatName("UserName")}<>'ad
     {
         //select * from SysRole where CompNo=@CompNo and Enabled='True' order by CreateTime
         var info = db.Query<SysRole>()
-                     .Where(d => d.CompNo == db.User.CompNo && d.Enabled)
+                     .Where(d => d.Enabled)
                      .OrderBy(d => d.CreateTime)
                      .ToCommand();
         return db.QueryListAsync<SysRole>(info);
@@ -134,7 +134,7 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     {
         //select * from SysDictionary where Enabled='True' and Category='{Constants.DicCategory}' and CompNo=@CompNo order by Sort
         var info = db.Query<SysDictionary>()
-                     .Where(d => d.CompNo == db.User.CompNo && d.Enabled && d.Category == Constants.DicCategory)
+                     .Where(d => d.Enabled && d.Category == Constants.DicCategory)
                      .OrderBy(d => d.Sort)
                      .ToCommand();
         return db.QueryListAsync<SysDictionary>(info);
@@ -144,7 +144,7 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     {
         //select * from SysTask where Status='{SysTaskStatus.Pending}' and Type=@bizType order by CreateTime
         var info = db.Query<SysTask>()
-                     .Where(d => d.CompNo == db.User.CompNo && d.Status == SysTaskStatus.Pending && d.Type == bizType)
+                     .Where(d => d.Status == SysTaskStatus.Pending && d.Type == bizType)
                      .OrderBy(d => d.CreateTime)
                      .ToCommand();
         return db.QueryAsync<SysTask>(info);
@@ -154,7 +154,7 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     {
         //select * from SysTask where CompNo=@CompNo and Type=@type order by CreateTime desc
         var info = db.Query<SysTask>()
-                     .Where(d => d.CompNo == db.User.CompNo && d.Type == type)
+                     .Where(d => d.Type == type)
                      .OrderByDescending(d => d.CreateTime)
                      .ToCommand();
         return db.QueryAsync<SysTask>(info);
@@ -164,7 +164,7 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     {
         //select * from SysTask where CompNo=@CompNo and CreateBy=@UserName and BizId=@bizId order by CreateTime desc
         var info = db.Query<SysTask>()
-                     .Where(d => d.CompNo == db.User.CompNo && d.CreateBy == db.UserName && d.BizId == bizId)
+                     .Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
                      .OrderByDescending(d => d.CreateTime)
                      .ToCommand();
         return db.QueryAsync<SysTask>(info);
@@ -176,7 +176,7 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
         var arg1 = begin.ToString("yyyy-MM-dd HH:mm:ss");
         var arg2 = end.ToString("yyyy-MM-dd HH:mm:ss");
         var info = db.Query<SysLog>()
-                     .Where(d => d.CompNo == db.User.CompNo && d.CreateTime.Between(arg1, arg2))
+                     .Where(d => d.CreateTime.Between(arg1, arg2))
                      .ToCommand();
         return db.QueryListAsync<SysLog>(info);
     }

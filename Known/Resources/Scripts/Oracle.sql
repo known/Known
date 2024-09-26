@@ -101,7 +101,7 @@ create table SysTask(
     BizId      varchar2(50)   not null,
     Type       varchar2(50)   not null,
     Name       varchar2(50)   not null,
-    Target     varchar2(200)  not null,
+    Target     varchar2(4000) not null,
     Status     varchar2(50)   not null,
     BeginTime  date           null,
     EndTime    date           null,

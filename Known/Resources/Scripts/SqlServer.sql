@@ -101,7 +101,7 @@ CREATE TABLE [SysTask] (
     [BizId]      [varchar](50)    NOT NULL,
     [Type]       [nvarchar](50)   NOT NULL,
     [Name]       [nvarchar](50)   NOT NULL,
-    [Target]     [nvarchar](200)  NOT NULL,
+    [Target]     [ntext]          NOT NULL,
     [Status]     [nvarchar](50)   NOT NULL,
     [BeginTime]  [datetime]       NULL,
     [EndTime]    [datetime]       NULL,

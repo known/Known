@@ -101,7 +101,7 @@ CREATE TABLE SysTask (
     BizId      character varying(50)   NOT NULL,
     Type       character varying(50)   NOT NULL,
     Name       character varying(50)   NOT NULL,
-    Target     character varying(200)  NOT NULL,
+    Target     text                    NOT NULL,
     Status     character varying(50)   NOT NULL,
     BeginTime  timestamp without time zone,
     EndTime    timestamp without time zone,

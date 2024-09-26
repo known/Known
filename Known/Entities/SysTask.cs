@@ -29,7 +29,6 @@ public class SysTask : EntityBase
     /// <summary>
     /// 取得或设置执行目标。
     /// </summary>
-    [MaxLength(200)]
     public string Target { get; set; }
 
     /// <summary>

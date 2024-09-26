@@ -2,27 +2,29 @@
 
 sealed class TaskHelper
 {
-    private static bool isPending = false;
+    private static readonly Dictionary<string, bool> RunStates = [];
+    private static readonly IDataRepository Repository = Database.CreateRepository();
 
     private TaskHelper() { }
 
     internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
     {
-        if (isPending)
+        if (RunStates.TryGetValue(bizType, out bool value) && value)
             return;
 
-        isPending = true;
+        RunStates[bizType] = true;
         var db = Database.Create();
         db.Context = new Context(CultureInfo.CurrentCulture.Name);
-        var task = await GetTaskAsync(db, bizType);
-        if (task == null)
-        {
-            isPending = false;
-            return;
-        }
 
         try
         {
+            var task = await Repository.GetPendingTaskAsync(db, bizType);
+            if (task == null)
+            {
+                RunStates[bizType] = false;
+                return;
+            }
+
             await RunAsync(db, task, action);
         }
         catch (Exception ex)
@@ -31,20 +33,7 @@ sealed class TaskHelper
         }
         finally
         {
-            isPending = false;
-        }
-    }
-
-    private static async Task<SysTask> GetTaskAsync(Database db, string bizType)
-    {
-        try
-        {
-            var repository = Database.CreateRepository();
-            return await repository.GetPendingTaskAsync(db, bizType);
-        }
-        catch
-        {
-            return null;
+            RunStates[bizType] = false;
         }
     }
 
@@ -64,9 +53,9 @@ sealed class TaskHelper
         return result;
     }
 
-    private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, IDataRepository repository, string type)
+    private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
-        var task = await repository.GetTaskByTypeAsync(db, type);
+        var task = await Repository.GetTaskByTypeAsync(db, type);
         if (task == null)
             return null;
 
@@ -79,9 +68,9 @@ sealed class TaskHelper
         };
     }
 
-    private static async Task<Result> AddAsync(Database db, IDataRepository repository, string type, string name, string target = "")
+    private static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
     {
-        var task = await repository.GetTaskByTypeAsync(db, type);
+        var task = await Repository.GetTaskByTypeAsync(db, type);
         if (task != null)
         {
             switch (task.Status)

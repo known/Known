@@ -102,7 +102,7 @@ CREATE TABLE `SysTask` (
     `BizId`      VarChar(50)   NOT NULL,
     `Type`       VarChar(50)   NOT NULL,
     `Name`       VarChar(50)   NOT NULL,
-    `Target`     VarChar(200)  NOT NULL,
+    `Target`     LongText      NOT NULL,
     `Status`     VarChar(50)   NOT NULL,
     `BeginTime`  DateTime      NULL,
     `EndTime`    DateTime      NULL,

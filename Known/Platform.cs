@@ -109,11 +109,12 @@ public class Platform
     /// <param name="user">系统用户。</param>
     /// <returns>微信信息。</returns>
     public static Task<SysWeixin> GetWeixinAsync(Database db, SysUser user) => WeixinService.GetWeixinByUserIdAsync(db, user.Id);
-    
+
     /// <summary>
     /// 异步发送微信模板消息。
     /// </summary>
-    /// <param name="info">模板消息信息。</param>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">模板业务信息。</param>
     /// <returns>发送结果。</returns>
-    public static Task<Result> SendTemplateMessageAsync(TemplateInfo info) => WeixinApi.SendTemplateMessageAsync(info);
+    public static Task<Result> SendTemplateMessageAsync(Database db, WeixinTemplateInfo info) => WeixinService.SendTemplateMessageAsync(db, info);
 }
