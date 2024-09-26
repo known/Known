@@ -134,7 +134,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     }
 
     internal SysModule Module { get; set; }
-    internal string PageName => Language.GetString(Context.Current);
+
+    /// <summary>
+    /// 获取页面名称。
+    /// </summary>
+    public string PageName => Language.GetString(Context.Current);
 
     /// <summary>
     /// 取得表格用户列设置ID。

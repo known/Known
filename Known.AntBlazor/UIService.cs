@@ -368,9 +368,9 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         if (string.IsNullOrWhiteSpace(text))
             return string.Empty;
 
-        if (UIConfig.OnTagColor != null)
+        if (UIConfig.TagColor != null)
         {
-            var color = UIConfig.OnTagColor.Invoke(text);
+            var color = UIConfig.TagColor.Invoke(text);
             if (!string.IsNullOrWhiteSpace(color))
                 return color;
         }

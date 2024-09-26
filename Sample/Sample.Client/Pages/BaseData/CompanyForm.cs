@@ -12,20 +12,20 @@ public class CompanyForm : BaseTabPage
 
 class CompanyBaseInfo : BaseEditForm<CompanyInfo>
 {
-    private ICompanyService companyService;
+    private ICompanyService Service;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        companyService = await CreateServiceAsync<ICompanyService>();
+        Service = await CreateServiceAsync<ICompanyService>();
 
-        var json = await companyService.GetCompanyAsync();
+        var json = await Service.GetCompanyAsync();
         var data = Utils.FromJson<CompanyInfo>(json);
         Model = new FormModel<CompanyInfo>(this, true) { IsView = true, Data = data };
     }
 
     protected override Task<Result> OnSaveAsync(CompanyInfo model)
     {
-        return companyService.SaveCompanyAsync(model);
+        return Service.SaveCompanyAsync(model);
     }
 }

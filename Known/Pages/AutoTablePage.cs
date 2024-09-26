@@ -77,7 +77,10 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
             return;
         }
 
-        builder.Table(Table);
+        if (UIConfig.AutoTablePage != null)
+            UIConfig.AutoTablePage.Invoke(builder, Table);
+        else
+            builder.Table(Table);
         if (CurrentUser != null && CurrentUser.IsSystemAdmin())
         {
             builder.Div("kui-page-designer", () =>

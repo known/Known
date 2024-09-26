@@ -28,9 +28,14 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
+    /// 取得或设置自定义自动表格页面委托。
+    /// </summary>
+    public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }
+
+    /// <summary>
     /// 取得或设置页面标签颜色委托。
     /// </summary>
-    public static Func<string, string> OnTagColor { get; set; }
+    public static Func<string, string> TagColor { get; set; }
 
     internal static List<MenuInfo> Menus { get; } = [];
 
