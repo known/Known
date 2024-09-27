@@ -5,7 +5,8 @@
 
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
           ScrollX="@scrollX" ScrollY="@scrollY" Loading="isQuering"
-          @bind-SelectedRows="Model.SelectedRows" OnChange="OnChange" OnRowClick="OnRowClick">
+          OnChange="OnChange" OnRow="OnRow"
+          @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)
     {
         <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Class="kui-table-check" />
@@ -234,12 +235,16 @@
         watch.Write($"Changed {Model.Criteria.PageIndex}");
     }
 
-    private async void OnRowClick(RowData<TItem> row)
+    private Dictionary<string, object> OnRow(RowData<TItem> row)
     {
-        if (Model.OnRowClick == null)
-            return;
+        var attributes = new Dictionary<string, object>();
+        if (Model.OnRowClick != null)
+            attributes["onclick"] = this.Callback(async () => await Model.OnRowClick.Invoke(row.Data));
 
-        await Model.OnRowClick.Invoke(row.Data);
+        if (Model.OnRowDoubleClick != null)
+            attributes["ondblclick"] = this.Callback(async () => await Model.OnRowDoubleClick.Invoke(row.Data));
+
+        return attributes;
     }
 
     private string GetOrderBy(ITableSortModel model)

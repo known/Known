@@ -30,16 +30,6 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public double? Width { get; set; }
 
     /// <summary>
-    /// 取得或设置是否是弹窗，框架内使用。
-    /// </summary>
-    [Parameter] public bool IsPick { get; set; }
-
-    /// <summary>
-    /// 取得或设置选择数据是否多选。
-    /// </summary>
-    [Parameter] public bool IsMulti { get; set; }
-
-    /// <summary>
     /// 取得或设置是否显示允许清空操作。
     /// </summary>
     [Parameter] public bool AllowClear { get; set; }
@@ -53,6 +43,13 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// 取得或设置选择器组件字段值改变事件处理方法。
     /// </summary>
     [Parameter] public Action<List<TItem>> ValueChanged { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否是弹窗，框架内使用。
+    /// </summary>
+    [Parameter] public bool IsPick { get; set; }
+
+    internal Func<Task> OnClose { get; set; }
 
     /// <summary>
     /// 构建选择器组件内容。
@@ -92,7 +89,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// <summary>
     /// 获取弹窗选择器参数字典。
     /// </summary>
-    /// <returns></returns>
+    /// <returns>选择器参数字典。</returns>
     protected virtual Dictionary<string, object> GetPickParameters() => new() { { nameof(IsPick), true } };
 
     private void OnClear(MouseEventArgs args)
@@ -110,14 +107,20 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
             return;
 
         BasePicker<TItem> picker = null;
-        var model = new DialogModel
+        DialogModel model = null;
+        model = new DialogModel
         {
             Title = Title,
             Width = Width,
             Content = b =>
             {
                 var parameters = GetPickParameters();
-                b.Component(GetType(), parameters, value => picker = (BasePicker<TItem>)value);
+                b.Component(GetType(), parameters, value =>
+                {
+                    picker = (BasePicker<TItem>)value;
+                    picker.ValueChanged = ValueChanged;
+                    picker.OnClose = () => model?.CloseAsync();
+                });
             }
         };
         model.OnOk = async () =>

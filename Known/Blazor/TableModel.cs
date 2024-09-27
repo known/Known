@@ -286,6 +286,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public Func<TItem, Task> OnRowClick { get; set; }
 
     /// <summary>
+    /// 取得或设置表格行双击事件委托。
+    /// </summary>
+    public Func<TItem, Task> OnRowDoubleClick { get; set; }
+
+    /// <summary>
     /// 取得或设置表格操作列按钮单击事件委托。
     /// </summary>
     public Action<ActionInfo, TItem> OnAction { get; set; }
