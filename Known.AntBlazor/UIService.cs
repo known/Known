@@ -160,7 +160,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         }
     }
 
-    public void Alert(string message, Func<Task> action = null)
+    public bool Alert(string message, Func<Task> action = null)
     {
         var options = new ConfirmOptions
         {
@@ -170,9 +170,10 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         if (action != null)
             options.OnOk = e => action?.Invoke();
         _modal.Info(options);
+        return true;
     }
 
-    public void Confirm(string message, Func<Task> action)
+    public bool Confirm(string message, Func<Task> action)
     {
         var options = new ConfirmOptions
         {
@@ -183,6 +184,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         if (action != null)
             options.OnOk = e => action?.Invoke();
         _modal.Confirm(options);
+        return true;
     }
 
     private static RenderFragment FormatMessage(string message)
@@ -199,7 +201,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         return b => b.Markup(message);
     }
 
-    public void ShowDialog(DialogModel model)
+    public bool ShowDialog(DialogModel model)
     {
         var options = new ModalOptions
         {
@@ -232,9 +234,10 @@ class UIService(ModalService modalService, MessageService messageService, INotif
 
         var modal = _modal.CreateModal(options);
         model.OnClose = modal.CloseAsync;
+        return true;
     }
 
-    public void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    public bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var option = new ModalOptions
         {
@@ -289,6 +292,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
 
         var modal = _modal.CreateModal(option);
         model.OnClose = modal.CloseAsync;
+        return true;
     }
 
     public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()

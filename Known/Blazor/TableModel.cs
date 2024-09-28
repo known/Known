@@ -113,6 +113,10 @@ public class TableModel(UIContext context) : BaseModel(context)
 /// <typeparam name="TItem">表格行数据类型。</typeparam>
 public class TableModel<TItem> : TableModel where TItem : class, new()
 {
+    private bool isShowView = false;
+    private bool isShowNew = false;
+    private bool isShowEdit = false;
+
     /// <summary>
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
     /// </summary>
@@ -436,13 +440,19 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
 
     internal void ViewForm(FormViewType type, TItem row)
     {
-        ShowForm(new FormModel<TItem>(this)
+        if (isShowView)
+            return;
+
+        isShowView = true;
+        var isShow = ShowForm(new FormModel<TItem>(this)
         {
             FormType = type,
             IsView = true,
             Action = $"{type}",
             Data = row
         });
+        if (isShow)
+            isShowView = false;
     }
 
     /// <summary>
@@ -452,9 +462,15 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="row">新增默认对象。</param>
     public void NewForm(Func<TItem, Task<Result>> onSave, TItem row)
     {
+        if (isShowNew)
+            return;
+
+        isShowNew = true;
         var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSave = onSave };
         model.LoadDefaultData();
-        ShowForm(model);
+        var isShow = ShowForm(model);
+        if (isShow)
+            isShowNew = false;
     }
 
     /// <summary>
@@ -464,9 +480,15 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="row">新增默认对象。</param>
     public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
+        if (isShowNew)
+            return;
+
+        isShowNew = true;
         var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSaveFile = onSave };
         model.LoadDefaultData();
-        ShowForm(model);
+        var isShow = ShowForm(model);
+        if (isShow)
+            isShowNew = false;
     }
 
     /// <summary>
@@ -476,9 +498,15 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="row">异步请求默认对象委托。</param>
     public async void NewForm(Func<TItem, Task<Result>> onSave, Func<Task<TItem>> row)
     {
+        if (isShowNew)
+            return;
+
+        isShowNew = true;
         var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSave = onSave };
         await model.LoadDefaultDataAsync();
-        ShowForm(model);
+        var isShow = ShowForm(model);
+        if (isShow)
+            isShowNew = false;
     }
 
     /// <summary>
@@ -488,9 +516,15 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="row">异步请求默认对象委托。</param>
     public async void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, Func<Task<TItem>> row)
     {
+        if (isShowNew)
+            return;
+
+        isShowNew = true;
         var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSaveFile = onSave };
         await model.LoadDefaultDataAsync();
-        ShowForm(model);
+        var isShow = ShowForm(model);
+        if (isShow)
+            isShowNew = false;
     }
 
     /// <summary>
@@ -500,7 +534,13 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="row">编辑行绑定的对象。</param>
     public void EditForm(Func<TItem, Task<Result>> onSave, TItem row)
     {
-        ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSave = onSave });
+        if (isShowEdit)
+            return;
+
+        isShowEdit = true;
+        var isShow = ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSave = onSave });
+        if (isShow)
+            isShowEdit = false;
     }
 
     /// <summary>
@@ -510,7 +550,13 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="row">编辑行绑定的对象。</param>
     public void EditForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
     {
-        ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSaveFile = onSave });
+        if (isShowEdit)
+            return;
+
+        isShowEdit = true;
+        var isShow = ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSaveFile = onSave });
+        if (isShow)
+            isShowEdit = false;
     }
 
     /// <summary>
@@ -753,12 +799,12 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         OnRefreshed?.Invoke();
     }
 
-    private void ShowForm(FormModel<TItem> model)
+    private bool ShowForm(FormModel<TItem> model)
     {
         model.Info = Form;
         model.Info ??= Context.Current.Form;
         model.Info ??= new FormInfo();
-        UI.ShowForm(model);
+        return UI.ShowForm(model);
     }
 
     private void SetPermission(BasePage page)

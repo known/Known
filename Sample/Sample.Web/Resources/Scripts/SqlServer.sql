@@ -1,4 +1,4 @@
-﻿CREATE TABLE TbApply (
+﻿CREATE TABLE [TbApply] (
     [Id]          [varchar](50)   NOT NULL,
     [CreateBy]    [nvarchar](50)  NOT NULL,
     [CreateTime]  [datetime]      NOT NULL,

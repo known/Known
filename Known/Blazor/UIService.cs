@@ -47,27 +47,27 @@ public interface IUIService
     /// </summary>
     /// <param name="message">提示消息文本。</param>
     /// <param name="action">点【确定】按钮的回调方法。</param>
-    void Alert(string message, Func<Task> action = null);
+    bool Alert(string message, Func<Task> action = null);
 
     /// <summary>
     /// 弹出确认消息提示框组件。
     /// </summary>
     /// <param name="message">确认消息文本。</param>
     /// <param name="action">点【确定】按钮的回调方法。</param>
-    void Confirm(string message, Func<Task> action);
+    bool Confirm(string message, Func<Task> action);
 
     /// <summary>
     /// 弹出模态对话框组件。
     /// </summary>
     /// <param name="model">对话框组件模型对象。</param>
-    void ShowDialog(DialogModel model);
+    bool ShowDialog(DialogModel model);
 
     /// <summary>
     /// 弹出表单组件对话框。
     /// </summary>
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="model">表单组件模型对象。</param>
-    void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
+    bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new();
 
     /// <summary>
     /// 构建表单组件。
