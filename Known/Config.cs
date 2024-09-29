@@ -95,6 +95,7 @@ public sealed class Config
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
+    internal static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类，以及CodeInfo特性的代码表类。
@@ -126,6 +127,8 @@ public sealed class Config
                 FlowTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
+            else if (item.IsAssignableTo(typeof(ICustomField)))
+                AddFieldType(item);
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
 
@@ -268,6 +271,14 @@ public sealed class Config
             if (values.Length > 3)
                 info.Style = values[3].Trim();
         }
+    }
+
+    private static void AddFieldType(Type item)
+    {
+        if (item.Name == nameof(ICustomField) || item.Name == nameof(CustomField))
+            return;
+
+        FieldTypes[item.Name] = item;
     }
 
     private static string GetAssemblyXml(Assembly assembly)

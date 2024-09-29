@@ -35,7 +35,11 @@ class ModuleForm : BaseStepForm
         {
             Model.AddRow().AddColumn(c => c.Code)
                           .AddColumn(c => c.Name)
-                          .AddColumn(c => c.Icon, c => c.Template = BuildIconField);
+                          .AddColumn(c => c.Icon, c =>
+                          {
+                              c.Type = FieldType.Custom;
+                              c.CustomField = nameof(IconPicker);
+                          });
             Model.AddRow().AddColumn(c => c.Target, c =>
             {
                 c.Category = nameof(ModuleType);
@@ -70,16 +74,6 @@ class ModuleForm : BaseStepForm
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
-
-    private void BuildIconField(RenderTreeBuilder builder)
-    {
-        builder.Component<IconPicker>()
-               .Set(c => c.ReadOnly, Model.IsView)
-               .Set(c => c.AllowClear, true)
-               .Set(c => c.Value, Model.Data.Icon)
-               .Set(c => c.ValueChanged, o => Model.Data.Icon = o?[0]?.Icon)
-               .Build();
-    }
 
     private void BuildModuleModel(RenderTreeBuilder builder)
     {
@@ -140,116 +134,5 @@ class ModuleForm : BaseStepForm
         {
             stepForm.SetStepCount(StepCount);
         }
-    }
-}
-
-class IconInfo
-{
-    public string Icon { get; set; }
-}
-
-class IconPicker : BasePicker<IconInfo>
-{
-    private const string KeyCustom = "Custom";
-    private readonly TabModel tab = new();
-    private Dictionary<string, List<IconInfo>> icons = [];
-    private string searchKey;
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Title = Language["Title.SelectIcon"];
-        foreach (var item in UIConfig.Icons)
-        {
-            tab.AddTab(item.Key, b => BuildContent(b, item.Key));
-        }
-        tab.AddTab(KeyCustom, b => BuildContent(b, KeyCustom));
-        icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
-    }
-
-    protected override void BuildTextBox(RenderTreeBuilder builder)
-    {
-        if (!string.IsNullOrWhiteSpace(Value))
-            builder.Div("kui-module-icon", () => builder.Icon(Value));
-        base.BuildTextBox(builder);
-    }
-
-    protected override void BuildContent(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
-
-    private void BuildContent(RenderTreeBuilder builder, string key)
-    {
-        var value = SelectedItems.Count == 0 ? "" : SelectedItems[0].Icon;
-        builder.Div("kui-icon-picker", () =>
-        {
-            if (key == KeyCustom)
-            {
-                UI.BuildText(builder, new InputModel<string>
-                {
-                    Value = value,
-                    ValueChanged = this.Callback<string>(value =>
-                    {
-                        SelectedItems.Clear();
-                        SelectedItems.Add(new IconInfo { Icon = value });
-                    })
-                });
-            }
-            else
-            {
-                BuildSearch(builder);
-                BuildIconList(builder, key);
-            }
-        });
-    }
-
-    private void BuildIconList(RenderTreeBuilder builder, string key)
-    {
-        var items = icons[key];
-        if (!string.IsNullOrWhiteSpace(searchKey))
-            items = items.Where(i => i.Icon.Contains(searchKey)).ToList();
-
-        builder.Div("items", () =>
-        {
-            foreach (var item in items)
-            {
-                var className = "item";
-                if (SelectedItems.Contains(item))
-                    className += " active";
-                builder.Div().Class(className)
-                       .OnClick(this.Callback(() => OnSelectItem(item)))
-                       .Children(() =>
-                       {
-                           //if (key == "FontAwesome")
-                           //    builder.Span(item.Icon, "");
-                           //else
-                           builder.Icon(item.Icon);
-                           builder.Span("name", item.Icon);
-                       })
-                       .Close();
-            }
-        });
-    }
-
-    private void BuildSearch(RenderTreeBuilder builder)
-    {
-        builder.Div("search", () =>
-        {
-            UI.BuildSearch(builder, new InputModel<string>
-            {
-                Placeholder = "Search",
-                Value = searchKey,
-                ValueChanged = this.Callback<string>(value =>
-                {
-                    searchKey = value;
-                    StateChanged();
-                })
-            });
-        });
-    }
-
-    private void OnSelectItem(IconInfo item)
-    {
-        if (!SelectedItems.Remove(item))
-            SelectedItems.Add(item);
-        StateChanged();
     }
 }

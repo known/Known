@@ -1,9 +1,9 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
-/// 表单基类，继承组件基类。
+/// 抽象表单基类，继承组件基类。
 /// </summary>
-public class BaseForm : BaseComponent
+public abstract class BaseForm : BaseComponent
 {
     /// <summary>
     /// 异步初始化组件。
@@ -38,10 +38,10 @@ public class BaseForm : BaseComponent
 }
 
 /// <summary>
-/// 泛型表单基类，继承表单基类。
+/// 泛型抽象表单基类，继承表单基类。
 /// </summary>
 /// <typeparam name="TItem">表单对象类型。</typeparam>
-public class BaseForm<TItem> : BaseForm where TItem : class, new()
+public abstract class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     /// <summary>
     /// 取得或设置是否显示【确定】和【取消】操作按钮。

@@ -83,7 +83,11 @@ public enum FieldType
     /// <summary>
     /// 自动完成。
     /// </summary>
-    AutoComplete
+    AutoComplete,
+    /// <summary>
+    /// 自定义。
+    /// </summary>
+    Custom
 }
 
 /// <summary>
@@ -291,6 +295,11 @@ public class FormFieldInfo : FieldInfo
     /// 取得或设置表单字段跨度大小，整行跨度为24。
     /// </summary>
     public int? Span { get; set; }
+
+    /// <summary>
+    /// 取得或设置自定义字段组件类型。
+    /// </summary>
+    public string CustomField { get; set; }
 
     /// <summary>
     /// 取得或设置表单字段数据字典类别类型（Dictionary/Custom）。

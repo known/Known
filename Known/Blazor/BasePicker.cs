@@ -37,12 +37,17 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// <summary>
     /// 取得或设置选择器组件字段值。
     /// </summary>
-    [Parameter] public string Value { get; set; }
+    [Parameter] public object Value { get; set; }
 
     /// <summary>
     /// 取得或设置选择器组件字段值改变事件处理方法。
     /// </summary>
-    [Parameter] public Action<List<TItem>> ValueChanged { get; set; }
+    [Parameter] public Action<object> ValueChanged { get; set; }
+
+    /// <summary>
+    /// 取得字段关联的栏位配置信息。
+    /// </summary>
+    [Parameter] public ColumnInfo Column { get; set; }
 
     /// <summary>
     /// 取得或设置是否是弹窗，框架内使用。
@@ -64,7 +69,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
         }
 
         BuildTextBox(builder);
-        UI.BuildText(builder, new InputModel<string> { Value = Value, Disabled = true });
+        UI.BuildText(builder, new InputModel<string> { Value = Value?.ToString(), Disabled = true });
 
         if (!ReadOnly)
         {
@@ -92,13 +97,19 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// <returns>选择器参数字典。</returns>
     protected virtual Dictionary<string, object> GetPickParameters() => new() { { nameof(IsPick), true } };
 
+    /// <summary>
+    /// 选择器选择内容改变时触发的方法。
+    /// </summary>
+    /// <param name="items">选中的对象列表。</param>
+    protected virtual void OnValueChanged(List<TItem> items) { }
+
     private void OnClear(MouseEventArgs args)
     {
         if (ReadOnly)
             return;
 
         Value = string.Empty;
-        ValueChanged?.Invoke(null);
+        ValueChanged?.Invoke(Value);
     }
 
     private void ShowModal(MouseEventArgs args)
@@ -132,7 +143,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
                 return;
             }
 
-            ValueChanged?.Invoke(items);
+            OnValueChanged(items);
             await model.CloseAsync();
         };
         UI.ShowDialog(model);

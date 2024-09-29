@@ -357,6 +357,7 @@
   "Row": "行號",
   "Column": "列號",
   "Span": "跨度",
+  "CustomField": "自定義",
   "Placeholder": "預留位置",
   "ReadOnly": "只讀",
   "MultiFile": "多附件",

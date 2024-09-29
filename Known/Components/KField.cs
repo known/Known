@@ -21,6 +21,10 @@ public class KField<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Fragment(Model.Column.Template);
         }
+        else if (Model.Column.Type == FieldType.Custom)
+        {
+            builder.Component<CustomField<TItem>>().Set(c => c.Model, Model).Build();
+        }
         else if (Model.Column.Type == FieldType.File)
         {
             builder.Component<KUploadField<TItem>>().Set(c => c.Model, Model).Build();
@@ -36,5 +40,23 @@ public class KField<TItem> : BaseComponent where TItem : class, new()
                 builder.CloseComponent();
             }
         }
+    }
+}
+
+class CustomField<TItem> : BaseComponent where TItem : class, new()
+{
+    [Parameter] public FieldModel<TItem> Model { get; set; }
+
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Config.FieldTypes.TryGetValue(Model.Column.CustomField, out Type type))
+            return;
+
+        var parameters = new Dictionary<string, object>();
+        parameters[nameof(ICustomField.ReadOnly)] = Model.Form.IsView;
+        parameters[nameof(ICustomField.Value)] = Model.Value;
+        parameters[nameof(ICustomField.ValueChanged)] = delegate (object value) { Model.Value = value; };
+        parameters[nameof(ICustomField.Column)] = Model.Column;
+        builder.Component(type, parameters);
     }
 }

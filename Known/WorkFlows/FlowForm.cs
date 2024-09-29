@@ -173,15 +173,8 @@ class FlowFormModel(BaseComponent component) : FormModel<FlowFormInfo>(component
         {
             c.Id = id;
             c.Required = true;
-            c.Template = b =>
-            {
-                b.Component<UserPicker>()
-                 .Set(c => c.Width, 800)
-                 .Set(c => c.AllowClear, true)
-                 .Set(c => c.Value, Data.User)
-                 .Set(c => c.ValueChanged, v => Data.User = v?[0]?.UserName)
-                 .Build();
-            };
+            c.Type = FieldType.Custom;
+            c.CustomField = nameof(UserPicker);
         });
     }
 

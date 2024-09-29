@@ -357,6 +357,7 @@
   "Row": "Row",
   "Column": "Column",
   "Span": "Span",
+  "CustomField": "Custom",
   "Placeholder": "Placeholder",
   "ReadOnly": "ReadOnly",
   "MultiFile": "MultiFile",

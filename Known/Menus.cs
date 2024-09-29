@@ -453,9 +453,14 @@ public class ColumnInfo
     public int? Span { get; set; }
 
     /// <summary>
-    /// 取得或设置栏位字段类型。
+    /// 取得或设置栏位字段组件类型。
     /// </summary>
     public FieldType Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置自定义字段组件类型。
+    /// </summary>
+    public string CustomField { get; set; }
 
     /// <summary>
     /// 取得或设置表单字段附件是否可多选。
@@ -532,6 +537,7 @@ public class ColumnInfo
         Column = info.Column;
         Span = info.Span;
         Type = info.Type;
+        CustomField = info.CustomField;
         MultiFile = info.MultiFile;
         ReadOnly = info.ReadOnly;
         Required = info.Required;

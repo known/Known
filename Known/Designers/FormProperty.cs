@@ -3,12 +3,14 @@
 class FormProperty : BaseProperty<FormFieldInfo>
 {
     private List<CodeInfo> controlTypes;
+    private List<CodeInfo> customTypes;
     private List<CodeInfo> categories;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         controlTypes = Cache.GetCodes(nameof(FieldType)).Select(c => new CodeInfo(c.Name, c.Name)).ToList();
+        customTypes = Config.FieldTypes.Select(c => new CodeInfo(c.Key, c.Key)).ToList();
         categories = Cache.GetCodes(Constants.DicCategory);
     }
 
@@ -49,6 +51,16 @@ class FormProperty : BaseProperty<FormFieldInfo>
                     OnChanged?.Invoke(Model);
                 })
             }));
+            if (Model.Type == FieldType.Custom)
+            {
+                BuildPropertyItem(builder, nameof(FormFieldInfo.CustomField), b => UI.BuildSelect(b, new InputModel<string>
+                {
+                    Disabled = IsReadOnly,
+                    Codes = customTypes,
+                    Value = Model.CustomField,
+                    ValueChanged = this.Callback<string>(value => { Model.CustomField = value; OnChanged?.Invoke(Model); })
+                }));
+            }
             BuildPropertyItem(builder, nameof(FormFieldInfo.Required), b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = IsReadOnly,
