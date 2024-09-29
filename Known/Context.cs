@@ -88,6 +88,11 @@ public class Context
 public interface IRequest
 {
     /// <summary>
+    /// 取得请求方法，GET/POST。
+    /// </summary>
+    string Method { get; }
+
+    /// <summary>
     /// 判断 POST 表单是否是指定请求处理者。
     /// </summary>
     /// <param name="name">处理者名称</param>

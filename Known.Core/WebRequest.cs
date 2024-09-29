@@ -6,6 +6,8 @@ class WebRequest(HttpContext context) : IRequest
     private HttpRequest Request => Context.Request;
     private bool IsPost => Request.Method == "POST" && Request.Form != null;
 
+    public string Method => Request.Method;
+
     public bool IsHandler(string name)
     {
         if (!IsPost)

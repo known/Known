@@ -18,6 +18,7 @@ sealed class TaskHelper
 
         try
         {
+            db.EnableLog = false;
             var task = await Repository.GetPendingTaskAsync(db, bizType);
             if (task == null)
             {
@@ -25,6 +26,7 @@ sealed class TaskHelper
                 return;
             }
 
+            db.EnableLog = true;
             await RunAsync(db, task, action);
         }
         catch (Exception ex)
