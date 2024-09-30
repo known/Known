@@ -27,7 +27,7 @@ class Importer : BaseComponent
     {
         builder.Div("kui-import", () =>
         {
-            builder.Div("kui-danger", Language["Import.Tips"]);
+            builder.Div("kui-primary", Language["Import.Tips"]);
             builder.Div("item", () =>
             {
                 BuildInputFile(builder);
@@ -48,7 +48,7 @@ class Importer : BaseComponent
             {
                 builder.Link(Language["Import.Download"], this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
-                    builder.Link(ErrorMessage, this.Callback(OnErrorMessage));
+                    builder.Span().Class("kui-link kui-danger").OnClick(this.Callback(OnErrorMessage)).Markup(ErrorMessage).Close();
                 builder.Span("size", fileInfo);
             });
             var style = string.IsNullOrWhiteSpace(error) ? "kui-primary" : "kui-danger";
@@ -99,8 +99,10 @@ class Importer : BaseComponent
         var result = await Service.ImportFilesAsync(info);
         if (!result.IsValid)
         {
-            message = result.Message;
+            error = result.Message;
+            message = Language["Import.TaskFailed"];
             isFinished = true;
+            await StateChangedAsync();
             return;
         }
 
