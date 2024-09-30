@@ -203,7 +203,7 @@ select t.* from (
     public CommandInfo GetInsertCommand<T>()
     {
         var tableName = GetTableName<T>();
-        var cmdParams = ToDictionary<T>();
+        var cmdParams = DBUtils.ToDictionary<T>();
         var keys = new List<string>();
         foreach (var key in cmdParams.Keys)
         {
@@ -285,7 +285,7 @@ select t.* from (
     public CommandInfo GetSaveCommand<T>(T entity) where T : EntityBase
     {
         var tableName = GetTableName<T>();
-        var cmdParams = ToDictionary(entity);
+        var cmdParams = DBUtils.ToDictionary(entity);
         if (entity.IsNew)
             return GetInsertCommand(tableName, cmdParams);
 
@@ -364,33 +364,5 @@ select t.* from (
             return $"{text} order by {order}";
 
         return GetPageSql(text, order, criteria);
-    }
-
-    private static Dictionary<string, object> ToDictionary(object value)
-    {
-        var dic = new Dictionary<string, object>();
-        var properties = TypeHelper.Properties(value.GetType());
-        foreach (var item in properties)
-        {
-            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
-            {
-                dic[item.Name] = item.GetValue(value, null);
-            }
-        }
-        return dic;
-    }
-
-    private static Dictionary<string, object> ToDictionary<T>()
-    {
-        var dic = new Dictionary<string, object>();
-        var properties = TypeHelper.Properties(typeof(T));
-        foreach (var item in properties)
-        {
-            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
-            {
-                dic[item.Name] = null;
-            }
-        }
-        return dic;
     }
 }
