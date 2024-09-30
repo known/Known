@@ -60,13 +60,14 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        var database = Database;
         foreach (var model in models)
         {
-            if (await Database.ExistsAsync<SysDictionary>(d => d.Category == model.Code))
+            if (await database.ExistsAsync<SysDictionary>(d => d.Category == model.Code))
                 return Result.Error(Language["Tip.DicDeleteExistsChild"]);
         }
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        return await database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in models)
             {
@@ -83,11 +84,12 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         if (!vr.IsValid)
             return vr;
 
-        var exists = await Database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
+        var database = Database;
+        var exists = await database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
         if (exists)
             return Result.Error(Language["Tip.DicCodeExists"]);
 
-        await Database.SaveAsync(model);
+        await database.SaveAsync(model);
         await RefreshCacheAsync();
         return Result.Success(Language.Success(Language.Save), model);
     }

@@ -79,7 +79,8 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrWhiteSpace(bizId))
             return new FlowInfo();
 
-        var module = await Database.QueryByIdAsync<SysModule>(moduleId);
+        var database = Database;
+        var module = await database.QueryByIdAsync<SysModule>(moduleId);
         var info = DataHelper.GetFlow(module?.FlowData);
         if (info == null)
             return new FlowInfo();
@@ -87,7 +88,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrWhiteSpace(bizId))
             return info;
 
-        var logs = await Repository.GetFlowLogsAsync(Database, bizId);
+        var logs = await Repository.GetFlowLogsAsync(database, bizId);
         if (logs != null && logs.Count > 0)
         {
             var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
@@ -109,17 +110,18 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<Result> SubmitFlowAsync(FlowFormInfo info)
     {
-        var flows = await GetFlowsAsync(Database, info.BizId);
+        var database = Database;
+        var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await AuthService.GetUserAsync(Database, info.User);
+        var next = await AuthService.GetUserAsync(database, info.User);
         if (next == null)
             return Result.Error(UserNotExists(info.User));
 
         var user = CurrentUser;
         var name = Language.Submit;
-        return await Database.TransactionAsync(name, async db =>
+        return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
@@ -155,13 +157,14 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.RevokeReason"]);
 
-        var flows = await GetFlowsAsync(Database, info.BizId);
+        var database = Database;
+        var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
         var user = CurrentUser;
         var name = Language.Revoke;
-        return await Database.TransactionAsync(name, async db =>
+        return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
@@ -187,17 +190,18 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     public async Task<Result> AssignFlowAsync(FlowFormInfo info)
     {
-        var flows = await GetFlowsAsync(Database, info.BizId);
+        var database = Database;
+        var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await AuthService.GetUserAsync(Database, info.User);
+        var next = await AuthService.GetUserAsync(database, info.User);
         if (next == null)
             return Result.Error(Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
 
         var user = CurrentUser;
         var name = Language["Button.Assign"];
-        return await Database.TransactionAsync(name, async db =>
+        return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
@@ -224,21 +228,22 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (!isPass && string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.ReturnReason"]);
 
-        var flows = await GetFlowsAsync(Database, info.BizId);
+        var database = Database;
+        var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
         UserInfo next = null;
         if (isPass && !string.IsNullOrWhiteSpace(info.User))
         {
-            next = await AuthService.GetUserAsync(Database, info.User);
+            next = await AuthService.GetUserAsync(database, info.User);
             if (next == null)
                 return Result.Error(UserNotExists(info.User));
         }
 
         var user = CurrentUser;
         var name = Language["Button.Verify"];
-        return await Database.TransactionAsync(name, async db =>
+        return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
@@ -298,12 +303,13 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.RestartReason"]);
 
-        var flows = await GetFlowsAsync(Database, info.BizId);
+        var database = Database;
+        var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
         var name = Language["Button.Restart"];
-        return await Database.TransactionAsync(name, async db =>
+        return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {
@@ -329,12 +335,13 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrEmpty(info.Note))
             return Result.Error(Language["Tip.StopReason"]);
 
-        var flows = await GetFlowsAsync(Database, info.BizId);
+        var database = Database;
+        var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
         var name = Language["Button.Stop"];
-        return await Database.TransactionAsync(name, async db =>
+        return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
             {

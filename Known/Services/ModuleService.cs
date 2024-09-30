@@ -105,13 +105,14 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        var database = Database;
         foreach (var model in models)
         {
-            if (await Database.ExistsAsync<SysModule>(d => d.ParentId == model.Id))
+            if (await database.ExistsAsync<SysModule>(d => d.ParentId == model.Id))
                 return Result.Error(Language["Tip.ModuleDeleteExistsChild"]);
         }
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        return await database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in models)
             {

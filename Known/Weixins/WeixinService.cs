@@ -41,9 +41,10 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     #region Weixin
     public async Task<WeixinInfo> GetWeixinAsync(string userId)
     {
-        var info = await SystemService.GetConfigAsync<WeixinInfo>(Database, KeyWeixin);
+        var database = Database;
+        var info = await SystemService.GetConfigAsync<WeixinInfo>(database, KeyWeixin);
         if (info != null && !string.IsNullOrWhiteSpace(userId))
-            info.User = await GetWeixinByUserIdAsync(Database, userId);
+            info.User = await GetWeixinByUserIdAsync(database, userId);
         return info;
     }
 
@@ -88,12 +89,13 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
 
     public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
     {
-        var weixin = await GetWeixinByUserIdAsync(Database, user.Token);
+        var database = Database;
+        var weixin = await GetWeixinByUserIdAsync(database, user.Token);
         if (weixin == null)
             return null;
 
         weixin.UserId = user.Id;
-        await Database.SaveAsync(weixin);
+        await database.SaveAsync(weixin);
         user.OpenId = weixin.OpenId;
         return user;
     }

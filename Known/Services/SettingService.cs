@@ -47,9 +47,10 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
 
     public async Task<Result> DeleteUserSettingAsync(string bizType)
     {
-        var setting = await GetUserSettingAsync(Database, bizType);
+        var database = Database;
+        var setting = await GetUserSettingAsync(database, bizType);
         if (setting != null)
-            await Database.DeleteAsync(setting);
+            await database.DeleteAsync(setting);
         return Result.Success(Language.Success(Language.Delete));
     }
 
@@ -64,11 +65,12 @@ class SettingService(Context context) : ServiceBase(context), ISettingService
 
     public async Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
     {
-        var setting = await GetUserSettingAsync(Database, info.BizType);
+        var database = Database;
+        var setting = await GetUserSettingAsync(database, info.BizType);
         setting ??= new SysSetting();
         setting.BizType = info.BizType;
         setting.BizData = Utils.ToJson(info.BizData);
-        await Database.SaveAsync(setting);
+        await database.SaveAsync(setting);
         return Result.Success(Language.Success(Language.Save));
     }
 

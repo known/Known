@@ -124,9 +124,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         try
         {
-            var db = Database;
-            db.EnableLog = false;
-            var info = await GetSystemAsync(db);
+            var database = Database;
+            database.EnableLog = false;
+            var info = await GetSystemAsync(database);
             if (info != null)
             {
                 info.ProductKey = null;
@@ -313,28 +313,29 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
+        var database = Database;
         if (Config.App.IsPlatform)
         {
-            var company = await Database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
+            var company = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
             if (company == null)
                 return Result.Error(Language["Tip.CompanyNotExists"]);
 
             company.SystemData = Utils.ToJson(info);
-            await Database.SaveAsync(company);
+            await database.SaveAsync(company);
         }
         else
         {
-            await SaveConfigAsync(Database, KeySystem, info);
+            await SaveConfigAsync(database, KeySystem, info);
         }
         return Result.Success(Language.Success(Language.Save));
     }
 
     public async Task<Result> SaveKeyAsync(SystemInfo info)
     {
-        var db = Database;
+        var database = Database;
         AppHelper.SaveProductKey(info.ProductKey);
-        await SaveConfigAsync(db, KeySystem, info);
-        return await CheckKeyAsync(db);
+        await SaveConfigAsync(database, KeySystem, info);
+        return await CheckKeyAsync(database);
     }
 
     private static SystemInfo GetSystem(InstallInfo info)
@@ -413,17 +414,18 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     public async Task<Result> AddLogAsync(SysLog log)
     {
+        var database = Database;
         if (log.Type == LogType.Page.ToString() &&
             string.IsNullOrWhiteSpace(log.Target) &&
             !string.IsNullOrWhiteSpace(log.Content))
         {
             var module = log.Content.StartsWith("/page/")
-                       ? await Database.QueryByIdAsync<SysModule>(log.Content.Substring(6))
-                       : await Database.QueryAsync<SysModule>(d => d.Url == log.Content);
+                       ? await database.QueryByIdAsync<SysModule>(log.Content.Substring(6))
+                       : await database.QueryAsync<SysModule>(d => d.Url == log.Content);
             log.Target = module?.Name;
         }
 
-        await Database.SaveAsync(log);
+        await database.SaveAsync(log);
         return Result.Success(Language.Success(Language.Save));
     }
 }

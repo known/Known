@@ -32,6 +32,11 @@ public class TableModel(UIContext context) : BaseModel(context)
     public PagingCriteria Criteria { get; } = new();
 
     /// <summary>
+    /// 取得表格栏位信息列表。
+    /// </summary>
+    public List<ColumnInfo> Columns { get; internal set; } = [];
+
+    /// <summary>
     /// 取得或设置表格刷新委托，创建抽象表格时赋值。
     /// </summary>
     public Func<Task> OnRefresh { get; set; }
@@ -67,12 +72,15 @@ public class TableModel(UIContext context) : BaseModel(context)
     public void ShowAdvancedSearch(BaseLayout app)
     {
         AdvancedSearch search = null;
+        var columns = AllColumns;
+        if (columns == null || columns.Count == 0)
+            columns = Columns;
         var model = new DialogModel
         {
             Title = Language.AdvSearch,
             Width = 700,
             Content = b => b.Component<AdvancedSearch>()
-                            .Set(c => c.Columns, AllColumns)
+                            .Set(c => c.Columns, columns)
                             .Build(value => search = value)
         };
         model.OnOk = async () =>
@@ -243,11 +251,6 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// 取得表格标签配置对象。
     /// </summary>
     public TabModel Tab { get; } = new();
-
-    /// <summary>
-    /// 取得表格栏位信息列表。
-    /// </summary>
-    public List<ColumnInfo> Columns { get; } = [];
 
     /// <summary>
     /// 取得表格操作列信息列表。

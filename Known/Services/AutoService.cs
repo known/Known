@@ -108,23 +108,24 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     {
         try
         {
+            var database = Database;
             var tableName = info.PageId;
             var script = info.Data;
             try
             {
                 var sql = $"select count(*) from {tableName}";
-                var count = await Database.ScalarAsync<int>(sql);
+                var count = await database.ScalarAsync<int>(sql);
                 if (count > 0)
                     return Result.Error(Language["Tip.TableHasData"]);
 
                 sql = $"drop table {tableName}";
-                await Database.ExecuteAsync(sql);
+                await database.ExecuteAsync(sql);
             }
             catch
             {
             }
 
-            await Database.ExecuteAsync(script);
+            await database.ExecuteAsync(script);
             return Result.Success(Language["Tip.ExecuteSuccess"]);
         }
         catch (Exception ex)

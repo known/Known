@@ -91,7 +91,7 @@ public class DBUtils
         var properties = TypeHelper.Properties(value.GetType());
         foreach (var item in properties)
         {
-            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
+            if (item.CanRead && !item.GetMethod.IsVirtual)
             {
                 dic[item.Name] = item.GetValue(value, null);
             }

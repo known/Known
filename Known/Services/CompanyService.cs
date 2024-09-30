@@ -46,33 +46,35 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
     //Company
     public async Task<string> GetCompanyAsync()
     {
+        var database = Database;
         if (Config.App.IsPlatform)
         {
-            return await GetCompanyDataAsync(Database);
+            return await GetCompanyDataAsync(database);
         }
         else
         {
-            var json = await SystemService.GetConfigAsync(Database, KeyCompany);
+            var json = await SystemService.GetConfigAsync(database, KeyCompany);
             if (string.IsNullOrEmpty(json))
-                json = GetDefaultData(Database.User);
+                json = GetDefaultData(database.User);
             return json;
         }
     }
 
     public async Task<Result> SaveCompanyAsync(object model)
     {
+        var database = Database;
         if (Config.App.IsPlatform)
         {
-            var company = await Database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
+            var company = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
             if (company == null)
                 return Result.Error(Language["Tip.CompanyNotExists"]);
 
             company.CompanyData = Utils.ToJson(model);
-            await Database.SaveAsync(company);
+            await database.SaveAsync(company);
         }
         else
         {
-            await SystemService.SaveConfigAsync(Database, KeyCompany, model);
+            await SystemService.SaveConfigAsync(database, KeyCompany, model);
         }
         return Result.Success(Language.Success(Language.Save));
     }
@@ -112,13 +114,14 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        var database = Database;
         foreach (var model in models)
         {
-            if (await Database.ExistsAsync<SysOrganization>(d => d.ParentId == model.Id))
+            if (await database.ExistsAsync<SysOrganization>(d => d.ParentId == model.Id))
                 return Result.Error(Language["Tip.OrgDeleteExistsChild"]);
         }
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        return await database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in models)
             {
@@ -129,16 +132,17 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
 
     public async Task<Result> SaveOrganizationAsync(SysOrganization model)
     {
+        var database = Database;
         var vr = model.Validate(Context);
         if (vr.IsValid)
         {
-            if (await Database.ExistsAsync<SysOrganization>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Code == model.Code))
+            if (await database.ExistsAsync<SysOrganization>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Code == model.Code))
                 vr.AddError(Language["Tip.OrgCodeExists"]);
         }
         if (!vr.IsValid)
             return vr;
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
             //PlatformHelper.SetBizOrganization(db, entity);

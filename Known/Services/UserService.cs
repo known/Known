@@ -95,18 +95,18 @@ class UserService(Context context) : ServiceBase(context), IUserService
 
     public async Task<SysUser> GetUserDataAsync(string id)
     {
-        var db = Database;
-        await db.OpenAsync();
-        var user = await db.QueryByIdAsync<SysUser>(id);
+        var database = Database;
+        await database.OpenAsync();
+        var user = await database.QueryByIdAsync<SysUser>(id);
         user ??= new SysUser();
-        var roles = await Repository.GetRolesAsync(db);
-        var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
+        var roles = await Repository.GetRolesAsync(database);
+        var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
         var roleIds = userRoles?.Select(r => r.RoleId).ToList();
         //var datas = PlatformHelper.UserDatas?.Invoke(db);
         user.Roles = roles.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
         user.RoleIds = roleIds.ToArray();
         //user.Datas = datas?.ToArray();
-        await db.CloseAsync();
+        await database.CloseAsync();
         return user;
     }
 
@@ -174,11 +174,12 @@ class UserService(Context context) : ServiceBase(context), IUserService
         if (models == null || models.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        var info = await SystemService.GetSystemAsync(Database);
+        var database = Database;
+        var info = await SystemService.GetSystemAsync(database);
         if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
             return Result.Error(Language["Tip.NoDefaultPwd"]);
 
-        return await Database.TransactionAsync(Language.Reset, async db =>
+        return await database.TransactionAsync(Language.Reset, async db =>
         {
             foreach (var item in models)
             {
@@ -190,7 +191,8 @@ class UserService(Context context) : ServiceBase(context), IUserService
 
     public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
-        var entity = await Database.QueryByIdAsync<SysUser>(info.UserId);
+        var database = Database;
+        var entity = await database.QueryByIdAsync<SysUser>(info.UserId);
         if (entity == null)
             return Result.Error(Language["Tip.NoUser"]);
 
@@ -199,7 +201,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         await attach.SaveAsync();
         var url = Config.GetFileUrl(attach.FilePath);
         entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
-        await Database.SaveAsync(entity);
+        await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language.Save), url);
     }
 
@@ -219,12 +221,13 @@ class UserService(Context context) : ServiceBase(context), IUserService
     public async Task<Result> SaveUserAsync(SysUser model)
     {
         List<SysRole> roles = null;
+        var database = Database;
         if (model.RoleIds != null && model.RoleIds.Length > 0)
-            roles = await Database.QueryListByIdAsync<SysRole>(model.RoleIds);
+            roles = await database.QueryListByIdAsync<SysRole>(model.RoleIds);
         var user = CurrentUser;
         if (model.IsNew)
         {
-            var info = await SystemService.GetSystemAsync(Database);
+            var info = await SystemService.GetSystemAsync(database);
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error(Language["Tip.NoDefaultPwd"]);
 
@@ -237,7 +240,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         if (vr.IsValid)
         {
             model.UserName = model.UserName.ToLower();
-            if (await Database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
+            if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
             {
                 vr.AddError(Language["Tip.UserNameExists"]);
             }
@@ -246,7 +249,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         if (!vr.IsValid)
             return vr;
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        return await database.TransactionAsync(Language.Save, async db =>
         {
             model.Role = string.Empty;
             await db.DeleteAsync<SysUserRole>(d => d.UserId == model.Id);

@@ -87,8 +87,9 @@ class SysUserImport(ImportContext context) : ImportBase<SysUser>(context)
         if (!result.IsValid)
             return result;
 
-        var info = await SystemService.GetSystemAsync(Database);
-        return await Database.TransactionAsync(Language.Import, async db =>
+        var database = Database;
+        var info = await SystemService.GetSystemAsync(database);
+        return await database.TransactionAsync(Language.Import, async db =>
         {
             foreach (var item in models)
             {

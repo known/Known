@@ -45,8 +45,9 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
+        var database = Database;
         var userName = info.UserName?.ToLower();
-        var entity = await GetUserAsync(Database, userName, info.Password);
+        var entity = await GetUserAsync(database, userName, info.Password);
         if (entity == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);
 
@@ -65,7 +66,6 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
         SetUserAvatar(entity, user);
-        var database = Database;
         await database.OpenAsync();
         await SetUserInfoAsync(database, user);
         await SetUserWeixinAsync(database, user);
@@ -134,21 +134,21 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (CurrentUser == null)
             return new AdminInfo();
 
-        var db = Database;
-        await db.OpenAsync();
-        await SystemService.CheckKeyAsync(db);
-        var modules = await ModuleService.GetModulesAsync(db);
+        var database = Database;
+        await database.OpenAsync();
+        await SystemService.CheckKeyAsync(database);
+        var modules = await ModuleService.GetModulesAsync(database);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
-            AppName = await UserHelper.GetSystemNameAsync(db),
-            MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.User.UserName && d.Status == Constants.UMStatusUnread),
-            UserMenus = await UserHelper.GetUserMenusAsync(Repository, db, modules),
-            UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(db, SettingInfo.KeyInfo),
-            UserTableSettings = await SettingService.GetUserTableSettingsAsync(db),
-            Codes = await DictionaryService.GetDictionariesAsync(db)
+            AppName = await UserHelper.GetSystemNameAsync(database),
+            MessageCount = await database.CountAsync<SysMessage>(d => d.UserId == database.User.UserName && d.Status == Constants.UMStatusUnread),
+            UserMenus = await UserHelper.GetUserMenusAsync(Repository, database, modules),
+            UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(database, SettingInfo.KeyInfo),
+            UserTableSettings = await SettingService.GetUserTableSettingsAsync(database),
+            Codes = await DictionaryService.GetDictionariesAsync(database)
         };
-        await db.CloseAsync();
+        await database.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
     }
@@ -172,12 +172,13 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (errors.Count > 0)
             return Result.Error(string.Join(Environment.NewLine, errors));
 
-        var entity = await GetUserAsync(Database, user.UserName, info.OldPwd);
+        var database = Database;
+        var entity = await GetUserAsync(database, user.UserName, info.OldPwd);
         if (entity == null)
             return Result.Error(Language["Tip.CurPwdInvalid"]);
 
         entity.Password = Utils.ToMd5(info.NewPwd);
-        await Database.SaveAsync(entity);
+        await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 

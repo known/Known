@@ -59,16 +59,16 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
 
     public async Task<SysRole> GetRoleAsync(string roleId)
     {
-        var db = Database;
-        await db.OpenAsync();
+        var database = Database;
+        await database.OpenAsync();
         var info = string.IsNullOrWhiteSpace(roleId)
                  ? new SysRole()
-                 : await db.QueryByIdAsync<SysRole>(roleId);
+                 : await database.QueryByIdAsync<SysRole>(roleId);
         info ??= new SysRole();
-        info.Modules = await ModuleService.GetModulesAsync(db);
-        var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
+        info.Modules = await ModuleService.GetModulesAsync(database);
+        var roleModules = await database.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
         info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
-        await db.CloseAsync();
+        await database.CloseAsync();
         return info;
     }
 
