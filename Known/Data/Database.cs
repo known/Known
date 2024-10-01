@@ -47,8 +47,11 @@ public class Database : IDisposable
         return instance;
     }
 
-    private DbConnection conn;
-    private DbTransaction trans;
+    /// <summary>
+    /// 数据库连接对象。
+    /// </summary>
+    protected IDbConnection conn;
+    private IDbTransaction trans;
     private string TransId { get; set; }
 
     /// <summary>
@@ -708,8 +711,10 @@ public class Database : IDisposable
         {
             var tableName = Provider.GetTableName<T>();
             var sql = $"select count(*) from {tableName}";
-            var count = await ScalarAsync<int?>(sql);
-            return count > 0;
+            var value = await ScalarAsync<int?>(sql);
+            if (value == null)
+                return false;
+            return true;
         }
         catch
         {
@@ -848,7 +853,7 @@ public class Database : IDisposable
         }
     }
 
-    private async Task<DbDataReader> ExecuteReaderAsync(CommandInfo info)
+    private async Task<IDataReader> ExecuteReaderAsync(CommandInfo info)
     {
         try
         {
@@ -971,7 +976,7 @@ public class Database : IDisposable
         Logger.Exception(ex);
     }
 
-    private Task<DbCommand> PrepareCommandAsync(DbConnection conn, DbTransaction trans, CommandInfo info)
+    private Task<IDbCommand> PrepareCommandAsync(IDbConnection conn, IDbTransaction trans, CommandInfo info)
     {
         info.IsClose = false;
         var cmd = conn.CreateCommand();

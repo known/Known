@@ -13,13 +13,13 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 - 官网：[http://known.org.cn](http://known.org.cn)
-- 源码： [https://gitee.com/known/Known](https://gitee.com/known/Known)
+- 源码：[https://gitee.com/known/Known](https://gitee.com/known/Known)
 - 源码：[https://github.com/known/Known](https://github.com/known/Known)
 
 ### 概述
 
 - 基于`C#`和`Blazor`的快速开发框架，开箱即用，跨平台。
-- 模块化，单页应用，混合桌面应用，Web和桌面共享一处代码。
+- 模块化，Web应用，混合桌面应用，Web和桌面共享一处代码。
 - `UI`默认支持`AntDesign`，可扩展其他UI组件库。
 - 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
 - 低代码、简洁、易扩展，让开发更简单、更快捷！
@@ -33,11 +33,9 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 - 抽象`UI`：抽象`UI`展现层，易扩展，默认支持`Ant Design Blazor`组件库。
 - `C#`语言：全量使用C#语言进行全栈开发，从前端到后端只需学习一门语言。
 
-> 如果对您有帮助，点击右上角⭐Star⭐关注 ，感谢支持开源！
-
 ### 快速安装
 
-```bash
+``` bash
 --安装模板
 dotnet new install KnownTemplate
 --创建项目
@@ -74,10 +72,10 @@ dotnet new known --name=MyApp
 ### 项目连接
 
 - 项目模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
-- Known.SqlSugar：[https://gitee.com/known/known-sql-sugar](https://gitee.com/known/known-sql-sugar)
+- KnownDB：[https://gitee.com/known/known-db](https://gitee.com/known/known-db)
 - JxcLite：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
 
-### AntDesign界面截图
+### 界面截图
 
 效果图|效果图
 :--:|:--:

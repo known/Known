@@ -19,8 +19,8 @@ sealed class TaskHelper
         try
         {
             db.EnableLog = false;
-            var task = await Repository.GetPendingTaskAsync(db, bizType);
-            if (task == null)
+            var task = await GetPendingTaskAsync(db, bizType);
+            if (task == null || string.IsNullOrWhiteSpace(task.BizId))
             {
                 RunStates[bizType] = false;
                 return;
@@ -36,6 +36,19 @@ sealed class TaskHelper
         finally
         {
             RunStates[bizType] = false;
+        }
+    }
+
+    private static async Task<SysTask> GetPendingTaskAsync(Database db, string bizType)
+    {
+        try
+        {
+            var task = await Repository.GetPendingTaskAsync(db, bizType);
+            return task;
+        }
+        catch
+        {
+            return null;
         }
     }
 
