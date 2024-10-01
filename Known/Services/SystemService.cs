@@ -198,7 +198,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
             await db.DeleteAllAsync<SysModule>();
-            await db.SaveDatasAsync(modules);
+            await db.InsertAsync(modules);
             await SaveConfigAsync(db, KeySystem, sys);
             await SaveCompanyAsync(db, info, sys);
             await SaveOrganizationAsync(db, info);

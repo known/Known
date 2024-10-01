@@ -47,10 +47,7 @@ public class Database : IDisposable
         return instance;
     }
 
-    /// <summary>
-    /// 数据库连接对象。
-    /// </summary>
-    protected IDbConnection conn;
+    private IDbConnection conn;
     private IDbTransaction trans;
     private string TransId { get; set; }
 
@@ -151,27 +148,62 @@ public class Database : IDisposable
     }
 
     /// <summary>
+    /// 异步开启数据库事务。
+    /// </summary>
+    /// <returns></returns>
+    public virtual Task BeginTransAsync()
+    {
+        if (conn == null)
+            throw new InvalidOperationException("The connection is null.");
+
+        if (conn.State != ConnectionState.Open)
+            conn.Open();
+        trans = conn.BeginTransaction();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 异步提交数据库事务。
+    /// </summary>
+    /// <returns></returns>
+    public virtual Task CommitTransAsync()
+    {
+        trans?.Commit();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// 异步回滚数据库事务。
+    /// </summary>
+    /// <returns></returns>
+    public virtual Task RollbackTransAsync()
+    {
+        trans?.Rollback();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// 异步执行数据库事务。
     /// </summary>
     /// <param name="name">事务操作名称。</param>
     /// <param name="action">事务操作委托。</param>
     /// <param name="data">事务操作成功返回的扩展对象。</param>
     /// <returns>操作结果。</returns>
-    public virtual async Task<Result> TransactionAsync(string name, Func<Database, Task> action, object data = null)
+    public async Task<Result> TransactionAsync(string name, Func<Database, Task> action, object data = null)
     {
-        using (var db = new Database(DatabaseType, ConnectionString, User))
+        using (var db = CreateDatabase())
         {
             try
             {
                 db.TransId = Utils.GetGuid();
                 await db.BeginTransAsync();
                 await action.Invoke(db);
-                await db.CommitAsync();
+                await db.CommitTransAsync();
                 return Result.Success(Context?.Language.Success(name), data);
             }
             catch (Exception ex)
             {
-                await db.RollbackAsync();
+                await db.RollbackTransAsync();
                 Logger.Exception(ex);
                 if (ex is SystemException)
                     return Result.Error(ex.Message);
@@ -200,7 +232,7 @@ public class Database : IDisposable
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
-            if (conn.State != ConnectionState.Open)
+            if (conn != null && conn.State != ConnectionState.Open)
                 conn.Open();
 
             byte[] exportData = null;
@@ -208,7 +240,7 @@ public class Database : IDisposable
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
             var info = Provider.GetCommand(sql, criteria, User);
-            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var cmd = await PrepareCommandAsync(info);
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
             var total = Utils.ConvertTo<int>(value);
@@ -243,7 +275,7 @@ public class Database : IDisposable
             }
 
             cmd.Parameters.Clear();
-            if (conn.State != ConnectionState.Closed)
+            if (conn != null && conn.State != ConnectionState.Closed)
                 conn.Close();
 
             if (criteria.ExportMode != ExportMode.None)
@@ -486,7 +518,7 @@ public class Database : IDisposable
             return 0;
 
         var close = false;
-        if (conn.State != ConnectionState.Open)
+        if (conn != null && conn.State != ConnectionState.Open)
         {
             close = true;
             conn.Open();
@@ -500,7 +532,7 @@ public class Database : IDisposable
             count += await ExecuteNonQueryAsync(info);
         }
 
-        if (close)
+        if (conn != null && close)
             conn.Close();
 
         return count;
@@ -634,33 +666,9 @@ public class Database : IDisposable
     /// <typeparam name="T">实体类型。</typeparam>
     /// <param name="entity">实体对象。</param>
     /// <returns></returns>
-    /// <exception cref="SystemException">操作用户不能为空。</exception>
-    public virtual async Task SaveAsync<T>(T entity) where T : EntityBase, new()
+    public virtual Task SaveAsync<T>(T entity) where T : EntityBase, new()
     {
-        if (entity == null)
-            return;
-
-        var none = "Anonymous";
-        if (entity.IsNew)
-        {
-            if (entity.CreateBy == "temp")
-                entity.CreateBy = User?.UserName ?? none;
-            entity.CreateTime = DateTime.Now;
-            if (entity.AppId == "temp")
-                entity.AppId = User?.AppId ?? Config.App.Id;
-            if (entity.CompNo == "temp")
-                entity.CompNo = User?.CompNo ?? none;
-        }
-        else
-        {
-            entity.Version += 1;
-            await SetOriginalAsync(entity);
-        }
-
-        entity.ModifyBy = User?.UserName ?? none;
-        entity.ModifyTime = DateTime.Now;
-        await SaveDataAsync(entity);
-        entity.IsNew = false;
+        return SaveAsync(entity, true);
     }
 
     /// <summary>
@@ -669,14 +677,15 @@ public class Database : IDisposable
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="entities">对象列表。</param>
     /// <returns></returns>
-    public virtual async Task SaveDatasAsync<T>(List<T> entities) where T : EntityBase, new()
+    public virtual async Task InsertAsync<T>(List<T> entities) where T : EntityBase, new()
     {
         if (entities == null || entities.Count == 0)
             return;
 
         foreach (var entity in entities)
         {
-            await SaveAsync(entity);
+            entity.IsNew = true;
+            await SaveAsync(entity, false);
         }
     }
 
@@ -695,8 +704,7 @@ public class Database : IDisposable
         if (newId)
             entity.Id = Utils.GetGuid();
         entity.IsNew = true;
-        entity.Version = 1;
-        await SaveAsync(entity);
+        await SaveAsync(entity, false);
         return entity;
     }
 
@@ -774,17 +782,24 @@ public class Database : IDisposable
     }
 
     /// <summary>
-    /// 释放数据库访问对象。
-    /// </summary>
-    public void Dispose() => Dispose(true);
-
-    /// <summary>
     /// 获取日期字段转换SQL语句，如Oracle的to_date函数。
     /// </summary>
     /// <param name="name">字段名。</param>
     /// <param name="withTime">是否带时间，默认是。</param>
     /// <returns>日期字段转换SQL语句。</returns>
     public virtual string GetDateSql(string name, bool withTime = true) => Provider?.GetDateSql(name, withTime);
+
+    /// <summary>
+    /// 释放数据库访问对象。
+    /// </summary>
+    public void Dispose() => Dispose(true);
+
+    /// <summary>
+    /// 检查实体对象状态（新增/修改）。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="entity">实体对象。</param>
+    protected virtual void CheckEntity<T>(T entity) where T : EntityBase, new() { }
 
     /// <summary>
     /// 异步保存实体对象。
@@ -800,6 +815,45 @@ public class Database : IDisposable
     }
 
     /// <summary>
+    /// 创建一个事务数据库访问实例。
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Database CreateDatabase()
+    {
+        return new Database(DatabaseType, ConnectionString, User);
+    }
+
+    /// <summary>
+    /// 获取数据库操作命令。
+    /// </summary>
+    /// <param name="info">命令信息对象。</param>
+    /// <returns>数据库操作命令。</returns>
+    /// <exception cref="ArgumentException">有事务，则连接不能为空</exception>
+    protected virtual IDbCommand GetDbCommandAsync(CommandInfo info)
+    {
+        info.IsClose = false;
+        var cmd = conn.CreateCommand();
+
+        if (trans != null)
+        {
+            if (trans.Connection == null)
+                throw new ArgumentException("The transaction was rollbacked or commited, please provide an open transaction.", nameof(trans));
+
+            cmd.Transaction = trans;
+        }
+        else
+        {
+            if (conn.State != ConnectionState.Open)
+            {
+                info.IsClose = true;
+                conn.Open();
+            }
+        }
+
+        return cmd;
+    }
+
+    /// <summary>
     /// 释放数据库访问对象。
     /// </summary>
     /// <param name="isDisposing">是否释放。</param>
@@ -808,6 +862,9 @@ public class Database : IDisposable
         trans?.Dispose();
         trans = null;
 
+        if (conn == null)
+            return;
+
         if (conn.State != ConnectionState.Closed)
             conn.Close();
         conn.Dispose();
@@ -815,35 +872,15 @@ public class Database : IDisposable
 
     internal string FormatName(string name) => Provider?.FormatName(name);
 
-    private Task BeginTransAsync()
-    {
-        if (conn.State != ConnectionState.Open)
-            conn.Open();
-        trans = conn.BeginTransaction();
-        return Task.CompletedTask;
-    }
-
-    private Task CommitAsync()
-    {
-        trans?.Commit();
-        return Task.CompletedTask;
-    }
-
-    private Task RollbackAsync()
-    {
-        trans?.Rollback();
-        return Task.CompletedTask;
-    }
-
     private async Task<int> ExecuteNonQueryAsync(CommandInfo info)
     {
         try
         {
-            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var cmd = await PrepareCommandAsync(info);
             var value = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
             if (info.IsClose)
-                conn.Close();
+                conn?.Close();
             return value;
         }
         catch (Exception ex)
@@ -857,7 +894,7 @@ public class Database : IDisposable
     {
         try
         {
-            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var cmd = await PrepareCommandAsync(info);
             var reader = info.IsClose
                        ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
                        : cmd.ExecuteReader();
@@ -875,11 +912,11 @@ public class Database : IDisposable
     {
         try
         {
-            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var cmd = await PrepareCommandAsync(info);
             var scalar = cmd.ExecuteScalar();
             cmd.Parameters.Clear();
             if (info.IsClose)
-                conn.Close();
+                conn?.Close();
             return Utils.ConvertTo<T>(scalar);
         }
         catch (Exception ex)
@@ -894,7 +931,7 @@ public class Database : IDisposable
         var data = new List<T>();
         try
         {
-            var cmd = await PrepareCommandAsync(conn, trans, info);
+            var cmd = await PrepareCommandAsync(info);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -906,7 +943,7 @@ public class Database : IDisposable
 
             cmd.Parameters.Clear();
             if (info.IsClose)
-                conn.Close();
+                conn?.Close();
         }
         catch (Exception ex)
         {
@@ -928,7 +965,7 @@ public class Database : IDisposable
                 }
             }
             if (info.IsClose)
-                conn.Close();
+                conn?.Close();
         }
         catch (Exception ex)
         {
@@ -951,13 +988,45 @@ public class Database : IDisposable
                 }
             }
             if (info.IsClose)
-                conn.Close();
+                conn?.Close();
         }
         catch (Exception ex)
         {
             HandException(info, ex);
         }
         return lists;
+    }
+
+    private async Task SaveAsync<T>(T entity, bool isCheckEntity) where T : EntityBase, new()
+    {
+        if (entity == null)
+            return;
+
+        if (isCheckEntity)
+            CheckEntity(entity);
+
+        var none = "Anonymous";
+        if (entity.IsNew)
+        {
+            if (entity.CreateBy == "temp")
+                entity.CreateBy = User?.UserName ?? none;
+            entity.CreateTime = DateTime.Now;
+            entity.Version = 1;
+            if (entity.AppId == "temp")
+                entity.AppId = User?.AppId ?? Config.App.Id;
+            if (entity.CompNo == "temp")
+                entity.CompNo = User?.CompNo ?? none;
+        }
+        else
+        {
+            entity.Version += 1;
+            await SetOriginalAsync(entity);
+        }
+
+        entity.ModifyBy = User?.UserName ?? none;
+        entity.ModifyTime = DateTime.Now;
+        await SaveDataAsync(entity);
+        entity.IsNew = false;
     }
 
     private async Task SetOriginalAsync<T>(T entity) where T : EntityBase, new()
@@ -976,28 +1045,10 @@ public class Database : IDisposable
         Logger.Exception(ex);
     }
 
-    private Task<IDbCommand> PrepareCommandAsync(IDbConnection conn, IDbTransaction trans, CommandInfo info)
+    private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {
-        info.IsClose = false;
-        var cmd = conn.CreateCommand();
+        var cmd = GetDbCommandAsync(info);
         cmd.CommandText = info.Text;
-
-        if (trans != null)
-        {
-            if (trans.Connection == null)
-                throw new ArgumentException("The transaction was rollbacked or commited, please provide an open transaction.", nameof(trans));
-
-            cmd.Transaction = trans;
-        }
-        else
-        {
-            if (conn.State != ConnectionState.Open)
-            {
-                info.IsClose = true;
-                conn.Open();
-            }
-        }
-
         if (info.Params != null && info.Params.Count > 0)
         {
             cmd.Parameters.Clear();
