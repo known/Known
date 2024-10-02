@@ -16,7 +16,6 @@ public class CommandInfo
         Text = text?.Replace("@", Prefix);
         if (param != null)
             Params = DBUtils.ToDictionary(param);
-        Config.App.DBLog?.Invoke(this);
     }
 
     internal bool IsSave { get; set; }
@@ -72,15 +71,15 @@ public class CommandInfo
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"Text:{Text}");
+        sb.Append($"Text: {Text}");
         if (Params != null && Params.Count > 0)
         {
-            sb.AppendLine(", Params:");
+            sb.Append("; Params: ");
             foreach (var item in Params)
             {
-                sb.AppendLine($"{item.Key}={item.Value}");
+                sb.Append($"{item.Key}={item.Value},");
             }
         }
-        return sb.ToString();
+        return sb.ToString().TrimEnd(',');
     }
 }

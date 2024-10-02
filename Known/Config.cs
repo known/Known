@@ -502,9 +502,9 @@ public class AppInfo
     public Func<SystemInfo, Result> CheckSystem { get; set; }
 
     /// <summary>
-    /// 取得或设置系统数据库日志处理方法。
+    /// 取得或设置系统数据库SQL监听器委托。
     /// </summary>
-    public Action<CommandInfo> DBLog { get; set; }
+    public Action<CommandInfo> SqlMonitor { get; set; }
 
     internal Result CheckSystemInfo(SystemInfo info)
     {

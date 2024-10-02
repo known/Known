@@ -51,7 +51,7 @@ public static class AppWeb
         {
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
-            //info.DBLog = c => Console.WriteLine(c.Text);
+            //info.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
             action?.Invoke(info);
         });
 

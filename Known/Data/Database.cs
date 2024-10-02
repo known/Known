@@ -1047,6 +1047,8 @@ public class Database : IDisposable
 
     private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {
+        Config.App.SqlMonitor?.Invoke(info);
+
         var cmd = GetDbCommandAsync(info);
         cmd.CommandText = info.Text;
         if (info.Params != null && info.Params.Count > 0)
