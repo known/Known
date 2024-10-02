@@ -88,6 +88,8 @@ public static class Extension
 
         if (option.IsAddWebApi)
             app.UseKnownWebApi();
+
+        Config.ServiceProvider = app.Services;
     }
 
     private static void UseKnownWebApi(this IEndpointRouteBuilder app)

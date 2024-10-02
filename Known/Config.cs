@@ -78,6 +78,11 @@ public sealed class Config
     public static List<MenuInfo> AppMenus { get; set; }
 
     /// <summary>
+    /// 取得或设置依赖注入服务提供者。
+    /// </summary>
+    public static IServiceProvider ServiceProvider { get; set; }
+
+    /// <summary>
     /// 取得或设置注入系统模块初始化数据，系统安装时，会调用项目注入的模块信息，自动安装。
     /// </summary>
     public static Action<List<SysModule>> OnAddModule { get; set; }
@@ -136,6 +141,17 @@ public sealed class Config
             if (attr != null && attr.Any())
                 Cache.AttachCodes(item);
         }
+    }
+
+    /// <summary>
+    /// 获取依赖注入的对象。
+    /// </summary>
+    /// <typeparam name="T">对象类型。</typeparam>
+    /// <returns>对象实例。</returns>
+    public static T GetScopeService<T>()
+    {
+        using var scope = ServiceProvider.CreateScope();
+        return scope.ServiceProvider.GetRequiredService<T>();
     }
 
     /// <summary>

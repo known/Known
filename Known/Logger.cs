@@ -96,7 +96,7 @@ public sealed class Logger
     /// <returns>常用菜单列表。</returns>
     public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
     {
-        var repository = Database.CreateRepository();
+        var repository = Config.GetScopeService<IDataRepository>();
         var logs = await repository.GetVisitLogsAsync(db, userName);
         logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
         return logs.Select(l => l.Field1).ToList();
@@ -111,7 +111,7 @@ public sealed class Logger
     /// <returns>访问日志列表。</returns>
     public static Task<List<SysLog>> GetVisitLogsAsync(Database db, DateTime begin, DateTime end)
     {
-        var repository = Database.CreateRepository();
+        var repository = Config.GetScopeService<IDataRepository>();
         return repository.GetVisitLogsAsync(db, begin, end);
     }
 

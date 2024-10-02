@@ -8,11 +8,6 @@ public class Database : IDisposable
     private static readonly Dictionary<string, Type> dbTypes = [];
 
     /// <summary>
-    /// 取得或设置框架数据依赖接口实现类的类型。
-    /// </summary>
-    public static Type RepositoryType { get; set; }
-
-    /// <summary>
     /// 注册第三方数据库访问实现类型。
     /// </summary>
     /// <param name="type">第三方数据库访问实现类型。</param>
@@ -32,17 +27,6 @@ public class Database : IDisposable
 
         if (Activator.CreateInstance(type) is not Database instance)
             throw new SystemException($"The {type} is not implement Database");
-
-        return instance;
-    }
-
-    internal static IDataRepository CreateRepository()
-    {
-        if (RepositoryType == null)
-            return new DataRepository();
-
-        if (Activator.CreateInstance(RepositoryType) is not IDataRepository instance)
-            throw new SystemException($"The {RepositoryType} is not implement IDatabase");
 
         return instance;
     }

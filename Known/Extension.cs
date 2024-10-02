@@ -22,6 +22,7 @@ public static class Extension
         Config.AddApp();
         services.AddScoped<Context>();
         services.AddScoped<JSService>();
+        services.AddScoped<IDataRepository, DataRepository>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");

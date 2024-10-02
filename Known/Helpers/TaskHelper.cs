@@ -3,7 +3,7 @@
 sealed class TaskHelper
 {
     private static readonly Dictionary<string, bool> RunStates = [];
-    private static readonly IDataRepository Repository = Database.CreateRepository();
+    private static readonly IDataRepository Repository = Config.GetScopeService<IDataRepository>();
 
     private TaskHelper() { }
 

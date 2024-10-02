@@ -33,6 +33,11 @@ public abstract class ServiceBase(Context context) : IService
     public Language Language => Context.Language;
 
     /// <summary>
+    /// 取得依赖注入服务提供者。
+    /// </summary>
+    public IServiceProvider ServiceProvider => Config.ServiceProvider;
+
+    /// <summary>
     /// 取得数据库访问实例。
     /// </summary>
     protected virtual Database Database
@@ -46,13 +51,5 @@ public abstract class ServiceBase(Context context) : IService
         }
     }
 
-    private IDataRepository repository;
-    internal IDataRepository Repository
-    {
-        get
-        {
-            repository ??= Database.CreateRepository();
-            return repository;
-        }
-    }
+    internal IDataRepository Repository => Config.GetScopeService<IDataRepository>();
 }
