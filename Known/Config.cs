@@ -63,6 +63,11 @@ public sealed class Config
     public static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
+    /// 取得数据库表脚本程序集列表。
+    /// </summary>
+    public static List<Assembly> DbAssemblies { get; } = [];
+
+    /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi类型列表。
     /// </summary>
     public static List<Type> ApiTypes { get; } = [];
@@ -95,7 +100,6 @@ public sealed class Config
     internal static DateTime StartTime { get; set; }
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
-    internal static List<Assembly> CoreAssemblies { get; } = [];
     internal static List<ActionInfo> Actions { get; set; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
@@ -117,8 +121,6 @@ public sealed class Config
 
         if (isAdditional)
             Assemblies.Add(assembly);
-        else
-            CoreAssemblies.Add(assembly);
         AddActions(assembly);
         Language.Initialize(assembly);
 

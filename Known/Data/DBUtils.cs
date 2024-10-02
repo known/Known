@@ -34,7 +34,7 @@ public class DBUtils
         {
             Console.WriteLine("Table is initializing...");
             var name = db.DatabaseType.ToString();
-            foreach (var item in Config.CoreAssemblies)
+            foreach (var item in Config.DbAssemblies)
             {
                 var script = Utils.GetResource(item, $"{name}.sql");
                 if (string.IsNullOrWhiteSpace(script))

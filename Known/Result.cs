@@ -393,18 +393,32 @@ public class PagingCriteria
     }
 
     /// <summary>
-    /// 设置查询条件信息。
+    /// 获取查询字段值。
+    /// </summary>
+    /// <param name="id">查询字段ID。</param>
+    /// <returns>查询字段值。</returns>
+    public string GetQueryValue(string id)
+    {
+        var query = Query?.FirstOrDefault(q => q.Id == id);
+        if (query == null)
+            return string.Empty;
+
+        return query.Value;
+    }
+
+    /// <summary>
+    /// 设置查询条件信息，条件默认包含于。
     /// </summary>
     /// <param name="id">字段属性ID。</param>
     /// <param name="value">查询条件值。</param>
     /// <returns>查询条件信息。</returns>
     public QueryInfo SetQuery(string id, string value)
     {
-        var query = Query.FirstOrDefault(q => q.Id == id);
+        var query = Query?.FirstOrDefault(q => q.Id == id);
         if (query == null)
         {
             query = new QueryInfo(id, value);
-            Query.Add(query);
+            AddQuery(query);
         }
 
         query.Value = value;
@@ -421,11 +435,11 @@ public class PagingCriteria
     /// <returns>查询条件信息。</returns>
     public QueryInfo SetQuery(string id, QueryType type, string value)
     {
-        var query = Query.FirstOrDefault(q => q.Id == id);
+        var query = Query?.FirstOrDefault(q => q.Id == id);
         if (query == null)
         {
             query = new QueryInfo(id, type, value);
-            Query.Add(query);
+            AddQuery(query);
         }
 
         query.Type = type;
@@ -440,7 +454,7 @@ public class PagingCriteria
     /// <param name="id">字段属性ID。</param>
     public void RemoveQuery(string id)
     {
-        var query = Query.FirstOrDefault(q => q.Id == id);
+        var query = Query?.FirstOrDefault(q => q.Id == id);
         if (query != null)
         {
             Query.Remove(query);
@@ -489,10 +503,7 @@ public class PagingCriteria
     /// <returns>返回是否有查询条件。</returns>
     public bool HasQuery(string id)
     {
-        if (Query == null)
-            return false;
-
-        var query = Query.FirstOrDefault(q => q.Id == id);
+        var query = Query?.FirstOrDefault(q => q.Id == id);
         if (query == null)
             return false;
 
@@ -520,6 +531,12 @@ public class PagingCriteria
             return Utils.FromJson<T>(value.ToString());
 
         return Utils.ConvertTo<T>(value);
+    }
+
+    private void AddQuery(QueryInfo query)
+    {
+        Query ??= [];
+        Query.Add(query);
     }
 }
 

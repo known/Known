@@ -48,6 +48,11 @@ public class Database : IDisposable
     /// </summary>
     public string UserName => User?.UserName;
 
+    /// <summary>
+    /// 取得数据库上下文对象，适用于EFCore。
+    /// </summary>
+    public virtual object DbContext { get; }
+
     internal bool EnableLog { get; set; } = true;
 
     private DbProvider provider;

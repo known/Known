@@ -47,7 +47,7 @@ public static class Extension
             return;
 
         Config.Version?.LoadBuildTime();
-        Config.CoreAssemblies.Add(typeof(Extension).Assembly);
+        Config.DbAssemblies.Add(typeof(Extension).Assembly);
 
         services.AddScoped<Database>();
         services.AddScoped<IDataRepository, DataRepository>();
