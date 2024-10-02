@@ -18,7 +18,7 @@ sealed class TaskHelper
 
         try
         {
-            db.EnableLog = false;
+            //db.EnableLog = false;
             var task = await GetPendingTaskAsync(db, bizType);
             if (task == null || string.IsNullOrWhiteSpace(task.BizId))
             {
@@ -26,7 +26,7 @@ sealed class TaskHelper
                 return;
             }
 
-            db.EnableLog = true;
+            //db.EnableLog = true;
             await RunAsync(db, task, action);
         }
         catch (Exception ex)

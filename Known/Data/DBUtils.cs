@@ -28,7 +28,7 @@ public class DBUtils
     internal static async Task InitializeAsync()
     {
         var db = Database.Create();
-        db.EnableLog = false;
+        //db.EnableLog = false;
         var exists = await db.ExistsAsync<SysModule>();
         if (!exists)
         {

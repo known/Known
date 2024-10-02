@@ -6,12 +6,6 @@
 public interface ILogger
 {
     /// <summary>
-    /// 异常错误日志。
-    /// </summary>
-    /// <param name="ex">异常信息。</param>
-    void Error(Exception ex);
-
-    /// <summary>
     /// 错误日志。
     /// </summary>
     /// <param name="message">错误信息。</param>
@@ -186,16 +180,16 @@ class FileLogger : ILogger
         thread.Start();
     }
 
-    public void Error(Exception ex) => Logger.Exception(ex);
     public void Error(string message) => errors.Enqueue(GetMessage("ERROR", message));
-    public void Info(string message) => infos.Enqueue(GetMessage("INFO", message));
+    public void Info(string message) => infos.Enqueue(GetMessage("INFO", message, true));
     public void Debug(string message) => debugs.Enqueue(GetMessage("DEBUG", message));
     public void Flush() => FlushLog();
 
-    private static string GetMessage(string type, string message)
+    private static string GetMessage(string type, string message, bool consolePrint = false)
     {
         var text = $"{Environment.NewLine}{DateTime.Now:yyyy-MM-dd.HH:mm:ss.fff} {type} {message}";
-        Console.WriteLine(text);
+        if (consolePrint)
+            Console.WriteLine(text);
         return text;
     }
 

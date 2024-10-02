@@ -780,6 +780,8 @@ public class Database : IDisposable
     {
         var database = new Database();
         database.SetDatabase(connName);
+        database.Context = Context;
+        database.User = User;
         return database;
     }
 

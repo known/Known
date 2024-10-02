@@ -125,7 +125,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         try
         {
             var database = Database;
-            database.EnableLog = false;
+            //database.EnableLog = false;
             var info = await GetSystemAsync(database);
             if (info != null)
             {
@@ -134,8 +134,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             }
             return info;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger.Exception(ex);
             return null;//系统未安装，返回null
         }
     }
