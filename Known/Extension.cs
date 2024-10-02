@@ -22,7 +22,6 @@ public static class Extension
         Config.AddApp();
         services.AddScoped<Context>();
         services.AddScoped<JSService>();
-        services.AddScoped<IDataRepository, DataRepository>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
@@ -49,6 +48,9 @@ public static class Extension
 
         Config.Version?.LoadBuildTime();
         Config.CoreAssemblies.Add(typeof(Extension).Assembly);
+
+        services.AddScoped<Database>();
+        services.AddScoped<IDataRepository, DataRepository>();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();

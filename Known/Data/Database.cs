@@ -5,15 +5,6 @@
 /// </summary>
 public class Database : IDisposable
 {
-    private static readonly Dictionary<string, Type> dbTypes = [];
-
-    /// <summary>
-    /// 注册第三方数据库访问实现类型。
-    /// </summary>
-    /// <param name="type">第三方数据库访问实现类型。</param>
-    /// <param name="name">数据连接名称，默认为Default。</param>
-    public static void Register(Type type, string name = "Default") => dbTypes[name] = type;
-
     /// <summary>
     /// 创建数据库访问实例。
     /// </summary>
@@ -22,52 +13,15 @@ public class Database : IDisposable
     /// <exception cref="SystemException">数据库访问实现类不支持。</exception>
     public static Database Create(string name = "Default")
     {
-        if (!dbTypes.TryGetValue(name, out Type type))
-            return new Database(name);
-
-        if (Activator.CreateInstance(type) is not Database instance)
-            throw new SystemException($"The {type} is not implement Database");
-
-        return instance;
+        var database = Config.GetScopeService<Database>();
+        database.SetDatabase(name);
+        return database;
     }
 
+    private string connName;
     private IDbConnection conn;
     private IDbTransaction trans;
     private string TransId { get; set; }
-
-    /// <summary>
-    /// 构造函数，创建一个数据库访问实例。
-    /// </summary>
-    public Database() : this("Default") { }
-
-    /// <summary>
-    /// 构造函数，创建一个数据库访问实例。
-    /// </summary>
-    /// <param name="context">系统上下文对象。</param>
-    public Database(Context context) : this()
-    {
-        Context = context;
-        User = context?.CurrentUser;
-    }
-
-    /// <summary>
-    /// 构造函数，创建一个数据库访问实例。
-    /// </summary>
-    /// <param name="connName">数据库连接名。</param>
-    /// <param name="user">当前操作用户信息。</param>
-    public Database(string connName, UserInfo user = null)
-    {
-        var setting = Config.App.GetConnection(connName);
-        if (setting != null)
-        {
-            Init(setting.DatabaseType, setting.ConnectionString, user);
-        }
-    }
-
-    internal Database(DatabaseType databaseType, string connString, UserInfo user = null)
-    {
-        Init(databaseType, connString, user);
-    }
 
     /// <summary>
     /// 取得或设置数据库类型。
@@ -94,6 +48,8 @@ public class Database : IDisposable
     /// </summary>
     public string UserName => User?.UserName;
 
+    internal bool EnableLog { get; set; } = true;
+
     private DbProvider provider;
     internal DbProvider Provider
     {
@@ -104,7 +60,25 @@ public class Database : IDisposable
         }
     }
 
-    internal bool EnableLog { get; set; } = true;
+    /// <summary>
+    /// 设置数据库连接。
+    /// </summary>
+    /// <param name="connName">连接名称。</param>
+    public virtual void SetDatabase(string connName)
+    {
+        var setting = Config.App.GetConnection(connName);
+        if (setting == null)
+            return;
+
+        this.connName = connName;
+        DatabaseType = setting.DatabaseType;
+        ConnectionString = setting.ConnectionString;
+        provider = DbProvider.Create(DatabaseType);
+
+        var factory = DbProviderFactories.GetFactory(setting.DatabaseType.ToString());
+        conn = factory.CreateConnection();
+        conn.ConnectionString = setting.ConnectionString;
+    }
 
     /// <summary>
     /// 异步打开数据库。
@@ -804,7 +778,9 @@ public class Database : IDisposable
     /// <returns></returns>
     protected virtual Database CreateDatabase()
     {
-        return new Database(DatabaseType, ConnectionString, User);
+        var database = new Database();
+        database.SetDatabase(connName);
+        return database;
     }
 
     /// <summary>
@@ -1081,15 +1057,4 @@ public class Database : IDisposable
     }
 
     private static string TrimValue(string value) => value.Trim('\r', '\n').Trim();
-
-    private void Init(DatabaseType databaseType, string connString, UserInfo user = null)
-    {
-        DatabaseType = databaseType;
-        ConnectionString = connString;
-        User = user;
-
-        var factory = DbProviderFactories.GetFactory(databaseType.ToString());
-        conn = factory.CreateConnection();
-        conn.ConnectionString = connString;
-    }
 }
