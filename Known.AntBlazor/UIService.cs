@@ -12,7 +12,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
     {
         if (fieldType == FieldType.AutoComplete)
             return typeof(AntAutoComplete);
-        
+
         if (fieldType == FieldType.Select)
             return typeof(AntSelectCode);
 
@@ -103,7 +103,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
 
         if (column.Type == FieldType.AutoComplete)
             attributes[nameof(AntAutoComplete.Options)] = model.GetCodes("");
-        
+
         if (column.Type == FieldType.Date || column.Type == FieldType.DateTime)
             attributes["disabled"] = OneOf.OneOf<bool, bool[]>.FromT0(model.IsReadOnly);
     }
@@ -203,36 +203,36 @@ class UIService(ModalService modalService, MessageService messageService, INotif
 
     public bool ShowDialog(DialogModel model)
     {
-        var options = new ModalOptions
+        var option = new ModalOptions
         {
             MaskClosable = false,
             Draggable = model.Draggable,
             Resizable = model.Resizable,
             WrapClassName = model.ClassName,
-            Title = model.Title,
-            Content = model.Content,
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,
+            Title = model.Title,
+            Content = b => b.Component<ModalContent>().Set(c => c.Body, model.Content).Build(),
             OnCancel = e => model.CloseAsync()
         };
 
         if (model.OnOk != null)
         {
-            options.OkText = Language?.OK;
-            options.CancelText = Language?.Cancel;
-            options.OnOk = e => model.OnOk.Invoke();
+            option.OkText = Language?.OK;
+            option.CancelText = Language?.Cancel;
+            option.OnOk = e => model.OnOk.Invoke();
         }
         else
         {
-            options.Footer = null;
+            option.Footer = null;
         }
 
         if (model.Width != null)
-            options.Width = model.Width.Value;
+            option.Width = model.Width.Value;
         if (model.Footer != null)
-            options.Footer = model.Footer;
+            option.Footer = model.Footer;
 
-        var modal = _modal.CreateModal(options);
+        var modal = _modal.CreateModal(option);
         model.OnClose = modal.CloseAsync;
         return true;
     }
@@ -258,11 +258,12 @@ class UIService(ModalService modalService, MessageService messageService, INotif
             option.OnCancel = e => model.CloseAsync();
         }
 
+        RenderFragment content = null;
         var isTabForm = false;
         var isStepForm = false;
         if (model.Type == null)
         {
-            option.Content = b => BuildForm(b, model);
+            content = b => BuildForm(b, model);
         }
         else
         {
@@ -272,8 +273,9 @@ class UIService(ModalService modalService, MessageService messageService, INotif
             {
                 { nameof(BaseForm<TItem>.Model), model }
             };
-            option.Content = b => b.Component(model.Type, parameters);
+            content = b => b.Component(model.Type, parameters);
         }
+        option.Content = b => b.Component<ModalContent>().Set(c => c.Body, content).Build();
 
         if (isTabForm)
             option.WrapClassName = "kui-tab-form";

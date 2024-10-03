@@ -11,6 +11,16 @@ class ApplyForm : BaseFlowForm<TbApply>
         await base.OnInitFormAsync();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Thread.Sleep(1000);
+            await StateChangedAsync();
+        }
+    }
+
     private void BuildBaseInfo(RenderTreeBuilder builder)
     {
         builder.Component<FlowForm<TbApply>>()
