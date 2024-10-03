@@ -59,7 +59,7 @@ public partial class MainForm : Form
                 Name = "Default",
                 DatabaseType = DatabaseType.SQLite,
                 ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
-                //ConnectionString = "Data Source=..\\Sample.db"
+                ConnectionString = "Data Source=..\\Sample.db"
                 //DatabaseType = DatabaseType.Access,
                 //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
                 //ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}";
@@ -74,11 +74,12 @@ public partial class MainForm : Form
                 //ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
             }];
         });
-        Config.OnExit = OnClose;
         blazorWebView.HostPage = "index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.Services.UseApp();
         blazorWebView.RootComponents.Add<App>("#app");
+        Config.OnExit = OnClose;
+        Config.ServiceProvider = blazorWebView.Services;
     }
 
     private void OnClose()
