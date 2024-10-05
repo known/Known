@@ -601,7 +601,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="param">与后端对应的导入参数。</param>
     /// <returns></returns>
-    public async Task ShowImportsync(string param = null)
+    public async Task ShowImportAsync(string param = null)
     {
         var type = typeof(TItem);
         var id = $"{type.Name}Import";

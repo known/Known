@@ -46,26 +46,4 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Table(Table);
-
-    /// <summary>
-    /// 异步弹窗显示导入表单。
-    /// </summary>
-    /// <param name="param">与后端对应的导入参数。</param>
-    /// <returns></returns>
-    protected Task ShowImportAsync(string param = null) => Table.ShowImportsync(param);
-
-    /// <summary>
-    /// 根据导出模式异步导出表格数据，默认按查询结果导出。
-    /// </summary>
-    /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
-    /// <returns></returns>
-    protected Task ExportDataAsync(ExportMode mode = ExportMode.Query) => Table.ExportDataAsync(mode);
-
-    /// <summary>
-    /// 根据导出模式异步导出表格数据，默认按查询结果导出。
-    /// </summary>
-    /// <param name="name">导出文件名称。</param>
-    /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
-    /// <returns></returns>
-    protected Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query) => Table.ExportDataAsync(name, mode);
 }

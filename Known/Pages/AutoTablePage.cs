@@ -115,12 +115,12 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public async void Import() => await ShowImportAsync();
+    public async void Import() => await Table.ShowImportAsync();
 
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public async void Export() => await ExportDataAsync();
+    public async void Export() => await Table.ExportDataAsync();
 
     private void InitTable()
     {

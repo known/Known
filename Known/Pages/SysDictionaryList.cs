@@ -108,7 +108,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public async void Import() => await ShowImportAsync();
+    public async void Import() => await Table.ShowImportAsync();
 
     private void BuildListBox(RenderTreeBuilder builder)
     {

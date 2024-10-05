@@ -40,5 +40,5 @@ public class SysTaskList : BaseTablePage<SysTask>
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public async void Export() => await ExportDataAsync();
+    public async void Export() => await Table.ExportDataAsync();
 }

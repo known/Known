@@ -117,7 +117,7 @@ public class SysUserList : BasePage<SysUser>
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public async void Import() => await Table.ShowImportsync();
+    public async void Import() => await Table.ShowImportAsync();
 
     /// <summary>
     /// 导出表格数据。
