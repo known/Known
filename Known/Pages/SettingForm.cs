@@ -20,11 +20,7 @@ public class SettingForm : BaseForm<SettingInfo>
     {
         await base.OnInitFormAsync();
         Service = await CreateServiceAsync<ISettingService>();
-        Model = new FormModel<SettingInfo>(this)
-        {
-            Info = new FormInfo { LabelSpan = 12 },
-            Data = Context.UserSetting
-        };
+        Model = new FormModel<SettingInfo>(this) { Data = Context.UserSetting };
         Model.AddRow().AddColumn(c => c.MultiTab);
         Model.AddRow().AddColumn(c => c.Accordion);
         Model.AddRow().AddColumn(c => c.Collapsed);

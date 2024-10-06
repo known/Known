@@ -57,6 +57,8 @@ class RoleForm : BaseForm<SysRole>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Model.SmallLabel = true;
+
         tree = new TreeModel
         {
             Checkable = true,

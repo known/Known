@@ -73,7 +73,7 @@
 .kui-form-page {padding:10px 50px 20px 0;}
 .kui-form-page-button {margin-left:var(--kui-form-label-width);}
 .kui-form-page-button button {margin-right:10px;}
-.kui-form-button {margin-left:16.66666667%;}
+.kui-form-button {margin-left:200px;}
 .kui-form-button button {margin-right:10px;}
 .kui-form-auth {width:400px;margin:0 auto;}
 
@@ -128,8 +128,11 @@
     .kui-form-page {padding:10px 10px 20px 10px;}
     .kui-form-page-button {margin-left:0;}
     .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
-        grid-template-columns:100%;grid-row-gap:10px;
+        grid-template-columns:100%;grid-row-gap:10px;padding-right:0;
     }
+    .kui-table > .kui-toolbar {height:auto;}
+    .kui-toolbar {align-items:start;}
+    .kui-toolbar > div {flex-direction:column;align-items:start;}
 }
 
 /*Install*/
@@ -190,6 +193,9 @@
 .kui-user-avatar .kui-upload-button {border:none;color:#1890ff;}
 
 /*Setting*/
+.kui-system {margin:0 50px;}
+.kui-user-form {width:400px;margin:0 50px;}
+.kui-user-form .kui-form-button {margin-left:120px;}
 .kui-form-setting button {margin:0 5px;}
 
 /*Module*/
@@ -204,8 +210,12 @@
 .kui-role-column {background-color:var(--kui-bgcolor);width:160px;max-height:500px;overflow:auto;}
 
 @media screen and (max-width:768px) {
+    .kui-system {margin:0;}
+    .kui-user-form {margin:0;width:auto;}
+    .kui-user-form .kui-form-button {margin-left:0;}
     .kui-role {flex-direction:column;}
     .kui-role-form, .kui-role-module, .kui-role-button, .kui-role-column {width:100%;}
+    .kui-dictionary {height:300px;}
 }
 
 /*----Designer begin----*/

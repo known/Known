@@ -11,8 +11,8 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
         var data = await weixinService.GetWeixinAsync("");
         Model = new FormModel<WeixinInfo>(this)
         {
+            Class = "kui-system",
             IsView = true,
-            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },
             Data = data ?? new WeixinInfo()
         };
         Model.AddRow().AddColumn(c => c.IsWeixinAuth);

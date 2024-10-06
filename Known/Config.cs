@@ -445,6 +445,11 @@ public class AppInfo
     public bool IsPlatform { get; set; }
 
     /// <summary>
+    /// 取得或设置系统是否启用移动端页面。
+    /// </summary>
+    public bool IsMobile { get; set; }
+
+    /// <summary>
     /// 取得或设置系统主页顶部菜单是否显示字体大小切换。
     /// </summary>
     public bool IsSize { get; set; }

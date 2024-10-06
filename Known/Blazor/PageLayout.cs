@@ -49,7 +49,7 @@ public class PageLayout : BaseLayout
                 Info = await AuthService.GetAdminAsync();
                 Context.UserSetting = Info?.UserSetting ?? new();
                 Context.UserTableSettings = Info?.UserTableSettings ?? [];
-                if (!Context.IsMobile)
+                if (!Context.IsMobileApp)
                     UserMenus = GetUserMenus(Info?.UserMenus);
                 Cache.AttachCodes(Info?.Codes);
                 IsLoaded = true;

@@ -17,11 +17,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
     {
         await base.OnInitFormAsync();
         Service = await CreateServiceAsync<IAuthService>();
-        Model = new FormModel<PwdFormInfo>(this, true)
-        {
-            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 6 },
-            Data = new PwdFormInfo()
-        };
+        Model = new FormModel<PwdFormInfo>(this, true) { Data = new PwdFormInfo() };
     }
 
     /// <summary>
@@ -32,7 +28,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
     {
         builder.FormPage(() =>
         {
-            builder.Div("form-password", () =>
+            builder.Div("kui-user-form", () =>
             {
                 base.BuildForm(builder);
                 builder.FormButton(() =>

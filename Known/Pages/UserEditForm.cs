@@ -20,11 +20,7 @@ public class UserEditForm : BaseEditForm<SysUser>
         Service = await CreateServiceAsync<IUserService>();
         var data = Parent?.User;
         data ??= await Service.GetUserAsync(CurrentUser.Id);
-        Model = new FormModel<SysUser>(this)
-        {
-            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 8 },
-            Data = data
-        };
+        Model = new FormModel<SysUser>(this) { Data = data };
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);
@@ -43,7 +39,7 @@ public class UserEditForm : BaseEditForm<SysUser>
     {
         builder.FormPage(() =>
         {
-            builder.Div("form-user", () =>
+            builder.Div("kui-user-form", () =>
             {
                 UI.BuildForm(builder, Model);
                 builder.FormButton(() => BuildAction(builder));

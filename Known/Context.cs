@@ -44,6 +44,11 @@ public class Context
     public IResponse Response { get; set; }
 
     /// <summary>
+    /// 取得当前是否启用移动端APP页面。
+    /// </summary>
+    public bool IsMobileApp => IsMobile && Config.App.IsMobile;
+
+    /// <summary>
     /// 取得或设置当前语言标准编码，如：zh-CN/zh-TW/en-US。
     /// </summary>
     public string CurrentLanguage

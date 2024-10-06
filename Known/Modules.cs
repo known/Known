@@ -256,16 +256,6 @@ public class FormInfo
     public bool IsContinue { get; set; }
 
     /// <summary>
-    /// 取得或设置表单字段标题组件跨度。
-    /// </summary>
-    public int? LabelSpan { get; set; }
-
-    /// <summary>
-    /// 取得或设置表单字段整体跨度。
-    /// </summary>
-    public int? WrapperSpan { get; set; }
-
-    /// <summary>
     /// 取得或设置表单对话框是否隐藏底部按钮。
     /// </summary>
     public bool NoFooter { get; set; }

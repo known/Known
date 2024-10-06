@@ -50,11 +50,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
     {
         await base.OnInitFormAsync();
         var data = Parent.Data;
-        Model = new FormModel<SystemInfo>(this)
-        {
-            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },
-            Data = data.System
-        };
+        Model = new FormModel<SystemInfo>(this) { Class = "kui-system", Data = data.System };
         Model.AddRow().AddColumn(nameof(SystemInfo.CompName), $"{data.System.CompNo}-{data.System.CompName}");
         Model.AddRow().AddColumn(nameof(SystemInfo.AppName), b =>
         {
@@ -114,11 +110,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
     {
         await base.OnInitFormAsync();
         var data = Parent.Data;
-        Model = new FormModel<SystemInfo>(this)
-        {
-            Info = new FormInfo { LabelSpan = 4, WrapperSpan = 10 },
-            Data = data.System
-        };
+        Model = new FormModel<SystemInfo>(this) { Class = "kui-system", Data = data.System };
         Model.AddRow().AddColumn(nameof(SystemInfo.UserDefaultPwd), b =>
         {
             b.Component<KEditInput>()

@@ -85,18 +85,6 @@ class FormView : BaseView<FormInfo>
                 Value = Model.Width,
                 ValueChanged = this.Callback<double?>(value => { Model.Width = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "Designer.LabelSpan", b => UI.BuildNumber(b, new InputModel<int?>
-            {
-                Disabled = ReadOnly,
-                Value = Model.LabelSpan,
-                ValueChanged = this.Callback<int?>(value => { Model.LabelSpan = value; OnPropertyChanged(); })
-            }));
-            BuildPropertyItem(builder, "Designer.WrapperSpan", b => UI.BuildNumber(b, new InputModel<int?>
-            {
-                Disabled = ReadOnly,
-                Value = Model.WrapperSpan,
-                ValueChanged = this.Callback<int?>(value => { Model.WrapperSpan = value; OnPropertyChanged(); })
-            }));
         });
     }
 

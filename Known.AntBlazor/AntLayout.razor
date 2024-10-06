@@ -4,7 +4,7 @@
     @if (IsLoaded)
     {
         <Spin Spinning="showSpin" Tip="@spinTip">
-            @if (Context.IsMobile)
+            @if (Context.IsMobileApp)
             {
                 <AppLayout>@Body</AppLayout>
             }
@@ -33,7 +33,7 @@
                             <TopNavRight OnMenuClick="OnMenuClick" />
                         </Header>
                         <Content Class="kui-page">
-                            @if (Context.UserSetting.MultiTab)
+                            @if (Context.UserSetting.MultiTab && !Context.IsMobile)
                             {
                                 <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
                             }
@@ -57,7 +57,7 @@
                 </Layout>
             }
         </Spin>
-        @if (IsLogin && !Context.IsMobile)
+        @if (IsLogin && !Context.IsMobileApp)
         {
             <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="320">
                 <SettingForm OnChanged="OnSettingChanged" />
@@ -77,6 +77,8 @@
     {
         await base.OnInitAsync();
         collapsed = Context.UserSetting.Collapsed;
+        if (Context.IsMobile)
+            collapsed = true;
     }
 
     public override async Task ShowSpinAsync(string text, Func<Task> action)

@@ -72,7 +72,7 @@ public class LoginPage : BaseComponent
     /// <param name="user">登录用户信息。</param>
     protected virtual void OnLogined(UserInfo user)
     {
-        if (Context.IsMobile)
+        if (Context.IsMobileApp)
             Navigation.NavigateTo("/app");
         else
             Navigation.NavigateTo(ReturnUrl ?? "/");

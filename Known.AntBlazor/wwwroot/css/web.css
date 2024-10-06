@@ -34,6 +34,7 @@
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}
+.kui-system .ant-form-item-label {width:150px;}
 .kui-form-caption {font-weight:bold;font-size:1rem;padding:0 0 10px 35px;}
 .kui-form-toolbar button {margin-left:5px;}
 .kui-step-form .ant-modal-body {padding:10px 20px;}
@@ -52,14 +53,15 @@
 .kui-header-left {display:flex;align-items:center;}
 .kui-header-left .trigger {font-size:18px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
 .kui-header-left .trigger:hover {color:#1890ff;}
+.kui-nav .ant-space-item {margin-left:15px;}
 .kui-logo {top:0;left:0;width:200px;height:64px;padding-top:5px;padding-left:10px;}
 .kui-scroll {position:fixed;top:64px;left:0;bottom:0;width:200px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}
 .kui-scroll .ant-menu {width:200px;}
-.kui-page, .kui-page-body, 
+.kui-page, .kui-page-body {overflow:auto;}
 .kui-page > .ant-tabs,
 .kui-page > .ant-tabs > .ant-tabs-nav,
 .kui-page > .ant-tabs > .ant-tabs-content-holder {position:absolute;left:0;right:0;overflow:hidden;}
-.kui-page {position:fixed;top:64px;left:200px;bottom:0;transition: all 0.2s;}
+.kui-page {position:fixed;top:64px;left:200px;right:0;bottom:0;transition: all 0.2s;}
 .kui-page-body {top:0;bottom:0;padding:0 10px 10px 10px;}
 .kui-page > .ant-tabs > .ant-tabs-content-holder {top:0;bottom:0;overflow-y:auto;padding:0 10px 10px 10px;}
 .kui-page > .ant-tabs {top:0;bottom:0;}
@@ -83,6 +85,7 @@
 
 /*Ant*/
 :root {--rz-sidebar-width: 200px;}
+.ant-drawer-close {margin-right:0;}
 .ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
 .ant-modal-content {border-radius:5px;}
@@ -109,7 +112,8 @@
 .ant-menu-item .fa + span {margin-left:10px;}
 
 @media screen and (max-width:768px) {
-    .kui-header .ant-breadcrumb, .kui-nav-full, .kui-nav-setting {display:none;}
+    .kui-header .kui-header-left, .kui-nav-full, .kui-nav-setting {display:none;}
+    .kui-page-body {padding:10px;}
     .ant-layout-header {line-height:normal;}
     .ant-modal {top:10px;margin-top:10px;margin-left:8px;}
     .ant-row {flex-direction:column;}
@@ -119,6 +123,7 @@
     .ant-query-btn, .ant-toolbar button {margin-top:10px;}
     .ant-form-inline {flex-direction:column;}
     .ant-form-item .ant-form-item-label {padding-bottom:0;}
+    .ant-layout .kui-query {padding:10px;}
     .ant-query input {width:100px;}
     .ant-input-search-icon {font-size:20px;}
 }
@@ -398,7 +403,9 @@
 }
 
 @media screen and (max-width:768px) {
-    .ws-space, .ws-welcome {flex-direction:column;}
+    .known, .ws-space, .ws-welcome {flex-direction:column;padding:10px;}
+    .ws-welcome {padding:0;}
+    .known-desc {text-align:justify;margin-bottom:10px;}
     .ws-space {justify-content:stretch;}
     .ws-space .count {flex-direction:column;}
     .ws-space .count li {width:100%;margin:0;margin-top:15px;}

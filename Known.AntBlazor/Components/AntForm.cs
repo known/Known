@@ -46,9 +46,6 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         {
             Form.OnValidate = Validate;
             Form.OnLoadData = LoadDataAsync;
-            Class = Form.ClassName;
-            LabelColSpan = Form.Info?.LabelSpan ?? 0;
-            WrapperColSpan = Form.Info?.WrapperSpan ?? 0;
             Model = Form.Data;
             Form.Initialize();
         }
@@ -63,15 +60,18 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     {
         builder.Cascading<IAntForm>(this, b =>
         {
-            b.Div("kui-form", () => base.BuildRenderTree(b));
-            if (ShowAction && !Form.IsView)
+            b.Div(Form?.ClassName, () =>
             {
-                b.FormAction(() =>
+                base.BuildRenderTree(b);
+                if (ShowAction && !Form.IsView)
                 {
-                    b.AntButton(Form?.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
-                    b.AntButton(Form?.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
-                });
-            }
+                    b.FormAction(() =>
+                    {
+                        b.AntButton(Form?.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
+                        b.AntButton(Form?.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
+                    });
+                }
+            });
         });
     }
 
