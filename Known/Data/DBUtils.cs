@@ -12,15 +12,12 @@ public class DBUtils
             return;
 
         AppHelper.LoadConnections(connections);
-        var dbFactories = connections.ToDictionary(k => k.DatabaseType.ToString(), v => v.ProviderType);
-        if (dbFactories != null && dbFactories.Count > 0)
+        foreach (var item in connections)
         {
-            foreach (var item in dbFactories)
+            var key = item.DatabaseType.ToString();
+            if (!DbProviderFactories.GetProviderInvariantNames().Contains(key))
             {
-                if (!DbProviderFactories.GetProviderInvariantNames().Contains(item.Key))
-                {
-                    DbProviderFactories.RegisterFactory(item.Key, item.Value);
-                }
+                DbProviderFactories.RegisterFactory(key, item.ProviderType);
             }
         }
     }
