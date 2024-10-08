@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents()
-                .AddInteractiveWebAssemblyComponents();
+                .AddInteractiveServerComponents();
+                //.AddInteractiveWebAssemblyComponents();
 builder.Services.AddApp(info =>
 {
     info.WebRoot = builder.Environment.WebRootPath;
@@ -39,7 +39,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseWebAssemblyDebugging();
+    //app.UseWebAssemblyDebugging();
     //app.UseCssLiveReload();
 }
 else
@@ -56,6 +56,6 @@ app.UseApp();
 app.MapRazorPages();
 app.MapRazorComponents<App>()   
    .AddInteractiveServerRenderMode()
-   .AddInteractiveWebAssemblyRenderMode()
+   //.AddInteractiveWebAssemblyRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);
 app.Run();

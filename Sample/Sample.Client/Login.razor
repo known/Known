@@ -23,7 +23,7 @@
         </div>
         <div class="login-form">
             <div class="login-form-body">
-                <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
+                <LoginForm Model="Model" OnLogin="OnUserLogin" />
             </div>
         </div>
     </div>
@@ -36,10 +36,5 @@
         await base.OnInitAsync();
         Model.UserName = "Admin";
         Model.Password = "888888";
-    }
-
-    private Task<Known.Result> OnSendSMS(string phone)
-    {
-        return Known.Result.SuccessAsync($"Send to {phone}");
     }
 }
