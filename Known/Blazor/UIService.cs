@@ -78,6 +78,13 @@ public interface IUIService
     void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new();
 
     /// <summary>
+    /// 构建旋转组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">旋转表单组件模型对象。</param>
+    void BuildSpin(RenderTreeBuilder builder, SpinModel model);
+
+    /// <summary>
     /// 构建按钮工具条组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>

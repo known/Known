@@ -1,67 +1,69 @@
 ﻿@inherits PageLayout
 
-<KLayout Layout="this">
+<KLayout Layout="this" Class="@Context.UserSetting.Size">
     @if (IsLoaded)
     {
-        <Spin Spinning="showSpin" Tip="@spinTip">
-            @if (Context.IsMobileApp)
-            {
-                <AppLayout>@Body</AppLayout>
-            }
-            else
-            {
-                <Layout Style="min-height:100vh;">
-                    <Sider @bind-Collapsed="collapsed" Class="@SiderClass" Theme="SiderTheme.Light" CollapsedWidth="60" NoTrigger Collapsible>
-                        <div class="kui-logo"></div>
-                        <div class="kui-scroll">
-                            <AntMenu Items="UserMenus" />
+        if (Context.IsMobileApp)
+        {
+            <AppLayout>@Body</AppLayout>
+        }
+        else
+        {
+            <Layout Style="min-height:100vh;">
+                <Sider @bind-Collapsed="collapsed" Class="@SiderClass" Theme="SiderTheme.Light" CollapsedWidth="60" NoTrigger Collapsible>
+                    <div class="kui-logo"></div>
+                    <div class="kui-scroll">
+                        <AntMenu Items="UserMenus" />
+                    </div>
+                </Sider>
+                <Layout>
+                    <Header Class="kui-header">
+                        <div class="kui-header-left">
+                            @if (collapsed)
+                            {
+                                <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                            }
+                            else
+                            {
+                                <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                            }
+                            <TopBreadcrumb Current="Context.Current" />
                         </div>
-                    </Sider>
-                    <Layout>
-                        <Header Class="kui-header">
-                            <div class="kui-header-left">
-                                @if (collapsed)
-                                {
-                                    <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
-                                }
-                                else
-                                {
-                                    <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
-                                }
-                                <TopBreadcrumb Current="Context.Current" />
-                            </div>
-                            <TopNavRight OnMenuClick="OnMenuClick" />
-                        </Header>
-                        <Content Class="kui-page">
-                            @if (Context.UserSetting.MultiTab && !Context.IsMobile)
-                            {
-                                <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
-                            }
-                            else
-                            {
-                                <div class="kui-page-body">@Body</div>
-                            }
-                        </Content>
-                        @if (AntConfig.Option.ShowFooter)
+                        <TopNavRight OnMenuClick="OnMenuClick" />
+                    </Header>
+                    <Content Class="kui-page">
+                        @if (Context.UserSetting.MultiTab && !Context.IsMobile)
                         {
-                            if (AntConfig.Option.Footer != null)
-                            {
-                                <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
-                            }
-                            else
-                            {
-                                <Footer Style="text-align:center"><PageFooter /></Footer>
-                            }
+                            <ReuseTabs Class="top-row px-4" TabPaneClass="content px-4" />
                         }
-                    </Layout>
+                        else
+                        {
+                            <div class="kui-page-body">@Body</div>
+                        }
+                    </Content>
+                    @if (AntConfig.Option.ShowFooter)
+                    {
+                        if (AntConfig.Option.Footer != null)
+                        {
+                            <Footer Style="text-align:center">@AntConfig.Option.Footer</Footer>
+                        }
+                        else
+                        {
+                            <Footer Style="text-align:center"><PageFooter /></Footer>
+                        }
+                    }
                 </Layout>
-            }
-        </Spin>
+            </Layout>
+        }
         @if (IsLogin && !Context.IsMobileApp)
         {
             <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title='(Language["Nav.Setting"])' Width="320">
                 <SettingForm OnChanged="OnSettingChanged" />
             </Drawer>
+        }
+        @if (showSpin)
+        {
+            <Spin Tip="@spinTip" />
         }
     }
 </KLayout>

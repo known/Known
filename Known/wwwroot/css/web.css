@@ -13,10 +13,10 @@
 
 /*Common*/
 .kui-wrapper {position:fixed;top:0;bottom:0;left:0;right:0;}
-.kui-nav, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table {
+.kui-nav, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
-.kui-nav, .kui-card, .kui-query, .kui-table {border-radius:5px;}
+.kui-nav, .kui-card, .kui-query, .kui-table, .kui-form, .kui-form-tab, .kui-form-step {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-nav {margin:10px 0 10px 10px;padding:10px 20px;}
 .kui-query {margin-bottom:10px;padding:10px 20px;}
@@ -30,7 +30,7 @@
 .kui-link {color:#1890ff;cursor:pointer;}
 .kui-menu li {list-style:none;display:inline-block;margin-left:10px;}
 .kui-menu li a {color:var(--kui-color);}
-.kui-frame {border:none;width:100%;height:100%;min-height:550px;}
+.kui-frame {border:none;width:100%;height:calc(100vh - 80px);min-height:550px;}
 .kui-tips {color:#1890ff;margin-left:10px;}
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}

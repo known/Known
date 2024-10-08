@@ -64,7 +64,7 @@ public class BaseLayout : LayoutComponentBase
             AuthService = await CreateServiceAsync<IAuthService>();
             SystemService = await CreateServiceAsync<ISystemService>();
             UI.Language = Language;
-            Context.UI = UI;
+            Context.Initialize(this);
             if (Context.System == null)
                 Context.System = await SystemService.GetSystemAsync();
             await OnInitAsync();
@@ -130,15 +130,7 @@ public class BaseLayout : LayoutComponentBase
     /// 导航到指定菜单对应的页面。
     /// </summary>
     /// <param name="item">跳转的菜单对象。</param>
-    public void NavigateTo(MenuInfo item)
-    {
-        if (item == null)
-            return;
-
-        //缓存APP代码中添加的菜单
-        UIConfig.SetMenu(item);
-        NavigateTo(item.RouteUrl);
-    }
+    public void NavigateTo(MenuInfo item) => Navigation.NavigateTo(item);
 
     /// <summary>
     /// 返回到上一个页面。

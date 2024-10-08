@@ -31,13 +31,13 @@ class ApplyListTable : BaseTable<TbApplyList>
 
     public void New()
     {
-        if (Head.IsNew)
+        if (Head == null || Head.IsNew)
         {
             UI.Error("请先保存表头信息再添加明细！");
             return;
         }
 
-        var row = new TbApplyList { HeadId = Head.Id };
+        var row = new TbApplyList { HeadId = Head?.Id };
         Table.NewForm(Service.SaveApplyListAsync, row);
     }
 
@@ -47,7 +47,7 @@ class ApplyListTable : BaseTable<TbApplyList>
 
     private Task<PagingResult<TbApplyList>> QueryApplyListsAsync(PagingCriteria criteria)
     {
-        criteria.SetQuery(nameof(TbApplyList.HeadId), QueryType.Equal, Head.Id);
+        criteria.SetQuery(nameof(TbApplyList.HeadId), QueryType.Equal, Head?.Id ?? "0");
         return Service.QueryApplyListsAsync(criteria);
     }
 }

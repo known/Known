@@ -212,7 +212,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,
             Title = model.Title,
-            Content = b => b.Component<ModalContent>().Set(c => c.Body, model.Content).Build(),
+            Content = b => b.Component<ModalBody>().Set(c => c.Content, model.Content).Build(),
             OnCancel = e => model.CloseAsync()
         };
 
@@ -275,7 +275,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
             };
             content = b => b.Component(model.Type, parameters);
         }
-        option.Content = b => b.Component<ModalContent>().Set(c => c.Body, content).Build();
+        option.Content = b => b.Component<ModalBody>().Set(c => c.Content, content).Build();
 
         if (isTabForm)
             option.WrapClassName = "kui-tab-form";
@@ -300,6 +300,15 @@ class UIService(ModalService modalService, MessageService messageService, INotif
     public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
         builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
+    }
+
+    public void BuildSpin(RenderTreeBuilder builder, SpinModel model)
+    {
+        builder.Component<Spin>()
+               .Set(c => c.Spinning, model.Spinning)
+               .Set(c => c.Tip, model.Tip)
+               .Set(c => c.ChildContent, model.Content)
+               .Build();
     }
 
     public void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model)

@@ -223,7 +223,7 @@ public static class CommonExtension
     }
     #endregion
 
-    #region Http
+    #region Navigation
     /// <summary>
     /// 获取页面路由BaseUri后面的相对URL。
     /// </summary>
@@ -243,6 +243,21 @@ public static class CommonExtension
     public static void GoErrorPage(this NavigationManager navigation, string code)
     {
         navigation.NavigateTo($"/error/{code}");
+    }
+
+    /// <summary>
+    /// 导航到指定菜单对应的页面。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    /// <param name="item">跳转的菜单对象。</param>
+    public static void NavigateTo(this NavigationManager navigation, MenuInfo item)
+    {
+        if (item == null)
+            return;
+
+        //缓存APP代码中添加的菜单
+        UIConfig.SetMenu(item);
+        navigation.NavigateTo(item.RouteUrl);
     }
     #endregion
 

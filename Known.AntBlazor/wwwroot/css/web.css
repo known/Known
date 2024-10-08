@@ -37,15 +37,18 @@
 .kui-system .ant-form-item-label {width:150px;}
 .kui-form-caption {font-weight:bold;font-size:1rem;padding:0 0 10px 35px;}
 .kui-form-toolbar button {margin-left:5px;}
-.kui-step-form .ant-modal-body {padding:10px 20px;}
+.kui-form-tab .ant-tabs-content-holder {padding:0 10px 10px 10px;}
+.kui-form-step .ant-tabs-content-holder {padding:0 10px 10px 10px;}
 .kui-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
+.kui-step-form .ant-modal-body {padding:10px 20px;}
 .kui-detail .ant-modal-body {padding:0;}
+.kui-nocaptcha {margin-top:20px;}
 .ant-modal {top:50px;}
 .ant-modal-body > .ant-steps {padding:15px 0 10px 0;}
-.kui-nocaptcha {margin-top:20px;}
 
 /*Layout*/
+.kui-wrapper > .ant-spin-spinning {position:absolute;top:40%;left:45%;}
 .kui-menu-dark, .kui-menu-dark .ant-layout-sider-trigger {background-color:#001529;color:rgba(255,255,255,0.65);}
 .ant-layout-header, .kui-page {background-color:#f0f2f5;}
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
@@ -62,7 +65,8 @@
 .kui-page > .ant-tabs > .ant-tabs-nav,
 .kui-page > .ant-tabs > .ant-tabs-content-holder {position:absolute;left:0;right:0;overflow:hidden;}
 .kui-page {position:fixed;top:64px;left:200px;right:0;bottom:0;transition: all 0.2s;}
-.kui-page-body {top:0;bottom:0;padding:0 10px 10px 10px;}
+.kui-page-body {padding:0 10px 10px 10px;}
+.kui-page-body > .kui-form-tab, .kui-page-body > .kui-form-step {min-height:calc(100vh - 74px);}
 .kui-page > .ant-tabs > .ant-tabs-content-holder {top:0;bottom:0;overflow-y:auto;padding:0 10px 10px 10px;}
 .kui-page > .ant-tabs {top:0;bottom:0;}
 .kui-page > .ant-tabs > .ant-tabs-nav {top:0;margin:0;}
@@ -411,3 +415,9 @@
     .ws-space .count li {width:100%;margin:0;margin-top:15px;}
     .ws-func {margin-left:0;margin-top:10px;height:auto;}
 }
+
+.Compact .known, .Compact .ws-space {padding:10px;}
+.Compact .count li .month {font-size:12px;}
+.Compact .ws-func-menu, .Compact .kui-title {font-size:0.8rem;}
+.Compact .ws-func-menu .anticon {font-size:2rem;}
+.Compact .kui-table > .kui-toolbar {height:36px;}

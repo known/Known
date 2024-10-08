@@ -31,7 +31,7 @@ public class FlowLogGrid : BaseTable<SysFlowLog>
 
     private Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
-        criteria.SetQuery(nameof(SysFlowLog.BizId), QueryType.Equal, BizId);
+        criteria.SetQuery(nameof(SysFlowLog.BizId), QueryType.Equal, BizId ?? "0");
         return Service.QueryFlowLogsAsync(criteria);
     }
 }

@@ -11,14 +11,14 @@ public class UIContext : Context
     public MenuInfo Current { get; private set; }
 
     /// <summary>
-    /// 取得或设置上下文UI服务对象。
+    /// 取得上下文UI服务对象。
     /// </summary>
-    public IUIService UI { get; set; }
+    public IUIService UI { get; private set; }
 
     /// <summary>
-    /// 取得或设置当前菜单URL。
+    /// 取得当前菜单URL。
     /// </summary>
-    public string Url { get; set; }
+    public string Url { get; internal set; }
 
     /// <summary>
     /// 取得或设置当前主题。
@@ -29,6 +29,11 @@ public class UIContext : Context
     /// 取得或设置系统信息对象。
     /// </summary>
     public SystemInfo System { get; set; }
+
+    /// <summary>
+    /// 取得注入的导航管理者实例。
+    /// </summary>
+    public NavigationManager Navigation { get; private set; }
 
     /// <summary>
     /// 取得当前用户设置用户系统设置信息对象。
@@ -108,18 +113,16 @@ public class UIContext : Context
         return [.. infos.OrderBy(c => c.Sort)];
     }
 
-    private bool IsInMenu(string pageId, string buttonId)
+    internal void Initialize(BaseLayout layout)
     {
-        var menu = UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
-        if (menu == null)
-            return false;
+        UI = layout.UI;
+        Navigation = layout.Navigation;
+    }
 
-        var hasButton = false;
-        if (menu.Tools != null && menu.Tools.Count > 0)
-            hasButton = menu.Tools.Contains(buttonId);
-        else if (menu.Actions != null && menu.Actions.Count > 0)
-            hasButton = menu.Actions.Contains(buttonId);
-        return hasButton;
+    internal void Initialize(BaseComponent component)
+    {
+        UI = component.UI;
+        Navigation = component.Navigation;
     }
 
     internal void SignOut()
@@ -136,5 +139,19 @@ public class UIContext : Context
             var menus = IsMobileApp ? Config.AppMenus : UserMenus;
             Current = menus?.FirstOrDefault(m => m.Url == Url || m.Url == $"/{pageRoute}" || m.Id == pageRoute);
         }
+    }
+
+    private bool IsInMenu(string pageId, string buttonId)
+    {
+        var menu = UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
+        if (menu == null)
+            return false;
+
+        var hasButton = false;
+        if (menu.Tools != null && menu.Tools.Count > 0)
+            hasButton = menu.Tools.Contains(buttonId);
+        else if (menu.Actions != null && menu.Actions.Count > 0)
+            hasButton = menu.Actions.Contains(buttonId);
+        return hasButton;
     }
 }

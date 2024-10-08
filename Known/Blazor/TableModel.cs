@@ -434,7 +434,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>
     public void AddAction(string idOrName) => Actions.Add(new ActionInfo(idOrName));
-    
+
     /// <summary>
     /// 显示查看表单对话框。
     /// </summary>
@@ -463,7 +463,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="onSave">新增保存方法委托。</param>
     /// <param name="row">新增默认对象。</param>
-    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row)
+    public void NewForm(Func<TItem, Task<Result>> onSave, TItem row = null)
     {
         if (isShowNew)
             return;
@@ -481,7 +481,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="onSave">新增保存方法委托。</param>
     /// <param name="row">新增默认对象。</param>
-    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row)
+    public void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, TItem row = null)
     {
         if (isShowNew)
             return;
@@ -764,11 +764,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         if (info.ToolSize != null)
             Toolbar.ShowCount = info.ToolSize.Value;
         Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
-        
+
         if (info.ActionSize != null)
             ActionCount = info.ActionSize.Value;
         Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
-        
+
         AllColumns = info.Columns?.Select(c =>
         {
             var column = new ColumnInfo(c);

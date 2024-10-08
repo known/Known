@@ -6,6 +6,11 @@
 public abstract class BaseForm : BaseComponent
 {
     /// <summary>
+    /// 取得或设置是否是表单页面。
+    /// </summary>
+    protected bool IsPage { get; set; }
+
+    /// <summary>
     /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>
@@ -27,7 +32,15 @@ public abstract class BaseForm : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildForm).Build();
+        builder.Component<KAuthPanel>()
+               .Set(c => c.ChildContent, b =>
+               {
+                   if (IsPage)
+                       b.Component<KLoading>().Set(c => c.IsPage, true).Set(c => c.ChildContent, BuildForm).Build();
+                   else
+                       BuildForm(b);
+               })
+               .Build();
     }
 
     /// <summary>
@@ -170,7 +183,10 @@ public class BaseTabForm : BaseForm
     /// 构建表单组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildForm(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+    protected override void BuildForm(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-form-tab", () => UI.BuildTabs(builder, Tab));
+    }
 }
 
 /// <summary>
@@ -187,5 +203,8 @@ public class BaseStepForm : BaseForm
     /// 构建表单组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildForm(RenderTreeBuilder builder) => UI.BuildSteps(builder, Step);
+    protected override void BuildForm(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-form-step", () => UI.BuildSteps(builder, Step));
+    }
 }

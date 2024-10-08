@@ -98,7 +98,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         {
             await base.OnInitializedAsync();
             UI.Language = Language;
-            Context.UI = UI;
+            Context.Initialize(this);
             await OnInitAsync();
         }
         catch (Exception ex)

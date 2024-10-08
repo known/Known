@@ -22,7 +22,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     {
         await base.OnInitFormAsync();
         Flow = await CreateServiceAsync<IFlowService>();
-        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model.Data.Id).Build());
+        Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model?.Data?.Id).Build());
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
         if (firstRender)
         {
             step.Items.Clear();
-            var flow = await Flow.GetFlowAsync(Context.Current.Id, Model.Data.Id);
+            var flow = await Flow.GetFlowAsync(Context.Current.Id, Model?.Data?.Id);
             var steps = flow.GetFlowStepItems();
             if (steps != null && steps.Count > 0)
                 step.Items.AddRange(steps);
@@ -94,7 +94,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         builder.Div("kui-form-content", () => Content?.Invoke(builder));
 
-        if (Model.IsView && Model.FormType == FormViewType.View)
+        if (Model == null || (Model.IsView && Model.FormType == FormViewType.View))
             return;
 
         if (Model.FormType != FormViewType.View)
@@ -145,7 +145,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void InitFlowModel()
     {
-        if (Model.FormType == FormViewType.View)
+        if (Model == null || Model.FormType == FormViewType.View)
             return;
 
         info.BizId = Model.Data?.Id;
