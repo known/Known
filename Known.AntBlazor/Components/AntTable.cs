@@ -31,6 +31,8 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
         ScrollBarWidth = "8px";
         if (Model != null)
         {
+            if (Model.IsStriped)
+                Class = "kui-striped";
             Resizable = Model.Resizable;
             RowKey = Model.RowKey;
             HidePagination = !Model.ShowPager;

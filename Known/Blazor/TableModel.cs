@@ -198,6 +198,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public bool Resizable { get; set; }
 
     /// <summary>
+    /// 取得或设置表格行是否显示斑马纹，默认显示。
+    /// </summary>
+    public bool IsStriped { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格是否是表单对话框的子表格。
     /// </summary>
     public bool IsForm { get; set; }

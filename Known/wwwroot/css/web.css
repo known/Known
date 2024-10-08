@@ -26,6 +26,7 @@
 .kui-table > .kui-toolbar {padding:10px;height:52px;}
 .kui-table.form-list > .kui-toolbar {padding:0 0 10px 0;}
 .kui-table .setting {margin-left:5px;cursor:pointer;font-size:18px;}
+.kui-striped table tr:nth-child(odd) {background-color:#f5f8fa;}
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
 .kui-link {color:#1890ff;cursor:pointer;}
 .kui-menu li {list-style:none;display:inline-block;margin-left:10px;}
@@ -160,7 +161,8 @@
     .kui-install-foot {margin-top:20px;}
 }
 
-:root[theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45, 46, 46), rgb(40, 41, 41));}
+:root[theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45,46,46), rgb(40,41,41));}
+:root[theme=dark] .kui-striped table tr:nth-child(odd) {background-color:#303030;}
 
 /*Import*/
 .kui-import {grid-template-rows:20px 50px auto;}
