@@ -84,6 +84,9 @@ public class DBUtils
         if (value is Dictionary<string, object> dictionary)
             return dictionary;
 
+        if (TypeHelper.IsAnonymousType(value))
+            return Utils.MapTo<Dictionary<string, object>>(value);
+
         var dic = new Dictionary<string, object>();
         var properties = TypeHelper.Properties(value.GetType());
         foreach (var item in properties)
