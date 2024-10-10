@@ -89,16 +89,17 @@ public class UIService(DialogService dialogService, MessageService messageServic
         return Task.CompletedTask;
     }
 
-    public void Alert(string message, Func<Task> action = null)
+    public bool Alert(string message, Func<Task> action = null)
     {
         //_dialog.Info(new ConfirmOptions
         //{
         //    Title = "提示",
         //    Content = message
         //});
+        return true;
     }
 
-    public void Confirm(string message, Func<Task> action)
+    public bool Confirm(string message, Func<Task> action)
     {
         action?.Invoke();
         //_dialog.Show(new DialogOption
@@ -113,9 +114,10 @@ public class UIService(DialogService dialogService, MessageService messageServic
         //    Content = message,
         //    OnOk = e => action?.Invoke()
         //});
+        return true;
     }
 
-    public void ShowDialog(DialogModel model)
+    public bool ShowDialog(DialogModel model)
     {
         //var options = new ModalOptions
         //{
@@ -139,9 +141,10 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
         //var modal = await _dialog.CreateModalAsync(options);
         //model.OnClose = modal.CloseAsync;
+        return true;
     }
 
-    public void ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    public bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         //var option = new ModalOptions
         //{
@@ -176,11 +179,17 @@ public class UIService(DialogService dialogService, MessageService messageServic
 
         //var modal = await _dialog.CreateModalAsync(option);
         //model.OnClose = modal.CloseAsync;
+        return true;
     }
 
     public void BuildForm<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
         builder.Component<DataForm<TItem>>().Set(c => c.Model, model).Build();
+    }
+
+    public void BuildSpin(RenderTreeBuilder builder, SpinModel model)
+    {
+
     }
 
     public void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model)

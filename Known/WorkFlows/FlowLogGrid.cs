@@ -21,6 +21,7 @@ public class FlowLogGrid : BaseTable<SysFlowLog>
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IFlowService>();
         Table.ShowPager = true;
+        Table.FixedHeight = "450px";
         Table.OnQuery = QueryFlowLogsAsync;
         Table.AddColumn(c => c.StepName).Width(100).Template((b, r) => b.Tag(r.StepName));
         Table.AddColumn(c => c.ExecuteBy).Width(100);
