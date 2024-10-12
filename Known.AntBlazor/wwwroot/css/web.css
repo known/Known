@@ -66,7 +66,7 @@
 .kui-page > .ant-tabs > .ant-tabs-nav,
 .kui-page > .ant-tabs > .ant-tabs-content-holder {position:absolute;left:0;right:0;overflow:hidden;}
 .kui-page {position:fixed;top:64px;left:200px;right:0;bottom:0;transition: all 0.2s;}
-.kui-page-body {padding:0 10px 10px 10px;}
+.kui-page-body {padding:0 10px 10px 10px;height:100%;}
 .kui-page-body > .kui-form-tab, .kui-page-body > .kui-form-step {min-height:calc(100vh - 74px);}
 .kui-page > .ant-tabs > .ant-tabs-content-holder {top:0;bottom:0;overflow-y:auto;padding:0 10px 10px 10px;}
 .kui-page > .ant-tabs {top:0;bottom:0;}

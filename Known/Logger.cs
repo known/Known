@@ -97,19 +97,6 @@ public sealed class Logger
     }
 
     /// <summary>
-    /// 获取系统访问日志列表。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="begin">查询开始日期。</param>
-    /// <param name="end">查询结束日期。</param>
-    /// <returns>访问日志列表。</returns>
-    public static Task<List<SysLog>> GetVisitLogsAsync(Database db, DateTime begin, DateTime end)
-    {
-        var repository = Config.GetScopeService<IDataRepository>();
-        return repository.GetVisitLogsAsync(db, begin, end);
-    }
-
-    /// <summary>
     /// 添加系统日志信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>

@@ -30,7 +30,7 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         var endDay = now.AddDays(1 - now.Day).AddMonths(1).AddDays(-1).Day;
         var begin = new DateTime(now.Year, now.Month, 1);
         var end = new DateTime(now.Year, now.Month, endDay, 23, 59, 59);
-        var logs = await Logger.GetVisitLogsAsync(db, begin, end);
+        var logs = await db.QueryListAsync<SysLog>(d => d.CompNo == db.User.CompNo && d.CreateTime >= begin && d.CreateTime <= end);
         var seriesLog = new Dictionary<string, object>();
         for (int i = 1; i <= endDay; i++)
         {

@@ -32,7 +32,7 @@ class ExpressionHelper(DbProvider provider)
     //    return WhereSql;
     //}
 
-    private object RouteExpression<T>(Expression exp, object paramName = null)
+    private object RouteExpression<T>(Expression exp)
     {
         if (exp is NewArrayExpression ae)
             return RouteExpression<T>(ae);
@@ -44,7 +44,7 @@ class ExpressionHelper(DbProvider provider)
         {
             if (!exp.ToString().StartsWith("value"))
                 return RouteExpression<T>(me);
-            return RouteExpressionValue(exp, paramName);
+            return RouteExpressionValue(exp);
         }
 
         if (exp is BinaryExpression be)
@@ -80,7 +80,7 @@ class ExpressionHelper(DbProvider provider)
         }
         else if (field != null)
         {
-            var param = GetParameterName(field);
+            var param = GetParameterName();
             WhereSql += $"@{param}";
             Parameters[param] = value;
         }
@@ -113,8 +113,6 @@ class ExpressionHelper(DbProvider provider)
             return SetArrayWhere<T>(mce, "in");
         else if (mce.Method.Name == nameof(WhereExtension.NotIn))
             return SetArrayWhere<T>(mce, "not in");
-        else if (mce.Method.Name == nameof(WhereExtension.Between))
-            return SetArrayWhere<T>(mce, "between");
         else
             return RouteExpressionValue(mce);
     }
@@ -139,30 +137,29 @@ class ExpressionHelper(DbProvider provider)
         return field;
     }
 
-    private object RouteExpressionValue(Expression exp, object paramName = null)
+    private object RouteExpressionValue(Expression exp)
     {
         var value = Expression.Lambda(exp).Compile().DynamicInvoke();
         if (value == null)
             return null;
 
         if (value is int[] ints)
-            return GetArrayWhere(paramName, ints);
+            return GetArrayWhere(ints);
 
         if (value is string[] values)
-            return GetArrayWhere(paramName, values);
+            return GetArrayWhere(values);
 
         return value;
     }
 
-    private object GetArrayWhere<TItem>(object paramName, TItem[] values)
+    private object GetArrayWhere<TItem>(TItem[] values)
     {
         var sb = new StringBuilder();
-        var index = 0;
         foreach (var item in values)
         {
-            var key = $"{paramName}{index++}";
-            Parameters[key] = item;
-            sb.Append($"@{key},");
+            var param = GetParameterName();
+            Parameters[param] = item;
+            sb.Append($"@{param},");
         }
         return sb.ToString(0, sb.Length - 1);
     }
@@ -184,7 +181,7 @@ class ExpressionHelper(DbProvider provider)
             var field = RouteExpression<T>(mce.Object);
             var value = RouteExpression<T>(mce.Arguments[0]);
             var operate = isNot ? "not like" : "like";
-            var param = GetParameterName(field);
+            var param = GetParameterName();
             Parameters[param] = string.Format(format, value);
             WhereSql += $"{field} {operate} @{param}";
         }
@@ -196,39 +193,21 @@ class ExpressionHelper(DbProvider provider)
         if (mce.Object == null)
         {
             var field = RouteExpression<T>(mce.Arguments[0]);
-            if (format == "between")
-            {
-                var arg1 = RouteExpression<T>(mce.Arguments[1]);
-                var arg2 = RouteExpression<T>(mce.Arguments[2]);
-                if (arg1 is DateTime && provider.DatabaseType == DatabaseType.Access)
-                    WhereSql += $"{field} between #{arg1}# and #{arg2}#";
-                else
-                    WhereSql += $"{field} between '{arg1}' and '{arg2}'";
-            }
-            else
-            {
-                var param = GetParameterName(field);
-                var arg1 = RouteExpression<T>(mce.Arguments[1], param);
-                WhereSql += $"{field} {format} ({arg1})";
-            }
+            var arg1 = RouteExpression<T>(mce.Arguments[1]);
+            WhereSql += $"{field} {format} ({arg1})";
         }
         else if (mce.Object.NodeType == ExpressionType.MemberAccess)
         {
             var field = RouteExpression<T>(mce.Object);
             var value = RouteExpression<T>(mce.Arguments[0]);
-            var param = GetParameterName(field);
+            var param = GetParameterName();
             Parameters[param] = string.Format(format, value);
             WhereSql += $"{field} {format} (@{param})";
         }
         return null;
     }
 
-    private static string GetParameterName(object field)
-    {
-        var fields = field.ToString().Split('.');
-        var name = fields.Length > 1 ? fields[1] : fields[0];
-        return name.TrimStart('`', '\"', '[').TrimEnd('`', '\"', ']');
-    }
+    private string GetParameterName() => $"P{Parameters.Count}";
 
     private static string CastType(ExpressionType type)
     {

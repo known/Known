@@ -22,14 +22,4 @@ public static class WhereExtension
     /// <param name="array">NotIn参数数组。</param>
     /// <returns></returns>
     public static bool NotIn<T>(this T field, T[] array) => true;
-
-    /// <summary>
-    /// 相当于 between and 查询语句。
-    /// </summary>
-    /// <typeparam name="T">字段属性类型。</typeparam>
-    /// <param name="field">字段属性。</param>
-    /// <param name="begin">开始值。</param>
-    /// <param name="end">结束值。</param>
-    /// <returns></returns>
-    public static bool Between<T>(this T field, string begin, string end) => true;
 }

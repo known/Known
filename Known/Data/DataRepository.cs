@@ -60,15 +60,6 @@ public interface IDataRepository
     Task<SysTask> GetTaskByBizIdAsync(Database db, string bizId);
 
     /// <summary>
-    /// 异步获取系统日志列表。
-    /// </summary>
-    /// <param name="db">数据库访问对象。</param>
-    /// <param name="begin">查询开始日期。</param>
-    /// <param name="end">查询结束日期。</param>
-    /// <returns>系统日志列表。</returns>
-    Task<List<SysLog>> GetVisitLogsAsync(Database db, DateTime begin, DateTime end);
-
-    /// <summary>
     /// 异步获取用户常用模块日志统计信息。
     /// </summary>
     /// <param name="db">数据库访问对象。</param>
@@ -168,17 +159,6 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
                      .OrderByDescending(d => d.CreateTime)
                      .ToCommand();
         return db.QueryAsync<SysTask>(info);
-    }
-
-    public Task<List<SysLog>> GetVisitLogsAsync(Database db, DateTime begin, DateTime end)
-    {
-        //select * from SysLog where CompNo=@CompNo and CreateTime between '{arg1}' and '{arg2}'
-        var arg1 = begin.ToString("yyyy-MM-dd HH:mm:ss");
-        var arg2 = end.ToString("yyyy-MM-dd HH:mm:ss");
-        var info = db.Query<SysLog>()
-                     .Where(d => d.CreateTime.Between(arg1, arg2))
-                     .ToCommand();
-        return db.QueryListAsync<SysLog>(info);
     }
 
     public Task<List<CountInfo>> GetVisitLogsAsync(Database db, string userName)
