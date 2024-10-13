@@ -50,6 +50,4 @@ public abstract class ServiceBase(Context context) : IService
             return db;
         }
     }
-
-    internal IDataRepository Repository => Config.GetScopeService<IDataRepository>();
 }

@@ -3,7 +3,7 @@
 /// <summary>
 /// 数据库操作效用类。
 /// </summary>
-public class DBUtils
+public class DbUtils
 {
     internal static void RegisterConnections()
     {
@@ -119,7 +119,7 @@ public class DBUtils
         for (int i = 0; i < reader.FieldCount; i++)
         {
             var name = reader.GetName(i).Replace("_", "");
-            if (name == "rowno")
+            if (name == "rowno") //去掉row_number产生的字段
                 continue;
 
             var value = reader[i];

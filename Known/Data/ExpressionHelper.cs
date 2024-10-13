@@ -32,13 +32,16 @@ class ExpressionHelper(DbProvider provider)
     //    return WhereSql;
     //}
 
-    private object RouteExpression<T>(Expression exp)
+    public object RouteExpression<T>(Expression exp)
     {
         if (exp is NewArrayExpression ae)
             return RouteExpression<T>(ae);
 
         if (exp is ConstantExpression ce)
             return ce.Value;
+
+        if (exp is MethodCallExpression mce) //SqlFunc.Count
+            return RouteExpression<T>(mce);
 
         if (exp is MemberExpression me) //d.Enabled
         {
@@ -47,13 +50,22 @@ class ExpressionHelper(DbProvider provider)
             return RouteExpressionValue(exp);
         }
 
+        if (exp is MemberInitExpression mie) //d => new CountInfo { Field1 = d.Target, Count = SqlFunc.Count() }
+        {
+            var selects = new List<string>();
+            foreach (var item in mie.Bindings)
+            {
+                var member = item as MemberAssignment;
+                var field = RouteExpression<T>(member.Expression);
+                var name = item.Member.Name;
+                selects.Add($"{field} as {name}");
+            }
+            return selects;
+        }
+
         if (exp is BinaryExpression be)
         {
             RouteExpression<T>(be.Left, be.Right, be.NodeType);
-        }
-        else if (exp is MethodCallExpression mce)
-        {
-            return RouteExpression<T>(mce);
         }
         else if (exp is UnaryExpression ue) //!d.Enabled  ue.NodeType=Not  ue.Operand =d.Enabled
         {
@@ -103,7 +115,9 @@ class ExpressionHelper(DbProvider provider)
 
     private object RouteExpression<T>(MethodCallExpression mce)
     {
-        if (mce.Method.Name == nameof(string.Contains))
+        if (mce.Method.Name == nameof(DbFunc.Count))
+            return "count(1)";
+        else if (mce.Method.Name == nameof(string.Contains))
             return SetLikeWhere<T>(mce, "%{0}%");
         else if (mce.Method.Name == nameof(string.StartsWith))
             return SetLikeWhere<T>(mce, "{0}%");
@@ -124,6 +138,9 @@ class ExpressionHelper(DbProvider provider)
         if (type == typeof(EntityBase))
             type = typeof(T);
         var field = provider.GetColumnName(type, name);
+        if (WhereSql == null)
+            return field;
+
         if (WhereSql.EndsWith("Not"))
         {
             WhereSql = WhereSql[..^3] + $"{field}='False'";

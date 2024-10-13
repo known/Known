@@ -191,7 +191,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
         Config.App.SetConnection(info.Databases);
-        await DBUtils.InitializeAsync();
+        await DbUtils.InitializeAsync();
         Console.WriteLine("Module is installing...");
         var modules = ModuleHelper.GetModules();
         var sys = GetSystem(info);

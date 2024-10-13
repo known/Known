@@ -88,13 +88,10 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (string.IsNullOrWhiteSpace(bizId))
             return info;
 
-        var logs = await Repository.GetFlowLogsAsync(database, bizId);
-        if (logs != null && logs.Count > 0)
-        {
-            var last = logs.OrderByDescending(l => l.CreateTime).FirstOrDefault();
-            if (last.StepName == FlowStatus.StepEnd && info.Steps.Count > 0)
-                info.Current = info.Steps.Count - 1;
-        }
+        var last = await database.Query<SysFlowLog>().Where(d => d.BizId == bizId)
+                                 .OrderByDescending(d => d.CreateTime).FirstAsync();
+        if (last != null && last.StepName == FlowStatus.StepEnd && info.Steps.Count > 0)
+            info.Current = info.Steps.Count - 1;
         return info;
     }
 

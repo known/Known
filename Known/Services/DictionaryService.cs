@@ -44,7 +44,9 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()
     {
-        var categories = await Repository.GetDicCategoriesAsync(Database);
+        var categories = await Database.Query<SysDictionary>()
+                                       .Where(d => d.Enabled && d.Category == Constants.DicCategory)
+                                       .OrderBy(d => d.Sort).ToListAsync();
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
     }
 

@@ -47,22 +47,14 @@ class DbProvider
 
     protected virtual string GetTopSql(int size, string text)
     {
-        return $@"
-select t.* from (
-    select t1.*,row_number() over (order by 1) row_no 
-    from ({text}) t1
-) t where t.row_no>0 and t.row_no<={size}";
+        return $"select t.* from (select t1.*,row_number() over (order by 1) row_no from ({text}) t1) t where t.row_no>0 and t.row_no<={size}";
     }
 
     protected virtual string GetPageSql(string text, string order, PagingCriteria criteria)
     {
         var startNo = criteria.PageSize * (criteria.PageIndex - 1);
         var endNo = startNo + criteria.PageSize;
-        return $@"
-select t.* from (
-    select t1.*,row_number() over (order by {order}) row_no 
-    from ({text}) t1
-) t where t.row_no>{startNo} and t.row_no<={endNo}";
+        return $"select t.* from (select t1.*,row_number() over (order by {order}) row_no from ({text}) t1) t where t.row_no>{startNo} and t.row_no<={endNo}";
     }
 
     protected virtual string GetStatSql(string text, PagingCriteria criteria)
@@ -203,7 +195,7 @@ select t.* from (
     public CommandInfo GetInsertCommand<T>()
     {
         var tableName = GetTableName<T>();
-        var cmdParams = DBUtils.ToDictionary<T>();
+        var cmdParams = DbUtils.ToDictionary<T>();
         var keys = new List<string>();
         foreach (var key in cmdParams.Keys)
         {
@@ -218,7 +210,7 @@ select t.* from (
     public CommandInfo GetInsertCommand<T>(T data)
     {
         var tableName = GetTableName<T>();
-        var cmdParams = DBUtils.ToDictionary(data);
+        var cmdParams = DbUtils.ToDictionary(data);
         return GetInsertCommand(tableName, cmdParams);
     }
 
@@ -285,7 +277,7 @@ select t.* from (
     public CommandInfo GetSaveCommand<T>(T entity) where T : EntityBase
     {
         var tableName = GetTableName<T>();
-        var cmdParams = DBUtils.ToDictionary(entity);
+        var cmdParams = DbUtils.ToDictionary(entity);
         if (entity.IsNew)
             return GetInsertCommand(tableName, cmdParams);
 

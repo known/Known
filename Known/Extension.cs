@@ -40,7 +40,7 @@ public static class Extension
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
         action?.Invoke(Config.App);
-        DBUtils.RegisterConnections();
+        DbUtils.RegisterConnections();
         FileLogger.Start();
 
         if (Config.App.Type == AppType.WebApi)
@@ -50,8 +50,6 @@ public static class Extension
         Config.DbAssemblies.Add(typeof(Extension).Assembly);
 
         services.AddScoped<Database>();
-        services.AddScoped<IDataRepository, DataRepository>();
-
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped<ICompanyService, CompanyService>();

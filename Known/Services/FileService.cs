@@ -125,7 +125,9 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     public async Task<ImportFormInfo> GetImportAsync(string bizId)
     {
-        var task = await Repository.GetTaskByBizIdAsync(Database, bizId);
+        var db = Database;
+        var task = await db.Query<SysTask>().Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
+                           .OrderByDescending(d => d.CreateTime).FirstAsync();
         return ImportHelper.GetImport(Context, bizId, task);
     }
 

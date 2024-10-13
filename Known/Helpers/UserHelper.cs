@@ -23,7 +23,7 @@ class UserHelper
         return Utils.MapTo<UserInfo>(user);
     }
 
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(IDataRepository repository, Database db, List<SysModule> modules)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db, List<SysModule> modules)
     {
         var user = db.User;
         if (user == null)
@@ -32,7 +32,7 @@ class UserHelper
         if (user.IsAdmin)
             return modules.ToMenus(true);
 
-        var moduleIds = await repository.GetRoleModuleIdsAsync(db, user.Id);
+        var moduleIds = await db.GetRoleModuleIdsAsync(user.Id);
         var userModules = new List<SysModule>();
         foreach (var item in modules)
         {

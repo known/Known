@@ -82,21 +82,6 @@ public sealed class Logger
     public static LogLevel Level { get; set; }
 
     /// <summary>
-    /// 获取用户访问的常用菜单列表。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="userName">用户名。</param>
-    /// <param name="size">常用菜单数量。</param>
-    /// <returns>常用菜单列表。</returns>
-    public static async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
-    {
-        var repository = Config.GetScopeService<IDataRepository>();
-        var logs = await repository.GetVisitLogsAsync(db, userName);
-        logs = logs.OrderByDescending(f => f.TotalCount).Take(size).ToList();
-        return logs.Select(l => l.Field1).ToList();
-    }
-
-    /// <summary>
     /// 添加系统日志信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>

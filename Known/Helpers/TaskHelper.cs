@@ -3,7 +3,6 @@
 sealed class TaskHelper
 {
     private static readonly Dictionary<string, bool> RunStates = [];
-    private static readonly IDataRepository Repository = Config.GetScopeService<IDataRepository>();
 
     private TaskHelper() { }
 
@@ -43,7 +42,8 @@ sealed class TaskHelper
     {
         try
         {
-            var task = await Repository.GetPendingTaskAsync(db, bizType);
+            var task = await db.Query<SysTask>().Where(d => d.Status == SysTaskStatus.Pending && d.Type == bizType)
+                               .OrderBy(d => d.CreateTime).FirstAsync();
             return task;
         }
         catch
@@ -70,7 +70,7 @@ sealed class TaskHelper
 
     private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
     {
-        var task = await Repository.GetTaskByTypeAsync(db, type);
+        var task = await GetTaskByTypeAsync(db, type);
         if (task == null)
             return null;
 
@@ -85,7 +85,7 @@ sealed class TaskHelper
 
     private static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
     {
-        var task = await Repository.GetTaskByTypeAsync(db, type);
+        var task = await GetTaskByTypeAsync(db, type);
         if (task != null)
         {
             switch (task.Status)
@@ -106,5 +106,11 @@ sealed class TaskHelper
             Status = SysTaskStatus.Pending
         });
         return Result.Success(db.Context?.Language["Tip.TaskAddSuccess"]);
+    }
+
+    public static Task<SysTask> GetTaskByTypeAsync(Database db, string type)
+    {
+        return db.Query<SysTask>().Where(d => d.Type == type)
+                 .OrderByDescending(d => d.CreateTime).FirstAsync();
     }
 }

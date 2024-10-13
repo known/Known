@@ -88,7 +88,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
     //User
     public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return Repository.QueryUsersAsync(Database, criteria);
+        return Database.QueryUsersAsync(criteria);
     }
 
     public Task<SysUser> GetUserAsync(string id) => Database.QueryByIdAsync<SysUser>(id);
@@ -99,7 +99,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         await database.OpenAsync();
         var user = await database.QueryByIdAsync<SysUser>(id);
         user ??= new SysUser();
-        var roles = await Repository.GetRolesAsync(database);
+        var roles = await database.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
         var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
         var roleIds = userRoles?.Select(r => r.RoleId).ToList();
         //var datas = PlatformHelper.UserDatas?.Invoke(db);

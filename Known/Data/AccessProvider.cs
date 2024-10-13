@@ -4,6 +4,11 @@ class AccessProvider : DbProvider
 {
     public override string FormatName(string name) => $"`{name}`";
 
+    protected override string GetTopSql(int size, string text)
+    {
+        return $"select top {size} t1.* from ({text}) t1";
+    }
+
     protected override string GetPageSql(string text, string order, PagingCriteria criteria)
     {
         //var order = string.Empty;

@@ -143,7 +143,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         {
             AppName = await UserHelper.GetSystemNameAsync(database),
             MessageCount = await database.CountAsync<SysMessage>(d => d.UserId == database.User.UserName && d.Status == Constants.UMStatusUnread),
-            UserMenus = await UserHelper.GetUserMenusAsync(Repository, database, modules),
+            UserMenus = await UserHelper.GetUserMenusAsync(database, modules),
             UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(database, SettingInfo.KeyInfo),
             UserTableSettings = await SettingService.GetUserTableSettingsAsync(database),
             Codes = await DictionaryService.GetDictionariesAsync(database)
