@@ -72,11 +72,10 @@ public class PageLayout : BaseLayout
         try
         {
             var url = Navigation.GetPageUrl();
-            var route = RouteData;
             var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
             Context.Url = url;
             Context.SetCurrentMenu(RouteData, pageRoute);
-            if (!UIConfig.IgnoreRoutes.Contains(url) && !url.StartsWith("/error/"))
+            if (!UIConfig.IgnoreRoutes.Contains(url) && RouteData.PageType != typeof(ErrorPage))
             {
                 if (Context.Current == null)
                 {

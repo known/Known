@@ -155,21 +155,33 @@ public static class CommonExtension
     }
     #endregion
 
+    #region Type
+    /// <summary>
+    /// 获取类型关联的Route特性的路由模板。
+    /// </summary>
+    /// <param name="type">类型对象。</param>
+    /// <returns>路由模板。</returns>
+    public static string RouteTemplate(this Type type)
+    {
+        return type?.GetCustomAttribute<RouteAttribute>()?.Template;
+    }
+
+    /// <summary>
+    /// 获取成员关联的DisplayName特性的显示名称。
+    /// </summary>
+    /// <param name="member">成员对象。</param>
+    /// <returns>属性显示名称。</returns>
+    public static string DisplayName(this MemberInfo member)
+    {
+        return member?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
+    }
+    #endregion
+
     #region Property
     //public static bool IsRequired(this PropertyInfo property)
     //{
     //    return property?.GetCustomAttribute<RequiredAttribute>() is not null;
     //}
-
-    /// <summary>
-    /// 获取属性关联的DisplayName特性的显示名称。
-    /// </summary>
-    /// <param name="property">属性对象。</param>
-    /// <returns>属性显示名称。</returns>
-    public static string DisplayName(this PropertyInfo property)
-    {
-        return property?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
-    }
 
     /// <summary>
     /// 获取属性关联的MinLength特性的长度。

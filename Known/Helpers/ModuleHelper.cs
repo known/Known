@@ -43,6 +43,8 @@ class ModuleHelper
         if (routes.Count == 0)
             return;
 
+        var routeError = typeof(ErrorPage).RouteTemplate();
+        var routeAuto = typeof(AutoTablePage).RouteTemplate();
         var target = Constants.Route;
         var route = new SysModule { Id = "route", Name = language["Route"], Target = target, Icon = "share-alt", ParentId = "0", Sort = modules.Count + 1 };
         modules.Add(route);
@@ -50,8 +52,7 @@ class ModuleHelper
         {
             if (modules.Exists(m => m.Url == item.Key) ||
                 UIConfig.IgnoreRoutes.Contains(item.Key) ||
-                item.Key == "/error/{code}" ||
-                item.Key == "/page/{*PageRoute}")
+                item.Key == routeError || item.Key == routeAuto)
                 continue;
 
             var parentId = route.Id;
@@ -69,7 +70,7 @@ class ModuleHelper
                 parentId = sub.Id;
             }
 
-            var name = item.Value.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? item.Key;
+            var name = item.Value.DisplayName() ?? item.Key;
             modules.Add(new SysModule { Id = item.Key, Name = name, Url = item.Value.FullName, Target = target, Icon = "file", ParentId = parentId });
         }
     }
