@@ -5,6 +5,8 @@
 /// </summary>
 public class PageLayout : BaseLayout
 {
+    [CascadingParameter] private RouteData RouteData { get; set; }
+
     /// <summary>
     /// 取得是否首次加载页面。
     /// </summary>
@@ -70,10 +72,10 @@ public class PageLayout : BaseLayout
         try
         {
             var url = Navigation.GetPageUrl();
-            //Logger.Info($"Layout={url}");
+            var route = RouteData;
             var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
             Context.Url = url;
-            Context.SetCurrentMenu(pageRoute);
+            Context.SetCurrentMenu(RouteData, pageRoute);
             if (!UIConfig.IgnoreRoutes.Contains(url) && !url.StartsWith("/error/"))
             {
                 if (Context.Current == null)

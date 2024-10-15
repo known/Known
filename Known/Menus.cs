@@ -219,15 +219,12 @@ public class MenuInfo
     internal bool HasAction(string id) => Actions != null && Actions.Contains(id);
     internal bool HasColumn(string id) => Columns != null && Columns.Exists(c => c.Id == id);
 
-    internal bool HasUrl(string url, string route)
+    internal bool HasUrl(string url, RouteData route, string page)
     {
         if (Target == Constants.Route)
-        {
-            var index = Url?.IndexOf('{') ?? -1;
-            return index > 0 ? url.StartsWith(Url.Substring(0, index)) : Url == url;
-        }
+            return Url == route.PageType.FullName;
 
-        return Url == url || Url == $"/{route}" || Id == route;
+        return Url == url || Url == $"/{page}" || Id == page;
     }
 
     internal List<CodeInfo> GetAllActions()

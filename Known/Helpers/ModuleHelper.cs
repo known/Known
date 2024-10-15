@@ -70,7 +70,7 @@ class ModuleHelper
             }
 
             var name = item.Value.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? item.Key;
-            modules.Add(new SysModule { Id = item.Key, Name = name, Url = item.Key, Target = target, Icon = "file", ParentId = parentId });
+            modules.Add(new SysModule { Id = item.Key, Name = name, Url = item.Value.FullName, Target = target, Icon = "file", ParentId = parentId });
         }
     }
 
