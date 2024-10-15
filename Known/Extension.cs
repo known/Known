@@ -24,6 +24,9 @@ public static class Extension
         services.AddScoped<JSService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
+        var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
+        UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
+
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
         if (!string.IsNullOrWhiteSpace(content))
         {

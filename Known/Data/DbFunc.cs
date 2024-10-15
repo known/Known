@@ -3,8 +3,10 @@
 /// <summary>
 /// SQL 函数类。
 /// </summary>
-public class DbFunc
+public sealed class DbFunc
 {
+    private DbFunc() { }
+
     /// <summary>
     /// 获取数量聚合函数。
     /// </summary>

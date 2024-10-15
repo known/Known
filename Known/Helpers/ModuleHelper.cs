@@ -37,6 +37,26 @@ class ModuleHelper
         }
     }
 
+    internal static void AddRouteModules(Language language, List<SysModule> modules)
+    {
+        var routes = Config.RouteTypes;
+        if (routes.Count == 0)
+            return;
+
+        var route = new SysModule { Id = "route", Name = language["Route"], Target = "Route", Icon = "share-alt", ParentId = "0", Sort = modules.Count + 1 };
+        modules.Add(route);
+        foreach (var item in routes.OrderBy(r => r.Key))
+        {
+            if (modules.Exists(m => m.Url == item.Key) ||
+                UIConfig.IgnoreRoutes.Contains(item.Key) ||
+                item.Key == "/error/{code}" ||
+                item.Key == "/page/{*PageRoute}")
+                continue;
+
+            modules.Add(new SysModule { Id = item.Key, Name = item.Key, Url = item.Key, Target = "Route", Icon = "file", ParentId = route.Id });
+        }
+    }
+
     internal static List<SysModule> GetModules()
     {
         var modules = new List<SysModule>();

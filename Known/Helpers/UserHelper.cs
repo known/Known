@@ -29,6 +29,8 @@ class UserHelper
         if (user == null)
             return [];
 
+        ModuleHelper.AddRouteModules(db.Context.Language, modules);
+        
         if (user.IsAdmin)
             return modules.ToMenus(true);
 

@@ -70,9 +70,12 @@ public static class ModelExtension
         if (menus == null || menus.Count == 0)
             return items;
 
-        var tops = menus.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
+        var tops = menus.Where(m => m.ParentId == "0" && m.Target != "Route").OrderBy(m => m.Sort).ToList();
         foreach (var item in tops)
         {
+            if (item.Target == "Route")
+                continue;
+
             var menu = new MenuInfo(item);
             items.Add(menu);
             AddChildren(menus, menu);
@@ -94,17 +97,17 @@ public static class ModelExtension
             AddChildren(menus, sub);
         }
     }
-	#endregion
+    #endregion
 
-	#region Module
-	internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
+    #region Module
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
     {
         MenuInfo current = null;
-		return models.ToMenuItems(ref current, showRoot);
+        return models.ToMenuItems(ref current, showRoot);
     }
 
-	internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, ref MenuInfo current, bool showRoot = true)
-	{
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, ref MenuInfo current, bool showRoot = true)
+    {
         MenuInfo root = null;
         var menus = new List<MenuInfo>();
         if (showRoot)
@@ -116,48 +119,48 @@ public static class ModelExtension
             root.Data = new SysModule { Id = root.Id, Name = root.Name };
             menus.Add(root);
         }
-		if (models == null || models.Count == 0)
-			return menus;
+        if (models == null || models.Count == 0)
+            return menus;
 
-		var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
-		foreach (var item in tops)
-		{
+        var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
+        foreach (var item in tops)
+        {
             item.ParentName = Config.App.Name;
-			var menu = new MenuInfo(item);
-			if (current != null && current.Id == menu.Id)
-				current = menu;
+            var menu = new MenuInfo(item);
+            if (current != null && current.Id == menu.Id)
+                current = menu;
 
             if (showRoot)
                 root.Children.Add(menu);
             else
                 menus.Add(menu);
-			AddChildren(models, menu, ref current);
-		}
+            AddChildren(models, menu, ref current);
+        }
 
         current ??= menus[0];
         return menus;
-	}
+    }
 
-	private static void AddChildren(List<SysModule> models, MenuInfo menu, ref MenuInfo current)
-	{
-		var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
-		if (items == null || items.Count == 0)
-			return;
+    private static void AddChildren(List<SysModule> models, MenuInfo menu, ref MenuInfo current)
+    {
+        var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
+        if (items == null || items.Count == 0)
+            return;
 
-		foreach (var item in items)
-		{
+        foreach (var item in items)
+        {
             item.ParentName = menu.Name;
             var sub = new MenuInfo(item);
-			sub.Parent = menu;
-			if (current != null && current.Id == sub.Id)
-				current = sub;
+            sub.Parent = menu;
+            if (current != null && current.Id == sub.Id)
+                current = sub;
 
-			menu.Children.Add(sub);
-			AddChildren(models, sub, ref current);
-		}
-	}
+            menu.Children.Add(sub);
+            AddChildren(models, sub, ref current);
+        }
+    }
 
-	internal static List<MenuInfo> ToMenus(this List<SysModule> modules, bool isAdmin)
+    internal static List<MenuInfo> ToMenus(this List<SysModule> modules, bool isAdmin)
     {
         if (modules == null || modules.Count == 0)
             return [];
@@ -190,11 +193,11 @@ public static class ModelExtension
         foreach (var item in tops)
         {
             var menu = new MenuInfo(item);
-			if (current != null && current.Id == menu.Id)
-				current = menu;
+            if (current != null && current.Id == menu.Id)
+                current = menu;
 
-			menus.Add(menu);
-			AddChildren(models, menu, ref current);
+            menus.Add(menu);
+            AddChildren(models, menu, ref current);
         }
 
         current ??= menus[0];
@@ -212,10 +215,10 @@ public static class ModelExtension
             item.ParentName = menu.Name;
             var sub = new MenuInfo(item);
             sub.Parent = menu;
-			if (current != null && current.Id == sub.Id)
-				current = sub;
+            if (current != null && current.Id == sub.Id)
+                current = sub;
 
-			menu.Children.Add(sub);
+            menu.Children.Add(sub);
             AddChildren(models, sub, ref current);
         }
     }

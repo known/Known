@@ -43,7 +43,7 @@ public sealed class Config
     public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm";
 
     /// <summary>
-    /// 取得或设置系统退出动作，适用桌面程序。
+    /// 取得或设置系统退出动作，适用于桌面程序。
     /// </summary>
     public static Action OnExit { get; set; }
 
@@ -101,13 +101,14 @@ public sealed class Config
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
     internal static List<ActionInfo> Actions { get; set; } = [];
+    internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
-    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类，以及CodeInfo特性的代码表类。
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类和路由，以及CodeInfo特性的代码表类。
     /// </summary>
     /// <param name="assembly">模块程序集。</param>
     /// <param name="isAdditional">是否附加到路由组件，默认True。</param>
@@ -126,6 +127,10 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
+            var route = item.GetCustomAttribute<RouteAttribute>();
+            if (route != null)
+                RouteTypes[route.Template] = item;
+
             if (item.IsInterface && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item);
             else if (item.IsAssignableTo(typeof(ImportBase)))

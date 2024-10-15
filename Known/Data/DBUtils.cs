@@ -3,8 +3,10 @@
 /// <summary>
 /// 数据库操作效用类。
 /// </summary>
-public class DbUtils
+public sealed class DbUtils
 {
+    private DbUtils() { }
+
     internal static void RegisterConnections()
     {
         var connections = Config.App.Connections;
