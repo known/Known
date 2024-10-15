@@ -133,11 +133,11 @@ public class UIContext : Context
 
     internal void SetCurrentMenu(string pageRoute = "")
     {
-        Current = UIConfig.Menus.FirstOrDefault(m => m.Url == Url || m.Url == $"/{pageRoute}" || m.Id == pageRoute);
+        Current = UIConfig.Menus.FirstOrDefault(m => m.HasUrl(Url, pageRoute));
         if (Current == null)
         {
             var menus = IsMobileApp ? Config.AppMenus : UserMenus;
-            Current = menus?.FirstOrDefault(m => m.Url == Url || m.Url == $"/{pageRoute}" || m.Id == pageRoute);
+            Current = menus?.FirstOrDefault(m => m.HasUrl(Url, pageRoute));
         }
     }
 

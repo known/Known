@@ -19,6 +19,7 @@ public class Constants
     internal const string KeyClient = "Known-Client";
     internal const string KeyDownload = "Known-Download";
     internal const string SysUserName = "Admin";
+    internal const string Route = "Route";
 
     //internal const string UTOperation = "Operation";
     internal const string UMTypeReceive = "Receive";

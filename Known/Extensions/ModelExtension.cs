@@ -70,10 +70,10 @@ public static class ModelExtension
         if (menus == null || menus.Count == 0)
             return items;
 
-        var tops = menus.Where(m => m.ParentId == "0" && m.Target != "Route").OrderBy(m => m.Sort).ToList();
+        var tops = menus.Where(m => m.ParentId == "0" && m.Target != Constants.Route).OrderBy(m => m.Sort).ToList();
         foreach (var item in tops)
         {
-            if (item.Target == "Route")
+            if (item.Target == Constants.Route)
                 continue;
 
             var menu = new MenuInfo(item);

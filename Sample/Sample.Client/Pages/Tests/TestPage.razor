@@ -1,6 +1,9 @@
-﻿@page "/test"
+﻿@page "/test/page/{id}"
 @inherits BasePage
+@using System.ComponentModel
+@attribute [DisplayName("路由页面")]
 
+<h1>@Id</h1>
 <AntSelectCode DataSource="Texts" Placeholder="请选择测试文本" />
 <Button OnClick="OnClick">弹窗</Button>
 <TestForm @ref="form" Model="model" />

@@ -1,4 +1,6 @@
-﻿@page "/test1"
+﻿@page "/test/form"
+@using System.ComponentModel
+@attribute [DisplayName("路由表单")]
 
 <div>
     <Form @ref="form" Model="Model" ValidateOnChange ValidateMode="FormValidateMode.Rules">
