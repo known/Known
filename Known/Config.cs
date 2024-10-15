@@ -127,9 +127,14 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
-            var route = item.GetCustomAttribute<RouteAttribute>();
-            if (route != null)
-                RouteTypes[route.Template] = item;
+            var routes = item.GetCustomAttributes<RouteAttribute>();
+            if (routes != null && routes.Any())
+            {
+                foreach (var route in routes)
+                {
+                    RouteTypes[route.Template] = item;
+                }
+            }
 
             if (item.IsInterface && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item);
