@@ -64,7 +64,7 @@ public class LoginPage : BaseComponent
     /// <summary>
     /// 登录提交前调用的验证虚方法。
     /// </summary>
-    protected virtual void OnLogining() { }
+    protected virtual bool OnLogining() => true;
 
     /// <summary>
     /// 登录提交成功后调用的虚方法。
@@ -72,10 +72,8 @@ public class LoginPage : BaseComponent
     /// <param name="user">登录用户信息。</param>
     protected virtual void OnLogined(UserInfo user)
     {
-        if (Context.IsMobileApp)
-            Navigation.NavigateTo("/app");
-        else
-            Navigation.NavigateTo(ReturnUrl ?? "/");
+        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
+        Navigation.NavigateTo(url);
     }
 
     /// <summary>
@@ -100,7 +98,9 @@ public class LoginPage : BaseComponent
             });
         }
 
-        OnLogining();
+        if (!OnLogining())
+            return;
+
         Model.IPAddress = Context.IPAddress;
         var result = await Service.SignInAsync(Model);
         if (!result.IsValid)

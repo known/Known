@@ -9,7 +9,7 @@
 
 :root {--kui-form-label-width:120px;}
 :root {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#f0f0f0;}
-:root[theme=dark]  {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
+:root[data-theme=dark] {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
 /*Common*/
 .kui-wrapper {position:fixed;top:0;bottom:0;left:0;right:0;}
@@ -90,10 +90,7 @@
 .kui-list-box-body li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
 .kui-list-box-body li:hover {background-color:#f1f1f1;}
 .kui-list-box-body li.active {background-color:#bae7ff;color:#1890ff;border-left-color:#1890ff;}
-
 .kui-dictionary .kui-list-box-body {padding-top:0;}
-
-:root[theme=dark] .kui-list-box li:hover, :root[theme=dark] .kui-list-box li.active {background-color:rgba(255, 255, 255, 0.08);}
 
 /*EditInput*/
 .kui-edit-input {display:flex;}
@@ -161,8 +158,11 @@
     .kui-install-foot {margin-top:20px;}
 }
 
-:root[theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45,46,46), rgb(40,41,41));}
-:root[theme=dark] .kui-striped table tr:nth-child(odd) td {background-color:#303030;}
+:root[data-theme=dark] .kui-list-box li:hover, 
+:root[data-theme=dark] .kui-list-box li.active {background-color:rgba(255, 255, 255, 0.08);}
+:root[data-theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45,46,46), rgb(40,41,41));}
+:root[data-theme=dark] .kui-striped table tr:nth-child(odd) td {background-color:#303030;}
+:root[data-theme=dark] .kui-striped table tr:nth-child(even) td {background-color:var(--kui-bgcolor);}
 
 /*Import*/
 .kui-import {grid-template-rows:20px 50px auto;}

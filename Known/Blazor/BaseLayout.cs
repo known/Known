@@ -102,8 +102,6 @@ public class BaseLayout : LayoutComponentBase
                     language = Context.UserSetting.Language;
                 Context.CurrentLanguage = language;
             }
-            if (Config.App.IsTheme)
-                Context.Theme = await JS.GetCurrentThemeAsync();
         }
     }
 

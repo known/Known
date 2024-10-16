@@ -26,7 +26,7 @@ export class KBlazor {
     static highlight(code, language) {
         return Prism.highlight(code, Prism.languages[language], language);
     }
-    static setStyle(match, href) {
+    static setStyleSheet(match, href) {
         let item = Array.from(document.getElementsByTagName('link')).find((item) =>
             item.getAttribute('href')?.match(match)
         );
@@ -37,8 +37,31 @@ export class KBlazor {
         }
         item.href = href;
     }
+    static insertStyleSheet(match, href) {
+        let item = Array.from(document.getElementsByTagName('link')).find((item) =>
+            item.getAttribute('href')?.match(match)
+        );
+        var item1 = document.createElement('link');
+        item1.rel = 'stylesheet';
+        item1.href = href;
+        document.head.insertBefore(item1, item);
+    }
+    static addStyleSheet(href) {
+        let item = document.createElement('link');
+        item.rel = 'stylesheet';
+        item.href = href;
+        document.head.appendChild(item);
+    }
+    static removeStyleSheet(href) {
+        let item = Array.from(document.getElementsByTagName('link')).find((item) =>
+            item.getAttribute('href')?.match(href)
+        );
+        if (item) {
+            document.head.removeChild(item);
+        }
+    }
     static setTheme(theme) {
-        $('html').attr('theme', theme);
+        $('html').attr('data-theme', theme);
     }
     //Storage
     static getLocalStorage(key) {

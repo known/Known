@@ -3,8 +3,8 @@ html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helv
 .login, .login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
 .known, .ws-space, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
 .kui-logo {background:url(../img/logo1.png) no-repeat left;margin-left:5px;}
-:root[theme=dark] .kui-logo, .kui-menu-dark .kui-logo {background:url(../img/logo.png) no-repeat left;}
-:root[theme=dark] .kui-logo {background-color:var(--kui-bgcolor);}
+:root[data-theme=dark] .kui-logo, .kui-menu-dark .kui-logo {background:url(../img/logo.png) no-repeat left;}
+:root[data-theme=dark] .kui-logo {background-color:var(--kui-bgcolor);}
 
 /*Login*/
 .login {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
@@ -59,4 +59,5 @@ html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helv
 .apply-form canvas {position:absolute;top:-68px;right:0;width:180px;height:40px;}
 
 /*Dark*/
-:root[theme=dark] .login-body, :root[theme=dark] .count li {background:linear-gradient(135deg, rgb(45, 46, 46), rgb(40, 41, 41));}
+:root[data-theme=dark] .login-body, 
+:root[data-theme=dark] .count li {background:linear-gradient(135deg, rgb(45, 46, 46), rgb(40, 41, 41));}

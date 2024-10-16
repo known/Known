@@ -19,9 +19,30 @@ public class AntTheme : BaseComponent
                .Build();
     }
 
+    /// <summary>
+    /// 组件呈现后异步操作。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Context.Theme = await JS.GetCurrentThemeAsync();
+            ThemeChanged(Context.Theme == "dark");
+            await StateChangedAsync();
+        }
+    }
+
     private async void ThemeChanged(bool isDark)
     {
-        Context.Theme = isDark ? "dark" : "light";
+        var darkUrl = "_content/AntDesign/css/ant-design-blazor.dark.css";
+        Context.Theme = isDark ? "dark" : "default";
+        if (isDark)
+            await JS.InsertStyleSheetAsync("Known.AntBlazor", darkUrl);
+        else
+            await JS.RemoveStyleSheetAsync(darkUrl);
         await JS.SetCurrentThemeAsync(Context.Theme);
     }
 }

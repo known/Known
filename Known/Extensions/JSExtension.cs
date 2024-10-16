@@ -46,7 +46,7 @@ public static class JSExtension
     {
         var item = UIConfig.Sizes.FirstOrDefault(s => s.Id == size);
         if (item != null)
-            await js.SetStyleAsync(item.Style, item.Url);
+            await js.SetStyleSheetAsync(item.Style, item.Url);
         await js.SetLocalStorageAsync(KeySize, size);
     }
 

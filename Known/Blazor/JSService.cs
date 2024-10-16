@@ -14,7 +14,7 @@ public class JSService
     /// <param name="jsRuntime">JS运行时对象。</param>
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=2408262213").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/script.js?v=241016").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -136,7 +136,36 @@ public class JSService
         await InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
     }
 
-    internal Task SetStyleAsync(string match, string href) => InvokeVoidAsync("KBlazor.setStyle", match, href);
+    /// <summary>
+    /// 异步设置样式文件。
+    /// </summary>
+    /// <param name="match">原匹配样式文件。</param>
+    /// <param name="href">新样式文件。</param>
+    /// <returns></returns>
+    public Task SetStyleSheetAsync(string match, string href) => InvokeVoidAsync("KBlazor.setStyleSheet", match, href);
+
+    /// <summary>
+    /// 异步插入样式文件。
+    /// </summary>
+    /// <param name="match">原匹配样式文件。</param>
+    /// <param name="href">新样式文件。</param>
+    /// <returns></returns>
+    public Task InsertStyleSheetAsync(string match, string href) => InvokeVoidAsync("KBlazor.insertStyleSheet", match, href);
+
+    /// <summary>
+    /// 异步添加样式文件。
+    /// </summary>
+    /// <param name="href">样式文件。</param>
+    /// <returns></returns>
+    public Task AddStyleSheetAsync(string href) => InvokeVoidAsync("KBlazor.addStyleSheet", href);
+
+    /// <summary>
+    /// 异步删除样式文件。
+    /// </summary>
+    /// <param name="href">样式文件。</param>
+    /// <returns></returns>
+    public Task RemoveStyleSheetAsync(string href) => InvokeVoidAsync("KBlazor.removeStyleSheet", href);
+
     internal Task SetThemeAsync(string theme) => InvokeVoidAsync("KBlazor.setTheme", theme);
 
     /// <summary>

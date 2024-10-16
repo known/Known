@@ -131,7 +131,7 @@ public sealed class TaskHelper
         return Result.Success(db.Context?.Language["Tip.TaskAddSuccess"]);
     }
 
-    public static Task<SysTask> GetTaskByTypeAsync(Database db, string type)
+    private static Task<SysTask> GetTaskByTypeAsync(Database db, string type)
     {
         return db.Query<SysTask>().Where(d => d.Type == type)
                  .OrderByDescending(d => d.CreateTime).FirstAsync();
