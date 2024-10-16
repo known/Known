@@ -73,6 +73,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     {
         var task = WeixinHelper.CreateTask(info);
         await db.SaveAsync(task);
+        TaskHelper.NotifyRun(task.Type);
         return Result.Success("Task saved！");
     }
     #endregion

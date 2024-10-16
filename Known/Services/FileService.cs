@@ -161,12 +161,11 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {
-        var form = info.Model;
         SysTask task = null;
+        var form = info.Model;
         var sysFiles = new List<SysFile>();
         var database = Database;
-        var user = CurrentUser;
-        var files = info.Files.GetAttachFiles(user, "Upload", form);
+        var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
         var result = await database.TransactionAsync(Language.Upload, async db =>
         {
             sysFiles = await AddFilesAsync(db, files, form.BizId, form.BizType);
@@ -182,9 +181,14 @@ class FileService(Context context) : ServiceBase(context), IFileService
         if (result.IsValid && form.BizType == ImportHelper.BizType)
         {
             if (form.IsAsync)
+            {
+                TaskHelper.NotifyRun(form.BizType);
                 result.Message += Language["Import.FileImporting"];
+            }
             else if (task != null)
+            {
                 result = await ImportHelper.ExecuteAsync(database, task);
+            }
         }
         return result;
     }

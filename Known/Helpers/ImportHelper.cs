@@ -9,6 +9,37 @@ public sealed class ImportHelper
 
     private ImportHelper() { }
 
+    /// <summary>
+    /// 异步执行数据导入定时任务。
+    /// </summary>
+    /// <returns></returns>
+    public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
+
+    /// <summary>
+    /// 读取导入文件并处理导入逻辑。
+    /// </summary>
+    /// <typeparam name="TItem">导入数据类型。</typeparam>
+    /// <param name="context">上下文对象。</param>
+    /// <param name="file">导入文件对象。</param>
+    /// <param name="action">导入处理委托。</param>
+    /// <returns>导入结果。</returns>
+    public static Result ReadFile<TItem>(Context context, SysFile file, Action<ImportRow<TItem>> action)
+    {
+        var path = Config.GetUploadPath(file.Path);
+        if (!File.Exists(path))
+            return Result.Error(context.Language["Import.FileNotExists"]);
+
+        if (path.EndsWith(".txt"))
+        {
+            var items = GetImportColumns(context, file.BizId);
+            var columns = items?.Select(context.Language.GetString).ToList();
+            if (columns != null && columns.Count > 0)
+                return ReadTextFile(context, path, columns, action);
+        }
+
+        return ReadExcelFile(context, path, action);
+    }
+
     internal static ImportFormInfo GetImport(Context context, string bizId, SysTask task)
     {
         var info = new ImportFormInfo { BizId = bizId, BizType = BizType, IsFinished = true };
@@ -116,37 +147,6 @@ public sealed class ImportHelper
 
         var file = await db.QueryByIdAsync<SysFile>(task.Target);
         return await import.ExecuteAsync(file);
-    }
-
-    /// <summary>
-    /// 异步执行数据导入定时任务。
-    /// </summary>
-    /// <returns></returns>
-    public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
-
-    /// <summary>
-    /// 读取导入文件并处理导入逻辑。
-    /// </summary>
-    /// <typeparam name="TItem">导入数据类型。</typeparam>
-    /// <param name="context">上下文对象。</param>
-    /// <param name="file">导入文件对象。</param>
-    /// <param name="action">导入处理委托。</param>
-    /// <returns>导入结果。</returns>
-    public static Result ReadFile<TItem>(Context context, SysFile file, Action<ImportRow<TItem>> action)
-    {
-        var path = Config.GetUploadPath(file.Path);
-        if (!File.Exists(path))
-            return Result.Error(context.Language["Import.FileNotExists"]);
-
-        if (path.EndsWith(".txt"))
-        {
-            var items = GetImportColumns(context, file.BizId);
-            var columns = items?.Select(context.Language.GetString).ToList();
-            if (columns != null && columns.Count > 0)
-                return ReadTextFile(context, path, columns, action);
-        }
-
-        return ReadExcelFile(context, path, action);
     }
 
     private static Result ReadTextFile<TItem>(Context context, string path, List<string> columns, Action<ImportRow<TItem>> action)

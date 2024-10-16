@@ -1,13 +1,35 @@
 ﻿namespace Known.Helpers;
 
-sealed class TaskHelper
+/// <summary>
+/// 后台异步任务帮助者类。
+/// </summary>
+public sealed class TaskHelper
 {
+    private static readonly Dictionary<string, bool> RunSwitches = [];
     private static readonly Dictionary<string, bool> RunStates = [];
 
     private TaskHelper() { }
 
-    internal static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
+    /// <summary>
+    /// 通知运行指定业务类型的后台任务。
+    /// </summary>
+    /// <param name="bizType">业务类型。</param>
+    public static void NotifyRun(string bizType)
     {
+        RunSwitches[bizType] = true;
+    }
+
+    /// <summary>
+    /// 异步运行指定业务类型的后台任务。
+    /// </summary>
+    /// <param name="bizType">业务类型。</param>
+    /// <param name="action">后台任务执行委托。</param>
+    /// <returns></returns>
+    public static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
+    {
+        if (RunSwitches.TryGetValue(bizType, out bool enabled) && !enabled)
+            return;
+
         if (RunStates.TryGetValue(bizType, out bool value) && value)
             return;
 
@@ -21,6 +43,7 @@ sealed class TaskHelper
             var task = await GetPendingTaskAsync(db, bizType);
             if (task == null || string.IsNullOrWhiteSpace(task.BizId))
             {
+                RunSwitches[bizType] = false;
                 RunStates[bizType] = false;
                 return;
             }
