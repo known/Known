@@ -38,8 +38,13 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
-        var pageId = criteria.GetParameter<string>("PageId");
-        var tableName = DataHelper.GetEntityByModuleId(pageId)?.Id;
+        var tableName = criteria.GetParameter<string>("TableName");
+        if (string.IsNullOrWhiteSpace(tableName))
+        {
+            var pageId = criteria.GetParameter<string>("PageId");
+            tableName = DataHelper.GetEntityByModuleId(pageId)?.Id;
+        }
+
         if (string.IsNullOrWhiteSpace(tableName))
             return Task.FromResult(new PagingResult<Dictionary<string, object>>());
 

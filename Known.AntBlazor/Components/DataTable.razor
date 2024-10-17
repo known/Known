@@ -181,15 +181,8 @@
     {
         await InvokeAsync(() =>
         {
-            if (Model.Criteria.IsQuery)
-            {
-                table?.ReloadData();
-            }
-            else
-            {
-                var query = table?.GetQueryModel();
-                table?.ReloadData(query);
-            }
+            var query = table?.GetQueryModel();
+            table?.ReloadData(query);
         });
     }
 

@@ -406,7 +406,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
     private static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)
     {
         if (string.IsNullOrWhiteSpace(bizIds))
-            return null;
+            return Task.FromResult(new List<SysFlow>());
 
         var ids = bizIds.Split(',');
         return db.QueryListAsync<SysFlow>(d => d.BizId.In(ids));
