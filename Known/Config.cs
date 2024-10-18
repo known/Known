@@ -136,8 +136,10 @@ public sealed class Config
                 }
             }
 
-            if (item.IsInterface && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
-                AddApiMethod(item);
+            if (TypeHelper.IsSubclassOfGeneric(item, typeof(EntityTablePage<>), out var genericArguments))
+                AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
+            else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
+                AddApiMethod(item, item.Name[1..].Replace("Service", ""));
             else if (item.IsAssignableTo(typeof(ImportBase)))
                 ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseFlow)))
@@ -162,7 +164,7 @@ public sealed class Config
     /// <returns>对象实例。</returns>
     public static T GetScopeService<T>()
     {
-        using var scope = ServiceProvider.CreateScope();
+        var scope = ServiceProvider.CreateScope();
         return scope.ServiceProvider.GetRequiredService<T>();
     }
 
@@ -242,12 +244,11 @@ public sealed class Config
         AddModule(typeof(Config).Assembly);
     }
 
-    private static void AddApiMethod(Type type)
+    private static void AddApiMethod(Type type, string apiName)
     {
         ApiTypes.Add(type);
         //Console.WriteLine($"api/{type.Name}");
         var xml = GetAssemblyXml(type.Assembly);
-        var controler = type.Name[1..].Replace("Service", "");
         var methods = type.GetMethods();
         foreach (var method in methods)
         {
@@ -256,7 +257,7 @@ public sealed class Config
                 var info = new ApiMethodInfo();
                 var name = method.Name.Replace("Async", "");
                 info.Id = $"{type.Name}.{method.Name}";
-                info.Route = $"/{controler}/{name}";
+                info.Route = $"/{apiName}/{name}";
                 info.Description = GetMethodSummary(xml, method);
                 info.HttpMethod = name.StartsWith("Get") ? HttpMethod.Get : HttpMethod.Post;
                 info.MethodInfo = method;

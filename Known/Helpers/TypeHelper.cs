@@ -302,4 +302,40 @@ public sealed class TypeHelper
         }
         return dyClass.CreateTypeInfo();
     }
+
+    public static bool IsSubclassOfGeneric(Type derivedType, Type genericBaseType, out Type[] genericArguments)
+    {
+        // 确保 genericBaseType 是泛型类型
+        if (!genericBaseType.IsGenericType)
+        {
+            throw new ArgumentException("genericBaseType 必须是一个泛型类型");
+        }
+
+        // 获取当前基类
+        Type baseType = derivedType.BaseType;
+
+        // 检查基类是否是泛型类型
+        if (baseType != null && baseType.IsGenericType)
+        {
+            var baseTypeDefinition = baseType.GetGenericTypeDefinition();
+
+            // 排除直接匹配的泛型类型
+            if (baseTypeDefinition == genericBaseType)
+            {
+                // 找到匹配的泛型基类，获取泛型参数
+                genericArguments = baseType.GetGenericArguments();
+                return true;
+            }
+
+            // 检查是否是指定的泛型类型
+            if (genericBaseType.IsAssignableFrom(baseTypeDefinition))
+            {
+                genericArguments = baseType.GetGenericArguments();
+                return true;
+            }
+        }
+
+        genericArguments = null;
+        return false;
+    }
 }

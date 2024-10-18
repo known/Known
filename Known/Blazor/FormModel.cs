@@ -31,7 +31,17 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         Table = table;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-        SetFormInfo(table.Context.Current.Form);
+        if (Type != null)
+        {
+            SetFormInfo(table.Context.Current.Form);
+        }
+        else
+        {
+            columns = TypeHelper.Properties(typeof(TItem))
+                                .Select(p => new ColumnInfo(p))
+                                .Where(c => c.IsForm)
+                                .ToList();
+        }
     }
 
     internal bool IsDictionary { get; }
