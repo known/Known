@@ -11,8 +11,17 @@ class BaseView<TModel> : BaseComponent
 
     internal virtual void SetModel(TModel model) => Model = model;
     protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
-    protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new() => builder.Div("list-view", () => UI.BuildTable(builder, model));
-    protected void BuildCode(RenderTreeBuilder builder, string code) => builder.Markup($"<div class=\"highlight kui-code\"><pre class=\"language-csharp\"><code>{code}</code></pre></div>");
+
+    protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
+    {
+        builder.Div("list-view", () => UI.BuildTable(builder, model));
+    }
+
+    protected void BuildCode(RenderTreeBuilder builder, string code)
+    {
+        var html = $"<div class=\"highlight kui-code\"><pre class=\"language-csharp\"><code>{code}</code></pre></div>";
+        builder.Markup(html);
+    }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)
     {

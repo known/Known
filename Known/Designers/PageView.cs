@@ -5,6 +5,12 @@ class PageView : BaseView<PageInfo>
     private readonly TabModel tab = new();
     private TableModel<PageColumnInfo> list;
     private DemoPageModel table;
+    private string codePage;
+    private string codeService;
+    private string htmlPage;
+    private string htmlService;
+
+    private bool IsCustomPage => Form.Model.Data.IsCustomPage;
 
     [Parameter] public EntityInfo Entity { get; set; }
 
@@ -14,6 +20,11 @@ class PageView : BaseView<PageInfo>
 
         Tab.AddTab("Designer.View", BuildView);
         Tab.AddTab("Designer.Fields", BuildList);
+        if (IsCustomPage)
+        {
+            Tab.AddTab("Designer.PageCode", BuildPage);
+            Tab.AddTab("Designer.ServiceCode", BuildService);
+        }
 
         SetTablePage();
 
@@ -48,6 +59,19 @@ class PageView : BaseView<PageInfo>
         }
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (IsCustomPage)
+        {
+            if (string.IsNullOrWhiteSpace(htmlPage))
+                htmlPage = await JS.HighlightAsync(codePage, "csharp");
+            if (string.IsNullOrWhiteSpace(htmlService))
+                htmlService = await JS.HighlightAsync(codeService, "csharp");
+            //await StateChangedAsync();
+        }
+    }
+
     internal override async void SetModel(PageInfo model)
     {
         base.SetModel(model);
@@ -63,6 +87,8 @@ class PageView : BaseView<PageInfo>
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
+    private void BuildPage(RenderTreeBuilder builder) => BuildCode(builder, htmlPage);
+    private void BuildService(RenderTreeBuilder builder) => BuildCode(builder, htmlService);
 
     private void BuildProperty(RenderTreeBuilder builder)
     {
@@ -150,6 +176,7 @@ class PageView : BaseView<PageInfo>
         OnChanged?.Invoke(Model);
         table.SetPage(Entity, Model);
         table.SetQueryColumns();
+        SetSourceCode();
         StateChanged();
     }
 
@@ -163,5 +190,17 @@ class PageView : BaseView<PageInfo>
         table.SetPage(Entity, Model);
         table.SetQueryColumns();
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
+        SetSourceCode();
+    }
+
+    private void SetSourceCode()
+    {
+        htmlPage = string.Empty;
+        htmlService = string.Empty;
+        if (!IsCustomPage)
+            return;
+
+        codePage = Generator?.GetPage(Model, Entity);
+        codeService = Generator?.GetService(Model, Entity);
     }
 }

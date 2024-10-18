@@ -266,6 +266,7 @@
 .kui-code {margin:0 0 0 10px;border-left:3px solid var(--kui-border-color);overflow:auto;}
 .kui-code-action {position:absolute;top:-50px;right:0;}
 .kui-designer.entity .kui-code {margin:10px 0 0 0;height:390px;}
+.kui-designer.PageInfo .kui-code {margin:10px 0 0 10px;height:390px;}
 .kui-code pre[class*=language-] {margin:0;}
 
 /*WebApi*/

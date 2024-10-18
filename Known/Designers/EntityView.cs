@@ -5,10 +5,14 @@ class EntityView : BaseView<EntityInfo>
     private TableModel<FieldInfo> table;
     private string entity;
     private string script;
+    private string htmlEntity;
+    private string htmlScript;
     private string tableName;
     private string tableScript;
     private DatabaseType dbType;
     private IAutoService Auto;
+
+    private bool IsCustomPage => Form.Model.Data.IsCustomPage;
 
     internal override async void SetModel(EntityInfo model)
     {
@@ -27,11 +31,12 @@ class EntityView : BaseView<EntityInfo>
         SetViewData(Model);
 
         Tab.AddTab("Designer.Fields", BuildView);
-        Tab.AddTab("Designer.EntityCode", BuildEntity);
+        if (IsCustomPage)
+            Tab.AddTab("Designer.EntityCode", BuildEntity);
         Tab.AddTab("Designer.TableScript", BuildScript);
 
         table.FixedHeight = "330px";
-        table.OnQuery = c=>
+        table.OnQuery = c =>
         {
             var result = new PagingResult<FieldInfo>(Model?.Fields);
             return Task.FromResult(result);
@@ -40,12 +45,12 @@ class EntityView : BaseView<EntityInfo>
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            entity = await JS.HighlightAsync(entity, "csharp");
-            script = await JS.HighlightAsync(script, "csharp");
-        }
         await base.OnAfterRenderAsync(firstRender);
+        if (string.IsNullOrWhiteSpace(htmlEntity) && IsCustomPage)
+            htmlEntity = await JS.HighlightAsync(entity, "csharp");
+        if (string.IsNullOrWhiteSpace(htmlScript))
+            htmlScript = await JS.HighlightAsync(script, "csharp");
+        await StateChangedAsync();
     }
 
     private void BuildView(RenderTreeBuilder builder)
@@ -54,7 +59,7 @@ class EntityView : BaseView<EntityInfo>
         UI.BuildTable(builder, table);
     }
 
-    private void BuildEntity(RenderTreeBuilder builder) => BuildCode(builder, entity);
+    private void BuildEntity(RenderTreeBuilder builder) => BuildCode(builder, htmlEntity);
 
     private void BuildScript(RenderTreeBuilder builder)
     {
@@ -65,7 +70,7 @@ class EntityView : BaseView<EntityInfo>
                 builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExecuteScript));
             });
         }
-        BuildCode(builder, script);
+        BuildCode(builder, htmlScript);
     }
 
     private async void OnExecuteScript(MouseEventArgs args)
@@ -77,7 +82,10 @@ class EntityView : BaseView<EntityInfo>
 
     private void SetViewData(EntityInfo model)
     {
-        entity = Generator?.GetEntity(model);
+        htmlEntity = string.Empty;
+        htmlScript = string.Empty;
+        if (IsCustomPage)
+            entity = Generator?.GetEntity(model);
         script = Generator?.GetScript(dbType, model);
         tableName = model?.Id;
         tableScript = script;

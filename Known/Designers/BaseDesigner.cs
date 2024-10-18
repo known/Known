@@ -18,7 +18,7 @@ class BaseViewDesigner<TModel> : BaseDesigner<TModel>
 
     private void BuildTree(RenderTreeBuilder builder)
     {
-        builder.Div("kui-designer", () =>
+        builder.Div($"kui-designer {typeof(TModel).Name}", () =>
         {
             builder.Div("panel-model", () =>
             {

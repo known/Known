@@ -356,9 +356,9 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
-        sb.AppendLine("/// {0}类。", entity.Name);
+        sb.AppendLine("/// {0}实体类。", entity.Name);
         sb.AppendLine("/// </summary>");
-        sb.AppendLine("public class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
+        sb.AppendLine("public partial class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
         sb.AppendLine("{");
 
         var index = 0;
@@ -401,33 +401,46 @@ class CodeGenerator : ICodeGenerator
     #region Page
     public string GetPage(PageInfo page, EntityInfo entity)
     {
+        var pluralName = GetPluralName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("using {0}.Entities;", Config.App.Id);
-        sb.AppendLine("using {0}.Services;", Config.App.Id);
-        sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("class {0}List : BaseTablePage<{0}>", entity.Id);
         sb.AppendLine("{");
-        sb.AppendLine("    private XXXService Service => new() { Context = Context };");
+        sb.AppendLine("    private IXXXService Service;");
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        await base.OnInitPageAsync();");
-        sb.AppendLine("        Table.OnQuery = Service.Query{0}sAsync;", entity.Id);
+        sb.AppendLine("        Service = await CreateServiceAsync<IXXXService>();");
+        sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
 
+        var import = string.Empty;
+        var export = string.Empty;
         if (page.Tools != null && page.Tools.Length > 0)
         {
             foreach (var item in page.Tools)
             {
+                if (item == "Import")
+                {
+                    import = "    public async void Import() => await Table.ShowImportAsync();";
+                    continue;
+                }
+
+                if (item == "Export")
+                {
+                    export = "    public async void Export() => await Table.ExportDataAsync();";
+                    continue;
+                }
+
                 if (item == "New")
                     sb.AppendLine("    public void New() => Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
                 else if (item == "DeleteM")
-                    sb.AppendLine("    public void DeleteM() => Table.DeleteM(Service.Delete{0}sAsync);", entity.Id);
+                    sb.AppendLine("    public void DeleteM() => Table.DeleteM(Service.Delete{0}Async);", pluralName);
                 else
-                    sb.AppendLine("    public void {0}() => Table.SelectRows(Service.{0}{1}sAsync, Language[\"Button.{0}\"]);", item, entity.Id);
+                    sb.AppendLine("    public void {0}() => Table.SelectRows(Service.{0}{1}Async, Language[\"Button.{0}\"]);", item, pluralName);
             }
         }
 
@@ -438,45 +451,84 @@ class CodeGenerator : ICodeGenerator
                 if (item == "Edit")
                     sb.AppendLine("    public void Edit({0} row) => Table.EditForm(Service.Save{0}Async, row);", entity.Id);
                 else if (item == "Delete")
-                    sb.AppendLine("    public void Delete({0} row) => Table.Delete(Service.Delete{0}sAsync, row);", entity.Id);
+                    sb.AppendLine("    public void Delete({0} row) => Table.Delete(Service.Delete{0}Async, row);", pluralName);
                 else
                     sb.AppendLine("    public void {0}({1} row) => {{}};", item, entity.Id);
             }
         }
 
+        if (!string.IsNullOrEmpty(import))
+            sb.AppendLine(import);
+        if (!string.IsNullOrEmpty(export))
+            sb.AppendLine(export);
+
         sb.AppendLine("}");
         return sb.ToString();
+    }
+
+    private static string GetPluralName(string name)
+    {
+        if (!name.EndsWith('y'))
+            return name + "s";
+
+        return name.Substring(0, name.Length - 1) + "ies";
     }
     #endregion
 
     #region Service
     public string GetService(PageInfo page, EntityInfo entity)
     {
+        var pluralName = GetPluralName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("using {0}.Entities;", Config.App.Id);
-        sb.AppendLine("using {0}.Repositories;", Config.App.Id);
-        sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Services;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("class XXXService : ServiceBase");
+        sb.AppendLine("public interface IXXXService : IService");
         sb.AppendLine("{");
         sb.AppendLine("    //{0}", entity.Id);
-        sb.AppendLine("    public Task<PagingResult<{0}>> Query{0}sAsync(PagingCriteria criteria)", entity.Id);
+        sb.AppendLine("    Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria);", entity.Id, pluralName);
+        if (page.Tools != null && page.Tools.Length > 0)
+        {
+            foreach (var item in page.Tools)
+            {
+                if (item == "New" || item == "Import" || item == "Export")
+                    continue;
+
+                if (item == "DeleteM")
+                {
+                    sb.AppendLine("    Task<Result> Delete{1}Async(List<{0}> models);", entity.Id, pluralName);
+                }
+                else
+                {
+                    sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> models);", item, pluralName, entity.Id);
+                }
+            }
+
+            if (page.Tools.Contains("New"))
+            {
+                sb.AppendLine("    Task<Result> Save{0}Async({0} model);", entity.Id);
+            }
+        }
+        sb.AppendLine("}");
+        sb.AppendLine(" ");
+        sb.AppendLine("class XXXService(Context context) : ServiceBase(context), IXXXService");
+        sb.AppendLine("{");
+        sb.AppendLine("    //{0}", entity.Id);
+        sb.AppendLine("    public Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria)", entity.Id, pluralName);
         sb.AppendLine("    {");
-        sb.AppendLine("        return XXXRepository.Query{0}sAsync(Database, criteria);", entity.Id);
+        sb.AppendLine("        return Database.Query{0}Async(criteria);", pluralName);
         sb.AppendLine("    }");
 
         if (page.Tools != null && page.Tools.Length > 0)
         {
             foreach (var item in page.Tools)
             {
-                if (item == "New")
+                if (item == "New" || item == "Import" || item == "Export")
                     continue;
 
                 if (item == "DeleteM")
                 {
                     sb.AppendLine(" ");
-                    sb.AppendLine("    public async Task<Result> Delete{0}sAsync(List<{0}> models)", entity.Id);
+                    sb.AppendLine("    public async Task<Result> Delete{1}Async(List<{0}> models)", entity.Id, pluralName);
                     sb.AppendLine("    {");
                     sb.AppendLine("        if (models == null || models.Count == 0)");
                     sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
@@ -493,7 +545,7 @@ class CodeGenerator : ICodeGenerator
                 else
                 {
                     sb.AppendLine(" ");
-                    sb.AppendLine("    public async Task<Result> {0}{1}sAsync(List<{1}> models)", item, entity.Id);
+                    sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> models)", item, pluralName, entity.Id);
                     sb.AppendLine("    {");
                     sb.AppendLine("        if (models == null || models.Count == 0)");
                     sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");

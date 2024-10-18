@@ -104,6 +104,8 @@ public class SysModule : EntityBase
     /// </summary>
     public virtual bool IsMoveUp { get; set; }
 
+    internal virtual bool IsCustomPage => Target == ModuleType.Custom.ToString();
+
     private PageInfo page;
     internal virtual PageInfo Page
     {
