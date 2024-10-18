@@ -17,6 +17,17 @@ class BaseView<TModel> : BaseComponent
         builder.Div("list-view", () => UI.BuildTable(builder, model));
     }
 
+    protected void BuildAction(RenderTreeBuilder builder, string button, Action action)
+    {
+        if (ReadOnly)
+            return;
+
+        builder.Div("kui-code-action", () =>
+        {
+            builder.Button(button, this.Callback<MouseEventArgs>(e => action()));
+        });
+    }
+
     protected void BuildCode(RenderTreeBuilder builder, string code)
     {
         var html = $"<div class=\"highlight kui-code\"><pre class=\"language-csharp\"><code>{code}</code></pre></div>";
@@ -31,5 +42,26 @@ class BaseView<TModel> : BaseComponent
                 builder.Label(Language[label]);
             builder.Div(() => template?.Invoke(builder));
         });
+    }
+
+    internal async void SaveSourceCode(string fileName, string code)
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+            return;
+
+        var path = Path.Combine(Config.App.ContentRoot, fileName);
+        if (File.Exists(path))
+        {
+            UI.Confirm($"文件[{fileName}]已存在，确定要覆盖吗？", () =>
+            {
+                File.WriteAllText(path, code);
+                return UI.Toast("保存成功！");
+            });
+        }
+        else
+        {
+            File.WriteAllText(path, code);
+            await UI.Toast("保存成功！");
+        }
     }
 }

@@ -303,6 +303,14 @@ public sealed class TypeHelper
         return dyClass.CreateTypeInfo();
     }
 
+    /// <summary>
+    /// 判断一个类型是否继承泛型。
+    /// </summary>
+    /// <param name="derivedType">继承类型。</param>
+    /// <param name="genericBaseType">泛型基类。</param>
+    /// <param name="genericArguments">泛型参数。</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static bool IsSubclassOfGeneric(Type derivedType, Type genericBaseType, out Type[] genericArguments)
     {
         // 确保 genericBaseType 是泛型类型

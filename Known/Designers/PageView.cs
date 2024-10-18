@@ -87,8 +87,24 @@ class PageView : BaseView<PageInfo>
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
-    private void BuildPage(RenderTreeBuilder builder) => BuildCode(builder, htmlPage);
-    private void BuildService(RenderTreeBuilder builder) => BuildCode(builder, htmlService);
+
+    private void BuildPage(RenderTreeBuilder builder)
+    {
+        BuildAction(builder, Language.Save, () =>
+        {
+            SaveSourceCode("", codePage);
+        });
+        BuildCode(builder, htmlPage);
+    }
+
+    private void BuildService(RenderTreeBuilder builder)
+    {
+        BuildAction(builder, Language.Save, () =>
+        {
+            SaveSourceCode("", codeService);
+        });
+        BuildCode(builder, htmlService);
+    }
 
     private void BuildProperty(RenderTreeBuilder builder)
     {
