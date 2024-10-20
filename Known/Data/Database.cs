@@ -277,13 +277,17 @@ public class Database : IDisposable
     public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria) where T : class, new()
     {
         var tableName = Provider.GetTableName<T>();
-        var sql = $"select * from {tableName} where ";
+        var sql = $"select * from {tableName}";
 
         if (typeof(T).IsAssignableFrom(typeof(EntityBase)))
         {
             var compNo = nameof(EntityBase.CompNo);
             var compName = Provider.FormatName(compNo);
-            sql += $"{compName}=@{compNo}";
+            sql += $" where {compName}=@{compNo}";
+        }
+        else
+        {
+            sql += " where 1=1";
         }
 
         return QueryPageAsync<T>(sql, criteria);

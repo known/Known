@@ -35,7 +35,13 @@ public class WebApiList : BaseTable<ApiMethodInfo>
     internal static void BuildMethod(RenderTreeBuilder builder, ApiMethodInfo row)
     {
         var text = row.HttpMethod.Method;
-        var color = text == "GET" ? "cyan" : "blue";
+        var color = "blue";
+        if (row.HttpMethod == HttpMethod.Get)
+            color = "cyan";
+        else if (row.HttpMethod == HttpMethod.Delete)
+            color = "red";
+        else if (row.HttpMethod == HttpMethod.Put)
+            color = "purple";
         builder.Tag(text, color);
     }
 

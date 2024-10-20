@@ -27,21 +27,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal FormModel(TableModel<TItem> table) : this(table.Page)
+    internal FormModel(TableModel<TItem> table, bool isAuto = false) : this(table.Page, isAuto)
     {
         Table = table;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-        if (Type != null)
-        {
-            SetFormInfo(table.Context.Current.Form);
-        }
-        else
-        {
-            columns = TypeHelper.Properties(typeof(TItem))
-                                .Select(p => new ColumnInfo(p))
-                                .Where(c => c.IsForm)
-                                .ToList();
-        }
+        SetFormInfo(table.Context.Current.Form);
     }
 
     internal bool IsDictionary { get; }

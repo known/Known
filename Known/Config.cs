@@ -259,12 +259,20 @@ public sealed class Config
                 info.Id = $"{type.Name}.{method.Name}";
                 info.Route = $"/{apiName}/{name}";
                 info.Description = GetMethodSummary(xml, method);
-                info.HttpMethod = name.StartsWith("Get") ? HttpMethod.Get : HttpMethod.Post;
+                info.HttpMethod = GetHttpMethod(method);
                 info.MethodInfo = method;
                 info.Parameters = method.GetParameters();
                 ApiMethods.Add(info);
             }
         }
+    }
+
+    private static HttpMethod GetHttpMethod(MethodInfo method)
+    {
+        if (method.Name.StartsWith("Get"))
+            return HttpMethod.Get;
+
+        return HttpMethod.Post;
     }
 
     private static void AddActions(Assembly assembly)

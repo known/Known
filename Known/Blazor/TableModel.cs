@@ -124,6 +124,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     private bool isShowView = false;
     private bool isShowNew = false;
     private bool isShowEdit = false;
+    private readonly bool isAuto = false;
 
     /// <summary>
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
@@ -132,6 +133,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="isAuto">是否根据数据类型自动生成表格列。</param>
     public TableModel(BaseComponent page, bool isAuto = false) : base(page.Context)
     {
+        this.isAuto = isAuto;
         AdvSearch = true;
         Page = page;
         if (isAuto)
@@ -452,7 +454,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowView = true;
-        var isShow = ShowForm(new FormModel<TItem>(this)
+        var isShow = ShowForm(new FormModel<TItem>(this, isAuto)
         {
             FormType = type,
             IsView = true,
@@ -474,7 +476,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowNew = true;
-        var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSave = onSave };
+        var model = new FormModel<TItem>(this, isAuto) { Action = "New", DefaultData = row, OnSave = onSave };
         model.LoadDefaultData();
         var isShow = ShowForm(model);
         if (isShow)
@@ -492,7 +494,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowNew = true;
-        var model = new FormModel<TItem>(this) { Action = "New", DefaultData = row, OnSaveFile = onSave };
+        var model = new FormModel<TItem>(this, isAuto) { Action = "New", DefaultData = row, OnSaveFile = onSave };
         model.LoadDefaultData();
         var isShow = ShowForm(model);
         if (isShow)
@@ -510,7 +512,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowNew = true;
-        var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSave = onSave };
+        var model = new FormModel<TItem>(this, isAuto) { Action = "New", DefaultDataAction = row, OnSave = onSave };
         await model.LoadDefaultDataAsync();
         var isShow = ShowForm(model);
         if (isShow)
@@ -528,7 +530,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowNew = true;
-        var model = new FormModel<TItem>(this) { Action = "New", DefaultDataAction = row, OnSaveFile = onSave };
+        var model = new FormModel<TItem>(this, isAuto) { Action = "New", DefaultDataAction = row, OnSaveFile = onSave };
         await model.LoadDefaultDataAsync();
         var isShow = ShowForm(model);
         if (isShow)
@@ -546,7 +548,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowEdit = true;
-        var isShow = ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSave = onSave });
+        var isShow = ShowForm(new FormModel<TItem>(this, isAuto) { Action = "Edit", Data = row, OnSave = onSave });
         if (isShow)
             isShowEdit = false;
     }
@@ -562,7 +564,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
             return;
 
         isShowEdit = true;
-        var isShow = ShowForm(new FormModel<TItem>(this) { Action = "Edit", Data = row, OnSaveFile = onSave });
+        var isShow = ShowForm(new FormModel<TItem>(this, isAuto) { Action = "Edit", Data = row, OnSaveFile = onSave });
         if (isShow)
             isShowEdit = false;
     }
