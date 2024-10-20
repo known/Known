@@ -363,7 +363,7 @@ public class Database : IDisposable
     public virtual Task<List<T>> QueryListByIdAsync<T>(string[] ids)
     {
         if (ids == null || ids.Length == 0)
-            return null;
+            return Task.FromResult<List<T>>(null);
 
         var info = Provider.GetSelectCommand<T>(ids);
         return QueryListAsync<T>(info);
@@ -753,12 +753,13 @@ public class Database : IDisposable
     /// <typeparam name="T">实体类型。</typeparam>
     /// <param name="id">ID字段值。</param>
     /// <returns>实体对象。</returns>
-    public virtual Task<T> QueryByIdAsync<T>(string id) where T : EntityBase, new()
+    public virtual Task<T> QueryByIdAsync<T>(string id)
     {
         if (string.IsNullOrEmpty(id))
-            return default;
+            return Task.FromResult<T>(default);
 
-        return QueryAsync<T>(d => d.Id == id);
+        var info = Provider.GetSelectCommand<T>(id);
+        return QueryAsync<T>(info);
     }
 
     /// <summary>

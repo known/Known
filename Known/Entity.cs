@@ -1,9 +1,20 @@
 ﻿namespace Known;
 
 /// <summary>
-/// 数据实体基类。
+/// 数据实体基类，主键ID为泛型。
 /// </summary>
-public class EntityBase
+public class EntityBase<TId>
+{
+    /// <summary>
+    /// 取得或设置实体ID。
+    /// </summary>
+    public TId Id { get; set; }
+}
+
+/// <summary>
+/// 数据实体基类，主键ID为字符串类型。
+/// </summary>
+public class EntityBase : EntityBase<string>
 {
     private Dictionary<string, object> original;
     private Dictionary<string, object> extension;
@@ -26,11 +37,6 @@ public class EntityBase
     /// 取得或设置是否是新增实体。
     /// </summary>
     public virtual bool IsNew { get; set; }
-
-    /// <summary>
-    /// 取得或设置实体ID。
-    /// </summary>
-    public string Id { get; set; }
 
     /// <summary>
     /// 取得或设置实体创建人。
