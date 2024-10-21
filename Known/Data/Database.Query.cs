@@ -38,16 +38,29 @@ public partial class Database
     /// 异步查询实体对象。
     /// </summary>
     /// <typeparam name="T">实体类型。</typeparam>
+    /// <typeparam name="TKey">ID字段类型。</typeparam>
     /// <param name="id">ID字段值。</param>
     /// <returns>实体对象。</returns>
-    public virtual Task<T> QueryByIdAsync<T>(string id)
+    public virtual Task<T> QueryByIdAsync<T, TKey>(TKey id) where T : EntityBase<TKey>, new()
     {
-        if (string.IsNullOrEmpty(id))
-            return Task.FromResult<T>(default);
-
-        var info = Provider.GetSelectCommand<T>(id);
-        return QueryAsync<T>(info);
+        return QueryAsync<T>(d => d.Id.Equals(id));
     }
+
+    /// <summary>
+    /// 异步查询实体对象。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="id">ID字段值。</param>
+    /// <returns>实体对象。</returns>
+    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase<string>, new() => QueryByIdAsync<T, string>(id);
+    
+    /// <summary>
+    /// 异步查询实体对象。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="id">ID字段值。</param>
+    /// <returns>实体对象。</returns>
+    public Task<T> QueryByIdAsync<T>(long id) where T : EntityBase<long>, new() => QueryByIdAsync<T, long>(id);
 
     /// <summary>
     /// 异步查询多条数据。
@@ -89,9 +102,10 @@ public partial class Database
     /// 异步查询多条数据。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
+    /// <typeparam name="TKey">ID字段类型。</typeparam>
     /// <param name="ids">实体ID集合。</param>
     /// <returns>多条数据。</returns>
-    public virtual Task<List<T>> QueryListByIdAsync<T>(string[] ids)
+    public virtual Task<List<T>> QueryListByIdAsync<T, TKey>(TKey[] ids)
     {
         if (ids == null || ids.Length == 0)
             return Task.FromResult<List<T>>(null);
@@ -99,6 +113,22 @@ public partial class Database
         var info = Provider.GetSelectCommand<T>(ids);
         return QueryListAsync<T>(info);
     }
+
+    /// <summary>
+    /// 异步查询多条数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="ids">实体ID集合。</param>
+    /// <returns>多条数据。</returns>
+    public Task<List<T>> QueryListByIdAsync<T>(string[] ids) => QueryListByIdAsync<T, string>(ids);
+
+    /// <summary>
+    /// 异步查询多条数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="ids">实体ID集合。</param>
+    /// <returns>多条数据。</returns>
+    public Task<List<T>> QueryListByIdAsync<T>(long[] ids) => QueryListByIdAsync<T, long>(ids);
 
     /// <summary>
     /// 异步查询DataTable。

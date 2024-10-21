@@ -71,7 +71,7 @@ class ExpressionHelper(DbProvider provider)
         {
             if (ue.NodeType == ExpressionType.Not)
                 WhereSql += "Not";
-            RouteExpression<T>(ue.Operand);
+            return RouteExpression<T>(ue.Operand);
         }
         return null;
     }
@@ -117,6 +117,8 @@ class ExpressionHelper(DbProvider provider)
     {
         if (mce.Method.Name == nameof(DbFunc.Count))
             return "count(1)";
+        else if (mce.Method.Name == nameof(Equals))
+            return SetEqualsWhere<T>(mce);
         else if (mce.Method.Name == nameof(string.Contains))
             return SetLikeWhere<T>(mce, "%{0}%");
         else if (mce.Method.Name == nameof(string.StartsWith))
@@ -179,6 +181,16 @@ class ExpressionHelper(DbProvider provider)
             sb.Append($"@{param},");
         }
         return sb.ToString(0, sb.Length - 1);
+    }
+
+    private object SetEqualsWhere<T>(MethodCallExpression mce)
+    {
+        var field = RouteExpression<T>(mce.Object);
+        var value = RouteExpression<T>(mce.Arguments[0]);
+        var param = GetParameterName();
+        Parameters[param] = value;
+        WhereSql += $"{field}=@{param}";
+        return null;
     }
 
     private object SetLikeWhere<T>(MethodCallExpression mce, string format)

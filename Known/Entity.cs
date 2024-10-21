@@ -3,12 +3,13 @@
 /// <summary>
 /// 数据实体基类，主键ID为泛型。
 /// </summary>
-public class EntityBase<TId>
+/// <typeparam name="TKey">主键ID类型。</typeparam>
+public class EntityBase<TKey>
 {
     /// <summary>
     /// 取得或设置实体ID。
     /// </summary>
-    public TId Id { get; set; }
+    public TKey Id { get; set; }
 }
 
 /// <summary>

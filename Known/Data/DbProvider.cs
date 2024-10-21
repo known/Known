@@ -126,14 +126,14 @@ class DbProvider
         return new CommandInfo(this, sql, paramters);
     }
 
-    public CommandInfo GetSelectCommand<T>(string id)
+    public CommandInfo GetSelectCommand<T>(object id)
     {
         var tableName = GetTableName<T>();
         var sql = $"select * from {FormatName(tableName)} where {IdName}=@id";
         return new CommandInfo(this, sql, new { id });
     }
 
-    public CommandInfo GetSelectCommand<T>(string[] ids)
+    public CommandInfo GetSelectCommand<T>(object[] ids)
     {
         var idTexts = new List<string>();
         var paramters = new Dictionary<string, object>();
