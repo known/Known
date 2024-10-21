@@ -1,4 +1,5 @@
-﻿
+﻿using Microsoft.AspNetCore.Components.Routing;
+
 namespace Known.AntBlazor.Components;
 
 /// <summary>
@@ -78,6 +79,7 @@ public class AntMenu : BaseComponent
     {
         builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
+               .Set(c => c.RouterMatch, NavLinkMatch.Prefix)
                .Set(c => c.RouterLink, item.RouteUrl)
                .Set(c => c.ChildContent, b => BuildItemName(b, item))
                .Build();

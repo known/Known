@@ -48,7 +48,7 @@ class BaseView<TModel> : BaseComponent
     {
         if (string.IsNullOrWhiteSpace(fileName))
             return;
-
+#if DEBUG
         var path = Path.Combine(Config.App.ContentRoot, fileName);
         if (File.Exists(path))
         {
@@ -63,5 +63,6 @@ class BaseView<TModel> : BaseComponent
             File.WriteAllText(path, code);
             await UI.Toast("保存成功！");
         }
+#endif
     }
 }

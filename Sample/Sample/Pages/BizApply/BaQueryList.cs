@@ -1,4 +1,4 @@
-﻿namespace Sample.Client.Pages.BizApply;
+﻿namespace Sample.Pages.BizApply;
 
 //业务查询列表
 [Route("/bas/queries")]

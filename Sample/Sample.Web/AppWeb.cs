@@ -11,8 +11,6 @@ public static class AppWeb
         //Stopwatcher.Enabled = true;
         services.AddSample();
         services.AddSampleCore(action);
-        services.AddSampleRazor();
-
         services.AddKnownCells();
         switch (Config.App.Type)
         {

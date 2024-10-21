@@ -1,6 +1,6 @@
 ﻿using Known.AntBlazor.Components;
 
-namespace Sample.Client.Pages.Tests;
+namespace Sample.Pages.Tests;
 
 public class TestInfo
 {

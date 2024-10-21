@@ -1,4 +1,4 @@
-﻿namespace Sample.Client.Pages;
+﻿namespace Sample.Pages;
 
 class CustomTablePage : BaseComponent
 {

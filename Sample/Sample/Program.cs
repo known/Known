@@ -1,6 +1,5 @@
 ﻿//using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 //using Sample;
-//using Sample.Client;
 
 //var builder = WebAssemblyHostBuilder.CreateDefault(args);
 //Config.HostUrl = builder.HostEnvironment.BaseAddress;

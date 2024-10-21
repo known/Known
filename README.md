@@ -50,9 +50,8 @@ dotnet new known --name=MyApp
 ├─Known.Cells       -> 基于Aspose.Cells实现的Excel操作类库。
 ├─Known.Core        -> 基于AspNetCore的服务端类库。
 ├─Sample            -> 示例项目
-  ├─Sample          -> 项目类库，包含配置、常量、枚举、实体、模型、服务接口。
-  ├─Sample.Client   -> 项目前端，包含配置、路由、页面，基于Castle动态代理访问后端WebApi。
-  ├─Sample.Web      -> 项目后端，包含业务逻辑、数据访问，根据服务接口动态生成WebApi。
+  ├─Sample          -> 包含配置、常量、枚举、实体、模型、服务接口、路由、页面，动态代理访问后端WebApi。
+  ├─Sample.Web      -> 包含业务逻辑、数据访问、定时任务，根据服务接口动态生成WebApi。
   ├─Sample.WebApi   -> 框架示例WebApi。
   ├─Sample.WinForm  -> 框架示例WinForm App。
 ```

@@ -1,4 +1,4 @@
-﻿namespace Sample.Client.Pages.BaseData;
+﻿namespace Sample.Pages.BaseData;
 
 [Route("/bds/company")]
 public class CompanyForm : BaseTabPage

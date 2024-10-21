@@ -1,4 +1,4 @@
-﻿namespace Sample.Client.Pages.BizApply;
+﻿namespace Sample.Pages.BizApply;
 
 class ApplyListTable : BaseTable<TbApplyList>
 {

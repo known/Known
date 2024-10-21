@@ -7,7 +7,6 @@ global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.WorkFlows;
-global using Sample.Client;
 global using Sample.Entities;
 global using Sample.Models;
 global using Sample.Services;

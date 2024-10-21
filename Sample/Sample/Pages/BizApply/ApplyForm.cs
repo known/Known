@@ -1,4 +1,4 @@
-﻿namespace Sample.Client.Pages.BizApply;
+﻿namespace Sample.Pages.BizApply;
 
 //申请表单，继承流程表单基类
 class ApplyForm : BaseFlowForm<TbApply>
