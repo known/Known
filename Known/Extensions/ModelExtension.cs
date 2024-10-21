@@ -159,21 +159,6 @@ public static class ModelExtension
             AddChildren(models, sub, ref current);
         }
     }
-
-    internal static List<MenuInfo> ToMenus(this List<SysModule> modules, bool isAdmin)
-    {
-        if (modules == null || modules.Count == 0)
-            return [];
-
-        return modules.Select(m => new MenuInfo(m, isAdmin)).ToList();
-    }
-
-    internal static void RemoveModule(this List<SysModule> modules, string code)
-    {
-        var module = modules.FirstOrDefault(m => m.Code == code);
-        if (module != null)
-            modules.Remove(module);
-    }
     #endregion
 
     #region Organization
@@ -221,36 +206,6 @@ public static class ModelExtension
             menu.Children.Add(sub);
             AddChildren(models, sub, ref current);
         }
-    }
-    #endregion
-
-    #region File
-    /// <summary>
-    /// 获取附件字段的文件对象列表。
-    /// </summary>
-    /// <param name="files">表单的附件字典。</param>
-    /// <param name="user">当前用户。</param>
-    /// <param name="key">字段名。</param>
-    /// <param name="bizType">业务类型。</param>
-    /// <param name="bizPath">业务路径。</param>
-    /// <returns>文件对象列表。</returns>
-    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
-
-    internal static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, FileFormInfo form)
-    {
-        if (files == null || files.Count == 0)
-            return null;
-
-        if (!files.TryGetValue(key, out List<FileDataInfo> value))
-            return null;
-
-        var attaches = new List<AttachFile>();
-        foreach (var item in value)
-        {
-            var attach = item.ToAttachFile(user, form);
-            attaches.Add(attach);
-        }
-        return attaches;
     }
     #endregion
 }

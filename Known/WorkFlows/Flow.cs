@@ -43,15 +43,6 @@ public class FlowStatus
     /// </summary>
     public const string Stop = "Stop";
 
-    internal const string StepCreate = "Create";
-    internal const string StepSubmit = "Submit";
-    internal const string StepRevoke = "Revoke";
-    internal const string StepVerify = "Verify";
-    internal const string StepAssign = "Assign";
-    internal const string StepStopped = "Stopped";
-    internal const string StepRestart = "Restart";
-    internal const string StepEnd = "End";
-
     /// <summary>
     /// 暂存。
     /// </summary>

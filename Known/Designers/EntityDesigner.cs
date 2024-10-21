@@ -23,7 +23,7 @@ class EntityDesigner : BaseDesigner<string>
         dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
-        entity = DataHelper.GetEntity(Model);
+        entity = DataHelper.ToEntity(Model);
         Form.Entity = entity;
     }
 
@@ -111,7 +111,7 @@ class EntityDesigner : BaseDesigner<string>
     private void OnModelChanged(string model)
     {
         Model = model;
-        entity = DataHelper.GetEntity(model);
+        entity = DataHelper.ToEntity(model);
         Form.Entity = entity;
         view?.SetModel(entity);
         OnChanged?.Invoke(model);

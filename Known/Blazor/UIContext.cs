@@ -81,7 +81,7 @@ public class UIContext : Context
         if (user == null)
             return false;
 
-        if (user.IsAdmin)
+        if (user.IsAdmin())
             return true;
 
         return IsInMenu(Current?.Id, buttonId);

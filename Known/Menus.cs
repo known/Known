@@ -17,7 +17,12 @@ public class MenuInfo
         Columns = [];
     }
 
-    internal MenuInfo(SysModule module, bool isAdmin = true) : this()
+    /// <summary>
+    /// 构造函数，创建一个菜单信息类的实例。
+    /// </summary>
+    /// <param name="module">系统模块信息。</param>
+    /// <param name="isAdmin">是否是管理员。</param>
+    public MenuInfo(SysModule module, bool isAdmin = true) : this()
     {
         if (isAdmin)
             module.LoadData();
@@ -32,7 +37,7 @@ public class MenuInfo
         Target = module.Target;
         Url = module.Url;
         Sort = module.Sort;
-        Model = DataHelper.GetEntity(module.EntityData);
+        Model = DataHelper.ToEntity(module.EntityData);
         Page = module.Page;
         Form = module.Form;
         Tools = module.Buttons;
@@ -356,7 +361,12 @@ public class ColumnInfo
 
     internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
-    internal ColumnInfo(PropertyInfo info) => SetPropertyInfo(info);
+
+    /// <summary>
+    /// 构造函数，创建一个栏位信息类的实例。
+    /// </summary>
+    /// <param name="info">栏位属性对象。</param>
+    public ColumnInfo(PropertyInfo info) => SetPropertyInfo(info);
 
     /// <summary>
     /// 取得或设置栏位ID。
@@ -504,17 +514,6 @@ public class ColumnInfo
     /// 取得或设置栏位备注。
     /// </summary>
     public string Note { get; set; }
-
-    internal string GetImportRuleNote(Context context)
-    {
-        if (!string.IsNullOrWhiteSpace(Category))
-        {
-            var codes = Cache.GetCodes(Category);
-            return context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
-        }
-
-        return Note;
-    }
 
     private void SetPageColumnInfo(PageColumnInfo info)
     {

@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.91" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
         <!--
         <PackageReference Include="System.Data.OleDb" Version="8.0.1" />
@@ -19,11 +19,6 @@
         <PackageReference Include="Npgsql" Version="8.0.4" />
         <PackageReference Include="DM.DmProvider" Version="8.3.1.28188" />
         -->
-        <PackageReference Include="Costura.Fody" Version="5.7.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.91" />
         <ProjectReference Include="..\Sample.Web\Sample.Web.csproj" />
     </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 系统附件类。
@@ -51,7 +51,7 @@ public class AttachFile
     /// <summary>
     /// 取得附件路径。
     /// </summary>
-    public string FilePath { get; internal set; }
+    public string FilePath { get; set; }
 
     /// <summary>
     /// 取得图片附件缩略图路径。

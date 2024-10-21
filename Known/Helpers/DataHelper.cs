@@ -1,12 +1,19 @@
 ﻿namespace Known.Helpers;
 
-class DataHelper
+/// <summary>
+/// 数据帮助者类。
+/// </summary>
+public class DataHelper
 {
     private static List<SysModule> Modules = [];
     internal static List<EntityInfo> Models = [];
     internal static List<FlowInfo> Flows = [];
 
-    internal static void Initialize(List<SysModule> modules)
+    /// <summary>
+    /// 初始化模块数据。
+    /// </summary>
+    /// <param name="modules">系统模块列表。</param>
+    public static void Initialize(List<SysModule> modules)
     {
         if (modules == null || modules.Count == 0)
             return;
@@ -30,13 +37,23 @@ class DataHelper
     }
 
     #region Entity
-    internal static EntityInfo GetEntityByModuleId(string moduleId)
+    /// <summary>
+    /// 根据模块ID获取实体信息。
+    /// </summary>
+    /// <param name="moduleId">模块ID。</param>
+    /// <returns>实体信息。</returns>
+    public static EntityInfo GetEntityByModuleId(string moduleId)
     {
         var module = Modules.FirstOrDefault(m => m.Id == moduleId);
-        return GetEntity(module?.EntityData);
+        return ToEntity(module?.EntityData);
     }
 
-    internal static EntityInfo GetEntity(string model)
+    /// <summary>
+    /// 将模型配置转换成实体信息对象。
+    /// </summary>
+    /// <param name="model">模型配置。</param>
+    /// <returns>实体信息。</returns>
+    public static EntityInfo ToEntity(string model)
     {
         var info = new EntityInfo();
         if (string.IsNullOrWhiteSpace(model))
@@ -90,7 +107,12 @@ class DataHelper
     #endregion
 
     #region Flow
-    internal static FlowInfo GetFlow(string model)
+    /// <summary>
+    /// 将流程配置转换成流程信息对象。
+    /// </summary>
+    /// <param name="model">流程配置。</param>
+    /// <returns>流程信息。</returns>
+    public static FlowInfo ToFlow(string model)
     {
         var info = new FlowInfo();
         if (string.IsNullOrWhiteSpace(model))
@@ -148,7 +170,13 @@ class DataHelper
         return value;
     }
 
-    internal static void SetValue(Dictionary<string, object> data, string id, object value)
+    /// <summary>
+    /// 设置无代码字典对象字段值。
+    /// </summary>
+    /// <param name="data">字典对象。</param>
+    /// <param name="id">字段ID。</param>
+    /// <param name="value">字段值。</param>
+    public static void SetValue(Dictionary<string, object> data, string id, object value)
     {
         var key = id;
         if (data.ContainsKey(id.ToLower()))
@@ -158,7 +186,14 @@ class DataHelper
         data[key] = value;
     }
 
-    internal static Result Validate(Context context, string tableName, Dictionary<string, object> model)
+    /// <summary>
+    /// 验证无代码字典对象。
+    /// </summary>
+    /// <param name="context">系统上下文。</param>
+    /// <param name="tableName">数据表名。</param>
+    /// <param name="model">字典对象。</param>
+    /// <returns>验证结果。</returns>
+    public static Result Validate(Context context, string tableName, Dictionary<string, object> model)
     {
         var entity = Models.FirstOrDefault(m => m.Id == tableName);
         if (entity == null)

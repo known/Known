@@ -1,4 +1,4 @@
-﻿namespace Known.WorkFlows;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 系统工作流基类。
@@ -6,6 +6,8 @@
 /// <param name="context">上下文对象。</param>
 public abstract class BaseFlow(Context context)
 {
+    internal static Dictionary<string, Type> FlowTypes { get; } = [];
+
     /// <summary>
     /// 取得上下文对象。
     /// </summary>
@@ -13,10 +15,10 @@ public abstract class BaseFlow(Context context)
 
     internal static BaseFlow Create(Context context, SysFlow flow)
     {
-        if (!Config.FlowTypes.ContainsKey(flow.FlowCode))
+        if (!FlowTypes.ContainsKey(flow.FlowCode))
             throw new SystemException(context.Language["Tip.NotRegisterFlow"]);
 
-        var type = Config.FlowTypes[flow.FlowCode];
+        var type = FlowTypes[flow.FlowCode];
         var instance = Activator.CreateInstance(type, context) as BaseFlow;
         return instance;
     }

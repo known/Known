@@ -114,17 +114,6 @@ public class FileDataInfo
     /// 取得或设置附件内容字节数组。
     /// </summary>
     public byte[] Bytes { get; set; }
-
-    /// <summary>
-    /// 将附件数据转换成附件类的实例。
-    /// </summary>
-    /// <param name="user">当前用户信息。</param>
-    /// <param name="form">附件表单信息。</param>
-    /// <returns></returns>
-    public AttachFile ToAttachFile(UserInfo user, FileFormInfo form)
-    {
-        return new AttachFile(this, user, form.BizType, form.BizPath) { Category2 = form.Category };
-    }
 }
 
 /// <summary>

@@ -22,7 +22,7 @@ class FlowDesigner : BaseDesigner<string>
         flowModels = DataHelper.Flows.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
-        flow = DataHelper.GetFlow(Model);
+        flow = DataHelper.ToFlow(Model);
         Form.Flow = flow;
     }
 
@@ -98,7 +98,7 @@ class FlowDesigner : BaseDesigner<string>
     private void OnModelChanged(string model)
     {
         Model = model;
-        flow = DataHelper.GetFlow(model);
+        flow = DataHelper.ToFlow(model);
         Form.Flow = flow;
         view?.SetModel(flow);
         OnChanged?.Invoke(model);

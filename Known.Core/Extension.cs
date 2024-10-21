@@ -8,6 +8,39 @@ public static class Extension
     private static readonly CoreOption option = new();
 
     /// <summary>
+    /// 添加框架后端配置。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">系统配置方法。</param>
+    public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
+    {
+        action?.Invoke(Config.App);
+        AppHelper.RegisterConnections();
+        Logger.Start();
+
+        if (Config.App.Type == AppType.WebApi)
+            return;
+
+        LoadBuildTime(Config.Version);
+        option.AddAssembly(typeof(Extension).Assembly);
+
+        services.AddScoped<Database>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAutoService, AutoService>();
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+        services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<IDictionaryService, DictionaryService>();
+        services.AddScoped<IFileService, FileService>();
+        services.AddScoped<IFlowService, FlowService>();
+        services.AddScoped<ISystemService, SystemService>();
+        services.AddScoped<ISettingService, SettingService>();
+        services.AddScoped<IModuleService, ModuleService>();
+        services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IWeixinService, WeixinService>();
+    }
+
+    /// <summary>
     /// 添加桌面框架及身份认证支持。
     /// </summary>
     /// <param name="services">服务集合。</param>
@@ -97,5 +130,29 @@ public static class Extension
             else
                 app.MapPost(item.Route, ctx => WebApi.Invoke(ctx, item));
         }
+    }
+
+    private static void LoadBuildTime(VersionInfo info)
+    {
+        var dateTime = GetBuildTime();
+        var count = dateTime.Year - 2000 + dateTime.Month + dateTime.Day;
+        info.BuildTime = dateTime;
+        info.SoftVersion = $"{info.SoftVersion}.{count}";
+    }
+
+    private static DateTime GetBuildTime()
+    {
+        var path = AppDomain.CurrentDomain.BaseDirectory;
+        var fileName = Directory.GetFiles(path, "*.exe")?.FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            //var version = assembly?.GetName().Version;
+            //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
+            //return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+            return DateTime.Now;
+        }
+
+        var file = new FileInfo(fileName);
+        return file.LastWriteTime;
     }
 }

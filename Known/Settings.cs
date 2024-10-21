@@ -66,8 +66,6 @@ public class QueryInfo
 /// </summary>
 public class SettingInfo
 {
-    internal const string KeyInfo = "UserSetting";
-
     /// <summary>
     /// 构造函数，创建一个系统设置信息类的实例。
     /// </summary>

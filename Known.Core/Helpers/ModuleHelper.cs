@@ -1,4 +1,4 @@
-﻿namespace Known.Helpers;
+﻿namespace Known.Core.Helpers;
 
 class ModuleHelper
 {

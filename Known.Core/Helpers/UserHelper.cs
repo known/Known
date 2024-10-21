@@ -1,4 +1,4 @@
-﻿namespace Known.Helpers;
+﻿namespace Known.Core.Helpers;
 
 class UserHelper
 {
@@ -31,7 +31,7 @@ class UserHelper
 
         ModuleHelper.AddRouteModules(db.Context.Language, modules);
         
-        if (user.IsAdmin)
+        if (user.IsAdmin())
             return modules.ToMenus(true);
 
         var moduleIds = await db.GetRoleModuleIdsAsync(user.Id);
@@ -68,7 +68,7 @@ class UserHelper
 
     private static List<string> GetUserButtons(List<string> moduleIds, SysModule module)
     {
-        var buttons = module.GetButtons();
+        var buttons = module.GetToolButtons();
         if (buttons == null || buttons.Count == 0)
             return [];
 
@@ -83,7 +83,7 @@ class UserHelper
 
     private static List<string> GetUserActions(List<string> moduleIds, SysModule module)
     {
-        var actions = module.GetActions();
+        var actions = module.GetTableActions();
         if (actions == null || actions.Count == 0)
             return [];
 
@@ -98,7 +98,7 @@ class UserHelper
 
     private static List<PageColumnInfo> GetUserColumns(List<string> moduleIds, SysModule module)
     {
-        var columns = module.Page?.Columns;
+        var columns = module.GetPageColumns();
         if (columns == null || columns.Count == 0)
             return null;
 

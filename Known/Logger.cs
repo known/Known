@@ -82,6 +82,11 @@ public sealed class Logger
     public static LogLevel Level { get; set; }
 
     /// <summary>
+    /// 启动默认文件日志。
+    /// </summary>
+    public static void Start() => FileLogger.Start();
+
+    /// <summary>
     /// 添加系统日志信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>

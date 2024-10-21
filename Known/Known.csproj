@@ -26,12 +26,6 @@
         <EmbeddedResource Include="Resources\Locales\vi-VN.txt" />
         <EmbeddedResource Include="Resources\Locales\zh-CN.txt" />
         <EmbeddedResource Include="Resources\Locales\zh-TW.txt" />
-        <EmbeddedResource Include="Resources\Scripts\Access.sql" />
-        <EmbeddedResource Include="Resources\Scripts\MySql.sql" />
-        <EmbeddedResource Include="Resources\Scripts\Oracle.sql" />
-        <EmbeddedResource Include="Resources\Scripts\PgSql.sql" />
-        <EmbeddedResource Include="Resources\Scripts\SQLite.sql" />
-        <EmbeddedResource Include="Resources\Scripts\SqlServer.sql" />
     </ItemGroup>
 
     <ItemGroup>

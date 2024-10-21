@@ -1,4 +1,4 @@
-﻿namespace Known.Helpers;
+﻿namespace Known.Core.Helpers;
 
 /// <summary>
 /// 数据导入帮助者类。
@@ -6,6 +6,7 @@
 public sealed class ImportHelper
 {
     internal const string BizType = "ImportFiles";
+    internal static Dictionary<string, Type> ImportTypes { get; } = [];
 
     private ImportHelper() { }
 
@@ -74,7 +75,7 @@ public sealed class ImportHelper
         {
             var id = bizId.Split('_')[1];
             var module = await db.QueryByIdAsync<SysModule>(id);
-            return GetImportRule(db.Context, module.Form.Fields);
+            return GetImportRule(db.Context, module.GetFormFields());
         }
 
         var columns = GetImportColumns(db.Context, bizId);
@@ -86,19 +87,41 @@ public sealed class ImportHelper
             Id = c.Id,
             Name = db.Context.Language.GetString(c),
             Required = c.Required,
-            Length = c.GetImportRuleNote(db.Context)
+            Length = GetImportRuleNote(db.Context, c)
         }).ToList();
         return GetImportRule(db.Context, fields);
     }
 
+    private static string GetImportRuleNote(Context context, ColumnInfo column)
+    {
+        if (!string.IsNullOrWhiteSpace(column.Category))
+        {
+            var codes = Cache.GetCodes(column.Category);
+            return context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
+        }
+
+        return column.Note;
+    }
+
     private static List<ColumnInfo> GetImportColumns(Context context, string bizId)
     {
-        var import = ImportBase.Create(new ImportContext { Context = context, BizId = bizId });
+        var import = CreateImport(new ImportContext { Context = context, BizId = bizId });
         if (import == null)
             return [];
 
         import.InitColumns();
         return import.Columns;
+    }
+
+    private static ImportBase CreateImport(ImportContext context)
+    {
+        if (context.IsDictionary)
+            return new DictionaryImport(context);
+
+        if (!ImportTypes.TryGetValue(context.BizId, out Type type))
+            return null;
+
+        return Activator.CreateInstance(type, context) as ImportBase;
     }
 
     private static byte[] GetImportRule(Context context, List<FormFieldInfo> fields)
@@ -141,7 +164,7 @@ public sealed class ImportHelper
             Context = db.Context,
             BizId = task.BizId
         };
-        var import = ImportBase.Create(context);
+        var import = CreateImport(context);
         if (import == null)
             return Result.Error("The import method is not registered and cannot be executed!");
 

@@ -1,4 +1,4 @@
-﻿namespace Known.Services;
+﻿namespace Known.Core.Services;
 
 class SysDictionaryImport(ImportContext context) : ImportBase<SysDictionary>(context)
 {

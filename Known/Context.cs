@@ -13,7 +13,11 @@ public class Context
     /// </summary>
     public Context() { }
 
-    internal Context(string cultureName)
+    /// <summary>
+    /// 构造函数，创建一个系统上下文类的实例。
+    /// </summary>
+    /// <param name="cultureName">本地化名称。</param>
+    public Context(string cultureName)
     {
         language = new Language(cultureName);
     }
@@ -75,16 +79,6 @@ public class Context
             return language;
         }
     }
-
-    /// <summary>
-    /// 创建一个上下文对象实例。
-    /// </summary>
-    /// <param name="token">用户Token。</param>
-    /// <returns>上下文对象实例。</returns>
-    public static Context Create(string token) => new()
-    {
-        CurrentUser = AuthService.GetUserByToken(token)
-    };
 }
 
 /// <summary>

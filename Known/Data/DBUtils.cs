@@ -7,44 +7,6 @@ public sealed class DbUtils
 {
     private DbUtils() { }
 
-    internal static void RegisterConnections()
-    {
-        var connections = Config.App.Connections;
-        if (connections == null || connections.Count == 0)
-            return;
-
-        AppHelper.LoadConnections(connections);
-        foreach (var item in connections)
-        {
-            var key = item.DatabaseType.ToString();
-            if (!DbProviderFactories.GetProviderInvariantNames().Contains(key))
-            {
-                DbProviderFactories.RegisterFactory(key, item.ProviderType);
-            }
-        }
-    }
-
-    internal static async Task InitializeAsync()
-    {
-        var db = Database.Create();
-        //db.EnableLog = false;
-        var exists = await db.ExistsAsync<SysModule>();
-        if (!exists)
-        {
-            Console.WriteLine("Table is initializing...");
-            var name = db.DatabaseType.ToString();
-            foreach (var item in Config.DbAssemblies)
-            {
-                var script = Utils.GetResource(item, $"{name}.sql");
-                if (string.IsNullOrWhiteSpace(script))
-                    continue;
-
-                await db.ExecuteAsync(script);
-            }
-            Console.WriteLine("Table is initialized.");
-        }
-    }
-
     /// <summary>
     /// 将DataReader转换成泛型对象。
     /// </summary>

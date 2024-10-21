@@ -136,17 +136,49 @@ public class SysModule : EntityBase
         }
     }
 
-    internal virtual List<string> Buttons { get; set; }
-    internal virtual List<string> Actions { get; set; }
-    internal virtual List<PageColumnInfo> Columns { get; set; }
+    /// <summary>
+    /// 取得或设置工具条按钮列表。
+    /// </summary>
+    public virtual List<string> Buttons { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格操作列按钮列表。
+    /// </summary>
+    public virtual List<string> Actions { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格栏位信息列表。
+    /// </summary>
+    public virtual List<PageColumnInfo> Columns { get; set; }
 
     internal void LoadData()
     {
-        Buttons = GetButtons();
-        Actions = GetActions();
+        Buttons = GetToolButtons();
+        Actions = GetTableActions();
         Columns = Page?.Columns;
     }
 
-    internal List<string> GetButtons() => Page?.Tools?.ToList();
-    internal List<string> GetActions() => Page?.Actions?.ToList();
+    /// <summary>
+    /// 获取模块页面列表栏位信息列表。
+    /// </summary>
+    /// <returns>栏位信息列表。</returns>
+    public List<PageColumnInfo> GetPageColumns() => Page?.Columns;
+
+    /// <summary>
+    /// 获取模块表单字段信息列表。
+    /// </summary>
+    /// <returns>字段信息列表。</returns>
+    public List<FormFieldInfo> GetFormFields() => Form?.Fields;
+
+    /// <summary>
+    /// 获取工具条按钮列表。
+    /// </summary>
+    /// <returns></returns>
+    public List<string> GetToolButtons() => Page?.Tools?.ToList();
+
+    /// <summary>
+    /// 获取表格操作按钮列表。
+    /// </summary>
+    /// <returns></returns>
+    public List<string> GetTableActions() => Page?.Actions?.ToList();
 }

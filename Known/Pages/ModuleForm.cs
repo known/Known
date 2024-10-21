@@ -57,7 +57,7 @@ class ModuleForm : BaseStepForm
         Step.AddStep("PageSetting", BuildModulePage);
         Step.AddStep("FormSetting", BuildModuleForm);
 
-        Entity ??= DataHelper.GetEntity(Model.Data.EntityData);
+        Entity ??= DataHelper.ToEntity(Model.Data.EntityData);
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)

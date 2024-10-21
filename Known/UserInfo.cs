@@ -131,9 +131,22 @@ public class UserInfo
     /// </summary>
     public string OpenId { get; set; }
 
-    internal bool IsTenant { get; set; }
-    internal bool IsAdmin => IsSystemAdmin() || IsTenantAdmin();
-    internal bool IsTenantAdmin() => CompNo == UserName;
+    /// <summary>
+    /// 取得或设置是否是租户。
+    /// </summary>
+    public bool IsTenant { get; set; }
+
+    /// <summary>
+    /// 获取用户是否是系统或租户管理员。
+    /// </summary>
+    /// <returns></returns>
+    public bool IsAdmin() => IsSystemAdmin() || IsTenantAdmin();
+
+    /// <summary>
+    /// 获取用户是否是租户管理员。
+    /// </summary>
+    /// <returns></returns>
+    public bool IsTenantAdmin() => CompNo == UserName;
 
     /// <summary>
     /// 获取用户是否是系统超级管理员。
@@ -180,41 +193,6 @@ public class UserInfo
             new(ClaimTypes.Role, Role)
         };
         return new ClaimsPrincipal(new ClaimsIdentity(claims, authType));
-    }
-
-    /// <summary>
-    /// 发送站内消息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="toUser">站内收件人。</param>
-    /// <param name="subject">消息主题。</param>
-    /// <param name="content">消息内容。</param>
-    /// <param name="isUrgent">是否紧急。</param>
-    /// <param name="filePath">附件路径。</param>
-    /// <param name="bizId">关联业务数据ID。</param>
-    /// <returns></returns>
-    public Task SendMessageAsync(Database db, string toUser, string subject, string content, bool isUrgent = false, string filePath = null, string bizId = null)
-    {
-        var level = isUrgent ? Constants.UMLUrgent : Constants.UMLGeneral;
-        return SendMessageAsync(db, level, toUser, subject, content, filePath, bizId);
-    }
-
-    private Task SendMessageAsync(Database db, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
-    {
-        var model = new SysMessage
-        {
-            UserId = toUser,
-            Type = Constants.UMTypeReceive,
-            MsgBy = Name,
-            MsgLevel = level,
-            Subject = subject,
-            Content = content,
-            FilePath = filePath,
-            IsHtml = true,
-            Status = Constants.UMStatusUnread,
-            BizId = bizId
-        };
-        return db.SaveAsync(model);
     }
 }
 

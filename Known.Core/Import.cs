@@ -1,28 +1,4 @@
-﻿namespace Known;
-
-/// <summary>
-/// 数据导入上下文类。
-/// </summary>
-public class ImportContext
-{
-    internal Context Context { get; set; }
-    internal Database Database { get; set; }
-    internal string BizId { get; set; }
-    internal bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith("Dictionary");
-    internal string BizParam => GetBizIdValue(1);
-
-    private string GetBizIdValue(int index)
-    {
-        if (string.IsNullOrWhiteSpace(BizId))
-            return string.Empty;
-
-        var bizIds = BizId.Split('_');
-        if (bizIds.Length > index)
-            return bizIds[index];
-
-        return string.Empty;
-    }
-}
+﻿namespace Known.Core;
 
 /// <summary>
 /// 数据导入基类。
@@ -63,16 +39,29 @@ public abstract class ImportBase(ImportContext context)
     /// <param name="file">导入文件对象。</param>
     /// <returns>导入结果。</returns>
     public virtual Task<Result> ExecuteAsync(SysFile file) => Result.SuccessAsync("");
+}
 
-    internal static ImportBase Create(ImportContext context)
+/// <summary>
+/// 数据导入上下文类。
+/// </summary>
+public class ImportContext
+{
+    internal Context Context { get; set; }
+    internal Database Database { get; set; }
+    internal string BizId { get; set; }
+    internal bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith("Dictionary");
+    internal string BizParam => GetBizIdValue(1);
+
+    private string GetBizIdValue(int index)
     {
-        if (context.IsDictionary)
-            return new DictionaryImport(context);
+        if (string.IsNullOrWhiteSpace(BizId))
+            return string.Empty;
 
-        if (!Config.ImportTypes.TryGetValue(context.BizId, out Type type))
-            return null;
+        var bizIds = BizId.Split('_');
+        if (bizIds.Length > index)
+            return bizIds[index];
 
-        return Activator.CreateInstance(type, context) as ImportBase;
+        return string.Empty;
     }
 }
 
@@ -243,19 +232,19 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
         if (module == null)
             return Result.Error(Language.Required("ModuleId"));
 
-        var entity = DataHelper.GetEntity(module.EntityData);
+        var entity = DataHelper.ToEntity(module.EntityData);
         if (entity == null || string.IsNullOrWhiteSpace(entity.Id))
             return Result.Error(Language.Required("TableName"));
 
-        var form = module.Form;
-        if (form == null || form.Fields == null)
+        var fields = module.GetFormFields();
+        if (fields == null)
             return Result.Error(Language.Required("Form.Fields"));
 
         var models = new List<Dictionary<string, object>>();
         var result = ImportHelper.ReadFile<Dictionary<string, object>>(Context, file, item =>
         {
             var model = new Dictionary<string, object>();
-            foreach (var field in form.Fields)
+            foreach (var field in fields)
             {
                 if (field.Type == FieldType.Date || field.Type == FieldType.DateTime)
                     model[field.Id] = item.GetValue<DateTime?>(field.Name);

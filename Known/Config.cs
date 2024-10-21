@@ -63,11 +63,6 @@ public sealed class Config
     public static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
-    /// 取得数据库表脚本程序集列表。
-    /// </summary>
-    public static List<Assembly> DbAssemblies { get; } = [];
-
-    /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi类型列表。
     /// </summary>
     public static List<Type> ApiTypes { get; } = [];
@@ -97,18 +92,24 @@ public sealed class Config
     /// </summary>
     public static Action<SettingInfo> OnSetting { get; set; }
 
-    internal static DateTime StartTime { get; set; }
+    /// <summary>
+    /// 取得系统启动时间。
+    /// </summary>
+    public static DateTime StartTime { get; internal set; }
+
+    /// <summary>
+    /// 取得路由页面类型，用于控制权限。
+    /// </summary>
+    public static Dictionary<string, Type> RouteTypes { get; } = [];
+
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
-    internal static List<ActionInfo> Actions { get; set; } = [];
-    internal static Dictionary<string, Type> RouteTypes { get; } = [];
-    internal static Dictionary<string, Type> ImportTypes { get; } = [];
-    internal static Dictionary<string, Type> FlowTypes { get; } = [];
+    internal static List<ActionInfo> Actions { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
-    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、工作流类、自定义表单组件类和路由，以及CodeInfo特性的代码表类。
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义表单组件类和路由，以及CodeInfo特性的代码表类。
     /// </summary>
     /// <param name="assembly">模块程序集。</param>
     /// <param name="isAdditional">是否附加到路由组件，默认True。</param>
@@ -140,10 +141,6 @@ public sealed class Config
                 AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item, item.Name[1..].Replace("Service", ""));
-            else if (item.IsAssignableTo(typeof(ImportBase)))
-                ImportTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(BaseFlow)))
-                FlowTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(ICustomField)))
@@ -229,7 +226,13 @@ public sealed class Config
         return Path.Combine(path, filePath);
     }
 
-    internal static string GetFileUrl(string filePath, bool isWeb = false)
+    /// <summary>
+    /// 获取文件URL。
+    /// </summary>
+    /// <param name="filePath">文件路径。</param>
+    /// <param name="isWeb">是否Web文件，即wwwroot文件。</param>
+    /// <returns>文件URL。</returns>
+    public static string GetFileUrl(string filePath, bool isWeb = false)
     {
         if (string.IsNullOrWhiteSpace(filePath))
             return string.Empty;
@@ -389,29 +392,6 @@ public class VersionInfo
     /// 取得或设置系统编译时间。
     /// </summary>
     public DateTime BuildTime { get; set; }
-
-    internal void LoadBuildTime()
-    {
-        var dateTime = GetBuildTime();
-        var count = dateTime.Year - 2000 + dateTime.Month + dateTime.Day;
-        BuildTime = dateTime;
-        SoftVersion = $"{SoftVersion}.{count}";
-    }
-
-    private DateTime GetBuildTime()
-    {
-        var path = AppDomain.CurrentDomain.BaseDirectory;
-        var fileName = Directory.GetFiles(path, "*.exe")?.FirstOrDefault();
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            var version = assembly?.GetName().Version;
-            //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
-            return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-        }
-
-        var file = new FileInfo(fileName);
-        return file.LastWriteTime;
-    }
 }
 
 /// <summary>
@@ -548,7 +528,12 @@ public class AppInfo
     /// </summary>
     public Action<CommandInfo> SqlMonitor { get; set; }
 
-    internal Result CheckSystemInfo(SystemInfo info)
+    /// <summary>
+    /// 检查系统信息。
+    /// </summary>
+    /// <param name="info">系统信息。</param>
+    /// <returns>检查结果。</returns>
+    public Result CheckSystemInfo(SystemInfo info)
     {
         if (CheckSystem == null)
             return Result.Success("");
@@ -559,30 +544,19 @@ public class AppInfo
         return result;
     }
 
-    internal ConnectionInfo GetConnection(string name)
+    /// <summary>
+    /// 获取指定连接名的数据库连接信息。
+    /// </summary>
+    /// <param name="name">连接名称。</param>
+    /// <returns>数据库连接信息。</returns>
+    public ConnectionInfo GetConnection(string name)
     {
         if (Connections == null || Connections.Count == 0)
             return null;
 
         return Connections.FirstOrDefault(c => c.Name == name);
     }
-
-    internal void SetConnection(List<DatabaseInfo> infos)
-    {
-        if (infos == null || infos.Count == 0)
-            return;
-
-        foreach (var info in infos)
-        {
-            var conn = GetConnection(info.Name);
-            if (conn != null)
-                conn.ConnectionString = info.ConnectionString;
-        }
-
-        AppHelper.SaveConnections(Connections);
-    }
 }
-
 
 /// <summary>
 /// WebApi方法信息类。
@@ -660,27 +634,4 @@ public class ConnectionInfo
     /// 取得或设置数据库连接字符串。
     /// </summary>
     public string ConnectionString { get; set; }
-
-    internal string GetDefaultConnectionString()
-    {
-        switch (DatabaseType)
-        {
-            case DatabaseType.Access:
-                return "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx";
-            case DatabaseType.SQLite:
-                return "Data Source=..\\Sample.db";
-            case DatabaseType.SqlServer:
-                return "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;";
-            case DatabaseType.Oracle:
-                return "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;";
-            case DatabaseType.MySql:
-                return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-            case DatabaseType.PgSql:
-                return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
-            case DatabaseType.DM:
-                return "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;";
-            default:
-                return string.Empty;
-        }
-    }
 }
