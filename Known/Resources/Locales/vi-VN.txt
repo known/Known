@@ -45,8 +45,11 @@
   "QueryType.BetweenLessEqual": "Khu vực (chỉ bao gồm cái trước)",
   "QueryType.BetweenGreatEqual": "Khu vực (chỉ bao gồm cái sau)",
   "QueryType.Contain": "Bao gồm trong",
+  "QueryType.NotContain": "Không chứa trong",
   "QueryType.StartWith": "Bắt đầu với",
+  "QueryType.NotStartWith": "Không bắt đầu với",
   "QueryType.EndWith": "Kết thúc với",
+  "QueryType.NotEndWith": "Không kết thúc với",
   "QueryType.Batch": "Số lượng lớn (phân chia dấu phẩy)",
 
   "Button.ConfirmUpdate": "Xác định sửa đổi",

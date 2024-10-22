@@ -83,13 +83,22 @@ class QueryHelper
                 SetGreatQuery(db, ref sql, criteria, field, key, "<=");
                 break;
             case QueryType.Contain:
-                SetLikeQuery(db, ref sql, criteria, field, key, "%{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, "like", key, "%{0}%");
+                break;
+            case QueryType.NotContain:
+                SetLikeQuery(db, ref sql, criteria, field, "not like", key, "%{0}%");
                 break;
             case QueryType.StartWith:
-                SetLikeQuery(db, ref sql, criteria, field, key, "{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, "like", key, "{0}%");
+                break;
+            case QueryType.NotStartWith:
+                SetLikeQuery(db, ref sql, criteria, field, "not like", key, "{0}%");
                 break;
             case QueryType.EndWith:
-                SetLikeQuery(db, ref sql, criteria, field, key, "%{0}");
+                SetLikeQuery(db, ref sql, criteria, field, "like", key, "%{0}");
+                break;
+            case QueryType.NotEndWith:
+                SetLikeQuery(db, ref sql, criteria, field, "not like", key, "%{0}");
                 break;
             case QueryType.Batch:
                 SetBatchQuery(ref sql, criteria, field, key);
@@ -145,14 +154,14 @@ class QueryHelper
         }
     }
 
-    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string format)
+    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string operate, string key, string format)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
         query.ParamValue = string.Format(format, query.Value);
         if (db.DatabaseType == DatabaseType.Access)
-            sql += $" and {field} like '{query.Value}'";
+            sql += $" and {field} {operate} '{query.Value}'";
         else
-            sql += $" and {field} like @{key}";
+            sql += $" and {field} {operate} @{key}";
     }
 
     private static void SetBatchQuery(ref string sql, PagingCriteria criteria, string field, string key)

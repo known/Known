@@ -45,8 +45,11 @@
   "QueryType.BetweenLessEqual": "Between(GreatEqual)",
   "QueryType.BetweenGreatEqual": "Between(LessEqual)",
   "QueryType.Contain": "Contain",
+  "QueryType.NotContain": "NotContain",
   "QueryType.StartWith": "StartWith",
+  "QueryType.NotStartWith": "NotStartWith",
   "QueryType.EndWith": "EndWith",
+  "QueryType.NotEndWith": "NotEndWith",
   "QueryType.Batch": "Batch(Comma division)",
 
   "Button.ConfirmUpdate": "Update",

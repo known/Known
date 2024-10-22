@@ -292,13 +292,25 @@ public enum QueryType
     /// </summary>
     Contain,
     /// <summary>
+    /// 不包含于。
+    /// </summary>
+    NotContain,
+    /// <summary>
     /// 开头于。
     /// </summary>
     StartWith,
     /// <summary>
+    /// 不开头于。
+    /// </summary>
+    NotStartWith,
+    /// <summary>
     /// 结尾于。
     /// </summary>
     EndWith,
+    /// <summary>
+    /// 不结尾于。
+    /// </summary>
+    NotEndWith,
     /// <summary>
     /// 批量(逗号分割)。
     /// </summary>

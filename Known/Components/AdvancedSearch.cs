@@ -173,8 +173,11 @@ class AdvancedSearchItem : BaseComponent
                 AddQueryType(types, QueryType.Equal);
                 AddQueryType(types, QueryType.NotEqual);
                 AddQueryType(types, QueryType.Contain);
+                AddQueryType(types, QueryType.NotContain);
                 AddQueryType(types, QueryType.StartWith);
+                AddQueryType(types, QueryType.NotStartWith);
                 AddQueryType(types, QueryType.EndWith);
+                AddQueryType(types, QueryType.NotEndWith);
                 AddQueryType(types, QueryType.Batch);
                 break;
         }

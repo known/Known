@@ -45,8 +45,11 @@
   "QueryType.BetweenLessEqual": "區間(僅含前者)",
   "QueryType.BetweenGreatEqual": "區間(僅含後者)",
   "QueryType.Contain": "包含於",
+  "QueryType.NotContain": "不包含於",
   "QueryType.StartWith": "開頭於",
+  "QueryType.NotStartWith": "不開頭於",
   "QueryType.EndWith": "結尾於",
+  "QueryType.NotEndWith": "不結尾於",
   "QueryType.Batch": "批量(逗號分割)",
 
   "Button.ConfirmUpdate": "確定修改",
