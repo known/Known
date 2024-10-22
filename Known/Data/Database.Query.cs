@@ -52,15 +52,27 @@ public partial class Database
     /// <typeparam name="T">实体类型。</typeparam>
     /// <param name="id">ID字段值。</param>
     /// <returns>实体对象。</returns>
-    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase<string>, new() => QueryByIdAsync<T, string>(id);
-    
+    public Task<T> QueryByIdAsync<T>(string id) where T : EntityBase<string>, new()
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return Task.FromResult(default(T));
+
+        return QueryByIdAsync<T, string>(id);
+    }
+
     /// <summary>
     /// 异步查询实体对象。
     /// </summary>
     /// <typeparam name="T">实体类型。</typeparam>
     /// <param name="id">ID字段值。</param>
     /// <returns>实体对象。</returns>
-    public Task<T> QueryByIdAsync<T>(long id) where T : EntityBase<long>, new() => QueryByIdAsync<T, long>(id);
+    public Task<T> QueryByIdAsync<T>(long id) where T : EntityBase<long>, new()
+    {
+        if (id <= 0)
+            return Task.FromResult(default(T));
+
+        return QueryByIdAsync<T, long>(id);
+    }
 
     /// <summary>
     /// 异步查询多条数据。

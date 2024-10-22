@@ -74,7 +74,7 @@ public partial class MainForm : Form
                 //ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
             }];
         });
-        blazorWebView.HostPage = "index.html";
+        blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.Services.UseApp();
         blazorWebView.RootComponents.Add<App>("#app");

@@ -564,6 +564,11 @@ public class ExportColumnInfo
     /// 取得或设置导出栏位字段类型。
     /// </summary>
     public FieldType Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置导出栏位是否是附加栏位。
+    /// </summary>
+    public bool IsAdditional { get; set; }
 }
 
 /// <summary>

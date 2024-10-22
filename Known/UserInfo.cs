@@ -187,11 +187,9 @@ public class UserInfo
     /// <returns>Claims认证对象。</returns>
     public ClaimsPrincipal ToPrincipal(string authType = "Known_Auth")
     {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.Name, UserName),
-            new(ClaimTypes.Role, Role)
-        };
+        var claims = new List<Claim> { new(ClaimTypes.Name, UserName) };
+        if (!string.IsNullOrWhiteSpace(Role))
+            claims.Add(new(ClaimTypes.Role, Role));
         return new ClaimsPrincipal(new ClaimsIdentity(claims, authType));
     }
 }

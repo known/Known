@@ -98,8 +98,9 @@ public sealed class DbUtils
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="criteria">查询条件对象。</param>
     /// <param name="pageData">查询结果数据列表。</param>
+    /// <param name="onExport">导出扩展字段委托。</param>
     /// <returns>导出文件字节数组。</returns>
-    public static byte[] GetExportData<T>(PagingCriteria criteria, List<T> pageData)
+    public static byte[] GetExportData<T>(PagingCriteria criteria, List<T> pageData, Func<T, ExportColumnInfo, object> onExport = null)
     {
         if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)
             return null;
@@ -122,22 +123,30 @@ public sealed class DbUtils
             foreach (var item in criteria.ExportColumns)
             {
                 var cellStyle = new StyleInfo { IsBorder = true };
-                var value = isDictionary
+                object value;
+                if (item.IsAdditional)
+                {
+                    value = onExport?.Invoke(data, item);
+                }
+                else
+                {
+                    value = isDictionary
                           ? (data as Dictionary<string, object>).GetValue(item.Id)
                           : TypeHelper.GetPropertyValue(data, item.Id);
-                if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
-                    value = Utils.ConvertTo<bool>(value) ? "是" : "否";
-                else if (item.Type == FieldType.Date)
-                {
-                    value = Utils.ConvertTo<DateTime?>(value)?.Date;
-                    cellStyle.Custom = Config.DateFormat;
+                    if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
+                        value = Utils.ConvertTo<bool>(value) ? "是" : "否";
+                    else if (item.Type == FieldType.Date)
+                    {
+                        value = Utils.ConvertTo<DateTime?>(value)?.Date;
+                        cellStyle.Custom = Config.DateFormat;
+                    }
+                    else if (item.Type == FieldType.DateTime)
+                        cellStyle.Custom = Config.DateTimeFormat;
+                    else if (item.Type == FieldType.Number)
+                        value = GetNumberValue(value);
+                    else if (!string.IsNullOrWhiteSpace(item.Category))
+                        value = Cache.GetCodeName(item.Category, value?.ToString());
                 }
-                else if (item.Type == FieldType.DateTime)
-                    cellStyle.Custom = Config.DateTimeFormat;
-                else if (item.Type == FieldType.Number)
-                    value = GetNumberValue(value);
-                else if (!string.IsNullOrWhiteSpace(item.Category))
-                    value = Cache.GetCodeName(item.Category, value?.ToString());
                 sheet.SetCellValue(rowIndex, index++, value, cellStyle);
             }
         }

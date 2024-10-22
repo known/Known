@@ -45,6 +45,18 @@ public static class ModelExtension
 
     #region File
     /// <summary>
+    /// 将附件数据转换成附件类的实例。
+    /// </summary>
+    /// <param name="file">附件信息。</param>
+    /// <param name="user">当前用户信息。</param>
+    /// <param name="form">附件表单信息。</param>
+    /// <returns></returns>
+    public static AttachFile ToAttachFile(this FileDataInfo file, UserInfo user, FileFormInfo form)
+    {
+        return new AttachFile(file, user, form.BizType, form.BizPath) { Category2 = form.Category };
+    }
+
+    /// <summary>
     /// 获取附件字段的文件对象列表。
     /// </summary>
     /// <param name="files">表单的附件字典。</param>
@@ -66,7 +78,7 @@ public static class ModelExtension
         var attaches = new List<AttachFile>();
         foreach (var item in value)
         {
-            var attach = new AttachFile(item, user, form.BizType, form.BizPath) { Category2 = form.Category };
+            var attach = item.ToAttachFile(user, form);
             attaches.Add(attach);
         }
         return attaches;

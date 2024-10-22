@@ -7,8 +7,9 @@ public partial class Database
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="criteria">查询条件对象。</param>
+    /// <param name="onExport">导出扩展字段委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria) where T : class, new()
+    public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
         var tableName = Provider.GetTableName<T>();
         var sql = $"select * from {tableName}";
@@ -24,7 +25,7 @@ public partial class Database
             sql += " where 1=1";
         }
 
-        return QueryPageAsync<T>(sql, criteria);
+        return QueryPageAsync<T>(sql, criteria, onExport);
     }
 
     /// <summary>
@@ -33,8 +34,9 @@ public partial class Database
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="sql">查询SQL语句。</param>
     /// <param name="criteria">查询条件对象。</param>
+    /// <param name="onExport">导出扩展字段委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria) where T : class, new()
+    public virtual async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
         try
         {
@@ -90,7 +92,7 @@ public partial class Database
 
             if (criteria.ExportMode != ExportMode.None)
             {
-                exportData = DbUtils.GetExportData(criteria, pageData);
+                exportData = DbUtils.GetExportData(criteria, pageData, onExport);
                 watch.Watch("Export");
             }
 
