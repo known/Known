@@ -25,7 +25,7 @@ public partial class Database
             sql += " where 1=1";
         }
 
-        return QueryPageAsync<T>(sql, criteria, onExport);
+        return QueryPageAsync(sql, criteria, onExport);
     }
 
     /// <summary>

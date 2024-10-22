@@ -205,22 +205,30 @@ class UIService(ModalService modalService, MessageService messageService, INotif
     {
         var option = new ModalOptions
         {
+            Title = model.Title,
             MaskClosable = false,
+            Closable = model.Closable,
             Draggable = model.Draggable,
             Resizable = model.Resizable,
             WrapClassName = model.ClassName,
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,
-            Title = model.Title,
-            Content = b => b.Component<ModalBody>().Set(c => c.Content, model.Content).Build(),
-            OnCancel = e => model.CloseAsync()
+            Content = b => b.Component<ModalBody>().Set(c => c.Content, model.Content).Build()
         };
 
         if (model.OnOk != null)
         {
-            option.OkText = Language?.OK;
-            option.CancelText = Language?.Cancel;
-            option.OnOk = e => model.OnOk.Invoke();
+            if (option.Closable)
+            {
+                option.OkText = Language?.OK;
+                option.CancelText = Language?.Cancel;
+                option.OnOk = e => model.OnOk.Invoke();
+                option.OnCancel = e => model.CloseAsync();
+            }
+            else
+            {
+                option.Footer = BuildTree(b => b.Component<ModalFooter>().Set(c => c.OnOk, model.OnOk).Build());
+            }
         }
         else
         {
@@ -235,6 +243,11 @@ class UIService(ModalService modalService, MessageService messageService, INotif
         var modal = _modal.CreateModal(option);
         model.OnClose = modal.CloseAsync;
         return true;
+    }
+
+    private static RenderFragment BuildTree(Action<RenderTreeBuilder> action)
+    {
+        return delegate (RenderTreeBuilder builder) { action(builder); };
     }
 
     public bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()

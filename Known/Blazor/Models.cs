@@ -37,6 +37,11 @@ public class DialogModel
     public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置对话框是否可关闭，默认是。
+    /// </summary>
+    public bool Closable { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置对话框是否可拖动，默认是。
     /// </summary>
     public bool Draggable { get; set; } = true;

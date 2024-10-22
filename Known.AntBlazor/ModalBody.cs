@@ -23,3 +23,13 @@ class ModalBody : ComponentBase
         }
     }
 }
+
+class ModalFooter : BaseComponent
+{
+    [Parameter] public Func<Task> OnOk { get; set; }
+
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.AntButton(Language?.OK, this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
+    }
+}
