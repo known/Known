@@ -9,12 +9,30 @@
           @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)
     {
-        <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="50" Fixed="left" />
+        <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="40" Fixed="left" />
     }
     @if (Model.Columns != null && Model.Columns.Count > 0)
     {
-        var columns = Context.GetUserTableColumns(Model);
         var isDictionary = Model.IsDictionary;
+
+        @if (Model.ShowIndex)
+        {
+            var titleIndex = Language?.GetString("Index");
+            var columnId = Model.Columns[0].Id;
+            if (isDictionary)
+            {
+                @* <DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="left">
+                    <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
+                </DictionaryColumn> *@
+            }
+            else
+            {
+                <Column Title="@titleIndex" DataIndex="@columnId" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="left">
+                    <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
+                </Column>
+            }
+        }
+        var columns = Context.GetUserTableColumns(Model);
         foreach (var item in columns)
         {
             if (!item.IsVisible)

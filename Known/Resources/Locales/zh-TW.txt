@@ -323,6 +323,7 @@
   "Category": "類別",
   "Category1": "一級類別",
   "Category2": "二級類別",
+  "Index": "序號",
   "Code": "代碼",
   "Name": "名稱",
   "Enabled": "啟用",

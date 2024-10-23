@@ -190,6 +190,11 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowSetting { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置表格是否显示自动序号。
+    /// </summary>
+    public bool ShowIndex { get; set; }
+
+    /// <summary>
     /// 取得或设置表格是否显示分页。
     /// </summary>
     public bool ShowPager { get; set; }

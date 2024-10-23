@@ -323,6 +323,7 @@
   "Category": "类别",
   "Category1": "一级类别",
   "Category2": "二级类别",
+  "Index": "序号",
   "Code": "代码",
   "Name": "名称",
   "Enabled": "启用",

@@ -323,6 +323,7 @@
   "Category": "Danh mục",
   "Category1": "Lớp 1",
   "Category2": "Hạng II",
+  "Index": "Số sê-ri",
   "Code": "Mã số",
   "Name": "Tên",
   "Enabled": "Bật",
