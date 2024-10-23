@@ -211,6 +211,7 @@
   "Designer.CodeGenerator": "Trình tạo mã",
   "Designer.EntityCode": "Mã thực thể",
   "Designer.PageCode": "Mã lớp trang",
+  "Designer.ServiceICode": "Mã lớp giao diện dịch vụ",
   "Designer.ServiceCode": "Mã lớp dịch vụ",
   "Designer.RepositoryCode": "Mã lớp dữ liệu",
   "Designer.TableScript": "Văn lệnh xây dựng bảng",

@@ -7,8 +7,10 @@ class PageView : BaseView<PageInfo>
     private DemoPageModel table;
     private string codePage;
     private string codeService;
+    private string codeServiceI;
     private string htmlPage;
     private string htmlService;
+    private string htmlServiceI;
 
     private bool IsCustomPage => Form.Model.Data.IsCustomPage;
 
@@ -23,6 +25,7 @@ class PageView : BaseView<PageInfo>
         if (IsCustomPage)
         {
             Tab.AddTab("Designer.PageCode", BuildPage);
+            Tab.AddTab("Designer.ServiceICode", BuildServiceI);
             Tab.AddTab("Designer.ServiceCode", BuildService);
         }
 
@@ -68,6 +71,8 @@ class PageView : BaseView<PageInfo>
                 htmlPage = await JS.HighlightAsync(codePage, "csharp");
             if (string.IsNullOrWhiteSpace(htmlService))
                 htmlService = await JS.HighlightAsync(codeService, "csharp");
+            if (string.IsNullOrWhiteSpace(htmlServiceI))
+                htmlServiceI = await JS.HighlightAsync(codeServiceI, "csharp");
             //await StateChangedAsync();
         }
     }
@@ -90,20 +95,26 @@ class PageView : BaseView<PageInfo>
 
     private void BuildPage(RenderTreeBuilder builder)
     {
-        BuildAction(builder, Language.Save, () =>
-        {
-            SaveSourceCode("", codePage);
-        });
-        BuildCode(builder, htmlPage);
+        var className = CodeGenerator.GetClassName(Entity?.Id);
+        var path = Path.Combine(ModulePath, "Pages", "", $"{className}List.cs");
+        BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
+        BuildCode(builder, "page", path, htmlPage);
     }
 
     private void BuildService(RenderTreeBuilder builder)
     {
-        BuildAction(builder, Language.Save, () =>
-        {
-            SaveSourceCode("", codeService);
-        });
-        BuildCode(builder, htmlService);
+        var className = CodeGenerator.GetClassName(Entity?.Id);
+        var path = Path.Combine(Config.App.ContentRoot, "Services", $"{className}Service.cs");
+        BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
+        BuildCode(builder, "page", path, htmlService);
+    }
+
+    private void BuildServiceI(RenderTreeBuilder builder)
+    {
+        var className = CodeGenerator.GetClassName(Entity?.Id);
+        var path = Path.Combine(ModulePath, "Services", $"I{className}Service.cs");
+        BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
+        BuildCode(builder, "page", path, htmlServiceI);
     }
 
     private void BuildProperty(RenderTreeBuilder builder)
@@ -218,5 +229,6 @@ class PageView : BaseView<PageInfo>
 
         codePage = Generator?.GetPage(Model, Entity);
         codeService = Generator?.GetService(Model, Entity);
+        codeServiceI = Generator?.GetIService(Model, Entity);
     }
 }

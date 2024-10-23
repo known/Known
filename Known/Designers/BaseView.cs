@@ -9,6 +9,8 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
+    internal string ModulePath => Config.App.ContentRoot.Replace(".Web", "");
+
     internal virtual void SetModel(TModel model) => Model = model;
     protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
 
@@ -28,9 +30,12 @@ class BaseView<TModel> : BaseComponent
         });
     }
 
-    protected void BuildCode(RenderTreeBuilder builder, string code)
+    protected void BuildCode(RenderTreeBuilder builder, string type, string path, string code)
     {
-        var html = $"<div class=\"highlight kui-code\"><pre class=\"language-csharp\"><code>{code}</code></pre></div>";
+        if (!string.IsNullOrWhiteSpace(path))
+            builder.Div($"kui-code-path {type}", () => builder.Tag(path));
+
+        var html = $"<pre class=\"highlight kui-code {type} language-csharp\"><code>{code}</code></pre>";
         builder.Markup(html);
     }
 
@@ -44,24 +49,23 @@ class BaseView<TModel> : BaseComponent
         });
     }
 
-    internal async void SaveSourceCode(string fileName, string code)
+    internal void SaveSourceCode(string path, string code)
     {
-        if (string.IsNullOrWhiteSpace(fileName))
+        if (string.IsNullOrWhiteSpace(path))
             return;
 #if DEBUG
-        var path = Path.Combine(Config.App.ContentRoot, fileName);
         if (File.Exists(path))
         {
-            UI.Confirm($"文件[{fileName}]已存在，确定要覆盖吗？", () =>
+            UI.Confirm($"文件[{path}]已存在，确定要覆盖吗？", () =>
             {
-                File.WriteAllText(path, code);
+                Utils.SaveFile(path, code);
                 return UI.Toast("保存成功！");
             });
         }
         else
         {
-            File.WriteAllText(path, code);
-            await UI.Toast("保存成功！");
+            Utils.SaveFile(path, code);
+            UI.Toast("保存成功！");
         }
 #endif
     }

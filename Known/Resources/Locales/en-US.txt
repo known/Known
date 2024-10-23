@@ -211,6 +211,7 @@
   "Designer.CodeGenerator": "Code Generator",
   "Designer.EntityCode": "Entity Code",
   "Designer.PageCode": "Page Code",
+  "Designer.ServiceICode": "Service Interface Code",
   "Designer.ServiceCode": "Service Code",
   "Designer.RepositoryCode": "Repository Code",
   "Designer.TableScript": "Table Script",

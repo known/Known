@@ -211,6 +211,7 @@
   "Designer.CodeGenerator": "代码生成器",
   "Designer.EntityCode": "实体代码",
   "Designer.PageCode": "页面层代码",
+  "Designer.ServiceICode": "服务接口层代码",
   "Designer.ServiceCode": "服务层代码",
   "Designer.RepositoryCode": "数据层代码",
   "Designer.TableScript": "建表脚本",

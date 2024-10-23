@@ -29,6 +29,14 @@ public interface ICodeGenerator
     string GetPage(PageInfo page, EntityInfo entity);
 
     /// <summary>
+    /// 获取业务服务接口代码。
+    /// </summary>
+    /// <param name="page">页面模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>业务服务接口代码。</returns>
+    string GetIService(PageInfo page, EntityInfo entity);
+
+    /// <summary>
     /// 获取业务逻辑服务层代码。
     /// </summary>
     /// <param name="page">页面模型对象。</param>
@@ -402,17 +410,18 @@ class CodeGenerator : ICodeGenerator
     public string GetPage(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
+        var className = GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("class {0}List : BaseTablePage<{0}>", entity.Id);
+        sb.AppendLine("class {0}List : BaseTablePage<{1}>", className, entity.Id);
         sb.AppendLine("{");
-        sb.AppendLine("    private IXXXService Service;");
+        sb.AppendLine("    private I{0}Service Service;", className);
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        await base.OnInitPageAsync();");
-        sb.AppendLine("        Service = await CreateServiceAsync<IXXXService>();");
+        sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
         sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
@@ -436,7 +445,7 @@ class CodeGenerator : ICodeGenerator
                 }
 
                 if (item == "New")
-                    sb.AppendLine("    public void New() => Table.NewForm(Service.Save{0}Async, new {0}());", entity.Id);
+                    sb.AppendLine("    public void New() => Table.NewForm(Service.Save{0}Async, new {1}());", className, entity.Id);
                 else if (item == "DeleteM")
                     sb.AppendLine("    public void DeleteM() => Table.DeleteM(Service.Delete{0}Async);", pluralName);
                 else
@@ -449,9 +458,9 @@ class CodeGenerator : ICodeGenerator
             foreach (var item in page.Actions)
             {
                 if (item == "Edit")
-                    sb.AppendLine("    public void Edit({0} row) => Table.EditForm(Service.Save{0}Async, row);", entity.Id);
+                    sb.AppendLine("    public void Edit({0} row) => Table.EditForm(Service.Save{1}Async, row);", entity.Id, className);
                 else if (item == "Delete")
-                    sb.AppendLine("    public void Delete({0} row) => Table.Delete(Service.Delete{0}Async, row);", pluralName);
+                    sb.AppendLine("    public void Delete({0} row) => Table.Delete(Service.Delete{1}Async, row);", entity.Id, pluralName);
                 else
                     sb.AppendLine("    public void {0}({1} row) => {{}};", item, entity.Id);
             }
@@ -468,23 +477,37 @@ class CodeGenerator : ICodeGenerator
 
     private static string GetPluralName(string name)
     {
-        if (!name.EndsWith('y'))
-            return name + "s";
+        var className = GetClassName(name);
+        if (!className.EndsWith('y'))
+            return className + "s";
 
-        return name.Substring(0, name.Length - 1) + "ies";
+        return className.Substring(0, className.Length - 1) + "ies";
+    }
+
+    internal static string GetClassName(string name)
+    {
+        var index = name.Select((c, i) => new { Char = c, Index = i })
+                        .Where(x => char.IsUpper(x.Char))
+                        .Skip(1).Select(x => x.Index)
+                        .DefaultIfEmpty(-1).First();
+        if (index <= 0)
+            return name;
+
+        return name.Substring(index);
     }
     #endregion
 
     #region Service
-    public string GetService(PageInfo page, EntityInfo entity)
+    public string GetIService(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
+        var className = GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Services;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("public interface IXXXService : IService");
+        sb.AppendLine("public interface I{0}Service : IService", className);
         sb.AppendLine("{");
-        sb.AppendLine("    //{0}", entity.Id);
+        sb.AppendLine("    // {0}", entity.Id);
         sb.AppendLine("    Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria);", entity.Id, pluralName);
         if (page.Tools != null && page.Tools.Length > 0)
         {
@@ -495,7 +518,7 @@ class CodeGenerator : ICodeGenerator
 
                 if (item == "DeleteM")
                 {
-                    sb.AppendLine("    Task<Result> Delete{1}Async(List<{0}> models);", entity.Id, pluralName);
+                    sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> models);", pluralName, entity.Id);
                 }
                 else
                 {
@@ -505,17 +528,28 @@ class CodeGenerator : ICodeGenerator
 
             if (page.Tools.Contains("New"))
             {
-                sb.AppendLine("    Task<Result> Save{0}Async({0} model);", entity.Id);
+                sb.AppendLine("    Task<Result> Save{0}Async({1} model);", className, entity.Id);
             }
         }
         sb.AppendLine("}");
+        return sb.ToString();
+    }
+    #endregion
+
+    #region Service
+    public string GetService(PageInfo page, EntityInfo entity)
+    {
+        var pluralName = GetPluralName(entity.Id);
+        var className = GetClassName(entity.Id);
+        var sb = new StringBuilder();
+        sb.AppendLine("namespace {0}.Web.Services;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("class XXXService(Context context) : ServiceBase(context), IXXXService");
+        sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
         sb.AppendLine("{");
-        sb.AppendLine("    //{0}", entity.Id);
+        sb.AppendLine("    // {0}", entity.Id);
         sb.AppendLine("    public Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria)", entity.Id, pluralName);
         sb.AppendLine("    {");
-        sb.AppendLine("        return Database.Query{0}Async(criteria);", pluralName);
+        sb.AppendLine("        return Database.QueryPageAsync<{0}>(criteria);", entity.Id);
         sb.AppendLine("    }");
 
         if (page.Tools != null && page.Tools.Length > 0)
@@ -528,7 +562,7 @@ class CodeGenerator : ICodeGenerator
                 if (item == "DeleteM")
                 {
                     sb.AppendLine(" ");
-                    sb.AppendLine("    public async Task<Result> Delete{1}Async(List<{0}> models)", entity.Id, pluralName);
+                    sb.AppendLine("    public async Task<Result> Delete{0}Async(List<{1}> models)", pluralName, entity.Id);
                     sb.AppendLine("    {");
                     sb.AppendLine("        if (models == null || models.Count == 0)");
                     sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
@@ -560,7 +594,7 @@ class CodeGenerator : ICodeGenerator
             if (page.Tools.Contains("New"))
             {
                 sb.AppendLine(" ");
-                sb.AppendLine("    public async Task<Result> Save{0}Async({0} model)", entity.Id);
+                sb.AppendLine("    public async Task<Result> Save{0}Async({1} model)", className, entity.Id);
                 sb.AppendLine("    {");
                 sb.AppendLine("        var vr = model.Validate(Context);");
                 sb.AppendLine("        if (!vr.IsValid)");
