@@ -18,7 +18,12 @@ public class CaptchaOption
     /// <summary>
     /// 取得或设置短信验证码验证委托。
     /// </summary>
-    public Func<Task<Result>> SMSAction { get; set; }
+    public Func<Result> SMSValidate { get; set; }
+
+    /// <summary>
+    /// 取得或设置短信验证码发送委托。
+    /// </summary>
+    public Action SMSAction { get; set; }
 }
 
 /// <summary>
@@ -69,6 +74,15 @@ public class KCaptcha : BaseComponent
             return false;
         }
         return true;
+    }
+
+    /// <summary>
+    /// 刷新验证码。
+    /// </summary>
+    public void Refresh()
+    {
+        CreateCode();
+        StateChanged();
     }
 
     /// <summary>
@@ -158,21 +172,24 @@ public class KCaptcha : BaseComponent
         StateChangedAsync();
     }
 
-    private async void SendSMSCode()
+    private void SendSMSCode()
     {
         if (smsCount < Option.SMSCount)
             return;
 
-        if (Option.SMSAction == null)
+        if (Option.SMSValidate == null || Option.SMSAction == null)
             return;
 
-        var result = await Option.SMSAction.Invoke();
-        UI.Result(result, () =>
+        var result = Option.SMSValidate.Invoke();
+        if (!result.IsValid)
         {
-            smsCount = Option.SMSCount;
-            timer.Enabled = true;
-            return Task.CompletedTask;
-        });
+            UI.Error(result.Message);
+            return;
+        }
+
+        smsCount = Option.SMSCount;
+        timer.Enabled = true;
+        Option.SMSAction.Invoke();
     }
 
     private void CreateCode() => code = Utils.GetCaptcha(4);

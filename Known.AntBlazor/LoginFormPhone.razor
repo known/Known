@@ -36,16 +36,22 @@
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        option.SMSAction = () =>
+        option.SMSValidate = () =>
         {
             if (string.IsNullOrWhiteSpace(Model.PhoneNo))
-                return Known.Result.ErrorAsync(Language.Required("PhoneNo"));
+                return Known.Result.Error(Language.Required("PhoneNo"));
             if (string.IsNullOrWhiteSpace(Model.Captcha))
-                return Known.Result.ErrorAsync(Language.Required("Captcha"));
+                return Known.Result.Error(Language.Required("Captcha"));
             if (!captcha.Validate(out string message))
-                return Known.Result.ErrorAsync(message);
+                return Known.Result.Error(message);
 
-            return OnSendSMS?.Invoke(Model.PhoneNo);
+            return Known.Result.Success("");
+        };
+        option.SMSAction = async () =>
+        {
+            var result = await OnSendSMS?.Invoke(Model.PhoneNo);
+            UI.Result(result);
+            captcha?.Refresh();
         };
     }
 

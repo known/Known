@@ -20,6 +20,7 @@ public class AntAutoComplete : AutoComplete<CodeInfo>
             Item.Type = typeof(string);
             Placeholder = Item.Language.GetString("PleaseSelectInput");
         }
+        AllowFilter = true;
         OptionFormat = item => item.Value.Name;
         base.OnInitialized();
     }

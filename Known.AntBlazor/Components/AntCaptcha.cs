@@ -28,6 +28,11 @@ public class AntCaptcha : Input<string>
     public bool Validate(out string message) => captcha.Validate(Value, out message);
 
     /// <summary>
+    /// 刷新验证码。
+    /// </summary>
+    public void Refresh() => captcha.Refresh();
+
+    /// <summary>
     /// 呈现验证码组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
