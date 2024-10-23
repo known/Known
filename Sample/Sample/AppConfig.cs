@@ -1,10 +1,7 @@
-﻿//using Castle.DynamicProxy;
-
-namespace Sample;
+﻿namespace Sample;
 
 public static class AppConfig
 {
-    //private static readonly ProxyGenerator Generator = new();
     private static readonly List<MenuInfo> AppMenus =
     [
         new MenuInfo { Id = "Home", Name = "首页", Icon = "home", Target = "Tab", Url = "/app" },
@@ -30,6 +27,7 @@ public static class AppConfig
         //    s.Collapsed = true;   // 是否折叠
         //    s.MenuTheme = "Dark"; // Light/Dark两种
         //};
+        var assembly = typeof(AppConfig).Assembly;
         services.AddKnown(info =>
         {
             //项目ID、名称、类型、程序集
@@ -38,37 +36,16 @@ public static class AppConfig
             info.IsSize = true;
             info.IsLanguage = true;
             info.IsTheme = true;
-            info.Assembly = typeof(AppConfig).Assembly;
+            info.Assembly = assembly;
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             info.JsPath = "./script.js";
         });
-        services.AddKnownAntDesign(option =>
-        {
-            //option.Footer = b => b.Component<Foot>().Build();
-        });
+        services.AddKnownAntDesign();
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
 
         //添加模块
-        Config.AddModule(typeof(AppConfig).Assembly);
+        Config.AddModule(assembly);
     }
-
-    //internal static void AddSampleClient(this IServiceCollection services)
-    //{
-    //    services.AddHttpClient();
-    //    services.AddAuthorizationCore();
-    //    services.AddCascadingAuthenticationState();
-    //    services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-    //    services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-    //    services.AddKnownClient(info =>
-    //    {
-    //        info.InterceptorType = type => typeof(HttpClientInterceptor<>).MakeGenericType(type);
-    //        info.InterceptorProvider = (type, interceptor) =>
-    //        {
-    //            return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)interceptor).ToInterceptor());
-    //        };
-    //    });
-    //    services.AddSampleRazor();
-    //}
 }

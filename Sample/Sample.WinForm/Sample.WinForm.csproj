@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.91" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.92" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
         <!--
         <PackageReference Include="System.Data.OleDb" Version="8.0.1" />

@@ -1,10 +1,6 @@
 ﻿using Sample.Web;
 //using Toolbelt.Extensions.DependencyInjection;
 
-#if DEBUG
-Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-#endif
-
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();

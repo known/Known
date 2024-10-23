@@ -2,6 +2,29 @@
 
 //namespace Sample;
 
+//static class AppClient
+//{
+//    private static readonly ProxyGenerator Generator = new();
+    
+//    internal static void AddSampleClient(this IServiceCollection services)
+//    {
+//        services.AddHttpClient();
+//        services.AddAuthorizationCore();
+//        services.AddCascadingAuthenticationState();
+//        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+//        services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+//        services.AddSample();
+//        services.AddKnownClient(info =>
+//        {
+//            info.InterceptorType = type => typeof(HttpClientInterceptor<>).MakeGenericType(type);
+//            info.InterceptorProvider = (type, interceptor) =>
+//            {
+//                return Generator.CreateInterfaceProxyWithoutTarget(type, ((IAsyncInterceptor)interceptor).ToInterceptor());
+//            };
+//        });
+//    }
+//}
+
 //class AuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 //{
 //    private static readonly Task<AuthenticationState> defaultUnauthenticatedTask =

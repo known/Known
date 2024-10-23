@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AntDesign" Version="0.20.3" />
+        <PackageReference Include="AntDesign" Version="1.0.0-rc.3" />
         <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 

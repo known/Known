@@ -1,7 +1,6 @@
 ﻿@page "/test/page/{id}"
 @page "/test/page1/{id}"
 @inherits BasePage
-@using System.ComponentModel
 @attribute [DisplayName("路由页面")]
 
 <h1>@Id</h1>
@@ -10,10 +9,23 @@
 <TestForm @ref="form" Model="model" />
 <Button Type="@ButtonType.Primary" OnClick="OnSave">确定</Button>
 
+<Button Type="primary" @onclick="_=>open()">Open</Button>
+<Drawer Closable="true" @bind-Visible="visible" Placement="bottom" Title='("Basic Drawer")'>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+</Drawer>
+
 @code {
     private List<CodeInfo> Texts = TestHelper.GetTexts();
     private FormModel<TestInfo> model;
     private TestForm form;
+    bool visible = false;
+
+    void open()
+    {
+        this.visible = true;
+    }
 
     protected override async Task OnPageInitAsync()
     {
