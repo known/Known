@@ -39,3 +39,37 @@ public interface IAuthService : IService
     /// <returns>修改结果。</returns>
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
+
+class AuthService(Context context, INodbProvider provider) : ServiceBase(context), IAuthService
+{
+    public Task<Result> SignInAsync(LoginFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SignOutAsync(string token)
+    {
+        return Result.SuccessAsync("");
+    }
+
+    public Task<UserInfo> GetUserAsync(string userName)
+    {
+        return Task.FromResult(CurrentUser);
+    }
+
+    public Task<AdminInfo> GetAdminAsync()
+    {
+        var info = new AdminInfo
+        {
+            AppName = App.Name,
+            UserMenus = provider.GetUserMenus(CurrentUser),
+            Codes = provider.GetCodes()
+        };
+        return Task.FromResult(info);
+    }
+
+    public Task<Result> UpdatePasswordAsync(PwdFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+}

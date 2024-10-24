@@ -38,3 +38,31 @@ public interface ICompanyService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveOrganizationAsync(SysOrganization model);
 }
+
+class CompanyService(Context context) : ServiceBase(context), ICompanyService
+{
+    public Task<string> GetCompanyAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<SysOrganization>> GetOrganizationsAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveCompanyAsync(object model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveOrganizationAsync(SysOrganization model)
+    {
+        throw new NotImplementedException();
+    }
+}

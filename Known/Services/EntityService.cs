@@ -34,3 +34,26 @@ public interface IEntityService<TEntity> : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveAsync(TEntity model);
 }
+
+class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity>
+{
+    public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TEntity> GetAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteAsync(List<TEntity> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveAsync(TEntity model)
+    {
+        throw new NotImplementedException();
+    }
+}

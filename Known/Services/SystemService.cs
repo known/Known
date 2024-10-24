@@ -86,3 +86,67 @@ public interface ISystemService : IService
     /// <returns>添加结果。</returns>
     Task<Result> AddLogAsync(SysLog log);
 }
+
+class SystemService(Context context) : ServiceBase(context), ISystemService
+{
+    public Task<SystemInfo> GetSystemAsync()
+    {
+        var info = new SystemInfo { AppName = App.Name };
+        return Task.FromResult(info);
+    }
+
+    public Task<InstallInfo> GetInstallAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> TestConnectionAsync(DatabaseInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveInstallAsync(InstallInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SystemDataInfo> GetSystemDataAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveKeyAsync(SystemInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteTasksAsync(List<SysTask> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> ResetTasksAsync(List<SysTask> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> AddLogAsync(SysLog log)
+    {
+        return Result.SuccessAsync("");
+    }
+}

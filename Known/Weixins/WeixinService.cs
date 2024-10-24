@@ -33,3 +33,26 @@ public interface IWeixinService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveWeixinAsync(WeixinInfo model);
 }
+
+class WeixinService(Context context) : ServiceBase(context), IWeixinService
+{
+    public Task<WeixinInfo> GetWeixinAsync(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserInfo> CheckWeixinAsync(UserInfo user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveWeixinAsync(WeixinInfo model)
+    {
+        throw new NotImplementedException();
+    }
+}

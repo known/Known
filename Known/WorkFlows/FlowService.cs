@@ -62,3 +62,46 @@ public interface IFlowService : IService
     /// <returns>停止结果。</returns>
     Task<Result> StopFlowAsync(FlowFormInfo info);
 }
+
+class FlowService(Context context) : ServiceBase(context), IFlowService
+{
+    public Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SubmitFlowAsync(FlowFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> RevokeFlowAsync(FlowFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> AssignFlowAsync(FlowFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> VerifyFlowAsync(FlowFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> RepeatFlowAsync(FlowFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> StopFlowAsync(FlowFormInfo info)
+    {
+        throw new NotImplementedException();
+    }
+}

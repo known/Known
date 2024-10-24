@@ -82,3 +82,61 @@ public interface IUserService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveUserAsync(SysUser model);
 }
+
+class UserService(Context context) : ServiceBase(context), IUserService
+{
+    public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SysUser> GetUserAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SysUser> GetUserDataAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteUsersAsync(List<SysUser> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> ChangeDepartmentAsync(List<SysUser> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> EnableUsersAsync(List<SysUser> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DisableUsersAsync(List<SysUser> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SetUserPwdsAsync(List<SysUser> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> UpdateUserAsync(SysUser model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveUserAsync(SysUser model)
+    {
+        throw new NotImplementedException();
+    }
+}

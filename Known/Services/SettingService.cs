@@ -33,3 +33,26 @@ public interface ISettingService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveUserSettingFormAsync(SettingFormInfo info);
 }
+
+class SettingService(Context context) : ServiceBase(context), ISettingService
+{
+    public Task<string> GetUserSettingAsync(string bizType)
+    {
+        return Task.FromResult("");
+    }
+
+    public Task<Result> DeleteUserSettingAsync(string bizType)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveUserSettingInfoAsync(SettingInfo info)
+    {
+        return Result.SuccessAsync("");
+    }
+
+    public Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
+    {
+        return Result.SuccessAsync("");
+    }
+}

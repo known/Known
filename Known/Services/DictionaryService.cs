@@ -32,3 +32,26 @@ public interface IDictionaryService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveDictionaryAsync(SysDictionary model);
 }
+
+class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
+{
+    public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<CodeInfo>> GetCategoriesAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteDictionariesAsync(List<SysDictionary> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveDictionaryAsync(SysDictionary model)
+    {
+        throw new NotImplementedException();
+    }
+}

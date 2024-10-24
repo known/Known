@@ -18,6 +18,11 @@ public interface IService
 public abstract class ServiceBase(Context context) : IService
 {
     /// <summary>
+    /// 取得当前系统配置信息。
+    /// </summary>
+    public AppInfo App => Config.App;
+
+    /// <summary>
     /// 取得或设置系统上下文对象。
     /// </summary>
     public Context Context { get; set; } = context;
@@ -44,6 +49,9 @@ public abstract class ServiceBase(Context context) : IService
     {
         get
         {
+            if (App.IsClient)
+                return null;
+
             var db = Database.Create();
             db.User = CurrentUser;
             db.Context = Context;

@@ -54,3 +54,41 @@ public interface IFileService : IService
     /// <returns>导入结果。</returns>
     Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
 }
+
+class FileService(Context context) : ServiceBase(context), IFileService
+{
+    public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<SysFile>> GetFilesAsync(string bizId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<ImportFormInfo> GetImportAsync(string bizId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<byte[]> GetImportRuleAsync(string bizId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteFilesAsync(List<SysFile> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteFileAsync(SysFile file)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
+    {
+        throw new NotImplementedException();
+    }
+}

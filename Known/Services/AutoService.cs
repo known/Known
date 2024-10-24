@@ -33,3 +33,26 @@ public interface IAutoService : IService
     /// <returns>创建结果。</returns>
     Task<Result> CreateTableAsync(AutoInfo<string> info);
 }
+
+class AutoService(Context context) : ServiceBase(context), IAutoService
+{
+    public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> CreateTableAsync(AutoInfo<string> info)
+    {
+        throw new NotImplementedException();
+    }
+}

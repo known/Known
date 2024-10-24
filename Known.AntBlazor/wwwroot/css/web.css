@@ -13,6 +13,7 @@
 .kui-table .ant-table-wrapper {padding:0 10px 10px 10px;}
 .kui-table.form-list .ant-table-wrapper {padding:0 0 10px 0;}
 .kui-table .ant-tabs-nav {margin:0;margin-bottom:10px;}
+.kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background:#e6f7ff}
 .kui-table-setting {
     background-color:var(--kui-bgcolor);padding:10px;border:1px solid var(--kui-border-color);border-radius:5px;
     max-height:500px;overflow:auto;

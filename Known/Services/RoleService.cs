@@ -33,3 +33,26 @@ public interface IRoleService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveRoleAsync(SysRole model);
 }
+
+class RoleService(Context context) : ServiceBase(context), IRoleService
+{
+    public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SysRole> GetRoleAsync(string roleId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteRolesAsync(List<SysRole> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveRoleAsync(SysRole model)
+    {
+        throw new NotImplementedException();
+    }
+}

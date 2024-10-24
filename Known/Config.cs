@@ -449,6 +449,11 @@ public class AppInfo
     public bool IsMobile { get; set; }
 
     /// <summary>
+    /// 取得或设置系统是否为Restful客户端。
+    /// </summary>
+    public bool IsClient { get; set; }
+
+    /// <summary>
     /// 取得或设置系统主页顶部菜单是否显示字体大小切换。
     /// </summary>
     public bool IsSize { get; set; }

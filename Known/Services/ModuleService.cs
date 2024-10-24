@@ -66,3 +66,51 @@ public interface IModuleService : IService
     /// <returns>保存结果。</returns>
     Task<Result> SaveModuleAsync(SysModule model);
 }
+
+class ModuleService(Context context) : ServiceBase(context), IModuleService
+{
+    public Task<List<SysModule>> GetModulesAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<SysModule> GetModuleAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<FileDataInfo> ExportModulesAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> DeleteModulesAsync(List<SysModule> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> CopyModulesAsync(List<SysModule> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> MoveModulesAsync(List<SysModule> models)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> MoveModuleAsync(SysModule model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> SaveModuleAsync(SysModule model)
+    {
+        throw new NotImplementedException();
+    }
+}
