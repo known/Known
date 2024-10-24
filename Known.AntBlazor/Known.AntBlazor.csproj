@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known.AntBlazor是基于AntDesign Blazor的实现Known框架界面的类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.0.15</Version>
+        <Version>1.0.16</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, AntDesign, UI, Blazor</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

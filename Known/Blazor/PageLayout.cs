@@ -75,7 +75,7 @@ public class PageLayout : BaseLayout
             var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
             Context.Url = url;
             Context.SetCurrentMenu(RouteData, pageRoute);
-            if (!UIConfig.IgnoreRoutes.Contains(url) && RouteData.PageType != typeof(ErrorPage))
+            if (!UIConfig.IgnoreRoutes.Contains(url) && !RouteData.PageType.IsAllowAnonymous())
             {
                 if (Context.Current == null)
                 {

@@ -175,6 +175,16 @@ public static class CommonExtension
     {
         return member?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
     }
+
+    /// <summary>
+    /// 判断成员是否允许匿名访问。
+    /// </summary>
+    /// <param name="member">成员对象。</param>
+    /// <returns>是否允许匿名访问。</returns>
+    public static bool IsAllowAnonymous(this MemberInfo member)
+    {
+        return member?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
+    }
     #endregion
 
     #region Property
