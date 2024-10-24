@@ -353,6 +353,11 @@ public class ActionInfo
 /// </summary>
 public class ColumnInfo
 {
+    /// <summary>
+    /// 构造函数，创建一个栏位信息类的实例。
+    /// </summary>
+    public ColumnInfo() { }
+
     internal ColumnInfo(string id, RenderFragment template)
     {
         Id = id;

@@ -433,12 +433,21 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     public void AddQueryColumn(Expression<Func<TItem, object>> selector)
     {
         var property = TypeHelper.Property(selector);
-        if (QueryColumns.Exists(c => c.Id == property.Name))
+        var column = new ColumnInfo(property);
+        AddQueryColumn(column);
+    }
+
+    /// <summary>
+    /// 添加额外查询条件字段。
+    /// </summary>
+    /// <param name="column">栏位信息。</param>
+    public void AddQueryColumn(ColumnInfo column)
+    {
+        if (QueryColumns.Exists(c => c.Id == column.Id))
             return;
 
-        var column = new ColumnInfo(property);
         QueryColumns.Add(column);
-        QueryData[property.Name] = new QueryInfo(column);
+        QueryData[column.Id] = new QueryInfo(column);
     }
 
     /// <summary>
