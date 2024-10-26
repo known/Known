@@ -3,7 +3,7 @@
 <Breadcrumb Style="margin:16px 0;">
     <BreadcrumbItem>
         <a href="/">
-            <Icon Type="home" Style="cursor:pointer;" />
+            @* <Icon Type="home" Style="cursor:pointer;" /> *@
             <span style="cursor:pointer;">@Language.Home</span>
         </a>
     </BreadcrumbItem>
@@ -27,7 +27,7 @@
         {
             var menuName = Language.GetString(Current);
             <BreadcrumbItem>
-                <Icon Type="@Current.Icon" />
+                @* <Icon Type="@Current.Icon" /> *@
                 <span>@menuName</span>
             </BreadcrumbItem>
         }

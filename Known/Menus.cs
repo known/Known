@@ -536,6 +536,9 @@ public class ColumnInfo
         Fixed = info.Fixed;
         Width = info.Width ?? 0;
         Align = info.Align;
+
+        if (info.Id == nameof(EntityBase.CreateTime) || info.Id == nameof(EntityBase.ModifyTime))
+            Type = FieldType.Date;
     }
 
     internal void SetFormFieldInfo(FormFieldInfo info)
