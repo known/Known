@@ -119,16 +119,10 @@ public class BaseLayout : LayoutComponentBase
     public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
 
     /// <summary>
-    /// 导航到指定URL的路由页面。
-    /// </summary>
-    /// <param name="url">跳转的页面URL。</param>
-    public void NavigateTo(string url) => Navigation.NavigateTo(url);
-
-    /// <summary>
     /// 导航到指定菜单对应的页面。
     /// </summary>
     /// <param name="item">跳转的菜单对象。</param>
-    public void NavigateTo(MenuInfo item) => Navigation.NavigateTo(item);
+    public void NavigateTo(MenuInfo item) => Navigation?.NavigateTo(item);
 
     /// <summary>
     /// 返回到上一个页面。
@@ -138,7 +132,7 @@ public class BaseLayout : LayoutComponentBase
         if (CurrentMenu == null || string.IsNullOrWhiteSpace(CurrentMenu.BackUrl))
             return;
 
-        NavigateTo(CurrentMenu.BackUrl);
+        Navigation?.NavigateTo(CurrentMenu.BackUrl);
     }
 
     /// <summary>
@@ -153,7 +147,7 @@ public class BaseLayout : LayoutComponentBase
         {
             Context.SignOut();
             await SetCurrentUserAsync(null);
-            Navigation.NavigateTo("/login", true);
+            Navigation?.GoLoginPage();
             Config.OnExit?.Invoke();
         }
     }

@@ -47,7 +47,7 @@
         if (!Config.App.IsClient)
         {
             userDrop.Items.Add(new ActionInfo { Id = "profile", Name = Language["Nav.Profile"], Icon = "user", Url = "/profile" });
-            if (CurrentUser.IsSystemAdmin())
+            if (CurrentUser.IsSystemAdmin() && Config.IsDevelopment)
                 userDrop.Items.Add(new ActionInfo { Id = "SysDevelopment", Name = Language["Nav.Development"], Icon = "appstore-add", Url = "/development" });
         }
         userDrop.Items.Add(new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" });

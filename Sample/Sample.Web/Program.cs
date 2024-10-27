@@ -7,29 +7,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
                 //.AddInteractiveWebAssemblyComponents();
-builder.Services.AddApp(info =>
-{
-    info.WebRoot = builder.Environment.WebRootPath;
-    info.ContentRoot = builder.Environment.ContentRootPath;
-    //数据库连接
-    info.Connections = [new Known.ConnectionInfo
-    {
-        Name = "Default",
-        DatabaseType = DatabaseType.SQLite,
-        ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
-        //DatabaseType = DatabaseType.Access,
-        //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
-        //DatabaseType = DatabaseType.SqlServer,
-        //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-        //DatabaseType = DatabaseType.MySql,
-        //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
-        //DatabaseType = DatabaseType.PgSql,
-        //ProviderType = typeof(Npgsql.NpgsqlFactory),
-        //DatabaseType = DatabaseType.DM,
-        //ProviderType = typeof(Dm.DmClientFactory),
-        ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
-    }];
-});
+builder.AddApplication();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -48,7 +26,7 @@ else
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAntiforgery();
-app.UseApp();
+app.UseApplication();
 app.MapRazorPages();
 app.MapRazorComponents<App>()   
    .AddInteractiveServerRenderMode()

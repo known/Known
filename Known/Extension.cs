@@ -24,9 +24,9 @@ public static class Extension
         services.AddScoped<UIContext>();
         services.AddScoped<JSService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
-        services.AddSingleton<IAuthStateProvider, AuthStateProvider>();
         services.AddSingleton<INodbProvider, NodbProvider>();
 
+        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
@@ -51,8 +51,6 @@ public static class Extension
             UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
         }
     }
-
-    
 
     /// <summary>
     /// 添加框架客户端配置。

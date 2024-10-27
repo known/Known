@@ -75,9 +75,6 @@ public static class Extension
         else
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         services.AddAuthentication().AddCookie(Constants.KeyAuth);
-        //services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
-        //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        //        .AddCookie(options => options.LoginPath = new PathString("/login"));
         //builder.Services.Configure<CookiePolicyOptions>(options =>
         //{
         //    options.CheckConsentNeeded = context => true;

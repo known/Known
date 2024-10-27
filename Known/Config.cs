@@ -28,6 +28,11 @@ public sealed class Config
     public static bool IsClient { get; internal set; }
 
     /// <summary>
+    /// 取得或设置是否是开发环境。
+    /// </summary>
+    public static bool IsDevelopment { get; set; }
+
+    /// <summary>
     /// 取得或设置系统主机地址或域名。
     /// </summary>
     public static string HostUrl { get; set; }

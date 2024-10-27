@@ -5,7 +5,7 @@ namespace Sample.Web;
 
 public static class AppWeb
 {
-    public static void AddApp(this IServiceCollection services, Action<AppInfo> action = null)
+    public static void AddApplication(this IServiceCollection services, Action<AppInfo> action)
     {
         var assembly = typeof(AppWeb).Assembly;
         ModuleHelper.InitAppModules();
@@ -43,15 +43,43 @@ public static class AppWeb
         services.AddTransient<ImportTaskJob>();
     }
 
-    public static void UseApp(this WebApplication app)
+    public static void AddApplication(this WebApplicationBuilder builder)
+    {
+        Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
+        builder.Services.AddApplication(info =>
+        {
+            info.WebRoot = builder.Environment.WebRootPath;
+            info.ContentRoot = builder.Environment.ContentRootPath;
+            //数据库连接
+            info.Connections = [new Known.ConnectionInfo
+            {
+                Name = "Default",
+                DatabaseType = DatabaseType.SQLite,
+                ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
+                //DatabaseType = DatabaseType.Access,
+                //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
+                //DatabaseType = DatabaseType.SqlServer,
+                //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
+                //DatabaseType = DatabaseType.MySql,
+                //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
+                //DatabaseType = DatabaseType.PgSql,
+                //ProviderType = typeof(Npgsql.NpgsqlFactory),
+                //DatabaseType = DatabaseType.DM,
+                //ProviderType = typeof(Dm.DmClientFactory),
+                ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
+            }];
+        });
+    }
+
+    public static void UseApplication(this WebApplication app)
     {
         //使用Known框架
         app.UseKnown();
         //配置定时任务
-        app.Services.UseApp();
+        app.Services.UseApplication();
     }
 
-    public static void UseApp(this IServiceProvider provider)
+    public static void UseApplication(this IServiceProvider provider)
     {
         provider.UseScheduler(scheduler =>
         {

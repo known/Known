@@ -1,11 +1,5 @@
-﻿@using AntDesign
-@using Known.AntBlazor.Components
-@using Known.Blazor
-@using Known.Components
-@using Microsoft.AspNetCore.Components.Routing
-
-<KContext Value="context">
-    <Router AppAssembly="typeof(App).Assembly" AdditionalAssemblies="Config.Assemblies">
+﻿<KContext Value="Context">
+    <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
             <KRouteData Value="routeData">
                 <RouteView RouteData="routeData" DefaultLayout="typeof(AntLayout)" />
@@ -20,11 +14,5 @@
 </KContext>
 
 @code {
-    private UIContext context;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        context = new UIContext();
-    }
+    [Inject] private UIContext Context { get; set; }
 }

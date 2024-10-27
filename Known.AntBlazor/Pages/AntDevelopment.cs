@@ -3,6 +3,7 @@
 /// <summary>
 /// 系统开发中心页面组件类。
 /// </summary>
+[DisplayName("开发中心")]
 [StreamRendering]
 [Route("/development")]
 public class AntDevelopment : BaseTabPage, IReuseTabsPage

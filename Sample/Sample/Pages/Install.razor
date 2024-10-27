@@ -2,15 +2,8 @@
 @layout EmptyLayout
 @inherits BasePage
 
-<InstallForm OnInstall="OnInstall">
+<InstallForm>
     <TopMenu>
         <TopRightMenu />
     </TopMenu>
 </InstallForm>
-
-@code {
-    private void OnInstall(InstallInfo info)
-    {
-        App?.NavigateTo("/login");
-    }
-}

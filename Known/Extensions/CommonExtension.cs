@@ -268,6 +268,15 @@ public static class CommonExtension
     }
 
     /// <summary>
+    /// 导航到登录页面。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    public static void GoLoginPage(this NavigationManager navigation)
+    {
+        navigation.NavigateTo("/login", true);
+    }
+
+    /// <summary>
     /// 导航到指定菜单对应的页面。
     /// </summary>
     /// <param name="navigation">导航管理者对象。</param>

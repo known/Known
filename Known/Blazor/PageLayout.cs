@@ -39,7 +39,7 @@ public class PageLayout : BaseLayout
         await base.OnInitAsync();
         if (Context.System == null)
         {
-            NavigateTo("/install");
+            Navigation?.NavigateTo("/install", true);
         }
         else
         {
@@ -58,7 +58,7 @@ public class PageLayout : BaseLayout
             }
             else
             {
-                NavigateTo("/login");
+                Navigation?.GoLoginPage();
             }
         }
     }

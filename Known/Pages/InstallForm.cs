@@ -29,7 +29,7 @@ public class InstallForm : BaseForm<InstallInfo>
 
         if (Context.System != null)
         {
-            App?.NavigateTo("/login");
+            Navigation?.GoLoginPage();
             return;
         }
 
@@ -133,6 +133,7 @@ public class InstallForm : BaseForm<InstallInfo>
             {
                 var info = result.DataAs<InstallInfo>();
                 OnInstall?.Invoke(info);
+                Navigation?.GoLoginPage();
                 return Task.CompletedTask;
             });
         }
