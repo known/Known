@@ -1,20 +1,20 @@
 ﻿@inherits BaseComponent
 
-<LoginInfoForm @ref="form" Class="@FormStyle" Model="Model">
+<LoginInfoForm @ref="form" Name="form1" Class="@FormStyle" Model="Model" Method="post" OnFinish="OnFinish">
     <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
-        <AntInput @bind-Value="@context.UserName" Placeholder="@Language["UserName"]">
+        <AntInput @bind-Value="@Model.UserName" Placeholder="@Language["UserName"]">
             <Prefix><Icon Type="user" /></Prefix>
         </AntInput>
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
-        <InputPassword @bind-Value="@context.Password" Placeholder="@Language["Password"]">
+        <InputPassword @bind-Value="@Model.Password" Placeholder="@Language["Password"]">
             <Prefix><Icon Type="lock" /></Prefix>
         </InputPassword>
     </FormItem>
     @if (Stations != null && Stations.Count > 0)
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired("Station")">
-            <AntSelect @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language["Station"]">
+            <AntSelect @bind-Value="@Model.Station" DataSource="Stations" Placeholder="@Language["Station"]">
                 <PrefixIcon><Icon Type="control" Style="padding:0 9px 0 7px;" /></PrefixIcon>
             </AntSelect>
         </FormItem>
@@ -22,16 +22,16 @@
     else if (IsCaptcha)
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-            <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
+            <AntCaptcha @ref="captcha" @bind-Value="@Model.Captcha" Placeholder="@Language["Captcha"]">
                 <Prefix><Icon Type="check" /></Prefix>
             </AntCaptcha>
         </FormItem>
     }
     <FormItem>
-        <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberUser"]
+        <Checkbox @bind-Value="Model.Remember">@Language["Login.RememberUser"]</Checkbox>
     </FormItem>
     <FormItem>
-        <AntButton Name="@Language["Login"]" Type="@ButtonType.Primary" Block OnClick="OnUserLogin" />
+        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>@Language["Login"]</Button>
     </FormItem>
 </LoginInfoForm>
 
@@ -45,7 +45,7 @@
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
-    private async Task OnUserLogin(MouseEventArgs args)
+    private async void OnFinish(EditContext context)
     {
         if (!form.Validate())
             return;

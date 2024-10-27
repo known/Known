@@ -153,7 +153,7 @@ public class BaseLayout : LayoutComponentBase
         {
             Context.SignOut();
             await SetCurrentUserAsync(null);
-            NavigateTo("/login");
+            Navigation.NavigateTo("/login", true);
             Config.OnExit?.Invoke();
         }
     }

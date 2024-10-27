@@ -21,6 +21,7 @@ public static class Extension
 
         Config.AddApp();
         services.AddScoped<Context>();
+        services.AddScoped<UIContext>();
         services.AddScoped<JSService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
         services.AddSingleton<IAuthStateProvider, AuthStateProvider>();

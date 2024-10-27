@@ -15,12 +15,13 @@ public interface INodbProvider
     /// <summary>
     /// 获取缓存代码表列表。
     /// </summary>
+    /// <param name="user">当前用户。</param>
     /// <returns>代码表列表。</returns>
-    List<CodeInfo> GetCodes();
+    List<CodeInfo> GetCodes(UserInfo user);
 }
 
 class NodbProvider : INodbProvider
 {
     public List<MenuInfo> GetUserMenus(UserInfo user) => [];
-    public List<CodeInfo> GetCodes() => [];
+    public List<CodeInfo> GetCodes(UserInfo user) => [];
 }

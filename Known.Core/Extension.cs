@@ -21,8 +21,9 @@ public static class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
+        var assembly = typeof(Extension).Assembly;
         LoadBuildTime(Config.Version);
-        option.AddAssembly(typeof(Extension).Assembly);
+        option.AddAssembly(assembly);
 
         services.AddScoped<Database>();
         services.AddScoped<IAuthService, AuthService>();
@@ -67,12 +68,16 @@ public static class Extension
         if (option.IsCompression)
             services.AddResponseCompression();
         services.AddHttpContextAccessor();
+        services.AddControllers();
         services.AddCascadingAuthenticationState();
-        services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
+        if (option.IsCookieAuth)
+            services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
+        else
+            services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
+        services.AddAuthentication().AddCookie(Constants.KeyAuth);
         //services.AddScoped<AuthenticationStateProvider, WebAuthStateProvider>();
         //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         //        .AddCookie(options => options.LoginPath = new PathString("/login"));
-
         //builder.Services.Configure<CookiePolicyOptions>(options =>
         //{
         //    options.CheckConsentNeeded = context => true;
@@ -87,9 +92,6 @@ public static class Extension
         //                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         //                    options.LoginPath = new PathString("/login");
         //                });
-
-        //builder.Services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        //builder.Services.AddScoped<AuthenticationStateProvider, PersistingStateProvider>();
     }
 
     /// <summary>
@@ -118,6 +120,7 @@ public static class Extension
         if (option.IsAddWebApi)
             app.UseKnownWebApi();
 
+        app.MapControllers();
         Config.ServiceProvider = app.Services;
     }
 

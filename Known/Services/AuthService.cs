@@ -63,7 +63,7 @@ class AuthService(Context context, INodbProvider provider) : ServiceBase(context
         {
             AppName = App.Name,
             UserMenus = provider.GetUserMenus(CurrentUser),
-            Codes = provider.GetCodes()
+            Codes = provider.GetCodes(CurrentUser)
         };
         return Task.FromResult(info);
     }

@@ -22,13 +22,10 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         entity.LastLoginTime = DateTime.Now;
         entity.LastLoginIP = info.IPAddress;
 
-        var user = Utils.MapTo<UserInfo>(entity);
+        await database.OpenAsync();
+        var user = await entity.ToUserAsync(database);
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
-        SetUserAvatar(entity, user);
-        await database.OpenAsync();
-        await SetUserInfoAsync(database, user);
-        await SetUserWeixinAsync(database, user);
         await database.CloseAsync();
         cachedUsers[user.Token] = user;
 
@@ -82,9 +79,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (user != null)
             return user;
 
-        user = await Platform.GetUserAsync(db, userName);
-        await SetUserInfoAsync(db, user);
-        return user;
+        return await Platform.GetUserAsync(db, userName);
     }
 
     public Task<UserInfo> GetUserAsync(string userName) => GetUserAsync(Database, userName);
@@ -140,43 +135,6 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         entity.Password = Utils.ToMd5(info.NewPwd);
         await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
-    }
-
-    private static void SetUserAvatar(SysUser entity, UserInfo user)
-    {
-        var avatarUrl = entity.GetExtension<string>(nameof(UserInfo.AvatarUrl));
-        if (string.IsNullOrWhiteSpace(avatarUrl))
-            avatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
-        user.AvatarUrl = avatarUrl;
-    }
-
-    private static async Task SetUserInfoAsync(Database db, UserInfo user)
-    {
-        var info = await SystemService.GetSystemAsync(db);
-        user.IsTenant = user.CompNo != info?.CompNo;
-        user.AppName = info?.AppName;
-        if (user.IsAdmin())
-            user.AppId = Config.App.Id;
-        user.CompName = info?.CompName;
-        if (!string.IsNullOrEmpty(user.OrgNo))
-        {
-            var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == user.CompNo && d.Code == user.OrgNo);
-            var orgName = org?.Name ?? user.CompName;
-            user.OrgName = orgName;
-            if (string.IsNullOrEmpty(user.CompName))
-                user.CompName = orgName;
-        }
-    }
-
-    private static async Task SetUserWeixinAsync(Database db, UserInfo user)
-    {
-        var weixin = await WeixinService.GetWeixinByUserIdAsync(db, user.Id);
-        if (weixin == null)
-            return;
-
-        user.OpenId = weixin.OpenId;
-        if (!string.IsNullOrWhiteSpace(weixin.HeadImgUrl))
-            user.AvatarUrl = weixin.HeadImgUrl;
     }
 
     private static Task<SysUser> GetUserAsync(Database db, string userName, string password)

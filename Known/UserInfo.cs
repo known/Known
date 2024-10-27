@@ -185,7 +185,7 @@ public class UserInfo
     /// </summary>
     /// <param name="authType">认证类型，默认Known_Auth。</param>
     /// <returns>Claims认证对象。</returns>
-    public ClaimsPrincipal ToPrincipal(string authType = "Known_Auth")
+    public ClaimsPrincipal ToPrincipal(string authType = Constants.KeyAuth)
     {
         var claims = new List<Claim> { new(ClaimTypes.Name, UserName) };
         if (!string.IsNullOrWhiteSpace(Role))

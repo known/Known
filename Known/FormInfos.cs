@@ -8,32 +8,32 @@ public class LoginFormInfo
     /// <summary>
     /// 取得或设置用户名。
     /// </summary>
-    public string UserName { get; set; }
+    [Required] public string UserName { get; set; }
 
     /// <summary>
     /// 取得或设置密码。
     /// </summary>
-    public string Password { get; set; }
+    [Required] public string Password { get; set; }
 
     /// <summary>
     /// 取得或设置手机号，用于手机验证码登录。
     /// </summary>
-    public string PhoneNo { get; set; }
+    [Required] public string PhoneNo { get; set; }
 
     /// <summary>
     /// 取得或设置手机验证码。
     /// </summary>
-    public string PhoneCode { get; set; }
+    [Required] public string PhoneCode { get; set; }
 
     /// <summary>
     /// 取得或设置图片验证码。
     /// </summary>
-    public string Captcha { get; set; }
+    [Required] public string Captcha { get; set; }
 
     /// <summary>
     /// 取得或设置当前登录的站别，用于多站别系统。
     /// </summary>
-    public string Station { get; set; }
+    [Required] public string Station { get; set; }
 
     /// <summary>
     /// 取得或设置是否记住用户名。

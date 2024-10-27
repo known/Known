@@ -31,10 +31,24 @@
 </div>
 
 @code {
+    [CascadingParameter] private HttpContext HttpContext { get; set; }
+
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        await HttpContext.SignOutAsync();
         Model.UserName = "Admin";
         Model.Password = "888888";
+    }
+
+    protected override void OnLogined(UserInfo user)
+    {
+        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
+        HttpContext.Response.Redirect(url);
+    }
+
+    private Task<Known.Result> OnSendSMS(string phone)
+    {
+        return Known.Result.SuccessAsync(phone);
     }
 }

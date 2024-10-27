@@ -1,4 +1,4 @@
-﻿<KContext Value="context">
+﻿<KContext Value="Context">
     <Router AppAssembly="typeof(AppConfig).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
             <KRouteData Value="routeData">
@@ -14,16 +14,5 @@
 </KContext>
 
 @code {
-    private UIContext context;
-
-    [Parameter] public string IPAddress { get; set; }
-    [Parameter] public bool IsMobile { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        context = new UIContext();
-        context.IPAddress = IPAddress;
-        context.IsMobile = IsMobile;
-    }
+    [Parameter] public UIContext Context { get; set; }
 }

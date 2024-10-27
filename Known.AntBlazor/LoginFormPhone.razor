@@ -1,26 +1,26 @@
 ﻿@inherits BaseComponent
 
-<LoginInfoForm @ref="form" Model="Model">
+<LoginInfoForm @ref="form" Name="form2" Model="Model" Method="post" OnFinish="OnFinish">
     <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
-        <AntInput @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]">
+        <AntInput @bind-Value="@Model.PhoneNo" Placeholder="@Language["PhoneNo"]">
             <Prefix><Icon Type="phone" /></Prefix>
         </AntInput>
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneCode")">
-        <AntCaptcha @bind-Value="@context.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option">
+        <AntCaptcha @bind-Value="@Model.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option">
             <Prefix><Icon Type="lock" /></Prefix>
         </AntCaptcha>
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-        <AntCaptcha @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]">
+        <AntCaptcha @ref="captcha" @bind-Value="@Model.Captcha" Placeholder="@Language["Captcha"]">
              <Prefix><Icon Type="check" /></Prefix>
         </AntCaptcha>
     </FormItem>
     <FormItem>
-        <Switch @bind-Value="@context.Remember" /> @Language["Login.RememberPhone"]
+        <Checkbox @bind-Value="Model.Remember">@Language["Login.RememberPhone"]</Checkbox>
     </FormItem>
     <FormItem>
-        <AntButton Name="@Language["Login"]" Type="@ButtonType.Primary" Block OnClick="OnPhoneLogin" />
+        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>@Language["Login"]</Button>
     </FormItem>
 </LoginInfoForm>
 
@@ -55,7 +55,7 @@
         };
     }
 
-    private async Task OnPhoneLogin(MouseEventArgs args)
+    private async void OnFinish(EditContext context)
     {
         if (!form.Validate())
             return;

@@ -57,6 +57,7 @@ public class LoginPage : BaseComponent
                 Model.Remember = info.Remember;
                 Model.Station = info.Station;
                 Model.TabKey = info.TabKey;
+                await StateChangedAsync();
             }
         }
     }
@@ -70,17 +71,7 @@ public class LoginPage : BaseComponent
     /// 登录提交成功后调用的虚方法。
     /// </summary>
     /// <param name="user">登录用户信息。</param>
-    protected virtual void OnLogined(UserInfo user)
-    {
-        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
-        Navigation.NavigateTo(url);
-    }
-
-    /// <summary>
-    /// 登录按钮事件方法。
-    /// </summary>
-    /// <returns></returns>
-    protected async Task OnUserLogin()
+    protected virtual async void OnLogined(UserInfo user)
     {
         if (!Model.Remember)
         {
@@ -98,6 +89,16 @@ public class LoginPage : BaseComponent
             });
         }
 
+        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
+        Navigation.NavigateTo(url, true);
+    }
+
+    /// <summary>
+    /// 登录按钮事件方法。
+    /// </summary>
+    /// <returns></returns>
+    protected async Task OnUserLogin()
+    {
         if (!OnLogining())
             return;
 

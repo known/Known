@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="loading"></div>
-    <Routes @rendermode="InteractiveMode" IPAddress="@ipAddress" IsMobile="isMobile" />
+    <Routes @rendermode="InteractiveMode" Context="Context" />
     <script src="@Config.GetStaticFileUrl("_content/AntDesign/js/ant-design-blazor.js")"></script>
     <script src="_framework/blazor.web.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
@@ -26,17 +26,17 @@
 </html>
 
 @code {
-    [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-    private InteractiveServerRenderMode InteractiveMode => new(false);
+    [Inject] private UIContext Context { get; set; }
+    [CascadingParameter] private HttpContext HttpContext { get; set; }
     //private InteractiveAutoRenderMode InteractiveMode => new(false);
-    private string ipAddress;
-    private bool isMobile;
+    //private InteractiveServerRenderMode InteractiveMode => new(false);
+    private InteractiveServerRenderMode InteractiveMode => HttpContext.Request.Path.StartsWithSegments("/login") ? null : new(false);
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        Context.IPAddress = HttpContext.Connection?.RemoteIpAddress?.ToString();
+        Context.IsMobile = HttpContext.CheckMobile();
         Config.HostUrl = HttpContext.GetHostUrl();
-        ipAddress = HttpContext.Connection?.RemoteIpAddress?.ToString();
-        isMobile = HttpContext.CheckMobile();
     }
 }

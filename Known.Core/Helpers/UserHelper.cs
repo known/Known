@@ -14,13 +14,13 @@ class UserHelper
     internal static async Task<UserInfo> GetUserByIdAsync(Database db, string id)
     {
         var user = await db.QueryAsync<SysUser>(d => d.Id == id);
-        return Utils.MapTo<UserInfo>(user);
+        return await user.ToUserAsync(db);
     }
 
     internal static async Task<UserInfo> GetUserByUserNameAsync(Database db, string userName)
     {
         var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
-        return Utils.MapTo<UserInfo>(user);
+        return await user.ToUserAsync(db);
     }
 
     internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db, List<SysModule> modules)

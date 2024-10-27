@@ -16,6 +16,12 @@ public class Constants
     /// 框架用户Token键。
     /// </summary>
     public const string KeyToken = "Known-Token";
+
+    /// <summary>
+    /// 框架用户认证键。
+    /// </summary>
+    public const string KeyAuth = "Known-Auth";
+
     internal const string KeyClient = "Known-Client";
     internal const string KeyDownload = "Known-Download";
 

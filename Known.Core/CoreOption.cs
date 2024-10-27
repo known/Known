@@ -8,6 +8,11 @@ public class CoreOption
     internal static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
+    /// 取得或设置是否启用Cookie认证，默认启用。
+    /// </summary>
+    public bool IsCookieAuth { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置响应数据是否启用压缩，默认禁用。
     /// </summary>
     public bool IsCompression { get; set; }
