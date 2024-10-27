@@ -1,0 +1,68 @@
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Known.Core.Auths
+{
+    public class UserStore : IUserStore<UserInfo>
+    {
+        public Task<IdentityResult> CreateAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+
+        public Task<IdentityResult> DeleteAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+
+        public void Dispose()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new UserInfo());
+        }
+
+        public Task<UserInfo> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new UserInfo());
+        }
+
+        public Task<string> GetNormalizedUserNameAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+           return Task.FromResult(user.UserName.ToUpper());
+        }
+
+        public Task<string> GetUserIdAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+           return Task.FromResult(user.Id);
+        }
+
+        public Task<string> GetUserNameAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+           return Task.FromResult(user.UserName);
+        }
+
+        public Task SetNormalizedUserNameAsync(UserInfo user, string normalizedName, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task SetUserNameAsync(UserInfo user, string userName, CancellationToken cancellationToken)
+        {
+            user.UserName = userName;
+            return Task.CompletedTask;
+        }
+
+        public Task<IdentityResult> UpdateAsync(UserInfo user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+    }
+}
