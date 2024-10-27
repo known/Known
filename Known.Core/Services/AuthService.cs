@@ -1,6 +1,8 @@
-﻿namespace Known.Core.Services;
+﻿using Microsoft.AspNetCore.Identity;
 
-class AuthService(Context context) : ServiceBase(context), IAuthService
+namespace Known.Core.Services;
+
+class AuthService(Context context, IHttpContextAccessor contextAccessor) : ServiceBase(context), IAuthService
 {
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)
@@ -34,6 +36,15 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             type = "APP" + type;
 
         database.User = user;
+
+        var identity = new ClaimsIdentity(new ClaimsIdentity(IdentityConstants.ApplicationScheme));
+        identity.AddClaim(new(ClaimTypes.NameIdentifier, user.Id));
+        identity.AddClaim(new(ClaimTypes.Name, user.Name));
+        identity.AddClaim(new(ClaimTypes.Role, user.Role));
+
+        await contextAccessor.HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity), 
+            new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1) });
+
         return await database.TransactionAsync(Language["Login"], async db =>
         {
             await db.SaveAsync(entity);
@@ -56,6 +67,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             db.User = user;
             await Logger.AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
         }
+
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 

@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using Microsoft.AspNetCore.Identity
 @layout EmptyLayout
 @inherits LoginPage
 
@@ -36,7 +37,13 @@
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        await HttpContext.SignOutAsync();
+    
+        if (HttpMethods.IsGet(HttpContext.Request.Method))
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+        }
+
         Model.UserName = "Admin";
         Model.Password = "888888";
     }

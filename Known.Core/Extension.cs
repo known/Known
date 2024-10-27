@@ -1,4 +1,6 @@
-﻿namespace Known.Core;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Known.Core;
 
 /// <summary>
 /// 依赖注入扩展类。
@@ -71,7 +73,23 @@ public static class Extension
         services.AddControllers();
         services.AddCascadingAuthenticationState();
         if (option.IsCookieAuth)
-            services.AddScoped<IAuthStateProvider, WebAuthStateProvider>();
+        {
+            services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+                .AddIdentityCookies();
+
+            services.AddIdentityCore<UserInfo>()
+                .AddSignInManager()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<IUserStore<UserInfo>, UserStore>();
+            services.AddScoped<IAuthStateProvider>(sp => (PersistingRevalidatingAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
+        }
         else
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         services.AddAuthentication().AddCookie(Constants.KeyAuth);
