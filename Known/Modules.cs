@@ -16,6 +16,11 @@ public class EntityInfo
     public string Name { get; set; }
 
     /// <summary>
+    /// 取得或设置实体对应的页面URL。
+    /// </summary>
+    public string PageUrl { get; set; }
+
+    /// <summary>
     /// 取得或设置是否是工作流实体。
     /// </summary>
     public bool IsFlow { get; set; }

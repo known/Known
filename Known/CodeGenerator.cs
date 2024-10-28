@@ -414,7 +414,8 @@ class CodeGenerator : ICodeGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
         sb.AppendLine(" ");
-        sb.AppendLine("class {0}List : BaseTablePage<{1}>", className, entity.Id);
+        sb.AppendLine("[Route(\"{0}\")]", entity.PageUrl);
+        sb.AppendLine("public class {0}List : BaseTablePage<{1}>", className, entity.Id);
         sb.AppendLine("{");
         sb.AppendLine("    private I{0}Service Service;", className);
         sb.AppendLine(" ");

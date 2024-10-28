@@ -96,6 +96,7 @@ class ModuleForm : BaseStepForm
 
     private void BuildModulePage(RenderTreeBuilder builder)
     {
+        Entity.PageUrl = Model.Data.Url;
         builder.Component<PageDesigner>()
                .Set(c => c.ReadOnly, Model.IsView)
                .Set(c => c.Entity, Entity)
