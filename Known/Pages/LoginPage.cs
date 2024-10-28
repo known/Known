@@ -12,7 +12,8 @@ public class LoginPage : BaseComponent
     /// <summary>
     /// 登录表单信息。
     /// </summary>
-    protected LoginFormInfo Model = new();
+    [SupplyParameterFromForm]
+    protected LoginFormInfo Model { get; set; } = new();
 
     /// <summary>
     /// 取得或设置登录成功后返回的URL。

@@ -2,7 +2,7 @@
 
 <Tabs Animated>
     <TabPane Key="Account" Tab="@Language?["Login.WithAccount"]">
-        <LoginFormUser Model="Model" OnLogin="OnLogin" />
+        <LoginFormUser IsStatic="IsStatic" Model="Model" OnLogin="OnLogin" />
     </TabPane>
     @if (QRCode != null)
     {
@@ -17,6 +17,7 @@
 </Tabs>
 
 @code {
+    [Parameter] public bool IsStatic { get; set; }
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public RenderFragment QRCode { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
