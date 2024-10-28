@@ -185,6 +185,6 @@ public class BaseLayout : LayoutComponentBase
     public async Task SetCurrentUserAsync(UserInfo user)
     {
         if (AuthProvider != null)
-            await AuthProvider.SetUserAsync(user);
+            await AuthProvider.SignInAsync(user);
     }
 }

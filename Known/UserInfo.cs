@@ -183,14 +183,16 @@ public class UserInfo
     /// <summary>
     /// 将登录用户转换成Claims认证对象。
     /// </summary>
-    /// <param name="authType">认证类型，默认Known_Auth。</param>
+    /// <param name="authType">认证类型。</param>
     /// <returns>Claims认证对象。</returns>
-    public ClaimsPrincipal ToPrincipal(string authType = Constants.KeyAuth)
+    public ClaimsPrincipal ToPrincipal(string authType)
     {
-        var claims = new List<Claim> { new(ClaimTypes.Name, UserName) };
+        var identity = new ClaimsIdentity(authType);
+        identity.AddClaim(new(ClaimTypes.NameIdentifier, Id));
+        identity.AddClaim(new(ClaimTypes.Name, UserName));
         if (!string.IsNullOrWhiteSpace(Role))
-            claims.Add(new(ClaimTypes.Role, Role));
-        return new ClaimsPrincipal(new ClaimsIdentity(claims, authType));
+            identity.AddClaim(new(ClaimTypes.Role, Role));
+        return new ClaimsPrincipal(identity);
     }
 }
 

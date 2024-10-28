@@ -33,16 +33,14 @@
 
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; }
+    [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
     
         if (HttpMethods.IsGet(HttpContext.Request.Method))
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
-        }
+            await AuthProvider.SignOutAsync();
 
         Model.UserName = "Admin";
         Model.Password = "888888";

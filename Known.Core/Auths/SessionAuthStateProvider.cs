@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Auths;
 
-class JSAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStateProvider
+class SessionAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -11,7 +11,10 @@ class JSAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStat
 
     public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
 
-    public async Task SetUserAsync(UserInfo user)
+    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
+    public Task SignOutAsync() => SetCurrentUser(null);
+
+    private async Task SetCurrentUser(UserInfo user)
     {
         await js.SetUserInfoAsync(user);
         var principal = GetPrincipal(user);
@@ -23,6 +26,6 @@ class JSAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStat
         if (user == null)
             return new(new ClaimsIdentity());
 
-        return user.ToPrincipal();
+        return user.ToPrincipal(Constants.KeyAuth);
     }
 }

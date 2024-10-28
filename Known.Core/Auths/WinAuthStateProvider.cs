@@ -13,7 +13,10 @@ class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 
     public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
 
-    public Task SetUserAsync(UserInfo user)
+    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
+    public Task SignOutAsync() => SetCurrentUser(null);
+
+    private Task SetCurrentUser(UserInfo user)
     {
         current = user;
         var principal = GetPrincipal(user);
@@ -26,6 +29,6 @@ class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
         if (user == null)
             return new(new ClaimsIdentity());
 
-        return user.ToPrincipal();
+        return user.ToPrincipal(Constants.KeyAuth);
     }
 }

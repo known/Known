@@ -19,7 +19,7 @@ public class AuthController(IAuthService service) : ControllerBase
             return Results.Ok(result);
 
         var user = result.DataAs<UserInfo>();
-        var principal = user.ToPrincipal();
+        var principal = user.ToPrincipal(Constants.KeyAuth);
         await HttpContext.SignInAsync(Constants.KeyAuth, principal);
         return Results.Redirect("/");
     }

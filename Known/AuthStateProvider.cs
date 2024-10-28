@@ -12,11 +12,17 @@ public interface IAuthStateProvider
     Task<UserInfo> GetUserAsync();
 
     /// <summary>
-    /// 异步设置当前登录用户信息。
+    /// 异步签入当前登录用户信息。
     /// </summary>
     /// <param name="user">当前用户信息。</param>
     /// <returns></returns>
-    Task SetUserAsync(UserInfo user);
+    Task SignInAsync(UserInfo user);
+
+    /// <summary>
+    /// 异步签出当前登录用户。
+    /// </summary>
+    /// <returns></returns>
+    Task SignOutAsync();
 }
 
 class AuthStateProvider : IAuthStateProvider
@@ -25,17 +31,15 @@ class AuthStateProvider : IAuthStateProvider
 
     public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
 
-    public Task SetUserAsync(UserInfo user)
+    public Task SignInAsync(UserInfo user)
     {
         current = user;
         return Task.CompletedTask;
     }
 
-    private static ClaimsPrincipal GetPrincipal(UserInfo user)
+    public Task SignOutAsync()
     {
-        if (user == null)
-            return new(new ClaimsIdentity());
-
-        return user.ToPrincipal();
+        current = null;
+        return Task.CompletedTask;
     }
 }

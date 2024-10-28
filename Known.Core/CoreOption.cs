@@ -1,6 +1,25 @@
 ﻿namespace Known.Core;
 
 /// <summary>
+/// 身份认证方式枚举。
+/// </summary>
+public enum AuthMode
+{
+    /// <summary>
+    /// 浏览器Cookie
+    /// </summary>
+    Cookie,
+    /// <summary>
+    /// 浏览器SessionStorage
+    /// </summary>
+    Session,
+    /// <summary>
+    /// 微软Identity
+    /// </summary>
+    Identity
+}
+
+/// <summary>
 /// 框架后端配置选项类。
 /// </summary>
 public class CoreOption
@@ -8,9 +27,9 @@ public class CoreOption
     internal static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
-    /// 取得或设置是否启用Cookie认证，默认启用。
+    /// 取得或设置身份认证方式，默认Cookie。
     /// </summary>
-    public bool IsCookieAuth { get; set; } = true;
+    public AuthMode AuthMode { get; set; } = AuthMode.Cookie;
 
     /// <summary>
     /// 取得或设置响应数据是否启用压缩，默认禁用。

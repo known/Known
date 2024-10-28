@@ -22,7 +22,12 @@ public static class AppWeb
         switch (Config.App.Type)
         {
             case AppType.Web:
-                services.AddKnownWeb(option => option.AddAssembly(assembly));
+                services.AddKnownWeb(option =>
+                {
+                    // 设置登录认证方式，默认Cookie
+                    //option.AuthMode = AuthMode.Identity;
+                    option.AddAssembly(assembly);
+                });
                 break;
             case AppType.Desktop:
                 services.AddKnownWin(option => option.AddAssembly(assembly));

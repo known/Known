@@ -126,7 +126,7 @@ public class LoginPage : BaseComponent
     /// <returns></returns>
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
-        await AuthProvider?.SetUserAsync(user);
+        await AuthProvider?.SignInAsync(user);
     }
 
     //protected virtual string GetWeixinAuthState(string token)

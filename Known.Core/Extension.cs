@@ -72,41 +72,29 @@ public static class Extension
         services.AddHttpContextAccessor();
         services.AddControllers();
         services.AddCascadingAuthenticationState();
-        if (option.IsCookieAuth)
+        switch (option.AuthMode)
         {
-            services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-            })
-                .AddIdentityCookies();
-
-            services.AddIdentityCore<UserInfo>()
-                .AddSignInManager()
-                .AddDefaultTokenProviders();
-
-            services.AddScoped<IUserStore<UserInfo>, UserStore>();
-            services.AddScoped<IAuthStateProvider>(sp => (PersistingRevalidatingAuthenticationStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
+            case AuthMode.Cookie:
+                services.AddAuthentication().AddCookie(Constants.KeyAuth);
+                services.AddScoped<IAuthStateProvider, CookieAuthStateProvider>();
+                break;
+            case AuthMode.Session:
+                services.AddScoped<IAuthStateProvider, SessionAuthStateProvider>();
+                break;
+            case AuthMode.Identity:
+                services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider>();
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                }).AddIdentityCookies();
+                services.AddIdentityCore<UserInfo>().AddSignInManager().AddDefaultTokenProviders();
+                services.AddScoped<IUserStore<UserInfo>, UserStore>();
+                services.AddScoped<IAuthStateProvider>(sp => (IdentityAuthStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
+                break;
+            default:
+                break;
         }
-        else
-            services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
-        services.AddAuthentication().AddCookie(Constants.KeyAuth);
-        //builder.Services.Configure<CookiePolicyOptions>(options =>
-        //{
-        //    options.CheckConsentNeeded = context => true;
-        //    options.MinimumSameSitePolicy = SameSiteMode.None;
-        //});
-        //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        //                .AddCookie(options =>
-        //                {
-        //                    //options.Cookie.Name = "Known_Auth";
-        //                    //options.Cookie.HttpOnly = true;
-        //                    //options.SlidingExpiration = true;
-        //                    //options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-        //                    options.LoginPath = new PathString("/login");
-        //                });
     }
 
     /// <summary>

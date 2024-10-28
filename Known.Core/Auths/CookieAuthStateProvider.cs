@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Auths;
 
-class WebAuthStateProvider(IHttpContextAccessor context) : AuthenticationStateProvider, IAuthStateProvider
+class CookieAuthStateProvider(IHttpContextAccessor context) : AuthenticationStateProvider, IAuthStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -19,11 +19,23 @@ class WebAuthStateProvider(IHttpContextAccessor context) : AuthenticationStatePr
         return AuthService.GetUserAsync(db, userName);
     }
 
-    public async Task SetUserAsync(UserInfo user)
+    public async Task SignInAsync(UserInfo user)
     {
         var principal = GetPrincipal(user);
         if (user != null)
-            await context.HttpContext.SignInAsync(principal);
+        {
+            await context.HttpContext.SignInAsync(
+                Constants.KeyAuth, principal,
+                new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1) }
+            );
+        }
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
+    }
+
+    public async Task SignOutAsync()
+    {
+        var principal = GetPrincipal(null);
+        await context.HttpContext.SignOutAsync(Constants.KeyAuth);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
     }
 
@@ -32,6 +44,6 @@ class WebAuthStateProvider(IHttpContextAccessor context) : AuthenticationStatePr
         if (user == null)
             return new(new ClaimsIdentity());
 
-        return user.ToPrincipal();
+        return user.ToPrincipal(Constants.KeyAuth);
     }
 }

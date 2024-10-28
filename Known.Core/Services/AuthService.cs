@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿namespace Known.Core.Services;
 
-namespace Known.Core.Services;
-
-class AuthService(Context context, IHttpContextAccessor contextAccessor) : ServiceBase(context), IAuthService
+class AuthService(Context context) : ServiceBase(context), IAuthService
 {
+    private static readonly ConcurrentDictionary<string, UserInfo> cachedUsers = new();
+
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
@@ -29,22 +29,13 @@ class AuthService(Context context, IHttpContextAccessor contextAccessor) : Servi
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
         await database.CloseAsync();
-        cachedUsers[user.Token] = user;
+        cachedUsers[user.UserName] = user;
 
         var type = LogType.Login.ToString();
         if (info.IsMobile)
             type = "APP" + type;
 
         database.User = user;
-
-        var identity = new ClaimsIdentity(new ClaimsIdentity(IdentityConstants.ApplicationScheme));
-        identity.AddClaim(new(ClaimTypes.NameIdentifier, user.Id));
-        identity.AddClaim(new(ClaimTypes.Name, user.Name));
-        identity.AddClaim(new(ClaimTypes.Role, user.Role));
-
-        await contextAccessor.HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity), 
-            new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1) });
-
         return await database.TransactionAsync(Language["Login"], async db =>
         {
             await db.SaveAsync(entity);
@@ -71,8 +62,6 @@ class AuthService(Context context, IHttpContextAccessor contextAccessor) : Servi
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 
-    private static readonly ConcurrentDictionary<string, UserInfo> cachedUsers = new();
-
     internal static UserInfo GetUserByToken(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
@@ -87,11 +76,13 @@ class AuthService(Context context, IHttpContextAccessor contextAccessor) : Servi
             return null;
 
         userName = userName.Split('-')[0];
-        var user = cachedUsers.Values.FirstOrDefault(u => u.UserName == userName);
-        if (user != null)
-            return user;
-
-        return await Platform.GetUserAsync(db, userName);
+        cachedUsers.TryGetValue(userName, out UserInfo user);
+        if (user == null)
+        {
+            user = await UserHelper.GetUserByUserNameAsync(db, userName);
+            cachedUsers[user.UserName] = user;
+        }
+        return user;
     }
 
     public Task<UserInfo> GetUserAsync(string userName) => GetUserAsync(Database, userName);
