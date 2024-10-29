@@ -10,7 +10,6 @@ class SessionAuthStateProvider(JSService js) : AuthenticationStateProvider, IAut
     }
 
     public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
-
     public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
     public Task SignOutAsync() => SetCurrentUser(null);
 

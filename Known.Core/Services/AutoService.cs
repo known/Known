@@ -70,7 +70,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
                     model[file.Key] = $"{id}_{bizType}";
                 }
             }
-            DataHelper.SetValue(model, nameof(EntityBase.Id), id);
+            model.SetValue(nameof(EntityBase.Id), id);
             await db.SaveAsync(tableName, model);
         }, model);
     }

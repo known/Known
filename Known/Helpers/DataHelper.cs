@@ -159,33 +159,6 @@ public class DataHelper
     #endregion
 
     #region Dictionary
-    internal static object GetValue(Dictionary<string, object> data, string id)
-    {
-        if (!data.TryGetValue(id, out object value))
-        {
-            if (!data.TryGetValue(id.ToLower(), out value))
-                data.TryGetValue(id.ToUpper(), out value);
-        }
-
-        return value;
-    }
-
-    /// <summary>
-    /// 设置无代码字典对象字段值。
-    /// </summary>
-    /// <param name="data">字典对象。</param>
-    /// <param name="id">字段ID。</param>
-    /// <param name="value">字段值。</param>
-    public static void SetValue(Dictionary<string, object> data, string id, object value)
-    {
-        var key = id;
-        if (data.ContainsKey(id.ToLower()))
-            key = id.ToLower();
-        else if (data.ContainsKey(id.ToUpper()))
-            key = id.ToUpper();
-        data[key] = value;
-    }
-
     /// <summary>
     /// 验证无代码字典对象。
     /// </summary>
@@ -200,11 +173,16 @@ public class DataHelper
             return Result.Error(context.Language.Required(tableName));
 
         var dicError = new Dictionary<string, List<string>>();
-
         foreach (var field in entity.Fields)
         {
             var errors = new List<string>();
-            var value = GetValue(model, field.Id);
+            var value = model.GetValue(field.Id);
+            if (value == null && (field.Type == FieldType.Switch || field.Type == FieldType.CheckBox))
+            {
+                value = "False";
+                model.SetValue(field.Id, false);
+            }
+
             var valueString = value == null ? "" : value.ToString().Trim();
             if (field.Required && string.IsNullOrWhiteSpace(valueString))
                 errors.Add(context.Language.Required(field.Name));

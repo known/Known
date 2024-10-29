@@ -51,7 +51,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             if (!Equals(Value, value) && Form.Data != null)
             {
                 if (Form.IsDictionary)
-                    DataHelper.SetValue(Form.Data as Dictionary<string, object>, Column.Id, value);
+                    (Form.Data as Dictionary<string, object>).SetValue(Column.Id, value);
                 else if (Property?.SetMethod is not null)
                     Property?.SetValue(Form.Data, value);
                 Form.OnFieldChanged?.Invoke(Column.Id);
@@ -134,7 +134,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         if (data == null)
             return null;
 
-        var value = DataHelper.GetValue(data, column.Id);
+        var value = data.GetValue(column.Id);
         switch (column.Type)
         {
             case FieldType.Date:

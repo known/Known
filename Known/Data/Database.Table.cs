@@ -88,19 +88,19 @@ public partial class Database
         if (await ExistsAsync(tableName, id))
         {
             var version = data.GetValue<int>(nameof(EntityBase.Version)) + 1;
-            DataHelper.SetValue(data, nameof(EntityBase.Version), version);
+            data.SetValue(nameof(EntityBase.Version), version);
             return await UpdateAsync(tableName, nameof(EntityBase.Id), data);
         }
 
         if (string.IsNullOrWhiteSpace(id))
-            DataHelper.SetValue(data, nameof(EntityBase.Id), Utils.GetGuid());
-        DataHelper.SetValue(data, nameof(EntityBase.CreateBy), User.UserName);
-        DataHelper.SetValue(data, nameof(EntityBase.CreateTime), DateTime.Now);
-        DataHelper.SetValue(data, nameof(EntityBase.ModifyBy), User.UserName);
-        DataHelper.SetValue(data, nameof(EntityBase.ModifyTime), DateTime.Now);
-        DataHelper.SetValue(data, nameof(EntityBase.Version), 1);
-        DataHelper.SetValue(data, nameof(EntityBase.AppId), User.AppId);
-        DataHelper.SetValue(data, nameof(EntityBase.CompNo), User.CompNo);
+            data.SetValue(nameof(EntityBase.Id), Utils.GetGuid());
+        data.SetValue(nameof(EntityBase.CreateBy), User.UserName);
+        data.SetValue(nameof(EntityBase.CreateTime), DateTime.Now);
+        data.SetValue(nameof(EntityBase.ModifyBy), User.UserName);
+        data.SetValue(nameof(EntityBase.ModifyTime), DateTime.Now);
+        data.SetValue(nameof(EntityBase.Version), 1);
+        data.SetValue(nameof(EntityBase.AppId), User.AppId);
+        data.SetValue(nameof(EntityBase.CompNo), User.CompNo);
         return await InsertAsync(tableName, data);
     }
 }
