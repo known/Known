@@ -9,7 +9,17 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
-    internal string ModulePath => Config.App.ContentRoot.Replace(".Web", "");
+    internal string ModulePath
+    {
+        get
+        {
+#if DEBUG
+            return Config.App.ContentRoot.Replace(".Web", "");
+#else
+            return "";
+#endif
+        }
+    }
 
     internal virtual void SetModel(TModel model) => Model = model;
     protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);

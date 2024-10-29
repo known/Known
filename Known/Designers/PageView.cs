@@ -97,15 +97,24 @@ class PageView : BaseView<PageInfo>
     {
         var className = CodeGenerator.GetClassName(Entity?.Id);
         var path = Path.Combine(ModulePath, "Pages", "", $"{className}List.cs");
+#if DEBUG
         BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
+#endif
         BuildCode(builder, "page", path, htmlPage);
     }
 
     private void BuildService(RenderTreeBuilder builder)
     {
+#if DEBUG
+        var root = Config.App.ContentRoot;
+#else
+        var root = "";
+#endif
         var className = CodeGenerator.GetClassName(Entity?.Id);
-        var path = Path.Combine(Config.App.ContentRoot, "Services", $"{className}Service.cs");
+        var path = Path.Combine(root, "Services", $"{className}Service.cs");
+#if DEBUG
         BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
+#endif
         BuildCode(builder, "page", path, htmlService);
     }
 
@@ -113,7 +122,9 @@ class PageView : BaseView<PageInfo>
     {
         var className = CodeGenerator.GetClassName(Entity?.Id);
         var path = Path.Combine(ModulePath, "Services", $"I{className}Service.cs");
+#if DEBUG
         BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
+#endif
         BuildCode(builder, "page", path, htmlServiceI);
     }
 

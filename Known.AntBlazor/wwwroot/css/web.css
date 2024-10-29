@@ -115,7 +115,7 @@
 .kui-install-form .ant-spin-container {height:auto;}
 .ant-spin-nested-loading > div > .ant-spin .ant-spin-text {padding-top:20px;}
 .ant-message .message {text-align:left;}
-.ant-menu-item .fa + span {margin-left:10px;}
+.ant-menu .fa + span {margin-left:10px;}
 
 @media screen and (max-width:768px) {
     .kui-header .kui-header-left, .kui-nav-full, .kui-nav-setting {display:none;}
