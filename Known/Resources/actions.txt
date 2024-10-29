@@ -1,33 +1,34 @@
-Add              | 添加    | plus         | primary
-New              | 新增    | plus         | primary
-Edit             | 编辑    | edit         | primary
-Delete           | 删除    | delete       | danger
-DeleteM          | 批量删除 | delete      | danger
-Clear            | 清空    | delete       | danger
-Import           | 导入    | import       | primary
-Export           | 导出    | export       | primary
-Copy             | 复制    | copy         | primary
-Move             | 移动    | drag         | primary
-MoveUp           | 上移    | up           | primary
-MoveDown         | 下移    | down         | primary
-Enable           | 启用    | check-circle | primary
-Disable          | 禁用    | close-circle | primary
-Print            | 打印    | printer      | primary
-Reset            | 重置    | undo         | primary
+按钮编码         | 按钮名称 | 按钮图标      | 按钮样式    | 按钮位置
+Add              | 添加    | plus         | primary    | Toolbar
+New              | 新增    | plus         | primary    | Toolbar
+Edit             | 编辑    | edit         | primary    | Action
+Delete           | 删除    | delete       | danger    | Action
+DeleteM          | 批量删除 | delete      | danger    | Toolbar
+Clear            | 清空    | delete       | danger    | Toolbar
+Import           | 导入    | import       | primary    | Toolbar
+Export           | 导出    | export       | primary    | Toolbar
+Copy             | 复制    | copy         | primary    | Toolbar
+Move             | 移动    | drag         | primary    | Toolbar
+MoveUp           | 上移    | up           | primary    | Action
+MoveDown         | 下移    | down         | primary    | Action
+Enable           | 启用    | check-circle | primary    | Toolbar,Action
+Disable          | 禁用    | close-circle | primary    | Toolbar,Action
+Print            | 打印    | printer      | primary    | Toolbar,Action
+Reset            | 重置    | undo         | primary    | Toolbar
 Save             | 保存    | save         | primary
 OK               | 确定    | check        | primary
 Cancel           | 取消    | close        | 
-Restore          | 恢复    | rollback     | primary
-Authorize        | 授权    | safety       | primary
+Restore          | 恢复    | rollback     | primary    | Action
+Authorize        | 授权    | safety       | primary    | Action
 
-Submit           | 提交    | send         | primary
-Revoke           | 撤回    | undo         | primary
-Assign           | 分配    | user-switch  | primary
-Verify           | 审核    | check        | primary
+Submit           | 提交    | send         | primary    | Action
+Revoke           | 撤回    | undo         | primary    | Action
+Assign           | 分配    | user-switch  | primary    | Action
+Verify           | 审核    | check        | primary    | Action
 Pass             | 审核通过 | check-circle | primary
 Fail             | 审核退回 | close-circle | primary
-Reapply          | 重新申请 | redo         | primary
+Reapply          | 重新申请 | redo         | primary   | Toolbar
 
-ResetPassword    | 重置密码 | lock        | primary
-ChangeDepartment | 更换部门 | user-switch | primary
-AddCategory      | 添加类别 | plus-circle | primary
+ResetPassword    | 重置密码 | lock        | primary    | Toolbar
+ChangeDepartment | 更换部门 | user-switch | primary    | Toolbar
+AddCategory      | 添加类别 | plus-circle | primary    | Toolbar

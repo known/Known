@@ -1,1 +1,2 @@
-Test | 测试 | user-switch | primary
+按钮编码 | 按钮名称 | 按钮图标 | 按钮样式(primary,danger) | 按钮位置(Toolbar,Action)
+Test    | 测试     | user-switch | primary | Toolbar

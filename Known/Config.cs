@@ -295,7 +295,7 @@ public sealed class Config
 
         foreach (var item in lines)
         {
-            if (string.IsNullOrWhiteSpace(item))
+            if (string.IsNullOrWhiteSpace(item) || item.StartsWith("按钮编码"))
                 continue;
 
             var values = item.Split('|');
@@ -315,6 +315,8 @@ public sealed class Config
                 info.Icon = values[2].Trim();
             if (values.Length > 3)
                 info.Style = values[3].Trim();
+            if (values.Length > 4)
+                info.Position = values[4].Trim();
         }
     }
 

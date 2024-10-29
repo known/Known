@@ -328,6 +328,11 @@ public class ActionInfo
     public string Style { get; set; }
 
     /// <summary>
+    /// 取得或设置操作位置，如：Toolbar，Action。
+    /// </summary>
+    public string Position { get; set; }
+
+    /// <summary>
     /// 取得或设置操作是否可用。
     /// </summary>
     public bool Enabled { get; set; }
@@ -346,6 +351,8 @@ public class ActionInfo
     /// 取得或设置操作单击事件方法。
     /// </summary>
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    internal bool HasType(string type) => !string.IsNullOrWhiteSpace(Position) && Position.Contains(type);
 }
 
 /// <summary>

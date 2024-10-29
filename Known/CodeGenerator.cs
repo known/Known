@@ -419,9 +419,9 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("{");
         sb.AppendLine("    private I{0}Service Service;", className);
         sb.AppendLine(" ");
-        sb.AppendLine("    protected override async Task OnInitPageAsync()");
+        sb.AppendLine("    protected override async Task OnPageInitAsync()");
         sb.AppendLine("    {");
-        sb.AppendLine("        await base.OnInitPageAsync();");
+        sb.AppendLine("        await base.OnPageInitAsync();");
         sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
         sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");

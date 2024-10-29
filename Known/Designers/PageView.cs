@@ -186,6 +186,7 @@ class PageView : BaseView<PageInfo>
         {
             Title = Language?.GetFormTitle("Edit", title),
             Content = b => b.Component<ActionTable>()
+                            .Set(c => c.Type, type)
                             .Set(c => c.Name, title)
                             .Set(c => c.Value, value)
                             .Build(value => table = value),

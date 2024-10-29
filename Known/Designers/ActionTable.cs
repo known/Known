@@ -4,6 +4,7 @@ class ActionTable : BaseTable<ActionInfo>
 {
     private List<ActionInfo> actions;
 
+    [Parameter] public string Type { get; set; }
     [Parameter] public string[] Value { get; set; }
 
     public string[] Values => Table.DataSource?.Select(d => d.Id).ToArray();
@@ -37,7 +38,7 @@ class ActionTable : BaseTable<ActionInfo>
             Title = Name,
             Content = b => UI.BuildCheckList(b, new InputModel<string[]>
             {
-                Codes = actions.Where(a => Value == null || !Value.Contains(a.Id))
+                Codes = actions.Where(a => a.HasType(Type) && (Value == null || !Value.Contains(a.Id)))
                                .Select(a => new CodeInfo(a.Id, a.Name))
                                .ToList(),
                 ValueChanged = this.Callback<string[]>(value => values = value)
