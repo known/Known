@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Web;
 
-namespace Known.Weixins;
+namespace Known.Core.Weixins;
 
 /// <summary>
 /// 微信Api操作类。

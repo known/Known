@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 进程启动结果类型。

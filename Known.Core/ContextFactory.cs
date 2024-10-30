@@ -12,7 +12,7 @@ public class ContextFactory
     /// <returns>系统上下文请求对象。</returns>
     public static IRequest CreateRequest(HttpContext context)
     {
-        return new WebRequest(context);
+        return new WebHttpRequest(context);
     }
 
     /// <summary>
@@ -22,6 +22,6 @@ public class ContextFactory
     /// <returns>系统上下文响应对象。</returns>
     public static IResponse CreateResponse(HttpContext context)
     {
-        return new WebResponse(context);
+        return new WebHttpResponse(context);
     }
 }

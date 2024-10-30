@@ -1,8 +1,10 @@
-﻿namespace Known.Core.Services;
+﻿namespace Known.Core.Weixins;
 
 class WeixinService(Context context) : ServiceBase(context), IWeixinService
 {
     internal const string KeyWeixin = "WeixinInfo";
+
+    public Task<string> GetQRCodeUrlAsync(string sceneId) => WeixinApi.GetQRCodeUrlAsync(sceneId);
 
     #region Weixin
     public async Task<WeixinInfo> GetWeixinAsync(string userId)

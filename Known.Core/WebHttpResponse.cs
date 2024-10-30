@@ -1,6 +1,6 @@
 ﻿namespace Known.Core;
 
-internal class WebResponse(HttpContext context) : IResponse
+internal class WebHttpResponse(HttpContext context) : IResponse
 {
     private readonly HttpContext Context = context;
     private HttpResponse Response => Context.Response;

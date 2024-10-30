@@ -1,6 +1,6 @@
 ﻿namespace Known.Core;
 
-class WebRequest(HttpContext context) : IRequest
+class WebHttpRequest(HttpContext context) : IRequest
 {
     private readonly HttpContext Context = context;
     private HttpRequest Request => Context.Request;

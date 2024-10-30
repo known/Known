@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Known.Core.Weixins;
+using Microsoft.AspNetCore.Identity;
 
 namespace Known.Core;
 

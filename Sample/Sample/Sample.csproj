@@ -9,20 +9,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\actions.txt" />
-        <EmbeddedResource Include="Resources\Locales\en-US.txt" />
-        <EmbeddedResource Include="Resources\Locales\vi-VN.txt" />
-        <EmbeddedResource Include="Resources\Locales\zh-CN.txt" />
-        <EmbeddedResource Include="Resources\Locales\zh-TW.txt" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <SupportedPlatform Include="browser" />
         <!--<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.10" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
         <PackageReference Include="Castle.Core" Version="5.1.1" />
         <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />-->
         <ProjectReference Include="..\..\Known.AntBlazor\Known.AntBlazor.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\actions.txt" />
+        <EmbeddedResource Include="Resources\Locales\en-US.txt" />
+        <EmbeddedResource Include="Resources\Locales\vi-VN.txt" />
+        <EmbeddedResource Include="Resources\Locales\zh-CN.txt" />
+        <EmbeddedResource Include="Resources\Locales\zh-TW.txt" />
     </ItemGroup>
 
 </Project>

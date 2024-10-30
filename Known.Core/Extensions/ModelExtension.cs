@@ -1,4 +1,6 @@
-﻿namespace Known.Core.Extensions;
+﻿using Known.Core.Weixins;
+
+namespace Known.Core.Extensions;
 
 /// <summary>
 /// 数据模型扩展类。

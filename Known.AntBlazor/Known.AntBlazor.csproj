@@ -16,6 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <SupportedPlatform Include="browser" />
         <PackageReference Include="AntDesign" Version="1.0.0-rc.3" />
         <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
