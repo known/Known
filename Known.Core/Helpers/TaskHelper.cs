@@ -37,28 +37,18 @@ public sealed class TaskHelper
         var db = Database.Create();
         db.Context = new Context(CultureInfo.CurrentCulture.Name);
 
-        try
+        db.EnableLog = false;
+        var task = await GetPendingTaskAsync(db, bizType);
+        if (task == null || string.IsNullOrWhiteSpace(task.BizId))
         {
-            //db.EnableLog = false;
-            var task = await GetPendingTaskAsync(db, bizType);
-            if (task == null || string.IsNullOrWhiteSpace(task.BizId))
-            {
-                RunSwitches[bizType] = false;
-                RunStates[bizType] = false;
-                return;
-            }
-
-            //db.EnableLog = true;
-            await RunAsync(db, task, action);
-        }
-        catch (Exception ex)
-        {
-            Logger.Exception(ex);
-        }
-        finally
-        {
+            RunSwitches[bizType] = false;
             RunStates[bizType] = false;
+            return;
         }
+
+        db.EnableLog = true;
+        await RunAsync(db, task, action);
+        RunStates[bizType] = false;
     }
 
     private static async Task<SysTask> GetPendingTaskAsync(Database db, string bizType)
@@ -77,18 +67,28 @@ public sealed class TaskHelper
 
     private static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
-        var userName = task.CreateBy;
-        db.User = await Platform.GetUserAsync(db, userName);
-        task.BeginTime = DateTime.Now;
-        task.Status = SysTaskStatus.Running;
-        await db.SaveAsync(task);
+        try
+        {
+            var userName = task.CreateBy;
+            db.User = await Platform.GetUserAsync(db, userName);
+            task.BeginTime = DateTime.Now;
+            task.Status = SysTaskStatus.Running;
+            await db.SaveAsync(task);
 
-        var result = await action.Invoke(db, task);
-        task.EndTime = DateTime.Now;
-        task.Status = result.IsValid ? SysTaskStatus.Success : SysTaskStatus.Failed;
-        task.Note = result.Message;
-        await db.SaveAsync(task);
-        return result;
+            var result = await action.Invoke(db, task);
+            task.EndTime = DateTime.Now;
+            task.Status = result.IsValid ? SysTaskStatus.Success : SysTaskStatus.Failed;
+            task.Note = result.Message;
+            await db.SaveAsync(task);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            task.Status = SysTaskStatus.Failed;
+            task.Note = ex.ToString();
+            await db.SaveAsync(task);
+            return Result.Error(ex.Message);
+        }
     }
 
     private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)

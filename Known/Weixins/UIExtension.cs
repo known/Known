@@ -52,7 +52,7 @@ public static class UIExtension
             {
                 if (isManualClose)
                 {
-                    Logger.Info("[WeixinQRCode] Scanning Manual Closed!");
+                    Console.WriteLine("[WeixinQRCode] Scanning Manual Closed!");
                     break;
                 }
 

@@ -28,7 +28,6 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
             return Result.Error(ex.Message);
         }
     }

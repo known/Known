@@ -95,7 +95,7 @@ public sealed class WeixinHelper
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return string.Empty;
         }
     }
@@ -122,7 +122,7 @@ public sealed class WeixinHelper
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return string.Empty;
         }
     }

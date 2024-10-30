@@ -388,29 +388,21 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
 
     private async Task OnSaveDataAsync(bool isClose, bool isContinue)
     {
-        try
+        var result = Result.Error("No save action.");
+        if (OnSaveFile != null)
         {
-            var result = Result.Error("No save action.");
-            if (OnSaveFile != null)
+            var info = new UploadInfo<TItem>(Data);
+            foreach (var file in Files)
             {
-                var info = new UploadInfo<TItem>(Data);
-                foreach (var file in Files)
-                {
-                    info.Files[file.Key] = file.Value;
-                }
-                result = await OnSaveFile.Invoke(info);
+                info.Files[file.Key] = file.Value;
             }
-            else if (OnSave != null)
-            {
-                result = await OnSave.Invoke(Data);
-            }
-            HandleResult(result, isClose, isContinue);
+            result = await OnSaveFile.Invoke(info);
         }
-        catch (Exception ex)
+        else if (OnSave != null)
         {
-            UI.Error(ex.Message);
-            Logger.Exception(ex);
+            result = await OnSave.Invoke(Data);
         }
+        HandleResult(result, isClose, isContinue);
     }
 
     internal void HandleResult(Result result, bool isClose = true, bool isContinue = false)

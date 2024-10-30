@@ -1,5 +1,4 @@
-﻿using Known.Core.Weixins;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Known.Core;
 
@@ -19,7 +18,6 @@ public static class Extension
     {
         action?.Invoke(Config.App);
         AppHelper.RegisterConnections();
-        Logger.Start();
 
         if (Config.App.Type == AppType.WebApi)
             return;

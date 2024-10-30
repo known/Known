@@ -101,7 +101,6 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         }
         catch (Exception ex)
         {
-            Logger.Error(ex.ToString());
             return Result.Error(ex.Message);
         }
     }

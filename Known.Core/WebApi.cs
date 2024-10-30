@@ -30,7 +30,7 @@ class WebApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             await ctx.Response.WriteAsJsonAsync(Result.Error(ex.Message));
         }
     }

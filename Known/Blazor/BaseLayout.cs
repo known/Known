@@ -6,6 +6,11 @@
 public class BaseLayout : LayoutComponentBase
 {
     /// <summary>
+    /// 取得或设置日志工厂实例。
+    /// </summary>
+    [Inject] public ILoggerFactory Logger { get; set; }
+
+    /// <summary>
     /// 取得或设置注入的身份认证状态提供者实例。
     /// </summary>
     [Inject] protected IAuthStateProvider AuthProvider { get; set; }
@@ -159,7 +164,7 @@ public class BaseLayout : LayoutComponentBase
     /// <returns></returns>
     public async Task OnError(Exception ex)
     {
-        Logger.Exception(ex);
+        Logger.CreateLogger<BaseLayout>().Error(ex);
         await UI.Notice(ex.Message, StyleType.Error);
     }
 

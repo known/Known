@@ -39,6 +39,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置日志工厂实例。
+    /// </summary>
+    [Inject] public ILoggerFactory Logger { get; set; }
+
+    /// <summary>
     /// 取得或设置JS运行时实例。
     /// </summary>
     [Inject] public IJSRuntime JSRuntime { get; set; }
@@ -215,5 +220,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         if (App != null)
             await App.OnError(ex);
+        else
+            Logger.CreateLogger<BaseComponent>().Error(ex);
     }
 }

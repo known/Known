@@ -100,3 +100,22 @@ public class SysTaskStatus
     /// </summary>
     public const string Failed = "Failed";
 }
+
+/// <summary>
+/// 日志类型。
+/// </summary>
+public enum LogType
+{
+    /// <summary>
+    /// 登录。
+    /// </summary>
+    Login,
+    /// <summary>
+    /// 退出。
+    /// </summary>
+    Logout,
+    /// <summary>
+    /// 页面访问。
+    /// </summary>
+    Page
+}

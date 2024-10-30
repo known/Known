@@ -22,6 +22,16 @@ public partial class Database : IDisposable
     private IDbConnection conn;
     private IDbTransaction trans;
     private string TransId { get; set; }
+    private readonly ILoggerFactory loggerFactory;
+
+    /// <summary>
+    /// 构造函数，创建一个数据库访问类对象。
+    /// </summary>
+    /// <param name="loggerFactory">日志工厂。</param>
+    public Database(ILoggerFactory loggerFactory)
+    {
+        this.loggerFactory = loggerFactory;
+    }
 
     /// <summary>
     /// 取得或设置数据库类型。
@@ -53,7 +63,10 @@ public partial class Database : IDisposable
     /// </summary>
     public virtual object DbContext { get; }
 
-    internal bool EnableLog { get; set; } = true;
+    /// <summary>
+    /// 取得或设置是否开启错误日志，默认是。
+    /// </summary>
+    public bool EnableLog { get; set; } = true;
 
     private DbProvider provider;
     internal DbProvider Provider
@@ -136,7 +149,7 @@ public partial class Database : IDisposable
     /// <returns></returns>
     protected virtual Database CreateDatabase()
     {
-        var database = new Database();
+        var database = new Database(loggerFactory);
         database.SetDatabase(connName);
         database.Context = Context;
         database.User = User;
@@ -174,6 +187,21 @@ public partial class Database : IDisposable
     }
 
     /// <summary>
+    /// 处理操作异常。
+    /// </summary>
+    /// <param name="info">命令信息。</param>
+    /// <param name="ex">异常对象。</param>
+    protected void HandException(CommandInfo info, Exception ex)
+    {
+        if (!EnableLog)
+            return;
+
+        var logger = loggerFactory.CreateLogger<Database>();
+        logger.Info(info);
+        logger.Error(ex);
+    }
+
+    /// <summary>
     /// 释放数据库访问对象。
     /// </summary>
     /// <param name="isDisposing">是否释放。</param>
@@ -191,15 +219,6 @@ public partial class Database : IDisposable
     }
 
     internal string FormatName(string name) => Provider?.FormatName(name);
-
-    private void HandException(CommandInfo info, Exception ex)
-    {
-        if (!EnableLog)
-            return;
-
-        Logger.Error(info.ToString());
-        Logger.Exception(ex);
-    }
 
     private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {

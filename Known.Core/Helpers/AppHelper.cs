@@ -26,7 +26,7 @@ class AppHelper
         if (connections == null || connections.Count == 0)
             return;
 
-        AppHelper.LoadConnections(connections);
+        LoadConnections(connections);
         foreach (var item in connections)
         {
             var key = item.DatabaseType.ToString();
@@ -40,7 +40,7 @@ class AppHelper
     internal static async Task InitializeAsync()
     {
         var db = Database.Create();
-        //db.EnableLog = false;
+        db.EnableLog = false;
         var exists = await db.ExistsAsync<SysModule>();
         if (!exists)
         {
@@ -58,7 +58,7 @@ class AppHelper
         }
     }
 
-    internal static void LoadConnections(List<ConnectionInfo> connections)
+    private static void LoadConnections(List<ConnectionInfo> connections)
     {
         if (connections == null || connections.Count == 0)
             return;
@@ -94,10 +94,10 @@ class AppHelper
                 conn.ConnectionString = info.ConnectionString;
         }
 
-        AppHelper.SaveConnections(Config.App.Connections);
+        SaveConnections(Config.App.Connections);
     }
 
-    internal static void SaveConnections(List<ConnectionInfo> connections)
+    private static void SaveConnections(List<ConnectionInfo> connections)
     {
         if (connections == null || connections.Count == 0)
             return;

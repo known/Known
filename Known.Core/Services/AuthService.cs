@@ -39,7 +39,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         return await database.TransactionAsync(Language["Login"], async db =>
         {
             await db.SaveAsync(entity);
-            await Logger.AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
+            await AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
     }
 
@@ -56,7 +56,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         {
             using var db = Database.Create();
             db.User = user;
-            await Logger.AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
+            await AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
         }
 
         return Result.Success(Language["Tip.ExitSuccess"]);
@@ -144,5 +144,15 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     {
         password = CoreUtils.ToMd5(password);
         return db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
+    }
+
+    private static Task AddLogAsync(Database db, string type, string target, string content)
+    {
+        return db.SaveAsync(new SysLog
+        {
+            Type = type,
+            Target = target,
+            Content = content
+        });
     }
 }

@@ -38,6 +38,7 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual async Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
+        CommandInfo info = null;
         try
         {
             QueryHelper.SetAutoQuery<T>(this, ref sql, criteria);
@@ -47,11 +48,11 @@ public partial class Database
             if (conn != null && conn.State != ConnectionState.Open)
                 conn.Open();
 
+            info = Provider.GetCommand(sql, criteria, User);
             byte[] exportData = null;
             Dictionary<string, object> statis = null;
             var watch = Stopwatcher.Start<T>();
             var pageData = new List<T>();
-            var info = Provider.GetCommand(sql, criteria, User);
             var cmd = await PrepareCommandAsync(info);
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
@@ -104,8 +105,7 @@ public partial class Database
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            Logger.Error(sql);
+            HandException(info, ex);
             return new PagingResult<T>();
         }
     }

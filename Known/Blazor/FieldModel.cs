@@ -227,9 +227,9 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
                 }
                 lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
-                Logger.Exception(ex);
+                //Console.WriteLine($"{ex}");
             }
         }
         else if (model.Property != null)

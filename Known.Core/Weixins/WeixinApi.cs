@@ -80,12 +80,12 @@ public static class WeixinApi
                 force_refresh = true
             };
             var result = await http.PostDataAsync(url, data);
-            Logger.Info("AT=" + Utils.ToJson(result));
+            Console.WriteLine("AT=" + Utils.ToJson(result));
             return result.GetValue<string>("access_token");
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -99,12 +99,12 @@ public static class WeixinApi
             using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appId}&secret={appSecret}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
-            Logger.Info("AT=" + Utils.ToJson(result));
+            Console.WriteLine("AT=" + Utils.ToJson(result));
             return result.GetValue<string>("access_token");
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -144,7 +144,7 @@ public static class WeixinApi
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
         {
-            Logger.Error("AccessToken is null.");
+            Console.WriteLine("AccessToken is null.");
             return null;
         }
 
@@ -169,7 +169,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -216,7 +216,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -230,7 +230,7 @@ public static class WeixinApi
         var content = await response.Content.ReadAsStringAsync();
         var result = Utils.FromJson<Dictionary<string, object>>(content);
         if (result == null)
-            Logger.Error($"PostData={content}");
+            Console.WriteLine($"PostData={content}");
         return result;
     }
     #endregion
@@ -276,7 +276,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -304,7 +304,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -340,7 +340,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -369,7 +369,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
+            Console.WriteLine(ex.ToString());
             return null;
         }
     }
@@ -403,8 +403,8 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Logger.Exception(ex);
-            Logger.Error(Utils.ToJson(info));
+            Console.WriteLine(ex.ToString());
+            Console.WriteLine(Utils.ToJson(info));
             return Result.Error(ex.Message);
         }
     }
