@@ -46,7 +46,7 @@
     [Parameter] public List<string> Stations { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
-    private async void OnFinish(EditContext context)
+    private async Task OnFinish(EditContext context)
     {
         if (!form.Validate())
             return;
