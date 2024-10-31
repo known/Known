@@ -12,7 +12,7 @@ public static class JSExtension
     private static readonly string KeyTheme = "Known_Theme";
 
     /// <summary>
-    /// 粘贴剪贴板里的数据。
+    /// 异步粘贴剪贴板里的数据。
     /// </summary>
     /// <param name="js">JS运行时。</param>
     /// <param name="action">粘贴数据处理委托。</param>
@@ -24,14 +24,14 @@ public static class JSExtension
     }
 
     /// <summary>
-    /// 获取浏览器会话存储的当前用户信息。
+    /// 异步获取浏览器会话存储的当前用户信息。
     /// </summary>
     /// <param name="js">JS服务。</param>
     /// <returns>当前用户信息。</returns>
     public static Task<UserInfo> GetUserInfoAsync(this JSService js) => js.GetSessionStorageAsync<UserInfo>(KeyUserInfo);
 
     /// <summary>
-    /// 存储当前用户信息到浏览器会话中。
+    /// 异步存储当前用户信息到浏览器会话中。
     /// </summary>
     /// <param name="js">JS服务。</param>
     /// <param name="data">当前用户信息。</param>
@@ -54,7 +54,7 @@ public static class JSExtension
     internal static Task SetCurrentLanguageAsync(this JSService js, string language) => js.SetLocalStorageAsync(KeyLanguage, language);
 
     /// <summary>
-    /// 获取系统当前主题。
+    /// 异步获取系统当前主题。
     /// </summary>
     /// <param name="js">JS服务。</param>
     /// <returns>当前主题。</returns>
@@ -71,7 +71,7 @@ public static class JSExtension
     }
 
     /// <summary>
-    /// 存储系统当前主题。
+    /// 异步存储系统当前主题。
     /// </summary>
     /// <param name="js">JS服务。</param>
     /// <param name="theme">当前主题。</param>

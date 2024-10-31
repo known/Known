@@ -14,6 +14,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
+    /// 取得或设置是否是静态组件。
+    /// </summary>
+    [Parameter] public bool IsStatic { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置组件ID。
     /// </summary>
     [Parameter] public string Id { get; set; }
@@ -127,6 +132,18 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         {
             await HandleExceptionAsync(ex);
         }
+    }
+
+    /// <summary>
+    /// 组件呈现后执行的方法，可判断组件是否是静态组件。
+    /// 静态组件不执行该方法，交互式组件会执行该方法。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        IsStatic = false;
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     /// <summary>

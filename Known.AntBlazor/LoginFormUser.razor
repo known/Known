@@ -41,7 +41,6 @@
     private bool IsCaptcha => !IsStatic && Context.System != null && Context.System.IsLoginCaptcha;
     private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
 
-    [Parameter] public bool IsStatic { get; set; }
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public List<string> Stations { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }

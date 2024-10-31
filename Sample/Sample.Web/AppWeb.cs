@@ -24,8 +24,8 @@ public static class AppWeb
             case AppType.Web:
                 services.AddKnownWeb(option =>
                 {
-                    // 设置登录认证方式，默认Cookie
-                    //option.AuthMode = AuthMode.Identity;
+                    // 设置登录认证方式，默认Session
+                    //option.AuthMode = AuthMode.Cookie;
                     option.AddAssembly(assembly);
                 });
                 break;

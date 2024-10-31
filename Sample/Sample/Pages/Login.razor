@@ -1,4 +1,4 @@
-﻿@page "/login1"
+﻿@page "/login"
 @layout EmptyLayout
 @inherits LoginPage
 
@@ -23,7 +23,7 @@
         </div>
         <div class="login-form">
             <div class="login-form-body">
-                <LoginForm IsStatic Model="Model" OnLogin="OnUserLogin" />
+                <LoginForm Model="Model" OnLogin="OnUserLogin" />
             </div>
         </div>
     </div>
@@ -31,24 +31,15 @@
 </div>
 
 @code {
-    [CascadingParameter] private HttpContext HttpContext { get; set; }
-    [Inject] private IAuthStateProvider AuthProvider { get; set; }
-
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        if (HttpMethods.IsGet(HttpContext.Request.Method))
-        {
-            await AuthProvider.SignOutAsync();
-            Model.UserName = "Admin";
-            Model.Password = "888888";
-        }
+        Model.UserName = "Admin";
+        Model.Password = "888888";
     }
 
-    protected override async Task OnLoginedAsync(UserInfo user)
+    private Task<Known.Result> OnSendSMS(string phone)
     {
-        await base.OnLoginedAsync(user);
-        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
-        HttpContext.Response.Redirect(url);
+        return Known.Result.SuccessAsync(phone);
     }
 }

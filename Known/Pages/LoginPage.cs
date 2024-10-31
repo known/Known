@@ -5,9 +5,12 @@
 /// </summary>
 public class LoginPage : BaseComponent
 {
-    private IAuthService Service;
-    //private IWeixinService weixinService;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
+
+    /// <summary>
+    /// 获取身份认证服务实例。
+    /// </summary>
+    protected IAuthService Service { get; private set; }
 
     /// <summary>
     /// 登录表单信息。
@@ -28,16 +31,6 @@ public class LoginPage : BaseComponent
     {
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IAuthService>();
-        //weixinService = await CreateServiceAsync<IWeixinService>();
-        //var state = GetWeixinAuthState(user.Token);
-        //var uri = await Platform.Weixin.GetAuthorizeUrlAsync(state);
-        //if (IsLogin && !string.IsNullOrWhiteSpace(uri) && string.IsNullOrWhiteSpace(user.OpenId))
-        //{
-        //    if (IsMobile)
-        //        NavigateWeixinAuth(uri, user);
-        //    else
-        //        ShowWeixinQRCode(uri, user);
-        //}
     }
 
     /// <summary>
@@ -66,14 +59,17 @@ public class LoginPage : BaseComponent
     /// <summary>
     /// 登录提交前调用的验证虚方法。
     /// </summary>
-    protected virtual bool OnLogining() => true;
+    protected virtual Task<bool> OnLoginingAsync() => Task.FromResult(true);
 
     /// <summary>
     /// 登录提交成功后调用的虚方法。
     /// </summary>
     /// <param name="user">登录用户信息。</param>
-    protected virtual async void OnLogined(UserInfo user)
+    protected virtual async Task OnLoginedAsync(UserInfo user)
     {
+        if (IsStatic)
+            return;
+
         if (!Model.Remember)
         {
             await JS.SetLoginInfoAsync(null);
@@ -100,7 +96,7 @@ public class LoginPage : BaseComponent
     /// <returns></returns>
     protected async Task OnUserLogin()
     {
-        if (!OnLogining())
+        if (!await OnLoginingAsync())
             return;
 
         Model.IPAddress = Context.IPAddress;
@@ -115,7 +111,7 @@ public class LoginPage : BaseComponent
             if (user != null)
             {
                 await SetCurrentUserAsync(user);
-                OnLogined(user);
+                await OnLoginedAsync(user);
             }
         }
     }
@@ -129,71 +125,6 @@ public class LoginPage : BaseComponent
     {
         await AuthProvider?.SignInAsync(user);
     }
-
-    //protected virtual string GetWeixinAuthState(string token)
-    //{
-    //    var url = Config.HostUrl;
-    //    return $"{url}/?token={token}&";
-    //}
-
-    //protected virtual DialogModel GetWeixinDialogModel(string uri)
-    //{
-    //    var option = new { Text = uri, Width = 250, Height = 250 };
-    //    return new DialogModel
-    //    {
-    //        Title = Language.GetString("WeixinQRCodeAuth"),
-    //        Width = 300,
-    //        Content = b => b.Component<KQRCode>().Set(c => c.Option, option).Build()
-    //    };
-    //}
-
-    //private void NavigateWeixinAuth(string uri, UserInfo user)
-    //{
-    //    Task.Run(async () =>
-    //    {
-    //        while (true)
-    //        {
-    //            var weixin = await weixinService.CheckWeixinAsync(user);
-    //            if (weixin != null)
-    //            {
-    //                //await SetUserInfoAsync(weixin);
-    //                await UI.Toast(Language.Success(Language.Authorize));
-    //                break;
-    //            }
-    //            Thread.Sleep(1000);
-    //        }
-    //    });
-    //    Navigation.NavigateTo(uri);
-    //}
-
-    //private void ShowWeixinQRCode(string uri, UserInfo user)
-    //{
-    //    var isManualClose = false;
-    //    var model = GetWeixinDialogModel(uri);
-    //    model.OnClosed = () => isManualClose = true;
-    //    UI.ShowDialog(model);
-    //    Task.Run(async () =>
-    //    {
-    //        while (true)
-    //        {
-    //            if (isManualClose)
-    //            {
-    //                Logger.Info("[WeixinQRCode] Scanning Manual Closed!");
-    //                break;
-    //            }
-
-    //            var weixin = await weixinService.CheckWeixinAsync(user);
-    //            if (weixin != null)
-    //            {
-    //                //await SetUserInfoAsync(weixin);
-    //                await model.CloseAsync();
-    //                await UI.Toast(Language.Success(Language.Authorize));
-    //                break;
-    //            }
-    //            Thread.Sleep(1000);
-    //        }
-    //    });
-    //}
 
     class LoginInfo
     {

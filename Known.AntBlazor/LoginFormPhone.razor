@@ -55,7 +55,7 @@
         };
     }
 
-    private async void OnFinish(EditContext context)
+    private async Task OnFinish(EditContext context)
     {
         if (!form.Validate())
             return;
