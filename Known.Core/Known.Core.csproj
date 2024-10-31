@@ -9,7 +9,7 @@
         <Version>2.0.17</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, WinForm, Web</PackageTags>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
         <PackageOutputPath>..\..\..\Library</PackageOutputPath>

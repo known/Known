@@ -478,6 +478,9 @@ class CodeGenerator : ICodeGenerator
 
     private static string GetPluralName(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            return string.Empty;
+
         var className = GetClassName(name);
         if (!className.EndsWith('y'))
             return className + "s";
@@ -487,6 +490,9 @@ class CodeGenerator : ICodeGenerator
 
     internal static string GetClassName(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            return string.Empty;
+
         var index = name.Select((c, i) => new { Char = c, Index = i })
                         .Where(x => char.IsUpper(x.Char))
                         .Skip(1).Select(x => x.Index)

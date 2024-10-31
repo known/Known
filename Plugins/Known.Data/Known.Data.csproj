@@ -1,14 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
-        <Description>Known.AntBlazor是基于AntDesign Blazor的实现Known框架界面的类库。</Description>
+        <Description>Known.Data是基于ADO.NET实现支持多数据库的ORM类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.0.17</Version>
+        <Version>1.0.0</Version>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>Known, AntDesign, UI, Blazor</PackageTags>
+        <PackageTags>Known, ADO.NET, ORM</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
@@ -16,8 +16,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <SupportedPlatform Include="browser" />
-        <PackageReference Include="AntDesign" Version="1.0.0-rc.3" />
         <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 

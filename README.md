@@ -45,15 +45,17 @@ dotnet new known --name=MyApp
 ### 项目结构
 
 ```
-├─Known             -> 框架类库，包含通用前后端，内置ORM、组件、模块。
+├─Known             -> 框架核心类库，定义标准统一的对象模型、接口、组件和扩展。
 ├─Known.Core        -> 基于AspNetCore的服务端类库。
 ├─Plugins           -> 插件项目
+| ├─Known.Admin     -> 后台通用权限系统管理模块。
 | ├─Known.AntBlazor -> 基于AntDesign Blazor的界面库。
 | ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
+| ├─Known.Data      -> 基于ADO.NET实现支持多数据库的ORM类库。
+| ├─Known.Designer  -> 无代码开发设计器和低代码生成器。
 ├─Sample            -> 示例项目
   ├─Sample          -> 包含配置、常量、枚举、实体、模型、服务接口、路由、页面，动态代理访问后端WebApi。
   ├─Sample.Web      -> 包含业务逻辑、数据访问、定时任务，根据服务接口动态生成WebApi。
-  ├─Sample.WebApi   -> 框架示例WebApi。
   ├─Sample.WinForm  -> 框架示例WinForm App。
 ```
 

@@ -9,7 +9,7 @@
         <Version>1.0.2</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Library, .NET, Excel</PackageTags>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
         <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
