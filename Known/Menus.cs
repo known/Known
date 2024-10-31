@@ -351,8 +351,6 @@ public class ActionInfo
     /// 取得或设置操作单击事件方法。
     /// </summary>
     public EventCallback<MouseEventArgs> OnClick { get; set; }
-
-    internal bool HasType(string type) => !string.IsNullOrWhiteSpace(Position) && Position.Contains(type);
 }
 
 /// <summary>

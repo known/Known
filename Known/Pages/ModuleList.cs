@@ -37,7 +37,7 @@ public class ModuleList : BasePage<SysModule>
         {
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
-            Form = new FormInfo { Width = 1200, Maximizable = true },
+            Form = new FormInfo { Width = 1200, Maximizable = true, ShowFooter = true },
             RowKey = r => r.Id,
             ShowPager = false,
             SelectType = TableSelectType.Checkbox,

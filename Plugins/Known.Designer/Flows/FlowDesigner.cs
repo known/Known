@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Flows;
 
 class FlowDesigner : BaseDesigner<string>
 {
@@ -9,7 +9,7 @@ class FlowDesigner : BaseDesigner<string>
     private FlowView view;
 
     private bool IsNew => addType == addTypes[0].Code;
-    private bool IsReadOnly => ReadOnly || !Entity.IsFlow;
+    private bool IsReadOnly => ReadOnly || !Module.Entity.IsFlow;
 
     protected override async Task OnInitAsync()
     {
@@ -23,7 +23,7 @@ class FlowDesigner : BaseDesigner<string>
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
         flow = DataHelper.ToFlow(Model);
-        Form.Flow = flow;
+        //Module.Flow = flow;
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -41,7 +41,10 @@ class FlowDesigner : BaseDesigner<string>
             });
             builder.Div("panel-view", () =>
             {
-                builder.Component<FlowView>().Set(c => c.Model, flow).Build(value => view = value);
+                builder.Component<FlowView>()
+                       .Set(c => c.Module, Module)
+                       .Set(c => c.Model, flow)
+                       .Build(value => view = value);
             });
         });
     }
@@ -99,7 +102,7 @@ class FlowDesigner : BaseDesigner<string>
     {
         Model = model;
         flow = DataHelper.ToFlow(model);
-        Form.Flow = flow;
+        //Module.Flow = flow;
         view?.SetModelAsync(flow);
         OnChanged?.Invoke(model);
     }

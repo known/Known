@@ -1,11 +1,11 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer;
 
 class BaseView<TModel> : BaseComponent
 {
     protected TabModel Tab { get; } = new();
     [Inject] internal ICodeGenerator Generator { get; set; }
-    [CascadingParameter] internal ModuleForm Form { get; set; }
 
+    [Parameter] public SysModule Module { get; set; }
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 

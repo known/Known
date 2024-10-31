@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Shared;
 
 class ActionTable : BaseTable<ActionInfo>
 {

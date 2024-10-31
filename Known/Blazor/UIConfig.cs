@@ -33,6 +33,11 @@ public class UIConfig
     public static List<string> IgnoreRoutes { get; } = [];
 
     /// <summary>
+    /// 取得或设置模块表单自定义标签委托。
+    /// </summary>
+    public static Action<TabModel, FormModel<SysModule>> ModuleForm { get; set; }
+
+    /// <summary>
     /// 取得或设置自定义自动表格页面委托。
     /// </summary>
     public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Forms;
 
 class FormDesigner : BaseViewDesigner<FormInfo>
 {
@@ -19,6 +19,7 @@ class FormDesigner : BaseViewDesigner<FormInfo>
         builder.Component<FormView>()
                .Set(c => c.ReadOnly, ReadOnly)
                .Set(c => c.Flow, Flow)
+               .Set(c => c.Module, Module)
                .Set(c => c.Model, Model)
                .Set(c => c.OnChanged, OnChanged)
                .Build(value => view = value);

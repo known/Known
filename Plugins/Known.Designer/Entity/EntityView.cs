@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Entity;
 
 class EntityView : BaseView<EntityInfo>
 {
@@ -12,7 +12,7 @@ class EntityView : BaseView<EntityInfo>
     private DatabaseType dbType;
     private IAutoService Auto;
 
-    private bool IsCustomPage => Form.Model.Data.IsCustomPage;
+    private bool IsCustomPage => Module.IsCustomPage;
 
     internal override async Task SetModelAsync(EntityInfo model)
     {

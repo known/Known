@@ -147,10 +147,8 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar.OnItemClick = page.OnToolClick;
     }
 
-    internal SysModule Module { get; set; }
-
     /// <summary>
-    /// 获取页面名称。
+    /// 取得页面名称。
     /// </summary>
     public string PageName => Language.GetString(Context.Current);
 
@@ -771,7 +769,12 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         });
     }
 
-    internal void SetPage(EntityInfo model, PageInfo info)
+    /// <summary>
+    /// 设置无代码页面信息。
+    /// </summary>
+    /// <param name="model">实体模型。</param>
+    /// <param name="info">页面模型。</param>
+    public void SetPage(EntityInfo model, PageInfo info)
     {
         if (info == null)
             return;
@@ -804,7 +807,10 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
     }
 
-    internal void SetQueryColumns()
+    /// <summary>
+    /// 设置查询条件栏位。
+    /// </summary>
+    public void SetQueryColumns()
     {
         QueryColumns.Clear();
         if (Columns != null && Columns.Count > 0)

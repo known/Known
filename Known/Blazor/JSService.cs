@@ -88,7 +88,13 @@ public class JSService
     /// <returns></returns>
     public Task EnabledAsync(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
     
-    internal Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
+    /// <summary>
+    /// 高亮显示代码。
+    /// </summary>
+    /// <param name="code">代码。</param>
+    /// <param name="language">代码语言。</param>
+    /// <returns>高亮代码。</returns>
+    public Task<string> HighlightAsync(string code, string language) => InvokeAsync<string>("KBlazor.highlight", code, language);
     #endregion
 
     #region Storage

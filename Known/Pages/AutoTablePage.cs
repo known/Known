@@ -8,8 +8,6 @@
 public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 {
     private IAutoService Service;
-    private IModuleService Module;
-    private bool isEditPage;
     private string pageRoute;
     private readonly Dictionary<string, object> defaultData = [];
     private string PageId { get; set; }
@@ -20,18 +18,6 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     [Parameter] public string PageRoute { get; set; }
 
     /// <summary>
-    /// 异步刷新页面。
-    /// </summary>
-    /// <returns></returns>
-    public override async Task RefreshAsync()
-    {
-        if (isEditPage)
-            InitTable();
-
-        await base.RefreshAsync();
-    }
-
-    /// <summary>
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
@@ -39,7 +25,6 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     {
         await base.OnPageInitAsync();
         Service = await CreateServiceAsync<IAutoService>();
-        Module = await CreateServiceAsync<IModuleService>();
     }
 
     /// <summary>
@@ -81,13 +66,6 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
             UIConfig.AutoTablePage.Invoke(builder, Table);
         else
             builder.Table(Table);
-        if (CurrentUser != null && CurrentUser.IsSystemAdmin())
-        {
-            builder.Div("kui-page-designer", () =>
-            {
-                builder.Icon("fa fa-edit", this.Callback<MouseEventArgs>(OnEditPageAsync));
-            });
-        }
     }
 
     /// <summary>
@@ -157,29 +135,5 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     {
         info.PageId = PageId;
         return Service.SaveModelAsync(info);
-    }
-
-    private async Task OnEditPageAsync(MouseEventArgs args)
-    {
-        isEditPage = true;
-        var form = new FormModel<SysModule>(this)
-        {
-            Data = await Module.GetModuleAsync(Context.Current.Id),
-            OnSave = Module.SaveModuleAsync,
-            //OnSaved = data => Context.Current = new MenuInfo(data)
-        };
-        var model = new DialogModel
-        {
-            Title = $"{Language["Designer.EditPage"]} - {PageName}",
-            Maximizable = true,
-            Width = 1200,
-            Content = b => b.Component<ModuleForm>().Set(c => c.Model, form).Set(c => c.IsPageEdit, true).Build()
-        };
-        UI.ShowDialog(model);
-        form.OnClose = async () =>
-        {
-            isEditPage = false;
-            await model.OnClose?.Invoke();
-        };
     }
 }

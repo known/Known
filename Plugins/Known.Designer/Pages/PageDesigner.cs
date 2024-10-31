@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Pages;
 
 class PageDesigner : BaseViewDesigner<PageInfo>
 {
@@ -16,8 +16,8 @@ class PageDesigner : BaseViewDesigner<PageInfo>
     {
         builder.Component<PageView>()
                .Set(c => c.ReadOnly, ReadOnly)
+               .Set(c => c.Module, Module)
                .Set(c => c.Model, Model)
-               .Set(c => c.Entity, Entity)
                .Set(c => c.OnChanged, OnChanged)
                .Build(value => view = value);
     }

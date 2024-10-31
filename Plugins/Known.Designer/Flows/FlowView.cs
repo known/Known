@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Flows;
 
 class FlowView : BaseView<FlowInfo>
 {

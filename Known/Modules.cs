@@ -266,6 +266,11 @@ public class FormInfo
     public bool NoFooter { get; set; }
 
     /// <summary>
+    /// 取得或设置对话框表单是否显示底部按钮。
+    /// </summary>
+    public bool ShowFooter { get; set; }
+
+    /// <summary>
     /// 取得或设置表单字段信息列表。
     /// </summary>
     public List<FormFieldInfo> Fields { get; set; } = [];

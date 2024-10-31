@@ -6,8 +6,16 @@
 public class DataHelper
 {
     private static List<SysModule> Modules = [];
-    internal static List<EntityInfo> Models = [];
-    internal static List<FlowInfo> Flows = [];
+
+    /// <summary>
+    /// 取得实体模型列表。
+    /// </summary>
+    public static List<EntityInfo> Models { get; } = [];
+
+    /// <summary>
+    /// 取得流程模型列表。
+    /// </summary>
+    public static List<FlowInfo> Flows { get; } = [];
 
     /// <summary>
     /// 初始化模块数据。
@@ -37,6 +45,26 @@ public class DataHelper
     }
 
     #region Entity
+    /// <summary>
+    /// 根据实体表名获取去表前缀的类名称。
+    /// </summary>
+    /// <param name="name">实体表名。</param>
+    /// <returns>去表前缀的类名称。</returns>
+    public static string GetClassName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return string.Empty;
+
+        var index = name.Select((c, i) => new { Char = c, Index = i })
+                        .Where(x => char.IsUpper(x.Char))
+                        .Skip(1).Select(x => x.Index)
+                        .DefaultIfEmpty(-1).First();
+        if (index <= 0)
+            return name;
+
+        return name.Substring(index);
+    }
+
     /// <summary>
     /// 根据模块ID获取实体信息。
     /// </summary>

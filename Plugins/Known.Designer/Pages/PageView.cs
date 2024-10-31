@@ -1,10 +1,10 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Pages;
 
 class PageView : BaseView<PageInfo>
 {
     private readonly TabModel tab = new();
     private TableModel<PageColumnInfo> list;
-    private DemoPageModel table;
+    private DemoModel table;
     private string codePage;
     private string codeService;
     private string codeServiceI;
@@ -12,9 +12,7 @@ class PageView : BaseView<PageInfo>
     private string htmlService;
     private string htmlServiceI;
 
-    private bool IsCustomPage => Form.Model.Data.IsCustomPage;
-
-    [Parameter] public EntityInfo Entity { get; set; }
+    private bool IsCustomPage => Module.IsCustomPage;
 
     protected override async Task OnInitAsync()
     {
@@ -95,7 +93,7 @@ class PageView : BaseView<PageInfo>
 
     private void BuildPage(RenderTreeBuilder builder)
     {
-        var className = CodeGenerator.GetClassName(Entity?.Id);
+        var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(ModulePath, "Pages", "", $"{className}List.cs");
 #if DEBUG
         BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
@@ -110,7 +108,7 @@ class PageView : BaseView<PageInfo>
 #else
         var root = "";
 #endif
-        var className = CodeGenerator.GetClassName(Entity?.Id);
+        var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(root, "Services", $"{className}Service.cs");
 #if DEBUG
         BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
@@ -120,7 +118,7 @@ class PageView : BaseView<PageInfo>
 
     private void BuildServiceI(RenderTreeBuilder builder)
     {
-        var className = CodeGenerator.GetClassName(Entity?.Id);
+        var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(ModulePath, "Services", $"I{className}Service.cs");
 #if DEBUG
         BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
@@ -213,7 +211,7 @@ class PageView : BaseView<PageInfo>
     private void OnPropertyChanged()
     {
         OnChanged?.Invoke(Model);
-        table.SetPage(Entity, Model);
+        table.SetPage(Module?.Entity, Model);
         table.SetQueryColumns();
         SetSourceCode();
         StateChanged();
@@ -221,12 +219,12 @@ class PageView : BaseView<PageInfo>
 
     private async Task SetTablePageAsync()
     {
-        table = new DemoPageModel(this)
+        table = new DemoModel(this)
         {
-            Module = Form.Model.Data,
-            Entity = Entity
+            Module = Module,
+            Entity = Module?.Entity
         };
-        table.SetPage(Entity, Model);
+        table.SetPage(Module?.Entity, Model);
         table.SetQueryColumns();
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
         SetSourceCode();
@@ -239,8 +237,8 @@ class PageView : BaseView<PageInfo>
         if (!IsCustomPage)
             return;
 
-        codePage = Generator?.GetPage(Model, Entity);
-        codeService = Generator?.GetService(Model, Entity);
-        codeServiceI = Generator?.GetIService(Model, Entity);
+        codePage = Generator?.GetPage(Model, Module?.Entity);
+        codeService = Generator?.GetService(Model, Module?.Entity);
+        codeServiceI = Generator?.GetIService(Model, Module?.Entity);
     }
 }

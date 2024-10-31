@@ -104,10 +104,21 @@ public class SysModule : EntityBase
     /// </summary>
     public virtual bool IsMoveUp { get; set; }
 
-    internal virtual bool IsCustomPage => Target == ModuleType.Custom.ToString();
+    /// <summary>
+    /// 取得是否是自定义页面。
+    /// </summary>
+    public virtual bool IsCustomPage => Target == ModuleType.Custom.ToString();
+
+    /// <summary>
+    /// 取得或设置实体模型配置信息。
+    /// </summary>
+    public virtual EntityInfo Entity { get; set; }
 
     private PageInfo page;
-    internal virtual PageInfo Page
+    /// <summary>
+    /// 取得或设置无代码页面配置信息。
+    /// </summary>
+    public virtual PageInfo Page
     {
         get
         {
@@ -122,7 +133,10 @@ public class SysModule : EntityBase
     }
 
     private FormInfo form;
-    internal virtual FormInfo Form
+    /// <summary>
+    /// 取得或设置无代码表单配置信息。
+    /// </summary>
+    public virtual FormInfo Form
     {
         get
         {

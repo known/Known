@@ -5,7 +5,12 @@
 /// </summary>
 public static class FlowExtension
 {
-    internal static List<ItemModel> GetFlowStepItems(this FlowInfo info)
+    /// <summary>
+    /// 获取工作流步骤项目列表。
+    /// </summary>
+    /// <param name="info">工作流配置信息。</param>
+    /// <returns>步骤项目列表。</returns>
+    public static List<ItemModel> GetFlowStepItems(this FlowInfo info)
     {
         if (info == null || info.Steps == null || info.Steps.Count == 0)
             return null;

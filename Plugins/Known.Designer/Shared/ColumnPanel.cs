@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Shared;
 
 class ColumnPanel<TModel> : BaseComponent
 {
@@ -14,7 +14,7 @@ class ColumnPanel<TModel> : BaseComponent
     {
         base.OnInitialized();
         current = Designer.Fields?.FirstOrDefault();
-        fields = Designer.Entity.GetFields(Language);
+        fields = Designer.Module.Entity.GetFields(Language);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)

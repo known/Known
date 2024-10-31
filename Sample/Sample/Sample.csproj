@@ -16,6 +16,7 @@
         <PackageReference Include="Castle.Core" Version="5.1.1" />
         <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />-->
         <ProjectReference Include="..\..\Plugins\Known.AntBlazor\Known.AntBlazor.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Designer\Known.Designer.csproj" />
     </ItemGroup>
 
     <ItemGroup>

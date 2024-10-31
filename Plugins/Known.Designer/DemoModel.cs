@@ -1,14 +1,15 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer;
 
-class DemoPageModel : TableModel<Dictionary<string, object>>
+class DemoModel : TableModel<Dictionary<string, object>>
 {
-    internal DemoPageModel(BaseComponent page) : base(page)
+    internal DemoModel(BaseComponent page) : base(page)
     {
         OnQuery = OnQueryDatas;
         OnAction = OnRowAction;
         Toolbar.OnItemClick = OnItemClick;
     }
 
+    internal SysModule Module { get; set; }
     internal EntityInfo Entity { get; set; }
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryDatas(PagingCriteria criteria)

@@ -443,7 +443,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         });
     }
 
-    internal void InitColumns()
+    /// <summary>
+    /// 初始化无代码表单栏位。
+    /// </summary>
+    public void InitColumns()
     {
         if (columns == null || columns.Count == 0)
             return;
@@ -468,7 +471,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal void SetFormInfo(FormInfo info)
+    /// <summary>
+    /// 设置无代码表单信息。
+    /// </summary>
+    /// <param name="info"></param>
+    public void SetFormInfo(FormInfo info)
     {
         if (info == null)
             return;

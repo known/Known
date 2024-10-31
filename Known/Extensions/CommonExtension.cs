@@ -5,16 +5,6 @@
 /// </summary>
 public static class CommonExtension
 {
-    #region String
-    internal static void AppendLine(this StringBuilder sb, string format, params object[] args)
-    {
-        var value = string.Format(format, args);
-        sb.AppendLine(value);
-    }
-
-    internal static string Format(this string format, params object[] args) => string.Format(format, args);
-    #endregion
-
     #region Enum
     /// <summary>
     /// 获取枚举字段描述。

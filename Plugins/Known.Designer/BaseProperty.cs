@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer;
 
 class BaseProperty<TModel> : BaseComponent where TModel : class, new()
 {

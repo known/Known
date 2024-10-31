@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Designer;
 
 /// <summary>
 /// 代码生成器接口。
@@ -410,7 +410,7 @@ class CodeGenerator : ICodeGenerator
     public string GetPage(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
-        var className = GetClassName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
         sb.AppendLine(" ");
@@ -481,26 +481,11 @@ class CodeGenerator : ICodeGenerator
         if (string.IsNullOrWhiteSpace(name))
             return string.Empty;
 
-        var className = GetClassName(name);
+        var className = DataHelper.GetClassName(name);
         if (!className.EndsWith('y'))
             return className + "s";
 
         return className.Substring(0, className.Length - 1) + "ies";
-    }
-
-    internal static string GetClassName(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            return string.Empty;
-
-        var index = name.Select((c, i) => new { Char = c, Index = i })
-                        .Where(x => char.IsUpper(x.Char))
-                        .Skip(1).Select(x => x.Index)
-                        .DefaultIfEmpty(-1).First();
-        if (index <= 0)
-            return name;
-
-        return name.Substring(index);
     }
     #endregion
 
@@ -508,7 +493,7 @@ class CodeGenerator : ICodeGenerator
     public string GetIService(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
-        var className = GetClassName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Services;", Config.App.Id);
         sb.AppendLine(" ");
@@ -547,7 +532,7 @@ class CodeGenerator : ICodeGenerator
     public string GetService(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
-        var className = GetClassName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Web.Services;", Config.App.Id);
         sb.AppendLine(" ");

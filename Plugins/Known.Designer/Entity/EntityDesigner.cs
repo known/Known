@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Entity;
 
 class EntityDesigner : BaseDesigner<string>
 {
@@ -24,7 +24,7 @@ class EntityDesigner : BaseDesigner<string>
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
         entity = DataHelper.ToEntity(Model);
-        Form.Entity = entity;
+        Module.Entity = entity;
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -44,6 +44,7 @@ class EntityDesigner : BaseDesigner<string>
             {
                 builder.Component<EntityView>()
                        .Set(c => c.ReadOnly, ReadOnly)
+                       .Set(c => c.Module, Module)
                        .Set(c => c.Model, entity)
                        .Build(value => view = value);
             });
@@ -112,7 +113,7 @@ class EntityDesigner : BaseDesigner<string>
     {
         Model = model;
         entity = DataHelper.ToEntity(model);
-        Form.Entity = entity;
+        Module.Entity = entity;
         view?.SetModelAsync(entity);
         OnChanged?.Invoke(model);
     }

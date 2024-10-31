@@ -109,9 +109,18 @@ public sealed class Config
 
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
-    internal static List<ActionInfo> Actions { get; } = [];
+
+    /// <summary>
+    /// 取得操作按钮信息列表。
+    /// </summary>
+    public static List<ActionInfo> Actions { get; } = [];
+
     internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static Dictionary<string, Type> FieldTypes { get; } = [];
+
+    /// <summary>
+    /// 取得自定义扩展字段组件字典。
+    /// </summary>
+    public static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义表单组件类和路由，以及CodeInfo特性的代码表类。

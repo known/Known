@@ -302,7 +302,7 @@ class UIService(ModalService modalService, MessageService messageService, INotif
                 option.Width = model.Info.Width.Value;
         }
         var noFooter = model.Info != null && model.Info.NoFooter;
-        if (model.IsView || noFooter || isTabForm || isStepForm)
+        if (model.IsView || noFooter || ((isTabForm || isStepForm) && model.Info?.ShowFooter == false))
             option.Footer = null;
 
         var modal = _modal.CreateModal(option);

@@ -1,4 +1,4 @@
-﻿namespace Known.Designers;
+﻿namespace Known.Designer.Pages;
 
 class PageProperty : BaseProperty<PageColumnInfo>
 {
