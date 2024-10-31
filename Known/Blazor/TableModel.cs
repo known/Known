@@ -520,7 +520,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="onSave">新增保存方法委托。</param>
     /// <param name="row">异步请求默认对象委托。</param>
-    public async void NewForm(Func<TItem, Task<Result>> onSave, Func<Task<TItem>> row)
+    public async Task NewFormAsync(Func<TItem, Task<Result>> onSave, Func<Task<TItem>> row)
     {
         if (isShowNew)
             return;
@@ -538,7 +538,7 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="onSave">新增保存方法委托。</param>
     /// <param name="row">异步请求默认对象委托。</param>
-    public async void NewForm(Func<UploadInfo<TItem>, Task<Result>> onSave, Func<Task<TItem>> row)
+    public async Task NewFormAsync(Func<UploadInfo<TItem>, Task<Result>> onSave, Func<Task<TItem>> row)
     {
         if (isShowNew)
             return;

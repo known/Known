@@ -78,7 +78,7 @@ class WebApiForm : BaseComponent
                 WebApiList.BuildMethod(builder, Model);
                 builder.Text(Model.Route);
             });
-            builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExexute));
+            builder.Button(Language["Designer.Execute"], this.Callback<MouseEventArgs>(OnExexuteAsync));
         });
         builder.Div("kui-api-row", () =>
         {
@@ -179,7 +179,7 @@ class WebApiForm : BaseComponent
         builder.Pre().Class("kui-api-result").Text(result).Close();
     }
 
-    private async void OnExexute(MouseEventArgs args)
+    private async Task OnExexuteAsync(MouseEventArgs args)
     {
         var client = new HttpClient();
         client.BaseAddress = new Uri(Config.HostUrl);

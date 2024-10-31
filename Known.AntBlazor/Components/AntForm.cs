@@ -75,8 +75,8 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         });
     }
 
-    private async void OnSaveAsync(MouseEventArgs args) => await Form?.SaveAsync();
-    private async void OnCloseAsync(MouseEventArgs args) => await Form?.CloseAsync();
+    private Task OnSaveAsync(MouseEventArgs args) => Form?.SaveAsync();
+    private Task OnCloseAsync(MouseEventArgs args) => Form?.CloseAsync();
 
     private async Task LoadDataAsync(TItem data)
     {

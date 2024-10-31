@@ -9,10 +9,10 @@ class FileLink : BaseComponent
         if (Config.App.Type == AppType.Web)
             builder.OpenFile(Item.Name, Item.FileUrl);
         else
-            builder.Span("kui-link", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFile(Item)));
+            builder.Span("kui-link", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFileAsync(Item)));
     }
 
-    private async void OnDownloadFile(SysFile item)
+    private async Task OnDownloadFileAsync(SysFile item)
     {
         var path = Config.GetUploadPath(item.Path);
         if (!File.Exists(path))

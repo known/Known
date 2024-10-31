@@ -36,7 +36,7 @@ public class SysUserList : BasePage<SysUser>
             {
                 ExpandRoot = true,
                 Data = orgs.ToMenuItems(),
-                OnNodeClick = OnNodeClick,
+                OnNodeClick = OnNodeClickAsync,
                 SelectedKeys = [currentOrg.Id]
             };
 
@@ -117,12 +117,12 @@ public class SysUserList : BasePage<SysUser>
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public async void Import() => await Table.ShowImportAsync();
+    public Task Import() => Table.ShowImportAsync();
 
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public async void Export() => await Table.ExportDataAsync();
+    public Task Export() => Table.ExportDataAsync();
 
     private void OnChangeDepartment(List<SysUser> rows)
     {
@@ -136,7 +136,11 @@ public class SysUserList : BasePage<SysUser>
                 {
                     ExpandRoot = true,
                     Data = orgs.ToMenuItems(),
-                    OnNodeClick = n => node = n.Data as SysOrganization
+                    OnNodeClick = n =>
+                    {
+                        node = n.Data as SysOrganization;
+                        return Task.CompletedTask;
+                    }
                 });
             }
         };
@@ -159,7 +163,7 @@ public class SysUserList : BasePage<SysUser>
         UI.ShowDialog(model);
     }
 
-    private async void OnNodeClick(MenuInfo item)
+    private async Task OnNodeClickAsync(MenuInfo item)
     {
         currentOrg = item.Data as SysOrganization;
         await Table.RefreshAsync();

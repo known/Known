@@ -113,7 +113,7 @@ class EntityDesigner : BaseDesigner<string>
         Model = model;
         entity = DataHelper.ToEntity(model);
         Form.Entity = entity;
-        view?.SetModel(entity);
+        view?.SetModelAsync(entity);
         OnChanged?.Invoke(model);
     }
 }

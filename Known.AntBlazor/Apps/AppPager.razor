@@ -1,9 +1,9 @@
 ﻿@inherits BaseComponent
 
 <div>
-    <Button Type="@ButtonType.Link" Disabled="!CanPrevious" Icon="left-circle" OnClick="OnPrevious" Style="width:45px;" />
+    <Button Type="@ButtonType.Link" Disabled="!CanPrevious" Icon="left-circle" OnClick="OnPreviousAsync" Style="width:45px;" />
     <span>@Criteria.PageIndex / @PageCount</span>
-    <Button Type="@ButtonType.Link" Disabled="!CanNext" Icon="right-circle" OnClick="OnNext" Style="width:45px;" />
+    <Button Type="@ButtonType.Link" Disabled="!CanNext" Icon="right-circle" OnClick="OnNextAsync" Style="width:45px;" />
 </div>
 
 @code {
@@ -15,13 +15,13 @@
     [Parameter] public PagingCriteria Criteria { get; set; }
     [Parameter] public Func<Task> OnChanged { get; set; }
 
-    private async void OnPrevious()
+    private async Task OnPreviousAsync()
     {
         Criteria.PageIndex--;
         await OnChanged?.Invoke();
     }
 
-    private async void OnNext()
+    private async Task OnNextAsync()
     {
         Criteria.PageIndex++;
         await OnChanged?.Invoke();

@@ -29,8 +29,8 @@ public class SysOrganizationList : BasePage<SysOrganization>
         tree = new TreeModel
         {
             ExpandRoot = true,
-            OnNodeClick = OnNodeClick,
-            OnModelChanged = OnTreeModelChanged
+            OnNodeClick = OnNodeClickAsync,
+            OnModelChanged = OnTreeModelChangedAsync
         };
 
         table = new TableModel<SysOrganization>(this)
@@ -106,13 +106,13 @@ public class SysOrganizationList : BasePage<SysOrganization>
     /// </summary>
     public void DeleteM() => table.DeleteM(Service.DeleteOrganizationsAsync);
 
-    private async void OnNodeClick(MenuInfo item)
+    private async Task OnNodeClickAsync(MenuInfo item)
     {
         current = item;
         await table.RefreshAsync();
     }
 
-    private async Task<TreeModel> OnTreeModelChanged()
+    private async Task<TreeModel> OnTreeModelChangedAsync()
     {
         var datas = await Service.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)

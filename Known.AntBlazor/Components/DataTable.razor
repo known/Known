@@ -129,7 +129,11 @@
                 {
                     Text = Language["Button.More"],
                     Items = mores,
-                    OnItemClick = e => Model.OnAction?.Invoke(e, context)
+                    OnItemClick = e =>
+                    {
+                        Model.OnAction?.Invoke(e, context);
+                        return Task.CompletedTask;
+                    }
                 };
                 <AntDropdown Context="Context" Model="model" />
             }

@@ -86,8 +86,8 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         }
     }
 
-    private async void OnSaveAsync(MouseEventArgs args) => await Model.SaveAsync();
-    private async void OnCloseAsync(MouseEventArgs args) => await Model.CloseAsync();
+    private Task OnSaveAsync(MouseEventArgs args) => Model.SaveAsync();
+    private Task OnCloseAsync(MouseEventArgs args) => Model.CloseAsync();
 }
 
 /// <summary>
@@ -154,7 +154,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     /// <param name="result">保存返回结果实例。</param>
     protected virtual void OnSuccess(Result result) { }
 
-    private async void OnSaveAsync(MouseEventArgs arg)
+    private async Task OnSaveAsync(MouseEventArgs arg)
     {
         if (!Model.Validate())
             return;

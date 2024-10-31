@@ -21,7 +21,12 @@ class BaseView<TModel> : BaseComponent
         }
     }
 
-    internal virtual void SetModel(TModel model) => Model = model;
+    internal virtual Task SetModelAsync(TModel model)
+    {
+        Model = model;
+        return Task.CompletedTask;
+    }
+
     protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
 
     protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()

@@ -40,14 +40,14 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                     Label = Language["Designer.ColumnSettings"],
                     Indeterminate = Indeterminate,
                     Value = CheckAll,
-                    ValueChanged = this.Callback((Action<bool>)(v => CheckAllChanged()))
+                    ValueChanged = this.Callback<bool>(CheckAllChangedAsync)
                 });
             });
             foreach (var item in columns)
             {
                 builder.Div().Class("item").Draggable()
-                       .OnDrop(this.Callback((Action<DragEventArgs>)(e => OnDrop(e, item))))
-                       .OnDragStart(this.Callback((Action<DragEventArgs>)(e => OnDragStart(e, item))))
+                       .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
+                       .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
                        .Children(() => BuildSettingItem(builder, item))
                        .Close();
             }
@@ -81,7 +81,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
     private bool Indeterminate => columns.Any(c => c.IsVisible) && columns.Count(c => c.IsVisible) < columns.Count;
     private bool CheckAll => columns.All(c => c.IsVisible);
 
-    private async void CheckAllChanged()
+    private async Task CheckAllChangedAsync(bool value)
     {
         bool allChecked = CheckAll;
         columns.ForEach(c => c.IsVisible = !allChecked);
@@ -111,7 +111,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         await Table.ChangeAsync();
     }
 
-    private async void OnDrop(DragEventArgs e, ColumnInfo info)
+    private async Task OnDropAsync(DragEventArgs e, ColumnInfo info)
     {
         if (info != null && dragging != null)
         {

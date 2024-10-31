@@ -38,11 +38,11 @@ public class KSysSize : BaseComponent
         {
             Icon = Icon,
             Items = UIConfig.Sizes,
-            OnItemClick = OnSizeChanged
+            OnItemClick = OnSizeChangedAsync
         });
     }
 
-    private async void OnSizeChanged(ActionInfo info)
+    private async Task OnSizeChangedAsync(ActionInfo info)
     {
         Context.UserSetting.Size = info.Id;
         await Service.SaveUserSettingInfoAsync(Context.UserSetting);

@@ -32,7 +32,7 @@ public class KUpload : BaseComponent
     /// <summary>
     /// 取得或设置上传组件文件改变事件委托。
     /// </summary>
-    [Parameter] public Action<List<FileDataInfo>> OnFilesChanged { get; set; }
+    [Parameter] public Func<List<FileDataInfo>, Task> OnFilesChanged { get; set; }
 
     /// <summary>
     /// 刷新上传组件内容。
@@ -48,10 +48,10 @@ public class KUpload : BaseComponent
     }
 
     /// <summary>
-    /// 设置上传组件关联字段值。
+    /// 异步设置上传组件关联字段值。
     /// </summary>
     /// <param name="value">附件字段值。</param>
-    public async void SetValue(string value)
+    public async Task SetValueAsync(string value)
     {
         Value = value;
         await RefreshAsync();
@@ -120,7 +120,7 @@ public class KUpload : BaseComponent
         builder.Component<InputFile>()
                .Add("multiple", MultiFile || Directory)
                .Add("webkitdirectory", Directory)
-               .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnInputFileChanged))
+               .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnInputFileChangedAsync))
                .Build();
     }
 
@@ -144,7 +144,7 @@ public class KUpload : BaseComponent
         });
     }
 
-    private async void OnInputFileChanged(InputFileChangeEventArgs e)
+    private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)
     {
         var isChange = false;
         if (MultiFile || Directory)
@@ -162,7 +162,7 @@ public class KUpload : BaseComponent
         if (isChange)
         {
             await StateChangedAsync();
-            OnFilesChanged?.Invoke(files);
+            await OnFilesChanged?.Invoke(files);
         }
     }
 
@@ -209,7 +209,11 @@ class KUploadField<TItem> : KUpload where TItem : class, new()
         ReadOnly = Model.Form.IsView;
         Value = Model.Value?.ToString();
         MultiFile = Model.Column.MultiFile;
-        OnFilesChanged = files => Model.Form.Files[Id] = files;
+        OnFilesChanged = files =>
+        {
+            Model.Form.Files[Id] = files;
+            return Task.CompletedTask;
+        };
         await base.OnInitAsync();
     }
 }

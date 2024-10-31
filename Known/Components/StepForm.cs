@@ -79,7 +79,7 @@ public class StepForm : BaseComponent
         StateChanged();
     }
 
-    private async void OnPrevClickAsync(MouseEventArgs arg)
+    private async Task OnPrevClickAsync(MouseEventArgs arg)
     {
         if (IsStepSave)
         {
@@ -90,7 +90,7 @@ public class StepForm : BaseComponent
         Model.Current--;
     }
 
-    private async void OnNextClickAsync(MouseEventArgs arg)
+    private async Task OnNextClickAsync(MouseEventArgs arg)
     {
         if (IsStepSave)
         {
@@ -101,7 +101,7 @@ public class StepForm : BaseComponent
         Model.Current++;
     }
 
-    private async void OnCompleteAsync(MouseEventArgs arg)
+    private async Task OnCompleteAsync(MouseEventArgs arg)
     {
         await SaveAsync(true);
     }

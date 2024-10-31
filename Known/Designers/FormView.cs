@@ -31,9 +31,9 @@ class FormView : BaseView<FormInfo>
         tab.AddTab("Designer.Property", BuildProperty);
     }
 
-    internal override async void SetModel(FormInfo model)
+    internal override async Task SetModelAsync(FormInfo model)
     {
-        base.SetModel(model);
+        await base.SetModelAsync(model);
         SetForm();
         await StateChangedAsync();
         await list.RefreshAsync();
@@ -65,32 +65,48 @@ class FormView : BaseView<FormInfo>
             {
                 Disabled = ReadOnly,
                 Value = Model.Maximizable,
-                ValueChanged = this.Callback<bool>(value => { Model.Maximizable = value; OnPropertyChanged(); })
+                ValueChanged = this.Callback<bool>(value =>
+                {
+                    Model.Maximizable = value;
+                    return OnPropertyChangedAsync();
+                })
             }));
             BuildPropertyItem(builder, "Designer.DefaultMaximized", b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.DefaultMaximized,
-                ValueChanged = this.Callback<bool>(value => { Model.DefaultMaximized = value; OnPropertyChanged(); })
+                ValueChanged = this.Callback<bool>(value =>
+                {
+                    Model.DefaultMaximized = value;
+                    return OnPropertyChangedAsync();
+                })
             }));
             BuildPropertyItem(builder, "Designer.IsContinue", b => UI.BuildSwitch(b, new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.IsContinue,
-                ValueChanged = this.Callback<bool>(value => { Model.IsContinue = value; OnPropertyChanged(); })
+                ValueChanged = this.Callback<bool>(value =>
+                {
+                    Model.IsContinue = value;
+                    return OnPropertyChangedAsync();
+                })
             }));
             BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<double?>
             {
                 Disabled = ReadOnly,
                 Value = Model.Width,
-                ValueChanged = this.Callback<double?>(value => { Model.Width = value; OnPropertyChanged(); })
+                ValueChanged = this.Callback<double?>(value =>
+                {
+                    Model.Width = value;
+                    return OnPropertyChangedAsync();
+                })
             }));
         });
     }
 
-    private void OnPropertyChanged()
+    private async Task OnPropertyChangedAsync()
     {
-        SetModel(Model);
+        await SetModelAsync(Model);
         OnChanged?.Invoke(Model);
     }
 

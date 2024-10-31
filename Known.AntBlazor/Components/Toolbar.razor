@@ -62,7 +62,11 @@
         return new DropdownModel
         {
             TextButton = textButton,
-            OnItemClick = Model.OnItemClick
+            OnItemClick = e=>
+            {
+                Model.OnItemClick?.Invoke(e);
+                return Task.CompletedTask;
+            }
         };
     }
 }

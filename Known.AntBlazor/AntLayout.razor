@@ -99,7 +99,7 @@
             }
             catch (Exception ex)
             {
-                await OnError(ex);
+                OnError(ex);
             }
             showSpin = false;
             await StateChangedAsync();

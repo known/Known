@@ -103,7 +103,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.FormAction(() =>
         {
             if (Model.FormType == FormViewType.Verify)
-                builder.Button(new ActionInfo(Context, "Assign", ""), this.Callback<MouseEventArgs>(OnAssign));
+                builder.Button(new ActionInfo(Context, "Assign", ""), this.Callback<MouseEventArgs>(OnAssignAsync));
 
             builder.Button(new ActionInfo(Context, "OK", ""), this.Callback<MouseEventArgs>(OnSaveAsync));
             builder.Button(new ActionInfo(Context, "Cancel", ""), this.Callback<MouseEventArgs>(OnCloseAsync));
@@ -117,9 +117,9 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.Div("kui-flow", () => builder.GroupBox(title, () => UI.BuildForm(builder, flow)));
     }
 
-    private void OnAssign(MouseEventArgs args) => Model.Page.AssignFlow(Model.Data);
+    private Task OnAssignAsync(MouseEventArgs args) => Model.Page.AssignFlowAsync(Model.Data);
 
-    private async void OnSaveAsync(MouseEventArgs args)
+    private async Task OnSaveAsync(MouseEventArgs args)
     {
         if (flow != null && !flow.Validate())
             return;
@@ -141,7 +141,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         }
     }
 
-    private async void OnCloseAsync(MouseEventArgs args) => await Model.CloseAsync();
+    private Task OnCloseAsync(MouseEventArgs args) => Model.CloseAsync();
 
     private void InitFlowModel()
     {

@@ -108,7 +108,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public async void Import() => await Table.ShowImportAsync();
+    public Task Import() => Table.ShowImportAsync();
 
     private void BuildListBox(RenderTreeBuilder builder)
     {
@@ -116,13 +116,13 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
                .Set(c => c.ShowSearch, true)
                .Set(c => c.DataSource, categories)
                .Set(c => c.ItemTemplate, ItemTemplate)
-               .Set(c => c.OnItemClick, OnItemClick)
+               .Set(c => c.OnItemClick, OnItemClickAsync)
                .Build();
     }
 
     private RenderFragment ItemTemplate(CodeInfo info) => b => b.Text($"{info.Name} ({info.Code})");
 
-    private Task OnItemClick(CodeInfo info)
+    private Task OnItemClickAsync(CodeInfo info)
     {
         category = info;
         return Table.RefreshAsync();
@@ -143,7 +143,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         categories = await Service.GetCategoriesAsync();
         category = categories?.FirstOrDefault();
-        await OnItemClick(category);
+        await OnItemClickAsync(category);
         await StateChangedAsync();
     }
 

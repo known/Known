@@ -8,7 +8,7 @@
     }
     else
     {
-        <Search Placeholder="@Placeholder" ClassicSearchIcon OnSearch="OnSearch" />
+        <Search Placeholder="@Placeholder" ClassicSearchIcon OnSearch="OnSearchAsync" />
     }
 </div>
 <div class="kui-app-search-result">
@@ -29,7 +29,7 @@
     <Alert Type="@AlertType.Success" Style="padding:3px 15px;">
         <div class="kui-app-rc2">
             <div>@Language["Page.Total"].Replace("{total}", $"{result.TotalCount}")</div>
-            <AppPager Criteria="criteria" TotalCount="result.TotalCount" OnChanged="OnPageChanged" />
+            <AppPager Criteria="criteria" TotalCount="result.TotalCount" OnChanged="OnPageChangedAsync" />
         </div>
     </Alert>
 </div>
@@ -69,14 +69,14 @@
 
     private void OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
 
-    private async void OnSearch(string key)
+    private async Task OnSearchAsync(string key)
     {
         searchKey = key;
         criteria.PageIndex = 1;
         await RefreshAsync();
     }
 
-    private async Task OnPageChanged()
+    private async Task OnPageChangedAsync()
     {
         result = await OnQuery.Invoke(criteria);
         await StateChangedAsync();

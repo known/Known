@@ -165,6 +165,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Action<TItem> OnSaved { get; set; }
 
     /// <summary>
+    /// 取得或设置表单保存后调用的委托。
+    /// </summary>
+    public Func<TItem, Task> OnSavedAsync { get; set; }
+
+    /// <summary>
     /// 取得表单附件字段附件数据信息字典。
     /// </summary>
     public Dictionary<string, List<FileDataInfo>> Files { get; } = [];
@@ -332,7 +337,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     }
 
     /// <summary>
-    /// 保存表单数据。
+    /// 异步保存表单数据。
     /// </summary>
     /// <param name="onSaved">保存后委托。</param>
     /// <param name="isClose">是否关闭对话框，默认是。</param>
@@ -340,6 +345,18 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     public Task SaveAsync(Action<TItem> onSaved, bool isClose = true)
     {
         OnSaved = onSaved;
+        return SaveAsync(isClose);
+    }
+
+    /// <summary>
+    /// 异步保存表单数据。
+    /// </summary>
+    /// <param name="onSavedAsync ">异步保存后委托。</param>
+    /// <param name="isClose">是否关闭对话框，默认是。</param>
+    /// <returns></returns>
+    public Task SaveAsync(Func<TItem, Task> onSavedAsync, bool isClose = true)
+    {
+        OnSavedAsync = onSavedAsync;
         return SaveAsync(isClose);
     }
 
@@ -410,7 +427,11 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         UI.Result(result, async () =>
         {
             var data = result.DataAs<TItem>();
-            OnSaved?.Invoke(data);
+            if (OnSaved != null)
+                OnSaved?.Invoke(data);
+            else if (OnSavedAsync != null)
+                await OnSavedAsync.Invoke(data);
+
             if (isClose && result.IsClose)
                 await CloseAsync();
             if (Table != null)

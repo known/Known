@@ -49,7 +49,7 @@ class SysUserProfileInfo : BaseComponent
                 builder.Icon("edit");
                 builder.Span(Language.Edit);
                 builder.Component<InputFile>()
-                       .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnFileChanged))
+                       .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnFileChangedAsync))
                        .Build();
             });
         });
@@ -73,7 +73,7 @@ class SysUserProfileInfo : BaseComponent
         });
     }
 
-    private async void OnFileChanged(InputFileChangeEventArgs e)
+    private async Task OnFileChangedAsync(InputFileChangeEventArgs e)
     {
         var file = await e.File.CreateFileAsync();
         var info = new AvatarInfo { UserId = Parent?.User?.Id, File = file };

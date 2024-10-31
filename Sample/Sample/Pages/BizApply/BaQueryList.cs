@@ -29,11 +29,11 @@ public class BaQueryList : BaseTablePage<TbApply>
     }
 
     //重新申请
-    public void Reapply() => Table.SelectRows(this.RepeatFlow);
+    public void Reapply() => Table.SelectRows(async rows => await this.RepeatFlowAsync(rows));
     //导出列表
-    public async void Export() => await Table.ExportDataAsync();
+    public Task Export() => Table.ExportDataAsync();
     //打印
-    public async void Print(TbApply row) => await JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
+    public Task Print(TbApply row) => JS.PrintAsync<ApplyPrint>(f => f.Set(c => c.Model, row));
 }
 
 class ApplyPrint : ComponentBase

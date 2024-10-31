@@ -7,7 +7,7 @@
         </Tooltip>
     </SpaceItem>
     <SpaceItem Class="kui-nav-full">
-        <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreen" /></Tooltip>
+        <Tooltip Title="@FullScreenTitle"><Icon Type="@FullScreenIcon" OnClick="OnFullScreenAsync" /></Tooltip>
     </SpaceItem>
     @if (Config.App.IsSize)
     {
@@ -51,18 +51,19 @@
                 userDrop.Items.Add(new ActionInfo { Id = "SysDevelopment", Name = Language["Nav.Development"], Icon = "appstore-add", Url = "/development" });
         }
         userDrop.Items.Add(new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" });
-        userDrop.OnItemClick = OnItemClick;
+        userDrop.OnItemClick = OnItemClickAsync;
     }
 
-    private void OnItemClick(ActionInfo item)
+    private Task OnItemClickAsync(ActionInfo item)
     {
         if (!string.IsNullOrWhiteSpace(item.Url))
             App?.NavigateTo(new MenuInfo { Id = item.Id, Name = item.Name, Icon = item.Icon, Url = item.Url });
         else
             OnMenuClick?.Invoke(item.Id);
+        return Task.CompletedTask;
     }
 
-    private async void OnFullScreen()
+    private async Task OnFullScreenAsync()
     {
         isFullScreen = !isFullScreen;
         if (isFullScreen)

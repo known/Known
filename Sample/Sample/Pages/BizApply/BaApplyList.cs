@@ -26,7 +26,7 @@ public class BaApplyList : BaseTablePage<TbApply>
     }
 
     //新增按钮事件
-    public void New() => Table.NewForm(Service.SaveApplyAsync, () => Service.GetDefaultApplyAsync(ApplyType.Test.ToString()));
+    public Task New() => Table.NewFormAsync(Service.SaveApplyAsync, () => Service.GetDefaultApplyAsync(ApplyType.Test.ToString()));
     //编辑操作
     public void Edit(TbApply row) => Table.EditForm(Service.SaveApplyAsync, row);
     //删除操作
@@ -36,5 +36,5 @@ public class BaApplyList : BaseTablePage<TbApply>
     //提交审核
     public void Submit(TbApply row) => this.SubmitFlow(row);
     //撤回
-    public void Revoke(TbApply row) => this.RevokeFlow(row);
+    public Task Revoke(TbApply row) => this.RevokeFlowAsync(row);
 }

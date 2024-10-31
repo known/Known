@@ -74,16 +74,16 @@ class Importer : BaseComponent
         builder.CloseComponent();
     }
 
-    private async void OnInputFilesChanged(InputFileChangeEventArgs e)
+    private async Task OnInputFilesChanged(InputFileChangeEventArgs e)
     {
         if (e.File == null || e.File.Size == 0)
             return;
 
         fileInfo = $"{Language["Import.Size"]}{e.File.Size / 1024}KB";
-        this.file = await e.File.ReadFileAsync();
+        file = await e.File.ReadFileAsync();
     }
 
-    private async void OnImportAsync(MouseEventArgs e)
+    private async Task OnImportAsync(MouseEventArgs e)
     {
         if (file == null)
         {

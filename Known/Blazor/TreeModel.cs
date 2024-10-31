@@ -43,12 +43,12 @@ public class TreeModel
     /// <summary>
     /// 取得或设置树组件节点单击事件委托。
     /// </summary>
-    public Action<MenuInfo> OnNodeClick { get; set; }
+    public Func<MenuInfo, Task> OnNodeClick { get; set; }
 
     /// <summary>
     /// 取得或设置树组件节点勾选事件委托。
     /// </summary>
-    public Action<MenuInfo> OnNodeCheck { get; set; }
+    public Func<MenuInfo, Task> OnNodeCheck { get; set; }
 
     /// <summary>
     /// 取得或设置树组件模型改变事件委托。

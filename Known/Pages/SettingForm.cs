@@ -48,7 +48,7 @@ public class SettingForm : BaseForm<SettingInfo>
         });
     }
 
-    private async void SaveAsync(MouseEventArgs arg)
+    private async Task SaveAsync(MouseEventArgs arg)
     {
         var result = await Service.SaveUserSettingInfoAsync(Model.Data);
         if (result.IsValid)
@@ -59,7 +59,7 @@ public class SettingForm : BaseForm<SettingInfo>
         }
     }
 
-    private async void ResetAsync(MouseEventArgs arg)
+    private async Task ResetAsync(MouseEventArgs arg)
     {
         Model.Data.Reset();
         var result = await Service.SaveUserSettingInfoAsync(Model.Data);

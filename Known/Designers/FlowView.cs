@@ -4,9 +4,9 @@ class FlowView : BaseView<FlowInfo>
 {
     private TableModel<FlowStepInfo> table;
 
-    internal override async void SetModel(FlowInfo model)
+    internal override async Task SetModelAsync(FlowInfo model)
     {
-        base.SetModel(model);
+        await base.SetModelAsync(model);
         await table.RefreshAsync();
     }
 

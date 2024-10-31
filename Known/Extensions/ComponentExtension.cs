@@ -120,6 +120,15 @@ public static class ComponentExtension
     /// <summary>
     /// 创建事件回调。
     /// </summary>
+    /// <typeparam name="T">参数类型。</typeparam>
+    /// <param name="component">组件对象。</param>
+    /// <param name="callback">回调异步委托。</param>
+    /// <returns>事件回调。</returns>
+    public static EventCallback<T> Callback<T>(this ComponentBase component, Func<T, Task> callback) => EventCallback.Factory.Create(component, callback);
+
+    /// <summary>
+    /// 创建事件回调。
+    /// </summary>
     /// <param name="component">组件对象。</param>
     /// <param name="callback">回调委托。</param>
     /// <returns>事件回调。</returns>
@@ -128,7 +137,7 @@ public static class ComponentExtension
     /// <summary>
     /// 创建事件回调。
     /// </summary>
-    /// <typeparam name="T">组件类型。</typeparam>
+    /// <typeparam name="T">参数类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="callback">回调委托。</param>
     /// <returns>事件回调。</returns>

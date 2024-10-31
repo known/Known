@@ -76,7 +76,7 @@ public class BaseLayout : LayoutComponentBase
         }
         catch (Exception ex)
         {
-            await OnError(ex);
+            OnError(ex);
         }
     }
 
@@ -162,10 +162,10 @@ public class BaseLayout : LayoutComponentBase
     /// </summary>
     /// <param name="ex">异常信息。</param>
     /// <returns></returns>
-    public async Task OnError(Exception ex)
+    public void OnError(Exception ex)
     {
         Logger.CreateLogger<BaseLayout>().Error(ex);
-        await UI.Notice(ex.Message, StyleType.Error);
+        UI.Notice(ex.Message, StyleType.Error);
     }
 
     /// <summary>

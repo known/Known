@@ -35,11 +35,11 @@ public class KLanguage : BaseComponent
             Icon = Icon,
             Text = current?.Icon,
             Items = Language.Items.Where(i => i.Visible).ToList(),
-            OnItemClick = OnLanguageChanged
+            OnItemClick = OnLanguageChangedAsync
         });
     }
 
-    private async void OnLanguageChanged(ActionInfo info)
+    private async Task OnLanguageChangedAsync(ActionInfo info)
     {
         current = info;
         Context.CurrentLanguage = current.Id;

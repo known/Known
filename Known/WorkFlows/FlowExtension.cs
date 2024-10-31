@@ -52,7 +52,7 @@ public static class FlowExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static async void SubmitFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task SubmitFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Submit"], rows, service.SubmitFlowAsync);
@@ -64,7 +64,7 @@ public static class FlowExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="row">流程数据对象。</param>
-    public static void RevokeFlow<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new() => component.RevokeFlow([row]);
+    public static Task RevokeFlowAsync<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new() => component.RevokeFlowAsync([row]);
 
     /// <summary>
     /// 弹出撤回工作流表单对话框。
@@ -72,7 +72,7 @@ public static class FlowExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static async void RevokeFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task RevokeFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Revoke"], rows, service.RevokeFlowAsync);
@@ -84,7 +84,7 @@ public static class FlowExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="row">流程数据对象。</param>
-    public static async void AssignFlow<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new()
+    public static async Task AssignFlowAsync<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Assign"], [row], service.AssignFlowAsync);
@@ -107,7 +107,7 @@ public static class FlowExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static async void StopFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task StopFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Stop"], rows, service.StopFlowAsync);
@@ -119,7 +119,7 @@ public static class FlowExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static async void RepeatFlow<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task RepeatFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
         var service = await component.CreateServiceAsync<IFlowService>();
         component.ShowFlowModal(component.Language["Button.Restart"], rows, service.RepeatFlowAsync);

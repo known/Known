@@ -95,7 +95,7 @@ public class PageLayout : BaseLayout
         }
         catch (Exception ex)
         {
-            await OnError(ex);
+            OnError(ex);
         }
     }
 

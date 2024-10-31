@@ -15,7 +15,7 @@ public class KEditInput : BaseComponent
     /// <summary>
     /// 取得或设置保存文本委托方法。
     /// </summary>
-    [Parameter] public Action<string> OnSave { get; set; }
+    [Parameter] public Func<string, Task> OnSave { get; set; }
 
     /// <summary>
     /// 呈现文本编辑框组件内容。

@@ -435,13 +435,13 @@ class CodeGenerator : ICodeGenerator
             {
                 if (item == "Import")
                 {
-                    import = "    public async void Import() => await Table.ShowImportAsync();";
+                    import = "    public Task Import() => Table.ShowImportAsync();";
                     continue;
                 }
 
                 if (item == "Export")
                 {
-                    export = "    public async void Export() => await Table.ExportDataAsync();";
+                    export = "    public Task Export() => Table.ExportDataAsync();";
                     continue;
                 }
 

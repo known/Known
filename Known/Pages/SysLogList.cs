@@ -28,5 +28,5 @@ public class SysLogList : BaseTablePage<SysLog>
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public async void Export() => await Table.ExportDataAsync();
+    public Task Export() => Table.ExportDataAsync();
 }

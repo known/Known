@@ -79,7 +79,7 @@ class FormDesigner : BaseViewDesigner<FormInfo>
 
     private void ChangeView()
     {
-        view?.SetModel(Model);
+        view?.SetModelAsync(Model);
         OnChanged?.Invoke(Model);
     }
 }

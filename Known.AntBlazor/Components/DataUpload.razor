@@ -18,7 +18,7 @@
 }
 <div class="kui-app-upload">
     <Icon Type="camera" Theme="outline" />
-    <InputFile id="" @ref="inputFile" OnChange="OnInputFileChanged" />
+    <InputFile id="" @ref="inputFile" OnChange="OnInputFileChangedAsync" />
 </div>
 
 @code {
@@ -47,7 +47,7 @@
             sysFiles = await fileService.GetFilesAsync(Value);
     }
 
-    private async void OnInputFileChanged(InputFileChangeEventArgs e)
+    private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)
     {
         if (e.FileCount == 0)
             return;

@@ -29,7 +29,7 @@ public class ModuleList : BasePage<SysModule>
         tree = new TreeModel
         {
             ExpandRoot = true,
-            OnNodeClick = OnNodeClick,
+            OnNodeClick = OnNodeClickAsync,
             OnModelChanged = OnTreeModelChanged
         };
 
@@ -151,13 +151,13 @@ public class ModuleList : BasePage<SysModule>
     /// 上移一个模块。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void MoveUp(SysModule row) => OnMove(row, true);
+    public Task MoveUp(SysModule row) => OnMoveAsync(row, true);
 
     /// <summary>
     /// 下移一个模块。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void MoveDown(SysModule row) => OnMove(row, false);
+    public Task MoveDown(SysModule row) => OnMoveAsync(row, false);
 
     /// <summary>
     /// 导入模块数据。
@@ -179,9 +179,9 @@ public class ModuleList : BasePage<SysModule>
     /// <summary>
     /// 导出模块数据。
     /// </summary>
-    public async void Export()
+    public Task Export()
     {
-        await App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>
+        return App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>
         {
             var info = await Service.ExportModulesAsync();
             if (info != null && info.Bytes != null && info.Bytes.Length > 0)
@@ -210,14 +210,14 @@ public class ModuleList : BasePage<SysModule>
         });
     }
 
-    private async void OnMove(SysModule row, bool isMoveUp)
+    private async Task OnMoveAsync(SysModule row, bool isMoveUp)
     {
         row.IsMoveUp = isMoveUp;
         var result = await Service.MoveModuleAsync(row);
         UI.Result(result, RefreshAsync);
     }
 
-    private async void OnNodeClick(MenuInfo item)
+    private async Task OnNodeClickAsync(MenuInfo item)
     {
         current = item;
         await table.RefreshAsync();
@@ -248,7 +248,11 @@ public class ModuleList : BasePage<SysModule>
                 {
                     ExpandRoot = true,
                     Data = modules.ToMenuItems(),
-                    OnNodeClick = n => node = n.Data as SysModule
+                    OnNodeClick = n =>
+                    {
+                        node = n.Data as SysModule;
+                        return Task.CompletedTask;
+                    }
                 });
             }
         };

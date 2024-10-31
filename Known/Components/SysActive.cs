@@ -42,7 +42,7 @@ class SysActive : BaseComponent
         });
     }
 
-    private async void OnAuthAsync(MouseEventArgs args)
+    private async Task OnAuthAsync(MouseEventArgs args)
     {
         if (!model.Validate())
             return;

@@ -147,7 +147,7 @@ public class DropdownModel
     /// <summary>
     /// 取得或设置下拉框项目单击事件委托方法。
     /// </summary>
-    public Action<ActionInfo> OnItemClick { get; set; }
+    public Func<ActionInfo, Task> OnItemClick { get; set; }
 
     /// <summary>
     /// 取得或设置下拉框内容模板。

@@ -56,7 +56,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         {
             b.Component<KEditInput>()
              .Set(c => c.Value, data.System.AppName)
-             .Set(c => c.OnSave, OnSaveAppName)
+             .Set(c => c.OnSave, OnSaveAppNameAsync)
              .Build();
         });
         Model.AddRow().AddColumn(nameof(VersionInfo.AppVersion), data.Version.AppVersion);
@@ -71,7 +71,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
             {
                 b.Component<KEditInput>()
                  .Set(c => c.Value, data.System.ProductKey)
-                 .Set(c => c.OnSave, OnSaveProductKey)
+                 .Set(c => c.OnSave, OnSaveProductKeyAsync)
                  .Build();
             });
         }
@@ -83,7 +83,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
 
     protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
 
-    private async void OnSaveAppName(string value)
+    private async Task OnSaveAppNameAsync(string value)
     {
         Model.Data.AppName = value;
         var result = await Parent.SaveSystemAsync(Model.Data);
@@ -94,7 +94,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
         }
     }
 
-    private async void OnSaveProductKey(string value)
+    private async Task OnSaveProductKeyAsync(string value)
     {
         Model.Data.ProductKey = value;
         await Parent.SaveKeyAsync(Model.Data);
@@ -115,7 +115,7 @@ class SysSystemSafe : BaseForm<SystemInfo>
         {
             b.Component<KEditInput>()
              .Set(c => c.Value, data.System.UserDefaultPwd)
-             .Set(c => c.OnSave, OnSaveDefaultPwd)
+             .Set(c => c.OnSave, OnSaveDefaultPwdAsync)
              .Build();
         });
         Model.AddRow().AddColumn(nameof(SystemInfo.IsLoginCaptcha), b =>
@@ -123,20 +123,20 @@ class SysSystemSafe : BaseForm<SystemInfo>
             UI.BuildSwitch(b, new InputModel<bool>
             {
                 Value = data.System.IsLoginCaptcha,
-                ValueChanged = this.Callback<bool>(OnLoginCaptchaChanged)
+                ValueChanged = this.Callback<bool>(OnLoginCaptchaChangedAsync)
             });
         });
     }
 
     protected override void BuildForm(RenderTreeBuilder builder) => builder.FormPage(() => base.BuildForm(builder));
 
-    private async void OnSaveDefaultPwd(string value)
+    private async Task OnSaveDefaultPwdAsync(string value)
     {
         Model.Data.UserDefaultPwd = value;
         await Parent.SaveSystemAsync(Model.Data);
     }
 
-    private async void OnLoginCaptchaChanged(bool value)
+    private async Task OnLoginCaptchaChangedAsync(bool value)
     {
         Model.Data.IsLoginCaptcha = value;
         await Parent.SaveSystemAsync(Model.Data);

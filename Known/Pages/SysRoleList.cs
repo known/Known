@@ -63,9 +63,9 @@ class RoleForm : BaseForm<SysRole>
         {
             Checkable = true,
             IsView = Model.IsView,
-            OnNodeClick = OnTreeClick,
-            OnNodeCheck = OnTreeCheck,
-            OnModelChanged = OnTreeModelChanged
+            OnNodeClick = OnTreeClickAsync,
+            OnNodeCheck = OnTreeCheckAsync,
+            OnModelChanged = OnTreeModelChangedAsync
         };
 
         btnModel.ValueChanged = this.Callback<string[]>(OnButtonChanged);
@@ -102,19 +102,21 @@ class RoleForm : BaseForm<SysRole>
         });
     }
 
-    private void OnTreeClick(MenuInfo item)
+    private Task OnTreeClickAsync(MenuInfo item)
     {
         SelectNode(item);
         StateChanged();
+        return Task.CompletedTask;
     }
 
-    private void OnTreeCheck(MenuInfo item)
+    private Task OnTreeCheckAsync(MenuInfo item)
     {
         CheckNode(item, item.Checked);
-        OnTreeClick(item);
+        OnTreeClickAsync(item);
+        return Task.CompletedTask;
     }
 
-    private async Task<TreeModel> OnTreeModelChanged()
+    private async Task<TreeModel> OnTreeModelChangedAsync()
     {
         var service = await CreateServiceAsync<IRoleService>();
         var model = await service.GetRoleAsync(Model.Data.Id);

@@ -113,7 +113,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(ex);
+            HandleException(ex);
         }
     }
 
@@ -130,7 +130,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(ex);
+            HandleException(ex);
         }
     }
 
@@ -150,7 +150,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// 呈现组件内容，以及全局异常处理；子组件不要覆写该方法，应覆写 BuildRender。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         try
         {
@@ -158,7 +158,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(ex);
+            HandleException(ex);
         }
     }
 
@@ -222,9 +222,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-    internal async void OnAction(ActionInfo info, object[] parameters)
+    internal void OnAction(ActionInfo info, object[] parameters)
     {
-        await TypeHelper.ActionAsync(this, Context, App, info, parameters);
+        TypeHelper.Action(this, Context, App, info, parameters);
     }
 
     private async ValueTask DisposeAsync(bool disposing)
@@ -233,10 +233,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await OnDisposeAsync();
     }
 
-    private async Task HandleExceptionAsync(Exception ex)
+    private void HandleException(Exception ex)
     {
         if (App != null)
-            await App.OnError(ex);
+            App.OnError(ex);
         else
             Logger.CreateLogger<BaseComponent>().Error(ex);
     }

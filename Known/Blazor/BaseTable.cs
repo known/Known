@@ -45,16 +45,16 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     public override Task RefreshAsync() => Table.RefreshAsync();
 
     /// <summary>
-    /// 表格行上移虚方法。
+    /// 表格行异步上移虚方法。
     /// </summary>
     /// <param name="row">行对象。</param>
-    public virtual void MoveUp(TItem row) => MoveRow(row, true);
+    public virtual Task MoveUp(TItem row) => MoveRowAsync(row, true);
 
     /// <summary>
-    /// 表格行下移虚方法。
+    /// 表格行异步下移虚方法。
     /// </summary>
     /// <param name="row">行对象。</param>
-    public virtual void MoveDown(TItem row) => MoveRow(row, false);
+    public virtual Task MoveDown(TItem row) => MoveRowAsync(row, false);
 
     /// <summary>
     /// 删除表格行。
@@ -69,7 +69,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         StateChanged();
     }
 
-    private async void MoveRow(TItem item, bool isMoveUp, Func<TItem, Task<Result>> action = null, Action<TItem, TItem> success = null)
+    private async Task MoveRowAsync(TItem item, bool isMoveUp, Func<TItem, Task<Result>> action = null, Action<TItem, TItem> success = null)
     {
         if (Table.DataSource == null || Table.DataSource.Count == 0)
             return;

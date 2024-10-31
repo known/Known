@@ -14,9 +14,9 @@ class EntityView : BaseView<EntityInfo>
 
     private bool IsCustomPage => Form.Model.Data.IsCustomPage;
 
-    internal override async void SetModel(EntityInfo model)
+    internal override async Task SetModelAsync(EntityInfo model)
     {
-        base.SetModel(model);
+        await base.SetModelAsync(model);
         SetViewData(model);
         await table.RefreshAsync();
     }

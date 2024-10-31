@@ -175,10 +175,10 @@ class FormDatabase : BaseForm<DatabaseInfo>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         base.BuildForm(builder);
-        builder.Div("kui-right", () => builder.Button(Language["Designer.Test"], this.Callback<MouseEventArgs>(OnTest)));
+        builder.Div("kui-right", () => builder.Button(Language["Designer.Test"], this.Callback<MouseEventArgs>(OnTestAsync)));
     }
 
-    private async void OnTest(MouseEventArgs args)
+    private async Task OnTestAsync(MouseEventArgs args)
     {
         var result = await Service.TestConnectionAsync(Model.Data);
         await UI.ResultAsync(result);

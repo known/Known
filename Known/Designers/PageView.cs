@@ -29,7 +29,7 @@ class PageView : BaseView<PageInfo>
             Tab.AddTab("Designer.ServiceCode", BuildService);
         }
 
-        SetTablePage();
+        await SetTablePageAsync();
 
         list = new(this, true)
         {
@@ -77,10 +77,10 @@ class PageView : BaseView<PageInfo>
         }
     }
 
-    internal override async void SetModel(PageInfo model)
+    internal override async Task SetModelAsync(PageInfo model)
     {
-        base.SetModel(model);
-        SetTablePage();
+        await base.SetModelAsync(model);
+        await SetTablePageAsync();
         await StateChangedAsync();
         await list.RefreshAsync();
     }
@@ -219,7 +219,7 @@ class PageView : BaseView<PageInfo>
         StateChanged();
     }
 
-    private async void SetTablePage()
+    private async Task SetTablePageAsync()
     {
         table = new DemoPageModel(this)
         {

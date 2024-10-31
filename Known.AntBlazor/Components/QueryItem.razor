@@ -6,7 +6,7 @@
         if (!string.IsNullOrWhiteSpace(Item.Category))
         {
             var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
-            <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChanged(Item.Id,v)" />
+            <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         }
         else if (itemType.Contains("DateTime") || Item.Type == FieldType.Date || Item.Type == FieldType.DateTime)
         {
@@ -18,7 +18,7 @@
             codes.Add(new CodeInfo("", Language["All"]));
             codes.Add(new CodeInfo("True", Language["Yes"]));
             codes.Add(new CodeInfo("False", Language["No"]));
-            <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChanged(Item.Id,v)" />
+            <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         }
         else
         {
@@ -44,7 +44,7 @@
         return base.OnInitAsync();
     }
 
-    private async void OnSelectChanged(string id, string value)
+    private async Task OnSelectChangedAsync(string id, string value)
     {
         if (value == Data[id].Value)
             return;

@@ -49,12 +49,12 @@ public class AntButton : BaseComponent
                .Set(c => c.Danger, isDanger)
                .Set(c => c.Disabled, !Enabled)
                .Set(c => c.Loading, isLoad)
-               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(OnButtonClick))
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(OnButtonClickAsync))
                .Set(c => c.ChildContent, b => b.Text(Name))
                .Build();
     }
 
-    private async void OnButtonClick(MouseEventArgs args)
+    private async Task OnButtonClickAsync(MouseEventArgs args)
     {
         if (isLoad || !OnClick.HasDelegate)
             return;

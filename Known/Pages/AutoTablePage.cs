@@ -85,7 +85,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         {
             builder.Div("kui-page-designer", () =>
             {
-                builder.Icon("fa fa-edit", this.Callback<MouseEventArgs>(OnEditPage));
+                builder.Icon("fa fa-edit", this.Callback<MouseEventArgs>(OnEditPageAsync));
             });
         }
     }
@@ -115,12 +115,12 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public async void Import() => await Table.ShowImportAsync();
+    public Task Import() => Table.ShowImportAsync();
 
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public async void Export() => await Table.ExportDataAsync();
+    public Task Export() => Table.ExportDataAsync();
 
     private void InitTable()
     {
@@ -159,7 +159,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
         return Service.SaveModelAsync(info);
     }
 
-    private async void OnEditPage(MouseEventArgs args)
+    private async Task OnEditPageAsync(MouseEventArgs args)
     {
         isEditPage = true;
         var form = new FormModel<SysModule>(this)

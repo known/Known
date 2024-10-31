@@ -100,7 +100,7 @@ class FlowDesigner : BaseDesigner<string>
         Model = model;
         flow = DataHelper.ToFlow(model);
         Form.Flow = flow;
-        view?.SetModel(flow);
+        view?.SetModelAsync(flow);
         OnChanged?.Invoke(model);
     }
 }

@@ -39,7 +39,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
         });
     }
 
-    private async void OnSaveAsync(MouseEventArgs arg)
+    private async Task OnSaveAsync(MouseEventArgs arg)
     {
         if (!Model.Validate())
             return;

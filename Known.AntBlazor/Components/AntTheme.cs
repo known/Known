@@ -15,7 +15,7 @@ public class AntTheme : BaseComponent
                .Set(c => c.CheckedChildren, "🌜")
                .Set(c => c.UnCheckedChildren, "🌞")
                .Set(c => c.Value, Context.Theme == "dark")
-               .Set(c => c.OnChange, this.Callback<bool>(ThemeChanged))
+               .Set(c => c.OnChange, this.Callback<bool>(ThemeChangedAsync))
                .Build();
     }
 
@@ -30,12 +30,12 @@ public class AntTheme : BaseComponent
         if (firstRender)
         {
             Context.Theme = await JS.GetCurrentThemeAsync();
-            ThemeChanged(Context.Theme == "dark");
+            await ThemeChangedAsync(Context.Theme == "dark");
             await StateChangedAsync();
         }
     }
 
-    private async void ThemeChanged(bool isDark)
+    private async Task ThemeChangedAsync(bool isDark)
     {
         var darkUrl = "_content/AntDesign/css/ant-design-blazor.dark.css";
         Context.Theme = isDark ? "dark" : "default";
