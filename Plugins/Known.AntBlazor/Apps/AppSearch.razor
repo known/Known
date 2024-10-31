@@ -42,7 +42,7 @@
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public string EmptyText { get; set; }
     [Parameter] public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
-    [Parameter] public Action<TItem> OnItemClick { get; set; }
+    [Parameter] public Func<TItem, Task> OnItemClick { get; set; }
     [Parameter] public RenderFragment Search { get; set; }
     [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
 
@@ -67,7 +67,7 @@
         await StateChangedAsync();
     }
 
-    private void OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
+    private Task OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
 
     private async Task OnSearchAsync(string key)
     {

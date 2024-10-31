@@ -12,17 +12,17 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
-        <PackageOutputPath>..\..\..\Library</PackageOutputPath>
+        <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Aspose.Cells" Version="18.10.1" />
-        <ProjectReference Include="..\Known\Known.csproj" />
+        <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" />
-        <None Update="..\icon.png">
+        <None Include="..\..\icon.png" />
+        <None Update="..\..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>

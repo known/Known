@@ -12,21 +12,21 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
-        <PackageOutputPath>..\..\..\Library</PackageOutputPath>
+        <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
         <PackageReference Include="AntDesign" Version="1.0.0-rc.3" />
-        <ProjectReference Include="..\Known\Known.csproj" />
+        <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" />
+        <None Include="..\..\icon.png" />
         <Content Update="Components\TabPage.razor">
           <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         </Content>
-        <None Update="..\icon.png">
+        <None Update="..\..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
