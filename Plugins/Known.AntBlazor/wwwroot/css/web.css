@@ -54,7 +54,7 @@
 .kui-menu-dark, .kui-menu-dark .ant-layout-sider-trigger {background-color:#001529;color:rgba(255,255,255,0.65);}
 .ant-layout-header, .kui-page {background-color:#f0f2f5;}
 .kui-header, .kui-logo, .ant-layout-tabs > .ant-tabs-nav {position:fixed;z-index:101;transition:all 0.2s;}
-.kui-header {top:0;right:0;left:200px;z-index:102;}
+.kui-header {top:0;right:0;left:200px;z-index:102;padding:0 10px;}
 .kui-header-left {display:flex;align-items:center;}
 .kui-header-left .trigger {font-size:18px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
 .kui-header-left .trigger:hover {color:#1890ff;}

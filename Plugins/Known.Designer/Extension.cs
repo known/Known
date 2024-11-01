@@ -15,6 +15,7 @@ public static class Extension
         var assembly = typeof(Extension).Assembly;
         Config.AddModule(assembly);
         UIConfig.ModuleForm = UIHelper.BuildModuleForm;
+        KStyleSheet.AddStyleSheet("_content/Known.Designer/css/web.css");
 
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
     }
