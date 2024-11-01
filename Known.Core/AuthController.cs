@@ -11,7 +11,7 @@ public class AuthController(IAuthService service) : ControllerBase
     /// </summary>
     /// <param name="info"></param>
     /// <returns></returns>
-    [Route("signin")]
+    [Route("/auth/signin")]
     public async Task<IResult> LoginAsync([FromBody] LoginFormInfo info)
     {
         var result = await service.SignInAsync(info);
@@ -28,7 +28,7 @@ public class AuthController(IAuthService service) : ControllerBase
     /// 用户退出。
     /// </summary>
     /// <returns></returns>
-    [Route("signout")]
+    [Route("/auth/signout")]
     public Task LogoutAsync()
     {
         return HttpContext.SignOutAsync(Constants.KeyAuth);

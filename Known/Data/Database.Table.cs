@@ -10,7 +10,7 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual Task<PagingResult<Dictionary<string, object>>> QueryPageAsync(string tableName, PagingCriteria criteria)
     {
-        var sql = Provider.GetSelectSql(tableName);
+        var sql = $"select * from {FormatName(tableName)}";
         return QueryPageAsync<Dictionary<string, object>>(sql, criteria);
     }
 
@@ -22,7 +22,8 @@ public partial class Database
     /// <returns>是否存在。</returns>
     public virtual async Task<bool> ExistsAsync(string tableName, string id)
     {
-        var info = Provider.GetCountCommand(tableName, id);
+        var sql = $"select count(*) from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+        var info = new CommandInfo(Provider, sql, new { id });
         var count = await ScalarAsync<int>(info);
         return count > 0;
     }
@@ -38,7 +39,8 @@ public partial class Database
         if (string.IsNullOrEmpty(id))
             return Task.FromResult(0);
 
-        var info = Provider.GetDeleteCommand(tableName, id);
+        var sql = $"delete from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+        var info = new CommandInfo(Provider, sql, new { id });
         return ExecuteNonQueryAsync(info);
     }
 
@@ -53,7 +55,22 @@ public partial class Database
         if (data == null || data.Count == 0)
             return Task.FromResult(0);
 
-        var info = Provider.GetInsertCommand(tableName, data);
+        var changes = new Dictionary<string, object>();
+        foreach (var item in data)
+        {
+            if (item.Value != null)
+                changes[item.Key] = item.Value;
+        }
+
+        var keys = new List<string>();
+        foreach (var key in changes.Keys)
+        {
+            keys.Add(key);
+        }
+        var cloumn = string.Join(",", keys.Select(FormatName).ToArray());
+        var value = string.Join(",", keys.Select(k => $"@{k}").ToArray());
+        var sql = $"insert into {FormatName(tableName)}({cloumn}) values({value})";
+        var info = new CommandInfo(Provider, sql, changes);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -69,7 +86,22 @@ public partial class Database
         if (data == null || data.Count == 0)
             return Task.FromResult(0);
 
-        var info = Provider.GetUpdateCommand(tableName, keyField, data);
+        var changeKeys = new List<string>();
+        foreach (var key in data.Keys)
+        {
+            changeKeys.Add($"{FormatName(key)}=@{key}");
+        }
+        var column = string.Join(",", [.. changeKeys]);
+
+        var keyFields = new List<string>();
+        var keys = keyField.Split(',');
+        foreach (var key in keys)
+        {
+            keyFields.Add($"{FormatName(key)}=@{key}");
+        }
+        var where = string.Join(" and ", keyFields);
+        var sql = $"update {FormatName(tableName)} set {column} where {where}";
+        var info = new CommandInfo(Provider, sql, data);
         return ExecuteNonQueryAsync(info);
     }
 

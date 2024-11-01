@@ -91,7 +91,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
         {
-            var files1 = await db.QueryListAsync<SysFile>(d => d.BizId.In(bizIds));
+            var files1 = await db.QueryListAsync<SysFile>(d => bizIds.Contains(d.BizId));
             return files1?.OrderBy(d => d.CreateTime).ToList();
         }
 

@@ -51,7 +51,6 @@ dotnet new known --name=MyApp
 | ├─Known.Admin     -> 后台通用权限系统管理模块。
 | ├─Known.AntBlazor -> 基于AntDesign Blazor的界面库。
 | ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
-| ├─Known.Data      -> 基于ADO.NET实现支持多数据库的ORM类库。
 | ├─Known.Designer  -> 无代码开发设计器和低代码生成器。
 ├─Sample            -> 示例项目
   ├─Sample          -> 包含配置、常量、枚举、实体、模型、服务接口、路由、页面，动态代理访问后端WebApi。

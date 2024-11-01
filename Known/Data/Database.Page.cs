@@ -11,13 +11,13 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
-        var tableName = Provider.GetTableName<T>();
+        var tableName = Provider?.GetTableName(typeof(T));
         var sql = $"select * from {tableName}";
 
         if (typeof(T).IsAssignableFrom(typeof(EntityBase)))
         {
             var compNo = nameof(EntityBase.CompNo);
-            var compName = Provider.FormatName(compNo);
+            var compName = Provider?.FormatName(compNo);
             sql += $" where {compName}=@{compNo}";
         }
         else
@@ -48,7 +48,7 @@ public partial class Database
             if (conn != null && conn.State != ConnectionState.Open)
                 conn.Open();
 
-            info = Provider.GetCommand(sql, criteria, User);
+            info = Provider?.GetCommand(sql, criteria, User);
             byte[] exportData = null;
             Dictionary<string, object> statis = null;
             var watch = Stopwatcher.Start<T>();

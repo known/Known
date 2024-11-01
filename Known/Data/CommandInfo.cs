@@ -10,9 +10,9 @@ public class CommandInfo
     /// </summary>
     public CommandInfo() { }
 
-    internal CommandInfo(DbProvider builder, string text, object param = null)
+    internal CommandInfo(DbProvider provider, string text, object param = null)
     {
-        Prefix = builder.Prefix;
+        Prefix = provider?.Prefix;
         Text = text?.Replace("@", Prefix);
         if (param != null)
             Params = DbUtils.ToDictionary(param);
@@ -29,27 +29,27 @@ public class CommandInfo
     /// <summary>
     /// 取得SQL语句。
     /// </summary>
-    public string Text { get; internal set; }
+    public string Text { get; }
 
     /// <summary>
-    /// 取得该SQL的Count语句。
+    /// 取得或设置该SQL的Count语句。
     /// </summary>
-    public string CountSql { get; internal set; }
+    public string CountSql { get; set; }
 
     /// <summary>
-    /// 取得该SQL的分页语句。
+    /// 取得或设置该SQL的分页语句。
     /// </summary>
-    public string PageSql { get; internal set; }
+    public string PageSql { get; set; }
 
     /// <summary>
-    /// 取得该SQL的统计语句。
+    /// 取得或设置该SQL的统计语句。
     /// </summary>
-    public string StatSql { get; internal set; }
+    public string StatSql { get; set; }
 
     /// <summary>
-    /// 取得该SQL关联的参数字典。
+    /// 取得或设置该SQL关联的参数字典。
     /// </summary>
-    public Dictionary<string, object> Params { get; internal set; }
+    public Dictionary<string, object> Params { get; set; }
 
     internal void SetParameters(DataRow row)
     {

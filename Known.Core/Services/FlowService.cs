@@ -355,7 +355,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             return Task.FromResult(new List<SysFlow>());
 
         var ids = bizIds.Split(',');
-        return db.QueryListAsync<SysFlow>(d => d.BizId.In(ids));
+        return db.QueryListAsync<SysFlow>(d => ids.Contains(d.BizId));
     }
 
     private static void SetPrevToCurrStep(SysFlow info)

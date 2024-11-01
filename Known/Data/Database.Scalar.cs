@@ -11,7 +11,7 @@ public partial class Database
     /// <returns>标量值。</returns>
     public virtual Task<T> ScalarAsync<T>(string sql, object param = null)
     {
-        var info = Provider.GetCommand(sql, param);
+        var info = new CommandInfo(Provider, sql, param);
         return ScalarAsync<T>(info);
     }
 
@@ -24,7 +24,7 @@ public partial class Database
     /// <returns>标量值列表。</returns>
     public virtual Task<List<T>> ScalarsAsync<T>(string sql, object param = null)
     {
-        var info = Provider.GetCommand(sql, param);
+        var info = new CommandInfo(Provider, sql, param);
         return ScalarsAsync<T>(info);
     }
 
@@ -60,7 +60,7 @@ public partial class Database
     {
         try
         {
-            var tableName = Provider.GetTableName<T>();
+            var tableName = Provider?.GetTableName(typeof(T));
             var sql = $"select count(*) from {tableName}";
             var value = await ScalarAsync<int?>(sql);
             if (value == null)

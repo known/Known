@@ -11,8 +11,5 @@ public sealed class DbFunc
     /// 获取数量聚合函数。
     /// </summary>
     /// <returns></returns>
-    public static int Count()
-    {
-        return 0;
-    }
+    public static int Count() => 0;
 }

@@ -18,7 +18,7 @@ public partial class Database
     /// <returns>单条数据。</returns>
     public virtual Task<T> QueryAsync<T>(string sql, object param = null)
     {
-        var info = Provider.GetCommand(sql, param);
+        var info = new CommandInfo(Provider, sql, param);
         return QueryAsync<T>(info);
     }
 
@@ -30,7 +30,7 @@ public partial class Database
     /// <returns>单条数据。</returns>
     public virtual Task<T> QueryAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
-        var info = Provider.GetSelectCommand(expression);
+        var info = Provider?.GetSelectCommand(expression);
         return QueryAsync<T>(info);
     }
 
@@ -81,7 +81,7 @@ public partial class Database
     /// <returns>多条数据。</returns>
     public virtual Task<List<T>> QueryListAsync<T>() where T : class, new()
     {
-        var info = Provider.GetSelectCommand<T>();
+        var info = Provider?.GetSelectCommand<T>();
         return QueryListAsync<T>(info);
     }
 
@@ -94,7 +94,7 @@ public partial class Database
     /// <returns>多条数据。</returns>
     public virtual Task<List<T>> QueryListAsync<T>(string sql, object param = null)
     {
-        var info = Provider.GetCommand(sql, param);
+        var info = new CommandInfo(Provider, sql, param);
         return QueryListAsync<T>(info);
     }
 
@@ -106,7 +106,7 @@ public partial class Database
     /// <returns>多条数据。</returns>
     public virtual Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
-        var info = Provider.GetSelectCommand(expression);
+        var info = Provider?.GetSelectCommand(expression);
         return QueryListAsync<T>(info);
     }
 
@@ -122,7 +122,18 @@ public partial class Database
         if (ids == null || ids.Length == 0)
             return Task.FromResult<List<T>>(null);
 
-        var info = Provider.GetSelectCommand<T, TKey>(ids);
+        var idTexts = new List<string>();
+        var paramters = new Dictionary<string, object>();
+        for (int i = 0; i < ids.Length; i++)
+        {
+            idTexts.Add($"{FormatName(nameof(EntityBase.Id))}=@id{i}");
+            paramters.Add($"id{i}", ids[i]);
+        }
+
+        var tableName = Provider?.GetTableName(typeof(T));
+        var idText = string.Join(" or ", [.. idTexts]);
+        var sql = $"select * from {FormatName(tableName)} where {idText}";
+        var info = new CommandInfo(Provider, sql, paramters);
         return QueryListAsync<T>(info);
     }
 
@@ -151,7 +162,7 @@ public partial class Database
     public virtual async Task<DataTable> QueryTableAsync(string sql, object param = null)
     {
         var data = new DataTable();
-        var info = Provider.GetCommand(sql, param);
+        var info = new CommandInfo(Provider, sql, param);
         using (var reader = await ExecuteReaderAsync(info))
         {
             if (reader != null)

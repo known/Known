@@ -124,7 +124,7 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
     internal QueryBuilder(DbProvider provider)
     {
         this.provider = provider;
-        TableName = provider.GetTableName<T>();
+        TableName = provider.GetTableName(typeof(T));
         WhereSql = string.Empty;
         Parameters = [];
     }
@@ -181,21 +181,16 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
 
     public async Task<int> CountAsync()
     {
-        var info = provider.GetCountCommand(this);
+        var info = GetCountCommand();
         return await db.ScalarAsync<int>(info);
     }
 
-    public async Task<bool> ExistsAsync()
-    {
-        var info = provider.GetCountCommand(this);
-        return await db.ScalarAsync<int>(info) > 0;
-    }
-
+    public async Task<bool> ExistsAsync() => await CountAsync() > 0;
     public Task<T> FirstAsync() => FirstAsync<T>();
 
     public Task<TItem> FirstAsync<TItem>()
     {
-        var info = provider.GetSelectCommand(this, true);
+        var info = GetSelectCommand(true);
         return db.QueryAsync<TItem>(info);
     }
 
@@ -203,11 +198,9 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
 
     public Task<List<TItem>> ToListAsync<TItem>()
     {
-        var info = provider.GetSelectCommand(this);
+        var info = GetSelectCommand();
         return db.QueryListAsync<TItem>(info);
     }
-
-    internal CommandInfo ToCommand(bool first = false) => provider.GetSelectCommand(this, first);
 
     internal void SetBuilder<TItem>(QueryBuilder<TItem> builder) where TItem : class, new()
     {
@@ -223,13 +216,7 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
     private string GetColumnName(Expression<Func<T, object>> selector)
     {
         var pi = TypeHelper.Property(selector);
-        return provider.GetColumnName(TableName, pi.Name);
-    }
-
-    private string GetColumnName<TItem>(Expression<Func<TItem, object>> selector)
-    {
-        var pi = TypeHelper.Property(selector);
-        return provider.GetColumnName<TItem>(pi.Name);
+        return provider.FormatName(pi.Name);
     }
 
     private QueryBuilder<T> AddSelect(string name, string asName = null)
@@ -242,5 +229,35 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
         }
         selects.Add(select);
         return this;
+    }
+
+    private CommandInfo GetCountCommand()
+    {
+        var tableName = provider.GetTableName(typeof(T));
+        var sql = $"select count(*) from {provider.FormatName(tableName)}";
+        if (!string.IsNullOrWhiteSpace(WhereSql))
+            sql += $" where {WhereSql}";
+        return new CommandInfo(provider, sql, Parameters);
+    }
+
+    private CommandInfo GetSelectCommand(bool first = false)
+    {
+        var select = SelectSql;
+        if (string.IsNullOrWhiteSpace(select))
+            select = "*";
+        var sql = $"select {select} from {provider.FormatName(TableName)}";
+        if (!string.IsNullOrWhiteSpace(JoinSql))
+            sql += JoinSql;
+        if (!string.IsNullOrWhiteSpace(WhereSql))
+            sql += $" where {WhereSql}";
+        if (!string.IsNullOrWhiteSpace(GroupSql))
+            sql += $" group by {GroupSql}";
+        if (!string.IsNullOrWhiteSpace(OrderSql))
+            sql += $" order by {OrderSql}";
+
+        if (first)
+            sql = provider.GetTopSql(1, sql);
+
+        return new CommandInfo(provider, sql, Parameters);
     }
 }

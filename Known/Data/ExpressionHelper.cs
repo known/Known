@@ -125,10 +125,6 @@ class ExpressionHelper(DbProvider provider)
             return SetLikeWhere<T>(mce, "{0}%");
         else if (mce.Method.Name == nameof(string.EndsWith))
             return SetLikeWhere<T>(mce, "%{0}");
-        else if (mce.Method.Name == nameof(WhereExtension.In))
-            return SetArrayWhere<T>(mce, "in");
-        else if (mce.Method.Name == nameof(WhereExtension.NotIn))
-            return SetArrayWhere<T>(mce, "not in");
         else
             return RouteExpressionValue(mce);
     }
@@ -136,10 +132,10 @@ class ExpressionHelper(DbProvider provider)
     private string RouteExpression<T>(MemberExpression me)
     {
         var name = me.Member.Name;
-        var type = me.Member.DeclaringType;
-        if (type == typeof(EntityBase))
-            type = typeof(T);
-        var field = provider.GetColumnName(type, name);
+        //var type = me.Member.DeclaringType;
+        //if (type == typeof(EntityBase))
+        //    type = typeof(T);
+        var field = provider.FormatName(name);
         if (WhereSql == null)
             return field;
 

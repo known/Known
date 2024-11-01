@@ -63,7 +63,12 @@ public sealed class DbUtils
         return dic;
     }
 
-    internal static Dictionary<string, object> ToDictionary<T>()
+    /// <summary>
+    /// 将指定泛型类型的属性转成字典对象，属性值默认为空。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <returns>字典对象。</returns>
+    public static Dictionary<string, object> ToDictionary<T>()
     {
         var dic = new Dictionary<string, object>();
         var properties = TypeHelper.Properties(typeof(T));
@@ -162,37 +167,4 @@ public sealed class DbUtils
 
         return value;
     }
-
-    //public Task<List<string>> FindAllTablesAsync()
-    //{
-    //    var sql = string.Empty;
-    //    if (DatabaseType == DatabaseType.MySql)
-    //    {
-    //        var dbName = string.Empty;
-    //        var connStrs = ConnectionString.Split(';');
-    //        foreach (var item in connStrs)
-    //        {
-    //            var items = item.Split('=');
-    //            if (items[0] == "Initial Catalog")
-    //            {
-    //                dbName = items[1];
-    //                break;
-    //            }
-    //        }
-    //        sql = $"select table_name from information_schema.tables where table_schema='{dbName}'";
-    //    }
-    //    else if (DatabaseType == DatabaseType.Oracle)
-    //    {
-    //        sql = "select table_name from user_tables";
-    //    }
-    //    else if (DatabaseType == DatabaseType.SqlServer)
-    //    {
-    //        sql = "select Name from SysObjects where XType='U' order by Name";
-    //    }
-
-    //    if (string.IsNullOrEmpty(sql))
-    //        return null;
-
-    //    return ScalarsAsync<string>(sql);
-    //}
 }

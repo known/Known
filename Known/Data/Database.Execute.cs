@@ -10,30 +10,7 @@ public partial class Database
     /// <returns>影响的行数。</returns>
     public virtual Task<int> ExecuteAsync(string sql, object param = null)
     {
-        var info = Provider.GetCommand(sql, param);
-        return ExecuteNonQueryAsync(info);
-    }
-
-    /// <summary>
-    /// 异步删除数据。
-    /// </summary>
-    /// <typeparam name="T">泛型类型。</typeparam>
-    /// <param name="expression">查询表达式。</param>
-    /// <returns>影响的行数。</returns>
-    public virtual Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
-    {
-        var info = Provider.GetDeleteCommand(expression);
-        return ExecuteNonQueryAsync(info);
-    }
-
-    /// <summary>
-    /// 异步删除全部数据。
-    /// </summary>
-    /// <typeparam name="T">泛型类型。</typeparam>
-    /// <returns>影响的行数。</returns>
-    public virtual Task<int> DeleteAllAsync<T>() where T : class, new()
-    {
-        var info = Provider.GetDeleteCommand<T>();
+        var info = new CommandInfo(Provider, sql, param);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -48,7 +25,7 @@ public partial class Database
         if (data == null)
             return Task.FromResult(0);
 
-        var info = Provider.GetInsertCommand(data);
+        var info = Provider?.GetInsertCommand(data);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -102,17 +79,6 @@ public partial class Database
             count += await ExecuteNonQueryAsync(info);
         }
         return count;
-    }
-
-    /// <summary>
-    /// 异步保存实体对象。
-    /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <param name="entity">实体对象。</param>
-    /// <returns></returns>
-    public virtual Task SaveAsync<T>(T entity) where T : EntityBase, new()
-    {
-        return SaveAsync(entity, true);
     }
 
     /// <summary>
@@ -178,6 +144,40 @@ public partial class Database
     }
 
     /// <summary>
+    /// 异步删除数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="expression">查询表达式。</param>
+    /// <returns>影响的行数。</returns>
+    public virtual Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
+    {
+        var info = Provider?.GetDeleteCommand(expression);
+        return ExecuteNonQueryAsync(info);
+    }
+
+    /// <summary>
+    /// 异步删除全部数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <returns>影响的行数。</returns>
+    public virtual Task<int> DeleteAllAsync<T>() where T : class, new()
+    {
+        var info = Provider?.GetDeleteCommand<T>();
+        return ExecuteNonQueryAsync(info);
+    }
+
+    /// <summary>
+    /// 异步保存实体对象。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="entity">实体对象。</param>
+    /// <returns></returns>
+    public virtual Task SaveAsync<T>(T entity) where T : EntityBase, new()
+    {
+        return SaveAsync(entity, true);
+    }
+
+    /// <summary>
     /// 异步保存实体对象。
     /// </summary>
     /// <typeparam name="T">实体类型。</typeparam>
@@ -185,7 +185,9 @@ public partial class Database
     /// <returns>影响的行数。</returns>
     protected virtual Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new()
     {
-        var info = Provider.GetSaveCommand(entity);
+        var info = entity.IsNew 
+                 ? Provider.GetInsertCommand(entity)
+                 : Provider.GetUpdateCommand(entity);
         info.IsSave = true;
         return ExecuteNonQueryAsync(info);
     }
@@ -224,7 +226,7 @@ public partial class Database
 
     private async Task SetOriginalAsync<T>(T entity) where T : EntityBase, new()
     {
-        var info = Provider.GetSelectCommand<T>(entity.Id);
+        var info = Provider?.GetSelectCommand<T>(d => d.Id == entity.Id);
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);
     }
