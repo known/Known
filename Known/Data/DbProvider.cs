@@ -133,7 +133,7 @@ class DbProvider
         return new CommandInfo(this, sql, new { id });
     }
 
-    public CommandInfo GetSelectCommand<T>(object[] ids)
+    public CommandInfo GetSelectCommand<T, TKey>(TKey[] ids)
     {
         var idTexts = new List<string>();
         var paramters = new Dictionary<string, object>();

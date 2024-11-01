@@ -122,7 +122,7 @@ public partial class Database
         if (ids == null || ids.Length == 0)
             return Task.FromResult<List<T>>(null);
 
-        var info = Provider.GetSelectCommand<T>(ids);
+        var info = Provider.GetSelectCommand<T, TKey>(ids);
         return QueryListAsync<T>(info);
     }
 
