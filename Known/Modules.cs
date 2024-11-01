@@ -205,6 +205,23 @@ public class PageColumnInfo
     public bool IsQueryAll { get; set; }
 
     /// <summary>
+    /// 取得或设置字段类型。
+    /// </summary>
+    public FieldType Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段数据字典类别类型（Dictionary/Custom）。
+    /// </summary>
+    public string CategoryType { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单字段数据字典类别。
+    /// 若CategoryType是Dictionary，则从数据字典中选择；
+    /// 若CategoryType是Customer，则自定义可数项目，用逗号分割，如：男,女。
+    /// </summary>
+    public string Category { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位是否是汇总字段。
     /// </summary>
     public bool IsSum { get; set; }

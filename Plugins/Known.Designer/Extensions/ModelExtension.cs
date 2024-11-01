@@ -35,7 +35,8 @@ static class ModelExtension
     private static FieldInfo GetFieldInfo(Language language, string id, FieldType type) => new() { Id = id, Name = language[id], Type = type };
     #endregion
 
-    #region ActionInfo
+    #region Model
+    internal static bool HasCategory(this FieldType type) => type == FieldType.Select || type == FieldType.RadioList || type == FieldType.CheckList;
     internal static bool HasType(this ActionInfo info, string type) => !string.IsNullOrWhiteSpace(info.Position) && info.Position.Contains(type);
     #endregion
 }

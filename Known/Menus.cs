@@ -535,6 +535,8 @@ public class ColumnInfo
         IsViewLink = info.IsViewLink;
         IsQuery = info.IsQuery;
         IsQueryAll = info.IsQueryAll;
+        Type = info.Type;
+        Category = info.Category;
         IsSum = info.IsSum;
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;

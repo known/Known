@@ -29,6 +29,54 @@ class PageProperty : BaseProperty<PageColumnInfo>
                     Value = Model.IsQueryAll,
                     ValueChanged = this.Callback<bool>(value => { Model.IsQueryAll = value; OnChanged?.Invoke(Model); })
                 }));
+                BuildPropertyItem(builder, nameof(FormFieldInfo.Type), b => UI.BuildSelect(b, new InputModel<string>
+                {
+                    Disabled = IsReadOnly,
+                    Codes = controlTypes,
+                    Value = Model.Type.ToString(),
+                    ValueChanged = this.Callback<string>(value =>
+                    {
+                        if (Model != null)
+                        {
+                            Model.Type = Utils.ConvertTo<FieldType>(value);
+                            if (!Model.Type.HasCategory())
+                            {
+                                Model.CategoryType = string.Empty;
+                                Model.Category = string.Empty;
+                            }
+                        }
+                        OnChanged?.Invoke(Model);
+                    })
+                }));
+                if (Model.Type.HasCategory())
+                {
+                    BuildPropertyItem(builder, nameof(FormFieldInfo.CategoryType), b => UI.BuildSelect(b, new InputModel<string>
+                    {
+                        Disabled = IsReadOnly,
+                        Codes = Cache.GetCodes("Dictionary,Custom"),
+                        Value = Model.CategoryType,
+                        ValueChanged = this.Callback<string>(value => { Model.CategoryType = value; OnChanged?.Invoke(Model); })
+                    }));
+                    if (Model.CategoryType == "Custom")
+                    {
+                        BuildPropertyItem(builder, nameof(FormFieldInfo.Category), b => UI.BuildText(b, new InputModel<string>
+                        {
+                            Disabled = IsReadOnly,
+                            Value = Model.Category,
+                            ValueChanged = this.Callback<string>(value => { Model.Category = value; OnChanged?.Invoke(Model); })
+                        }));
+                    }
+                    else
+                    {
+                        BuildPropertyItem(builder, nameof(FormFieldInfo.Category), b => UI.BuildSelect(b, new InputModel<string>
+                        {
+                            Disabled = IsReadOnly,
+                            Codes = categories,
+                            Value = Model.Category,
+                            ValueChanged = this.Callback<string>(value => { Model.Category = value; OnChanged?.Invoke(Model); })
+                        }));
+                    }
+                }
             }
             BuildPropertyItem(builder, "IsSum", b => UI.BuildSwitch(b, new InputModel<bool>
             {

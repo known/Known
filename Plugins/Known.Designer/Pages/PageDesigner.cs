@@ -67,6 +67,8 @@ class PageDesigner : BaseViewDesigner<PageInfo>
         column.IsViewLink = info.IsViewLink;
         column.IsQuery = info.IsQuery;
         column.IsQueryAll = info.IsQueryAll;
+        column.Type = info.Type;
+        column.Category = info.Category;
         column.IsSum = info.IsSum;
         column.IsSort = info.IsSort;
         column.DefaultSort = info.DefaultSort;

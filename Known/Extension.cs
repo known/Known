@@ -41,7 +41,7 @@ public static class Extension
 
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
-        KStyleSheet.AddStyleSheet("_content/Known/css/web.css");
+        KStyleSheet.AddStyle("_content/Known/css/web.css");
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
         if (!string.IsNullOrWhiteSpace(content))

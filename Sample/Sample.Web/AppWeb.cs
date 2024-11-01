@@ -1,5 +1,6 @@
 ﻿using Coravel;
 using Coravel.Invocable;
+using Known.Designer;
 
 namespace Sample.Web;
 
@@ -11,6 +12,7 @@ public static class AppWeb
         ModuleHelper.InitAppModules();
         //Stopwatcher.Enabled = true;
         services.AddSample();
+        services.AddKnownDesigner();
         services.AddKnownCore(info =>
         {
             //info.ProductId = "Test";

@@ -23,8 +23,8 @@ public static class Extension
 
         Config.AddModule(typeof(Extension).Assembly);
 
-        KStyleSheet.AddStyleSheet("_content/AntDesign/css/ant-design-blazor.css");
-        KStyleSheet.AddStyleSheet("_content/Known.AntBlazor/css/web.css");
+        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
+        KStyleSheet.AddStyle("_content/Known.AntBlazor/css/web.css");
         KScript.AddScript("_content/AntDesign/js/ant-design-blazor.js");
 
         UIConfig.Sizes = [

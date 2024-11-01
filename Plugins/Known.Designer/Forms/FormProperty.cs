@@ -2,16 +2,12 @@
 
 class FormProperty : BaseProperty<FormFieldInfo>
 {
-    private List<CodeInfo> controlTypes;
     private List<CodeInfo> customTypes;
-    private List<CodeInfo> categories;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        controlTypes = Cache.GetCodes(nameof(FieldType)).Select(c => new CodeInfo(c.Name, c.Name)).ToList();
         customTypes = Config.FieldTypes.Select(c => new CodeInfo(c.Key, c.Key)).ToList();
-        categories = Cache.GetCodes(Constants.DicCategory);
     }
 
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -47,7 +43,14 @@ class FormProperty : BaseProperty<FormFieldInfo>
                 ValueChanged = this.Callback<string>(value =>
                 {
                     if (Model != null)
+                    {
                         Model.Type = Utils.ConvertTo<FieldType>(value);
+                        if (!Model.Type.HasCategory())
+                        {
+                            Model.CategoryType = string.Empty;
+                            Model.Category = string.Empty;
+                        }
+                    }
                     OnChanged?.Invoke(Model);
                 })
             }));
@@ -79,7 +82,7 @@ class FormProperty : BaseProperty<FormFieldInfo>
                 Value = Model.Placeholder,
                 ValueChanged = this.Callback<string>(value => { Model.Placeholder = value; OnChanged?.Invoke(Model); })
             }));
-            if (Model.Type == FieldType.Select || Model.Type == FieldType.RadioList || Model.Type == FieldType.CheckList)
+            if (Model.Type.HasCategory())
             {
                 BuildPropertyItem(builder, nameof(FormFieldInfo.CategoryType), b => UI.BuildSelect(b, new InputModel<string>
                 {

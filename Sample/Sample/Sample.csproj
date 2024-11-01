@@ -10,13 +10,15 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <!--<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.10" />
+        <!--
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.10" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.10" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
         <PackageReference Include="Castle.Core" Version="5.1.1" />
-        <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />-->
+        <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
+        <ProjectReference Include="..\..\Known\Known.csproj" />
+        -->
         <ProjectReference Include="..\..\Plugins\Known.AntBlazor\Known.AntBlazor.csproj" />
-        <ProjectReference Include="..\..\Plugins\Known.Designer\Known.Designer.csproj" />
     </ItemGroup>
 
     <ItemGroup>

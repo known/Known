@@ -796,9 +796,12 @@ public class TableModel<TItem> : TableModel where TItem : class, new()
         AllColumns = info.Columns?.Select(c =>
         {
             var column = new ColumnInfo(c);
-            var field = model.Fields.FirstOrDefault(f => f.Id == c.Id);
-            if (field != null)
-                column.Type = field.Type;
+            if (column.Type == FieldType.Text)
+            {
+                var field = model.Fields.FirstOrDefault(f => f.Id == c.Id);
+                if (field != null)
+                    column.Type = field.Type;
+            }
             return column;
         }).ToList();
         Columns.Clear();

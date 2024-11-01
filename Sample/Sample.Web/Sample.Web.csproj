@@ -19,6 +19,7 @@
         -->
         <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
         <ProjectReference Include="..\..\Plugins\Known.Cells\Known.Cells.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Designer\Known.Designer.csproj" />
         <ProjectReference Include="..\Sample\Sample.csproj" />
     </ItemGroup>
 

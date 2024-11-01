@@ -2,6 +2,9 @@
 
 class BaseProperty<TModel> : BaseComponent where TModel : class, new()
 {
+    protected List<CodeInfo> controlTypes;
+    protected List<CodeInfo> categories;
+
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
@@ -17,6 +20,8 @@ class BaseProperty<TModel> : BaseComponent where TModel : class, new()
     {
         base.OnInitialized();
         Model ??= new();
+        controlTypes = Cache.GetCodes(nameof(FieldType)).Select(c => new CodeInfo(c.Name, c.Name)).ToList();
+        categories = Cache.GetCodes(Constants.DicCategory);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder) => BuildForm(builder);

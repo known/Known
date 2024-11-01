@@ -11,7 +11,7 @@ public class KStyleSheet : ComponentBase
     /// 添加CSS样式表文件到集合中。
     /// </summary>
     /// <param name="fileName">CSS样式表文件。</param>
-    public static void AddStyleSheet(string fileName)
+    public static void AddStyle(string fileName)
     {
         if (Items.Contains(fileName))
             return;
