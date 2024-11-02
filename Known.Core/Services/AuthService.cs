@@ -135,14 +135,14 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (entity == null)
             return Result.Error(Language["Tip.CurPwdInvalid"]);
 
-        entity.Password = CoreUtils.ToMd5(info.NewPwd);
+        entity.Password = Utils.ToMd5(info.NewPwd);
         await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 
     private static Task<SysUser> GetUserAsync(Database db, string userName, string password)
     {
-        password = CoreUtils.ToMd5(password);
+        password = Utils.ToMd5(password);
         return db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
     }
 

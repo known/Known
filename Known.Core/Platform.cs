@@ -1,6 +1,4 @@
-﻿using Known.Core.Weixins;
-
-namespace Known.Core;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 平台操作类，提供框架数据的常用操作方法。

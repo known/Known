@@ -8,29 +8,6 @@ namespace Known.Core;
 /// </summary>
 public class CoreUtils
 {
-    #region Encryptor
-    /// <summary>
-    /// 获取字符串的MD5加密字符串。
-    /// </summary>
-    /// <param name="value">原字符串。</param>
-    /// <returns>MD5加密字符串。</returns>
-    public static string ToMd5(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-            return string.Empty;
-
-        var buffer = Encoding.UTF8.GetBytes(value);
-        var bytes = MD5.HashData(buffer);
-
-        var sb = new StringBuilder();
-        foreach (var item in bytes)
-        {
-            sb.Append(item.ToString("x2"));
-        }
-        return sb.ToString();
-    }
-    #endregion
-
     #region Network
     /// <summary>
     /// 用Ping检查主机IP或域名是否连接。

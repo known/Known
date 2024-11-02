@@ -1,4 +1,4 @@
-﻿namespace Known.Core.Weixins;
+﻿namespace Known.Core.Services;
 
 class WeixinService(Context context) : ServiceBase(context), IWeixinService
 {

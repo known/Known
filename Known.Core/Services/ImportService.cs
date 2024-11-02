@@ -94,7 +94,7 @@ class SysUserImport(ImportContext context) : ImportBase<SysUser>(context)
             foreach (var item in models)
             {
                 item.OrgNo = db.User.CompNo;
-                item.Password = CoreUtils.ToMd5(info?.UserDefaultPwd);
+                item.Password = Utils.ToMd5(info?.UserDefaultPwd);
                 await db.SaveAsync(item);
             }
         });

@@ -16,7 +16,6 @@ global using Known.Core.Auths;
 global using Known.Core.Extensions;
 global using Known.Core.Helpers;
 global using Known.Core.Services;
-global using Known.Core.Weixins;
 global using Known.Data;
 global using Known.Entities;
 global using Known.Extensions;

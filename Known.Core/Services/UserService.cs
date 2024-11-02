@@ -100,7 +100,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         {
             foreach (var item in models)
             {
-                item.Password = CoreUtils.ToMd5(info.UserDefaultPwd);
+                item.Password = Utils.ToMd5(info.UserDefaultPwd);
                 await db.SaveAsync(item);
             }
         });
@@ -148,7 +148,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error(Language["Tip.NoDefaultPwd"]);
 
-            model.Password = CoreUtils.ToMd5(info.UserDefaultPwd);
+            model.Password = Utils.ToMd5(info.UserDefaultPwd);
         }
 
         if (string.IsNullOrWhiteSpace(model.OrgNo))
@@ -206,9 +206,9 @@ class UserService(Context context) : ServiceBase(context), IUserService
             };
             var info = await SystemService.GetSystemAsync(db);
             if (!string.IsNullOrWhiteSpace(user.Password))
-                model.Password = CoreUtils.ToMd5(user.Password);
+                model.Password = Utils.ToMd5(user.Password);
             else if (info != null)
-                model.Password = CoreUtils.ToMd5(info.UserDefaultPwd);
+                model.Password = Utils.ToMd5(info.UserDefaultPwd);
             await db.SaveAsync(model);
             var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
             if (role != null)

@@ -1,9 +1,9 @@
 ﻿using System.Net;
+using System.Net.Http.Json;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
-using System.Web;
 
-namespace Known.Core.Weixins;
+namespace Known.Weixins;
 
 /// <summary>
 /// 微信Api操作类。
@@ -220,19 +220,6 @@ public static class WeixinApi
             return null;
         }
     }
-
-    private static async Task<Dictionary<string, object>> PostDataAsync(this HttpClient http, string url, object data)
-    {
-        var json = Utils.ToJson(data);
-        var request = new HttpRequestMessage(HttpMethod.Post, url);
-        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await http.SendAsync(request);
-        var content = await response.Content.ReadAsStringAsync();
-        var result = Utils.FromJson<Dictionary<string, object>>(content);
-        if (result == null)
-            Console.WriteLine($"PostData={content}");
-        return result;
-    }
     #endregion
 
     #region 网页授权
@@ -391,9 +378,9 @@ public static class WeixinApi
 
         try
         {
+            using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={AccessToken}";
-            var content = await HttpPostDataAsync(url, Utils.ToJson(info));
-            var result = Utils.FromJson<Dictionary<string, object>>(content);
+            var result = await http.PostDataAsync(url, info, "application/x-www-form-urlencoded");
             var errCode = result?.GetValue<int>("errcode");
             var errMsg = result?.GetValue<string>("errmsg");
             if (errCode != 0)
@@ -408,26 +395,18 @@ public static class WeixinApi
             return Result.Error(ex.Message);
         }
     }
-
-    private static async Task<string> HttpPostDataAsync(string url, string data)
-    {
-        var encoding = Encoding.UTF8;
-        var bytes = encoding.GetBytes(data);
-        var request = WebRequest.Create(url) as HttpWebRequest;
-        var cookieContainer = new CookieContainer();
-        request.CookieContainer = cookieContainer;
-        request.AllowAutoRedirect = true;
-        request.Method = "POST";
-        request.ContentType = "application/x-www-form-urlencoded";
-        request.ContentLength = bytes.Length;
-        var outstream = await request.GetRequestStreamAsync();
-        outstream.Write(bytes, 0, bytes.Length);
-        outstream.Close();
-        var response = await request.GetResponseAsync() as HttpWebResponse;
-        var instream = response.GetResponseStream();
-        var sr = new StreamReader(instream, encoding);
-        var content = sr.ReadToEnd();
-        return content;
-    }
     #endregion
+
+    private static async Task<Dictionary<string, object>> PostDataAsync(this HttpClient http, string url, object data, string mediaType = "application/json")
+    {
+        var json = Utils.ToJson(data);
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = new StringContent(json, Encoding.UTF8, mediaType);
+        var response = await http.SendAsync(request);
+        var content = await response.Content.ReadAsStringAsync();
+        var result = Utils.FromJson<Dictionary<string, object>>(content);
+        if (result == null)
+            Console.WriteLine($"PostData={content}");
+        return result;
+    }
 }

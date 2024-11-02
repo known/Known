@@ -196,7 +196,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         user.CompNo = info.CompNo;
         user.OrgNo = info.CompNo;
         user.UserName = userName;
-        user.Password = CoreUtils.ToMd5(info.AdminPassword);
+        user.Password = Utils.ToMd5(info.AdminPassword);
         user.Name = info.AdminName;
         user.EnglishName = info.AdminName;
         user.Gender = "Male";
