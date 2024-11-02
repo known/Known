@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known.Core是Known框架后端类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>2.0.18</Version>
+        <Version>2.0.19</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, WinForm, Web</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
