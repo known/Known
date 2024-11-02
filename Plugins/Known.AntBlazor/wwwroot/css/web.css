@@ -1,3 +1,38 @@
+/*Ant*/
+:root {--rz-sidebar-width: 200px;}
+.ant-drawer-close {margin-right:0;}
+.ant-btn {padding:4px 10px;}
+.ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
+.ant-modal {top:50px;}
+.ant-modal-body > .ant-steps {padding:15px 0 10px 0;}
+.ant-modal-content {border-radius:5px;}
+.ant-modal-header {border-radius:5px 5px 0 0;}
+.ant-modal-body, .ant-drawer-body {padding:15px;}
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-more, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more {padding:8px 0 8px 10px;}
+.ant-tabs-nav {padding:0 10px;}
+.ant-tabs-tab .anticon {margin-right:5px;}
+.ant-tabs-tab-remove {margin-left:0;}
+.ant-tabs-extra-content {display:flex;align-items:center;}
+.ant-table-thead > tr > th {font-weight:bold;}
+.ant-table-cell .ant-tag {cursor:pointer;}
+.ant-table .ant-table-container::after {width:8px;}
+/*.anticon .icon {width:1rem;height:1rem;}
+.ant-table-column-sorter .anticon .icon {width:11px;height:11px;}*/
+.ant-dropdown-link {color:#1890ff;}
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {border-right:none;}
+.ant-layout-footer {margin-top:10px;}
+.ant-spin-nested-loading, .ant-spin-nested-loading > div, .ant-spin-container {height:100%;}
+.kui-install-form .ant-spin-nested-loading, 
+.kui-install-form .ant-spin-nested-loading > div, 
+.kui-install-form .ant-spin-container {height:auto;}
+.ant-spin-nested-loading > div > .ant-spin .ant-spin-text {padding-top:20px;}
+.ant-message .message {text-align:left;}
+.ant-menu .fa + span {margin-left:10px;}
+.ant-tabs-top > .ant-tabs-nav, 
+.ant-tabs-bottom > .ant-tabs-nav, 
+.ant-tabs-top > div > .ant-tabs-nav, 
+.ant-tabs-bottom > div > .ant-tabs-nav {margin:0 0 10px 0;}
+
 .ant-captcha + img, .ant-captcha + canvas, .ant-captcha + .btn-sms {
     position:absolute;top:0;right:0;z-index:1000;text-align:center;
     width:110px;height:31px;line-height:31px;cursor:pointer;
@@ -11,7 +46,7 @@
 .ant-query-more .ant-form-item-label {width:100px;text-align:right;}
 .kui-bold .ant-form-item-label, .kui-bold .ant-form-item-control {font-weight:bold;}
 .kui-table .ant-table-wrapper {padding:0 10px 10px 10px;}
-.kui-table.form-list .ant-table-wrapper {padding:0 0 10px 0;}
+.ant-tabs-content .kui-table .ant-table-wrapper {padding:0;}
 .kui-table .ant-tabs-nav {margin:0;margin-bottom:10px;}
 .kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background:#e6f7ff}
 .kui-table-setting {
@@ -34,6 +69,7 @@
 .ant-table.ant-table-small .ant-table-tbody > tr > td {padding:5px;}
 .ant-table-pagination.ant-pagination {margin:10px 0 0 0;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
+.ant-modal-body .kui-form, .ant-modal-body .kui-small {padding:10px 10px 0 0;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}
 .kui-system .ant-form-item-label {width:150px;}
@@ -41,13 +77,12 @@
 .kui-form-toolbar button {margin-left:5px;}
 .kui-form-tab .ant-tabs-content-holder {padding:0 10px 10px 10px;}
 .kui-form-step .ant-tabs-content-holder {padding:0 10px 10px 10px;}
-.kui-tab-form .ant-modal-body {padding:0 20px 20px 20px;}
+.kui-tab-form .ant-modal-body {padding-top:0;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 .kui-step-form .ant-modal-body {padding:10px 20px;}
 .kui-detail .ant-modal-body {padding:0;}
 .kui-nocaptcha {margin-top:20px;}
-.ant-modal {top:50px;}
-.ant-modal-body > .ant-steps {padding:15px 0 10px 0;}
+.kui-form-setting .ant-form-item {margin-bottom:10px;}
 
 /*Layout*/
 .kui-wrapper > .ant-spin-spinning {position:absolute;top:40%;left:45%;}
@@ -88,34 +123,6 @@
 .ant-layout-tabs > .ant-tabs-nav > .ant-tabs-nav-wrap > .ant-tabs-nav-list > .ant-tabs-tab-active {
     background-color:#f0f2f5;border-bottom-color:#f0f2f5;
 }*/
-
-/*Ant*/
-:root {--rz-sidebar-width: 200px;}
-.ant-drawer-close {margin-right:0;}
-.ant-btn {padding:4px 10px;}
-.ant-btn > .anticon + span, .ant-btn > span + .anticon {margin-left:2px;}
-.ant-modal-content {border-radius:5px;}
-.ant-modal-header {border-radius:5px 5px 0 0;}
-.ant-tabs > .ant-tabs-nav .ant-tabs-nav-more, .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-more {padding:8px 0 8px 10px;}
-.ant-tabs-nav {padding:0 10px;}
-.ant-tabs-tab .anticon {margin-right:5px;}
-.ant-tabs-tab-remove {margin-left:0;}
-.ant-tabs-extra-content {display:flex;align-items:center;}
-.ant-table-thead > tr > th {font-weight:bold;}
-.ant-table-cell .ant-tag {cursor:pointer;}
-.ant-table .ant-table-container::after {width:8px;}
-/*.anticon .icon {width:1rem;height:1rem;}
-.ant-table-column-sorter .anticon .icon {width:11px;height:11px;}*/
-.ant-dropdown-link {color:#1890ff;}
-.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {border-right:none;}
-.ant-layout-footer {margin-top:10px;}
-.ant-spin-nested-loading, .ant-spin-nested-loading > div, .ant-spin-container {height:100%;}
-.kui-install-form .ant-spin-nested-loading, 
-.kui-install-form .ant-spin-nested-loading > div, 
-.kui-install-form .ant-spin-container {height:auto;}
-.ant-spin-nested-loading > div > .ant-spin .ant-spin-text {padding-top:20px;}
-.ant-message .message {text-align:left;}
-.ant-menu .fa + span {margin-left:10px;}
 
 @media screen and (max-width:768px) {
     .kui-header .kui-header-left, .kui-nav-full, .kui-nav-setting {display:none;}
@@ -159,7 +166,16 @@
 :root[data-theme=dark] .ant-layout,
 :root[data-theme=dark] .ant-layout-header,
 :root[data-theme=dark] .ant-layout-footer {
-    background-color:rgb(45, 46, 46);color:var(--kui-color);
+    background-color:rgb(45,46,46);color:var(--kui-color);
+}
+:root[data-theme=dark] .ant-input[disabled], 
+:root[data-theme=dark] .ant-input-number-disabled,
+:root[data-theme=dark] .ant-picker-input > input[disabled],
+:root[data-theme=dark] .ant-radio-disabled + span,
+:root[data-theme=dark] .ant-checkbox-disabled + span, 
+:root[data-theme=dark] .ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+:root[data-theme=dark] .ant-tree .ant-tree-treenode-disabled .ant-tree-node-content-wrapper {
+    color:rgba(255,255,255,0.3);
 }
 
 /*App*/

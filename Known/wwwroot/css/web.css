@@ -9,22 +9,21 @@
 
 :root {--kui-form-label-width:120px;}
 :root {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#f0f0f0;}
-:root[data-theme=dark] {--kui-bgcolor:#202020;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
+:root[data-theme=dark] {--kui-bgcolor:#141414;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
 /*Common*/
 .kui-wrapper {position:fixed;top:0;bottom:0;left:0;right:0;}
-.kui-nav, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-form-tab, .kui-form-step {
+.kui-nav, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
-.kui-nav, .kui-card, .kui-query, .kui-table, .kui-form, .kui-form-tab, .kui-form-step {border-radius:5px;}
+.kui-nav, .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
 .kui-nav {margin:10px 0 10px 10px;padding:10px 20px;}
-.kui-query {margin-bottom:10px;padding:10px 20px;}
+.kui-query {margin-bottom:10px;padding:10px 20px 0 20px;}
 .kui-title {font-size:1rem;font-weight:bold;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-table > .kui-toolbar {padding:10px;height:52px;}
-.kui-table.form-list > .kui-toolbar {padding:0 0 10px 0;}
+.kui-table > .kui-toolbar {padding:0 10px;height:46px;line-height:46px;}
 .kui-table .setting {margin-left:5px;cursor:pointer;font-size:18px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
@@ -69,7 +68,7 @@
     border-radius:6px;min-height:200px;
 }
 .kui-form-content {padding:10px;}
-.kui-form-action {margin-top:24px;text-align:right;}
+.kui-form-action {margin-top:20px;text-align:right;}
 .kui-form-action button {margin-left:8px;}
 .kui-form-page {padding:10px 50px 20px 0;}
 .kui-form-page-button {margin-left:var(--kui-form-label-width);}
@@ -80,8 +79,8 @@
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-border-color);border-radius:6px;}
-.kui-group-box .legend {position:absolute;top:-10px;left:20px;padding:0 10px;}
-.kui-group-box .body {padding:1rem;}
+.kui-group-box .legend {position:absolute;top:-15px;left:20px;padding:0 10px;}
+.kui-group-box .body {padding:10px;}
 
 /*ListBox*/
 .kui-list-box {position:relative;height:100%;}
@@ -161,7 +160,7 @@
 :root[data-theme=dark] .kui-list-box li:hover, 
 :root[data-theme=dark] .kui-list-box li.active {background-color:rgba(255, 255, 255, 0.08);}
 :root[data-theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45,46,46), rgb(40,41,41));}
-:root[data-theme=dark] .kui-striped table tr:nth-child(odd) td {background-color:#303030;}
+:root[data-theme=dark] .kui-striped table tr:nth-child(odd) td {background-color:#1a1a1a;}
 :root[data-theme=dark] .kui-striped table tr:nth-child(even) td {background-color:var(--kui-bgcolor);}
 
 /*Import*/
@@ -198,18 +197,20 @@
 .kui-system {margin:0 50px;}
 .kui-user-form {width:400px;margin:0 50px;}
 .kui-user-form .kui-form-button {margin-left:120px;}
-.kui-form-setting button {margin:0 5px;}
+.kui-form-setting .kui-form {padding:10px;}
+.kui-form-setting .kui-center {margin:10px;}
+.kui-form-setting .kui-center button {margin:0 5px;}
 
 /*Module*/
 .kui-module-icon {position:absolute;top:5px;left:5px;z-index:101;}
 .kui-module-icon + input {padding-left:20px;}
 
 /*Role*/
-.kui-role {display:flex;}
+.kui-role {display:flex;background-color:var(--kui-bgcolor);padding-top:10px;border-radius:5px;}
 .kui-role-form {width:400px;padding-right:20px;}
 .kui-role-module {width:260px;}
-.kui-role-button {background-color:var(--kui-bgcolor);width:160px;}
-.kui-role-column {background-color:var(--kui-bgcolor);width:160px;max-height:500px;overflow:auto;}
+.kui-role-button {width:160px;}
+.kui-role-column {width:160px;max-height:500px;overflow:auto;}
 
 @media screen and (max-width:768px) {
     .kui-system {margin:0;}

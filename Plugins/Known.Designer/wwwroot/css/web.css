@@ -1,4 +1,3 @@
-/*----Designer begin----*/
 /*Layout*/
 .kui-page-designer {position:fixed;right:10px;bottom:10px;font-size:1rem;cursor:pointer;}
 .kui-designer {display:grid;grid-template-columns:220px auto 220px;height:450px;overflow:auto;}
@@ -27,13 +26,12 @@
 .kui-designer .panel-view {overflow:auto;}
 .kui-designer .panel-view .ant-tabs-top > .ant-tabs-nav {margin:0;}
 .kui-designer .panel-view .view {height:250px;overflow:auto;padding:10px;background-color:#f0f2f5;}
-.kui-designer .panel-view .view .ant-query, 
-.kui-designer .panel-view .view .ant-toolbar {padding:0;}
-.kui-designer .panel-view .view .ant-toolbar {padding-right:10px;padding-top:10px;}
 .kui-designer .panel-view .setting-row {display:grid;grid-template-columns:33% 33% 34%;padding-top:10px;margin-bottom:10px;}
 .kui-designer .panel-view .setting .item {display:grid;grid-template-columns:80px auto;height:32px;align-items:center;margin:0 10px 10px 0;}
 .kui-designer .list-view {padding:10px 10px 0 10px;}
 .kui-designer form {padding-right:50px;background-color:var(--kui-bgcolor);}
+.kui-designer .ant-tabs-content-holder {padding:0;}
+.kui-designer .kui-table .ant-table-wrapper {padding:0 10px 10px 10px;}
 
 /*Property*/
 .kui-designer .panel-property {border-left:1px solid var(--kui-border-color);}
@@ -65,4 +63,7 @@
 .kui-designer .panel-view .setting .ant-tabs-content-holder {padding:0 10px;}
 .kui-designer .panel-view .ant-steps {padding:0 30px 10px 30px;}
 .kui-designer .panel-property .item .ant-switch {width:44px;}
-/*----Designer end----*/
+
+:root[data-theme=dark] .kui-designer .panel-view .view {background-color:#1f1f1f;}
+:root[data-theme=dark] .kui-api-result {background-color:rgba(255,255,255,0.08);}
+:root[data-theme=dark] :not(pre)>code[class*=language-], pre[class*=language-] {background-color:rgba(255,255,255,0.08);}
