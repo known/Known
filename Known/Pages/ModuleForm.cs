@@ -9,6 +9,7 @@ class ModuleForm : BaseTabForm
         await base.OnInitFormAsync();
         Model.SmallLabel = true;
         Model.Data.Entity = DataHelper.ToEntity(Model.Data.EntityData);
+        Model.OnFieldChanged = OnFieldChanged;
         Model.AddRow().AddColumn(c => c.Code)
                       .AddColumn(c => c.Name)
                       .AddColumn(c => c.Icon, c =>
@@ -28,7 +29,28 @@ class ModuleForm : BaseTabForm
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
         Tab.AddTab("BasicInfo", BuildDataForm);
         UIConfig.ModuleForm?.Invoke(Tab, Model);
+        SetTabVisible();
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+
+    private void OnFieldChanged(string field)
+    {
+        if (field == nameof(SysModule.Target))
+        {
+            SetTabVisible();
+            Tab.StateChanged();
+        }
+    }
+
+    private void SetTabVisible()
+    {
+        var isMenu = Model.Data.Target == ModuleType.Menu.ToString() ||
+                     Model.Data.Target == ModuleType.IFrame.ToString();
+        foreach (var item in Tab.Items)
+        {
+            if (item.Id != "BasicInfo")
+                item.IsVisible = !isMenu;
+        }
+    }
 }

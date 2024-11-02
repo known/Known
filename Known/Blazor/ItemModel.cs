@@ -28,6 +28,11 @@ public class ItemModel(string id, string title)
     public string Description { get; set; }
 
     /// <summary>
+    /// 取得或设置项目是否显示。
+    /// </summary>
+    public bool IsVisible { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置列表项呈现模板。
     /// </summary>
     public RenderFragment Content { get; set; }
@@ -74,6 +79,11 @@ public class TabModel
     public Action<string> OnChange { get; set; }
 
     /// <summary>
+    /// 取得或设置组件状态改变方法委托。
+    /// </summary>
+    public Action OnStateChanged { get; set; }
+
+    /// <summary>
     /// 取得标签是否有项目。
     /// </summary>
     public bool HasItem => Items != null && Items.Count > 0;
@@ -118,6 +128,11 @@ public class TabModel
     /// 标签切换事件。
     /// </summary>
     public void Change() => OnChange?.Invoke(Current);
+
+    /// <summary>
+    /// 改变组件状态。
+    /// </summary>
+    public void StateChanged() => OnStateChanged?.Invoke();
 }
 
 /// <summary>

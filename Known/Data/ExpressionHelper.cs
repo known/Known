@@ -196,8 +196,11 @@ class ExpressionHelper(DbProvider provider)
             WhereSql = WhereSql[..^3];
         if (mce.Object == null)
         {
-            var field = RouteExpression<T>(mce.Arguments[0]);
-            var arg1 = RouteExpression<T>(mce.Arguments[1]);
+            var isValue = mce.Arguments[0].ToString().StartsWith("value");
+            var fieldIndex = isValue ? 1 : 0;
+            var arg1Index = isValue ? 0 : 1;
+            var field = RouteExpression<T>(mce.Arguments[fieldIndex]);
+            var arg1 = RouteExpression<T>(mce.Arguments[arg1Index]);
             var operate = isNot ? "not in" : "in";
             WhereSql += $"{field} {operate} ({arg1})";
         }

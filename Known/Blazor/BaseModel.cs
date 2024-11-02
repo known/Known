@@ -29,26 +29,20 @@ public abstract class BaseModel(UIContext context)
     /// <summary>
     /// 取得或设置组件状态改变方法委托。
     /// </summary>
-    public Action OnChanged { get; set; }
+    public Action OnStateChanged { get; set; }
 
     /// <summary>
     /// 取得或设置组件状态改变方法委托。
     /// </summary>
-    public Func<Task> OnChangedTask { get; set; }
+    public Func<Task> OnStateChangedTask { get; set; }
 
     /// <summary>
     /// 改变组件状态。
     /// </summary>
-    public void Change()
-    {
-        OnChanged?.Invoke();
-    }
+    public void StateChange() => OnStateChanged?.Invoke();
 
     /// <summary>
     /// 异步改变组件状态。
     /// </summary>
-    public Task ChangeAsync()
-    {
-        return OnChangedTask?.Invoke();
-    }
+    public Task StateChangeAsync() => OnStateChangedTask?.Invoke();
 }

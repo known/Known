@@ -9,6 +9,9 @@
         {
             foreach (var item in Model.Items)
             {
+                if (!item.IsVisible)
+                    continue;
+
                 if (item.Content != null)
                 {
                     <TabPane Key="@item.Id" Tab="@Language?.GetTitle(item.Title)">
@@ -32,6 +35,12 @@
 
     [Parameter] public TabModel Model { get; set; }
     [Parameter] public Action<string> OnChange { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Model.OnStateChanged = StateChanged;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

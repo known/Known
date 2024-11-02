@@ -108,7 +108,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
             BizData = infos
         });
         Context.UserTableSettings[Table.SettingId] = infos;
-        await Table.ChangeAsync();
+        await Table.StateChangeAsync();
     }
 
     private async Task OnDropAsync(DragEventArgs e, ColumnInfo info)

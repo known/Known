@@ -193,8 +193,8 @@
         var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
         if (totalWidth > 1000)
             scrollX = totalWidth.ToString();
-        Model.OnChanged = StateChanged;
-        Model.OnChangedTask = StateChangedAsync;
+        Model.OnStateChanged = StateChanged;
+        Model.OnStateChangedTask = StateChangedAsync;
         Model.OnRefresh = RefreshTableAsync;
         base.OnInitialized();
     }

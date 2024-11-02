@@ -121,7 +121,7 @@
     .kui-logo {margin-left:6px;}
     .kui-app-name {display:none;}
     .kui-header {flex-direction:column;padding:0;}
-    .kui-nav {justify-content:flex-end;margin:10px;padding:10px;}
+    .kui-nav {justify-content:flex-end;margin:10px 0 0 0;padding:10px;}
     .kui-form-page {padding:10px 10px 20px 10px;}
     .kui-form-page-button {margin-left:0;}
     .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {

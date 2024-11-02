@@ -12,7 +12,6 @@ public class WebApiList : BaseTable<ApiMethodInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Table.IsForm = false;
         Table.ShowPager = true;
         Table.OnQuery = OnQueryApisAsync;
         Table.AddColumn(c => c.HttpMethod).Width(90).Template(BuildMethod);
