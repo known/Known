@@ -212,6 +212,7 @@ class KUploadField<TItem> : KUpload where TItem : class, new()
         OnFilesChanged = files =>
         {
             Model.Form.Files[Id] = files;
+            Model.Value = Id;
             return Task.CompletedTask;
         };
         await base.OnInitAsync();
