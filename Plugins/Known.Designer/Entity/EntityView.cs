@@ -26,7 +26,7 @@ class EntityView : BaseView<EntityInfo>
         await base.OnInitAsync();
         Auto = await CreateServiceAsync<IAutoService>();
 
-        table = new(this, true);
+        table = new(this, TableColumnMode.Property);
         dbType = Database.Create().DatabaseType;
         SetViewData(Model);
 

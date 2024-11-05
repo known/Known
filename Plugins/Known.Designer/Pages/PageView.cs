@@ -29,7 +29,7 @@ class PageView : BaseView<PageInfo>
 
         await SetTablePageAsync();
 
-        list = new(this, true)
+        list = new(this, TableColumnMode.Property)
         {
             FixedHeight = "355px",
             OnQuery = c =>

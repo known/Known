@@ -83,3 +83,22 @@ public enum TableSelectType
     /// </summary>
     Radio
 }
+
+/// <summary>
+/// 表格栏位自动生成模式枚举。
+/// </summary>
+public enum TableColumnMode
+{
+    /// <summary>
+    /// 不自动生成。
+    /// </summary>
+    None,
+    /// <summary>
+    /// 根据实体属性生成。
+    /// </summary>
+    Property,
+    /// <summary>
+    /// 根据实体属性Column特性生成。
+    /// </summary>
+    Attribute
+}

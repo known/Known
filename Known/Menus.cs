@@ -369,6 +369,7 @@ public class ColumnInfo
         Template = template;
     }
 
+    internal ColumnInfo(ColumnAttribute attr) => SetColumnAttribute(attr);
     internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
 
@@ -524,6 +525,21 @@ public class ColumnInfo
     /// 取得或设置栏位备注。
     /// </summary>
     public string Note { get; set; }
+
+    private void SetColumnAttribute(ColumnAttribute attr)
+    {
+        IsViewLink = attr.IsViewLink;
+        IsQuery = attr.IsQuery;
+        IsQueryAll = attr.IsQueryAll;
+        Type = attr.Type;
+        Category = attr.Category;
+        IsSum = attr.IsSum;
+        IsSort = attr.IsSort;
+        DefaultSort = attr.DefaultSort;
+        Fixed = attr.Fixed;
+        Width = attr.Width ?? 0;
+        Align = attr.Align;
+    }
 
     private void SetPageColumnInfo(PageColumnInfo info)
     {

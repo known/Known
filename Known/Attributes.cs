@@ -12,7 +12,76 @@ public class CodeInfoAttribute : Attribute { }
 public class NavItemAttribute : Attribute { }
 
 /// <summary>
-/// 表单特性类，用于编码方式设置实体类属性作为动态表单字段。
+/// 表格栏位特性类，用于编码方式设置实体类属性作为动态表格字段。
+/// </summary>
+[AttributeUsage(AttributeTargets.Property)]
+public class ColumnAttribute() : Attribute
+{
+    /// <summary>
+    /// 取得或设置栏位是否是汇总字段。
+    /// </summary>
+    public bool IsSum { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是排序字段。
+    /// </summary>
+    public bool IsSort { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位默认排序方法（升序/降序）。
+    /// </summary>
+    public string DefaultSort { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是查看连接（设为True，才可在线配置表单，为False，则默认为普通查询表格）。
+    /// </summary>
+    public bool IsViewLink { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是查询条件。
+    /// </summary>
+    public bool IsQuery { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位查询条件下拉框是否显示【全部】。
+    /// </summary>
+    public bool IsQueryAll { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位查询条件组件类型。
+    /// </summary>
+    public FieldType Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位查询条件数据字典类别。
+    /// </summary>
+    public string Category { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位固定列位置（left/right）。
+    /// </summary>
+    public string Fixed { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位宽度。
+    /// </summary>
+    public int? Width { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位显示顺序。
+    /// </summary>
+    public int Sort { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位对齐方式（left/center/right）。
+    /// </summary>
+    public string Align { get; set; }
+
+    internal PropertyInfo Property { get; set; }
+}
+
+/// <summary>
+/// 表单字段特性类，用于编码方式设置实体类属性作为动态表单字段。
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
 public class FormAttribute() : Attribute

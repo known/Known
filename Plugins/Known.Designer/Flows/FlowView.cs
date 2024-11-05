@@ -15,7 +15,7 @@ class FlowView : BaseView<FlowInfo>
         await base.OnInitAsync();
         Tab.AddTab("Designer.FlowStep", BuildView);
 
-        table = new(this, true)
+        table = new(this, TableColumnMode.Property)
         {
             FixedHeight = "355px",
             OnQuery = c =>

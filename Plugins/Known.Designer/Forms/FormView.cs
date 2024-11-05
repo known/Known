@@ -18,7 +18,7 @@ class FormView : BaseView<FormInfo>
         Tab.AddTab("Designer.View", BuildView);
         Tab.AddTab("Designer.Fields", BuildList);
 
-        list = new(this, true)
+        list = new(this, TableColumnMode.Property)
         {
             FixedHeight = "355px",
             OnQuery = c =>

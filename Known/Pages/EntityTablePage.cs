@@ -14,7 +14,7 @@ public class EntityTablePage<TEntity> : BaseTablePage<TEntity> where TEntity : c
     /// <returns></returns>
     protected override async Task OnPageInitAsync()
     {
-        Table = new TableModel<TEntity>(this, true);
+        Table = new TableModel<TEntity>(this, TableColumnMode.Property);
         Table.DefaultQuery = DefaultQuery;
 
         Service = await CreateServiceAsync<IEntityService<TEntity>>();
