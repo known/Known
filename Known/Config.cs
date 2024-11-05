@@ -8,9 +8,9 @@ public sealed class Config
     private Config() { }
 
     /// <summary>
-    /// 框架官网网址：http://known.org.cn。
+    /// 框架官网网址：https://known.org.cn。
     /// </summary>
-    public const string SiteUrl = "http://known.org.cn";
+    public const string SiteUrl = "https://known.org.cn";
 
     /// <summary>
     /// 框架Gitee项目网址：https://gitee.com/known/Known。
@@ -116,6 +116,7 @@ public sealed class Config
     public static List<ActionInfo> Actions { get; } = [];
 
     internal static Dictionary<string, Type> FormTypes { get; } = [];
+    internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
     /// <summary>
     /// 取得自定义扩展字段组件字典。
@@ -142,15 +143,6 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
-            var routes = item.GetCustomAttributes<RouteAttribute>();
-            if (routes != null && routes.Any())
-            {
-                foreach (var route in routes)
-                {
-                    RouteTypes[route.Template] = item;
-                }
-            }
-
             if (TypeHelper.IsSubclassOfGeneric(item, typeof(EntityTablePage<>), out var genericArguments))
                 AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
@@ -162,8 +154,21 @@ public sealed class Config
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
 
-            var attr = item.GetCustomAttributes<CodeInfoAttribute>();
-            if (attr != null && attr.Any())
+            var routes = item.GetCustomAttributes<RouteAttribute>();
+            if (routes != null && routes.Any())
+            {
+                foreach (var route in routes)
+                {
+                    RouteTypes[route.Template] = item;
+                }
+            }
+
+            var navItem = item.GetCustomAttribute<NavItemAttribute>();
+            if (navItem != null)
+                NavItemTypes[item.Name] = item;
+
+            var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
+            if (codeInfo != null)
                 Cache.AttachCodes(item);
         }
     }

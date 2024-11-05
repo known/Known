@@ -1,8 +1,9 @@
-﻿namespace Known.AntBlazor.Components;
+﻿namespace Known.AntBlazor.NavItems;
 
 /// <summary>
 /// 自定义Ant主题组件类。
 /// </summary>
+[NavItem]
 public class AntTheme : BaseComponent
 {
     /// <summary>

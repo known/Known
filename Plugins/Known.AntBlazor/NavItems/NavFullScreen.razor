@@ -1,0 +1,21 @@
+﻿@inherits BaseComponent
+@attribute [NavItem]
+
+<Tooltip Title="@FullScreenTitle">
+    <Icon Type="@FullScreenIcon" OnClick="OnFullScreenAsync" />
+</Tooltip>
+
+@code {
+    private bool isFullScreen = false;
+    private string FullScreenTitle => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
+    private string FullScreenIcon => isFullScreen ? "fullscreen-exit" : "fullscreen";
+
+    private async Task OnFullScreenAsync()
+    {
+        isFullScreen = !isFullScreen;
+        if (isFullScreen)
+            await JS.OpenFullScreenAsync();
+        else
+            await JS.CloseFullScreenAsync();
+    }
+}

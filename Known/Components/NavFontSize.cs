@@ -3,7 +3,8 @@
 /// <summary>
 /// 系统字体大小下拉框组件类。
 /// </summary>
-public class KSysSize : BaseComponent
+[NavItem]
+class NavFontSize : BaseComponent
 {
     private ISettingService Service;
 

@@ -49,15 +49,7 @@
 .ant-tabs-content .kui-table .ant-table-wrapper {padding:0;}
 .kui-table .ant-tabs-nav {margin:0;margin-bottom:10px;}
 .kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background:#e6f7ff}
-.kui-table-setting {
-    background-color:var(--kui-bgcolor);padding:10px;border:1px solid var(--kui-border-color);border-radius:5px;
-    max-height:500px;overflow:auto;
-}
-.kui-table-setting .title {font-weight:bold;margin:0 0 10px 30px;}
-.kui-table-setting .item {display:flex;align-items:center;margin-bottom:5px;}
-.kui-table-setting .item > .anticon {width:30px;cursor:move;color:var(--kui-color);}
-.kui-table-setting .item > .ant-checkbox-wrapper {width:150px;}
-.kui-table-setting .item > .ant-input-number {width:80px;}
+
 .ant-table-thead > tr > th.kui-table-check, .ant-table-tbody > tr > td.kui-table-check, 
 .ant-table tfoot > tr > td.kui-table-check {
     position:sticky;left:0;

@@ -119,7 +119,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
             columns.Remove(dragging);
             columns.Insert(index, dragging);
             dragging = null;
-            StateChanged();
+            await StateChangedAsync();
             await OnColumnChangedAsync();
         }
     }

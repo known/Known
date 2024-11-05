@@ -1,0 +1,6 @@
+﻿@inherits BaseComponent
+@attribute [NavItem]
+
+<Tooltip Title="@Language["Nav.HomePage"]">
+    <Icon Type="home" OnClick="@(e=>Navigation.NavigateTo("/"))" />
+</Tooltip>

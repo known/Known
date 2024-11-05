@@ -3,7 +3,8 @@
 /// <summary>
 /// 多语言下拉框组件类。
 /// </summary>
-public class KLanguage : BaseComponent
+[NavItem]
+public class NavLanguage : BaseComponent
 {
     private ActionInfo current;
     private ISettingService Service;
