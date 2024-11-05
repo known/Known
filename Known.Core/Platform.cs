@@ -3,8 +3,10 @@
 /// <summary>
 /// 平台操作类，提供框架数据的常用操作方法。
 /// </summary>
-public class Platform
+public sealed class Platform
 {
+    private Platform() { }
+
     //System
     /// <summary>
     /// 异步获取系统信息。

@@ -486,7 +486,7 @@ public class ColumnInfo
     public FieldType Type { get; set; }
 
     /// <summary>
-    /// 取得或设置自定义字段组件类型。
+    /// 取得或设置自定义字段组件类型名称。
     /// </summary>
     public string CustomField { get; set; }
 
@@ -600,6 +600,8 @@ public class ColumnInfo
             Column = form.Column;
             if (!string.IsNullOrWhiteSpace(form.Type))
                 Type = Utils.ConvertTo<FieldType>(form.Type);
+            if (Type == FieldType.Custom)
+                CustomField = form.CustomField;
             ReadOnly = form.ReadOnly;
             Placeholder = form.Placeholder;
         }

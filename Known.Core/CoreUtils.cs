@@ -7,6 +7,8 @@ namespace Known.Core;
 /// </summary>
 public class CoreUtils
 {
+    private CoreUtils() { }
+
     #region Network
     /// <summary>
     /// 用Ping检查主机IP或域名是否连接。

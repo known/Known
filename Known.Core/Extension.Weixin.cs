@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信依赖注入扩展类。
 /// </summary>
-public static class WeixinExtension
+public static partial class Extension
 {
     /// <summary>
     /// 添加微信框架支持。

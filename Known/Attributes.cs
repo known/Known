@@ -7,6 +7,11 @@
 public class CodeInfoAttribute : Attribute { }
 
 /// <summary>
+/// 导航条项目特性类，用于标识组件是否是全局导航条项目。
+/// </summary>
+public class NavItemAttribute : Attribute { }
+
+/// <summary>
 /// 表单特性类，用于编码方式设置实体类属性作为动态表单字段。
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
@@ -26,6 +31,11 @@ public class FormAttribute() : Attribute
     /// 取得或设置字段组件类型，默认Text。
     /// </summary>
     public string Type { get; set; } = FieldType.Text.ToString();
+
+    /// <summary>
+    /// 取得或设置自定义字段组件类型名称。
+    /// </summary>
+    public string CustomField { get; set; }
 
     /// <summary>
     /// 取得或设置字段是否是只读。

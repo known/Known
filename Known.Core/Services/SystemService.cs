@@ -5,6 +5,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     private const string KeySystem = "SystemInfo";
 
     //Config
+    public Task<string> GetConfigAsync(string key) => GetConfigAsync(Database, key);
+    public Task SaveConfigAsync(ConfigInfo info) => SaveConfigAsync(Database, info.Key, info.Value);
+
     internal static async Task<T> GetConfigAsync<T>(Database db, string key)
     {
         var json = await GetConfigAsync(db, key);

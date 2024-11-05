@@ -32,6 +32,20 @@ public interface ISystemService : IService
     [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
 
     /// <summary>
+    /// 异步获取系统配置数据。
+    /// </summary>
+    /// <param name="key">配置数据键。</param>
+    /// <returns>配置数据JSON字符串。</returns>
+    Task<string> GetConfigAsync(string key);
+
+    /// <summary>
+    /// 异步保存系统配置数据。
+    /// </summary>
+    /// <param name="info">系统配置数据信息。</param>
+    /// <returns></returns>
+    Task SaveConfigAsync(ConfigInfo info);
+
+    /// <summary>
     /// 异步获取系统数据信息。
     /// </summary>
     /// <returns>系统数据信息。</returns>
@@ -106,6 +120,16 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     }
 
     public Task<Result> SaveInstallAsync(InstallInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> GetConfigAsync(string key)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SaveConfigAsync(ConfigInfo info)
     {
         throw new NotImplementedException();
     }

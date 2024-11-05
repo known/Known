@@ -1,6 +1,22 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 系统配置数据交互信息类。
+/// </summary>
+public class ConfigInfo
+{
+    /// <summary>
+    /// 取得或设置配置数据键。
+    /// </summary>
+    public string Key { get; set; }
+
+    /// <summary>
+    /// 取得或设置配置数据对象。
+    /// </summary>
+    public object Value { get; set; }
+}
+
+/// <summary>
 /// 后台管理主页数据交互信息类。
 /// </summary>
 public class AdminInfo

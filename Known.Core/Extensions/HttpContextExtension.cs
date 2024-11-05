@@ -14,8 +14,8 @@ public static class HttpContextExtension
     {
         context.IsMobile = http.CheckMobile();
         context.IPAddress = http.Connection?.RemoteIpAddress?.ToString();
-        context.Request = ContextFactory.CreateRequest(http);
-        context.Response = ContextFactory.CreateResponse(http);
+        context.Request = new WebHttpRequest(http);
+        context.Response = new WebHttpResponse(http);
     }
 
     /// <summary>

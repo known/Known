@@ -41,7 +41,7 @@ public sealed class WeixinHelper
     /// <param name="token">系统用户token。</param>
     /// <param name="code">网页授权码。</param>
     /// <returns>授权结果。</returns>
-    public static async Task<Result> AuthorizeAsync(string token, string code)
+    internal static async Task<Result> AuthorizeAsync(string token, string code)
     {
         using var http = new HttpClient();
         var authToken = await http.GetAuthorizeTokenAsync(code);
@@ -70,7 +70,7 @@ public sealed class WeixinHelper
     /// <param name="openId">用户OpenId。</param>
     /// <param name="userId">系统用户ID。</param>
     /// <returns>系统用户姓名。</returns>
-    public static async Task<string> SubscribeAsync(string openId, string userId)
+    internal static async Task<string> SubscribeAsync(string openId, string userId)
     {
         try
         {
@@ -106,7 +106,7 @@ public sealed class WeixinHelper
     /// <param name="openId">用户OpenId。</param>
     /// <param name="userId">系统用户ID。</param>
     /// <returns>系统用户姓名。</returns>
-    public static async Task<string> UnsubscribeAsync(string openId, string userId)
+    internal static async Task<string> UnsubscribeAsync(string openId, string userId)
     {
         try
         {

@@ -5,7 +5,7 @@ namespace Known.Core;
 /// <summary>
 /// 依赖注入扩展类。
 /// </summary>
-public static class Extension
+public static partial class Extension
 {
     private static readonly CoreOption option = new();
 
