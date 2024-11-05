@@ -2,7 +2,7 @@
 
 namespace Known.Core.Auths;
 
-class UserStore : IUserStore<UserInfo>
+class UserStore(Database database) : IUserStore<UserInfo>
 {
     public Task<IdentityResult> CreateAsync(UserInfo user, CancellationToken cancellationToken)
     {
@@ -19,9 +19,11 @@ class UserStore : IUserStore<UserInfo>
         //throw new NotImplementedException();
     }
 
-    public Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
+    public async Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return Task.FromResult(new UserInfo());
+        // TODO: get from cache
+        var entity = await database.QueryByIdAsync<SysUser>(userId);
+        return await entity.ToUserAsync(database);
     }
 
     public Task<UserInfo> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
