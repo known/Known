@@ -126,12 +126,12 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     public Task<string> GetConfigAsync(string key)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(string.Empty);
     }
 
     public Task SaveConfigAsync(ConfigInfo info)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public Task<SystemDataInfo> GetSystemDataAsync()

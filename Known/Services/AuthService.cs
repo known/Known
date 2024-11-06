@@ -57,15 +57,15 @@ class AuthService(Context context, INodbProvider provider) : ServiceBase(context
         return Task.FromResult(CurrentUser);
     }
 
-    public Task<AdminInfo> GetAdminAsync()
+    public async Task<AdminInfo> GetAdminAsync()
     {
         var info = new AdminInfo
         {
             AppName = App.Name,
-            UserMenus = provider.GetUserMenus(CurrentUser),
-            Codes = provider.GetCodes(CurrentUser)
+            UserMenus = await provider.GetUserMenusAsync(CurrentUser),
+            Codes = await provider.GetCodesAsync(CurrentUser)
         };
-        return Task.FromResult(info);
+        return info;
     }
 
     public Task<Result> UpdatePasswordAsync(PwdFormInfo info)

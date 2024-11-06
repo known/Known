@@ -11,7 +11,8 @@
         <PackageTags>Known, Library, .NET, Excel</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
+        <PackageProjectUrl>https://known.org.cn</PackageProjectUrl>
+        <RepositoryUrl>https://gitee.com/known/Known</RepositoryUrl>
         <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
     </PropertyGroup>
 

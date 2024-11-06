@@ -46,7 +46,7 @@ public class TopNavbar : BaseComponent
                 }
             });
 
-            if (CurrentUser?.IsSystemAdmin() == true)
+            if (!Config.App.IsClient && CurrentUser?.IsSystemAdmin() == true)
             {
                 builder.Li(() =>
                 {
