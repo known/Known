@@ -18,13 +18,14 @@
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
-.kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;padding:10px 20px;}
+.kui-header, .kui-logo {border-bottom:1px solid var(--kui-border-color);}
+.kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
 .kui-query {margin-bottom:10px;padding:10px 20px 0 20px;}
 .kui-title {font-size:1rem;font-weight:bold;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-table > .kui-toolbar {padding:0 10px;height:46px;line-height:46px;}
+.kui-toolbar {margin-bottom:10px;padding:0 10px;border-bottom:1px solid #f0f0f0;}
 .kui-table .setting {margin-left:5px;cursor:pointer;font-size:18px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
@@ -69,7 +70,7 @@
     border-radius:6px;min-height:200px;
 }
 .kui-form-content {padding:10px;}
-.kui-form-action {margin-top:20px;text-align:right;}
+.kui-form-action {text-align:right;}
 .kui-form-action button {margin-left:8px;}
 .kui-form-page {padding:10px 50px 20px 0;}
 .kui-form-page-button {margin-left:var(--kui-form-label-width);}
@@ -158,6 +159,7 @@
     .kui-install-foot {margin-top:20px;}
 }
 
+:root[data-theme=dark] .kui-toolbar {border-bottom:1px solid #303030;}
 :root[data-theme=dark] .kui-list-box li:hover, 
 :root[data-theme=dark] .kui-list-box li.active {background-color:rgba(255, 255, 255, 0.08);}
 :root[data-theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45,46,46), rgb(40,41,41));}

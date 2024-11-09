@@ -62,6 +62,28 @@ public class QueryInfo
 }
 
 /// <summary>
+/// 系统布局模式枚举。
+/// </summary>
+public enum LayoutMode
+{
+    /// <summary>
+    /// 纵向菜单布局。
+    /// </summary>
+    [Display(Name = "纵向")]
+    Vertical,
+    /// <summary>
+    /// 横向菜单布局。
+    /// </summary>
+    [Display(Name = "横向")]
+    Horizontal,
+    /// <summary>
+    /// 浮动菜单布局。
+    /// </summary>
+    [Display(Name = "浮动")]
+    Float
+}
+
+/// <summary>
 /// 系统设置信息类。
 /// </summary>
 public class SettingInfo
@@ -97,7 +119,7 @@ public class SettingInfo
     /// <summary>
     /// 取得或设置系统菜单是否是手风琴， 默认是。
     /// </summary>
-    public bool Accordion { get; set; }
+    public bool Accordion { get; set; } = true;
 
     /// <summary>
     /// 取得或设置系统菜单是否收缩。
@@ -107,7 +129,22 @@ public class SettingInfo
     /// <summary>
     /// 取得或设置系统菜单主题，默认亮色（Light）。
     /// </summary>
-    public string MenuTheme { get; set; }
+    public string MenuTheme { get; set; } = "Light";
+
+    /// <summary>
+    /// 取得或设置系统主题颜色。
+    /// </summary>
+    public string ThemeColor { get; set; } = "default";
+
+    /// <summary>
+    /// 取得或设置系统布局模式。
+    /// </summary>
+    public LayoutMode LayoutMode { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否显示页面底部，默认否。
+    /// </summary>
+    public bool ShowFooter { get; set; }
 
     internal void Reset()
     {

@@ -5,9 +5,12 @@ namespace Known.AntBlazor.Components;
 /// <summary>
 /// 自定义Ant菜单组件类。
 /// </summary>
-public class AntMenu : BaseComponent
+public class AntMenu : Menu
 {
-    private SettingInfo info = new();
+    /// <summary>
+    /// 取得或设置系统上下文。
+    /// </summary>
+    [Parameter] public UIContext Context { get; set; }
 
     /// <summary>
     /// 取得或设置菜单数据列表。
@@ -15,27 +18,12 @@ public class AntMenu : BaseComponent
     [Parameter] public List<MenuInfo> Items { get; set; }
 
     /// <summary>
-    /// 异步初始化组件。
+    /// 初始化菜单组件。
     /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitAsync();
-        info = Context.UserSetting;
-    }
-
-    /// <summary>
-    /// 呈现菜单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        builder.Component<Menu>()
-               .Set(c => c.Mode, MenuMode.Inline)
-               .Set(c => c.Theme, info.ToMenuTheme())
-               .Set(c => c.Accordion, info.Accordion)
-               .Set(c => c.ChildContent, BuildMenu)
-               .Build();
+        base.OnInitialized();
+        ChildContent = BuildMenu;
     }
 
     private void BuildMenu(RenderTreeBuilder builder)
@@ -77,18 +65,39 @@ public class AntMenu : BaseComponent
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
     {
-        builder.Component<MenuItem>()
+        if (item.Url.StartsWith("http"))
+        {
+            builder.Component<MenuItem>()
+               .Set(c => c.Key, item.Id)
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnMenuClick(item)))
+               .Set(c => c.ChildContent, b => BuildItemName(b, item))
+               .Build();
+        }
+        else
+        {
+            builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
                .Set(c => c.RouterMatch, NavLinkMatch.Prefix)
                .Set(c => c.RouterLink, item.RouteUrl)
                .Set(c => c.ChildContent, b => BuildItemName(b, item))
                .Build();
+        }
     }
 
     private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
     {
-        var itemName = Language.GetString(item);
-        builder.Icon(item.Icon);
+        if (!string.IsNullOrWhiteSpace(item.Icon))
+        {
+            builder.Component<Icon>()
+                   .Set(c => c.Type, item.Icon)
+                   .Build();
+        }
+        var itemName = Context?.Language?.GetString(item);
         builder.Span(itemName);
+    }
+
+    private Task OnMenuClick(MenuInfo item)
+    {
+        return Task.CompletedTask;
     }
 }

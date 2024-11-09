@@ -1,0 +1,69 @@
+﻿@inherits BaseComponent
+
+<Form Class="kui-setting-form" Model="Model" LabelColSpan="6" OnFinish="OnSave">
+    <Title Level="4">主题设置</Title>
+    <div class="kui-theme-color">
+        @foreach (var item in Colors)
+        {
+            <div class="item" style="background-color:@(item.Value)" @onclick="e=>OnThemeColor(item.Key)">
+                @if (context.ThemeColor == item.Key)
+                {
+                    <Icon Type="check" />
+                }
+            </div>
+        }
+    </div>
+    <FormItem Label="菜单">
+        <RadioGroup TValue="string" @bind-Value="context.MenuTheme" OnChange="OnChange">
+            <Radio Value="@("Dark")">暗色</Radio>
+            <Radio Value="@("Light")">亮色</Radio>
+        </RadioGroup>
+    </FormItem>
+    <Divider />
+    <Title Level="4">布局设置</Title>
+    <FormItem Label="布局">
+        <EnumRadioGroup TEnum="LayoutMode" @bind-Value="context.LayoutMode" OnChange="OnChange" />
+    </FormItem>
+    <FormItem Label="标签">
+        <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
+    </FormItem>
+    <Divider />
+    <Title Level="4">偏好设置</Title>
+    <FormItem Label="手风琴">
+        <Switch @bind-Checked="context.Accordion" OnChange="OnChange" />
+    </FormItem>
+    <Title Level="4">区域设置</Title>
+    <FormItem Label="底部">
+        <Switch @bind-Checked="context.ShowFooter" OnChange="OnChange" />
+    </FormItem>
+    <FormItem WrapperColOffset="6" WrapperColSpan="16">
+        <Button Type="@ButtonType.Primary" HtmlType="submit">保存</Button>
+        <Button OnClick="OnReset">重置</Button>
+    </FormItem>
+</Form>
+
+@code {
+    private Dictionary<string, string> Colors = new Dictionary<string, string>
+    {
+        ["default"] = "#1890ff",
+        ["dust"] = "#F5222D",
+        ["volcano"] = "#FA541C",
+        ["sunset"] = "#FAAD14",
+        ["cyan"] = "#13C2C2",
+        ["green"] = "#52C41A",
+        ["geekblue"] = "#2F54EB",
+        ["purple"] = "#722ED1"
+    };
+
+    [Parameter] public SettingInfo Model { get; set; }
+    [Parameter] public Action OnChange { get; set; }
+    [Parameter] public Func<Task> OnSave { get; set; }
+    [Parameter] public Func<Task> OnReset { get; set; }
+
+    private async Task OnThemeColor(string theme)
+    {
+        Model.ThemeColor = theme;
+        var href = $"_content/Known.AntBlazor/css/theme/{theme}.css";
+        await JS.SetStyleSheetAsync("/theme/", href);
+    }
+}
