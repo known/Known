@@ -44,8 +44,21 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
     private void BuildPageList(RenderTreeBuilder builder)
     {
         if (Model.QueryColumns.Count > 0)
-            builder.Div("kui-query", () => UI.BuildQuery(builder, Model));
+        {
+            builder.Div("kui-table-page", () =>
+            {
+                builder.Div("kui-query", () => UI.BuildQuery(builder, Model));
+                BuildTable(builder);
+            });
+        }
+        else
+        {
+            BuildTable(builder);
+        }
+    }
 
+    private void BuildTable(RenderTreeBuilder builder)
+    {
         builder.Div("kui-table", () =>
         {
             if (Model.Tab.HasItem)

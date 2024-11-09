@@ -34,16 +34,7 @@ public static class Extension
             new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known.AntBlazor/css/size/compact.css" }
         ];
         UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
-        UIConfig.FillHeightScript = @"
-var height = $('.kui-body').outerHeight(true);
-$('.kui-body .kui-card').css('height', (height-20)+'px');
-height -= ($('.kui-body .kui-query').outerHeight(true) || 0);
-height -= ($('.kui-body .kui-toolbar').outerHeight(true) || 0);
-height -= ($('.kui-body .ant-tabs-nav').outerHeight(true) || 0);
-$('.kui-body .ant-tabs-tabpane .kui-card').css('height', (height-20)+'px');
-height -= ($('.kui-body .ant-table-pagination').outerHeight(true) || 0);
-$('.kui-body .ant-table-body').css('height', (height-58.5)+'px');
-$('.Compact .kui-body .ant-table-body').css('height', (height-49.5)+'px');";
+        UIConfig.FillHeightScript = "$('.kui-layout .ant-table-body').height($('.kui-layout .ant-table-body').height()+'px')";
     }
 }
 

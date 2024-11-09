@@ -16,28 +16,21 @@ class WebPage : BaseComponent
 			return;
 
 		if (Model.Type == PageType.None)
-		{
-			foreach (var item in Model.Items)
-			{
-				builder.Fragment(item.Content);
-			}
-		}
+            BuildItems(builder);
 		else if (Model.Type == PageType.Column)
-		{
-            builder.Div($"kui-row-{Model.Spans}", () =>
-            {
-				foreach(var item in Model.Items)
-				{
-                    builder.Div(item.ClassName, () => builder.Fragment(item.Content));
-                }
-            });
-        }
+            builder.Div($"kui-row-{Model.Spans}", () => BuildItems(builder));
 		else if (Model.Type == PageType.Row)
-		{
-			foreach (var item in Model.Items)
-			{
-				builder.Div(item.ClassName, () => builder.Fragment(item.Content));
-			}
-		}
-	}
+            BuildItems(builder);
+    }
+
+    private void BuildItems(RenderTreeBuilder builder)
+    {
+        foreach (var item in Model.Items)
+        {
+            if (!string.IsNullOrWhiteSpace(item.ClassName))
+                builder.Div(item.ClassName, () => builder.Fragment(item.Content));
+            else
+                builder.Fragment(item.Content);
+        }
+    }
 }

@@ -48,8 +48,8 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         builder.Div("kui-row-28", () =>
         {
-            builder.Div("kui-card kui-dictionary", () => BuildListBox(builder));
-            builder.Div(() => base.BuildPage(builder));
+            builder.Div("kui-card", () => BuildListBox(builder));
+            base.BuildPage(builder);
         });
     }
 

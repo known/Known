@@ -40,7 +40,7 @@ public class SysUserList : BasePage<SysUser>
                 SelectedKeys = [currentOrg.Id]
             };
 
-            Page.AddItem("kui-card", BuildTree);
+            Page.AddItem("kui-card kui-p10", BuildTree);
         }
 
         Table = new TableModel<SysUser>(this)
@@ -62,7 +62,7 @@ public class SysUserList : BasePage<SysUser>
     /// <returns></returns>
     public override Task RefreshAsync() => Table.RefreshAsync();
 
-    private void BuildTree(RenderTreeBuilder builder) => builder.Div("kui-p10", () => UI.BuildTree(builder, Tree));
+    private void BuildTree(RenderTreeBuilder builder) => UI.BuildTree(builder, Tree);
     private void BuildTable(RenderTreeBuilder builder) => builder.Table(Table);
 
     private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)

@@ -65,7 +65,7 @@ public class AntMenu : Menu
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
     {
-        if (item.Url.StartsWith("http"))
+        if (!string.IsNullOrWhiteSpace(item.Url) && item.Url.StartsWith("http"))
         {
             builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)

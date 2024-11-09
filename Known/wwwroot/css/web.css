@@ -21,7 +21,8 @@
 .kui-header, .kui-logo {border-bottom:1px solid var(--kui-border-color);}
 .kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
-.kui-query {margin-bottom:10px;padding:10px 20px 0 20px;}
+.kui-body, .kui-table-page, .kui-table {display:grid;}
+.kui-query {margin-bottom:10px;padding:10px 10px 0 10px;}
 .kui-title {font-size:1rem;font-weight:bold;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
@@ -47,11 +48,12 @@
     font-weight:bold;margin-top:0.9rem;margin-bottom:0.9rem;text-align:center;line-height:1.8rem;font-size:1.3rem;
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
+.kui-card {height:100%;}
 
 /*Grid*/
-.kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;}
+.kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
 .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
-    display:grid;gap:10px;padding-right:10px;
+    display:grid;gap:10px;padding-right:10px;height:100%;
 }
 .kui-row-19 {grid-template-columns:10% 90%;}
 .kui-row-28 {grid-template-columns:20% 80%;}

@@ -23,7 +23,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
-        Page.AddItem("kui-card", BuildTree);
+        Page.AddItem("kui-card kui-p10", BuildTree);
         Page.AddItem(BuildTable);
 
         tree = new TreeModel
@@ -65,7 +65,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
         await table.RefreshAsync();
     }
 
-    private void BuildTree(RenderTreeBuilder builder) => builder.Div("kui-p10", () => UI.BuildTree(builder, tree));
+    private void BuildTree(RenderTreeBuilder builder) => UI.BuildTree(builder, tree);
     private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
 
     private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
