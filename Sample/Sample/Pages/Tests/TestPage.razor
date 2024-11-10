@@ -6,6 +6,7 @@
 <h1>@Id</h1>
 <AntSelectCode DataSource="Texts" Placeholder="请选择测试文本" />
 <Button OnClick="OnClick">弹窗</Button>
+<Button OnClick="ShowEnumForm">显示Enum字段表单</Button>
 <Button OnClick="ShowDictionaryForm">显示Dictionary表单</Button>
 <TestForm @ref="form" Model="model" />
 <Button Type="@ButtonType.Primary" OnClick="OnSave">确定</Button>
@@ -47,6 +48,23 @@
 
     private void OnSave() => model.SaveAsync();
 
+    private void ShowEnumForm()
+    {
+        var form = new FormModel<TestEntity>(this)
+        {
+            Title = "枚举实体",
+            Data = new TestEntity(),
+            OnSave = d =>
+            {
+                UI.Alert(d.Type.ToString());
+                return Known.Result.SuccessAsync("保存成功！");
+            }
+        };
+        form.AddRow().AddColumn(c => c.Name);
+        form.AddRow().AddColumn(c => c.Type, c => c.Type = FieldType.RadioList);
+        UI.ShowForm(form);
+    }
+
     private void ShowDictionaryForm()
     {
         var data = new Dictionary<string, object>
@@ -61,7 +79,7 @@
             OnSave = d =>
             {
                 UI.Alert(d["Name"].ToString());
-                return Known.Result.SuccessAsync("");
+                return Known.Result.SuccessAsync("保存成功！");
             }
         };
         form.AddRow().AddColumn(new ColumnInfo { Id = "Id", Label = "编号", Type = FieldType.Number });

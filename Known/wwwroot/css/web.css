@@ -147,6 +147,7 @@
     border-radius:50px 0;/*border-radius:0 0 100% 100% / 0 0 8% 8%;*/
 }
 .kui-install-form {border-radius:5px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);padding:20px;width:500px;height:400px;margin:0 auto;}
+.kui-install-form .kui-form-action {margin-top:10px;}
 .kui-install-foot {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .kui-install-foot span {margin:0 5px;}
 

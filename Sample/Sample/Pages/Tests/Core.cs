@@ -2,6 +2,14 @@
 
 namespace Sample.Pages.Tests;
 
+public class TestEntity : EntityBase
+{
+    public string Name { get; set; }
+
+    [Category(nameof(ApplyType))]
+    public string Type { get; set; }
+}
+
 public class TestInfo
 {
     public string Text { get; set; }

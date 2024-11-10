@@ -6,13 +6,23 @@
     <title>WinApp</title>
     <base href="/" />
     <link rel="stylesheet" href="_content/AntDesign/css/ant-design-blazor.css" />
-    <link rel="stylesheet" href="_content/Known.AntBlazor/css/web.css" />
+    <link rel="stylesheet" href="_content/Known.AntBlazor/css/theme/default.css" />
+    <link rel="stylesheet" href="_content/Known.AntBlazor/css/size/default.css" />
+    <link rel="stylesheet" href="_content/Known.AntBlazor/css/antblazor.css" />
     <link rel="stylesheet" href="_content/Known.Designer/css/web.css" />
     <link rel="stylesheet" href="_content/Known/css/web.css" />
     <link rel="stylesheet" href="_content/Sample.Web/css/app.css" />
 </head>
 <body>
-    <div id="app" style="width:100%;height:100%;"></div>
+    <div id="app" style="width:100%;height:100%;">
+        <div class="loading"></div>
+    </div>
+    <script src="_content/Known/js/libs/jquery.js"></script>
+    <script src="_content/Known/js/libs/pdfobject.js"></script>
+    <script src="_content/Known/js/libs/barcode.js"></script>
+    <script src="_content/Known/js/libs/qrcode.js"></script>
+    <script src="_content/Known/js/libs/prism.js"></script>
+    <script src="_content/Known/js/web.js"></script>
     <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
     <script src="_framework/blazor.webview.js"></script>
 </body>

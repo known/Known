@@ -2,6 +2,31 @@
 
 static class PropertyExtension
 {
+    internal static Type GetFieldPropertyType(this PropertyInfo property)
+    {
+        //if (property?.PropertyType?.IsEnum == true)
+        //    return typeof(string);
+
+        return property?.PropertyType;
+    }
+
+    internal static object GetFieldValue(this PropertyInfo property, object data)
+    {
+        var value = property?.GetValue(data);
+        //if (property?.PropertyType?.IsEnum == true)
+        //    value = value?.ToString();
+        return value;
+    }
+
+    internal static void SetFieldValue(this PropertyInfo property, object data, object value)
+    {
+        //var type = property?.PropertyType;
+        //if (type?.IsEnum == true)
+        //    property?.SetValue(data, Utils.ConvertTo(type, value));
+        //else
+            property?.SetValue(data, value);
+    }
+
     internal static void Validate(this PropertyInfo property, Language language, object value, List<string> errors)
     {
         var label = property.DisplayName();
