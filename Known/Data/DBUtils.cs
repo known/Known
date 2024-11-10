@@ -41,23 +41,24 @@ public sealed class DbUtils
     /// <summary>
     /// 将匿名参数对象转换成字典对象。
     /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="value">匿名参数对象。</param>
     /// <returns>字典对象。</returns>
-    public static Dictionary<string, object> ToDictionary(object value)
+    public static Dictionary<string, object> ToDictionary<T>(T value)
     {
         if (value is Dictionary<string, object> dictionary)
             return dictionary;
 
-        if (TypeHelper.IsAnonymousType(value))
+        if (value != null && TypeHelper.IsAnonymousType(value))
             return Utils.MapTo<Dictionary<string, object>>(value);
 
         var dic = new Dictionary<string, object>();
-        var properties = TypeHelper.Properties(value.GetType());
+        var properties = TypeHelper.Properties(typeof(T));
         foreach (var item in properties)
         {
             if (item.CanRead && !item.GetMethod.IsVirtual)
             {
-                dic[item.Name] = item.GetValue(value, null);
+                dic[item.Name] = value == null ? null : item.GetValue(value, null);
             }
         }
         return dic;

@@ -107,7 +107,7 @@ class DbProvider
     {
         var tableName = GetTableName(typeof(T));
         var cmdParams = DbUtils.ToDictionary(data);
-        var changes = new Dictionary<string, object>();
+        var changes = data == null ? cmdParams : [];
         foreach (var item in cmdParams)
         {
             if (item.Value != null)

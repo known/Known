@@ -6,6 +6,7 @@
 <h1>@Id</h1>
 <AntSelectCode DataSource="Texts" Placeholder="请选择测试文本" />
 <Button OnClick="OnClick">弹窗</Button>
+<Button OnClick="ShowDictionaryForm">显示Dictionary表单</Button>
 <TestForm @ref="form" Model="model" />
 <Button Type="@ButtonType.Primary" OnClick="OnSave">确定</Button>
 
@@ -45,4 +46,26 @@
     }
 
     private void OnSave() => model.SaveAsync();
+
+    private void ShowDictionaryForm()
+    {
+        var data = new Dictionary<string, object>
+        {
+            ["Id"] = 1,
+            ["Name"] = ""
+        };
+        var form = new FormModel<Dictionary<string, object>>(this)
+        {
+            Title = "字典表单",
+            Data = data,
+            OnSave = d =>
+            {
+                UI.Alert(d["Name"].ToString());
+                return Known.Result.SuccessAsync("");
+            }
+        };
+        form.AddRow().AddColumn(new ColumnInfo { Id = "Id", Label = "编号", Type = FieldType.Number });
+        form.AddRow().AddColumn(new ColumnInfo { Id = "Name", Label = "名称", Type = FieldType.Text });
+        UI.ShowForm(form);
+    }
 }

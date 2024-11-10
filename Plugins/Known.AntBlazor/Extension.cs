@@ -23,7 +23,7 @@ public static class Extension
 
         Config.AddModule(typeof(Extension).Assembly);
 
-        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.variable.css");
+        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
         KStyleSheet.AddStyle("_content/Known.AntBlazor/css/theme/default.css");
         KStyleSheet.AddStyle("_content/Known.AntBlazor/css/size/default.css");
         KStyleSheet.AddStyle("_content/Known.AntBlazor/css/antblazor.css");
