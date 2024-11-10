@@ -8,11 +8,6 @@ public class UIConfig
     private UIConfig() { }
 
     /// <summary>
-    /// 取得或设置页面高度自适应JS脚本。
-    /// </summary>
-    public static string FillHeightScript { get; set; }
-
-    /// <summary>
     /// 取得或设置系统字体大小下拉项列表。
     /// </summary>
     public static List<ActionInfo> Sizes { get; set; } = [];

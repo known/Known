@@ -42,6 +42,13 @@ public static class Extension
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         KStyleSheet.AddStyle("_content/Known/css/web.css");
+        KScript.AddScript("_content/Known/js/libs/jquery.js");
+        KScript.AddScript("_content/Known/js/libs/pdfobject.js");
+        //KScript.AddScript("_content/Known/js/libs/highcharts.js");
+        KScript.AddScript("_content/Known/js/libs/barcode.js");
+        KScript.AddScript("_content/Known/js/libs/qrcode.js");
+        KScript.AddScript("_content/Known/js/libs/prism.js");
+        KScript.AddScript("_content/Known/js/web.js");
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
         if (!string.IsNullOrWhiteSpace(content))

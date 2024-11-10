@@ -34,7 +34,6 @@ public static class Extension
             new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known.AntBlazor/css/size/compact.css" }
         ];
         UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
-        UIConfig.FillHeightScript = "$('.kui-layout .ant-table-body').height($('.kui-layout .ant-table-body').height()+'px')";
     }
 }
 
@@ -43,11 +42,6 @@ public static class Extension
 /// </summary>
 public class AntDesignOption
 {
-    /// <summary>
-    /// 取得或设置是否显示页面页脚组件。
-    /// </summary>
-    public bool ShowFooter { get; set; }
-
     /// <summary>
     /// 取得或设置页面页脚组件。
     /// </summary>

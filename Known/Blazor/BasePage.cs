@@ -33,7 +33,7 @@ public class BasePage : BaseComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        await JS.RunVoidAsync(UIConfig.FillHeightScript);
+        await JSRuntime.FillPageHeightAsync();
     }
 
     /// <summary>

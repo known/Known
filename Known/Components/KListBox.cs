@@ -50,7 +50,7 @@ public class KListBox : BaseComponent
             if (ShowSearch)
                 BuildSearch(builder);
 
-            var style = ShowSearch ? $"top:42px" : "";
+            var style = ShowSearch ? $"top:32px" : "";
             builder.Ul().Class("kui-list-box-body").Style(style).Children(() =>
             {
                 if (items != null && items.Count > 0)

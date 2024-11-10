@@ -50,6 +50,7 @@
             Model.Current = current;
             OnChange?.Invoke(current);
             Model.Change();
+            await JSRuntime.FillPageHeightAsync();
         }
     }
 }

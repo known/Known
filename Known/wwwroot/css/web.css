@@ -21,12 +21,12 @@
 .kui-header, .kui-logo {border-bottom:1px solid var(--kui-border-color);}
 .kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
-.kui-body, .kui-table-page, .kui-table {display:grid;}
 .kui-query {margin-bottom:10px;padding:10px 10px 0 10px;}
 .kui-title {font-size:1rem;font-weight:bold;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-toolbar {margin-bottom:10px;padding:0 10px;border-bottom:1px solid #f0f0f0;}
+.kui-toolbar {margin-bottom:10px;padding:5px 10px;border-bottom:1px solid #f0f0f0;}
+.kui-table.form-list .kui-toolbar {border-bottom:none;}
 .kui-table .setting {margin-left:5px;cursor:pointer;font-size:18px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}

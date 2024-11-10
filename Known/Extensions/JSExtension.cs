@@ -24,6 +24,16 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步自动填充页面高度。
+    /// </summary>
+    /// <param name="js">JS运行时。</param>
+    /// <returns></returns>
+    public static ValueTask FillPageHeightAsync(this IJSRuntime js)
+    {
+        return js.InvokeVoidAsync("K_TableAutoFill");
+    }
+
+    /// <summary>
     /// 异步获取浏览器会话存储的当前用户信息。
     /// </summary>
     /// <param name="js">JS服务。</param>

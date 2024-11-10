@@ -71,6 +71,8 @@
 .ant-table-wrapper {padding:0 10px;}
 .ant-table .ant-tag {cursor:pointer;}
 .ant-table-thead > tr > th {font-weight:bold;}
+.ant-table-tbody > tr > td.kui-table-action > div > a {padding:0 5px;}
+.ant-table.ant-table-small .ant-table-tbody > tr > td {padding:3px 5px;}
 .ant-table-pagination.ant-pagination {margin:10px 0;}
 .ant-toolbar {display:flex;gap:3px;}
 
@@ -84,29 +86,6 @@
 
 .kui-tab-form .ant-modal-body {padding-top:0;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
-
-.kui-layout .kui-body > .kui-card,
-.kui-layout .kui-body .ant-tabs-content-holder,
-.kui-layout .kui-body .ant-tabs-content,
-.kui-layout .kui-table .ant-table,
-.kui-layout .kui-table .ant-table-container,
-.kui-layout .kui-table .ant-spin-nested-loading,
-.kui-layout .kui-table .ant-spin-nested-loading > div,
-.kui-layout .kui-table > .ant-table-wrapper,
-.kui-layout .kui-table > .ant-table-wrapper .ant-spin-container {display:grid;}
-.kui-layout .kui-table > .ant-table-wrapper {grid-template-rows:0 auto 0;}
-.kui-layout .kui-table > .ant-table-wrapper .ant-spin-container {grid-template-rows:auto 50px;}
-.kui-layout .kui-table .ant-table-container {grid-template-rows:39px auto;}
-.Compact .kui-layout .kui-table .ant-table-container {grid-template-rows:30px auto;}
-.kui-table-page {grid-template-rows:62px auto;}
-.Compact .kui-table-page {grid-template-rows:56px auto;}
-.kui-table {grid-template-rows:56px auto;}
-.Compact .kui-table {grid-template-rows:48px auto;}
-.kui-table .ant-tabs-nav {margin:0;margin-bottom:10px;}
-.kui-table > .kui-toolbar,
-.kui-table > .ant-tabs > .ant-tabs-nav {height:46px;}
-.Compact .kui-table > .kui-toolbar,
-.Compact .kui-table > .ant-tabs > .ant-tabs-nav {height:38px;}
 
 .kui-login .ant-tabs-nav {margin-bottom:24px;}
 
