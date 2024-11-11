@@ -13,6 +13,8 @@
     height -= KUtils.getHeight(parent + ' .ant-tabs-nav');
     height -= KUtils.getHeight(parent + ' .ant-table-header');
     height -= KUtils.getHeight(parent + ' .ant-table-pagination', 10);
+    if (height < 200)
+        height = 200;
     table.height(height + 'px');
     table.data('autofill', true);
 }

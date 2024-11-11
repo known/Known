@@ -28,6 +28,7 @@
 .kui-designer .panel-view .view {height:250px;overflow:auto;padding:10px;background-color:#f0f2f5;}
 .kui-designer .panel-view .setting-row {display:grid;grid-template-columns:33% 33% 34%;padding-top:10px;margin-bottom:10px;}
 .kui-designer .panel-view .setting .item {display:grid;grid-template-columns:80px auto;height:32px;align-items:center;margin:0 10px 10px 0;}
+.kui-designer .panel-view .setting .ant-tabs-extra-content {gap:5px;}
 .kui-designer .list-view {padding:10px 10px 0 10px;}
 .kui-designer form {padding-right:50px;background-color:var(--kui-bgcolor);}
 .kui-designer .ant-tabs-content-holder {padding:0;}

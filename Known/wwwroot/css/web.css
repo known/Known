@@ -21,11 +21,11 @@
 .kui-header, .kui-logo {border-bottom:1px solid var(--kui-border-color);}
 .kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
-.kui-query {margin-bottom:10px;padding:10px 10px 0 10px;}
+.kui-query {margin-bottom:10px;padding:10px;}
 .kui-title {font-size:1rem;font-weight:bold;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-toolbar {margin-bottom:10px;padding:5px 10px;border-bottom:1px solid #f0f0f0;}
+.kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid #f0f0f0;}
 .kui-table.form-list .kui-toolbar {border-bottom:none;}
 .kui-table .setting {margin-left:5px;cursor:pointer;font-size:18px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
@@ -74,7 +74,7 @@
 .kui-form-content {padding:10px;}
 .kui-form-action {text-align:right;}
 .kui-form-action button {margin-left:8px;}
-.kui-form-page {padding:10px 50px 20px 0;}
+.kui-form-page {padding:24px 50px 20px 0;}
 .kui-form-page-button {margin-left:var(--kui-form-label-width);}
 .kui-form-page-button button {margin-right:10px;}
 .kui-form-button {margin-left:200px;}
@@ -125,12 +125,13 @@
     .kui-logo {margin-left:6px;}
     .kui-app-name {display:none;}
     .kui-header {flex-direction:column;padding:0;}
-    .kui-nav {justify-content:flex-end;margin:10px 0 0 0;padding:10px;}
+    .kui-nav {justify-content:flex-end;gap:8px;margin:5px 0 0 0;padding:5px;}
     .kui-form-page {padding:10px 10px 20px 10px;}
     .kui-form-page-button {margin-left:0;}
     .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
         grid-template-columns:100%;grid-row-gap:10px;padding-right:0;
     }
+    .kui-card {min-height:200px;}
     .kui-table > .kui-toolbar {height:auto;}
     .kui-toolbar {align-items:start;}
     .kui-toolbar > div {flex-direction:column;align-items:start;}
