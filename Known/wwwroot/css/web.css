@@ -117,7 +117,8 @@
 .kui-icon-picker .item .name {display:block;font-size:1rem;height:1rem;line-height:1rem;overflow:hidden;}
 
 /*Flow*/
-.kui-flow .kui-group-box {padding:10px;background-color:var(--kui-bgcolor);}
+.kui-flow {margin-bottom:10px;}
+.kui-flow .kui-group-box {background-color:var(--kui-bgcolor);}
 .kui-flow .kui-group-box .legend {font-weight:bold;font-size:1.1rem;}
 
 @media screen and (max-width:768px) {

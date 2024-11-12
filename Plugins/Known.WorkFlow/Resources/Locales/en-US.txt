@@ -1,0 +1,19 @@
+﻿{
+  "Flow.Open": "Open",
+  "Flow.Over": "Over",
+  "Flow.Stop": "Stop",
+  "Flow.Create": "Create",
+  "Flow.Submit": "Submit",
+  "Flow.Revoke": "Revoke",
+  "Flow.Verify": "Verify",
+  "Flow.Assign": "Assign",
+  "Flow.Stopped": "Stopped",
+  "Flow.Restart": "Restart",
+  "Flow.End": "End",
+  "Flow.Save": "Save",
+  "Flow.Revoked": "Revoked",
+  "Flow.Verifing": "Verifing",
+  "Flow.Pass": "Pass",
+  "Flow.Fail": "Fail",
+  "Flow.Reapply": "Reapply"
+}

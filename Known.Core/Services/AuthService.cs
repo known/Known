@@ -2,8 +2,6 @@
 
 class AuthService(Context context) : ServiceBase(context), IAuthService
 {
-    private static readonly ConcurrentDictionary<string, UserInfo> cachedUsers = new();
-
     //Account
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
@@ -29,7 +27,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
         await database.CloseAsync();
-        cachedUsers[user.UserName] = user;
+        Cache.SetUser(user);
 
         var type = LogType.Login.ToString();
         if (info.IsMobile)
@@ -43,31 +41,18 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         }, user);
     }
 
-    public async Task<Result> SignOutAsync(string token)
+    public async Task<Result> SignOutAsync()
     {
         var user = CurrentUser;
-        if (string.IsNullOrWhiteSpace(token))
-            token = user?.Token;
-
-        if (!string.IsNullOrWhiteSpace(token))
-            cachedUsers.TryRemove(token, out UserInfo _);
-
+        Cache.RemoveUser(user);
         if (user != null)
         {
             using var db = Database.Create();
             db.User = user;
-            await AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {token}");
+            await AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {user.Token}");
         }
 
         return Result.Success(Language["Tip.ExitSuccess"]);
-    }
-
-    internal static UserInfo GetUserByToken(string token)
-    {
-        if (string.IsNullOrWhiteSpace(token))
-            return null;
-
-        return cachedUsers.Values.FirstOrDefault(u => u.Token == token);
     }
 
     internal static async Task<UserInfo> GetUserAsync(Database db, string userName)
@@ -76,11 +61,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             return null;
 
         userName = userName.Split('-')[0];
-        cachedUsers.TryGetValue(userName, out UserInfo user);
+        var user = Cache.GetUser(userName);
         if (user == null)
         {
             user = await UserHelper.GetUserByUserNameAsync(db, userName);
-            cachedUsers[user.UserName] = user;
+            Cache.SetUser(user);
         }
         return user;
     }
@@ -100,12 +85,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var info = new AdminInfo
         {
             AppName = await UserHelper.GetSystemNameAsync(database),
-            MessageCount = await database.CountAsync<SysMessage>(d => d.UserId == database.User.UserName && d.Status == Constant.UMStatusUnread),
             UserMenus = await UserHelper.GetUserMenusAsync(database, modules),
             UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(database, Constant.UserSetting),
-            UserTableSettings = await SettingService.GetUserTableSettingsAsync(database),
-            Codes = await DictionaryService.GetDictionariesAsync(database)
+            UserTableSettings = await SettingService.GetUserTableSettingsAsync(database)
         };
+        await SetAdminAsync(database, info);
         await database.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
@@ -144,6 +128,17 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     {
         password = Utils.ToMd5(password);
         return db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
+    }
+
+    private static async Task SetAdminAsync(Database db, AdminInfo info)
+    {
+        if (Config.AdminTasks == null || Config.AdminTasks.Count == 0)
+            return;
+
+        foreach (var item in Config.AdminTasks)
+        {
+            await item.Value.Invoke(db, info);
+        }
     }
 
     private static Task AddLogAsync(Database db, string type, string target, string content)

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Authors>KnownChen</Authors>
+        <Description>Known.Weixin是基于Known开发的简易微信功能模块。</Description>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <Version>1.0.0</Version>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>Known, Weixin, Blazor</PackageTags>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
+        <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <ProjectReference Include="..\..\Known\Known.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\icon.png" />
+        <None Update="..\..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+</Project>

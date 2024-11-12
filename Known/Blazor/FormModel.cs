@@ -35,9 +35,10 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     }
 
     internal bool IsDictionary { get; }
-    internal BaseComponent Page { get; }
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
+
+    public BaseComponent Page { get; }
 
     /// <summary>
     /// 取得或设置表单标题。
@@ -196,7 +197,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
-    internal FormViewType FormType { get; set; }
+    public FormViewType FormType { get; set; }
 
     internal List<CodeInfo> GetCodes(ColumnInfo column)
     {
@@ -422,7 +423,7 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         HandleResult(result, isClose, isContinue);
     }
 
-    internal void HandleResult(Result result, bool isClose = true, bool isContinue = false)
+    public void HandleResult(Result result, bool isClose = true, bool isContinue = false)
     {
         UI.Result(result, async () =>
         {
@@ -636,4 +637,4 @@ public class FormRow<TItem> where TItem : class, new()
     }
 }
 
-enum FormViewType { View, Submit, Verify }
+public enum FormViewType { View, Submit, Verify }

@@ -7,6 +7,7 @@ public sealed class Cache
 {
     private static readonly string KeyCodes = $"Known_Codes_{Config.App.Id}";
     private static readonly ConcurrentDictionary<string, object> cached = new();
+    private static readonly ConcurrentDictionary<string, UserInfo> cachedUsers = new();
 
     private Cache() { }
 
@@ -53,6 +54,36 @@ public sealed class Cache
             return;
 
         cached.TryRemove(key, out object _);
+    }
+
+    public static UserInfo GetUser(string key)
+    {
+        cachedUsers.TryGetValue(key, out UserInfo user);
+        return user;
+    }
+
+    public static UserInfo GetUserByToken(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+            return null;
+
+        return cachedUsers.Values.FirstOrDefault(u => u.Token == token);
+    }
+
+    public static void SetUser(UserInfo user)
+    {
+        if (user == null)
+            return;
+
+        cachedUsers[user.UserName] = user;
+    }
+
+    public static void RemoveUser(UserInfo user)
+    {
+        if (user == null)
+            return;
+
+        cachedUsers.TryRemove(user.UserName, out UserInfo _);
     }
 
     /// <summary>

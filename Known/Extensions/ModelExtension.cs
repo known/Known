@@ -67,7 +67,13 @@ public static class ModelExtension
     #endregion
 
     #region Module
-    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
+    /// <summary>
+    /// 将系统模块信息列表转成树形结构。
+    /// </summary>
+    /// <param name="models">系统模块信息列表。</param>
+    /// <param name="showRoot">是否显示根节点。</param>
+    /// <returns>树形菜单列表。</returns>
+    public static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
     {
         MenuInfo current = null;
         return models.ToMenuItems(ref current, showRoot);
@@ -128,51 +134,60 @@ public static class ModelExtension
     }
     #endregion
 
-    #region Organization
-    internal static List<MenuInfo> ToMenuItems(this List<SysOrganization> models)
+    #region File
+    /// <summary>
+    /// 将附件数据转换成附件类的实例。
+    /// </summary>
+    /// <param name="file">附件信息。</param>
+    /// <param name="user">当前用户信息。</param>
+    /// <param name="form">附件表单信息。</param>
+    /// <returns></returns>
+    public static AttachFile ToAttachFile(this FileDataInfo file, UserInfo user, FileFormInfo form)
     {
-        MenuInfo current = null;
-        return models.ToMenuItems(ref current);
+        return new AttachFile(file, user, form.BizType, form.BizPath) { Category2 = form.Category };
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<SysOrganization> models, ref MenuInfo current)
+    /// <summary>
+    /// 获取附件字段的文件对象列表。
+    /// </summary>
+    /// <param name="files">表单的附件字典。</param>
+    /// <param name="user">当前用户。</param>
+    /// <param name="key">字段名。</param>
+    /// <param name="bizType">业务类型。</param>
+    /// <param name="bizPath">业务路径。</param>
+    /// <returns>文件对象列表。</returns>
+    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
+
+    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, FileFormInfo form)
     {
-        var menus = new List<MenuInfo>();
-        if (models == null || models.Count == 0)
-            return menus;
+        if (files == null || files.Count == 0)
+            return null;
 
-        var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Code).ToList();
-        foreach (var item in tops)
+        if (!files.TryGetValue(key, out List<FileDataInfo> value))
+            return null;
+
+        var attaches = new List<AttachFile>();
+        foreach (var item in value)
         {
-            var menu = new MenuInfo(item);
-            if (current != null && current.Id == menu.Id)
-                current = menu;
-
-            menus.Add(menu);
-            AddChildren(models, menu, ref current);
+            var attach = item.ToAttachFile(user, form);
+            attaches.Add(attach);
         }
-
-        current ??= menus[0];
-        return menus;
+        return attaches;
     }
+    #endregion
 
-    private static void AddChildren(List<SysOrganization> models, MenuInfo menu, ref MenuInfo current)
+    #region Flow
+    /// <summary>
+    /// 获取工作流步骤项目列表。
+    /// </summary>
+    /// <param name="info">工作流配置信息。</param>
+    /// <returns>步骤项目列表。</returns>
+    public static List<ItemModel> GetFlowStepItems(this FlowInfo info)
     {
-        var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Code).ToList();
-        if (items == null || items.Count == 0)
-            return;
+        if (info == null || info.Steps == null || info.Steps.Count == 0)
+            return null;
 
-        foreach (var item in items)
-        {
-            item.ParentName = menu.Name;
-            var sub = new MenuInfo(item);
-            sub.Parent = menu;
-            if (current != null && current.Id == sub.Id)
-                current = sub;
-
-            menu.Children.Add(sub);
-            AddChildren(models, sub, ref current);
-        }
+        return info.Steps.Select(s => new ItemModel(s.Id, s.Name)).ToList();
     }
     #endregion
 }

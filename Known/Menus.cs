@@ -45,15 +45,6 @@ public class MenuInfo
         Columns = module.Columns;
     }
 
-    internal MenuInfo(SysOrganization model) : this()
-    {
-        Id = model.Id;
-        ParentId = model.ParentId;
-        Code = model.Code;
-        Name = model.Name;
-        Data = model;
-    }
-
     internal MenuInfo(MenuInfo model) : this()
     {
         Id = model.Id;
@@ -231,32 +222,6 @@ public class MenuInfo
 
         return Url == url || Url == $"/{page}" || Id == page;
     }
-
-    internal List<CodeInfo> GetAllActions()
-    {
-        var codes = new List<CodeInfo>();
-        if (Tools != null && Tools.Count > 0)
-            codes.AddRange(Tools.Select(b => GetAction(this, b)));
-        if (Actions != null && Actions.Count > 0)
-            codes.AddRange(Actions.Select(b => GetAction(this, b)));
-        return codes;
-    }
-
-    internal List<CodeInfo> GetAllColumns()
-    {
-        var codes = new List<CodeInfo>();
-        if (Columns != null && Columns.Count > 0)
-            codes.AddRange(Columns.Select(b => new CodeInfo($"c_{Id}_{b.Id}", b.Name)));
-        return codes;
-    }
-
-    private static CodeInfo GetAction(MenuInfo menu, string id)
-    {
-        var code = $"b_{menu.Id}_{id}";
-        var button = Config.Actions.FirstOrDefault(b => b.Id == id);
-        var name = button != null ? button.Name : id;
-        return new CodeInfo(code, name);
-    }
 }
 
 /// <summary>
@@ -295,11 +260,6 @@ public class ActionInfo
             Icon = info.Icon;
             Style = info.Style;
         }
-    }
-
-    internal ActionInfo(Context context, string idOrName, string icon) : this(context, idOrName)
-    {
-        Icon = icon;
     }
 
     /// <summary>

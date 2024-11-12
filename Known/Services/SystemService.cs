@@ -66,34 +66,6 @@ public interface ISystemService : IService
     Task<Result> SaveKeyAsync(SystemInfo info);
 
     /// <summary>
-    /// 异步分页查询系统后台任务。
-    /// </summary>
-    /// <param name="criteria">查询条件对象。</param>
-    /// <returns>分页结果。</returns>
-    Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria);
-
-    /// <summary>
-    /// 异步删除系统后台任务。
-    /// </summary>
-    /// <param name="models">系统后台任务列表。</param>
-    /// <returns>删除结果。</returns>
-    Task<Result> DeleteTasksAsync(List<SysTask> models);
-
-    /// <summary>
-    /// 异步重置系统后台任务。
-    /// </summary>
-    /// <param name="models">系统后台任务列表。</param>
-    /// <returns>重置结果。</returns>
-    Task<Result> ResetTasksAsync(List<SysTask> models);
-
-    /// <summary>
-    /// 异步分页查询系统日志。
-    /// </summary>
-    /// <param name="criteria">查询条件对象。</param>
-    /// <returns>分页结果。</returns>
-    Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
-
-    /// <summary>
     /// 异步添加系统日志。
     /// </summary>
     /// <param name="log">系统日志</param>
@@ -145,26 +117,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     }
 
     public Task<Result> SaveKeyAsync(SystemInfo info)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Result> DeleteTasksAsync(List<SysTask> models)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Result> ResetTasksAsync(List<SysTask> models)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
     {
         throw new NotImplementedException();
     }

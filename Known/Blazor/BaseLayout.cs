@@ -56,6 +56,7 @@ public class BaseLayout : LayoutComponentBase
     protected IAuthService AuthService { get; private set; }
 
     internal ISystemService SystemService { get; private set; }
+    internal IPlatformService Platform { get; private set; }
 
     /// <summary>
     /// 异步初始化模板，初始化UI多语言实例和上下文对象，以及全局异常处理；子模板不要覆写该方法，应覆写 OnInitAsync。
@@ -68,6 +69,7 @@ public class BaseLayout : LayoutComponentBase
             await base.OnInitializedAsync();
             AuthService = await CreateServiceAsync<IAuthService>();
             SystemService = await CreateServiceAsync<ISystemService>();
+            Platform = await CreateServiceAsync<IPlatformService>();
             UI.Language = Language;
             Context.Initialize(this);
             if (Context.System == null)
@@ -147,7 +149,7 @@ public class BaseLayout : LayoutComponentBase
     public async Task SignOutAsync()
     {
         var user = await AuthProvider.GetUserAsync();
-        var result = await AuthService.SignOutAsync(user?.Token);
+        var result = await AuthService.SignOutAsync();
         if (result.IsValid)
         {
             Context.SignOut();

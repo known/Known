@@ -69,7 +69,7 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
 
-    internal virtual void ViewForm(FormViewType type, TItem row) { }
+    public virtual void ViewForm(FormViewType type, TItem row) { }
 }
 
 /// <summary>

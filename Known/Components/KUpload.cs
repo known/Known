@@ -5,7 +5,6 @@
 /// </summary>
 public class KUpload : BaseComponent
 {
-    private IFileService Service;
     private List<SysFile> sysFiles;
     private readonly List<FileDataInfo> files = [];
 
@@ -43,7 +42,7 @@ public class KUpload : BaseComponent
         if (string.IsNullOrWhiteSpace(Value))
             return;
 
-        sysFiles = await Service.GetFilesAsync(Value);
+        sysFiles = await Platform.GetFilesAsync(Value);
         await StateChangedAsync();
     }
 
@@ -58,16 +57,6 @@ public class KUpload : BaseComponent
     }
 
     /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Service = await CreateServiceAsync<IFileService>();
-    }
-
-    /// <summary>
     /// 上传组件呈现后，调用后端接口加载附件列表。
     /// </summary>
     /// <param name="firstRender">是否首次呈现。</param>
@@ -79,7 +68,7 @@ public class KUpload : BaseComponent
         {
             if (!string.IsNullOrWhiteSpace(Value))
             {
-                sysFiles = await Service.GetFilesAsync(Value);
+                sysFiles = await Platform.GetFilesAsync(Value);
                 await StateChangedAsync();
             }
         }
@@ -138,7 +127,7 @@ public class KUpload : BaseComponent
                 {
                     if (!ReadOnly)
                         builder.Span("kui-link kui-danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
-                    builder.Component<FileLink>().Set(c => c.Item, item).Build();
+                    builder.FileLink(item);
                 });
             }
         });
@@ -192,7 +181,7 @@ public class KUpload : BaseComponent
         var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
-            await Service.DeleteFileAsync(item);
+            await Platform.DeleteFileAsync(item);
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });

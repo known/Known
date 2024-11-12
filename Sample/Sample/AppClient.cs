@@ -1,18 +1,20 @@
-﻿//using Castle.DynamicProxy;
+﻿//using System.Security.Claims;
+//using Castle.DynamicProxy;
+//using Microsoft.AspNetCore.Components.Authorization;
 
 //namespace Sample;
 
 //static class AppClient
 //{
 //    private static readonly ProxyGenerator Generator = new();
-    
+
 //    internal static void AddSampleClient(this IServiceCollection services)
 //    {
 //        services.AddHttpClient();
-//        services.AddAuthorizationCore();
-//        services.AddCascadingAuthenticationState();
+//        //services.AddAuthorizationCore();
+//        //services.AddCascadingAuthenticationState();
 //        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-//        services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+//        //services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 //        services.AddSample();
 //        services.AddKnownClient(info =>
 //        {
@@ -52,7 +54,8 @@
 //    public override Task<AuthenticationState> GetAuthenticationStateAsync() => authenticationStateTask;
 
 //    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
-//    public Task SetUserAsync(UserInfo user) => js.SetUserInfoAsync(user);
+//    public Task SignInAsync(UserInfo user) => js.SetUserInfoAsync(user);
+//    public Task SignOutAsync() => js.SetUserInfoAsync(null);
 //}
 
 //class HttpClientInterceptor<T>(IServiceScopeFactory provider) : HttpInterceptor<T>(provider), IAsyncInterceptor where T : class

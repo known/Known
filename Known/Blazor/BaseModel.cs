@@ -12,7 +12,12 @@ public abstract class BaseModel(UIContext context)
     public UIContext Context { get; } = context;
 
     /// <summary>
-    /// 取得或设置注入的抽象UI服务实例。
+    /// 取得注入的平台服务实例。
+    /// </summary>
+    public IPlatformService Platform => Context?.Platform;
+
+    /// <summary>
+    /// 取得注入的抽象UI服务实例。
     /// </summary>
     public IUIService UI => Context?.UI;
 

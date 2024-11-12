@@ -115,6 +115,11 @@ public sealed class Config
     /// </summary>
     public static List<ActionInfo> Actions { get; } = [];
 
+    /// <summary>
+    /// 取得获取管理首页信息额外属性数据委托字典。
+    /// </summary>
+    public static Dictionary<string, Func<Database, AdminInfo, Task>> AdminTasks { get; } = [];
+
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
@@ -153,6 +158,8 @@ public sealed class Config
                 AddFieldType(item);
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
+            else if (item.IsAssignableTo(typeof(ImportBase)))
+                ImportHelper.ImportTypes[item.Name] = item;
 
             var routes = item.GetCustomAttributes<RouteAttribute>();
             if (routes != null && routes.Any())

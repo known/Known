@@ -30,16 +30,10 @@ public static partial class Extension
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
-        services.AddScoped<ICompanyService, CompanyService>();
-        services.AddScoped<IDictionaryService, DictionaryService>();
-        services.AddScoped<IFileService, FileService>();
-        services.AddScoped<IFlowService, FlowService>();
         services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<ISettingService, SettingService>();
         services.AddScoped<IModuleService, ModuleService>();
-        services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IWeixinService, WeixinService>();
     }
 
     /// <summary>

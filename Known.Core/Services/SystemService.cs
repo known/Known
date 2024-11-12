@@ -2,38 +2,9 @@
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
-    private const string KeySystem = "SystemInfo";
-
     //Config
-    public Task<string> GetConfigAsync(string key) => GetConfigAsync(Database, key);
-    public Task SaveConfigAsync(ConfigInfo info) => SaveConfigAsync(Database, info.Key, info.Value);
-
-    internal static async Task<T> GetConfigAsync<T>(Database db, string key)
-    {
-        var json = await GetConfigAsync(db, key);
-        return Utils.FromJson<T>(json);
-    }
-
-    internal static async Task<string> GetConfigAsync(Database db, string key)
-    {
-        var appId = Config.App.Id;
-        var config = await db.QueryAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
-        return config?.ConfigValue;
-    }
-
-    internal static async Task SaveConfigAsync(Database db, string key, object value)
-    {
-        var appId = Config.App.Id;
-        var data = new Dictionary<string, object>();
-        data[nameof(SysConfig.AppId)] = appId;
-        data[nameof(SysConfig.ConfigKey)] = key;
-        data[nameof(SysConfig.ConfigValue)] = Utils.ToJson(value);
-        var scalar = await db.CountAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
-        if (scalar > 0)
-            await db.UpdateAsync(nameof(SysConfig), "AppId,ConfigKey", data);
-        else
-            await db.InsertAsync(nameof(SysConfig), data);
-    }
+    public Task<string> GetConfigAsync(string key) => ConfigHelper.GetConfigAsync(Database, key);
+    public Task SaveConfigAsync(ConfigInfo info) => ConfigHelper.SaveConfigAsync(Database, info.Key, info.Value);
 
     //System
     public async Task<SystemInfo> GetSystemAsync()
@@ -42,7 +13,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             var database = Database;
             database.EnableLog = false;
-            var info = await GetSystemAsync(database);
+            var info = await ConfigHelper.GetSystemAsync(database);
             if (info != null)
             {
                 info.ProductKey = null;
@@ -138,7 +109,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             await db.DeleteAllAsync<SysModule>();
             await db.InsertAsync(modules);
-            await SaveConfigAsync(db, KeySystem, sys);
+            await ConfigHelper.SaveSystemAsync(db, sys);
             await SaveCompanyAsync(db, info, sys);
             await SaveOrganizationAsync(db, info);
             await SaveUserAsync(db, info);
@@ -226,28 +197,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     //System
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
-        var info = await GetSystemAsync(Database);
+        var info = await ConfigHelper.GetSystemAsync(Database);
         return new SystemDataInfo
         {
             System = info,
             Version = Config.Version,
             RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2)
         };
-    }
-
-    internal static async Task<SystemInfo> GetSystemAsync(Database db)
-    {
-        if (!Config.App.IsPlatform || db.User == null)
-        {
-            var json = await GetConfigAsync(db, KeySystem);
-            return Utils.FromJson<SystemInfo>(json);
-        }
-
-        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
-        if (company == null)
-            return GetSystem(db.User);
-
-        return Utils.FromJson<SystemInfo>(company.SystemData);
     }
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)
@@ -264,7 +220,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         }
         else
         {
-            await SaveConfigAsync(database, KeySystem, info);
+            await ConfigHelper.SaveSystemAsync(database, info);
         }
         return Result.Success(Language.Success(Language.Save));
     }
@@ -273,7 +229,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         var database = Database;
         AppHelper.SaveProductKey(info.ProductKey);
-        await SaveConfigAsync(database, KeySystem, info);
+        await ConfigHelper.SaveSystemAsync(database, info);
         return await CheckKeyAsync(database);
     }
 
@@ -290,67 +246,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         };
     }
 
-    private static SystemInfo GetSystem(UserInfo info)
-    {
-        return new SystemInfo
-        {
-            CompNo = info?.CompNo,
-            CompName = info?.CompName,
-            AppName = Config.App.Name
-        };
-    }
-
     internal static async Task<Result> CheckKeyAsync(Database db)
     {
-        var info = await GetSystemAsync(db);
+        var info = await ConfigHelper.GetSystemAsync(db);
         return Config.App.CheckSystemInfo(info);
     }
 
-    //Task
-    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
-    {
-        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(SysTask.CreateTime)} desc"];
-        return Database.QueryPageAsync<SysTask>(criteria);
-    }
-
-    public async Task<Result> DeleteTasksAsync(List<SysTask> models)
-    {
-        if (models == null || models.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
-
-        return await Database.TransactionAsync(Language.Delete, async db =>
-        {
-            foreach (var item in models)
-            {
-                await db.DeleteAsync(item);
-            }
-        });
-    }
-
-    public async Task<Result> ResetTasksAsync(List<SysTask> models)
-    {
-        if (models == null || models.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
-
-        return await Database.TransactionAsync(Language.Reset, async db =>
-        {
-            foreach (var item in models)
-            {
-                item.Status = SysTaskStatus.Pending;
-                await db.SaveAsync(item);
-            }
-        });
-    }
-
     //Log
-    public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
-    {
-        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(SysLog.CreateTime)} desc"];
-        return Database.QueryPageAsync<SysLog>(criteria);
-    }
-
     public async Task<Result> AddLogAsync(SysLog log)
     {
         var database = Database;

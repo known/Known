@@ -33,7 +33,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             foreach (var item in info.Data)
             {
                 var id = item.GetValue<string>("Id");
-                await Platform.DeleteFlowAsync(db, id);
+                //await Platform.DeleteFlowAsync(db, id);
                 await Platform.DeleteFilesAsync(db, id, oldFiles);
                 await db.DeleteAsync(tableName, id);
             }

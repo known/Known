@@ -1,0 +1,16 @@
+﻿global using System.ComponentModel.DataAnnotations;
+global using System.Data;
+global using Known.Blazor;
+global using Known.Components;
+global using Known.Data;
+global using Known.Entities;
+global using Known.Extensions;
+global using Known.Helpers;
+global using Known.WorkFlow.Components;
+global using Known.WorkFlow.Entities;
+global using Known.WorkFlow.Extensions;
+global using Known.WorkFlow.Services;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Components.Rendering;
+global using Microsoft.AspNetCore.Components.Web;
+global using Microsoft.Extensions.DependencyInjection;

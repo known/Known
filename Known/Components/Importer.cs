@@ -6,7 +6,6 @@ class Importer : BaseComponent
     private string fileInfo;
     private string error;
     private string message;
-    private IFileService Service;
     private FileDataInfo file;
 
     private string ErrorMessage => Language["Import.Error"];
@@ -20,7 +19,6 @@ class Importer : BaseComponent
         isFinished = Model.IsFinished;
         error = Model.Error;
         message = Model.Message;
-        Service = await CreateServiceAsync<IFileService>();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -96,7 +94,7 @@ class Importer : BaseComponent
 
         var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [file];
-        var result = await Service.ImportFilesAsync(info);
+        var result = await Platform.ImportFilesAsync(info);
         if (!result.IsValid)
         {
             error = result.Message;
@@ -119,7 +117,7 @@ class Importer : BaseComponent
 
     private async Task OnDownloadTemplateAsync()
     {
-        var bytes = await Service.GetImportRuleAsync(Model.BizId);
+        var bytes = await Platform.GetImportRuleAsync(Model.BizId);
         if (bytes == null || bytes.Length == 0)
         {
             UI.Error(Language["Import.FileNotExists"]);

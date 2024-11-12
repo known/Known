@@ -1,0 +1,19 @@
+﻿{
+  "Flow.Open": "开启",
+  "Flow.Over": "结束",
+  "Flow.Stop": "终止",
+  "Flow.Create": "创建流程",
+  "Flow.Submit": "提交流程",
+  "Flow.Revoke": "撤回流程",
+  "Flow.Verify": "审核流程",
+  "Flow.Assign": "任务分配",
+  "Flow.Stopped": "终止流程",
+  "Flow.Restart": "重启流程",
+  "Flow.End": "结束流程",
+  "Flow.Save": "暂存",
+  "Flow.Revoked": "已撤回",
+  "Flow.Verifing": "待审核",
+  "Flow.Pass": "审核通过",
+  "Flow.Fail": "审核退回",
+  "Flow.Reapply": "重新申请"
+}

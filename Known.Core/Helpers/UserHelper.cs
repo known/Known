@@ -4,7 +4,7 @@ class UserHelper
 {
     internal static async Task<string> GetSystemNameAsync(Database db)
     {
-        var sys = await SystemService.GetSystemAsync(db);
+        var sys = await ConfigHelper.GetSystemAsync(db);
         var appName = sys?.AppName;
         if (string.IsNullOrWhiteSpace(appName))
             appName = Config.App.Name;
@@ -29,7 +29,7 @@ class UserHelper
         if (user == null)
             return [];
 
-        ModuleHelper.AddRouteModules(db.Context.Language, modules);
+        DataHelper.AddRouteModules(db.Context.Language, modules);
         
         if (user.IsAdmin())
             return modules.ToMenus(true);

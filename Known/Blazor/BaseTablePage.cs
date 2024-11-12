@@ -27,7 +27,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// <returns></returns>
     public override Task RefreshAsync() => Table.RefreshAsync();
 
-    internal override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
+    public override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
 
     /// <summary>
     /// 异步初始化表格页面组件。

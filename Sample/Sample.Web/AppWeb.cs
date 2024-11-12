@@ -1,6 +1,9 @@
 ﻿using Coravel;
 using Coravel.Invocable;
+using Known.Admin;
 using Known.Designer;
+using Known.Weixin;
+using Known.WorkFlow;
 
 namespace Sample.Web;
 
@@ -13,6 +16,8 @@ public static class AppWeb
         //Stopwatcher.Enabled = true;
         services.AddSample();
         services.AddKnownDesigner();
+        services.AddKnownAdmin();
+        services.AddKnownFlow(option => option.AddAssembly(assembly));
         services.AddKnownCore(info =>
         {
             //info.ProductId = "Test";
@@ -53,6 +58,10 @@ public static class AppWeb
     public static void AddApplication(this WebApplicationBuilder builder)
     {
         Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
+        builder.Services.AddKnownWeixin(option =>
+        {
+            option.ConfigInfo = builder.Configuration.GetSection("Weixin").Get<WeixinConfigInfo>();
+        });
         builder.Services.AddApplication(info =>
         {
             info.WebRoot = builder.Environment.WebRootPath;

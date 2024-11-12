@@ -15,9 +15,8 @@ public interface IAuthService : IService
     /// <summary>
     /// 异步注销登录。
     /// </summary>
-    /// <param name="token">用户Token。</param>
     /// <returns>注销结果。</returns>
-    Task<Result> SignOutAsync(string token);
+    Task<Result> SignOutAsync();
 
     /// <summary>
     /// 异步获取用户信息。
@@ -47,7 +46,7 @@ class AuthService(Context context, INodbProvider provider) : ServiceBase(context
         throw new NotImplementedException();
     }
 
-    public Task<Result> SignOutAsync(string token)
+    public Task<Result> SignOutAsync()
     {
         return Result.SuccessAsync("");
     }

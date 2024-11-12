@@ -19,8 +19,8 @@ public static class UIExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">子内容委托。</param>
     public static void FormPageButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page-button", child);
-    
-    internal static void FormButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-button", child);
+
+    public static void FormButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-button", child);
 
     /// <summary>
     /// 呈现表单操作按钮。
@@ -170,6 +170,16 @@ public static class UIExtension
             builder.Label().Class("legend").Text(title).Close();
             builder.Div("body", child);
         });
+    }
+
+    /// <summary>
+    /// 呈现附件超链接。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="item">系统附件对象。</param>
+    public static void FileLink(this RenderTreeBuilder builder, SysFile item)
+    {
+        builder.Component<FileLink>().Set(c => c.Item, item).Build();
     }
     #endregion
 

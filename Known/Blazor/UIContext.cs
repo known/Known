@@ -3,7 +3,7 @@
 /// <summary>
 /// UI上下文信息类。
 /// </summary>
-public class UIContext : Context
+public class UIContext() : Context
 {
     /// <summary>
     /// 取得当前上下文菜单信息。
@@ -115,12 +115,14 @@ public class UIContext : Context
 
     internal void Initialize(BaseLayout layout)
     {
+        Platform = layout.Platform;
         UI = layout.UI;
         Navigation = layout.Navigation;
     }
 
     internal void Initialize(BaseComponent component)
     {
+        Platform = component.Platform;
         UI = component.UI;
         Navigation = component.Navigation;
     }

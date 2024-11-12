@@ -2,17 +2,13 @@
 
 class WebApi
 {
-    private static Context CreateContext(string token) => new()
-    {
-        CurrentUser = AuthService.GetUserByToken(token)
-    };
-
     internal static async Task Invoke(HttpContext ctx, ApiMethodInfo info)
     {
         try
         {
+            var context = ctx.RequestServices.GetRequiredService<Context>();
             var token = ctx.Request.Headers[Constants.KeyToken].ToString();
-            var context = CreateContext(token);
+            context.CurrentUser = Cache.GetUserByToken(token);
             if (context.CurrentUser == null && !info.MethodInfo.AllowAnonymous())
             {
                 await ctx.Response.WriteAsJsonAsync(Result.Error("用户登录已过期！"));

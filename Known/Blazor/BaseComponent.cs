@@ -84,9 +84,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public BaseLayout App { get; set; }
 
     /// <summary>
-    /// 取得是否释放组件对象。
+    /// 取得注入的平台业务服务实例。
     /// </summary>
-    protected bool IsDisposing { get; private set; }
+    public IPlatformService Platform { get; private set; }
 
     /// <summary>
     /// 取得上下文语言对象实例。
@@ -99,6 +99,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public UserInfo CurrentUser => Context?.CurrentUser;
 
     /// <summary>
+    /// 取得是否释放组件对象。
+    /// </summary>
+    protected bool IsDisposing { get; private set; }
+
+    /// <summary>
     /// 异步初始化组件，初始化UI多语言实例和上下文对象，以及全局异常处理；子组件不要覆写该方法，应覆写 OnInitAsync。
     /// </summary>
     /// <returns></returns>
@@ -107,6 +112,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         try
         {
             await base.OnInitializedAsync();
+            Platform = await CreateServiceAsync<IPlatformService>();
             UI.Language = Language;
             Context.Initialize(this);
             await OnInitAsync();

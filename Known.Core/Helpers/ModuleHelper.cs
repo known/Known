@@ -37,44 +37,6 @@ class ModuleHelper
         }
     }
 
-    internal static void AddRouteModules(Language language, List<SysModule> modules)
-    {
-        var routes = Config.RouteTypes;
-        if (routes.Count == 0)
-            return;
-
-        var routeError = typeof(ErrorPage).RouteTemplate();
-        var routeAuto = typeof(AutoTablePage).RouteTemplate();
-        var target = Constants.Route;
-        var route = new SysModule { Id = "route", Name = language["Route"], Target = target, Icon = "share-alt", ParentId = "0", Sort = modules.Count + 1 };
-        modules.Add(route);
-        foreach (var item in routes.OrderBy(r => r.Key))
-        {
-            if (modules.Exists(m => m.Url == item.Key) ||
-                UIConfig.IgnoreRoutes.Contains(item.Key) ||
-                item.Key == routeError || item.Key == routeAuto)
-                continue;
-
-            var parentId = route.Id;
-            var index = item.Key.TrimStart('/').IndexOf('/');
-            if (index > 0)
-            {
-                var key = item.Key.Substring(0, index + 1);
-                var id = $"sub_{key}";
-                var sub = modules.FirstOrDefault(m => m.Id == id);
-                if (sub == null)
-                {
-                    sub = new SysModule { Id = id, Name = key, Target = target, Icon = "folder", ParentId = route.Id };
-                    modules.Add(sub);
-                }
-                parentId = sub.Id;
-            }
-
-            var name = item.Value.DisplayName() ?? item.Key;
-            modules.Add(new SysModule { Id = item.Key, Name = name, Url = item.Value.FullName, Target = target, Icon = "file", ParentId = parentId });
-        }
-    }
-
     internal static List<SysModule> GetModules()
     {
         var modules = new List<SysModule>();

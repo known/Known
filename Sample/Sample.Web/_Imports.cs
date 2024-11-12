@@ -2,11 +2,11 @@
 global using Known.Blazor;
 global using Known.Cells;
 global using Known.Core;
-global using Known.Core.Extensions;
-global using Known.Core.Helpers;
 global using Known.Data;
 global using Known.Entities;
-global using Known.WorkFlows;
+global using Known.Extensions;
+global using Known.WorkFlow;
+global using Known.WorkFlow.Extensions;
 global using Sample.Entities;
 global using Sample.Models;
 global using Sample.Services;

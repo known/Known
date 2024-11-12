@@ -54,12 +54,5 @@ public class CoreOption
             return;
 
         Assemblies.Add(assembly);
-        foreach (var item in assembly.GetTypes())
-        {
-            if (item.IsAssignableTo(typeof(ImportBase)))
-                ImportHelper.ImportTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(BaseFlow)))
-                BaseFlow.FlowTypes[item.Name] = item;
-        }
     }
 }
