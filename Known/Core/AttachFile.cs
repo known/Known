@@ -7,6 +7,13 @@ public class AttachFile
 {
     private readonly FileDataInfo file;
 
+    /// <summary>
+    /// 构造函数，创建一个附件类的实例。
+    /// </summary>
+    /// <param name="file">上传的附件信息。</param>
+    /// <param name="user">当前用户信息。</param>
+    /// <param name="bizType">附件业务类型。</param>
+    /// <param name="bizPath">附件业务存储路径。</param>
     public AttachFile(FileDataInfo file, UserInfo user, string bizType = null, string bizPath = null)
     {
         this.file = file;
@@ -78,6 +85,10 @@ public class AttachFile
     /// </summary>
     public string Category2 { get; set; }
 
+    /// <summary>
+    /// 异步报错附件。
+    /// </summary>
+    /// <returns></returns>
     public async Task SaveAsync()
     {
         var filePath = Config.GetUploadPath(FilePath, IsWeb);
@@ -89,12 +100,20 @@ public class AttachFile
             await File.WriteAllBytesAsync(filePath, file.Bytes);
     }
 
+    /// <summary>
+    /// 物理删除附件。
+    /// </summary>
+    /// <param name="file">附件对象。</param>
     public static void DeleteFile(SysFile file)
     {
         var path = Config.GetUploadPath(file.Path);
         Utils.DeleteFile(path);
     }
 
+    /// <summary>
+    /// 根据路径物理删除附件。
+    /// </summary>
+    /// <param name="filePath">附件路径。</param>
     public static void DeleteFile(string filePath)
     {
         var path = Config.GetUploadPath(filePath);

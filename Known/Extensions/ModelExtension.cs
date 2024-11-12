@@ -158,6 +158,14 @@ public static class ModelExtension
     /// <returns>文件对象列表。</returns>
     public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
 
+    /// <summary>
+    /// 获取附件字段的文件对象列表。
+    /// </summary>
+    /// <param name="files">表单的附件字典。</param>
+    /// <param name="user">当前用户。</param>
+    /// <param name="key">字段名。</param>
+    /// <param name="form">附件表单对象。</param>
+    /// <returns>文件对象列表。</returns>
     public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, FileFormInfo form)
     {
         if (files == null || files.Count == 0)

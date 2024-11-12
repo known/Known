@@ -47,6 +47,11 @@ public sealed class DataHelper
         }
     }
 
+    /// <summary>
+    /// 添加路由模块。
+    /// </summary>
+    /// <param name="language">多语言对象。</param>
+    /// <param name="modules">模块列表。</param>
     public static void AddRouteModules(Language language, List<SysModule> modules)
     {
         var routes = Config.RouteTypes;

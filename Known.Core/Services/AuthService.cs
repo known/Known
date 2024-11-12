@@ -23,7 +23,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         entity.LastLoginIP = info.IPAddress;
 
         await database.OpenAsync();
-        var user = await entity.ToUserAsync(database);
+        var sys = await Platform.GetSystemAsync(database);
+        var user = await entity.ToUserAsync(database, sys);
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
         await database.CloseAsync();
@@ -79,12 +80,12 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
 
         var database = Database;
         await database.OpenAsync();
-        await SystemService.CheckKeyAsync(database);
+        await Platform.CheckKeyAsync(database);
         var modules = await ModuleService.GetModulesAsync(database);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
-            AppName = await UserHelper.GetSystemNameAsync(database),
+            AppName = await Platform.GetSystemNameAsync(database),
             UserMenus = await UserHelper.GetUserMenusAsync(database, modules),
             UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(database, Constant.UserSetting),
             UserTableSettings = await SettingService.GetUserTableSettingsAsync(database)

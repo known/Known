@@ -38,6 +38,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     internal TableModel<TItem> Table { get; }
     internal string Action { get; set; }
 
+    /// <summary>
+    /// 取得表单关联的页面组件。
+    /// </summary>
     public BaseComponent Page { get; }
 
     /// <summary>
@@ -197,6 +200,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         }
     }
 
+    /// <summary>
+    /// 取得或设置表单查看类型。
+    /// </summary>
     public FormViewType FormType { get; set; }
 
     internal List<CodeInfo> GetCodes(ColumnInfo column)
@@ -423,6 +429,12 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
         HandleResult(result, isClose, isContinue);
     }
 
+    /// <summary>
+    /// 处理调用后端返回的结果信息。
+    /// </summary>
+    /// <param name="result">结果信息。</param>
+    /// <param name="isClose">是否关闭弹窗，默认关闭。</param>
+    /// <param name="isContinue">是否继续添加表单，默认否。</param>
     public void HandleResult(Result result, bool isClose = true, bool isContinue = false)
     {
         UI.Result(result, async () =>
@@ -637,4 +649,21 @@ public class FormRow<TItem> where TItem : class, new()
     }
 }
 
-public enum FormViewType { View, Submit, Verify }
+/// <summary>
+/// 表单查看类型枚举。
+/// </summary>
+public enum FormViewType
+{
+    /// <summary>
+    /// 查看详情。
+    /// </summary>
+    View,
+    /// <summary>
+    /// 提交工作流。
+    /// </summary>
+    Submit,
+    /// <summary>
+    /// 审核工作流。
+    /// </summary>
+    Verify
+}

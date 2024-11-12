@@ -2,15 +2,6 @@
 
 class UserHelper
 {
-    internal static async Task<string> GetSystemNameAsync(Database db)
-    {
-        var sys = await ConfigHelper.GetSystemAsync(db);
-        var appName = sys?.AppName;
-        if (string.IsNullOrWhiteSpace(appName))
-            appName = Config.App.Name;
-        return appName;
-    }
-
     internal static async Task<UserInfo> GetUserByIdAsync(Database db, string id)
     {
         var user = await db.QueryAsync<SysUser>(d => d.Id == id);

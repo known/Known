@@ -5,7 +5,11 @@
 /// </summary>
 public sealed class ImportHelper
 {
+    /// <summary>
+    /// 导入业务类型。
+    /// </summary>
     public const string BizType = "ImportFiles";
+
     internal static Dictionary<string, Type> ImportTypes { get; } = [];
 
     private ImportHelper() { }
@@ -41,69 +45,13 @@ public sealed class ImportHelper
         return ReadExcelFile(context, path, action);
     }
 
-    public static ImportFormInfo GetImport(Context context, string bizId, SysTask task)
-    {
-        var info = new ImportFormInfo { BizId = bizId, BizType = BizType, IsFinished = true };
-        if (task != null)
-        {
-            switch (task.Status)
-            {
-                case SysTaskStatus.Pending:
-                    info.Message = context.Language["Import.TaskPending"];
-                    info.IsFinished = false;
-                    break;
-                case SysTaskStatus.Running:
-                    info.Message = context.Language["Import.TaskRunning"];
-                    info.IsFinished = false;
-                    break;
-                case SysTaskStatus.Failed:
-                    info.Message = context.Language["Import.TaskFailed"];
-                    info.Error = task.Note;
-                    break;
-                case SysTaskStatus.Success:
-                    info.Message = "";
-                    break;
-            }
-        }
-
-        return info;
-    }
-
-    public static async Task<byte[]> GetImportRuleAsync(Database db, string bizId)
-    {
-        if (bizId.StartsWith("Dictionary"))
-        {
-            var id = bizId.Split('_')[1];
-            var module = await db.QueryByIdAsync<SysModule>(id);
-            return GetImportRule(db.Context, module.GetFormFields());
-        }
-
-        var columns = GetImportColumns(db.Context, bizId);
-        if (columns == null || columns.Count == 0)
-            return [];
-
-        var fields = columns.Select(c => new FormFieldInfo
-        {
-            Id = c.Id,
-            Name = db.Context.Language.GetString(c),
-            Required = c.Required,
-            Length = GetImportRuleNote(db.Context, c)
-        }).ToList();
-        return GetImportRule(db.Context, fields);
-    }
-
-    private static string GetImportRuleNote(Context context, ColumnInfo column)
-    {
-        if (!string.IsNullOrWhiteSpace(column.Category))
-        {
-            var codes = Cache.GetCodes(column.Category);
-            return context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
-        }
-
-        return column.Note;
-    }
-
-    private static List<ColumnInfo> GetImportColumns(Context context, string bizId)
+    /// <summary>
+    /// 获取导入栏位信息列表。
+    /// </summary>
+    /// <param name="context">上下文对象。</param>
+    /// <param name="bizId">业务ID。</param>
+    /// <returns>导入栏位信息列表。</returns>
+    public static List<ColumnInfo> GetImportColumns(Context context, string bizId)
     {
         var import = CreateImport(new ImportContext { Context = context, BizId = bizId });
         if (import == null)
@@ -113,49 +61,12 @@ public sealed class ImportHelper
         return import.Columns;
     }
 
-    private static ImportBase CreateImport(ImportContext context)
-    {
-        if (context.IsDictionary)
-            return new DictionaryImport(context);
-
-        if (!ImportTypes.TryGetValue(context.BizId, out Type type))
-            return null;
-
-        return Activator.CreateInstance(type, context) as ImportBase;
-    }
-
-    private static byte[] GetImportRule(Context context, List<FormFieldInfo> fields)
-    {
-        var excel = ExcelFactory.Create();
-        var sheet = excel.CreateSheet("Sheet1");
-        sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
-        sheet.MergeCells(0, 0, 1, fields.Count);
-        for (int i = 0; i < fields.Count; i++)
-        {
-            var field = fields[i];
-            var note = !string.IsNullOrWhiteSpace(field.Length) ? $"{field.Length}" : "";
-            sheet.SetColumnWidth(i, 13);
-            sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
-            var fontColor = field.Required ? Color.Red : Color.White;
-            sheet.SetCellValue(2, i, field.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
-        }
-        sheet.SetRowHeight(1, 30);
-        var stream = excel.SaveToStream();
-        return stream.ToArray();
-    }
-
-    public static SysTask CreateTask(ImportFormInfo form)
-    {
-        return new SysTask
-        {
-            BizId = form.BizId,
-            Type = form.BizType,
-            Name = form.BizName,
-            Target = "",
-            Status = SysTaskStatus.Pending
-        };
-    }
-
+    /// <summary>
+    /// 异步执行后台任务。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="task">后台任务。</param>
+    /// <returns>执行结果。</returns>
     public static async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
         var context = new ImportContext
@@ -170,6 +81,17 @@ public sealed class ImportHelper
 
         var file = await db.QueryByIdAsync<SysFile>(task.Target);
         return await import.ExecuteAsync(file);
+    }
+
+    private static ImportBase CreateImport(ImportContext context)
+    {
+        if (context.IsDictionary)
+            return new DictionaryImport(context);
+
+        if (!ImportTypes.TryGetValue(context.BizId, out Type type))
+            return null;
+
+        return Activator.CreateInstance(type, context) as ImportBase;
     }
 
     private static Result ReadTextFile<TItem>(Context context, string path, List<string> columns, Action<ImportRow<TItem>> action)

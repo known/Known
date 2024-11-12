@@ -151,7 +151,7 @@ class SysUserService(Context context) : ServiceBase(context), ISysUserService
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var info = await ConfigHelper.GetSystemAsync(database);
+        var info = await Platform.GetSystemAsync(database);
         if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
             return Result.Error(Language["Tip.NoDefaultPwd"]);
 
@@ -174,7 +174,7 @@ class SysUserService(Context context) : ServiceBase(context), ISysUserService
         var user = CurrentUser;
         if (model.IsNew)
         {
-            var info = await ConfigHelper.GetSystemAsync(database);
+            var info = await Platform.GetSystemAsync(database);
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error(Language["Tip.NoDefaultPwd"]);
 

@@ -11,7 +11,7 @@ public static class Extension
     private static readonly WeixinOption option = new();
 
     /// <summary>
-    /// 添加Known框架后台权限管理模块。
+    /// 添加Known框架简易微信功能模块。
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="action">配置选项委托。</param>

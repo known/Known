@@ -14,6 +14,11 @@ public abstract class ImportBase(ImportContext context)
     public Context Context { get; } = context.Context;
 
     /// <summary>
+    /// 取得上下文平台服务实例。
+    /// </summary>
+    public IPlatformService Platform => Context.Platform;
+
+    /// <summary>
     /// 取得上下文数据库对象实例。
     /// </summary>
     public Database Database { get; } = context.Database;

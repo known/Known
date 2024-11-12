@@ -5,19 +5,6 @@
 /// </summary>
 public static class PlatformExtension
 {
-    #region System
-    /// <summary>
-    /// 异步获取系统信息。
-    /// </summary>
-    /// <param name="platform">平台服务实例。</param>
-    /// <param name="db">数据库对象。</param>
-    /// <returns>系统信息。</returns>
-    public static Task<SystemInfo> GetSystemAsync(this IPlatformService platform, Database db)
-    {
-        return ConfigHelper.GetSystemAsync(db);
-    }
-    #endregion
-
     #region User
     /// <summary>
     /// 异步获取角色用户列表。
@@ -55,7 +42,7 @@ public static class PlatformExtension
                 Enabled = true,
                 Role = user.Role
             };
-            var info = await ConfigHelper.GetSystemAsync(db);
+            var info = await platform.GetSystemAsync(db);
             if (!string.IsNullOrWhiteSpace(user.Password))
                 model.Password = Utils.ToMd5(user.Password);
             else if (info != null)

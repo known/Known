@@ -5,6 +5,25 @@
 /// </summary>
 public interface IPlatformService : IService
 {
+    #region Config
+    /// <summary>
+    /// 异步获取配置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="key">配置键。</param>
+    /// <returns>配置数据JSON字符串。</returns>
+    Task<string> GetConfigAsync(Database db, string key);
+
+    /// <summary>
+    /// 异步保存配置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="key">配置键。</param>
+    /// <param name="value">配置对象。</param>
+    /// <returns></returns>
+    Task SaveConfigAsync(Database db, string key, object value);
+    #endregion
+
     #region Company
     /// <summary>
     /// 异步获取租户企业信息。

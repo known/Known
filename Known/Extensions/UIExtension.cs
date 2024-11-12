@@ -20,6 +20,11 @@ public static class UIExtension
     /// <param name="child">子内容委托。</param>
     public static void FormPageButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-page-button", child);
 
+    /// <summary>
+    /// 呈现表单操作按钮。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="child">子内容委托。</param>
     public static void FormButton(this RenderTreeBuilder builder, Action child) => builder.Div("kui-form-button", child);
 
     /// <summary>

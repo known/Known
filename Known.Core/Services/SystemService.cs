@@ -3,8 +3,8 @@
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     //Config
-    public Task<string> GetConfigAsync(string key) => ConfigHelper.GetConfigAsync(Database, key);
-    public Task SaveConfigAsync(ConfigInfo info) => ConfigHelper.SaveConfigAsync(Database, info.Key, info.Value);
+    public Task<string> GetConfigAsync(string key) => Platform.GetConfigAsync(Database, key);
+    public Task SaveConfigAsync(ConfigInfo info) => Platform.SaveConfigAsync(Database, info.Key, info.Value);
 
     //System
     public async Task<SystemInfo> GetSystemAsync()
@@ -13,7 +13,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             var database = Database;
             database.EnableLog = false;
-            var info = await ConfigHelper.GetSystemAsync(database);
+            var info = await Platform.GetSystemAsync(database);
             if (info != null)
             {
                 info.ProductKey = null;
@@ -109,7 +109,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             await db.DeleteAllAsync<SysModule>();
             await db.InsertAsync(modules);
-            await ConfigHelper.SaveSystemAsync(db, sys);
+            await Platform.SaveSystemAsync(db, sys);
             await SaveCompanyAsync(db, info, sys);
             await SaveOrganizationAsync(db, info);
             await SaveUserAsync(db, info);
@@ -190,14 +190,14 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             AdminName = Constants.SysUserName
         };
         if (isCheck)
-            await CheckKeyAsync(Database);
+            await Platform.CheckKeyAsync(Database);
         return info;
     }
 
     //System
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
-        var info = await ConfigHelper.GetSystemAsync(Database);
+        var info = await Platform.GetSystemAsync(Database);
         return new SystemDataInfo
         {
             System = info,
@@ -220,7 +220,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         }
         else
         {
-            await ConfigHelper.SaveSystemAsync(database, info);
+            await Platform.SaveSystemAsync(database, info);
         }
         return Result.Success(Language.Success(Language.Save));
     }
@@ -229,8 +229,8 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         var database = Database;
         AppHelper.SaveProductKey(info.ProductKey);
-        await ConfigHelper.SaveSystemAsync(database, info);
-        return await CheckKeyAsync(database);
+        await Platform.SaveSystemAsync(database, info);
+        return await Platform.CheckKeyAsync(database);
     }
 
     private static SystemInfo GetSystem(InstallInfo info)
@@ -244,12 +244,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             ProductKey = info.ProductKey,
             UserDefaultPwd = "888888"
         };
-    }
-
-    internal static async Task<Result> CheckKeyAsync(Database db)
-    {
-        var info = await ConfigHelper.GetSystemAsync(db);
-        return Config.App.CheckSystemInfo(info);
     }
 
     //Log

@@ -6,21 +6,21 @@
 public static class ModelExtension
 {
     #region User
-    internal static async Task<UserInfo> ToUserAsync(this SysUser entity, Database db)
+    internal static async Task<UserInfo> ToUserAsync(this SysUser entity, Database db, SystemInfo info = null)
     {
         var user = Utils.MapTo<UserInfo>(entity);
         var avatarUrl = entity.GetExtension<string>(nameof(UserInfo.AvatarUrl));
         if (string.IsNullOrWhiteSpace(avatarUrl))
             avatarUrl = entity.Gender == "Female" ? "img/face2.png" : "img/face1.png";
         user.AvatarUrl = avatarUrl;
-        await user.SetUserInfoAsync(db);
+        await user.SetUserInfoAsync(db, info);
         //await user.SetUserWeixinAsync(db);
         return user;
     }
 
-    private static async Task SetUserInfoAsync(this UserInfo user, Database db)
+    private static async Task SetUserInfoAsync(this UserInfo user, Database db, SystemInfo info = null)
     {
-        var info = await ConfigHelper.GetSystemAsync(db);
+        //var info = await ConfigHelper.GetSystemAsync(db);
         user.IsTenant = user.CompNo != info?.CompNo;
         user.AppName = info?.AppName;
         if (user.IsAdmin())

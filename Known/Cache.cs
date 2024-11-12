@@ -56,12 +56,22 @@ public sealed class Cache
         cached.TryRemove(key, out object _);
     }
 
+    /// <summary>
+    /// 获取缓存登录用户信息。
+    /// </summary>
+    /// <param name="key">用户名。</param>
+    /// <returns>用户信息。</returns>
     public static UserInfo GetUser(string key)
     {
         cachedUsers.TryGetValue(key, out UserInfo user);
         return user;
     }
 
+    /// <summary>
+    /// 根据Token获取缓存的登录用户信息。
+    /// </summary>
+    /// <param name="token">Token。</param>
+    /// <returns>用户信息。</returns>
     public static UserInfo GetUserByToken(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
@@ -70,6 +80,10 @@ public sealed class Cache
         return cachedUsers.Values.FirstOrDefault(u => u.Token == token);
     }
 
+    /// <summary>
+    /// 将登录用户添加到缓存里。
+    /// </summary>
+    /// <param name="user">用户信息。</param>
     public static void SetUser(UserInfo user)
     {
         if (user == null)
@@ -78,6 +92,10 @@ public sealed class Cache
         cachedUsers[user.UserName] = user;
     }
 
+    /// <summary>
+    /// 将登录用户从缓存里移除。
+    /// </summary>
+    /// <param name="user">用户信息。</param>
     public static void RemoveUser(UserInfo user)
     {
         if (user == null)

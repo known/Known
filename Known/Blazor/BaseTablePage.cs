@@ -27,6 +27,11 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// <returns></returns>
     public override Task RefreshAsync() => Table.RefreshAsync();
 
+    /// <summary>
+    /// 查看表单。
+    /// </summary>
+    /// <param name="type">查看类型。</param>
+    /// <param name="row">表单数据。</param>
     public override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
 
     /// <summary>

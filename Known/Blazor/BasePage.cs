@@ -69,6 +69,11 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
 
+    /// <summary>
+    /// 查看表单虚方法。
+    /// </summary>
+    /// <param name="type">查看类型。</param>
+    /// <param name="row">表单数据。</param>
     public virtual void ViewForm(FormViewType type, TItem row) { }
 }
 
