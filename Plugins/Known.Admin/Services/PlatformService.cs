@@ -92,6 +92,27 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     #endregion
 
     #region User
+    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
+    {
+        var db = Database;
+        var sql = $@"select a.*,b.Name as Department 
+from SysUser a 
+left join SysOrganization b on b.Id=a.OrgNo 
+where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var orgNoId = nameof(UserInfo.OrgNo);
+        var orgNo = criteria.GetParameter<string>(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User?.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
+        }
+        criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
+        return await db.QueryPageAsync<UserInfo>(sql, criteria);
+    }
+
     public Task<UserInfo> GetUserAsync(Database db, string userName)
     {
         return db.QueryAsync<UserInfo>(d => d.UserName == userName);
@@ -255,6 +276,29 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
         return FileService.DeleteFilesAsync(db, bizId, oldFiles);
+    }
+    #endregion
+
+    #region Log
+    public async Task<Result> AddLogAsync(Database db, LogInfo log)
+    {
+        if (log.Type == LogType.Page &&
+            string.IsNullOrWhiteSpace(log.Target) &&
+            !string.IsNullOrWhiteSpace(log.Content))
+        {
+            var module = log.Content.StartsWith("/page/")
+                       ? await db.QueryByIdAsync<SysModule>(log.Content.Substring(6))
+                       : await db.QueryAsync<SysModule>(d => d.Url == log.Content);
+            log.Target = module?.Name;
+        }
+
+        await db.SaveAsync(new SysLog
+        {
+            Type = log.Type.ToString(),
+            Target = log.Target,
+            Content = log.Content
+        });
+        return Result.Success(Language.Success(Language.Save));
     }
     #endregion
 }

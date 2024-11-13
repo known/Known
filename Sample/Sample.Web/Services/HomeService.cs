@@ -12,11 +12,22 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         await db.OpenAsync();
         var info = new HomeInfo
         {
-            VisitMenuIds = await db.GetVisitMenuIdsAsync(user.UserName, 12),
+            VisitMenuIds = await GetVisitMenuIdsAsync(db, user.UserName, 12),
             Statistics = await GetStatisticsInfoAsync(db)
         };
         await db.CloseAsync();
         return info;
+    }
+
+    private async Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size)
+    {
+        var logs = await db.Query<SysLog>()
+                           .Where(d => d.Type == $"{LogType.Page}" && d.CreateBy == userName)
+                           .GroupBy(d => d.Target)
+                           .Select(d => new CountInfo { Field1 = d.Target, TotalCount = DbFunc.Count() })
+                           .ToListAsync();
+        logs = logs?.OrderByDescending(f => f.TotalCount).Take(size).ToList();
+        return logs?.Select(l => l.Field1).ToList();
     }
 
     private async Task<StatisticsInfo> GetStatisticsInfoAsync(Database db)

@@ -69,6 +69,7 @@ public class PageLayout : BaseLayout
     /// <returns></returns>
     protected override async Task OnParametersSetAsync()
     {
+        await base.OnParametersSetAsync();
         try
         {
             var url = Navigation.GetPageUrl();
@@ -82,15 +83,6 @@ public class PageLayout : BaseLayout
                     Navigation.GoErrorPage("403");
                     return;
                 }
-            }
-            if (Context.Current != null && !Config.IsClient)
-            {
-                await SystemService.AddLogAsync(new SysLog
-                {
-                    Target = Context.Current.Name,
-                    Content = Context.Url,
-                    Type = LogType.Page.ToString()
-                });
             }
         }
         catch (Exception ex)

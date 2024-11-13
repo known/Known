@@ -3,11 +3,8 @@
 /// <summary>
 /// 用户个人中心页面组件类。
 /// </summary>
-public class SysUserProfile : BasePage<SysUser>
+public class SysUserProfile : BasePage<UserInfo>
 {
-    internal IUserService Service { get; private set; }
-    internal SysUser User { get; private set; }
-
     /// <summary>
     /// 异步初始化页面。
     /// </summary>
@@ -15,20 +12,11 @@ public class SysUserProfile : BasePage<SysUser>
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Service = await CreateServiceAsync<IUserService>();
-        User = await Service.GetUserAsync(CurrentUser.Id);
-
         Page.Type = PageType.Column;
         Page.Spans = "28";
         Page.AddItem("kui-card kui-p10", BuildUserInfo);
         Page.AddItem("kui-card", BuildUserTabs);
     }
-
-    /// <summary>
-    /// 构建页面内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.Component<SysUserProfileInfo>().Build();
     private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
@@ -36,14 +24,20 @@ public class SysUserProfile : BasePage<SysUser>
 
 class SysUserProfileInfo : BaseComponent
 {
-    [CascadingParameter] private SysUserProfile Parent { get; set; }
+    private IAuthService Service;
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Service = await CreateServiceAsync<IAuthService>();
+    }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        var User = Parent.User;
+        var user = CurrentUser;
         builder.Div("kui-user-avatar", () =>
         {
-            builder.Markup($"<img src=\"{CurrentUser?.AvatarUrl}\" />");
+            builder.Markup($"<img src=\"{user?.AvatarUrl}\" />");
             builder.Div("kui-upload-button", () =>
             {
                 builder.Icon("edit");
@@ -55,12 +49,12 @@ class SysUserProfileInfo : BaseComponent
         });
         builder.Ul("kui-user-info", () =>
         {
-            BuildUserInfoItem(builder, "user", $"{User?.Name}({User?.UserName})");
-            BuildUserInfoItem(builder, "phone", User?.Phone);
-            BuildUserInfoItem(builder, "mobile", User?.Mobile);
-            BuildUserInfoItem(builder, "inbox", User?.Email);
-            BuildUserInfoItem(builder, "team", User?.Role);
-            BuildUserInfoItem(builder, "comment", User?.Note);
+            BuildUserInfoItem(builder, "user", $"{user?.Name}({user?.UserName})");
+            BuildUserInfoItem(builder, "phone", user?.Phone);
+            BuildUserInfoItem(builder, "mobile", user?.Mobile);
+            BuildUserInfoItem(builder, "inbox", user?.Email);
+            BuildUserInfoItem(builder, "team", user?.Role);
+            BuildUserInfoItem(builder, "comment", user?.Note);
         });
     }
 
@@ -76,8 +70,8 @@ class SysUserProfileInfo : BaseComponent
     private async Task OnFileChangedAsync(InputFileChangeEventArgs e)
     {
         var file = await e.File.CreateFileAsync();
-        var info = new AvatarInfo { UserId = Parent?.User?.Id, File = file };
-        var result = await Parent?.Service?.UpdateAvatarAsync(info);
+        var info = new AvatarInfo { UserId = CurrentUser?.Id, File = file };
+        var result = await Service?.UpdateAvatarAsync(info);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

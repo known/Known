@@ -19,11 +19,10 @@ class UserStore(Database database) : IUserStore<UserInfo>
         //throw new NotImplementedException();
     }
 
-    public async Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
+    public Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         // TODO: get from cache
-        var entity = await database.QueryByIdAsync<SysUser>(userId);
-        return await entity.ToUserAsync(database);
+        return UserHelper.GetUserByIdAsync(database, userId);
     }
 
     public Task<UserInfo> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)

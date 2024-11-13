@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统用户服务接口。
 /// </summary>
-public interface ISysUserService : IService
+public interface IUserService : IService
 {
     /// <summary>
     /// 异步分页查询系统用户。
@@ -62,11 +62,27 @@ public interface ISysUserService : IService
     Task<Result> SaveUserAsync(SysUser model);
 }
 
-class SysUserService(Context context) : ServiceBase(context), ISysUserService
+class UserService(Context context) : ServiceBase(context), IUserService
 {
-    public Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
+    public async Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return Database.QueryUsersAsync(criteria);
+        var db = Database;
+        var sql = $@"select a.*,b.Name as Department 
+from SysUser a 
+left join SysOrganization b on b.Id=a.OrgNo 
+where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var orgNoId = nameof(UserInfo.OrgNo);
+        var orgNo = criteria.GetParameter<string>(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User?.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
+        }
+        criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
+        return await db.QueryPageAsync<SysUser>(sql, criteria);
     }
 
     public async Task<SysUser> GetUserDataAsync(string id)

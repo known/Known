@@ -30,9 +30,9 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         await database.CloseAsync();
         Cache.SetUser(user);
 
-        var type = LogType.Login.ToString();
+        var type = LogType.Login;
         if (info.IsMobile)
-            type = "APP" + type;
+            type = LogType.AppLogin;
 
         database.User = user;
         return await database.TransactionAsync(Language["Login"], async db =>
@@ -50,7 +50,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         {
             using var db = Database.Create();
             db.User = user;
-            await AddLogAsync(db, LogType.Logout.ToString(), $"{user.UserName}-{user.Name}", $"token: {user.Token}");
+            await AddLogAsync(db, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
         }
 
         return Result.Success(Language["Tip.ExitSuccess"]);
@@ -94,6 +94,47 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         await database.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
+    }
+
+    public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    {
+        var database = Database;
+        var entity = await database.QueryByIdAsync<SysUser>(info.UserId);
+        if (entity == null)
+            return Result.Error(Language["Tip.NoUser"]);
+
+        var attach = new AttachFile(info.File, CurrentUser);
+        attach.FilePath = @$"Avatars\{entity.Id}{attach.ExtName}";
+        await attach.SaveAsync();
+        var url = Config.GetFileUrl(attach.FilePath);
+        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
+        await database.SaveAsync(entity);
+        return Result.Success(Language.Success(Language.Save), url);
+    }
+
+    public async Task<Result> UpdateUserAsync(UserInfo info)
+    {
+        if (info == null)
+            return Result.Error(Language["Tip.NoUser"]);
+
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysUser>(info.Id);
+        if (model == null)
+            return Result.Error(Language["Tip.NoUser"]);
+
+        model.Name = info.Name;
+        model.EnglishName = info.EnglishName;
+        model.Gender = info.Gender;
+        model.Phone = info.Phone;
+        model.Mobile = info.Mobile;
+        model.Email = info.Email;
+        model.Note = info.Note;
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        await database.SaveAsync(model);
+        return Result.Success(Language.Success(Language.Save), model);
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)
@@ -142,9 +183,9 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         }
     }
 
-    private static Task AddLogAsync(Database db, string type, string target, string content)
+    private Task AddLogAsync(Database db, LogType type, string target, string content)
     {
-        return db.SaveAsync(new SysLog
+        return Platform.AddLogAsync(db, new LogInfo
         {
             Type = type,
             Target = target,

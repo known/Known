@@ -41,6 +41,13 @@ public interface IPlatformService : IService
 
     #region User
     /// <summary>
+    /// 异步分页查询系统用户。
+    /// </summary>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
+
+    /// <summary>
     /// 异步获取用户信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
@@ -105,5 +112,15 @@ public interface IPlatformService : IService
     /// <param name="oldFiles">要物理删除的附件路径列表。</param>
     /// <returns></returns>
     Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles);
+    #endregion
+
+    #region Log
+    /// <summary>
+    /// 异步添加系统日志。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="log">系统日志</param>
+    /// <returns>添加结果。</returns>
+    Task<Result> AddLogAsync(Database db, LogInfo log);
     #endregion
 }

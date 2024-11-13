@@ -31,7 +31,6 @@ public static class Extension
         services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<ISettingService, SettingService>();
         services.AddScoped<IModuleService, ModuleService>();
-        services.AddScoped<IUserService, UserService>();
 
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));

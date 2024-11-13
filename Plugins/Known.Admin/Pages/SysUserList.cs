@@ -8,7 +8,7 @@
 public class SysUserList : BasePage<SysUser>
 {
     private IOrganizationService Organization;
-    private ISysUserService Service;
+    private IUserService Service;
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
     private TreeModel Tree;
@@ -22,7 +22,7 @@ public class SysUserList : BasePage<SysUser>
     {
         await base.OnPageInitAsync();
         Organization = await CreateServiceAsync<IOrganizationService>();
-        Service = await CreateServiceAsync<ISysUserService>();
+        Service = await CreateServiceAsync<IUserService>();
 
         orgs = await Organization.GetOrganizationsAsync();
         var hasOrg = orgs != null && orgs.Count > 1;
@@ -172,12 +172,12 @@ public class SysUserList : BasePage<SysUser>
 
 class UserForm : BaseForm<SysUser>
 {
-    private ISysUserService Service;
+    private IUserService Service;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Service = await CreateServiceAsync<ISysUserService>();
+        Service = await CreateServiceAsync<IUserService>();
 
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);

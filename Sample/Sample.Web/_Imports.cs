@@ -1,4 +1,5 @@
 ﻿global using Known;
+global using Known.Admin.Entities;
 global using Known.Blazor;
 global using Known.Cells;
 global using Known.Core;

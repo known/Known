@@ -24,7 +24,7 @@ public static class Extension
         services.AddScoped<IOrganizationService, OrganizationService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<ITaskService, TaskService>();
-        services.AddScoped<ISysUserService, SysUserService>();
+        services.AddScoped<IUserService, UserService>();
 
         Config.AdminTasks["Admin"] = async (db, info) =>
         {

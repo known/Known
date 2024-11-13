@@ -32,6 +32,20 @@ public interface IAuthService : IService
     Task<AdminInfo> GetAdminAsync();
 
     /// <summary>
+    /// 异步修改系统用户头像。
+    /// </summary>
+    /// <param name="info">用户头像信息。</param>
+    /// <returns>修改结果。</returns>
+    Task<Result> UpdateAvatarAsync(AvatarInfo info);
+
+    /// <summary>
+    /// 异步修改系统用户信息。
+    /// </summary>
+    /// <param name="info">系统用户信息。</param>
+    /// <returns>修改结果。</returns>
+    Task<Result> UpdateUserAsync(UserInfo info);
+
+    /// <summary>
     /// 异步修改用户密码。
     /// </summary>
     /// <param name="info">修改密码对象。</param>
@@ -65,6 +79,16 @@ class AuthService(Context context, INodbProvider provider) : ServiceBase(context
             Codes = await provider.GetCodesAsync(CurrentUser)
         };
         return info;
+    }
+
+    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Result> UpdateUserAsync(UserInfo info)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<Result> UpdatePasswordAsync(PwdFormInfo info)

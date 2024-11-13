@@ -9,6 +9,11 @@ public interface IService
     /// 取得或设置系统上下文对象。
     /// </summary>
     Context Context { get; set; }
+
+    /// <summary>
+    /// 取得数据库访问实例。
+    /// </summary>
+    Database Database { get; }
 }
 
 /// <summary>
@@ -50,7 +55,7 @@ public abstract class ServiceBase(Context context) : IService
     /// <summary>
     /// 取得数据库访问实例。
     /// </summary>
-    protected virtual Database Database
+    public virtual Database Database
     {
         get
         {

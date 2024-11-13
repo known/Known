@@ -245,22 +245,4 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             UserDefaultPwd = "888888"
         };
     }
-
-    //Log
-    public async Task<Result> AddLogAsync(SysLog log)
-    {
-        var database = Database;
-        if (log.Type == LogType.Page.ToString() &&
-            string.IsNullOrWhiteSpace(log.Target) &&
-            !string.IsNullOrWhiteSpace(log.Content))
-        {
-            var module = log.Content.StartsWith("/page/")
-                       ? await database.QueryByIdAsync<SysModule>(log.Content.Substring(6))
-                       : await database.QueryAsync<SysModule>(d => d.Url == log.Content);
-            log.Target = module?.Name;
-        }
-
-        await database.SaveAsync(log);
-        return Result.Success(Language.Success(Language.Save));
-    }
 }

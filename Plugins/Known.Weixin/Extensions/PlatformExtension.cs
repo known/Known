@@ -12,7 +12,7 @@ public static class PlatformExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="user">系统用户。</param>
     /// <returns>微信信息。</returns>
-    public static Task<SysWeixin> GetWeixinAsync(this IPlatformService platform, Database db, SysUser user)
+    public static Task<SysWeixin> GetWeixinAsync(this IPlatformService platform, Database db, UserInfo user)
     {
         return WeixinService.GetWeixinByUserIdAsync(db, user.Id);
     }

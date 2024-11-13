@@ -64,13 +64,6 @@ public interface ISystemService : IService
     /// <param name="info">系统信息。</param>
     /// <returns>保存结果。</returns>
     Task<Result> SaveKeyAsync(SystemInfo info);
-
-    /// <summary>
-    /// 异步添加系统日志。
-    /// </summary>
-    /// <param name="log">系统日志</param>
-    /// <returns>添加结果。</returns>
-    Task<Result> AddLogAsync(SysLog log);
 }
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
@@ -119,10 +112,5 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public Task<Result> SaveKeyAsync(SystemInfo info)
     {
         throw new NotImplementedException();
-    }
-
-    public Task<Result> AddLogAsync(SysLog log)
-    {
-        return Result.SuccessAsync("");
     }
 }

@@ -33,7 +33,6 @@ public static partial class Extension
         services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<ISettingService, SettingService>();
         services.AddScoped<IModuleService, ModuleService>();
-        services.AddScoped<IUserService, UserService>();
     }
 
     /// <summary>

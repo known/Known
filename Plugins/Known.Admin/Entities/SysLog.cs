@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known.Admin.Entities;
 
 /// <summary>
 /// 系统日志实体类。
