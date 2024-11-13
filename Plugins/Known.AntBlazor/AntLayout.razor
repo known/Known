@@ -125,13 +125,11 @@
     private bool collapsed = false;
     private bool showSetting = false;
     private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
-    private ISettingService Service;
     private SettingInfo Setting { get; set; } = new();
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISettingService>();
         Setting = Context.UserSetting;
         await OnThemeColorAsync();
     }
@@ -171,7 +169,7 @@
 
     private async Task OnSaveSetting()
     {
-        var result = await Service.SaveUserSettingInfoAsync(Setting);
+        var result = await System.SaveUserSettingInfoAsync(Setting);
         if (result.IsValid)
         {
             Context.UserSetting = Setting;

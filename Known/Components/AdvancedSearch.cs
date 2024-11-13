@@ -3,25 +3,18 @@
 class AdvancedSearch : BaseComponent
 {
     private string SettingKey => $"UserSearch_{Context.Current?.Id}";
-    private ISettingService Service;
     private List<QueryInfo> Query { get; } = [];
 
     [Parameter] public List<ColumnInfo> Columns { get; set; }
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
-        await Service.SaveUserSettingFormAsync(new SettingFormInfo
+        await System.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingKey,
             BizData = Query
         });
         return Query;
-    }
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISettingService>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -30,7 +23,7 @@ class AdvancedSearch : BaseComponent
         if (firstRender)
         {
             Query.Clear();
-            var json = await Service.GetUserSettingAsync(SettingKey);
+            var json = await System.GetUserSettingAsync(SettingKey);
             var items = Utils.FromJson<List<QueryInfo>>(json);
             if (items != null && items.Count > 0)
                 Query.AddRange(items);

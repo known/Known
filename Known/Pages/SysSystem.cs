@@ -7,7 +7,6 @@
 [Route("/sys/info")]
 public class SysSystem : BaseTabPage
 {
-    private ISystemService Service;
     internal SystemDataInfo Data { get; private set; }
 
     /// <summary>
@@ -17,8 +16,7 @@ public class SysSystem : BaseTabPage
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Service = await CreateServiceAsync<ISystemService>();
-        Data = await Service.GetSystemDataAsync();
+        Data = await System.GetSystemDataAsync();
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
         Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build());
@@ -33,13 +31,13 @@ public class SysSystem : BaseTabPage
 
     internal async Task<Result> SaveSystemAsync(SystemInfo info)
     {
-        var result = await Service.SaveSystemAsync(info);
+        var result = await System.SaveSystemAsync(info);
         if (result.IsValid)
             Context.System = info;
         return result;
     }
 
-    internal Task<Result> SaveKeyAsync(SystemInfo info) => Service.SaveKeyAsync(info);
+    internal Task<Result> SaveKeyAsync(SystemInfo info) => System.SaveKeyAsync(info);
 }
 
 class SysSystemInfo : BaseForm<SystemInfo>

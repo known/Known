@@ -16,7 +16,7 @@ partial class TableModel<TItem>
         if (IsDictionary)
             id += $"_{Context.Current.Id}";
         var importTitle = Language.GetImportTitle(PageName);
-        var info = await Platform.GetImportAsync(id);
+        var info = await Page?.System?.GetImportAsync(id);
         info.Name = PageName;
         info.BizName = importTitle;
         var model = new DialogModel { Title = importTitle };

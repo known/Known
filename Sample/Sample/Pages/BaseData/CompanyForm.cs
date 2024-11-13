@@ -15,13 +15,13 @@ class CompanyBaseInfo : BaseEditForm<CompanyInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        var json = await Platform.GetCompanyAsync();
+        var json = await System.GetCompanyAsync();
         var data = Utils.FromJson<CompanyInfo>(json);
         Model = new FormModel<CompanyInfo>(this, true) { IsView = true, Data = data };
     }
 
     protected override Task<Result> OnSaveAsync(CompanyInfo model)
     {
-        return Platform.SaveCompanyAsync(model);
+        return System.SaveCompanyAsync(model);
     }
 }

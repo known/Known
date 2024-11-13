@@ -54,18 +54,4 @@ public static class PlatformExtension
         }
     }
     #endregion
-
-    #region File
-    /// <summary>
-    /// 异步获取系统附件信息列表。
-    /// </summary>
-    /// <param name="platform">平台服务实例。</param>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizId">附件业务数据ID。</param>
-    /// <returns>系统附件信息列表。</returns>
-    public static Task<List<AttachInfo>> GetFilesAsync(this IPlatformService platform, Database db, string bizId)
-    {
-        return FileService.GetFilesAsync(db, bizId);
-    }
-    #endregion
 }

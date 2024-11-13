@@ -79,17 +79,4 @@ public static class PlatformExtension
         filePaths.ForEach(AttachFile.DeleteFile);
     }
     #endregion
-
-    #region Log
-    /// <summary>
-    /// 异步添加系统日志。
-    /// </summary>
-    /// <param name="platform">平台服务实例。</param>
-    /// <param name="log">系统日志</param>
-    /// <returns>添加结果。</returns>
-    public static Task<Result> AddLogAsync(this IPlatformService platform, LogInfo log)
-    {
-        return platform.AddLogAsync(platform.Database, log);
-    }
-    #endregion
 }

@@ -84,11 +84,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public BaseLayout App { get; set; }
 
     /// <summary>
-    /// 取得注入的平台业务服务实例。
-    /// </summary>
-    public IPlatformService Platform { get; private set; }
-
-    /// <summary>
     /// 取得上下文语言对象实例。
     /// </summary>
     public Language Language => Context?.Language;
@@ -99,9 +94,21 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public UserInfo CurrentUser => Context?.CurrentUser;
 
     /// <summary>
+    /// 取得身份认证服务接口实例。
+    /// </summary>
+    public IAuthService Auth { get; private set; }
+
+    /// <summary>
+    /// 取得系统服务接口实例。
+    /// </summary>
+    public ISystemService System { get; private set; }
+
+    /// <summary>
     /// 取得是否释放组件对象。
     /// </summary>
     protected bool IsDisposing { get; private set; }
+
+    [Inject] internal IPlatformService Platform { get; set; }
 
     /// <summary>
     /// 异步初始化组件，初始化UI多语言实例和上下文对象，以及全局异常处理；子组件不要覆写该方法，应覆写 OnInitAsync。
@@ -112,7 +119,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         try
         {
             await base.OnInitializedAsync();
-            Platform = await CreateServiceAsync<IPlatformService>();
+            Auth = await CreateServiceAsync<IAuthService>();
+            System = await CreateServiceAsync<ISystemService>();
             UI.Language = Language;
             Context.Initialize(this);
             await OnInitAsync();

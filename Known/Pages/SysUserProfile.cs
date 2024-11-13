@@ -24,14 +24,6 @@ public class SysUserProfile : BasePage<UserInfo>
 
 class SysUserProfileInfo : BaseComponent
 {
-    private IAuthService Service;
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Service = await CreateServiceAsync<IAuthService>();
-    }
-
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         var user = CurrentUser;
@@ -71,7 +63,7 @@ class SysUserProfileInfo : BaseComponent
     {
         var file = await e.File.CreateFileAsync();
         var info = new AvatarInfo { UserId = CurrentUser?.Id, File = file };
-        var result = await Service?.UpdateAvatarAsync(info);
+        var result = await Auth?.UpdateAvatarAsync(info);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

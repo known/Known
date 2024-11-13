@@ -8,11 +8,6 @@ public class LoginPage : BaseComponent
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     /// <summary>
-    /// 获取身份认证服务实例。
-    /// </summary>
-    protected IAuthService Service { get; private set; }
-
-    /// <summary>
     /// 登录表单信息。
     /// </summary>
     [SupplyParameterFromForm]
@@ -22,16 +17,6 @@ public class LoginPage : BaseComponent
     /// 取得或设置登录成功后返回的URL。
     /// </summary>
     [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
-
-    /// <summary>
-    /// 异步初始化登录组件。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Service = await CreateServiceAsync<IAuthService>();
-    }
 
     /// <summary>
     /// 登录组件呈现后，调用JS获取本地记忆的用户名。
@@ -100,7 +85,7 @@ public class LoginPage : BaseComponent
             return;
 
         Model.IPAddress = Context.IPAddress;
-        var result = await Service.SignInAsync(Model);
+        var result = await Auth.SignInAsync(Model);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

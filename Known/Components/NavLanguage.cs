@@ -7,7 +7,6 @@
 public class NavLanguage : BaseComponent
 {
     private ActionInfo current;
-    private ISettingService Service;
 
     /// <summary>
     /// 取得或设置下拉框图标，默认为translation。
@@ -21,7 +20,6 @@ public class NavLanguage : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISettingService>();
         current = Language.GetLanguage(Context.CurrentLanguage);
     }
 
@@ -47,7 +45,7 @@ public class NavLanguage : BaseComponent
         if (CurrentUser != null)
         {
             Context.UserSetting.Language = current.Id;
-            await Service.SaveUserSettingInfoAsync(Context.UserSetting);
+            await System.SaveUserSettingInfoAsync(Context.UserSetting);
         }
         await JS.SetCurrentLanguageAsync(current.Id);
         Navigation.Refresh(true);

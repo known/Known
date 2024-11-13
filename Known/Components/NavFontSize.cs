@@ -6,8 +6,6 @@
 [NavItem]
 class NavFontSize : BaseComponent
 {
-    private ISettingService Service;
-
     /// <summary>
     /// 取得或设置下拉框图标，默认为font-size。
     /// </summary>
@@ -25,7 +23,6 @@ class NavFontSize : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISettingService>();
         UIConfig.Sizes.ForEach(s => s.Name = Language[$"Nav.Size{s.Id}"]);
     }
 
@@ -46,7 +43,7 @@ class NavFontSize : BaseComponent
     private async Task OnSizeChangedAsync(ActionInfo info)
     {
         Context.UserSetting.Size = info.Id;
-        await Service.SaveUserSettingInfoAsync(Context.UserSetting);
+        await System.SaveUserSettingInfoAsync(Context.UserSetting);
         await JS.SetCurrentSizeAsync(info.Id);
         Navigation.Refresh(true);
     }

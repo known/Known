@@ -5,7 +5,6 @@
 /// </summary>
 public class InstallForm : BaseForm<InstallInfo>
 {
-    private ISystemService Service;
     private readonly StepModel Step = new();
     private readonly Dictionary<string, FormDatabase> formDBs = [];
 
@@ -33,7 +32,6 @@ public class InstallForm : BaseForm<InstallInfo>
             return;
         }
 
-        Service = await CreateServiceAsync<ISystemService>();
         Step.AddStep("Title.Database", BuildDatabase);
         Step.AddStep("Title.SystemInfo", BuildSystem);
         Step.AddStep("Title.AccountInfo", BuildAccount);
@@ -50,7 +48,7 @@ public class InstallForm : BaseForm<InstallInfo>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Model.Data = await Service.GetInstallAsync();
+            Model.Data = await System.GetInstallAsync();
             await StateChangedAsync();
         }
     }
@@ -99,7 +97,6 @@ public class InstallForm : BaseForm<InstallInfo>
         foreach (var database in Model.Data.Databases)
         {
             builder.Component<FormDatabase>()
-                   .Set(c => c.Service, Service)
                    .Set(c => c.Data, database)
                    .Build(value => formDBs[database.Name] = value);
         }
@@ -128,7 +125,7 @@ public class InstallForm : BaseForm<InstallInfo>
 
         if (isComplete)
         {
-            var result = await Service.SaveInstallAsync(Model.Data);
+            var result = await System.SaveInstallAsync(Model.Data);
             UI.Result(result, () =>
             {
                 var info = result.DataAs<InstallInfo>();
@@ -154,7 +151,6 @@ public class InstallForm : BaseForm<InstallInfo>
 
 class FormDatabase : BaseForm<DatabaseInfo>
 {
-    [Parameter] public ISystemService Service { get; set; }
     [Parameter] public DatabaseInfo Data { get; set; }
 
     protected override async Task OnInitFormAsync()
@@ -180,7 +176,7 @@ class FormDatabase : BaseForm<DatabaseInfo>
 
     private async Task OnTestAsync(MouseEventArgs args)
     {
-        var result = await Service.TestConnectionAsync(Model.Data);
+        var result = await System.TestConnectionAsync(Model.Data);
         UI.Result(result);
     }
 }

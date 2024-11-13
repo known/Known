@@ -48,7 +48,7 @@ public class PageLayout : BaseLayout
             if (IsLogin)
             {
                 Context.CurrentUser = user;
-                Info = await AuthService.GetAdminAsync();
+                Info = await Auth.GetAdminAsync();
                 Context.UserSetting = Info?.UserSetting ?? new();
                 Context.UserTableSettings = Info?.UserTableSettings ?? [];
                 if (!Context.IsMobileApp)

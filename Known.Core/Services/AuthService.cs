@@ -87,8 +87,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         {
             AppName = await Platform.GetSystemNameAsync(database),
             UserMenus = await UserHelper.GetUserMenusAsync(database, modules),
-            UserSetting = await SettingService.GetUserSettingAsync<SettingInfo>(database, Constant.UserSetting),
-            UserTableSettings = await SettingService.GetUserTableSettingsAsync(database)
+            UserSetting = await SystemService.GetUserSettingAsync<SettingInfo>(database, Constant.UserSetting),
+            UserTableSettings = await SystemService.GetUserTableSettingsAsync(database)
         };
         await SetAdminAsync(database, info);
         await database.CloseAsync();

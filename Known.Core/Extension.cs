@@ -31,7 +31,6 @@ public static partial class Extension
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
         services.AddScoped<ISystemService, SystemService>();
-        services.AddScoped<ISettingService, SettingService>();
         services.AddScoped<IModuleService, ModuleService>();
     }
 

@@ -2,7 +2,6 @@
 
 class TableSetting<TItem> : BaseComponent where TItem : class, new()
 {
-    private ISettingService Service;
     private List<ColumnInfo> columns = [];
     private ColumnInfo dragging;
 
@@ -11,7 +10,6 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISettingService>();
         columns = Context.GetUserTableColumns(Table);
     }
 
@@ -102,7 +100,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                 Sort = ++index
             });
         }
-        await Service.SaveUserSettingFormAsync(new SettingFormInfo
+        await System.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = Table.SettingId,
             BizData = infos

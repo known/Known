@@ -1,9 +1,9 @@
-﻿namespace Known;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 平台操作接口，提供框架数据的常用操作方法。
 /// </summary>
-public interface IPlatformService : IService
+public interface IPlatformService
 {
     #region Config
     /// <summary>
@@ -24,29 +24,7 @@ public interface IPlatformService : IService
     Task SaveConfigAsync(Database db, string key, object value);
     #endregion
 
-    #region Company
-    /// <summary>
-    /// 异步获取租户企业信息。
-    /// </summary>
-    /// <returns>企业信息JSO你。</returns>
-    Task<string> GetCompanyAsync();
-
-    /// <summary>
-    /// 异步保存企业信息。
-    /// </summary>
-    /// <param name="model">企业信息。</param>
-    /// <returns>保存结果。</returns>
-    Task<Result> SaveCompanyAsync(object model);
-    #endregion
-
     #region User
-    /// <summary>
-    /// 异步分页查询系统用户。
-    /// </summary>
-    /// <param name="criteria">查询条件对象。</param>
-    /// <returns>分页结果。</returns>
-    Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
-
     /// <summary>
     /// 异步获取用户信息。
     /// </summary>
@@ -56,36 +34,14 @@ public interface IPlatformService : IService
     Task<UserInfo> GetUserAsync(Database db, string userName);
     #endregion
 
-    #region Import
-    /// <summary>
-    /// 异步获取导入表单数据信息。
-    /// </summary>
-    /// <param name="bizId">业务数据ID。</param>
-    /// <returns>导入表单数据信息。</returns>
-    Task<ImportFormInfo> GetImportAsync(string bizId);
-
-    /// <summary>
-    /// 异步获取数据导入规范文件。
-    /// </summary>
-    /// <param name="bizId">业务数据ID。</param>
-    /// <returns>导入规范文件。</returns>
-    Task<byte[]> GetImportRuleAsync(string bizId);
-
-    /// <summary>
-    /// 异步导入系统附件。
-    /// </summary>
-    /// <param name="info">系统附件信息。</param>
-    /// <returns>导入结果。</returns>
-    Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
-    #endregion
-
     #region File
     /// <summary>
-    /// 异步获取系统附件列表。
+    /// 异步获取系统附件信息列表。
     /// </summary>
+    /// <param name="db">数据库对象。</param>
     /// <param name="bizId">附件业务数据ID。</param>
-    /// <returns>系统附件列表。</returns>
-    Task<List<AttachInfo>> GetFilesAsync(string bizId);
+    /// <returns>系统附件信息列表。</returns>
+    Task<List<AttachInfo>> GetFilesAsync(Database db, string bizId);
 
     /// <summary>
     /// 异步添加系统附件信息。
@@ -98,11 +54,12 @@ public interface IPlatformService : IService
     Task<List<AttachInfo>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType);
 
     /// <summary>
-    /// 异步删除单条系统附件。
+    /// 异步删除系统附件实体。
     /// </summary>
-    /// <param name="file">系统附件对象。</param>
-    /// <returns>删除结果。</returns>
-    Task<Result> DeleteFileAsync(AttachInfo file);
+    /// <param name="db">数据库对象。</param>
+    /// <param name="id">附件ID。</param>
+    /// <returns></returns>
+    Task DeleteFileAsync(Database db, string id);
 
     /// <summary>
     /// 异步删除系统附件表数据。
@@ -115,6 +72,14 @@ public interface IPlatformService : IService
     #endregion
 
     #region Task
+    /// <summary>
+    /// 异步获取指定业务的系统后台任务信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizId">业务ID。</param>
+    /// <returns>系统后台任务信息。</returns>
+    Task<TaskInfo> GetTaskAsync(Database db, string bizId);
+
     /// <summary>
     /// 异步创建一个系统后台任务。
     /// </summary>

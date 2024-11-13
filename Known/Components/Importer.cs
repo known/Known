@@ -94,7 +94,7 @@ class Importer : BaseComponent
 
         var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [file];
-        var result = await Platform.ImportFilesAsync(info);
+        var result = await System.ImportFilesAsync(info);
         if (!result.IsValid)
         {
             error = result.Message;
@@ -117,7 +117,7 @@ class Importer : BaseComponent
 
     private async Task OnDownloadTemplateAsync()
     {
-        var bytes = await Platform.GetImportRuleAsync(Model.BizId);
+        var bytes = await System.GetImportRuleAsync(Model.BizId);
         if (bytes == null || bytes.Length == 0)
         {
             UI.Error(Language["Import.FileNotExists"]);

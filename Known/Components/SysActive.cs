@@ -2,7 +2,6 @@
 
 class SysActive : BaseComponent
 {
-    private ISystemService Service;
     private FormModel<SystemInfo> model;
 
     [Parameter] public Action<bool> OnCheck { get; set; }
@@ -10,7 +9,6 @@ class SysActive : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISystemService>();
         model = new FormModel<SystemInfo>(this);
         model.Data = new SystemInfo();
         model.AddRow().AddColumn(c => c.ProductId, c => c.ReadOnly = true);
@@ -22,7 +20,7 @@ class SysActive : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var info = await Service.GetInstallAsync();
+            var info = await System.GetInstallAsync();
             model.Data.ProductId = info.ProductId;
             model.Data.ProductKey = info.ProductKey;
             await StateChangedAsync();
@@ -47,7 +45,7 @@ class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = await Service.SaveKeyAsync(model.Data);
+        var result = await System.SaveKeyAsync(model.Data);
         UI.Result(result, () =>
         {
             OnCheck?.Invoke(result.IsValid);

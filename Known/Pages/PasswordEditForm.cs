@@ -7,8 +7,6 @@
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
-    private IAuthService Service;
-
     /// <summary>
     /// 异步初始化表单。
     /// </summary>
@@ -16,7 +14,6 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Service = await CreateServiceAsync<IAuthService>();
         Model = new FormModel<PwdFormInfo>(this, true) { Data = new PwdFormInfo() };
     }
 
@@ -44,7 +41,7 @@ public class PasswordEditForm : BaseForm<PwdFormInfo>
         if (!Model.Validate())
             return;
 
-        var result = await Service.UpdatePasswordAsync(Model.Data);
+        var result = await Auth.UpdatePasswordAsync(Model.Data);
         UI.Result(result);
     }
 }

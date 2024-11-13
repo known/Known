@@ -6,7 +6,6 @@
 public class TopNavbar : BaseComponent
 {
     private const string Key = "TopNavbar";
-    private ISystemService Service;
     private List<string> types = [];
     private string dragging;
     private bool isAdd;
@@ -23,7 +22,6 @@ public class TopNavbar : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<ISystemService>();
         types = await GetTypesAsync();
     }
 
@@ -159,7 +157,7 @@ public class TopNavbar : BaseComponent
 
     private async Task<List<string>> GetTypesAsync()
     {
-        var json = await Service.GetConfigAsync(Key);
+        var json = await System.GetConfigAsync(Key);
         var items = Utils.FromJson<List<string>>(json);
         if (items == null)
         {
@@ -176,5 +174,5 @@ public class TopNavbar : BaseComponent
         return items;
     }
 
-    private Task SaveConfigAsync() => Service.SaveConfigAsync(new ConfigInfo { Key = Key, Value = types });
+    private Task SaveConfigAsync() => System.SaveConfigAsync(new ConfigInfo { Key = Key, Value = types });
 }

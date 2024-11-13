@@ -42,7 +42,7 @@ public class KUpload : BaseComponent
         if (string.IsNullOrWhiteSpace(Value))
             return;
 
-        sysFiles = await Platform.GetFilesAsync(Value);
+        sysFiles = await System.GetFilesAsync(Value);
         await StateChangedAsync();
     }
 
@@ -68,7 +68,7 @@ public class KUpload : BaseComponent
         {
             if (!string.IsNullOrWhiteSpace(Value))
             {
-                sysFiles = await Platform.GetFilesAsync(Value);
+                sysFiles = await System.GetFilesAsync(Value);
                 await StateChangedAsync();
             }
         }
@@ -181,7 +181,7 @@ public class KUpload : BaseComponent
         var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
-            await Platform.DeleteFileAsync(item);
+            await System.DeleteFileAsync(item);
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });

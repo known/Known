@@ -1,4 +1,6 @@
-﻿namespace Known.WorkFlow.Extensions;
+﻿using Known.Core;
+
+namespace Known.WorkFlow.Extensions;
 
 /// <summary>
 /// 工作流平台服务扩展类。

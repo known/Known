@@ -7,8 +7,6 @@
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<UserInfo>
 {
-    private IAuthService Service;
-
     /// <summary>
     /// 异步初始化表单。
     /// </summary>
@@ -16,7 +14,6 @@ public class UserEditForm : BaseEditForm<UserInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Service = await CreateServiceAsync<IAuthService>();
         Model = new FormModel<UserInfo>(this) { Data = CurrentUser };
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
@@ -51,7 +48,7 @@ public class UserEditForm : BaseEditForm<UserInfo>
     /// <returns>保存结果。</returns>
     protected override Task<Result> OnSaveAsync(UserInfo model)
     {
-        return Service.UpdateUserAsync(model);
+        return Auth.UpdateUserAsync(model);
     }
 
     /// <summary>

@@ -1,4 +1,7 @@
-﻿namespace Known.Core.Services;
+﻿using System.Drawing;
+using Known.Cells;
+
+namespace Known.Core.Services;
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
@@ -245,4 +248,307 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             UserDefaultPwd = "888888"
         };
     }
+
+    public Task<Result> AddLogAsync(LogInfo log)
+    {
+        return Platform.AddLogAsync(Database, log);
+    }
+
+    #region Setting
+    public async Task<string> GetUserSettingAsync(string bizType)
+    {
+        var setting = await GetUserSettingAsync(Database, bizType);
+        if (setting == null)
+            return default;
+
+        return setting.BizData;
+    }
+
+    public async Task<Result> DeleteUserSettingAsync(string bizType)
+    {
+        var database = Database;
+        var setting = await GetUserSettingAsync(database, bizType);
+        if (setting != null)
+            await database.DeleteAsync(setting);
+        return Result.Success(Language.Success(Language.Delete));
+    }
+
+    public Task<Result> SaveUserSettingInfoAsync(SettingInfo info)
+    {
+        return SaveUserSettingFormAsync(new SettingFormInfo
+        {
+            BizType = Constant.UserSetting,
+            BizData = info
+        });
+    }
+
+    public async Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
+    {
+        var database = Database;
+        var setting = await GetUserSettingAsync(database, info.BizType);
+        setting ??= new SysSetting();
+        setting.BizType = info.BizType;
+        setting.BizData = Utils.ToJson(info.BizData);
+        await database.SaveAsync(setting);
+        return Result.Success(Language.Success(Language.Save));
+    }
+
+    internal static async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
+    {
+        var setting = await GetUserSettingAsync(db, bizType);
+        if (setting == null)
+            return default;
+
+        return setting.DataAs<T>();
+    }
+
+    internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(Database db)
+    {
+        var settings = await db.QueryListAsync<SysSetting>(d => d.CreateBy == db.UserName && d.BizType.StartsWith("UserTable_"));
+        if (settings == null || settings.Count == 0)
+            return [];
+
+        return settings.ToDictionary(k => k.BizType, v => v.DataAs<List<TableSettingInfo>>());
+    }
+
+    private static Task<SysSetting> GetUserSettingAsync(Database db, string bizType)
+    {
+        return db.QueryAsync<SysSetting>(d => d.CreateBy == db.UserName && d.BizType == bizType);
+    }
+    #endregion
+
+    #region Company
+    private const string KeyCompany = "CompanyInfo";
+
+    public async Task<string> GetCompanyAsync()
+    {
+        var database = Database;
+        if (Config.App.IsPlatform)
+        {
+            return await GetCompanyDataAsync(database);
+        }
+        else
+        {
+            var json = await Platform.GetConfigAsync(database, KeyCompany);
+            if (string.IsNullOrEmpty(json))
+                json = GetDefaultData(database.User);
+            return json;
+        }
+    }
+
+    public async Task<Result> SaveCompanyAsync(object model)
+    {
+        var database = Database;
+        if (Config.App.IsPlatform)
+        {
+            var company = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
+            if (company == null)
+                return Result.Error(Language["Tip.CompanyNotExists"]);
+
+            company.CompanyData = Utils.ToJson(model);
+            await database.SaveAsync(company);
+        }
+        else
+        {
+            await Platform.SaveConfigAsync(database, KeyCompany, model);
+        }
+        return Result.Success(Language.Success(Language.Save));
+    }
+
+    private static async Task<string> GetCompanyDataAsync(Database db)
+    {
+        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
+        if (company == null)
+            return GetDefaultData(db.User);
+
+        var model = company.CompanyData;
+        if (string.IsNullOrEmpty(model))
+        {
+            model = Utils.ToJson(new
+            {
+                company.Code,
+                company.Name,
+                company.NameEn,
+                company.SccNo,
+                company.Address,
+                company.AddressEn
+            });
+        }
+        return model;
+    }
+
+    private static string GetDefaultData(UserInfo user)
+    {
+        return Utils.ToJson(new { Code = user.CompNo, Name = user.CompName });
+    }
+
+    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
+    {
+        var db = Database;
+        var sql = $@"select a.*,b.Name as Department 
+from SysUser a 
+left join SysOrganization b on b.Id=a.OrgNo 
+where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var orgNoId = nameof(UserInfo.OrgNo);
+        var orgNo = criteria.GetParameter<string>(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User?.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
+        }
+        criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
+        return await db.QueryPageAsync<UserInfo>(sql, criteria);
+    }
+    #endregion
+
+    #region Import
+    public Task<List<AttachInfo>> GetFilesAsync(string bizId)
+    {
+        return Platform.GetFilesAsync(Database, bizId);
+    }
+
+    public async Task<Result> DeleteFileAsync(AttachInfo file)
+    {
+        if (file == null || string.IsNullOrWhiteSpace(file.Path))
+            return Result.Error(Language["Tip.FileNotExists"]);
+
+        await Platform.DeleteFileAsync(Database, file.Id);
+        AttachFile.DeleteFile(file.Path);
+        return Result.Success(Language.Success(Language.Delete));
+    }
+
+    public async Task<ImportFormInfo> GetImportAsync(string bizId)
+    {
+        var db = Database;
+        var task = await Platform.GetTaskAsync(db, bizId);
+        var info = new ImportFormInfo { BizId = bizId, BizType = ImportHelper.BizType, IsFinished = true };
+        if (task != null)
+        {
+            switch (task.Status)
+            {
+                case SysTaskStatus.Pending:
+                    info.Message = context.Language["Import.TaskPending"];
+                    info.IsFinished = false;
+                    break;
+                case SysTaskStatus.Running:
+                    info.Message = context.Language["Import.TaskRunning"];
+                    info.IsFinished = false;
+                    break;
+                case SysTaskStatus.Failed:
+                    info.Message = context.Language["Import.TaskFailed"];
+                    info.Error = task.Note;
+                    break;
+                case SysTaskStatus.Success:
+                    info.Message = "";
+                    break;
+            }
+        }
+        return info;
+    }
+
+    public async Task<byte[]> GetImportRuleAsync(string bizId)
+    {
+        var db = Database;
+        if (bizId.StartsWith("Dictionary"))
+        {
+            var id = bizId.Split('_')[1];
+            var module = await db.QueryByIdAsync<SysModule>(id);
+            return GetImportRule(db.Context, module.GetFormFields());
+        }
+
+        var columns = ImportHelper.GetImportColumns(db.Context, bizId);
+        if (columns == null || columns.Count == 0)
+            return [];
+
+        var fields = columns.Select(c => new FormFieldInfo
+        {
+            Id = c.Id,
+            Name = db.Context.Language.GetString(c),
+            Required = c.Required,
+            Length = GetImportRuleNote(db.Context, c)
+        }).ToList();
+        return GetImportRule(db.Context, fields);
+    }
+
+    public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
+    {
+        TaskInfo task = null;
+        var form = info.Model;
+        var sysFiles = new List<AttachInfo>();
+        var database = Database;
+        var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
+        var result = await database.TransactionAsync(Language.Upload, async db =>
+        {
+            sysFiles = await Platform.AddFilesAsync(db, files, form.BizId, form.BizType);
+            if (form.BizType == ImportHelper.BizType)
+            {
+                task = CreateTask(form);
+                task.Target = sysFiles[0].Id;
+                task.File = sysFiles[0];
+                if (form.IsAsync)
+                    await Platform.CreateTaskAsync(db, task);
+            }
+        });
+        result.Data = sysFiles;
+        if (result.IsValid && form.BizType == ImportHelper.BizType)
+        {
+            if (form.IsAsync)
+            {
+                TaskHelper.NotifyRun(form.BizType);
+                result.Message += Language["Import.FileImporting"];
+            }
+            else if (task != null)
+            {
+                result = await ImportHelper.ExecuteAsync(database, task);
+            }
+        }
+        return result;
+    }
+
+    private static TaskInfo CreateTask(ImportFormInfo form)
+    {
+        return new TaskInfo
+        {
+            BizId = form.BizId,
+            Type = form.BizType,
+            Name = form.BizName,
+            Target = "",
+            Status = SysTaskStatus.Pending
+        };
+    }
+
+    private static byte[] GetImportRule(Context context, List<FormFieldInfo> fields)
+    {
+        var excel = ExcelFactory.Create();
+        var sheet = excel.CreateSheet("Sheet1");
+        sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
+        sheet.MergeCells(0, 0, 1, fields.Count);
+        for (int i = 0; i < fields.Count; i++)
+        {
+            var field = fields[i];
+            var note = !string.IsNullOrWhiteSpace(field.Length) ? $"{field.Length}" : "";
+            sheet.SetColumnWidth(i, 13);
+            sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
+            var fontColor = field.Required ? Color.Red : Color.White;
+            sheet.SetCellValue(2, i, field.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
+        }
+        sheet.SetRowHeight(1, 30);
+        var stream = excel.SaveToStream();
+        return stream.ToArray();
+    }
+
+    private static string GetImportRuleNote(Context context, ColumnInfo column)
+    {
+        if (!string.IsNullOrWhiteSpace(column.Category))
+        {
+            var codes = Cache.GetCodes(column.Category);
+            return context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
+        }
+
+        return column.Note;
+    }
+    #endregion
 }
