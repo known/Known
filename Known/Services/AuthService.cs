@@ -19,13 +19,6 @@ public interface IAuthService : IService
     Task<Result> SignOutAsync();
 
     /// <summary>
-    /// 异步获取用户信息。
-    /// </summary>
-    /// <param name="userName">用户登录名。</param>
-    /// <returns>用户信息。</returns>
-    Task<UserInfo> GetUserAsync(string userName);
-
-    /// <summary>
     /// 异步获取系统后台首页数据。
     /// </summary>
     /// <returns>后台首页数据。</returns>

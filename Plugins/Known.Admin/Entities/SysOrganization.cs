@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known.Admin.Entities;
 
 /// <summary>
 /// 组织架构实体类。

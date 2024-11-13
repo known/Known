@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Auths;
 
-class CookieAuthStateProvider(IHttpContextAccessor context) : AuthenticationStateProvider, IAuthStateProvider
+class CookieAuthStateProvider(IHttpContextAccessor context, IPlatformService platform) : AuthenticationStateProvider, IAuthStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -14,9 +14,8 @@ class CookieAuthStateProvider(IHttpContextAccessor context) : AuthenticationStat
         if (!context.HttpContext.User.Identity.IsAuthenticated)
             return Task.FromResult(default(UserInfo));
 
-        var db = Database.Create();
         var userName = context.HttpContext.User.Identity.Name;
-        return AuthService.GetUserAsync(db, userName);
+        return AuthService.GetUserAsync(platform, userName);
     }
 
     public async Task SignInAsync(UserInfo user)

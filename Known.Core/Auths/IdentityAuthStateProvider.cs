@@ -15,6 +15,7 @@ sealed class IdentityAuthStateProvider : RevalidatingServerAuthenticationStatePr
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IHttpContextAccessor contextAccessor;
+    private readonly IPlatformService platform;
     private readonly PersistentComponentState state;
     private readonly IdentityOptions options;
 
@@ -26,12 +27,14 @@ sealed class IdentityAuthStateProvider : RevalidatingServerAuthenticationStatePr
         ILoggerFactory loggerFactory,
         IServiceScopeFactory serviceScopeFactory,
         IHttpContextAccessor httpContextAccessor,
+        IPlatformService platformService,
         PersistentComponentState persistentComponentState,
         IOptions<IdentityOptions> optionsAccessor)
         : base(loggerFactory)
     {
-        contextAccessor = httpContextAccessor;
         scopeFactory = serviceScopeFactory;
+        contextAccessor = httpContextAccessor;
+        platform = platformService;
         state = persistentComponentState;
         options = optionsAccessor.Value;
 
@@ -106,9 +109,8 @@ sealed class IdentityAuthStateProvider : RevalidatingServerAuthenticationStatePr
         if (!user.User.Identity.IsAuthenticated)
             return null;
 
-        var db = Database.Create();
         var userName = user.User.FindFirstValue(ClaimTypes.Name);
-        return await AuthService.GetUserAsync(db, userName);
+        return await AuthService.GetUserAsync(platform, userName);
     }
 
     public Task SignInAsync(UserInfo user)

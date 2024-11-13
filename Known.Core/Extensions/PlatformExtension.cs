@@ -16,4 +16,22 @@ static class PlatformExtension
         var info = await platform.GetSystemAsync(db);
         return Config.App.CheckSystemInfo(info);
     }
+
+    internal static async Task<T> GetUserSettingAsync<T>(this IPlatformService platform, Database db, string bizType)
+    {
+        var setting = await platform.GetUserSettingAsync(db, bizType);
+        if (setting == null)
+            return default;
+
+        return setting.DataAs<T>();
+    }
+
+    internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(this IPlatformService platform, Database db)
+    {
+        var settings = await platform.GetUserSettingsAsync(db, "UserTable_");
+        if (settings == null || settings.Count == 0)
+            return [];
+
+        return settings.ToDictionary(k => k.BizType, v => v.DataAs<List<TableSettingInfo>>());
+    }
 }

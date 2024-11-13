@@ -5,7 +5,8 @@ static class DataExtension
     internal static async Task CreateTaskAsync(this Database db, TaskInfo info)
     {
         var task = new SysTask();
-        task.Id = info.Id;
+        if (!string.IsNullOrWhiteSpace(info.Id))
+            task.Id = info.Id;
         task.BizId = info.BizId;
         task.Type = info.Type;
         task.Name = info.Name;

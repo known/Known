@@ -61,9 +61,24 @@ public class UserInfo
     public string Email { get; set; }
 
     /// <summary>
+    /// 取得或设置状态。
+    /// </summary>
+    public bool Enabled { get; set; }
+
+    /// <summary>
     /// 取得或设置用户备注信息。
     /// </summary>
     public string Note { get; set; }
+
+    /// <summary>
+    /// 取得或设置首次登录时间。
+    /// </summary>
+    public DateTime? FirstLoginTime { get; set; }
+
+    /// <summary>
+    /// 取得或设置首次登录IP。
+    /// </summary>
+    public string FirstLoginIP { get; set; }
 
     /// <summary>
     /// 取得或设置用户最近登录时间。

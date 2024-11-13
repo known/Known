@@ -114,7 +114,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             await db.InsertAsync(modules);
             await Platform.SaveSystemAsync(db, sys);
             await SaveCompanyAsync(db, info, sys);
-            await SaveOrganizationAsync(db, info);
             await SaveUserAsync(db, info);
         });
         if (result.IsValid)
@@ -152,34 +151,23 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         await db.SaveAsync(company);
     }
 
-    private static async Task SaveOrganizationAsync(Database db, InstallInfo info)
-    {
-        var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == db.User.CompNo && d.Code == info.CompNo);
-        org ??= new SysOrganization();
-        org.AppId = Config.App.Id;
-        org.CompNo = info.CompNo;
-        org.ParentId = "0";
-        org.Code = info.CompNo;
-        org.Name = info.CompName;
-        await db.SaveAsync(org);
-    }
-
-    private static async Task SaveUserAsync(Database db, InstallInfo info)
+    private async Task SaveUserAsync(Database db, InstallInfo info)
     {
         var userName = info.AdminName.ToLower();
-        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
-        user ??= new SysUser();
+        var user = await Platform.GetUserAsync(db, userName);
+        user ??= new UserInfo();
         user.AppId = Config.App.Id;
         user.CompNo = info.CompNo;
+        user.CompName = info.CompName;
         user.OrgNo = info.CompNo;
         user.UserName = userName;
-        user.Password = Utils.ToMd5(info.AdminPassword);
         user.Name = info.AdminName;
         user.EnglishName = info.AdminName;
         user.Gender = "Male";
         user.Role = "Admin";
         user.Enabled = true;
-        await db.SaveAsync(user);
+        var password = Utils.ToMd5(info.AdminPassword);
+        await Platform.SaveUserAsync(db, user, password);
     }
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
@@ -257,7 +245,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     #region Setting
     public async Task<string> GetUserSettingAsync(string bizType)
     {
-        var setting = await GetUserSettingAsync(Database, bizType);
+        var setting = await Platform.GetUserSettingAsync(Database, bizType);
         if (setting == null)
             return default;
 
@@ -267,13 +255,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<Result> DeleteUserSettingAsync(string bizType)
     {
         var database = Database;
-        var setting = await GetUserSettingAsync(database, bizType);
+        var setting = await Platform.GetUserSettingAsync(database, bizType);
         if (setting != null)
-            await database.DeleteAsync(setting);
+            await Platform.DeleteSettingAsync(database, setting.Id);
         return Result.Success(Language.Success(Language.Delete));
     }
 
-    public Task<Result> SaveUserSettingInfoAsync(SettingInfo info)
+    public Task<Result> SaveUserSettingInfoAsync(UserSettingInfo info)
     {
         return SaveUserSettingFormAsync(new SettingFormInfo
         {
@@ -285,36 +273,15 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
     {
         var database = Database;
-        var setting = await GetUserSettingAsync(database, info.BizType);
-        setting ??= new SysSetting();
+        var setting = await Platform.GetUserSettingAsync(database, info.BizType);
+        setting ??= new SettingInfo();
         setting.BizType = info.BizType;
         setting.BizData = Utils.ToJson(info.BizData);
-        await database.SaveAsync(setting);
+        await Platform.SaveSettingAsync(database, setting);
         return Result.Success(Language.Success(Language.Save));
     }
 
-    internal static async Task<T> GetUserSettingAsync<T>(Database db, string bizType)
-    {
-        var setting = await GetUserSettingAsync(db, bizType);
-        if (setting == null)
-            return default;
-
-        return setting.DataAs<T>();
-    }
-
-    internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(Database db)
-    {
-        var settings = await db.QueryListAsync<SysSetting>(d => d.CreateBy == db.UserName && d.BizType.StartsWith("UserTable_"));
-        if (settings == null || settings.Count == 0)
-            return [];
-
-        return settings.ToDictionary(k => k.BizType, v => v.DataAs<List<TableSettingInfo>>());
-    }
-
-    private static Task<SysSetting> GetUserSettingAsync(Database db, string bizType)
-    {
-        return db.QueryAsync<SysSetting>(d => d.CreateBy == db.UserName && d.BizType == bizType);
-    }
+    
     #endregion
 
     #region Company
@@ -389,16 +356,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 from SysUser a 
 left join SysOrganization b on b.Id=a.OrgNo 
 where a.CompNo=@CompNo and a.UserName<>'admin'";
-        var orgNoId = nameof(UserInfo.OrgNo);
-        var orgNo = criteria.GetParameter<string>(orgNoId);
-        if (!string.IsNullOrWhiteSpace(orgNo))
-        {
-            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
-            if (org != null && org.Code != db.User?.CompNo)
-                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
-            else
-                criteria.RemoveQuery(orgNoId);
-        }
         criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
         return await db.QueryPageAsync<UserInfo>(sql, criteria);
     }

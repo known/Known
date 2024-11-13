@@ -34,7 +34,7 @@ public class AdminInfo
     /// <summary>
     /// 取得或设置当前用户系统设置信息，如：是否使用多标签页模式。
     /// </summary>
-    public SettingInfo UserSetting { get; set; }
+    public UserSettingInfo UserSetting { get; set; }
 
     /// <summary>
     /// 取得或设置当前用户模块表格设置信息列表，如：设置模块表格的显隐和宽度。

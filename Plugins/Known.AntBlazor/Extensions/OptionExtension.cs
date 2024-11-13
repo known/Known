@@ -2,7 +2,7 @@
 
 static class OptionExtension
 {
-    internal static SiderTheme ToSiderTheme(this SettingInfo info)
+    internal static SiderTheme ToSiderTheme(this UserSettingInfo info)
     {
         if (info.MenuTheme == "Light")
             return SiderTheme.Light;
@@ -10,7 +10,7 @@ static class OptionExtension
         return SiderTheme.Dark;
     }
 
-    internal static MenuTheme ToMenuTheme(this SettingInfo info)
+    internal static MenuTheme ToMenuTheme(this UserSettingInfo info)
     {
         if (info.MenuTheme == "Light")
             return MenuTheme.Light;

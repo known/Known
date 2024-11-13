@@ -26,9 +26,155 @@ class PlatformService : IPlatformService
     #endregion
 
     #region User
-    public Task<UserInfo> GetUserAsync(Database db, string userName)
+    public async Task<UserInfo> GetUserAsync(Database db, string userName)
     {
-        return db.QueryAsync<UserInfo>(d => d.UserName == userName);
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
+        return await GetUserInfoAsync(db, user);
+    }
+
+    public async Task<UserInfo> GetUserByIdAsync(Database db, string userId)
+    {
+        var user = await db.QueryAsync<SysUser>(d => d.Id == userId);
+        return await GetUserInfoAsync(db, user);
+    }
+
+    public async Task<UserInfo> GetUserAsync(Database db, string userName, string password)
+    {
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
+        return await GetUserInfoAsync(db, user);
+    }
+
+    private async Task<UserInfo> GetUserInfoAsync(Database db, SysUser user)
+    {
+        if (user == null)
+            return null;
+
+        var info = Utils.MapTo<UserInfo>(user);
+        var avatarUrl = user.GetExtension<string>(nameof(UserInfo.AvatarUrl));
+        if (string.IsNullOrWhiteSpace(avatarUrl))
+            avatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
+        info.AvatarUrl = avatarUrl;
+        await SetUserInfoAsync(db, info);
+        //await user.SetUserWeixinAsync(db);
+        return info;
+    }
+
+    private async Task SetUserInfoAsync(Database db, UserInfo user)
+    {
+        var info = await this.GetSystemAsync(db);
+        user.IsTenant = user.CompNo != info?.CompNo;
+        user.AppName = info?.AppName;
+        if (user.IsAdmin())
+            user.AppId = Config.App.Id;
+        user.CompName = info?.CompName;
+        if (!string.IsNullOrEmpty(user.OrgNo))
+        {
+            var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == user.CompNo && d.Code == user.OrgNo);
+            var orgName = org?.Name ?? user.CompName;
+            user.OrgName = orgName;
+            if (string.IsNullOrEmpty(user.CompName))
+                user.CompName = orgName;
+        }
+    }
+
+    public async Task<Result> SaveUserAsync(Database db, UserInfo info, string password = null)
+    {
+        var model = await db.QueryByIdAsync<SysUser>(info.Id);
+        if (!string.IsNullOrEmpty(password))
+        {
+            model ??= new SysUser();
+            model.AppId = info.AppId;
+            model.CompNo = info.CompNo;
+            model.OrgNo = info.CompNo;
+            model.UserName = info.UserName;
+            model.Password = password;
+            model.Role = info.Role;
+            model.Enabled = true;
+
+            var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == db.User.CompNo && d.Code == info.CompNo);
+            org ??= new SysOrganization();
+            org.AppId = info.AppId;
+            org.CompNo = info.CompNo;
+            org.ParentId = "0";
+            org.Code = info.CompNo;
+            org.Name = info.CompName;
+            await db.SaveAsync(org);
+        }
+
+        if (model == null)
+            return Result.Error(db.Context.Language["Tip.NoUser"]);
+
+        model.Name = info.Name;
+        model.EnglishName = info.EnglishName;
+        model.Gender = info.Gender;
+        model.Phone = info.Phone;
+        model.Mobile = info.Mobile;
+        model.Email = info.Email;
+        model.Note = info.Note;
+        if (!info.FirstLoginTime.HasValue)
+        {
+            model.FirstLoginTime = info.FirstLoginTime;
+            model.FirstLoginIP = info.FirstLoginIP;
+        }
+        model.LastLoginTime = info.LastLoginTime;
+        model.LastLoginIP = info.LastLoginIP;
+
+        var vr = model.Validate(db.Context);
+        if (!vr.IsValid)
+            return vr;
+
+        await db.SaveAsync(model);
+        return Result.Success("保存成功！");
+    }
+
+    public async Task<Result> SaveUserAvatarAsync(Database db, string userId, string url)
+    {
+        var model = await db.QueryByIdAsync<SysUser>(userId);
+        if (model == null)
+            return Result.Error(db.Context.Language["Tip.NoUser"]);
+
+        model.SetExtension(nameof(UserInfo.AvatarUrl), url);
+        await db.SaveAsync(model);
+        return Result.Success("保存成功！");
+    }
+
+    public async Task<Result> SaveUserPasswordAsync(Database db, string userId, string password)
+    {
+        var model = await db.QueryByIdAsync<SysUser>(userId);
+        if (model == null)
+            return Result.Error(db.Context.Language["Tip.NoUser"]);
+
+        model.Password = password;
+        await db.SaveAsync(model);
+        return Result.Success("保存成功！");
+    }
+    #endregion
+
+    #region Setting
+    public Task<List<SettingInfo>> GetUserSettingsAsync(Database db, string bizTypePrefix)
+    {
+        return db.QueryListAsync<SettingInfo>(d => d.CreateBy == db.UserName && d.BizType.StartsWith(bizTypePrefix));
+    }
+
+    public Task<SettingInfo> GetUserSettingAsync(Database db, string bizType)
+    {
+        return db.QueryAsync<SettingInfo>(d => d.CreateBy == db.UserName && d.BizType == bizType);
+    }
+
+    public Task DeleteSettingAsync(Database db, string id)
+    {
+        return db.DeleteAsync<SysSetting>(id);
+    }
+
+    public async Task SaveSettingAsync(Database db, SettingInfo info)
+    {
+        var model = await db.QueryByIdAsync<SysSetting>(info.Id);
+        model ??= new SysSetting();
+        if (!string.IsNullOrWhiteSpace(info.Id))
+            model.Id = info.Id;
+        model.BizType = info.BizType;
+        model.BizData = info.BizData;
+        await db.SaveAsync(model);
     }
     #endregion
 

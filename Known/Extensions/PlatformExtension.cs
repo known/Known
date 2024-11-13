@@ -40,7 +40,14 @@ public static class PlatformExtension
 
         var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
         if (company == null)
-            return GetSystem(db.User);
+        {
+            return new SystemInfo
+            {
+                CompNo = db.User.CompNo,
+                CompName = db.User.CompName,
+                AppName = Config.App.Name
+            };
+        }
 
         return Utils.FromJson<SystemInfo>(company.SystemData);
     }
@@ -55,16 +62,6 @@ public static class PlatformExtension
     public static Task SaveSystemAsync(this IPlatformService platform, Database db, SystemInfo info)
     {
         return platform.SaveConfigAsync(db, KeySystem, info);
-    }
-
-    private static SystemInfo GetSystem(UserInfo info)
-    {
-        return new SystemInfo
-        {
-            CompNo = info?.CompNo,
-            CompName = info?.CompName,
-            AppName = Config.App.Name
-        };
     }
     #endregion
 

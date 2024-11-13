@@ -38,7 +38,7 @@ public class UIContext() : Context
     /// <summary>
     /// 取得或设置当前用户设置用户系统设置信息对象。
     /// </summary>
-    public SettingInfo UserSetting { get; set; } = new();
+    public UserSettingInfo UserSetting { get; set; } = new();
 
     /// <summary>
     /// 取得或设置当前用户模块表格设置信息列表。

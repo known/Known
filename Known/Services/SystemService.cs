@@ -92,7 +92,7 @@ public interface ISystemService : IService
     /// </summary>
     /// <param name="info">用户设置信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveUserSettingInfoAsync(SettingInfo info);
+    Task<Result> SaveUserSettingInfoAsync(UserSettingInfo info);
 
     /// <summary>
     /// 异步保存用户业务设置信息，如：高级查询。
@@ -225,7 +225,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         throw new NotImplementedException();
     }
 
-    public Task<Result> SaveUserSettingInfoAsync(SettingInfo info)
+    public Task<Result> SaveUserSettingInfoAsync(UserSettingInfo info)
     {
         throw new NotImplementedException();
     }

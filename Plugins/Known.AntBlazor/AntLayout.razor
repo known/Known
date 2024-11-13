@@ -125,7 +125,7 @@
     private bool collapsed = false;
     private bool showSetting = false;
     private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
-    private SettingInfo Setting { get; set; } = new();
+    private UserSettingInfo Setting { get; set; } = new();
 
     protected override async Task OnInitAsync()
     {

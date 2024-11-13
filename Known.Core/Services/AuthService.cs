@@ -7,24 +7,22 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     {
         var database = Database;
         var userName = info.UserName?.ToLower();
-        var entity = await GetUserAsync(database, userName, info.Password);
-        if (entity == null)
+        var user = await GetUserAsync(database, userName, info.Password);
+        if (user == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);
 
-        if (!entity.Enabled)
+        if (!user.Enabled)
             return Result.Error(Language["Tip.LoginDisabled"]);
 
-        if (!entity.FirstLoginTime.HasValue)
+        if (!user.FirstLoginTime.HasValue)
         {
-            entity.FirstLoginTime = DateTime.Now;
-            entity.FirstLoginIP = info.IPAddress;
+            user.FirstLoginTime = DateTime.Now;
+            user.FirstLoginIP = info.IPAddress;
         }
-        entity.LastLoginTime = DateTime.Now;
-        entity.LastLoginIP = info.IPAddress;
+        user.LastLoginTime = DateTime.Now;
+        user.LastLoginIP = info.IPAddress;
 
         await database.OpenAsync();
-        var sys = await Platform.GetSystemAsync(database);
-        var user = await entity.ToUserAsync(database, sys);
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
         await database.CloseAsync();
@@ -37,7 +35,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         database.User = user;
         return await database.TransactionAsync(Language["Login"], async db =>
         {
-            await db.SaveAsync(entity);
+            await Platform.SaveUserAsync(db, user);
             await AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
     }
@@ -56,7 +54,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 
-    internal static async Task<UserInfo> GetUserAsync(Database db, string userName)
+    internal static async Task<UserInfo> GetUserAsync(IPlatformService platform, string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
             return null;
@@ -65,13 +63,12 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var user = Cache.GetUser(userName);
         if (user == null)
         {
-            user = await UserHelper.GetUserByUserNameAsync(db, userName);
+            var db = Database.Create();
+            user = await platform.GetUserAsync(db, userName);
             Cache.SetUser(user);
         }
         return user;
     }
-
-    public Task<UserInfo> GetUserAsync(string userName) => GetUserAsync(Database, userName);
 
     public async Task<AdminInfo> GetAdminAsync()
     {
@@ -87,8 +84,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         {
             AppName = await Platform.GetSystemNameAsync(database),
             UserMenus = await UserHelper.GetUserMenusAsync(database, modules),
-            UserSetting = await SystemService.GetUserSettingAsync<SettingInfo>(database, Constant.UserSetting),
-            UserTableSettings = await SystemService.GetUserTableSettingsAsync(database)
+            UserSetting = await Platform.GetUserSettingAsync<UserSettingInfo>(database, Constant.UserSetting),
+            UserTableSettings = await Platform.GetUserTableSettingsAsync(database)
         };
         await SetAdminAsync(database, info);
         await database.CloseAsync();
@@ -99,16 +96,19 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
         var database = Database;
-        var entity = await database.QueryByIdAsync<SysUser>(info.UserId);
+        var entity = await Platform.GetUserByIdAsync(database, info.UserId);
         if (entity == null)
             return Result.Error(Language["Tip.NoUser"]);
 
         var attach = new AttachFile(info.File, CurrentUser);
         attach.FilePath = @$"Avatars\{entity.Id}{attach.ExtName}";
         await attach.SaveAsync();
+
         var url = Config.GetFileUrl(attach.FilePath);
-        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
-        await database.SaveAsync(entity);
+        var result = await Platform.SaveUserAvatarAsync(database, info.UserId, url);
+        if (!result.IsValid)
+            return result;
+
         return Result.Success(Language.Success(Language.Save), url);
     }
 
@@ -117,24 +117,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (info == null)
             return Result.Error(Language["Tip.NoUser"]);
 
-        var database = Database;
-        var model = await database.QueryByIdAsync<SysUser>(info.Id);
-        if (model == null)
-            return Result.Error(Language["Tip.NoUser"]);
+        var result = await Platform.SaveUserAsync(Database, info);
+        if (!result.IsValid)
+            return result;
 
-        model.Name = info.Name;
-        model.EnglishName = info.EnglishName;
-        model.Gender = info.Gender;
-        model.Phone = info.Phone;
-        model.Mobile = info.Mobile;
-        model.Email = info.Email;
-        model.Note = info.Note;
-        var vr = model.Validate(Context);
-        if (!vr.IsValid)
-            return vr;
-
-        await database.SaveAsync(model);
-        return Result.Success(Language.Success(Language.Save), model);
+        return Result.Success(Language.Success(Language.Save), info);
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)
@@ -161,15 +148,18 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (entity == null)
             return Result.Error(Language["Tip.CurPwdInvalid"]);
 
-        entity.Password = Utils.ToMd5(info.NewPwd);
-        await database.SaveAsync(entity);
+        var password = Utils.ToMd5(info.NewPwd);
+        var result = await Platform.SaveUserPasswordAsync(database, entity.Id, password);
+        if (!result.IsValid)
+            return result;
+
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 
-    private static Task<SysUser> GetUserAsync(Database db, string userName, string password)
+    private Task<UserInfo> GetUserAsync(Database db, string userName, string password)
     {
         password = Utils.ToMd5(password);
-        return db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
+        return Platform.GetUserAsync(db, userName, password);
     }
 
     private static async Task SetAdminAsync(Database db, AdminInfo info)

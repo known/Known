@@ -2,7 +2,7 @@
 
 namespace Known.Core.Auths;
 
-class UserStore(Database database) : IUserStore<UserInfo>
+class UserStore(Database database, IPlatformService platform) : IUserStore<UserInfo>
 {
     public Task<IdentityResult> CreateAsync(UserInfo user, CancellationToken cancellationToken)
     {
@@ -22,7 +22,7 @@ class UserStore(Database database) : IUserStore<UserInfo>
     public Task<UserInfo> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
         // TODO: get from cache
-        return UserHelper.GetUserByIdAsync(database, userId);
+        return platform.GetUserByIdAsync(database, userId);
     }
 
     public Task<UserInfo> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)

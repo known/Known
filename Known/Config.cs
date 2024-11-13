@@ -95,7 +95,7 @@ public sealed class Config
     /// <summary>
     /// 取得或设置默认系统设置方法委托，用于配置系统默认设置。
     /// </summary>
-    public static Action<SettingInfo> OnSetting { get; set; }
+    public static Action<UserSettingInfo> OnSetting { get; set; }
 
     /// <summary>
     /// 取得系统启动时间。

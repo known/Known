@@ -35,6 +35,7 @@ public static class Extension
         DbConfig.MapEntity<UserInfo, SysUser>();
         DbConfig.MapEntity<AttachInfo, SysFile>();
         DbConfig.MapEntity<TaskInfo, SysTask>();
+        DbConfig.MapEntity<SettingInfo, SysSetting>();
 
         // 添加配置
         Config.AdminTasks["Admin"] = SetAdminInfoAsync;

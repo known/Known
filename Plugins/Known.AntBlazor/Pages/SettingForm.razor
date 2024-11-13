@@ -55,7 +55,7 @@
         ["purple"] = "#722ED1"
     };
 
-    [Parameter] public SettingInfo Model { get; set; }
+    [Parameter] public UserSettingInfo Model { get; set; }
     [Parameter] public Action OnChange { get; set; }
     [Parameter] public Func<Task> OnSave { get; set; }
     [Parameter] public Func<Task> OnReset { get; set; }

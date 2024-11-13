@@ -32,6 +32,84 @@ public interface IPlatformService
     /// <param name="userName">用户名。</param>
     /// <returns>用户信息。</returns>
     Task<UserInfo> GetUserAsync(Database db, string userName);
+
+    /// <summary>
+    /// 异步根据ID获取用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userId">用户ID。</param>
+    /// <returns>用户信息。</returns>
+    Task<UserInfo> GetUserByIdAsync(Database db, string userId);
+
+    /// <summary>
+    /// 异步获取用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userName">用户名。</param>
+    /// <param name="password">密码。</param>
+    /// <returns>用户信息。</returns>
+    Task<UserInfo> GetUserAsync(Database db, string userName, string password);
+
+    /// <summary>
+    /// 异步保存用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">用户信息。</param>
+    /// <param name="password">密码，安装新用户时使用。</param>
+    /// <returns></returns>
+    Task<Result> SaveUserAsync(Database db, UserInfo info, string password = null);
+
+    /// <summary>
+    /// 异步保存用户头像信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userId">用户ID。</param>
+    /// <param name="url">头像URL。</param>
+    /// <returns></returns>
+    Task<Result> SaveUserAvatarAsync(Database db, string userId, string url);
+
+    /// <summary>
+    /// 异步修改用户密码。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userId">用户ID。</param>
+    /// <param name="password">用户密码。</param>
+    /// <returns></returns>
+    Task<Result> SaveUserPasswordAsync(Database db, string userId, string password);
+    #endregion
+
+    #region Setting
+    /// <summary>
+    /// 异步获取用户设置信息列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizTypePrefix">业务类型前缀。</param>
+    /// <returns>设置信息列表。</returns>
+    Task<List<SettingInfo>> GetUserSettingsAsync(Database db, string bizTypePrefix);
+
+    /// <summary>
+    /// 异步获取用户设置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizType">业务类型。</param>
+    /// <returns>设置信息。</returns>
+    Task<SettingInfo> GetUserSettingAsync(Database db, string bizType);
+
+    /// <summary>
+    /// 异步删除设置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="id">设置信息ID。</param>
+    /// <returns></returns>
+    Task DeleteSettingAsync(Database db, string id);
+
+    /// <summary>
+    /// 异步保存设置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">设置信息。</param>
+    /// <returns></returns>
+    Task SaveSettingAsync(Database db, SettingInfo info);
     #endregion
 
     #region File
