@@ -28,7 +28,7 @@ public sealed class ImportHelper
     /// <param name="file">导入文件对象。</param>
     /// <param name="action">导入处理委托。</param>
     /// <returns>导入结果。</returns>
-    public static Result ReadFile<TItem>(Context context, SysFile file, Action<ImportRow<TItem>> action)
+    public static Result ReadFile<TItem>(Context context, AttachInfo file, Action<ImportRow<TItem>> action)
     {
         var path = Config.GetUploadPath(file.Path);
         if (!File.Exists(path))
@@ -67,7 +67,7 @@ public sealed class ImportHelper
     /// <param name="db">数据库对象。</param>
     /// <param name="task">后台任务。</param>
     /// <returns>执行结果。</returns>
-    public static async Task<Result> ExecuteAsync(Database db, SysTask task)
+    public static Task<Result> ExecuteAsync(Database db, TaskInfo task)
     {
         var context = new ImportContext
         {
@@ -77,10 +77,9 @@ public sealed class ImportHelper
         };
         var import = CreateImport(context);
         if (import == null)
-            return Result.Error("The import method is not registered and cannot be executed!");
+            return Result.ErrorAsync("The import method is not registered and cannot be executed!");
 
-        var file = await db.QueryByIdAsync<SysFile>(task.Target);
-        return await import.ExecuteAsync(file);
+        return import.ExecuteAsync(task.File);
     }
 
     private static ImportBase CreateImport(ImportContext context)

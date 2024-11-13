@@ -182,7 +182,7 @@ public static class UIExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="item">系统附件对象。</param>
-    public static void FileLink(this RenderTreeBuilder builder, SysFile item)
+    public static void FileLink(this RenderTreeBuilder builder, AttachInfo item)
     {
         builder.Component<FileLink>().Set(c => c.Item, item).Build();
     }

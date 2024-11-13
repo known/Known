@@ -11,7 +11,7 @@ class SysDictionaryImport(ImportContext context) : ImportBase<SysDictionary>(con
         AddColumn(c => c.Note);
     }
 
-    public override async Task<Result> ExecuteAsync(SysFile file)
+    public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
         var models = new List<SysDictionary>();
         var result = ImportHelper.ReadFile<SysDictionary>(Context, file, item =>

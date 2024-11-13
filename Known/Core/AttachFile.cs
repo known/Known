@@ -101,16 +101,6 @@ public class AttachFile
     }
 
     /// <summary>
-    /// 物理删除附件。
-    /// </summary>
-    /// <param name="file">附件对象。</param>
-    public static void DeleteFile(SysFile file)
-    {
-        var path = Config.GetUploadPath(file.Path);
-        Utils.DeleteFile(path);
-    }
-
-    /// <summary>
     /// 根据路径物理删除附件。
     /// </summary>
     /// <param name="filePath">附件路径。</param>

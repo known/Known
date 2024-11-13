@@ -1,29 +1,46 @@
-﻿namespace Known.Entities;
+﻿namespace Known.Core;
 
 /// <summary>
-/// 系统任务实体类。
+/// 系统后台任务信息类。
 /// </summary>
-public class SysTask : EntityBase
+public class TaskInfo
 {
+    /// <summary>
+    /// 构造函数，创建一个任务信息类的实例。
+    /// </summary>
+    public TaskInfo()
+    {
+        Id = Utils.GetGuid();
+    }
+
+    /// <summary>
+    /// 取得或设置ID。
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置创建时间。
+    /// </summary>
+    public DateTime CreateTime { get; set; }
+
+    /// <summary>
+    /// 取得或设置任务创建人。
+    /// </summary>
+    public string CreateBy { get; set; }
+
     /// <summary>
     /// 取得或设置业务ID。
     /// </summary>
-    [Required]
-    [MaxLength(50)]
     public string BizId { get; set; }
 
     /// <summary>
     /// 取得或设置类型。
     /// </summary>
-    [Required]
-    [MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
-    [Required]
-    [MaxLength(50)]
     public string Name { get; set; }
 
     /// <summary>
@@ -34,9 +51,6 @@ public class SysTask : EntityBase
     /// <summary>
     /// 取得或设置执行状态。
     /// </summary>
-    [Category(nameof(SysTaskStatus))]
-    [Required]
-    [MaxLength(50)]
     public string Status { get; set; }
 
     /// <summary>
@@ -53,4 +67,9 @@ public class SysTask : EntityBase
     /// 取得或设置备注。
     /// </summary>
     public string Note { get; set; }
+
+    /// <summary>
+    /// 取得或设置任务关联的附件信息。
+    /// </summary>
+    public AttachInfo File { get; set; }
 }

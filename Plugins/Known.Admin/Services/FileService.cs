@@ -48,33 +48,36 @@ class FileService(Context context) : ServiceBase(context), IFileService
     }
 
     #region Static
-    internal static async Task<List<SysFile>> GetFilesAsync(Database db, string bizId)
+    internal static async Task<List<AttachInfo>> GetFilesAsync(Database db, string bizId)
     {
         if (string.IsNullOrWhiteSpace(bizId))
-            return new List<SysFile>();
+            return [];
 
+        List<AttachInfo> files = null;
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
         {
-            var files1 = await db.QueryListAsync<SysFile>(d => bizIds.Contains(d.BizId));
-            return files1?.OrderBy(d => d.CreateTime).ToList();
+            files = await db.QueryListAsync<AttachInfo>(d => bizIds.Contains(d.BizId));
         }
-
-        if (!bizId.Contains('_'))
-            return await GetFilesByBizIdAsync(db, bizId);
-
-        var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
-        var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-        var files = await db.QueryListAsync<SysFile>(d => d.BizId == bizId1 && d.Type == bizType);
+        else if (!bizId.Contains('_'))
+        {
+            files = await db.QueryListAsync<AttachInfo>(d => d.BizId == bizId);
+        }
+        else
+        {
+            var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
+            var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
+            files = await db.QueryListAsync<AttachInfo>(d => d.BizId == bizId1 && d.Type == bizType);
+        }
         return files?.OrderBy(d => d.CreateTime).ToList();
     }
 
-    internal static async Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
+    internal static async Task<List<AttachInfo>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
     {
         if (files == null || files.Count == 0)
             return null;
 
-        var sysFiles = new List<SysFile>();
+        var sysFiles = new List<AttachInfo>();
         foreach (var item in files)
         {
             var file = await AddFileAsync(db, item, bizId, bizType, "");
@@ -85,14 +88,8 @@ class FileService(Context context) : ServiceBase(context), IFileService
 
     internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
-        var files = await GetFilesByBizIdAsync(db, bizId);
-        await DeleteFilesAsync(db, files, oldFiles);
-    }
-
-    private static async Task<List<SysFile>> GetFilesByBizIdAsync(Database db, string bizId)
-    {
         var files = await db.QueryListAsync<SysFile>(d => d.BizId == bizId);
-        return files?.OrderBy(d => d.CreateTime).ToList();
+        await DeleteFilesAsync(db, files, oldFiles);
     }
 
     private static async Task DeleteFilesAsync(Database db, List<SysFile> files, List<string> oldFiles)
@@ -115,7 +112,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
         await db.DeleteAsync(item);
     }
 
-    private static async Task<SysFile> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
+    private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
     {
         await attach.SaveAsync();
         attach.BizId = bizId;
@@ -137,7 +134,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
             Note = note
         };
         await db.SaveAsync(file);
-        return file;
+        return Utils.MapTo<AttachInfo>(file);
     }
     #endregion
 }

@@ -63,23 +63,9 @@ public static class PlatformExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="bizId">附件业务数据ID。</param>
     /// <returns>系统附件信息列表。</returns>
-    public static Task<List<SysFile>> GetFilesAsync(this IPlatformService platform, Database db, string bizId)
+    public static Task<List<AttachInfo>> GetFilesAsync(this IPlatformService platform, Database db, string bizId)
     {
         return FileService.GetFilesAsync(db, bizId);
-    }
-
-    /// <summary>
-    /// 异步添加系统附件信息。
-    /// </summary>
-    /// <param name="platform">平台服务实例。</param>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="files">表单附件列表。</param>
-    /// <param name="bizId">附件业务数据ID。</param>
-    /// <param name="bizType">附件业务类型。</param>
-    /// <returns>系统附件信息列表。</returns>
-    public static Task<List<SysFile>> AddFilesAsync(this IPlatformService platform, Database db, List<AttachFile> files, string bizId, string bizType)
-    {
-        return FileService.AddFilesAsync(db, files, bizId, bizType);
     }
     #endregion
 }

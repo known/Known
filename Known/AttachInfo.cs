@@ -1,60 +1,58 @@
-﻿namespace Known.Entities;
+﻿namespace Known;
 
 /// <summary>
-/// 系统文件实体类。
+/// 系统附件信息类。
 /// </summary>
-public class SysFile : EntityBase
+public class AttachInfo
 {
+    /// <summary>
+    /// 取得或设置ID。
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置创建时间。
+    /// </summary>
+    public DateTime CreateTime { get; set; }
+
     /// <summary>
     /// 取得或设置一级分类。
     /// </summary>
-    [Required]
-    [MaxLength(50)]
     public string Category1 { get; set; }
 
     /// <summary>
     /// 取得或设置二级分类。
     /// </summary>
-    [MaxLength(50)]
     public string Category2 { get; set; }
 
     /// <summary>
     /// 取得或设置文件名称。
     /// </summary>
-    [Required]
-    [MaxLength(250)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置文件类型。
     /// </summary>
-    [MaxLength(50)]
     public string Type { get; set; }
 
     /// <summary>
     /// 取得或设置文件路径。
     /// </summary>
-    [MaxLength(500)]
     public string Path { get; set; }
 
     /// <summary>
     /// 取得或设置文件大小。
     /// </summary>
-    [Required]
     public long Size { get; set; }
 
     /// <summary>
     /// 取得或设置原文件名。
     /// </summary>
-    [Required]
-    [MaxLength(250)]
     public string SourceName { get; set; }
 
     /// <summary>
     /// 取得或设置扩展名。
     /// </summary>
-    [Required]
-    [MaxLength(50)]
     public string ExtName { get; set; }
 
     /// <summary>
@@ -65,7 +63,6 @@ public class SysFile : EntityBase
     /// <summary>
     /// 取得或设置业务ID。
     /// </summary>
-    [MaxLength(250)]
     public string BizId { get; set; }
 
     /// <summary>

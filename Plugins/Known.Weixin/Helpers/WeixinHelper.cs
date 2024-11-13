@@ -14,9 +14,9 @@ public sealed class WeixinHelper
     /// <returns></returns>
     public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
 
-    internal static SysTask CreateTask(WeixinTemplateInfo info)
+    internal static TaskInfo CreateTask(WeixinTemplateInfo info)
     {
-        return new SysTask
+        return new TaskInfo
         {
             BizId = info.BizId,
             Type = BizType,
@@ -26,7 +26,7 @@ public sealed class WeixinHelper
         };
     }
 
-    private static async Task<Result> ExecuteAsync(Database db, SysTask task)
+    private static async Task<Result> ExecuteAsync(Database db, TaskInfo task)
     {
         var info = Utils.FromJson<TemplateInfo>(task.Target);
         if (info == null)

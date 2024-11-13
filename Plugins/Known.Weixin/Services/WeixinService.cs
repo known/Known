@@ -77,14 +77,6 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     {
         return db.QueryAsync<SysWeixin>(d => d.UserId == userId);
     }
-
-    internal static async Task<Result> SendTemplateMessageAsync(Database db, WeixinTemplateInfo info)
-    {
-        var task = WeixinHelper.CreateTask(info);
-        await db.SaveAsync(task);
-        TaskHelper.NotifyRun(task.Type);
-        return Result.Success("Task saved！");
-    }
     #endregion
 
     #region MP

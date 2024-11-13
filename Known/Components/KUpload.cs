@@ -5,7 +5,7 @@
 /// </summary>
 public class KUpload : BaseComponent
 {
-    private List<SysFile> sysFiles;
+    private List<AttachInfo> sysFiles;
     private readonly List<FileDataInfo> files = [];
 
     /// <summary>
@@ -163,11 +163,11 @@ public class KUpload : BaseComponent
         var file = await item.CreateFileAsync();
         files.Add(file);
         sysFiles ??= [];
-        sysFiles.Add(new SysFile { Id = "", Name = item.Name });
+        sysFiles.Add(new AttachInfo { Id = "", Name = item.Name });
         return true;
     }
 
-    private void OnDeleteFile(SysFile item)
+    private void OnDeleteFile(AttachInfo item)
     {
         if (string.IsNullOrWhiteSpace(item.Id))
         {

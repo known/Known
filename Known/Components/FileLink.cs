@@ -2,7 +2,7 @@
 
 class FileLink : BaseComponent
 {
-    [Parameter] public SysFile Item { get; set; }
+    [Parameter] public AttachInfo Item { get; set; }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
@@ -12,7 +12,7 @@ class FileLink : BaseComponent
             builder.Span("kui-link", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFileAsync(Item)));
     }
 
-    private async Task OnDownloadFileAsync(SysFile item)
+    private async Task OnDownloadFileAsync(AttachInfo item)
     {
         var path = Config.GetUploadPath(item.Path);
         if (!File.Exists(path))

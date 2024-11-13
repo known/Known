@@ -85,7 +85,7 @@ public interface IPlatformService : IService
     /// </summary>
     /// <param name="bizId">附件业务数据ID。</param>
     /// <returns>系统附件列表。</returns>
-    Task<List<SysFile>> GetFilesAsync(string bizId);
+    Task<List<AttachInfo>> GetFilesAsync(string bizId);
 
     /// <summary>
     /// 异步添加系统附件信息。
@@ -95,14 +95,14 @@ public interface IPlatformService : IService
     /// <param name="bizId">附件业务数据ID。</param>
     /// <param name="bizType">附件业务类型。</param>
     /// <returns>系统附件信息列表。</returns>
-    Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType);
+    Task<List<AttachInfo>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType);
 
     /// <summary>
     /// 异步删除单条系统附件。
     /// </summary>
     /// <param name="file">系统附件对象。</param>
     /// <returns>删除结果。</returns>
-    Task<Result> DeleteFileAsync(SysFile file);
+    Task<Result> DeleteFileAsync(AttachInfo file);
 
     /// <summary>
     /// 异步删除系统附件表数据。
@@ -112,6 +112,16 @@ public interface IPlatformService : IService
     /// <param name="oldFiles">要物理删除的附件路径列表。</param>
     /// <returns></returns>
     Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles);
+    #endregion
+
+    #region Task
+    /// <summary>
+    /// 异步创建一个系统后台任务。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">任务信息。</param>
+    /// <returns></returns>
+    Task CreateTaskAsync(Database db, TaskInfo info);
     #endregion
 
     #region Log

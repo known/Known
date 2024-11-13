@@ -14,7 +14,7 @@ class SysUserImport(ImportContext context) : ImportBase<SysUser>(context)
         AddColumn(c => c.Note);
     }
 
-    public override async Task<Result> ExecuteAsync(SysFile file)
+    public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
         var models = new List<SysUser>();
         var result = ImportHelper.ReadFile<SysUser>(Context, file, item =>

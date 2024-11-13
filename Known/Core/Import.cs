@@ -43,7 +43,7 @@ public abstract class ImportBase(ImportContext context)
     /// </summary>
     /// <param name="file">导入文件对象。</param>
     /// <returns>导入结果。</returns>
-    public virtual Task<Result> ExecuteAsync(SysFile file) => Result.SuccessAsync("");
+    public virtual Task<Result> ExecuteAsync(AttachInfo file) => Result.SuccessAsync("");
 }
 
 /// <summary>
@@ -231,7 +231,7 @@ public class ImportRow<TItem> : Dictionary<string, string>
 
 class DictionaryImport(ImportContext context) : ImportBase(context)
 {
-    public override async Task<Result> ExecuteAsync(SysFile file)
+    public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
         var module = await Database.QueryByIdAsync<SysModule>(ImportContext.BizParam);
         if (module == null)

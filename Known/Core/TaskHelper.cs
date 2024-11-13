@@ -11,6 +11,16 @@ public sealed class TaskHelper
     private TaskHelper() { }
 
     /// <summary>
+    /// 取得或设置获取等待执行的后台任务委托。
+    /// </summary>
+    public static Func<Database, string, Task<TaskInfo>> OnPendingTask { get; set; }
+
+    /// <summary>
+    /// 取得或设置保存后台任务状态委托。
+    /// </summary>
+    public static Func<Database, TaskInfo, Task> OnSaveTask { get; set; }
+
+    /// <summary>
     /// 通知运行指定业务类型的后台任务。
     /// </summary>
     /// <param name="bizType">业务类型。</param>
@@ -25,7 +35,7 @@ public sealed class TaskHelper
     /// <param name="bizType">业务类型。</param>
     /// <param name="action">后台任务执行委托。</param>
     /// <returns></returns>
-    public static async Task RunAsync(string bizType, Func<Database, SysTask, Task<Result>> action)
+    public static async Task RunAsync(string bizType, Func<Database, TaskInfo, Task<Result>> action)
     {
         if (RunSwitches.TryGetValue(bizType, out bool enabled) && !enabled)
             return;
@@ -51,13 +61,11 @@ public sealed class TaskHelper
         RunStates[bizType] = false;
     }
 
-    private static async Task<SysTask> GetPendingTaskAsync(Database db, string bizType)
+    private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string bizType)
     {
         try
         {
-            var task = await db.Query<SysTask>().Where(d => d.Status == SysTaskStatus.Pending && d.Type == bizType)
-                               .OrderBy(d => d.CreateTime).FirstAsync();
-            return task;
+            return await OnPendingTask?.Invoke(db, bizType);
         }
         catch
         {
@@ -65,7 +73,7 @@ public sealed class TaskHelper
         }
     }
 
-    private static async Task<Result> RunAsync(Database db, SysTask task, Func<Database, SysTask, Task<Result>> action)
+    private static async Task<Result> RunAsync(Database db, TaskInfo task, Func<Database, TaskInfo, Task<Result>> action)
     {
         try
         {
@@ -73,67 +81,21 @@ public sealed class TaskHelper
             db.User = await db.QueryAsync<UserInfo>(d => d.UserName == userName);
             task.BeginTime = DateTime.Now;
             task.Status = SysTaskStatus.Running;
-            await db.SaveAsync(task);
+            await OnSaveTask?.Invoke(db, task);
 
             var result = await action.Invoke(db, task);
             task.EndTime = DateTime.Now;
             task.Status = result.IsValid ? SysTaskStatus.Success : SysTaskStatus.Failed;
             task.Note = result.Message;
-            await db.SaveAsync(task);
+            await OnSaveTask?.Invoke(db, task);
             return result;
         }
         catch (Exception ex)
         {
             task.Status = SysTaskStatus.Failed;
             task.Note = ex.ToString();
-            await db.SaveAsync(task);
+            await OnSaveTask?.Invoke(db, task);
             return Result.Error(ex.Message);
         }
-    }
-
-    private static async Task<TaskSummaryInfo> GetSummaryAsync(Database db, string type)
-    {
-        var task = await GetTaskByTypeAsync(db, type);
-        if (task == null)
-            return null;
-
-        var span = task.EndTime - task.BeginTime;
-        var time = span.HasValue ? $"{span.Value.TotalMilliseconds}" : "";
-        return new TaskSummaryInfo
-        {
-            Status = task.Status,
-            Message = db.Context?.Language["Tip.TaskInfo"].Replace("{createTime}", $"{task.CreateTime:yyyy-MM-dd HH:mm:ss}").Replace("{time}", time)
-        };
-    }
-
-    private static async Task<Result> AddAsync(Database db, string type, string name, string target = "")
-    {
-        var task = await GetTaskByTypeAsync(db, type);
-        if (task != null)
-        {
-            switch (task.Status)
-            {
-                case SysTaskStatus.Pending:
-                    return Result.Success(db.Context?.Language["Tip.TaskPending"]);
-                case SysTaskStatus.Running:
-                    return Result.Success(db.Context?.Language["Tip.TaskRunning"]);
-            }
-        }
-
-        await db.SaveAsync(new SysTask
-        {
-            BizId = type,
-            Type = type,
-            Name = name,
-            Target = target,
-            Status = SysTaskStatus.Pending
-        });
-        return Result.Success(db.Context?.Language["Tip.TaskAddSuccess"]);
-    }
-
-    private static Task<SysTask> GetTaskByTypeAsync(Database db, string type)
-    {
-        return db.Query<SysTask>().Where(d => d.Type == type)
-                 .OrderByDescending(d => d.CreateTime).FirstAsync();
     }
 }

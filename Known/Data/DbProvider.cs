@@ -42,8 +42,12 @@ class DbProvider
 
     public string GetTableName(Type type)
     {
+        Type entityType = type;
+        if (DbConfig.TableNames.TryGetValue(type, out Type value))
+            entityType = value;
+
         var tableName = string.Empty;
-        var attrs = type.GetCustomAttributes(true);
+        var attrs = entityType.GetCustomAttributes(true);
         foreach (var item in attrs)
         {
             if (item is TableAttribute attr)
@@ -53,7 +57,7 @@ class DbProvider
             }
         }
         if (string.IsNullOrWhiteSpace(tableName))
-            tableName = type.Name;
+            tableName = entityType.Name;
 
         return tableName;
     }

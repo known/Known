@@ -18,7 +18,6 @@ public enum GenderType
 /// <summary>
 /// 登录用户信息类。
 /// </summary>
-[Table("SysUser")]
 public class UserInfo
 {
     /// <summary>

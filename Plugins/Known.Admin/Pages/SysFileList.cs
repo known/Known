@@ -38,7 +38,11 @@ public class SysFileList : BaseTablePage<SysFile>
     /// </summary>
     public Task Export() => Table.ExportDataAsync();
 
-    private void BuildFileName(RenderTreeBuilder builder, SysFile row) => builder.FileLink(row);
+    private void BuildFileName(RenderTreeBuilder builder, SysFile row)
+    {
+        var info = Utils.MapTo<AttachInfo>(row);
+        builder.FileLink(info);
+    }
 
     private void BuildFileSize(RenderTreeBuilder builder, SysFile row)
     {

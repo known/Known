@@ -176,20 +176,21 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {
-        SysTask task = null;
+        TaskInfo task = null;
         var form = info.Model;
-        var sysFiles = new List<SysFile>();
+        var sysFiles = new List<AttachInfo>();
         var database = Database;
         var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
         var result = await database.TransactionAsync(Language.Upload, async db =>
         {
-            sysFiles = await this.AddFilesAsync(db, files, form.BizId, form.BizType);
+            sysFiles = await AddFilesAsync(db, files, form.BizId, form.BizType);
             if (form.BizType == ImportHelper.BizType)
             {
                 task = CreateTask(form);
                 task.Target = sysFiles[0].Id;
+                task.File = sysFiles[0];
                 if (form.IsAsync)
-                    await db.SaveAsync(task);
+                    await CreateTaskAsync(db, task);
             }
         });
         result.Data = sysFiles;
@@ -208,9 +209,9 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         return result;
     }
 
-    private static SysTask CreateTask(ImportFormInfo form)
+    private static TaskInfo CreateTask(ImportFormInfo form)
     {
-        return new SysTask
+        return new TaskInfo
         {
             BizId = form.BizId,
             Type = form.BizType,
@@ -253,29 +254,36 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
     #endregion
 
     #region File
-    public Task<List<SysFile>> GetFilesAsync(string bizId)
+    public Task<List<AttachInfo>> GetFilesAsync(string bizId)
     {
         return this.GetFilesAsync(Database, bizId);
     }
 
-    public Task<List<SysFile>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
+    public Task<List<AttachInfo>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
     {
         return FileService.AddFilesAsync(db, files, bizId, bizType);
     }
 
-    public async Task<Result> DeleteFileAsync(SysFile file)
+    public async Task<Result> DeleteFileAsync(AttachInfo file)
     {
         if (file == null || string.IsNullOrWhiteSpace(file.Path))
             return Result.Error(Language["Tip.FileNotExists"]);
 
-        await Database.DeleteAsync(file);
-        AttachFile.DeleteFile(file);
+        await Database.DeleteAsync<SysFile>(file.Id);
+        AttachFile.DeleteFile(file.Path);
         return Result.Success(Language.Success(Language.Delete));
     }
 
     public Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
         return FileService.DeleteFilesAsync(db, bizId, oldFiles);
+    }
+    #endregion
+
+    #region Task
+    public Task CreateTaskAsync(Database db, TaskInfo info)
+    {
+        return db.CreateTaskAsync(info);
     }
     #endregion
 

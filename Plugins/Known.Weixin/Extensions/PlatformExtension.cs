@@ -24,8 +24,11 @@ public static class PlatformExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="info">模板业务信息。</param>
     /// <returns>发送结果。</returns>
-    public static Task<Result> SendTemplateMessageAsync(this IPlatformService platform, Database db, WeixinTemplateInfo info)
+    public static async Task<Result> SendTemplateMessageAsync(this IPlatformService platform, Database db, WeixinTemplateInfo info)
     {
-        return WeixinService.SendTemplateMessageAsync(db, info);
+        var task = WeixinHelper.CreateTask(info);
+        await platform.CreateTaskAsync(db, task);
+        TaskHelper.NotifyRun(task.Type);
+        return Result.Success("Task saved！");
     }
 }
