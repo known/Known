@@ -19,6 +19,9 @@
         <ProjectReference Include="..\..\Known\Known.csproj" />
         -->
         <ProjectReference Include="..\..\Plugins\Known.AntBlazor\Known.AntBlazor.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Designer\Known.Designer.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Weixin\Known.Weixin.csproj" />
         <ProjectReference Include="..\..\Plugins\Known.WorkFlow\Known.WorkFlow.csproj" />
     </ItemGroup>
 

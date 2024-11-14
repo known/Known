@@ -1,7 +1,5 @@
 ﻿using Coravel;
 using Coravel.Invocable;
-using Known.Admin;
-using Known.Designer;
 using Known.Weixin;
 
 namespace Sample.Web;
@@ -13,9 +11,6 @@ public static class AppWeb
         var assembly = typeof(AppWeb).Assembly;
         //Stopwatcher.Enabled = true;
         services.AddSample();
-        services.AddKnownDesigner();
-        services.AddKnownAdmin(option => option.AddModules(ModuleHelper.AddAppModules));
-        services.AddKnownFlow(option => option.AddAssembly(assembly));
         services.AddKnownCore(info =>
         {
             //info.ProductId = "Test";

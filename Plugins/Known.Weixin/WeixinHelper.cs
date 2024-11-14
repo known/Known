@@ -1,4 +1,4 @@
-﻿namespace Known.Weixin.Helpers;
+﻿namespace Known.Weixin;
 
 /// <summary>
 /// 微信帮助者类。

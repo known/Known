@@ -1,4 +1,4 @@
-﻿namespace Known.Weixin.Extensions;
+﻿namespace Known.Weixin;
 
 /// <summary>
 /// 微信平台服务扩展类。

@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known.Admin是基于Known开发的后台通用权限系统管理模块。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.0.0</Version>
+        <Version>2.1.0</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Admin, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

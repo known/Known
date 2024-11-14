@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Extensions;
+﻿namespace Known.Admin;
 
 /// <summary>
 /// 后台管理平台服务扩展类。
@@ -13,9 +13,9 @@ public static class PlatformExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="roleName">角色名称。</param>
     /// <returns>用户列表。</returns>
-    public static Task<List<SysUser>> GetUsersByRoleAsync(this IPlatformService platform, Database db, string roleName)
+    public static Task<List<UserInfo>> GetUsersByRoleAsync(this IPlatformService platform, Database db, string roleName)
     {
-        return db.QueryListAsync<SysUser>(d => d.Role.Contains(roleName));
+        return db.QueryListAsync<UserInfo>(d => d.Role.Contains(roleName));
     }
 
     /// <summary>
@@ -52,6 +52,26 @@ public static class PlatformExtension
             if (role != null)
                 await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
         }
+    }
+    #endregion
+
+    #region Log
+    /// <summary>
+    /// 异步获取常用功能菜单信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userName">用户名。</param>
+    /// <param name="size">Top数量。</param>
+    /// <returns>功能菜单信息。</returns>
+    public static async Task<List<string>> GetVisitMenuIdsAsync(this Database db, string userName, int size)
+    {
+        var logs = await db.Query<SysLog>()
+                           .Where(d => d.Type == $"{LogType.Page}" && d.CreateBy == userName)
+                           .GroupBy(d => d.Target)
+                           .Select(d => new CountInfo { Field1 = d.Target, TotalCount = DbFunc.Count() })
+                           .ToListAsync();
+        logs = logs?.OrderByDescending(f => f.TotalCount).Take(size).ToList();
+        return logs?.Select(l => l.Field1).ToList();
     }
     #endregion
 }

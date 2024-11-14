@@ -5,7 +5,6 @@ global using Known.Core;
 global using Known.Data;
 global using Known.Extensions;
 global using Known.Weixin.Entities;
-global using Known.Weixin.Helpers;
 global using Known.Weixin.Services;
 global using Microsoft.AspNetCore.Components.Rendering;
 global using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,6 @@
 ﻿using Known.WorkFlow.Entities;
 
-namespace Known.WorkFlow.Components;
+namespace Known.WorkFlow;
 
 /// <summary>
 /// 工作流程记录表格组件类。

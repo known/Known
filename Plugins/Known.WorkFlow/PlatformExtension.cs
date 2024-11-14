@@ -1,6 +1,6 @@
 ﻿using Known.Core;
 
-namespace Known.WorkFlow.Extensions;
+namespace Known.WorkFlow;
 
 /// <summary>
 /// 工作流平台服务扩展类。

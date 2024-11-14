@@ -1,4 +1,6 @@
-﻿namespace Sample;
+﻿using Known.Designer;
+
+namespace Sample;
 
 public static class AppConfig
 {
@@ -41,6 +43,9 @@ public static class AppConfig
             info.JsPath = "./script.js";
         });
         services.AddKnownAntDesign();
+        services.AddKnownDesigner();
+        services.AddKnownAdmin(option => option.AddModules(ModuleHelper.AddAppModules));
+        services.AddKnownFlow(option => option.AddAssembly(assembly));
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };

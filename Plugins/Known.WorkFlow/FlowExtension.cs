@@ -1,4 +1,4 @@
-﻿namespace Known.WorkFlow.Extensions;
+﻿namespace Known.WorkFlow;
 
 /// <summary>
 /// 工作流扩展类。
