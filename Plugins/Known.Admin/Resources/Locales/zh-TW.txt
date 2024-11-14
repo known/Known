@@ -1,0 +1,14 @@
+﻿{
+  "Menu.BaseData": "基礎數據",
+  "Menu.CompanyForm": "企業資訊",
+  "Menu.SysDictionaryList": "資料字典",
+  "Menu.SysOrganizationList": "組織架構",
+  "Menu.System": "系統管理",
+  "Menu.SysSystem": "關於系統",
+  "Menu.SysRoleList": "角色管理",
+  "Menu.SysUserList": "用戶管理",
+  "Menu.SysTaskList": "後臺任務",
+  "Menu.SysFileList": "系統附件",
+  "Menu.SysLogList": "系統日誌",
+  "Menu.SysModuleList": "模塊管理"
+}

@@ -20,7 +20,10 @@ public class SysSystem : BaseTabPage
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
         Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build());
-        //Tab.AddTab("WeChatSetting", b => b.Component<WeChatSetting>().Build());
+        foreach (var item in UIConfig.SystemTabs)
+        {
+            Tab.AddTab(item.Key, item.Value);
+        }
     }
 
     /// <summary>

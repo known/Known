@@ -1,4 +1,10 @@
 ﻿{
+  "Title.ModelSetting": "Model Settings",
+  "Title.FlowSetting": "Flow Settings",
+  "Title.PageSetting": "Page Settings",
+  "Title.FormSetting": "Form Settings",
+  "Title.Database": "Database",
+  
   "Designer.EditPage": "Edit Page",
   "Designer.Fields": "Fields",
   "Designer.Models": "Models",

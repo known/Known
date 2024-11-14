@@ -1,4 +1,10 @@
 ﻿{
+  "Title.ModelSetting": "模型設定",
+  "Title.FlowSetting": "流程設定",
+  "Title.PageSetting": "流程設定",
+  "Title.FormSetting": "表單設定",
+  "Title.Database": "資料庫",
+  
   "Designer.EditPage": "編輯頁面",
   "Designer.Fields": "欄位清單",
   "Designer.Models": "實體模型",

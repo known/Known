@@ -10,13 +10,18 @@ static class ModelExtension
             modules.Remove(module);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
+    internal static List<ModuleInfo> ToModuleLists(this List<SysModule> models)
+    {
+        return models?.Select(Utils.MapTo<ModuleInfo>).ToList();
+    }
+
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
     {
         MenuInfo current = null;
         return models.ToMenuItems(ref current, showRoot);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, ref MenuInfo current, bool showRoot = true)
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, ref MenuInfo current, bool showRoot = true)
     {
         MenuInfo root = null;
         var menus = new List<MenuInfo>();
@@ -36,7 +41,7 @@ static class ModelExtension
         foreach (var item in tops)
         {
             item.ParentName = Config.App.Name;
-            var menu = new MenuInfo(item);
+            var menu = CreateMenuInfo(item);
             if (current != null && current.Id == menu.Id)
                 current = menu;
 
@@ -51,7 +56,7 @@ static class ModelExtension
         return menus;
     }
 
-    private static void AddChildren(List<ModuleInfo> models, MenuInfo menu, ref MenuInfo current)
+    private static void AddChildren(List<SysModule> models, MenuInfo menu, ref MenuInfo current)
     {
         var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
         if (items == null || items.Count == 0)
@@ -60,7 +65,7 @@ static class ModelExtension
         foreach (var item in items)
         {
             item.ParentName = menu.Name;
-            var sub = new MenuInfo(item);
+            var sub = CreateMenuInfo(item);
             sub.Parent = menu;
             if (current != null && current.Id == sub.Id)
                 current = sub;
@@ -68,6 +73,29 @@ static class ModelExtension
             menu.Children.Add(sub);
             AddChildren(models, sub, ref current);
         }
+    }
+
+    private static MenuInfo CreateMenuInfo(SysModule module)
+    {
+        module.LoadData();
+        var menu = new MenuInfo();
+        menu.Data = module;
+        menu.Id = module.Id;
+        menu.Name = module.Name;
+        menu.Icon = module.Icon;
+        menu.Description = module.Description;
+        menu.ParentId = module.ParentId;
+        menu.Code = module.Code;
+        menu.Target = module.Target;
+        menu.Url = module.Url;
+        menu.Sort = module.Sort;
+        menu.Model = DataHelper.ToEntity(module.EntityData);
+        menu.Page = module.Page;
+        menu.Form = module.Form;
+        menu.Tools = module.Buttons;
+        menu.Actions = module.Actions;
+        menu.Columns = module.Columns;
+        return menu;
     }
     #endregion
 

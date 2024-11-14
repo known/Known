@@ -1,4 +1,4 @@
-﻿namespace Known.Weixin.Components;
+﻿namespace Known.Weixin.Pages;
 
 class WeChatSetting : BaseEditForm<WeixinInfo>
 {

@@ -104,13 +104,13 @@ public interface ISystemService : IService
 
     #region Company
     /// <summary>
-    /// 异步获取租户企业信息。
+    /// 异步获取租户企业信息JSON。
     /// </summary>
-    /// <returns>企业信息JSO你。</returns>
+    /// <returns>企业信息JSON。</returns>
     Task<string> GetCompanyAsync();
 
     /// <summary>
-    /// 异步保存企业信息。
+    /// 异步保存租户企业信息。
     /// </summary>
     /// <param name="model">企业信息。</param>
     /// <returns>保存结果。</returns>

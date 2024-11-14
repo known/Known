@@ -31,11 +31,10 @@ public static class AppWeb
                 {
                     // 设置登录认证方式，默认Session
                     //option.AuthMode = AuthMode.Cookie;
-                    option.AddAssembly(assembly);
                 });
                 break;
             case AppType.Desktop:
-                services.AddKnownWin(option => option.AddAssembly(assembly));
+                services.AddKnownWin();
                 break;
         }
 

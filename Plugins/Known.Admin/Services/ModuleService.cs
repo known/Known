@@ -9,7 +9,7 @@ public interface IModuleService : IService
     /// 异步获取系统模块列表。
     /// </summary>
     /// <returns>系统模块列表。</returns>
-    Task<List<ModuleInfo>> GetModulesAsync();
+    Task<List<SysModule>> GetModulesAsync();
 
     /// <summary>
     /// 异步导出系统模块数据。
@@ -62,7 +62,7 @@ public interface IModuleService : IService
 
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
-    public Task<List<ModuleInfo>> GetModulesAsync() => Database.QueryListAsync<ModuleInfo>();
+    public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
 
     public async Task<FileDataInfo> ExportModulesAsync()
     {

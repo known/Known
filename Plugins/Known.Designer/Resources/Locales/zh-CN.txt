@@ -1,4 +1,10 @@
 ﻿{
+  "Title.ModelSetting": "模型设置",
+  "Title.FlowSetting": "流程设置",
+  "Title.PageSetting": "页面设置",
+  "Title.FormSetting": "表单设置",
+  "Title.Database": "数据库",
+  
   "Designer.EditPage": "编辑页面",
   "Designer.Fields": "字段列表",
   "Designer.Models": "实体模型",

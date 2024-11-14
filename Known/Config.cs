@@ -124,11 +124,10 @@ public sealed class Config
     public static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
-    /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义表单组件类和路由，以及CodeInfo特性的代码表类。
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、数据库建表脚本、自定义组件类和路由，以及CodeInfo特性的代码表类。
     /// </summary>
     /// <param name="assembly">模块程序集。</param>
-    /// <param name="isAdditional">是否附加到路由组件，默认True。</param>
-    public static void AddModule(Assembly assembly, bool isAdditional = true)
+    public static void AddModule(Assembly assembly)
     {
         if (assembly == null)
             return;
@@ -136,8 +135,7 @@ public sealed class Config
         if (Assemblies.Exists(a => a.FullName == assembly.FullName))
             return;
 
-        if (isAdditional)
-            Assemblies.Add(assembly);
+        Assemblies.Add(assembly);
         AddActions(assembly);
         Language.Initialize(assembly);
 

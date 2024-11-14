@@ -1,0 +1,7 @@
+﻿{
+  "Title.WeChatSetting": "Thiết lập WeChat",
+  "WeixinQRCodeAuth": "Giấy phép quét mã WeChat",
+  "IsWeixinAuth": "Kích hoạt ủy quyền WeChat",
+  "WeixinInfo.AppId": "Công cộng AppId",
+  "WeixinInfo.RedirectUri": "Trang đăng nhập địa chỉ gọi lại"
+}

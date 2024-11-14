@@ -10,7 +10,7 @@ static class PlatformExtension
         {
             Console.WriteLine("Table is initializing...");
             var name = db.DatabaseType.ToString();
-            foreach (var item in CoreOption.Assemblies)
+            foreach (var item in Config.Assemblies)
             {
                 var script = Utils.GetResource(item, $"{name}.sql");
                 if (string.IsNullOrWhiteSpace(script))

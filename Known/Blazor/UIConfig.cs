@@ -23,14 +23,14 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
-    /// 取得模块表单自定义标签页面字典。
+    /// 取得关于系统页面自定义标签字典。
     /// </summary>
-    public static Dictionary<string, RenderFragment> ModuleLists { get; } = [];
+    public static Dictionary<string, RenderFragment> SystemTabs { get; } = [];
 
     /// <summary>
-    /// 取得忽略URL鉴权的路由列表。
+    /// 取得开发中心页面自定义标签字典。
     /// </summary>
-    public static List<string> IgnoreRoutes { get; } = [];
+    public static Dictionary<string, RenderFragment> DevelopTabs { get; } = [];
 
     /// <summary>
     /// 取得或设置模块表单自定义标签委托。
@@ -41,6 +41,11 @@ public class UIConfig
     /// 取得或设置自定义自动表格页面委托。
     /// </summary>
     public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }
+
+    /// <summary>
+    /// 取得忽略URL鉴权的路由列表。
+    /// </summary>
+    public static List<string> IgnoreRoutes { get; } = [];
 
     /// <summary>
     /// 取得或设置页面标签颜色委托。

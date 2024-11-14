@@ -10,7 +10,7 @@ public static partial class Extension
     private static readonly CoreOption option = new();
 
     /// <summary>
-    /// 添加框架后端配置。
+    /// 添加Known框架后端配置。
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="action">系统配置方法。</param>
@@ -24,7 +24,6 @@ public static partial class Extension
 
         var assembly = typeof(Extension).Assembly;
         LoadBuildTime(Config.Version);
-        option.AddAssembly(assembly);
 
         services.AddScoped<Database>();
         services.AddScoped<IAuthService, AuthService>();

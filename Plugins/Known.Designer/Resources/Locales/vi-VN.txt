@@ -1,4 +1,10 @@
 ﻿{
+  "Title.ModelSetting": "Thiết lập mô hình",
+  "Title.FlowSetting": "Thiết lập quy trình",
+  "Title.PageSetting": "Thiết lập trang",
+  "Title.FormSetting": "Thiết lập biểu mẫu",
+  "Title.Database": "Cơ sở dữ liệu",
+  
   "Designer.EditPage": "Sửa trang",
   "Designer.Fields": "Danh sách trường",
   "Designer.Models": "Mô hình rắn",

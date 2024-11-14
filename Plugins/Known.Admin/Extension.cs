@@ -46,7 +46,7 @@ public static class Extension
         Config.AddModule(assembly);
 
         // 配置UI
-        UIConfig.ModuleLists["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
+        UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");

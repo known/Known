@@ -1,0 +1,14 @@
+﻿{
+  "Menu.BaseData": "Base Data",
+  "Menu.CompanyForm": "Company",
+  "Menu.SysDictionaryList": "Dictionaries",
+  "Menu.SysOrganizationList": "Organizations",
+  "Menu.System": "System",
+  "Menu.SysSystem": "About",
+  "Menu.SysRoleList": "Roles",
+  "Menu.SysUserList": "Users",
+  "Menu.SysTaskList": "Tasks",
+  "Menu.SysFileList": "Files",
+  "Menu.SysLogList": "Logs",
+  "Menu.SysModuleList": "Modules"
+}

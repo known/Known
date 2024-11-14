@@ -22,7 +22,7 @@ public class AntDevelopment : BaseTabPage, IReuseTabsPage
 
         await base.OnPageInitAsync();
         Tab.Class = "kui-development";
-        foreach (var item in UIConfig.ModuleLists)
+        foreach (var item in UIConfig.DevelopTabs)
         {
             Tab.AddTab(item.Key, item.Value);
         }

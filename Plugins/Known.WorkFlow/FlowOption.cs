@@ -10,7 +10,7 @@ public class FlowOption
     internal static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
-    /// 添加后端程序集，用于获取工作流类、数据库表脚本。
+    /// 添加后端程序集，用于获取工作流类。
     /// </summary>
     /// <param name="assembly">应用程序集。</param>
     public void AddAssembly(Assembly assembly)

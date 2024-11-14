@@ -1,4 +1,18 @@
 ﻿{
+  "Title.FlowAction": "{action} Flow",
+  "Title.FlowLog": "Flow Logs",
+
+  "Tip.NotRegisterFlow": "Workflow is not registered!",
+  "Tip.FlowNotCreate": "Workflow is not created, unable to execute!",
+  "Tip.FlowDeleteSave": "Only temporary records can be deleted!",
+  "Tip.UserNotExists": "The account [{user}] does not exist!",
+  "Tip.NextUserNotExists": "The next step user [{user}] does not exist!",
+  "Tip.NotExecuteFlow": "Not authorized to operate the bill for [{user}]!",
+  "Tip.RevokeReason": "The revoke reason is required!",
+  "Tip.ReturnReason": "The return reason is required!",
+  "Tip.RestartReason": "The restart reason is required!",
+  "Tip.StopReason": "The stop reason is required!",
+  
   "Flow.Open": "Open",
   "Flow.Over": "Over",
   "Flow.Stop": "Stop",
@@ -15,5 +29,13 @@
   "Flow.Verifing": "Verifing",
   "Flow.Pass": "Pass",
   "Flow.Fail": "Fail",
-  "Flow.Reapply": "Reapply"
+  "Flow.Reapply": "Reapply",
+
+  "Button.Submit": "Submit",
+  "Button.Revoke": "Revoke",
+  "Button.Assign": "Assign",
+  "Button.Verify": "Verify",
+  "Button.Stop": "Stop",
+  "Button.Restart": "Restart",
+  "Button.Reapply": "Reapply"
 }

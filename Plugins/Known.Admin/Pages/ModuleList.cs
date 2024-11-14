@@ -6,7 +6,7 @@
 public class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
-    private List<ModuleInfo> modules;
+    private List<SysModule> modules;
     private MenuInfo current;
     private int total;
     private TreeModel tree;
@@ -232,7 +232,7 @@ public class ModuleList : BasePage<SysModule>
             tree.SelectedKeys = [current.Id];
             await table.RefreshAsync();
         }
-        DataHelper.Initialize(modules);
+        DataHelper.Initialize(modules?.ToModuleLists());
         return tree;
     }
 

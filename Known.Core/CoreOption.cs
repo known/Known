@@ -24,8 +24,6 @@ public enum AuthMode
 /// </summary>
 public class CoreOption
 {
-    internal static List<Assembly> Assemblies { get; } = [];
-
     /// <summary>
     /// 取得或设置身份认证方式，默认浏览器Session。
     /// </summary>
@@ -40,19 +38,4 @@ public class CoreOption
     /// 取得或设置是否动态生成WebApi，默认启用。
     /// </summary>
     public bool IsAddWebApi { get; set; } = true;
-
-    /// <summary>
-    /// 添加后端程序集，用于获取导入类、工作流类、数据库表脚本。
-    /// </summary>
-    /// <param name="assembly">应用程序集。</param>
-    public void AddAssembly(Assembly assembly)
-    {
-        if (assembly == null)
-            return;
-
-        if (Assemblies.Exists(a => a.FullName == assembly.FullName))
-            return;
-
-        Assemblies.Add(assembly);
-    }
 }

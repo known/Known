@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Known.Weixin.Pages;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Known.Weixin;
@@ -27,6 +28,9 @@ public static class Extension
         services.AddScoped<IWeixinService, WeixinService>();
         Config.AddModule(assembly);
         WeixinApi.Initialize();
+
+        // 配置UI
+        UIConfig.SystemTabs["WeChatSetting"] = b => b.Component<WeChatSetting>().Build();
     }
 
     /// <summary>

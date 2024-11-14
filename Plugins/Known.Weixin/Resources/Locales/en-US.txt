@@ -1,0 +1,7 @@
+﻿{
+  "Title.WeChatSetting": "WeChat Settings",
+  "WeixinQRCodeAuth": "WeChat QRCode Authorization",
+  "IsWeixinAuth": "Enable WeChat authorization",
+  "WeixinInfo.AppId": "MP AppId",
+  "WeixinInfo.RedirectUri": "Web login callback uri"
+}

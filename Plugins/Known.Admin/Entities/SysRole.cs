@@ -35,7 +35,7 @@ public class SysRole : EntityBase
     /// <summary>
     /// 取得或设置角色关联的模块列表。
     /// </summary>
-    public virtual List<ModuleInfo> Modules { get; set; }
+    public virtual List<SysModule> Modules { get; set; }
 
     /// <summary>
     /// 取得或设置角色关联的菜单ID列表。

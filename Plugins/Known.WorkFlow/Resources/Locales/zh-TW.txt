@@ -1,4 +1,18 @@
 ﻿{
+  "Title.FlowAction": "{action}流程",
+  "Title.FlowLog": "流程記錄",
+
+  "Tip.NotRegisterFlow": "流程未注册！",
+  "Tip.FlowNotCreate": "流程未創建，無法執行！",
+  "Tip.FlowDeleteSave": "只能删除暫存狀態的記錄！",
+  "Tip.UserNotExists": "帳號[{user}]不存在！",
+  "Tip.NextUserNotExists": "下一步執行人[{user}]不存在！",
+  "Tip.NotExecuteFlow": "無權操作[{user}]的單據！",
+  "Tip.RevokeReason": "撤回原因不能為空！",
+  "Tip.ReturnReason": "退回原因不能為空！",
+  "Tip.RestartReason": "重啓原因不能為空！",
+  "Tip.StopReason": "終止原因不能為空！",
+  
   "Flow.Open": "開啟",
   "Flow.Over": "結束",
   "Flow.Stop": "終止",
@@ -15,5 +29,13 @@
   "Flow.Verifing": "待稽核",
   "Flow.Pass": "稽核通過",
   "Flow.Fail": "稽核退回",
-  "Flow.Reapply": "重新申請"
+  "Flow.Reapply": "重新申請",
+
+  "Button.Submit": "提交",
+  "Button.Revoke": "撤回",
+  "Button.Assign": "指派",
+  "Button.Verify": "審核",
+  "Button.Stop": "終止",
+  "Button.Restart": "重啓",
+  "Button.Reapply": "重新申請"
 }

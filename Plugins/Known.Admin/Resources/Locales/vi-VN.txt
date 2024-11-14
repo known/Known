@@ -1,0 +1,14 @@
+﻿{
+  "Menu.BaseData": "Dữ liệu cơ bản",
+  "Menu.CompanyForm": "Thông tin doanh nghiệp",
+  "Menu.SysDictionaryList": "Từ điển dữ liệu",
+  "Menu.SysOrganizationList": "Cơ cấu tổ chức",
+  "Menu.System": "Quản lý hệ thống",
+  "Menu.SysSystem": "Về hệ thống",
+  "Menu.SysRoleList": "Quản lý vai trò",
+  "Menu.SysUserList": "Quản lý người dùng",
+  "Menu.SysTaskList": "Tác vụ nền",
+  "Menu.SysFileList": "Phụ kiện hệ thống",
+  "Menu.SysLogList": "Nhật ký hệ thống",
+  "Menu.SysModuleList": "Quản lý mô-đun"
+}
