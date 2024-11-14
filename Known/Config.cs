@@ -88,11 +88,6 @@ public sealed class Config
     public static IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
-    /// 取得或设置注入系统模块初始化数据，系统安装时，会调用项目注入的模块信息，自动安装。
-    /// </summary>
-    public static Action<List<SysModule>> OnAddModule { get; set; }
-
-    /// <summary>
     /// 取得或设置默认系统设置方法委托，用于配置系统默认设置。
     /// </summary>
     public static Action<UserSettingInfo> OnSetting { get; set; }

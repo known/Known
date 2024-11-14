@@ -11,11 +11,10 @@ public static class AppWeb
     public static void AddApplication(this IServiceCollection services, Action<AppInfo> action)
     {
         var assembly = typeof(AppWeb).Assembly;
-        ModuleHelper.InitAppModules();
         //Stopwatcher.Enabled = true;
         services.AddSample();
         services.AddKnownDesigner();
-        services.AddKnownAdmin();
+        services.AddKnownAdmin(option => option.AddModules(ModuleHelper.AddAppModules));
         services.AddKnownFlow(option => option.AddAssembly(assembly));
         services.AddKnownCore(info =>
         {

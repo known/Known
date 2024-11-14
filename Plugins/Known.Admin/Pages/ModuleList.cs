@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Admin.Pages;
 
 /// <summary>
 /// 系统模块管理页面组件类。
@@ -6,7 +6,7 @@
 public class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
-    private List<SysModule> modules;
+    private List<ModuleInfo> modules;
     private MenuInfo current;
     private int total;
     private TreeModel tree;

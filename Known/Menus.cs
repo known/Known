@@ -22,7 +22,7 @@ public class MenuInfo
     /// </summary>
     /// <param name="module">系统模块信息。</param>
     /// <param name="isAdmin">是否是管理员。</param>
-    public MenuInfo(SysModule module, bool isAdmin = true) : this()
+    public MenuInfo(ModuleInfo module, bool isAdmin = true) : this()
     {
         if (isAdmin)
             module.LoadData();
@@ -60,13 +60,6 @@ public class MenuInfo
         Tools = model.Tools;
         Actions = model.Actions;
         Columns = model.Columns;
-    }
-
-    internal MenuInfo(string id, string name, string icon = null) : this()
-    {
-        Id = id;
-        Name = name;
-        Icon = icon;
     }
 
     /// <summary>

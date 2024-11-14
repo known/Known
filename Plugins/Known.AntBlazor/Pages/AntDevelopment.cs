@@ -22,8 +22,10 @@ public class AntDevelopment : BaseTabPage, IReuseTabsPage
 
         await base.OnPageInitAsync();
         Tab.Class = "kui-development";
-        Tab.AddTab("Menu.SysModuleList", b => b.Component<ModuleList>().Build());
-        //Tab.AddTab("Designer.CodeGenerator", b => b.Component<CodeGenerateForm>().Build());
+        foreach (var item in UIConfig.ModuleLists)
+        {
+            Tab.AddTab(item.Key, item.Value);
+        }
         Tab.AddTab("WebApi", BuildWebApi);
     }
 

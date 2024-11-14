@@ -6,7 +6,6 @@ global using Known.Components;
 global using Known.Data;
 global using Known.Designer.Extensions;
 global using Known.Designer.Shared;
-global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Services;

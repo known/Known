@@ -1,8 +1,8 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Admin.Pages;
 
 class ModuleForm : BaseTabForm
 {
-    [Parameter] public FormModel<SysModule> Model { get; set; }
+    [Parameter] public FormModel<ModuleInfo> Model { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
@@ -15,7 +15,7 @@ class ModuleForm : BaseTabForm
                       .AddColumn(c => c.Icon, c =>
                       {
                           c.Type = FieldType.Custom;
-                          c.CustomField = nameof(IconPicker);
+                          c.CustomField = "IconPicker";
                       });
         Model.AddRow().AddColumn(c => c.Target, c =>
         {

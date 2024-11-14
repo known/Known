@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Components;
 
 class IconInfo
 {

@@ -2,6 +2,26 @@
 
 static class PlatformExtension
 {
+    internal static async Task InitializeTableAsync(this IPlatformService platform, Database db)
+    {
+        db.EnableLog = false;
+        var exists = await platform.ExistsModuleAsync(db);
+        if (!exists)
+        {
+            Console.WriteLine("Table is initializing...");
+            var name = db.DatabaseType.ToString();
+            foreach (var item in CoreOption.Assemblies)
+            {
+                var script = Utils.GetResource(item, $"{name}.sql");
+                if (string.IsNullOrWhiteSpace(script))
+                    continue;
+
+                await db.ExecuteAsync(script);
+            }
+            Console.WriteLine("Table is initialized.");
+        }
+    }
+
     internal static async Task<string> GetSystemNameAsync(this IPlatformService platform, Database db)
     {
         var sys = await platform.GetSystemAsync(db);

@@ -1,8 +1,6 @@
-﻿global using System.Collections.Concurrent;
-global using System.Data;
+﻿global using System.Data;
 global using System.Data.Common;
 global using System.Diagnostics;
-global using System.IO.Compression;
 global using System.Net.Http.Json;
 global using System.Reflection;
 global using System.Security.Claims;
@@ -13,7 +11,6 @@ global using Known.Core.Extensions;
 global using Known.Core.Helpers;
 global using Known.Core.Services;
 global using Known.Data;
-global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Services;

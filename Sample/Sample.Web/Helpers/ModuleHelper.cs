@@ -2,19 +2,16 @@
 
 class ModuleHelper
 {
-    internal static void InitAppModules()
+    internal static void AddAppModules(List<SysModule> modules)
     {
-        Config.OnAddModule = modules =>
-        {
-            var baseData = modules.FirstOrDefault(m => m.Name == "基础数据");
-            modules.Add(GetCompanyForm(baseData.Id));
+        var baseData = modules.FirstOrDefault(m => m.Name == "基础数据");
+        modules.Add(GetCompanyForm(baseData.Id));
 
-            var bizApply = GetModule("BizApply", "业务申请", "appstore", ModuleType.Menu.ToString(), 2);
-            modules.Add(bizApply);
-            modules.Add(GetBaApplyList(bizApply.Id));
-            modules.Add(GetBaVerifyList(bizApply.Id));
-            modules.Add(GetBaQueryList(bizApply.Id));
-        };
+        var bizApply = GetModule("BizApply", "业务申请", "appstore", ModuleType.Menu.ToString(), 2);
+        modules.Add(bizApply);
+        modules.Add(GetBaApplyList(bizApply.Id));
+        modules.Add(GetBaVerifyList(bizApply.Id));
+        modules.Add(GetBaQueryList(bizApply.Id));
     }
 
     private static SysModule GetModule(string code, string name, string icon, string target, int sort)

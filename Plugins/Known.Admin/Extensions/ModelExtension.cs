@@ -2,6 +2,75 @@
 
 static class ModelExtension
 {
+    #region Module
+    internal static void RemoveModule(this List<SysModule> modules, string code)
+    {
+        var module = modules.FirstOrDefault(m => m.Code == code);
+        if (module != null)
+            modules.Remove(module);
+    }
+
+    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
+    {
+        MenuInfo current = null;
+        return models.ToMenuItems(ref current, showRoot);
+    }
+
+    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, ref MenuInfo current, bool showRoot = true)
+    {
+        MenuInfo root = null;
+        var menus = new List<MenuInfo>();
+        if (showRoot)
+        {
+            root = new MenuInfo { Id = "0", Name = Config.App.Name, Icon = "desktop" };
+            if (current != null && current.Id == root.Id)
+                current = root;
+
+            root.Data = new ModuleInfo { Id = root.Id, Name = root.Name };
+            menus.Add(root);
+        }
+        if (models == null || models.Count == 0)
+            return menus;
+
+        var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
+        foreach (var item in tops)
+        {
+            item.ParentName = Config.App.Name;
+            var menu = new MenuInfo(item);
+            if (current != null && current.Id == menu.Id)
+                current = menu;
+
+            if (showRoot)
+                root.Children.Add(menu);
+            else
+                menus.Add(menu);
+            AddChildren(models, menu, ref current);
+        }
+
+        current ??= menus[0];
+        return menus;
+    }
+
+    private static void AddChildren(List<ModuleInfo> models, MenuInfo menu, ref MenuInfo current)
+    {
+        var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            item.ParentName = menu.Name;
+            var sub = new MenuInfo(item);
+            sub.Parent = menu;
+            if (current != null && current.Id == sub.Id)
+                current = sub;
+
+            menu.Children.Add(sub);
+            AddChildren(models, sub, ref current);
+        }
+    }
+    #endregion
+
     #region MenuInfo
     internal static List<CodeInfo> GetAllActions(this MenuInfo info)
     {

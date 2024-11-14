@@ -25,7 +25,7 @@ public static class PlatformExtension
     private const string KeySystem = "SystemInfo";
 
     /// <summary>
-    /// 异步获取系统配置信息。
+    /// 异步获取系统配置信息，如果是平台，则获取租户配置信息。
     /// </summary>
     /// <param name="platform">平台服务实例。</param>
     /// <param name="db">数据库对象。</param>
@@ -35,21 +35,19 @@ public static class PlatformExtension
         if (!Config.App.IsPlatform || db.User == null)
         {
             var json = await platform.GetConfigAsync(db, KeySystem);
-            return Utils.FromJson<SystemInfo>(json); 
+            return Utils.FromJson<SystemInfo>(json);
         }
 
-        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
-        if (company == null)
+        var data = await platform.GetCompanyDataAsync(db, db.User.CompNo);
+        if (!string.IsNullOrWhiteSpace(data))
+            return Utils.FromJson<SystemInfo>(data);
+
+        return new SystemInfo
         {
-            return new SystemInfo
-            {
-                CompNo = db.User.CompNo,
-                CompName = db.User.CompName,
-                AppName = Config.App.Name
-            };
-        }
-
-        return Utils.FromJson<SystemInfo>(company.SystemData);
+            CompNo = db.User.CompNo,
+            CompName = db.User.CompName,
+            AppName = Config.App.Name
+        };
     }
 
     /// <summary>

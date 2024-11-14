@@ -1,4 +1,7 @@
-﻿namespace Known.Core.Helpers;
+﻿using System.IO.Compression;
+using System.Text;
+
+namespace Known.Admin.Helpers;
 
 class ModuleHelper
 {
@@ -45,7 +48,10 @@ class ModuleHelper
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
 
-        Config.OnAddModule?.Invoke(modules);
+        foreach (var item in Extension.Option.AddActions)
+        {
+            item.Invoke(modules);
+        }
 
         var roots = modules.Count(m => m.ParentId == "0");
         var system = GetModule("System", "系统管理", "setting", ModuleType.Menu, roots + 1);

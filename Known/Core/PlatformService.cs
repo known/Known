@@ -24,6 +24,51 @@ public interface IPlatformService
     Task SaveConfigAsync(Database db, string key, object value);
     #endregion
 
+    #region Install
+    /// <summary>
+    /// 异步保存系统安装信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">安装信息。</param>
+    /// <returns></returns>
+    Task SaveInstallAsync(Database db, InstallInfo info);
+    #endregion
+
+    #region Module
+    /// <summary>
+    /// 异步判断是否存在模块表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <returns>是否存在模块表。</returns>
+    Task<bool> ExistsModuleAsync(Database db);
+
+    /// <summary>
+    /// 异步获取系统模块信息列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <returns>模块信息列表。</returns>
+    Task<List<ModuleInfo>> GetModulesAsync(Database db);
+    #endregion
+
+    #region Company
+    /// <summary>
+    /// 异步获取系统租户配置信息JSON。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="compNo">租户编码。</param>
+    /// <returns>配置信息JSON。</returns>
+    Task<string> GetCompanyDataAsync(Database db, string compNo);
+
+    /// <summary>
+    /// 异步保存系统租户配置信息对象。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="compNo">租户编码。</param>
+    /// <param name="data">配置信息对象。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveCompanyDataAsync(Database db, string compNo, object data);
+    #endregion
+
     #region User
     /// <summary>
     /// 异步获取用户信息。
@@ -55,9 +100,8 @@ public interface IPlatformService
     /// </summary>
     /// <param name="db">数据库对象。</param>
     /// <param name="info">用户信息。</param>
-    /// <param name="password">密码，安装新用户时使用。</param>
     /// <returns></returns>
-    Task<Result> SaveUserAsync(Database db, UserInfo info, string password = null);
+    Task<Result> SaveUserAsync(Database db, UserInfo info);
 
     /// <summary>
     /// 异步保存用户头像信息。

@@ -23,6 +23,11 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
+    /// 取得模块表单自定义标签页面字典。
+    /// </summary>
+    public static Dictionary<string, RenderFragment> ModuleLists { get; } = [];
+
+    /// <summary>
     /// 取得忽略URL鉴权的路由列表。
     /// </summary>
     public static List<string> IgnoreRoutes { get; } = [];
@@ -30,7 +35,7 @@ public class UIConfig
     /// <summary>
     /// 取得或设置模块表单自定义标签委托。
     /// </summary>
-    public static Action<TabModel, FormModel<SysModule>> ModuleForm { get; set; }
+    public static Action<TabModel, FormModel<ModuleInfo>> ModuleForm { get; set; }
 
     /// <summary>
     /// 取得或设置自定义自动表格页面委托。

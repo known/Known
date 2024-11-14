@@ -26,10 +26,9 @@ public static class Extension
 
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
-        services.AddScoped<ISystemService, SystemService>();
-        services.AddScoped<IModuleService, ModuleService>();
 
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));

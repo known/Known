@@ -2,7 +2,7 @@
 
 class UserHelper
 {
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db, List<SysModule> modules)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(Database db, List<ModuleInfo> modules)
     {
         var user = db.User;
         if (user == null)
@@ -14,7 +14,7 @@ class UserHelper
             return modules.ToMenus(true);
 
         var moduleIds = await db.GetRoleModuleIdsAsync(user.Id);
-        var userModules = new List<SysModule>();
+        var userModules = new List<ModuleInfo>();
         foreach (var item in modules)
         {
             if (!moduleIds.Contains(item.Id))
@@ -32,7 +32,7 @@ class UserHelper
         return userModules.ToMenus(false);
     }
 
-    private static void AddParentModule(List<SysModule> modules, List<SysModule> userModules, SysModule item)
+    private static void AddParentModule(List<ModuleInfo> modules, List<ModuleInfo> userModules, ModuleInfo item)
     {
         if (!userModules.Exists(m => m.Id == item.ParentId))
         {
@@ -45,7 +45,7 @@ class UserHelper
         }
     }
 
-    private static List<string> GetUserButtons(List<string> moduleIds, SysModule module)
+    private static List<string> GetUserButtons(List<string> moduleIds, ModuleInfo module)
     {
         var buttons = module.GetToolButtons();
         if (buttons == null || buttons.Count == 0)
@@ -60,7 +60,7 @@ class UserHelper
         return datas;
     }
 
-    private static List<string> GetUserActions(List<string> moduleIds, SysModule module)
+    private static List<string> GetUserActions(List<string> moduleIds, ModuleInfo module)
     {
         var actions = module.GetTableActions();
         if (actions == null || actions.Count == 0)
@@ -75,7 +75,7 @@ class UserHelper
         return datas;
     }
 
-    private static List<PageColumnInfo> GetUserColumns(List<string> moduleIds, SysModule module)
+    private static List<PageColumnInfo> GetUserColumns(List<string> moduleIds, ModuleInfo module)
     {
         var columns = module.GetPageColumns();
         if (columns == null || columns.Count == 0)

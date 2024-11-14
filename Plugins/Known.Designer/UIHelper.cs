@@ -7,7 +7,7 @@ namespace Known.Designer;
 
 class UIHelper
 {
-    internal static void BuildModuleForm(TabModel tab, FormModel<SysModule> model)
+    internal static void BuildModuleForm(TabModel tab, FormModel<ModuleInfo> model)
     {
         tab.AddTab("ModelSetting", b => BuildModuleModel(b, model));
         //tab.AddTab("FlowSetting", b => BuildModuleFlow(b, model));
@@ -15,7 +15,7 @@ class UIHelper
         tab.AddTab("FormSetting", b => BuildModuleForm(b, model));
     }
 
-    private static void BuildModuleModel(RenderTreeBuilder builder, FormModel<SysModule> model)
+    private static void BuildModuleModel(RenderTreeBuilder builder, FormModel<ModuleInfo> model)
     {
         builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -25,7 +25,7 @@ class UIHelper
                .Build();
     }
 
-    private static void BuildModuleFlow(RenderTreeBuilder builder, FormModel<SysModule> model)
+    private static void BuildModuleFlow(RenderTreeBuilder builder, FormModel<ModuleInfo> model)
     {
         builder.Component<FlowDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -35,7 +35,7 @@ class UIHelper
                .Build();
     }
 
-    private static void BuildModulePage(RenderTreeBuilder builder, FormModel<SysModule> model)
+    private static void BuildModulePage(RenderTreeBuilder builder, FormModel<ModuleInfo> model)
     {
         model.Data.Entity.PageUrl = model.Data.Url;
         builder.Component<PageDesigner>()
@@ -46,7 +46,7 @@ class UIHelper
                .Build();
     }
 
-    private static void BuildModuleForm(RenderTreeBuilder builder, FormModel<SysModule> model)
+    private static void BuildModuleForm(RenderTreeBuilder builder, FormModel<ModuleInfo> model)
     {
         builder.Component<FormDesigner>()
                .Set(c => c.ReadOnly, model.IsView)

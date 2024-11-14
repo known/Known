@@ -103,18 +103,12 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
         AppHelper.SetConnection(info.Databases);
-        await AppHelper.InitializeAsync();
-        Console.WriteLine("Module is installing...");
-        var modules = ModuleHelper.GetModules();
-        var sys = GetSystem(info);
         var database = GetDatabase(info);
+        await Platform.InitializeTableAsync(database);
+        Console.WriteLine("Module is installing...");
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
-            await db.DeleteAllAsync<SysModule>();
-            await db.InsertAsync(modules);
-            await Platform.SaveSystemAsync(db, sys);
-            await SaveCompanyAsync(db, info, sys);
-            await SaveUserAsync(db, info);
+            await Platform.SaveInstallAsync(db, info);
         });
         if (result.IsValid)
         {
@@ -137,37 +131,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             Name = info.AdminName
         };
         return db;
-    }
-
-    private static async Task SaveCompanyAsync(Database db, InstallInfo info, SystemInfo sys)
-    {
-        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
-        company ??= new SysCompany();
-        company.AppId = Config.App.Id;
-        company.CompNo = info.CompNo;
-        company.Code = info.CompNo;
-        company.Name = info.CompName;
-        company.SystemData = Utils.ToJson(sys);
-        await db.SaveAsync(company);
-    }
-
-    private async Task SaveUserAsync(Database db, InstallInfo info)
-    {
-        var userName = info.AdminName.ToLower();
-        var user = await Platform.GetUserAsync(db, userName);
-        user ??= new UserInfo();
-        user.AppId = Config.App.Id;
-        user.CompNo = info.CompNo;
-        user.CompName = info.CompName;
-        user.OrgNo = info.CompNo;
-        user.UserName = userName;
-        user.Name = info.AdminName;
-        user.EnglishName = info.AdminName;
-        user.Gender = "Male";
-        user.Role = "Admin";
-        user.Enabled = true;
-        var password = Utils.ToMd5(info.AdminPassword);
-        await Platform.SaveUserAsync(db, user, password);
     }
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
@@ -202,12 +165,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var database = Database;
         if (Config.App.IsPlatform)
         {
-            var company = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
-            if (company == null)
-                return Result.Error(Language["Tip.CompanyNotExists"]);
-
-            company.SystemData = Utils.ToJson(info);
-            await database.SaveAsync(company);
+            var result = await Platform.SaveCompanyDataAsync(database, CurrentUser.CompNo, info);
+            if (!result.IsValid)
+                return result;
         }
         else
         {
@@ -222,19 +182,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         AppHelper.SaveProductKey(info.ProductKey);
         await Platform.SaveSystemAsync(database, info);
         return await Platform.CheckKeyAsync(database);
-    }
-
-    private static SystemInfo GetSystem(InstallInfo info)
-    {
-        return new SystemInfo
-        {
-            CompNo = info.CompNo,
-            CompName = info.CompName,
-            AppName = info.AppName,
-            ProductId = info.ProductId,
-            ProductKey = info.ProductKey,
-            UserDefaultPwd = "888888"
-        };
     }
 
     public Task<Result> AddLogAsync(LogInfo log)
@@ -280,8 +227,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         await Platform.SaveSettingAsync(database, setting);
         return Result.Success(Language.Success(Language.Save));
     }
-
-    
     #endregion
 
     #region Company
@@ -308,12 +253,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var database = Database;
         if (Config.App.IsPlatform)
         {
-            var company = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
-            if (company == null)
-                return Result.Error(Language["Tip.CompanyNotExists"]);
-
-            company.CompanyData = Utils.ToJson(model);
-            await database.SaveAsync(company);
+            var result = await Platform.SaveCompanyDataAsync(database, CurrentUser.CompNo, model);
+            if (!result.IsValid)
+                return result;
         }
         else
         {
@@ -322,26 +264,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return Result.Success(Language.Success(Language.Save));
     }
 
-    private static async Task<string> GetCompanyDataAsync(Database db)
+    private async Task<string> GetCompanyDataAsync(Database db)
     {
-        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
-        if (company == null)
-            return GetDefaultData(db.User);
+        var data = await Platform.GetCompanyDataAsync(db, db.User.CompNo);
+        if (!string.IsNullOrWhiteSpace(data))
+            return data;
 
-        var model = company.CompanyData;
-        if (string.IsNullOrEmpty(model))
-        {
-            model = Utils.ToJson(new
-            {
-                company.Code,
-                company.Name,
-                company.NameEn,
-                company.SccNo,
-                company.Address,
-                company.AddressEn
-            });
-        }
-        return model;
+        return GetDefaultData(db.User);
     }
 
     private static string GetDefaultData(UserInfo user)
@@ -406,28 +335,32 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         return info;
     }
 
-    public async Task<byte[]> GetImportRuleAsync(string bizId)
+    public Task<byte[]> GetImportRuleAsync(string bizId)
     {
+        byte[] data = null;
         var db = Database;
         if (bizId.StartsWith("Dictionary"))
         {
             var id = bizId.Split('_')[1];
-            var module = await db.QueryByIdAsync<SysModule>(id);
-            return GetImportRule(db.Context, module.GetFormFields());
+            var module = DataHelper.GetModule(id);
+            data = GetImportRule(db.Context, module.GetFormFields());
         }
-
-        var columns = ImportHelper.GetImportColumns(db.Context, bizId);
-        if (columns == null || columns.Count == 0)
-            return [];
-
-        var fields = columns.Select(c => new FormFieldInfo
+        else
         {
-            Id = c.Id,
-            Name = db.Context.Language.GetString(c),
-            Required = c.Required,
-            Length = GetImportRuleNote(db.Context, c)
-        }).ToList();
-        return GetImportRule(db.Context, fields);
+            var columns = ImportHelper.GetImportColumns(db.Context, bizId);
+            if (columns != null && columns.Count > 0)
+            {
+                var fields = columns.Select(c => new FormFieldInfo
+                {
+                    Id = c.Id,
+                    Name = db.Context.Language.GetString(c),
+                    Required = c.Required,
+                    Length = GetImportRuleNote(db.Context, c)
+                }).ToList();
+                data = GetImportRule(db.Context, fields);
+            }
+        }
+        return Task.FromResult(data);
     }
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)

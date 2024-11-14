@@ -233,7 +233,7 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
-        var module = await Database.QueryByIdAsync<SysModule>(ImportContext.BizParam);
+        var module = DataHelper.GetModule(ImportContext.BizParam);
         if (module == null)
             return Result.Error(Language.Required("ModuleId"));
 

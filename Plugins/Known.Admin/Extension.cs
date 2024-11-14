@@ -1,11 +1,13 @@
-﻿namespace Known.Admin;
+﻿using Known.Admin.Pages;
+
+namespace Known.Admin;
 
 /// <summary>
 /// 依赖注入扩展类。
 /// </summary>
 public static class Extension
 {
-    private static readonly AdminOption option = new();
+    internal static readonly AdminOption Option = new();
 
     /// <summary>
     /// 添加Known框架后台权限管理模块。
@@ -14,11 +16,12 @@ public static class Extension
     /// <param name="action">配置选项委托。</param>
     public static void AddKnownAdmin(this IServiceCollection services, Action<AdminOption> action = null)
     {
-        action?.Invoke(option);
+        action?.Invoke(Option);
         var assembly = typeof(Extension).Assembly;
 
         // 注入服务
         services.AddScoped<IPlatformService, PlatformService>();
+        services.AddScoped<IModuleService, ModuleService>();
         services.AddScoped<IDictionaryService, DictionaryService>();
         services.AddScoped<IFileService, FileService>();
         services.AddScoped<ILogService, LogService>();
@@ -32,6 +35,7 @@ public static class Extension
         TaskHelper.OnSaveTask = SaveTaskAsync;
 
         // 映射数据表
+        DbConfig.MapEntity<ModuleInfo, SysModule>();
         DbConfig.MapEntity<UserInfo, SysUser>();
         DbConfig.MapEntity<AttachInfo, SysFile>();
         DbConfig.MapEntity<TaskInfo, SysTask>();
@@ -40,6 +44,9 @@ public static class Extension
         // 添加配置
         Config.AdminTasks["Admin"] = SetAdminInfoAsync;
         Config.AddModule(assembly);
+
+        // 配置UI
+        UIConfig.ModuleLists["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");

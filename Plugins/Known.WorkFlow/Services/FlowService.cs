@@ -89,7 +89,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             return new FlowInfo();
 
         var database = Database;
-        var module = await database.QueryByIdAsync<SysModule>(moduleId);
+        var module = DataHelper.GetModule(moduleId);
         var info = DataHelper.ToFlow(module?.FlowData);
         if (info == null)
             return new FlowInfo();

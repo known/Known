@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known.Admin.Entities;
 
 /// <summary>
 /// 企业信息实体类。

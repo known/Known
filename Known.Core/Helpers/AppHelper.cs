@@ -37,27 +37,6 @@ class AppHelper
         }
     }
 
-    internal static async Task InitializeAsync()
-    {
-        var db = Database.Create();
-        db.EnableLog = false;
-        var exists = await db.ExistsAsync<SysModule>();
-        if (!exists)
-        {
-            Console.WriteLine("Table is initializing...");
-            var name = db.DatabaseType.ToString();
-            foreach (var item in CoreOption.Assemblies)
-            {
-                var script = Utils.GetResource(item, $"{name}.sql");
-                if (string.IsNullOrWhiteSpace(script))
-                    continue;
-
-                await db.ExecuteAsync(script);
-            }
-            Console.WriteLine("Table is initialized.");
-        }
-    }
-
     private static void LoadConnections(List<ConnectionInfo> connections)
     {
         if (connections == null || connections.Count == 0)

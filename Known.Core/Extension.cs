@@ -28,10 +28,9 @@ public static partial class Extension
 
         services.AddScoped<Database>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
-        services.AddScoped<ISystemService, SystemService>();
-        services.AddScoped<IModuleService, ModuleService>();
     }
 
     /// <summary>

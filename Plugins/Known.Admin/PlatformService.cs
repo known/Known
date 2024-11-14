@@ -25,6 +25,111 @@ class PlatformService : IPlatformService
     }
     #endregion
 
+    #region Install
+    public async Task SaveInstallAsync(Database db, InstallInfo info)
+    {
+        // 保存模块
+        var modules = ModuleHelper.GetModules();
+        await db.DeleteAllAsync<SysModule>();
+        await db.InsertAsync(modules);
+
+        // 保存配置
+        var sys = new SystemInfo
+        {
+            CompNo = info.CompNo,
+            CompName = info.CompName,
+            AppName = info.AppName,
+            ProductId = info.ProductId,
+            ProductKey = info.ProductKey,
+            UserDefaultPwd = "888888"
+        };
+        await this.SaveSystemAsync(db, sys);
+
+        // 保存用户
+        var userName = info.AdminName.ToLower();
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
+        user ??= new SysUser();
+        user.AppId = Config.App.Id;
+        user.CompNo = info.CompNo;
+        user.OrgNo = info.CompNo;
+        user.UserName = userName;
+        user.Password = Utils.ToMd5(info.AdminPassword);
+        user.Name = info.AdminName;
+        user.EnglishName = info.AdminName;
+        user.Gender = "Male";
+        user.Role = "Admin";
+        user.Enabled = true;
+        await db.SaveAsync(user);
+
+        // 保存组织架构
+        var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == info.CompNo && d.Code == info.CompNo);
+        org ??= new SysOrganization();
+        org.AppId = Config.App.Id;
+        org.CompNo = info.CompNo;
+        org.ParentId = "0";
+        org.Code = info.CompNo;
+        org.Name = info.CompName;
+        await db.SaveAsync(org);
+
+        // 保存租户
+        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
+        company ??= new SysCompany();
+        company.AppId = Config.App.Id;
+        company.CompNo = info.CompNo;
+        company.Code = info.CompNo;
+        company.Name = info.CompName;
+        company.SystemData = Utils.ToJson(sys);
+        await db.SaveAsync(company);
+    }
+    #endregion
+
+    #region Module
+    public Task<bool> ExistsModuleAsync(Database db)
+    {
+        return db.ExistsAsync<SysModule>();
+    }
+
+    public Task<List<ModuleInfo>> GetModulesAsync(Database db)
+    {
+        return db.QueryListAsync<ModuleInfo>();
+    }
+    #endregion
+
+    #region Company
+    public async Task<string> GetCompanyDataAsync(Database db, string compNo)
+    {
+        var model = await db.QueryAsync<SysCompany>(d => d.Code == compNo);
+        if (model == null)
+            return string.Empty;
+
+        var data = model.CompanyData;
+        if (string.IsNullOrWhiteSpace(data))
+        {
+            data = Utils.ToJson(new
+            {
+                model.Code,
+                model.Name,
+                model.NameEn,
+                model.SccNo,
+                model.Address,
+                model.AddressEn
+            });
+        }
+        return data;
+    }
+
+    public async Task<Result> SaveCompanyDataAsync(Database db, string compNo, object data)
+    {
+        var model = await db.QueryAsync<SysCompany>(d => d.Code == compNo);
+        if (model == null)
+            return Result.Error(db.Context.Language["Tip.CompanyNotExists"]);
+
+        model.SystemData = Utils.ToJson(data);
+        await db.SaveAsync(model);
+        return Result.Success("保存成功！");
+    }
+    #endregion
+
     #region User
     public async Task<UserInfo> GetUserAsync(Database db, string userName)
     {
@@ -77,30 +182,9 @@ class PlatformService : IPlatformService
         }
     }
 
-    public async Task<Result> SaveUserAsync(Database db, UserInfo info, string password = null)
+    public async Task<Result> SaveUserAsync(Database db, UserInfo info)
     {
         var model = await db.QueryByIdAsync<SysUser>(info.Id);
-        if (!string.IsNullOrEmpty(password))
-        {
-            model ??= new SysUser();
-            model.AppId = info.AppId;
-            model.CompNo = info.CompNo;
-            model.OrgNo = info.CompNo;
-            model.UserName = info.UserName;
-            model.Password = password;
-            model.Role = info.Role;
-            model.Enabled = true;
-
-            var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == db.User.CompNo && d.Code == info.CompNo);
-            org ??= new SysOrganization();
-            org.AppId = info.AppId;
-            org.CompNo = info.CompNo;
-            org.ParentId = "0";
-            org.Code = info.CompNo;
-            org.Name = info.CompName;
-            await db.SaveAsync(org);
-        }
-
         if (model == null)
             return Result.Error(db.Context.Language["Tip.NoUser"]);
 
