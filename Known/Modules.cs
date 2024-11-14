@@ -6,6 +6,11 @@
 public class ModuleInfo
 {
     /// <summary>
+    /// 取得或设置是否是查看详情。
+    /// </summary>
+    public bool IsView { get; set; }
+
+    /// <summary>
     /// 取得或设置ID。
     /// </summary>
     public string Id { get; set; }

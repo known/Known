@@ -33,9 +33,9 @@ public class UIConfig
     public static Dictionary<string, RenderFragment> DevelopTabs { get; } = [];
 
     /// <summary>
-    /// 取得或设置模块表单自定义标签委托。
+    /// 取得开发中心模块表单自定义标签字典。
     /// </summary>
-    public static Action<TabModel, FormModel<ModuleInfo>> ModuleForm { get; set; }
+    public static Dictionary<string, Action<RenderTreeBuilder, ModuleInfo>> ModuleFormTabs { get; } = [];
 
     /// <summary>
     /// 取得或设置自定义自动表格页面委托。

@@ -2,14 +2,21 @@
 
 class ModuleForm : BaseTabForm
 {
-    [Parameter] public FormModel<ModuleInfo> Model { get; set; }
+    private ModuleInfo Module;
+
+    [Parameter] public FormModel<SysModule> Model { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Module = Utils.MapTo<ModuleInfo>(Model.Data);
+        Module.IsView = Model.IsView;
+        Module.Entity = DataHelper.ToEntity(Model.Data.EntityData);
+
         Model.SmallLabel = true;
-        Model.Data.Entity = DataHelper.ToEntity(Model.Data.EntityData);
         Model.OnFieldChanged = OnFieldChanged;
+        Model.OnSaving = OnModelSaving;
+
         Model.AddRow().AddColumn(c => c.Code)
                       .AddColumn(c => c.Name)
                       .AddColumn(c => c.Icon, c =>
@@ -27,8 +34,12 @@ class ModuleForm : BaseTabForm
         Model.AddRow().AddColumn(c => c.Url, c => c.Span = 8)
                       .AddColumn(c => c.Description, c => c.Span = 16);
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
+
         Tab.AddTab("BasicInfo", BuildDataForm);
-        UIConfig.ModuleForm?.Invoke(Tab, Model);
+        foreach (var item in UIConfig.ModuleFormTabs)
+        {
+            Tab.AddTab(item.Key, b => item.Value.Invoke(b, Module));
+        }
         SetTabVisible();
     }
 
@@ -41,6 +52,18 @@ class ModuleForm : BaseTabForm
             SetTabVisible();
             Tab.StateChanged();
         }
+    }
+
+    private Task<bool> OnModelSaving(SysModule model)
+    {
+        if (Module != null)
+        {
+            model.EntityData = Module.EntityData;
+            model.FlowData = Module.FlowData;
+            model.PageData = Module.PageData;
+            model.FormData = Module.FormData;
+        }
+        return Task.FromResult(true);
     }
 
     private void SetTabVisible()

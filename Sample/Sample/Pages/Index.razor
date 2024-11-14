@@ -16,7 +16,7 @@
 </AntRow>
 
 @code {
-    private IHomeService homeService;
+    private IHomeService Service;
     private SpaceCard space;
     private ChartCard chart;
     private CommFuncCard func;
@@ -24,7 +24,7 @@
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        homeService = await CreateServiceAsync<IHomeService>();
+        Service = await CreateServiceAsync<IHomeService>();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -32,7 +32,7 @@
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var info = await homeService.GetHomeAsync();
+            var info = await Service.GetHomeAsync();
             var counts = new List<StatisticCountInfo>();
             counts.Add(new StatisticCountInfo { Name = Language["Home.UserCount"], Count = info?.Statistics?.UserCount });
             counts.Add(new StatisticCountInfo { Name = Language["Home.LogCount"], Count = info?.Statistics?.LogCount });

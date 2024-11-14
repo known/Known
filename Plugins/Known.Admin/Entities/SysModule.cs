@@ -105,20 +105,12 @@ public class SysModule : EntityBase
     public virtual bool IsMoveUp { get; set; }
 
     /// <summary>
-    /// 取得是否是自定义页面。
-    /// </summary>
-    public virtual bool IsCustomPage => Target == ModuleType.Custom.ToString();
-
-    /// <summary>
     /// 取得或设置实体模型配置信息。
     /// </summary>
     public virtual EntityInfo Entity { get; set; }
 
     private PageInfo page;
-    /// <summary>
-    /// 取得或设置无代码页面配置信息。
-    /// </summary>
-    public virtual PageInfo Page
+    internal virtual PageInfo Page
     {
         get
         {
@@ -133,10 +125,7 @@ public class SysModule : EntityBase
     }
 
     private FormInfo form;
-    /// <summary>
-    /// 取得或设置无代码表单配置信息。
-    /// </summary>
-    public virtual FormInfo Form
+    internal virtual FormInfo Form
     {
         get
         {
@@ -150,49 +139,14 @@ public class SysModule : EntityBase
         }
     }
 
-    /// <summary>
-    /// 取得或设置工具条按钮列表。
-    /// </summary>
-    public virtual List<string> Buttons { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格操作列按钮列表。
-    /// </summary>
-    public virtual List<string> Actions { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格栏位信息列表。
-    /// </summary>
-    public virtual List<PageColumnInfo> Columns { get; set; }
+    internal virtual List<string> Buttons { get; set; }
+    internal virtual List<string> Actions { get; set; }
+    internal virtual List<PageColumnInfo> Columns { get; set; }
 
     internal void LoadData()
     {
-        Buttons = GetToolButtons();
-        Actions = GetTableActions();
+        Buttons = Page?.Tools?.ToList();
+        Actions = Page?.Actions?.ToList();
         Columns = Page?.Columns;
     }
-
-    /// <summary>
-    /// 获取模块页面列表栏位信息列表。
-    /// </summary>
-    /// <returns>栏位信息列表。</returns>
-    public List<PageColumnInfo> GetPageColumns() => Page?.Columns;
-
-    /// <summary>
-    /// 获取模块表单字段信息列表。
-    /// </summary>
-    /// <returns>字段信息列表。</returns>
-    public List<FormFieldInfo> GetFormFields() => Form?.Fields;
-
-    /// <summary>
-    /// 获取工具条按钮列表。
-    /// </summary>
-    /// <returns></returns>
-    public List<string> GetToolButtons() => Page?.Tools?.ToList();
-
-    /// <summary>
-    /// 获取表格操作按钮列表。
-    /// </summary>
-    /// <returns></returns>
-    public List<string> GetTableActions() => Page?.Actions?.ToList();
 }
