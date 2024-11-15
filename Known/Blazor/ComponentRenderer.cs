@@ -1,4 +1,7 @@
-﻿namespace Known.Blazor;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// 打印组件呈现类。

@@ -42,7 +42,6 @@ public static class AppConfig
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             info.JsPath = "./script.js";
         });
-        services.AddKnownAntDesign();
         services.AddKnownDesigner();
         services.AddKnownAdmin();
 

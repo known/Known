@@ -1,6 +1,4 @@
-﻿using Known.AntBlazor.Components;
-
-namespace Sample.Pages.Tests;
+﻿namespace Sample.Pages.Tests;
 
 public class TestEntity : EntityBase
 {

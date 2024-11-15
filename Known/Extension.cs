@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using AntDesign;
+
+namespace Known;
 
 /// <summary>
 /// 框架配置扩展类。
@@ -19,6 +21,8 @@ public static class Extension
             return;
 
         Config.AddApp();
+        services.AddAntDesign();
+        services.AddScoped<IUIService, UIService>();
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();
         services.AddScoped<JSService>();
@@ -32,7 +36,13 @@ public static class Extension
 
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
+        
+        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
+        KStyleSheet.AddStyle("_content/Known/css/theme/default.css");
+        KStyleSheet.AddStyle("_content/Known/css/size/default.css");
         KStyleSheet.AddStyle("_content/Known/css/web.css");
+
+        KScript.AddScript("_content/AntDesign/js/ant-design-blazor.js");
         KScript.AddScript("_content/Known/js/libs/jquery.js");
         KScript.AddScript("_content/Known/js/libs/pdfobject.js");
         //KScript.AddScript("_content/Known/js/libs/highcharts.js");
@@ -41,12 +51,18 @@ public static class Extension
         KScript.AddScript("_content/Known/js/libs/prism.js");
         KScript.AddScript("_content/Known/js/web.js");
 
+
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
         if (!string.IsNullOrWhiteSpace(content))
         {
             var lines = content.Split([.. Environment.NewLine]);
             UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
         }
+        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
+        UIConfig.Sizes = [
+            new ActionInfo { Id = "Default", Style = "size", Url = "_content/Known/css/size/default.css" },
+            new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known/css/size/compact.css" }
+        ];
     }
 
     /// <summary>

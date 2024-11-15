@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// JS服务类。

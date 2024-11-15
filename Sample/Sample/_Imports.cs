@@ -2,7 +2,6 @@
 global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using Known;
-global using Known.AntBlazor;
 global using Known.Blazor;
 global using Known.Components;
 global using Known.Extensions;

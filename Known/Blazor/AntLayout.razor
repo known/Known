@@ -1,0 +1,199 @@
+﻿@inherits PageLayout
+
+<KLayout Layout="this" Class="@Context.UserSetting.Size">
+    @if (IsLoaded)
+    {
+        if (Context.IsMobileApp)
+        {
+            <AppLayout>@Body</AppLayout>
+        }
+        else
+        {
+            if (Setting.LayoutMode == LayoutMode.Horizontal)
+            {
+                <Layout Class="kui-layout">
+                    <Header Class="kui-header">
+                        <div class="left @MenuClass">
+                            <div class="kui-logo"></div>
+                            <AntMenu Context="Context" Mode="MenuMode.Horizontal" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                        </div>
+                        <TopNavbar OnMenuClick="OnMenuClick" />
+                    </Header>
+                    <Content>
+                        @if (Setting.MultiTab)
+                        {
+                            <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" />
+                        }
+                        else
+                        {
+                            <div class="kui-body">@Body</div>
+                        }
+                    </Content>
+                    @if (Setting.ShowFooter)
+                    {
+                        if (UIConfig.Footer != null)
+                        {
+                            <Footer Class="kui-footer">@UIConfig.Footer</Footer>
+                        }
+                        else
+                        {
+                            <Footer Class="kui-footer"><PageFooter /></Footer>
+                        }
+                    }
+                </Layout>
+            }
+            else
+            {
+                <Layout Class="kui-layout">
+                    @if (Setting.LayoutMode == LayoutMode.Float)
+                    {
+                        <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
+                            <div class="kui-logo"></div>
+                            <div class="kui-scroll">
+                                <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                            </div>
+                        </Sider>
+                    }
+                    else
+                    {
+                        <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
+                            <div class="kui-logo"></div>
+                            <div class="kui-scroll">
+                                <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                            </div>
+                        </Sider>
+                    }
+                    <Layout>
+                        <Header Class="kui-header">
+                            <div class="left">
+                                @if (Setting.LayoutMode != LayoutMode.Float)
+                                {
+                                    if (collapsed)
+                                    {
+                                        <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                                    }
+                                    else
+                                    {
+                                        <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                                    }
+                                }
+                                <TopBreadcrumb Current="Context.Current" />
+                            </div>
+                            <TopNavbar OnMenuClick="OnMenuClick" />
+                        </Header>
+                        <Content>
+                            @if (Setting.MultiTab)
+                            {
+                                <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" Body="Body" />
+                            }
+                            else
+                            {
+                                <div class="kui-body">@Body</div>
+                            }
+                        </Content>
+                        @if (Setting.ShowFooter)
+                        {
+                            if (UIConfig.Footer != null)
+                            {
+                                <Footer Class="kui-footer">@UIConfig.Footer</Footer>
+                            }
+                            else
+                            {
+                                <Footer Class="kui-footer"><PageFooter /></Footer>
+                            }
+                        }
+                    </Layout>
+                </Layout>
+            }
+        }
+        @if (IsLogin && !Context.IsMobileApp)
+        {
+            <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title="@(Language["Nav.Setting"])" Width="320">
+                <SettingForm Model="Setting" OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
+            </Drawer>
+        }
+        @if (showSpin)
+        {
+            <Spin Tip="@spinTip" />
+        }
+    }
+</KLayout>
+
+@code {
+    private string spinTip = "";
+    private bool showSpin = false;
+    private bool collapsed = false;
+    private bool showSetting = false;
+    private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
+    private UserSettingInfo Setting { get; set; } = new();
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Setting = Context.UserSetting;
+        await OnThemeColorAsync();
+    }
+
+    public override async Task ShowSpinAsync(string text, Func<Task> action)
+    {
+        if (action == null)
+            return;
+
+        showSpin = true;
+        spinTip = text;
+        await StateChangedAsync();
+        await Task.Run(async () =>
+        {
+            try
+            {
+                await action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                OnError(ex);
+            }
+            showSpin = false;
+            await StateChangedAsync();
+        });
+    }
+
+    private void OnToggle() => collapsed = !collapsed;
+    private void OnSetting() => showSetting = true;
+
+    private async Task OnThemeColorAsync()
+    {
+        var theme = Setting.ThemeColor;
+        var href = $"_content/Known/css/theme/{theme}.css";
+        await JS.SetStyleSheetAsync("/theme/", href);
+    }
+
+    private async Task OnSaveSetting()
+    {
+        var result = await System.SaveUserSettingInfoAsync(Setting);
+        if (result.IsValid)
+        {
+            Context.UserSetting = Setting;
+            await OnThemeColorAsync();
+        }
+    }
+
+    private Task OnResetSetting()
+    {
+        Setting = new();
+        return OnSaveSetting();
+    }
+
+    private void OnMenuClick(string id)
+    {
+        switch (id)
+        {
+            case "logout":
+                UI?.Confirm(Language["Tip.Exits"], SignOutAsync);
+                break;
+            case "setting":
+                showSetting = true;
+                StateHasChanged();
+                break;
+        }
+    }
+}

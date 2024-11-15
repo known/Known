@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.Diagnostics;
+
+namespace Known;
 
 /// <summary>
 /// 性能秒表操作类。
