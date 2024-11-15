@@ -26,12 +26,10 @@ public class KLayout : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div($"kui-wrapper {Class}", () =>
+        var className = CssBuilder.Default("kui-wrapper").AddClass(Class).BuildClass();
+        builder.Div(className, () =>
         {
-            builder.Component<KError>()
-                   .Set(c => c.OnError, Layout.OnError)
-                   .Set(c => c.ChildContent, b => b.Cascading(Layout, ChildContent))
-                   .Build();
+            builder.Cascading(Layout, ChildContent);
         });
     }
 }

@@ -197,6 +197,8 @@
   "Task.Success": "Thực hiện thành công",
   "Task.Failed": "Lỗi thực thi",
 
+  "Database": "Cơ sở dữ liệu",
+  "Test": "Thử nghiệm",
   "CreateBy": "Tạo bởi",
   "CreateTime": "Thời gian tạo",
   "ModifyBy": "Thay đổi người",

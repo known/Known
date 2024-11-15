@@ -75,20 +75,20 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (CurrentUser == null)
             return new AdminInfo();
 
-        var database = Database;
-        await database.OpenAsync();
-        await Admin.CheckKeyAsync(database);
-        var modules = await Admin.GetModulesAsync(database);
+        var db = Database;
+        await db.OpenAsync();
+        await Admin.CheckKeyAsync(db);
+        var modules = await Admin.GetModulesAsync(db);
         DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
-            AppName = await Admin.GetSystemNameAsync(database),
-            UserMenus = await UserHelper.GetUserMenusAsync(database, modules),
-            UserSetting = await Admin.GetUserSettingAsync<UserSettingInfo>(database, Constant.UserSetting),
-            UserTableSettings = await Admin.GetUserTableSettingsAsync(database)
+            AppName = await Admin.GetSystemNameAsync(db),
+            UserMenus = await Admin.GetUserMenusAsync(db, modules),
+            UserSetting = await Admin.GetUserSettingAsync<UserSettingInfo>(db, Constant.UserSetting),
+            UserTableSettings = await Admin.GetUserTableSettingsAsync(db)
         };
-        await SetAdminAsync(database, info);
-        await database.CloseAsync();
+        await SetAdminAsync(db, info);
+        await db.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
     }

@@ -197,6 +197,8 @@
   "Task.Success": "執行成功",
   "Task.Failed": "執行失敗",
 
+  "Database": "資料庫",
+  "Test": "測試",
   "CreateBy": "創建人",
   "CreateTime": "創建時間",
   "ModifyBy": "修改人",

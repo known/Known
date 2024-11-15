@@ -28,7 +28,7 @@ public sealed class TypeHelper
             && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
     }
 
-    internal static void Action(object obj, UIContext context, BaseLayout app, ActionInfo info, object[] parameters)
+    internal static async void Action(object obj, UIContext context, BaseLayout app, ActionInfo info, object[] parameters)
     {
         var type = obj.GetType();
         var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
@@ -48,7 +48,7 @@ public sealed class TypeHelper
         }
         catch (Exception ex)
         {
-            app?.OnError(ex);
+            await app?.OnErrorAsync(ex);
         }
     }
 

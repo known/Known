@@ -1,5 +1,5 @@
 ﻿{
-"Title.FlowAction": "{action}流程",
+  "Title.FlowAction": "{action}流程",
   "Title.FlowLog": "流程记录",
 
   "Tip.NotRegisterFlow": "流程未注册！",

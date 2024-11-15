@@ -32,9 +32,9 @@ public class InstallForm : BaseForm<InstallInfo>
             return;
         }
 
-        Step.AddStep("Title.Database", BuildDatabase);
-        Step.AddStep("Title.SystemInfo", BuildSystem);
-        Step.AddStep("Title.AccountInfo", BuildAccount);
+        Step.AddStep("Database", BuildDatabase);
+        Step.AddStep("SystemInfo", BuildSystem);
+        Step.AddStep("AccountInfo", BuildAccount);
         Model = new FormModel<InstallInfo>(this);
     }
 
@@ -171,7 +171,7 @@ class FormDatabase : BaseForm<DatabaseInfo>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         base.BuildForm(builder);
-        builder.Div("kui-right", () => builder.Button(Language["Designer.Test"], this.Callback<MouseEventArgs>(OnTestAsync)));
+        builder.Div("kui-right", () => builder.Button(Language["Test"], this.Callback<MouseEventArgs>(OnTestAsync)));
     }
 
     private async Task OnTestAsync(MouseEventArgs args)

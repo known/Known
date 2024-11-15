@@ -125,7 +125,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            HandleException(ex);
+            await HandleExceptionAsync(ex);
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            HandleException(ex);
+            await HandleExceptionAsync(ex);
         }
     }
 
@@ -162,7 +162,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// 呈现组件内容，以及全局异常处理；子组件不要覆写该方法，应覆写 BuildRender。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override async void BuildRenderTree(RenderTreeBuilder builder)
     {
         try
         {
@@ -170,7 +170,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            HandleException(ex);
+            await HandleExceptionAsync(ex);
         }
     }
 
@@ -245,10 +245,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         await OnDisposeAsync();
     }
 
-    private void HandleException(Exception ex)
+    private async Task HandleExceptionAsync(Exception ex)
     {
         if (App != null)
-            App.OnError(ex);
+            await App.OnErrorAsync(ex);
         else
             Logger.CreateLogger<BaseComponent>().Error(ex);
     }

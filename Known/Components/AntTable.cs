@@ -9,11 +9,6 @@ namespace Known.Components;
 public class AntTable<TItem> : Table<TItem> where TItem : class, new()
 {
     /// <summary>
-    /// 取得或设置全局错误组件对象级联值实例。
-    /// </summary>
-    [CascadingParameter] public KError Error { get; set; }
-
-    /// <summary>
     /// 取得或设置系统上下文对象实例。
     /// </summary>
     [Parameter] public Context Context { get; set; }

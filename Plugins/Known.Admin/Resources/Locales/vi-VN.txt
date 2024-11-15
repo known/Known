@@ -1,5 +1,5 @@
 ﻿{
-"Title.FlowAction": "{action} Quy trình",
+  "Title.FlowAction": "{action} Quy trình",
   "Title.FlowLog": "Ghi chép quá trình",
 
   "Tip.NotRegisterFlow": "Quy trình chưa đăng ký！",

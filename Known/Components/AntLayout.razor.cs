@@ -56,7 +56,7 @@ partial class AntLayout
             }
             catch (Exception ex)
             {
-                OnError(ex);
+                await OnErrorAsync(ex);
             }
             showSpin = false;
             await StateChangedAsync();
@@ -125,7 +125,7 @@ partial class AntLayout
         }
         catch (Exception ex)
         {
-            OnError(ex);
+            await OnErrorAsync(ex);
         }
     }
 

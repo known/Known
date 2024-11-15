@@ -30,6 +30,8 @@ public static class AdminExtension
     /// <returns>系统配置信息。</returns>
     public static async Task<SystemInfo> GetSystemAsync(this IAdminService service, Database db)
     {
+        ArgumentNullException.ThrowIfNull(service);
+
         if (!Config.App.IsPlatform || db.User == null)
         {
             var json = await service.GetConfigAsync(db, Constants.KeySystem);

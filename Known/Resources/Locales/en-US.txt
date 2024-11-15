@@ -197,6 +197,8 @@
   "Task.Success": "Success",
   "Task.Failed": "Failed",
 
+  "Database": "Database",
+  "Test": "Test",
   "CreateBy": "Create By",
   "CreateTime": "Create Time",
   "ModifyBy": "Modify By",

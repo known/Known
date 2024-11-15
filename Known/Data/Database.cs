@@ -218,7 +218,12 @@ public partial class Database : IDisposable
         conn.Dispose();
     }
 
-    internal string FormatName(string name) => Provider?.FormatName(name);
+    /// <summary>
+    /// 格式化数据库表或字段名，例如加 []、"" 等。
+    /// </summary>
+    /// <param name="name">表或字段名。</param>
+    /// <returns>格式化的表或字段名。</returns>
+    public string FormatName(string name) => Provider?.FormatName(name);
 
     private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {

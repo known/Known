@@ -166,7 +166,7 @@ public class UIService(ModalService modalService, MessageService messageService,
     /// <param name="message">提示消息文本。</param>
     /// <param name="style">提示样式，默认Success。</param>
     /// <returns></returns>
-    public async Task Notice(string message, StyleType style = StyleType.Success)
+    public async Task NoticeAsync(string message, StyleType style = StyleType.Success)
     {
         var config = new NotificationConfig
         {

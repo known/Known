@@ -69,6 +69,16 @@ public interface IAdminService
     Task<Result> SaveCompanyDataAsync(Database db, string compNo, object data);
     #endregion
 
+    #region Role
+    /// <summary>
+    /// 异步获取用户角色模块ID列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userId">用户ID。</param>
+    /// <returns>用户角色模块ID列表。</returns>
+    Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId);
+    #endregion
+
     #region User
     /// <summary>
     /// 异步获取用户信息。
