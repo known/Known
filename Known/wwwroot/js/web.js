@@ -1,10 +1,10 @@
-﻿function K_TableAutoFill() {
+﻿function K_TableAutoFill(isResize) {
     if ($('.ant-modal-body .ant-table-body').length)
         return;
 
     var parent = $('.kui-nav-tabs').length ? '.ant-tabs-tabpane-active' : '.kui-body';
     var table = $(parent + ' .ant-table-body');
-    if (table.data('autofill'))
+    if (table.data('autofill') && !isResize)
         return;
 
     var height = $('.kui-layout .kui-body').height();
@@ -31,3 +31,9 @@ var KUtils = {
         return height;
     }
 };
+
+$(function () {
+    $(window).resize(function () {
+        K_TableAutoFill(true);
+    });
+});

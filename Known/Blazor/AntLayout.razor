@@ -1,4 +1,4 @@
-﻿@inherits PageLayout
+﻿@inherits BaseLayout
 
 <KLayout Layout="this" Class="@Context.UserSetting.Size">
     @if (IsLoaded)
@@ -118,82 +118,3 @@
         }
     }
 </KLayout>
-
-@code {
-    private string spinTip = "";
-    private bool showSpin = false;
-    private bool collapsed = false;
-    private bool showSetting = false;
-    private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
-    private UserSettingInfo Setting { get; set; } = new();
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Setting = Context.UserSetting;
-        await OnThemeColorAsync();
-    }
-
-    public override async Task ShowSpinAsync(string text, Func<Task> action)
-    {
-        if (action == null)
-            return;
-
-        showSpin = true;
-        spinTip = text;
-        await StateChangedAsync();
-        await Task.Run(async () =>
-        {
-            try
-            {
-                await action?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                OnError(ex);
-            }
-            showSpin = false;
-            await StateChangedAsync();
-        });
-    }
-
-    private void OnToggle() => collapsed = !collapsed;
-    private void OnSetting() => showSetting = true;
-
-    private async Task OnThemeColorAsync()
-    {
-        var theme = Setting.ThemeColor;
-        var href = $"_content/Known/css/theme/{theme}.css";
-        await JS.SetStyleSheetAsync("/theme/", href);
-    }
-
-    private async Task OnSaveSetting()
-    {
-        var result = await System.SaveUserSettingInfoAsync(Setting);
-        if (result.IsValid)
-        {
-            Context.UserSetting = Setting;
-            await OnThemeColorAsync();
-        }
-    }
-
-    private Task OnResetSetting()
-    {
-        Setting = new();
-        return OnSaveSetting();
-    }
-
-    private void OnMenuClick(string id)
-    {
-        switch (id)
-        {
-            case "logout":
-                UI?.Confirm(Language["Tip.Exits"], SignOutAsync);
-                break;
-            case "setting":
-                showSetting = true;
-                StateHasChanged();
-                break;
-        }
-    }
-}

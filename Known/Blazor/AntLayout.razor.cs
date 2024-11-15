@@ -1,10 +1,17 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
-/// 页面布局模板组件类。
+/// 后台布局模板组件类。
 /// </summary>
-public class PageLayout : BaseLayout
+partial class AntLayout
 {
+    private string spinTip = "";
+    private bool showSpin = false;
+    private bool collapsed = false;
+    private bool showSetting = false;
+    private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
+    private UserSettingInfo Setting { get; set; } = new();
+
     [CascadingParameter] private RouteData RouteData { get; set; }
 
     /// <summary>
@@ -26,6 +33,35 @@ public class PageLayout : BaseLayout
     /// 取得用户是否已经登录。
     /// </summary>
     protected bool IsLogin { get; private set; }
+
+    /// <summary>
+    /// 异步显示快速旋转加载提示。
+    /// </summary>
+    /// <param name="text">提示文本。</param>
+    /// <param name="action">耗时操作委托。</param>
+    /// <returns></returns>
+    public override async Task ShowSpinAsync(string text, Func<Task> action)
+    {
+        if (action == null)
+            return;
+
+        showSpin = true;
+        spinTip = text;
+        await StateChangedAsync();
+        await Task.Run(async () =>
+        {
+            try
+            {
+                await action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                OnError(ex);
+            }
+            showSpin = false;
+            await StateChangedAsync();
+        });
+    }
 
     /// <summary>
     /// 异步初始化模板。
@@ -54,6 +90,8 @@ public class PageLayout : BaseLayout
                 if (!Context.IsMobileApp)
                     UserMenus = GetUserMenus(Info?.UserMenus);
                 Cache.AttachCodes(Info?.Codes);
+                Setting = Context.UserSetting;
+                await OnThemeColorAsync();
                 IsLoaded = true;
             }
             else
@@ -122,22 +160,43 @@ public class PageLayout : BaseLayout
         Context.UserMenus = menus;
         return menus.ToMenuItems();
     }
-}
 
-/// <summary>
-/// 空模板组件类。
-/// </summary>
-public class EmptyLayout : BaseLayout
-{
-    /// <summary>
-    /// 呈现空模板组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    private void OnToggle() => collapsed = !collapsed;
+
+    private async Task OnThemeColorAsync()
     {
-        builder.Component<KLayout>()
-               .Set(c => c.Layout, this)
-               .Set(c => c.ChildContent, Body)
-               .Build();
+        var theme = Setting.ThemeColor;
+        var href = $"_content/Known/css/theme/{theme}.css";
+        await JS.SetStyleSheetAsync("/theme/", href);
+    }
+
+    private async Task OnSaveSetting()
+    {
+        var result = await System.SaveUserSettingInfoAsync(Setting);
+        if (result.IsValid)
+        {
+            Context.UserSetting = Setting;
+            await OnThemeColorAsync();
+        }
+    }
+
+    private Task OnResetSetting()
+    {
+        Setting = new();
+        return OnSaveSetting();
+    }
+
+    private void OnMenuClick(string id)
+    {
+        switch (id)
+        {
+            case "logout":
+                UI?.Confirm(Language["Tip.Exits"], SignOutAsync);
+                break;
+            case "setting":
+                showSetting = true;
+                StateHasChanged();
+                break;
+        }
     }
 }

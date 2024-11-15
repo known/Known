@@ -198,3 +198,21 @@ public class BaseLayout : LayoutComponentBase
             await AuthProvider.SignInAsync(user);
     }
 }
+
+/// <summary>
+/// 空模板组件类。
+/// </summary>
+public class EmptyLayout : BaseLayout
+{
+    /// <summary>
+    /// 呈现空模板组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Component<KLayout>()
+               .Set(c => c.Layout, this)
+               .Set(c => c.ChildContent, Body)
+               .Build();
+    }
+}
