@@ -1,4 +1,4 @@
-﻿namespace Sample.Web.WorkFlows;
+﻿namespace Sample.WorkFlows;
 
 class ApplyFlow(Context context) : BaseFlow(context)
 {

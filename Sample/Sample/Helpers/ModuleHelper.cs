@@ -1,4 +1,4 @@
-﻿namespace Sample.Web.Helpers;
+﻿namespace Sample.Helpers;
 
 class ModuleHelper
 {

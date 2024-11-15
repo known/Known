@@ -1,4 +1,4 @@
-﻿namespace Sample.Web.Repositories;
+﻿namespace Sample.Repositories;
 
 //业务申请数据访问
 class ApplyRepository

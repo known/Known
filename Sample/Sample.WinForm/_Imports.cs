@@ -1,6 +1,7 @@
 ﻿global using System.ComponentModel;
 global using Known;
+global using Known.Cells;
+global using Known.Core;
 global using Known.Data;
 global using Known.Extensions;
 global using Microsoft.Extensions.DependencyInjection;
-global using Sample.Web;

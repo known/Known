@@ -1,4 +1,5 @@
 ﻿using Known.Designer;
+using Sample.Helpers;
 
 namespace Sample;
 
@@ -48,7 +49,28 @@ public static class AppConfig
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
 
+        //注册待办事项显示流程表单
+        //Config.ShowMyFlow = flow =>
+        //{
+        //    if (flow.Flow.FlowCode == AppFlow.Apply.Code)
+        //        ApplyForm.ShowMyFlow(flow);
+        //};
+
         //添加模块
         Config.AddModule(assembly);
+    }
+
+    public static void AddSampleCore(this IServiceCollection services)
+    {
+        var assembly = typeof(AppConfig).Assembly;
+        services.AddSample();
+        services.AddKnownAdminCore(option =>
+        {
+            option.AddModules(ModuleHelper.AddAppModules);
+            option.AddWorkFlows(assembly);
+        });
+
+        services.AddScoped<IHomeService, HomeService>();
+        services.AddScoped<IApplyService, ApplyService>();
     }
 }

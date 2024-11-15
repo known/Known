@@ -5,57 +5,16 @@ namespace Sample.Web;
 
 public static class AppWeb
 {
-    public static void AddApplication(this IServiceCollection services, Action<AppInfo> action)
+    public static void AddApplication(this WebApplicationBuilder builder)
     {
-        var assembly = typeof(AppWeb).Assembly;
+        Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
         //Stopwatcher.Enabled = true;
-        services.AddSample();
-        services.AddKnownCore(info =>
+        builder.Services.AddSampleCore();
+        builder.Services.AddKnownCore(info =>
         {
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
             //info.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
-            action?.Invoke(info);
-        });
-        services.AddKnownAdminCore(option =>
-        {
-            option.AddModules(ModuleHelper.AddAppModules);
-            option.AddWorkFlows(assembly);
-        });
-        services.AddKnownCells();
-        switch (Config.App.Type)
-        {
-            case AppType.Web:
-                services.AddKnownWeb(option =>
-                {
-                    // 设置登录认证方式，默认Session
-                    //option.AuthMode = AuthMode.Cookie;
-                });
-                break;
-            case AppType.Desktop:
-                services.AddKnownWin();
-                break;
-        }
-
-        services.AddScoped<IHomeService, HomeService>();
-        services.AddScoped<IApplyService, ApplyService>();
-
-        //注册待办事项显示流程表单
-        //Config.ShowMyFlow = flow =>
-        //{
-        //    if (flow.Flow.FlowCode == AppFlow.Apply.Code)
-        //        ApplyForm.ShowMyFlow(flow);
-        //};
-
-        services.AddScheduler();
-        services.AddTransient<ImportTaskJob>();
-    }
-
-    public static void AddApplication(this WebApplicationBuilder builder)
-    {
-        Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
-        builder.Services.AddApplication(info =>
-        {
             info.WebRoot = builder.Environment.WebRootPath;
             info.ContentRoot = builder.Environment.ContentRootPath;
             //数据库连接
@@ -77,6 +36,15 @@ public static class AppWeb
                 ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
             }];
         });
+        builder.Services.AddKnownCells();
+        builder.Services.AddKnownWeb(option =>
+        {
+            // 设置登录认证方式，默认Session
+            //option.AuthMode = AuthMode.Cookie;
+        });
+
+        builder.Services.AddScheduler();
+        builder.Services.AddTransient<ImportTaskJob>();
     }
 
     public static void UseApplication(this WebApplication app)
@@ -84,12 +52,7 @@ public static class AppWeb
         //使用Known框架
         app.UseKnown();
         //配置定时任务
-        app.Services.UseApplication();
-    }
-
-    public static void UseApplication(this IServiceProvider provider)
-    {
-        provider.UseScheduler(scheduler =>
+        app.Services.UseScheduler(scheduler =>
         {
             //每5秒执行一次异步导入
             scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();

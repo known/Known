@@ -1,23 +1,12 @@
-﻿<!--<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">-->
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <!--<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
-        <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>-->
     </PropertyGroup>
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <!--
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
-        <PackageReference Include="Castle.Core" Version="5.1.1" />
-        <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
-        <ProjectReference Include="..\..\Known\Known.csproj" />
-        -->
         <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
         <ProjectReference Include="..\..\Plugins\Known.Designer\Known.Designer.csproj" />
     </ItemGroup>
@@ -28,6 +17,12 @@
         <EmbeddedResource Include="Resources\Locales\vi-VN.txt" />
         <EmbeddedResource Include="Resources\Locales\zh-CN.txt" />
         <EmbeddedResource Include="Resources\Locales\zh-TW.txt" />
+        <EmbeddedResource Include="Resources\Scripts\Access.sql" />
+        <EmbeddedResource Include="Resources\Scripts\MySql.sql" />
+        <EmbeddedResource Include="Resources\Scripts\Oracle.sql" />
+        <EmbeddedResource Include="Resources\Scripts\PgSql.sql" />
+        <EmbeddedResource Include="Resources\Scripts\SQLite.sql" />
+        <EmbeddedResource Include="Resources\Scripts\SqlServer.sql" />
     </ItemGroup>
 
 </Project>

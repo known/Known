@@ -48,8 +48,12 @@ public partial class MainForm : Form
         Config.IsDevelopment = true;
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        services.AddApplication(info =>
+        services.AddSampleCore();
+        services.AddKnownCore(info =>
         {
+            //info.ProductId = "Test";
+            //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
+            //info.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
             info.Type = AppType.Desktop;
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;
@@ -75,9 +79,11 @@ public partial class MainForm : Form
                 //ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
             }];
         });
+        services.AddKnownCells();
+        services.AddKnownWin();
+
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
-        blazorWebView.Services.UseApplication();
         blazorWebView.RootComponents.Add<App>("#app");
         Config.OnExit = OnClose;
         Config.ServiceProvider = blazorWebView.Services;

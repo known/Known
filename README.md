@@ -51,9 +51,10 @@ dotnet new known --name=MyApp
 | ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
 | ├─Known.Designer  -> 简易无代码开发设计器和低代码生成器。
 ├─Sample            -> 示例项目
-  ├─Sample          -> 包含配置、常量、枚举、实体、模型、服务接口、路由、页面，动态代理访问后端WebApi。
-  ├─Sample.Web      -> 包含业务逻辑、数据访问、定时任务，根据服务接口动态生成WebApi。
-  ├─Sample.WinForm  -> 框架示例WinForm App。
+  ├─Sample          -> 框架示例模块。
+  ├─Sample.Wasm     -> 框架WebAssembly示例。
+  ├─Sample.Web      -> 框架WebApp示例。
+  ├─Sample.WinForm  -> 框架WinForm示例。
 ```
 
 ### 主要功能
