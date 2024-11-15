@@ -14,11 +14,6 @@ public abstract class ImportBase(ImportContext context)
     public Context Context { get; } = context.Context;
 
     /// <summary>
-    /// 取得上下文平台服务实例。
-    /// </summary>
-    public IAdminService Admin => Context.Admin;
-
-    /// <summary>
     /// 取得上下文数据库对象实例。
     /// </summary>
     public Database Database { get; } = context.Database;

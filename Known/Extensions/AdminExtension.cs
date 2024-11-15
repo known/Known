@@ -22,8 +22,6 @@ public static class AdminExtension
     #endregion
 
     #region System
-    private const string KeySystem = "SystemInfo";
-
     /// <summary>
     /// 异步获取系统配置信息，如果是平台，则获取租户配置信息。
     /// </summary>
@@ -34,7 +32,7 @@ public static class AdminExtension
     {
         if (!Config.App.IsPlatform || db.User == null)
         {
-            var json = await service.GetConfigAsync(db, KeySystem);
+            var json = await service.GetConfigAsync(db, Constants.KeySystem);
             return Utils.FromJson<SystemInfo>(json);
         }
 
@@ -59,7 +57,7 @@ public static class AdminExtension
     /// <returns></returns>
     public static Task SaveSystemAsync(this IAdminService service, Database db, SystemInfo info)
     {
-        return service.SaveConfigAsync(db, KeySystem, info);
+        return service.SaveConfigAsync(db, Constants.KeySystem, info);
     }
     #endregion
 

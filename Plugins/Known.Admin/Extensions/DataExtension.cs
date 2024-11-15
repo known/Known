@@ -2,6 +2,19 @@
 
 static class DataExtension
 {
+    internal static async Task<string> GetConfigAsync(this Database db, string key)
+    {
+        var appId = Config.App.Id;
+        var config = await db.QueryAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
+        return config?.ConfigValue;
+    }
+
+    internal static async Task<SystemInfo> GetSystemAsync(this Database db)
+    {
+        var json = await db.GetConfigAsync(Constants.KeySystem);
+        return Utils.FromJson<SystemInfo>(json);
+    }
+
     internal static async Task CreateTaskAsync(this Database db, TaskInfo info)
     {
         var task = new SysTask();

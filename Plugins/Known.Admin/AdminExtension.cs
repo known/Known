@@ -14,7 +14,7 @@ public static class AdminExtension
     public static void AddKnownAdmin(this IServiceCollection services)
     {
         // 注入服务
-        services.AddScoped<IAdminService, AdminService>();
+        services.AddSingleton<IAdminService, AdminService>();
         services.AddScoped<IModuleService, ModuleService>();
         services.AddScoped<IDictionaryService, DictionaryService>();
         services.AddScoped<IFileService, FileService>();

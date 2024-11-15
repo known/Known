@@ -76,6 +76,15 @@ public sealed class Platform
                 Enabled = true,
                 Role = user.Role
             };
+            if (!string.IsNullOrWhiteSpace(user.Password))
+            {
+                model.Password = Utils.ToMd5(user.Password);
+            }
+            else
+            {
+                var info = await db.GetSystemAsync();
+                model.Password = Utils.ToMd5(info?.UserDefaultPwd);
+            }
             await db.SaveAsync(model);
             var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
             if (role != null)

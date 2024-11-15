@@ -12,11 +12,6 @@ public abstract class BaseModel(UIContext context)
     public UIContext Context { get; } = context;
 
     /// <summary>
-    /// 取得注入的平台服务实例。
-    /// </summary>
-    internal IAdminService Admin => Context?.Admin;
-
-    /// <summary>
     /// 取得注入的UI服务实例。
     /// </summary>
     public UIService UI => Context?.UI;

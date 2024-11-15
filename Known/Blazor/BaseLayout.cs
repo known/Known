@@ -53,14 +53,12 @@ public class BaseLayout : LayoutComponentBase
     /// <summary>
     /// 取得身份认证服务接口实例。
     /// </summary>
-    public IAuthService Auth { get; private set; }
+    internal IAuthService Auth { get; private set; }
 
     /// <summary>
     /// 取得系统服务接口实例。
     /// </summary>
-    public ISystemService System { get; private set; }
-
-    [Inject] internal IAdminService Admin { get; private set; }
+    internal ISystemService System { get; private set; }
 
     /// <summary>
     /// 异步初始化模板，初始化UI多语言实例和上下文对象，以及全局异常处理；子模板不要覆写该方法，应覆写 OnInitAsync。

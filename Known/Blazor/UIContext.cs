@@ -115,14 +115,12 @@ public class UIContext() : Context
 
     internal void Initialize(BaseLayout layout)
     {
-        Admin = layout.Admin;
         UI = layout.UI;
         Navigation = layout.Navigation;
     }
 
     internal void Initialize(BaseComponent component)
     {
-        Admin = component.Admin;
         UI = component.UI;
         Navigation = component.Navigation;
     }

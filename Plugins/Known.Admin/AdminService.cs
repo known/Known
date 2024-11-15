@@ -3,11 +3,9 @@
 class AdminService : IAdminService
 {
     #region Config
-    public async Task<string> GetConfigAsync(Database db, string key)
+    public Task<string> GetConfigAsync(Database db, string key)
     {
-        var appId = Config.App.Id;
-        var config = await db.QueryAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
-        return config?.ConfigValue;
+        return db.GetConfigAsync(key);
     }
 
     public async Task SaveConfigAsync(Database db, string key, object value)

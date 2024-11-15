@@ -96,7 +96,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     /// 取得身份认证服务接口实例。
     /// </summary>
-    public IAuthService Auth { get; private set; }
+    internal IAuthService Auth { get; private set; }
 
     /// <summary>
     /// 取得系统服务接口实例。
@@ -107,8 +107,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// 取得是否释放组件对象。
     /// </summary>
     protected bool IsDisposing { get; private set; }
-
-    [Inject] internal IAdminService Admin { get; set; }
 
     /// <summary>
     /// 异步初始化组件，初始化UI多语言实例和上下文对象，以及全局异常处理；子组件不要覆写该方法，应覆写 OnInitAsync。
