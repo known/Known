@@ -9,11 +9,6 @@ public interface IService
     /// 取得或设置系统上下文对象。
     /// </summary>
     Context Context { get; set; }
-
-    /// <summary>
-    /// 取得数据库访问实例。
-    /// </summary>
-    Database Database { get; }
 }
 
 /// <summary>
@@ -45,7 +40,7 @@ public abstract class ServiceBase(Context context) : IService
     /// <summary>
     /// 取得注入的平台服务实例。
     /// </summary>
-    public IPlatformService Platform => Context.Platform;
+    public IAdminService Admin => Context.Admin;
 
     /// <summary>
     /// 取得依赖注入服务提供者。

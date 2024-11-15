@@ -14,6 +14,7 @@
   "Title.TableList": "Thông tin biểu mẫu",
   "Title.AccountInfo": "Thông tin tài khoản",
   "Title.SystemInfo": "Thông tin hệ thống",
+  "Title.SystemSetting": "Thiết lập hệ thống",
   "Title.SecuritySetting": "Cài đặt bảo mật",
   "Title.ChangeDepartment": "Bộ phận thay thế",
   "Title.TodoList": "Việc cần làm",

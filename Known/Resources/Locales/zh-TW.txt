@@ -14,6 +14,7 @@
   "Title.TableList": "表體資訊",
   "Title.AccountInfo": "帳號資訊",
   "Title.SystemInfo": "系統資訊",
+  "Title.SystemSetting": "系統設定",
   "Title.SecuritySetting": "安全設定",
   "Title.ChangeDepartment": "更換部門",
   "Title.TodoList": "待辦事項",

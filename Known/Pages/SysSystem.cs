@@ -19,7 +19,7 @@ public class SysSystem : BaseTabPage
         Data = await System.GetSystemDataAsync();
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
-        Tab.AddTab("SecuritySetting", b => b.Component<SysSystemSafe>().Build());
+        Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting>().Build());
         foreach (var item in UIConfig.SystemTabs)
         {
             Tab.AddTab(item.Key, item.Value);
@@ -103,7 +103,7 @@ class SysSystemInfo : BaseForm<SystemInfo>
     }
 }
 
-class SysSystemSafe : BaseForm<SystemInfo>
+class SysSystemSetting : BaseForm<SystemInfo>
 {
     [CascadingParameter] private SysSystem Parent { get; set; }
 

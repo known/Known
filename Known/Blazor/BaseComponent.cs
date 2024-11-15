@@ -59,9 +59,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Inject] public JSService JS { get; set; }
 
     /// <summary>
-    /// 取得或设置注入的抽象UI服务实例。
+    /// 取得或设置注入的UI服务实例。
     /// </summary>
-    [Inject] public IUIService UI { get; set; }
+    [Inject] public UIService UI { get; set; }
 
     /// <summary>
     /// 取得或设置注入的导航管理者实例。
@@ -108,7 +108,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     protected bool IsDisposing { get; private set; }
 
-    [Inject] internal IPlatformService Platform { get; set; }
+    [Inject] internal IAdminService Admin { get; set; }
 
     /// <summary>
     /// 异步初始化组件，初始化UI多语言实例和上下文对象，以及全局异常处理；子组件不要覆写该方法，应覆写 OnInitAsync。
@@ -119,10 +119,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         try
         {
             await base.OnInitializedAsync();
-            Auth = await CreateServiceAsync<IAuthService>();
-            System = await CreateServiceAsync<ISystemService>();
             UI.Language = Language;
             Context.Initialize(this);
+            Auth = await CreateServiceAsync<IAuthService>();
+            System = await CreateServiceAsync<ISystemService>();
             await OnInitAsync();
         }
         catch (Exception ex)

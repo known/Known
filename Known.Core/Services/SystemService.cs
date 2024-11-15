@@ -6,8 +6,8 @@ namespace Known.Core.Services;
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     //Config
-    public Task<string> GetConfigAsync(string key) => Platform.GetConfigAsync(Database, key);
-    public Task SaveConfigAsync(ConfigInfo info) => Platform.SaveConfigAsync(Database, info.Key, info.Value);
+    public Task<string> GetConfigAsync(string key) => Admin.GetConfigAsync(Database, key);
+    public Task SaveConfigAsync(ConfigInfo info) => Admin.SaveConfigAsync(Database, info.Key, info.Value);
 
     //System
     public async Task<SystemInfo> GetSystemAsync()
@@ -16,7 +16,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             var database = Database;
             database.EnableLog = false;
-            var info = await Platform.GetSystemAsync(database);
+            var info = await Admin.GetSystemAsync(database);
             if (info != null)
             {
                 info.ProductKey = null;
@@ -104,11 +104,11 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
         AppHelper.SetConnection(info.Databases);
         var database = GetDatabase(info);
-        await Platform.InitializeTableAsync(database);
+        await Admin.InitializeTableAsync(database);
         Console.WriteLine("Module is installing...");
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
-            await Platform.SaveInstallAsync(db, info);
+            await Admin.SaveInstallAsync(db, info);
         });
         if (result.IsValid)
         {
@@ -144,14 +144,14 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             AdminName = Constants.SysUserName
         };
         if (isCheck)
-            await Platform.CheckKeyAsync(Database);
+            await Admin.CheckKeyAsync(Database);
         return info;
     }
 
     //System
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
-        var info = await Platform.GetSystemAsync(Database);
+        var info = await Admin.GetSystemAsync(Database);
         return new SystemDataInfo
         {
             System = info,
@@ -165,13 +165,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var database = Database;
         if (Config.App.IsPlatform)
         {
-            var result = await Platform.SaveCompanyDataAsync(database, CurrentUser.CompNo, info);
+            var result = await Admin.SaveCompanyDataAsync(database, CurrentUser.CompNo, info);
             if (!result.IsValid)
                 return result;
         }
         else
         {
-            await Platform.SaveSystemAsync(database, info);
+            await Admin.SaveSystemAsync(database, info);
         }
         return Result.Success(Language.Success(Language.Save));
     }
@@ -180,19 +180,19 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         var database = Database;
         AppHelper.SaveProductKey(info.ProductKey);
-        await Platform.SaveSystemAsync(database, info);
-        return await Platform.CheckKeyAsync(database);
+        await Admin.SaveSystemAsync(database, info);
+        return await Admin.CheckKeyAsync(database);
     }
 
     public Task<Result> AddLogAsync(LogInfo log)
     {
-        return Platform.AddLogAsync(Database, log);
+        return Admin.AddLogAsync(Database, log);
     }
 
     #region Setting
     public async Task<string> GetUserSettingAsync(string bizType)
     {
-        var setting = await Platform.GetUserSettingAsync(Database, bizType);
+        var setting = await Admin.GetUserSettingAsync(Database, bizType);
         if (setting == null)
             return default;
 
@@ -202,9 +202,9 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<Result> DeleteUserSettingAsync(string bizType)
     {
         var database = Database;
-        var setting = await Platform.GetUserSettingAsync(database, bizType);
+        var setting = await Admin.GetUserSettingAsync(database, bizType);
         if (setting != null)
-            await Platform.DeleteSettingAsync(database, setting.Id);
+            await Admin.DeleteSettingAsync(database, setting.Id);
         return Result.Success(Language.Success(Language.Delete));
     }
 
@@ -220,11 +220,11 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
     {
         var database = Database;
-        var setting = await Platform.GetUserSettingAsync(database, info.BizType);
+        var setting = await Admin.GetUserSettingAsync(database, info.BizType);
         setting ??= new SettingInfo();
         setting.BizType = info.BizType;
         setting.BizData = Utils.ToJson(info.BizData);
-        await Platform.SaveSettingAsync(database, setting);
+        await Admin.SaveSettingAsync(database, setting);
         return Result.Success(Language.Success(Language.Save));
     }
     #endregion
@@ -241,7 +241,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         }
         else
         {
-            var json = await Platform.GetConfigAsync(database, KeyCompany);
+            var json = await Admin.GetConfigAsync(database, KeyCompany);
             if (string.IsNullOrEmpty(json))
                 json = GetDefaultData(database.User);
             return json;
@@ -253,20 +253,20 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var database = Database;
         if (Config.App.IsPlatform)
         {
-            var result = await Platform.SaveCompanyDataAsync(database, CurrentUser.CompNo, model);
+            var result = await Admin.SaveCompanyDataAsync(database, CurrentUser.CompNo, model);
             if (!result.IsValid)
                 return result;
         }
         else
         {
-            await Platform.SaveConfigAsync(database, KeyCompany, model);
+            await Admin.SaveConfigAsync(database, KeyCompany, model);
         }
         return Result.Success(Language.Success(Language.Save));
     }
 
     private async Task<string> GetCompanyDataAsync(Database db)
     {
-        var data = await Platform.GetCompanyDataAsync(db, db.User.CompNo);
+        var data = await Admin.GetCompanyDataAsync(db, db.User.CompNo);
         if (!string.IsNullOrWhiteSpace(data))
             return data;
 
@@ -293,7 +293,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
     #region Import
     public Task<List<AttachInfo>> GetFilesAsync(string bizId)
     {
-        return Platform.GetFilesAsync(Database, bizId);
+        return Admin.GetFilesAsync(Database, bizId);
     }
 
     public async Task<Result> DeleteFileAsync(AttachInfo file)
@@ -301,7 +301,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         if (file == null || string.IsNullOrWhiteSpace(file.Path))
             return Result.Error(Language["Tip.FileNotExists"]);
 
-        await Platform.DeleteFileAsync(Database, file.Id);
+        await Admin.DeleteFileAsync(Database, file.Id);
         AttachFile.DeleteFile(file.Path);
         return Result.Success(Language.Success(Language.Delete));
     }
@@ -309,7 +309,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
     public async Task<ImportFormInfo> GetImportAsync(string bizId)
     {
         var db = Database;
-        var task = await Platform.GetTaskAsync(db, bizId);
+        var task = await Admin.GetTaskAsync(db, bizId);
         var info = new ImportFormInfo { BizId = bizId, BizType = ImportHelper.BizType, IsFinished = true };
         if (task != null)
         {
@@ -372,14 +372,14 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
         var result = await database.TransactionAsync(Language.Upload, async db =>
         {
-            sysFiles = await Platform.AddFilesAsync(db, files, form.BizId, form.BizType);
+            sysFiles = await Admin.AddFilesAsync(db, files, form.BizId, form.BizType);
             if (form.BizType == ImportHelper.BizType)
             {
                 task = CreateTask(form);
                 task.Target = sysFiles[0].Id;
                 task.File = sysFiles[0];
                 if (form.IsAsync)
-                    await Platform.CreateTaskAsync(db, task);
+                    await Admin.CreateTaskAsync(db, task);
             }
         });
         result.Data = sysFiles;

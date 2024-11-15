@@ -54,7 +54,7 @@ public static class UIExtension
         builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build();
     }
 
-    internal static void Build404Page(this IUIService service, RenderTreeBuilder builder, string pageId)
+    internal static void Build404Page(this UIService service, RenderTreeBuilder builder, string pageId)
     {
         service.BuildResult(builder, "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
@@ -221,7 +221,7 @@ public static class UIExtension
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">提示文本。</param>
-    public static async void Info(this IUIService service, string message) => await service.InfoAsync(message);
+    public static async void Info(this UIService service, string message) => await service.InfoAsync(message);
 
     /// <summary>
     /// 异步呈现信息提示。
@@ -229,14 +229,14 @@ public static class UIExtension
     /// <param name="service">UI服务。</param>
     /// <param name="message">提示文本。</param>
     /// <returns></returns>
-    public static Task InfoAsync(this IUIService service, string message) => service.Toast(message, StyleType.Info);
+    public static Task InfoAsync(this UIService service, string message) => service.Toast(message, StyleType.Info);
 
     /// <summary>
     /// 呈现警告提示。
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">警告文本。</param>
-    public static async void Warning(this IUIService service, string message) => await service.WarningAsync(message);
+    public static async void Warning(this UIService service, string message) => await service.WarningAsync(message);
 
     /// <summary>
     /// 异步呈现警告提示。
@@ -244,14 +244,14 @@ public static class UIExtension
     /// <param name="service">UI服务。</param>
     /// <param name="message">警告文本。</param>
     /// <returns></returns>
-    public static Task WarningAsync(this IUIService service, string message) => service.Toast(message, StyleType.Warning);
+    public static Task WarningAsync(this UIService service, string message) => service.Toast(message, StyleType.Warning);
 
     /// <summary>
     /// 呈现错误提示。
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">错误文本。</param>
-    public static async void Error(this IUIService service, string message) => await service.ErrorAsync(message);
+    public static async void Error(this UIService service, string message) => await service.ErrorAsync(message);
 
     /// <summary>
     /// 异步呈现错误提示。
@@ -259,7 +259,7 @@ public static class UIExtension
     /// <param name="service">UI服务。</param>
     /// <param name="message">错误文本。</param>
     /// <returns></returns>
-    public static Task ErrorAsync(this IUIService service, string message) => service.Toast(message, StyleType.Error);
+    public static Task ErrorAsync(this UIService service, string message) => service.Toast(message, StyleType.Error);
 
     /// <summary>
     /// 显示后端返回的操作结果。
@@ -267,7 +267,7 @@ public static class UIExtension
     /// <param name="service">UI服务。</param>
     /// <param name="result">后端操作结果。</param>
     /// <param name="onSuccess">后端操作成功回调委托。</param>
-    public static async void Result(this IUIService service, Result result, Func<Task> onSuccess = null) => await service.ResultAsync(result, onSuccess);
+    public static async void Result(this UIService service, Result result, Func<Task> onSuccess = null) => await service.ResultAsync(result, onSuccess);
 
     /// <summary>
     /// 异步显示后端返回的操作结果。
@@ -276,7 +276,7 @@ public static class UIExtension
     /// <param name="result">后端操作结果。</param>
     /// <param name="onSuccess">后端操作成功回调委托。</param>
     /// <returns></returns>
-    public static async Task ResultAsync(this IUIService service, Result result, Func<Task> onSuccess = null)
+    public static async Task ResultAsync(this UIService service, Result result, Func<Task> onSuccess = null)
     {
         if (!result.IsValid)
         {

@@ -10,6 +10,11 @@ public class AdminOption
     internal List<Action<List<SysModule>>> Modules { get; } = [];
 
     /// <summary>
+    /// 取得或设置微信配置信息。
+    /// </summary>
+    public WeixinConfigInfo Weixin { get; set; }
+
+    /// <summary>
     /// 向管理系统添加模块菜单列表。
     /// </summary>
     /// <param name="action">模块菜单列表。</param>

@@ -14,12 +14,12 @@ public abstract class BaseModel(UIContext context)
     /// <summary>
     /// 取得注入的平台服务实例。
     /// </summary>
-    public IPlatformService Platform => Context?.Platform;
+    internal IAdminService Admin => Context?.Admin;
 
     /// <summary>
-    /// 取得注入的抽象UI服务实例。
+    /// 取得注入的UI服务实例。
     /// </summary>
-    public IUIService UI => Context?.UI;
+    public UIService UI => Context?.UI;
 
     /// <summary>
     /// 取得上下文语言对象实例。

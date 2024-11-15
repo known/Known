@@ -25,7 +25,7 @@ public class Context
     /// <summary>
     /// 取得或设置注入的平台服务实例。
     /// </summary>
-    public IPlatformService Platform { get; set; }
+    internal IAdminService Admin { get; set; }
 
     /// <summary>
     /// 取得或设置上下文当前用户信息实例。

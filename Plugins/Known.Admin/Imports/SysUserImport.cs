@@ -42,7 +42,7 @@ class SysUserImport(ImportContext context) : ImportBase<SysUser>(context)
             return result;
 
         var database = Database;
-        var info = await Platform.GetSystemAsync(database);
+        var info = await Admin.GetSystemAsync(database);
         return await database.TransactionAsync(Language.Import, async db =>
         {
             foreach (var item in models)

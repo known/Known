@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Designer", "Plugins\K
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Admin", "Plugins\Known.Admin\Known.Admin.csproj", "{B513124D-36FE-49BE-BF06-E2D12342A4D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Wasm", "Sample\Sample.Wasm\Sample.Wasm.csproj", "{97A5A2D5-A4AE-4BC2-8131-D0BA844C2E8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{B513124D-36FE-49BE-BF06-E2D12342A4D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B513124D-36FE-49BE-BF06-E2D12342A4D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B513124D-36FE-49BE-BF06-E2D12342A4D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A5A2D5-A4AE-4BC2-8131-D0BA844C2E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A5A2D5-A4AE-4BC2-8131-D0BA844C2E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A5A2D5-A4AE-4BC2-8131-D0BA844C2E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A5A2D5-A4AE-4BC2-8131-D0BA844C2E8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{EC48A549-7F1B-4BCE-81BA-0F0C86361E7C} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{FD4CEAC0-65F8-4B99-95D5-10208B7A3E4B} = {D41AC7F1-8B6F-49C7-964C-451CEBC64E03}
 		{B513124D-36FE-49BE-BF06-E2D12342A4D2} = {D41AC7F1-8B6F-49C7-964C-451CEBC64E03}
+		{97A5A2D5-A4AE-4BC2-8131-D0BA844C2E8B} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}

@@ -31,9 +31,9 @@ public class BaseLayout : LayoutComponentBase
     [Inject] public JSService JS { get; set; }
 
     /// <summary>
-    /// 取得或设置注入的抽象UI服务实例。
+    /// 取得或设置注入的UI服务实例。
     /// </summary>
-    [Inject] public IUIService UI { get; set; }
+    [Inject] public UIService UI { get; set; }
 
     /// <summary>
     /// 取得或设置UI上下文对象级联值实例。
@@ -60,7 +60,7 @@ public class BaseLayout : LayoutComponentBase
     /// </summary>
     public ISystemService System { get; private set; }
 
-    [Inject] internal IPlatformService Platform { get; private set; }
+    [Inject] internal IAdminService Admin { get; private set; }
 
     /// <summary>
     /// 异步初始化模板，初始化UI多语言实例和上下文对象，以及全局异常处理；子模板不要覆写该方法，应覆写 OnInitAsync。
@@ -71,10 +71,10 @@ public class BaseLayout : LayoutComponentBase
         try
         {
             await base.OnInitializedAsync();
-            Auth = await CreateServiceAsync<IAuthService>();
-            System = await CreateServiceAsync<ISystemService>();
             UI.Language = Language;
             Context.Initialize(this);
+            Auth = await CreateServiceAsync<IAuthService>();
+            System = await CreateServiceAsync<ISystemService>();
             if (Context.System == null)
                 Context.System = await System.GetSystemAsync();
             await OnInitAsync();

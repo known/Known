@@ -38,16 +38,16 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
             foreach (var item in models)
             {
                 //删除流程
-                await Platform.DeleteFlowAsync(db, item.Id);
+                await Admin.DeleteFlowAsync(db, item.Id);
                 //删除附件
-                await Platform.DeleteFilesAsync(db, item.Id, oldFiles);
+                await Admin.DeleteFilesAsync(db, item.Id, oldFiles);
                 //删除实体
                 await db.DeleteAsync(item);
             }
         });
         //如果事务执行成功，删除实际附件
         if (result.IsValid)
-            Platform.DeleteFiles(oldFiles);
+            Admin.DeleteFiles(oldFiles);
         return result;
     }
 
@@ -69,10 +69,10 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
             {
                 entity.BizNo = await GetMaxBizNoAsync(db, entity.BizType);
                 //创建流程
-                await Platform.CreateFlowAsync(db, ApplyFlow.GetBizInfo(entity));
+                await Admin.CreateFlowAsync(db, ApplyFlow.GetBizInfo(entity));
             }
             //添加附件
-            await Platform.AddFilesAsync(db, bizFiles, entity.Id, bizType);
+            await Admin.AddFilesAsync(db, bizFiles, entity.Id, bizType);
             entity.BizFile = $"{entity.Id}_{bizType}";
             //保存实体
             await db.SaveAsync(entity);

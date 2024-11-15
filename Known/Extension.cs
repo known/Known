@@ -22,9 +22,9 @@ public static class Extension
 
         Config.AddApp();
         services.AddAntDesign();
-        services.AddScoped<IUIService, UIService>();
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();
+        services.AddScoped<UIService>();
         services.AddScoped<JSService>();
         services.AddSingleton<INodbProvider, NodbProvider>();
 
@@ -50,7 +50,6 @@ public static class Extension
         KScript.AddScript("_content/Known/js/libs/qrcode.js");
         KScript.AddScript("_content/Known/js/libs/prism.js");
         KScript.AddScript("_content/Known/js/web.js");
-
 
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
         if (!string.IsNullOrWhiteSpace(content))

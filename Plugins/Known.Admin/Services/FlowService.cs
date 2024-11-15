@@ -121,7 +121,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await Platform.GetUserAsync(database, info.User);
+        var next = await Admin.GetUserAsync(database, info.User);
         if (next == null)
             return Result.Error(UserNotExists(info.User));
 
@@ -201,7 +201,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await Platform.GetUserAsync(database, info.User);
+        var next = await Admin.GetUserAsync(database, info.User);
         if (next == null)
             return Result.Error(Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
 
@@ -242,7 +242,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         UserInfo next = null;
         if (isPass && !string.IsNullOrWhiteSpace(info.User))
         {
-            next = await Platform.GetUserAsync(database, info.User);
+            next = await Admin.GetUserAsync(database, info.User);
             if (next == null)
                 return Result.Error(UserNotExists(info.User));
         }

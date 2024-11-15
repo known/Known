@@ -18,7 +18,7 @@ public static class WeixinApi
     /// <summary>
     /// 取得公众号ID。
     /// </summary>
-    internal static string GZHId { get; private set; }
+    public static string GZHId { get; private set; }
 
     /// <summary>
     /// 取得微信公众号AppId。
@@ -55,10 +55,13 @@ public static class WeixinApi
     /// </summary>
     public static void Initialize(WeixinConfigInfo info)
     {
-        GZHId = info?.GZHId;
-        AppId = info?.AppId;
-        AppSecret = info?.AppSecret;
-        RedirectUri = info?.RedirectUri;
+        if (info == null)
+            return;
+
+        GZHId = info.GZHId;
+        AppId = info.AppId;
+        AppSecret = info.AppSecret;
+        RedirectUri = info.RedirectUri;
 
         ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
         //Task.Run(async () =>

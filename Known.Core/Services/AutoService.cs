@@ -34,12 +34,12 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             {
                 var id = item.GetValue<string>("Id");
                 //await Platform.DeleteFlowAsync(db, id);
-                await Platform.DeleteFilesAsync(db, id, oldFiles);
+                await Admin.DeleteFilesAsync(db, id, oldFiles);
                 await db.DeleteAsync(tableName, id);
             }
         });
         if (result.IsValid)
-            Platform.DeleteFiles(oldFiles);
+            Admin.DeleteFiles(oldFiles);
         return result;
     }
 
@@ -66,7 +66,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
                 {
                     var bizType = $"{tableName}.{file.Key}";
                     var files = info.Files.GetAttachFiles(user, file.Key, tableName);
-                    await Platform.AddFilesAsync(db, files, id, bizType);
+                    await Admin.AddFilesAsync(db, files, id, bizType);
                     model[file.Key] = $"{id}_{bizType}";
                 }
             }

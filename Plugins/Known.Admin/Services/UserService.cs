@@ -167,7 +167,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var info = await Platform.GetSystemAsync(database);
+        var info = await Admin.GetSystemAsync(database);
         if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
             return Result.Error(Language["Tip.NoDefaultPwd"]);
 
@@ -190,7 +190,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         var user = CurrentUser;
         if (model.IsNew)
         {
-            var info = await Platform.GetSystemAsync(database);
+            var info = await Admin.GetSystemAsync(database);
             if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
                 return Result.Error(Language["Tip.NoDefaultPwd"]);
 

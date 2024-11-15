@@ -14,6 +14,7 @@
   "Title.TableList": "表体信息",
   "Title.AccountInfo": "账号信息",
   "Title.SystemInfo": "系统信息",
+  "Title.SystemSetting": "系统设置",
   "Title.SecuritySetting": "安全设置",
   "Title.ChangeDepartment": "更换部门",
   "Title.TodoList": "待办事项",

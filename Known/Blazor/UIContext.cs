@@ -13,7 +13,7 @@ public class UIContext() : Context
     /// <summary>
     /// 取得上下文UI服务对象。
     /// </summary>
-    public IUIService UI { get; private set; }
+    public UIService UI { get; private set; }
 
     /// <summary>
     /// 取得当前菜单URL。
@@ -115,14 +115,14 @@ public class UIContext() : Context
 
     internal void Initialize(BaseLayout layout)
     {
-        Platform = layout.Platform;
+        Admin = layout.Admin;
         UI = layout.UI;
         Navigation = layout.Navigation;
     }
 
     internal void Initialize(BaseComponent component)
     {
-        Platform = component.Platform;
+        Admin = component.Admin;
         UI = component.UI;
         Navigation = component.Navigation;
     }

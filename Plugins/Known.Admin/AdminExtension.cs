@@ -1,6 +1,4 @@
-﻿using Known.Pages;
-
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 依赖注入扩展类。
@@ -16,7 +14,7 @@ public static class AdminExtension
     public static void AddKnownAdmin(this IServiceCollection services)
     {
         // 注入服务
-        services.AddScoped<IPlatformService, PlatformService>();
+        services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IModuleService, ModuleService>();
         services.AddScoped<IDictionaryService, DictionaryService>();
         services.AddScoped<IFileService, FileService>();
@@ -32,7 +30,7 @@ public static class AdminExtension
         Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 配置UI
-        UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
+        UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<SysModuleList>().Build();
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
@@ -46,6 +44,7 @@ public static class AdminExtension
     public static void AddKnownAdminCore(this IServiceCollection services, Action<AdminOption> action = null)
     {
         action?.Invoke(Option);
+        WeixinApi.Initialize(Option.Weixin);
 
         // 注入后台任务
         TaskHelper.OnPendingTask = GetPendingTaskAsync;
@@ -57,6 +56,17 @@ public static class AdminExtension
         DbConfig.MapEntity<AttachInfo, SysFile>();
         DbConfig.MapEntity<TaskInfo, SysTask>();
         DbConfig.MapEntity<SettingInfo, SysSetting>();
+    }
+
+    /// <summary>
+    /// 添加Known框架简易微信功能模块前端。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    public static void AddKnownWeixin(this IServiceCollection services)
+    {
+        services.AddScoped<IWeixinService, WeixinService>();
+        // 配置UI
+        UIConfig.SystemTabs["WeChatSetting"] = b => b.Component<WeChatSetting>().Build();
     }
 
     private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string type)

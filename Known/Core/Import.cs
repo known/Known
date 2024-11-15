@@ -16,7 +16,7 @@ public abstract class ImportBase(ImportContext context)
     /// <summary>
     /// 取得上下文平台服务实例。
     /// </summary>
-    public IPlatformService Platform => Context.Platform;
+    public IAdminService Admin => Context.Admin;
 
     /// <summary>
     /// 取得上下文数据库对象实例。
