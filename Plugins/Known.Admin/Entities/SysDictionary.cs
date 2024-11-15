@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 数据字典实体类。

@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Entities;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 系统任务实体类。

@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 组织架构模块页面组件类。

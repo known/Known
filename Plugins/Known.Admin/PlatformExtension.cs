@@ -1,4 +1,4 @@
-﻿namespace Known.Admin;
+﻿namespace Known;
 
 /// <summary>
 /// 后台管理平台服务扩展类。

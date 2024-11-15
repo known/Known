@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 系统日志模块页面组件类。
@@ -17,7 +17,7 @@ public class SysLogList : BaseTablePage<SysLog>
     {
         var date = DateTime.Now.ToString("yyyy-MM-dd");
         DefaultQuery = new { CreateTime = $"{date}~{date}" };
-        
+
         await base.OnPageInitAsync();
         Service = await CreateServiceAsync<ILogService>();
 

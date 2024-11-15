@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Pages;
+﻿namespace Known.Pages;
 
 class ModuleForm : BaseTabForm
 {

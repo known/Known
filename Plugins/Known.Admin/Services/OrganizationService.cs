@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Services;
+﻿namespace Known.Services;
 
 /// <summary>
 /// 组织架构服务接口。

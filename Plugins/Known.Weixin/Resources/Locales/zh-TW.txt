@@ -1,7 +1,0 @@
-﻿{
-  "Title.WeChatSetting": "微信設定",
-  "WeixinQRCodeAuth": "微信掃碼授權",
-  "IsWeixinAuth": "啟用微信授權",
-  "WeixinInfo.AppId": "公眾號AppId",
-  "WeixinInfo.RedirectUri": "網頁登入回檔地址"
-}

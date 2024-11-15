@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Imports;
+﻿namespace Known.Imports;
 
 class SysUserImport(ImportContext context) : ImportBase<SysUser>(context)
 {

@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 系统后台任务页面组件类。

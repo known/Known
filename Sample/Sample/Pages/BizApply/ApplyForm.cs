@@ -16,7 +16,7 @@ class ApplyForm : BaseFlowForm<TbApply>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Thread.Sleep(1000);
+            //Thread.Sleep(1000);
         }
     }
 

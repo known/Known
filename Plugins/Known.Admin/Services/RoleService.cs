@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Services;
+﻿namespace Known.Services;
 
 /// <summary>
 /// 系统角色服务接口。

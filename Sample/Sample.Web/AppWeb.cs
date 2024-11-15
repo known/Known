@@ -1,6 +1,5 @@
 ﻿using Coravel;
 using Coravel.Invocable;
-using Known.Weixin;
 
 namespace Sample.Web;
 
@@ -17,6 +16,11 @@ public static class AppWeb
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
             //info.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
             action?.Invoke(info);
+        });
+        services.AddKnownAdminCore(option =>
+        {
+            option.AddModules(ModuleHelper.AddAppModules);
+            option.AddWorkFlows(assembly);
         });
         services.AddKnownCells();
         switch (Config.App.Type)
@@ -50,10 +54,6 @@ public static class AppWeb
     public static void AddApplication(this WebApplicationBuilder builder)
     {
         Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
-        builder.Services.AddKnownWeixin(option =>
-        {
-            option.ConfigInfo = builder.Configuration.GetSection("Weixin").Get<WeixinConfigInfo>();
-        });
         builder.Services.AddApplication(info =>
         {
             info.WebRoot = builder.Environment.WebRootPath;

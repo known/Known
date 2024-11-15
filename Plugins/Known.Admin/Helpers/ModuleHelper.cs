@@ -1,7 +1,7 @@
 ﻿using System.IO.Compression;
 using System.Text;
 
-namespace Known.Admin.Helpers;
+namespace Known.Helpers;
 
 class ModuleHelper
 {
@@ -48,7 +48,7 @@ class ModuleHelper
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
 
-        foreach (var item in Extension.Option.AddActions)
+        foreach (var item in AdminExtension.Option.Modules)
         {
             item.Invoke(modules);
         }

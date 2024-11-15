@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Imports;
+﻿namespace Known.Imports;
 
 class SysDictionaryImport(ImportContext context) : ImportBase<SysDictionary>(context)
 {

@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Services;
+﻿namespace Known.Services;
 
 /// <summary>
 /// 系统日志服务接口。

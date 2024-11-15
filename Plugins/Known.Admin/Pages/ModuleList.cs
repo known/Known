@@ -1,4 +1,4 @@
-﻿namespace Known.Admin.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 系统模块管理页面组件类。

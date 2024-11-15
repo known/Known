@@ -1,4 +1,4 @@
-﻿namespace Known.Admin;
+﻿namespace Known;
 
 class PlatformService : IPlatformService
 {
