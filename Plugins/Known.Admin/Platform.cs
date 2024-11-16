@@ -16,7 +16,7 @@ public sealed class Platform
     /// <returns>用户信息。</returns>
     public static Task<UserInfo> GetUserAsync(Database db, string userName)
     {
-        return db.QueryAsync<UserInfo>(d => d.UserName == userName);
+        return db.Query<SysUser>().Where(d => d.UserName == userName).FirstAsync<UserInfo>();
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public sealed class Platform
     /// <returns>用户信息。</returns>
     public static Task<UserInfo> GetUserByIdAsync(Database db, string id)
     {
-        return db.QueryAsync<UserInfo>(d => d.Id == id);
+        return db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public sealed class Platform
     /// <returns>用户信息。</returns>
     public static Task<UserInfo> GetUserByNameAsync(Database db, string name)
     {
-        return db.QueryAsync<UserInfo>(d => d.Name == name);
+        return db.Query<SysUser>().Where(d => d.Name == name).FirstAsync<UserInfo>();
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public sealed class Platform
     /// <returns>用户列表。</returns>
     public static Task<List<UserInfo>> GetUsersByRoleAsync(Database db, string roleName)
     {
-        return db.QueryListAsync<UserInfo>(d => d.Role.Contains(roleName));
+        return db.Query<SysUser>().Where(d => d.Role.Contains(roleName)).ToListAsync<UserInfo>();
     }
 
     /// <summary>

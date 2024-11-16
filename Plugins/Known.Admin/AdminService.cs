@@ -89,7 +89,7 @@ class AdminService : IAdminService
 
     public Task<List<ModuleInfo>> GetModulesAsync(Database db)
     {
-        return db.QueryListAsync<ModuleInfo>();
+        return db.Query<SysModule>().ToListAsync<ModuleInfo>();
     }
     #endregion
 
@@ -245,12 +245,16 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     #region Setting
     public Task<List<SettingInfo>> GetUserSettingsAsync(Database db, string bizTypePrefix)
     {
-        return db.QueryListAsync<SettingInfo>(d => d.CreateBy == db.UserName && d.BizType.StartsWith(bizTypePrefix));
+        return db.Query<SysSetting>()
+                 .Where(d => d.CreateBy == db.UserName && d.BizType.StartsWith(bizTypePrefix))
+                 .ToListAsync<SettingInfo>();
     }
 
     public Task<SettingInfo> GetUserSettingAsync(Database db, string bizType)
     {
-        return db.QueryAsync<SettingInfo>(d => d.CreateBy == db.UserName && d.BizType == bizType);
+        return db.Query<SysSetting>()
+                 .Where(d => d.CreateBy == db.UserName && d.BizType == bizType)
+                 .FirstAsync<SettingInfo>();
     }
 
     public Task DeleteSettingAsync(Database db, string id)
@@ -295,8 +299,8 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     #region Task
     public Task<TaskInfo> GetTaskAsync(Database db, string bizId)
     {
-        return db.Query<TaskInfo>().Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
-                 .OrderByDescending(d => d.CreateTime).FirstAsync();
+        return db.Query<SysTask>().Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
+                 .OrderByDescending(d => d.CreateTime).FirstAsync<TaskInfo>();
     }
 
     public Task CreateTaskAsync(Database db, TaskInfo info)

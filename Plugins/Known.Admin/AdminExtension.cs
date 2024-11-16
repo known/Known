@@ -51,11 +51,11 @@ public static class AdminExtension
         TaskHelper.OnSaveTask = SaveTaskAsync;
 
         // 映射数据表
-        DbConfig.MapEntity<ModuleInfo, SysModule>();
-        DbConfig.MapEntity<UserInfo, SysUser>();
-        DbConfig.MapEntity<AttachInfo, SysFile>();
-        DbConfig.MapEntity<TaskInfo, SysTask>();
-        DbConfig.MapEntity<SettingInfo, SysSetting>();
+        //DbConfig.MapEntity<ModuleInfo, SysModule>();
+        //DbConfig.MapEntity<UserInfo, SysUser>();
+        //DbConfig.MapEntity<AttachInfo, SysFile>();
+        //DbConfig.MapEntity<TaskInfo, SysTask>();
+        //DbConfig.MapEntity<SettingInfo, SysSetting>();
     }
 
     /// <summary>
@@ -71,10 +71,13 @@ public static class AdminExtension
 
     private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string type)
     {
-        var info = await db.Query<TaskInfo>().Where(d => d.Status == SysTaskStatus.Pending && d.Type == type)
-                           .OrderBy(d => d.CreateTime).FirstAsync();
+        var info = await db.Query<SysTask>().Where(d => d.Status == SysTaskStatus.Pending && d.Type == type)
+                           .OrderBy(d => d.CreateTime).FirstAsync<TaskInfo>();
         if (info != null)
-            info.File = await db.QueryAsync<AttachInfo>(d => d.Id == info.Target);
+        {
+            db.User = await Platform.GetUserAsync(db, info.CreateBy);
+            info.File = await db.Query<SysFile>().Where(d => d.Id == info.Target).FirstAsync<AttachInfo>();
+        }
         return info;
     }
 

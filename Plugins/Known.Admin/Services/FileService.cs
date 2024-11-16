@@ -57,17 +57,17 @@ class FileService(Context context) : ServiceBase(context), IFileService
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
         {
-            files = await db.QueryListAsync<AttachInfo>(d => bizIds.Contains(d.BizId));
+            files = await db.Query<SysFile>().Where(d => bizIds.Contains(d.BizId)).ToListAsync<AttachInfo>();
         }
         else if (!bizId.Contains('_'))
         {
-            files = await db.QueryListAsync<AttachInfo>(d => d.BizId == bizId);
+            files = await db.Query<SysFile>().Where(d => d.BizId == bizId).ToListAsync<AttachInfo>();
         }
         else
         {
             var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
             var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-            files = await db.QueryListAsync<AttachInfo>(d => d.BizId == bizId1 && d.Type == bizType);
+            files = await db.Query<SysFile>().Where(d => d.BizId == bizId1 && d.Type == bizType).ToListAsync<AttachInfo>();
         }
         return files?.OrderBy(d => d.CreateTime).ToList();
     }

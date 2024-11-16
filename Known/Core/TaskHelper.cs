@@ -77,8 +77,6 @@ public sealed class TaskHelper
     {
         try
         {
-            var userName = task.CreateBy;
-            db.User = await db.QueryAsync<UserInfo>(d => d.UserName == userName);
             task.BeginTime = DateTime.Now;
             task.Status = SysTaskStatus.Running;
             await OnSaveTask?.Invoke(db, task);
