@@ -18,8 +18,8 @@ public class SysSystem : BaseTabPage
         await base.OnPageInitAsync();
         Data = await System.GetSystemDataAsync();
 
-        Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo1>().Build());
-        Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting1>().Build());
+        Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
+        Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting>().Build());
         foreach (var item in UIConfig.SystemTabs)
         {
             Tab.AddTab(item.Key, item.Value);

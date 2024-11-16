@@ -18,7 +18,11 @@ public class UserEditForm : BaseEditForm<UserInfo>
         Model.AddRow().AddColumn(c => c.UserName, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Name);
         Model.AddRow().AddColumn(c => c.EnglishName);
-        Model.AddRow().AddColumn(c => c.Gender, c => c.Type = FieldType.RadioList);
+        Model.AddRow().AddColumn(c => c.Gender, c =>
+        {
+            c.Category = nameof(GenderType);
+            c.Type = FieldType.RadioList;
+        });
         Model.AddRow().AddColumn(c => c.Phone);
         Model.AddRow().AddColumn(c => c.Mobile);
         Model.AddRow().AddColumn(c => c.Email);

@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统模块管理页面组件类。
 /// </summary>
-public class SysModuleList : BasePage<SysModule>
+class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
     private List<SysModule> modules;

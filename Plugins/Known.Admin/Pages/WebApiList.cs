@@ -1,9 +1,14 @@
-﻿namespace Known.Pages;
+﻿using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Web;
+
+namespace Known.Pages;
 
 /// <summary>
 /// WebApi文档组件类。
 /// </summary>
-public class WebApiList : BaseTable<ApiMethodInfo>
+class WebApiList : BaseTable<ApiMethodInfo>
 {
     /// <summary>
     /// 异步初始化组件。

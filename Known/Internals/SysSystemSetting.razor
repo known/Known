@@ -1,5 +1,37 @@
-﻿<h3>SysSystemSetting</h3>
+﻿@inherits BaseComponent
+
+<TypeForm Class="kui-system" Model="Model" Style="margin-top:20px">
+    <AntRow>
+        <DataItem Label="@Language[nameof(SystemInfo.UserDefaultPwd)]">
+            <KEditInput Value="@Model.UserDefaultPwd" OnSave="OnSaveDefaultPwdAsync" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Label="@Language[nameof(SystemInfo.IsLoginCaptcha)]">
+            <Switch Value="@Model.IsLoginCaptcha" ValueChanged="OnLoginCaptchaChangedAsync" />
+        </DataItem>
+    </AntRow>
+</TypeForm>
 
 @code {
+    private SystemInfo Model;
+    [CascadingParameter] private SysSystem Parent { get; set; }
 
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Model = Parent.Data.System;
+    }
+
+    private async Task OnSaveDefaultPwdAsync(string value)
+    {
+        Model.UserDefaultPwd = value;
+        await Parent.SaveSystemAsync(Model);
+    }
+
+    private async Task OnLoginCaptchaChangedAsync(bool value)
+    {
+        Model.IsLoginCaptcha = value;
+        await Parent.SaveSystemAsync(Model);
+    }
 }

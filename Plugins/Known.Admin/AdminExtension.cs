@@ -30,7 +30,8 @@ public static class AdminExtension
         Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 配置UI
-        UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<SysModuleList>().Build();
+        UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
+        UIConfig.DevelopTabs["WebApi"] = b => b.Component<WebApiList>().Build();
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");

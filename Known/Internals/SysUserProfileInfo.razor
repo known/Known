@@ -1,0 +1,45 @@
+﻿@inherits BaseComponent
+
+<div class="kui-user-avatar">
+    <img src="@user?.AvatarUrl" />
+    <div class="kui-upload-button">
+        <Icon Type="edit" />
+        <span>@Language.Edit</span>
+        <InputFile OnChange="OnFileChangedAsync" />
+    </div>
+    <ul class="kui-user-info">
+        <li><Icon Type="user" /><span>@($"{user?.Name}({user?.UserName})")</span></li>
+        <li><Icon Type="phone" /><span>@user?.Phone</span></li>
+        <li><Icon Type="mobile" /><span>@user?.Mobile</span></li>
+        <li><Icon Type="inbox" /><span>@user?.Email</span></li>
+        <li><Icon Type="team" /><span>@user?.Role</span></li>
+        <li><Icon Type="comment" /><span>@user?.Note</span></li>
+    </ul>
+</div>
+
+@code {
+    private UserInfo user;
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        user = CurrentUser;
+    }
+
+    private async Task OnFileChangedAsync(InputFileChangeEventArgs e)
+    {
+        var file = await e.File.CreateFileAsync();
+        var info = new AvatarInfo { UserId = CurrentUser?.Id, File = file };
+        var result = await Auth?.UpdateAvatarAsync(info);
+        if (!result.IsValid)
+        {
+            UI.Error(result.Message);
+            return;
+        }
+
+        var user = CurrentUser;
+        user.AvatarUrl = result.DataAs<string>();
+        App?.SetCurrentUserAsync(user);
+        Navigation.Refresh(true);
+    }
+}

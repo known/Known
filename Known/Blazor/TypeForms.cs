@@ -3,14 +3,9 @@
 namespace Known.Blazor;
 
 /// <summary>
-/// 系统设置表单组件类。
+/// 对象表单组件类。
 /// </summary>
-public class SettingTypeForm : Form<UserSettingInfo> { }
-
-/// <summary>
-/// 查询条件表单组件类。
-/// </summary>
-public class QueryDataForm : Form<Dictionary<string, QueryInfo>> { }
+public class TypeForm : Form<object> { }
 
 /// <summary>
 /// 登录表单组件类。

@@ -28,7 +28,6 @@ public class SysDevelopment : BaseTabPage, IReuseTabsPage
         {
             Tab.AddTab(item.Key, item.Value);
         }
-        Tab.AddTab("WebApi", BuildWebApi);
     }
 
     /// <summary>
@@ -42,12 +41,5 @@ public class SysDevelopment : BaseTabPage, IReuseTabsPage
             b.Icon("appstore-add");
             b.Span(Language["Nav.Development"]);
         });
-    }
-
-    private void BuildWebApi(RenderTreeBuilder builder)
-    {
-        builder.Div().Style("padding:10px;")
-               .Children(() => builder.Component<WebApiList>().Build())
-               .Close();
     }
 }
