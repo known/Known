@@ -34,16 +34,8 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     public async Task<InstallInfo> GetInstallAsync()
     {
         var info = await GetInstallDataAysnc(false);
-        if (Config.App.Connections != null)
-        {
-            info.Databases = Config.App.Connections.Select(c => new DatabaseInfo
-            {
-                Name = c.Name,
-                Type = c.DatabaseType.ToString(),
-                ConnectionString = GetDefaultConnectionString(c)
-            }).ToList();
-        }
-        else
+        info.Databases = DbConfig.GetDatabases();
+        if (info.Databases == null)
         {
             var db = Database.Create();
             info.Databases = [new DatabaseInfo {
@@ -54,34 +46,11 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return info;
     }
 
-    private static string GetDefaultConnectionString(ConnectionInfo info)
-    {
-        switch (info.DatabaseType)
-        {
-            case DatabaseType.Access:
-                return "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx";
-            case DatabaseType.SQLite:
-                return "Data Source=..\\Sample.db";
-            case DatabaseType.SqlServer:
-                return "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;";
-            case DatabaseType.Oracle:
-                return "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;";
-            case DatabaseType.MySql:
-                return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-            case DatabaseType.PgSql:
-                return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
-            case DatabaseType.DM:
-                return "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;";
-            default:
-                return string.Empty;
-        }
-    }
-
     public async Task<Result> TestConnectionAsync(DatabaseInfo info)
     {
         try
         {
-            AppHelper.SetConnection([info]);
+            AppHelper.SetConnections([info]);
             var db = Database.Create(info.Name);
             await db.OpenAsync();
             return Result.Success(Language["Tip.ConnectSuccess"]);
@@ -102,7 +71,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
-        AppHelper.SetConnection(info.Databases);
+        AppHelper.SetConnections(info.Databases);
         var database = GetDatabase(info);
         await Admin.InitializeTableAsync(database);
         Console.WriteLine("Module is installing...");

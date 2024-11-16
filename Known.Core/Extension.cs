@@ -17,12 +17,9 @@ public static class Extension
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
         action?.Invoke(Config.App);
-        AppHelper.RegisterConnections();
-
         if (Config.App.Type == AppType.WebApi)
             return;
 
-        var assembly = typeof(Extension).Assembly;
         LoadBuildTime(Config.Version);
 
         services.AddScoped<Database>();
@@ -39,6 +36,7 @@ public static class Extension
     /// <param name="action">配置委托。</param>
     public static void AddKnownWin(this IServiceCollection services, Action<CoreOption> action = null)
     {
+        AppHelper.LoadConnections();
         action?.Invoke(option);
         if (option.IsCompression)
             services.AddResponseCompression();
@@ -55,6 +53,7 @@ public static class Extension
     /// <param name="action">配置委托。</param>
     public static void AddKnownWeb(this IServiceCollection services, Action<CoreOption> action = null)
     {
+        AppHelper.LoadConnections();
         action?.Invoke(option);
         if (option.IsCompression)
             services.AddResponseCompression();

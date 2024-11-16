@@ -178,7 +178,7 @@ public sealed class Config
     /// </summary>
     /// <typeparam name="T">对象类型。</typeparam>
     /// <returns>对象实例。</returns>
-    public static T GetScopeService<T>()
+    internal static T GetScopeService<T>()
     {
         var scope = ServiceProvider.CreateScope();
         return scope.ServiceProvider.GetRequiredService<T>();
@@ -373,7 +373,7 @@ public sealed class Config
 /// </summary>
 public class VersionInfo
 {
-    private readonly Assembly assembly;
+    //private readonly Assembly assembly;
 
     /// <summary>
     /// 构造函数，创建一个系统版本信息类的实例。
@@ -382,7 +382,7 @@ public class VersionInfo
 
     internal VersionInfo(Assembly assembly)
     {
-        this.assembly = assembly;
+        //this.assembly = assembly;
         if (assembly != null)
         {
             var version = assembly.GetName().Version;
@@ -540,19 +540,9 @@ public class AppInfo
     public string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
 
     /// <summary>
-    /// 取得或设置系统数据库连接信息列表，注意：Default为框架默认数据库连接名称，不要修改。
-    /// </summary>
-    public List<ConnectionInfo> Connections { get; set; }
-
-    /// <summary>
     /// 取得或设置系统授权验证方法，如果设置，则页面会先校验系统License，不通过，则显示框架内置的未授权面板。
     /// </summary>
     public Func<SystemInfo, Result> CheckSystem { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统数据库SQL监听器委托。
-    /// </summary>
-    public Action<CommandInfo> SqlMonitor { get; set; }
 
     /// <summary>
     /// 检查系统信息。
@@ -568,19 +558,6 @@ public class AppInfo
         Config.IsAuth = result.IsValid;
         Config.AuthStatus = result.Message;
         return result;
-    }
-
-    /// <summary>
-    /// 获取指定连接名的数据库连接信息。
-    /// </summary>
-    /// <param name="name">连接名称。</param>
-    /// <returns>数据库连接信息。</returns>
-    public ConnectionInfo GetConnection(string name)
-    {
-        if (Connections == null || Connections.Count == 0)
-            return null;
-
-        return Connections.FirstOrDefault(c => c.Name == name);
     }
 }
 
@@ -621,9 +598,9 @@ public class ApiMethodInfo
 }
 
 /// <summary>
-/// 客户端信息类。
+/// 客户端配置选项类。
 /// </summary>
-public class ClientInfo
+public class ClientOption
 {
     /// <summary>
     /// 取得或设置客户端动态代理请求Api拦截器类型。
@@ -634,30 +611,4 @@ public class ClientInfo
     /// 取得或设置客户端动态代理请求拦截器提供者。
     /// </summary>
     public Func<Type, object, object> InterceptorProvider { get; set; }
-}
-
-/// <summary>
-/// 数据库连接信息类。
-/// </summary>
-public class ConnectionInfo
-{
-    /// <summary>
-    /// 取得或设置数据库连接名称。
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// 取得或设置数据库类型。
-    /// </summary>
-    public DatabaseType DatabaseType { get; set; }
-
-    /// <summary>
-    /// 取得或设置数据库访问的ADO.NET提供者类型。
-    /// </summary>
-    public Type ProviderType { get; set; }
-
-    /// <summary>
-    /// 取得或设置数据库连接字符串。
-    /// </summary>
-    public string ConnectionString { get; set; }
 }

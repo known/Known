@@ -84,7 +84,7 @@ public partial class Database : IDisposable
     /// <param name="connName">连接名称。</param>
     public virtual void SetDatabase(string connName)
     {
-        var setting = Config.App.GetConnection(connName);
+        var setting = DatabaseOption.Instance.GetConnection(connName);
         if (setting == null)
             return;
 
@@ -227,7 +227,7 @@ public partial class Database : IDisposable
 
     private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {
-        Config.App.SqlMonitor?.Invoke(info);
+        DatabaseOption.Instance.SqlMonitor?.Invoke(info);
 
         var cmd = GetDbCommandAsync(info);
         cmd.CommandText = info.Text;

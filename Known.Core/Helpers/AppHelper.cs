@@ -20,28 +20,8 @@ class AppHelper
         return Path.Combine(path, "Known", Config.App.Id, $"{Config.App.Id}.key");
     }
 
-    internal static void RegisterConnections()
+    internal static void LoadConnections()
     {
-        var connections = Config.App.Connections;
-        if (connections == null || connections.Count == 0)
-            return;
-
-        LoadConnections(connections);
-        foreach (var item in connections)
-        {
-            var key = item.DatabaseType.ToString();
-            if (!DbProviderFactories.GetProviderInvariantNames().Contains(key))
-            {
-                DbProviderFactories.RegisterFactory(key, item.ProviderType);
-            }
-        }
-    }
-
-    private static void LoadConnections(List<ConnectionInfo> connections)
-    {
-        if (connections == null || connections.Count == 0)
-            return;
-
         var path = GetConnectionPath();
         if (!File.Exists(path))
             return;
@@ -50,46 +30,37 @@ class AppHelper
         if (lines == null || lines.Count == 0)
             return;
 
-        foreach (var connection in connections)
+        DbConfig.LoadConnections(items =>
         {
-            if (!string.IsNullOrEmpty(connection.ConnectionString))
-                continue;
+            foreach (var item in items)
+            {
+                if (!string.IsNullOrEmpty(item.ConnectionString))
+                    continue;
 
-            var index = lines.IndexOf(connection.Name);
-            if (index >= 0 && lines.Count > index + 1)
-                connection.ConnectionString = lines[index + 1];
-        }
+                var index = lines.IndexOf(item.Name);
+                if (index >= 0 && lines.Count > index + 1)
+                    item.ConnectionString = lines[index + 1];
+            }
+        });
     }
 
-    internal static void SetConnection(List<DatabaseInfo> infos)
+    internal static void SetConnections(List<DatabaseInfo> infos)
     {
         if (infos == null || infos.Count == 0)
             return;
 
-        foreach (var info in infos)
+        DbConfig.SetConnections(infos, items =>
         {
-            var conn = Config.App.GetConnection(info.Name);
-            if (conn != null)
-                conn.ConnectionString = info.ConnectionString;
-        }
+            var sb = new StringBuilder();
+            foreach (var item in items)
+            {
+                sb.AppendLine(item.Name);
+                sb.AppendLine(item.ConnectionString);
+            }
 
-        SaveConnections(Config.App.Connections);
-    }
-
-    private static void SaveConnections(List<ConnectionInfo> connections)
-    {
-        if (connections == null || connections.Count == 0)
-            return;
-
-        var sb = new StringBuilder();
-        foreach (var connection in connections)
-        {
-            sb.AppendLine(connection.Name);
-            sb.AppendLine(connection.ConnectionString);
-        }
-
-        var path = GetConnectionPath();
-        Utils.SaveFile(path, sb.ToString());
+            var path = GetConnectionPath();
+            Utils.SaveFile(path, sb.ToString());
+        });
     }
 
     private static string GetConnectionPath()

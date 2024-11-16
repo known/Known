@@ -8,7 +8,7 @@ namespace Known;
 public static class Extension
 {
     /// <summary>
-    /// 添加框架配置。
+    /// 添加Known框架配置。
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="action">系统配置方法。</param>
@@ -65,14 +65,14 @@ public static class Extension
     }
 
     /// <summary>
-    /// 添加框架客户端配置。
+    /// 添加Known框架客户端配置。
     /// </summary>
     /// <param name="services">服务集合。</param>
-    /// <param name="action">客户端配置方法。</param>
-    public static void AddKnownClient(this IServiceCollection services, Action<ClientInfo> action = null)
+    /// <param name="action">客户端配置选项委托。</param>
+    public static void AddKnownClient(this IServiceCollection services, Action<ClientOption> action = null)
     {
         Config.IsClient = true;
-        var info = new ClientInfo();
+        var info = new ClientOption();
         action?.Invoke(info);
 
         foreach (var type in Config.ApiTypes)
@@ -86,5 +86,15 @@ public static class Extension
                 return info.InterceptorProvider?.Invoke(type, interceptor);
             });
         }
+    }
+
+    /// <summary>
+    /// 添加Known框架简易ORM数据访问组件。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">ORM配置选项委托。</param>
+    public static void AddKnownData(this IServiceCollection services, Action<DatabaseOption> action = null)
+    {
+        action?.Invoke(DatabaseOption.Instance);
     }
 }

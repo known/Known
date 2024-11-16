@@ -3,7 +3,7 @@
 /// <summary>
 /// 数据模型扩展类。
 /// </summary>
-public static class ModelExtension
+static class ModelExtension
 {
     #region Module
     internal static List<MenuInfo> ToMenus(this List<ModuleInfo> modules, bool isAdmin)

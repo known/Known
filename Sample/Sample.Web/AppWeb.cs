@@ -14,27 +14,19 @@ public static class AppWeb
         {
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
-            //info.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
             info.WebRoot = builder.Environment.WebRootPath;
             info.ContentRoot = builder.Environment.ContentRootPath;
-            //数据库连接
-            info.Connections = [new Known.ConnectionInfo
-            {
-                Name = "Default",
-                DatabaseType = DatabaseType.SQLite,
-                ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
-                //DatabaseType = DatabaseType.Access,
-                //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
-                //DatabaseType = DatabaseType.SqlServer,
-                //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-                //DatabaseType = DatabaseType.MySql,
-                //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
-                //DatabaseType = DatabaseType.PgSql,
-                //ProviderType = typeof(Npgsql.NpgsqlFactory),
-                //DatabaseType = DatabaseType.DM,
-                //ProviderType = typeof(Dm.DmClientFactory),
-                ConnectionString = builder.Configuration.GetSection("ConnString").Get<string>()
-            }];
+        });
+        builder.Services.AddKnownData(option =>
+        {
+            var connString = builder.Configuration.GetSection("ConnString").Get<string>();
+            option.AddProvider<Microsoft.Data.Sqlite.SqliteFactory>("Default", DatabaseType.SQLite, connString);
+            //option.AddProvider<System.Data.OleDb.OleDbFactory>("Default", DatabaseType.Access, connString);
+            //option.AddProvider<System.Data.SqlClient.SqlClientFactory>("Default", DatabaseType.SqlServer, connString);
+            //option.AddProvider<MySqlConnector.MySqlConnectorFactory>("Default", DatabaseType.MySql, connString);
+            //option.AddProvider<Npgsql.NpgsqlFactory>("Default", DatabaseType.PgSql, connString);
+            //option.AddProvider<Dm.DmClientFactory>("Default", DatabaseType.DM, connString);
+            option.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
         });
         builder.Services.AddKnownCells();
         builder.Services.AddKnownWeb(option =>

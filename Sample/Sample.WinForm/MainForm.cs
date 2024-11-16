@@ -53,31 +53,20 @@ public partial class MainForm : Form
         {
             //info.ProductId = "Test";
             //info.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
-            //info.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
             info.Type = AppType.Desktop;
             info.WebRoot = Application.StartupPath;
             info.ContentRoot = Application.StartupPath;
             info.Assembly = typeof(Program).Assembly;
-            //数据库连接
-            info.Connections = [new ConnectionInfo
-            {
-                Name = "Default",
-                DatabaseType = DatabaseType.SQLite,
-                ProviderType = typeof(Microsoft.Data.Sqlite.SqliteFactory),
-                ConnectionString = "Data Source=..\\Sample.db"
-                //DatabaseType = DatabaseType.Access,
-                //ProviderType = typeof(System.Data.OleDb.OleDbFactory),
-                //ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}";
-                //DatabaseType = DatabaseType.SqlServer,
-                //ProviderType = typeof(System.Data.SqlClient.SqlClientFactory),
-                //ConnectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True";
-                //DatabaseType = DatabaseType.MySql,
-                //ProviderType = typeof(MySqlConnector.MySqlConnectorFactory),
-                //ConnectionString = "Data Source=localhost;port=3306;Initial Catalog=Sample;user id={userId};password={password};Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-                //DatabaseType = DatabaseType.PgSql,
-                //ProviderType = typeof(Npgsql.NpgsqlFactory),
-                //ConnectionString = "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};";
-            }];
+        });
+        services.AddKnownData(option =>
+        {
+            option.AddProvider<Microsoft.Data.Sqlite.SqliteFactory>("Default", DatabaseType.SQLite, "Data Source=..\\Sample.db");
+            //option.AddProvider<System.Data.OleDb.OleDbFactory>("Default", DatabaseType.Access, "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password={password}");
+            //option.AddProvider<System.Data.SqlClient.SqlClientFactory>("Default", DatabaseType.SqlServer, "Server=(localdb)\\MSSQLLocalDB;Database=Sample;Trusted_Connection=True");
+            //option.AddProvider<MySqlConnector.MySqlConnectorFactory>("Default", DatabaseType.MySql, "Data Source=localhost;port=3306;Initial Catalog=Sample;user id={userId};password={password};Charset=utf8;SslMode=none;AllowZeroDateTime=True;");
+            //option.AddProvider<Npgsql.NpgsqlFactory>("Default", DatabaseType.PgSql, "Data Source=localhost;Initial Catalog=Sample;User Id={userId};Password={password};");
+            //option.AddProvider<Dm.DmClientFactory>("Default", DatabaseType.DM, "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;");
+            //option.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
         });
         services.AddKnownCells();
         services.AddKnownWin();
