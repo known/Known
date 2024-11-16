@@ -28,30 +28,6 @@ public sealed class TypeHelper
             && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
     }
 
-    internal static async void Action(object obj, UIContext context, BaseLayout app, ActionInfo info, object[] parameters)
-    {
-        var type = obj.GetType();
-        var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
-        var method = paramTypes == null
-                   ? type.GetMethod(info.Id)
-                   : type.GetMethod(info.Id, paramTypes);
-        if (method == null)
-        {
-            var message = context.Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
-            context.UI.Error(message);
-            return;
-        }
-
-        try
-        {
-            method.Invoke(obj, parameters);
-        }
-        catch (Exception ex)
-        {
-            await app?.OnErrorAsync(ex);
-        }
-    }
-
     internal static List<CodeInfo> GetEnumCodes(Type type)
     {
         var category = type.Name;
@@ -68,36 +44,36 @@ public sealed class TypeHelper
         return codes;
     }
 
-    internal static List<FieldInfo> GetFields(Type entityType, Language language)
-    {
-        var fields = new List<FieldInfo>();
-        var properties = Properties(entityType);
-        if (properties == null || properties.Length == 0)
-            return fields;
+    //internal static List<FieldInfo> GetFields(Type entityType, Language language)
+    //{
+    //    var fields = new List<FieldInfo>();
+    //    var properties = Properties(entityType);
+    //    if (properties == null || properties.Length == 0)
+    //        return fields;
 
-        foreach (var item in properties)
-        {
-            if (item.Name == nameof(EntityBase.Id) ||
-                item.Name == nameof(EntityBase.Version) ||
-                item.Name == nameof(EntityBase.Extension) ||
-                item.Name == nameof(EntityBase.AppId) ||
-                item.Name == nameof(EntityBase.CompNo))
-                continue;
+    //    foreach (var item in properties)
+    //    {
+    //        if (item.Name == nameof(EntityBase.Id) ||
+    //            item.Name == nameof(EntityBase.Version) ||
+    //            item.Name == nameof(EntityBase.Extension) ||
+    //            item.Name == nameof(EntityBase.AppId) ||
+    //            item.Name == nameof(EntityBase.CompNo))
+    //            continue;
 
-            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
-            {
-                var name = item.DisplayName();
-                var type = item.GetFieldType();
-                fields.Add(new FieldInfo
-                {
-                    Id = item.Name,
-                    Name = language.GetText("", item.Name, name),
-                    Type = type
-                });
-            }
-        }
-        return fields;
-    }
+    //        if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
+    //        {
+    //            var name = item.DisplayName();
+    //            var type = item.GetFieldType();
+    //            fields.Add(new FieldInfo
+    //            {
+    //                Id = item.Name,
+    //                Name = language.GetText("", item.Name, name),
+    //                Type = type
+    //            });
+    //        }
+    //    }
+    //    return fields;
+    //}
 
     /// <summary>
     /// 获取数据对象属性值。

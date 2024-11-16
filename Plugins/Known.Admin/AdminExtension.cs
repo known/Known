@@ -49,13 +49,6 @@ public static class AdminExtension
         // 注入后台任务
         TaskHelper.OnPendingTask = GetPendingTaskAsync;
         TaskHelper.OnSaveTask = SaveTaskAsync;
-
-        // 映射数据表
-        //DbConfig.MapEntity<ModuleInfo, SysModule>();
-        //DbConfig.MapEntity<UserInfo, SysUser>();
-        //DbConfig.MapEntity<AttachInfo, SysFile>();
-        //DbConfig.MapEntity<TaskInfo, SysTask>();
-        //DbConfig.MapEntity<SettingInfo, SysSetting>();
     }
 
     /// <summary>

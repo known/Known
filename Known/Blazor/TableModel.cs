@@ -3,8 +3,8 @@
 /// <summary>
 /// 表格组件模型信息类。
 /// </summary>
-/// <param name="context">UI上下文对象。</param>
-public class TableModel(UIContext context) : BaseModel(context)
+/// <param name="page">表格关联的页面组件。</param>
+public class TableModel(BaseComponent page) : BaseModel(page)
 {
     /// <summary>
     /// 取得或设置表格是否显示高级搜索。

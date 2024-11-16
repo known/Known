@@ -162,12 +162,11 @@ public interface ISystemService : IService
     #endregion
 }
 
-class SystemService(Context context) : ServiceBase(context), ISystemService
+class SystemService(HttpClient http) : ClientBase(http), ISystemService
 {
     public Task<SystemInfo> GetSystemAsync()
     {
-        var info = new SystemInfo { AppName = App.Name };
-        return Task.FromResult(info);
+        throw new NotImplementedException();
     }
 
     public Task<InstallInfo> GetInstallAsync()

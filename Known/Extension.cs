@@ -22,17 +22,11 @@ public static class Extension
 
         Config.AddApp();
         services.AddAntDesign();
+
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();
         services.AddScoped<UIService>();
         services.AddScoped<JSService>();
-        services.AddSingleton<INodbProvider, NodbProvider>();
-
-        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<ISystemService, SystemService>();
-        services.AddScoped<IAutoService, AutoService>();
-        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
@@ -72,18 +66,26 @@ public static class Extension
     public static void AddKnownClient(this IServiceCollection services, Action<ClientOption> action = null)
     {
         Config.IsClient = true;
-        var info = new ClientOption();
-        action?.Invoke(info);
+        action?.Invoke(ClientOption.Instance);
+
+        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ISystemService, SystemService>();
+        services.AddScoped<IAutoService, AutoService>();
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         foreach (var type in Config.ApiTypes)
         {
             //Console.WriteLine(type.Name);
-            var interceptorType = info.InterceptorType?.Invoke(type);
+            var interceptorType = ClientOption.Instance.InterceptorType?.Invoke(type);
+            if (interceptorType == null)
+                continue;
+
             services.AddScoped(interceptorType);
             services.AddScoped(type, provider =>
             {
                 var interceptor = provider.GetRequiredService(interceptorType);
-                return info.InterceptorProvider?.Invoke(type, interceptor);
+                return ClientOption.Instance.InterceptorProvider?.Invoke(type, interceptor);
             });
         }
     }

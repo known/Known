@@ -14,10 +14,7 @@ public class UIService(ModalService modalService, MessageService messageService,
     private readonly MessageService _message = messageService;
     private readonly INotificationService _notice = noticeService;
 
-    /// <summary>
-    /// 取得或设置多语言实例。
-    /// </summary>
-    public Language Language { get; set; }
+    internal Language Language { get; set; }
 
     /// <summary>
     /// 根据字段类型获取对应的输入组件类型。

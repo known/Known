@@ -46,7 +46,7 @@ public interface IAuthService : IService
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
 
-class AuthService(Context context, INodbProvider provider) : ServiceBase(context), IAuthService
+class AuthService(HttpClient http) : ClientBase(http), IAuthService
 {
     public Task<Result> SignInAsync(LoginFormInfo info)
     {
@@ -55,23 +55,12 @@ class AuthService(Context context, INodbProvider provider) : ServiceBase(context
 
     public Task<Result> SignOutAsync()
     {
-        return Result.SuccessAsync("");
+        throw new NotImplementedException();
     }
 
-    public Task<UserInfo> GetUserAsync(string userName)
+    public Task<AdminInfo> GetAdminAsync()
     {
-        return Task.FromResult(CurrentUser);
-    }
-
-    public async Task<AdminInfo> GetAdminAsync()
-    {
-        var info = new AdminInfo
-        {
-            AppName = App.Name,
-            UserMenus = await provider.GetUserMenusAsync(CurrentUser),
-            Codes = await provider.GetCodesAsync(CurrentUser)
-        };
-        return info;
+        throw new NotImplementedException();
     }
 
     public Task<Result> UpdateAvatarAsync(AvatarInfo info)

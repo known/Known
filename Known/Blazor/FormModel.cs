@@ -12,9 +12,9 @@ public class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <summary>
     /// 构造函数，创建一个表单模型信息类的实例。
     /// </summary>
-    /// <param name="page">表单关联的页面。</param>
+    /// <param name="page">表单关联的页面组件。</param>
     /// <param name="isAuto">是否根据表单数据类型自动生成布局，默认否。</param>
-    public FormModel(BaseComponent page, bool isAuto = false) : base(page.Context)
+    public FormModel(BaseComponent page, bool isAuto = false) : base(page)
     {
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         Page = page;

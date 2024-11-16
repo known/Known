@@ -3,7 +3,7 @@
 /// <summary>
 /// UI上下文信息类。
 /// </summary>
-public class UIContext() : Context
+public class UIContext : Context
 {
     /// <summary>
     /// 取得当前上下文菜单信息。
@@ -111,18 +111,6 @@ public class UIContext() : Context
             }
         }
         return [.. infos.OrderBy(c => c.Sort)];
-    }
-
-    internal void Initialize(BaseLayout layout)
-    {
-        UI = layout.UI;
-        Navigation = layout.Navigation;
-    }
-
-    internal void Initialize(BaseComponent component)
-    {
-        UI = component.UI;
-        Navigation = component.Navigation;
     }
 
     internal void SignOut()

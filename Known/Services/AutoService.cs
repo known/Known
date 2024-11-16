@@ -34,7 +34,7 @@ public interface IAutoService : IService
     Task<Result> CreateTableAsync(AutoInfo<string> info);
 }
 
-class AutoService(Context context) : ServiceBase(context), IAutoService
+class AutoService(HttpClient http) : ClientBase(http), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {

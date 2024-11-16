@@ -6,7 +6,7 @@
 /// <typeparam name="TItem">表单数据类型。</typeparam>
 public class FieldModel<TItem> : BaseModel where TItem : class, new()
 {
-    internal FieldModel(FormModel<TItem> form, ColumnInfo column) : base(form.Context)
+    internal FieldModel(FormModel<TItem> form, ColumnInfo column) : base(form.Component)
     {
         if (!string.IsNullOrWhiteSpace(column.Id))
             form.Fields[column.Id] = this;

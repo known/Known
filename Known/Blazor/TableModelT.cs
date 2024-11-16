@@ -11,9 +11,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
     /// </summary>
-    /// <param name="page">页面组件对象。</param>
+    /// <param name="page">表格关联的页面组件。</param>
     /// <param name="mode">根据数据类型自动生成表格列。</param>
-    public TableModel(BaseComponent page, TableColumnMode mode = TableColumnMode.None) : base(page.Context)
+    public TableModel(BaseComponent page, TableColumnMode mode = TableColumnMode.None) : base(page)
     {
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;

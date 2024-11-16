@@ -3,18 +3,23 @@
 /// <summary>
 /// 抽象组件模型基类。
 /// </summary>
-/// <param name="context">UI上下文对象。</param>
-public abstract class BaseModel(UIContext context)
+/// <param name="component">模型关联的组件对象。</param>
+public abstract class BaseModel(BaseComponent component)
 {
+    /// <summary>
+    /// 取得模型关联的组件对象。
+    /// </summary>
+    public BaseComponent Component { get; } = component;
+
     /// <summary>
     /// 取得UI上下文对象实例。
     /// </summary>
-    public UIContext Context { get; } = context;
+    public UIContext Context => Component?.Context;
 
     /// <summary>
     /// 取得注入的UI服务实例。
     /// </summary>
-    public UIService UI => Context?.UI;
+    public UIService UI => Component?.UI;
 
     /// <summary>
     /// 取得上下文语言对象实例。

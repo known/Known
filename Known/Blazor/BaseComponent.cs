@@ -118,7 +118,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         {
             await base.OnInitializedAsync();
             UI.Language = Language;
-            Context.Initialize(this);
             Auth = await CreateServiceAsync<IAuthService>();
             System = await CreateServiceAsync<ISystemService>();
             await OnInitAsync();
@@ -236,7 +235,25 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
     internal void OnAction(ActionInfo info, object[] parameters)
     {
-        TypeHelper.Action(this, Context, App, info, parameters);
+        var type = GetType();
+        var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
+        var method = paramTypes == null
+                   ? type.GetMethod(info.Id)
+                   : type.GetMethod(info.Id, paramTypes);
+        if (method == null)
+        {
+            var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+            UI.Error(message);
+            return;
+        }
+        try
+        {
+            method.Invoke(this, parameters);
+        }
+        catch (Exception ex)
+        {
+            App?.OnErrorAsync(ex);
+        }
     }
 
     private async ValueTask DisposeAsync(bool disposing)

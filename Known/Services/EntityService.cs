@@ -35,7 +35,7 @@ public interface IEntityService<TEntity> : IService
     Task<Result> SaveAsync(TEntity model);
 }
 
-class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity>
+class EntityService<TEntity>(HttpClient http) : ClientBase(http), IEntityService<TEntity>
 {
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
     {

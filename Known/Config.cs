@@ -602,6 +602,8 @@ public class ApiMethodInfo
 /// </summary>
 public class ClientOption
 {
+    internal static ClientOption Instance { get; } = new();
+
     /// <summary>
     /// 取得或设置客户端动态代理请求Api拦截器类型。
     /// </summary>

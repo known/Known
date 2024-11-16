@@ -70,7 +70,6 @@ public class BaseLayout : LayoutComponentBase
         {
             await base.OnInitializedAsync();
             UI.Language = Language;
-            Context.Initialize(this);
             Auth = await CreateServiceAsync<IAuthService>();
             System = await CreateServiceAsync<ISystemService>();
             if (Context.System == null)
@@ -168,7 +167,11 @@ public class BaseLayout : LayoutComponentBase
     public async Task OnErrorAsync(Exception ex)
     {
         Logger.CreateLogger<BaseLayout>().Error(ex);
-        await UI.NoticeAsync(ex.Message, StyleType.Error);
+        var message = ex.Message;
+#if DEBUG
+        message = ex.ToString();
+#endif
+        await UI.NoticeAsync(message, StyleType.Error);
     }
 
     /// <summary>
