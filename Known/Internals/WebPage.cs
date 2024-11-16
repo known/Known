@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Internals;
 
 class WebPage : BaseComponent
 {
@@ -10,16 +10,16 @@ class WebPage : BaseComponent
         Model.StateChanged = StateChanged;
     }
 
-	protected override void BuildRender(RenderTreeBuilder builder)
-	{
-		if (Model.Items == null || Model.Items.Count == 0)
-			return;
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (Model.Items == null || Model.Items.Count == 0)
+            return;
 
-		if (Model.Type == PageType.None)
+        if (Model.Type == PageType.None)
             BuildItems(builder);
-		else if (Model.Type == PageType.Column)
+        else if (Model.Type == PageType.Column)
             builder.Div($"kui-row-{Model.Spans}", () => BuildItems(builder));
-		else if (Model.Type == PageType.Row)
+        else if (Model.Type == PageType.Row)
             BuildItems(builder);
     }
 

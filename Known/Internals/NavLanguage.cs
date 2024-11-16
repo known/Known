@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 多语言下拉框组件类。

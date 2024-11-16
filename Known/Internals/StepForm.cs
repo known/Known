@@ -1,9 +1,9 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 步骤表单组件类。
 /// </summary>
-public class StepForm : BaseComponent
+class StepForm : BaseComponent
 {
     /// <summary>
     /// 取得或设置步骤表单配置模型。

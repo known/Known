@@ -1,10 +1,10 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 自定义数据表单组件类。
 /// </summary>
 /// <typeparam name="TItem">表单数据对象类型。</typeparam>
-public class DataForm<TItem> : BaseComponent where TItem : class, new()
+class DataForm<TItem> : BaseComponent where TItem : class, new()
 {
     /// <summary>
     /// 取得或设置表单组件模型对象实例。

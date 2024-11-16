@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 class AntFormRow<TItem> : BaseComponent where TItem : class, new()
 {

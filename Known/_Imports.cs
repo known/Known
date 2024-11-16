@@ -27,6 +27,7 @@ global using Known.Core;
 global using Known.Data;
 global using Known.Extensions;
 global using Known.Helpers;
+global using Known.Internals;
 global using Known.Pages;
 global using Known.Services;
 global using Microsoft.AspNetCore.Authorization;

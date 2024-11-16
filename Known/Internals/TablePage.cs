@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Internals;
 
 class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
@@ -21,7 +21,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
         {
             if (!string.IsNullOrWhiteSpace(Model.Name) ||
                  Model.QueryColumns.Count > 0 ||
-                 (Model.ShowToolbar && Model.Toolbar.HasItem))
+                 Model.ShowToolbar && Model.Toolbar.HasItem)
             {
                 builder.Component<KToolbar>()
                        .Set(c => c.ChildContent, b =>

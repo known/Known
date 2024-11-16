@@ -1,10 +1,10 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 表单字段组件类。
 /// </summary>
 /// <typeparam name="TItem">表单数据类型。</typeparam>
-public class KField<TItem> : BaseComponent where TItem : class, new()
+class KField<TItem> : BaseComponent where TItem : class, new()
 {
     /// <summary>
     /// 取得或设置表单字段模型配置对象。

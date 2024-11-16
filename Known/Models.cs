@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known;
 
 /// <summary>
 /// 统计数量信息类。

@@ -8,7 +8,7 @@ public class BaseLayout : LayoutComponentBase
     /// <summary>
     /// 取得或设置日志工厂实例。
     /// </summary>
-    [Inject] public ILoggerFactory Logger { get; set; }
+    [Inject] internal ILoggerFactory Logger { get; set; }
 
     /// <summary>
     /// 取得或设置注入的身份认证状态提供者实例。
@@ -23,7 +23,7 @@ public class BaseLayout : LayoutComponentBase
     /// <summary>
     /// 取得或设置注入的依赖注入服务工厂实例。
     /// </summary>
-    [Inject] public IServiceScopeFactory Factory { get; set; }
+    [Inject] internal IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
     /// 取得或设置注入的JS服务实例。
@@ -48,7 +48,7 @@ public class BaseLayout : LayoutComponentBase
     /// <summary>
     /// 取得上下文当前菜单信息实例。
     /// </summary>
-    public MenuInfo CurrentMenu => Context?.Current;
+    internal MenuInfo CurrentMenu => Context?.Current;
 
     /// <summary>
     /// 取得身份认证服务接口实例。
@@ -123,7 +123,7 @@ public class BaseLayout : LayoutComponentBase
     /// </summary>
     /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
     /// <returns>后端服务接口实例。</returns>
-    public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
+    private Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
 
     /// <summary>
     /// 导航到指定菜单对应的页面。

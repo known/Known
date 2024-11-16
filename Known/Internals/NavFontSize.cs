@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 系统字体大小下拉框组件类。

@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 class KModalBody : ComponentBase
 {

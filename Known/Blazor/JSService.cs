@@ -245,7 +245,7 @@ public class JSService
     /// <typeparam name="T">组件类型。</typeparam>
     /// <param name="action">组件内容操作方法。</param>
     /// <returns></returns>
-    public async Task PrintAsync<T>(Action<ComponentRenderer<T>> action) where T : Microsoft.AspNetCore.Components.IComponent
+    public async Task PrintAsync<T>(Action<IPrintRenderer<T>> action) where T : Microsoft.AspNetCore.Components.IComponent
     {
         var services = new ServiceCollection();
         services.AddScoped<IJSRuntime, PrintJSRuntime>();

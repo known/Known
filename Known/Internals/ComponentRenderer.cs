@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Known.Blazor;
+namespace Known.Internals;
 
 /// <summary>
 /// 打印组件呈现类。
 /// </summary>
 /// <typeparam name="T">组件类型。</typeparam>
-public class ComponentRenderer<T> where T : Microsoft.AspNetCore.Components.IComponent
+class ComponentRenderer<T> : IPrintRenderer<T> where T : Microsoft.AspNetCore.Components.IComponent
 {
     private const string ChildContent = nameof(ChildContent);
     private static readonly Type componentType = typeof(T);
@@ -37,7 +37,7 @@ public class ComponentRenderer<T> where T : Microsoft.AspNetCore.Components.ICom
     /// <param name="value">组件参数对象。</param>
     /// <returns>打印组件呈现对象。</returns>
     /// <exception cref="ArgumentNullException">参数值为空异常。</exception>
-    public ComponentRenderer<T> Set<TValue>(Expression<Func<T, TValue>> selector, TValue value)
+    public IPrintRenderer<T> Set<TValue>(Expression<Func<T, TValue>> selector, TValue value)
     {
         if (value is null)
             throw new ArgumentNullException(nameof(value));

@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 全局顶部导航工具条组件类。

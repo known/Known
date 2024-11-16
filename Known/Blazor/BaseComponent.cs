@@ -71,7 +71,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     /// 取得或设置注入的依赖注入服务工厂实例。
     /// </summary>
-    [Inject] public IServiceScopeFactory Factory { get; set; }
+    [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
     /// 取得或设置UI上下文对象级联值实例。

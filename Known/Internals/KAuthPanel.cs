@@ -1,9 +1,9 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 授权验证面板组件类。
 /// </summary>
-public class KAuthPanel : BaseComponent
+class KAuthPanel : BaseComponent
 {
     /// <summary>
     /// 取得或设置组件子内容模板。

@@ -26,7 +26,7 @@ public static class AppWeb
             //option.AddProvider<MySqlConnector.MySqlConnectorFactory>("Default", DatabaseType.MySql, connString);
             //option.AddProvider<Npgsql.NpgsqlFactory>("Default", DatabaseType.PgSql, connString);
             //option.AddProvider<Dm.DmClientFactory>("Default", DatabaseType.DM, connString);
-            option.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
+            //option.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
         });
         builder.Services.AddKnownCells();
         builder.Services.AddKnownWeb(option =>

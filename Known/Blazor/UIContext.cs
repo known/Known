@@ -10,10 +10,10 @@ public class UIContext : Context
     /// </summary>
     public MenuInfo Current { get; private set; }
 
-    /// <summary>
-    /// 取得上下文UI服务对象。
-    /// </summary>
-    public UIService UI { get; private set; }
+    ///// <summary>
+    ///// 取得上下文UI服务对象。
+    ///// </summary>
+    //internal UIService UI { get; private set; }
 
     /// <summary>
     /// 取得当前菜单URL。
@@ -30,10 +30,10 @@ public class UIContext : Context
     /// </summary>
     public SystemInfo System { get; set; }
 
-    /// <summary>
-    /// 取得注入的导航管理者实例。
-    /// </summary>
-    public NavigationManager Navigation { get; private set; }
+    ///// <summary>
+    ///// 取得注入的导航管理者实例。
+    ///// </summary>
+    //internal NavigationManager Navigation { get; private set; }
 
     /// <summary>
     /// 取得或设置当前用户设置用户系统设置信息对象。
@@ -93,7 +93,7 @@ public class UIContext : Context
     /// <typeparam name="TItem">表格数据行类型。</typeparam>
     /// <param name="table">表格模型对象。</param>
     /// <returns>用户设置的表格字段列表。</returns>
-    public List<ColumnInfo> GetUserTableColumns<TItem>(TableModel<TItem> table) where TItem : class, new()
+    internal List<ColumnInfo> GetUserTableColumns<TItem>(TableModel<TItem> table) where TItem : class, new()
     {
         var infos = table.Columns.Where(c => c.IsVisible).ToList();
         UserTableSettings.TryGetValue(table.SettingId, out List<TableSettingInfo> settings);
