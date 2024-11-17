@@ -172,7 +172,7 @@ partial class AntLayout
 
     private async Task OnSaveSetting()
     {
-        var result = await System.SaveUserSettingInfoAsync(Setting);
+        var result = await Data.SaveUserSettingInfoAsync(Setting);
         if (result.IsValid)
         {
             Context.UserSetting = Setting;

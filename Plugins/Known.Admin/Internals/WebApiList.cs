@@ -3,7 +3,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Web;
 
-namespace Known.Pages;
+namespace Known.Internals;
 
 /// <summary>
 /// WebApi文档组件类。

@@ -37,7 +37,7 @@
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-            sysFiles = await System.GetFilesAsync(Value);
+            sysFiles = await Data.GetFilesAsync(Value);
     }
 
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)

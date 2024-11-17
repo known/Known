@@ -27,7 +27,7 @@ class FormDatabase : BaseForm<DatabaseInfo>
 
     private async Task OnTestAsync(MouseEventArgs args)
     {
-        var result = await System.TestConnectionAsync(Model.Data);
+        var result = await base.Data.TestConnectionAsync(Model.Data);
         UI.Result(result);
     }
 }

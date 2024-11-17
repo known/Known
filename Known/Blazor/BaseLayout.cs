@@ -56,9 +56,9 @@ public class BaseLayout : LayoutComponentBase
     internal IAuthService Auth { get; private set; }
 
     /// <summary>
-    /// 取得系统服务接口实例。
+    /// 取得框架数据服务接口实例。
     /// </summary>
-    internal ISystemService System { get; private set; }
+    internal IDataService Data { get; private set; }
 
     /// <summary>
     /// 异步初始化模板，初始化UI多语言实例和上下文对象，以及全局异常处理；子模板不要覆写该方法，应覆写 OnInitAsync。
@@ -71,9 +71,9 @@ public class BaseLayout : LayoutComponentBase
             await base.OnInitializedAsync();
             UI.Language = Language;
             Auth = await CreateServiceAsync<IAuthService>();
-            System = await CreateServiceAsync<ISystemService>();
+            Data = await CreateServiceAsync<IDataService>();
             if (Context.System == null)
-                Context.System = await System.GetSystemAsync();
+                Context.System = await Data.GetSystemAsync();
             await OnInitAsync();
         }
         catch (Exception ex)

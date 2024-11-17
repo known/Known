@@ -24,7 +24,7 @@ public static class Extension
 
         services.AddScoped<Database>();
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<ISystemService, SystemService>();
+        services.AddScoped<IDataService, DataService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
     }

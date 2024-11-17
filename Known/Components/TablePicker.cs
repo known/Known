@@ -80,7 +80,7 @@ public class UserPicker : TablePicker<UserInfo>, ICustomField
         Title = Language["Title.SelectUser"];
         Width = 800;
         AllowClear = true;
-        Table.OnQuery = System.QueryUsersAsync;
+        Table.OnQuery = Data.QueryUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);
         Table.AddColumn(c => c.Phone).Width(100);

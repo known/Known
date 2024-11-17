@@ -20,7 +20,7 @@ class SysActive : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var info = await System.GetInstallAsync();
+            var info = await Data.GetInstallAsync();
             model.Data.ProductId = info.ProductId;
             model.Data.ProductKey = info.ProductKey;
             await StateChangedAsync();
@@ -45,7 +45,7 @@ class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = await System.SaveKeyAsync(model.Data);
+        var result = await Data.SaveKeyAsync(model.Data);
         UI.Result(result, () =>
         {
             OnCheck?.Invoke(result.IsValid);

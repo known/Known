@@ -48,7 +48,7 @@ public class InstallForm : BaseForm<InstallInfo>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Model.Data = await System.GetInstallAsync();
+            Model.Data = await Data.GetInstallAsync();
             await StateChangedAsync();
         }
     }
@@ -125,7 +125,7 @@ public class InstallForm : BaseForm<InstallInfo>
 
         if (isComplete)
         {
-            var result = await System.SaveInstallAsync(Model.Data);
+            var result = await Data.SaveInstallAsync(Model.Data);
             UI.Result(result, () =>
             {
                 var info = result.DataAs<InstallInfo>();

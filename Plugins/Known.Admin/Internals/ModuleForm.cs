@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Internals;
 
 class ModuleForm : BaseTabForm
 {

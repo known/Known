@@ -20,7 +20,7 @@ class VisitLog
             return;
 
         visitPages[context.CurrentUser.Token] = pageUrl;
-        var service = ctx.RequestServices.GetRequiredService<ISystemService>();
+        var service = ctx.RequestServices.GetRequiredService<IDataService>();
         service.Context = context;
         await service.AddLogAsync(new LogInfo { Type = LogType.Page, Content = pageUrl });
     }

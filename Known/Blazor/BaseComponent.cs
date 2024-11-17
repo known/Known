@@ -99,9 +99,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     internal IAuthService Auth { get; private set; }
 
     /// <summary>
-    /// 取得系统服务接口实例。
+    /// 取得框架数据服务接口实例。
     /// </summary>
-    public ISystemService System { get; private set; }
+    public IDataService Data { get; private set; }
 
     /// <summary>
     /// 取得是否释放组件对象。
@@ -119,7 +119,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             await base.OnInitializedAsync();
             UI.Language = Language;
             Auth = await CreateServiceAsync<IAuthService>();
-            System = await CreateServiceAsync<ISystemService>();
+            Data = await CreateServiceAsync<IDataService>();
             await OnInitAsync();
         }
         catch (Exception ex)

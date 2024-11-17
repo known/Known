@@ -1,9 +1,9 @@
 ﻿namespace Known.Services;
 
 /// <summary>
-/// 系统服务接口。
+/// 框架数据服务接口。
 /// </summary>
-public interface ISystemService : IService
+public interface IDataService : IService
 {
     /// <summary>
     /// 异步获取系统信息。
@@ -44,19 +44,6 @@ public interface ISystemService : IService
     /// <param name="info">系统配置数据信息。</param>
     /// <returns></returns>
     Task SaveConfigAsync(ConfigInfo info);
-
-    /// <summary>
-    /// 异步获取系统数据信息。
-    /// </summary>
-    /// <returns>系统数据信息。</returns>
-    Task<SystemDataInfo> GetSystemDataAsync();
-
-    /// <summary>
-    /// 异步保存系统信息。
-    /// </summary>
-    /// <param name="info">系统信息。</param>
-    /// <returns>保存结果。</returns>
-    Task<Result> SaveSystemAsync(SystemInfo info);
 
     /// <summary>
     /// 异步保存产品Key。
@@ -162,7 +149,7 @@ public interface ISystemService : IService
     #endregion
 }
 
-class SystemService(HttpClient http) : ClientBase(http), ISystemService
+class DataService(HttpClient http) : ClientBase(http), IDataService
 {
     public Task<SystemInfo> GetSystemAsync()
     {

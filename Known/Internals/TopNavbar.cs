@@ -157,7 +157,7 @@ public class TopNavbar : BaseComponent
 
     private async Task<List<string>> GetTypesAsync()
     {
-        var json = await System.GetConfigAsync(Key);
+        var json = await Data.GetConfigAsync(Key);
         var items = Utils.FromJson<List<string>>(json);
         if (items == null)
         {
@@ -174,5 +174,5 @@ public class TopNavbar : BaseComponent
         return items;
     }
 
-    private Task SaveConfigAsync() => System.SaveConfigAsync(new ConfigInfo { Key = Key, Value = types });
+    private Task SaveConfigAsync() => Data.SaveConfigAsync(new ConfigInfo { Key = Key, Value = types });
 }

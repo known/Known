@@ -3,7 +3,7 @@ using Known.Cells;
 
 namespace Known.Core.Services;
 
-class SystemService(Context context) : ServiceBase(context), ISystemService
+class DataService(Context context) : ServiceBase(context), IDataService
 {
     //Config
     public Task<string> GetConfigAsync(string key) => Admin.GetConfigAsync(Database, key);
@@ -118,33 +118,6 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     }
 
     //System
-    public async Task<SystemDataInfo> GetSystemDataAsync()
-    {
-        var info = await Admin.GetSystemAsync(Database);
-        return new SystemDataInfo
-        {
-            System = info,
-            Version = Config.Version,
-            RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2)
-        };
-    }
-
-    public async Task<Result> SaveSystemAsync(SystemInfo info)
-    {
-        var database = Database;
-        if (Config.App.IsPlatform)
-        {
-            var result = await Admin.SaveCompanyDataAsync(database, CurrentUser.CompNo, info);
-            if (!result.IsValid)
-                return result;
-        }
-        else
-        {
-            await Admin.SaveSystemAsync(database, info);
-        }
-        return Result.Success(Language.Success(Language.Save));
-    }
-
     public async Task<Result> SaveKeyAsync(SystemInfo info)
     {
         var database = Database;

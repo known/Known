@@ -60,7 +60,7 @@
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Model = Parent.Data;
+        Model = Parent.Model;
     }
 
     private async Task OnSaveAppNameAsync(string value)

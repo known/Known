@@ -7,7 +7,9 @@
 [Route("/sys/info")]
 public class SysSystem : BaseTabPage
 {
-    internal SystemDataInfo Data { get; private set; }
+    private ISystemService Service;
+
+    internal SystemDataInfo Model { get; private set; }
 
     /// <summary>
     /// 异步初始化页面。
@@ -16,7 +18,8 @@ public class SysSystem : BaseTabPage
     protected override async Task OnPageInitAsync()
     {
         await base.OnPageInitAsync();
-        Data = await System.GetSystemDataAsync();
+        Service = await CreateServiceAsync<ISystemService>();
+        Model = await Service.GetSystemDataAsync();
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
         Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting>().Build());
@@ -34,11 +37,11 @@ public class SysSystem : BaseTabPage
 
     internal async Task<Result> SaveSystemAsync(SystemInfo info)
     {
-        var result = await System.SaveSystemAsync(info);
+        var result = await Service.SaveSystemAsync(info);
         if (result.IsValid)
             Context.System = info;
         return result;
     }
 
-    internal Task<Result> SaveKeyAsync(SystemInfo info) => System.SaveKeyAsync(info);
+    internal Task<Result> SaveKeyAsync(SystemInfo info) => Data.SaveKeyAsync(info);
 }

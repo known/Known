@@ -45,7 +45,7 @@ public class NavLanguage : BaseComponent
         if (CurrentUser != null)
         {
             Context.UserSetting.Language = current.Id;
-            await System.SaveUserSettingInfoAsync(Context.UserSetting);
+            await Data.SaveUserSettingInfoAsync(Context.UserSetting);
         }
         await JS.SetCurrentLanguageAsync(current.Id);
         Navigation.Refresh(true);
