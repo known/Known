@@ -39,11 +39,11 @@ class FileService(Context context) : ServiceBase(context), IFileService
         {
             foreach (var item in models)
             {
-                await DeleteFileAsync(db, item, oldFiles);
+                await db.DeleteFileAsync(item, oldFiles);
             }
         });
         if (result.IsValid)
-            Admin.DeleteFiles(oldFiles);
+            Platform.DeleteFiles(oldFiles);
         return result;
     }
 
@@ -70,71 +70,6 @@ class FileService(Context context) : ServiceBase(context), IFileService
             files = await db.Query<SysFile>().Where(d => d.BizId == bizId1 && d.Type == bizType).ToListAsync<AttachInfo>();
         }
         return files?.OrderBy(d => d.CreateTime).ToList();
-    }
-
-    internal static async Task<List<AttachInfo>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
-    {
-        if (files == null || files.Count == 0)
-            return null;
-
-        var sysFiles = new List<AttachInfo>();
-        foreach (var item in files)
-        {
-            var file = await AddFileAsync(db, item, bizId, bizType, "");
-            sysFiles.Add(file);
-        }
-        return sysFiles;
-    }
-
-    internal static async Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
-    {
-        var files = await db.QueryListAsync<SysFile>(d => d.BizId == bizId);
-        await DeleteFilesAsync(db, files, oldFiles);
-    }
-
-    private static async Task DeleteFilesAsync(Database db, List<SysFile> files, List<string> oldFiles)
-    {
-        if (files == null || files.Count == 0)
-            return;
-
-        foreach (var item in files)
-        {
-            await DeleteFileAsync(db, item, oldFiles);
-        }
-    }
-
-    private static async Task DeleteFileAsync(Database db, SysFile item, List<string> oldFiles)
-    {
-        oldFiles.Add(item.Path);
-        if (!string.IsNullOrWhiteSpace(item.ThumbPath))
-            oldFiles.Add(item.ThumbPath);
-
-        await db.DeleteAsync(item);
-    }
-
-    private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
-    {
-        await attach.SaveAsync();
-        attach.BizId = bizId;
-        attach.BizType = bizType;
-        var file = new SysFile
-        {
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            Category1 = attach.Category1 ?? "File",
-            Category2 = attach.Category2,
-            Type = attach.BizType,
-            BizId = attach.BizId,
-            Name = attach.SourceName,
-            Path = attach.FilePath,
-            Size = attach.Size,
-            SourceName = attach.SourceName,
-            ExtName = attach.ExtName,
-            ThumbPath = attach.ThumbPath,
-            Note = note
-        };
-        await db.SaveAsync(file);
-        return Utils.MapTo<AttachInfo>(file);
     }
     #endregion
 }

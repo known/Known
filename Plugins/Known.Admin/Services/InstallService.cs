@@ -89,7 +89,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
                 ProductKey = info.ProductKey,
                 UserDefaultPwd = "888888"
             };
-            await Admin.SaveSystemAsync(db, sys);
+            await db.SaveSystemAsync(sys);
 
             // 保存用户
             var userName = info.AdminName.ToLower();
@@ -147,7 +147,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
             AdminName = Constants.SysUserName
         };
         if (isCheck)
-            await Admin.CheckKeyAsync(Database);
+            await Database.CheckKeyAsync();
         return info;
     }
 

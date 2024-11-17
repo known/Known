@@ -33,14 +33,13 @@ public interface IAdminService
     Task<List<ModuleInfo>> GetModulesAsync(Database db);
     #endregion
 
-    #region Company
+    #region System
     /// <summary>
-    /// 异步获取系统租户配置信息JSON。
+    /// 异步获取系统配置信息，如果是平台，则获取租户配置信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
-    /// <param name="compNo">租户编码。</param>
-    /// <returns>配置信息JSON。</returns>
-    Task<string> GetCompanyDataAsync(Database db, string compNo);
+    /// <returns>系统配置信息。</returns>
+    Task<SystemInfo> GetSystemAsync(Database db);
     #endregion
 
     #region Role
@@ -69,41 +68,6 @@ public interface IAdminService
     /// <param name="userId">用户ID。</param>
     /// <returns>用户信息。</returns>
     Task<UserInfo> GetUserByIdAsync(Database db, string userId);
-
-    /// <summary>
-    /// 异步获取用户信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="userName">用户名。</param>
-    /// <param name="password">密码。</param>
-    /// <returns>用户信息。</returns>
-    Task<UserInfo> GetUserAsync(Database db, string userName, string password);
-
-    /// <summary>
-    /// 异步保存用户信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">用户信息。</param>
-    /// <returns></returns>
-    Task<Result> SaveUserAsync(Database db, UserInfo info);
-
-    /// <summary>
-    /// 异步保存用户头像信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="userId">用户ID。</param>
-    /// <param name="url">头像URL。</param>
-    /// <returns></returns>
-    Task<Result> SaveUserAvatarAsync(Database db, string userId, string url);
-
-    /// <summary>
-    /// 异步修改用户密码。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="userId">用户ID。</param>
-    /// <param name="password">用户密码。</param>
-    /// <returns></returns>
-    Task<Result> SaveUserPasswordAsync(Database db, string userId, string password);
     #endregion
 
     #region Setting

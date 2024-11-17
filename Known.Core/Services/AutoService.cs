@@ -39,7 +39,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             }
         });
         if (result.IsValid)
-            Admin.DeleteFiles(oldFiles);
+            oldFiles.ForEach(AttachFile.DeleteFile);
         return result;
     }
 

@@ -30,7 +30,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
-        var info = await Admin.GetSystemAsync(Database);
+        var info = await Database.GetSystemAsync();
         return new SystemDataInfo
         {
             System = info,
@@ -50,7 +50,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         }
         else
         {
-            await Admin.SaveSystemAsync(database, info);
+            await database.SaveSystemAsync(info);
         }
         return Result.Success(Language.Success(Language.Save));
     }
@@ -59,7 +59,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
     {
         var database = Database;
         AppHelper.SaveProductKey(info.ProductKey);
-        await Admin.SaveSystemAsync(database, info);
-        return await Admin.CheckKeyAsync(database);
+        await database.SaveSystemAsync(info);
+        return await database.CheckKeyAsync();
     }
 }

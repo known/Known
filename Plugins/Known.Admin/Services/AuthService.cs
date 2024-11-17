@@ -40,7 +40,10 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     {
         var database = Database;
         var userName = info.UserName?.ToLower();
-        var user = await GetUserAsync(database, userName, info.Password);
+        await database.OpenAsync();
+        var password = Utils.ToMd5(info.Password);
+        var user = await database.GetUserAsync(userName, password);
+        await database.CloseAsync();
         if (user == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);
 
@@ -54,11 +57,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         }
         user.LastLoginTime = DateTime.Now;
         user.LastLoginIP = info.IPAddress;
-
-        await database.OpenAsync();
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
-        await database.CloseAsync();
         Cache.SetUser(user);
 
         var type = LogType.Login;
@@ -68,7 +68,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         database.User = user;
         return await database.TransactionAsync(Language["Login"], async db =>
         {
-            await Admin.SaveUserAsync(db, user);
+            await db.SaveUserAsync(user);
             await AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
     }
@@ -76,7 +76,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
     public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
         var database = Database;
-        var entity = await Admin.GetUserByIdAsync(database, info.UserId);
+        var entity = await database.QueryAsync<SysUser>(d => d.Id == info.UserId);
         if (entity == null)
             return Result.Error(Language["Tip.NoUser"]);
 
@@ -85,10 +85,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         await attach.SaveAsync();
 
         var url = Config.GetFileUrl(attach.FilePath);
-        var result = await Admin.SaveUserAvatarAsync(database, info.UserId, url);
-        if (!result.IsValid)
-            return result;
-
+        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
+        await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language.Save), url);
     }
 
@@ -97,7 +95,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (info == null)
             return Result.Error(Language["Tip.NoUser"]);
 
-        var result = await Admin.SaveUserAsync(Database, info);
+        var result = await Database.SaveUserAsync(info);
         if (!result.IsValid)
             return result;
 
@@ -124,29 +122,24 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             return Result.Error(string.Join(Environment.NewLine, errors));
 
         var database = Database;
-        var entity = await GetUserAsync(database, user.UserName, info.OldPwd);
+        var entity = await database.QueryByIdAsync<SysUser>(user.Id);
         if (entity == null)
+            return Result.Error(Language["Tip.NoUser"]);
+
+        info.OldPwd = Utils.ToMd5(info.NewPwd);
+        if (entity.Password != info.OldPwd)
             return Result.Error(Language["Tip.CurPwdInvalid"]);
 
-        var password = Utils.ToMd5(info.NewPwd);
-        var result = await Admin.SaveUserPasswordAsync(database, entity.Id, password);
-        if (!result.IsValid)
-            return result;
-
+        entity.Password = Utils.ToMd5(info.NewPwd);
+        await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
     }
 
-    private Task<UserInfo> GetUserAsync(Database db, string userName, string password)
+    private static Task AddLogAsync(Database db, LogType type, string target, string content)
     {
-        password = Utils.ToMd5(password);
-        return Admin.GetUserAsync(db, userName, password);
-    }
-
-    private Task AddLogAsync(Database db, LogType type, string target, string content)
-    {
-        return Admin.AddLogAsync(db, new LogInfo
+        return db.SaveAsync(new SysLog
         {
-            Type = type,
+            Type = type.ToString(),
             Target = target,
             Content = content
         });

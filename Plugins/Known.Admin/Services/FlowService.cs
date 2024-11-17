@@ -65,7 +65,6 @@ public interface IFlowService : IService
 
 class FlowService(Context context) : ServiceBase(context), IFlowService
 {
-    private const string StepCreate = "Create";
     private const string StepSubmit = "Submit";
     private const string StepRevoke = "Revoke";
     private const string StepVerify = "Verify";
@@ -121,7 +120,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await Admin.GetUserAsync(database, info.User);
+        var next = await database.GetUserAsync(info.User);
         if (next == null)
             return Result.Error(UserNotExists(info.User));
 
@@ -152,7 +151,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                 flow.ApplyBy = user.UserName;
                 flow.ApplyTime = DateTime.Now;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, StepSubmit, name, noteText);
+                await db.AddFlowLogAsync(flow.BizId, StepSubmit, name, noteText);
                 await biz.OnCommitedAsync(db, info);
             }
         });
@@ -188,7 +187,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                 SetPrevToCurrStep(flow);
                 flow.BizStatus = info.BizStatus ?? FlowStatus.Revoked;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, StepRevoke, name, info.Note);
+                await db.AddFlowLogAsync(flow.BizId, StepRevoke, name, info.Note);
                 await biz.OnRevokedAsync(db, info);
             }
         });
@@ -201,7 +200,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await Admin.GetUserAsync(database, info.User);
+        var next = await database.GetUserAsync(info.User);
         if (next == null)
             return Result.Error(Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
 
@@ -223,7 +222,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                     noteText += $"，{info.Note}";
 
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, StepAssign, name, noteText);
+                await db.AddFlowLogAsync(flow.BizId, StepAssign, name, noteText);
             }
         });
     }
@@ -242,7 +241,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
         UserInfo next = null;
         if (isPass && !string.IsNullOrWhiteSpace(info.User))
         {
-            next = await Admin.GetUserAsync(database, info.User);
+            next = await database.GetUserAsync(info.User);
             if (next == null)
                 return Result.Error(UserNotExists(info.User));
         }
@@ -275,15 +274,15 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                     {
                         flow.CurrBy = next.UserName;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, StepVerify, Language["Pass"], info.Note);
+                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language["Pass"], info.Note);
                     }
                     else
                     {
                         flow.CurrBy = flow.ApplyBy;
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
-                        await AddFlowLogAsync(db, flow.BizId, StepVerify, Language["Pass"], info.Note);
-                        await AddFlowLogAsync(db, flow.BizId, StepEnd, Language["End"], "");
+                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language["Pass"], info.Note);
+                        await db.AddFlowLogAsync(flow.BizId, StepEnd, Language["End"], "");
                     }
                 }
                 else
@@ -296,7 +295,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                         noteText += $"，{info.Note}";
 
                     await db.SaveAsync(flow);
-                    await AddFlowLogAsync(db, flow.BizId, StepVerify, Language["Fail"], noteText);
+                    await db.AddFlowLogAsync(flow.BizId, StepVerify, Language["Fail"], noteText);
                 }
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnVerifiedAsync(db, info);
@@ -329,7 +328,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                 flow.BizStatus = info.BizStatus ?? FlowStatus.Reapply;
                 flow.FlowStatus = FlowStatus.Open;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, StepRestart, name, info.Note);
+                await db.AddFlowLogAsync(flow.BizId, StepRestart, name, info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnRepeatedAsync(db, info);
             }
@@ -361,54 +360,10 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                 flow.BizStatus = FlowStatus.Stop;
                 flow.FlowStatus = FlowStatus.Stop;
                 await db.SaveAsync(flow);
-                await AddFlowLogAsync(db, flow.BizId, StepStopped, name, info.Note);
+                await db.AddFlowLogAsync(flow.BizId, StepStopped, name, info.Note);
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnStoppedAsync(db, info);
             }
-        });
-    }
-
-    internal static async Task CreateFlowAsync(Database db, FlowBizInfo info)
-    {
-        var stepName = StepCreate;
-        var flow = new SysFlow
-        {
-            Id = Utils.GetGuid(),
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            FlowCode = info.FlowCode,
-            FlowName = info.FlowName,
-            FlowStatus = FlowStatus.Open,
-            BizId = info.BizId,
-            BizName = info.BizName,
-            BizUrl = info.BizUrl,
-            BizStatus = info.BizStatus,
-            CurrStep = stepName,
-            CurrBy = db.User.UserName
-        };
-        await db.SaveAsync(flow);
-        await AddFlowLogAsync(db, info.BizId, stepName, "Start", info.BizName);
-    }
-
-    internal static async Task DeleteFlowAsync(Database db, string bizId)
-    {
-        await db.DeleteAsync<SysFlowLog>(d => d.BizId == bizId);
-        await db.DeleteAsync<SysFlow>(d => d.BizId == bizId);
-    }
-
-    internal static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null)
-    {
-        return db.SaveAsync(new SysFlowLog
-        {
-            Id = Utils.GetGuid(),
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            BizId = bizId,
-            StepName = stepName,
-            ExecuteBy = db.User.Name,
-            ExecuteTime = time ?? DateTime.Now,
-            Result = result,
-            Note = note
         });
     }
 

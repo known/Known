@@ -49,7 +49,7 @@ public sealed class Platform
     /// <returns>用户列表。</returns>
     public static Task<List<UserInfo>> GetUsersByRoleAsync(Database db, string roleName)
     {
-        return db.Query<SysUser>().Where(d => d.Role.Contains(roleName)).ToListAsync<UserInfo>();
+        return db.GetUsersByRoleAsync(roleName);
     }
 
     /// <summary>
@@ -58,38 +58,9 @@ public sealed class Platform
     /// <param name="db">数据库对象。</param>
     /// <param name="user">系统用户对象。</param>
     /// <returns></returns>
-    public static async Task SyncUserAsync(Database db, SysUser user)
+    public static Task SyncUserAsync(Database db, SysUser user)
     {
-        var model = await db.QueryAsync<SysUser>(d => d.UserName == user.UserName);
-        if (model == null)
-        {
-            model = new SysUser
-            {
-                OrgNo = user.OrgNo,
-                UserName = user.UserName,
-                Password = Utils.ToMd5(user.Password),
-                Name = user.Name,
-                Gender = user.Gender,
-                Phone = user.Phone,
-                Mobile = user.Mobile,
-                Email = user.Email,
-                Enabled = true,
-                Role = user.Role
-            };
-            if (!string.IsNullOrWhiteSpace(user.Password))
-            {
-                model.Password = Utils.ToMd5(user.Password);
-            }
-            else
-            {
-                var info = await db.GetSystemAsync();
-                model.Password = Utils.ToMd5(info?.UserDefaultPwd);
-            }
-            await db.SaveAsync(model);
-            var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
-            if (role != null)
-                await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
-        }
+        return db.SyncUserAsync(user);
     }
     #endregion
 
@@ -115,7 +86,7 @@ public sealed class Platform
     /// <returns>系统附件信息列表。</returns>
     public static Task<List<AttachInfo>> AddFilesAsync(Database db, List<AttachFile> files, string bizId, string bizType)
     {
-        return FileService.AddFilesAsync(db, files, bizId, bizType);
+        return db.AddFilesAsync(files, bizId, bizType);
     }
 
     /// <summary>
@@ -147,7 +118,7 @@ public sealed class Platform
     /// <returns></returns>
     public static Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles)
     {
-        return FileService.DeleteFilesAsync(db, bizId, oldFiles);
+        return db.DeleteFilesAsync(bizId, oldFiles);
     }
     #endregion
 
@@ -187,7 +158,7 @@ public sealed class Platform
     /// <returns></returns>
     public static Task CreateFlowAsync(Database db, FlowBizInfo info)
     {
-        return FlowService.CreateFlowAsync(db, info);
+        return db.CreateFlowAsync(info);
     }
 
     /// <summary>
@@ -198,7 +169,7 @@ public sealed class Platform
     /// <returns></returns>
     public static Task DeleteFlowAsync(Database db, string bizId)
     {
-        return FlowService.DeleteFlowAsync(db, bizId);
+        return db.DeleteFlowAsync(bizId);
     }
 
     /// <summary>
@@ -213,7 +184,7 @@ public sealed class Platform
     /// <returns></returns>
     public static Task AddFlowLogAsync(Database db, string bizId, string stepName, string result, string note, DateTime? time = null)
     {
-        return FlowService.AddFlowLogAsync(db, bizId, stepName, result, note, time);
+        return db.AddFlowLogAsync(bizId, stepName, result, note, time);
     }
     #endregion
 }

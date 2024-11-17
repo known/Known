@@ -45,6 +45,11 @@
     [Parameter] public List<string> Stations { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+    }
+
     private async Task OnFinish(EditContext context)
     {
         if (!form.Validate())

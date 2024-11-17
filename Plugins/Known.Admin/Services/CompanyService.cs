@@ -32,7 +32,7 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         }
         else
         {
-            var json = await Admin.GetConfigAsync(database, KeyCompany);
+            var json = await database.GetConfigAsync(KeyCompany);
             if (string.IsNullOrEmpty(json))
                 json = GetDefaultData(database.User);
             return json;
@@ -50,14 +50,14 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         }
         else
         {
-            await Admin.SaveConfigAsync(database, KeyCompany, model);
+            await database.SaveConfigAsync(KeyCompany, model);
         }
         return Result.Success(Language.Success(Language.Save));
     }
 
-    private async Task<string> GetCompanyDataAsync(Database db)
+    private static async Task<string> GetCompanyDataAsync(Database db)
     {
-        var data = await Admin.GetCompanyDataAsync(db, db.User.CompNo);
+        var data = await db.GetCompanyDataAsync(db.User.CompNo);
         if (!string.IsNullOrWhiteSpace(data))
             return data;
 
