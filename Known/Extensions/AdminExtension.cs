@@ -49,18 +49,6 @@ public static class AdminExtension
             AppName = Config.App.Name
         };
     }
-
-    /// <summary>
-    /// 异步保存系统配置信息。
-    /// </summary>
-    /// <param name="service">平台服务实例。</param>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">系统配置信息。</param>
-    /// <returns></returns>
-    public static Task SaveSystemAsync(this IAdminService service, Database db, SystemInfo info)
-    {
-        return service.SaveConfigAsync(db, Constants.KeySystem, info);
-    }
     #endregion
 
     #region File

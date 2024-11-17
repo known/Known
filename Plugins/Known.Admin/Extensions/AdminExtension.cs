@@ -5,6 +5,20 @@
 /// </summary>
 public static class AdminExtension
 {
+    #region
+    /// <summary>
+    /// 异步保存系统配置信息。
+    /// </summary>
+    /// <param name="service">平台服务实例。</param>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">系统配置信息。</param>
+    /// <returns></returns>
+    internal static Task SaveSystemAsync(this IAdminService service, Database db, SystemInfo info)
+    {
+        return service.SaveConfigAsync(db, Constants.KeySystem, info);
+    }
+    #endregion
+
     #region User
     /// <summary>
     /// 异步获取角色用户列表。

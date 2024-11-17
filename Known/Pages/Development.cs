@@ -8,7 +8,7 @@ namespace Known.Pages;
 [DisplayName("开发中心")]
 [StreamRendering]
 [Route("/development")]
-public class SysDevelopment : BaseTabPage, IReuseTabsPage
+public class Development : BaseTabPage, IReuseTabsPage
 {
     /// <summary>
     /// 异步初始化页面。
