@@ -22,7 +22,7 @@ partial class AntLayout
     /// <summary>
     /// 取得后台管理主页数据对象。
     /// </summary>
-    protected AdminInfo Info { get; private set; }
+    private AdminInfo Info { get; set; }
 
     /// <summary>
     /// 取得当前用户权限菜单列表。
@@ -84,7 +84,7 @@ partial class AntLayout
             if (IsLogin)
             {
                 Context.CurrentUser = user;
-                Info = await Auth.GetAdminAsync();
+                Info = await Data.GetAdminAsync();
                 Context.UserSetting = Info?.UserSetting ?? new();
                 Context.UserTableSettings = Info?.UserTableSettings ?? [];
                 if (!Context.IsMobileApp)
@@ -172,7 +172,7 @@ partial class AntLayout
 
     private async Task OnSaveSetting()
     {
-        var result = await Data.SaveUserSettingInfoAsync(Setting);
+        var result = await Data.SaveUserSettingAsync(Setting);
         if (result.IsValid)
         {
             Context.UserSetting = Setting;

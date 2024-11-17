@@ -69,7 +69,6 @@ public static class Extension
         action?.Invoke(ClientOption.Instance);
 
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IDataService, DataService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));

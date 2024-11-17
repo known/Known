@@ -24,15 +24,12 @@
 </div>
 
 @code {
-    private IAuthService authService;
     private UserInfo user;
     private List<MenuInfo> items = [];
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        authService = await CreateServiceAsync<IAuthService>();
-
         user = CurrentUser;
         items.Add(new MenuInfo { Id = "Mobile", Name = user?.Mobile, Icon = "mobile" });
         items.Add(new MenuInfo { Id = "Email", Name = user?.Email, Icon = "inbox" });

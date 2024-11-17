@@ -6,7 +6,6 @@
 public static class JSExtension
 {
     private static readonly string KeyUserInfo = "Known_User";
-    private static readonly string KeyLoginInfo = "Known_LoginInfo";
     private static readonly string KeySize = "Known_Size";
     private static readonly string KeyLanguage = "Known_Language";
     private static readonly string KeyTheme = "Known_Theme";
@@ -47,9 +46,6 @@ public static class JSExtension
     /// <param name="data">当前用户信息。</param>
     /// <returns></returns>
     public static Task SetUserInfoAsync(this JSService js, object data) => js.SetSessionStorageAsync(KeyUserInfo, data);
-
-    internal static Task<T> GetLoginInfoAsync<T>(this JSService js) => js.GetLocalStorageAsync<T>(KeyLoginInfo);
-    internal static Task SetLoginInfoAsync(this JSService js, object value) => js.SetLocalStorageAsync(KeyLoginInfo, value);
 
     internal static Task<string> GetCurrentSizeAsync(this JSService js) => js.GetLocalStorageAsync<string>(KeySize);
     internal static async Task SetCurrentSizeAsync(this JSService js, string size)

@@ -1,21 +1,6 @@
 ﻿namespace Known;
 
 /// <summary>
-/// 性别类型枚举。
-/// </summary>
-public enum GenderType
-{
-    /// <summary>
-    /// 男。
-    /// </summary>
-    Male,
-    /// <summary>
-    /// 女。
-    /// </summary>
-    Female
-}
-
-/// <summary>
 /// 登录用户信息类。
 /// </summary>
 public class UserInfo
@@ -208,20 +193,4 @@ public class UserInfo
             identity.AddClaim(new(ClaimTypes.Role, Role));
         return new ClaimsPrincipal(identity);
     }
-}
-
-/// <summary>
-/// 用户头像信息类。
-/// </summary>
-public class AvatarInfo
-{
-    /// <summary>
-    /// 取得或设置用户ID。
-    /// </summary>
-    public string UserId { get; set; }
-
-    /// <summary>
-    /// 取得或设置用户头像文件信息。
-    /// </summary>
-    public FileDataInfo File { get; set; }
 }

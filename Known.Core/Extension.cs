@@ -23,7 +23,6 @@ public static class Extension
         LoadBuildTime(Config.Version);
 
         services.AddScoped<Database>();
-        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IDataService, DataService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));

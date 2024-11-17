@@ -94,11 +94,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public UserInfo CurrentUser => Context?.CurrentUser;
 
     /// <summary>
-    /// 取得身份认证服务接口实例。
-    /// </summary>
-    internal IAuthService Auth { get; private set; }
-
-    /// <summary>
     /// 取得框架数据服务接口实例。
     /// </summary>
     public IDataService Data { get; private set; }
@@ -118,7 +113,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         {
             await base.OnInitializedAsync();
             UI.Language = Language;
-            Auth = await CreateServiceAsync<IAuthService>();
             Data = await CreateServiceAsync<IDataService>();
             await OnInitAsync();
         }

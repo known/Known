@@ -18,11 +18,13 @@
 </div>
 
 @code {
+    private IAuthService Service;
     private UserInfo user;
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IAuthService>();
         user = CurrentUser;
     }
 
@@ -30,7 +32,7 @@
     {
         var file = await e.File.CreateFileAsync();
         var info = new AvatarInfo { UserId = CurrentUser?.Id, File = file };
-        var result = await Auth?.UpdateAvatarAsync(info);
+        var result = await Service?.UpdateAvatarAsync(info);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

@@ -12,6 +12,18 @@ public interface IDataService : IService
     [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
 
     /// <summary>
+    /// 异步注销登录。
+    /// </summary>
+    /// <returns>注销结果。</returns>
+    Task<Result> SignOutAsync();
+
+    /// <summary>
+    /// 异步获取系统后台首页数据。
+    /// </summary>
+    /// <returns>后台首页数据。</returns>
+    Task<AdminInfo> GetAdminAsync();
+
+    /// <summary>
     /// 异步获取系统配置数据。
     /// </summary>
     /// <param name="key">配置数据键。</param>
@@ -52,7 +64,7 @@ public interface IDataService : IService
     /// </summary>
     /// <param name="info">用户设置信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveUserSettingInfoAsync(UserSettingInfo info);
+    Task<Result> SaveUserSettingAsync(UserSettingInfo info);
 
     /// <summary>
     /// 异步保存用户业务设置信息，如：高级查询。
@@ -116,6 +128,16 @@ class DataService(HttpClient http) : ClientBase(http), IDataService
         throw new NotImplementedException();
     }
 
+    public Task<Result> SignOutAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<AdminInfo> GetAdminAsync()
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<string> GetConfigAsync(string key)
     {
         throw new NotImplementedException();
@@ -141,7 +163,7 @@ class DataService(HttpClient http) : ClientBase(http), IDataService
         throw new NotImplementedException();
     }
 
-    public Task<Result> SaveUserSettingInfoAsync(UserSettingInfo info)
+    public Task<Result> SaveUserSettingAsync(UserSettingInfo info)
     {
         throw new NotImplementedException();
     }

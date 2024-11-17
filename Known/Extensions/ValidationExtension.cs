@@ -2,9 +2,18 @@
 
 namespace Known.Extensions;
 
-static class ValidationExtension
+/// <summary>
+/// AntDesign表单验证扩展类。
+/// </summary>
+public static class ValidationExtension
 {
-    internal static FormValidationRule[] RuleRequired(this Context context, string id)
+    /// <summary>
+    /// 获取必填项验证规则集合。
+    /// </summary>
+    /// <param name="context">系统上下文。</param>
+    /// <param name="id">字段ID。</param>
+    /// <returns>验证规则集合。</returns>
+    public static FormValidationRule[] RuleRequired(this Context context, string id)
     {
         var message = context.Language.Required(id);
         var rule = new FormValidationRule { Type = FormFieldType.String, Required = true, Message = message };

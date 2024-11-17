@@ -51,11 +51,6 @@ public class BaseLayout : LayoutComponentBase
     internal MenuInfo CurrentMenu => Context?.Current;
 
     /// <summary>
-    /// 取得身份认证服务接口实例。
-    /// </summary>
-    internal IAuthService Auth { get; private set; }
-
-    /// <summary>
     /// 取得框架数据服务接口实例。
     /// </summary>
     internal IDataService Data { get; private set; }
@@ -70,7 +65,6 @@ public class BaseLayout : LayoutComponentBase
         {
             await base.OnInitializedAsync();
             UI.Language = Language;
-            Auth = await CreateServiceAsync<IAuthService>();
             Data = await CreateServiceAsync<IDataService>();
             if (Context.System == null)
                 Context.System = await Data.GetSystemAsync();
@@ -149,7 +143,7 @@ public class BaseLayout : LayoutComponentBase
     public async Task SignOutAsync()
     {
         var user = await AuthProvider.GetUserAsync();
-        var result = await Auth.SignOutAsync();
+        var result = await Data.SignOutAsync();
         if (result.IsValid)
         {
             Context.SignOut();
