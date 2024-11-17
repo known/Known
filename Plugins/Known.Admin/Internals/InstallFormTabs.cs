@@ -2,12 +2,13 @@
 
 class FormDatabase : BaseForm<DatabaseInfo>
 {
-    [Parameter] public DatabaseInfo Data { get; set; }
+    [Parameter] public DatabaseInfo Info { get; set; }
+    [Parameter] public Func<DatabaseInfo, Task> OnTest { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Model = new FormModel<DatabaseInfo>(this) { SmallLabel = true, Data = Data };
+        Model = new FormModel<DatabaseInfo>(this) { SmallLabel = true, Data = Info };
         Model.AddRow().AddColumn(c => c.Name, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Type, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.ConnectionString, c =>
@@ -25,10 +26,9 @@ class FormDatabase : BaseForm<DatabaseInfo>
         builder.Div("kui-right", () => builder.Button(Language["Test"], this.Callback<MouseEventArgs>(OnTestAsync)));
     }
 
-    private async Task OnTestAsync(MouseEventArgs args)
+    private Task OnTestAsync(MouseEventArgs args)
     {
-        var result = await base.Data.TestConnectionAsync(Model.Data);
-        UI.Result(result);
+        return OnTest?.Invoke(Model.Data);
     }
 }
 

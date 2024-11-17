@@ -17,6 +17,13 @@ public interface ISystemService : IService
     /// <param name="info">系统信息。</param>
     /// <returns>保存结果。</returns>
     Task<Result> SaveSystemAsync(SystemInfo info);
+
+    /// <summary>
+    /// 异步保存产品Key。
+    /// </summary>
+    /// <param name="info">系统信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveKeyAsync(SystemInfo info);
 }
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
@@ -37,7 +44,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var database = Database;
         if (Config.App.IsPlatform)
         {
-            var result = await Admin.SaveCompanyDataAsync(database, CurrentUser.CompNo, info);
+            var result = await database.SaveCompanyDataAsync(CurrentUser.CompNo, info);
             if (!result.IsValid)
                 return result;
         }
@@ -46,5 +53,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             await Admin.SaveSystemAsync(database, info);
         }
         return Result.Success(Language.Success(Language.Save));
+    }
+
+    public async Task<Result> SaveKeyAsync(SystemInfo info)
+    {
+        var database = Database;
+        AppHelper.SaveProductKey(info.ProductKey);
+        await Admin.SaveSystemAsync(database, info);
+        return await Admin.CheckKeyAsync(database);
     }
 }

@@ -24,12 +24,12 @@ class KAuthPanel : BaseComponent
 
     private void BuildAuthorize(RenderTreeBuilder builder)
     {
-        builder.Component<SysActive>()
-               .Set(c => c.OnCheck, isCheck =>
-               {
-                   Config.IsAuth = isCheck;
-                   StateChanged();
-               })
-               .Build();
+        //builder.Component<SysActive>()
+        //       .Set(c => c.OnCheck, isCheck =>
+        //       {
+        //           Config.IsAuth = isCheck;
+        //           StateChanged();
+        //       })
+        //       .Build();
     }
 }

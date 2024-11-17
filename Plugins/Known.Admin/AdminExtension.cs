@@ -16,6 +16,8 @@ public static class AdminExtension
         // 注入服务
         services.AddSingleton<IAdminService, AdminService>();
         services.AddScoped<ISystemService, SystemService>();
+        services.AddScoped<IInstallService, InstallService>();
+        services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<IModuleService, ModuleService>();
         services.AddScoped<IDictionaryService, DictionaryService>();
         services.AddScoped<IFileService, FileService>();

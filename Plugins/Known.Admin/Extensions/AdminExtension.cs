@@ -121,4 +121,12 @@ public static class AdminExtension
         return FlowService.AddFlowLogAsync(db, bizId, stepName, result, note, time);
     }
     #endregion
+
+    #region Internal
+    internal static async Task<Result> CheckKeyAsync(this IAdminService service, Database db)
+    {
+        var info = await service.GetSystemAsync(db);
+        return Config.App.CheckSystemInfo(info);
+    }
+    #endregion
 }

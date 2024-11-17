@@ -30,102 +30,7 @@ class DataService(Context context) : ServiceBase(context), IDataService
         }
     }
 
-    //Install
-    public async Task<InstallInfo> GetInstallAsync()
-    {
-        var info = await GetInstallDataAysnc(false);
-        info.Databases = DbConfig.GetDatabases();
-        if (info.Databases == null)
-        {
-            var db = Database.Create();
-            info.Databases = [new DatabaseInfo {
-                Name = "Default", Type = db.DatabaseType.ToString(),
-                ConnectionString = db.ConnectionString
-            }];
-        }
-        return info;
-    }
-
-    public async Task<Result> TestConnectionAsync(DatabaseInfo info)
-    {
-        try
-        {
-            AppHelper.SetConnections([info]);
-            var db = Database.Create(info.Name);
-            await db.OpenAsync();
-            return Result.Success(Language["Tip.ConnectSuccess"]);
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
-    }
-
-    public async Task<Result> SaveInstallAsync(InstallInfo info)
-    {
-        if (info == null)
-            return Result.Error(Language["Tip.InstallRequired"]);
-
-        if (info.AdminPassword != info.Password1)
-            return Result.Error(Language["Tip.PwdNotEqual"]);
-
-        Console.WriteLine("Known Install");
-        Console.WriteLine($"{info.CompNo}-{info.CompName}");
-        AppHelper.SetConnections(info.Databases);
-        var database = GetDatabase(info);
-        await Admin.InitializeTableAsync(database);
-        Console.WriteLine("Module is installing...");
-        var result = await database.TransactionAsync(Language["Install"], async db =>
-        {
-            await Admin.SaveInstallAsync(db, info);
-        });
-        if (result.IsValid)
-        {
-            AppHelper.SaveProductKey(info.ProductKey);
-            result.Data = await GetInstallDataAysnc(true);
-        }
-        Console.WriteLine("Module is installed.");
-        return result;
-    }
-
-    private Database GetDatabase(InstallInfo info)
-    {
-        var db = Database.Create();
-        db.Context = Context;
-        db.User = new UserInfo
-        {
-            AppId = Config.App.Id,
-            CompNo = info.CompNo,
-            UserName = info.AdminName.ToLower(),
-            Name = info.AdminName
-        };
-        return db;
-    }
-
-    private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
-    {
-        var app = Config.App;
-        var info = new InstallInfo
-        {
-            AppName = app.Name,
-            ProductId = app.ProductId,
-            ProductKey = AppHelper.GetProductKey(),
-            AdminName = Constants.SysUserName
-        };
-        if (isCheck)
-            await Admin.CheckKeyAsync(Database);
-        return info;
-    }
-
     //System
-    public async Task<Result> SaveKeyAsync(SystemInfo info)
-    {
-        var database = Database;
-        AppHelper.SaveProductKey(info.ProductKey);
-        await Admin.SaveSystemAsync(database, info);
-        return await Admin.CheckKeyAsync(database);
-    }
-
     public Task<Result> AddLogAsync(LogInfo log)
     {
         return Admin.AddLogAsync(Database, log);
@@ -171,55 +76,7 @@ class DataService(Context context) : ServiceBase(context), IDataService
     }
     #endregion
 
-    #region Company
-    private const string KeyCompany = "CompanyInfo";
-
-    public async Task<string> GetCompanyAsync()
-    {
-        var database = Database;
-        if (Config.App.IsPlatform)
-        {
-            return await GetCompanyDataAsync(database);
-        }
-        else
-        {
-            var json = await Admin.GetConfigAsync(database, KeyCompany);
-            if (string.IsNullOrEmpty(json))
-                json = GetDefaultData(database.User);
-            return json;
-        }
-    }
-
-    public async Task<Result> SaveCompanyAsync(object model)
-    {
-        var database = Database;
-        if (Config.App.IsPlatform)
-        {
-            var result = await Admin.SaveCompanyDataAsync(database, CurrentUser.CompNo, model);
-            if (!result.IsValid)
-                return result;
-        }
-        else
-        {
-            await Admin.SaveConfigAsync(database, KeyCompany, model);
-        }
-        return Result.Success(Language.Success(Language.Save));
-    }
-
-    private async Task<string> GetCompanyDataAsync(Database db)
-    {
-        var data = await Admin.GetCompanyDataAsync(db, db.User.CompNo);
-        if (!string.IsNullOrWhiteSpace(data))
-            return data;
-
-        return GetDefaultData(db.User);
-    }
-
-    private static string GetDefaultData(UserInfo user)
-    {
-        return Utils.ToJson(new { Code = user.CompNo, Name = user.CompName });
-    }
-
+    #region User
     public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
         var db = Database;

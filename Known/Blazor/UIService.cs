@@ -393,7 +393,7 @@ public class UIService(ModalService modalService, MessageService messageService,
     /// <param name="model">工具条组件模型对象。</param>
     internal void BuildToolbar(RenderTreeBuilder builder, ToolbarModel model)
     {
-        builder.Component<Toolbar>().Set(c => c.Model, model).Build();
+        builder.Component<AntToolbar>().Set(c => c.Model, model).Build();
     }
 
     /// <summary>
@@ -414,7 +414,7 @@ public class UIService(ModalService modalService, MessageService messageService,
     /// <param name="model">表格组件模型对象。</param>
     public void BuildTable<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
-        builder.Component<DataTable<TItem>>().Set(c => c.Model, model).Build();
+        builder.Component<AntDataTable<TItem>>().Set(c => c.Model, model).Build();
     }
 
     /// <summary>

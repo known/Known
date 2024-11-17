@@ -34,7 +34,7 @@
     [Parameter] public string Label { get; set; }
     [Parameter] public bool IsInline { get; set; }
     [Parameter] public ColumnInfo Item { get; set; }
-    [Parameter] public Dictionary<string, QueryInfo> Data{ get; set; }
+    [Parameter] public Dictionary<string, QueryInfo> Data { get; set; }
     [Parameter] public Func<Task> OnSearch { get; set; }
 
     protected override Task OnInitAsync()

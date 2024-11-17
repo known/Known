@@ -5,6 +5,7 @@
 /// </summary>
 public class InstallForm : BaseForm<InstallInfo>
 {
+    private IInstallService Service;
     private readonly StepModel Step = new();
     private readonly Dictionary<string, FormDatabase> formDBs = [];
 
@@ -25,13 +26,13 @@ public class InstallForm : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-
         if (Context.System != null)
         {
             Navigation?.GoLoginPage();
             return;
         }
 
+        Service = await CreateServiceAsync<IInstallService>();
         Step.AddStep("Database", BuildDatabase);
         Step.AddStep("SystemInfo", BuildSystem);
         Step.AddStep("AccountInfo", BuildAccount);
@@ -48,7 +49,7 @@ public class InstallForm : BaseForm<InstallInfo>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Model.Data = await Data.GetInstallAsync();
+            Model.Data = await Service.GetInstallAsync();
             await StateChangedAsync();
         }
     }
@@ -97,7 +98,8 @@ public class InstallForm : BaseForm<InstallInfo>
         foreach (var database in Model.Data.Databases)
         {
             builder.Component<FormDatabase>()
-                   .Set(c => c.Data, database)
+                   .Set(c => c.Info, database)
+                   .Set(c => c.OnTest, OnTestAsync)
                    .Build(value => formDBs[database.Name] = value);
         }
     }
@@ -110,6 +112,12 @@ public class InstallForm : BaseForm<InstallInfo>
     private void BuildAccount(RenderTreeBuilder builder)
     {
         builder.Component<FormAccount>().Set(c => c.Model, Model).Build();
+    }
+
+    private async Task OnTestAsync(DatabaseInfo info)
+    {
+        var result = await Service.TestConnectionAsync(info);
+        UI.Result(result);
     }
 
     private async Task<bool> SaveAsync(bool isComplete = false)
@@ -125,7 +133,7 @@ public class InstallForm : BaseForm<InstallInfo>
 
         if (isComplete)
         {
-            var result = await Data.SaveInstallAsync(Model.Data);
+            var result = await Service.SaveInstallAsync(Model.Data);
             UI.Result(result, () =>
             {
                 var info = result.DataAs<InstallInfo>();

@@ -43,5 +43,5 @@ public class SysSystem : BaseTabPage
         return result;
     }
 
-    internal Task<Result> SaveKeyAsync(SystemInfo info) => Data.SaveKeyAsync(info);
+    internal Task<Result> SaveKeyAsync(SystemInfo info) => Service.SaveKeyAsync(info);
 }

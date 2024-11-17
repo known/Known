@@ -2,6 +2,26 @@
 
 static class DataExtension
 {
+    internal static async Task InitializeTableAsync(this Database db)
+    {
+        db.EnableLog = false;
+        var exists = await db.ExistsAsync<SysModule>();
+        if (!exists)
+        {
+            Console.WriteLine("Table is initializing...");
+            var name = db.DatabaseType.ToString();
+            foreach (var item in Config.Assemblies)
+            {
+                var script = Utils.GetResource(item, $"{name}.sql");
+                if (string.IsNullOrWhiteSpace(script))
+                    continue;
+
+                await db.ExecuteAsync(script);
+            }
+            Console.WriteLine("Table is initialized.");
+        }
+    }
+
     internal static async Task<string> GetConfigAsync(this Database db, string key)
     {
         var appId = Config.App.Id;
@@ -13,6 +33,18 @@ static class DataExtension
     {
         var json = await db.GetConfigAsync(Constants.KeySystem);
         return Utils.FromJson<SystemInfo>(json);
+    }
+
+    internal static async Task<Result> SaveCompanyDataAsync(this Database db, string compNo, object model)
+    {
+        var lang = db.Context.Language;
+        var data = await db.QueryAsync<SysCompany>(d => d.Code == compNo);
+        if (data == null)
+            return Result.Error(lang["Tip.CompanyNotExists"]);
+
+        data.SystemData = Utils.ToJson(model);
+        await db.SaveAsync(data);
+        return Result.Success(lang.Success(lang.Save));
     }
 
     internal static async Task CreateTaskAsync(this Database db, TaskInfo info)

@@ -2,26 +2,6 @@
 
 static class AdminExtension
 {
-    internal static async Task InitializeTableAsync(this IAdminService service, Database db)
-    {
-        db.EnableLog = false;
-        var exists = await service.ExistsModuleAsync(db);
-        if (!exists)
-        {
-            Console.WriteLine("Table is initializing...");
-            var name = db.DatabaseType.ToString();
-            foreach (var item in Config.Assemblies)
-            {
-                var script = Utils.GetResource(item, $"{name}.sql");
-                if (string.IsNullOrWhiteSpace(script))
-                    continue;
-
-                await db.ExecuteAsync(script);
-            }
-            Console.WriteLine("Table is initialized.");
-        }
-    }
-
     internal static async Task<string> GetSystemNameAsync(this IAdminService service, Database db)
     {
         var sys = await service.GetSystemAsync(db);
