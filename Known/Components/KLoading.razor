@@ -1,10 +1,8 @@
-﻿namespace Known.Components;
+﻿<Spin Spinning="spinning">
+    @ChildContent
+</Spin>
 
-/// <summary>
-/// 内容加载中组件类。
-/// </summary>
-public class KLoading : BaseComponent
-{
+@code {
     private bool spinning = true;
 
     /// <summary>
@@ -27,19 +25,6 @@ public class KLoading : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         spinning = false;
         if (IsPage)
-            await StateChangedAsync();
-    }
-
-    /// <summary>
-    /// 构建旋转组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
-    {
-        UI.BuildSpin(builder, new SpinModel
-        {
-            Spinning = spinning,
-            Content = ChildContent
-        });
+            await InvokeAsync(StateHasChanged);
     }
 }

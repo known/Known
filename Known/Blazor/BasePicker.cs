@@ -69,7 +69,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
         }
 
         BuildTextBox(builder);
-        UI.BuildText(builder, new InputModel<string> { Value = Value?.ToString(), Disabled = true });
+        builder.TextBox(new InputModel<string> { Value = Value?.ToString(), Disabled = true });
 
         if (!ReadOnly)
         {

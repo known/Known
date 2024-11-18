@@ -3,7 +3,7 @@
 /// <summary>
 /// 后台布局模板组件类。
 /// </summary>
-partial class AntLayout
+partial class KLayout
 {
     private string spinTip = "";
     private bool showSpin = false;

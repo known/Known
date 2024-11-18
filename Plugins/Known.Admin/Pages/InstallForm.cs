@@ -86,7 +86,7 @@ public class InstallForm : BaseForm<InstallInfo>
                     });
                 });
             });
-            builder.Div("kui-install-foot", () => builder.Component<PageFooter>().Build());
+            builder.Div("kui-install-foot", () => builder.Component<KFooter>().Build());
         });
     }
 

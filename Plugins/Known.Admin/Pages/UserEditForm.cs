@@ -42,7 +42,7 @@ public class UserEditForm : BaseEditForm<UserInfo>
         {
             builder.Div("kui-user-form", () =>
             {
-                UI.BuildForm(builder, Model);
+                builder.Form(Model);
                 builder.FormButton(() => BuildAction(builder));
             });
         });

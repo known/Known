@@ -1,19 +1,19 @@
 ﻿@page "/tabpage"
 @inherits BasePage
 
-<TabPage PageName="测试页面" Query="Query" OnChange="OnTabChange">
+<KTabPage PageName="测试页面" Query="Query" OnChange="OnTabChange">
     <TabContent>
         <TabPane Key="Key1" Tab="测试1">
-            <AntDataTable Model="table1" />
+            <KTable Model="table1" />
         </TabPane>
         <TabPane Key="Key2" Tab="测试2">
-            <AntDataTable Model="table2" />
+            <KTable Model="table2" />
         </TabPane>
     </TabContent>
     <TabRight>
-        <AntToolbar Model="table1.Toolbar" />
+        <KToolbar Model="table1.Toolbar" />
     </TabRight>
-</TabPage>
+</KTabPage>
 
 @code {
     private string current = "Key1";

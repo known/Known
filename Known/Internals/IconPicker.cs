@@ -34,7 +34,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
         base.BuildTextBox(builder);
     }
 
-    protected override void BuildContent(RenderTreeBuilder builder) => UI.BuildTabs(builder, tab);
+    protected override void BuildContent(RenderTreeBuilder builder) => builder.Tabs(tab);
 
     protected override void OnValueChanged(List<IconInfo> items)
     {
@@ -48,7 +48,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
         {
             if (key == KeyCustom)
             {
-                UI.BuildText(builder, new InputModel<string>
+                builder.TextBox(new InputModel<string>
                 {
                     Value = value,
                     ValueChanged = this.Callback<string>(value =>
@@ -98,7 +98,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
     {
         builder.Div("search", () =>
         {
-            UI.BuildSearch(builder, new InputModel<string>
+            builder.Search(new InputModel<string>
             {
                 Placeholder = "Search",
                 Value = searchKey,

@@ -1,0 +1,35 @@
+﻿@inherits BaseComponent
+
+<div class="kui-edit-input">
+    @if (isEdit)
+    {
+        <AntInput @bind-Value="Value" />
+        <span class="kui-link" @onclick="e=>OnSaveClick()">@Language.OK</span>
+        <span class="kui-link" @onclick="e=>isEdit=false">@Language.Cancel</span>
+    }
+    else
+    {
+        <span>@Value</span>
+        <span class="kui-link" @onclick="e=>isEdit=true">@Language.Edit</span>
+    }
+</div>
+
+@code {
+    private bool isEdit;
+
+    /// <summary>
+    /// 取得或设置文本值。
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// 取得或设置保存文本委托方法。
+    /// </summary>
+    [Parameter] public Func<string, Task> OnSave { get; set; }
+
+    private void OnSaveClick()
+    {
+        OnSave?.Invoke(Value);
+        isEdit = false;
+    }
+}

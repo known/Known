@@ -1,0 +1,85 @@
+﻿@inherits BaseComponent
+
+<div class="kui-list-box">
+    @if (ShowSearch)
+    {
+        <div class="kui-list-box-search">
+            <Search Value="searchKey" Placeholder="@Language["Tip.EnterKeyword"]" OnSearch="OnSearch" />
+        </div>
+    }
+    <ul class="kui-list-box-body" style="@(ShowSearch ? $"top:32px" : "")">
+        @if (items != null && items.Count > 0)
+        {
+            if (string.IsNullOrWhiteSpace(curItem))
+                curItem = items[0].Code;
+
+            foreach (var item in items)
+            {
+                <li class="@(item.Code == curItem ? "active" : "")" @onclick="e=>OnClick(item)">
+                    @if (ItemTemplate != null)
+                    {
+                        @ItemTemplate(item)
+                    }
+                    else
+                    {
+                        @item.Name
+                    }
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+@code {
+    private string curItem;
+    private string searchKey;
+    private List<CodeInfo> items = [];
+
+    /// <summary>
+    /// 取得或设置是否显示搜索。
+    /// </summary>
+    [Parameter] public bool ShowSearch { get; set; }
+
+    /// <summary>
+    /// 取得或设置列表项数据源。
+    /// </summary>
+    [Parameter] public List<CodeInfo> DataSource { get; set; }
+
+    /// <summary>
+    /// 取得或设置列表项单击事件。
+    /// </summary>
+    [Parameter] public Func<CodeInfo, Task> OnItemClick { get; set; }
+
+    /// <summary>
+    /// 取得或设置列表项呈现模板。
+    /// </summary>
+    [Parameter] public RenderFragment<CodeInfo> ItemTemplate { get; set; }
+
+    /// <summary>
+    /// 异步设置组件参数。
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        items = DataSource;
+    }
+
+    private void OnSearch(string key)
+    {
+        searchKey = key;
+        items = DataSource;
+        if (!string.IsNullOrWhiteSpace(searchKey))
+            items = items?.Where(c => c.Code.Contains(searchKey) || c.Name.Contains(searchKey)).ToList();
+        StateChanged();
+    }
+
+    private async Task OnClick(CodeInfo info)
+    {
+        if (!Enabled)
+            return;
+
+        curItem = info.Code;
+        await OnItemClick?.Invoke(info);
+    }
+}

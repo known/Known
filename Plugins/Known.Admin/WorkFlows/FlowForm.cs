@@ -50,7 +50,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
-        UI.BuildSteps(builder, step);
+        builder.Steps(step);
         base.BuildForm(builder);
     }
 }
@@ -114,7 +114,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         var action = Language[$"Button.{Model.FormType}"];
         var title = Language["Title.FlowAction"].Replace("{action}", action);
-        builder.Div("kui-flow", () => builder.GroupBox(title, () => UI.BuildForm(builder, flow)));
+        builder.Div("kui-flow", () => builder.GroupBox(title, () => builder.Form(flow)));
     }
 
     private Task OnAssignAsync(MouseEventArgs args) => Model.Page.AssignFlowAsync(Model.Data);

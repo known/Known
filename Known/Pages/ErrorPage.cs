@@ -22,7 +22,7 @@ public class ErrorPage : BasePage
         UIConfig.Errors.TryGetValue(Code, out ErrorConfigInfo error);
         builder.Div("kui-card kui-error", () =>
         {
-            UI.BuildResult(builder, Code, error?.Description);
+            builder.Result(Code, error?.Description);
             if (error != null && error.Template != null)
                 error.Template?.Invoke(builder);
             else

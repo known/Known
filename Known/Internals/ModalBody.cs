@@ -30,6 +30,6 @@ class KModalFooter : BaseComponent
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.AntButton(Language?.OK, this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
+        builder.Button(Language?.OK, this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
     }
 }

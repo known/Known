@@ -43,7 +43,7 @@ class ModuleForm : BaseTabForm
         SetTabVisible();
     }
 
-    private void BuildDataForm(RenderTreeBuilder builder) => UI.BuildForm(builder, Model);
+    private void BuildDataForm(RenderTreeBuilder builder) => builder.Form(Model);
 
     private void OnFieldChanged(string field)
     {

@@ -31,6 +31,6 @@ class FlowView : BaseView<FlowInfo>
     private void BuildView(RenderTreeBuilder builder)
     {
         builder.Div("bold", $"{Model?.Name}（{Model?.Id}）");
-        UI.BuildTable(builder, table);
+        builder.Table(table);
     }
 }

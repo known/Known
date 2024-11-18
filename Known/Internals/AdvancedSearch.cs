@@ -70,7 +70,7 @@ class AdvancedSearchItem : BaseComponent
 
     private void BuildQueryField(RenderTreeBuilder builder, QueryInfo item)
     {
-        UI.BuildSelect(builder, new InputModel<string>
+        builder.Select(new InputModel<string>
         {
             Placeholder = Language["PleaseSelect"],
             Codes = Columns?.Select(f => new CodeInfo(f.Id, f.Name)).ToList(),
@@ -86,7 +86,7 @@ class AdvancedSearchItem : BaseComponent
     private void BuildQueryType(RenderTreeBuilder builder, QueryInfo item)
     {
         var types = GetQueryTypes();
-        UI.BuildSelect(builder, new InputModel<string>
+        builder.Select(new InputModel<string>
         {
             Placeholder = Language["PleaseSelect"],
             Codes = types,
@@ -105,14 +105,14 @@ class AdvancedSearchItem : BaseComponent
         {
             case FieldType.Switch:
             case FieldType.CheckBox:
-                UI.BuildSwitch(builder, new InputModel<bool>
+                builder.Switch(new InputModel<bool>
                 {
                     Value = Utils.ConvertTo<bool>(item.Value),
                     ValueChanged = this.Callback<bool>(v => item.Value = v.ToString())
                 });
                 break;
             case FieldType.Number:
-                UI.BuildNumber(builder, new InputModel<decimal>
+                builder.Number(new InputModel<decimal>
                 {
                     Value = Utils.ConvertTo<decimal>(item.Value),
                     ValueChanged = this.Callback<decimal>(v => item.Value = v.ToString())
@@ -120,14 +120,14 @@ class AdvancedSearchItem : BaseComponent
                 break;
             case FieldType.Date:
             case FieldType.DateTime:
-                UI.BuildDatePicker(builder, new InputModel<string>
+                builder.DatePicker(new InputModel<string>
                 {
                     Value = item.Value,
                     ValueChanged = this.Callback<string>(v => item.Value = v)
                 });
                 break;
             default:
-                UI.BuildText(builder, new InputModel<string>
+                builder.TextBox(new InputModel<string>
                 {
                     Value = item.Value,
                     ValueChanged = this.Callback<string>(v => item.Value = v)

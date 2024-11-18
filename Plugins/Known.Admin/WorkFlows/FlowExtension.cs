@@ -158,7 +158,7 @@ public static class FlowExtension
         var model = new DialogModel
         {
             Title = title,
-            Content = builder => component.UI.BuildForm(builder, flow)
+            Content = builder => builder.Form(flow)
         };
         model.OnOk = async () =>
         {

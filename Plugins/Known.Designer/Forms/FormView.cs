@@ -48,11 +48,11 @@ class FormView : BaseView<FormInfo>
             {
                 var step = new StepModel();
                 step.Items.AddRange(steps);
-                UI.BuildSteps(builder, step);
+                builder.Steps(step);
             }
-            UI.BuildForm(builder, form);
+            builder.Form(form);
         });
-        builder.Div("setting", () => UI.BuildTabs(builder, tab));
+        builder.Div("setting", () => builder.Tabs(tab));
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
@@ -61,7 +61,7 @@ class FormView : BaseView<FormInfo>
     {
         builder.Div("setting-row", () =>
         {
-            BuildPropertyItem(builder, "Designer.Maximizable", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "Designer.Maximizable", b => b.Switch(new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.Maximizable,
@@ -71,7 +71,7 @@ class FormView : BaseView<FormInfo>
                     return OnPropertyChangedAsync();
                 })
             }));
-            BuildPropertyItem(builder, "Designer.DefaultMaximized", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "Designer.DefaultMaximized", b => b.Switch(new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.DefaultMaximized,
@@ -81,7 +81,7 @@ class FormView : BaseView<FormInfo>
                     return OnPropertyChangedAsync();
                 })
             }));
-            BuildPropertyItem(builder, "Designer.IsContinue", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "Designer.IsContinue", b => b.Switch(new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.IsContinue,
@@ -91,7 +91,7 @@ class FormView : BaseView<FormInfo>
                     return OnPropertyChangedAsync();
                 })
             }));
-            BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<double?>
+            BuildPropertyItem(builder, "Width", b => b.Number(new InputModel<double?>
             {
                 Disabled = ReadOnly,
                 Value = Model.Width,

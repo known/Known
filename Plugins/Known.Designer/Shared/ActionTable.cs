@@ -36,7 +36,7 @@ class ActionTable : BaseTable<ActionInfo>
         var model = new DialogModel
         {
             Title = Name,
-            Content = b => UI.BuildCheckList(b, new InputModel<string[]>
+            Content = b => b.CheckList(new InputModel<string[]>
             {
                 Codes = actions.Where(a => a.HasType(Type) && (Value == null || !Value.Contains(a.Id)))
                                .Select(a => new CodeInfo(a.Id, a.Name))

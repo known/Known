@@ -33,7 +33,7 @@ class Importer : BaseComponent
                     builder.Button(Language.Import, this.Callback<MouseEventArgs>(OnImportAsync));
                 builder.Div("async", () =>
                 {
-                    UI.BuildCheckBox(builder, new InputModel<bool>
+                    builder.CheckBox(new InputModel<bool>
                     {
                         Disabled = !isFinished,
                         Label = Language["Import.IsAsync"],

@@ -1,0 +1,22 @@
+﻿<div class="kui-title">
+    @if (!string.IsNullOrWhiteSpace(Text))
+    {
+        @Text
+    }
+    else if (ChildContent != null)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// 取得或设置组件标题文本。
+    /// </summary>
+    [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// 取得或设置标题组件子内容。
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

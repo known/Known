@@ -53,7 +53,7 @@ class FlowDesigner : BaseDesigner<string>
     {
         builder.Div(() =>
         {
-            UI.BuildRadioList(builder, new InputModel<string>
+            builder.RadioList(new InputModel<string>
             {
                 Disabled = IsReadOnly,
                 Codes = addTypes,
@@ -66,7 +66,7 @@ class FlowDesigner : BaseDesigner<string>
         {
             builder.Div("select", () =>
             {
-                UI.BuildSelect(builder, new InputModel<string>
+                builder.Select(new InputModel<string>
                 {
                     Disabled = IsReadOnly,
                     Codes = flowModels,
@@ -87,7 +87,7 @@ class FlowDesigner : BaseDesigner<string>
 {Language["BizApply"]}|Apply|||{Language["Flow.Verifing"]}
 {Language["BizVerify"]}|Verify||VerifyBy|{Language["Flow.Pass"]}|{Language["Flow.Fail"]}
 {Language["Flow.End"]}|End</pre>");
-        UI.BuildTextArea(builder, new InputModel<string>
+        builder.TextArea(new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,
             Rows = 11,

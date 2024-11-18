@@ -32,7 +32,7 @@ class ColumnPanel<TModel> : BaseComponent
                 var active = current?.Id == field.Id ? " active" : "";
                 builder.Div($"item{active}", () =>
                 {
-                    UI.BuildCheckBox(builder, new InputModel<bool>
+                    builder.CheckBox(new InputModel<bool>
                     {
                         Disabled = ReadOnly,
                         Value = Designer.Fields.Exists(f => f.Id == field.Id),

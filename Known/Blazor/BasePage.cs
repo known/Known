@@ -115,7 +115,7 @@ public class BaseTabPage : BasePage
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-card", () => UI.BuildTabs(builder, Tab));
+        builder.Div("kui-card", () => builder.Tabs(Tab));
     }
 }
 
@@ -135,6 +135,6 @@ public class BaseStepPage : BasePage
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-card", () => UI.BuildSteps(builder, Step));
+        builder.Div("kui-card", () => builder.Steps(Step));
     }
 }

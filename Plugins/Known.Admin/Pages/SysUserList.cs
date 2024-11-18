@@ -62,7 +62,7 @@ public class SysUserList : BasePage<SysUser>
     /// <returns></returns>
     public override Task RefreshAsync() => Table.RefreshAsync();
 
-    private void BuildTree(RenderTreeBuilder builder) => UI.BuildTree(builder, Tree);
+    private void BuildTree(RenderTreeBuilder builder) => builder.Tree(Tree);
     private void BuildTable(RenderTreeBuilder builder) => builder.Table(Table);
 
     private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
@@ -132,7 +132,7 @@ public class SysUserList : BasePage<SysUser>
             Title = Language["Title.ChangeDepartment"],
             Content = builder =>
             {
-                UI.BuildTree(builder, new TreeModel
+                builder.Tree(new TreeModel
                 {
                     ExpandRoot = true,
                     Data = orgs.ToMenuItems(),

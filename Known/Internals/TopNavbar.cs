@@ -48,7 +48,7 @@ public class TopNavbar : BaseComponent
             {
                 builder.Li(() =>
                 {
-                    UI.BuildDropdown(builder, new DropdownModel
+                    builder.Dropdown(new DropdownModel
                     {
                         Tooltip = Language["Custom"],
                         TriggerType = "Click",
@@ -97,7 +97,7 @@ public class TopNavbar : BaseComponent
         {
             builder.Div("item", () =>
             {
-                UI.BuildSelect(builder, new InputModel<string>
+                builder.Select(new InputModel<string>
                 {
                     Codes = GetNavItems(),
                     ValueChanged = this.Callback<string>(async v =>
@@ -147,7 +147,7 @@ public class TopNavbar : BaseComponent
                 continue;
             if (item == nameof(NavLanguage) && !Config.App.IsLanguage)
                 continue;
-            if (item == "AntTheme" && !Config.App.IsTheme)
+            if (item == nameof(NavTheme) && !Config.App.IsTheme)
                 continue;
 
             items.Add(new CodeInfo(item, item));
@@ -166,10 +166,10 @@ public class TopNavbar : BaseComponent
                 items.Add(nameof(NavFontSize));
             if (Config.App.IsLanguage)
                 items.Add(nameof(NavLanguage));
-            items.Add("NavUser");
+            items.Add(nameof(NavUser));
             if (Config.App.IsTheme)
-                items.Add("AntTheme");
-            items.Add("NavSetting");
+                items.Add(nameof(NavTheme));
+            items.Add(nameof(NavSetting));
         }
         return items;
     }

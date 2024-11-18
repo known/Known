@@ -22,12 +22,12 @@
                     }
                     <AntCol Span="6" Offset="offset" Style="text-align:right;">
                         <div class="ant-form-item">
-                            <AntButton Name="@Language.Search" Type="@ButtonType.Primary" Icon="search" OnClick="OnSearchAsync" />
+                            <KButton Name="@Language.Search" Type="@ButtonType.Primary" Icon="search" OnClick="OnSearchAsync" />
                             @if (IsAdvSearch)
                             {
-                                <AntButton Name="@Language.AdvSearch" Type="@ButtonType.Primary" OnClick="ShowAdvSearch" />
+                                <KButton Name="@Language.AdvSearch" Type="@ButtonType.Primary" OnClick="ShowAdvSearch" />
                             }
-                            <AntButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" />
+                            <KButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" />
                             @if (Model.QueryColumns.Count > showCount)
                             {
                                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
@@ -51,12 +51,12 @@
                     <QueryItem IsInline Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
                 }
                 <div class="ant-query-btn">
-                    <AntButton Name="@Language.Search" Type="@ButtonType.Primary" Icon="search" OnClick="OnSearchAsync" />
+                    <KButton Name="@Language.Search" Type="@ButtonType.Primary" Icon="search" OnClick="OnSearchAsync" />
                     @if (IsAdvSearch)
                     {
-                        <AntButton Name="@Language.AdvSearch" Type="@ButtonType.Primary" OnClick="ShowAdvSearch" />
+                        <KButton Name="@Language.AdvSearch" Type="@ButtonType.Primary" OnClick="ShowAdvSearch" />
                     }
-                    <AntButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" />
+                    <KButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" />
                 </div>
             </QueryDataForm>
         </div>

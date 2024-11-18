@@ -65,7 +65,7 @@ public class SysOrganizationList : BasePage<SysOrganization>
         await table.RefreshAsync();
     }
 
-    private void BuildTree(RenderTreeBuilder builder) => UI.BuildTree(builder, tree);
+    private void BuildTree(RenderTreeBuilder builder) => builder.Tree(tree);
     private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
 
     private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)

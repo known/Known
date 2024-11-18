@@ -27,11 +27,11 @@ class BaseView<TModel> : BaseComponent
         return Task.CompletedTask;
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => UI.BuildTabs(builder, Tab);
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.Tabs(Tab);
 
     protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
-        builder.Div("list-view", () => UI.BuildTable(builder, model));
+        builder.Div("list-view", () => builder.Table(model));
     }
 
     protected void BuildAction(RenderTreeBuilder builder, string button, Action action)

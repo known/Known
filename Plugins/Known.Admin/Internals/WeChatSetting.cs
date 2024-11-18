@@ -22,7 +22,7 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
     {
         builder.FormPage(() =>
         {
-            UI.BuildForm(builder, Model);
+            builder.Form(Model);
             builder.FormButton(() => BuildAction(builder));
         });
     }

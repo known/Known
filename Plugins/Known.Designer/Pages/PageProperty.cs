@@ -9,13 +9,13 @@ class PageProperty : BaseProperty<PageColumnInfo>
         builder.Div("property", () =>
         {
             BuildPropertyItem(builder, "Name", b => b.Span(Model.Name));
-            BuildPropertyItem(builder, "IsViewLink", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "IsViewLink", b => b.Switch(new InputModel<bool>
             {
                 Disabled = IsReadOnly,
                 Value = Model.IsViewLink,
                 ValueChanged = this.Callback<bool>(value => { Model.IsViewLink = value; OnChanged?.Invoke(Model); })
             }));
-            BuildPropertyItem(builder, "IsQuery", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "IsQuery", b => b.Switch(new InputModel<bool>
             {
                 Disabled = IsReadOnly,
                 Value = Model.IsQuery,
@@ -23,13 +23,13 @@ class PageProperty : BaseProperty<PageColumnInfo>
             }));
             if (Model.IsQuery)
             {
-                BuildPropertyItem(builder, "IsQueryAll", b => UI.BuildSwitch(b, new InputModel<bool>
+                BuildPropertyItem(builder, "IsQueryAll", b => b.Switch(new InputModel<bool>
                 {
                     Disabled = IsReadOnly,
                     Value = Model.IsQueryAll,
                     ValueChanged = this.Callback<bool>(value => { Model.IsQueryAll = value; OnChanged?.Invoke(Model); })
                 }));
-                BuildPropertyItem(builder, nameof(FormFieldInfo.Type), b => UI.BuildSelect(b, new InputModel<string>
+                BuildPropertyItem(builder, nameof(FormFieldInfo.Type), b => b.Select(new InputModel<string>
                 {
                     Disabled = IsReadOnly,
                     Codes = controlTypes,
@@ -50,7 +50,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
                 }));
                 if (Model.Type.HasCategory())
                 {
-                    BuildPropertyItem(builder, nameof(FormFieldInfo.CategoryType), b => UI.BuildSelect(b, new InputModel<string>
+                    BuildPropertyItem(builder, nameof(FormFieldInfo.CategoryType), b => b.Select(new InputModel<string>
                     {
                         Disabled = IsReadOnly,
                         Codes = Cache.GetCodes("Dictionary,Custom"),
@@ -59,7 +59,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
                     }));
                     if (Model.CategoryType == "Custom")
                     {
-                        BuildPropertyItem(builder, nameof(FormFieldInfo.Category), b => UI.BuildText(b, new InputModel<string>
+                        BuildPropertyItem(builder, nameof(FormFieldInfo.Category), b => b.TextBox(new InputModel<string>
                         {
                             Disabled = IsReadOnly,
                             Value = Model.Category,
@@ -68,7 +68,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
                     }
                     else
                     {
-                        BuildPropertyItem(builder, nameof(FormFieldInfo.Category), b => UI.BuildSelect(b, new InputModel<string>
+                        BuildPropertyItem(builder, nameof(FormFieldInfo.Category), b => b.Select(new InputModel<string>
                         {
                             Disabled = IsReadOnly,
                             Codes = categories,
@@ -78,13 +78,13 @@ class PageProperty : BaseProperty<PageColumnInfo>
                     }
                 }
             }
-            BuildPropertyItem(builder, "IsSum", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "IsSum", b => b.Switch(new InputModel<bool>
             {
                 Disabled = IsReadOnly,
                 Value = Model.IsSum,
                 ValueChanged = this.Callback<bool>(value => { Model.IsSum = value; OnChanged?.Invoke(Model); })
             }));
-            BuildPropertyItem(builder, "IsSort", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "IsSort", b => b.Switch(new InputModel<bool>
             {
                 Disabled = IsReadOnly,
                 Value = Model.IsSort,
@@ -92,7 +92,7 @@ class PageProperty : BaseProperty<PageColumnInfo>
             }));
             if (Model.IsSort)
             {
-                BuildPropertyItem(builder, "DefaultSort", b => UI.BuildSelect(b, new InputModel<string>
+                BuildPropertyItem(builder, "DefaultSort", b => b.Select(new InputModel<string>
                 {
                     Disabled = IsReadOnly,
                     Codes = Cache.GetCodes(",Ascend,Descend"),
@@ -100,20 +100,20 @@ class PageProperty : BaseProperty<PageColumnInfo>
                     ValueChanged = this.Callback<string>(value => { Model.DefaultSort = value; OnChanged?.Invoke(Model); })
                 }));
             }
-            BuildPropertyItem(builder, "Fixed", b => UI.BuildSelect(b, new InputModel<string>
+            BuildPropertyItem(builder, "Fixed", b => b.Select(new InputModel<string>
             {
                 Disabled = IsReadOnly,
                 Codes = Cache.GetCodes(",left,right"),
                 Value = Model.Fixed,
                 ValueChanged = this.Callback<string>(value => { Model.Fixed = value; OnChanged?.Invoke(Model); })
             }));
-            BuildPropertyItem(builder, "Width", b => UI.BuildNumber(b, new InputModel<int?>
+            BuildPropertyItem(builder, "Width", b => b.Number(new InputModel<int?>
             {
                 Disabled = IsReadOnly,
                 Value = Model.Width,
                 ValueChanged = this.Callback<int?>(value => { Model.Width = value; OnChanged?.Invoke(Model); })
             }));
-            BuildPropertyItem(builder, "Align", b => UI.BuildSelect(b, new InputModel<string>
+            BuildPropertyItem(builder, "Align", b => b.Select(new InputModel<string>
             {
                 Disabled = IsReadOnly,
                 Codes = Cache.GetCodes(",left,center,right"),

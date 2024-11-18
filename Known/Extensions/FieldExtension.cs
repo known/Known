@@ -2,61 +2,27 @@
 
 namespace Known.Extensions;
 
-static class AntExtension
+/// <summary>
+/// 字段组件扩展类。
+/// </summary>
+public static class FieldExtension
 {
-    internal static void AntTag(this RenderTreeBuilder builder, string text, string color)
+    /// <summary>
+    /// 构建下拉框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">下拉框组件模型对象。</param>
+    public static void Dropdown(this RenderTreeBuilder builder, DropdownModel model)
     {
-        builder.Component<Tag>()
-               .Set(c => c.Color, color)
-               .Set(c => c.ChildContent, b => b.Text(text))
-               .Build();
+        builder.Component<AntDropdown>().Set(c => c.Model, model).Build();
     }
 
-    internal static void AntIcon(this RenderTreeBuilder builder, string type, EventCallback<MouseEventArgs>? onClick = null)
-    {
-        if (onClick == null)
-        {
-            builder.Component<Icon>().Set(c => c.Type, type).Set(c => c.Theme, "outline").Build();
-            return;
-        }
-
-        builder.Component<Icon>()
-               .Set(c => c.Type, type)
-               .Set(c => c.Theme, "outline")
-               .Set(c => c.OnClick, onClick.Value)
-               .Build();
-    }
-
-    internal static void AntResult(this RenderTreeBuilder builder, string status, string message)
-    {
-        builder.Component<AntDesign.Result>()
-               .Set(c => c.Status, status)
-               .Set(c => c.Title, status)
-               .Set(c => c.SubTitle, message)
-               .Build();
-    }
-
-    internal static void AntButton(this RenderTreeBuilder builder, string name, EventCallback<MouseEventArgs> onClick, string type = ButtonType.Primary)
-    {
-        builder.Component<AntButton>()
-               .Set(c => c.Name, name)
-               .Set(c => c.Type, type)
-               .Set(c => c.OnClick, onClick)
-               .Build();
-    }
-
-    internal static void AntButton(this RenderTreeBuilder builder, ActionInfo info)
-    {
-        builder.Component<AntButton>()
-               .Set(c => c.Enabled, info.Enabled)
-               .Set(c => c.Icon, info.Icon)
-               .Set(c => c.Name, info.Name)
-               .Set(c => c.Type, info.Style)
-               .Set(c => c.OnClick, info.OnClick)
-               .Build();
-    }
-
-    internal static void AntSearch(this RenderTreeBuilder builder, InputModel<string> model)
+    /// <summary>
+    /// 构建搜索框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    internal static void Search(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Search>()
                .Set(c => c.Disabled, model.Disabled)
@@ -67,7 +33,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntText(this RenderTreeBuilder builder, InputModel<string> model)
+    /// <summary>
+    /// 构建文本框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void TextBox(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Input<string>>()
                .Set(c => c.Disabled, model.Disabled)
@@ -77,7 +48,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntTextArea(this RenderTreeBuilder builder, InputModel<string> model)
+    /// <summary>
+    /// 构建多行文本框框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void TextArea(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<TextArea>()
                .Set(c => c.Disabled, model.Disabled)
@@ -88,7 +64,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntPassword(this RenderTreeBuilder builder, InputModel<string> model)
+    /// <summary>
+    /// 构建密码输入框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void Password(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<InputPassword>()
                .Set(c => c.Disabled, model.Disabled)
@@ -98,7 +79,13 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntDatePicker<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
+    /// <summary>
+    /// 构建日期选择框组件。
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void DatePicker<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
     {
         if (typeof(TValue) == typeof(string))
         {
@@ -124,7 +111,13 @@ static class AntExtension
         }
     }
 
-    internal static void AntNumber<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
+    /// <summary>
+    /// 构建数字输入框组件。
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void Number<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
     {
         builder.Component<AntDesign.InputNumber<TValue>>()
                .Set(c => c.Disabled, model.Disabled)
@@ -133,7 +126,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntCheckBox(this RenderTreeBuilder builder, InputModel<bool> model)
+    /// <summary>
+    /// 构建复选框框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void CheckBox(this RenderTreeBuilder builder, InputModel<bool> model)
     {
         builder.Component<Checkbox>()
                .Set(c => c.Disabled, model.Disabled)
@@ -145,7 +143,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntSwitch(this RenderTreeBuilder builder, InputModel<bool> model)
+    /// <summary>
+    /// 构建开关组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void Switch(this RenderTreeBuilder builder, InputModel<bool> model)
     {
         builder.Component<Switch>()
                .Set(c => c.Disabled, model.Disabled)
@@ -155,7 +158,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntSelect(this RenderTreeBuilder builder, InputModel<string> model)
+    /// <summary>
+    /// 构建下拉选择框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void Select(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<AntSelectCode>()
                .Set(c => c.Disabled, model.Disabled)
@@ -166,7 +174,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntRadioList(this RenderTreeBuilder builder, InputModel<string> model)
+    /// <summary>
+    /// 构建单选框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void RadioList(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<AntRadioGroup>()
                .Set(c => c.Disabled, model.Disabled)
@@ -176,7 +189,12 @@ static class AntExtension
                .Build();
     }
 
-    internal static void AntCheckList(this RenderTreeBuilder builder, InputModel<string[]> model)
+    /// <summary>
+    /// 构建复选框列表组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void CheckList(this RenderTreeBuilder builder, InputModel<string[]> model)
     {
         builder.Component<AntCheckboxGroup>()
                .Set(c => c.Disabled, model.Disabled)
@@ -184,5 +202,15 @@ static class AntExtension
                .Set(c => c.Value, model.Value)
                .Set(c => c.ValueChanged, model.ValueChanged)
                .Build();
+    }
+
+    /// <summary>
+    /// 呈现附件超链接。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="item">系统附件对象。</param>
+    public static void FileLink(this RenderTreeBuilder builder, AttachInfo item)
+    {
+        builder.Component<FileLink>().Set(c => c.Item, item).Build();
     }
 }

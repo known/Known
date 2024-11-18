@@ -17,28 +17,26 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildFormList(RenderTreeBuilder builder)
     {
-        builder.Div("kui-table form-list", () =>
+        builder.Div("kui-table form-list", (Action)(() =>
         {
             if (!string.IsNullOrWhiteSpace(Model.Name) ||
                  Model.QueryColumns.Count > 0 ||
                  Model.ShowToolbar && Model.Toolbar.HasItem)
             {
-                builder.Component<KToolbar>()
-                       .Set(c => c.ChildContent, b =>
-                       {
-                           b.Div(() =>
-                           {
-                               b.FormTitle(Model.Name);
-                               if (Model.QueryColumns.Count > 0)
-                                   UI.BuildQuery(b, Model);
-                           });
-                           if (Model.ShowToolbar && Model.Toolbar.HasItem)
-                               UI.BuildToolbar(b, Model.Toolbar);
-                       })
-                       .Build();
+                builder.Toolbar(() =>
+                {
+                    builder.Div(() =>
+                    {
+                        builder.FormTitle(Model.Name);
+                        if (Model.QueryColumns.Count > 0)
+                            builder.Query(Model);
+                    });
+                    if (Model.ShowToolbar && Model.Toolbar.HasItem)
+                        builder.Toolbar(Model.Toolbar);
+                });
             }
-            UI.BuildTable(builder, Model);
-        });
+            builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
+        }));
     }
 
     private void BuildPageList(RenderTreeBuilder builder)
@@ -47,7 +45,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Div("kui-table-page", () =>
             {
-                builder.Div("kui-query", () => UI.BuildQuery(builder, Model));
+                builder.Div("kui-query", () => builder.Query(Model));
                 BuildTable(builder);
             });
         }
@@ -59,38 +57,36 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildTable(RenderTreeBuilder builder)
     {
-        builder.Div("kui-table", () =>
+        builder.Div("kui-table", (Action)(() =>
         {
             if (Model.Tab.HasItem)
             {
                 Model.Tab.Left = b => b.FormTitle(Model.PageName);
                 if (Model.Toolbar.HasItem)
                     Model.Tab.Right = BuildRight;
-                UI.BuildTabs(builder, Model.Tab);
+                builder.Tabs(Model.Tab);
             }
             else
             {
-                builder.Component<KToolbar>()
-                       .Set(c => c.ChildContent, b =>
-                       {
-                           b.Div(() =>
-                           {
-                               b.FormTitle(Model.PageName);
-                               if (Model.TopStatis != null)
-                                   b.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
-                           });
-                           b.Div(() => BuildRight(b));
-                       })
-                       .Build();
+                builder.Toolbar(() =>
+                {
+                    builder.Div(() =>
+                    {
+                        builder.FormTitle(Model.PageName);
+                        if (Model.TopStatis != null)
+                            builder.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
+                    });
+                    builder.Div(() => BuildRight(builder));
+                });
             }
-            UI.BuildTable(builder, Model);
-        });
+            builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
+        }));
     }
 
     private void BuildRight(RenderTreeBuilder builder)
     {
         if (Model.Toolbar.HasItem)
-            UI.BuildToolbar(builder, Model.Toolbar);
+            builder.Toolbar(Model.Toolbar);
         if (Model.ShowSetting)
             builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
     }

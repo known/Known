@@ -1,0 +1,35 @@
+﻿@inherits BaseComponent
+
+<div id="@Id" style="@Style"></div>
+
+@code {
+    //二维码组件类，配置参考qrcode.js。
+    private string id;
+
+    /// <summary>
+    /// 取得或设置组件样式字符串。
+    /// </summary>
+    [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// 取得或设置二维码配置对象。
+    /// </summary>
+    [Parameter] public object Option { get; set; }
+
+    protected override void OnInitialized()
+    {
+        id = $"qr-{Utils.GetGuid()}";
+    }
+
+    /// <summary>
+    /// 二维码组件呈现后，调用qrcode.js显示二维码。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await JS.ShowQRCodeAsync(id, Option);
+    }
+}

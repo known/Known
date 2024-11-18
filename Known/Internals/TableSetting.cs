@@ -17,7 +17,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
     {
         builder.Div("setting", () =>
         {
-            UI.BuildDropdown(builder, new DropdownModel
+            builder.Dropdown(new DropdownModel
             {
                 Tooltip = Language["Designer.ColumnSettings"],
                 TriggerType = "Click",
@@ -33,7 +33,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Div("title", () =>
             {
-                UI.BuildCheckBox(builder, new InputModel<bool>
+                builder.CheckBox(new InputModel<bool>
                 {
                     Label = Language["Designer.ColumnSettings"],
                     Indeterminate = Indeterminate,
@@ -55,7 +55,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
     private void BuildSettingItem(RenderTreeBuilder builder, ColumnInfo item)
     {
         builder.Icon("pause");
-        UI.BuildCheckBox(builder, new InputModel<bool>
+        builder.CheckBox(new InputModel<bool>
         {
             Label = item.Name,
             Value = item.IsVisible,
@@ -65,7 +65,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                 await OnColumnChangedAsync();
             })
         });
-        UI.BuildNumber(builder, new InputModel<int?>
+        builder.Number(new InputModel<int?>
         {
             Value = item.Width,
             ValueChanged = this.Callback<int?>(async v =>

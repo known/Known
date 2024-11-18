@@ -1,10 +1,10 @@
-﻿namespace Known.Components;
+﻿@inherits BaseComponent
 
-/// <summary>
-/// 图表组件类，配置参考highcharts.js。
-/// </summary>
-public class KChart : BaseComponent
-{
+<div id="@Id" class="chart"></div>
+
+@code {
+    //图表组件类，配置参考highcharts.js。
+
     /// <summary>
     /// 取得或设置图表宽度。
     /// </summary>
@@ -138,14 +138,5 @@ public class KChart : BaseComponent
         };
 
         return JS.ShowChartAsync(Id, option);
-    }
-
-    /// <summary>
-    /// 呈现图表组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        builder.Div().Id(Id).Class("chart").Close();
     }
 }

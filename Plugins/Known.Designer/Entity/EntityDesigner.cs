@@ -55,7 +55,7 @@ class EntityDesigner : BaseDesigner<string>
     {
         builder.Div(() =>
         {
-            UI.BuildRadioList(builder, new InputModel<string>
+            builder.RadioList(new InputModel<string>
             {
                 Disabled = ReadOnly,
                 Codes = addTypes,
@@ -68,7 +68,7 @@ class EntityDesigner : BaseDesigner<string>
         {
             builder.Div("select", () =>
             {
-                UI.BuildSelect(builder, new InputModel<string>
+                builder.Select(new InputModel<string>
                 {
                     Disabled = ReadOnly,
                     Codes = entityModels,
@@ -82,7 +82,7 @@ class EntityDesigner : BaseDesigner<string>
     private void BuildNewModel(RenderTreeBuilder builder)
     {
         ShowTips(builder);
-        UI.BuildTextArea(builder, new InputModel<string>
+        builder.TextArea(new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,
             Rows = 12,

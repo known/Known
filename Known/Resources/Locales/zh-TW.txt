@@ -9,7 +9,7 @@
   "Title.Import": "導入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.SelectIcon": "選擇圖標",
-  "Title.SelectUser": "選擇用戶"
+  "Title.SelectUser": "選擇用戶",
 
   "QueryType.Equal": "等於",
   "QueryType.NotEqual": "不等於",

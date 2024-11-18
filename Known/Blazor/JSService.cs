@@ -335,8 +335,8 @@ public class JSService
 
     #region Chart
     internal Task ShowChartAsync(string id, object option) => InvokeVoidAsync("KBlazor.showChart", id, option);
-    internal Task ShowBarcodeAsync(string id, string value, object option) => InvokeVoidAsync("KBlazor.showBarcode", id, value, option);
-    internal Task ShowQRCodeAsync(string id, object option) => InvokeVoidAsync("KBlazor.showQRCode", id, option);
+    internal Task ShowBarcodeAsync(string id, string value, object option) => InvokeVoidAsync("KBlazor.showBarcode", id, value, option ?? new { });
+    internal Task ShowQRCodeAsync(string id, object option) => InvokeVoidAsync("KBlazor.showQRCode", id, option ?? new { });
     #endregion
 }
 

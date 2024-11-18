@@ -1,0 +1,27 @@
+﻿@inherits BaseComponent
+
+<Tag Color="@color">@text</Tag>
+
+@code {
+    private string text;
+    private string color;
+
+    /// <summary>
+    /// 取得或设置标签文本。
+    /// </summary>
+    [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// 取得或设置标签颜色。
+    /// </summary>
+    [Parameter] public string Color { get; set; }
+
+    protected override void OnInitialized()
+    {
+        text = Language?.GetCode(Text);
+        if (string.IsNullOrWhiteSpace(text))
+            text = Text;
+        if (string.IsNullOrWhiteSpace(color))
+            color = UIService.GetTagColor(text);
+    }
+}

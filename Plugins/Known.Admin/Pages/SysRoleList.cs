@@ -87,17 +87,17 @@ class RoleForm : BaseForm<SysRole>
             builder.Div("kui-role-module", () =>
             {
                 builder.Div("", Language["Title.Module"]);
-                UI.BuildTree(builder, tree);
+                builder.Tree(tree);
             });
             builder.Div("kui-role-button", () =>
             {
                 builder.Div("", Language["Title.Button"]);
-                UI.BuildCheckList(builder, btnModel);
+                builder.CheckList(btnModel);
             });
             builder.Div("kui-role-column", () =>
             {
                 builder.Div("", Language["Title.Column"]);
-                UI.BuildCheckList(builder, colModel);
+                builder.CheckList(colModel);
             });
         });
     }

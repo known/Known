@@ -32,7 +32,7 @@ class NavFontSize : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        UI.BuildDropdown(builder, new DropdownModel
+        builder.Dropdown(new DropdownModel
         {
             Icon = Icon,
             Items = UIConfig.Sizes,

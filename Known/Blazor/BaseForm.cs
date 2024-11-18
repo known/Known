@@ -75,7 +75,7 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         if (Model == null)
             return;
 
-        UI.BuildForm(builder, Model);
+        builder.Form(Model);
         if (ShowAction && !Model.IsView)
         {
             builder.FormAction(() =>
@@ -119,7 +119,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     {
         builder.FormPage(() =>
         {
-            UI.BuildForm(builder, Model);
+            builder.Form(Model);
             builder.FormPageButton(() => BuildAction(builder));
         });
     }
@@ -185,7 +185,7 @@ public class BaseTabForm : BaseForm
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
-        builder.Div("kui-form-tab", () => UI.BuildTabs(builder, Tab));
+        builder.Div("kui-form-tab", () => builder.Tabs(Tab));
     }
 }
 
@@ -205,6 +205,6 @@ public class BaseStepForm : BaseForm
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
-        builder.Div("kui-form-step", () => UI.BuildSteps(builder, Step));
+        builder.Div("kui-form-step", () => builder.Steps(Step));
     }
 }

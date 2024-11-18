@@ -51,7 +51,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
     {
         if (Context.Current == null)
         {
-            UI.Build404Page(builder, PageId);
+            UI.Page404(builder, PageId);
             return;
         }
 

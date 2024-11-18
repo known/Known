@@ -44,13 +44,13 @@ class PageView : BaseView<PageInfo>
         {
             tab.Right = b =>
             {
-                UI.BuildButton(b, new ActionInfo
+                b.Button(new ActionInfo
                 {
                     Name = Language["Designer.Toolbar"],
                     Style = "primary",
                     OnClick = this.Callback<MouseEventArgs>(OnToolbar)
                 });
-                UI.BuildButton(b, new ActionInfo
+                b.Button(new ActionInfo
                 {
                     Name = Language["Designer.Action"],
                     Style = "primary",
@@ -86,7 +86,7 @@ class PageView : BaseView<PageInfo>
     private void BuildView(RenderTreeBuilder builder)
     {
         builder.Div("view", () => builder.Table(table));
-        builder.Div("setting", () => UI.BuildTabs(builder, tab));
+        builder.Div("setting", () => builder.Tabs(tab));
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
@@ -130,37 +130,37 @@ class PageView : BaseView<PageInfo>
     {
         builder.Div("setting-row", () =>
         {
-            BuildPropertyItem(builder, "Designer.ShowPager", b => UI.BuildSwitch(b, new InputModel<bool>
+            BuildPropertyItem(builder, "Designer.ShowPager", b => b.Switch(new InputModel<bool>
             {
                 Disabled = ReadOnly,
                 Value = Model.ShowPager,
                 ValueChanged = this.Callback<bool>(value => { Model.ShowPager = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "Designer.PageSize", b => UI.BuildNumber(b, new InputModel<int?>
+            BuildPropertyItem(builder, "Designer.PageSize", b => b.Number(new InputModel<int?>
             {
                 Disabled = ReadOnly,
                 Value = Model.PageSize,
                 ValueChanged = this.Callback<int?>(value => { Model.PageSize = value; OnPropertyChanged(); })
             }));
-            BuildPropertyItem(builder, "Designer.ToolSize", b => UI.BuildNumber(b, new InputModel<int?>
+            BuildPropertyItem(builder, "Designer.ToolSize", b => b.Number(new InputModel<int?>
             {
                 Disabled = ReadOnly,
                 Value = Model.ToolSize,
                 ValueChanged = this.Callback<int?>(value => { Model.ToolSize = value; OnPropertyChanged(); })
             }));
-            //BuildPropertyItem(builder, "Designer.ActionSize", b => UI.BuildNumber(b, new InputModel<int?>
+            //BuildPropertyItem(builder, "Designer.ActionSize", b => b.BuildNumber(new InputModel<int?>
             //{
             //    Disabled = ReadOnly,
             //    Value = Model.ActionSize,
             //    ValueChanged = this.Callback<int?>(value => { Model.ActionSize = value; OnPropertyChanged(); })
             //}));
-            //BuildPropertyItem(builder, "Designer.FixedWidth", b => UI.BuildText(b, new InputModel<string>
+            //BuildPropertyItem(builder, "Designer.FixedWidth", b => b.BuildText(new InputModel<string>
             //{
             //    Disabled = ReadOnly,
             //    Value = Model.FixedWidth,
             //    ValueChanged = this.Callback<string>(value => { Model.FixedWidth = value; OnPropertyChanged(); })
             //}));
-            //BuildPropertyItem(builder, "Designer.FixedHeight", b => UI.BuildText(b, new InputModel<string>
+            //BuildPropertyItem(builder, "Designer.FixedHeight", b => b.BuildText(new InputModel<string>
             //{
             //    Disabled = ReadOnly,
             //    Value = Model.FixedHeight,

@@ -89,7 +89,7 @@ class ModuleList : BasePage<SysModule>
         await table.RefreshAsync();
     }
 
-    private void BuildTree(RenderTreeBuilder builder) => UI.BuildTree(builder, tree);
+    private void BuildTree(RenderTreeBuilder builder) => builder.Tree(tree);
     private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
@@ -244,7 +244,7 @@ class ModuleList : BasePage<SysModule>
             Title = title,
             Content = builder =>
             {
-                UI.BuildTree(builder, new TreeModel
+                builder.Tree(new TreeModel
                 {
                     ExpandRoot = true,
                     Data = modules.ToMenuItems(),

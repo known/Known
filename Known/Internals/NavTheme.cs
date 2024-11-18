@@ -1,12 +1,12 @@
 ﻿using AntDesign;
 
-namespace Known.Components;
+namespace Known.Internals;
 
 /// <summary>
 /// 自定义Ant主题组件类。
 /// </summary>
 [NavItem]
-public class AntTheme : BaseComponent
+public class NavTheme : BaseComponent
 {
     /// <summary>
     /// 呈现主题组件内容。

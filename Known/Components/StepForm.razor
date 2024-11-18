@@ -1,10 +1,30 @@
-﻿namespace Known.Components;
+﻿@inherits BaseComponent
 
-/// <summary>
-/// 步骤表单组件类。
-/// </summary>
-public class StepForm : BaseComponent
-{
+<div class="kui-steps-form @Model.Direction">
+    <DataSteps Model="Model" />
+    <div class="kui-steps-content">
+        @if (Model.Items != null && Model.Items.Count > 0)
+        {
+            @Model.Items[Model.Current].Content
+        }
+    </div>
+    <div class="kui-form-action">
+        @if (Model.Current > 0)
+        {
+            <KButton Name="@Language["Button.Previous"]" OnClick="OnPrevClickAsync" />
+        }
+        @if (Model.Current < StepCount - 1)
+        {
+            <KButton Name="@Language["Button.Next"]" OnClick="OnNextClickAsync" />
+        }
+        @if (Model.Current == StepCount - 1 && !IsView)
+        {
+            <KButton Name="@Language["Button.Finish"]" OnClick="OnCompleteAsync" />
+        }
+    </div>
+</div>
+
+@code {
     /// <summary>
     /// 取得或设置步骤表单配置模型。
     /// </summary>
@@ -38,32 +58,6 @@ public class StepForm : BaseComponent
     {
         await base.OnInitAsync();
         StepCount ??= Model.Items.Count;
-    }
-
-    /// <summary>
-    /// 呈现步骤表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        builder.Div($"kui-steps-form {Model.Direction}", () =>
-        {
-            UI.BuildSteps(builder, Model);
-            builder.Div("kui-steps-content", () =>
-            {
-                if (Model.Items != null && Model.Items.Count > 0)
-                    builder.Fragment(Model.Items[Model.Current].Content);
-            });
-            builder.FormAction(() =>
-            {
-                if (Model.Current > 0)
-                    builder.Button(Language["Button.Previous"], this.Callback<MouseEventArgs>(OnPrevClickAsync));
-                if (Model.Current < StepCount - 1)
-                    builder.Button(Language["Button.Next"], this.Callback<MouseEventArgs>(OnNextClickAsync));
-                if (Model.Current == StepCount - 1 && !IsView)
-                    builder.Button(Language["Button.Finish"], this.Callback<MouseEventArgs>(OnCompleteAsync));
-            });
-        });
     }
 
     /// <summary>

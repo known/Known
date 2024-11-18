@@ -1,21 +1,11 @@
-﻿namespace Known.Components;
+﻿@inherits BaseComponent
 
-/// <summary>
-/// 条形码组件类，配置参考barcode.js。
-/// </summary>
-public class KBarcode : BaseComponent
-{
-    private readonly string id;
+<div id="@id" style="@Style"></div>
+
+@code {
+    //条形码组件类，配置参考barcode.js。
+    private string id;
     private string lastCode;
-
-    /// <summary>
-    /// 构造函数，创建一个条形码组件类的实例。
-    /// </summary>
-    public KBarcode()
-    {
-        id = Utils.GetGuid();
-        id = $"bc-{id}";
-    }
 
     /// <summary>
     /// 取得或设置条形码组件样式。
@@ -32,13 +22,9 @@ public class KBarcode : BaseComponent
     /// </summary>
     [Parameter] public object Option { get; set; }
 
-    /// <summary>
-    /// 呈现条形码组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
+    protected override void OnInitialized()
     {
-        builder.Canvas().Id(id).Class(Style).Close();
+        id = $"bc-{Utils.GetGuid()}";
     }
 
     /// <summary>
@@ -48,11 +34,11 @@ public class KBarcode : BaseComponent
     /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender);
         if (firstRender || Value != lastCode)
         {
             lastCode = Value;
             await JS.ShowBarcodeAsync(id, Value, Option);
         }
-        await base.OnAfterRenderAsync(firstRender);
     }
 }

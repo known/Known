@@ -17,6 +17,6 @@ class SysUserProfileTabs : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div("kui-card", () => UI.BuildTabs(builder, Tab));
+        builder.Div("kui-card", () => builder.Tabs(Tab));
     }
 }

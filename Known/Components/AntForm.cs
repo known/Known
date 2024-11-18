@@ -69,8 +69,8 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
                 {
                     b.FormAction(() =>
                     {
-                        b.AntButton(Form?.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
-                        b.AntButton(Form?.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
+                        b.Button(Form?.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
+                        b.Button(Form?.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
                     });
                 }
             });

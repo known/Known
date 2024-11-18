@@ -117,7 +117,7 @@ class WebApiForm : BaseComponent
                 var oldValue2 = token.Substring(16, 8);
                 var value = token.Replace(oldValue1, chars).Replace(oldValue2, chars);
                 BuildLabel(builder, "String", Constants.KeyToken);
-                UI.BuildText(builder, new InputModel<string> { Value = value, Disabled = true });
+                builder.TextBox(new InputModel<string> { Value = value, Disabled = true });
             });
         });
     }
@@ -131,7 +131,7 @@ class WebApiForm : BaseComponent
             {
                 var value = Activator.CreateInstance(param.ParameterType);
                 postData = FormatJson(value);
-                UI.BuildTextArea(builder, new InputModel<string>
+                builder.TextArea(new InputModel<string>
                 {
                     Rows = 6,
                     Value = postData,
@@ -158,7 +158,7 @@ class WebApiForm : BaseComponent
                 builder.Li(() =>
                 {
                     BuildLabel(builder, param.ParameterType.Name, param.Name);
-                    UI.BuildText(builder, new InputModel<string>
+                    builder.TextBox(new InputModel<string>
                     {
                         Value = "",
                         ValueChanged = this.Callback<string>(value => request[param.Name] = value)
