@@ -42,7 +42,7 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var userName = info.UserName?.ToLower();
         await database.OpenAsync();
         var password = Utils.ToMd5(info.Password);
-        var user = await database.GetUserAsync(userName, password);
+        var user = await database.GetUserInfoAsync(userName, password);
         await database.CloseAsync();
         if (user == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);

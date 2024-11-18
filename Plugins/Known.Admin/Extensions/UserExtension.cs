@@ -6,6 +6,39 @@
 public static class UserExtension
 {
     /// <summary>
+    /// 异步根据用户名获取用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="userName">用户名。</param>
+    /// <returns>用户信息。</returns>
+    public static Task<UserInfo> GetUserAsync(this Database db, string userName)
+    {
+        return db.Query<SysUser>().Where(d => d.UserName == userName).FirstAsync<UserInfo>();
+    }
+
+    /// <summary>
+    /// 异步根据用户ID获取用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="id">用户ID。</param>
+    /// <returns>用户信息。</returns>
+    public static Task<UserInfo> GetUserByIdAsync(this Database db, string id)
+    {
+        return db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
+    }
+
+    /// <summary>
+    /// 异步根据用户姓名获取用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="name">用户姓名。</param>
+    /// <returns>用户信息。</returns>
+    public static Task<UserInfo> GetUserByNameAsync(this Database db, string name)
+    {
+        return db.Query<SysUser>().Where(d => d.Name == name).FirstAsync<UserInfo>();
+    }
+
+    /// <summary>
     /// 异步获取角色用户列表。
     /// </summary>
     /// <param name="db">数据库对象。</param>
@@ -56,19 +89,13 @@ public static class UserExtension
         }
     }
 
-    internal static async Task<UserInfo> GetUserAsync(this Database db, string userName)
+    internal static async Task<UserInfo> GetUserInfoAsync(this Database db, string userName)
     {
         var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
         return user.ToUserInfo();
     }
 
-    internal static async Task<UserInfo> GetUserByIdAsync(this Database db, string userId)
-    {
-        var user = await db.QueryAsync<SysUser>(d => d.Id == userId);
-        return user.ToUserInfo();
-    }
-
-    internal static async Task<UserInfo> GetUserAsync(this Database db, string userName, string password)
+    internal static async Task<UserInfo> GetUserInfoAsync(this Database db, string userName, string password)
     {
         var user = await db.QueryAsync<SysUser>(d => d.UserName == userName && d.Password == password);
         return await db.GetUserInfoAsync(user);

@@ -73,7 +73,7 @@ public static class AdminExtension
                            .OrderBy(d => d.CreateTime).FirstAsync<TaskInfo>();
         if (info != null)
         {
-            db.User = await Platform.GetUserAsync(db, info.CreateBy);
+            db.User = await db.GetUserAsync(info.CreateBy);
             info.File = await db.Query<SysFile>().Where(d => d.Id == info.Target).FirstAsync<AttachInfo>();
         }
         return info;

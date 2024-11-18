@@ -68,7 +68,7 @@ public sealed class WeixinHelper
                 weixin.Note = user.Note;
             }
 
-            db.User = await Platform.GetUserByIdAsync(db, userId);
+            db.User = await db.GetUserByIdAsync(userId);
             await db.SaveAsync(weixin);
             return db.User?.Name;
         }
@@ -95,7 +95,7 @@ public sealed class WeixinHelper
                 return string.Empty;
 
             weixin.UserId = "";
-            db.User = await Platform.GetUserByIdAsync(db, userId);
+            db.User = await db.GetUserByIdAsync(userId);
             await db.SaveAsync(weixin);
             return db.User?.Name;
         }

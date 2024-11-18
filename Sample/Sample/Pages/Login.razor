@@ -23,7 +23,14 @@
         </div>
         <div class="login-form">
             <div class="login-form-body">
-                <LoginForm Model="Model" OnLogin="OnUserLogin" />
+                <LoginForm Model="Model" OnLogin="OnUserLogin">
+                    <QRCode>
+                        <div style="text-align:center;">
+                            <div style="margin-bottom:10px;">请使用手机浏览器扫码登录</div>
+                            <KQRCode Option="qrCode" />
+                        </div>
+                    </QRCode>
+                </LoginForm>
             </div>
         </div>
     </div>
@@ -31,6 +38,8 @@
 </div>
 
 @code {
+    private object qrCode => new { Text = Config.HostUrl, Width = 200, Height = 200 };
+
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

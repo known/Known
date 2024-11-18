@@ -9,11 +9,11 @@ public static class WeixinExtension
     /// 异步获取系统用户绑定的微信信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
-    /// <param name="user">系统用户。</param>
+    /// <param name="userId">系统用户ID。</param>
     /// <returns>微信信息。</returns>
-    public static Task<SysWeixin> GetWeixinAsync(this Database db, UserInfo user)
+    public static Task<SysWeixin> GetWeixinAsync(this Database db, string userId)
     {
-        return WeixinService.GetWeixinByUserIdAsync(db, user.Id);
+        return db.QueryAsync<SysWeixin>(d => d.UserId == userId);
     }
 
     /// <summary>

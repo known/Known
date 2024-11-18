@@ -43,7 +43,7 @@ class FileService(Context context) : ServiceBase(context), IFileService
             }
         });
         if (result.IsValid)
-            Platform.DeleteFiles(oldFiles);
+            AttachFile.DeleteFiles(oldFiles);
         return result;
     }
 

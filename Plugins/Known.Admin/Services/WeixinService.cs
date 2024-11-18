@@ -53,7 +53,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
         var database = Database;
         var info = await database.GetConfigAsync<WeixinInfo>(KeyWeixin);
         if (info != null && !string.IsNullOrWhiteSpace(userId))
-            info.User = await GetWeixinByUserIdAsync(database, userId);
+            info.User = await database.GetWeixinAsync(userId);
         return info;
     }
 
@@ -70,12 +70,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
 
     public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
     {
-        return GetWeixinByUserIdAsync(Database, userId);
-    }
-
-    internal static Task<SysWeixin> GetWeixinByUserIdAsync(Database db, string userId)
-    {
-        return db.QueryAsync<SysWeixin>(d => d.UserId == userId);
+        return Database.GetWeixinAsync(userId);
     }
     #endregion
 
@@ -92,7 +87,7 @@ class WeixinService(Context context) : ServiceBase(context), IWeixinService
     public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
     {
         var database = Database;
-        var weixin = await GetWeixinByUserIdAsync(database, user.Token);
+        var weixin = await database.GetWeixinAsync(user.Token);
         if (weixin == null)
             return null;
 

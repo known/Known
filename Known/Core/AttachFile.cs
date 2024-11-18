@@ -110,6 +110,15 @@ public class AttachFile
         Utils.DeleteFile(path);
     }
 
+    /// <summary>
+    /// 物理删除附件。
+    /// </summary>
+    /// <param name="filePaths">附件路径列表。</param>
+    public static void DeleteFiles(List<string> filePaths)
+    {
+        filePaths.ForEach(DeleteFile);
+    }
+
     private static string GetFilePath(string compNo, string type = null)
     {
         var filePath = compNo;

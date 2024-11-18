@@ -18,7 +18,7 @@
 
     protected override void OnInitialized()
     {
-        id = $"qr-{Utils.GetGuid()}";
+        Id = $"qr-{Id}";
     }
 
     /// <summary>
@@ -30,6 +30,6 @@
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-            await JS.ShowQRCodeAsync(id, Option);
+            await JS.ShowQRCodeAsync(Id, Option);
     }
 }

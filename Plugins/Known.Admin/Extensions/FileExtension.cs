@@ -6,6 +6,17 @@
 public static class FileExtension
 {
     /// <summary>
+    /// 异步获取系统附件信息列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizId">附件业务数据ID。</param>
+    /// <returns>系统附件信息列表。</returns>
+    public static Task<List<AttachInfo>> GetFilesAsync(this Database db, string bizId)
+    {
+        return FileService.GetFilesAsync(db, bizId);
+    }
+
+    /// <summary>
     /// 异步添加系统附件信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
@@ -25,6 +36,17 @@ public static class FileExtension
             sysFiles.Add(file);
         }
         return sysFiles;
+    }
+
+    /// <summary>
+    /// 异步删除系统附件实体。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="id">附件ID。</param>
+    /// <returns></returns>
+    public static Task DeleteFileAsync(this Database db, string id)
+    {
+        return db.DeleteAsync<SysFile>(id);
     }
 
     /// <summary>

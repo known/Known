@@ -59,7 +59,7 @@ class ApplyService(Context context) : ServiceBase(context), IApplyService
         });
         //如果事务执行成功，删除实际附件
         if (result.IsValid)
-            Platform.DeleteFiles(oldFiles);
+            AttachFile.DeleteFiles(oldFiles);
         return result;
     }
 

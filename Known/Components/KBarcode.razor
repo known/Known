@@ -1,10 +1,9 @@
 ﻿@inherits BaseComponent
 
-<div id="@id" style="@Style"></div>
+<canvas id="@Id" style="@Style"></canvas>
 
 @code {
     //条形码组件类，配置参考barcode.js。
-    private string id;
     private string lastCode;
 
     /// <summary>
@@ -24,7 +23,7 @@
 
     protected override void OnInitialized()
     {
-        id = $"bc-{Utils.GetGuid()}";
+        Id = $"bc-{Id}";
     }
 
     /// <summary>
@@ -38,7 +37,7 @@
         if (firstRender || Value != lastCode)
         {
             lastCode = Value;
-            await JS.ShowBarcodeAsync(id, Value, Option);
+            await JS.ShowBarcodeAsync(Id, Value, Option);
         }
     }
 }
