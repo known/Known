@@ -14,10 +14,7 @@
         }
     </div>
     <FormItem Label="菜单">
-        <AntRadioGroup TValue="string" @bind-Value="context.MenuTheme" OnChange="OnChange">
-            <Radio Value="@("Dark")">暗色</Radio>
-            <Radio Value="@("Light")">亮色</Radio>
-        </AntRadioGroup>
+        <AntRadioGroup @bind-Value="context.MenuTheme" Codes="MenuThemes" OnChange="OnChange" />
     </FormItem>
     <Divider />
     <Title Level="4">布局设置</Title>
@@ -54,6 +51,7 @@
         ["geekblue"] = "#2F54EB",
         ["purple"] = "#722ED1"
     };
+    private List<CodeInfo> MenuThemes = [new CodeInfo("Dark", "暗色"), new CodeInfo("Light", "亮色")];
 
     [Parameter] public UserSettingInfo Model { get; set; }
     [Parameter] public Action OnChange { get; set; }

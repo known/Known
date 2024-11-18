@@ -68,10 +68,10 @@ public class TopNavbar : BaseComponent
             foreach (var item in types)
             {
                 builder.Div().Class("item").Draggable()
-                     .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
-                     .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
-                     .Children(() => BuildSettingItem(builder, item))
-                     .Close();
+                       .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
+                       .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
+                       .Children(() => BuildSettingItem(builder, item))
+                       .Close();
             }
             BuildAddItem(builder);
         });

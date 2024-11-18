@@ -130,7 +130,7 @@ public enum LayoutMode
 }
 
 /// <summary>
-/// 系统用户设置信息类。
+/// 用户系统设置信息类。
 /// </summary>
 public class UserSettingInfo
 {

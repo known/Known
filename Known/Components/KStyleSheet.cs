@@ -5,7 +5,7 @@
 /// </summary>
 public class KStyleSheet : ComponentBase
 {
-    private static readonly List<string> Items = [];
+    internal static readonly List<string> Items = [];
 
     /// <summary>
     /// 添加CSS样式表文件到集合中。

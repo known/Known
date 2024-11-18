@@ -38,21 +38,21 @@ class AutoService(HttpClient http) : ClientBase(http), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
-        throw new NotImplementedException();
+        return Http.QueryAsync<Dictionary<string, object>>("/Auto/QueryModels", criteria);
     }
 
     public Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
     {
-        throw new NotImplementedException();
+        return Http.PostAsync("/Auto/DeleteModels", info);
     }
 
     public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
-        throw new NotImplementedException();
+        return Http.PostAsync("/Auto/SaveModel", info);
     }
 
     public Task<Result> CreateTableAsync(AutoInfo<string> info)
     {
-        throw new NotImplementedException();
+        return Http.PostAsync("/Auto/CreateTable", info);
     }
 }

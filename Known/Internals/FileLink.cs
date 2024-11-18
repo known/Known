@@ -1,9 +1,19 @@
 ﻿namespace Known.Internals;
 
-class FileLink : BaseComponent
+/// <summary>
+/// 附件连接组件类型。
+/// </summary>
+public class FileLink : BaseComponent
 {
+    /// <summary>
+    /// 取得或设置附件信息。
+    /// </summary>
     [Parameter] public AttachInfo Item { get; set; }
 
+    /// <summary>
+    /// 呈现组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Config.App.Type == AppType.Web)

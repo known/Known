@@ -49,7 +49,7 @@ public partial class MainForm : Form
         Config.IsDevelopment = true;
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        var isClient = true;
+        var isClient = false;
         if (isClient)
         {
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5000") });

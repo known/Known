@@ -5,7 +5,7 @@
 /// </summary>
 public class KScript : ComponentBase
 {
-    private static readonly List<string> Items = [];
+    internal static readonly List<string> Items = [];
 
     /// <summary>
     /// 添加JS脚本文件到集合中。

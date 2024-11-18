@@ -5,57 +5,84 @@ import "./libs/barcode.js";
 import "./libs/qrcode.js";
 import "./libs/prism.js";
 
+function findLink(match) {
+    var items = document.getElementsByTagName('link');
+    return Array.from(items).find((item) => item.getAttribute('href')?.match(match));
+}
+
+function createLink(href) {
+    if (findLink(href)) return null;
+    let item = document.createElement('link');
+    item.rel = 'stylesheet';
+    item.href = href;
+    return item;
+}
+
+function findScript(match) {
+    let items = document.getElementsByTagName('script');
+    return Array.from(items).find((item) => item.getAttribute('src')?.match(match));
+}
+
+function createScript(src) {
+    if (findScript(src)) return null;
+    var script = document.createElement('script');
+    script.src = src;
+    return script;
+}
+
 export class KBlazor {
     //Callback
-    static runScript(script) {
-        return eval(script);
-    }
-    static runScriptVoid(script) {
-        eval(script);
-    }
+    static runScript(script) { return eval(script); }
+    static runScriptVoid(script) { eval(script); }
     static invokeDotNet(id, key, param) {
         return DotNet.invokeMethodAsync('Known', 'CallbackByParamAsync', id, key, param);
     }
     //Common
-    static elemClick(id) {
-        document.getElementById(id).click();
-    }
-    static elemEnabled(id, enabled) {
-        document.getElementById(id).enabled = enabled;
-    }
-    static highlight(code, language) {
-        return Prism.highlight(code, Prism.languages[language], language);
+    static elemClick(id) { document.getElementById(id).click(); }
+    static elemEnabled(id, enabled) { document.getElementById(id).enabled = enabled; }
+    //File
+    static initStaticFile(styles, scripts) {
+        let known = findLink('Known');
+        if (!known) {
+            var app = findLink('app');
+            for (var i in styles) {
+                var link = createLink(styles[i]);
+                if (link) {
+                    document.head.insertBefore(link, app);
+                }
+            }
+            var frame = findScript('_framework');
+            for (var i in scripts) {
+                var script = createScript(scripts[i]);
+                if (script) {
+                    document.body.insertBefore(script, frame);
+                }
+            }
+        }
     }
     static setStyleSheet(match, href) {
-        let item = Array.from(document.getElementsByTagName('link')).find((item) =>
-            item.getAttribute('href')?.match(match)
-        );
+        let item = findLink(match);
         if (!item) {
-            item = document.createElement('link');
-            item.rel = 'stylesheet';
+            item = createLink('');
             document.head.appendChild(item);
         }
         item.href = href;
     }
     static insertStyleSheet(match, href) {
-        let item = Array.from(document.getElementsByTagName('link')).find((item) =>
-            item.getAttribute('href')?.match(match)
-        );
-        var item1 = document.createElement('link');
-        item1.rel = 'stylesheet';
-        item1.href = href;
-        document.head.insertBefore(item1, item);
+        var item1 = createLink(href);
+        if (item1) {
+            let item = findLink(match);
+            document.head.insertBefore(item1, item);
+        }
     }
     static addStyleSheet(href) {
-        let item = document.createElement('link');
-        item.rel = 'stylesheet';
-        item.href = href;
-        document.head.appendChild(item);
+        let item = createLink(href);
+        if (item) {
+            document.head.appendChild(item);
+        }
     }
     static removeStyleSheet(href) {
-        let item = Array.from(document.getElementsByTagName('link')).find((item) =>
-            item.getAttribute('href')?.match(href)
-        );
+        let item = findLink(href);
         if (item) {
             document.head.removeChild(item);
         }
@@ -64,18 +91,14 @@ export class KBlazor {
         $('html').attr('data-theme', theme);
     }
     //Storage
-    static getLocalStorage(key) {
-        return localStorage.getItem(key);
-    }
+    static getLocalStorage(key) { return localStorage.getItem(key); }
     static setLocalStorage(key, value) {
         if (value)
             localStorage.setItem(key, value);
         else
             localStorage.removeItem(key);
     }
-    static getSessionStorage(key) {
-        return sessionStorage.getItem(key);
-    }
+    static getSessionStorage(key) { return sessionStorage.getItem(key); }
     static setSessionStorage(key, value) {
         if (value)
             sessionStorage.setItem(key, value);
@@ -210,13 +233,10 @@ export class KBlazor {
         }
     }
     //Chart
-    static showChart(id, option) {
-        Highcharts.chart(id, option);
-    }
-    static showBarcode(id, value, option) {
-        JsBarcode('#' + id, value, option);
-    }
-    static showQRCode(id, option) {
-        $('#' + id).qrcode(option);
+    static showChart(id, option) { Highcharts.chart(id, option); }
+    static showBarcode(id, value, option) { JsBarcode('#' + id, value, option); }
+    static showQRCode(id, option) { $('#' + id).qrcode(option); }
+    static highlight(code, language) {
+        return Prism.highlight(code, Prism.languages[language], language);
     }
 }

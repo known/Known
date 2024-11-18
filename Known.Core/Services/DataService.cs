@@ -134,19 +134,6 @@ class DataService(Context context) : ServiceBase(context), IDataService
     }
     #endregion
 
-    #region User
-    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
-    {
-        var db = Database;
-        var sql = $@"select a.*,b.Name as Department 
-from SysUser a 
-left join SysOrganization b on b.Id=a.OrgNo 
-where a.CompNo=@CompNo and a.UserName<>'admin'";
-        criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
-        return await db.QueryPageAsync<UserInfo>(sql, criteria);
-    }
-    #endregion
-
     #region Import
     public Task<List<AttachInfo>> GetFilesAsync(string bizId)
     {

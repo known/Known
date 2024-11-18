@@ -16,7 +16,7 @@ public class JSService
     /// <param name="jsRuntime">JS运行时对象。</param>
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/js/script.js?v=241016").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/js/script.js?v=241118").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -61,6 +61,13 @@ public class JSService
     #endregion
 
     #region Common
+    internal Task InitFilesAsync()
+    {
+        var styles = KStyleSheet.Items;
+        var scripts = KScript.Items;
+        return InvokeVoidAsync("KBlazor.initStaticFile", styles, scripts);
+    }
+
     /// <summary>
     /// 异步执行一段JS脚本，返回执行结果对象。
     /// </summary>

@@ -1,12 +1,47 @@
-﻿namespace Known.Components;
+﻿@inherits BaseComponent
 
-/// <summary>
-/// 上传组件类。
-/// </summary>
-public class KUpload : BaseComponent
+@if (IsButton)
 {
-    private List<AttachInfo> sysFiles;
+    <div class="kui-upload">
+        if (!ReadOnly)
+        {
+            <div class="kui-button">
+                <KIcon Icon="upload" />
+                <span>Language.Upload</span>
+                <InputFile multiple="@(MultiFile || Directory)" webkitdirectory="@Directory"
+                           OnChange="OnInputFileChangedAsync" />
+            </div>
+        }
+        @BuildFiles
+    </div>
+}
+else
+{
+    if (!ReadOnly)
+    {
+        <InputFile multiple="@(MultiFile || Directory)" webkitdirectory="@Directory"
+                   OnChange="OnInputFileChangedAsync" />
+    }
+    @BuildFiles
+}
+
+@code {
+    private List<AttachInfo> sysFiles = [];
     private readonly List<FileDataInfo> files = [];
+
+    private RenderFragment BuildFiles => @<div class="kui-form-files">
+        @foreach (var item in sysFiles)
+        {
+            var url = item.FileUrl;
+            <div>
+                @if (!ReadOnly)
+                {
+                    <span class="kui-link kui-danger" @onclick="e=>OnDeleteFile(item)">@Language.Delete</span>
+                }
+                <FileLink Item="item" />
+            </div>
+        }
+    </div>;
 
     /// <summary>
     /// 取得或设置是否显示上传按钮。
@@ -65,74 +100,9 @@ public class KUpload : BaseComponent
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-        {
-            if (!string.IsNullOrWhiteSpace(Value))
-            {
-                sysFiles = await Data.GetFilesAsync(Value);
-                await StateChangedAsync();
-            }
-        }
+            await RefreshAsync();
     }
-
-    /// <summary>
-    /// 呈现上传组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        if (IsButton)
-        {
-            builder.Div("kui-upload", () =>
-            {
-                if (!ReadOnly)
-                {
-                    builder.Div("kui-button", () =>
-                    {
-                        builder.Icon("upload");
-                        builder.Text(Language.Upload);
-                        BuildInputFile(builder);
-                    });
-                }
-                BuildFiles(builder);
-            });
-        }
-        else
-        {
-            if (!ReadOnly)
-                BuildInputFile(builder);
-            BuildFiles(builder);
-        }
-    }
-
-    private void BuildInputFile(RenderTreeBuilder builder)
-    {
-        builder.Component<InputFile>()
-               .Add("multiple", MultiFile || Directory)
-               .Add("webkitdirectory", Directory)
-               .Set(c => c.OnChange, this.Callback<InputFileChangeEventArgs>(OnInputFileChangedAsync))
-               .Build();
-    }
-
-    private void BuildFiles(RenderTreeBuilder builder)
-    {
-        if (sysFiles == null || sysFiles.Count == 0)
-            return;
-
-        builder.Div("kui-form-files", () =>
-        {
-            foreach (var item in sysFiles)
-            {
-                var url = item.FileUrl;
-                builder.Div(() =>
-                {
-                    if (!ReadOnly)
-                        builder.Span("kui-link kui-danger", Language.Delete, this.Callback<MouseEventArgs>(e => OnDeleteFile(item)));
-                    builder.FileLink(item);
-                });
-            }
-        });
-    }
-
+    
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)
     {
         var isChange = false;
@@ -185,25 +155,5 @@ public class KUpload : BaseComponent
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });
-    }
-}
-
-class KUploadField<TItem> : KUpload where TItem : class, new()
-{
-    [Parameter] public FieldModel<TItem> Model { get; set; }
-
-    protected override async Task OnInitAsync()
-    {
-        Id = Model.Column.Id;
-        ReadOnly = Model.Form.IsView;
-        Value = Model.Value?.ToString();
-        MultiFile = Model.Column.MultiFile;
-        OnFilesChanged = files =>
-        {
-            Model.Form.Files[Id] = files;
-            Model.Value = Id;
-            return Task.CompletedTask;
-        };
-        await base.OnInitAsync();
     }
 }

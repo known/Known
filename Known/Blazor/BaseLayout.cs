@@ -87,6 +87,7 @@ public class BaseLayout : LayoutComponentBase
         if (firstRender)
         {
             //JS不能在初始化中调用
+            await JS.InitFilesAsync();
             if (Config.App.IsSize)
             {
                 var size = await JS.GetCurrentSizeAsync();

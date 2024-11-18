@@ -39,21 +39,21 @@ class EntityService<TEntity>(HttpClient http) : ClientBase(http), IEntityService
 {
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
     {
-        throw new NotImplementedException();
+        return Http.QueryAsync<TEntity>("/Entity/QueryEntities", criteria);
     }
 
     public Task<TEntity> GetAsync(string id)
     {
-        throw new NotImplementedException();
+        return Http.GetAsync<TEntity>($"/Entity?id={id}");
     }
 
     public Task<Result> DeleteAsync(List<TEntity> models)
     {
-        throw new NotImplementedException();
+        return Http.PostAsync("/Entity/DeleteEntities", models);
     }
 
     public Task<Result> SaveAsync(TEntity model)
     {
-        throw new NotImplementedException();
+        return Http.PostAsync("/Entity/SaveEntity", model);
     }
 }

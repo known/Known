@@ -74,15 +74,6 @@ public interface IDataService : IService
     Task<Result> SaveUserSettingFormAsync(SettingFormInfo info);
     #endregion
 
-    #region User
-    /// <summary>
-    /// 异步分页查询系统用户。
-    /// </summary>
-    /// <param name="criteria">查询条件对象。</param>
-    /// <returns>分页结果。</returns>
-    Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
-    #endregion
-
     #region Import
     /// <summary>
     /// 异步获取系统附件列表。
@@ -169,11 +160,6 @@ class DataService(HttpClient http) : ClientBase(http), IDataService
     }
 
     public Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
         throw new NotImplementedException();
     }

@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 验证码选项类。
@@ -29,7 +29,7 @@ public class CaptchaOption
 /// <summary>
 /// 验证码组件类。
 /// </summary>
-public class KCaptcha : BaseComponent
+class KCaptcha : BaseComponent
 {
     private readonly string id;
     private System.Timers.Timer timer;
