@@ -56,7 +56,7 @@ html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helv
 
 /*BizApply*/
 .apply-form {position:relative;}
-.apply-form canvas {position:absolute;top:-63px;right:0;width:180px;height:40px;}
+.apply-form canvas {position:absolute;top:-60px;right:0;width:180px;height:40px;}
 
 /*Dark*/
 :root[data-theme=dark] .login-body, 

@@ -11,55 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="9.0.10" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
-        <!--
-        <PackageReference Include="System.Data.OleDb" Version="9.0.0" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-        <PackageReference Include="MySqlConnector" Version="2.4.0" />
-        <PackageReference Include="Npgsql" Version="8.0.5" />
-        <PackageReference Include="DM.DmProvider" Version="8.3.1.28188" />
-        -->
-        <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
-        <ProjectReference Include="..\..\Plugins\Known.Cells\Known.Cells.csproj" />
-        <ProjectReference Include="..\Sample\Sample.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Update="wwwroot\img\face1.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\img\face2.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\img\loading.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\img\login.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\img\logo.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\img\logo1.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\img\none.png">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
-        <Content Update="wwwroot\index.html">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Update="wwwroot\js\script.js">
-          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-          <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        </Content>
+        <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
 </Project>

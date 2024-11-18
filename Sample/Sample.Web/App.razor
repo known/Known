@@ -34,7 +34,5 @@
     {
         base.OnInitialized();
         Context.IPAddress = HttpContext.Connection?.RemoteIpAddress?.ToString();
-        Context.IsMobile = HttpContext.CheckMobile();
-        Config.HostUrl = HttpContext.GetHostUrl();
     }
 }

@@ -45,13 +45,12 @@ dotnet new known --name=MyApp
 
 ```
 ├─Known             -> 框架核心类库，定义标准统一的对象模型、接口、组件和扩展。
-├─Known.Core        -> 基于AspNetCore的服务端类库。
 ├─Plugins           -> 插件项目
 | ├─Known.Admin     -> 后台通用权限管理、简易微信和工作流模块。
-| ├─Known.Cells     -> 基于Aspose.Cells实现的Excel操作类库。
+| ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件库。
+| ├─Known.Core      -> 基于Asp.Net Core的服务端插件库。
 | ├─Known.Designer  -> 简易无代码开发设计器和低代码生成器。
 ├─Sample            -> 示例项目
-  ├─Sample          -> 框架示例模块。
   ├─Sample.Wasm     -> 框架WebAssembly示例。
   ├─Sample.Web      -> 框架WebApp示例。
   ├─Sample.WinForm  -> 框架WinForm示例。

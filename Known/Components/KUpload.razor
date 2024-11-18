@@ -3,11 +3,11 @@
 @if (IsButton)
 {
     <div class="kui-upload">
-        if (!ReadOnly)
+        @if (!ReadOnly)
         {
             <div class="kui-button">
                 <KIcon Icon="upload" />
-                <span>Language.Upload</span>
+                <span>@Language.Upload</span>
                 <InputFile multiple="@(MultiFile || Directory)" webkitdirectory="@Directory"
                            OnChange="OnInputFileChangedAsync" />
             </div>

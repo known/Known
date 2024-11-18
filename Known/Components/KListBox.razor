@@ -4,7 +4,7 @@
     @if (ShowSearch)
     {
         <div class="kui-list-box-search">
-            <Search Value="searchKey" Placeholder="@Language["Tip.EnterKeyword"]" OnSearch="OnSearch" />
+            <Search Value="@searchKey" Placeholder="@Language["Tip.EnterKeyword"]" OnSearch="OnSearch" />
         </div>
     }
     <ul class="kui-list-box-body" style="@(ShowSearch ? $"top:32px" : "")">
