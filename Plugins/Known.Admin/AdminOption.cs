@@ -10,6 +10,11 @@ public class AdminOption
     internal List<Action<List<SysModule>>> Modules { get; } = [];
 
     /// <summary>
+    /// 取得或设置是否启用安装功能。
+    /// </summary>
+    public bool EnableInstall { get; set; }
+
+    /// <summary>
     /// 取得或设置微信配置信息。
     /// </summary>
     public WeixinConfigInfo Weixin { get; set; }

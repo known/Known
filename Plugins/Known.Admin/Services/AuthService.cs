@@ -13,6 +13,18 @@ public interface IAuthService : IService
     [AllowAnonymous] Task<Result> SignInAsync(LoginFormInfo info);
 
     /// <summary>
+    /// 异步注销登录。
+    /// </summary>
+    /// <returns>注销结果。</returns>
+    Task<Result> SignOutAsync();
+
+    /// <summary>
+    /// 异步获取系统后台首页数据。
+    /// </summary>
+    /// <returns>后台首页数据。</returns>
+    Task<AdminInfo> GetAdminAsync();
+
+    /// <summary>
     /// 异步修改系统用户头像。
     /// </summary>
     /// <param name="info">用户头像信息。</param>
@@ -71,6 +83,43 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             await db.SaveUserAsync(user);
             await AddLogAsync(db, type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
+    }
+
+    public async Task<Result> SignOutAsync()
+    {
+        var user = CurrentUser;
+        Cache.RemoveUser(user);
+        if (user != null)
+        {
+            using var db = Database.Create();
+            db.User = user;
+            await AddLogAsync(db, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
+        }
+
+        return Result.Success(Language["Tip.ExitSuccess"]);
+    }
+
+    public async Task<AdminInfo> GetAdminAsync()
+    {
+        if (CurrentUser == null)
+            return new AdminInfo();
+
+        var db = Database;
+        await db.OpenAsync();
+        await db.CheckKeyAsync();
+        var modules = await db.Query<SysModule>().ToListAsync<ModuleInfo>();
+        DataHelper.Initialize(modules);
+        var info = new AdminInfo
+        {
+            AppName = await db.GetSystemNameAsync(),
+            UserMenus = await db.GetUserMenusAsync(modules),
+            UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constant.UserSetting),
+            UserTableSettings = await db.GetUserTableSettingsAsync()
+        };
+        await SetAdminAsync(db, info);
+        await db.CloseAsync();
+        Cache.AttachCodes(info.Codes);
+        return info;
     }
 
     public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
@@ -133,6 +182,17 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         entity.Password = Utils.ToMd5(info.NewPwd);
         await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
+    }
+
+    private static async Task SetAdminAsync(Database db, AdminInfo info)
+    {
+        if (Config.AdminTasks == null || Config.AdminTasks.Count == 0)
+            return;
+
+        foreach (var item in Config.AdminTasks)
+        {
+            await item.Value.Invoke(db, info);
+        }
     }
 
     private static Task AddLogAsync(Database db, LogType type, string target, string content)

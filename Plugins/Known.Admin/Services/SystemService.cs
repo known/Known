@@ -6,6 +6,12 @@
 public interface ISystemService : IService
 {
     /// <summary>
+    /// 异步获取系统信息。
+    /// </summary>
+    /// <returns>系统信息。</returns>
+    [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
+
+    /// <summary>
     /// 异步获取系统数据信息。
     /// </summary>
     /// <returns>系统数据信息。</returns>
@@ -28,6 +34,26 @@ public interface ISystemService : IService
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
+    public async Task<SystemInfo> GetSystemAsync()
+    {
+        try
+        {
+            var database = Database;
+            database.EnableLog = false;
+            var info = await database.GetSystemAsync();
+            if (info != null)
+            {
+                info.ProductKey = null;
+                info.UserDefaultPwd = null;
+            }
+            return info;
+        }
+        catch
+        {
+            return null;//系统未安装，返回null
+        }
+    }
+
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
         var info = await Database.GetSystemAsync();

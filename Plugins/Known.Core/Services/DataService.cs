@@ -5,88 +5,9 @@ namespace Known.Core.Services;
 
 class DataService(Context context) : ServiceBase(context), IDataService
 {
-    public async Task<Result> SignOutAsync()
-    {
-        var user = CurrentUser;
-        Cache.RemoveUser(user);
-        if (user != null)
-        {
-            using var db = Database.Create();
-            db.User = user;
-            await AddLogAsync(db, LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
-        }
-
-        return Result.Success(Language["Tip.ExitSuccess"]);
-    }
-
-    private Task AddLogAsync(Database db, LogType type, string target, string content)
-    {
-        return Admin.AddLogAsync(db, new LogInfo
-        {
-            Type = type,
-            Target = target,
-            Content = content
-        });
-    }
-
-    public async Task<AdminInfo> GetAdminAsync()
-    {
-        if (CurrentUser == null)
-            return new AdminInfo();
-
-        var db = Database;
-        await db.OpenAsync();
-        await Admin.CheckKeyAsync(db);
-        var modules = await Admin.GetModulesAsync(db);
-        DataHelper.Initialize(modules);
-        var info = new AdminInfo
-        {
-            AppName = await Admin.GetSystemNameAsync(db),
-            UserMenus = await Admin.GetUserMenusAsync(db, modules),
-            UserSetting = await Admin.GetUserSettingAsync<UserSettingInfo>(db, Constant.UserSetting),
-            UserTableSettings = await Admin.GetUserTableSettingsAsync(db)
-        };
-        await SetAdminAsync(db, info);
-        await db.CloseAsync();
-        Cache.AttachCodes(info.Codes);
-        return info;
-    }
-
-    private static async Task SetAdminAsync(Database db, AdminInfo info)
-    {
-        if (Config.AdminTasks == null || Config.AdminTasks.Count == 0)
-            return;
-
-        foreach (var item in Config.AdminTasks)
-        {
-            await item.Value.Invoke(db, info);
-        }
-    }
-
     //Config
     public Task<string> GetConfigAsync(string key) => Admin.GetConfigAsync(Database, key);
     public Task SaveConfigAsync(ConfigInfo info) => Admin.SaveConfigAsync(Database, info.Key, info.Value);
-
-    //System
-    public async Task<SystemInfo> GetSystemAsync()
-    {
-        try
-        {
-            var database = Database;
-            database.EnableLog = false;
-            var info = await Admin.GetSystemAsync(database);
-            if (info != null)
-            {
-                info.ProductKey = null;
-                info.UserDefaultPwd = null;
-            }
-            return info;
-        }
-        catch
-        {
-            return null;//系统未安装，返回null
-        }
-    }
 
     //System
     public Task<Result> AddLogAsync(LogInfo log)
@@ -102,15 +23,6 @@ class DataService(Context context) : ServiceBase(context), IDataService
             return default;
 
         return setting.BizData;
-    }
-
-    public async Task<Result> DeleteUserSettingAsync(string bizType)
-    {
-        var database = Database;
-        var setting = await Admin.GetUserSettingAsync(database, bizType);
-        if (setting != null)
-            await Admin.DeleteSettingAsync(database, setting.Id);
-        return Result.Success(Language.Success(Language.Delete));
     }
 
     public Task<Result> SaveUserSettingAsync(UserSettingInfo info)

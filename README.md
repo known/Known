@@ -44,7 +44,7 @@ dotnet new known --name=MyApp
 ### 项目结构
 
 ```
-├─Known             -> 框架核心类库，定义标准统一的对象模型、接口、组件和扩展。
+├─Known             -> 框架核心类库，定义统一的对象模型、接口、组件和扩展。
 ├─Plugins           -> 插件项目
 | ├─Known.Admin     -> 后台通用权限管理、简易微信和工作流模块。
 | ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件库。

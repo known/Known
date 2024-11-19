@@ -6,24 +6,6 @@
 public interface IDataService : IService
 {
     /// <summary>
-    /// 异步获取系统信息。
-    /// </summary>
-    /// <returns>系统信息。</returns>
-    [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
-
-    /// <summary>
-    /// 异步注销登录。
-    /// </summary>
-    /// <returns>注销结果。</returns>
-    Task<Result> SignOutAsync();
-
-    /// <summary>
-    /// 异步获取系统后台首页数据。
-    /// </summary>
-    /// <returns>后台首页数据。</returns>
-    Task<AdminInfo> GetAdminAsync();
-
-    /// <summary>
     /// 异步获取系统配置数据。
     /// </summary>
     /// <param name="key">配置数据键。</param>
@@ -51,13 +33,6 @@ public interface IDataService : IService
     /// <param name="bizType">设置业务类型。</param>
     /// <returns>用户设置信息JSON。</returns>
     Task<string> GetUserSettingAsync(string bizType);
-
-    /// <summary>
-    /// 异步删除用户设置信息。
-    /// </summary>
-    /// <param name="bizType">设置业务类型。</param>
-    /// <returns>删除结果。</returns>
-    Task<Result> DeleteUserSettingAsync(string bizType);
 
     /// <summary>
     /// 异步保存用户系统设置信息。
@@ -114,21 +89,6 @@ public interface IDataService : IService
 
 class DataService(HttpClient http) : ClientBase(http), IDataService
 {
-    public Task<SystemInfo> GetSystemAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Result> SignOutAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<AdminInfo> GetAdminAsync()
-    {
-        throw new NotImplementedException();
-    }
-
     public Task<string> GetConfigAsync(string key)
     {
         throw new NotImplementedException();
@@ -145,11 +105,6 @@ class DataService(HttpClient http) : ClientBase(http), IDataService
     }
 
     public Task<string> GetUserSettingAsync(string bizType)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Result> DeleteUserSettingAsync(string bizType)
     {
         throw new NotImplementedException();
     }

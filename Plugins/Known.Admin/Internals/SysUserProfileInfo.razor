@@ -41,7 +41,7 @@
 
         var user = CurrentUser;
         user.AvatarUrl = result.DataAs<string>();
-        App?.SetCurrentUserAsync(user);
+        App?.SignInAsync(user);
         Navigation.Refresh(true);
     }
 }

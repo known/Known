@@ -1,19 +1,19 @@
-﻿namespace Known.Core.Helpers;
+﻿namespace Known.Extensions;
 
-static class UserHelper
+static class MenuExtension
 {
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(this IAdminService admin, Database db, List<ModuleInfo> modules)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db, List<ModuleInfo> modules)
     {
         var user = db.User;
         if (user == null)
             return [];
 
         DataHelper.AddRouteModules(db.Context.Language, modules);
-        
+
         if (user.IsAdmin())
             return modules.ToMenus(true);
 
-        var moduleIds = await admin.GetRoleModuleIdsAsync(db, user.Id);
+        var moduleIds = await db.GetRoleModuleIdsAsync(user.Id);
         var userModules = new List<ModuleInfo>();
         foreach (var item in modules)
         {

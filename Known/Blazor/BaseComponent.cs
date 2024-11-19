@@ -118,7 +118,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(ex);
+            await OnErrorAsync(ex);
         }
     }
 
@@ -135,7 +135,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(ex);
+            await OnErrorAsync(ex);
         }
     }
 
@@ -163,7 +163,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(ex);
+            await OnErrorAsync(ex);
         }
     }
 
@@ -216,6 +216,21 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public Task StateChangedAsync() => InvokeAsync(StateHasChanged);
 
     /// <summary>
+    /// 全局异常处理方法。
+    /// </summary>
+    /// <param name="ex">异常信息。</param>
+    /// <returns></returns>
+    public async Task OnErrorAsync(Exception ex)
+    {
+        Logger.CreateLogger<BaseComponent>().Error(ex);
+        var message = ex.Message;
+#if DEBUG
+        message = ex.ToString();
+#endif
+        await UI.NoticeAsync(message, StyleType.Error);
+    }
+
+    /// <summary>
     /// 异步释放组件对象实例。
     /// </summary>
     /// <returns></returns>
@@ -246,7 +261,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            App?.OnErrorAsync(ex);
+            OnErrorAsync(ex);
         }
     }
 
@@ -254,13 +269,5 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         IsDisposing = disposing;
         await OnDisposeAsync();
-    }
-
-    private async Task HandleExceptionAsync(Exception ex)
-    {
-        if (App != null)
-            await App.OnErrorAsync(ex);
-        else
-            Logger.CreateLogger<BaseComponent>().Error(ex);
     }
 }

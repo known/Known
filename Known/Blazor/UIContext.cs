@@ -43,12 +43,12 @@ public class UIContext : Context
     /// <summary>
     /// 取得或设置当前用户模块表格设置信息列表。
     /// </summary>
-    public Dictionary<string, List<TableSettingInfo>> UserTableSettings { get; internal set; } = [];
+    public Dictionary<string, List<TableSettingInfo>> UserTableSettings { get; set; } = [];
 
     /// <summary>
-    /// 取得当前用户权限菜单信息列表。
+    /// 取得或设置当前用户权限菜单信息列表。
     /// </summary>
-    public List<MenuInfo> UserMenus { get; internal set; }
+    public List<MenuInfo> UserMenus { get; set; }
 
     /// <summary>
     /// 根据菜单ID获取菜单信息列表。
@@ -113,7 +113,10 @@ public class UIContext : Context
         return [.. infos.OrderBy(c => c.Sort)];
     }
 
-    internal void SignOut()
+    /// <summary>
+    /// 用户退出。
+    /// </summary>
+    public void SignOut()
     {
         CurrentUser = null;
         UserMenus = null;

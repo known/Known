@@ -2,6 +2,8 @@
 
 class Constant
 {
+    internal const string UserSetting = "UserSetting";
+
     //internal const string UTOperation = "Operation";
     internal const string UMTypeReceive = "Receive";
     internal const string UMTypeSend = "Send";

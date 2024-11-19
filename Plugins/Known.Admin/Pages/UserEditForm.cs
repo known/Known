@@ -64,7 +64,7 @@ public class UserEditForm : BaseEditForm<UserInfo>
     /// <param name="result">报错结果对象。</param>
     protected override void OnSuccess(Result result)
     {
-        App?.SetCurrentUserAsync(CurrentUser);
+        App?.SignInAsync(CurrentUser);
         Navigation.Refresh(true);
     }
 }

@@ -14,30 +14,6 @@ class AdminService : IAdminService
     }
     #endregion
 
-    #region Module
-    public Task<List<ModuleInfo>> GetModulesAsync(Database db)
-    {
-        return db.Query<SysModule>().ToListAsync<ModuleInfo>();
-    }
-    #endregion
-
-    #region System
-    public Task<SystemInfo> GetSystemAsync(Database db)
-    {
-        return db.GetSystemAsync();
-    }
-    #endregion
-
-    #region Role
-    public Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId)
-    {
-        var sql = $@"select a.{db.FormatName("ModuleId")} from {db.FormatName("SysRoleModule")} a 
-where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.FormatName("SysUserRole")} where {db.FormatName("UserId")}=@UserId)
-  and exists (select 1 from {db.FormatName("SysRole")} where {db.FormatName("Id")}=a.{db.FormatName("RoleId")} and {db.FormatName("Enabled")}='True')";
-        return db.ScalarsAsync<string>(sql, new { UserId = userId });
-    }
-    #endregion
-
     #region User
     public async Task<UserInfo> GetUserAsync(Database db, string userName)
     {
@@ -53,23 +29,9 @@ where a.{db.FormatName("RoleId")} in (select {db.FormatName("RoleId")} from {db.
     #endregion
 
     #region Setting
-    public Task<List<SettingInfo>> GetUserSettingsAsync(Database db, string bizTypePrefix)
-    {
-        return db.Query<SysSetting>()
-                 .Where(d => d.CreateBy == db.UserName && d.BizType.StartsWith(bizTypePrefix))
-                 .ToListAsync<SettingInfo>();
-    }
-
     public Task<SettingInfo> GetUserSettingAsync(Database db, string bizType)
     {
-        return db.Query<SysSetting>()
-                 .Where(d => d.CreateBy == db.UserName && d.BizType == bizType)
-                 .FirstAsync<SettingInfo>();
-    }
-
-    public Task DeleteSettingAsync(Database db, string id)
-    {
-        return db.DeleteAsync<SysSetting>(id);
+        return db.GetUserSettingAsync(bizType);
     }
 
     public async Task SaveSettingAsync(Database db, SettingInfo info)

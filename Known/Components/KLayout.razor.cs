@@ -10,29 +10,28 @@ partial class KLayout
     private bool collapsed = false;
     private bool showSetting = false;
     private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
-    private UserSettingInfo Setting { get; set; } = new();
-
-    [CascadingParameter] private RouteData RouteData { get; set; }
 
     /// <summary>
     /// 取得是否首次加载页面。
     /// </summary>
-    protected bool IsLoaded { get; private set; }
+    protected bool IsLoaded { get; set; }
 
     /// <summary>
-    /// 取得后台管理主页数据对象。
+    /// 取得或设置用户设置信息。
     /// </summary>
-    private AdminInfo Info { get; set; }
+    protected UserSettingInfo Setting { get; set; } = new();
+
+    [CascadingParameter] private RouteData RouteData { get; set; }
 
     /// <summary>
     /// 取得当前用户权限菜单列表。
     /// </summary>
-    protected List<MenuInfo> UserMenus { get; private set; }
+    [Parameter] public List<MenuInfo> UserMenus { get; set; }
 
     /// <summary>
-    /// 取得用户是否已经登录。
+    /// 取得或设置子组件内容。
     /// </summary>
-    protected bool IsLogin { get; private set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
     /// 异步显示快速旋转加载提示。
@@ -64,101 +63,65 @@ partial class KLayout
     }
 
     /// <summary>
-    /// 异步初始化模板。
-    /// 如果系统未安装，则跳转到安装页面；
-    /// 如果系统未登录，则跳转到登录页面。
+    /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>
     protected override async Task OnInitAsync()
     {
-        IsLoaded = false;
         await base.OnInitAsync();
-        if (Context.System == null)
-        {
-            Navigation?.NavigateTo("/install", true);
-        }
-        else
-        {
-            var user = await GetCurrentUserAsync();
-            IsLogin = user != null;
-            if (IsLogin)
-            {
-                Context.CurrentUser = user;
-                Info = await Data.GetAdminAsync();
-                Context.UserSetting = Info?.UserSetting ?? new();
-                Context.UserTableSettings = Info?.UserTableSettings ?? [];
-                if (!Context.IsMobileApp)
-                    UserMenus = GetUserMenus(Info?.UserMenus);
-                Cache.AttachCodes(Info?.Codes);
-                Setting = Context.UserSetting;
-                await OnThemeColorAsync();
-                IsLoaded = true;
-            }
-            else
-            {
-                Navigation?.GoLoginPage();
-            }
-        }
+        await OnThemeColorAsync();
     }
 
     /// <summary>
-    /// 异步设置模板页参数。
+    /// 异步设置组件参数。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnParameterAsync()
     {
-        await base.OnParametersSetAsync();
-        try
+        await base.OnParameterAsync();
+        var url = Navigation.GetPageUrl();
+        var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
+        Context.Url = url;
+        Context.SetCurrentMenu(RouteData, pageRoute);
+        if (!UIConfig.IgnoreRoutes.Contains(url) && !RouteData.PageType.IsAllowAnonymous())
         {
-            var url = Navigation.GetPageUrl();
-            var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
-            Context.Url = url;
-            Context.SetCurrentMenu(RouteData, pageRoute);
-            if (!UIConfig.IgnoreRoutes.Contains(url) && !RouteData.PageType.IsAllowAnonymous())
+            if (Context.Current == null)
             {
-                if (Context.Current == null)
-                {
-                    Navigation.GoErrorPage("403");
-                    return;
-                }
+                Navigation.GoErrorPage("403");
+                return;
             }
         }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
-        }
     }
 
     /// <summary>
-    /// 异步获取第三方用户登录虚方法。
+    /// 模板呈现后异步操作方法，设置字体大小，语言，主题。
     /// </summary>
-    /// <returns>用户信息。</returns>
-    protected virtual Task<UserInfo> GetThirdUserAsync()
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        UserInfo user = null;
-        return Task.FromResult(user);
-    }
-
-    /// <summary>
-    /// 异步获取当前登录用户信息。
-    /// </summary>
-    /// <returns>用户信息。</returns>
-    protected virtual async Task<UserInfo> GetCurrentUserAsync()
-    {
-        if (AuthProvider != null)
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
         {
-            var user = await AuthProvider.GetUserAsync();
-            if (user != null)
-                return user;
+            //JS不能在初始化中调用
+            await JS.InitFilesAsync();
+            if (Config.App.IsSize)
+            {
+                var size = await JS.GetCurrentSizeAsync();
+                if (string.IsNullOrWhiteSpace(size))
+                    size = Context.UserSetting.Size;
+                if (string.IsNullOrWhiteSpace(size))
+                    size = Config.App.DefaultSize;
+                await JS.SetCurrentSizeAsync(size);
+            }
+            if (Config.App.IsLanguage)
+            {
+                var language = await JS.GetCurrentLanguageAsync();
+                if (string.IsNullOrWhiteSpace(language))
+                    language = Context.UserSetting.Language;
+                Context.CurrentLanguage = language;
+            }
         }
-
-        return await GetThirdUserAsync();
-    }
-
-    private List<MenuInfo> GetUserMenus(List<MenuInfo> menus)
-    {
-        Context.UserMenus = menus;
-        return menus.ToMenuItems();
     }
 
     private void OnToggle() => collapsed = !collapsed;

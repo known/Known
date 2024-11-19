@@ -24,34 +24,6 @@ public interface IAdminService
     Task SaveConfigAsync(Database db, string key, object value);
     #endregion
 
-    #region Module
-    /// <summary>
-    /// 异步获取系统模块信息列表。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <returns>模块信息列表。</returns>
-    Task<List<ModuleInfo>> GetModulesAsync(Database db);
-    #endregion
-
-    #region System
-    /// <summary>
-    /// 异步获取系统配置信息，如果是平台，则获取租户配置信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <returns>系统配置信息。</returns>
-    Task<SystemInfo> GetSystemAsync(Database db);
-    #endregion
-
-    #region Role
-    /// <summary>
-    /// 异步获取用户角色模块ID列表。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="userId">用户ID。</param>
-    /// <returns>用户角色模块ID列表。</returns>
-    Task<List<string>> GetRoleModuleIdsAsync(Database db, string userId);
-    #endregion
-
     #region User
     /// <summary>
     /// 异步获取用户信息。
@@ -72,28 +44,12 @@ public interface IAdminService
 
     #region Setting
     /// <summary>
-    /// 异步获取用户设置信息列表。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizTypePrefix">业务类型前缀。</param>
-    /// <returns>设置信息列表。</returns>
-    Task<List<SettingInfo>> GetUserSettingsAsync(Database db, string bizTypePrefix);
-
-    /// <summary>
     /// 异步获取用户设置信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
     /// <param name="bizType">业务类型。</param>
     /// <returns>设置信息。</returns>
     Task<SettingInfo> GetUserSettingAsync(Database db, string bizType);
-
-    /// <summary>
-    /// 异步删除设置信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="id">设置信息ID。</param>
-    /// <returns></returns>
-    Task DeleteSettingAsync(Database db, string id);
 
     /// <summary>
     /// 异步保存设置信息。

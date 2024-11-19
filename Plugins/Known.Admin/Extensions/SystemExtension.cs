@@ -22,6 +22,15 @@ static class SystemExtension
         };
     }
 
+    internal static async Task<string> GetSystemNameAsync(this Database db)
+    {
+        var sys = await db.GetSystemAsync();
+        var appName = sys?.AppName;
+        if (string.IsNullOrWhiteSpace(appName))
+            appName = Config.App.Name;
+        return appName;
+    }
+
     internal static Task SaveSystemAsync(this Database db, SystemInfo info)
     {
         return db.SaveConfigAsync(Constants.KeySystem, info);
