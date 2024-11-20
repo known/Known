@@ -16,6 +16,6 @@ public static class AppConfig
             info.ContentRoot = Application.StartupPath;
             info.Assembly = typeof(AppConfig).Assembly;
         });
-        services.AddKnownClient();
+        services.AddKnownClient(option => option.BaseAddress = "http://localhost:5000");
     }
 }

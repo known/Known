@@ -1,23 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<KLayout UserMenus="UserMenus">
+    @Body
+</KLayout>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+@code {
+    private List<MenuInfo> UserMenus = [];
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
-</div>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserMenus.Add(new MenuInfo { Id = "1", Name = "首页", Icon = "home", Url = "/" });
+        UserMenus.Add(new MenuInfo { Id = "2", Name = "计数器", Icon = "plus-circle", Url = "/counter" });
+        UserMenus.Add(new MenuInfo { Id = "3", Name = "天气", Icon = "cloud", Url = "/weather" });
+    }
+}

@@ -68,17 +68,19 @@ public static class Extension
         Config.IsClient = true;
         action?.Invoke(ClientOption.Instance);
 
+        var option = ClientOption.Instance;
+        services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
-        if (ClientOption.Instance.InterceptorType != null)
+        if (option.InterceptorType != null)
         {
             foreach (var type in Config.ApiTypes)
             {
                 //Console.WriteLine(type.Name);
-                var interceptorType = ClientOption.Instance.InterceptorType.Invoke(type);
+                var interceptorType = option.InterceptorType.Invoke(type);
                 if (interceptorType == null)
                     continue;
 
@@ -86,7 +88,7 @@ public static class Extension
                 services.AddScoped(type, provider =>
                 {
                     var interceptor = provider.GetRequiredService(interceptorType);
-                    return ClientOption.Instance.InterceptorProvider?.Invoke(type, interceptor);
+                    return option.InterceptorProvider?.Invoke(type, interceptor);
                 });
             }
         }

@@ -1,10 +1,19 @@
+using Known;
 using Sample.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+       .AddInteractiveServerComponents();
+
+builder.Services.AddKnown(info =>
+{
+    info.Id = "AppId";
+    info.Name = "AppName";
+    info.Assembly = typeof(Program).Assembly;
+});
+builder.Services.AddKnownClient(option => option.BaseAddress = "http://localhost:5000");
 
 var app = builder.Build();
 
@@ -17,12 +26,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 app.UseAntiforgery();
-
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
+   .AddInteractiveServerRenderMode();
 app.Run();

@@ -261,7 +261,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         }
         catch (Exception ex)
         {
-            OnErrorAsync(ex);
+            UI.Error(ex.Message);
         }
     }
 

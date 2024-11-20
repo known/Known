@@ -5,26 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Sample.Maui</title>
     <base href="/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="_content/AntDesign/css/ant-design-blazor.css" />
+    <link rel="stylesheet" href="_content/Known/css/theme/default.css" />
+    <link rel="stylesheet" href="_content/Known/css/size/default.css" />
+    <link rel="stylesheet" href="_content/Known/css/web.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="Sample.Maui.styles.css" />
     <link rel="icon" href="data:,">
 </head>
-
 <body>
-
     <div class="status-bar-safe-area"></div>
-
-    <div id="app">Loading...</div>
-
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
+    <div id="app" style="width:100%;height:100%;">
+        <div class="loading"></div>
     </div>
-
+    <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
+    <script src="_content/Known/js/libs/jquery.js"></script>
+    <script src="_content/Known/js/web.js"></script>
     <script src="_framework/blazor.webview.js" autostart="false"></script>
-
 </body>
-
 </html>

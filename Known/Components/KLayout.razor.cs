@@ -14,7 +14,7 @@ partial class KLayout
     /// <summary>
     /// 取得是否首次加载页面。
     /// </summary>
-    protected bool IsLoaded { get; set; }
+    protected bool IsLoaded { get; set; } = true;
 
     /// <summary>
     /// 取得或设置用户设置信息。
