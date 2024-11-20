@@ -101,6 +101,23 @@ class InnerLayout : KLayout
     }
 
     /// <summary>
+    /// 异步设置组件参数。
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        if (!UIConfig.IgnoreRoutes.Contains(Context.Url) && !RouteData.PageType.IsAllowAnonymous())
+        {
+            if (Context.Current == null)
+            {
+                Navigation.GoErrorPage("403");
+                return;
+            }
+        }
+    }
+
+    /// <summary>
     /// 异步获取当前登录用户信息。
     /// </summary>
     /// <returns>用户信息。</returns>

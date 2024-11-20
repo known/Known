@@ -3,11 +3,13 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<div class="kui-card" style="padding:20px">
+    <h1>Counter</h1>
 
-<p role="status">Current count: @currentCount</p>
+    <p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
+</div>
 
 @code {
     private int currentCount = 0;

@@ -27,6 +27,10 @@ public static class Extension
         services.AddScoped<UIContext>();
         services.AddScoped<UIService>();
         services.AddScoped<JSService>();
+        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        services.AddScoped<IPlatformService, PlatformService>();
+        services.AddScoped<IAutoService, AutoService>();
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
@@ -71,9 +75,9 @@ public static class Extension
         var option = ClientOption.Instance;
         services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        services.AddScoped<IPlatformService, PlatformService>();
-        services.AddScoped<IAutoService, AutoService>();
-        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+        services.AddScoped<IPlatformService, PlatformClient>();
+        services.AddScoped<IAutoService, AutoClient>();
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
 
         if (option.InterceptorType != null)
         {

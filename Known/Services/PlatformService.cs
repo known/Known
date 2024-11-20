@@ -79,7 +79,61 @@ public interface IPlatformService : IService
     #endregion
 }
 
-class PlatformService(HttpClient http) : ClientBase(http), IPlatformService
+class PlatformService(Context context) : ServiceBase(context), IPlatformService
+{
+    private static readonly Dictionary<string, string> Configs = [];
+
+    public Task<string> GetConfigAsync(string key)
+    {
+        Configs.TryGetValue(key, out var value);
+        return Task.FromResult(value);
+    }
+
+    public Task<Result> SaveConfigAsync(ConfigInfo info)
+    {
+        Configs[info.Key] = Utils.ToJson(info.Value);
+        return Result.SuccessAsync("保存成功！");
+    }
+
+    public Task<UserInfo> GetUserAsync(string userName)
+    {
+        return Task.FromResult(new UserInfo { UserName = userName });
+    }
+
+    public Task<UserInfo> GetUserByIdAsync(string userId)
+    {
+        return Task.FromResult(new UserInfo { Id = userId });
+    }
+
+    public Task<string> GetUserSettingAsync(string bizType)
+    {
+        Configs.TryGetValue(bizType, out var value);
+        return Task.FromResult(value);
+    }
+
+    public Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
+    {
+        Configs[info.BizType] = Utils.ToJson(info.BizData);
+        return Result.SuccessAsync("保存成功！");
+    }
+
+    public Task<List<AttachInfo>> GetFilesAsync(string bizId)
+    {
+        return Task.FromResult(new List<AttachInfo>());
+    }
+
+    public Task<Result> DeleteFileAsync(AttachInfo file)
+    {
+        return Result.SuccessAsync("删除成功！");
+    }
+
+    public Task<Result> AddLogAsync(LogInfo log)
+    {
+        return Result.SuccessAsync("添加成功！");
+    }
+}
+
+class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
 {
     public Task<string> GetConfigAsync(string key)
     {

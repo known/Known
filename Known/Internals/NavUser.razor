@@ -3,13 +3,14 @@
 
 <AntDropdown Context="Context" Model="userDrop">
     <div style="display:flex;align-items:center;margin-top:3px;">
-        <Avatar Src="@CurrentUser?.AvatarUrl" />
+        <Avatar Src="@AvatarUrl" />
         <span>@CurrentUser?.Name</span>
     </div>
 </AntDropdown>
 
 @code {
     private DropdownModel userDrop = new();
+    private string AvatarUrl => CurrentUser?.AvatarUrl ?? "img/face1.png";
     [CascadingParameter] private TopNavbar Topbar { get; set; }
 
     protected override async Task OnInitAsync()

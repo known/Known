@@ -35,7 +35,30 @@ public interface IEntityService<TEntity> : IService
     Task<Result> SaveAsync(TEntity model);
 }
 
-class EntityService<TEntity>(HttpClient http) : ClientBase(http), IEntityService<TEntity>
+class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity>
+{
+    public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
+    {
+        return Task.FromResult(new PagingResult<TEntity>());
+    }
+
+    public Task<TEntity> GetAsync(string id)
+    {
+        return Task.FromResult(default(TEntity));
+    }
+
+    public Task<Result> DeleteAsync(List<TEntity> models)
+    {
+        return Result.SuccessAsync("添加成功！");
+    }
+
+    public Task<Result> SaveAsync(TEntity model)
+    {
+        return Result.SuccessAsync("保存成功！");
+    }
+}
+
+class EntityClient<TEntity>(HttpClient http) : ClientBase(http), IEntityService<TEntity>
 {
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
     {

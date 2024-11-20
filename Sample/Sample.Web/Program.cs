@@ -13,7 +13,6 @@ builder.Services.AddKnown(info =>
     info.Name = "AppName";
     info.Assembly = typeof(Program).Assembly;
 });
-builder.Services.AddKnownClient(option => option.BaseAddress = "http://localhost:5000");
 
 var app = builder.Build();
 

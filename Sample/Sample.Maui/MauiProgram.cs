@@ -20,7 +20,6 @@ namespace Sample.Maui
                 info.Name = "AppName";
                 info.Assembly = typeof(MauiProgram).Assembly;
             });
-            builder.Services.AddKnownClient(option => option.BaseAddress = "http://localhost:5000");
             builder.Services.AddMauiBlazorWebView();
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

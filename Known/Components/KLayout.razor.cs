@@ -21,7 +21,10 @@ partial class KLayout
     /// </summary>
     protected UserSettingInfo Setting { get; set; } = new();
 
-    [CascadingParameter] private RouteData RouteData { get; set; }
+    /// <summary>
+    /// 取得或设置路由数据对象。
+    /// </summary>
+    [CascadingParameter] protected RouteData RouteData { get; set; }
 
     /// <summary>
     /// 取得当前用户权限菜单列表。
@@ -63,16 +66,6 @@ partial class KLayout
     }
 
     /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        await OnThemeColorAsync();
-    }
-
-    /// <summary>
     /// 异步设置组件参数。
     /// </summary>
     /// <returns></returns>
@@ -83,14 +76,6 @@ partial class KLayout
         var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
         Context.Url = url;
         Context.SetCurrentMenu(RouteData, pageRoute);
-        if (!UIConfig.IgnoreRoutes.Contains(url) && !RouteData.PageType.IsAllowAnonymous())
-        {
-            if (Context.Current == null)
-            {
-                Navigation.GoErrorPage("403");
-                return;
-            }
-        }
     }
 
     /// <summary>
@@ -105,6 +90,7 @@ partial class KLayout
         {
             //JS不能在初始化中调用
             await JS.InitFilesAsync();
+            await OnThemeColorAsync();
             if (Config.App.IsSize)
             {
                 var size = await JS.GetCurrentSizeAsync();
