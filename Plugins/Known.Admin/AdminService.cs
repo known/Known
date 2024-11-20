@@ -34,15 +34,9 @@ class AdminService : IAdminService
         return db.GetUserSettingAsync(bizType);
     }
 
-    public async Task SaveSettingAsync(Database db, SettingInfo info)
+    public Task SaveSettingAsync(Database db, SettingInfo info)
     {
-        var model = await db.QueryByIdAsync<SysSetting>(info.Id);
-        model ??= new SysSetting();
-        if (!string.IsNullOrWhiteSpace(info.Id))
-            model.Id = info.Id;
-        model.BizType = info.BizType;
-        model.BizData = info.BizData;
-        await db.SaveAsync(model);
+        return db.SaveSettingAsync(info);
     }
     #endregion
 
@@ -68,39 +62,10 @@ class AdminService : IAdminService
     }
     #endregion
 
-    #region Task
-    public Task<TaskInfo> GetTaskAsync(Database db, string bizId)
-    {
-        return db.Query<SysTask>().Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
-                 .OrderByDescending(d => d.CreateTime).FirstAsync<TaskInfo>();
-    }
-
-    public Task CreateTaskAsync(Database db, TaskInfo info)
-    {
-        return db.CreateTaskAsync(info);
-    }
-    #endregion
-
     #region Log
-    public async Task<Result> AddLogAsync(Database db, LogInfo log)
+    public Task<Result> AddLogAsync(Database db, LogInfo log)
     {
-        if (log.Type == LogType.Page &&
-            string.IsNullOrWhiteSpace(log.Target) &&
-            !string.IsNullOrWhiteSpace(log.Content))
-        {
-            var module = log.Content.StartsWith("/page/")
-                       ? await db.QueryByIdAsync<SysModule>(log.Content.Substring(6))
-                       : await db.QueryAsync<SysModule>(d => d.Url == log.Content);
-            log.Target = module?.Name;
-        }
-
-        await db.SaveAsync(new SysLog
-        {
-            Type = log.Type.ToString(),
-            Target = log.Target,
-            Content = log.Content
-        });
-        return Result.Success("");
+        return db.AddLogAsync(log);
     }
     #endregion
 }

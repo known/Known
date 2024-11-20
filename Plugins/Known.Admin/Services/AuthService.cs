@@ -114,9 +114,10 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
             AppName = await db.GetSystemNameAsync(),
             UserMenus = await db.GetUserMenusAsync(modules),
             UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constant.UserSetting),
-            UserTableSettings = await db.GetUserTableSettingsAsync()
+            UserTableSettings = await db.GetUserTableSettingsAsync(),
+            MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.User.UserName && d.Status == Constant.UMStatusUnread),
+            Codes = await DictionaryService.GetDictionariesAsync(db)
         };
-        await SetAdminAsync(db, info);
         await db.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
@@ -182,17 +183,6 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         entity.Password = Utils.ToMd5(info.NewPwd);
         await database.SaveAsync(entity);
         return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
-    }
-
-    private static async Task SetAdminAsync(Database db, AdminInfo info)
-    {
-        if (Config.AdminTasks == null || Config.AdminTasks.Count == 0)
-            return;
-
-        foreach (var item in Config.AdminTasks)
-        {
-            await item.Value.Invoke(db, info);
-        }
     }
 
     private static Task AddLogAsync(Database db, LogType type, string target, string content)

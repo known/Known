@@ -1,4 +1,6 @@
-﻿namespace Known.Internals;
+﻿using Microsoft.AspNetCore.Components.Forms;
+
+namespace Known.Internals;
 
 class Importer : BaseComponent
 {
@@ -7,15 +9,28 @@ class Importer : BaseComponent
     private string error;
     private string message;
     private FileDataInfo file;
+    private IImportService Service;
+    private ImportFormInfo Model;
 
     private string ErrorMessage => Language["Import.Error"];
 
-    [Parameter] public ImportFormInfo Model { get; set; }
-    [Parameter] public Action OnSuccess { get; set; }
+    [Parameter] public ImportInfo Info { get; set; }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IImportService>();
+
+        var type = Info.EntityType;
+        var id = $"{type.Name}Import";
+        if (!string.IsNullOrWhiteSpace(Info.Param))
+            id += $"_{Info.Param}";
+        if (Info.IsDictionary)
+            id += $"_{Info.PageId}";
+        Model = await Service.GetImportAsync(id);
+        Model.Name = Info.PageName;
+        Model.BizName = $"导入{Info.PageName}";
+
         isFinished = Model.IsFinished;
         error = Model.Error;
         message = Model.Message;
@@ -94,7 +109,7 @@ class Importer : BaseComponent
 
         var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [file];
-        var result = await Data.ImportFilesAsync(info);
+        var result = await Service.ImportFilesAsync(info);
         if (!result.IsValid)
         {
             error = result.Message;
@@ -111,13 +126,13 @@ class Importer : BaseComponent
         }
         else
         {
-            OnSuccess?.Invoke();
+            Info?.OnSuccess?.Invoke();
         }
     }
 
     private async Task OnDownloadTemplateAsync()
     {
-        var bytes = await Data.GetImportRuleAsync(Model.BizId);
+        var bytes = await Service.GetImportRuleAsync(Model.BizId);
         if (bytes == null || bytes.Length == 0)
         {
             UI.Error(Language["Import.FileNotExists"]);

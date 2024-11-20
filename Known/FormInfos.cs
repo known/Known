@@ -101,55 +101,37 @@ public class FileFormInfo
 }
 
 /// <summary>
-/// 数据导入表单信息类。
+/// 导入信息类。
 /// </summary>
-public class ImportFormInfo : FileFormInfo
+public class ImportInfo
 {
     /// <summary>
-    /// 取得或设置导入名称。
+    /// 取得或设置页面ID。
     /// </summary>
-    public string Name { get; set; }
+    public string PageId { get; set; }
 
     /// <summary>
-    /// 取得或设置是否是异步导入。
+    /// 取得或设置页面名称。
     /// </summary>
-    public bool IsAsync { get; set; }
+    public string PageName { get; set; }
 
     /// <summary>
-    /// 取得或设置导入是否已完成，默认True。
+    /// 取得或设置导入实体类型。
     /// </summary>
-    public bool IsFinished { get; set; } = true;
+    public Type EntityType { get; set; }
 
     /// <summary>
-    /// 取得或设置异步导入反馈的提示信息。
+    /// 取得或设置实体数据是否是字典类型。
     /// </summary>
-    public string Message { get; set; }
+    public bool IsDictionary { get; set; }
 
     /// <summary>
-    /// 取得或设置导入校验的错误信息。
+    /// 取得或设置导入参数。
     /// </summary>
-    public string Error { get; set; }
+    public string Param { get; set; }
 
     /// <summary>
-    /// 根据模型类型获取导入栏位名称列表，适用于自动生成导入规范（暂未使用）。
+    /// 取得或设置导入成功回调。
     /// </summary>
-    /// <param name="modelType">模型类型。</param>
-    /// <returns>导入栏位名称列表。</returns>
-    public static List<string> GetImportColumns(string modelType)
-    {
-        var columns = new List<string>();
-        var baseProperties = TypeHelper.Properties(typeof(EntityBase));
-        var type = Type.GetType(modelType);
-        var properties = TypeHelper.Properties(type);
-        foreach (var item in properties)
-        {
-            if (item.GetGetMethod().IsVirtual || baseProperties.Any(p => p.Name == item.Name))
-                continue;
-
-            var name = item.DisplayName();
-            if (!string.IsNullOrWhiteSpace(name))
-                columns.Add(name);
-        }
-        return columns;
-    }
+    public Action OnSuccess { get; set; }
 }

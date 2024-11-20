@@ -53,6 +53,11 @@ public class UIConfig
     public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }
 
     /// <summary>
+    /// 取得或设置显示导入窗体委托。
+    /// </summary>
+    public static Action<RenderTreeBuilder, ImportInfo> ImportForm { get; set; }
+
+    /// <summary>
     /// 取得忽略URL鉴权的路由列表。
     /// </summary>
     public static List<string> IgnoreRoutes { get; } = [];

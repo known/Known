@@ -7,30 +7,24 @@ partial class TableModel<TItem>
     /// </summary>
     /// <param name="param">与后端对应的导入参数。</param>
     /// <returns></returns>
-    public async Task ShowImportAsync(string param = null)
+    public Task ShowImportAsync(string param = null)
     {
-        var type = typeof(TItem);
-        var id = $"{type.Name}Import";
-        if (!string.IsNullOrWhiteSpace(param))
-            id += $"_{param}";
-        if (IsDictionary)
-            id += $"_{Context.Current.Id}";
-        var importTitle = Language.GetImportTitle(PageName);
-        var info = await Page?.Data?.GetImportAsync(id);
-        info.Name = PageName;
-        info.BizName = importTitle;
-        var model = new DialogModel { Title = importTitle };
-        model.Content = builder =>
+        var info = new ImportInfo
         {
-            builder.Component<Importer>()
-                   .Set(c => c.Model, info)
-                   .Set(c => c.OnSuccess, async () =>
-                   {
-                       await model.CloseAsync();
-                       await RefreshAsync();
-                   })
-                   .Build();
+            PageId = Context.Current.Id,
+            PageName = PageName,
+            EntityType = typeof(TItem),
+            IsDictionary = IsDictionary,
+            Param = param
         };
+        var model = new DialogModel { Title = Language.GetImportTitle(PageName) };
+        info.OnSuccess = async () =>
+        {
+            await model.CloseAsync();
+            await RefreshAsync();
+        };
+        model.Content = builder => UIConfig.ImportForm?.Invoke(builder, info);
         UI.ShowDialog(model);
+        return Task.CompletedTask;
     }
 }

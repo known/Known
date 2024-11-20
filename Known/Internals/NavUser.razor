@@ -29,7 +29,7 @@
     private Task OnItemClickAsync(ActionInfo item)
     {
         if (!string.IsNullOrWhiteSpace(item.Url))
-            App?.NavigateTo(new MenuInfo { Id = item.Id, Name = item.Name, Icon = item.Icon, Url = item.Url });
+            Navigation?.NavigateTo(new MenuInfo { Id = item.Id, Name = item.Name, Icon = item.Icon, Url = item.Url });
         else
             Topbar?.OnMenuClick?.Invoke(item.Id);
         return Task.CompletedTask;

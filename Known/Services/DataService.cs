@@ -49,7 +49,7 @@ public interface IDataService : IService
     Task<Result> SaveUserSettingFormAsync(SettingFormInfo info);
     #endregion
 
-    #region Import
+    #region File
     /// <summary>
     /// 异步获取系统附件列表。
     /// </summary>
@@ -63,27 +63,6 @@ public interface IDataService : IService
     /// <param name="file">系统附件对象。</param>
     /// <returns>删除结果。</returns>
     Task<Result> DeleteFileAsync(AttachInfo file);
-
-    /// <summary>
-    /// 异步获取导入表单数据信息。
-    /// </summary>
-    /// <param name="bizId">业务数据ID。</param>
-    /// <returns>导入表单数据信息。</returns>
-    Task<ImportFormInfo> GetImportAsync(string bizId);
-
-    /// <summary>
-    /// 异步获取数据导入规范文件。
-    /// </summary>
-    /// <param name="bizId">业务数据ID。</param>
-    /// <returns>导入规范文件。</returns>
-    Task<byte[]> GetImportRuleAsync(string bizId);
-
-    /// <summary>
-    /// 异步导入系统附件。
-    /// </summary>
-    /// <param name="info">系统附件信息。</param>
-    /// <returns>导入结果。</returns>
-    Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
     #endregion
 }
 
@@ -125,21 +104,6 @@ class DataService(HttpClient http) : ClientBase(http), IDataService
     }
 
     public Task<Result> DeleteFileAsync(AttachInfo file)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<ImportFormInfo> GetImportAsync(string bizId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<byte[]> GetImportRuleAsync(string bizId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {
         throw new NotImplementedException();
     }

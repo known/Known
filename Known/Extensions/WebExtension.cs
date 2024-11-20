@@ -68,7 +68,12 @@ public static class WebExtension
         return await image.ReadFileAsync();
     }
 
-    internal static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file)
+    /// <summary>
+    /// 异步读取浏览器上传的附件。
+    /// </summary>
+    /// <param name="file">浏览器附件对象。</param>
+    /// <returns>附件数据对象。</returns>
+    public static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file)
     {
         using var stream = new MemoryStream();
         await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(stream);

@@ -2,6 +2,12 @@
 
 static class TaskExtension
 {
+    internal static Task<TaskInfo> GetTaskAsync(this Database db, string bizId)
+    {
+        return db.Query<SysTask>().Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
+                 .OrderByDescending(d => d.CreateTime).FirstAsync<TaskInfo>();
+    }
+
     internal static async Task CreateTaskAsync(this Database db, TaskInfo info)
     {
         var task = new SysTask();

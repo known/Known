@@ -97,24 +97,6 @@ public interface IAdminService
     Task DeleteFilesAsync(Database db, string bizId, List<string> oldFiles);
     #endregion
 
-    #region Task
-    /// <summary>
-    /// 异步获取指定业务的系统后台任务信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizId">业务ID。</param>
-    /// <returns>系统后台任务信息。</returns>
-    Task<TaskInfo> GetTaskAsync(Database db, string bizId);
-
-    /// <summary>
-    /// 异步创建一个系统后台任务。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">任务信息。</param>
-    /// <returns></returns>
-    Task CreateTaskAsync(Database db, TaskInfo info);
-    #endregion
-
     #region Log
     /// <summary>
     /// 异步添加系统日志。

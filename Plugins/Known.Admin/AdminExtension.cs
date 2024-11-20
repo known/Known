@@ -28,14 +28,15 @@ public static class AdminExtension
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IFlowService, FlowService>();
+        services.AddScoped<IImportService, ImportService>();
 
-        // 添加配置
-        Config.AdminTasks["Admin"] = SetAdminInfoAsync;
+        // 添加模块
         Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 配置UI
         UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
         UIConfig.DevelopTabs["WebApi"] = b => b.Component<WebApiList>().Build();
+        UIConfig.ImportForm = BuildImportForm;
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
@@ -84,9 +85,8 @@ public static class AdminExtension
         return db.SaveTaskAsync(info);
     }
 
-    private static async Task SetAdminInfoAsync(Database db, AdminInfo info)
+    private static void BuildImportForm(RenderTreeBuilder builder, ImportInfo info)
     {
-        info.MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.User.UserName && d.Status == Constant.UMStatusUnread);
-        info.Codes = await DictionaryService.GetDictionariesAsync(db);
+        builder.Component<Importer>().Set(c => c.Info, info).Build();
     }
 }

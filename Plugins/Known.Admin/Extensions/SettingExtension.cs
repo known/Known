@@ -33,4 +33,15 @@ static class SettingExtension
 
         return settings.ToDictionary(k => k.BizType, v => v.DataAs<List<TableSettingInfo>>());
     }
+
+    internal static async Task SaveSettingAsync(this Database db, SettingInfo info)
+    {
+        var model = await db.QueryByIdAsync<SysSetting>(info.Id);
+        model ??= new SysSetting();
+        if (!string.IsNullOrWhiteSpace(info.Id))
+            model.Id = info.Id;
+        model.BizType = info.BizType;
+        model.BizData = info.BizData;
+        await db.SaveAsync(model);
+    }
 }

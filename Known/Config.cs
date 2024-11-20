@@ -110,11 +110,6 @@ public sealed class Config
     /// </summary>
     public static List<ActionInfo> Actions { get; } = [];
 
-    /// <summary>
-    /// 取得获取管理首页信息额外属性数据委托字典。
-    /// </summary>
-    public static Dictionary<string, Func<Database, AdminInfo, Task>> AdminTasks { get; } = [];
-
     internal static Dictionary<string, Type> FormTypes { get; } = [];
     internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
@@ -122,6 +117,11 @@ public sealed class Config
     /// 取得自定义扩展字段组件字典。
     /// </summary>
     public static Dictionary<string, Type> FieldTypes { get; } = [];
+
+    /// <summary>
+    /// 取得后端导入类。
+    /// </summary>
+    public static Dictionary<string, Type> ImportTypes { get; } = [];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、导入类、数据库建表脚本、自定义组件类和路由，以及CodeInfo特性的代码表类。
@@ -145,14 +145,14 @@ public sealed class Config
                 AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item, item.Name[1..].Replace("Service", ""));
+            else if (item.IsAssignableTo(typeof(BaseImport)))
+                ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(ICustomField)))
                 AddFieldType(item);
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
-            else if (item.IsAssignableTo(typeof(ImportBase)))
-                ImportHelper.ImportTypes[item.Name] = item;
 
             var routes = item.GetCustomAttributes<RouteAttribute>();
             if (routes != null && routes.Any())

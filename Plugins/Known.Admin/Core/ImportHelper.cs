@@ -1,4 +1,6 @@
-﻿namespace Known.Core;
+﻿using Known.Cells;
+
+namespace Known.Core;
 
 /// <summary>
 /// 数据导入帮助者类。
@@ -9,8 +11,6 @@ public sealed class ImportHelper
     /// 导入业务类型。
     /// </summary>
     public const string BizType = "ImportFiles";
-
-    internal static Dictionary<string, Type> ImportTypes { get; } = [];
 
     private ImportHelper() { }
 
@@ -87,7 +87,7 @@ public sealed class ImportHelper
         if (context.IsDictionary)
             return new DictionaryImport(context);
 
-        if (!ImportTypes.TryGetValue(context.BizId, out Type type))
+        if (!Config.ImportTypes.TryGetValue(context.BizId, out Type type))
             return null;
 
         return Activator.CreateInstance(type, context) as ImportBase;

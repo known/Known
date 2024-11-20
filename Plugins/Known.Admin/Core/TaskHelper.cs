@@ -1,4 +1,6 @@
-﻿namespace Known.Core;
+﻿using System.Globalization;
+
+namespace Known.Core;
 
 /// <summary>
 /// 后台异步任务帮助者类。

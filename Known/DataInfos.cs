@@ -17,42 +17,6 @@ public class ConfigInfo
 }
 
 /// <summary>
-/// 后台管理主页数据交互信息类。
-/// </summary>
-public class AdminInfo
-{
-    /// <summary>
-    /// 取得或设置系统名称。
-    /// </summary>
-    public string AppName { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前用户未读消息数量（暂未使用）。
-    /// </summary>
-    public int MessageCount { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前用户系统设置信息，如：是否使用多标签页模式。
-    /// </summary>
-    public UserSettingInfo UserSetting { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前用户模块表格设置信息列表，如：设置模块表格的显隐和宽度。
-    /// </summary>
-    public Dictionary<string, List<TableSettingInfo>> UserTableSettings { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前用户权限菜单列表。
-    /// </summary>
-    public List<MenuInfo> UserMenus { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统数据字典和代码表信息列表，用于前后端分离时，缓存在前端。
-    /// </summary>
-    public List<CodeInfo> Codes { get; set; }
-}
-
-/// <summary>
 /// 自动页面数据交互信息类。
 /// </summary>
 /// <typeparam name="TData">交互数据泛型类型。</typeparam>
@@ -151,20 +115,4 @@ public class FileUrlInfo
     /// 取得或设置附件原始文件URL。
     /// </summary>
     public string OriginalUrl { get; set; }
-}
-
-/// <summary>
-/// 定时任务摘要信息类。
-/// </summary>
-public class TaskSummaryInfo
-{
-    /// <summary>
-    /// 取得或设置定时任务当前状态。
-    /// </summary>
-    public string Status { get; set; }
-
-    /// <summary>
-    /// 取得或设置定时任务当前描述信息。
-    /// </summary>
-    public string Message { get; set; }
 }

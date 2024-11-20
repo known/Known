@@ -88,7 +88,10 @@ public static class ModelExtension
     /// <param name="bizType">业务类型。</param>
     /// <param name="bizPath">业务路径。</param>
     /// <returns>文件对象列表。</returns>
-    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null) => files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
+    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null)
+    {
+        return files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
+    }
 
     /// <summary>
     /// 获取附件字段的文件对象列表。

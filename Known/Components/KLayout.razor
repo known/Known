@@ -1,90 +1,29 @@
 ﻿@inherits BaseLayout
 
 <div class="kui-wrapper @Context.UserSetting.Size">
-    @if (IsLoaded)
-    {
-        if (Context.IsMobileApp)
+    <LayoutValue Value="this" IsFixed>
+        @if (IsLoaded)
         {
-            <AppLayout>@ChildContent</AppLayout>
-        }
-        else
-        {
-            if (Setting.LayoutMode == LayoutMode.Horizontal)
+            if (Context.IsMobileApp)
             {
-                <Layout Class="kui-layout">
-                    <Header Class="kui-header">
-                        <div class="left @MenuClass">
-                            <div class="kui-logo"></div>
-                            <AntMenu Context="Context" Mode="MenuMode.Horizontal" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
-                        </div>
-                        <TopNavbar OnMenuClick="OnMenuClick" />
-                    </Header>
-                    <Content>
-                        @if (Setting.MultiTab)
-                        {
-                            <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" />
-                        }
-                        else
-                        {
-                            <div class="kui-body">@ChildContent</div>
-                        }
-                    </Content>
-                    @if (Setting.ShowFooter)
-                    {
-                        if (UIConfig.Footer != null)
-                        {
-                            <Footer Class="kui-footer">@UIConfig.Footer</Footer>
-                        }
-                        else
-                        {
-                            <Footer Class="kui-footer"><KFooter /></Footer>
-                        }
-                    }
-                </Layout>
+                <AppLayout>@ChildContent</AppLayout>
             }
             else
             {
-                <Layout Class="kui-layout">
-                    @if (Setting.LayoutMode == LayoutMode.Float)
-                    {
-                        <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
-                            <div class="kui-logo"></div>
-                            <div class="kui-scroll">
-                                <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
-                            </div>
-                        </Sider>
-                    }
-                    else
-                    {
-                        <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
-                            <div class="kui-logo"></div>
-                            <div class="kui-scroll">
-                                <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
-                            </div>
-                        </Sider>
-                    }
-                    <Layout>
+                if (Setting.LayoutMode == LayoutMode.Horizontal)
+                {
+                    <Layout Class="kui-layout">
                         <Header Class="kui-header">
-                            <div class="left">
-                                @if (Setting.LayoutMode != LayoutMode.Float)
-                                {
-                                    if (collapsed)
-                                    {
-                                        <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
-                                    }
-                                    else
-                                    {
-                                        <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
-                                    }
-                                }
-                                <TopBreadcrumb Current="Context.Current" />
+                            <div class="left @MenuClass">
+                                <div class="kui-logo"></div>
+                                <AntMenu Context="Context" Mode="MenuMode.Horizontal" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
                             </div>
                             <TopNavbar OnMenuClick="OnMenuClick" />
                         </Header>
                         <Content>
                             @if (Setting.MultiTab)
                             {
-                                <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" Body="ChildContent" />
+                                <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" />
                             }
                             else
                             {
@@ -103,15 +42,78 @@
                             }
                         }
                     </Layout>
-                </Layout>
+                }
+                else
+                {
+                    <Layout Class="kui-layout">
+                        @if (Setting.LayoutMode == LayoutMode.Float)
+                        {
+                            <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
+                                <div class="kui-logo"></div>
+                                <div class="kui-scroll">
+                                    <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                                </div>
+                            </Sider>
+                        }
+                        else
+                        {
+                            <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
+                                <div class="kui-logo"></div>
+                                <div class="kui-scroll">
+                                    <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                                </div>
+                            </Sider>
+                        }
+                        <Layout>
+                            <Header Class="kui-header">
+                                <div class="left">
+                                    @if (Setting.LayoutMode != LayoutMode.Float)
+                                    {
+                                        if (collapsed)
+                                        {
+                                            <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                                        }
+                                        else
+                                        {
+                                            <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
+                                        }
+                                    }
+                                    <TopBreadcrumb Current="Context.Current" />
+                                </div>
+                                <TopNavbar OnMenuClick="OnMenuClick" />
+                            </Header>
+                            <Content>
+                                @if (Setting.MultiTab)
+                                {
+                                    <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" Body="ChildContent" />
+                                }
+                                else
+                                {
+                                    <div class="kui-body">@ChildContent</div>
+                                }
+                            </Content>
+                            @if (Setting.ShowFooter)
+                            {
+                                if (UIConfig.Footer != null)
+                                {
+                                    <Footer Class="kui-footer">@UIConfig.Footer</Footer>
+                                }
+                                else
+                                {
+                                    <Footer Class="kui-footer"><KFooter /></Footer>
+                                }
+                            }
+                        </Layout>
+                    </Layout>
+                }
+                <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title="@(Language["Nav.Setting"])" Width="320">
+                    <SettingForm Model="Setting" OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
+                </Drawer>
             }
-            <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title="@(Language["Nav.Setting"])" Width="320">
-                <SettingForm Model="Setting" OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
-            </Drawer>
+            @if (showSpin)
+            {
+                <Spin Tip="@spinTip" />
+            }
         }
-        @if (showSpin)
-        {
-            <Spin Tip="@spinTip" />
-        }
-    }
+    </LayoutValue>
 </div>
