@@ -1,9 +1,20 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Pages;
 
-class TablePage<TItem> : BaseComponent where TItem : class, new()
+/// <summary>
+/// 表格页面组件类。
+/// </summary>
+/// <typeparam name="TItem"></typeparam>
+public class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
+    /// <summary>
+    /// 取得或设置表格页面组件模型。
+    /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
 
+    /// <summary>
+    /// 呈现表格页面组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)
@@ -17,7 +28,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildFormList(RenderTreeBuilder builder)
     {
-        builder.Div("kui-table form-list", (Action)(() =>
+        builder.Div("kui-table form-list", () =>
         {
             if (!string.IsNullOrWhiteSpace(Model.Name) ||
                  Model.QueryColumns.Count > 0 ||
@@ -36,7 +47,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
                 });
             }
             builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
-        }));
+        });
     }
 
     private void BuildPageList(RenderTreeBuilder builder)
@@ -57,11 +68,11 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildTable(RenderTreeBuilder builder)
     {
-        builder.Div("kui-table", (Action)(() =>
+        builder.Div("kui-table", () =>
         {
             if (Model.Tab.HasItem)
             {
-                Model.Tab.Left = b => b.FormTitle(Model.PageName);
+                Model.Tab.Left = b => b.FormTitle(Model.Name);
                 if (Model.Toolbar.HasItem)
                     Model.Tab.Right = BuildRight;
                 builder.Tabs(Model.Tab);
@@ -72,7 +83,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
                 {
                     builder.Div(() =>
                     {
-                        builder.FormTitle(Model.PageName);
+                        builder.FormTitle(Model.Name);
                         if (Model.TopStatis != null)
                             builder.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
                     });
@@ -80,7 +91,7 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
                 });
             }
             builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
-        }));
+        });
     }
 
     private void BuildRight(RenderTreeBuilder builder)
@@ -89,26 +100,5 @@ class TablePage<TItem> : BaseComponent where TItem : class, new()
             builder.Toolbar(Model.Toolbar);
         if (Model.ShowSetting)
             builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
-    }
-}
-
-class ToolbarSlot<TItem> : BaseComponent where TItem : class, new()
-{
-    private PagingResult<TItem> result;
-
-    [Parameter] public TableModel<TItem> Table { get; set; }
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Table.OnRefreshStatis = OnRefreshStatis;
-    }
-
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.Fragment(Table.TopStatis, result);
-
-    private Task OnRefreshStatis(PagingResult<TItem> result)
-    {
-        this.result = result;
-        return StateChangedAsync();
     }
 }

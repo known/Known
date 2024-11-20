@@ -50,7 +50,6 @@ public class SysUserList : BasePage<SysUser>
             OnQuery = OnQueryUsersAsync
         };
         Table.Toolbar.ShowCount = 6;
-        Table.Initialize(this);
         Table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
 
         Page.AddItem(BuildTable);

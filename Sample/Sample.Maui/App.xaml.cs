@@ -9,7 +9,7 @@
 
         protected override Window CreateWindow(IActivationState activationState)
         {
-            return new Window(new MainPage()) { Title = "Sample.Maui" };
+            return new Window(new MainPage()) { Title = "Known信息管理系统" };
         }
     }
 }

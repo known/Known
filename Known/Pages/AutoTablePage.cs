@@ -102,7 +102,7 @@ public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
 
     private void InitTable()
     {
-        Table.Initialize(this);
+        Table.Initialize();
         Table.OnQuery = OnQueryModelsAsync;
         Table.Criteria.Clear();
         var fields = Context?.Current?.Model?.Fields;

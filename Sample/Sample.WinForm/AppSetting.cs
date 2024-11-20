@@ -29,6 +29,6 @@ class AppSetting
     private static string GetSavePath()
     {
         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        return Path.Combine(path, "Known", AppConfig.AppId, "AppSetting.data");
+        return Path.Combine(path, "Known", "Sample", "AppSetting.data");
     }
 }

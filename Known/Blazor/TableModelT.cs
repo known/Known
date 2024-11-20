@@ -28,12 +28,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         OnAction = page.OnActionClick;
         Toolbar.OnItemClick = page.OnToolClick;
+        Initialize(page is BasePage);
     }
-
-    /// <summary>
-    /// 取得页面名称。
-    /// </summary>
-    public string PageName => Language.GetString(Context.Current);
 
     /// <summary>
     /// 取得表格用户列设置ID。
@@ -240,16 +236,23 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         }
     }
 
+    internal void Initialize() => Initialize(true);
+
     /// <summary>
     /// 初始化表格栏位、权限、查询条件。
     /// </summary>
-    /// <param name="page">页面组件对象。</param>
-    public virtual void Initialize(BasePage page)
+    /// <param name="isPage">是否是表格页面。</param>
+    protected virtual void Initialize(bool isPage)
     {
-        var menu = page?.Context?.Current;
-        Clear();
-        SetPage(menu?.Model, menu?.Page);
-        SetPermission(page);
+        if (isPage)
+        {
+            var menu = Context?.Current;
+            Name = Language.GetString(menu);
+            Clear();
+            SetPage(menu?.Model, menu?.Page);
+            SetPermission();
+        }
+
         SetQueryColumns();
 
         if (PageSize != null)
@@ -346,12 +349,12 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         return UI.ShowForm(model);
     }
 
-    private void SetPermission(BasePage page)
+    private void SetPermission()
     {
-        if (page == null || page.Context == null)
+        if (Context == null)
             return;
 
-        var menu = page.Context.Current;
+        var menu = Context.Current;
         if (menu == null)
             return;
 
@@ -377,7 +380,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     {
         var columns = new List<ColumnInfo>();
         var properties = TypeHelper.Properties(typeof(TItem));
-        foreach( var item in properties)
+        foreach (var item in properties)
         {
             var attr = item.GetCustomAttribute<ColumnAttribute>();
             if (attr == null)

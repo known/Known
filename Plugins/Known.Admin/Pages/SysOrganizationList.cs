@@ -40,7 +40,6 @@ public class SysOrganizationList : BasePage<SysOrganization>
             ShowPager = false,
             OnQuery = OnQueryOrganizationsAsync
         };
-        table.Initialize(this);
     }
 
     /// <summary>

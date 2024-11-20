@@ -12,12 +12,12 @@ partial class TableModel<TItem>
         var info = new ImportInfo
         {
             PageId = Context.Current.Id,
-            PageName = PageName,
+            PageName = Name,
             EntityType = typeof(TItem),
             IsDictionary = IsDictionary,
             Param = param
         };
-        var model = new DialogModel { Title = Language.GetImportTitle(PageName) };
+        var model = new DialogModel { Title = Language.GetImportTitle(Name) };
         info.OnSuccess = async () =>
         {
             await model.CloseAsync();

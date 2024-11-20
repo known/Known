@@ -21,7 +21,7 @@ public partial class MainForm : Form
 
         WindowState = FormWindowState.Maximized;
         Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-        Text = AppConfig.AppName;
+        Text = "Known信息管理系统";
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -48,7 +48,7 @@ public partial class MainForm : Form
         Config.IsDevelopment = true;
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        services.AddApplication();
+        services.AddKnown();
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.RootComponents.Add<App>("#app");

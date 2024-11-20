@@ -8,7 +8,7 @@
 
     <p>This component demonstrates fetching data from the server.</p>
 
-    <KTable Model="model" />
+    <TablePage Model="model" />
 </div>
 
 @code {
@@ -19,6 +19,7 @@
         await base.OnInitAsync();
         model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
         model.ShowPager = true;
+        model.Name = "Weather";
         model.OnQuery = OnQueryWeatherForecastsAsync;
     }
 
@@ -40,6 +41,7 @@
     private class WeatherForecast
     {
         [Column(IsQuery = true)]
+        [DisplayName("日期")]
         public DateOnly Date { get; set; }
         public int TemperatureC { get; set; }
         public string Summary { get; set; }

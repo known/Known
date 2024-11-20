@@ -43,7 +43,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         await base.OnPageInitAsync();
         Table = new TableModel<TItem>(this);
         Table.DefaultQuery = DefaultQuery;
-        Table.Initialize(this);
     }
 
     /// <summary>

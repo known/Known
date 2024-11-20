@@ -479,21 +479,6 @@ public class ColumnInfo
     /// </summary>
     public string Note { get; set; }
 
-    private void SetColumnAttribute(ColumnAttribute attr)
-    {
-        IsViewLink = attr.IsViewLink;
-        IsQuery = attr.IsQuery;
-        IsQueryAll = attr.IsQueryAll;
-        Type = attr.Type;
-        Category = attr.Category;
-        IsSum = attr.IsSum;
-        IsSort = attr.IsSort;
-        DefaultSort = attr.DefaultSort;
-        Fixed = attr.Fixed;
-        Width = attr.Width ?? 0;
-        Align = attr.Align;
-    }
-
     private void SetPageColumnInfo(PageColumnInfo info)
     {
         if (info == null)
@@ -561,18 +546,41 @@ public class ColumnInfo
 
         Type = info.GetFieldType();
 
+        var column = info.GetCustomAttribute<ColumnAttribute>();
+        if (column != null)
+            SetColumnAttribute(column);
+
         var form = info.GetCustomAttribute<FormAttribute>();
         if (form != null)
-        {
-            IsForm = true;
-            Row = form.Row;
-            Column = form.Column;
-            if (!string.IsNullOrWhiteSpace(form.Type))
-                Type = Utils.ConvertTo<FieldType>(form.Type);
-            if (Type == FieldType.Custom)
-                CustomField = form.CustomField;
-            ReadOnly = form.ReadOnly;
-            Placeholder = form.Placeholder;
-        }
+            SetFormAttribute(form);
+    }
+
+    private void SetColumnAttribute(ColumnAttribute attr)
+    {
+        IsViewLink = attr.IsViewLink;
+        IsQuery = attr.IsQuery;
+        IsQueryAll = attr.IsQueryAll;
+        if (attr.Type != FieldType.Text)
+            Type = attr.Type;
+        Category = attr.Category;
+        IsSum = attr.IsSum;
+        IsSort = attr.IsSort;
+        DefaultSort = attr.DefaultSort;
+        Fixed = attr.Fixed;
+        Width = attr.Width ?? 0;
+        Align = attr.Align;
+    }
+
+    private void SetFormAttribute(FormAttribute form)
+    {
+        IsForm = true;
+        Row = form.Row;
+        Column = form.Column;
+        if (!string.IsNullOrWhiteSpace(form.Type))
+            Type = Utils.ConvertTo<FieldType>(form.Type);
+        if (Type == FieldType.Custom)
+            CustomField = form.CustomField;
+        ReadOnly = form.ReadOnly;
+        Placeholder = form.Placeholder;
     }
 }

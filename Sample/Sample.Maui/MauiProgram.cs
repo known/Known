@@ -8,18 +8,12 @@ namespace Sample.Maui
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
-            builder.Services.AddKnown(info =>
-            {
-                info.Id = "AppId";
-                info.Name = "AppName";
-                info.Assembly = typeof(MauiProgram).Assembly;
-            });
+            builder.UseMauiApp<App>()
+                   .ConfigureFonts(fonts =>
+                   {
+                       fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                   });
+            builder.Services.AddKnown();
             builder.Services.AddMauiBlazorWebView();
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

@@ -7,12 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
        .AddInteractiveServerComponents();
 
-builder.Services.AddKnown(info =>
-{
-    info.Id = "AppId";
-    info.Name = "AppName";
-    info.Assembly = typeof(Program).Assembly;
-});
+builder.Services.AddKnown();
 
 var app = builder.Build();
 
