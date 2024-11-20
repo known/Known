@@ -27,24 +27,6 @@ public abstract class ServiceBase(Context context) : IService
     public Language Language => Context.Language;
 
     /// <summary>
-    /// 取得依赖注入服务提供者。
-    /// </summary>
-    public IServiceProvider ServiceProvider => Config.ServiceProvider;
-
-    private IAdminService admin;
-    /// <summary>
-    /// 取得注入的平台服务实例。
-    /// </summary>
-    public IAdminService Admin
-    {
-        get
-        {
-            admin ??= ServiceProvider?.GetService<IAdminService>();
-            return admin;
-        }
-    }
-
-    /// <summary>
     /// 取得数据库访问实例。
     /// </summary>
     public virtual Database Database

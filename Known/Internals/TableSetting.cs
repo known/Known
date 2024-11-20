@@ -100,7 +100,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                 Sort = ++index
             });
         }
-        await Data.SaveUserSettingFormAsync(new SettingFormInfo
+        await Platform.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = Table.SettingId,
             BizData = infos

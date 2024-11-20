@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using Known.Platforms;
+
+namespace Known;
 
 /// <summary>
 /// 依赖注入扩展类。
@@ -13,8 +15,12 @@ public static class AdminExtension
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
+        // 注入平台服务
+        services.AddScoped<IPlatformService, PlatformService>();
+        services.AddScoped<IAutoService, AutoService>();
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+
         // 注入服务
-        services.AddSingleton<IAdminService, AdminService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ISystemService, SystemService>();
         services.AddScoped<IInstallService, InstallService>();

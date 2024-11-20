@@ -98,7 +98,7 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
         var result = await database.TransactionAsync(Language.Upload, async db =>
         {
-            sysFiles = await Admin.AddFilesAsync(db, files, form.BizId, form.BizType);
+            sysFiles = await db.AddFilesAsync(files, form.BizId, form.BizType);
             if (form.BizType == ImportHelper.BizType)
             {
                 task = CreateTask(form);

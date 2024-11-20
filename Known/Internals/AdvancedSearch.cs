@@ -9,7 +9,7 @@ class AdvancedSearch : BaseComponent
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
-        await Data.SaveUserSettingFormAsync(new SettingFormInfo
+        await Platform.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingKey,
             BizData = Query
@@ -23,7 +23,7 @@ class AdvancedSearch : BaseComponent
         if (firstRender)
         {
             Query.Clear();
-            var json = await Data.GetUserSettingAsync(SettingKey);
+            var json = await Platform.GetUserSettingAsync(SettingKey);
             var items = Utils.FromJson<List<QueryInfo>>(json);
             if (items != null && items.Count > 0)
                 Query.AddRange(items);

@@ -37,7 +37,7 @@ public class BasePage : BaseComponent
         {
             if (Context.Current != null && !Config.IsClient)
             {
-                await Data.AddLogAsync(new LogInfo
+                await Platform.AddLogAsync(new LogInfo
                 {
                     Type = LogType.Page,
                     Target = Context.Current.Name,

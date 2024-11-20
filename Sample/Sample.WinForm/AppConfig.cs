@@ -16,5 +16,6 @@ public static class AppConfig
             info.ContentRoot = Application.StartupPath;
             info.Assembly = typeof(AppConfig).Assembly;
         });
+        services.AddKnownClient();
     }
 }

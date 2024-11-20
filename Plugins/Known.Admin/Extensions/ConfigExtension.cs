@@ -15,7 +15,7 @@ static class ConfigExtension
         return Utils.FromJson<T>(json);
     }
 
-    internal static async Task SaveConfigAsync(this Database db, string key, object value)
+    internal static async Task<Result> SaveConfigAsync(this Database db, string key, object value)
     {
         var appId = Config.App.Id;
         var data = new Dictionary<string, object>();
@@ -27,5 +27,6 @@ static class ConfigExtension
             await db.UpdateAsync(nameof(SysConfig), "AppId,ConfigKey", data);
         else
             await db.InsertAsync(nameof(SysConfig), data);
+        return Result.Success("保存成功！");
     }
 }

@@ -31,7 +31,7 @@ static class SystemExtension
         return appName;
     }
 
-    internal static Task SaveSystemAsync(this Database db, SystemInfo info)
+    internal static Task<Result> SaveSystemAsync(this Database db, SystemInfo info)
     {
         return db.SaveConfigAsync(Constants.KeySystem, info);
     }

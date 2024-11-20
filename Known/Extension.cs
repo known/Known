@@ -69,23 +69,26 @@ public static class Extension
         action?.Invoke(ClientOption.Instance);
 
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        services.AddScoped<IDataService, DataService>();
+        services.AddScoped<IPlatformService, PlatformService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
-        foreach (var type in Config.ApiTypes)
+        if (ClientOption.Instance.InterceptorType != null)
         {
-            //Console.WriteLine(type.Name);
-            var interceptorType = ClientOption.Instance.InterceptorType?.Invoke(type);
-            if (interceptorType == null)
-                continue;
-
-            services.AddScoped(interceptorType);
-            services.AddScoped(type, provider =>
+            foreach (var type in Config.ApiTypes)
             {
-                var interceptor = provider.GetRequiredService(interceptorType);
-                return ClientOption.Instance.InterceptorProvider?.Invoke(type, interceptor);
-            });
+                //Console.WriteLine(type.Name);
+                var interceptorType = ClientOption.Instance.InterceptorType.Invoke(type);
+                if (interceptorType == null)
+                    continue;
+
+                services.AddScoped(interceptorType);
+                services.AddScoped(type, provider =>
+                {
+                    var interceptor = provider.GetRequiredService(interceptorType);
+                    return ClientOption.Instance.InterceptorProvider?.Invoke(type, interceptor);
+                });
+            }
         }
     }
 
@@ -97,5 +100,6 @@ public static class Extension
     public static void AddKnownData(this IServiceCollection services, Action<DatabaseOption> action = null)
     {
         action?.Invoke(DatabaseOption.Instance);
+        services.AddScoped<Database>();
     }
 }

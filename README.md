@@ -19,8 +19,7 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 ### 概述
 
 - 基于`C#`和`Ant Design Blazor`的快速开发框架，开箱即用，跨平台。
-- 模块化，Web应用，混合桌面应用，Web和桌面共享一处代码。
-- 包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。
+- 插件模块化，Web应用，混合桌面应用，Web和桌面共享一处代码。
 - 低代码、简洁、易扩展，让开发更简单、更快捷！
 
 ### 特性
@@ -51,12 +50,23 @@ dotnet new known --name=MyApp
 | ├─Known.Core      -> 基于Asp.Net Core的服务端插件库。
 | ├─Known.Designer  -> 简易无代码开发设计器和低代码生成器。
 ├─Sample            -> 示例项目
+  ├─Sample.Maui     -> 框架MAUI示例。
   ├─Sample.Wasm     -> 框架WebAssembly示例。
   ├─Sample.Web      -> 框架WebApp示例。
   ├─Sample.WinForm  -> 框架WinForm示例。
 ```
 
-### 主要功能
+### 项目连接
+
+- 项目模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
+- 项目示例：[https://gitee.com/known/known-sample](https://gitee.com/known/known-sample)
+- KnownDB：[https://gitee.com/known/known-db](https://gitee.com/known/known-db)
+- JxcLite：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
+- KnownCMS：[https://gitee.com/known/known-cms](https://gitee.com/known/known-cms)
+
+### Admin插件
+
+#### 主要功能
 
 - 模块管理：配置系统功能模块，在线设计模型、页面和表单，自动生成代码。
 - 数据字典：维护系统各模块下拉框数据源。
@@ -68,13 +78,7 @@ dotnet new known --name=MyApp
 - 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
-### 项目连接
-
-- 项目模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
-- KnownDB：[https://gitee.com/known/known-db](https://gitee.com/known/known-db)
-- JxcLite：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
-
-### 界面截图
+#### 界面截图
 
 效果图|效果图
 :--:|:--:

@@ -11,9 +11,28 @@ public static class FileExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="bizId">附件业务数据ID。</param>
     /// <returns>系统附件信息列表。</returns>
-    public static Task<List<AttachInfo>> GetFilesAsync(this Database db, string bizId)
+    public static async Task<List<AttachInfo>> GetFilesAsync(this Database db, string bizId)
     {
-        return FileService.GetFilesAsync(db, bizId);
+        if (string.IsNullOrWhiteSpace(bizId))
+            return [];
+
+        List<AttachInfo> files = null;
+        var bizIds = bizId.Split(';');
+        if (bizIds.Length > 1)
+        {
+            files = await db.Query<SysFile>().Where(d => bizIds.Contains(d.BizId)).ToListAsync<AttachInfo>();
+        }
+        else if (!bizId.Contains('_'))
+        {
+            files = await db.Query<SysFile>().Where(d => d.BizId == bizId).ToListAsync<AttachInfo>();
+        }
+        else
+        {
+            var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
+            var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
+            files = await db.Query<SysFile>().Where(d => d.BizId == bizId1 && d.Type == bizType).ToListAsync<AttachInfo>();
+        }
+        return files?.OrderBy(d => d.CreateTime).ToList();
     }
 
     /// <summary>

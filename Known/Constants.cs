@@ -31,6 +31,11 @@ public class Constants
     public const string KeySystem = "SystemInfo";
 
     /// <summary>
+    /// 用户设置配置键。
+    /// </summary>
+    public const string UserSetting = "UserSetting";
+
+    /// <summary>
     /// 系统用户名。
     /// </summary>
     public const string SysUserName = "Admin";

@@ -135,7 +135,7 @@ partial class KLayout
 
     private async Task OnSaveSetting()
     {
-        var result = await Data.SaveUserSettingAsync(Setting);
+        var result = await Platform.SaveUserSettingAsync(Setting);
         if (result.IsValid)
         {
             Context.UserSetting = Setting;

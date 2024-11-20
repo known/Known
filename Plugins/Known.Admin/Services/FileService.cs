@@ -46,30 +46,4 @@ class FileService(Context context) : ServiceBase(context), IFileService
             AttachFile.DeleteFiles(oldFiles);
         return result;
     }
-
-    #region Static
-    internal static async Task<List<AttachInfo>> GetFilesAsync(Database db, string bizId)
-    {
-        if (string.IsNullOrWhiteSpace(bizId))
-            return [];
-
-        List<AttachInfo> files = null;
-        var bizIds = bizId.Split(';');
-        if (bizIds.Length > 1)
-        {
-            files = await db.Query<SysFile>().Where(d => bizIds.Contains(d.BizId)).ToListAsync<AttachInfo>();
-        }
-        else if (!bizId.Contains('_'))
-        {
-            files = await db.Query<SysFile>().Where(d => d.BizId == bizId).ToListAsync<AttachInfo>();
-        }
-        else
-        {
-            var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
-            var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-            files = await db.Query<SysFile>().Where(d => d.BizId == bizId1 && d.Type == bizType).ToListAsync<AttachInfo>();
-        }
-        return files?.OrderBy(d => d.CreateTime).ToList();
-    }
-    #endregion
 }

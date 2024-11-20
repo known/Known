@@ -8,8 +8,7 @@
             <div class="kui-button">
                 <KIcon Icon="upload" />
                 <span>@Language.Upload</span>
-                <InputFile multiple="@(MultiFile || Directory)" webkitdirectory="@Directory"
-                           OnChange="OnInputFileChangedAsync" />
+                <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" OnChange="OnInputFileChangedAsync" />
             </div>
         }
         @BuildFiles
@@ -19,8 +18,7 @@ else
 {
     if (!ReadOnly)
     {
-        <InputFile multiple="@(MultiFile || Directory)" webkitdirectory="@Directory"
-                   OnChange="OnInputFileChangedAsync" />
+        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" OnChange="OnInputFileChangedAsync" />
     }
     @BuildFiles
 }
@@ -28,6 +26,7 @@ else
 @code {
     private List<AttachInfo> sysFiles = [];
     private readonly List<FileDataInfo> files = [];
+    private bool IsMultiple => MultiFile || Directory;
 
     private RenderFragment BuildFiles => @<div class="kui-form-files">
         @foreach (var item in sysFiles)
@@ -41,7 +40,8 @@ else
                 <FileLink Item="item" />
             </div>
         }
-    </div>;
+    </div>
+    ;
 
     /// <summary>
     /// 取得或设置是否显示上传按钮。
@@ -69,6 +69,16 @@ else
     [Parameter] public Func<List<FileDataInfo>, Task> OnFilesChanged { get; set; }
 
     /// <summary>
+    /// 取得或设置上传组件获取文件列表委托。
+    /// </summary>
+    [Parameter] public Func<string, Task<List<AttachInfo>>> OnLoad { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传组件删除文件委托。
+    /// </summary>
+    [Parameter] public Func<AttachInfo, Task> OnDelete { get; set; }
+
+    /// <summary>
     /// 刷新上传组件内容。
     /// </summary>
     /// <returns></returns>
@@ -77,7 +87,10 @@ else
         if (string.IsNullOrWhiteSpace(Value))
             return;
 
-        sysFiles = await Data.GetFilesAsync(Value);
+        if (OnLoad != null)
+            sysFiles = await OnLoad.Invoke(Value);
+        else
+            sysFiles = await Platform.GetFilesAsync(Value);
         await StateChangedAsync();
     }
 
@@ -102,7 +115,7 @@ else
         if (firstRender)
             await RefreshAsync();
     }
-    
+
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)
     {
         var isChange = false;
@@ -151,7 +164,10 @@ else
         var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
-            await Data.DeleteFileAsync(item);
+            if (OnDelete != null)
+                await OnDelete.Invoke(item);
+            else
+                await Platform.DeleteFileAsync(item);
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });

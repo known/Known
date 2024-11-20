@@ -96,7 +96,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     /// 取得框架数据服务接口实例。
     /// </summary>
-    public IDataService Data { get; private set; }
+    public IPlatformService Platform { get; private set; }
 
     /// <summary>
     /// 取得是否释放组件对象。
@@ -113,7 +113,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         {
             await base.OnInitializedAsync();
             UI.Language = Language;
-            Data = await CreateServiceAsync<IDataService>();
+            Platform = await CreateServiceAsync<IPlatformService>();
             await OnInitAsync();
         }
         catch (Exception ex)
