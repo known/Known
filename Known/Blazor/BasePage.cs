@@ -45,7 +45,6 @@ public class BasePage : BaseComponent
                 });
             }
         }
-        await JSRuntime.FillPageHeightAsync();
     }
 
     /// <summary>

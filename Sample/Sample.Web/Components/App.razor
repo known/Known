@@ -14,9 +14,14 @@
 </head>
 <body>
     <div class="loading"></div>
-    <Routes />
+    <Routes @rendermode="InteractiveMode" />
     <KScript />
     <script src="_framework/blazor.web.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 </html>
+
+@code {
+    //private InteractiveAutoRenderMode InteractiveMode => new(false);
+    private InteractiveServerRenderMode InteractiveMode => new(false);
+}

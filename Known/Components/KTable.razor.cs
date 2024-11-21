@@ -33,6 +33,17 @@ partial class KTable<TItem> : BaseComponent
         base.OnInitialized();
     }
 
+    /// <summary>
+    /// 表格数据呈现后执行方法。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await JSRuntime.FillTableHeightAsync();
+    }
+
     private async Task RefreshTableAsync()
     {
         await InvokeAsync(() =>
@@ -47,22 +58,23 @@ partial class KTable<TItem> : BaseComponent
         if (Model.OnQuery == null || isQuering)
             return;
 
-        if (Config.IsClient)
+        if (IsServerMode)
+        {
+            isQuering = true;
+            await StateChangedAsync();
+            await Task.Run(async () =>
+            {
+                await OnChangeAsync(query);
+                isQuering = false;
+                await StateChangedAsync();
+            });
+        }
+        else
         {
             isQuering = true;
             await OnChangeAsync(query);
             isQuering = false;
-            return;
         }
-
-        isQuering = true;
-        await StateChangedAsync();
-        await Task.Run(async () =>
-        {
-            await OnChangeAsync(query);
-            isQuering = false;
-            await StateChangedAsync();
-        });
     }
 
     private async Task OnChangeAsync(QueryModel<TItem> query)

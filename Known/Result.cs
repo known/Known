@@ -139,7 +139,10 @@ public class Result
     /// <param name="message">成功信息。</param>
     /// <param name="data">扩展数据，默认为空。</param>
     /// <returns>成功结果。</returns>
-    public static Task<Result> SuccessAsync(string message, object data = null) => Task.FromResult(Success(message, data));
+    public static Task<Result> SuccessAsync(string message, object data = null)
+    {
+        return Task.FromResult(Success(message, data));
+    }
 }
 
 /// <summary>

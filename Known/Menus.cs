@@ -485,7 +485,7 @@ public class ColumnInfo
             return;
 
         Id = info.Id;
-        Name = info.Name;
+        Name = info.Name ?? info.Id;
         IsViewLink = info.IsViewLink;
         IsQuery = info.IsQuery;
         IsQueryAll = info.IsQueryAll;
@@ -508,7 +508,7 @@ public class ColumnInfo
             return;
 
         Id = info.Id;
-        Name = info.Name;
+        Name = info.Name ?? info.Id;
         Row = info.Row;
         Column = info.Column;
         Span = info.Span;
@@ -534,6 +534,8 @@ public class ColumnInfo
             var name = info.GetCustomAttribute<DisplayNameAttribute>();
             if (name != null)
                 Name = name.DisplayName;
+            else
+                Name = info.Name;
         }
 
         var required = info.GetCustomAttribute<RequiredAttribute>();

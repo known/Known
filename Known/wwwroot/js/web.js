@@ -1,4 +1,4 @@
-﻿function K_TableAutoFill(isResize) {
+﻿function K_AutoFillTableHeight(isResize) {
     if ($('.ant-modal-body .ant-table-body').length)
         return;
 
@@ -34,6 +34,6 @@ var KUtils = {
 
 $(function () {
     $(window).resize(function () {
-        K_TableAutoFill(true);
+        K_AutoFillTableHeight(true);
     });
 });

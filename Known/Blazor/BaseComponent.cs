@@ -84,6 +84,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public BaseLayout App { get; set; }
 
     /// <summary>
+    /// 取得组件是否是Server模式。
+    /// </summary>
+    public bool IsServerMode => JSRuntime.GetType().ToString() == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime";
+
+    /// <summary>
     /// 取得上下文语言对象实例。
     /// </summary>
     public Language Language => Context?.Language;

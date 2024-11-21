@@ -32,6 +32,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     }
 
     /// <summary>
+    /// 取得或设置表格名称。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
     /// 取得表格用户列设置ID。
     /// </summary>
     public string SettingId => $"UserTable_{Context.Current?.Id}";
@@ -47,16 +52,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public bool IsDictionary { get; }
 
     /// <summary>
-    /// 取得表格操作列是否有操作按钮。
-    /// </summary>
-    public bool HasAction => Actions != null && Actions.Count > 0;
-
-    /// <summary>
-    /// 取得表格是否有汇总字段列。
-    /// </summary>
-    public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
-
-    /// <summary>
     /// 取得或设置表格是否显示工具条，默认显示。
     /// </summary>
     public bool ShowToolbar { get; set; } = true;
@@ -67,174 +62,14 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowSetting { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置表格是否显示自动序号。
-    /// </summary>
-    public bool ShowIndex { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格是否显示分页。
-    /// </summary>
-    public bool ShowPager { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格是否可调整大小。
-    /// </summary>
-    public bool Resizable { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格行是否显示斑马纹，默认显示。
-    /// </summary>
-    public bool IsStriped { get; set; } = true;
-
-    /// <summary>
-    /// 取得或设置表格是否是表单对话框的子表格。
-    /// </summary>
-    public bool IsForm { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格选择列选择框类型。
-    /// </summary>
-    public TableSelectType SelectType { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格名称。
-    /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格固定高度。
-    /// </summary>
-    public string FixedHeight { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格操作列宽度，默认140。
-    /// </summary>
-    public string ActionWidth { get; set; } = "140";
-
-    /// <summary>
-    /// 取得或设置表格分页每页大小。
-    /// </summary>
-    public int? PageSize { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格操作列显示按钮最大数量，默认2。
-    /// </summary>
-    public int ActionCount { get; set; } = 2;
-
-    /// <summary>
-    /// 取得或设置表格关联的表单配置信息。
-    /// </summary>
-    public FormInfo Form { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格关联的自定义表单组件类型。
-    /// </summary>
-    public Type FormType { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格关联的表单标题委托。
-    /// </summary>
-    public Func<TItem, string> FormTitle { get; set; }
-
-    /// <summary>
     /// 取得表格标签配置对象。
     /// </summary>
     public TabModel Tab { get; } = new();
 
     /// <summary>
-    /// 取得表格操作列信息列表。
-    /// </summary>
-    public List<ActionInfo> Actions { get; private set; } = [];
-
-    /// <summary>
-    /// 取得表格栏位呈现模板字典。
-    /// </summary>
-    public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
-
-    /// <summary>
-    /// 取得或设置表格行数据主键委托。
-    /// </summary>
-    public Func<TItem, object> RowKey { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格操作列事件委托。
-    /// </summary>
-    public Func<TItem, List<ActionInfo>> RowActions { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格操作列根据数据更新按钮是否显示的委托。
-    /// </summary>
-    public Action<TItem, List<ActionInfo>> UpdateRowActions { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格查询数据委托。
-    /// </summary>
-    public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格行单击事件委托。
-    /// </summary>
-    public Func<TItem, Task> OnRowClick { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格行双击事件委托。
-    /// </summary>
-    public Func<TItem, Task> OnRowDoubleClick { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格操作列按钮单击事件委托。
-    /// </summary>
-    public Action<ActionInfo, TItem> OnAction { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格刷新后调用的委托。
-    /// </summary>
-    public Action OnRefreshed { get; set; }
-
-    /// <summary>
     /// 取得或设置树形表格子节点表达式。
     /// </summary>
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格顶部统计信息模板。
-    /// </summary>
-    public RenderFragment<PagingResult<TItem>> TopStatis { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格行CSS类名委托。
-    /// </summary>
-    public Func<TItem, string> RowClass { get; set; }
-
-    internal Func<PagingResult<TItem>, Task> OnRefreshStatis { get; set; }
-
-    private List<TItem> dataSource = [];
-    /// <summary>
-    /// 取得或设置表格数据源。
-    /// </summary>
-    public List<TItem> DataSource
-    {
-        get { return dataSource; }
-        set
-        {
-            dataSource = value ?? [];
-            result = new PagingResult<TItem>(dataSource);
-        }
-    }
-
-    private PagingResult<TItem> result = new();
-    /// <summary>
-    /// 取得或设置表格分页查询结果。
-    /// </summary>
-    public PagingResult<TItem> Result
-    {
-        get { return result; }
-        set
-        {
-            result = value ?? new();
-            dataSource = value?.PageData;
-        }
-    }
 
     internal void Initialize() => Initialize(true);
 
@@ -270,24 +105,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar.Items?.Clear();
         Actions?.Clear();
         Criteria.Clear();
-    }
-
-    /// <summary>
-    /// 添加操作列按钮。
-    /// </summary>
-    /// <param name="idOrName">按钮ID或名称。</param>
-    public void AddAction(string idOrName) => Actions.Add(new ActionInfo(idOrName));
-
-    /// <summary>
-    /// 异步刷新表格数据统计。
-    /// </summary>
-    /// <returns></returns>
-    public Task RefreshStatisAsync()
-    {
-        if (OnRefreshStatis == null)
-            return Task.CompletedTask;
-
-        return OnRefreshStatis.Invoke(Result);
     }
 
     /// <summary>
@@ -329,24 +146,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
-    }
-
-    internal async Task PageRefreshAsync()
-    {
-        if (Page != null)
-            await Page.RefreshAsync();
-        else
-            await RefreshAsync();
-
-        OnRefreshed?.Invoke();
-    }
-
-    private bool ShowForm(FormModel<TItem> model)
-    {
-        model.Info = Form;
-        model.Info ??= Context.Current.Form;
-        model.Info ??= new FormInfo();
-        return UI.ShowForm(model);
     }
 
     private void SetPermission()

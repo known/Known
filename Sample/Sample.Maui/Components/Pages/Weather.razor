@@ -1,13 +1,7 @@
 ﻿@page "/weather"
 @inherits BaseComponent
 
-<div class="kui-card" style="padding:20px">
-    <h1>Weather</h1>
-
-    <p>This component demonstrates fetching data from the server.</p>
-
-    <TablePage Model="model" />
-</div>
+<TablePage Model="model" />
 
 @code {
     private TableModel<WeatherForecast> model;
@@ -19,6 +13,16 @@
         model.ShowPager = true;
         model.Name = "Weather";
         model.OnQuery = OnQueryWeatherForecastsAsync;
+        model.Toolbar.AddAction(nameof(New));
+    }
+
+    public void New()
+    {
+        model.NewForm(d =>
+        {
+            UI.Alert($"Summary={d.Summary}");
+            return Known.Result.SuccessAsync("");
+        });
     }
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)

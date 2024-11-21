@@ -102,3 +102,22 @@ public enum TableColumnMode
     /// </summary>
     Attribute
 }
+
+/// <summary>
+/// 表单查看类型枚举。
+/// </summary>
+public enum FormViewType
+{
+    /// <summary>
+    /// 查看详情。
+    /// </summary>
+    View,
+    /// <summary>
+    /// 提交工作流。
+    /// </summary>
+    Submit,
+    /// <summary>
+    /// 审核工作流。
+    /// </summary>
+    Verify
+}

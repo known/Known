@@ -7,7 +7,10 @@ partial class TableModel<TItem>
     /// </summary>
     /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
     /// <returns></returns>
-    public Task ExportDataAsync(ExportMode mode = ExportMode.Query) => ExportDataAsync(Name, mode);
+    public Task ExportDataAsync(ExportMode mode = ExportMode.Query)
+    {
+        return ExportDataAsync(Name, mode);
+    }
 
     /// <summary>
     /// 异步导出表格数据，默认按查询结果导出。
@@ -15,5 +18,8 @@ partial class TableModel<TItem>
     /// <param name="name">导出文件名。</param>
     /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
     /// <returns></returns>
-    public Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query) => Page.App?.ExportDataAsync(this, name, mode);
+    public Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query)
+    {
+        return Page?.App?.ExportDataAsync(this, name, mode);
+    }
 }
