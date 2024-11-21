@@ -1,6 +1,6 @@
 ![Logo](https://foruda.gitee.com/images/1703494572944391289/24f26ae0_14334.png "屏幕截图")
 
-Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开箱即用，一处代码，多处运行。
+`Known`是基于`Blazor`轻量级、跨平台、极易扩展的插件开发框架。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
 [![stars](https://img.shields.io/github/stars/known/known?color=%231890FF)](https://github.com/known/Known)
@@ -9,36 +9,13 @@ Known是基于Blazor的企业级快速开发框架，低代码，跨平台，开
 [![Nuget](https://img.shields.io/nuget/dt/Known.svg?logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-green)
+![.NET](https://img.shields.io/badge/.NET-9.0-green)
 ![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 - 官网：[http://known.org.cn](http://known.org.cn)
 - 源码：[https://gitee.com/known/Known](https://gitee.com/known/Known)
 - 源码：[https://github.com/known/Known](https://github.com/known/Known)
-
-### 概述
-
-- 基于`C#`和`Ant Design Blazor`的快速开发框架，开箱即用，跨平台。
-- 插件模块化，Web应用，混合桌面应用，Web和桌面共享一处代码。
-- 低代码、简洁、易扩展，让开发更简单、更快捷！
-
-### 特性
-
-- 快速开发：基于`Blazor`实现，在线表单设计，实现无代码开发增删改查导功能。
-- 通用权限：内置通用权限模块，基于角色鉴权，`URL`检查，只需专注业务功能。
-- 最佳实践：低代码开发，一人多角色，沟通高效，进度快，无前后端沟通成本。
-- 国际化：提供完备的国际化多语言解决方案，默认支持简体中文、繁体中文、英语。
-- 现代`UI`：基于`Ant Design`设计风格的现代`UI`展现层，易扩展。
-- `C#`语言：全量使用C#语言进行全栈开发，从前端到后端只需学习一门语言。
-
-### 快速安装
-
-``` bash
---安装模板
-dotnet new install KnownTemplate
---创建项目
-dotnet new known --name=MyApp
-```
 
 ### 项目结构
 
@@ -56,26 +33,36 @@ dotnet new known --name=MyApp
   ├─Sample.WinForm  -> 框架WinForm示例。
 ```
 
-### 项目连接
+### 项目链接
 
 - 项目模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
 - 项目示例：[https://gitee.com/known/known-sample](https://gitee.com/known/known-sample)
-- KnownDB：[https://gitee.com/known/known-db](https://gitee.com/known/known-db)
-- JxcLite：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
-- KnownCMS：[https://gitee.com/known/known-cms](https://gitee.com/known/known-cms)
+- `KnownDB`：[https://gitee.com/known/known-db](https://gitee.com/known/known-db)
+- `JxcLite`：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
+- `KnownCMS`：[https://gitee.com/known/known-cms](https://gitee.com/known/known-cms)
 
-### Admin插件
+### `Admin`插件
+
+#### 主要特性
+
+- 快速开发：基于`Blazor`实现，在线表单设计，实现无代码开发增删改查导功能。
+- 通用权限：内置通用权限模块，基于角色鉴权，`URL`检查，只需专注业务功能。
+- 最佳实践：低代码开发，一人多角色，沟通高效，进度快，无前后端沟通成本。
+- 国际化：提供完备的国际化多语言解决方案，默认支持简体中文、繁体中文、英语。
+- 现代`UI`：基于`Ant Design`设计风格的现代`UI`展现层，易扩展。
+- `C#`语言：全量使用C#语言进行全栈开发，从前端到后端只需学习一门语言。
 
 #### 主要功能
 
-- 模块管理：配置系统功能模块，在线设计模型、页面和表单，自动生成代码。
+- 开发中心：配置系统功能模块，在线设计模型、页面和表单，支持无代码开发。
 - 数据字典：维护系统各模块下拉框数据源。
 - 组织架构：维护企业组织架构信息，树形结构。
 - 角色管理：维护系统角色及权限信息，权限可控制菜单，按钮，列表栏位。
 - 用户管理：维护系统登录用户信息。
+- 系统附件：查询和管理系统所有模块上传的附件。
 - 系统日志：查询系统用户登录和访问菜单等日志，可用于统计用户常用功能。
-- 消息管理：系统内消息提醒，工作流消息通知。
-- 流程管理：系统内置工作流引擎，提供提交、撤回、分配、审核、重启操作。
+- 微信管理：系统内置微信模板消息发送通知。
+- 流程管理：系统内置简易工作流引擎，提供提交、撤回、分配、审核、重启操作。
 - 定时任务：导入和计算耗时的功能采用定时任务异步执行。
 
 #### 界面截图
