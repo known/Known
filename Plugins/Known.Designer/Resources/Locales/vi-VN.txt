@@ -48,9 +48,5 @@
   "Designer.FixedHeight": "Chiều cao cố định",
   "Designer.Maximizable": "Phóng to",
   "Designer.DefaultMaximized": "Phóng to mặc định",
-  "Designer.IsContinue": "Lưu tiếp tục",
-  "Designer.RequestHeaders": "Đầu yêu cầu",
-  "Designer.RequestParameters": "Yêu cầu tham số",
-  "Designer.ResponseResults": "Kết quả trả lời",
-  "Designer.ColumnSettings": "Thiết lập cột"
+  "Designer.IsContinue": "Lưu tiếp tục"
 }

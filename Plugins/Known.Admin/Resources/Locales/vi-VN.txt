@@ -241,6 +241,11 @@
   "DefaultSort": "Sắp xếp mặc định",
   "Fixed": "Vị trí cố định",
   "SysModule.Icon": "Biểu tượng",
+  "Test": "Thử nghiệm",
+  "Execute": "Thực hiện",
+  "RequestHeaders": "Đầu yêu cầu",
+  "RequestParameters": "Yêu cầu tham số",
+  "ResponseResults": "Kết quả trả lời",
 
   "Install": "Cài đặt",
   "StartUsing": "Bắt đầu sử dụng",

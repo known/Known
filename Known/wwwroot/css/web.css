@@ -18,7 +18,6 @@
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
-.kui-header, .kui-layout .kui-logo {border-bottom:1px solid var(--kui-border-color);}
 .kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
 .kui-query {margin-bottom:10px;padding:10px;}
@@ -204,6 +203,7 @@
     display:flex;justify-content:space-between;
     color:var(--kui-color);
 }
+.kui-layout > .kui-header {padding-left:0;}
 .kui-header .left {display:flex;align-items:center;}
 .kui-header .left .trigger {font-size:18px;margin-top:2.5px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
 .Compact .kui-header .left .trigger {font-size:14px;margin-top:0;}
@@ -258,8 +258,11 @@
 .kui-form-setting .ant-form-item-label {text-align:left;}
 .kui-form-setting .ant-radio-group {display:flex;}
 
-/*AntDesign*/
+.kui-header, .kui-layout .kui-logo {border-bottom:1px solid var(--kui-border-color);}
 .ant-layout-header {background:var(--kui-bgcolor);}
+.kui-menu-dark {background:#001529;color:rgba(255,255,255,0.65);border-bottom:none;}
+.kui-menu-dark .kui-logo, .kui-header .kui-logo {border-bottom:none;}
+/*AntDesign*/
 .ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:2px;}
@@ -291,10 +294,10 @@
 .kui-tab-form .ant-modal-body {padding-top:0;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 
-:root[data-theme=dark] .ant-layout-sider {
+:root[data-theme=dark] .ant-layout-sider, :root[data-theme=dark] .kui-menu-dark {
     color:var(--kui-color);background-color:var(--kui-bgcolor);
 }
-:root[data-theme=dark] .ant-modal-header .anticon {color:rgba(255, 255, 255, 0.45);}
+:root[data-theme=dark] .ant-modal-header .anticon {color:rgba(255 255,255,0.45);}
 
 .ant-captcha + img, .ant-captcha + canvas, .ant-captcha + .btn-sms {
     position:absolute;top:0;right:0;z-index:1000;text-align:center;

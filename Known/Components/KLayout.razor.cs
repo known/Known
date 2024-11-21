@@ -9,7 +9,8 @@ partial class KLayout
     private bool showSpin = false;
     private bool collapsed = false;
     private bool showSetting = false;
-    private string MenuClass => Context.UserSetting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
+    private string HeaderClass => Setting.MenuTheme == "Dark" ? "kui-header kui-menu-dark" : "kui-header";
+    private string MenuClass => Setting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
 
     /// <summary>
     /// 取得是否首次加载页面。
@@ -95,7 +96,7 @@ partial class KLayout
             {
                 var size = await JS.GetCurrentSizeAsync();
                 if (string.IsNullOrWhiteSpace(size))
-                    size = Context.UserSetting.Size;
+                    size = Setting.Size;
                 if (string.IsNullOrWhiteSpace(size))
                     size = Config.App.DefaultSize;
                 await JS.SetCurrentSizeAsync(size);
@@ -104,7 +105,7 @@ partial class KLayout
             {
                 var language = await JS.GetCurrentLanguageAsync();
                 if (string.IsNullOrWhiteSpace(language))
-                    language = Context.UserSetting.Language;
+                    language = Setting.Language;
                 Context.CurrentLanguage = language;
             }
         }

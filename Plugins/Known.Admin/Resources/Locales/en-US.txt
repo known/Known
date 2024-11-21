@@ -241,6 +241,11 @@
   "DefaultSort": "DefaultSort",
   "Fixed": "Fixed",
   "SysModule.Icon": "Icon",
+  "Test": "Test",
+  "Execute": "Execute",
+  "RequestHeaders": "Headers",
+  "RequestParameters": "Request",
+  "ResponseResults": "Response",
 
   "Install": "Install",
   "StartUsing": "Start",

@@ -115,17 +115,14 @@ public enum LayoutMode
     /// <summary>
     /// 纵向菜单布局。
     /// </summary>
-    [Display(Name = "纵向")]
     Vertical,
     /// <summary>
     /// 横向菜单布局。
     /// </summary>
-    [Display(Name = "横向")]
     Horizontal,
     /// <summary>
     /// 浮动菜单布局。
     /// </summary>
-    [Display(Name = "浮动")]
     Float
 }
 
@@ -139,7 +136,8 @@ public class UserSettingInfo
     /// </summary>
     public UserSettingInfo()
     {
-        Reset();
+        LayoutMode = Known.LayoutMode.Vertical.ToString();
+        Config.OnSetting?.Invoke(this);
     }
 
     /// <summary>
@@ -185,21 +183,12 @@ public class UserSettingInfo
     /// <summary>
     /// 取得或设置系统布局模式。
     /// </summary>
-    public LayoutMode LayoutMode { get; set; }
+    public string LayoutMode { get; set; }
 
     /// <summary>
     /// 取得或设置是否显示页面底部，默认否。
     /// </summary>
     public bool ShowFooter { get; set; }
-
-    internal void Reset()
-    {
-        MultiTab = false;
-        Accordion = true;
-        Collapsed = false;
-        MenuTheme = "Light";
-        Config.OnSetting?.Invoke(this);
-    }
 }
 
 /// <summary>

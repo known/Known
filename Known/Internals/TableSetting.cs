@@ -19,7 +19,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Dropdown(new DropdownModel
             {
-                Tooltip = Language["Designer.ColumnSettings"],
+                Tooltip = Language["ColumnSettings"],
                 TriggerType = "Click",
                 Icon = "setting",
                 Overlay = BuildOverlay
@@ -35,7 +35,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
             {
                 builder.CheckBox(new InputModel<bool>
                 {
-                    Label = Language["Designer.ColumnSettings"],
+                    Label = Language["ColumnSettings"],
                     Indeterminate = Indeterminate,
                     Value = CheckAll,
                     ValueChanged = this.Callback<bool>(CheckAllChangedAsync)

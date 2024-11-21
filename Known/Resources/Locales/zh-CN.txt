@@ -133,6 +133,21 @@
   "Nav.Development": "开发中心",
   "Nav.Exit": "安全退出",
 
+  "Set.ThemeSetting": "主题设置",
+  "Set.Menu": "菜单",
+  "Set.LayoutSetting": "布局设置",
+  "Set.Layout": "布局",
+  "Set.Tabs": "标签",
+  "Set.PreferenceSetting": "偏好设置",
+  "Set.Accordion": "手风琴",
+  "Set.RegionalSetting": "区域设置",
+  "Set.Footer": "底部",
+  "Set.Dark": "暗色",
+  "Set.Light": "亮色",
+  "Set.Vertical": "纵向",
+  "Set.Horizontal": "横向",
+  "Set.Float": "浮动",
+
   "Code.Female": "女",
   "Code.Male": "男",
 
@@ -143,5 +158,6 @@
   "No": "否",
   "Collapse": "折叠",
   "Expand": "展开",
-  "Custom": "自定义"
+  "Custom": "自定义",
+  "ColumnSettings": "列设置"
 }

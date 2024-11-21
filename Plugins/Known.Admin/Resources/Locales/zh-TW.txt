@@ -241,6 +241,11 @@
   "DefaultSort": "默認排序",
   "Fixed": "固定位置",
   "SysModule.Icon": "圖標",
+  "Test": "測試",
+  "Execute": "執行",
+  "RequestHeaders": "請求頭",
+  "RequestParameters": "請求參數",
+  "ResponseResults": "響應結果",
 
   "Install": "安裝",
   "StartUsing": "開始使用",

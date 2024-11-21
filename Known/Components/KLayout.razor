@@ -1,6 +1,6 @@
 ﻿@inherits BaseLayout
 
-<div class="kui-wrapper @Context.UserSetting.Size">
+<div class="kui-wrapper @Setting.Size">
     <LayoutValue Value="this" IsFixed>
         @if (IsLoaded)
         {
@@ -10,11 +10,11 @@
             }
             else
             {
-                if (Setting.LayoutMode == LayoutMode.Horizontal)
+                if (Setting.LayoutMode == LayoutMode.Horizontal.ToString())
                 {
                     <Layout Class="kui-layout">
-                        <Header Class="kui-header">
-                            <div class="left @MenuClass">
+                        <Header Class="@HeaderClass">
+                            <div class="left">
                                 <div class="kui-logo"></div>
                                 <AntMenu Context="Context" Mode="MenuMode.Horizontal" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
                             </div>
@@ -46,7 +46,7 @@
                 else
                 {
                     <Layout Class="kui-layout">
-                        @if (Setting.LayoutMode == LayoutMode.Float)
+                        @if (Setting.LayoutMode == LayoutMode.Float.ToString())
                         {
                             <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                                 <div class="kui-logo"></div>
@@ -67,7 +67,7 @@
                         <Layout>
                             <Header Class="kui-header">
                                 <div class="left">
-                                    @if (Setting.LayoutMode != LayoutMode.Float)
+                                    @if (Setting.LayoutMode != LayoutMode.Float.ToString())
                                     {
                                         if (collapsed)
                                         {

@@ -133,6 +133,21 @@
   "Nav.Development": "Trung tâm phát triển",
   "Nav.Exit": "Thoát an toàn",
 
+  "Set.ThemeSetting": "Thiết lập sắc thái",
+  "Set.Menu": "Thực đơn",
+  "Set.LayoutSetting": "Thiết lập bố trí",
+  "Set.Layout": "Bố trí",
+  "Set.Tabs": "Trang chủ",
+  "Set.PreferenceSetting": "Tùy chọn",
+  "Set.Accordion": "Trang chủ",
+  "Set.RegionalSetting": "Thiết lập vùng",
+  "Set.Footer": "Dưới",
+  "Set.Dark": "Màu tối",
+  "Set.Light": "Màu sáng",
+  "Set.Vertical": "Theo chiều dọc",
+  "Set.Horizontal": "Phong cảnh",
+  "Set.Float": "Nổi",
+
   "Code.Female": "Phụ nữ",
   "Code.Male": "Nam",
 
@@ -143,5 +158,6 @@
   "No": "Không",
   "Collapse": "Gấp",
   "Expand": "Mở rộng",
-  "Custom": "Tùy chỉnh"
+  "Custom": "Tùy chỉnh",
+  "ColumnSettings": "Thiết lập cột"
 }

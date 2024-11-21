@@ -133,6 +133,21 @@
   "Nav.Development": "Development",
   "Nav.Exit": "Sign Out",
 
+  "Set.ThemeSetting": "Theme Settings",
+  "Set.Menu": "Menu",
+  "Set.LayoutSetting": "Layout Settings",
+  "Set.Layout": "Layout",
+  "Set.Tabs": "Tabs",
+  "Set.PreferenceSetting": "Preference Settings",
+  "Set.Accordion": "Accordion",
+  "Set.RegionalSetting": "Regional Settings",
+  "Set.Footer": "Footer",
+  "Set.Dark": "Dark",
+  "Set.Light": "Light",
+  "Set.Vertical": "Vertical",
+  "Set.Horizontal": "Horizontal",
+  "Set.Float": "Float",
+
   "Code.Female": "Female",
   "Code.Male": "Male",
 
@@ -143,5 +158,6 @@
   "No": "No",
   "Collapse": "Collapse",
   "Expand": "Expand",
-  "Custom": "Custom"
+  "Custom": "Custom",
+  "ColumnSettings": "Column Settings"
 }

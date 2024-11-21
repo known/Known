@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <SettingTypeForm Class="kui-setting-form" Model="Model" LabelColSpan="6" OnFinish="OnSave">
-    <Title Level="4">主题设置</Title>
+    <Title Level="4">@Language["Set.ThemeSetting"]</Title>
     <div class="kui-theme-color">
         @foreach (var item in Colors)
         {
@@ -13,29 +13,29 @@
             </div>
         }
     </div>
-    <FormItem Label="菜单">
+    <FormItem Label="@Language["Set.Menu"]">
         <AntRadioGroup @bind-Value="context.MenuTheme" Codes="MenuThemes" OnChange="OnChange" />
     </FormItem>
     <Divider />
-    <Title Level="4">布局设置</Title>
-    <FormItem Label="布局">
-        <EnumRadioGroup TEnum="LayoutMode" @bind-Value="context.LayoutMode" OnChange="OnChange" />
+    <Title Level="4">@Language["Set.LayoutSetting"]</Title>
+    <FormItem Label="@Language["Set.Layout"]">
+        <AntRadioGroup @bind-Value="context.LayoutMode" Codes="LayoutModes" OnChange="OnChange" />
     </FormItem>
-    <FormItem Label="标签">
+    <FormItem Label="@Language["Set.Tabs"]">
         <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
     </FormItem>
     <Divider />
-    <Title Level="4">偏好设置</Title>
-    <FormItem Label="手风琴">
+    <Title Level="4">@Language["Set.PreferenceSetting"]</Title>
+    <FormItem Label="@Language["Set.Accordion"]">
         <Switch @bind-Checked="context.Accordion" OnChange="OnChange" />
     </FormItem>
-    <Title Level="4">区域设置</Title>
-    <FormItem Label="底部">
+    <Title Level="4">@Language["Set.RegionalSetting"]</Title>
+    <FormItem Label="@Language["Set.Footer"]">
         <Switch @bind-Checked="context.ShowFooter" OnChange="OnChange" />
     </FormItem>
     <FormItem WrapperColOffset="6" WrapperColSpan="16">
-        <Button Type="@ButtonType.Primary" HtmlType="submit">保存</Button>
-        <Button OnClick="OnReset">重置</Button>
+        <Button Type="@ButtonType.Primary" HtmlType="submit">@Language.Save</Button>
+        <Button OnClick="OnReset">@Language.Reset</Button>
     </FormItem>
 </SettingTypeForm>
 
@@ -51,7 +51,15 @@
         ["geekblue"] = "#2F54EB",
         ["purple"] = "#722ED1"
     };
-    private List<CodeInfo> MenuThemes = [new CodeInfo("Dark", "暗色"), new CodeInfo("Light", "亮色")];
+    private List<CodeInfo> MenuThemes => [
+        new CodeInfo("Dark", Language["Set.Dark"]),
+        new CodeInfo("Light", Language["Set.Light"])
+    ];
+    private List<CodeInfo> LayoutModes => [
+        new CodeInfo("Vertical", Language["Set.Vertical"]),
+        new CodeInfo("Horizontal", Language["Set.Horizontal"]),
+        new CodeInfo("Float", Language["Set.Float"])
+    ];
 
     [Parameter] public UserSettingInfo Model { get; set; }
     [Parameter] public Action OnChange { get; set; }
