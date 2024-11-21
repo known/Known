@@ -475,19 +475,19 @@ public class AppInfo
     public bool IsClient { get; set; }
 
     /// <summary>
-    /// 取得或设置系统主页顶部菜单是否显示字体大小切换。
+    /// 取得或设置系统主页顶部菜单是否显示字体大小切换，默认显示。
     /// </summary>
-    public bool IsSize { get; set; }
+    public bool IsSize { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置系统主页顶部菜单是否显示语言切换。
+    /// 取得或设置系统主页顶部菜单是否显示语言切换，默认显示。
     /// </summary>
-    public bool IsLanguage { get; set; }
+    public bool IsLanguage { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置系统主页顶部菜单是否显示主题切换。
+    /// 取得或设置系统主页顶部菜单是否显示主题切换，默认显示。
     /// </summary>
-    public bool IsTheme { get; set; }
+    public bool IsTheme { get; set; } = true;
 
     /// <summary>
     /// 取得或设置系统Web根目录。

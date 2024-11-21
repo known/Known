@@ -12,12 +12,11 @@ html, body {
 }
 
 .kui-logo {
-    background: url(../img/logo1.png) no-repeat left;
-    margin-left: 5px;
+    background: url(../img/logo1.png) no-repeat 5px;
 }
 
 :root[data-theme=dark] .kui-logo, .kui-menu-dark .kui-logo {
-    background: url(../img/logo.png) no-repeat left;
+    background: url(../img/logo.png) no-repeat 5px;
 }
 
 :root[data-theme=dark] .kui-logo {

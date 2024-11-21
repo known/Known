@@ -18,7 +18,7 @@
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
-.kui-header, .kui-header .kui-logo {border-bottom:1px solid var(--kui-border-color);}
+.kui-header, .kui-layout .kui-logo {border-bottom:1px solid var(--kui-border-color);}
 .kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
 .kui-query {margin-bottom:10px;padding:10px;}
@@ -205,7 +205,8 @@
     color:var(--kui-color);
 }
 .kui-header .left {display:flex;align-items:center;}
-.kui-header .left .trigger {font-size:18px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
+.kui-header .left .trigger {font-size:18px;margin-top:2.5px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
+.Compact .kui-header .left .trigger {font-size:14px;margin-top:0;}
 .kui-header .left .trigger:hover {color:#1890ff;}
 .kui-header .anticon {cursor:pointer;}
 .kui-header .ant-breadcrumb a {color:var(--kui-color);}

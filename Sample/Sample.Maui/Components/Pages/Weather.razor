@@ -11,7 +11,7 @@
         await base.OnInitAsync();
         model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
         model.ShowPager = true;
-        model.Name = "Weather";
+        model.Name = "天气";
         model.OnQuery = OnQueryWeatherForecastsAsync;
         model.Toolbar.AddAction(nameof(New));
     }
