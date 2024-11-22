@@ -142,7 +142,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
         var info = new InstallInfo
         {
             AppName = app.Name,
-            ProductId = app.ProductId,
+            ProductId = AdminOption.Instance.ProductId,
             ProductKey = AppHelper.GetProductKey(),
             AdminName = Constants.SysUserName
         };

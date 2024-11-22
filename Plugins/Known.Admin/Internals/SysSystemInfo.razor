@@ -39,16 +39,16 @@
             </DataItem>
         </AntRow>
     }
-    @if (!string.IsNullOrWhiteSpace(Config.App.Copyright))
+    @if (!string.IsNullOrWhiteSpace(AdminOption.Instance.Copyright))
     {
         <AntRow>
-            <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@Config.App.Copyright</DataItem>
+            <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@AdminOption.Instance.Copyright</DataItem>
         </AntRow>
     }
-    @if (!string.IsNullOrWhiteSpace(Config.App.SoftTerms))
+    @if (!string.IsNullOrWhiteSpace(AdminOption.Instance.SoftTerms))
     {
         <AntRow>
-            <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@Config.App.SoftTerms</DataItem>
+            <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@AdminOption.Instance.SoftTerms</DataItem>
         </AntRow>
     }
 </TypeForm>

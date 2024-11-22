@@ -7,8 +7,6 @@ namespace Known;
 /// </summary>
 public static class AdminExtension
 {
-    internal static readonly AdminOption Option = new();
-
     /// <summary>
     /// 添加Known框架后台管理模块前端。
     /// </summary>
@@ -55,8 +53,8 @@ public static class AdminExtension
     /// <param name="action">配置选项委托。</param>
     public static void AddKnownAdminCore(this IServiceCollection services, Action<AdminOption> action = null)
     {
-        action?.Invoke(Option);
-        WeixinApi.Initialize(Option.Weixin);
+        action?.Invoke(AdminOption.Instance);
+        WeixinApi.Initialize(AdminOption.Instance.Weixin);
 
         // 注入后台任务
         TaskHelper.OnPendingTask = GetPendingTaskAsync;

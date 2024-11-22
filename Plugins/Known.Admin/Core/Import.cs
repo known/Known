@@ -6,7 +6,7 @@ namespace Known.Core;
 /// 数据导入基类。
 /// </summary>
 /// <param name="context">导入上下文对象实例。</param>
-public abstract class ImportBase(ImportContext context) : BaseImport
+public abstract class ImportBase(ImportContext context)
 {
     internal ImportContext ImportContext { get; } = context;
 

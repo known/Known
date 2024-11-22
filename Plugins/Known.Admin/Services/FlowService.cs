@@ -135,7 +135,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(Context, flow);
+                var biz = FlowBase.Create(Context, flow);
                 var result = await biz.OnCommitingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -178,7 +178,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(Context, flow);
+                var biz = FlowBase.Create(Context, flow);
                 var result = await biz.OnRevokingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -257,7 +257,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(Context, flow);
+                var biz = FlowBase.Create(Context, flow);
                 var result = await biz.OnVerifingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -320,7 +320,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             {
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(Context, flow);
+                var biz = FlowBase.Create(Context, flow);
                 var result = await biz.OnRepeatingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -352,7 +352,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             {
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = BaseFlow.Create(Context, flow);
+                var biz = FlowBase.Create(Context, flow);
                 var result = await biz.OnStoppingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);

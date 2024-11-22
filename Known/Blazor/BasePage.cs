@@ -20,10 +20,7 @@ public class BasePage : BaseComponent
     /// 呈现页面组件内容，如果系统启用授权功能，则会先判断授权，再呈现页面。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        builder.Component<KAuthPanel>().Set(c => c.ChildContent, BuildPage).Build();
-    }
+    protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
 
     /// <summary>
     /// 页面呈现后异步方法，此处会调用页面内容高度自适应计算脚本。

@@ -48,7 +48,7 @@ class ModuleHelper
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
 
-        foreach (var item in AdminExtension.Option.Modules)
+        foreach (var item in AdminOption.Instance.Modules)
         {
             item.Invoke(modules);
         }

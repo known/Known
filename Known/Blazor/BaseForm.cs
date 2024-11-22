@@ -32,15 +32,10 @@ public abstract class BaseForm : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Component<KAuthPanel>()
-               .Set(c => c.ChildContent, b =>
-               {
-                   if (IsPage)
-                       b.Component<KLoading>().Set(c => c.IsPage, true).Set(c => c.ChildContent, BuildForm).Build();
-                   else
-                       BuildForm(b);
-               })
-               .Build();
+        if (IsPage)
+            builder.Component<KLoading>().Set(c => c.IsPage, true).Set(c => c.ChildContent, BuildForm).Build();
+        else
+            BuildForm(builder);
     }
 
     /// <summary>

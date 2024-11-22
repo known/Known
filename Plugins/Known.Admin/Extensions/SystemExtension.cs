@@ -39,6 +39,6 @@ static class SystemExtension
     internal static async Task<Result> CheckKeyAsync(this Database db)
     {
         var info = await db.GetSystemAsync();
-        return Config.App.CheckSystemInfo(info);
+        return AdminOption.Instance.CheckSystemInfo(info);
     }
 }

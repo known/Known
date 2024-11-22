@@ -15,6 +15,11 @@ public sealed class ImportHelper
     private ImportHelper() { }
 
     /// <summary>
+    /// 取得后端导入类。
+    /// </summary>
+    internal static Dictionary<string, Type> ImportTypes { get; } = [];
+
+    /// <summary>
     /// 异步执行数据导入定时任务。
     /// </summary>
     /// <returns></returns>
@@ -87,7 +92,7 @@ public sealed class ImportHelper
         if (context.IsDictionary)
             return new DictionaryImport(context);
 
-        if (!Config.ImportTypes.TryGetValue(context.BizId, out Type type))
+        if (!ImportTypes.TryGetValue(context.BizId, out Type type))
             return null;
 
         return Activator.CreateInstance(type, context) as ImportBase;

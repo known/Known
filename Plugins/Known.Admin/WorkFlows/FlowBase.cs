@@ -4,7 +4,7 @@
 /// 系统工作流基类。
 /// </summary>
 /// <param name="context">上下文对象。</param>
-public abstract class BaseFlow(Context context)
+public abstract class FlowBase(Context context)
 {
     internal static Dictionary<string, Type> FlowTypes { get; } = [];
 
@@ -13,13 +13,13 @@ public abstract class BaseFlow(Context context)
     /// </summary>
     public Context Context { get; } = context;
 
-    internal static BaseFlow Create(Context context, SysFlow flow)
+    internal static FlowBase Create(Context context, SysFlow flow)
     {
         if (!FlowTypes.ContainsKey(flow.FlowCode))
             throw new SystemException(context.Language["Tip.NotRegisterFlow"]);
 
         var type = FlowTypes[flow.FlowCode];
-        var instance = Activator.CreateInstance(type, context) as BaseFlow;
+        var instance = Activator.CreateInstance(type, context) as FlowBase;
         return instance;
     }
 

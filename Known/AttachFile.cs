@@ -1,4 +1,4 @@
-﻿namespace Known.Core;
+﻿namespace Known;
 
 /// <summary>
 /// 系统附件类。

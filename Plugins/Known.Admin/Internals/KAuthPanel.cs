@@ -16,7 +16,7 @@ class KAuthPanel : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!Config.IsAuth)
+        if (!AdminConfig.IsAuth)
             BuildAuthorize(builder);
         else
             ChildContent?.Invoke(builder);
@@ -24,12 +24,12 @@ class KAuthPanel : BaseComponent
 
     private void BuildAuthorize(RenderTreeBuilder builder)
     {
-        //builder.Component<SysActive>()
-        //       .Set(c => c.OnCheck, isCheck =>
-        //       {
-        //           Config.IsAuth = isCheck;
-        //           StateChanged();
-        //       })
-        //       .Build();
+        builder.Component<SysActive>()
+               .Set(c => c.OnCheck, isCheck =>
+               {
+                   AdminConfig.IsAuth = isCheck;
+                   StateChanged();
+               })
+               .Build();
     }
 }
