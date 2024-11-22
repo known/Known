@@ -143,7 +143,7 @@ class KCaptcha : BaseComponent
 
     private void BuildSMS(RenderTreeBuilder builder)
     {
-        builder.Span().Class("btn-sms").OnClick(this.Callback(SendSMSCode)).Text(smsText).Close();
+        builder.Span().Class("btn-sms").OnClick(this.Callback(SendSMSCode)).Child(smsText).Close();
     }
 
     private void BuildImage(RenderTreeBuilder builder)

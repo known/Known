@@ -38,9 +38,9 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// 异步初始化表格页面组件。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Table = new TableModel<TItem>(this);
         Table.DefaultQuery = DefaultQuery;
     }

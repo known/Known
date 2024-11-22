@@ -81,7 +81,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
                     className += " active";
                 builder.Div().Class(className)
                        .OnClick(this.Callback(() => OnSelectItem(item)))
-                       .Children(() =>
+                       .Child(() =>
                        {
                            //if (key == "FontAwesome")
                            //    builder.Span(item.Icon, "");

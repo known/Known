@@ -6,34 +6,6 @@
 public static class ComponentExtension
 {
     /// <summary>
-    /// 创建依赖注入的接口实例。
-    /// </summary>
-    /// <typeparam name="T">接口类型。</typeparam>
-    /// <param name="factory">依赖注入服务工厂实例。</param>
-    /// <returns></returns>
-    public static async Task<T> CreateAsync<T>(this IServiceScopeFactory factory)
-    {
-        await using var scope = factory.CreateAsyncScope();
-        var service = scope.ServiceProvider.GetRequiredService<T>();
-        return service;
-    }
-
-    /// <summary>
-    /// 创建依赖注入的后端服务接口实例。
-    /// </summary>
-    /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
-    /// <param name="factory">依赖注入服务工厂实例。</param>
-    /// <param name="context">上下文对象实例。</param>
-    /// <returns></returns>
-    public static async Task<T> CreateAsync<T>(this IServiceScopeFactory factory, Context context) where T : IService
-    {
-        await using var scope = factory.CreateAsyncScope();
-        var service = scope.ServiceProvider.GetRequiredService<T>();
-        service.Context = context;
-        return service;
-    }
-
-    /// <summary>
     /// 构建级联值组件。
     /// </summary>
     /// <typeparam name="T">级联组件类型。</typeparam>
@@ -48,18 +20,6 @@ public static class ComponentExtension
                 .Set(c => c.Value, value)
                 .Set(c => c.ChildContent, child);
         });
-    }
-
-    #region Component
-    /// <summary>
-    /// 创建组件建造者。
-    /// </summary>
-    /// <typeparam name="T">组件类型。</typeparam>
-    /// <param name="builder">呈现树建造者。</param>
-    /// <returns>组件建造者。</returns>
-    public static ComponentBuilder<T> Component<T>(this RenderTreeBuilder builder) where T : notnull, Microsoft.AspNetCore.Components.IComponent
-    {
-        return new ComponentBuilder<T>(builder);
     }
 
     internal static void Component<T>(this RenderTreeBuilder builder, Action<ComponentBuilder<T>> child) where T : notnull, Microsoft.AspNetCore.Components.IComponent
@@ -106,45 +66,7 @@ public static class ComponentExtension
             builder.AddComponentReferenceCapture(3, value => action.Invoke((DynamicComponent)value));
         builder.CloseComponent();
     }
-    #endregion
 
-    #region Callback
-    /// <summary>
-    /// 创建事件回调。
-    /// </summary>
-    /// <param name="component">组件对象。</param>
-    /// <param name="callback">回调异步委托。</param>
-    /// <returns>事件回调。</returns>
-    public static EventCallback Callback(this ComponentBase component, Func<Task> callback) => EventCallback.Factory.Create(component, callback);
-
-    /// <summary>
-    /// 创建事件回调。
-    /// </summary>
-    /// <typeparam name="T">参数类型。</typeparam>
-    /// <param name="component">组件对象。</param>
-    /// <param name="callback">回调异步委托。</param>
-    /// <returns>事件回调。</returns>
-    public static EventCallback<T> Callback<T>(this ComponentBase component, Func<T, Task> callback) => EventCallback.Factory.Create(component, callback);
-
-    /// <summary>
-    /// 创建事件回调。
-    /// </summary>
-    /// <param name="component">组件对象。</param>
-    /// <param name="callback">回调委托。</param>
-    /// <returns>事件回调。</returns>
-    public static EventCallback Callback(this ComponentBase component, Action callback) => EventCallback.Factory.Create(component, callback);
-
-    /// <summary>
-    /// 创建事件回调。
-    /// </summary>
-    /// <typeparam name="T">参数类型。</typeparam>
-    /// <param name="component">组件对象。</param>
-    /// <param name="callback">回调委托。</param>
-    /// <returns>事件回调。</returns>
-    public static EventCallback<T> Callback<T>(this ComponentBase component, Action<T> callback) => EventCallback.Factory.Create(component, callback);
-    #endregion
-
-    #region Content
     /// <summary>
     /// 建造组件树。
     /// </summary>
@@ -220,5 +142,4 @@ public static class ComponentExtension
         builder.AddContent(1, text);
         return builder;
     }
-    #endregion
 }

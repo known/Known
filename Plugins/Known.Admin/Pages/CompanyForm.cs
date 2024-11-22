@@ -10,9 +10,9 @@ public class CompanyForm : BaseTabPage
     /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Tab.AddTab("BasicInfo", b => b.Component<CompanyBaseInfo>().Build());
     }
 }

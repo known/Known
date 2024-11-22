@@ -40,7 +40,7 @@ public class TopNavbar : BaseComponent
                     if (!Config.NavItemTypes.TryGetValue(item, out var type))
                         continue;
 
-                    b.Li().Children(() => b.Component(type)).Close();
+                    b.Li().Child(() => b.Component(type)).Close();
                 }
             });
 
@@ -70,7 +70,7 @@ public class TopNavbar : BaseComponent
                 builder.Div().Class("item").Draggable()
                        .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
                        .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
-                       .Children(() => BuildSettingItem(builder, item))
+                       .Child(() => BuildSettingItem(builder, item))
                        .Close();
             }
             BuildAddItem(builder);

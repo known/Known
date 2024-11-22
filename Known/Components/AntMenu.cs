@@ -61,7 +61,7 @@ public class AntMenu : Menu
 
     private void BuildTitle(RenderTreeBuilder builder, MenuInfo item)
     {
-        builder.Span().Children(() => BuildItemName(builder, item)).Close();
+        builder.Span().Child(() => BuildItemName(builder, item)).Close();
     }
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)

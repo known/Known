@@ -16,9 +16,9 @@ public class SysOrganizationList : BasePage<SysOrganization>
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IOrganizationService>();
 
         Page.Type = PageType.Column;

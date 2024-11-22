@@ -13,12 +13,12 @@ public class SysLogList : BaseTablePage<SysLog>
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
         var date = DateTime.Now.ToString("yyyy-MM-dd");
         DefaultQuery = new { CreateTime = $"{date}~{date}" };
 
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ILogService>();
 
         Table.OnQuery = Service.QueryLogsAsync;

@@ -14,7 +14,7 @@ public class BasePage : BaseComponent
     /// 异步初始化页面组件。
     /// </summary>
     /// <returns></returns>
-    protected override Task OnInitAsync() => OnPageInitAsync();
+    protected override Task OnInitAsync() => OnInitPageAsync();
 
     /// <summary>
     /// 呈现页面组件内容，如果系统启用授权功能，则会先判断授权，再呈现页面。
@@ -48,7 +48,7 @@ public class BasePage : BaseComponent
     /// 异步初始化页面虚方法，子页面应覆写该方法。
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnPageInitAsync() => Task.CompletedTask;
+    protected virtual Task OnInitPageAsync() => Task.CompletedTask;
 
     /// <summary>
     /// 构建页面组件虚方法，子页面应覆写该方法。
@@ -99,9 +99,9 @@ public class BaseTabPage : BasePage
     /// 异步初始化标签Web页面组件。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Tab.Left = b => b.FormTitle(PageName);
     }
 

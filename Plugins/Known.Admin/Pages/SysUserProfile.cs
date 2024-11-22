@@ -13,9 +13,9 @@ public class SysUserProfile : BasePage<UserInfo>, IReuseTabsPage
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Page.Type = PageType.Column;
         Page.Spans = "28";
         Page.AddItem("kui-card kui-p10", BuildUserInfo);

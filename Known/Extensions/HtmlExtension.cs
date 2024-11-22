@@ -10,21 +10,30 @@ public static class HtmlExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">label的文本，支持html字符串。</param>
-    public static void Label(this RenderTreeBuilder builder, string text) => builder.Label(() => builder.Markup(text));
+    public static void Label(this RenderTreeBuilder builder, string text)
+    {
+        builder.Label(() => builder.Markup(text));
+    }
 
     /// <summary>
     /// 呈现一个label元素。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">label的子元素委托。</param>
-    public static void Label(this RenderTreeBuilder builder, Action child) => builder.Label().Children(child).Close();
+    public static void Label(this RenderTreeBuilder builder, Action child)
+    {
+        builder.Label().Child(child).Close();
+    }
 
     /// <summary>
     /// 呈现一个div元素。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">div的子元素委托。</param>
-    public static void Div(this RenderTreeBuilder builder, Action child) => builder.Div("", child);
+    public static void Div(this RenderTreeBuilder builder, Action child)
+    {
+        builder.Div("", child);
+    }
 
     /// <summary>
     /// 呈现一个div元素。
@@ -32,7 +41,10 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="className">div的CSS类名。</param>
     /// <param name="text">div的文本内容，支持html字符串。</param>
-    public static void Div(this RenderTreeBuilder builder, string className, string text) => builder.Div(className, () => builder.Markup(text));
+    public static void Div(this RenderTreeBuilder builder, string className, string text)
+    {
+        builder.Div(className, () => builder.Markup(text));
+    }
 
     /// <summary>
     /// 呈现一个div元素。
@@ -40,14 +52,20 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="className">div的CSS类名。</param>
     /// <param name="child">div的子元素委托。</param>
-    public static void Div(this RenderTreeBuilder builder, string className, Action child) => builder.Div().Class(className).Children(child).Close();
+    public static void Div(this RenderTreeBuilder builder, string className, Action child)
+    {
+        builder.Div().Class(className).Child(child).Close();
+    }
 
     /// <summary>
     /// 呈现一个ul元素。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">ul的子元素委托。</param>
-    public static void Ul(this RenderTreeBuilder builder, Action child) => builder.Ul("", child);
+    public static void Ul(this RenderTreeBuilder builder, Action child)
+    {
+        builder.Ul("", child);
+    }
 
     /// <summary>
     /// 呈现一个ul元素。
@@ -55,14 +73,20 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="className">ul的CSS类名。</param>
     /// <param name="child">ul的子元素委托。</param>
-    public static void Ul(this RenderTreeBuilder builder, string className, Action child) => builder.Ul().Class(className).Children(child).Close();
+    public static void Ul(this RenderTreeBuilder builder, string className, Action child)
+    {
+        builder.Ul().Class(className).Child(child).Close();
+    }
 
     /// <summary>
     /// 呈现一个li元素。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">li的子元素委托。</param>
-    public static void Li(this RenderTreeBuilder builder, Action child) => builder.Li("", child);
+    public static void Li(this RenderTreeBuilder builder, Action child)
+    {
+        builder.Li("", child);
+    }
 
     /// <summary>
     /// 呈现一个li元素。
@@ -70,7 +94,10 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="className">li的CSS类名。</param>
     /// <param name="text">li的文本，支持html字符串。</param>
-    public static void Li(this RenderTreeBuilder builder, string className, string text) => builder.Li(className, () => builder.Markup(text));
+    public static void Li(this RenderTreeBuilder builder, string className, string text)
+    {
+        builder.Li(className, () => builder.Markup(text));
+    }
 
     /// <summary>
     /// 呈现一个li元素。
@@ -78,7 +105,10 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="className">li的CSS类名。</param>
     /// <param name="child">li的子元素委托。</param>
-    public static void Li(this RenderTreeBuilder builder, string className, Action child) => builder.Li().Class(className).Children(child).Close();
+    public static void Li(this RenderTreeBuilder builder, string className, Action child)
+    {
+        builder.Li().Class(className).Child(child).Close();
+    }
 
     /// <summary>
     /// 呈现一个span元素。
@@ -86,7 +116,10 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">span的文本。</param>
     /// <param name="onClick">span的单击事件。</param>
-    public static void Span(this RenderTreeBuilder builder, string text, EventCallback<MouseEventArgs>? onClick = null) => builder.Span("", text, onClick);
+    public static void Span(this RenderTreeBuilder builder, string text, EventCallback<MouseEventArgs>? onClick = null)
+    {
+        builder.Span("", text, onClick);
+    }
 
     /// <summary>
     /// 呈现一个span元素。

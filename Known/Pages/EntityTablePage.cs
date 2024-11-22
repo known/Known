@@ -12,7 +12,7 @@ public class EntityTablePage<TEntity> : BaseTablePage<TEntity> where TEntity : c
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
         Table = new TableModel<TEntity>(this, TableColumnMode.Property);
         Table.DefaultQuery = DefaultQuery;

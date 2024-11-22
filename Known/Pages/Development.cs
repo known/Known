@@ -14,7 +14,7 @@ public class Development : BaseTabPage, IReuseTabsPage
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
         if (!CurrentUser.IsSystemAdmin())
         {
@@ -22,7 +22,7 @@ public class Development : BaseTabPage, IReuseTabsPage
             return;
         }
 
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Tab.Class = "kui-development";
         foreach (var item in UIConfig.DevelopTabs)
         {

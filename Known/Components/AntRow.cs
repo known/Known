@@ -40,7 +40,7 @@ public class AntRow : ComponentBase
             style.Add("margin-left", $"-{Gutter / 2}px");
             style.Add("margin-right", $"-{Gutter / 2}px");
         }
-        builder.Div().Class(className).Style(style.BuildStyle()).Children(() =>
+        builder.Div().Class(className).Style(style.BuildStyle()).Child(() =>
         {
             builder.Cascading(this, b => b.Fragment(ChildContent));
         }).Close();

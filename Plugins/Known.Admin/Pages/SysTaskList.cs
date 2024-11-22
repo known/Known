@@ -13,9 +13,9 @@ public class SysTaskList : BaseTablePage<SysTask>
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ITaskService>();
         Table.OnQuery = Service.QueryTasksAsync;
         Table.Column(c => c.Status).Template((b, r) => b.Tag(r.Status));

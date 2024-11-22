@@ -13,9 +13,9 @@ public class SysFileList : BaseTablePage<SysFile>
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IFileService>();
         Table.OnQuery = Service.QueryFilesAsync;
         Table.Column(c => c.Name).Template(BuildFileName);

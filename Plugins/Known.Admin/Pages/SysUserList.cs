@@ -18,9 +18,9 @@ public class SysUserList : BasePage<SysUser>
     /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnPageInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnPageInitAsync();
+        await base.OnInitPageAsync();
         Organization = await CreateServiceAsync<IOrganizationService>();
         Service = await CreateServiceAsync<IUserService>();
 

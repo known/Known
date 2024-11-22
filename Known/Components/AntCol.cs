@@ -50,7 +50,7 @@ public class AntCol : ComponentBase
             style.Add("padding-right", $"{Row.Gutter / 2}px");
         }
         builder.Div().Class(className).Style(style.BuildStyle())
-               .Children(() => builder.Fragment(ChildContent))
+               .Child(() => builder.Fragment(ChildContent))
                .Close();
     }
 }
