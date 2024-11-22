@@ -1,4 +1,6 @@
-﻿namespace Known.Internals;
+﻿using Known.Designers;
+
+namespace Known.Internals;
 
 class ModuleForm : BaseTabForm
 {
@@ -36,14 +38,56 @@ class ModuleForm : BaseTabForm
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
 
         Tab.AddTab("BasicInfo", BuildDataForm);
-        foreach (var item in UIConfig.ModuleFormTabs)
-        {
-            Tab.AddTab(item.Key, b => item.Value.Invoke(b, Module));
-        }
+        Tab.AddTab("ModelSetting", b => ModuleForm.BuildModuleModel(b, Module));
+        //Tab.AddTab("FlowSetting", b => BuildModuleFlow(b, Module));
+        Tab.AddTab("PageSetting", b => BuildModulePage(b, Module));
+        Tab.AddTab("FormSetting", b => BuildModuleForm(b, Module));
         SetTabVisible();
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => builder.Form(Model);
+
+    private static void BuildModuleModel(RenderTreeBuilder builder, ModuleInfo model)
+    {
+        builder.Component<EntityDesigner>()
+               .Set(c => c.ReadOnly, model.IsView)
+               .Set(c => c.Module, model)
+               .Set(c => c.Model, model.EntityData)
+               .Set(c => c.OnChanged, data => model.EntityData = data)
+               .Build();
+    }
+
+    private static void BuildModuleFlow(RenderTreeBuilder builder, ModuleInfo model)
+    {
+        builder.Component<FlowDesigner>()
+               .Set(c => c.ReadOnly, model.IsView)
+               .Set(c => c.Module, model)
+               .Set(c => c.Model, model.FlowData)
+               .Set(c => c.OnChanged, data => model.FlowData = data)
+               .Build();
+    }
+
+    private static void BuildModulePage(RenderTreeBuilder builder, ModuleInfo model)
+    {
+        model.Entity.PageUrl = model.Url;
+        builder.Component<PageDesigner>()
+               .Set(c => c.ReadOnly, model.IsView)
+               .Set(c => c.Module, model)
+               .Set(c => c.Model, model.Page)
+               .Set(c => c.OnChanged, data => model.Page = data)
+               .Build();
+    }
+
+    private static void BuildModuleForm(RenderTreeBuilder builder, ModuleInfo model)
+    {
+        builder.Component<FormDesigner>()
+               .Set(c => c.ReadOnly, model.IsView)
+               .Set(c => c.Module, model)
+               //.Set(c => c.Flow, Flow)
+               .Set(c => c.Model, model.Form)
+               .Set(c => c.OnChanged, data => model.Form = data)
+               .Build();
+    }
 
     private void OnFieldChanged(string field)
     {

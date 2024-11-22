@@ -1,29 +1,30 @@
-﻿namespace Known.Designer.Flows;
+﻿namespace Known.Designers;
 
-class FlowDesigner : BaseDesigner<string>
+class EntityDesigner : BaseDesigner<string>
 {
+    private string dataTypes;
     private List<CodeInfo> addTypes;
-    private List<CodeInfo> flowModels;
+    private List<CodeInfo> entityModels;
     private string addType;
-    private FlowInfo flow = new();
-    private FlowView view;
+    private EntityInfo entity = new();
+    private EntityView view;
 
     private bool IsNew => addType == addTypes[0].Code;
-    private bool IsReadOnly => ReadOnly || !Module.Entity.IsFlow;
 
     protected override async Task OnInitAsync()
     {
         addTypes =
         [
             new CodeInfo("New", Language["Designer.New"]),
-            new CodeInfo("Select", Language["Designer.SelectFlow"])
+            new CodeInfo("Select", Language["Designer.SelectEntity"])
         ];
         await base.OnInitAsync();
-        flowModels = DataHelper.Flows.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
+        entityModels = DataHelper.Models.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
+        dataTypes = string.Join(",", Cache.GetCodes(nameof(FieldType)).Select(c => c.Name));
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
-        flow = DataHelper.ToFlow(Model);
-        //Module.Flow = flow;
+        entity = DataHelper.ToEntity(Model);
+        Module.Entity = entity;
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -34,16 +35,17 @@ class FlowDesigner : BaseDesigner<string>
             {
                 builder.Div("caption", () =>
                 {
-                    builder.Div("title", Language["Designer.FlowModel"]);
+                    builder.Div("title", Language["Designer.Models"]);
                     BuildModelType(builder);
                 });
                 BuildNewModel(builder);
             });
             builder.Div("panel-view", () =>
             {
-                builder.Component<FlowView>()
+                builder.Component<EntityView>()
+                       .Set(c => c.ReadOnly, ReadOnly)
                        .Set(c => c.Module, Module)
-                       .Set(c => c.Model, flow)
+                       .Set(c => c.Model, entity)
                        .Build(value => view = value);
             });
         });
@@ -55,7 +57,7 @@ class FlowDesigner : BaseDesigner<string>
         {
             builder.RadioList(new InputModel<string>
             {
-                Disabled = IsReadOnly,
+                Disabled = ReadOnly,
                 Codes = addTypes,
                 Value = addType,
                 ValueChanged = this.Callback<string>(OnTypeChanged)
@@ -68,8 +70,8 @@ class FlowDesigner : BaseDesigner<string>
             {
                 builder.Select(new InputModel<string>
                 {
-                    Disabled = IsReadOnly,
-                    Codes = flowModels,
+                    Disabled = ReadOnly,
+                    Codes = entityModels,
                     Value = Model,
                     ValueChanged = this.Callback<string>(OnModelChanged)
                 });
@@ -79,21 +81,30 @@ class FlowDesigner : BaseDesigner<string>
 
     private void BuildNewModel(RenderTreeBuilder builder)
     {
-        builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
-{Language["Designer.Flow"]}{Language["Name"]}|{Language["Code"]}
-{Language["Designer.Step"]}{Language["Name"]}|{Language["Code"]}|{Language["User"]}|{Language["Role"]}|{Language["Pass"]}|{Language["Fail"]}
-<b>{Language["Designer.Sample"]}</b>
-{Language["BizApply"]}|BizApplyFlow
-{Language["BizApply"]}|Apply|||{Language["Flow.Verifing"]}
-{Language["BizVerify"]}|Verify||VerifyBy|{Language["Flow.Pass"]}|{Language["Flow.Fail"]}
-{Language["Flow.End"]}|End</pre>");
+        ShowTips(builder);
         builder.TextArea(new InputModel<string>
         {
             Disabled = ReadOnly || !IsNew,
-            Rows = 11,
+            Rows = 12,
             Value = Model,
             ValueChanged = this.Callback<string>(OnModelChanged)
         });
+    }
+
+    private void ShowTips(RenderTreeBuilder builder, bool showSample = false)
+    {
+        builder.Markup($@"<pre><b>{Language["Designer.Explanation"]}</b>
+{Language["Designer.Entity"]}{Language["Name"]}|{Language["Code"]}|{Language["Designer.FlowClass"]}
+{Language["Designer.Field"]}{Language["Name"]}|{Language["Code"]}|{Language["Type"]}|{Language["Length"]}|{Language["Required"]}
+{Language["Designer.Type"]}{dataTypes}</pre>");
+        if (showSample)
+        {
+            builder.Markup($@"<pre><b>{Language["Designer.Sample"]}</b>
+{Language["Designer.Test"]}|KmTest|Y
+{Language["Designer.Text"]}|Field1|Text|50|Y
+{Language["Designer.Number"]}|Field2|Number|18,5
+{Language["Designer.Date"]}|Field3|Date</pre>");
+        }
     }
 
     private void OnTypeChanged(string type) => addType = type;
@@ -101,9 +112,9 @@ class FlowDesigner : BaseDesigner<string>
     private void OnModelChanged(string model)
     {
         Model = model;
-        flow = DataHelper.ToFlow(model);
-        //Module.Flow = flow;
-        view?.SetModelAsync(flow);
+        entity = DataHelper.ToEntity(model);
+        Module.Entity = entity;
+        view?.SetModelAsync(entity);
         OnChanged?.Invoke(model);
     }
 }

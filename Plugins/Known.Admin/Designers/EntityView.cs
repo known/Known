@@ -1,4 +1,4 @@
-﻿namespace Known.Designer.Entity;
+﻿namespace Known.Designers;
 
 class EntityView : BaseView<EntityInfo>
 {

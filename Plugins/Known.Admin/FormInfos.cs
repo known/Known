@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known;
 
 /// <summary>
 /// 登录表单信息类。

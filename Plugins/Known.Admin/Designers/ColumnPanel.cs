@@ -1,4 +1,4 @@
-﻿namespace Known.Designer.Shared;
+﻿namespace Known.Designers;
 
 class ColumnPanel<TModel> : BaseComponent
 {

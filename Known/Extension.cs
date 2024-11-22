@@ -32,9 +32,6 @@ public static class Extension
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
-        var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
-        UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
-        
         KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
         KStyleSheet.AddStyle("_content/Known/css/theme/default.css");
         KStyleSheet.AddStyle("_content/Known/css/size/default.css");

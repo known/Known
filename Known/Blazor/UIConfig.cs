@@ -28,26 +28,6 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
-    /// 取得关于系统页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, RenderFragment> SystemTabs { get; } = [];
-
-    /// <summary>
-    /// 取得用户中心页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, RenderFragment> UserTabs { get; } = [];
-
-    /// <summary>
-    /// 取得开发中心页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, RenderFragment> DevelopTabs { get; } = [];
-
-    /// <summary>
-    /// 取得开发中心模块表单自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, Action<RenderTreeBuilder, ModuleInfo>> ModuleFormTabs { get; } = [];
-
-    /// <summary>
     /// 取得或设置自定义自动表格页面委托。
     /// </summary>
     public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }

@@ -1,6 +1,7 @@
 ﻿global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Data;
+global using System.Text;
 global using Known.Blazor;
 global using Known.Components;
 global using Known.Core;

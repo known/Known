@@ -1,4 +1,4 @@
-﻿namespace Known.Designer;
+﻿namespace Known.Designers;
 
 class BaseView<TModel> : BaseComponent
 {

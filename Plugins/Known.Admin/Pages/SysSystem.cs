@@ -23,7 +23,7 @@ public class SysSystem : BaseTabPage
 
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
         Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting>().Build());
-        foreach (var item in UIConfig.SystemTabs)
+        foreach (var item in AdminConfig.SystemTabs)
         {
             Tab.AddTab(item.Key, item.Value);
         }

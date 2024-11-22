@@ -24,7 +24,9 @@ public class Development : BaseTabPage, IReuseTabsPage
 
         await base.OnInitPageAsync();
         Tab.Class = "kui-development";
-        foreach (var item in UIConfig.DevelopTabs)
+        Tab.AddTab("Menu.SysModuleList", b => b.Component<ModuleList>().Build());
+        Tab.AddTab("WebApi", b => b.Component<WebApiList>().Build());
+        foreach (var item in AdminConfig.DevelopTabs)
         {
             Tab.AddTab(item.Key, item.Value);
         }

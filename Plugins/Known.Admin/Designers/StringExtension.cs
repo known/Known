@@ -1,4 +1,4 @@
-﻿namespace Known.Designer.Extensions;
+﻿namespace Known.Designers;
 
 static class StringExtension
 {

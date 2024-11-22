@@ -9,7 +9,7 @@ class SysUserProfileTabs : BaseComponent
         await base.OnInitAsync();
         Tab.AddTab("MyProfile", b => b.Component<UserEditForm>().Build());
         Tab.AddTab("SecuritySetting", b => b.Component<PasswordEditForm>().Build());
-        foreach (var item in UIConfig.UserTabs)
+        foreach (var item in AdminConfig.UserTabs)
         {
             Tab.AddTab(item.Key, item.Value);
         }

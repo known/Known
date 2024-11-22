@@ -1,4 +1,4 @@
-﻿namespace Known.Designer.Extensions;
+﻿namespace Known.Designers;
 
 static class ModelExtension
 {
@@ -32,11 +32,21 @@ static class ModelExtension
         return infos;
     }
 
-    private static FieldInfo GetFieldInfo(Language language, string id, FieldType type) => new() { Id = id, Name = language[id], Type = type };
+    private static FieldInfo GetFieldInfo(Language language, string id, FieldType type)
+    {
+        return new() { Id = id, Name = language[id], Type = type };
+    }
     #endregion
 
     #region Model
-    internal static bool HasCategory(this FieldType type) => type == FieldType.Select || type == FieldType.RadioList || type == FieldType.CheckList;
-    internal static bool HasType(this ActionInfo info, string type) => !string.IsNullOrWhiteSpace(info.Position) && info.Position.Contains(type);
+    internal static bool HasCategory(this FieldType type)
+    {
+        return type == FieldType.Select || type == FieldType.RadioList || type == FieldType.CheckList;
+    }
+
+    internal static bool HasType(this ActionInfo info, string type)
+    {
+        return !string.IsNullOrWhiteSpace(info.Position) && info.Position.Contains(type);
+    }
     #endregion
 }

@@ -1,4 +1,4 @@
-﻿namespace Known.Designer.Pages;
+﻿namespace Known.Designers;
 
 class PageView : BaseView<PageInfo>
 {

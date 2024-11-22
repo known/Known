@@ -1,4 +1,4 @@
-﻿namespace Known.Designer;
+﻿namespace Known.Designers;
 
 class DemoModel : TableModel<Dictionary<string, object>>
 {

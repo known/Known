@@ -1,4 +1,4 @@
-﻿namespace Known.Designer.Forms;
+﻿namespace Known.Designers;
 
 class FormView : BaseView<FormInfo>
 {

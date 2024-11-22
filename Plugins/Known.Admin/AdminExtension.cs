@@ -1,4 +1,5 @@
-﻿using Known.Platforms;
+﻿using Known.Designers;
+using Known.Platforms;
 
 namespace Known;
 
@@ -13,6 +14,8 @@ public static class AdminExtension
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
+        services.AddSingleton<ICodeGenerator, CodeGenerator>();
+
         // 注入平台服务
         services.AddScoped<IPlatformService, PlatformService>();
         services.AddScoped<IAutoService, AutoService>();
@@ -38,8 +41,8 @@ public static class AdminExtension
         Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 配置UI
-        UIConfig.DevelopTabs["Menu.SysModuleList"] = b => b.Component<ModuleList>().Build();
-        UIConfig.DevelopTabs["WebApi"] = b => b.Component<WebApiList>().Build();
+        var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
+        UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         UIConfig.ImportForm = BuildImportForm;
 
         // 添加样式
@@ -69,7 +72,7 @@ public static class AdminExtension
     {
         services.AddScoped<IWeixinService, WeixinService>();
         // 配置UI
-        UIConfig.SystemTabs["WeChatSetting"] = b => b.Component<WeChatSetting>().Build();
+        AdminConfig.SystemTabs["WeChatSetting"] = b => b.Component<WeChatSetting>().Build();
     }
 
     private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string type)
