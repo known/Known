@@ -1,7 +1,14 @@
 ﻿@inherits BaseComponent
 
 <div class="kui-steps-form @Model.Direction">
-    <DataSteps Model="Model" />
+    <Steps Class="@Model.Class" Current="Model.Current">
+        @foreach (var item in Model.Items)
+        {
+            <Step Title="@Language?.GetTitle(item.Title)"
+                  Subtitle="@Language?.GetTitle(item.SubTitle)"
+                  Description="@Language?.GetTitle(item.Description)" />
+        }
+    </Steps>
     <div class="kui-steps-content">
         @if (Model.Items != null && Model.Items.Count > 0)
         {

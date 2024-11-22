@@ -6,7 +6,7 @@ static class SystemExtension
     {
         if (!Config.App.IsPlatform || db.User == null)
         {
-            var json = await db.GetConfigAsync(Constants.KeySystem);
+            var json = await db.GetConfigAsync(Constant.KeySystem);
             return Utils.FromJson<SystemInfo>(json);
         }
 
@@ -33,7 +33,7 @@ static class SystemExtension
 
     internal static Task<Result> SaveSystemAsync(this Database db, SystemInfo info)
     {
-        return db.SaveConfigAsync(Constants.KeySystem, info);
+        return db.SaveConfigAsync(Constant.KeySystem, info);
     }
 
     internal static async Task<Result> CheckKeyAsync(this Database db)

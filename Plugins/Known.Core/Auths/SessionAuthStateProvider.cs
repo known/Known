@@ -25,6 +25,6 @@ class SessionAuthStateProvider(JSService js) : AuthenticationStateProvider, IAut
         if (user == null)
             return new(new ClaimsIdentity());
 
-        return user.ToPrincipal(Constants.KeyAuth);
+        return user.ToPrincipal(Constant.KeyAuth);
     }
 }

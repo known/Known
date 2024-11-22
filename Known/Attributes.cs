@@ -9,6 +9,7 @@ public class CodeInfoAttribute : Attribute { }
 /// <summary>
 /// 导航条项目特性类，用于标识组件是否是全局导航条项目。
 /// </summary>
+[AttributeUsage(AttributeTargets.Class)]
 public class NavItemAttribute : Attribute { }
 
 /// <summary>

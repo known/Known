@@ -19,7 +19,6 @@ public class AdminLayout : LayoutComponentBase
 
 class InnerLayout : KLayout
 {
-    private ISystemService System;
     private IAuthService Auth;
 
     /// <summary>
@@ -70,11 +69,10 @@ class InnerLayout : KLayout
     {
         IsLoaded = false;
         await base.OnInitAsync();
-        System = await CreateServiceAsync<ISystemService>();
         Auth = await CreateServiceAsync<IAuthService>();
-        if (Context.System == null)
-            Context.System = await System.GetSystemAsync();
-        if (Context.System == null)
+        var service = await CreateServiceAsync<ISystemService>();
+        var system = await service.GetSystemAsync();
+        if (system == null)
         {
             Navigation?.NavigateTo("/install", true);
         }

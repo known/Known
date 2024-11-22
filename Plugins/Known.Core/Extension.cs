@@ -57,7 +57,7 @@ public static class Extension
         switch (option.AuthMode)
         {
             case AuthMode.Cookie:
-                services.AddAuthentication().AddCookie(Constants.KeyAuth);
+                services.AddAuthentication().AddCookie(Constant.KeyAuth);
                 services.AddScoped<IAuthStateProvider, CookieAuthStateProvider>();
                 break;
             case AuthMode.Session:

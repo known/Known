@@ -10,11 +10,6 @@ public class UIContext : Context
     /// </summary>
     public MenuInfo Current { get; private set; }
 
-    ///// <summary>
-    ///// 取得上下文UI服务对象。
-    ///// </summary>
-    //internal UIService UI { get; private set; }
-
     /// <summary>
     /// 取得当前菜单URL。
     /// </summary>
@@ -24,16 +19,6 @@ public class UIContext : Context
     /// 取得或设置当前主题。
     /// </summary>
     public string Theme { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统信息对象。
-    /// </summary>
-    public SystemInfo System { get; set; }
-
-    ///// <summary>
-    ///// 取得注入的导航管理者实例。
-    ///// </summary>
-    //internal NavigationManager Navigation { get; private set; }
 
     /// <summary>
     /// 取得或设置当前用户设置用户系统设置信息对象。

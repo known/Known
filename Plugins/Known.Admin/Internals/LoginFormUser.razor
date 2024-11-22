@@ -38,7 +38,8 @@
 @code {
     private LoginInfoForm form;
     private AntCaptcha captcha;
-    private bool IsCaptcha => !IsStatic && Context.System != null && Context.System.IsLoginCaptcha;
+    private SystemInfo system;
+    private bool IsCaptcha => !IsStatic && system != null && system.IsLoginCaptcha;
     private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
 
     [Parameter] public LoginFormInfo Model { get; set; }
@@ -48,6 +49,8 @@
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        var service = await CreateServiceAsync<ISystemService>();
+        system = await service.GetSystemAsync();
     }
 
     private async Task OnFinish(EditContext context)

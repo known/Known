@@ -34,32 +34,6 @@ public class AutoInfo<TData>
 }
 
 /// <summary>
-/// 数据数量统计信息类。
-/// </summary>
-public class CountInfo
-{
-    /// <summary>
-    /// 取得或设置统计字段1。
-    /// </summary>
-    public string Field1 { get; set; }
-
-    /// <summary>
-    /// 取得或设置统计字段2。
-    /// </summary>
-    public string Field2 { get; set; }
-
-    /// <summary>
-    /// 取得或设置统计字段3。
-    /// </summary>
-    public string Field3 { get; set; }
-
-    /// <summary>
-    /// 取得或设置统计数量。
-    /// </summary>
-    public int TotalCount { get; set; }
-}
-
-/// <summary>
 /// 图表数据信息类。
 /// </summary>
 public class ChartDataInfo

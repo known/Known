@@ -24,7 +24,7 @@ class CookieAuthStateProvider(IHttpContextAccessor context, IPlatformService pla
         if (user != null)
         {
             await context.HttpContext.SignInAsync(
-                Constants.KeyAuth, principal,
+                Constant.KeyAuth, principal,
                 new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1) }
             );
         }
@@ -34,7 +34,7 @@ class CookieAuthStateProvider(IHttpContextAccessor context, IPlatformService pla
     public async Task SignOutAsync()
     {
         var principal = GetPrincipal(null);
-        await context.HttpContext.SignOutAsync(Constants.KeyAuth);
+        await context.HttpContext.SignOutAsync(Constant.KeyAuth);
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
     }
 
@@ -43,6 +43,6 @@ class CookieAuthStateProvider(IHttpContextAccessor context, IPlatformService pla
         if (user == null)
             return new(new ClaimsIdentity());
 
-        return user.ToPrincipal(Constants.KeyAuth);
+        return user.ToPrincipal(Constant.KeyAuth);
     }
 }

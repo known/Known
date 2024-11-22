@@ -26,7 +26,9 @@ public class InstallForm : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        if (Context.System != null)
+        var service = await CreateServiceAsync<ISystemService>();
+        var system = await service.GetSystemAsync();
+        if (system != null)
         {
             Navigation?.GoLoginPage();
             return;
