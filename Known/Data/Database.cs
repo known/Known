@@ -5,13 +5,15 @@
 /// </summary>
 public partial class Database : IDisposable
 {
+    internal const string DefaultConnName = "Default";
+
     /// <summary>
     /// 创建数据库访问实例。
     /// </summary>
     /// <param name="name">数据库连接名。</param>
     /// <returns>数据库访问实例。</returns>
     /// <exception cref="SystemException">数据库访问实现类不支持。</exception>
-    public static Database Create(string name = "Default")
+    public static Database Create(string name = DefaultConnName)
     {
         var database = Config.GetScopeService<Database>();
         database.SetDatabase(name);
