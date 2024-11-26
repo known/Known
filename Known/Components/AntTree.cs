@@ -26,6 +26,7 @@ public class AntTree : Tree<MenuInfo>
         IconExpression = x => x.DataItem.Icon;
         ChildrenExpression = x => x.DataItem.Children;
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;
+        TitleIconTemplate = this.BuildTree<TreeNode<MenuInfo>>((b, t) => b.Icon(t.Icon));
         OnClick = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeClick);
 		OnCheck = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeCheck);
         if (Model != null)

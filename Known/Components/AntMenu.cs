@@ -89,8 +89,8 @@ public class AntMenu : Menu
     {
         if (!string.IsNullOrWhiteSpace(item.Icon))
         {
-            builder.Component<Icon>()
-                   .Set(c => c.Type, item.Icon)
+            builder.Component<KIcon>()
+                   .Set(c => c.Icon, item.Icon)
                    .Build();
         }
         var itemName = Context?.Language?.GetString(item);
