@@ -1,0 +1,52 @@
+﻿@page "/"
+@inherits BasePage
+@attribute [ReuseTabsPage(Title = "首页", Pin = true, Closable = false)]
+
+<AntRow><AntCol Span="24"><KnownCard /></AntCol></AntRow>
+<AntRow><AntCol Span="24"><SpaceCard @ref="space" /></AntCol></AntRow>
+<AntRow Gutter="10">
+    <AntCol Span="14">
+        <ChartCard @ref="chart" Title="@Language?["Home.LogStatistic"]" />
+    </AntCol>
+    <AntCol Span="10">
+        <CommFuncCard @ref="func" />
+    </AntCol>
+</AntRow>
+
+@code {
+    private Services.IHomeService Service;
+    private SpaceCard space;
+    private ChartCard chart;
+    private CommFuncCard func;
+
+    protected override async Task OnInitPageAsync()
+    {
+        await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<Services.IHomeService>();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            var info = await Service.GetHomeAsync();
+            var counts = new List<StatisticCountInfo>();
+            counts.Add(new StatisticCountInfo { Name = Language["Home.UserCount"], Count = info?.Statistics?.UserCount });
+            counts.Add(new StatisticCountInfo { Name = Language["Home.LogCount"], Count = info?.Statistics?.LogCount });
+            space?.SetCounts(counts);
+
+            var option = new ChartCardOption { Id = "Order", Title = Language["Home.LogStatistic"] };
+            option.Charts.Add(new CardChartInfo
+            {
+                Type = "Bar",
+                Title = Language["Home.VisitTitle"].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
+                Datas = info?.Statistics?.LogDatas
+            });
+            await chart?.SetOptionAsync(option);
+
+            var visitMenus = Context.GetMenus(info?.VisitMenuIds);
+            func?.SetMenus(visitMenus);
+        }
+    }
+}

@@ -1,0 +1,52 @@
+﻿@page "/login1"
+@layout EmptyLayout
+@inherits LoginPage
+
+<div class="login">
+    <div class="login-head">
+        <div class="login-logo">
+            <a class="kui-logo" href="@Config.SiteUrl" target="_blank"></a>
+            <div class="kui-app-name">@Language["App.SubTitle"]</div>
+        </div>
+        <Sample.Web.Shared.TopRight />
+    </div>
+    <div class="login-body">
+        <div class="login-left">
+            <ul>
+                <li>@Language["OpenSource"]</li>
+                <li>@Language["LowCode"]</li>
+                <li>@Language["ModernUI"]</li>
+            </ul>
+            <img src="img/login.png" />
+        </div>
+        <div class="login-form">
+            <div class="login-form-body">
+                <LoginForm IsStatic Model="Model" OnLogin="OnUserLogin" />
+            </div>
+        </div>
+    </div>
+    <div class="login-copyright"><KFooter /></div>
+</div>
+
+@code {
+    [CascadingParameter] private HttpContext HttpContext { get; set; }
+    [Inject] private IAuthStateProvider AuthProvider { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        if (HttpMethods.IsGet(HttpContext.Request.Method))
+        {
+            await AuthProvider.SignOutAsync();
+            Model.UserName = "Admin";
+            Model.Password = "888888";
+        }
+    }
+
+    protected override async Task OnLoginedAsync(UserInfo user)
+    {
+        await base.OnLoginedAsync(user);
+        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
+        HttpContext.Response.Redirect(url);
+    }
+}

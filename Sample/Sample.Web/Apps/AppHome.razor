@@ -1,0 +1,17 @@
+﻿@page "/app"
+@inherits AppPage
+
+<div class="carousel">
+    <Carousel Autoplay="TimeSpan.FromSeconds(3)">
+        <CarouselSlick><img src="img/login.png" style="width:100%" /></CarouselSlick>
+        <CarouselSlick><img src="img/login.png" style="width:100%" /></CarouselSlick>
+    </Carousel>
+</div>
+
+<div style="padding:10px 0;">
+    <h1 class="kui-app-name">@AppConfig.AppName</h1>
+</div>
+
+<div style="padding:20px 30px;">
+    <AppMenu Items="Config.AppMenus" />
+</div>

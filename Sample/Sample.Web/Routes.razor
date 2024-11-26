@@ -1,0 +1,17 @@
+﻿<KContext Value="Context">
+    <Router AppAssembly="typeof(AppConfig).Assembly" AdditionalAssemblies="Config.Assemblies">
+        <Found Context="routeData">
+            <KRouteData Value="routeData">
+                <RouteView RouteData="routeData" DefaultLayout="typeof(AdminLayout)" />
+            </KRouteData>
+        </Found>
+        <NotFound>
+            <Result Status="404" />
+        </NotFound>
+    </Router>
+    <KContainer />
+</KContext>
+
+@code {
+    [Parameter] public UIContext Context { get; set; }
+}

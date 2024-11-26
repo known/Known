@@ -1,13 +1,11 @@
-using Known;
-using Sample.Web.Components;
+using Sample.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
        .AddInteractiveServerComponents();
-
-builder.Services.AddKnown();
+builder.AddApplication();
 
 var app = builder.Build();
 
@@ -21,7 +19,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAntiforgery();
+app.UseApplication();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-   .AddInteractiveServerRenderMode();
+   .AddInteractiveServerRenderMode()
+   .AddAdditionalAssemblies([.. Config.Assemblies]);
 app.Run();
