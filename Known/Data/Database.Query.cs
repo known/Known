@@ -130,9 +130,9 @@ public partial class Database
             paramters.Add($"id{i}", ids[i]);
         }
 
-        var tableName = Provider?.GetTableName(typeof(T));
-        var idText = string.Join(" or ", [.. idTexts]);
-        var sql = $"select * from {FormatName(tableName)} where {idText}";
+        var where = string.Join(" or ", [.. idTexts]);
+        var sb = Provider?.Sql.SelectAll().From<T>().WhereSql(where);
+        var sql = sb.ToSqlString();
         var info = new CommandInfo(Provider, sql, paramters);
         return QueryListAsync<T>(info);
     }

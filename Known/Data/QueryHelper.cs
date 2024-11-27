@@ -46,6 +46,7 @@ class QueryHelper
         if (!sql.Contains("where", StringComparison.OrdinalIgnoreCase))
             sql += " where 1=1";
 
+        field = db.Provider?.FormatName(field);
         switch (type)
         {
             case QueryType.Equal:

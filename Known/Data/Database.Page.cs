@@ -11,20 +11,10 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
-        var tableName = Provider?.GetTableName(typeof(T));
-        var sql = $"select * from {tableName}";
-
+        var sb = Provider?.Sql.SelectAll().From<T>();
         if (typeof(T).IsAssignableFrom(typeof(EntityBase)))
-        {
-            var compNo = nameof(EntityBase.CompNo);
-            var compName = Provider?.FormatName(compNo);
-            sql += $" where {compName}=@{compNo}";
-        }
-        else
-        {
-            sql += " where 1=1";
-        }
-
+            sb?.Where(nameof(EntityBase.CompNo));
+        var sql = sb?.ToSqlString();
         return QueryPageAsync(sql, criteria, onExport);
     }
 

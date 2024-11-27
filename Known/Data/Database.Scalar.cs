@@ -60,8 +60,8 @@ public partial class Database
     {
         try
         {
-            var tableName = Provider?.GetTableName(typeof(T));
-            var sql = $"select count(*) from {tableName}";
+            var sb = Provider?.Sql.SelectCount().From<T>();
+            var sql = sb.ToSqlString();
             var value = await ScalarAsync<int?>(sql);
             if (value == null)
                 return false;

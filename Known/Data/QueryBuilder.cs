@@ -233,10 +233,10 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
 
     private CommandInfo GetCountCommand()
     {
-        var tableName = provider.GetTableName(typeof(T));
-        var sql = $"select count(*) from {provider.FormatName(tableName)}";
+        var sb = provider.Sql.SelectCount().From<T>();
         if (!string.IsNullOrWhiteSpace(WhereSql))
-            sql += $" where {WhereSql}";
+            sb.WhereSql(WhereSql);
+        var sql = sb.ToSqlString();
         return new CommandInfo(provider, sql, Parameters);
     }
 

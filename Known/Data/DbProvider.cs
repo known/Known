@@ -32,6 +32,8 @@ class DbProvider
         return builder;
     }
 
+    internal SqlBuilder Sql => new(this);
+
     private string IdName => FormatName(nameof(EntityBase.Id));
     private string CreateTimeName => FormatName(nameof(EntityBase.CreateTime));
 
@@ -74,22 +76,21 @@ class DbProvider
 
     public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
-        var tableName = GetTableName(typeof(T));
-        var sql = $"select count(*) from {FormatName(tableName)}";
+        var sb = Sql.SelectCount().From<T>();
         var paramters = new Dictionary<string, object>();
         if (expression != null)
         {
             var qb = new QueryBuilder<T>(this).Where(expression);
             paramters = qb.Parameters;
-            sql += $" where {qb.WhereSql}";
+            sb.WhereSql(qb.WhereSql);
         }
+        var sql = sb.ToSqlString();
         return new CommandInfo(this, sql, paramters);
     }
 
     public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
     {
-        var tableName = GetTableName(typeof(T));
-        var sql = $"select * from {FormatName(tableName)}";
+        var sb = Sql.SelectAll().From<T>();
         var paramters = new Dictionary<string, object>();
         if (expression != null)
         {
@@ -97,13 +98,14 @@ class DbProvider
             if (!string.IsNullOrWhiteSpace(qb.WhereSql))
             {
                 paramters = qb.Parameters;
-                sql += $" where {qb.WhereSql}";
+                sb.WhereSql(qb.WhereSql);
             }
         }
         else
         {
-            sql += $" order by {CreateTimeName}";
+            sb.OrderBy(nameof(EntityBase.CreateTime));
         }
+        var sql = sb.ToSqlString();
         return new CommandInfo(this, sql, paramters);
     }
 
