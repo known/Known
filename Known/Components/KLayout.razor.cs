@@ -11,6 +11,7 @@ partial class KLayout
     private bool showSetting = false;
     private string HeaderClass => Setting.MenuTheme == "Dark" ? "kui-header kui-menu-dark" : "kui-header";
     private string MenuClass => Setting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
+    private AntMenu menu;
 
     /// <summary>
     /// 取得是否首次加载页面。
@@ -87,29 +88,51 @@ partial class KLayout
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
+        try
         {
-            //JS不能在初始化中调用
-            await JS.InitFilesAsync();
-            await OnThemeColorAsync();
-            if (Config.App.IsSize)
+            if (firstRender)
             {
-                var size = await JS.GetCurrentSizeAsync();
-                if (string.IsNullOrWhiteSpace(size))
-                    size = Setting.Size;
-                if (string.IsNullOrWhiteSpace(size))
-                    size = Config.App.DefaultSize;
-                await JS.SetCurrentSizeAsync(size);
+                await JS.InitFilesAsync();
+                await OnThemeColorAsync();
+                if (Config.App.IsSize)
+                {
+                    var size = await JS.GetCurrentSizeAsync();
+                    if (string.IsNullOrWhiteSpace(size))
+                        size = Setting.Size;
+                    if (string.IsNullOrWhiteSpace(size))
+                        size = Config.App.DefaultSize;
+                    await JS.SetCurrentSizeAsync(size);
+                }
+                if (Config.App.IsLanguage)
+                {
+                    var language = await JS.GetCurrentLanguageAsync();
+                    if (string.IsNullOrWhiteSpace(language))
+                        language = Setting.Language;
+                    Context.CurrentLanguage = language;
+                }
+                await OnRenderAfterAsync(firstRender);
             }
-            if (Config.App.IsLanguage)
-            {
-                var language = await JS.GetCurrentLanguageAsync();
-                if (string.IsNullOrWhiteSpace(language))
-                    language = Setting.Language;
-                Context.CurrentLanguage = language;
-            }
+            if (menu != null)
+                await menu.SetItemsAsync(UserMenus);
+        }
+        catch (Exception ex)
+        {
+            await OnErrorAsync(ex);
         }
     }
+
+    /// <summary>
+    /// 模板呈现后异步操作虚方法。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected virtual Task OnRenderAfterAsync(bool firstRender) => Task.CompletedTask;
+
+    /// <summary>
+    /// 异步获取用户设置信息。
+    /// </summary>
+    /// <returns>用户设置信息。</returns>
+    protected virtual Task<UserSettingInfo> GetUserSettingAsync() => Task.FromResult(new UserSettingInfo());
 
     private void OnToggle() => collapsed = !collapsed;
 

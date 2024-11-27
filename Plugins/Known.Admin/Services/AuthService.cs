@@ -19,6 +19,12 @@ public interface IAuthService : IService
     Task<Result> SignOutAsync();
 
     /// <summary>
+    /// 异步获取当前用户设置信息。
+    /// </summary>
+    /// <returns>用户设置信息。</returns>
+    Task<UserSettingInfo> GetUserSettingAsync();
+
+    /// <summary>
     /// 异步获取系统后台首页数据。
     /// </summary>
     /// <returns>后台首页数据。</returns>
@@ -99,6 +105,11 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         return Result.Success(Language["Tip.ExitSuccess"]);
     }
 
+    public Task<UserSettingInfo> GetUserSettingAsync()
+    {
+        return Database.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
+    }
+
     public async Task<AdminInfo> GetAdminAsync()
     {
         if (CurrentUser == null)
@@ -113,7 +124,6 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         {
             AppName = await db.GetSystemNameAsync(),
             UserMenus = await db.GetUserMenusAsync(modules),
-            UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting),
             UserTableSettings = await db.GetUserTableSettingsAsync(),
             MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.User.UserName && d.Status == Constant.UMStatusUnread),
             Codes = await DictionaryService.GetDictionariesAsync(db)

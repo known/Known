@@ -37,7 +37,10 @@ public static class JSExtension
     /// </summary>
     /// <param name="js">JS服务。</param>
     /// <returns>当前用户信息。</returns>
-    public static Task<UserInfo> GetUserInfoAsync(this JSService js) => js.GetSessionStorageAsync<UserInfo>(KeyUserInfo);
+    public static Task<UserInfo> GetUserInfoAsync(this JSService js)
+    {
+        return js.GetSessionStorageAsync<UserInfo>(KeyUserInfo);
+    }
 
     /// <summary>
     /// 异步存储当前用户信息到浏览器会话中。
@@ -45,9 +48,16 @@ public static class JSExtension
     /// <param name="js">JS服务。</param>
     /// <param name="data">当前用户信息。</param>
     /// <returns></returns>
-    public static Task SetUserInfoAsync(this JSService js, object data) => js.SetSessionStorageAsync(KeyUserInfo, data);
+    public static Task SetUserInfoAsync(this JSService js, object data)
+    {
+        return js.SetSessionStorageAsync(KeyUserInfo, data);
+    }
 
-    internal static Task<string> GetCurrentSizeAsync(this JSService js) => js.GetLocalStorageAsync<string>(KeySize);
+    internal static Task<string> GetCurrentSizeAsync(this JSService js)
+    {
+        return js.GetLocalStorageAsync<string>(KeySize);
+    }
+
     internal static async Task SetCurrentSizeAsync(this JSService js, string size)
     {
         var item = UIConfig.Sizes.FirstOrDefault(s => s.Id == size);
@@ -56,15 +66,22 @@ public static class JSExtension
         await js.SetLocalStorageAsync(KeySize, size);
     }
 
-    internal static Task<string> GetCurrentLanguageAsync(this JSService js) => js.GetLocalStorageAsync<string>(KeyLanguage);
-    internal static Task SetCurrentLanguageAsync(this JSService js, string language) => js.SetLocalStorageAsync(KeyLanguage, language);
+    internal static Task<string> GetCurrentLanguageAsync(this JSService js)
+    {
+        return js.GetLocalStorageAsync<string>(KeyLanguage);
+    }
+
+    internal static Task SetCurrentLanguageAsync(this JSService js, string language)
+    {
+        return js.SetLocalStorageAsync(KeyLanguage, language);
+    }
 
     /// <summary>
     /// 异步获取系统当前主题。
     /// </summary>
     /// <param name="js">JS服务。</param>
     /// <returns>当前主题。</returns>
-    public static async Task<string> GetCurrentThemeAsync(this JSService js)
+    internal static async Task<string> GetCurrentThemeAsync(this JSService js)
     {
         var theme = await js.GetLocalStorageAsync<string>(KeyTheme);
         if (string.IsNullOrWhiteSpace(theme))
@@ -82,7 +99,7 @@ public static class JSExtension
     /// <param name="js">JS服务。</param>
     /// <param name="theme">当前主题。</param>
     /// <returns></returns>
-    public static async Task SetCurrentThemeAsync(this JSService js, string theme)
+    internal static async Task SetCurrentThemeAsync(this JSService js, string theme)
     {
         await js.SetThemeAsync(theme);
         await js.SetLocalStorageAsync(KeyTheme, theme);

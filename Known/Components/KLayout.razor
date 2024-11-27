@@ -16,7 +16,7 @@
                         <Header Class="@HeaderClass">
                             <div class="left">
                                 <div class="kui-logo"></div>
-                                <AntMenu Context="Context" Mode="MenuMode.Horizontal" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                                <AntMenu @ref="menu" Context="Context" Mode="MenuMode.Horizontal" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" />
                             </div>
                             <TopNavbar OnMenuClick="OnMenuClick" />
                         </Header>
@@ -51,7 +51,7 @@
                             <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                                 <div class="kui-logo"></div>
                                 <div class="kui-scroll">
-                                    <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                                    <AntMenu @ref="menu" Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" />
                                 </div>
                             </Sider>
                         }
@@ -60,7 +60,7 @@
                             <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                                 <div class="kui-logo"></div>
                                 <div class="kui-scroll">
-                                    <AntMenu Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" Items="UserMenus" />
+                                    <AntMenu @ref="menu" Context="Context" Mode="MenuMode.Inline" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" />
                                 </div>
                             </Sider>
                         }

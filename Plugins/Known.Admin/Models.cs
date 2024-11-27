@@ -16,11 +16,6 @@ public class AdminInfo
     public int MessageCount { get; set; }
 
     /// <summary>
-    /// 取得或设置当前用户系统设置信息，如：是否使用多标签页模式。
-    /// </summary>
-    public UserSettingInfo UserSetting { get; set; }
-
-    /// <summary>
     /// 取得或设置当前用户模块表格设置信息列表，如：设置模块表格的显隐和宽度。
     /// </summary>
     public Dictionary<string, List<TableSettingInfo>> UserTableSettings { get; set; }

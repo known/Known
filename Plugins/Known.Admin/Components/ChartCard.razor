@@ -8,6 +8,10 @@
             </div>
         </div>
         <div class="ant-card-body">
+            @if (!isLoad)
+            {
+                <div class="kui-p10">Loading...</div>
+            }
             <KChart @ref="chart" Id="chart" />
         </div>
     </div>
@@ -15,11 +19,14 @@
 
 @code {
     private KChart chart;
+    private bool isLoad;
 
     [Parameter] public string Title { get; set; }
 
     public async Task SetOptionAsync(ChartCardOption option)
     {
+        isLoad = true;
+        await StateChangedAsync();
         var info = option?.Charts?.FirstOrDefault();
         if (info?.Type == "Line")
             await chart?.ShowLineAsync(info?.Title, info?.Datas);

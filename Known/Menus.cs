@@ -211,7 +211,7 @@ public class MenuInfo
     internal bool HasUrl(string url, RouteData route, string page)
     {
         if (Target == Constants.Route)
-            return Url == route.PageType.FullName;
+            return Url == url || Id == route.PageType.FullName;
 
         return Url == url || Url == $"/{page}" || Id == page;
     }

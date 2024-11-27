@@ -46,7 +46,7 @@
             await chart?.SetOptionAsync(option);
 
             var visitMenus = Context.GetMenus(info?.VisitMenuIds);
-            func?.SetMenus(visitMenus);
+            func?.SetMenusAsync(visitMenus);
         }
     }
 }

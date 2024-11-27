@@ -2,11 +2,15 @@
 
 <div class="ws-func">
     <Card Title="@Language?["Home.CommonFunc"]" Style="height:100%;">
-        @if (Menus != null && Menus.Count > 0)
+        @if (Menus == null || Menus.Count == 0)
+        {
+            <Empty />
+        }
+        else
         {
             foreach (var item in Menus)
             {
-                <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(item.RouteUrl, true)">
+                <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(item)">
                     <KIcon Icon="@item.Icon" />
                     <span class="name">@Language?.GetString(item)</span>
                 </div>
@@ -18,9 +22,9 @@
 @code {
     [Parameter] public List<MenuInfo> Menus { get; set; }
 
-    public void SetMenus(List<MenuInfo> menus)
+    public Task SetMenusAsync(List<MenuInfo> menus)
     {
         Menus = menus;
-        StateChanged();
+        return StateChangedAsync();
     }
 }

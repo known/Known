@@ -27,12 +27,23 @@ public class AntMenu : Menu
         ChildContent = BuildMenu;
     }
 
+    /// <summary>
+    /// 异步设置菜单数据源。
+    /// </summary>
+    /// <param name="items">菜单信息列表。</param>
+    /// <returns></returns>
+    public Task SetItemsAsync(List<MenuInfo> items)
+    {
+        Items = items;
+        return InvokeAsync(StateHasChanged);
+    }
+
     private void BuildMenu(RenderTreeBuilder builder)
     {
         if (Items == null || Items.Count == 0)
-            return;
-
-        BuildMenu(builder, Items);
+            builder.Div("kui-p10", "Loading...");
+        else
+            BuildMenu(builder, Items);
     }
 
     private void BuildMenu(RenderTreeBuilder builder, List<MenuInfo> items)
