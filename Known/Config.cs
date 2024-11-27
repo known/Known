@@ -98,22 +98,19 @@ public sealed class Config
     public static DateTime StartTime { get; internal set; }
 
     /// <summary>
-    /// 取得路由页面类型，用于控制权限。
-    /// </summary>
-    public static Dictionary<string, Type> RouteTypes { get; } = [];
-
-    /// <summary>
     /// 取得操作按钮信息列表。
     /// </summary>
     public static List<ActionInfo> Actions { get; } = [];
-
-    internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
     /// <summary>
     /// 取得自定义扩展字段组件字典。
     /// </summary>
     public static Dictionary<string, Type> FieldTypes { get; } = [];
+
+    // 取得路由页面类型，用于控制权限。
+    internal static Dictionary<string, Type> RouteTypes { get; } = [];
+    internal static Dictionary<string, Type> FormTypes { get; } = [];
+    internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、数据库建表脚本、自定义组件类和路由，以及CodeInfo特性的代码表类。

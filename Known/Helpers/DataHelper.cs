@@ -96,7 +96,7 @@ public sealed class DataHelper
             }
 
             var name = item.Value.DisplayName() ?? item.Key;
-            modules.Add(new ModuleInfo { Id = item.Key, Name = name, Url = item.Value.FullName, Target = target, Icon = "file", ParentId = parentId });
+            modules.Add(new ModuleInfo { Id = item.Value.FullName, Name = name, Url = item.Key, Target = target, Icon = "file", ParentId = parentId });
         }
     }
     #endregion
