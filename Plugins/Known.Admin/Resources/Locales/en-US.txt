@@ -16,7 +16,6 @@
   "Title.Module": "Module",
   "Title.Button": "Button",
   "Title.Column": "Column",
-  "Title.Action": "Action",
 
   "Tip.SwitchUIType": "Switch interface types here",
   "Tip.ImportModules": "Are you sure to import the replacement system module？",

@@ -16,7 +16,6 @@
   "Title.Module": "Mô- đun",
   "Title.Button": "Nút bấm",
   "Title.Column": "Trường",
-  "Title.Action": "Hoạt động",
 
   "Tip.SwitchUIType": "Chuyển đổi kiểu giao diện ở đây",
   "Tip.ImportModules": "Xác định rằng bạn muốn nhập mô-đun hệ thống thay thế？",

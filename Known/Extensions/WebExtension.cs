@@ -24,7 +24,16 @@ public static class WebExtension
     /// <param name="code">错误页面代码。</param>
     public static void GoErrorPage(this NavigationManager navigation, string code)
     {
-        navigation.NavigateTo($"/error/{code}");
+        navigation?.NavigateTo($"/error/{code}");
+    }
+
+    /// <summary>
+    /// 导航到安装页面。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    public static void GoInstallPage(this NavigationManager navigation)
+    {
+        navigation?.NavigateTo("/install", true);
     }
 
     /// <summary>
@@ -33,7 +42,7 @@ public static class WebExtension
     /// <param name="navigation">导航管理者对象。</param>
     public static void GoLoginPage(this NavigationManager navigation)
     {
-        navigation.NavigateTo("/login", true);
+        navigation?.NavigateTo("/login", true);
     }
 
     /// <summary>

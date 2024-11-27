@@ -6,6 +6,7 @@
   "Title.Question": "询问",
   "Title.Error": "错误",
   "Title.Warning": "警告",
+  "Title.Action": "操作",
   "Title.Import": "导入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.SelectIcon": "选择图标",

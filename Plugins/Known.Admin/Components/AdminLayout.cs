@@ -77,7 +77,7 @@ public class KAdminLayout : KLayout
         var system = await service.GetSystemAsync();
         if (system == null)
         {
-            Navigation?.NavigateTo("/install", true);
+            Navigation?.GoInstallPage();
         }
         else
         {

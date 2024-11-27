@@ -6,6 +6,7 @@
   "Title.Question": "Hỏi đáp",
   "Title.Error": "Lỗi",
   "Title.Warning": "Cảnh báo",
+  "Title.Action": "Hoạt động",
   "Title.Import": "Nhập khẩu {name}",
   "Title.FormAction": "{action}{title}",
   "Title.SelectIcon": "Chọn biểu tượng",

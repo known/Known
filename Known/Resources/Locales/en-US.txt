@@ -6,6 +6,7 @@
   "Title.Question": "Question",
   "Title.Error": "Error",
   "Title.Warning": "Warning",
+  "Title.Action": "Action",
   "Title.Import": "Import {name}",
   "Title.FormAction": "{action} {title}",
   "Title.SelectIcon": "Select Icon",

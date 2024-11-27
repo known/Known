@@ -16,7 +16,6 @@
   "Title.Module": "模塊",
   "Title.Button": "按鈕",
   "Title.Column": "欄位",
-  "Title.Action": "操作",
 
   "Tip.SwitchUIType": "在此處切換介面類型",
   "Tip.ImportModules": "確定要導入替換系統模塊？",

@@ -6,6 +6,7 @@
   "Title.Question": "詢問",
   "Title.Error": "錯誤",
   "Title.Warning": "警告",
+  "Title.Action": "操作",
   "Title.Import": "導入{name}",
   "Title.FormAction": "{action}{title}",
   "Title.SelectIcon": "選擇圖標",
