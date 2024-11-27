@@ -1,7 +1,7 @@
 ﻿namespace Known.Components;
 
 /// <summary>
-/// 管理后台模板组件类。
+/// 管理后台模板页类。
 /// </summary>
 public class AdminLayout : LayoutComponentBase
 {
@@ -11,13 +11,16 @@ public class AdminLayout : LayoutComponentBase
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<InnerLayout>()
+        builder.Component<KAdminLayout>()
                .Set(c => c.ChildContent, Body)
                .Build();
     }
 }
 
-class InnerLayout : KLayout
+/// <summary>
+/// 管理后台模板组件类。
+/// </summary>
+public class KAdminLayout : KLayout
 {
     private IAuthService Auth;
 

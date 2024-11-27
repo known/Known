@@ -59,6 +59,8 @@ public static class AdminExtension
         action?.Invoke(AdminOption.Instance);
         WeixinApi.Initialize(AdminOption.Instance.Weixin);
 
+        AdminOption.Instance.AddAssembly(typeof(AdminExtension).Assembly);
+
         // 注入后台任务
         TaskHelper.OnPendingTask = GetPendingTaskAsync;
         TaskHelper.OnSaveTask = SaveTaskAsync;

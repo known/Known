@@ -7,17 +7,29 @@ class AppHelper
     internal static string GetProductKey()
     {
         var path = GetProductKeyPath();
+        if (string.IsNullOrWhiteSpace(path))
+            return string.Empty;
+
         return Utils.ReadFile(path);
     }
 
     internal static void SaveProductKey(string productKey)
     {
         var path = GetProductKeyPath();
+        if (string.IsNullOrWhiteSpace(path))
+            return;
+
         Utils.SaveFile(path, productKey);
     }
 
     private static string GetProductKeyPath()
     {
+        if (string.IsNullOrWhiteSpace(AdminOption.Instance.ProductId))
+            return string.Empty;
+
+        if (string.IsNullOrWhiteSpace(Config.App.Id))
+            return string.Empty;
+
         var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         return Path.Combine(path, "Known", Config.App.Id, $"{Config.App.Id}.key");
     }
