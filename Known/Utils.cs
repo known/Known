@@ -37,7 +37,7 @@ public sealed class Utils
 
         var valueString = value.ToString();
         if (type == typeof(string))
-            return Convert.ChangeType(valueString, type);
+            return valueString;
 
         valueString = valueString.Trim();
         if (valueString.Length == 0)
@@ -316,7 +316,12 @@ public sealed class Utils
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"{typeof(T).FullName}{Environment.NewLine}{json}{Environment.NewLine}{ex}");
+            Console.WriteLine("========================================================");
+            Console.WriteLine(typeof(T).FullName);
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine(json);
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine(ex.ToString());
             return default;
         }
     }

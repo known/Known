@@ -36,5 +36,5 @@ partial class TableModel<TItem>
     /// 添加操作列按钮。
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>
-    public void AddAction(string idOrName) => Actions.Add(new ActionInfo(idOrName));
+    public void AddAction(string idOrName) => Actions?.Add(new ActionInfo(idOrName));
 }

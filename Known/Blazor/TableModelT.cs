@@ -125,11 +125,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
 
         if (info.ToolSize != null)
             Toolbar.ShowCount = info.ToolSize.Value;
-        Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList();
+        Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList() ?? [];
 
         if (info.ActionSize != null)
             ActionCount = info.ActionSize.Value;
-        Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList();
+        Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList() ?? [];
 
         AllColumns = info.Columns?.Select(c =>
         {
@@ -157,8 +157,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         if (menu == null)
             return;
 
-        Toolbar.Items = Toolbar.Items?.Where(t => menu.HasTool(t.Id)).ToList();
-        Actions = Actions?.Where(a => menu.HasAction(a.Id)).ToList();
+        Toolbar.Items = Toolbar.Items?.Where(t => menu.HasTool(t.Id)).ToList() ?? [];
+        Actions = Actions?.Where(a => menu.HasAction(a.Id)).ToList() ?? [];
 
         var columns = Columns?.Where(c => menu.HasColumn(c.Id)).ToList();
         Columns.Clear();

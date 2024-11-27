@@ -22,7 +22,7 @@ public static class FieldExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="model">输入模型对象。</param>
-    internal static void Search(this RenderTreeBuilder builder, InputModel<string> model)
+    public static void Search(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Search>()
                .Set(c => c.Disabled, model.Disabled)

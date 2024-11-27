@@ -15,7 +15,7 @@
   "Title.MoveTo": "移动到",
   "Title.Module": "模块",
   "Title.Button": "按钮",
-  "Title.Column": "栏位"
+  "Title.Column": "栏位",
 
   "Tip.SwitchUIType": "在此处切换界面类型",
   "Tip.ImportModules": "确定要导入替换系统模块？",

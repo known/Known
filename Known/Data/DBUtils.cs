@@ -20,22 +20,23 @@ public sealed class DbUtils
         if (type == typeof(Dictionary<string, object>))
             return dic;
 
-        var obj = Activator.CreateInstance<T>();
-        var properties = TypeHelper.Properties(type);
-        foreach (var item in dic)
-        {
-            var property = properties.FirstOrDefault(p => p.Name.Equals(item.Key, StringComparison.CurrentCultureIgnoreCase));
-            if (property != null)
-            {
-                var value = Utils.ConvertTo(property.PropertyType, item.Value);
-                property.SetValue(obj, value);
-            }
-        }
-        if (obj is EntityBase)
-        {
-            (obj as EntityBase).SetOriginal(dic);
-        }
-        return obj;
+        return ConvertTo<T>(dic);
+    }
+
+    /// <summary>
+    /// 将DataRow转换成泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="row">DataRow。</param>
+    /// <returns>泛型对象。</returns>
+    public static object ConvertTo<T>(DataRow row)
+    {
+        var dic = GetDictionary(row);
+        var type = typeof(T);
+        if (type == typeof(Dictionary<string, object>))
+            return dic;
+
+        return ConvertTo<T>(dic);
     }
 
     /// <summary>
@@ -96,6 +97,41 @@ public sealed class DbUtils
             dic[name] = value == DBNull.Value ? null : value;
         }
         return dic;
+    }
+
+    private static Dictionary<string, object> GetDictionary(DataRow row)
+    {
+        var dic = new Dictionary<string, object>();
+        foreach (DataColumn item in row.Table.Columns)
+        {
+            var name = item.ColumnName.Replace("_", "");
+            if (name == "rowno") //去掉row_number产生的字段
+                continue;
+
+            var value = row[item.ColumnName];
+            dic[name] = value == DBNull.Value ? null : value;
+        }
+        return dic;
+    }
+
+    private static object ConvertTo<T>(Dictionary<string, object> dic)
+    {
+        var obj = Activator.CreateInstance<T>();
+        var properties = TypeHelper.Properties(typeof(T));
+        foreach (var item in dic)
+        {
+            var property = properties.FirstOrDefault(p => p.Name.Equals(item.Key, StringComparison.CurrentCultureIgnoreCase));
+            if (property != null)
+            {
+                var value = Utils.ConvertTo(property.PropertyType, item.Value);
+                property.SetValue(obj, value);
+            }
+        }
+        if (obj is EntityBase)
+        {
+            (obj as EntityBase).SetOriginal(dic);
+        }
+        return obj;
     }
 
     /// <summary>
