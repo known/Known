@@ -1,11 +1,11 @@
 ﻿@inherits BaseComponent
 
-<Tag Color="@color">@text</Tag>
+@{
+    var text = GetText();
+}
+<Tag Color="@GetColor(text)">@text</Tag>
 
 @code {
-    private string text;
-    private string color;
-
     /// <summary>
     /// 取得或设置标签文本。
     /// </summary>
@@ -16,12 +16,19 @@
     /// </summary>
     [Parameter] public string Color { get; set; }
 
-    protected override void OnInitialized()
+    private string GetText()
     {
-        text = Language?.GetCode(Text);
+        var text = Language?.GetCode(Text);
         if (string.IsNullOrWhiteSpace(text))
             text = Text;
-        if (string.IsNullOrWhiteSpace(color))
-            color = UIService.GetTagColor(text);
+        return text;
+    }
+
+    private string GetColor(string text)
+    {
+        if (!string.IsNullOrWhiteSpace(Color))
+            return Color;
+
+        return UIService.GetTagColor(text);
     }
 }
