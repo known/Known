@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known.Cells是基于Aspose.Cells实现的Excel操作类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Library, .NET, Excel</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -17,7 +17,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspose.Cells" Version="18.10.1" />
+        <Reference Include="Aspose.Cells">
+            <HintPath>..\..\Library\Aspose.Cells.dll</HintPath>
+        </Reference>
         <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
