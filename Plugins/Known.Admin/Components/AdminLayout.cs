@@ -25,6 +25,8 @@ public class KAdminLayout : KLayout
     private IAuthService Auth;
     private bool isLoadMenu = false;
 
+    internal static Func<Task> OnLoad { get; set; }
+
     /// <summary>
     /// 取得或设置注入的身份认证状态提供者实例。
     /// </summary>
@@ -129,6 +131,7 @@ public class KAdminLayout : KLayout
             if (!Context.IsMobileApp)
                 UserMenus = GetUserMenus(Info?.UserMenus);
             Cache.AttachCodes(Info?.Codes);
+            await OnLoad?.Invoke();
         }
     }
 

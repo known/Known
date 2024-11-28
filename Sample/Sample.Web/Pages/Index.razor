@@ -44,9 +44,7 @@
                 Datas = info?.Statistics?.LogDatas
             });
             await chart?.SetOptionAsync(option);
-
-            var visitMenus = Context.GetMenus(info?.VisitMenuIds);
-            func?.SetMenusAsync(visitMenus);
+            func?.SetMenus(info?.VisitMenuIds);
         }
     }
 }

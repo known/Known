@@ -10,9 +10,13 @@
         {
             foreach (var item in Menus)
             {
-                <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(item)">
-                    <KIcon Icon="@item.Icon" />
-                    <span class="name">@Language?.GetString(item)</span>
+                var menu = Context.UserMenus?.FirstOrDefault(m => m.Name == item);
+                if (menu == null)
+                    continue;
+
+                <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(menu)">
+                    <KIcon Icon="@menu.Icon" />
+                    <span class="name">@Language?.GetString(menu)</span>
                 </div>
             }
         }
@@ -20,11 +24,17 @@
 </div>
 
 @code {
-    [Parameter] public List<MenuInfo> Menus { get; set; }
+    [Parameter] public List<string> Menus { get; set; }
 
-    public Task SetMenusAsync(List<MenuInfo> menus)
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        KAdminLayout.OnLoad = StateChangedAsync;
+    }
+
+    public void SetMenus(List<string> menus)
     {
         Menus = menus;
-        return StateChangedAsync();
+        StateChanged();
     }
 }
