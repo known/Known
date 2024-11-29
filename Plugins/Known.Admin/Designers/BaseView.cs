@@ -9,17 +9,7 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
-    internal string ModulePath
-    {
-        get
-        {
-#if DEBUG
-            return Config.App.ContentRoot.Replace(".Web", "");
-#else
-            return "";
-#endif
-        }
-    }
+    internal string ModulePath => AdminConfig.IsDebug ? Config.App.ContentRoot.Replace(".Web", "") : "";
 
     internal virtual Task SetModelAsync(TModel model)
     {
@@ -68,7 +58,10 @@ class BaseView<TModel> : BaseComponent
     {
         if (string.IsNullOrWhiteSpace(path))
             return;
-#if DEBUG
+
+        if (!AdminConfig.IsDebug)
+            return;
+
         if (File.Exists(path))
         {
             UI.Confirm($"文件[{path}]已存在，确定要覆盖吗？", () =>
@@ -82,6 +75,5 @@ class BaseView<TModel> : BaseComponent
             Utils.SaveFile(path, code);
             UI.Toast("保存成功！");
         }
-#endif
     }
 }

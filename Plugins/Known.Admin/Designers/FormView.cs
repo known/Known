@@ -20,6 +20,7 @@ class FormView : BaseView<FormInfo>
 
         list = new(this, TableColumnMode.Property)
         {
+            ShowSetting = false,
             FixedHeight = "355px",
             OnQuery = c =>
             {

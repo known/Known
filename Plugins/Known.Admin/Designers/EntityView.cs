@@ -26,7 +26,6 @@ class EntityView : BaseView<EntityInfo>
         await base.OnInitAsync();
         Auto = await CreateServiceAsync<IAutoService>();
 
-        table = new(this, TableColumnMode.Property);
         dbType = Database.Create().DatabaseType;
         SetViewData(Model);
 
@@ -35,11 +34,15 @@ class EntityView : BaseView<EntityInfo>
             Tab.AddTab("Designer.EntityCode", BuildEntity);
         Tab.AddTab("Designer.TableScript", BuildScript);
 
-        table.FixedHeight = "330px";
-        table.OnQuery = c =>
+        table = new(this, TableColumnMode.Property)
         {
-            var result = new PagingResult<FieldInfo>(Model?.Fields);
-            return Task.FromResult(result);
+            ShowSetting = false,
+            FixedHeight = "330px",
+            OnQuery = c =>
+            {
+                var result = new PagingResult<FieldInfo>(Model?.Fields);
+                return Task.FromResult(result);
+            }
         };
     }
 
@@ -62,9 +65,8 @@ class EntityView : BaseView<EntityInfo>
     private void BuildEntity(RenderTreeBuilder builder)
     {
         var path = Path.Combine(ModulePath, "Entities", $"{Model?.Id}.cs");
-#if DEBUG
-        BuildAction(builder, Language.Save, () => SaveSourceCode(path, entity));
-#endif
+        if (AdminConfig.IsDebug)
+            BuildAction(builder, Language.Save, () => SaveSourceCode(path, entity));
         BuildCode(builder, "entity", path, htmlEntity);
     }
 

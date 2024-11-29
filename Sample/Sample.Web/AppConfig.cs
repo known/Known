@@ -1,6 +1,6 @@
-﻿using Sample.Web.Services;
-using Coravel;
+﻿using Coravel;
 using Coravel.Invocable;
+using Sample.Web.Services;
 
 namespace Sample.Web;
 
@@ -59,6 +59,9 @@ public static class AppConfig
             //info.JsPath = "./script.js";
         });
         services.AddKnownAdmin();
+#if DEBUG
+        AdminConfig.IsDebug = true;
+#endif
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
@@ -69,12 +72,12 @@ public static class AppConfig
         services.AddKnownData(option =>
         {
             var connString = configuration.GetSection("ConnString").Get<string>();
-            option.AddProvider<Microsoft.Data.Sqlite.SqliteFactory>("Default", DatabaseType.SQLite, connString);
-            //option.AddProvider<System.Data.OleDb.OleDbFactory>("Default", DatabaseType.Access, connString);
-            //option.AddProvider<System.Data.SqlClient.SqlClientFactory>("Default", DatabaseType.SqlServer, connString);
-            //option.AddProvider<MySqlConnector.MySqlConnectorFactory>("Default", DatabaseType.MySql, connString);
-            //option.AddProvider<Npgsql.NpgsqlFactory>("Default", DatabaseType.PgSql, connString);
-            //option.AddProvider<Dm.DmClientFactory>("Default", DatabaseType.DM, connString);
+            option.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
+            //option.AddAccess<System.Data.OleDb.OleDbFactory>(connString);
+            //option.AddSqlServer<System.Data.SqlClient.SqlClientFactory>(connString);
+            //option.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
+            //option.AddPgSql<Npgsql.NpgsqlFactory>(connString);
+            //option.AddDM<Dm.DmClientFactory>(connString);
             //option.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
         });
         services.AddKnownAdminCore(option =>

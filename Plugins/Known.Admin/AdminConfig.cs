@@ -11,6 +11,11 @@ public sealed class AdminConfig
     internal static string AuthStatus { get; set; }
 
     /// <summary>
+    /// 取得或设置是否是调试模式。
+    /// </summary>
+    public static bool IsDebug { get; set; }
+
+    /// <summary>
     /// 取得关于系统页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, RenderFragment> SystemTabs { get; } = [];

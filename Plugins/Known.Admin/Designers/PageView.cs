@@ -31,6 +31,7 @@ class PageView : BaseView<PageInfo>
 
         list = new(this, TableColumnMode.Property)
         {
+            ShowSetting = false,
             FixedHeight = "355px",
             OnQuery = c =>
             {
@@ -95,24 +96,18 @@ class PageView : BaseView<PageInfo>
     {
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(ModulePath, "Pages", "", $"{className}List.cs");
-#if DEBUG
-        BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
-#endif
+        if (AdminConfig.IsDebug)
+            BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
         BuildCode(builder, "page", path, htmlPage);
     }
 
     private void BuildService(RenderTreeBuilder builder)
     {
-#if DEBUG
-        var root = Config.App.ContentRoot;
-#else
-        var root = "";
-#endif
+        var root = AdminConfig.IsDebug ? Config.App.ContentRoot : "";
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(root, "Services", $"{className}Service.cs");
-#if DEBUG
-        BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
-#endif
+        if (AdminConfig.IsDebug)
+            BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
         BuildCode(builder, "page", path, htmlService);
     }
 
@@ -120,9 +115,8 @@ class PageView : BaseView<PageInfo>
     {
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(ModulePath, "Services", $"I{className}Service.cs");
-#if DEBUG
-        BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
-#endif
+        if (AdminConfig.IsDebug)
+            BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
         BuildCode(builder, "page", path, htmlServiceI);
     }
 
