@@ -130,39 +130,7 @@ public sealed class Config
             return;
 
         Assemblies.Add(assembly);
-        AddActions(assembly);
-        Language.Initialize(assembly);
-
-        foreach (var item in assembly.GetTypes())
-        {
-            if (TypeHelper.IsSubclassOfGeneric(item, typeof(EntityTablePage<>), out var genericArguments))
-                AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
-            else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
-                AddApiMethod(item, item.Name[1..].Replace("Service", ""));
-            else if (item.IsAssignableTo(typeof(BaseForm)))
-                FormTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(ICustomField)))
-                AddFieldType(item);
-            else if (item.IsEnum)
-                Cache.AttachEnumCodes(item);
-
-            var routes = item.GetCustomAttributes<RouteAttribute>();
-            if (routes != null && routes.Any())
-            {
-                foreach (var route in routes)
-                {
-                    RouteTypes[route.Template] = item;
-                }
-            }
-
-            var navItem = item.GetCustomAttribute<NavItemAttribute>();
-            if (navItem != null)
-                NavItemTypes[item.Name] = item;
-
-            var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
-            if (codeInfo != null)
-                Cache.AttachCodes(item);
-        }
+        InitAssembly(assembly);
     }
 
     /// <summary>
@@ -255,6 +223,7 @@ public sealed class Config
     internal static void AddApp()
     {
         Version = new VersionInfo(App.Assembly);
+        InitAssembly(App.Assembly);
         AddModule(typeof(Config).Assembly);
     }
 
@@ -287,6 +256,43 @@ public sealed class Config
             return HttpMethod.Get;
 
         return HttpMethod.Post;
+    }
+
+    private static void InitAssembly(Assembly assembly)
+    {
+        AddActions(assembly);
+        Language.Initialize(assembly);
+
+        foreach (var item in assembly.GetTypes())
+        {
+            if (TypeHelper.IsSubclassOfGeneric(item, typeof(EntityTablePage<>), out var genericArguments))
+                AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
+            else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
+                AddApiMethod(item, item.Name[1..].Replace("Service", ""));
+            else if (item.IsAssignableTo(typeof(BaseForm)))
+                FormTypes[item.Name] = item;
+            else if (item.IsAssignableTo(typeof(ICustomField)))
+                AddFieldType(item);
+            else if (item.IsEnum)
+                Cache.AttachEnumCodes(item);
+
+            var routes = item.GetCustomAttributes<RouteAttribute>();
+            if (routes != null && routes.Any())
+            {
+                foreach (var route in routes)
+                {
+                    RouteTypes[route.Template] = item;
+                }
+            }
+
+            var navItem = item.GetCustomAttribute<NavItemAttribute>();
+            if (navItem != null)
+                NavItemTypes[item.Name] = item;
+
+            var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
+            if (codeInfo != null)
+                Cache.AttachCodes(item);
+        }
     }
 
     private static void AddActions(Assembly assembly)

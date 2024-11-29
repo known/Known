@@ -65,8 +65,11 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
                  ? new SysRole()
                  : await database.QueryByIdAsync<SysRole>(roleId);
         info ??= new SysRole();
-        info.Modules = await database.QueryListAsync<SysModule>(d => d.Enabled);
-        DataHelper.AddRouteModules(Language, info.Modules?.ToModuleLists());
+        info.Modules = await database.Query<SysModule>().ToListAsync();
+        var routes = DataHelper.GetRouteModules(Language, info.Modules.Select(m => m.Url).ToList());
+        if (routes != null && routes.Count > 0)
+            info.Modules.AddRange(routes.Select(Utils.MapTo<SysModule>));
+        info.Modules = info.Modules.Where(m => m.Enabled).ToList();
         var roleModules = await database.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
         info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
         await database.CloseAsync();

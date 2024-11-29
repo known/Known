@@ -8,7 +8,9 @@ static class MenuExtension
         if (user == null)
             return [];
 
-        DataHelper.AddRouteModules(db.Context.Language, modules);
+        var routes = DataHelper.GetRouteModules(db.Context.Language, modules.Select(m => m.Url).ToList());
+        if (routes != null && routes.Count > 0)
+            modules.AddRange(routes);
 
         if (user.IsAdmin())
             return modules.ToMenus(true);

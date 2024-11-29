@@ -1,4 +1,6 @@
-﻿namespace Known.Helpers;
+﻿using AntDesign;
+
+namespace Known.Helpers;
 
 /// <summary>
 /// 数据帮助者类。
@@ -58,24 +60,25 @@ public sealed class DataHelper
     }
 
     /// <summary>
-    /// 添加路由模块。
+    /// 获取路由模块。
     /// </summary>
     /// <param name="language">多语言对象。</param>
-    /// <param name="modules">模块列表。</param>
-    public static void AddRouteModules(Language language, List<ModuleInfo> modules)
+    /// <param name="moduleUrls">模块列表。</param>
+    public static List<ModuleInfo> GetRouteModules(Language language, List<string> moduleUrls)
     {
         var routes = Config.RouteTypes;
         if (routes.Count == 0)
-            return;
+            return null;
 
+        var modules = new List<ModuleInfo>();
         var routeError = typeof(ErrorPage).RouteTemplate();
         var routeAuto = typeof(AutoTablePage).RouteTemplate();
         var target = Constants.Route;
-        var route = new ModuleInfo { Id = "route", Name = language["Route"], Target = target, Icon = "share-alt", ParentId = "0", Sort = modules.Count + 1 };
+        var route = new ModuleInfo { Id = "route", Name = language["Route"], Target = target, Icon = "share-alt", ParentId = "0", Enabled = true, Sort = moduleUrls.Count + 1 };
         modules.Add(route);
         foreach (var item in routes.OrderBy(r => r.Key))
         {
-            if (modules.Exists(m => m.Url == item.Key) ||
+            if (moduleUrls.Exists(m => m == item.Key) ||
                 UIConfig.IgnoreRoutes.Contains(item.Key) ||
                 item.Key == routeError || item.Key == routeAuto)
                 continue;
@@ -89,15 +92,17 @@ public sealed class DataHelper
                 var sub = modules.FirstOrDefault(m => m.Id == id);
                 if (sub == null)
                 {
-                    sub = new ModuleInfo { Id = id, Name = key, Target = target, Icon = "folder", ParentId = route.Id };
+                    sub = new ModuleInfo { Id = id, Name = key, Target = target, Icon = "folder", ParentId = route.Id, Enabled = true };
                     modules.Add(sub);
                 }
                 parentId = sub.Id;
             }
 
-            var name = item.Value.DisplayName() ?? item.Key;
-            modules.Add(new ModuleInfo { Id = item.Value.FullName, Name = name, Url = item.Key, Target = target, Icon = "file", ParentId = parentId });
+            var tab = item.Value.GetCustomAttribute<ReuseTabsPageAttribute>();
+            var name = tab?.Title ?? item.Key;
+            modules.Add(new ModuleInfo { Id = item.Value.FullName, Name = name, Url = item.Key, Target = target, Icon = "file", ParentId = parentId, Enabled = true });
         }
+        return modules;
     }
     #endregion
 

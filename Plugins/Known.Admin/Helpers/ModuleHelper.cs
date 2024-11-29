@@ -45,6 +45,7 @@ class ModuleHelper
         var modules = new List<SysModule>();
         var baseData = GetModule("BaseData", "基础数据", "database", ModuleType.Menu, 1);
         modules.Add(baseData);
+        modules.Add(GetCompanyForm(baseData.Id));
         modules.Add(GetSysDictionary(baseData.Id));
         modules.Add(GetSysOrganization(baseData.Id));
 
@@ -70,6 +71,25 @@ class ModuleHelper
         return new SysModule { ParentId = "0", Code = code, Name = name, Icon = icon, Target = target.ToString(), Sort = sort, Enabled = true };
     }
 
+    private static SysModule GetCompanyForm(string parentId)
+    {
+        return new SysModule
+        {
+            ParentId = parentId,
+            Code = "CompanyForm",
+            Name = "企业信息",
+            Icon = "idcard",
+            Description = "维护企业基本资料。",
+            Target = ModuleType.Custom.ToString(),
+            Url = "/bds/company",
+            Sort = 1,
+            Enabled = true,
+            EntityData = "",
+            PageData = "",
+            FormData = ""
+        };
+    }
+
     private static SysModule GetSysDictionary(string parentId)
     {
         return new SysModule
@@ -81,7 +101,7 @@ class ModuleHelper
             Description = "维护系统所需的下拉框数据源。",
             Target = ModuleType.Custom.ToString(),
             Url = "/sys/dictionaries",
-            Sort = 1,
+            Sort = 2,
             Enabled = true,
             EntityData = @"数据字典|SysDictionary
 类别|Category|Text|50|Y
@@ -108,7 +128,7 @@ class ModuleHelper
             Description = "维护企业组织架构信息。",
             Target = ModuleType.Custom.ToString(),
             Url = "/sys/organizations",
-            Sort = 2,
+            Sort = 3,
             Enabled = true,
             EntityData = @"组织架构|SysOrganization
 上级组织|ParentId|Text|50
