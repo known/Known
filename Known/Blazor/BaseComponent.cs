@@ -228,10 +228,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public async Task OnErrorAsync(Exception ex)
     {
         Logger.CreateLogger<BaseComponent>().Error(ex);
-        var message = ex.Message;
-#if DEBUG
-        message = ex.ToString();
-#endif
+        var message = Config.IsDebug ? ex.ToString() : ex.Message;
         await UI.NoticeAsync(message, StyleType.Error);
     }
 

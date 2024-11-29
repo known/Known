@@ -22,6 +22,9 @@ public static class AppConfig
         Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
         Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
+#if DEBUG
+        Config.IsDebug = true;
+#endif
         //Stopwatcher.Enabled = true;
         builder.Services.AddAppWeb();
         builder.Services.AddAppWebCore(builder.Configuration);
@@ -59,9 +62,6 @@ public static class AppConfig
             //info.JsPath = "./script.js";
         });
         services.AddKnownAdmin();
-#if DEBUG
-        AdminConfig.IsDebug = true;
-#endif
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };

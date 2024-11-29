@@ -65,7 +65,7 @@ class EntityView : BaseView<EntityInfo>
     private void BuildEntity(RenderTreeBuilder builder)
     {
         var path = Path.Combine(ModulePath, "Entities", $"{Model?.Id}.cs");
-        if (AdminConfig.IsDebug)
+        if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, entity));
         BuildCode(builder, "entity", path, htmlEntity);
     }
