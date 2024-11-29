@@ -67,11 +67,19 @@ class DbProvider
     public CommandInfo GetCommand(string sql, PagingCriteria criteria, UserInfo user)
     {
         var info = new CommandInfo(this, sql);
-        info.CountSql = $"select count(*) {sql.Substring(sql.IndexOf("from"))}".Replace("@", Prefix);
-        info.PageSql = GetPageSql(sql, criteria).Replace("@", Prefix);
-        info.StatSql = GetStatSql(sql, criteria).Replace("@", Prefix);
-        info.Params = criteria.ToParameters(user);
+        SetCommand(info, criteria, user);
         return info;
+    }
+
+    public void SetCommand(CommandInfo info, PagingCriteria criteria, UserInfo user)
+    {
+        if (string.IsNullOrWhiteSpace(info.CountSql))
+            info.CountSql = $"select count(*) {info.Text.Substring(info.Text.IndexOf("from"))}".Replace("@", Prefix);
+        if (string.IsNullOrWhiteSpace(info.PageSql))
+            info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
+        if (string.IsNullOrWhiteSpace(info.StatSql))
+            info.StatSql = GetStatSql(info.Text, criteria).Replace("@", Prefix);
+        info.Params = criteria.ToParameters(user);
     }
 
     public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()

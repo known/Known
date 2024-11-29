@@ -260,6 +260,9 @@ public sealed class Config
 
     private static void InitAssembly(Assembly assembly)
     {
+        if (assembly == null)
+            return;
+
         AddActions(assembly);
         Language.Initialize(assembly);
 

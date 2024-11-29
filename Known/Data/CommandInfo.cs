@@ -27,9 +27,9 @@ public class CommandInfo
     public string Prefix { get; }
 
     /// <summary>
-    /// 取得SQL语句。
+    /// 取得或设置SQL语句。
     /// </summary>
-    public string Text { get; }
+    public string Text { get; set; }
 
     /// <summary>
     /// 取得或设置该SQL的Count语句。
