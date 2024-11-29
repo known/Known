@@ -107,8 +107,9 @@ public class UIContext : Context
         UserMenus = null;
     }
 
-    internal void SetCurrentMenu(RouteData route, string pageRoute = "")
+    internal void SetCurrentMenu(RouteData route)
     {
+        var pageRoute = Url.StartsWith("/page/") ? Url.Substring(6) : "";
         Current = UIConfig.Menus.FirstOrDefault(m => m.HasUrl(Url, route, pageRoute));
         if (Current == null)
         {

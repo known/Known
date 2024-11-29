@@ -46,13 +46,13 @@ public static class Extension
         KScript.AddScript("_content/Known/js/libs/prism.js");
         KScript.AddScript("_content/Known/js/web.js");
 
+        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
         var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
         if (!string.IsNullOrWhiteSpace(content))
         {
             var lines = content.Split([.. Environment.NewLine]);
             UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
         }
-        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
         UIConfig.Sizes = [
             new ActionInfo { Id = "Default", Style = "size", Url = "_content/Known/css/size/default.css" },
             new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known/css/size/compact.css" }

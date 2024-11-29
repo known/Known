@@ -14,9 +14,14 @@ partial class KLayout
     private AntMenu menu;
 
     /// <summary>
-    /// 取得是否首次加载页面。
+    /// 取得或设置页面是否加载完成。
     /// </summary>
     protected bool IsLoaded { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置页面是否进行URL鉴权。
+    /// </summary>
+    protected bool IsUrlAuth { get; set; }
 
     /// <summary>
     /// 取得或设置用户设置信息。
@@ -74,10 +79,9 @@ partial class KLayout
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
-        var url = Navigation.GetPageUrl();
-        var pageRoute = url.StartsWith("/page/") ? url.Substring(6) : "";
-        Context.Url = url;
-        Context.SetCurrentMenu(RouteData, pageRoute);
+        Context.Url = Navigation.GetPageUrl();
+        Context.SetCurrentMenu(RouteData);
+        CheckUrlAuthentication();
     }
 
     /// <summary>
@@ -110,7 +114,6 @@ partial class KLayout
                         language = Setting.Language;
                     Context.CurrentLanguage = language;
                 }
-                await OnRenderAfterAsync(firstRender);
             }
             if (menu != null)
                 await menu.SetItemsAsync(UserMenus);
@@ -121,18 +124,20 @@ partial class KLayout
         }
     }
 
-    /// <summary>
-    /// 模板呈现后异步操作虚方法。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
-    protected virtual Task OnRenderAfterAsync(bool firstRender) => Task.CompletedTask;
+    private void CheckUrlAuthentication()
+    {
+        if (!IsUrlAuth)
+            return;
 
-    /// <summary>
-    /// 异步获取用户设置信息。
-    /// </summary>
-    /// <returns>用户设置信息。</returns>
-    protected virtual Task<UserSettingInfo> GetUserSettingAsync() => Task.FromResult(new UserSettingInfo());
+        if (!UIConfig.IgnoreRoutes.Contains(Context.Url) && !RouteData.PageType.IsAllowAnonymous())
+        {
+            if (Context.Current == null)
+            {
+                Navigation.GoErrorPage("403");
+                return;
+            }
+        }
+    }
 
     private void OnToggle() => collapsed = !collapsed;
 

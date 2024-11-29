@@ -26,12 +26,6 @@
 @code {
     [Parameter] public List<string> Menus { get; set; }
 
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        KAdminLayout.OnLoad = StateChangedAsync;
-    }
-
     public void SetMenus(List<string> menus)
     {
         Menus = menus;

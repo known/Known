@@ -23,9 +23,6 @@ public class AdminLayout : LayoutComponentBase
 public class KAdminLayout : KLayout
 {
     private IAuthService Auth;
-    private bool isLoadMenu = false;
-
-    internal static Func<Task> OnLoad { get; set; }
 
     /// <summary>
     /// 取得或设置注入的身份认证状态提供者实例。
@@ -73,6 +70,7 @@ public class KAdminLayout : KLayout
     /// <returns></returns>
     protected override async Task OnInitAsync()
     {
+        IsUrlAuth = true;
         IsLoaded = false;
         await base.OnInitAsync();
         Auth = await CreateServiceAsync<IAuthService>();
@@ -88,7 +86,12 @@ public class KAdminLayout : KLayout
             if (user != null)
             {
                 Context.CurrentUser = user;
-                Context.UserSetting = await GetUserSettingAsync() ?? new();
+                Info = await Auth.GetAdminAsync();
+                Context.UserSetting = Info?.UserSetting ?? new();
+                Context.UserTableSettings = Info?.UserTableSettings ?? [];
+                if (!Context.IsMobileApp)
+                    UserMenus = GetUserMenus(Info?.UserMenus);
+                Cache.AttachCodes(Info?.Codes);
                 Setting = Context.UserSetting;
                 IsLoaded = true;
             }
@@ -97,51 +100,6 @@ public class KAdminLayout : KLayout
                 Navigation?.GoLoginPage();
             }
         }
-    }
-
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnParameterAsync()
-    {
-        await base.OnParameterAsync();
-        if (!UIConfig.IgnoreRoutes.Contains(Context.Url) && !RouteData.PageType.IsAllowAnonymous())
-        {
-            if (Context.Current == null)
-            {
-                Navigation.GoErrorPage("403");
-                return;
-            }
-        }
-    }
-
-    /// <summary>
-    /// 模板呈现后异步操作方法，查询管理首页菜单、用户设置等信息。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
-    protected override async Task OnRenderAfterAsync(bool firstRender)
-    {
-        if (IsLoaded && !isLoadMenu)
-        {
-            isLoadMenu = true;
-            Info = await Auth.GetAdminAsync();
-            Context.UserTableSettings = Info?.UserTableSettings ?? [];
-            if (!Context.IsMobileApp)
-                UserMenus = GetUserMenus(Info?.UserMenus);
-            Cache.AttachCodes(Info?.Codes);
-            await OnLoad?.Invoke();
-        }
-    }
-
-    /// <summary>
-    /// 异步获取用户设置信息。
-    /// </summary>
-    /// <returns>用户设置信息。</returns>
-    protected override Task<UserSettingInfo> GetUserSettingAsync()
-    {
-        return Auth.GetUserSettingAsync();
     }
 
     /// <summary>
