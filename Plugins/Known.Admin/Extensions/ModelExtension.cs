@@ -8,7 +8,7 @@ static class ModelExtension
         if (modules == null || modules.Count == 0)
             return [];
 
-        return modules.Select(m => new MenuInfo(m, isAdmin)).ToList();
+        return modules.Where(m => m.Enabled).Select(m => new MenuInfo(m, isAdmin)).ToList();
     }
 
     internal static void RemoveModule(this List<SysModule> modules, string code)

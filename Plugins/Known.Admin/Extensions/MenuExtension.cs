@@ -17,6 +17,9 @@ static class MenuExtension
         var userModules = new List<ModuleInfo>();
         foreach (var item in modules)
         {
+            if (!item.Enabled)
+                continue;
+
             if (!moduleIds.Contains(item.Id))
                 continue;
 
