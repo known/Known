@@ -301,7 +301,6 @@
   "StartUsing": "Bắt đầu sử dụng",
 
   "App.Name": "Hệ thống quản lý thông tin Known",
-  "App.SubTitle": "Khung phát triển nhanh cấp doanh nghiệp dựa trên Blazor",
   "SourceCode": "Mã nguồn",
   "OpenSource": "Nguồn mở",
   "LowCode": "Mã thấp",
@@ -341,10 +340,9 @@
 
   "WebSite": "Trang web chính thức",
   "Document": "Tài liệu",
-  "Known.Title": "Known là một framework phát triển nhanh cấp doanh nghiệp dựa trên Blazor, mã thấp, đa nền tảng, ra khỏi hộp, mã ở một nơi và chạy ở nhiều nơi.",
-  "Known.Note1": "Đa ngôn ngữ, mô-đun, biểu mẫu trực tuyến, ứng dụng một trang, ứng dụng máy tính để bàn lai, Web và máy tính để bàn chia sẻ mã ở một nơi.",
-  "Known.Note2": "Chứa các tính năng như mô-đun, từ điển, tổ chức, vai trò, người dùng, nhật ký, tin nhắn, quy trình làm việc, nhiệm vụ theo lịch trình và nhiều hơn nữa.",
-  "Known.Note3": "Mã thấp, ngắn gọn và dễ dàng mở rộng để làm cho phát triển dễ dàng hơn và nhanh hơn!",
+  "Known.Title": "Known là một framework phát triển plugin dựa trên Blazor nhẹ, đa nền tảng và rất dễ mở rộng.",
+  "Known.Note1": "Chứa các tính năng như mô-đun, từ điển, tổ chức, vai trò, người dùng, nhật ký, tin nhắn, quy trình làm việc, nhiệm vụ theo lịch trình và nhiều hơn nữa.",
+  "Known.Note2": "Mã thấp, ngắn gọn và dễ dàng mở rộng để làm cho phát triển dễ dàng hơn và nhanh hơn!",
   "Known.WebSite": "Website chính thức：",
   "Known.Source": "Tải xuống mã nguồn：",
   "Known.QQNo": "Số nhóm AC："

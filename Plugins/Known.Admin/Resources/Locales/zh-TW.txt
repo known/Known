@@ -301,7 +301,6 @@
   "StartUsing": "開始使用",
 
   "App.Name": "Known資訊管理系統",
-  "App.SubTitle": "基於Blazor的企業級快速開發框架",
   "SourceCode": "源碼",
   "OpenSource": "開源",
   "LowCode": "低程式碼",
@@ -341,10 +340,9 @@
 
   "WebSite": "官網",
   "Document": "檔案",
-  "Known.Title": "Known是基於Blazor的企業級快速開發框架，低程式碼，跨平臺，開箱即用，一處程式碼，多處運行。",
-  "Known.Note1": "多語言，模組化，線上表單，單頁應用，混合案頭應用，Web和案頭共亯一處程式碼。",
-  "Known.Note2": "包含模塊、字典、組織、角色、用戶、日誌、消息、工作流、定時任務等功能。",
-  "Known.Note3": "低程式碼、簡潔、易擴展，讓開發更簡單、更快捷！",
+  "Known.Title": "Known是基於Blazor羽量級、跨平臺、極易擴展的挿件開發框架。",
+  "Known.Note1": "包含模塊、字典、組織、角色、用戶、日誌、消息、工作流、定時任務等功能。",
+  "Known.Note2": "低程式碼、簡潔、易擴展，讓開發更簡單、更快捷！",
   "Known.WebSite": "官網網站：",
   "Known.Source": "源碼下載：",
   "Known.QQNo": "交流群號："

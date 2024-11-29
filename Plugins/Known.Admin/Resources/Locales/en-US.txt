@@ -301,11 +301,10 @@
   "StartUsing": "Start",
 
   "App.Name": "Known Information Management System",
-  "App.SubTitle": "Enterprise Rapid Development Framework Based on Blazor",
   "SourceCode": "Code",
-  "OpenSource": "Open Source",
-  "LowCode": "Low code",
-  "ModernUI": "Modern UI",
+  "OpenSource": "Open",
+  "LowCode": "LowCode",
+  "ModernUI": "ModernUI",
   "Login": "Sign In",
   "Login.WithAccount": "With Account",
   "Login.WithQRCode": "With ScanCode",
@@ -341,11 +340,10 @@
 
   "WebSite": "Website",
   "Document": "Document",
-  "Known.Title": "Known is a enterprise rapid development framework based on Blazor, which is low code, cross platform, out-of-box, one code and runs anywhere.",
-  "Known.Note1": "Multilingual, modular, online forms, single page applications, hybrid desktop applications, web and desktop sharing of code.",
-  "Known.Note2": "Includes modules, dictionaries, organizations, roles, users, logs, messages, workflows, scheduled tasks, and other functions.",
-  "Known.Note3": "LowCode, concise, and easy to expand, making development simpler and faster!",
-  "Known.WebSite": "Official Website:",
-  "Known.Source": "SourceCode Download:",
-  "Known.QQNo": "Communication ID:"
+  "Known.Title": "Known is a lightweight, cross platform, and highly extensible plugin development framework based on Blazor.",
+  "Known.Note1": "Includes modules, dictionaries, organizations, roles, users, logs, messages, workflows, scheduled tasks, and other functions.",
+  "Known.Note2": "LowCode, concise, and easy to expand, making development simpler and faster!",
+  "Known.WebSite": "Website:",
+  "Known.Source": "Download:",
+  "Known.QQNo": "QQ ID:"
 }
