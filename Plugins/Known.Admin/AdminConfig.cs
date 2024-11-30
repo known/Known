@@ -6,9 +6,10 @@
 public sealed class AdminConfig
 {
     private AdminConfig() { }
-
+    
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
+    internal static SystemInfo System { get; set; }
 
     /// <summary>
     /// 取得关于系统页面自定义标签字典。

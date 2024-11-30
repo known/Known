@@ -74,9 +74,12 @@ public class KAdminLayout : KLayout
         IsLoaded = false;
         await base.OnInitAsync();
         Auth = await CreateServiceAsync<IAuthService>();
-        var service = await CreateServiceAsync<ISystemService>();
-        var system = await service.GetSystemAsync();
-        if (system == null)
+        if (AdminConfig.System == null)
+        {
+            var service = await CreateServiceAsync<ISystemService>();
+            AdminConfig.System = await service.GetSystemAsync();
+        }
+        if (AdminConfig.System == null)
         {
             Navigation?.GoInstallPage();
         }

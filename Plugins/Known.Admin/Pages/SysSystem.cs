@@ -35,6 +35,11 @@ public class SysSystem : BaseTabPage
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
-    internal Task<Result> SaveSystemAsync(SystemInfo info) => Service.SaveSystemAsync(info);
+    internal Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        AdminConfig.System = info;
+        return Service.SaveSystemAsync(info);
+    }
+
     internal Task<Result> SaveKeyAsync(SystemInfo info) => Service.SaveKeyAsync(info);
 }

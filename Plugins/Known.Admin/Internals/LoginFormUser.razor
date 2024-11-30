@@ -38,20 +38,12 @@
 @code {
     private LoginInfoForm form;
     private AntCaptcha captcha;
-    private SystemInfo system;
-    private bool IsCaptcha => !IsStatic && system != null && system.IsLoginCaptcha;
+    private bool IsCaptcha => AdminConfig.System != null && AdminConfig.System.IsLoginCaptcha;
     private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
 
     [Parameter] public LoginFormInfo Model { get; set; }
     [Parameter] public List<string> Stations { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        var service = await CreateServiceAsync<ISystemService>();
-        system = await service.GetSystemAsync();
-    }
 
     private async Task OnFinish(EditContext context)
     {
