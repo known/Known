@@ -49,24 +49,6 @@ class QueryHelper
         field = db.Provider?.FormatName(field);
         switch (type)
         {
-            case QueryType.Equal:
-                sql += $" and {field}=@{key}";
-                break;
-            case QueryType.NotEqual:
-                sql += $" and {field}<>@{key}";
-                break;
-            case QueryType.LessThan:
-                sql += $" and {field}<@{key}";
-                break;
-            case QueryType.LessEqual:
-                sql += $" and {field}<=@{key}";
-                break;
-            case QueryType.GreatThan:
-                sql += $" and {field}>@{key}";
-                break;
-            case QueryType.GreatEqual:
-                sql += $" and {field}>=@{key}";
-                break;
             case QueryType.Between:
                 SetLessQuery(db, ref sql, criteria, field, key, ">=");
                 SetGreatQuery(db, ref sql, criteria, field, key, "<=");
@@ -105,6 +87,8 @@ class QueryHelper
                 SetBatchQuery(ref sql, criteria, field, key);
                 break;
             default:
+                var operate = type.ToOperator();
+                sql += $" and {field}{operate}@{key}";
                 break;
         }
     }

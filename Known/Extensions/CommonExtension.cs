@@ -22,6 +22,40 @@ public static class CommonExtension
         var attr = field.GetCustomAttribute<DescriptionAttribute>();
         return attr != null ? attr.Description : name;
     }
+
+    /// <summary>
+    /// 将查询类型转换成SQL操作符。
+    /// </summary>
+    /// <param name="type">查询类型</param>
+    /// <returns>SQL操作符。</returns>
+    public static string ToOperator(this QueryType type)
+    {
+        switch (type)
+        {
+            case QueryType.Equal:
+                return "=";
+            case QueryType.NotEqual:
+                return "<>";
+            case QueryType.LessThan:
+                return "<";
+            case QueryType.LessEqual:
+                return "<=";
+            case QueryType.GreatThan:
+                return ">";
+            case QueryType.GreatEqual:
+                return ">=";
+            case QueryType.Contain:
+            case QueryType.StartWith:
+            case QueryType.EndWith:
+                return " like ";
+            case QueryType.NotContain:
+            case QueryType.NotStartWith:
+            case QueryType.NotEndWith:
+                return "not like";
+            default:
+                return string.Empty;
+        }
+    }
     #endregion
 
     #region Object

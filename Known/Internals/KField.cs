@@ -49,7 +49,11 @@ class CustomField<TItem> : BaseComponent where TItem : class, new()
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!Config.FieldTypes.TryGetValue(Model.Column.CustomField, out Type type))
+        var customField = Model.Column.CustomField;
+        if (string.IsNullOrWhiteSpace(customField))
+            return;
+
+        if (!Config.FieldTypes.TryGetValue(customField, out Type type))
             return;
 
         var parameters = new Dictionary<string, object>();
