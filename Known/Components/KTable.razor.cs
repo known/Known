@@ -44,8 +44,9 @@ partial class KTable<TItem> : BaseComponent
         await JSRuntime.FillTableHeightAsync();
     }
 
-    private async Task RefreshTableAsync()
+    private async Task RefreshTableAsync(bool isQuery)
     {
+        //Model.Criteria.IsQuery = isQuery;
         await InvokeAsync(() =>
         {
             var query = table?.GetQueryModel();
@@ -80,9 +81,9 @@ partial class KTable<TItem> : BaseComponent
     private async Task OnChangeAsync(QueryModel<TItem> query)
     {
         var watch = Stopwatcher.Start<TItem>();
+        Model.Criteria.PageIndex = query.PageIndex;
         if (Model.Criteria.IsQuery)
             Model.Criteria.PageIndex = 1;
-        Model.Criteria.PageIndex = query.PageIndex;
         Model.Criteria.PageSize = query.PageSize;
         if (query.SortModel != null)
         {

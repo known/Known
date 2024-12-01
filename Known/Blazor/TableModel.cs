@@ -6,6 +6,8 @@
 /// <param name="page">表格关联的页面组件。</param>
 public class TableModel(BaseComponent page) : BaseModel(page)
 {
+    private object defaultQuery;
+
     /// <summary>
     /// 取得或设置表格是否显示高级搜索。
     /// </summary>
@@ -14,7 +16,15 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     /// <summary>
     /// 取得或设置表格默认查询条件匿名对象，对象属性名应与查询实体对应。
     /// </summary>
-    public object DefaultQuery { get; set; }
+    public object DefaultQuery
+    {
+        get { return defaultQuery; }
+        set
+        {
+            defaultQuery = value;
+            SetDefaultQuery();
+        }
+    }
 
     /// <summary>
     /// 取得表格查询栏位信息列表。
@@ -39,7 +49,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     /// <summary>
     /// 取得或设置表格刷新委托，创建抽象表格时赋值。
     /// </summary>
-    public Func<Task> OnRefresh { get; set; }
+    internal Func<bool, Task> OnRefresh { get; set; }
 
     /// <summary>
     /// 取得表格工具条配置模型对象。
@@ -53,6 +63,14 @@ public class TableModel(BaseComponent page) : BaseModel(page)
 
     internal List<ColumnInfo> AllColumns { get; set; }
 
+    internal Task SearchAsync()
+    {
+        if (OnRefresh == null)
+            return Task.CompletedTask;
+
+        return OnRefresh.Invoke(true);
+    }
+
     /// <summary>
     /// 刷新表格数据。
     /// </summary>
@@ -62,7 +80,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
         if (OnRefresh == null)
             return Task.CompletedTask;
 
-        return OnRefresh.Invoke();
+        return OnRefresh.Invoke(false);
     }
 
     /// <summary>
@@ -100,6 +118,11 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     /// </summary>
     public void SetDefaultQuery()
     {
+        SetDefaultQuery(defaultQuery);
+    }
+
+    private void SetDefaultQuery(object query)
+    {
         QueryData.Clear();
         if (QueryColumns == null || QueryColumns.Count == 0)
             return;
@@ -107,7 +130,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
         foreach (var item in QueryColumns)
         {
             var info = new QueryInfo(item);
-            info.Value = TypeHelper.GetPropertyValue<string>(DefaultQuery, item.Id);
+            info.Value = TypeHelper.GetPropertyValue<string>(query, item.Id);
             QueryData[item.Id] = info;
         }
 

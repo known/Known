@@ -56,62 +56,67 @@ public partial class Database
     {
         try
         {
-            Provider?.SetCommand(info, criteria, User);
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
             if (conn != null && conn.State != ConnectionState.Open)
                 conn.Open();
 
+            Provider?.SetCommand(info, criteria, User);
             byte[] exportData = null;
             Dictionary<string, object> statis = null;
             var watch = Stopwatcher.Start<T>();
-            var pageData = new List<T>();
-            var cmd = await PrepareCommandAsync(info);
-            cmd.CommandText = info.CountSql;
-            var value = cmd.ExecuteScalar();
-            var total = Utils.ConvertTo<int>(value);
-            watch.Watch("Total");
-            if (total > 0)
+            var total = await Task.Run(async () =>
             {
+                var cmd = await PrepareCommandAsync(info);
+                cmd.CommandText = info.CountSql;
+                var value = cmd.ExecuteScalar();
+                return Utils.ConvertTo<int>(value);
+            });
+            var pageData = await Task.Run(async () =>
+            {
+                var data = new List<T>();
+                var cmd = await PrepareCommandAsync(info);
                 cmd.CommandText = info.PageSql;
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         var obj = DbUtils.ConvertTo<T>(reader);
-                        pageData.Add((T)obj);
+                        data.Add((T)obj);
                     }
                 }
-                watch.Watch("PageData");
-                if (criteria.ExportMode == ExportMode.None)
+                return data;
+            });
+            if (criteria.ExportMode == ExportMode.None)
+            {
+                if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
                 {
-                    if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
+                    statis = await Task.Run(async () =>
                     {
+                        Dictionary<string, object> data = null;
+                        var cmd = await PrepareCommandAsync(info);
                         cmd.CommandText = info.StatSql;
-                        using (var reader1 = cmd.ExecuteReader())
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            if (reader1 != null && reader1.Read())
-                                statis = DbUtils.GetDictionary(reader1);
+                            if (reader != null && reader.Read())
+                                data = DbUtils.GetDictionary(reader);
                         }
-                        watch.Watch("Statistic");
-                    }
+                        return data;
+                    });
                 }
             }
 
-            cmd.Parameters.Clear();
             if (conn != null && conn.State != ConnectionState.Closed)
                 conn.Close();
 
             if (criteria.ExportMode != ExportMode.None)
-            {
                 exportData = DbUtils.GetExportData(criteria, pageData, onExport);
-                watch.Watch("Export");
-            }
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-
+            
+            watch.Watch("PagingResult");
             watch.WriteLog();
             return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
         }

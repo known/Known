@@ -73,10 +73,8 @@
 
     private async Task OnSearchAsync()
     {
-        Model.Criteria.IsQuery = true;
         Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
-        await Model.RefreshAsync();
-        Model.Criteria.IsQuery = false;
+        await Model.SearchAsync();
     }
 
     private void ShowAdvSearch() => Model.ShowAdvancedSearch(App);

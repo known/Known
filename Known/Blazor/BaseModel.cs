@@ -34,12 +34,12 @@ public abstract class BaseModel(BaseComponent component)
     /// <summary>
     /// 取得或设置组件状态改变方法委托。
     /// </summary>
-    public Action OnStateChanged { get; set; }
+    internal Action OnStateChanged { get; set; }
 
     /// <summary>
     /// 取得或设置组件状态改变方法委托。
     /// </summary>
-    public Func<Task> OnStateChangedTask { get; set; }
+    internal Func<Task> OnStateChangedTask { get; set; }
 
     /// <summary>
     /// 改变组件状态。

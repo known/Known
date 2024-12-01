@@ -75,10 +75,9 @@ class DbProvider
     {
         if (string.IsNullOrWhiteSpace(info.CountSql))
             info.CountSql = $"select count(*) {info.Text.Substring(info.Text.IndexOf("from"))}".Replace("@", Prefix);
-        if (string.IsNullOrWhiteSpace(info.PageSql))
-            info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
         if (string.IsNullOrWhiteSpace(info.StatSql))
             info.StatSql = GetStatSql(info.Text, criteria).Replace("@", Prefix);
+        info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
         info.Params = criteria.ToParameters(user);
     }
 
