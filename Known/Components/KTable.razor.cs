@@ -24,9 +24,8 @@ partial class KTable<TItem> : BaseComponent
     /// </summary>
     protected override void OnInitialized()
     {
-        var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
-        if (totalWidth > 1000)
-            scrollX = totalWidth.ToString();
+        var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 0).Sum();
+        scrollX = totalWidth.ToString();
         Model.OnStateChanged = StateChanged;
         Model.OnStateChangedTask = StateChangedAsync;
         Model.OnRefresh = RefreshTableAsync;

@@ -36,7 +36,7 @@ class PageDesigner : BaseViewDesigner<PageInfo>
         var columns = new List<PageColumnInfo>();
         foreach (var item in Fields)
         {
-            var column = new PageColumnInfo { Id = item.Id, Name = item.Name };
+            var column = new PageColumnInfo { Id = item.Id, Name = item.Name, Width = 100 };
             var info = Model.Columns.FirstOrDefault(c => c.Id == item.Id);
             SetPageColumn(column, info);
             columns.Add(column);

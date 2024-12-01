@@ -39,7 +39,10 @@ class FormDesigner : BaseViewDesigner<FormInfo>
         var fields = new List<FormFieldInfo>();
         foreach (var item in Fields)
         {
-            var field1 = new FormFieldInfo { Id = item.Id, Name = item.Name, Type = item.Type, Required = item.Required };
+            var row = Model.Fields.Count > 0
+                    ? Model.Fields.Select(f => f.Row).Max() + 1
+                    : 1;
+            var field1 = new FormFieldInfo { Id = item.Id, Name = item.Name, Type = item.Type, Required = item.Required, Row = row };
             var info = Model.Fields.FirstOrDefault(c => c.Id == item.Id);
             SetFormField(field1, info);
             fields.Add(field1);
