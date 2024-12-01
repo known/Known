@@ -37,7 +37,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 {
     public async Task<Result> RefreshCacheAsync()
     {
-        var codes = await GetDictionariesAsync(Database);
+        var codes = await Database.GetDictionariesAsync();
         Cache.AttachCodes(codes);
         return Result.Success(Language["Tip.RefreshSuccess"], codes);
     }
@@ -94,19 +94,5 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         await database.SaveAsync(model);
         await RefreshCacheAsync();
         return Result.Success(Language.Success(Language.Save), model);
-    }
-
-    internal static async Task<List<CodeInfo>> GetDictionariesAsync(Database db)
-    {
-        var entities = await db.QueryListAsync<SysDictionary>();
-        var codes = entities.Where(d => d.Enabled).OrderBy(d => d.Category).ThenBy(d => d.Sort).Select(e =>
-        {
-            var code = e.Code;
-            var name = string.IsNullOrWhiteSpace(e.Name)
-                     ? e.Code
-                     : $"{e.Code}-{e.Name}";
-            return new CodeInfo(e.Category, code, name, e);
-        }).ToList();
-        return codes;
     }
 }

@@ -2,11 +2,18 @@
 
 static class MenuExtension
 {
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db, List<ModuleInfo> modules)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db)
     {
         var user = db.User;
         if (user == null)
             return [];
+
+        var modules = DataHelper.Modules;
+        if (modules == null || modules.Count == 0)
+        {
+            modules = await db.Query<SysModule>().ToListAsync<ModuleInfo>();
+            DataHelper.Initialize(modules);
+        }
 
         var routes = DataHelper.GetRouteModules(db.Context.Language, modules.Select(m => m.Url).ToList());
         if (routes != null && routes.Count > 0)

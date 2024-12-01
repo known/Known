@@ -107,16 +107,14 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         var db = Database;
         await db.OpenAsync();
         await db.CheckKeyAsync();
-        var modules = await db.Query<SysModule>().ToListAsync<ModuleInfo>();
-        DataHelper.Initialize(modules);
         var info = new AdminInfo
         {
             AppName = await db.GetSystemNameAsync(),
-            UserMenus = await db.GetUserMenusAsync(modules),
+            UserMenus = await db.GetUserMenusAsync(),
             UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting),
             UserTableSettings = await db.GetUserTableSettingsAsync(),
             MessageCount = await db.CountAsync<SysMessage>(d => d.UserId == db.User.UserName && d.Status == Constant.UMStatusUnread),
-            Codes = await DictionaryService.GetDictionariesAsync(db)
+            Codes = await db.GetDictionariesAsync()
         };
         await db.CloseAsync();
         Cache.AttachCodes(info.Codes);

@@ -9,7 +9,10 @@ public sealed class DataHelper
 {
     private DataHelper() { }
 
-    private static List<ModuleInfo> Modules = [];
+    /// <summary>
+    /// 取得系统配置的模块列表。
+    /// </summary>
+    public static List<ModuleInfo> Modules { get; private set; } = [];
 
     /// <summary>
     /// 取得实体模型列表。

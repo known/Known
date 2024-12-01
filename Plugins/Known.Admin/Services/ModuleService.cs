@@ -62,7 +62,13 @@ public interface IModuleService : IService
 
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
-    public Task<List<SysModule>> GetModulesAsync() => Database.QueryListAsync<SysModule>();
+    public async Task<List<SysModule>> GetModulesAsync()
+    {
+        var modules = await Database.QueryListAsync<SysModule>();
+        var lists = modules.Select(Utils.MapTo<ModuleInfo>).ToList();
+        DataHelper.Initialize(lists);
+        return modules;
+    }
 
     public async Task<FileDataInfo> ExportModulesAsync()
     {

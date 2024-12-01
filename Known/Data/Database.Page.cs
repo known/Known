@@ -65,45 +65,34 @@ public partial class Database
             Provider?.SetCommand(info, criteria, User);
             byte[] exportData = null;
             Dictionary<string, object> statis = null;
+            var pageData = new List<T>();
             var watch = Stopwatcher.Start<T>();
-            var total = await Task.Run(async () =>
+            var cmd = await PrepareCommandAsync(info);
+            cmd.CommandText = info.CountSql;
+            var value = cmd.ExecuteScalar();
+            var total = Utils.ConvertTo<int>(value);
+            if (total > 0)
             {
-                var cmd = await PrepareCommandAsync(info);
-                cmd.CommandText = info.CountSql;
-                var value = cmd.ExecuteScalar();
-                return Utils.ConvertTo<int>(value);
-            });
-            var pageData = await Task.Run(async () =>
-            {
-                var data = new List<T>();
-                var cmd = await PrepareCommandAsync(info);
                 cmd.CommandText = info.PageSql;
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         var obj = DbUtils.ConvertTo<T>(reader);
-                        data.Add((T)obj);
+                        pageData.Add((T)obj);
                     }
                 }
-                return data;
-            });
-            if (criteria.ExportMode == ExportMode.None)
-            {
-                if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
+                if (criteria.ExportMode == ExportMode.None)
                 {
-                    statis = await Task.Run(async () =>
+                    if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
                     {
-                        Dictionary<string, object> data = null;
-                        var cmd = await PrepareCommandAsync(info);
                         cmd.CommandText = info.StatSql;
-                        using (var reader = cmd.ExecuteReader())
+                        using (var reader1 = cmd.ExecuteReader())
                         {
-                            if (reader != null && reader.Read())
-                                data = DbUtils.GetDictionary(reader);
+                            if (reader1 != null && reader1.Read())
+                                statis = DbUtils.GetDictionary(reader1);
                         }
-                        return data;
-                    });
+                    }
                 }
             }
 
