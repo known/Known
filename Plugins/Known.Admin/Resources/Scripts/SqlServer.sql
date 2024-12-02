@@ -42,7 +42,7 @@ CREATE TABLE [SysSetting] (
     [Extension]  [ntext]         NULL,
     [AppId]      [varchar](50)   NOT NULL,
     [CompNo]     [varchar](50)   NOT NULL,
-    [BizType]    [nvarchar](50)  NOT NULL,
+    [BizType]    [nvarchar](250) NOT NULL,
     [BizName]    [nvarchar](250) NULL,
     [BizData]    [ntext]         NULL,
     CONSTRAINT [PK_SysSetting] PRIMARY KEY ([Id] ASC)

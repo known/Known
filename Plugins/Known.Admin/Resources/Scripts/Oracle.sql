@@ -42,7 +42,7 @@ create table SysSetting (
     Extension  varchar2(4000) null,
     AppId      varchar2(50)   not null,
     CompNo     varchar2(50)   not null,
-    BizType    varchar2(50)   not null,
+    BizType    varchar2(250)  not null,
     BizName    varchar2(250)  null,
     BizData    varchar2(4000) null
 );

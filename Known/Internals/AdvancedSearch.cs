@@ -2,9 +2,10 @@
 
 class AdvancedSearch : BaseComponent
 {
-    private string SettingKey => $"UserSearch_{Context.Current?.Id}";
+    private string SettingKey => $"UserSearch_{Context.Current?.Id}_{TableId}";
     private List<QueryInfo> Query { get; } = [];
 
+    [Parameter] public string TableId { get; set; }
     [Parameter] public List<ColumnInfo> Columns { get; set; }
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
@@ -37,6 +38,9 @@ class AdvancedSearch : BaseComponent
             builder.Button(new ActionInfo(Context, "New"), this.Callback<MouseEventArgs>(OnAdd));
             foreach (var item in Query)
             {
+                if (!item.IsNew && !Columns.Exists(c => c.Id == item.Id))
+                    continue;
+
                 builder.Div("item", () =>
                 {
                     builder.Component<AdvancedSearchItem>()
@@ -49,7 +53,7 @@ class AdvancedSearch : BaseComponent
         });
     }
 
-    private void OnAdd(MouseEventArgs args) => Query.Add(new QueryInfo("", ""));
+    private void OnAdd(MouseEventArgs args) => Query.Add(new QueryInfo("", "") { IsNew = true });
     private void OnDelete(QueryInfo item) => Query.Remove(item);
 }
 

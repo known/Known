@@ -61,6 +61,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     /// </summary>
     public bool HasToolbar => Toolbar != null && Toolbar.HasItem;
 
+    internal virtual string TableId { get; }
     internal List<ColumnInfo> AllColumns { get; set; }
 
     internal Task SearchAsync()
@@ -90,15 +91,13 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     public void ShowAdvancedSearch(BaseLayout app)
     {
         AdvancedSearch search = null;
-        var columns = AllColumns;
-        if (columns == null || columns.Count == 0)
-            columns = Columns;
         var model = new DialogModel
         {
             Title = Language.AdvSearch,
             Width = 700,
             Content = b => b.Component<AdvancedSearch>()
-                            .Set(c => c.Columns, columns)
+                            .Set(c => c.TableId, TableId)
+                            .Set(c => c.Columns, Columns)
                             .Build(value => search = value)
         };
         model.OnOk = async () =>
@@ -108,7 +107,6 @@ public class TableModel(BaseComponent page) : BaseModel(page)
                 Criteria.Query = await search?.SaveQueryAsync();
                 await RefreshAsync();
             });
-            await model.CloseAsync();
         };
         UI.ShowDialog(model);
     }

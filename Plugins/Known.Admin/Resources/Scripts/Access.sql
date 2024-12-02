@@ -43,7 +43,7 @@ CREATE TABLE `SysSetting` (
     `Extension`  LongText     NULL,
     `AppId`      VarChar(50)  NOT NULL,
     `CompNo`     VarChar(50)  NOT NULL,
-    `BizType`    VarChar(50)  NOT NULL,
+    `BizType`    VarChar(250) NOT NULL,
     `BizName`    VarChar(250) NULL,
     `BizData`    LongText     NULL
 )

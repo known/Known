@@ -42,7 +42,7 @@ CREATE TABLE SysSetting (
     Extension  text,
     AppId      character varying(50)  NOT NULL,
     CompNo     character varying(50)  NOT NULL,
-    BizType    character varying(50)  NOT NULL,
+    BizType    character varying(250) NOT NULL,
     BizName    character varying(250),
     BizData    text,
     PRIMARY KEY (Id)

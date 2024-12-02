@@ -42,7 +42,7 @@ create table `SysSetting` (
     `Extension`  text         null,
     `AppId`      varchar(50)  not null,
     `CompNo`     varchar(50)  not null,
-    `BizType`    varchar(50)  not null,
+    `BizType`    varchar(250) not null,
     `BizName`    varchar(250) null,
     `BizData`    text         null,
     PRIMARY KEY (`Id`)

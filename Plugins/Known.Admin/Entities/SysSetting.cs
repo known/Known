@@ -9,7 +9,7 @@ public class SysSetting : EntityBase
     /// 取得或设置业务类型。
     /// </summary>
     [Required]
-    [MaxLength(50)]
+    [MaxLength(250)]
     public string BizType { get; set; }
 
     /// <summary>
