@@ -72,9 +72,9 @@ public static class AppConfig
         services.AddKnownData(option =>
         {
             var connString = configuration.GetSection("ConnString").Get<string>();
-            option.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
             //option.AddAccess<System.Data.OleDb.OleDbFactory>(connString);
-            //option.AddSqlServer<System.Data.SqlClient.SqlClientFactory>(connString);
+            option.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
+            //option.AddSqlServer<Microsoft.Data.SqlClient.SqlClientFactory>(connString);
             //option.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
             //option.AddPgSql<Npgsql.NpgsqlFactory>(connString);
             //option.AddDM<Dm.DmClientFactory>(connString);

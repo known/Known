@@ -306,7 +306,7 @@
     width:110px;height:31px;line-height:31px;cursor:pointer;
 }
 .ant-captcha + .btn-sms {background-color:#f8eeb8;color:#596172;top:1px;right:1px;height:30px;}
-.ant-menu-item .fa + span {margin-left:10px;}
+.ant-menu-submenu-title .fa + span, .ant-menu-item .fa + span {margin-left:10px;}
 
 @media screen and (max-width:768px) {
     .kui-header .left, .kui-nav-full, .kui-nav-setting {display:none;}
