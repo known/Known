@@ -60,6 +60,23 @@ partial class TableModel<TItem>
     }
 
     /// <summary>
+    /// 添加额外查询条件字段。
+    /// </summary>
+    /// <param name="id">字段ID。</param>
+    /// <param name="name">字段名称。</param>
+    /// <param name="type">查询类型。</param>
+    /// <param name="value">默认值。</param>
+    public void AddQueryColumn(string id, string name, QueryType type = QueryType.Contain, string value = "")
+    {
+        if (QueryColumns.Exists(c => c.Id == id))
+            return;
+
+        var column = new ColumnInfo { Id = id, Name = name };
+        QueryColumns.Add(column);
+        QueryData[column.Id] = new QueryInfo(id, type, value);
+    }
+
+    /// <summary>
     /// 设置查询条件栏位。
     /// </summary>
     public void SetQueryColumns()
