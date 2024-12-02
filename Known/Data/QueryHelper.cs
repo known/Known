@@ -19,6 +19,9 @@ class QueryHelper
         {
             if (!sql.Contains($"@{item.Id}"))
                 SetQuery<T>(db, ref sql, criteria, item.Type, item.Id);
+            var format = item.Type.ToValueFormat();
+            if (!string.IsNullOrWhiteSpace(format))
+                item.ParamValue = string.Format(format, item.Value);
         }
     }
 
@@ -66,22 +69,22 @@ class QueryHelper
                 SetGreatQuery(db, ref sql, criteria, field, key, "<=");
                 break;
             case QueryType.Contain:
-                SetLikeQuery(db, ref sql, criteria, field, "like", key, "%{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, "like", key);
                 break;
             case QueryType.NotContain:
-                SetLikeQuery(db, ref sql, criteria, field, "not like", key, "%{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, "not like", key);
                 break;
             case QueryType.StartWith:
-                SetLikeQuery(db, ref sql, criteria, field, "like", key, "{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, "like", key);
                 break;
             case QueryType.NotStartWith:
-                SetLikeQuery(db, ref sql, criteria, field, "not like", key, "{0}%");
+                SetLikeQuery(db, ref sql, criteria, field, "not like", key);
                 break;
             case QueryType.EndWith:
-                SetLikeQuery(db, ref sql, criteria, field, "like", key, "%{0}");
+                SetLikeQuery(db, ref sql, criteria, field, "like", key);
                 break;
             case QueryType.NotEndWith:
-                SetLikeQuery(db, ref sql, criteria, field, "not like", key, "%{0}");
+                SetLikeQuery(db, ref sql, criteria, field, "not like", key);
                 break;
             case QueryType.Batch:
                 SetBatchQuery(ref sql, criteria, field, key);
@@ -139,10 +142,9 @@ class QueryHelper
         }
     }
 
-    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string operate, string key, string format)
+    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string operate, string key)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
-        query.ParamValue = string.Format(format, query.Value);
         if (db.DatabaseType == DatabaseType.Access)
             sql += $" and {field} {operate} '{query.Value}'";
         else

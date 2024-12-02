@@ -356,11 +356,6 @@ class CodeGenerator : ICodeGenerator
             return string.Empty;
 
         var sb = new StringBuilder();
-        sb.AppendLine("using System.ComponentModel;");
-        sb.AppendLine("using System.ComponentModel.DataAnnotations;");
-        if (entity.IsFlow)
-            sb.AppendLine("using Known.WorkFlows;");
-        sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
@@ -412,6 +407,9 @@ class CodeGenerator : ICodeGenerator
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
+        sb.AppendLine("using {0}.Entities;", Config.App.Id);
+        sb.AppendLine("using {0}.Services;", Config.App.Id);
+        sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Pages;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("[Route(\"{0}\")]", entity.PageUrl);
@@ -419,9 +417,9 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine("{");
         sb.AppendLine("    private I{0}Service Service;", className);
         sb.AppendLine(" ");
-        sb.AppendLine("    protected override async Task OnPageInitAsync()");
+        sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
-        sb.AppendLine("        await base.OnPageInitAsync();");
+        sb.AppendLine("        await base.OnInitPageAsync();");
         sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
         sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");
@@ -495,6 +493,8 @@ class CodeGenerator : ICodeGenerator
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
+        sb.AppendLine("using {0}.Entities;", Config.App.Id);
+        sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Services;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("public interface I{0}Service : IService", className);
@@ -534,7 +534,9 @@ class CodeGenerator : ICodeGenerator
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Web.Services;", Config.App.Id);
+        sb.AppendLine("using {0}.Entities;", Config.App.Id);
+        sb.AppendLine(" ");
+        sb.AppendLine("namespace {0}.Services;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
         sb.AppendLine("{");
@@ -609,8 +611,6 @@ class CodeGenerator : ICodeGenerator
     public string GetRepository(PageInfo page, EntityInfo entity)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("using {0}.Entities;", Config.App.Id);
-        sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Repositories;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("class XXXRepository");

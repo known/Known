@@ -9,7 +9,7 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
-    internal string ModulePath => Config.IsDebug ? Config.App.ContentRoot.Replace(".Web", "") : "";
+    internal string ModulePath => Config.IsDebug ? Config.App.ContentRoot : "";
 
     internal virtual Task SetModelAsync(TModel model)
     {

@@ -493,6 +493,9 @@ public class PagingCriteria
         {
             foreach (var item in Query)
             {
+                if (string.IsNullOrWhiteSpace(item.Id))
+                    continue;
+
                 parameter[item.Id] = item.ParamValue;
             }
         }

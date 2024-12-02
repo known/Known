@@ -56,6 +56,24 @@ public static class CommonExtension
                 return string.Empty;
         }
     }
+
+    internal static string ToValueFormat(this QueryType type)
+    {
+        switch (type)
+        {
+            case QueryType.Contain:
+            case QueryType.NotContain:
+                return "%{0}%";
+            case QueryType.StartWith:
+            case QueryType.NotStartWith:
+                return "{0}%";
+            case QueryType.EndWith:
+            case QueryType.NotEndWith:
+                return "%{0}";
+            default:
+                return string.Empty;
+        }
+    }
     #endregion
 
     #region Object
