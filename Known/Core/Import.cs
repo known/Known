@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Known.Core;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 数据导入基类。
@@ -8,6 +6,9 @@ namespace Known.Core;
 /// <param name="context">导入上下文对象实例。</param>
 public abstract class ImportBase(ImportContext context)
 {
+    /// <summary>
+    /// 取得导入上下文对象实例。
+    /// </summary>
     internal ImportContext ImportContext { get; } = context;
 
     /// <summary>
@@ -52,6 +53,10 @@ public class ImportContext
     internal Database Database { get; set; }
     internal string BizId { get; set; }
     internal bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith("Dictionary");
+
+    /// <summary>
+    /// 取得导入业务参数字符串。
+    /// </summary>
     internal string BizParam => GetBizIdValue(1);
 
     private string GetBizIdValue(int index)

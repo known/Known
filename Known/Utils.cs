@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.Xml.Serialization;
+
+namespace Known;
 
 /// <summary>
 /// 系统效用类。

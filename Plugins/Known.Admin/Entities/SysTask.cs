@@ -34,7 +34,7 @@ public class SysTask : EntityBase
     /// <summary>
     /// 取得或设置执行状态。
     /// </summary>
-    [Category(nameof(SysTaskStatus))]
+    [Category(nameof(TaskJobStatus))]
     [Required]
     [MaxLength(50)]
     public string Status { get; set; }

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Known.Core;
+﻿namespace Known.Helpers;
 
 /// <summary>
 /// 后台异步任务帮助者类。
@@ -80,19 +78,19 @@ public sealed class TaskHelper
         try
         {
             task.BeginTime = DateTime.Now;
-            task.Status = SysTaskStatus.Running;
+            task.Status = Core.TaskJobStatus.Running;
             await OnSaveTask?.Invoke(db, task);
 
             var result = await action.Invoke(db, task);
             task.EndTime = DateTime.Now;
-            task.Status = result.IsValid ? SysTaskStatus.Success : SysTaskStatus.Failed;
+            task.Status = result.IsValid ? Core.TaskJobStatus.Success : Core.TaskJobStatus.Failed;
             task.Note = result.Message;
             await OnSaveTask?.Invoke(db, task);
             return result;
         }
         catch (Exception ex)
         {
-            task.Status = SysTaskStatus.Failed;
+            task.Status = Core.TaskJobStatus.Failed;
             task.Note = ex.ToString();
             await OnSaveTask?.Invoke(db, task);
             return Result.Error(ex.Message);

@@ -61,7 +61,7 @@ public class AdminOption
     }
 
     /// <summary>
-    /// 添加后端程序集，自动识别导入类和工作流类。
+    /// 添加后端程序集，自动识别工作流类。
     /// </summary>
     /// <param name="assembly">应用程序集。</param>
     public void AddAssembly(Assembly assembly)
@@ -71,9 +71,7 @@ public class AdminOption
 
         foreach (var item in assembly.GetTypes())
         {
-            if (item.IsAssignableTo(typeof(ImportBase)))
-                ImportHelper.ImportTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(FlowBase)))
+            if (item.IsAssignableTo(typeof(FlowBase)))
                 FlowBase.FlowTypes[item.Name] = item;
         }
     }

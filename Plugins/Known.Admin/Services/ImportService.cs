@@ -41,19 +41,19 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         {
             switch (task.Status)
             {
-                case SysTaskStatus.Pending:
+                case TaskJobStatus.Pending:
                     info.Message = Language["Import.TaskPending"];
                     info.IsFinished = false;
                     break;
-                case SysTaskStatus.Running:
+                case TaskJobStatus.Running:
                     info.Message = Language["Import.TaskRunning"];
                     info.IsFinished = false;
                     break;
-                case SysTaskStatus.Failed:
+                case TaskJobStatus.Failed:
                     info.Message = Language["Import.TaskFailed"];
                     info.Error = task.Note;
                     break;
-                case SysTaskStatus.Success:
+                case TaskJobStatus.Success:
                     info.Message = "";
                     break;
             }
@@ -132,7 +132,7 @@ class ImportService(Context context) : ServiceBase(context), IImportService
             Type = form.BizType,
             Name = form.BizName,
             Target = "",
-            Status = SysTaskStatus.Pending
+            Status = Core.TaskJobStatus.Pending
         };
     }
 

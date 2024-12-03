@@ -19,35 +19,6 @@ class Constant
 }
 
 /// <summary>
-/// 系统定时任务状态类，代码表，类别是类名称。
-/// </summary>
-[CodeInfo]
-public class SysTaskStatus
-{
-    private SysTaskStatus() { }
-
-    /// <summary>
-    /// 待执行。
-    /// </summary>
-    public const string Pending = "Pending";
-
-    /// <summary>
-    /// 执行中。
-    /// </summary>
-    public const string Running = "Running";
-
-    /// <summary>
-    /// 执行成功。
-    /// </summary>
-    public const string Success = "Success";
-
-    /// <summary>
-    /// 执行失败。
-    /// </summary>
-    public const string Failed = "Failed";
-}
-
-/// <summary>
 /// 正则表达式匹配类。
 /// </summary>
 public class RegexPattern

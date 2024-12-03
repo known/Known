@@ -118,7 +118,7 @@ public sealed class Config
     internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
     /// <summary>
-    /// 添加项目模块程序集，自动解析操作按钮、多语言、数据库建表脚本、自定义组件类和路由，以及CodeInfo特性的代码表类。
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。
     /// </summary>
     /// <param name="assembly">模块程序集。</param>
     public static void AddModule(Assembly assembly)
@@ -272,6 +272,8 @@ public sealed class Config
                 AddApiMethod(typeof(IEntityService<>).MakeGenericType(genericArguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item, item.Name[1..].Replace("Service", ""));
+            else if (item.IsAssignableTo(typeof(ImportBase)))
+                ImportHelper.ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(ICustomField)))

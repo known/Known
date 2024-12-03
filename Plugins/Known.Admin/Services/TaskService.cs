@@ -59,7 +59,7 @@ class TaskService(Context context) : ServiceBase(context), ITaskService
         {
             foreach (var item in models)
             {
-                item.Status = SysTaskStatus.Pending;
+                item.Status = TaskJobStatus.Pending;
                 await db.SaveAsync(item);
             }
         });

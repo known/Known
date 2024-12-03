@@ -114,7 +114,7 @@ public sealed class WeixinHelper
             Type = BizType,
             Name = info.BizName,
             Target = Utils.ToJson(info.Template),
-            Status = SysTaskStatus.Pending
+            Status = TaskJobStatus.Pending
         };
     }
 
