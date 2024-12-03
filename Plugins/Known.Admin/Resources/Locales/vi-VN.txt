@@ -63,6 +63,7 @@
   "Designer.ServiceICode": "Mã lớp giao diện dịch vụ",
   "Designer.ServiceCode": "Mã lớp dịch vụ",
   "Designer.RepositoryCode": "Mã lớp dữ liệu",
+  "Designer.FormCode": "Mã biểu mẫu",
   "Designer.TableScript": "Văn lệnh xây dựng bảng",
   "Designer.FlowModel": "Mô hình quy trình",
   "Designer.FlowStep": "Các bước quy trình",

@@ -446,6 +446,22 @@ public sealed class Utils
     }
 
     /// <summary>
+    /// 异步读取一个文件内容。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
+    /// <returns></returns>
+    public static Task<string> ReadFileAsync(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return Task.FromResult(string.Empty);
+
+        if (!File.Exists(path))
+            return Task.FromResult(string.Empty);
+
+        return File.ReadAllTextAsync(path);
+    }
+
+    /// <summary>
     /// 保存文件内容。
     /// </summary>
     /// <param name="path">文件路径。</param>
@@ -466,6 +482,26 @@ public sealed class Utils
     }
 
     /// <summary>
+    /// 异步保存文件内容。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
+    /// <param name="content">文件内容。</param>
+    public static Task SaveFileAsync(string path, string content)
+    {
+        if (string.IsNullOrEmpty(path))
+            return Task.CompletedTask;
+
+        if (string.IsNullOrEmpty(content))
+            return Task.CompletedTask;
+
+        var info = new FileInfo(path);
+        if (!info.Directory.Exists)
+            info.Directory.Create();
+
+        return File.WriteAllTextAsync(path, content);
+    }
+
+    /// <summary>
     /// 保存文件内容。
     /// </summary>
     /// <param name="path">文件路径。</param>
@@ -483,6 +519,26 @@ public sealed class Utils
             info.Directory.Create();
 
         File.WriteAllBytes(path, bytes);
+    }
+
+    /// <summary>
+    /// 异步保存文件内容。
+    /// </summary>
+    /// <param name="path">文件路径。</param>
+    /// <param name="bytes">文件字节数组。</param>
+    public static Task SaveFileAsync(string path, byte[] bytes)
+    {
+        if (string.IsNullOrEmpty(path))
+            return Task.CompletedTask;
+
+        if (bytes == null || bytes.Length == 0)
+            return Task.CompletedTask;
+
+        var info = new FileInfo(path);
+        if (!info.Directory.Exists)
+            info.Directory.Create();
+
+        return File.WriteAllBytesAsync(path, bytes);
     }
 
     /// <summary>

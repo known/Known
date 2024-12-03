@@ -53,38 +53,38 @@ class QueryHelper
         switch (type)
         {
             case QueryType.Between:
-                SetLessQuery(db, ref sql, criteria, field, key, ">=");
-                SetGreatQuery(db, ref sql, criteria, field, key, "<=");
+                SetLessQuery(db, ref sql, criteria, field, key, QueryType.GreatEqual, ">=");
+                SetGreatQuery(db, ref sql, criteria, field, key, QueryType.LessEqual, "<=");
                 break;
             case QueryType.BetweenNotEqual:
-                SetLessQuery(db, ref sql, criteria, field, key, ">");
-                SetGreatQuery(db, ref sql, criteria, field, key, "<");
+                SetLessQuery(db, ref sql, criteria, field, key, QueryType.GreatThan, ">");
+                SetGreatQuery(db, ref sql, criteria, field, key, QueryType.LessThan, "<");
                 break;
             case QueryType.BetweenLessEqual:
-                SetLessQuery(db, ref sql, criteria, field, key, ">=");
-                SetGreatQuery(db, ref sql, criteria, field, key, "<");
+                SetLessQuery(db, ref sql, criteria, field, key, QueryType.GreatEqual, ">=");
+                SetGreatQuery(db, ref sql, criteria, field, key, QueryType.LessThan, "<");
                 break;
             case QueryType.BetweenGreatEqual:
-                SetLessQuery(db, ref sql, criteria, field, key, ">");
-                SetGreatQuery(db, ref sql, criteria, field, key, "<=");
+                SetLessQuery(db, ref sql, criteria, field, key, QueryType.GreatThan, ">");
+                SetGreatQuery(db, ref sql, criteria, field, key, QueryType.LessEqual, "<=");
                 break;
             case QueryType.Contain:
-                SetLikeQuery(db, ref sql, criteria, field, "like", key);
+                SetLikeQuery(db, ref sql, criteria, field, key, "like");
                 break;
             case QueryType.NotContain:
-                SetLikeQuery(db, ref sql, criteria, field, "not like", key);
+                SetLikeQuery(db, ref sql, criteria, field, key, "not like");
                 break;
             case QueryType.StartWith:
-                SetLikeQuery(db, ref sql, criteria, field, "like", key);
+                SetLikeQuery(db, ref sql, criteria, field, key, "like");
                 break;
             case QueryType.NotStartWith:
-                SetLikeQuery(db, ref sql, criteria, field, "not like", key);
+                SetLikeQuery(db, ref sql, criteria, field, key, "not like");
                 break;
             case QueryType.EndWith:
-                SetLikeQuery(db, ref sql, criteria, field, "like", key);
+                SetLikeQuery(db, ref sql, criteria, field, key, "like");
                 break;
             case QueryType.NotEndWith:
-                SetLikeQuery(db, ref sql, criteria, field, "not like", key);
+                SetLikeQuery(db, ref sql, criteria, field, key, "not like");
                 break;
             case QueryType.Batch:
                 SetBatchQuery(ref sql, criteria, field, key);
@@ -96,7 +96,7 @@ class QueryHelper
         }
     }
 
-    private static void SetLessQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string symbol)
+    private static void SetLessQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, QueryType type, string symbol)
     {
         var paramName = $"L{key}";
         var date = db.GetDateSql(paramName);
@@ -113,13 +113,13 @@ class QueryHelper
             if (!string.IsNullOrWhiteSpace(value))
             {
                 sql += $" and {field}{symbol}{date}";
-                var query1 = criteria.SetQuery(paramName, value);
+                var query1 = criteria.SetQuery(paramName, type, value);
                 query1.ParamValue = db.Provider.FormatDate($"{value} 00:00:00");
             }
         }
     }
 
-    private static void SetGreatQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string symbol)
+    private static void SetGreatQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, QueryType type, string symbol)
     {
         var paramName = $"G{key}";
         var date = db.GetDateSql(paramName);
@@ -136,13 +136,13 @@ class QueryHelper
             if (!string.IsNullOrWhiteSpace(value))
             {
                 sql += $" and {field}{symbol}{date}";
-                var query1 = criteria.SetQuery(paramName, value);
+                var query1 = criteria.SetQuery(paramName, type, value);
                 query1.ParamValue = db.Provider.FormatDate($"{value} 23:59:59");
             }
         }
     }
 
-    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string operate, string key)
+    private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string operate)
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
         if (db.DatabaseType == DatabaseType.Access)

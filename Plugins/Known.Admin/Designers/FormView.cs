@@ -2,9 +2,11 @@
 
 class FormView : BaseView<FormInfo>
 {
+    private readonly TabModel tab = new();
     private FormModel<Dictionary<string, object>> form;
     private TableModel<FormFieldInfo> list;
-    private readonly TabModel tab = new();
+    private string codeForm;
+    private string htmlForm;
 
     [Parameter] public FlowInfo Flow { get; set; }
 
@@ -17,6 +19,8 @@ class FormView : BaseView<FormInfo>
 
         Tab.AddTab("Designer.View", BuildView);
         Tab.AddTab("Designer.Fields", BuildList);
+        if (IsCustomPage)
+            Tab.AddTab("Designer.FormCode", BuildForm);
 
         list = new(this, TableColumnMode.Property)
         {
@@ -30,6 +34,16 @@ class FormView : BaseView<FormInfo>
         };
 
         tab.AddTab("Designer.Property", BuildProperty);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (IsCustomPage)
+        {
+            if (string.IsNullOrWhiteSpace(htmlForm))
+                htmlForm = await JS.HighlightAsync(codeForm, "html");
+        }
     }
 
     internal override async Task SetModelAsync(FormInfo model)
@@ -57,6 +71,15 @@ class FormView : BaseView<FormInfo>
     }
 
     private void BuildList(RenderTreeBuilder builder) => BuildList(builder, list);
+
+    private void BuildForm(RenderTreeBuilder builder)
+    {
+        var className = DataHelper.GetClassName(Module?.Entity?.Id);
+        var path = Path.Combine(ModulePath, "Pages", "Forms", $"{className}Form.razor");
+        if (Config.IsDebug)
+            BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeForm));
+        BuildCode(builder, "page", path, htmlForm);
+    }
 
     private void BuildProperty(RenderTreeBuilder builder)
     {
@@ -115,5 +138,9 @@ class FormView : BaseView<FormInfo>
     {
         form.SetFormInfo(Model);
         form.InitColumns();
+
+        htmlForm = string.Empty;
+        if (IsCustomPage)
+            codeForm = Generator?.GetForm(Model, Module?.Entity);
     }
 }

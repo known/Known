@@ -1,4 +1,5 @@
-﻿namespace Known.Designers;
+﻿
+namespace Known.Designers;
 
 /// <summary>
 /// 代码生成器接口。
@@ -27,6 +28,14 @@ interface ICodeGenerator
     /// <param name="entity">实体模型对象。</param>
     /// <returns>页面组件代码。</returns>
     string GetPage(PageInfo page, EntityInfo entity);
+
+    /// <summary>
+    /// 获取表单组件代码。
+    /// </summary>
+    /// <param name="page">表单模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>表单组件代码。</returns>
+    string GetForm(FormInfo page, EntityInfo entity);
 
     /// <summary>
     /// 获取业务服务接口代码。
@@ -484,6 +493,93 @@ class CodeGenerator : ICodeGenerator
             return className + "s";
 
         return className.Substring(0, className.Length - 1) + "ies";
+    }
+    #endregion
+
+    #region Form
+    public string GetForm(FormInfo form, EntityInfo entity)
+    {
+        var pluralName = GetPluralName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
+        var sb = new StringBuilder();
+        sb.AppendLine("@inherits BaseForm<{0}.Entities.{1}>", Config.App.Id, entity.Id);
+        sb.AppendLine("");
+        sb.AppendLine("<AntForm Form=\"Model\">");
+        var rowNos = form.Fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
+        if (rowNos.Count == 1)
+        {
+            foreach (var item in form.Fields)
+            {
+                sb.AppendLine("    <AntRow>");
+                AppendDataItem(sb, item, 24);
+                sb.AppendLine("    </AntRow>");
+            }
+        }
+        else
+        {
+            foreach (var rowNo in rowNos)
+            {
+                var fields = form.Fields.Where(c => c.Row == rowNo).OrderBy(c => c.Column).ToList();
+                var colSpan = 24 / fields.Count;
+                sb.AppendLine("    <AntRow>");
+                foreach (var item in fields)
+                {
+                    var span = item.Span ?? colSpan;
+                    AppendDataItem(sb, item, span);
+                }
+                sb.AppendLine("    </AntRow>");
+            }
+        }
+        sb.AppendLine("</AntForm>");
+        return sb.ToString();
+    }
+
+    private static void AppendDataItem(StringBuilder sb, FormFieldInfo item, int span)
+    {
+        var control = GetControlName(item.Type);
+        if (item.Required)
+            sb.AppendLine("        <DataItem Span=\"{0}\" Label=\"{1}\" Required>", span, item.Name);
+        else
+            sb.AppendLine("        <DataItem Span=\"{0}\" Label=\"{1}\">", span, item.Name);
+        sb.AppendLine("            <{0} @bind-Value=\"@context.{1}\" />", control, item.Id);
+        sb.AppendLine("        </DataItem>");
+    }
+
+    private static string GetControlName(FieldType type)
+    {
+        switch (type)
+        {
+            case FieldType.Text:
+                return "AntInput";
+            case FieldType.TextArea:
+                return "AntTextArea";
+            case FieldType.Date:
+                return "AntDatePicker";
+            case FieldType.Number:
+                return "AntNumber";
+            case FieldType.Switch:
+                return "AntSwitch";
+            case FieldType.CheckBox:
+                return "AntCheckBox";
+            case FieldType.CheckList:
+                return "AntCheckboxGroup";
+            case FieldType.RadioList:
+                return "AntRadioGroup";
+            case FieldType.Select:
+                return "AntSelect";
+            case FieldType.Password:
+                return "AntPassword";
+            case FieldType.File:
+                return "KUpload";
+            case FieldType.DateTime:
+                return "AntDateTimePicker";
+            case FieldType.AutoComplete:
+                return "AntAutoComplete";
+            case FieldType.Custom:
+                return "AntInput";
+            default:
+                return "AntInput";
+        }
     }
     #endregion
 

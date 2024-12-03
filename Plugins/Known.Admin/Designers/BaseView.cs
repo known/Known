@@ -9,6 +9,7 @@ class BaseView<TModel> : BaseComponent
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 
+    internal bool IsCustomPage => Module.IsCustomPage;
     internal string ModulePath => Config.IsDebug ? Config.App.ContentRoot : "";
 
     internal virtual Task SetModelAsync(TModel model)
@@ -64,16 +65,16 @@ class BaseView<TModel> : BaseComponent
 
         if (File.Exists(path))
         {
-            UI.Confirm($"文件[{path}]已存在，确定要覆盖吗？", () =>
+            UI.Confirm($"文件[{path}]已存在，确定要覆盖吗？", async () =>
             {
-                Utils.SaveFile(path, code);
-                return UI.Toast("保存成功！");
+                await Utils.SaveFileAsync(path, code);
+                await UI.SuccessAsync("保存成功！");
             });
         }
         else
         {
             Utils.SaveFile(path, code);
-            UI.Toast("保存成功！");
+            UI.Success("保存成功！");
         }
     }
 }

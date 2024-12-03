@@ -63,6 +63,7 @@
   "Designer.ServiceICode": "服务接口层代码",
   "Designer.ServiceCode": "服务层代码",
   "Designer.RepositoryCode": "数据层代码",
+  "Designer.FormCode": "表单代码",
   "Designer.TableScript": "建表脚本",
   "Designer.FlowModel": "流程模型",
   "Designer.FlowStep": "流程步骤",

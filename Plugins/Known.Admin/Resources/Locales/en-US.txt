@@ -63,6 +63,7 @@
   "Designer.ServiceICode": "Service Interface Code",
   "Designer.ServiceCode": "Service Code",
   "Designer.RepositoryCode": "Repository Code",
+  "Designer.FormCode": "Form Code",
   "Designer.TableScript": "Table Script",
   "Designer.FlowModel": "Flow Model",
   "Designer.FlowStep": "Flow Steps",

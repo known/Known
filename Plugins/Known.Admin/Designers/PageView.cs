@@ -12,8 +12,6 @@ class PageView : BaseView<PageInfo>
     private string htmlService;
     private string htmlServiceI;
 
-    private bool IsCustomPage => Module.IsCustomPage;
-
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -95,7 +93,7 @@ class PageView : BaseView<PageInfo>
     private void BuildPage(RenderTreeBuilder builder)
     {
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
-        var path = Path.Combine(ModulePath, "Pages", "", $"{className}List.cs");
+        var path = Path.Combine(ModulePath, "Pages", $"{className}List.cs");
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
         BuildCode(builder, "page", path, htmlPage);
@@ -228,6 +226,7 @@ class PageView : BaseView<PageInfo>
     {
         htmlPage = string.Empty;
         htmlService = string.Empty;
+        htmlServiceI = string.Empty;
         if (!IsCustomPage)
             return;
 

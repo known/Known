@@ -51,7 +51,7 @@ public static class CommonExtension
             case QueryType.NotContain:
             case QueryType.NotStartWith:
             case QueryType.NotEndWith:
-                return "not like";
+                return " not like ";
             default:
                 return string.Empty;
         }

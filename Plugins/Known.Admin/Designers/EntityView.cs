@@ -12,8 +12,6 @@ class EntityView : BaseView<EntityInfo>
     private DatabaseType dbType;
     private IAutoService Auto;
 
-    private bool IsCustomPage => Module.IsCustomPage;
-
     internal override async Task SetModelAsync(EntityInfo model)
     {
         await base.SetModelAsync(model);
