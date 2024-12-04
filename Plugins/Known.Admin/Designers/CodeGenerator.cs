@@ -582,7 +582,7 @@ class CodeGenerator : ICodeGenerator
     }
     #endregion
 
-    #region Service
+    #region IService
     public string GetIService(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
@@ -594,32 +594,47 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("public interface I{0}Service : IService", className);
         sb.AppendLine("{");
-        sb.AppendLine("    // {0}", entity.Id);
         sb.AppendLine("    Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria);", entity.Id, pluralName);
+
+        if (HasDelete(page))
+            sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> models);", pluralName, entity.Id);
+
         if (page.Tools != null && page.Tools.Length > 0)
         {
             foreach (var item in page.Tools)
             {
-                if (item == "New" || item == "Import" || item == "Export")
+                if (item == "New" || item == "DeleteM" || item == "Import" || item == "Export")
                     continue;
 
-                if (item == "DeleteM")
-                {
-                    sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> models);", pluralName, entity.Id);
-                }
-                else
-                {
-                    sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> models);", item, pluralName, entity.Id);
-                }
-            }
-
-            if (page.Tools.Contains("New"))
-            {
-                sb.AppendLine("    Task<Result> Save{0}Async({1} model);", className, entity.Id);
+                sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> models);", item, pluralName, entity.Id);
             }
         }
+
+        if (page.Actions != null && page.Actions.Length > 0)
+        {
+            foreach (var item in page.Actions)
+            {
+                if (item == "Edit" || item == "Delete")
+                    continue;
+
+                sb.AppendLine("    Task<Result> {0}{1}Async({2} model);", item, className, entity.Id);
+            }
+        }
+
+        if (HasSave(page))
+            sb.AppendLine("    Task<Result> Save{0}Async({1} model);", className, entity.Id);
         sb.AppendLine("}");
         return sb.ToString();
+    }
+
+    private static bool HasSave(PageInfo page)
+    {
+        return page.Tools.Contains("New") || page.Actions.Contains("Edit");
+    }
+
+    private static bool HasDelete(PageInfo page)
+    {
+        return page.Tools.Contains("DeleteM") || page.Actions.Contains("Delete");
     }
     #endregion
 
@@ -635,66 +650,77 @@ class CodeGenerator : ICodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
         sb.AppendLine("{");
-        sb.AppendLine("    // {0}", entity.Id);
         sb.AppendLine("    public Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria)", entity.Id, pluralName);
         sb.AppendLine("    {");
         sb.AppendLine("        return Database.QueryPageAsync<{0}>(criteria);", entity.Id);
         sb.AppendLine("    }");
 
+        if (HasDelete(page))
+        {
+            sb.AppendLine(" ");
+            sb.AppendLine("    public async Task<Result> Delete{0}Async(List<{1}> models)", pluralName, entity.Id);
+            sb.AppendLine("    {");
+            sb.AppendLine("        if (models == null || models.Count == 0)");
+            sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
+            sb.AppendLine(" ");
+            sb.AppendLine("        return await Database.TransactionAsync(Language.Delete, async db =>");
+            sb.AppendLine("        {");
+            sb.AppendLine("            foreach (var item in models)");
+            sb.AppendLine("            {");
+            sb.AppendLine("                await db.DeleteAsync(item);");
+            sb.AppendLine("            }");
+            sb.AppendLine("        });");
+            sb.AppendLine("    }");
+        }
+
         if (page.Tools != null && page.Tools.Length > 0)
         {
             foreach (var item in page.Tools)
             {
-                if (item == "New" || item == "Import" || item == "Export")
+                if (item == "New" || item == "DeleteM" || item == "Import" || item == "Export")
                     continue;
 
-                if (item == "DeleteM")
-                {
-                    sb.AppendLine(" ");
-                    sb.AppendLine("    public async Task<Result> Delete{0}Async(List<{1}> models)", pluralName, entity.Id);
-                    sb.AppendLine("    {");
-                    sb.AppendLine("        if (models == null || models.Count == 0)");
-                    sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
-                    sb.AppendLine(" ");
-                    sb.AppendLine("        return await Database.TransactionAsync(Language.Delete, async db =>");
-                    sb.AppendLine("        {");
-                    sb.AppendLine("            foreach (var item in models)");
-                    sb.AppendLine("            {");
-                    sb.AppendLine("                await db.DeleteAsync(item);");
-                    sb.AppendLine("            }");
-                    sb.AppendLine("        });");
-                    sb.AppendLine("    }");
-                }
-                else
-                {
-                    sb.AppendLine(" ");
-                    sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> models)", item, pluralName, entity.Id);
-                    sb.AppendLine("    {");
-                    sb.AppendLine("        if (models == null || models.Count == 0)");
-                    sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
-                    sb.AppendLine(" ");
-                    sb.AppendLine("        return await Database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
-                    sb.AppendLine("        {");
-                    sb.AppendLine("        });");
-                    sb.AppendLine("    }");
-                }
-            }
-
-            if (page.Tools.Contains("New"))
-            {
                 sb.AppendLine(" ");
-                sb.AppendLine("    public async Task<Result> Save{0}Async({1} model)", className, entity.Id);
+                sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> models)", item, pluralName, entity.Id);
                 sb.AppendLine("    {");
-                sb.AppendLine("        var vr = model.Validate(Context);");
-                sb.AppendLine("        if (!vr.IsValid)");
-                sb.AppendLine("            return vr;");
+                sb.AppendLine("        if (models == null || models.Count == 0)");
+                sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
                 sb.AppendLine(" ");
-                sb.AppendLine("        return await Database.TransactionAsync(Language.Save, async db =>", entity.Id);
+                sb.AppendLine("        return await Database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
                 sb.AppendLine("        {");
-                sb.AppendLine("            await db.SaveAsync(model);");
-                sb.AppendLine("        }, model);");
+                sb.AppendLine("        });");
                 sb.AppendLine("    }");
             }
+        }
+
+        if (page.Actions != null && page.Actions.Length > 0)
+        {
+            foreach (var item in page.Actions)
+            {
+                if (item == "Edit" || item == "Delete")
+                    continue;
+
+                sb.AppendLine(" ");
+                sb.AppendLine("    public async Task<Result> {0}{1}Async({2} model)", item, className, entity.Id);
+                sb.AppendLine("    {");
+                sb.AppendLine("    }");
+            }
+        }
+
+        if (HasSave(page))
+        {
+            sb.AppendLine(" ");
+            sb.AppendLine("    public async Task<Result> Save{0}Async({1} model)", className, entity.Id);
+            sb.AppendLine("    {");
+            sb.AppendLine("        var vr = model.Validate(Context);");
+            sb.AppendLine("        if (!vr.IsValid)");
+            sb.AppendLine("            return vr;");
+            sb.AppendLine(" ");
+            sb.AppendLine("        return await Database.TransactionAsync(Language.Save, async db =>", entity.Id);
+            sb.AppendLine("        {");
+            sb.AppendLine("            await db.SaveAsync(model);");
+            sb.AppendLine("        }, model);");
+            sb.AppendLine("    }");
         }
 
         sb.AppendLine("}");
