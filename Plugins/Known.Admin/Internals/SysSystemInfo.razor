@@ -32,8 +32,6 @@
     {
         <AntRow>
             <DataItem Label="@Language[nameof(SystemInfo.ProductId)]">@Model.System.ProductId</DataItem>
-        </AntRow>
-        <AntRow>
             <DataItem Label="@Language[nameof(SystemInfo.ProductKey)]">
                 <KEditInput Value="@Model.System.ProductKey" OnSave="OnSaveProductKeyAsync" />
             </DataItem>

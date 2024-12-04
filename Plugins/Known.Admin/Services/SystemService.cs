@@ -12,6 +12,12 @@ public interface ISystemService : IService
     [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
 
     /// <summary>
+    /// 异步获取产品信息。
+    /// </summary>
+    /// <returns>产品信息。</returns>
+    Task<SystemInfo> GetProductAsync();
+
+    /// <summary>
     /// 异步获取系统数据信息。
     /// </summary>
     /// <returns>系统数据信息。</returns>
@@ -29,7 +35,7 @@ public interface ISystemService : IService
     /// </summary>
     /// <param name="info">系统信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveKeyAsync(SystemInfo info);
+    Task<Result> SaveProductKeyAsync(SystemInfo info);
 }
 
 class SystemService(Context context) : ServiceBase(context), ISystemService
@@ -43,6 +49,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
             var info = await database.GetSystemAsync();
             if (info != null)
             {
+                info.ProductId = AdminOption.Instance.ProductId;
                 info.ProductKey = null;
                 info.UserDefaultPwd = null;
             }
@@ -52,6 +59,17 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             return null;//系统未安装，返回null
         }
+    }
+
+    public async Task<SystemInfo> GetProductAsync()
+    {
+        var info = await Database.GetSystemAsync();
+        if (info != null)
+        {
+            info.ProductId = AdminOption.Instance.ProductId;
+            info.UserDefaultPwd = null;
+        }
+        return info;
     }
 
     public async Task<SystemDataInfo> GetSystemDataAsync()
@@ -81,11 +99,13 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         return Result.Success(Language.Success(Language.Save));
     }
 
-    public async Task<Result> SaveKeyAsync(SystemInfo info)
+    public async Task<Result> SaveProductKeyAsync(SystemInfo info)
     {
-        var database = Database;
-        AppHelper.SaveProductKey(info.ProductKey);
-        await database.SaveSystemAsync(info);
-        return await database.CheckKeyAsync();
+        var db = Database;
+        var sys = await db.GetSystemAsync();
+        sys.ProductId = info.ProductId;
+        sys.ProductKey = info.ProductKey;
+        await db.SaveSystemAsync(sys);
+        return AdminOption.Instance.CheckSystemInfo(sys);
     }
 }

@@ -12,7 +12,12 @@ public class AdminLayout : LayoutComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Component<KAdminLayout>()
-               .Set(c => c.ChildContent, Body)
+               .Set(c => c.ChildContent, b =>
+               {
+                   b.Component<KAuthPanel>()
+                    .Set(c => c.ChildContent, Body)
+                    .Build();
+               })
                .Build();
     }
 }

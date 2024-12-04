@@ -128,26 +128,24 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
             await db.SaveAsync(company);
         });
         if (result.IsValid)
-        {
-            AppHelper.SaveProductKey(info.ProductKey);
             result.Data = await GetInstallDataAysnc(true);
-        }
         Console.WriteLine("Module is installed.");
         return result;
     }
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
     {
-        var app = Config.App;
+        var db = Database;
+        var sys = await db.GetSystemAsync();
         var info = new InstallInfo
         {
-            AppName = app.Name,
-            ProductId = AdminOption.Instance.ProductId,
-            ProductKey = AppHelper.GetProductKey(),
+            AppName = Config.App.Name,
+            ProductId = sys.ProductId,
+            ProductKey = sys.ProductKey,
             AdminName = Constants.SysUserName
         };
         if (isCheck)
-            await Database.CheckKeyAsync();
+            AdminOption.Instance.CheckSystemInfo(sys);
         return info;
     }
 

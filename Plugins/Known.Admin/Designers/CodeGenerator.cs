@@ -1,10 +1,9 @@
-﻿
-namespace Known.Designers;
+﻿namespace Known.Designers;
 
 /// <summary>
 /// 代码生成器接口。
 /// </summary>
-interface ICodeGenerator
+public interface ICodeGenerator
 {
     /// <summary>
     /// 获取数据库建表脚本。
