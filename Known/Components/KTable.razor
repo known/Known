@@ -57,13 +57,17 @@
                         var isChecked = Utils.ConvertTo<bool>(value);
                         <Switch Disabled Value="isChecked" />
                     }
-                    else if (item.IsViewLink)
-                    {
-                        <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
-                    }
                     else
                     {
-                        @GetColumnText(item, value)
+                        var text = GetColumnText(item, value);
+                        if (item.IsViewLink)
+                        {
+                            <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@text</span>
+                        }
+                        else
+                        {
+                            <span>@text</span>
+                        }
                     }
                 </DictionaryColumn>
             }
@@ -94,13 +98,17 @@
                             var isChecked = Utils.ConvertTo<bool>(value);
                             <Switch Disabled Value="isChecked" />
                         }
-                        else if (item.IsViewLink)
-                        {
-                            <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@value</span>
-                        }
                         else
                         {
-                            @GetColumnText(item, value)
+                            var text = GetColumnText(item, value);
+                            if (item.IsViewLink)
+                            {
+                                <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@text</span>
+                            }
+                            else
+                            {
+                                <span>@text</span>
+                            }
                         }
                     </ChildContent>
                 </Column>

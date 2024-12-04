@@ -138,7 +138,7 @@ public sealed class Cache
 
         var codes = GetCodes(category);
         var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
-        return code?.Code;
+        return code?.Code ?? codeOrName;
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public sealed class Cache
 
         var codes = GetCodes(category);
         var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
-        return code?.Name ?? code?.Code;
+        return code?.Name ?? code?.Code ?? codeOrName;
     }
 
     /// <summary>

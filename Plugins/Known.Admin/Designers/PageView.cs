@@ -203,7 +203,7 @@ class PageView : BaseView<PageInfo>
     private void OnPropertyChanged()
     {
         OnChanged?.Invoke(Model);
-        table.SetPage(Module?.Entity, Model);
+        table.SetPage(Module?.Entity, Model, Module?.Form);
         table.SetQueryColumns();
         SetSourceCode();
         StateChanged();
@@ -216,7 +216,7 @@ class PageView : BaseView<PageInfo>
             Module = Module,
             Entity = Module?.Entity
         };
-        table.SetPage(Module?.Entity, Model);
+        table.SetPage(Module?.Entity, Model, Module?.Form);
         table.SetQueryColumns();
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
         SetSourceCode();

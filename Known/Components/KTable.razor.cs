@@ -142,6 +142,10 @@ partial class KTable<TItem> : BaseComponent
                 value = Utils.ConvertTo<DateTime?>(value);
             text = $"{value:yyyy-MM-dd HH:mm:ss}";
         }
+        else if (!string.IsNullOrWhiteSpace(item.Category))
+        {
+            text = Cache.GetCodeName(item.Category, text);
+        }
         return text;
     }
 

@@ -86,7 +86,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             var menu = Context?.Current;
             Name = Language.GetString(menu);
             Clear();
-            SetPage(menu?.Model, menu?.Page);
+            SetPage(menu?.Model, menu?.Page, menu?.Form);
             SetPermission();
         }
 
@@ -114,7 +114,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="model">实体模型。</param>
     /// <param name="info">页面模型。</param>
-    public void SetPage(EntityInfo model, PageInfo info)
+    /// <param name="form">表单模型。</param>
+    public void SetPage(EntityInfo model, PageInfo info, FormInfo form)
     {
         if (info == null)
             return;
@@ -136,6 +137,12 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         AllColumns = info.Columns?.Select(c =>
         {
             var column = new ColumnInfo(c);
+            var item = form?.Fields.FirstOrDefault(f => f.Id == c.Id);
+            if (item != null)
+            {
+                column.Type = item.Type;
+                column.Category = item.Category;
+            }
             if (column.Type == FieldType.Text)
             {
                 var field = model.Fields.FirstOrDefault(f => f.Id == c.Id);
