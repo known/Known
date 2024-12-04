@@ -28,7 +28,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         OnAction = page.OnActionClick;
         Toolbar.OnItemClick = page.OnToolClick;
-        Initialize(page is BasePage);
+        var isPage = !IsAuto && page is BasePage;
+        Initialize(isPage);
     }
 
     /// <summary>

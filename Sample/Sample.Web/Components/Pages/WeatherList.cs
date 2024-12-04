@@ -1,31 +1,15 @@
-﻿@page "/weather"
-@attribute [StreamRendering]
-@inherits BaseComponent
+﻿namespace Sample.Web.Components.Pages;
 
-<PageTitle>天气</PageTitle>
-
-<TablePage Model="model" />
-
-@code {
-    private TableModel<WeatherForecast> model;
-
-    protected override async Task OnInitAsync()
+[Route("/weathers")]
+public class WeatherList : BaseTablePage<WeatherForecast>
+{
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnInitAsync();
-        model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
-        model.ShowPager = true;
-        model.Name = "天气";
-        model.OnQuery = OnQueryWeatherForecastsAsync;
-        model.Toolbar.AddAction(nameof(New));
-    }
-
-    public void New()
-    {
-        model.NewForm(d =>
-        {
-            UI.Alert($"Summary={d.Summary}");
-            return Known.Result.SuccessAsync("");
-        });
+        await base.OnInitPageAsync();
+        Table = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
+        Table.ShowPager = true;
+        Table.Name = "天气";
+        Table.OnQuery = OnQueryWeatherForecastsAsync;
     }
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
@@ -42,4 +26,14 @@
         }).ToList();
         return new PagingResult<WeatherForecast>(100, forecasts);
     }
+}
+
+public class WeatherForecast
+{
+    [Column(IsQuery = true)]
+    [DisplayName("日期")]
+    public DateOnly Date { get; set; }
+    public int TemperatureC { get; set; }
+    public string Summary { get; set; }
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
