@@ -10,12 +10,13 @@ class AdvancedSearch : BaseComponent
 
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
+        var query = Query.Where(q => Columns.Exists(c => c.Id == q.Id)).ToList();
         await Platform.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingKey,
-            BizData = Query
+            BizData = query
         });
-        return Query;
+        return query;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
