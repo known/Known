@@ -2,22 +2,25 @@
 
 class AppHelper
 {
-    internal static void SetConnections(List<DatabaseInfo> infos)
+    internal static void SetConnections(InstallInfo info)
     {
-        if (infos == null || infos.Count == 0)
+        if (info.Databases == null || info.Databases.Count == 0)
             return;
 
-        DbConfig.SetConnections(infos, items =>
+        DbConfig.SetConnections(info.Databases, items =>
         {
-            var sb = new StringBuilder();
-            foreach (var item in items)
+            if (info.IsDatabase)
             {
-                sb.AppendLine(item.Name);
-                sb.AppendLine(item.ConnectionString);
-            }
+                var sb = new StringBuilder();
+                foreach (var item in items)
+                {
+                    sb.AppendLine(item.Name);
+                    sb.AppendLine(item.ConnectionString);
+                }
 
-            var path = GetConnectionPath();
-            Utils.SaveFile(path, sb.ToString());
+                var path = GetConnectionPath();
+                Utils.SaveFile(path, sb.ToString());
+            }
         });
     }
 

@@ -79,7 +79,7 @@ public static class AdminExtension
 
     private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string type)
     {
-        var info = await db.Query<SysTask>().Where(d => d.Status == Core.TaskJobStatus.Pending && d.Type == type)
+        var info = await db.Query<SysTask>().Where(d => d.Status == TaskJobStatus.Pending && d.Type == type)
                            .OrderBy(d => d.CreateTime).FirstAsync<TaskInfo>();
         if (info != null)
         {

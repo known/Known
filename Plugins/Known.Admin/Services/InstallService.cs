@@ -32,13 +32,14 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
     {
         var info = await GetInstallDataAysnc(false);
         info.Databases = DbConfig.GetDatabases();
-        if (info.Databases == null)
+        info.IsDatabase = info.Databases?.Count(d => string.IsNullOrWhiteSpace(d.ConnectionString)) > 0;
+        if (info.IsDatabase)
         {
-            var db = Database.Create();
-            info.Databases = [new DatabaseInfo {
-                Name = "Default", Type = db.DatabaseType.ToString(),
-                ConnectionString = db.ConnectionString
-            }];
+            foreach (var item in info.Databases)
+            {
+                var type = Utils.ConvertTo<DatabaseType>(item.Type);
+                item.ConnectionString = GetDefaultConnectionString(type);
+            }
         }
         return info;
     }
@@ -47,7 +48,6 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
     {
         try
         {
-            AppHelper.SetConnections([info]);
             var db = Database.Create(info.Name);
             await db.OpenAsync();
             return Result.Success(Language["Tip.ConnectSuccess"]);
@@ -68,7 +68,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
 
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
-        AppHelper.SetConnections(info.Databases);
+        AppHelper.SetConnections(info);
         var database = GetDatabase(info);
         await database.InitializeTableAsync();
         Console.WriteLine("Module is installing...");
@@ -135,18 +135,27 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
     {
-        var db = Database;
-        var sys = await db.GetSystemAsync();
-        var info = new InstallInfo
+        try
         {
-            AppName = Config.App.Name,
-            ProductId = sys.ProductId,
-            ProductKey = sys.ProductKey,
-            AdminName = Constants.SysUserName
-        };
-        if (isCheck)
-            AdminOption.Instance.CheckSystemInfo(sys);
-        return info;
+            var database = Database;
+            database.EnableLog = false;
+            var sys = await database.GetSystemAsync();
+            var info = new InstallInfo
+            {
+                IsInstalled = sys != null,
+                AppName = Config.App.Name,
+                ProductId = sys?.ProductId,
+                ProductKey = sys?.ProductKey,
+                AdminName = Constants.SysUserName
+            };
+            if (isCheck)
+                AdminOption.Instance.CheckSystemInfo(sys);
+            return info;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private Database GetDatabase(InstallInfo info)
@@ -161,5 +170,28 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
             Name = info.AdminName
         };
         return db;
+    }
+
+    private static string GetDefaultConnectionString(DatabaseType type)
+    {
+        switch (type)
+        {
+            case DatabaseType.Access:
+                return "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx";
+            case DatabaseType.SQLite:
+                return "Data Source=..\\Sample.db";
+            case DatabaseType.SqlServer:
+                return "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;";
+            case DatabaseType.Oracle:
+                return "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;";
+            case DatabaseType.MySql:
+                return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
+            case DatabaseType.PgSql:
+                return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
+            case DatabaseType.DM:
+                return "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;";
+            default:
+                return string.Empty;
+        }
     }
 }

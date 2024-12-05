@@ -42,6 +42,16 @@ public class AdminInfo
 public class InstallInfo
 {
     /// <summary>
+    /// 取得或设置系统是否已经安装。
+    /// </summary>
+    public bool IsInstalled { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否需要配置数据库连接。
+    /// </summary>
+    public bool IsDatabase { get; set; }
+
+    /// <summary>
     /// 取得或设置企业编码。
     /// </summary>
     public string CompNo { get; set; }

@@ -26,34 +26,19 @@ public class InstallForm : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        var service = await CreateServiceAsync<ISystemService>();
-        var system = await service.GetSystemAsync();
-        if (system != null)
+        Service = await CreateServiceAsync<IInstallService>();
+        Model = new FormModel<InstallInfo>(this);
+        Model.Data = await Service.GetInstallAsync();
+        if (Model.Data.IsInstalled)
         {
             Navigation?.GoLoginPage();
             return;
         }
 
-        Service = await CreateServiceAsync<IInstallService>();
-        Step.AddStep("Database", BuildDatabase);
+        if (Model.Data.IsDatabase)
+            Step.AddStep("Database", BuildDatabase);
         Step.AddStep("SystemInfo", BuildSystem);
         Step.AddStep("AccountInfo", BuildAccount);
-        Model = new FormModel<InstallInfo>(this);
-    }
-
-    /// <summary>
-    /// 安装表单呈现后，调用后端数据。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            Model.Data = await Service.GetInstallAsync();
-            await StateChangedAsync();
-        }
     }
 
     /// <summary>

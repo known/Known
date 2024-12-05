@@ -29,7 +29,7 @@ public sealed class DbConfig
         {
             Name = c.Name,
             Type = c.DatabaseType.ToString(),
-            ConnectionString = GetDefaultConnectionString(c)
+            ConnectionString = c.ConnectionString
         }).ToList();
     }
 
@@ -60,28 +60,5 @@ public sealed class DbConfig
         }
 
         onSave?.Invoke(DatabaseOption.Instance.Connections);
-    }
-
-    private static string GetDefaultConnectionString(Data.ConnectionInfo info)
-    {
-        switch (info.DatabaseType)
-        {
-            case DatabaseType.Access:
-                return "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx";
-            case DatabaseType.SQLite:
-                return "Data Source=..\\Sample.db";
-            case DatabaseType.SqlServer:
-                return "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;";
-            case DatabaseType.Oracle:
-                return "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;";
-            case DatabaseType.MySql:
-                return "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;";
-            case DatabaseType.PgSql:
-                return "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;";
-            case DatabaseType.DM:
-                return "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;";
-            default:
-                return string.Empty;
-        }
     }
 }
