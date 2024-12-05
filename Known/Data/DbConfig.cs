@@ -10,6 +10,11 @@ public sealed class DbConfig
     internal static Dictionary<Type, Type> TableNames { get; } = [];
 
     /// <summary>
+    /// 取得数据模型配置信息列表，适用于EFCore配置模型。
+    /// </summary>
+    public static List<DbModelInfo> Models { get; } = [];
+
+    /// <summary>
     /// 映射数据库实体。
     /// </summary>
     /// <typeparam name="TFrom">框架实体类型。</typeparam>
