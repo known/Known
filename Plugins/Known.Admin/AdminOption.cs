@@ -11,6 +11,11 @@ public class AdminOption
     internal List<Action<List<SysModule>>> Modules { get; } = [];
 
     /// <summary>
+    /// 取得或设置代码配置信息。
+    /// </summary>
+    public CodeConfigInfo Code { get; set; }
+
+    /// <summary>
     /// 取得或设置微信配置信息。
     /// </summary>
     public WeixinConfigInfo Weixin { get; set; }

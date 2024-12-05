@@ -1,4 +1,6 @@
-﻿namespace Known.Designers;
+﻿using Known.Designers;
+
+namespace Known;
 
 /// <summary>
 /// 代码生成器接口。

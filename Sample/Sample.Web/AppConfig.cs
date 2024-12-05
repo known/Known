@@ -91,6 +91,12 @@ public static class AppConfig
         });
         services.AddKnownAdminCore(option =>
         {
+            //option.Code = new CodeConfigInfo
+            //{
+            //    EntityPath = @"D:\Sample",
+            //    PagePath = @"D:\Sample.Client",
+            //    ServicePath = @"D:\Sample.Web"
+            //};
             //option.ProductId = "Test";
             //option.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
             //option.AddModules(ModuleHelper.AddAppModules);
