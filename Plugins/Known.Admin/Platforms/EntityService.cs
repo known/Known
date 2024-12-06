@@ -7,9 +7,9 @@ class EntityService<TEntity>(Context context) : ServiceBase(context), IEntitySer
         return Database.QueryPageAsync<TEntity>(criteria);
     }
 
-    public Task<TEntity> GetAsync(string id)
+    public Task<TEntity> GetAsync(object id)
     {
-        return Database.QueryByIdAsync<TEntity>(id);
+        return Database.QueryByIdAsync<TEntity>(id?.ToString());
     }
 
     public async Task<Result> DeleteAsync(List<TEntity> models)

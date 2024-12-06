@@ -18,7 +18,7 @@ public interface IEntityService<TEntity> : IService
     /// </summary>
     /// <param name="id">实体对象ID。</param>
     /// <returns>实体对象。</returns>
-    Task<TEntity> GetAsync(string id);
+    Task<TEntity> GetAsync(object id);
 
     /// <summary>
     /// 异步批量删除实体对象。
@@ -42,7 +42,7 @@ class EntityService<TEntity>(Context context) : ServiceBase(context), IEntitySer
         return Task.FromResult(new PagingResult<TEntity>());
     }
 
-    public Task<TEntity> GetAsync(string id)
+    public Task<TEntity> GetAsync(object id)
     {
         return Task.FromResult(default(TEntity));
     }
@@ -65,7 +65,7 @@ class EntityClient<TEntity>(HttpClient http) : ClientBase(http), IEntityService<
         return Http.QueryAsync<TEntity>("/Entity/QueryEntities", criteria);
     }
 
-    public Task<TEntity> GetAsync(string id)
+    public Task<TEntity> GetAsync(object id)
     {
         return Http.GetAsync<TEntity>($"/Entity?id={id}");
     }
