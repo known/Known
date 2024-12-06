@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WinForm", "Sample\Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Maui", "Sample\Sample.Maui\Sample.Maui.csproj", "{183C9914-BC00-444F-B53B-39102882CA3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Photino", "Sample\Sample.Photino\Sample.Photino.csproj", "{5ADA1A00-D402-402D-976E-802E581C4F64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{183C9914-BC00-444F-B53B-39102882CA3F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{183C9914-BC00-444F-B53B-39102882CA3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{183C9914-BC00-444F-B53B-39102882CA3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ADA1A00-D402-402D-976E-802E581C4F64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADA1A00-D402-402D-976E-802E581C4F64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADA1A00-D402-402D-976E-802E581C4F64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ADA1A00-D402-402D-976E-802E581C4F64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{31E1CA04-AC56-44AF-890B-10D0200F4FCB} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{766758B2-6FFE-42EE-AAE1-9385E5E9CA4F} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 		{183C9914-BC00-444F-B53B-39102882CA3F} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
+		{5ADA1A00-D402-402D-976E-802E581C4F64} = {07B2A263-C351-48B9-9713-AC67C7BF4415}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0BB8F8E-546D-43AE-9698-433B50035E81}

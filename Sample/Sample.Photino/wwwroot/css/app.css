@@ -1,0 +1,24 @@
+html, body {
+    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.loading {
+    width: 100%;
+    height: 100%;
+    background: url(../img/logo1.png) no-repeat center;
+}
+
+.kui-logo {
+    background: url(../img/logo1.png) no-repeat 5px;
+}
+
+:root[data-theme=dark] .kui-logo, .kui-menu-dark .kui-logo {
+    background: url(../img/logo.png) no-repeat 5px;
+}
+
+:root[data-theme=dark] .kui-logo {
+    background-color: var(--kui-bgcolor);
+}

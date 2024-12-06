@@ -1,0 +1,17 @@
+﻿@inherits LayoutComponentBase
+
+<KLayout UserMenus="UserMenus">
+    @Body
+</KLayout>
+
+@code {
+    private List<MenuInfo> UserMenus = [];
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserMenus.Add(new MenuInfo { Id = "1", Name = "首页", Icon = "home", Url = "/" });
+        UserMenus.Add(new MenuInfo { Id = "2", Name = "计数器", Icon = "plus-circle", Url = "/counter" });
+        UserMenus.Add(new MenuInfo { Id = "3", Name = "天气", Icon = "cloud", Url = "/weather" });
+    }
+}
