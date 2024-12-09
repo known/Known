@@ -37,7 +37,7 @@
             if (!item.IsVisible)
                 continue;
 
-            var title = Language?.GetString<TItem>(item);
+            var title = Language?.GetFieldName<TItem>(item);
             var width = item.Width > 0 ? item.Width.ToString() : "";
             RenderFragment<TItem> template = null;
             Model.Templates?.TryGetValue(item.Id, out template);

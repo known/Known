@@ -66,6 +66,30 @@ public static class ModelExtension
     }
     #endregion
 
+    #region Language
+    internal static string GetFieldName(this Language language, ColumnInfo column)
+    {
+        if (!string.IsNullOrEmpty(column.Label))
+            return column.Label;
+
+        if (!string.IsNullOrEmpty(column.DisplayName))
+            return column.DisplayName;
+
+        return language?.GetString(column);
+    }
+
+    internal static string GetFieldName<TItem>(this Language language, ColumnInfo column)
+    {
+        if (!string.IsNullOrEmpty(column.Label))
+            return column.Label;
+
+        if (!string.IsNullOrEmpty(column.DisplayName))
+            return column.DisplayName;
+
+        return language?.GetString<TItem>(column);
+    }
+    #endregion
+
     #region File
     /// <summary>
     /// 将附件数据转换成附件类的实例。

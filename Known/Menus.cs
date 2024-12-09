@@ -403,6 +403,7 @@ public class ColumnInfo
     public string Align { get; set; }
 
     internal bool IsForm { get; set; }
+    internal string DisplayName { get; set; }
 
     /// <summary>
     /// 取得或设置栏标题名称。
@@ -529,14 +530,10 @@ public class ColumnInfo
         Property = info;
         Id = info.Name;
 
+        var name = info.GetCustomAttribute<DisplayNameAttribute>();
+        DisplayName = name?.DisplayName;
         if (string.IsNullOrWhiteSpace(Name))
-        {
-            var name = info.GetCustomAttribute<DisplayNameAttribute>();
-            if (name != null)
-                Name = name.DisplayName;
-            else
-                Name = info.Name;
-        }
+            Name = DisplayName ?? info.Name;
 
         var required = info.GetCustomAttribute<RequiredAttribute>();
         if (required != null)

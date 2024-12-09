@@ -15,7 +15,7 @@
                     @for (var i = 0; i < count; i++)
                     {
                         var item = Model.QueryColumns[i];
-                        var itemName = Language.GetString(item);
+                        var itemName = Language.GetFieldName(item);
                         <AntCol Span="6">
                             <QueryItem Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
                         </AntCol>
@@ -47,7 +47,7 @@
                 @for (var i = 0; i < Model.QueryColumns.Count; i++)
                 {
                     var item = Model.QueryColumns[i];
-                    var itemName = Language.GetString(item);
+                    var itemName = Language.GetFieldName(item);
                     <QueryItem IsInline Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
                 }
                 <div class="ant-query-btn">

@@ -57,7 +57,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         builder.Icon("pause");
         builder.CheckBox(new InputModel<bool>
         {
-            Label = item.Name,
+            Label = Language.GetFieldName<TItem>(item),
             Value = item.IsVisible,
             ValueChanged = this.Callback<bool>(async v =>
             {

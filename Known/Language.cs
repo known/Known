@@ -354,9 +354,9 @@ public class Language
     {
         var text = GetString($"{prefix}.{code}");
         if (string.IsNullOrWhiteSpace(text))
-            text = GetString(code);
-        if (string.IsNullOrWhiteSpace(text))
             text = GetString($"Flow.{code}");
+        if (string.IsNullOrWhiteSpace(text))
+            text = GetString(code);
         if (string.IsNullOrWhiteSpace(text))
             text = name;
         if (string.IsNullOrWhiteSpace(text))
