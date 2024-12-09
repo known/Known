@@ -60,6 +60,6 @@ public class EmptyLayout : LayoutComponentBase
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Fragment(Body);
+        builder.Div("kui-wrapper", () => builder.Fragment(Body));
     }
 }

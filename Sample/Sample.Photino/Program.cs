@@ -18,7 +18,7 @@ internal class Program
 
         // customize window
         app.MainWindow.SetIconFile("favicon.ico")
-                      .SetTitle("Known信息管理系统")
+                      .SetTitle("Known淇℃伅绠＄悊绯荤粺")
                       .Center()
                       .SetMaximized(true);
 

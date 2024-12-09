@@ -86,7 +86,7 @@ public class AttachFile
     public string Category2 { get; set; }
 
     /// <summary>
-    /// 异步报错附件。
+    /// 异步保存附件。
     /// </summary>
     /// <returns></returns>
     public async Task SaveAsync()

@@ -12,7 +12,7 @@
 :root[data-theme=dark] {--kui-bgcolor:#141414;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
 
 /*Common*/
-.kui-wrapper {position:fixed;top:0;bottom:0;left:0;right:0;}
+.kui-wrapper {position:absolute;top:0;bottom:0;left:0;right:0;background-color:var(--kui-bgcolor);}
 .kui-wrapper > .ant-spin {position:absolute;top:0;bottom:0;left:0;right:0;text-align:center;padding-top:20%;}
 .kui-header, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
