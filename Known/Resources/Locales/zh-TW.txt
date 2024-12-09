@@ -123,10 +123,13 @@
   "Button.Restore": "恢復",
 
   "Menu.Home": "首頁",
+  "Nav.Expand": "展開",
+  "Nav.Collapse": "折疊",
   "Nav.HomePage": "系統首頁",
   "Nav.Setting": "系統設定",
   "Nav.FullScreen": "全屏顯示",
   "Nav.ExitScreen": "退出全屏",
+  "Nav.RefreshPage": "刷新頁面",
   "Nav.ClearCache": "清空緩存",
   "Nav.SizeDefault": "默認",
   "Nav.SizeCompact": "緊湊",

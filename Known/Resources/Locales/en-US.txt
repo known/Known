@@ -123,10 +123,13 @@
   "Button.Restore": "Restore",
 
   "Menu.Home": "Home",
+  "Nav.Expand": "Expand",
+  "Nav.Collapse": "Collapse",
   "Nav.HomePage": "Home Page",
   "Nav.Setting": "Setting",
   "Nav.FullScreen": "Full Screen",
   "Nav.ExitScreen": "Exit Full Screen",
+  "Nav.RefreshPage": "Refresh Page",
   "Nav.ClearCache": "Clear Cache",
   "Nav.SizeDefault": "Default",
   "Nav.SizeCompact": "Compact",

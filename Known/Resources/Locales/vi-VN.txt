@@ -123,10 +123,13 @@
   "Button.Restore": "Phục hồi",
 
   "Menu.Home": "Trang chủ",
+  "Nav.Expand": "Mở rộng",
+  "Nav.Collapse": "Gấp",
   "Nav.HomePage": "Trang chủ hệ thống",
   "Nav.Setting": "Thiết lập hệ thống",
   "Nav.FullScreen": "Hiển thị toàn màn hình",
   "Nav.ExitScreen": "Thoát toàn màn hình",
+  "Nav.RefreshPage": "Làm mới trang",
   "Nav.ClearCache": "Xóa bộ nhớ cache",
   "Nav.SizeDefault": "Mặc định",
   "Nav.SizeCompact": "Nhỏ gọn",

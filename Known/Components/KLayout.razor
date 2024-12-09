@@ -27,7 +27,11 @@
                             }
                             else
                             {
-                                <div class="kui-body">@ChildContent</div>
+                                <div class="kui-body">
+                                    <ReloadContainer @ref="reload">
+                                        @ChildContent
+                                    </ReloadContainer>
+                                </div>
                             }
                         </Content>
                         @if (Setting.ShowFooter)
@@ -69,15 +73,9 @@
                                 <div class="left">
                                     @if (Setting.LayoutMode != LayoutMode.Float.ToString())
                                     {
-                                        if (collapsed)
-                                        {
-                                            <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="OnToggle" />
-                                        }
-                                        else
-                                        {
-                                            <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="OnToggle" />
-                                        }
+                                        <DynamicComponent Type="typeof(NavToggle)" />
                                     }
+                                    <DynamicComponent Type="typeof(NavRefresh)" />
                                     <TopBreadcrumb Current="Context.Current" />
                                 </div>
                                 <TopNavbar OnMenuClick="OnMenuClick" />
@@ -89,7 +87,11 @@
                                 }
                                 else
                                 {
-                                    <div class="kui-body">@ChildContent</div>
+                                    <div class="kui-body">
+                                        <ReloadContainer @ref="reload">
+                                            @ChildContent
+                                        </ReloadContainer>
+                                    </div>
                                 }
                             </Content>
                             @if (Setting.ShowFooter)

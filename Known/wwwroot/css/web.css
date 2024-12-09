@@ -19,6 +19,7 @@
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
 .kui-header {display:flex;justify-content:space-between;padding:0 10px;}
+.kui-header .left > div {margin-right:10px;}
 .kui-nav {display:flex;align-items:center;gap:15px;margin:10px 0 10px 10px;}
 .kui-nav li {list-style:none;line-height:normal;}
 .kui-query {margin-bottom:10px;padding:10px;}

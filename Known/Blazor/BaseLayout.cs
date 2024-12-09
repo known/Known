@@ -5,9 +5,6 @@
 /// </summary>
 public class BaseLayout : BaseComponent
 {
-    /// <summary>
-    /// 取得上下文当前菜单信息实例。
-    /// </summary>
     internal MenuInfo CurrentMenu => Context?.Current;
 
     /// <summary>
@@ -47,6 +44,13 @@ public class BaseLayout : BaseComponent
     /// </summary>
     /// <returns></returns>
     public virtual Task SignOutAsync() => Task.CompletedTask;
+
+    /// <summary>
+    /// 重新加载当前页面，如果是多标签，则刷新当前标签页。
+    /// </summary>
+    public virtual void ReloadPage() { }
+
+    internal virtual void ToggleSide(bool collapsed) { }
 }
 
 /// <summary>

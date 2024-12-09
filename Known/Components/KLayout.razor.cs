@@ -1,4 +1,6 @@
-﻿namespace Known.Components;
+﻿using AntDesign;
+
+namespace Known.Components;
 
 /// <summary>
 /// 后台布局模板组件类。
@@ -7,11 +9,15 @@ partial class KLayout
 {
     private string spinTip = "";
     private bool showSpin = false;
-    private bool collapsed = false;
     private bool showSetting = false;
+    private bool collapsed = false;
+
     private string HeaderClass => Setting.MenuTheme == "Dark" ? "kui-header kui-menu-dark" : "kui-header";
     private string MenuClass => Setting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
     private AntMenu menu;
+    private ReloadContainer reload;
+
+    [Inject] private ReuseTabsService Service { get; set; }
 
     /// <summary>
     /// 取得或设置页面是否加载完成。
@@ -73,6 +79,17 @@ partial class KLayout
     }
 
     /// <summary>
+    /// 重新加载当前页面，如果是多标签，则刷新当前标签页。
+    /// </summary>
+    public override void ReloadPage()
+    {
+        if (Setting.MultiTab)
+            Service.ReloadPage();
+        else
+            reload?.Reload();
+    }
+
+    /// <summary>
     /// 异步设置组件参数。
     /// </summary>
     /// <returns></returns>
@@ -124,6 +141,12 @@ partial class KLayout
         }
     }
 
+    internal override void ToggleSide(bool collapsed)
+    {
+        this.collapsed = collapsed;
+        StateChanged();
+    }
+
     private void CheckUrlAuthentication()
     {
         if (!IsUrlAuth)
@@ -138,8 +161,6 @@ partial class KLayout
             }
         }
     }
-
-    private void OnToggle() => collapsed = !collapsed;
 
     private async Task OnThemeColorAsync()
     {

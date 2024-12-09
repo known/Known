@@ -4,17 +4,17 @@
 /// 多语言下拉框组件类。
 /// </summary>
 [NavItem]
-public class NavLanguage : BaseComponent
+public class NavLanguage : BaseNav
 {
     private ActionInfo current;
 
     /// <summary>
-    /// 取得或设置下拉框图标，默认为translation。
+    /// 取得图标。
     /// </summary>
-    [Parameter] public string Icon { get; set; } = "translation";
+    protected override string Icon => "translation";
 
     /// <summary>
-    /// 异步初始化多语言下拉框组件。
+    /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>
     protected override async Task OnInitAsync()
@@ -24,9 +24,9 @@ public class NavLanguage : BaseComponent
     }
 
     /// <summary>
-    /// 呈现多语言下拉框组件内容。
+    /// 呈现组件内容。
     /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="builder">呈现建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Dropdown(new DropdownModel
