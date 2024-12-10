@@ -236,7 +236,7 @@
 .ant-layout-sider-collapsed + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:110px;}
 .kui-menu-float + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:85px;}
 .kui-nav-tabs.is-top > .ant-tabs-content-holder > .ant-tabs-content > .kui-body {height:calc(100vh - 54px);}
-.kui-logo {height:54px;padding-left:10px;overflow:hidden;}
+.kui-logo {height:54px;padding-left:10px;overflow:hidden;cursor:pointer;}
 .kui-header .kui-logo {width:180px;padding-left:0;}
 .kui-scroll {
     position:fixed;top:54px;left:0;bottom:0;width:200px;

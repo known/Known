@@ -193,6 +193,11 @@ partial class KLayout
         return OnSaveSetting();
     }
 
+    private void OnLogoClick()
+    {
+        Navigation.NavigateTo("/");
+    }
+
     private void OnMenuClick(string id)
     {
         switch (id)
