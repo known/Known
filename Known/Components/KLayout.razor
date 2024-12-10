@@ -1,6 +1,6 @@
 ﻿@inherits BaseLayout
 
-<div class="kui-wrapper @Setting.Size">
+<div class="@WrapperClass">
     <LayoutValue Value="this" IsFixed>
         @if (IsLoaded)
         {
@@ -23,7 +23,7 @@
                         <Content>
                             @if (Setting.MultiTab)
                             {
-                                <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" />
+                                <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" />
                             }
                             else
                             {
@@ -83,7 +83,7 @@
                             <Content>
                                 @if (Setting.MultiTab)
                                 {
-                                    <ReuseTabs Class="kui-nav-tabs" TabPaneClass="kui-body" Body="ChildContent" />
+                                    <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" />
                                 }
                                 else
                                 {

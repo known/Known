@@ -230,6 +230,12 @@
 .kui-nav-tabs .ant-tabs-tab .anticon {margin-right:5px;}
 .kui-nav-tabs .ant-tabs-tab-remove {margin-left:0;}
 .kui-nav-tabs .ant-tabs-tab-remove .anticon {margin-right:0;}
+.ant-layout-sider + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {
+    position:absolute;top:0;left:250px;right:350px;height:54px;border-bottom:0;transition:all 0.2s;
+}
+.ant-layout-sider-collapsed + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:110px;}
+.kui-menu-float + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:85px;}
+.kui-nav-tabs.is-top > .ant-tabs-content-holder > .ant-tabs-content > .kui-body {height:calc(100vh - 54px);}
 .kui-logo {height:54px;padding-left:10px;overflow:hidden;}
 .kui-header .kui-logo {width:180px;padding-left:0;}
 .kui-scroll {

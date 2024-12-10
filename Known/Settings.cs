@@ -116,6 +116,11 @@ public class UserSettingInfo
     public bool MultiTab { get; set; }
 
     /// <summary>
+    /// 取得或设置系统多标签页是否顶行显示。
+    /// </summary>
+    public bool IsTopTab { get; set; }
+
+    /// <summary>
     /// 取得或设置系统菜单是否是手风琴， 默认是。
     /// </summary>
     public bool Accordion { get; set; } = true;

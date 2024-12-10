@@ -142,6 +142,7 @@
   "Set.LayoutSetting": "布局设置",
   "Set.Layout": "布局",
   "Set.Tabs": "标签",
+  "Set.TopTab": "顶行标签",
   "Set.PreferenceSetting": "偏好设置",
   "Set.Accordion": "手风琴",
   "Set.RegionalSetting": "区域设置",

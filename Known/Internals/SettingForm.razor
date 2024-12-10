@@ -24,6 +24,12 @@
     <FormItem Label="@Language["Set.Tabs"]">
         <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
     </FormItem>
+    @if (context.MultiTab)
+    {
+        <FormItem Label="@Language["Set.TopTab"]">
+            <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
+        </FormItem>
+    }
     <Divider />
     <Title Level="4">@Language["Set.PreferenceSetting"]</Title>
     <FormItem Label="@Language["Set.Accordion"]">

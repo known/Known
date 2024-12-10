@@ -12,10 +12,18 @@ partial class KLayout
     private bool showSetting = false;
     private bool collapsed = false;
 
-    private string HeaderClass => Setting.MenuTheme == "Dark" ? "kui-header kui-menu-dark" : "kui-header";
-    private string MenuClass => Setting.MenuTheme == "Dark" ? "kui-menu-dark" : "";
     private AntMenu menu;
     private ReloadContainer reload;
+
+    private string WrapperClass => CssBuilder.Default("kui-wrapper").AddClass(Setting.Size).BuildClass();
+    private string TabsClass => CssBuilder.Default("kui-nav-tabs").AddClass("is-top", Setting.IsTopTab).BuildClass();
+    private string HeaderClass => CssBuilder.Default("kui-header")
+                                            .AddClass("kui-menu-dark", Setting.MenuTheme == "Dark")
+                                            .BuildClass();
+    private string MenuClass => CssBuilder.Default()
+                                          .AddClass("kui-menu-dark", Setting.MenuTheme == "Dark")
+                                          .AddClass("kui-menu-float", Setting.LayoutMode == LayoutMode.Float.ToString())
+                                          .BuildClass();
 
     [Inject] private ReuseTabsService Service { get; set; }
 
