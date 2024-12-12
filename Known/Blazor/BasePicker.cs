@@ -15,6 +15,11 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     }
 
     /// <summary>
+    /// 取得或设置数据项查询表达式。
+    /// </summary>
+    protected Func<TItem, bool> ItemExpression { get; set; }
+
+    /// <summary>
     /// 取得选择的对象实例列表。
     /// </summary>
     public virtual List<TItem> SelectedItems { get; }
@@ -95,7 +100,10 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// 获取弹窗选择器参数字典。
     /// </summary>
     /// <returns>选择器参数字典。</returns>
-    protected virtual Dictionary<string, object> GetPickParameters() => new() { { nameof(IsPick), true } };
+    protected virtual Dictionary<string, object> GetPickParameters() => new() {
+        { nameof(IsPick), true },
+        { nameof(Value), Value }
+    };
 
     /// <summary>
     /// 选择器选择内容改变时触发的方法。

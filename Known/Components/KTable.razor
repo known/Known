@@ -3,7 +3,7 @@
 @typeparam TItem where TItem : class, new()
 
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
-          ScrollX="@scrollX" ScrollY="@scrollY" Loading="isQuering"
+          ScrollX="@scrollX" ScrollY="@ScrollY" Loading="isQuering"
           OnChange="OnChange" OnRow="OnRow"
           @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)

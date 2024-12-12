@@ -18,6 +18,7 @@ public class UserPicker : TablePicker<SysUser>, ICustomField
         Title = Language["Title.SelectUser"];
         Width = 800;
         AllowClear = true;
+        ItemExpression = d => d.UserName == Value?.ToString();
         Table.OnQuery = Service.QueryUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);

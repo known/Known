@@ -14,9 +14,9 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
     protected TableModel<TItem> Table { get; private set; }
 
     /// <summary>
-    /// 取得表格选择列选择类型，默认单选。
+    /// 取得或设置表格选择列选择类型，默认单选。
     /// </summary>
-    protected virtual TableSelectType SelectType => TableSelectType.Radio;
+    protected TableSelectType SelectType { get; set; } = TableSelectType.Radio;
 
     /// <summary>
     /// 取得表格选中行绑定的数据对象列表。
@@ -45,6 +45,12 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
             AdvSearch = false,
             ShowPager = true,
             SelectType = SelectType
+        };
+        Table.OnResult = () =>
+        {
+            var rows = Table.DataSource?.Where(ItemExpression).ToList();
+            if (rows != null && rows.Count > 0)
+                Table.SelectedRows = [.. rows];
         };
         if (SelectType == TableSelectType.Radio)
             Table.OnRowDoubleClick = OnRowDoubleClick;

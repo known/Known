@@ -12,7 +12,7 @@ partial class KTable<TItem> : BaseComponent
     private AntTable<TItem> table;
     private bool isQuering = false;
     private string scrollX = "";
-    private string scrollY => Model.FixedHeight ?? "1000px";
+    private string ScrollY => Model.FixedHeight ?? "1000px";
 
     /// <summary>
     /// 取得或设置表格数据模型。
@@ -87,11 +87,11 @@ partial class KTable<TItem> : BaseComponent
         if (query.SortModel != null)
         {
             var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
-            Model.Criteria.OrderBys = sorts.Select(m => GetOrderBy(m)).ToArray();
+            Model.Criteria.OrderBys = sorts.Select(GetOrderBy).ToArray();
         }
         Model.Criteria.StatisColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisColumnInfo { Id = c.Id }).ToList();
-        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         Model.SelectedRows = [];
+        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         await Model.RefreshStatisAsync();
         watch.Write($"Changed {Model.Criteria.PageIndex}");
     }
@@ -149,7 +149,7 @@ partial class KTable<TItem> : BaseComponent
         return text;
     }
 
-    private string GetActionColor(string style)
+    private static string GetActionColor(string style)
     {
         return style == "danger" ? "red-inverse" : "blue-inverse";
     }

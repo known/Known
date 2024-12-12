@@ -13,6 +13,7 @@ partial class TableModel<TItem>
         {
             dataSource = value ?? [];
             result = new PagingResult<TItem>(dataSource);
+            OnResult?.Invoke();
         }
     }
 
@@ -27,6 +28,7 @@ partial class TableModel<TItem>
         {
             result = value ?? new();
             dataSource = value?.PageData;
+            OnResult?.Invoke();
         }
     }
 
@@ -41,6 +43,11 @@ partial class TableModel<TItem>
     public Action OnRefreshed { get; set; }
 
     /// <summary>
+    /// 取得或设置查询出结果后调用的委托。
+    /// </summary>
+    public Action OnResult { get; set; }
+
+    /// <summary>
     /// 取得或设置表格顶部统计信息模板。
     /// </summary>
     public RenderFragment<PagingResult<TItem>> TopStatis { get; set; }
@@ -51,7 +58,7 @@ partial class TableModel<TItem>
     /// 异步刷新表格数据统计。
     /// </summary>
     /// <returns></returns>
-    public Task RefreshStatisAsync()
+    internal Task RefreshStatisAsync()
     {
         if (OnRefreshStatis == null)
             return Task.CompletedTask;
