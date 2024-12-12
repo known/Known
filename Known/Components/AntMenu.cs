@@ -8,6 +8,8 @@ namespace Known.Components;
 /// </summary>
 public class AntMenu : Menu
 {
+    [Inject] private NavigationManager Navigation { get; set; }
+
     /// <summary>
     /// 取得或设置系统上下文。
     /// </summary>
@@ -77,12 +79,11 @@ public class AntMenu : Menu
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
     {
-        if (!string.IsNullOrWhiteSpace(item.Url) && item.Url.StartsWith("http"))
+        if (item.Url?.StartsWith("http") == true && item.Target == ModuleType.Menu.ToString())
         {
             builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
-               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnMenuClick(item)))
-               .Set(c => c.ChildContent, b => BuildItemName(b, item))
+               .Set(c => c.ChildContent, b => BuildItemLink(b, item))
                .Build();
         }
         else
@@ -96,6 +97,14 @@ public class AntMenu : Menu
         }
     }
 
+    private void BuildItemLink(RenderTreeBuilder builder, MenuInfo item)
+    {
+        builder.Link().Href(item.Url)
+               .Set("target", "_blank")
+               .Child(() => BuildItemName(builder, item))
+               .Close();
+    }
+
     private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
     {
         if (!string.IsNullOrWhiteSpace(item.Icon))
@@ -106,10 +115,5 @@ public class AntMenu : Menu
         }
         var itemName = Context?.Language?.GetString(item);
         builder.Span(itemName);
-    }
-
-    private Task OnMenuClick(MenuInfo item)
-    {
-        return Task.CompletedTask;
     }
 }

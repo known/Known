@@ -8,6 +8,11 @@ public class UIConfig
     private UIConfig() { }
 
     /// <summary>
+    /// 取得或设置界面是否是编辑模式。
+    /// </summary>
+    public static bool IsEditMode { get; set; }
+
+    /// <summary>
     /// 取得或设置系统字体大小下拉项列表。
     /// </summary>
     public static List<ActionInfo> Sizes { get; set; } = [];

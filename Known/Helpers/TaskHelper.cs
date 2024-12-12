@@ -65,7 +65,10 @@ public sealed class TaskHelper
     {
         try
         {
-            return await OnPendingTask?.Invoke(db, bizType);
+            if (OnPendingTask == null)
+                return null;
+
+            return await OnPendingTask.Invoke(db, bizType);
         }
         catch
         {
