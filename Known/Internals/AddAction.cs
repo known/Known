@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Internals;
+﻿namespace Known.Internals;
 
 class AddAction : BaseComponent
 {
@@ -11,8 +9,8 @@ class AddAction : BaseComponent
     {
         builder.Div().Class("kui-edit").OnClick(this.Callback<MouseEventArgs>(OnClick)).Child(() =>
         {
-            builder.Component<Icon>()
-                   .Set(c => c.Type, "plus")
+            builder.Component<KIcon>()
+                   .Set(c => c.Icon, "plus")
                    .Build();
         });
     }

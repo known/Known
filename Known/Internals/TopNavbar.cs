@@ -51,7 +51,17 @@ public class TopNavbar : BaseComponent
                     if (!Config.NavItemTypes.TryGetValue(item, out var type))
                         continue;
 
-                    b.Li().Child(() => b.Component(type));
+                    if (UIConfig.IsEditMode)
+                    {
+                        b.Li().Draggable()
+                         .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
+                         .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
+                         .Child(() => b.Component(type));
+                    }
+                    else
+                    {
+                        b.Li().Child(() => b.Component(type));
+                    }
                 }
             });
 

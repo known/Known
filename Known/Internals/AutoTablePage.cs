@@ -1,67 +1,27 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Internals;
 
-/// <summary>
-/// 无代码表格页面组件类。
-/// </summary>
-[StreamRendering]
-[Route("/page/{*PageRoute}")]
-public class AutoTablePage : BaseTablePage<Dictionary<string, object>>
+class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 {
     private IAutoService Service;
-    private string pageRoute;
     private readonly Dictionary<string, object> defaultData = [];
-    private string PageId { get; set; }
 
-    /// <summary>
-    /// 取得或设置页面路由。
-    /// </summary>
-    [Parameter] public string PageRoute { get; set; }
+    [Parameter] public string PageId { get; set; }
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    public Task InitializeAsync()
+    {
+        InitTable();
+        return base.RefreshAsync();
+    }
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IAutoService>();
+        await InitializeAsync();
     }
 
-    /// <summary>
-    /// 异步设置页面参数。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnParameterAsync()
-    {
-        await base.OnParameterAsync();
-        if (pageRoute != PageRoute)
-        {
-            pageRoute = PageRoute;
-            PageId = Context.Current?.Id;
-            InitTable();
-            await base.RefreshAsync();
-        }
-    }
-
-    /// <summary>
-    /// 构建页面内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        if (Context.Current == null)
-        {
-            UI.Page404(builder, PageId);
-            return;
-        }
-
-        var type = Utils.ConvertTo<ModuleType>(Context.Current.Target);
-        if (type == ModuleType.IFrame)
-        {
-            builder.IFrame(Context.Current.Url);
-            return;
-        }
-
         if (UIConfig.AutoTablePage != null)
             UIConfig.AutoTablePage.Invoke(builder, Table);
         else

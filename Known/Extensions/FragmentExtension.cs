@@ -3,7 +3,7 @@
 /// <summary>
 /// 小碎片组件扩展类。
 /// </summary>
-public static class FragExtension
+public static class FragmentExtension
 {
     /// <summary>
     /// 呈现一个提示框。
@@ -20,7 +20,7 @@ public static class FragExtension
     }
 
     /// <summary>
-    /// 呈现一个标签。
+    /// 呈现一个标签组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">标签文本。</param>
@@ -34,7 +34,7 @@ public static class FragExtension
     }
 
     /// <summary>
-    /// 呈现一个图标。
+    /// 呈现一个图标组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="icon">图标。</param>
@@ -48,5 +48,22 @@ public static class FragExtension
                .Set(c => c.Icon, icon)
                .Set(c => c.OnClick, onClick)
                .Build();
+    }
+
+    /// <summary>
+    /// 呈现一个图标和名称组件。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="icon"></param>
+    /// <param name="name"></param>
+    public static void IconName(this RenderTreeBuilder builder, string icon, string name)
+    {
+        if (!string.IsNullOrWhiteSpace(icon))
+        {
+            builder.Component<KIcon>()
+                   .Set(c => c.Icon, icon)
+                   .Build();
+        }
+        builder.Span(name);
     }
 }

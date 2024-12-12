@@ -66,7 +66,7 @@ public class AntDropdown : Dropdown
         builder.Element("a").Class("ant-dropdown-link").PreventDefault().Child(() =>
         {
             builder.Markup(Model?.Text);
-            builder.Component<Icon>().Set(c => c.Type, "down").Build();
+            builder.Icon("down");
         });
     }
 
@@ -81,7 +81,7 @@ public class AntDropdown : Dropdown
                .Set(c => c.ChildContent, b =>
                {
                    b.Markup(Model?.TextButton);
-                   b.Component<Icon>().Set(c => c.Type, "down").Build();
+                   b.Icon("down");
                })
                .Build();
     }
@@ -106,19 +106,7 @@ public class AntDropdown : Dropdown
     private void BuildMenuItem(RenderTreeBuilder builder, ActionInfo item)
     {
         builder.Div().OnClick(this.Callback<MouseEventArgs>(e => Model?.OnItemClick?.Invoke(item)))
-               .Child(() => BuildItemName(builder, item));
-    }
-
-    private static void BuildItemName(RenderTreeBuilder builder, ActionInfo item)
-    {
-        if (!string.IsNullOrWhiteSpace(item.Icon))
-        {
-            builder.Component<Icon>()
-                   .Set(c => c.Type, item.Icon)
-                   .Set(c => c.Theme, "outline")
-                   .Build();
-        }
-        builder.Span(item.Name);
+               .Child(() => builder.IconName(item.Icon, item.Name));
     }
 
     private static Trigger[] GetTriggers(string triggerType)

@@ -3,17 +3,6 @@
 namespace Known.Components;
 
 /// <summary>
-/// 扩展Ant表单接口。
-/// </summary>
-public interface IAntForm
-{
-    /// <summary>
-    /// 取得表单是否查看模式。
-    /// </summary>
-    bool IsView { get; }
-}
-
-/// <summary>
 /// 扩展Ant表单组件类。
 /// </summary>
 /// <typeparam name="TItem">表单数据对象类型。</typeparam>

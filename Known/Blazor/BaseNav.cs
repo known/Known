@@ -30,15 +30,7 @@ public class BaseNav : BaseComponent
     {
         builder.Component<Tooltip>()
                .Set(c => c.Title, Title)
-               .Set(c => c.ChildContent, BuildIcon)
-               .Build();
-    }
-
-    private void BuildIcon(RenderTreeBuilder builder)
-    {
-        builder.Component<Icon>()
-               .Set(c => c.Type, Icon)
-               .Set(c => c.OnClick, OnClick)
+               .Set(c => c.ChildContent, b => b.Icon(Icon, OnClick))
                .Build();
     }
 }

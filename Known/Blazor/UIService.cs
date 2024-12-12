@@ -223,7 +223,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         var options = new ConfirmOptions
         {
             Title = Language?.GetTitle("Question"),
-            Icon = b => b.Component<Icon>().Set(c => c.Type, "question-circle").Set(c => c.Theme, "outline").Build(),
+            Icon = b => b.Icon("question-circle"),
             Content = FormatMessage(message)
         };
         if (action != null)

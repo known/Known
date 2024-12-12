@@ -112,13 +112,7 @@ public class AntMenu : Menu
 
     private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
     {
-        if (!string.IsNullOrWhiteSpace(item.Icon))
-        {
-            builder.Component<KIcon>()
-                   .Set(c => c.Icon, item.Icon)
-                   .Build();
-        }
         var itemName = Context?.Language?.GetString(item);
-        builder.Span(itemName);
+        builder.IconName(item.Icon, itemName);
     }
 }
