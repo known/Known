@@ -38,6 +38,21 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
+    /// 取得或设置用户中心用户信息组件类型。
+    /// </summary>
+    public static Type UserProfileType { get; set; }
+
+    /// <summary>
+    /// 取得用户中心页面自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, Type> UserTabs { get; } = [];
+
+    /// <summary>
+    /// 取得开发中心页面自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, Type> DevelopTabs { get; } = [];
+
+    /// <summary>
     /// 取得或设置自定义自动表格页面委托。
     /// </summary>
     public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }

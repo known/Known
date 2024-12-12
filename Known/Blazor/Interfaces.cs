@@ -1,7 +1,7 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
-/// 自动页面接口。
+/// 无代码页面接口。
 /// </summary>
 public interface IAutoPage
 {

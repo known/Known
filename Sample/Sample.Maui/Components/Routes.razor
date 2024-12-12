@@ -1,5 +1,5 @@
 ﻿<KContext Value="Context">
-    <Router AppAssembly="@typeof(MauiProgram).Assembly">
+    <Router AppAssembly="@typeof(MauiProgram).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />

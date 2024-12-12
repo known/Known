@@ -15,14 +15,4 @@ public sealed class AdminConfig
     /// 取得关于系统页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, RenderFragment> SystemTabs { get; } = [];
-
-    /// <summary>
-    /// 取得用户中心页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, RenderFragment> UserTabs { get; } = [];
-
-    /// <summary>
-    /// 取得开发中心页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, RenderFragment> DevelopTabs { get; } = [];
 }

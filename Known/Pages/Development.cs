@@ -5,7 +5,6 @@ namespace Known.Pages;
 /// <summary>
 /// 系统开发中心页面组件类。
 /// </summary>
-[DisplayName("开发中心")]
 [StreamRendering]
 [Route("/development")]
 public class Development : BaseTabPage, IReuseTabsPage
@@ -24,11 +23,9 @@ public class Development : BaseTabPage, IReuseTabsPage
 
         await base.OnInitPageAsync();
         Tab.Class = "kui-development";
-        Tab.AddTab("Menu.SysModuleList", b => b.Component<ModuleList>().Build());
-        Tab.AddTab("WebApi", b => b.Component<WebApiList>().Build());
-        foreach (var item in AdminConfig.DevelopTabs)
+        foreach (var item in UIConfig.DevelopTabs)
         {
-            Tab.AddTab(item.Key, item.Value);
+            Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
         }
     }
 

@@ -7,8 +7,10 @@ namespace Known.Pages;
 /// </summary>
 [StreamRendering]
 [Route("/profile")]
-public class SysUserProfile : BasePage<UserInfo>, IReuseTabsPage
+public class UserProfile : BasePage<UserInfo>, IReuseTabsPage
 {
+    private TabModel Tab { get; } = new();
+
     /// <summary>
     /// 异步初始化页面。
     /// </summary>
@@ -20,6 +22,11 @@ public class SysUserProfile : BasePage<UserInfo>, IReuseTabsPage
         Page.Spans = "28";
         Page.AddItem("kui-card kui-p10", BuildUserInfo);
         Page.AddItem("kui-card", BuildUserTabs);
+
+        foreach (var item in UIConfig.UserTabs)
+        {
+            Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
+        }
     }
 
     /// <summary>
@@ -35,6 +42,6 @@ public class SysUserProfile : BasePage<UserInfo>, IReuseTabsPage
         });
     }
 
-    private void BuildUserInfo(RenderTreeBuilder builder) => builder.Component<SysUserProfileInfo>().Build();
-    private void BuildUserTabs(RenderTreeBuilder builder) => builder.Component<SysUserProfileTabs>().Build();
+    private void BuildUserInfo(RenderTreeBuilder builder) => builder.DynamicComponent(UIConfig.UserProfileType);
+    private void BuildUserTabs(RenderTreeBuilder builder) => builder.Tabs(Tab);
 }

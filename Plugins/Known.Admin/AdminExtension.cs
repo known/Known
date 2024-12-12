@@ -43,6 +43,11 @@ public static class AdminExtension
         var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         UIConfig.ImportForm = BuildImportForm;
+        UIConfig.UserProfileType = typeof(UserProfileInfo);
+        UIConfig.UserTabs["MyProfile"] = typeof(UserEditForm);
+        UIConfig.UserTabs["SecuritySetting"] = typeof(PasswordEditForm);
+        UIConfig.DevelopTabs["Menu.SysModuleList"] = typeof(ModuleList);
+        UIConfig.DevelopTabs["WebApi"] = typeof(WebApiList);
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
