@@ -67,12 +67,12 @@ public class AntDropdown : Dropdown
         {
             builder.Markup(Model?.Text);
             builder.Component<Icon>().Set(c => c.Type, "down").Build();
-        }).Close();
+        });
     }
 
     private void BuildTextIcon(RenderTreeBuilder builder)
     {
-        builder.Span().Role("img").Child(Model?.TextIcon).Close();
+        builder.Span().Role("img").Child(Model?.TextIcon);
     }
 
     private void BuildTextButton(RenderTreeBuilder builder)
@@ -106,8 +106,7 @@ public class AntDropdown : Dropdown
     private void BuildMenuItem(RenderTreeBuilder builder, ActionInfo item)
     {
         builder.Div().OnClick(this.Callback<MouseEventArgs>(e => Model?.OnItemClick?.Invoke(item)))
-               .Child(() => BuildItemName(builder, item))
-               .Close();
+               .Child(() => BuildItemName(builder, item));
     }
 
     private static void BuildItemName(RenderTreeBuilder builder, ActionInfo item)

@@ -35,27 +35,46 @@ public class TopNavbar : BaseComponent
         {
             builder.Cascading(this, b =>
             {
+                if (UIConfig.IsEditMode)
+                {
+                    b.Li().Child(() =>
+                    {
+                        b.Component<AddAction>()
+                         .Set(c => c.Type, "Nav")
+                         .Set(c => c.OnRefresh, StateChanged)
+                         .Build();
+                    });
+                }
+
                 foreach (var item in types)
                 {
                     if (!Config.NavItemTypes.TryGetValue(item, out var type))
                         continue;
 
-                    b.Li().Child(() => b.Component(type)).Close();
+                    b.Li().Child(() => b.Component(type));
                 }
             });
 
-            if (!Config.App.IsClient && CurrentUser?.IsSystemAdmin() == true)
+            if (CurrentUser?.IsSystemAdmin() == true)
             {
-                builder.Li(() =>
+                if (UIConfig.EnableEdit)
                 {
-                    builder.Dropdown(new DropdownModel
+                    var className = UIConfig.IsEditMode ? "edit" : "";
+                    builder.Li().Class(className).Child(() => builder.Component<NavEditMode>().Build());
+                }
+                else
+                {
+                    builder.Li(() =>
                     {
-                        Tooltip = Language["Custom"],
-                        TriggerType = "Click",
-                        Icon = "edit",
-                        Overlay = BuildOverlay
+                        builder.Dropdown(new DropdownModel
+                        {
+                            Tooltip = Language["Custom"],
+                            TriggerType = "Click",
+                            Icon = "edit",
+                            Overlay = BuildOverlay
+                        });
                     });
-                });
+                }
             }
         });
     }
@@ -70,8 +89,7 @@ public class TopNavbar : BaseComponent
                 builder.Div().Class("item").Draggable()
                        .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
                        .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
-                       .Child(() => BuildSettingItem(builder, item))
-                       .Close();
+                       .Child(() => BuildSettingItem(builder, item));
             }
             BuildAddItem(builder);
         });

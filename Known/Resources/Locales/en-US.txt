@@ -125,6 +125,7 @@
   "Menu.Home": "Home",
   "Nav.Expand": "Expand",
   "Nav.Collapse": "Collapse",
+  "Nav.EditMode": "Edit Mode",
   "Nav.HomePage": "Home Page",
   "Nav.Setting": "Setting",
   "Nav.FullScreen": "Full Screen",

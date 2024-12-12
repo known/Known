@@ -39,7 +39,7 @@ public static class UIExtension
                 var text = option.Text;
                 if (string.IsNullOrWhiteSpace(text))
                     text = "请使用微信扫码关注公众号！";
-                b.Div().Style("margin-bottom:10px;text-align:center;").Markup(text).Close();
+                b.Div().Style("margin-bottom:10px;text-align:center;").Markup(text);
                 b.Image().Style("width:250px;height:250px;").Src(qrCodeUrl).Close();
             }
         };

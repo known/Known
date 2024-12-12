@@ -8,8 +8,6 @@ namespace Known.Components;
 /// </summary>
 public class AntMenu : Menu
 {
-    [Inject] private NavigationManager Navigation { get; set; }
-
     /// <summary>
     /// 取得或设置系统上下文。
     /// </summary>
@@ -46,6 +44,14 @@ public class AntMenu : Menu
             builder.Div("kui-p10", "Loading...");
         else
             BuildMenu(builder, Items);
+
+        if (UIConfig.IsEditMode)
+        {
+            builder.Component<AddAction>()
+                   .Set(c => c.Type, "Menu")
+                   .Set(c => c.OnRefresh, StateHasChanged)
+                   .Build();
+        }
     }
 
     private void BuildMenu(RenderTreeBuilder builder, List<MenuInfo> items)
@@ -74,7 +80,7 @@ public class AntMenu : Menu
 
     private void BuildTitle(RenderTreeBuilder builder, MenuInfo item)
     {
-        builder.Span().Child(() => BuildItemName(builder, item)).Close();
+        builder.Span().Child(() => BuildItemName(builder, item));
     }
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
@@ -101,8 +107,7 @@ public class AntMenu : Menu
     {
         builder.Link().Href(item.Url)
                .Set("target", "_blank")
-               .Child(() => BuildItemName(builder, item))
-               .Close();
+               .Child(() => BuildItemName(builder, item));
     }
 
     private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)

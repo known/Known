@@ -8,6 +8,11 @@ public class UIConfig
     private UIConfig() { }
 
     /// <summary>
+    /// 取得或设置是否启用编辑模式。
+    /// </summary>
+    public static bool EnableEdit { get; set; }
+
+    /// <summary>
     /// 取得或设置界面是否是编辑模式。
     /// </summary>
     public static bool IsEditMode { get; set; }

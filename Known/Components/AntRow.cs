@@ -43,6 +43,6 @@ public class AntRow : ComponentBase
         builder.Div().Class(className).Style(style.BuildStyle()).Child(() =>
         {
             builder.Cascading(this, b => b.Fragment(ChildContent));
-        }).Close();
+        });
     }
 }

@@ -125,6 +125,7 @@
   "Menu.Home": "首页",
   "Nav.Expand": "展开",
   "Nav.Collapse": "折叠",
+  "Nav.EditMode": "编辑模式",
   "Nav.HomePage": "系统首页",
   "Nav.Setting": "系统设置",
   "Nav.FullScreen": "全屏显示",

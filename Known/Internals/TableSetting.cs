@@ -46,8 +46,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                 builder.Div().Class("item").Draggable()
                        .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
                        .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
-                       .Child(() => BuildSettingItem(builder, item))
-                       .Close();
+                       .Child(() => BuildSettingItem(builder, item));
             }
         });
     }

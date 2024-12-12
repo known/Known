@@ -76,7 +76,7 @@ public static class FormExtension
     {
         builder.Div("kui-group-box", () =>
         {
-            builder.Label().Class("legend").Child(title).Close();
+            builder.Label().Class("legend").Child(title);
             builder.Div("body", child);
         });
     }

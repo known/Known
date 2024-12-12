@@ -125,6 +125,7 @@
   "Menu.Home": "Trang chủ",
   "Nav.Expand": "Mở rộng",
   "Nav.Collapse": "Gấp",
+  "Nav.EditMode": "Chế độ soạn thảo",
   "Nav.HomePage": "Trang chủ hệ thống",
   "Nav.Setting": "Thiết lập hệ thống",
   "Nav.FullScreen": "Hiển thị toàn màn hình",

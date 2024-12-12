@@ -61,7 +61,7 @@ class Importer : BaseComponent
             {
                 builder.Link(Language["Import.Download"], this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
-                    builder.Span().Class("kui-link kui-danger").OnClick(this.Callback(OnErrorMessage)).Markup(ErrorMessage).Close();
+                    builder.Span().Class("kui-link kui-danger").OnClick(this.Callback(OnErrorMessage)).Markup(ErrorMessage);
                 builder.Span("size", fileInfo);
             });
             var style = string.IsNullOrWhiteSpace(error) ? "kui-primary" : "kui-danger";

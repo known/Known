@@ -88,8 +88,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
                            //else
                            builder.Icon(item.Icon);
                            builder.Span("name", item.Icon);
-                       })
-                       .Close();
+                       });
             }
         });
     }

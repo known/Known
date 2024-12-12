@@ -181,7 +181,7 @@ class WebApiForm : BaseComponent
     {
         var value = Utils.FromJson<object>(result);
         result = FormatJson(value);
-        builder.Pre().Class("kui-api-result").Child(result).Close();
+        builder.Pre().Class("kui-api-result").Child(result);
     }
 
     private async Task OnExexuteAsync(MouseEventArgs args)

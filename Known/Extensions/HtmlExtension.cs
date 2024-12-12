@@ -22,7 +22,7 @@ public static class HtmlExtension
     /// <param name="child">label的子元素委托。</param>
     public static void Label(this RenderTreeBuilder builder, Action child)
     {
-        builder.Label().Child(child).Close();
+        builder.Label().Child(child);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public static class HtmlExtension
     /// <param name="child">div的子元素委托。</param>
     public static void Div(this RenderTreeBuilder builder, string className, Action child)
     {
-        builder.Div().Class(className).Child(child).Close();
+        builder.Div().Class(className).Child(child);
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public static class HtmlExtension
     /// <param name="child">ul的子元素委托。</param>
     public static void Ul(this RenderTreeBuilder builder, string className, Action child)
     {
-        builder.Ul().Class(className).Child(child).Close();
+        builder.Ul().Class(className).Child(child);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ public static class HtmlExtension
     /// <param name="child">li的子元素委托。</param>
     public static void Li(this RenderTreeBuilder builder, string className, Action child)
     {
-        builder.Li().Class(className).Child(child).Close();
+        builder.Li().Class(className).Child(child);
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public static class HtmlExtension
     /// <param name="onClick">span的单击事件。</param>
     public static void Span(this RenderTreeBuilder builder, string className, string text, EventCallback<MouseEventArgs>? onClick = null)
     {
-        builder.Span().Class(className).OnClick(onClick).Markup(text).Close();
+        builder.Span().Class(className).OnClick(onClick).Markup(text);
     }
 
     /// <summary>
@@ -154,7 +154,7 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.Span().Class("kui-link").OnClick(onClick).Markup(text).Close();
+        builder.Span().Class("kui-link").OnClick(onClick).Markup(text);
     }
 
     /// <summary>

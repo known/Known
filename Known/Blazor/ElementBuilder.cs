@@ -55,32 +55,30 @@ public class ElementBuilder
     /// </summary>
     /// <param name="markup">HTML字符串。</param>
     /// <returns>元素建造者。</returns>
-    public ElementBuilder Markup(string markup)
+    public void Markup(string markup)
     {
         Builder.Markup(markup);
-        return this;
+        Close();
     }
 
     /// <summary>
     /// 设置HTML元素文本字符串。
     /// </summary>
     /// <param name="text">文本字符串。</param>
-    /// <returns>元素建造者。</returns>
-    public ElementBuilder Child(string text)
+    public void Child(string text)
     {
         Builder.AddContent(1, text);
-        return this;
+        Close();
     }
 
     /// <summary>
     /// 设置HTML元素子内容。
     /// </summary>
     /// <param name="child">子内容委托。</param>
-    /// <returns>元素建造者。</returns>
-    public ElementBuilder Child(Action child)
+    public void Child(Action child)
     {
         child.Invoke();
-        return this;
+        Close();
     }
 
     /// <summary>
@@ -89,11 +87,10 @@ public class ElementBuilder
     /// <typeparam name="T">参数类型。</typeparam>
     /// <param name="child">子内容委托。</param>
     /// <param name="item">参数对象。</param>
-    /// <returns>元素建造者。</returns>
-    public ElementBuilder Child<T>(Action<T> child, T item)
+    public void Child<T>(Action<T> child, T item)
     {
         child.Invoke(item);
-        return this;
+        Close();
     }
 
     /// <summary>
