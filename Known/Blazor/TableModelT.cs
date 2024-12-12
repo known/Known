@@ -184,7 +184,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         }
     }
 
-    private List<ColumnInfo> GetAttributeColumns(Type type)
+    private static List<ColumnInfo> GetAttributeColumns(Type type)
     {
         var columns = new List<ColumnInfo>();
         var properties = TypeHelper.Properties(typeof(TItem));

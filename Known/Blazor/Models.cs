@@ -74,7 +74,7 @@ public class DialogModel
     /// <summary>
     /// 取得或设置对话框关闭委托。
     /// </summary>
-    public Func<Task> OnClose { get; set; }
+    internal Func<Task> OnClose { get; set; }
 
     /// <summary>
     /// 取得或设置对话框关闭后调用的委托。

@@ -70,5 +70,5 @@ partial class TableModel<TItem>
     /// <summary>
     /// 取得表格栏位呈现模板字典。
     /// </summary>
-    public Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
+    internal Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
 }

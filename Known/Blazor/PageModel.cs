@@ -23,7 +23,7 @@ public class PageModel
     /// <summary>
     /// 取得或设置页面状态改变委托。
     /// </summary>
-	public Action StateChanged { get; set; }
+	internal Action StateChanged { get; set; }
 
     /// <summary>
     /// 添加页面项目。

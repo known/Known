@@ -58,7 +58,7 @@ public class TreeModel
     /// <summary>
     /// 取得或设置树组件刷新委托，创建组件时赋值。
     /// </summary>
-    public Func<Task> OnRefresh { get; set; }
+    internal Func<Task> OnRefresh { get; set; }
 
     /// <summary>
     /// 异步刷新树组件。

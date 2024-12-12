@@ -13,7 +13,7 @@ partial class FormModel<TItem>
     /// <summary>
     /// 取得或设置表单加载时调用的委托。
     /// </summary>
-    public Func<TItem, Task> OnLoadData { get; set; }
+    internal Func<TItem, Task> OnLoadData { get; set; }
 
     /// <summary>
     /// 异步加载表单数据。

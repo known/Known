@@ -22,12 +22,12 @@ partial class FormModel<TItem>
     /// <summary>
     /// 取得或设置表单验证委托，当呈现抽象UI表单赋值。
     /// </summary>
-    public Func<bool> OnValidate { get; set; }
+    internal Func<bool> OnValidate { get; set; }
 
     /// <summary>
     /// 取得或设置表单对话框关闭委托，显示对话框时赋值。
     /// </summary>
-    public Func<Task> OnClose { get; set; }
+    internal Func<Task> OnClose { get; set; }
 
     /// <summary>
     /// 取得或设置表单关闭操作时调用的委托。

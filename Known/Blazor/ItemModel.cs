@@ -76,12 +76,12 @@ public class TabModel
     /// <summary>
     /// 取得或设置标签改变委托方法。
     /// </summary>
-    public Action<string> OnChange { get; set; }
+    internal Action<string> OnChange { get; set; }
 
     /// <summary>
     /// 取得或设置组件状态改变方法委托。
     /// </summary>
-    public Action OnStateChanged { get; set; }
+    internal Action OnStateChanged { get; set; }
 
     /// <summary>
     /// 取得标签是否有项目。
@@ -208,7 +208,7 @@ public class ToolbarModel
     /// <summary>
     /// 取得或设置工具条刷新委托。
     /// </summary>
-    public Action OnRefresh { get; set; }
+    internal Action OnRefresh { get; set; }
 
     /// <summary>
     /// 取得工具条是否有项目。
