@@ -8,7 +8,7 @@ public class UIConfig
     private UIConfig() { }
 
     /// <summary>
-    /// 取得或设置是否启用编辑模式。
+    /// 取得或设置是否启用编辑模式，临时使用。
     /// </summary>
     public static bool EnableEdit { get; set; }
 
@@ -36,6 +36,21 @@ public class UIConfig
     /// 取得错误页面配置字典。
     /// </summary>
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
+
+    /// <summary>
+    /// 取得或设置编辑顶部导航条组件类型。
+    /// </summary>
+    public static Type EditNavType { get; set; }
+
+    /// <summary>
+    /// 取得或设置编辑主菜单组件类型。
+    /// </summary>
+    public static Type EditMenuType { get; set; }
+
+    /// <summary>
+    /// 取得或设置编辑无代码页面组件类型。
+    /// </summary>
+    public static Type EditPageType { get; set; }
 
     /// <summary>
     /// 取得或设置用户中心用户信息组件类型。

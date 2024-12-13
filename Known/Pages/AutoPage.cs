@@ -51,8 +51,15 @@ public class AutoPage : BasePage
             return;
         }
 
-        builder.Component<AutoTablePage>()
-               .Set(c => c.PageId, PageId)
-               .Build(value => page = value);
+        if (type == ModuleType.Page && UIConfig.EditPageType == null)
+        {
+            builder.Component<AutoTablePage>()
+                   .Set(c => c.PageId, PageId)
+                   .Build(value => page = value);
+        }
+        else
+        {
+            builder.DynamicComponent(UIConfig.EditPageType);
+        }
     }
 }

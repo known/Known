@@ -47,10 +47,7 @@ public class AntMenu : Menu
 
         if (UIConfig.IsEditMode)
         {
-            builder.Component<AddAction>()
-                   .Set(c => c.Type, "Menu")
-                   .Set(c => c.OnRefresh, StateHasChanged)
-                   .Build();
+            builder.DynamicComponent(UIConfig.EditMenuType);
         }
     }
 

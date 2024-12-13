@@ -31,6 +31,7 @@
 | ├─Known.Core      -> 基于Asp.Net Core的服务端插件库。
 ├─Sample            -> 示例项目
   ├─Sample.Maui     -> 框架MAUI示例。
+  ├─Sample.Photino  -> 框架Photino.NET示例。
   ├─Sample.Wasm     -> 框架WebAssembly示例。
   ├─Sample.Web      -> 框架WebApp示例。
   ├─Sample.WinForm  -> 框架WinForm示例。

@@ -39,10 +39,7 @@ public class TopNavbar : BaseComponent
                 {
                     b.Li().Child(() =>
                     {
-                        b.Component<AddAction>()
-                         .Set(c => c.Type, "Nav")
-                         .Set(c => c.OnRefresh, StateChanged)
-                         .Build();
+                        b.DynamicComponent(UIConfig.EditNavType);
                     });
                 }
 
