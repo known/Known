@@ -237,6 +237,7 @@ export class KBlazor {
     static showBarcode(id, value, option) { JsBarcode('#' + id, value, option); }
     static showQRCode(id, option) { $('#' + id).qrcode(option); }
     static highlight(code, language) {
+        if (!code) return '';
         return Prism.highlight(code, Prism.languages[language], language);
     }
 }
