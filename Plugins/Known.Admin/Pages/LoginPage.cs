@@ -27,6 +27,15 @@ public class LoginPage : BaseComponent
     {
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IAuthService>();
+        if (AdminConfig.System == null)
+        {
+            var service = await CreateServiceAsync<ISystemService>();
+            AdminConfig.System = await service.GetSystemAsync();
+        }
+        if (AdminConfig.System == null)
+        {
+            Navigation?.GoInstallPage();
+        }
     }
 
     /// <summary>
@@ -96,7 +105,7 @@ public class LoginPage : BaseComponent
             return;
 
         Model.IPAddress = Context.IPAddress;
-        var result = await Service.SignInAsync(Model);
+        var result = await Platform.SignInAsync(Model);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

@@ -14,6 +14,80 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     }
     #endregion
 
+    #region Auth
+    public async Task<Result> SignInAsync(LoginFormInfo info)
+    {
+        var database = Database;
+        var userName = info.UserName?.ToLower();
+        await database.OpenAsync();
+        var password = Utils.ToMd5(info.Password);
+        var user = await database.GetUserInfoAsync(userName, password);
+        await database.CloseAsync();
+        if (user == null)
+            return Result.Error(Language["Tip.LoginNoNamePwd"]);
+
+        if (!user.Enabled)
+            return Result.Error(Language["Tip.LoginDisabled"]);
+
+        if (!user.FirstLoginTime.HasValue)
+        {
+            user.FirstLoginTime = DateTime.Now;
+            user.FirstLoginIP = info.IPAddress;
+        }
+        user.LastLoginTime = DateTime.Now;
+        user.LastLoginIP = info.IPAddress;
+        user.Token = Utils.GetGuid();
+        user.Station = info.Station;
+        Cache.SetUser(user);
+
+        var type = LogType.Login;
+        if (info.IsMobile)
+            type = LogType.AppLogin;
+
+        database.User = user;
+        return await database.TransactionAsync(Language["Login"], async db =>
+        {
+            await db.SaveUserAsync(user);
+            await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
+        }, user);
+    }
+
+    public async Task<Result> SignOutAsync()
+    {
+        var user = CurrentUser;
+        Cache.RemoveUser(user);
+        if (user != null)
+        {
+            using var db = Database.Create();
+            db.User = user;
+            await db.AddLogAsync(LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
+        }
+
+        return Result.Success(Language["Tip.ExitSuccess"]);
+    }
+
+    public async Task<AdminInfo> GetAdminAsync()
+    {
+        if (CurrentUser == null)
+            return new AdminInfo();
+
+        var db = Database;
+        await db.OpenAsync();
+        await db.CheckKeyAsync();
+        var info = new AdminInfo
+        {
+            AppName = await db.GetSystemNameAsync(),
+            UserMenus = await db.GetUserMenusAsync(),
+            UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting),
+            UserTableSettings = await db.GetUserTableSettingsAsync(),
+            Codes = await db.GetDictionariesAsync()
+        };
+        await db.CloseAsync();
+        Cache.AttachCodes(info.Codes);
+        return info;
+    }
+    #endregion
+
     #region User
     public async Task<UserInfo> GetUserAsync(string userName)
     {

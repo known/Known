@@ -25,17 +25,14 @@ partial class KLayout
                                           .AddClass("kui-menu-float", Setting.LayoutMode == LayoutMode.Float.ToString())
                                           .BuildClass();
 
+    private AdminInfo Info { get; set; }
+    [Inject] private IAuthStateProvider AuthProvider { get; set; }
     [Inject] private ReuseTabsService Service { get; set; }
 
     /// <summary>
     /// 取得或设置页面是否加载完成。
     /// </summary>
     protected bool IsLoaded { get; set; } = true;
-
-    /// <summary>
-    /// 取得或设置页面是否进行URL鉴权。
-    /// </summary>
-    protected bool IsUrlAuth { get; set; }
 
     /// <summary>
     /// 取得或设置用户设置信息。
@@ -46,6 +43,11 @@ partial class KLayout
     /// 取得或设置路由数据对象。
     /// </summary>
     [CascadingParameter] protected RouteData RouteData { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否是管理后台模板。
+    /// </summary>
+    [Parameter] public bool IsAdmin { get; set; }
 
     /// <summary>
     /// 取得当前用户权限菜单列表。
@@ -87,6 +89,33 @@ partial class KLayout
     }
 
     /// <summary>
+    /// 异步设置当前登录用户信息。
+    /// </summary>
+    /// <param name="user">用户信息。</param>
+    /// <returns></returns>
+    public override async Task SignInAsync(UserInfo user)
+    {
+        if (AuthProvider != null)
+            await AuthProvider.SignInAsync(user);
+    }
+
+    /// <summary>
+    /// 异步注销，用户安全退出系统。
+    /// </summary>
+    /// <returns></returns>
+    public override async Task SignOutAsync()
+    {
+        var result = await Platform.SignOutAsync();
+        if (result.IsValid)
+        {
+            Context.SignOut();
+            await SignInAsync(null);
+            Navigation?.GoLoginPage();
+            Config.OnExit?.Invoke();
+        }
+    }
+
+    /// <summary>
     /// 重新加载当前页面，如果是多标签，则刷新当前标签页。
     /// </summary>
     public override void ReloadPage()
@@ -95,6 +124,37 @@ partial class KLayout
             Service.ReloadPage();
         else
             reload?.Reload();
+    }
+
+    /// <summary>
+    /// 异步初始化模板。
+    /// 如果系统未登录，则跳转到登录页面。
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitAsync()
+    {
+        if (!IsAdmin)
+            return;
+
+        IsLoaded = false;
+        await base.OnInitAsync();
+        var user = await GetCurrentUserAsync();
+        if (user != null)
+        {
+            Context.CurrentUser = user;
+            Info = await Platform.GetAdminAsync();
+            Context.UserSetting = Info?.UserSetting ?? new();
+            Context.UserTableSettings = Info?.UserTableSettings ?? [];
+            if (!Context.IsMobileApp)
+                UserMenus = GetUserMenus(Info?.UserMenus);
+            Cache.AttachCodes(Info?.Codes);
+            Setting = Context.UserSetting;
+            IsLoaded = true;
+        }
+        else
+        {
+            Navigation?.GoLoginPage();
+        }
     }
 
     /// <summary>
@@ -155,9 +215,23 @@ partial class KLayout
         StateChanged();
     }
 
+    private async Task<UserInfo> GetCurrentUserAsync()
+    {
+        if (AuthProvider == null)
+            return null;
+
+        return await AuthProvider.GetUserAsync();
+    }
+
+    private List<MenuInfo> GetUserMenus(List<MenuInfo> menus)
+    {
+        Context.UserMenus = menus;
+        return menus.ToMenuItems();
+    }
+
     private void CheckUrlAuthentication()
     {
-        if (!IsUrlAuth)
+        if (!IsAdmin)
             return;
 
         if (!UIConfig.IgnoreRoutes.Contains(Context.Url) && !RouteData.PageType.IsAllowAnonymous())

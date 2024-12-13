@@ -67,3 +67,21 @@ public class EmptyLayout : LayoutComponentBase
         builder.Div("kui-wrapper", () => builder.Fragment(Body));
     }
 }
+
+/// <summary>
+/// 管理后台模板页类。
+/// </summary>
+public class AdminLayout : LayoutComponentBase
+{
+    /// <summary>
+    /// 呈现模板内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Component<KLayout>()
+               .Set(c => c.IsAdmin, true)
+               .Set(c => c.ChildContent, b => UIConfig.AdminBody?.Invoke(b, Body))
+               .Build();
+    }
+}

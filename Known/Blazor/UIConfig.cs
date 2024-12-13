@@ -68,6 +68,11 @@ public class UIConfig
     public static Dictionary<string, Type> DevelopTabs { get; } = [];
 
     /// <summary>
+    /// 取得或设置管理模板内容委托。
+    /// </summary>
+    public static Action<RenderTreeBuilder, RenderFragment> AdminBody { get; set; }
+
+    /// <summary>
     /// 取得或设置自定义自动表格页面委托。
     /// </summary>
     public static Action<RenderTreeBuilder, TableModel<Dictionary<string, object>>> AutoTablePage { get; set; }

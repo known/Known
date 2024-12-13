@@ -21,6 +21,27 @@ public interface IPlatformService : IService
     Task<Result> SaveConfigAsync(ConfigInfo info);
     #endregion
 
+    #region Auth
+    /// <summary>
+    /// 异步用户登录。
+    /// </summary>
+    /// <param name="info">登录表单对象。</param>
+    /// <returns>登录结果。</returns>
+    [AllowAnonymous] Task<Result> SignInAsync(LoginFormInfo info);
+
+    /// <summary>
+    /// 异步注销登录。
+    /// </summary>
+    /// <returns>注销结果。</returns>
+    Task<Result> SignOutAsync();
+
+    /// <summary>
+    /// 异步获取系统后台首页数据。
+    /// </summary>
+    /// <returns>后台首页数据。</returns>
+    Task<AdminInfo> GetAdminAsync();
+    #endregion
+
     #region User
     /// <summary>
     /// 异步获取用户信息。
@@ -82,6 +103,7 @@ public interface IPlatformService : IService
 class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
     private static readonly Dictionary<string, string> Configs = [];
+    private static readonly Dictionary<string, UserInfo> Users = [];
 
     public Task<string> GetConfigAsync(string key)
     {
@@ -95,9 +117,28 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
         return Result.SuccessAsync("保存成功！");
     }
 
+    public Task<Result> SignInAsync(LoginFormInfo info)
+    {
+        var user = new UserInfo { UserName = info.UserName };
+        Users[info.UserName] = user;
+        return Result.SuccessAsync("登录成功！", user);
+    }
+
+    public Task<Result> SignOutAsync()
+    {
+        return Result.SuccessAsync("注销成功！");
+    }
+
+    public Task<AdminInfo> GetAdminAsync()
+    {
+        var info = new AdminInfo();
+        return Task.FromResult(info);
+    }
+
     public Task<UserInfo> GetUserAsync(string userName)
     {
-        return Task.FromResult(new UserInfo { UserName = userName });
+        Users.TryGetValue(userName, out var user);
+        return Task.FromResult(user);
     }
 
     public Task<UserInfo> GetUserByIdAsync(string userId)
@@ -143,6 +184,21 @@ class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
     public Task<Result> SaveConfigAsync(ConfigInfo info)
     {
         return Http.PostAsync("/Platform/SaveConfig", info);
+    }
+
+    public Task<Result> SignInAsync(LoginFormInfo info)
+    {
+        return Http.PostAsync("/Platform/SignIn", info);
+    }
+
+    public Task<Result> SignOutAsync()
+    {
+        return Http.PostAsync("/Platform/SignOut");
+    }
+
+    public Task<AdminInfo> GetAdminAsync()
+    {
+        return Http.GetAsync<AdminInfo>("/Platform/GetAdmin");
     }
 
     public Task<UserInfo> GetUserAsync(string userName)

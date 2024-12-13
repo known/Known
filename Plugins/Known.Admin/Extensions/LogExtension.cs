@@ -22,4 +22,14 @@ static class LogExtension
         });
         return Result.Success("");
     }
+
+    internal static Task AddLogAsync(this Database db, LogType type, string target, string content)
+    {
+        return db.SaveAsync(new SysLog
+        {
+            Type = type.ToString(),
+            Target = target,
+            Content = content
+        });
+    }
 }

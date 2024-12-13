@@ -1,6 +1,37 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 后台管理主页数据交互信息类。
+/// </summary>
+public class AdminInfo
+{
+    /// <summary>
+    /// 取得或设置系统名称。
+    /// </summary>
+    public string AppName { get; set; }
+
+    /// <summary>
+    /// 取得或设置用户设置信息。
+    /// </summary>
+    public UserSettingInfo UserSetting { get; set; }
+
+    /// <summary>
+    /// 取得或设置当前用户模块表格设置信息列表，如：设置模块表格的显隐和宽度。
+    /// </summary>
+    public Dictionary<string, List<TableSettingInfo>> UserTableSettings { get; set; }
+
+    /// <summary>
+    /// 取得或设置当前用户权限菜单列表。
+    /// </summary>
+    public List<MenuInfo> UserMenus { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统数据字典和代码表信息列表，用于前后端分离时，缓存在前端。
+    /// </summary>
+    public List<CodeInfo> Codes { get; set; }
+}
+
+/// <summary>
 /// 验证码选项类。
 /// </summary>
 public class CaptchaOption
