@@ -319,6 +319,7 @@
 .ant-captcha + .btn-sms {background-color:#f8eeb8;color:#596172;top:1px;right:1px;height:30px;}
 .ant-menu-submenu-title .fa + span, .ant-menu-item .fa + span {margin-left:10px;}
 .ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {width:auto;}
+.ant-notification-notice .ant-notification-notice-description {max-height:300px;overflow:auto;}
 
 @media screen and (max-width:768px) {
     .kui-header .left, .kui-nav-full, .kui-nav-setting {display:none;}

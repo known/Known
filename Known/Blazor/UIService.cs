@@ -163,17 +163,17 @@ public class UIService(ModalService modalService, MessageService messageService,
     /// <summary>
     /// 弹出通知组件提示消息框。
     /// </summary>
+    /// <param name="title">通知标题。</param>
     /// <param name="message">提示消息文本。</param>
     /// <param name="style">提示样式，默认Success。</param>
     /// <returns></returns>
-    public async Task NoticeAsync(string message, StyleType style = StyleType.Success)
+    public async Task NoticeAsync(string title, string message, StyleType style = StyleType.Success)
     {
         var config = new NotificationConfig
         {
-            Message = Language?["Title.Error"],
+            Message = title,
             Description = FormatMessage(message),
-            Placement = NotificationPlacement.BottomRight,
-            Duration = null
+            Placement = NotificationPlacement.BottomRight
         };
         switch (style)
         {
@@ -187,6 +187,7 @@ public class UIService(ModalService modalService, MessageService messageService,
                 await _notice.Warning(config);
                 break;
             case StyleType.Error:
+                config.Duration = 1000;
                 await _notice.Error(config);
                 break;
             default:

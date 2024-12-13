@@ -631,12 +631,12 @@ class CodeGenerator : ICodeGenerator
 
     private static bool HasSave(PageInfo page)
     {
-        return page.Tools.Contains("New") || page.Actions.Contains("Edit");
+        return page.Tools?.Contains("New") == true || page.Actions?.Contains("Edit") == true;
     }
 
     private static bool HasDelete(PageInfo page)
     {
-        return page.Tools.Contains("DeleteM") || page.Actions.Contains("Delete");
+        return page.Tools?.Contains("DeleteM") == true || page.Actions?.Contains("Delete") == true;
     }
     #endregion
 

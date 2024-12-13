@@ -5,7 +5,6 @@
 /// </summary>
 public class LoginPage : BaseComponent
 {
-    private IAuthService Service;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     /// <summary>
@@ -26,7 +25,6 @@ public class LoginPage : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<IAuthService>();
         if (AdminConfig.System == null)
         {
             var service = await CreateServiceAsync<ISystemService>();

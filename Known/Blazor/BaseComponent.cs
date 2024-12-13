@@ -229,7 +229,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         Logger.CreateLogger<BaseComponent>().Error(ex);
         var message = Config.IsDebug ? ex.ToString() : ex.Message;
-        await UI.NoticeAsync(message, StyleType.Error);
+        await UI.NoticeAsync(Language?["Title.Error"], message, StyleType.Error);
     }
 
     /// <summary>
