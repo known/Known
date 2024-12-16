@@ -15,7 +15,8 @@ public partial class Database : IDisposable
     /// <exception cref="SystemException">数据库访问实现类不支持。</exception>
     public static Database Create(string name = DefaultConnName)
     {
-        var database = Config.GetScopeService<Database>();
+        var scope = Config.ServiceProvider.CreateScope();
+        var database = scope.ServiceProvider.GetRequiredService<Database>();
         database.SetDatabase(name);
         return database;
     }

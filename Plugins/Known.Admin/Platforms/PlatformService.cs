@@ -3,6 +3,12 @@
 class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
     #region Config
+    public async Task<bool> GetInstallAsync()
+    {
+        AdminConfig.System ??= await Database.GetSystemAsync();
+        return AdminConfig.System == null;
+    }
+
     public Task<string> GetConfigAsync(string key)
     {
         return Database.GetConfigAsync(key);
@@ -73,10 +79,9 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
 
         var db = Database;
         await db.OpenAsync();
-        await db.CheckKeyAsync();
         var info = new AdminInfo
         {
-            AppName = await db.GetSystemNameAsync(),
+            AppName = await db.GetUserSystemNameAsync(),
             UserMenus = await db.GetUserMenusAsync(),
             UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting),
             UserTableSettings = await db.GetUserTableSettingsAsync(),

@@ -33,14 +33,7 @@ public class BasePage : BaseComponent
         if (firstRender)
         {
             if (Context.Current != null && !Config.IsClient)
-            {
-                await Platform.AddLogAsync(new LogInfo
-                {
-                    Type = LogType.Page,
-                    Target = Context.Current.Name,
-                    Content = Context.Url
-                });
-            }
+                await Platform.AddPageLogAsync(Context);
         }
     }
 

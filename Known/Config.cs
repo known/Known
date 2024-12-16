@@ -134,17 +134,6 @@ public sealed class Config
     }
 
     /// <summary>
-    /// 获取依赖注入的对象。
-    /// </summary>
-    /// <typeparam name="T">对象类型。</typeparam>
-    /// <returns>对象实例。</returns>
-    internal static T GetScopeService<T>()
-    {
-        var scope = ServiceProvider.CreateScope();
-        return scope.ServiceProvider.GetRequiredService<T>();
-    }
-
-    /// <summary>
     /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。
     /// </summary>
     /// <param name="url">静态文件URL。</param>

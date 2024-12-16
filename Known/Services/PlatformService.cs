@@ -7,6 +7,12 @@ public interface IPlatformService : IService
 {
     #region Config
     /// <summary>
+    /// 异步判断系统是否需要安装。
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous] Task<bool> GetInstallAsync();
+
+    /// <summary>
     /// 异步获取系统配置数据。
     /// </summary>
     /// <param name="key">配置数据键。</param>
@@ -105,6 +111,11 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     private static readonly Dictionary<string, string> Configs = [];
     private static readonly Dictionary<string, UserInfo> Users = [];
 
+    public Task<bool> GetInstallAsync()
+    {
+        return Task.FromResult(false);
+    }
+
     public Task<string> GetConfigAsync(string key)
     {
         Configs.TryGetValue(key, out var value);
@@ -176,6 +187,11 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
 
 class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
 {
+    public Task<bool> GetInstallAsync()
+    {
+        return Http.GetAsync<bool>("/Platform/GetInstall");
+    }
+
     public Task<string> GetConfigAsync(string key)
     {
         return Http.GetStringAsync($"/Platform/GetConfig?key={key}");

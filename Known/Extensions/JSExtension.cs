@@ -9,6 +9,7 @@ public static class JSExtension
     private static readonly string KeySize = "Known_Size";
     private static readonly string KeyLanguage = "Known_Language";
     private static readonly string KeyTheme = "Known_Theme";
+    private static readonly string KeyLoginInfo = "Known_LoginInfo";
 
     /// <summary>
     /// 异步粘贴剪贴板里的数据。
@@ -51,6 +52,16 @@ public static class JSExtension
     public static Task SetUserInfoAsync(this JSService js, object data)
     {
         return js.SetSessionStorageAsync(KeyUserInfo, data);
+    }
+
+    internal static Task<T> GetLoginInfoAsync<T>(this JSService js)
+    {
+        return js.GetLocalStorageAsync<T>(KeyLoginInfo);
+    }
+
+    internal static Task SetLoginInfoAsync(this JSService js, object value)
+    {
+        return js.SetLocalStorageAsync(KeyLoginInfo, value);
     }
 
     internal static Task<string> GetCurrentSizeAsync(this JSService js)

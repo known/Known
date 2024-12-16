@@ -10,31 +10,12 @@ public class LoginPage : BaseComponent
     /// <summary>
     /// 登录表单信息。
     /// </summary>
-    [SupplyParameterFromForm]
-    protected LoginFormInfo Model { get; set; } = new();
+    [SupplyParameterFromForm] public LoginFormInfo Model { get; set; } = new();
 
     /// <summary>
     /// 取得或设置登录成功后返回的URL。
     /// </summary>
     [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
-
-    /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        if (AdminConfig.System == null)
-        {
-            var service = await CreateServiceAsync<ISystemService>();
-            AdminConfig.System = await service.GetSystemAsync();
-        }
-        if (AdminConfig.System == null)
-        {
-            Navigation?.GoInstallPage();
-        }
-    }
 
     /// <summary>
     /// 登录组件呈现后，调用JS获取本地记忆的用户名。

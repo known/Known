@@ -113,7 +113,7 @@ public static class UserExtension
 
     private static async Task SetUserInfoAsync(Database db, UserInfo user)
     {
-        var info = await db.GetSystemAsync();
+        var info = await db.GetUserSystemAsync();
         user.IsTenant = user.CompNo != info?.CompNo;
         user.AppName = info?.AppName;
         if (user.IsAdmin())

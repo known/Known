@@ -226,6 +226,7 @@ public partial class Database
 
     private async Task SetOriginalAsync<T>(T entity) where T : EntityBase, new()
     {
+        DatabaseOption.Instance.SqlMonitor?.Invoke(new CommandInfo { Text= "The follow SQL is a update query" });
         var info = Provider?.GetSelectCommand<T>(d => d.Id == entity.Id);
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);

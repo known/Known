@@ -138,23 +138,29 @@ partial class KLayout
 
         IsLoaded = false;
         await base.OnInitAsync();
-        var user = await GetCurrentUserAsync();
-        if (user != null)
+        var isInstall = await Platform.GetInstallAsync();
+        if (isInstall)
         {
-            Context.CurrentUser = user;
-            Info = await Platform.GetAdminAsync();
-            Context.UserSetting = Info?.UserSetting ?? new();
-            Context.UserTableSettings = Info?.UserTableSettings ?? [];
-            if (!Context.IsMobileApp)
-                UserMenus = GetUserMenus(Info?.UserMenus);
-            Cache.AttachCodes(Info?.Codes);
-            Setting = Context.UserSetting;
-            IsLoaded = true;
+            Navigation?.GoInstallPage();
+            return;
         }
-        else
+
+        var user = await GetCurrentUserAsync();
+        if (user == null)
         {
             Navigation?.GoLoginPage();
+            return;
         }
+
+        Context.CurrentUser = user;
+        Info = await Platform.GetAdminAsync();
+        Context.UserSetting = Info?.UserSetting ?? new();
+        Context.UserTableSettings = Info?.UserTableSettings ?? [];
+        if (!Context.IsMobileApp)
+            UserMenus = GetUserMenus(Info?.UserMenus);
+        Cache.AttachCodes(Info?.Codes);
+        Setting = Context.UserSetting;
+        IsLoaded = true;
     }
 
     /// <summary>

@@ -4,11 +4,24 @@ static class SystemExtension
 {
     internal static async Task<SystemInfo> GetSystemAsync(this Database db)
     {
-        if (!Config.App.IsPlatform || db.User == null)
+        try
         {
             var json = await db.GetConfigAsync(Constant.KeySystem);
-            return Utils.FromJson<SystemInfo>(json);
+            var info = Utils.FromJson<SystemInfo>(json);
+            if (info != null)
+                AdminOption.Instance.CheckSystemInfo(info);
+            return info;
         }
+        catch
+        {
+            return null;//系统未安装，返回null
+        }
+    }
+
+    internal static async Task<SystemInfo> GetUserSystemAsync(this Database db)
+    {
+        if (!Config.App.IsPlatform)
+            return AdminConfig.System;
 
         var data = await db.GetCompanyDataAsync(db.User.CompNo);
         if (!string.IsNullOrWhiteSpace(data))
@@ -22,9 +35,9 @@ static class SystemExtension
         };
     }
 
-    internal static async Task<string> GetSystemNameAsync(this Database db)
+    internal static async Task<string> GetUserSystemNameAsync(this Database db)
     {
-        var sys = await db.GetSystemAsync();
+        var sys = await db.GetUserSystemAsync();
         var appName = sys?.AppName;
         if (string.IsNullOrWhiteSpace(appName))
             appName = Config.App.Name;
@@ -34,11 +47,5 @@ static class SystemExtension
     internal static Task<Result> SaveSystemAsync(this Database db, SystemInfo info)
     {
         return db.SaveConfigAsync(Constant.KeySystem, info);
-    }
-
-    internal static async Task<Result> CheckKeyAsync(this Database db)
-    {
-        var info = await db.GetSystemAsync();
-        return AdminOption.Instance.CheckSystemInfo(info);
     }
 }

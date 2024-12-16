@@ -5,7 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/page/{*PageRoute}")]
-public class AutoPage : BasePage
+public class AutoPage : BaseComponent
 {
     private IAutoPage page;
     private string pageRoute;
@@ -28,7 +28,10 @@ public class AutoPage : BasePage
             pageRoute = PageRoute;
             PageId = Context.Current?.Id;
             if (page != null)
+            {
                 await page.InitializeAsync();
+                await Platform.AddPageLogAsync(Context);
+            }
         }
     }
 
@@ -36,7 +39,7 @@ public class AutoPage : BasePage
     /// 构建页面内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildPage(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Context.Current == null)
         {

@@ -42,23 +42,16 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     public async Task<SystemInfo> GetSystemAsync()
     {
-        try
+        var database = Database;
+        database.EnableLog = false;
+        var info = await database.GetSystemAsync();
+        if (info != null)
         {
-            var database = Database;
-            database.EnableLog = false;
-            var info = await database.GetSystemAsync();
-            if (info != null)
-            {
-                info.ProductId = AdminOption.Instance.ProductId;
-                info.ProductKey = null;
-                info.UserDefaultPwd = null;
-            }
-            return info;
+            info.ProductId = AdminOption.Instance.ProductId;
+            info.ProductKey = null;
+            info.UserDefaultPwd = null;
         }
-        catch
-        {
-            return null;//系统未安装，返回null
-        }
+        return info;
     }
 
     public async Task<SystemInfo> GetProductAsync()
