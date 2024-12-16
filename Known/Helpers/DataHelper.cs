@@ -77,7 +77,7 @@ public sealed class DataHelper
         var routeError = typeof(ErrorPage).RouteTemplate();
         var routeAuto = typeof(AutoTablePage).RouteTemplate();
         var target = Constants.Route;
-        var route = new ModuleInfo { Id = "route", Name = language["Route"], Target = target, Icon = "share-alt", ParentId = "0", Enabled = true, Sort = moduleUrls.Count + 1 };
+        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = language["Route"], Target = target, Icon = "share-alt", Enabled = true, Sort = moduleUrls.Count + 1 };
         modules.Add(route);
         foreach (var item in routes.OrderBy(r => r.Key))
         {
@@ -95,17 +95,42 @@ public sealed class DataHelper
                 var sub = modules.FirstOrDefault(m => m.Id == id);
                 if (sub == null)
                 {
-                    sub = new ModuleInfo { Id = id, Name = key, Target = target, Icon = "folder", ParentId = route.Id, Enabled = true };
+                    sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder", Enabled = true };
                     modules.Add(sub);
                 }
                 parentId = sub.Id;
             }
 
-            var tab = item.Value.GetCustomAttribute<ReuseTabsPageAttribute>();
-            var name = tab?.Title ?? item.Key;
-            modules.Add(new ModuleInfo { Id = item.Value.FullName, Name = name, Url = item.Key, Target = target, Icon = "file", ParentId = parentId, Enabled = true });
+            var module = GetModule(item, parentId);
+            modules.Add(module);
         }
         return modules;
+    }
+
+    private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
+    {
+        var tab = item.Value.GetCustomAttribute<ReuseTabsPageAttribute>();
+        var name = tab?.Title ?? item.Key;
+        var info = new ModuleInfo
+        {
+            Id = item.Value.FullName,
+            ParentId = parentId,
+            Name = name,
+            Url = item.Key,
+            Target = Constants.Route,
+            Icon = "file",
+            Enabled = true
+        };
+        var actions = new List<string>();
+        var methods = item.Value.GetMethods();
+        foreach (var method in methods)
+        {
+            if (method.GetCustomAttribute<ActionAttribute>() != null)
+                actions.Add(method.Name);
+        }
+        if (actions.Count > 0)
+            info.Page = new PageInfo { Tools = [.. actions] };
+        return info;
     }
     #endregion
 
