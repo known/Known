@@ -16,7 +16,7 @@ public class JSService
     /// <param name="jsRuntime">JS运行时对象。</param>
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/js/script.js?v=241213").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/js/script.js?v=241216").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -301,6 +301,21 @@ public class JSService
     /// 异步显示PDF文件。
     /// </summary>
     /// <param name="id">PDF前端控件ID。</param>
+    /// <param name="url">PDF文件URL。</param>
+    /// <returns></returns>
+    public async Task ShowPdfAsync(string id, string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return;
+
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("KBlazor.showPdfByUrl", id, url);
+    }
+
+    /// <summary>
+    /// 异步显示PDF文件。
+    /// </summary>
+    /// <param name="id">PDF前端控件ID。</param>
     /// <param name="stream">PDF文件流。</param>
     /// <returns></returns>
     public async Task ShowPdfAsync(string id, Stream stream)
@@ -310,7 +325,7 @@ public class JSService
 
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KBlazor.showPdf", id, streamRef);
+        await module.InvokeVoidAsync("KBlazor.showPdfByStream", id, streamRef);
     }
     #endregion
 

@@ -163,7 +163,10 @@ export class KBlazor {
         URL.revokeObjectURL(url);
     }
     //Pdf
-    static async showPdf(id, stream) {
+    static async showPdfByUrl(id, url) {
+        PDFObject.embed(url, '#' + id, { forceIframe: true });
+    }
+    static async showPdfByStream(id, stream) {
         const buffer = await stream.arrayBuffer();
         const blob = new Blob([buffer], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);

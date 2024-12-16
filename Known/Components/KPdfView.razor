@@ -11,18 +11,39 @@
     [Parameter] public string Style { get; set; }
 
     /// <summary>
-    /// 取得或设置PDF文件流。
+    /// 异步显示PDF文件。
     /// </summary>
-    [Parameter] public Stream Stream { get; set; }
+    /// <param name="stream">PDF文件流。</param>
+    /// <returns></returns>
+    public async Task ShowAsync(Stream stream)
+    {
+        if (stream == null)
+            return;
+
+        await JS.ShowPdfAsync(Id, stream);
+    }
 
     /// <summary>
-    /// PDF查看组件呈现后，调用pdfobject.js显示PDF文件。
+    /// 异步显示PDF文件。
     /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
+    /// <param name="pdfFile">PDF文件名或URL。</param>
     /// <returns></returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public async Task ShowAsync(string pdfFile)
     {
-        await base.OnAfterRenderAsync(firstRender);
-        await JS.ShowPdfAsync(Id, Stream);
+        if (string.IsNullOrWhiteSpace(pdfFile))
+            return;
+
+        if (IsServerMode)
+        {
+            if (File.Exists(pdfFile))
+            {
+                var bytes = await File.ReadAllBytesAsync(pdfFile);
+                var stream = new MemoryStream(bytes);
+                await ShowAsync(stream);
+                return;
+            }
+        }
+
+        await JS.ShowPdfAsync(Id, pdfFile);
     }
 }
