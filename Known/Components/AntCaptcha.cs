@@ -18,6 +18,11 @@ public class AntCaptcha : Input<string>
     }
 
     /// <summary>
+    /// 取得或设置前缀图标。
+    /// </summary>
+    [Parameter] public string Icon { get; set; }
+
+    /// <summary>
     /// 取得或设置验证码组件选项实例。
     /// </summary>
     [Parameter] public CaptchaOption Option { get; set; }
@@ -33,6 +38,16 @@ public class AntCaptcha : Input<string>
     /// 刷新验证码。
     /// </summary>
     public void Refresh() => captcha.Refresh();
+
+    /// <summary>
+    /// 初始化组件。
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrWhiteSpace(Icon))
+            Prefix = b => b.Icon(Icon);
+        base.OnInitialized();
+    }
 
     /// <summary>
     /// 呈现验证码组件内容。

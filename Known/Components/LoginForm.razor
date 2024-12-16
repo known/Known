@@ -1,0 +1,99 @@
+﻿@inherits BaseComponent
+
+<LoginInfoForm @ref="form" Name="form1" Class="@FormStyle" Model="Model" Method="post" OnFinish="OnFinish">
+    @if (OnSendSMS != null)
+    {
+        <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
+            <AntInput Icon="phone" @bind-Value="@Model.PhoneNo" Placeholder="@Language["PhoneNo"]" />
+        </FormItem>
+        <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneCode")">
+            <AntCaptcha Icon="lock" @bind-Value="@Model.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option" />
+        </FormItem>
+        <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
+            <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@Model.Captcha" Placeholder="@Language["Captcha"]" />
+        </FormItem>
+        <FormItem>
+            <Checkbox @bind-Value="Model.Remember">@Language["Login.RememberPhone"]</Checkbox>
+        </FormItem>
+    }
+    else
+    {
+        <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
+            <AntInput Icon="user" @bind-Value="@Model.UserName" Placeholder="@Language["UserName"]" />
+        </FormItem>
+        <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
+            <AntPassword Icon="lock" @bind-Value="@Model.Password" Placeholder="@Language["Password"]" />
+        </FormItem>
+        @if (Stations != null && Stations.Count > 0)
+        {
+            <FormItem Label="" Required Rules="@Context.RuleRequired("Station")">
+                <AntSelect Icon="control" @bind-Value="@Model.Station" DataSource="Stations" Placeholder="@Language["Station"]" />
+            </FormItem>
+        }
+        else if (IsCaptcha)
+        {
+            <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
+                <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@Model.Captcha" Placeholder="@Language["Captcha"]" />
+            </FormItem>
+        }
+        <FormItem>
+            <Checkbox @bind-Value="Model.Remember">@Language["Login.RememberUser"]</Checkbox>
+        </FormItem>
+    }
+    <FormItem>
+        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>@Language["Login"]</Button>
+    </FormItem>
+</LoginInfoForm>
+
+@code {
+    private LoginInfoForm form;
+    private AntCaptcha captcha;
+    private CaptchaOption option = new CaptchaOption { SMSCount = 60 };
+    private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
+
+    [Parameter] public bool IsCaptcha { get; set; }
+    [Parameter] public LoginFormInfo Model { get; set; }
+    [Parameter] public List<string> Stations { get; set; }
+    [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
+    [Parameter] public Func<Task> OnLogin { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        if (OnSendSMS != null)
+        {
+            option.SMSValidate = () =>
+            {
+                if (string.IsNullOrWhiteSpace(Model.PhoneNo))
+                    return Known.Result.Error(Language.Required("PhoneNo"));
+                if (string.IsNullOrWhiteSpace(Model.Captcha))
+                    return Known.Result.Error(Language.Required("Captcha"));
+                if (!captcha.Validate(out string message))
+                    return Known.Result.Error(message);
+
+                return Known.Result.Success("");
+            };
+            option.SMSAction = async () =>
+            {
+                var result = await OnSendSMS?.Invoke(Model.PhoneNo);
+                UI.Result(result);
+                captcha?.Refresh();
+            };
+        }
+    }
+
+    private async Task OnFinish(EditContext context)
+    {
+        if (IsCaptcha && OnSendSMS == null)
+        {
+            if (!captcha.Validate(out string message))
+            {
+                await UI.Toast(message, StyleType.Error);
+                return;
+            }
+        }
+
+        Model.IsMobile = Context.IsMobile;
+        await OnLogin?.Invoke();
+    }
+}

@@ -11,6 +11,11 @@ public class AntSelect : Select<string, string>
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <summary>
+    /// 取得或设置前缀图标。
+    /// </summary>
+    [Parameter] public string Icon { get; set; }
+
+    /// <summary>
     /// 初始化组件。
     /// </summary>
     protected override void OnInitialized()
@@ -23,6 +28,8 @@ public class AntSelect : Select<string, string>
             Placeholder = Item.Language.GetString("PleaseSelect");
         }
         EnableSearch = true;
+        if (!string.IsNullOrWhiteSpace(Icon))
+            PrefixIcon = b => b.Span().Style("padding:0 9px 0 7px;").Child(() => b.Icon(Icon));
         base.OnInitialized();
     }
 }

@@ -11,6 +11,11 @@ public class AntInput : Input<string>
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <summary>
+    /// 取得或设置前缀图标。
+    /// </summary>
+    [Parameter] public string Icon { get; set; }
+
+    /// <summary>
     /// 初始化组件。
     /// </summary>
     protected override void OnInitialized()
@@ -19,6 +24,8 @@ public class AntInput : Input<string>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(string);
+        if (!string.IsNullOrWhiteSpace(Icon))
+            Prefix = b => b.Icon(Icon);
         base.OnInitialized();
     }
 }

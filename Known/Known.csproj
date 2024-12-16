@@ -32,6 +32,9 @@
 
     <ItemGroup>
         <None Include="..\icon.png" />
+        <Content Update="Components\LoginForm.razor">
+          <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
         <None Update="..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
