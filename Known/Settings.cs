@@ -169,7 +169,7 @@ public class TableSettingInfo
     /// <summary>
     /// 取得或设置栏位宽度。
     /// </summary>
-    public int Width { get; set; }
+    public int? Width { get; set; }
 
     /// <summary>
     /// 取得或设置栏位显示顺序。

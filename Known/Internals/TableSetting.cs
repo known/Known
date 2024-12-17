@@ -95,7 +95,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
             {
                 Id = item.Id,
                 IsVisible = item.IsVisible,
-                Width = item.Width ?? 100,
+                Width = item.Width,
                 Sort = ++index
             });
         }
