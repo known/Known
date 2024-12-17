@@ -1,12 +1,28 @@
 ﻿@if (!string.IsNullOrWhiteSpace(Icon))
 {
-    if (Icon.StartsWith("fa"))
+    if (!string.IsNullOrWhiteSpace(Title))
     {
-        <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
+        <Tooltip Title="@Title">
+            @if (Icon.StartsWith("fa"))
+            {
+                <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
+            }
+            else
+            {
+                <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
+            }
+        </Tooltip>
     }
     else
     {
-        <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
+        if (Icon.StartsWith("fa"))
+        {
+            <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
+        }
+        else
+        {
+            <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
+        }
     }
 }
 
@@ -15,6 +31,11 @@
     /// 取得或设置图标。
     /// </summary>
     [Parameter] public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置图标提示标题。
+    /// </summary>
+    [Parameter] public string Title { get; set; }
 
     /// <summary>
     /// 取得或设置图标单击事件。

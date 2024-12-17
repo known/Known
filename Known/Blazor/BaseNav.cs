@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 /// <summary>
 /// 顶部导航组件基类。
@@ -28,9 +26,10 @@ public class BaseNav : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Component<Tooltip>()
+        builder.Component<KIcon>()
                .Set(c => c.Title, Title)
-               .Set(c => c.ChildContent, b => b.Icon(Icon, OnClick))
+               .Set(c => c.Icon, Icon)
+               .Set(c => c.OnClick, OnClick)
                .Build();
     }
 }
