@@ -165,5 +165,23 @@
   "Collapse": "折疊",
   "Expand": "展開",
   "Custom": "自定義",
-  "ColumnSettings": "列設定"
+  "ColumnSettings": "列設定",
+
+  "Captcha.Refresh": "點擊圖片重繪",
+  "Captcha.Fetch": "獲取驗證碼",
+  "Captcha.Countdown": "{smsCount}秒後重新獲取",
+  "Captcha.NotValid": "驗證碼不正確！",
+
+  "UserName": "用戶名",
+  "Password": "密碼",
+  "Password1": "確認密碼",
+  "OldPwd": "原密碼",
+  "NewPwd": "新密碼",
+  "NewPwd1": "確認密碼",
+  "Captcha": "驗證碼",
+  "PhoneNo": "手機號",
+  "PhoneCode": "手機驗證碼",
+  "RememberUser": "記住用戶名",
+  "RememberPhone": "記住手機號",
+  "Login": "登入"
 }

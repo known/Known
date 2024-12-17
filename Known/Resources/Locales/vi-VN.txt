@@ -165,5 +165,23 @@
   "Collapse": "Gấp",
   "Expand": "Mở rộng",
   "Custom": "Tùy chỉnh",
-  "ColumnSettings": "Thiết lập cột"
+  "ColumnSettings": "Thiết lập cột",
+
+  "Captcha.Refresh": "Click vào ảnh để refresh",
+  "Captcha.Fetch": "Nhận CAPTCHA",
+  "Captcha.Countdown": "{smsCount} Lấy lại sau giây",
+  "Captcha.NotValid": "CAPTCHA không đúng！",
+
+  "UserName": "Tên người dùng",
+  "Password": "Mật khẩu",
+  "Password1": "Xác nhận mật khẩu",
+  "OldPwd": "Mật khẩu gốc",
+  "NewPwd": "Mật khẩu mới",
+  "NewPwd1": "Xác nhận mật khẩu",
+  "Captcha": "Mã xác nhận",
+  "PhoneNo": "Số điện thoại",
+  "PhoneCode": "Điện thoại Captcha",
+  "RememberUser": "Ghi nhớ tên người dùng",
+  "RememberPhone": "Ghi nhớ số điện thoại",
+  "Login": "Đăng nhập"
 }

@@ -40,7 +40,7 @@ public static class AdminExtension
         Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 配置UI
-        var routes = "/,/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
+        var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         UIConfig.AdminBody = (b, d) => b.Component<KAuthPanel>().Set(c => c.ChildContent, d).Build();
         UIConfig.ImportForm = BuildImportForm;

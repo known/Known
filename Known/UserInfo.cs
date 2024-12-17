@@ -187,8 +187,10 @@ public class UserInfo
     public ClaimsPrincipal ToPrincipal(string authType)
     {
         var identity = new ClaimsIdentity(authType);
-        identity.AddClaim(new(ClaimTypes.NameIdentifier, Id));
-        identity.AddClaim(new(ClaimTypes.Name, UserName));
+        if (!string.IsNullOrWhiteSpace(Id))
+            identity.AddClaim(new(ClaimTypes.NameIdentifier, Id));
+        if (!string.IsNullOrWhiteSpace(UserName))
+            identity.AddClaim(new(ClaimTypes.Name, UserName));
         if (!string.IsNullOrWhiteSpace(Role))
             identity.AddClaim(new(ClaimTypes.Role, Role));
         return new ClaimsPrincipal(identity);

@@ -13,7 +13,7 @@
             <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@Model.Captcha" Placeholder="@Language["Captcha"]" />
         </FormItem>
         <FormItem>
-            <Checkbox @bind-Value="Model.Remember">@Language["Login.RememberPhone"]</Checkbox>
+            <Checkbox @bind-Value="Model.Remember">@Language["RememberPhone"]</Checkbox>
         </FormItem>
     }
     else
@@ -37,7 +37,7 @@
             </FormItem>
         }
         <FormItem>
-            <Checkbox @bind-Value="Model.Remember">@Language["Login.RememberUser"]</Checkbox>
+            <Checkbox @bind-Value="Model.Remember">@Language["RememberUser"]</Checkbox>
         </FormItem>
     }
     <FormItem>

@@ -165,5 +165,23 @@
   "Collapse": "折叠",
   "Expand": "展开",
   "Custom": "自定义",
-  "ColumnSettings": "列设置"
+  "ColumnSettings": "列设置",
+
+  "Captcha.Refresh": "点击图片刷新",
+  "Captcha.Fetch": "获取验证码",
+  "Captcha.Countdown": "{smsCount}秒后重新获取",
+  "Captcha.NotValid": "验证码不正确！",
+
+  "UserName": "用户名",
+  "Password": "密码",
+  "Password1": "确认密码",
+  "OldPwd": "原密码",
+  "NewPwd": "新密码",
+  "NewPwd1": "确认密码",
+  "Captcha": "验证码",
+  "PhoneNo": "手机号",
+  "PhoneCode": "手机验证码",
+  "RememberUser": "记住用户名",
+  "RememberPhone": "记住手机号",
+  "Login": "登录"
 }

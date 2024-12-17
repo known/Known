@@ -3,6 +3,7 @@
 /// <summary>
 /// 登录页面组件类。
 /// </summary>
+[AllowAnonymous]
 public class LoginPage : BaseComponent
 {
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
