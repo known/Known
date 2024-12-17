@@ -48,7 +48,6 @@
         if (current != Model.Current)
         {
             Model.Current = current;
-            OnChange?.Invoke(current);
             Model.Change();
             await JSRuntime.FillTableHeightAsync();
         }

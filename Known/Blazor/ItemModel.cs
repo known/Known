@@ -76,7 +76,7 @@ public class TabModel
     /// <summary>
     /// 取得或设置标签改变委托方法。
     /// </summary>
-    internal Action<string> OnChange { get; set; }
+    public Action<string> OnChange { get; set; }
 
     /// <summary>
     /// 取得或设置组件状态改变方法委托。
@@ -127,7 +127,7 @@ public class TabModel
     /// <summary>
     /// 标签切换事件。
     /// </summary>
-    public void Change() => OnChange?.Invoke(Current);
+    internal void Change() => OnChange?.Invoke(Current);
 
     /// <summary>
     /// 改变组件状态。
