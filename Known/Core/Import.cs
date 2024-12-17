@@ -227,6 +227,6 @@ public class ImportRow<TItem> : Dictionary<string, string>
     {
         var property = TypeHelper.Property(selector);
         var column = new ColumnInfo(property);
-        return context.Language.GetString(column);
+        return context.Language.GetFieldName<TItem>(column);
     }
 }

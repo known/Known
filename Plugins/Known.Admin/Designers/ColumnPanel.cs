@@ -19,7 +19,7 @@ class ColumnPanel<TModel> : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        //TODO:Page支持添加栏位以及位置移动
+        //TODO：Page支持添加栏位以及位置移动
         builder.Div("caption", () => builder.Div("title", Language["Designer.Fields"]));
 
         if (fields == null || fields.Count == 0)

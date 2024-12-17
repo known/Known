@@ -40,7 +40,7 @@ public sealed class ImportHelper
         if (path.EndsWith(".txt"))
         {
             var items = GetImportColumns(context, file.BizId);
-            var columns = items?.Select(context.Language.GetString).ToList();
+            var columns = items?.Select(context.Language.GetFieldName<TItem>).ToList();
             if (columns != null && columns.Count > 0)
                 return ReadTextFile(context, path, columns, action);
         }

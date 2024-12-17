@@ -259,8 +259,9 @@ public class Language
     /// 获取字段语言。
     /// </summary>
     /// <param name="info">字段信息对象。</param>
+    /// <param name="type">数据类型。</param>
     /// <returns>字段语言。</returns>
-    public string GetString(ColumnInfo info) => GetText("", info?.Id, info?.Name);
+    public string GetString(ColumnInfo info, Type type = null) => GetText(type?.Name, info?.Id, info?.Name);
 
     /// <summary>
     /// 获取指定类型的字段语言。

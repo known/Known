@@ -5,7 +5,9 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     #region Config
     public async Task<bool> GetInstallAsync()
     {
-        AdminConfig.System ??= await Database.GetSystemAsync();
+        var db = Database;
+        db.EnableLog = false;
+        AdminConfig.System ??= await db.GetSystemAsync();
         return AdminConfig.System == null;
     }
 

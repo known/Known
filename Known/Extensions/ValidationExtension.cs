@@ -29,16 +29,16 @@ public static class ValidationExtension
         var type = model.GetPropertyType();
         var rules = new List<FormValidationRule>();
         if (column.Required && type != typeof(bool))
-            rules.Add(GetFormRuleRequired(context, column, type));
+            rules.Add(GetFormRuleRequired<TItem>(context, column, type));
 
         var property = column.Property;
         var min = property?.MinLength();
         if (min != null)
-            rules.Add(GetFormRuleMin(context, column, min.Value));
+            rules.Add(GetFormRuleMin<TItem>(context, column, min.Value));
 
         var max = property?.MaxLength();
         if (max != null)
-            rules.Add(GetFormRuleMax(context, column, max.Value));
+            rules.Add(GetFormRuleMax<TItem>(context, column, max.Value));
 
         var regex = property?.GetCustomAttribute<RegularExpressionAttribute>();
         if (regex != null)
@@ -47,9 +47,9 @@ public static class ValidationExtension
         return [.. rules];
     }
 
-    private static FormValidationRule GetFormRuleRequired(Context context, ColumnInfo column, Type propertyType)
+    private static FormValidationRule GetFormRuleRequired<TItem>(Context context, ColumnInfo column, Type propertyType)
     {
-        var label = context.Language.GetString(column);
+        var label = context.Language.GetFieldName<TItem>(column);
         var message = context.Language.Required(label);
         return GetFormRuleRequired(message, propertyType);
     }
@@ -75,15 +75,17 @@ public static class ValidationExtension
         return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 
-    private static FormValidationRule GetFormRuleMin(Context context, ColumnInfo column, int length)
+    private static FormValidationRule GetFormRuleMin<TItem>(Context context, ColumnInfo column, int length)
     {
-        var message = context.Language.GetString("Valid.MinLength", column.Id, length);
+        var label = context.Language.GetFieldName<TItem>(column);
+        var message = context.Language.GetString("Valid.MinLength", label, length);
         return new FormValidationRule { Type = FormFieldType.String, Min = length, Message = message };
     }
 
-    private static FormValidationRule GetFormRuleMax(Context context, ColumnInfo column, int length)
+    private static FormValidationRule GetFormRuleMax<TItem>(Context context, ColumnInfo column, int length)
     {
-        var message = context.Language.GetString("Valid.MaxLength", column.Id, length);
+        var label = context.Language.GetFieldName<TItem>(column);
+        var message = context.Language.GetString("Valid.MaxLength", label, length);
         return new FormValidationRule { Type = FormFieldType.String, Max = length, Message = message };
     }
 

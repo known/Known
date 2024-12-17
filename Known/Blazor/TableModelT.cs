@@ -73,6 +73,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
 
     internal override string TableId => typeof(TItem).Name;
+    internal override Type DataType => typeof(TItem);
     internal void Initialize() => Initialize(true);
 
     /// <summary>

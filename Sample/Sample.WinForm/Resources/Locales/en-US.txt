@@ -1,0 +1,4 @@
+﻿{
+  "WeatherForecast.Date":"Date",
+  "WeatherForecast.Summary":"Summary"
+}

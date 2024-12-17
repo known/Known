@@ -76,6 +76,7 @@ class ImportService(Context context) : ServiceBase(context), IImportService
             var columns = ImportHelper.GetImportColumns(db.Context, bizId);
             if (columns != null && columns.Count > 0)
             {
+                //TODO：导入实体类型限定的栏位多语言
                 var fields = columns.Select(c => new FormFieldInfo
                 {
                     Id = c.Id,
