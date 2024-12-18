@@ -220,6 +220,13 @@ partial class KLayout
         StateChanged();
     }
 
+    internal override void AddMenuItem(MenuInfo item)
+    {
+        Context.UserMenus?.Add(item);
+        UserMenus = Context.UserMenus?.ToMenuItems();
+        menu?.SetItems(UserMenus);
+    }
+
     private async Task<UserInfo> GetCurrentUserAsync()
     {
         if (AuthProvider == null)
@@ -231,7 +238,7 @@ partial class KLayout
     private void SetUserMenus(List<MenuInfo> menus)
     {
         Context.UserMenus = menus;
-        UserMenus = menus.ToMenuItems();
+        UserMenus = menus?.ToMenuItems();
     }
 
     private void CheckUrlAuthentication()
@@ -275,12 +282,6 @@ partial class KLayout
     private void OnLogoClick()
     {
         Navigation.NavigateTo("/");
-    }
-
-    private void OnEditMenu(List<MenuInfo> menus)
-    {
-        SetUserMenus(menus);
-        menu?.SetItems(UserMenus);
     }
 
     private void OnMenuClick(string id)

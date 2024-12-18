@@ -34,9 +34,7 @@ public class TopNavbar : BaseComponent
         builder.Ul("kui-nav", () =>
         {
             if (UIConfig.IsEditMode)
-            {
-                builder.Li(() => builder.Component<EditNav>().Build());
-            }
+                builder.Li(() => builder.Component<NavEdit>().Build());
 
             builder.Cascading(this, b =>
             {

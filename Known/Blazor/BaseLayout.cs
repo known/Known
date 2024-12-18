@@ -51,6 +51,7 @@ public class BaseLayout : BaseComponent
     public virtual void ReloadPage() { }
 
     internal virtual void ToggleSide(bool collapsed) { }
+    internal virtual void AddMenuItem(MenuInfo item) { }
 }
 
 /// <summary>

@@ -22,6 +22,13 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     }
     #endregion
 
+    #region Menu
+    public Task<Result> SaveMenuAsync(MenuInfo info)
+    {
+        return DataHelper.SaveMenuAsync(info);
+    }
+    #endregion
+
     #region Auth
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {

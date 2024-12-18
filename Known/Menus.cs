@@ -145,11 +145,13 @@ public class MenuInfo
     /// <summary>
     /// 取得或设置上级菜单对象。
     /// </summary>
+    [JsonIgnore]
     public MenuInfo Parent { get; set; }
 
     /// <summary>
     /// 取得或设置子菜单对象列表。
     /// </summary>
+    [JsonIgnore]
     public List<MenuInfo> Children { get; set; }
 
     /// <summary>
@@ -440,10 +442,20 @@ public class ColumnInfo
     /// </summary>
     public FieldType Type { get; set; }
 
+    private string customField;
     /// <summary>
     /// 取得或设置自定义字段组件类型名称。
     /// </summary>
-    public string CustomField { get; set; }
+    public string CustomField
+    {
+        get { return customField; }
+        set
+        {
+            customField = value;
+            if (!string.IsNullOrWhiteSpace(value))
+                Type = FieldType.Custom;
+        }
+    }
 
     /// <summary>
     /// 取得或设置表单字段附件是否可多选。

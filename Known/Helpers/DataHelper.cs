@@ -53,6 +53,16 @@ public sealed class DataHelper
     }
 
     /// <summary>
+    /// 异步保存菜单信息。
+    /// </summary>
+    /// <param name="info">菜单信息。</param>
+    /// <returns>保存结果。</returns>
+    public static Task<Result> SaveMenuAsync(MenuInfo info)
+    {
+        return Result.SuccessAsync("保存成功！", info);
+    }
+
+    /// <summary>
     /// 根据ID获取模块信息。
     /// </summary>
     /// <param name="id">模块ID。</param>

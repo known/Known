@@ -71,10 +71,6 @@
                         <Layout>
                             <Header Class="kui-header">
                                 <div class="left">
-                                    @if (UIConfig.IsEditMode)
-                                    {
-                                        <EditMenu Data="Context.UserMenus" OnEdit="OnEditMenu" />
-                                    }
                                     @if (Setting.LayoutMode != LayoutMode.Float.ToString())
                                     {
                                         <DynamicComponent Type="typeof(NavToggle)" />

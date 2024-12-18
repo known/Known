@@ -27,6 +27,15 @@ public interface IPlatformService : IService
     Task<Result> SaveConfigAsync(ConfigInfo info);
     #endregion
 
+    #region Menu
+    /// <summary>
+    /// 异步保存菜单信息。
+    /// </summary>
+    /// <param name="info">菜单信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveMenuAsync(MenuInfo info);
+    #endregion
+
     #region Auth
     /// <summary>
     /// 异步用户登录。
@@ -128,6 +137,11 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
         return Result.SuccessAsync("保存成功！");
     }
 
+    public Task<Result> SaveMenuAsync(MenuInfo info)
+    {
+        return DataHelper.SaveMenuAsync(info);
+    }
+
     public Task<Result> SignInAsync(LoginFormInfo info)
     {
         var user = new UserInfo { UserName = info.UserName };
@@ -200,6 +214,11 @@ class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
     public Task<Result> SaveConfigAsync(ConfigInfo info)
     {
         return Http.PostAsync("/Platform/SaveConfig", info);
+    }
+
+    public Task<Result> SaveMenuAsync(MenuInfo info)
+    {
+        return Http.PostAsync("/Platform/SaveMenu", info);
     }
 
     public Task<Result> SignInAsync(LoginFormInfo info)
