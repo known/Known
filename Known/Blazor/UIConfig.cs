@@ -38,21 +38,6 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
-    /// 取得或设置编辑顶部导航条组件类型。
-    /// </summary>
-    public static Type EditNavType { get; set; }
-
-    /// <summary>
-    /// 取得或设置编辑主菜单组件类型。
-    /// </summary>
-    public static Type EditMenuType { get; set; }
-
-    /// <summary>
-    /// 取得或设置编辑无代码页面组件类型。
-    /// </summary>
-    public static Type EditPageType { get; set; }
-
-    /// <summary>
     /// 取得或设置用户中心用户信息组件类型。
     /// </summary>
     public static Type UserProfileType { get; set; }

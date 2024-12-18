@@ -30,10 +30,18 @@ public static class ModelExtension
     /// 将菜单信息列表转成树形结构。
     /// </summary>
     /// <param name="menus">菜单信息列表。</param>
+    /// <param name="showRoot">是否显示根节点。</param>
     /// <returns>树形菜单列表。</returns>
-    public static List<MenuInfo> ToMenuItems(this List<MenuInfo> menus)
+    public static List<MenuInfo> ToMenuItems(this List<MenuInfo> menus, bool showRoot = false)
     {
+        MenuInfo root = null;
         var items = new List<MenuInfo>();
+        if (showRoot)
+        {
+            root = new MenuInfo { Id = "0", Name = Config.App.Name, Icon = "desktop" };
+            root.Data = new ModuleInfo { Id = root.Id, Name = root.Name };
+            items.Add(root);
+        }
         if (menus == null || menus.Count == 0)
             return items;
 
@@ -44,7 +52,10 @@ public static class ModelExtension
                 continue;
 
             var menu = new MenuInfo(item);
-            items.Add(menu);
+            if (showRoot)
+                root.Children.Add(menu);
+            else
+                items.Add(menu);
             AddChildren(menus, menu);
         }
         return items;

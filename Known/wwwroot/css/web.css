@@ -22,7 +22,7 @@
 .kui-header .left > div {margin-right:10px;}
 .kui-nav {display:flex;align-items:center;gap:10px;margin:0;padding-left:10px;}
 .kui-nav li {list-style:none;line-height:normal;padding:0 2px;}
-.kui-nav li.edit {background-color:#c0c5cd;padding:15px 2px;border-radius:2px;}
+.kui-nav li.edit {background-color:#f18c63;color:#fff;padding:15px 2px;border-radius:2px;}
 .kui-query {margin-bottom:10px;padding:10px;}
 .kui-title {font-size:1rem;font-weight:bold;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
@@ -51,8 +51,7 @@
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
 .kui-card {height:100%;}
-.kui-edit {border:1px dashed #ccc;border-radius:2px;text-align:center;cursor:pointer;}
-.ant-menu > .kui-edit {margin:10px;padding:5px;}
+.kui-edit .anticon {color:#f18c63;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
@@ -283,6 +282,7 @@
 .ant-menu-inline, 
 .ant-menu-vertical, 
 .ant-menu-vertical-left {border-right:none;}
+.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa + span {opacity:0;}
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .kui-table .kui-title {padding-left:0;}

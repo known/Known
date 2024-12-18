@@ -1,6 +1,5 @@
 ﻿namespace Known.Internals;
 
-[NavItem]
 class NavSetting : BaseNav
 {
     [CascadingParameter] private TopNavbar Topbar { get; set; }

@@ -28,27 +28,22 @@ public class AntMenu : Menu
     }
 
     /// <summary>
-    /// 异步设置菜单数据源。
+    /// 设置菜单数据源。
     /// </summary>
     /// <param name="items">菜单信息列表。</param>
     /// <returns></returns>
-    public Task SetItemsAsync(List<MenuInfo> items)
+    public void SetItems(List<MenuInfo> items)
     {
         Items = items;
-        return InvokeAsync(StateHasChanged);
+        StateHasChanged();
     }
 
     private void BuildMenu(RenderTreeBuilder builder)
     {
         if (Items == null || Items.Count == 0)
-            builder.Div("kui-p10", "Loading...");
+            builder.Li("kui-p10", "Loading...");
         else
             BuildMenu(builder, Items);
-
-        if (UIConfig.IsEditMode)
-        {
-            builder.DynamicComponent(UIConfig.EditMenuType);
-        }
     }
 
     private void BuildMenu(RenderTreeBuilder builder, List<MenuInfo> items)
@@ -102,8 +97,7 @@ public class AntMenu : Menu
 
     private void BuildItemLink(RenderTreeBuilder builder, MenuInfo item)
     {
-        builder.Link().Href(item.Url)
-               .Set("target", "_blank")
+        builder.Link().Href(item.Url).Set("target", "_blank")
                .Child(() => BuildItemName(builder, item));
     }
 

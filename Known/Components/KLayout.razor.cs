@@ -157,7 +157,7 @@ partial class KLayout
         Context.UserSetting = Info?.UserSetting ?? new();
         Context.UserTableSettings = Info?.UserTableSettings ?? [];
         if (!Context.IsMobileApp)
-            UserMenus = GetUserMenus(Info?.UserMenus);
+            SetUserMenus(Info?.UserMenus);
         Cache.AttachCodes(Info?.Codes);
         Setting = Context.UserSetting;
         IsLoaded = true;
@@ -206,8 +206,7 @@ partial class KLayout
                     Context.CurrentLanguage = language;
                 }
             }
-            if (menu != null)
-                await menu.SetItemsAsync(UserMenus);
+            menu?.SetItems(UserMenus);
         }
         catch (Exception ex)
         {
@@ -229,10 +228,10 @@ partial class KLayout
         return await AuthProvider.GetUserAsync();
     }
 
-    private List<MenuInfo> GetUserMenus(List<MenuInfo> menus)
+    private void SetUserMenus(List<MenuInfo> menus)
     {
         Context.UserMenus = menus;
-        return menus.ToMenuItems();
+        UserMenus = menus.ToMenuItems();
     }
 
     private void CheckUrlAuthentication()
@@ -276,6 +275,12 @@ partial class KLayout
     private void OnLogoClick()
     {
         Navigation.NavigateTo("/");
+    }
+
+    private void OnEditMenu(List<MenuInfo> menus)
+    {
+        SetUserMenus(menus);
+        menu?.SetItems(UserMenus);
     }
 
     private void OnMenuClick(string id)

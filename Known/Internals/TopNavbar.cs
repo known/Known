@@ -33,16 +33,13 @@ public class TopNavbar : BaseComponent
     {
         builder.Ul("kui-nav", () =>
         {
+            if (UIConfig.IsEditMode)
+            {
+                builder.Li(() => builder.Component<EditNav>().Build());
+            }
+
             builder.Cascading(this, b =>
             {
-                if (UIConfig.IsEditMode)
-                {
-                    b.Li().Child(() =>
-                    {
-                        b.DynamicComponent(UIConfig.EditNavType);
-                    });
-                }
-
                 foreach (var item in types)
                 {
                     if (!Config.NavItemTypes.TryGetValue(item, out var type))
@@ -57,9 +54,11 @@ public class TopNavbar : BaseComponent
                     }
                     else
                     {
-                        b.Li().Child(() => b.Component(type));
+                        b.Li(() => b.Component(type));
                     }
                 }
+
+                b.Li(() => b.Component<NavSetting>().Build());
             });
 
             if (CurrentUser?.IsSystemAdmin() == true)
@@ -194,7 +193,6 @@ public class TopNavbar : BaseComponent
             items.Add(nameof(NavUser));
             if (Config.App.IsTheme)
                 items.Add(nameof(NavTheme));
-            items.Add(nameof(NavSetting));
         }
         return items;
     }

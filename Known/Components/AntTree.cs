@@ -18,6 +18,7 @@ public class AntTree : Tree<MenuInfo>
 	protected override void OnInitialized()
 	{
         base.OnInitialized();
+        BlockNode = true;
         ShowIcon = true;
         CheckOnClickNode = false;
         //DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;

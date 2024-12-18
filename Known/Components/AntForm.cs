@@ -71,9 +71,14 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
 
     private async Task LoadDataAsync(TItem data)
     {
+        if (Form == null)
+            return;
+
         if (data == null)
-            await Form?.LoadDefaultDataAsync();
-        Model = Form?.Data;
+            await Form.LoadDefaultDataAsync();
+        else
+            Form.Data = data;
+        Model = Form.Data;
         StateHasChanged();
     }
 }
