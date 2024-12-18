@@ -60,6 +60,7 @@ public class AntMenu : Menu
         {
             builder.Component<SubMenu>()
                    .Set(c => c.Key, item.Id)
+                   .Set(c => c.Disabled, !item.Enabled)
                    .Set(c => c.TitleTemplate, b => BuildTitle(b, item))
                    .Set(c => c.ChildContent, b => BuildMenu(b, item.Children))
                    .Build();
@@ -81,6 +82,7 @@ public class AntMenu : Menu
         {
             builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
+               .Set(c => c.Disabled, !item.Enabled)
                .Set(c => c.ChildContent, b => BuildItemLink(b, item))
                .Build();
         }
@@ -88,6 +90,7 @@ public class AntMenu : Menu
         {
             builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
+               .Set(c => c.Disabled, !item.Enabled)
                .Set(c => c.RouterMatch, NavLinkMatch.Prefix)
                .Set(c => c.RouterLink, item.RouteUrl)
                .Set(c => c.ChildContent, b => BuildItemName(b, item))

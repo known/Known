@@ -88,25 +88,42 @@ public class AntDropdown : Dropdown
 
     private void BuildOverlay(RenderTreeBuilder builder)
     {
-        builder.Component<Menu>().Set(c => c.ChildContent, BuildMenu).Build();
+        builder.Component<Menu>().Set(c => c.ChildContent, b => BuildMenu(b, Model?.Items)).Build();
     }
 
-    private void BuildMenu(RenderTreeBuilder builder)
+    private void BuildMenu(RenderTreeBuilder builder, List<ActionInfo> items)
     {
-        foreach (var item in Model?.Items)
+        foreach (var item in items)
         {
-            builder.Component<MenuItem>()
+            BuildMenu(builder, item);
+        }
+    }
+
+    private void BuildMenu(RenderTreeBuilder builder, ActionInfo item)
+    {
+        if (item.Children != null && item.Children.Count > 0)
+        {
+            builder.Component<SubMenu>()
                    .Set(c => c.Key, item.Id)
                    .Set(c => c.Disabled, !item.Enabled)
-                   .Set(c => c.ChildContent, b => BuildMenuItem(b, item))
+                   .Set(c => c.TitleTemplate, b => b.IconName(item.Icon, item.Name))
+                   .Set(c => c.ChildContent, b => BuildMenu(b, item.Children))
                    .Build();
+        }
+        else
+        {
+            BuildMenuItem(builder, item);
         }
     }
 
     private void BuildMenuItem(RenderTreeBuilder builder, ActionInfo item)
     {
-        builder.Div().OnClick(this.Callback<MouseEventArgs>(e => Model?.OnItemClick?.Invoke(item)))
-               .Child(() => builder.IconName(item.Icon, item.Name));
+        builder.Component<MenuItem>()
+               .Set(c => c.Key, item.Id)
+               .Set(c => c.Disabled, !item.Enabled)
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => Model?.OnItemClick?.Invoke(item)))
+               .Set(c => c.ChildContent, b => b.IconName(item.Icon, item.Name))
+               .Build();
     }
 
     private static Trigger[] GetTriggers(string triggerType)

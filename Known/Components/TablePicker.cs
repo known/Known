@@ -48,9 +48,12 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
         };
         Table.OnResult = () =>
         {
-            var rows = Table.DataSource?.Where(ItemExpression).ToList();
-            if (rows != null && rows.Count > 0)
-                Table.SelectedRows = [.. rows];
+            if (ItemExpression != null)
+            {
+                var rows = Table.DataSource?.Where(ItemExpression).ToList();
+                if (rows != null && rows.Count > 0)
+                    Table.SelectedRows = [.. rows];
+            }
         };
         if (SelectType == TableSelectType.Radio)
             Table.OnRowDoubleClick = OnRowDoubleClick;

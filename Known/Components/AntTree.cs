@@ -56,7 +56,8 @@ public class AntTree : Tree<MenuInfo>
 
     private async Task RefreshAsync()
     {
-        Model = await Model.OnModelChanged?.Invoke();
+        if (Model.OnModelChanged != null)
+            Model = await Model.OnModelChanged.Invoke();
         DataSource = Model.Data;
         if (Model.ExpandRoot)
             DefaultExpandedKeys = [Model.Data?[0]?.Id];

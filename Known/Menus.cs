@@ -298,7 +298,7 @@ public class ActionInfo
     /// <summary>
     /// 取得或设置子操作列表。
     /// </summary>
-    public List<ActionInfo> Children { get; }
+    public List<ActionInfo> Children { get; } = [];
 
     /// <summary>
     /// 取得或设置操作单击事件方法。

@@ -127,7 +127,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
             return Title;
 
         var title = Language?.GetString(Context.Current);
-        if (Table.FormTitle != null)
+        if (Table?.FormTitle != null)
             title = Table.FormTitle.Invoke(Data);
         return Language?.GetFormTitle(Action, title);
     }
