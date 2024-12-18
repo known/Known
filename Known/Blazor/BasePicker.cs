@@ -27,7 +27,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// <summary>
     /// 取得或设置弹窗标题。
     /// </summary>
-    public string Title { get; set; }
+    [Parameter] public string Title { get; set; }
 
     /// <summary>
     /// 取得或设置弹窗宽度。
@@ -38,6 +38,11 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// 取得或设置是否显示允许清空操作。
     /// </summary>
     [Parameter] public bool AllowClear { get; set; }
+
+    /// <summary>
+    /// 取得或设置选择器组件字段显示文本。
+    /// </summary>
+    [Parameter] public string Text { get; set; }
 
     /// <summary>
     /// 取得或设置选择器组件字段值。
@@ -74,7 +79,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
         }
 
         BuildTextBox(builder);
-        builder.TextBox(new InputModel<string> { Value = Value?.ToString(), Disabled = true });
+        builder.TextBox(new InputModel<string> { Value = Text ?? Value?.ToString(), Disabled = true });
 
         if (!ReadOnly)
         {
@@ -116,6 +121,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
         if (ReadOnly)
             return;
 
+        Text = string.Empty;
         Value = string.Empty;
         ValueChanged?.Invoke(Value);
     }

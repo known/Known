@@ -1,6 +1,6 @@
 ﻿namespace Known.Internals;
 
-class KUploadField<TItem> : KUpload where TItem : class, new()
+class UploadField<TItem> : KUpload where TItem : class, new()
 {
     [Parameter] public FieldModel<TItem> Model { get; set; }
 

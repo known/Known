@@ -27,7 +27,7 @@ class KField<TItem> : BaseComponent where TItem : class, new()
         }
         else if (Model.Column.Type == FieldType.File)
         {
-            builder.Component<KUploadField<TItem>>().Set(c => c.Model, Model).Build();
+            builder.Component<UploadField<TItem>>().Set(c => c.Model, Model).Build();
         }
         else
         {
