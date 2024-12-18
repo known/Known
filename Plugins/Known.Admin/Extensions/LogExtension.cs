@@ -1,8 +1,17 @@
 ﻿namespace Known.Extensions;
 
-static class LogExtension
+/// <summary>
+/// 日志数据扩展类。
+/// </summary>
+public static class LogExtension
 {
-    internal static async Task<Result> AddLogAsync(this Database db, LogInfo log)
+    /// <summary>
+    /// 异步添加操作日志。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="log">日志信息。</param>
+    /// <returns></returns>
+    public static async Task<Result> AddLogAsync(this Database db, LogInfo log)
     {
         if (log.Type == LogType.Page &&
             string.IsNullOrWhiteSpace(log.Target) &&
@@ -23,7 +32,15 @@ static class LogExtension
         return Result.Success("");
     }
 
-    internal static Task AddLogAsync(this Database db, LogType type, string target, string content)
+    /// <summary>
+    /// 异步添加操作日志。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="type">日志类型。</param>
+    /// <param name="target">操作对象。</param>
+    /// <param name="content">操作内容。</param>
+    /// <returns></returns>
+    public static Task AddLogAsync(this Database db, LogType type, string target, string content)
     {
         return db.SaveAsync(new SysLog
         {

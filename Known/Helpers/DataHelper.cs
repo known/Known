@@ -10,11 +10,6 @@ public sealed class DataHelper
     private DataHelper() { }
 
     /// <summary>
-    /// 取得系统配置的模块列表。
-    /// </summary>
-    public static List<ModuleInfo> Modules { get; private set; } = [];
-
-    /// <summary>
     /// 取得实体模型列表。
     /// </summary>
     public static List<EntityInfo> Models { get; } = [];
@@ -34,7 +29,7 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        Modules = modules;
+        ModuleDB.Modules = modules;
         Models.Clear();
         var models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
         foreach (var item in models)
@@ -59,17 +54,28 @@ public sealed class DataHelper
     /// <returns>保存结果。</returns>
     public static Task<Result> SaveMenuAsync(MenuInfo info)
     {
+        var module = ModuleDB.Modules.FirstOrDefault(m => m.Id == info.Id);
+        if (module == null)
+        {
+            module = new ModuleInfo();
+            ModuleDB.Modules.Add(module);
+        }
+        module.Id = info.Id;
+        module.ParentId = info.ParentId;
+        module.Code = info.Code;
+        module.Name = info.Name;
+        module.Icon = info.Icon;
+        module.Description = info.Description;
+        module.Target = info.Target;
+        module.Url = info.Url;
+        module.Sort = info.Sort;
+        module.Enabled = info.Enabled;
+        //module.EntityData = info.EntityData;
+        //module.FlowData = info.FlowData;
+        module.Page = info.Page;
+        module.Form = info.Form;
+        ModuleDB.Save();
         return Result.SuccessAsync("保存成功！", info);
-    }
-
-    /// <summary>
-    /// 根据ID获取模块信息。
-    /// </summary>
-    /// <param name="id">模块ID。</param>
-    /// <returns>模块信息。</returns>
-    public static ModuleInfo GetModule(string id)
-    {
-        return Modules.FirstOrDefault(m => m.Id == id);
     }
 
     /// <summary>
@@ -172,7 +178,7 @@ public sealed class DataHelper
     /// <returns>实体信息。</returns>
     public static EntityInfo GetEntityByModuleId(string moduleId)
     {
-        var module = Modules.FirstOrDefault(m => m.Id == moduleId);
+        var module = ModuleDB.GetModule(moduleId);
         return ToEntity(module?.EntityData);
     }
 

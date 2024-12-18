@@ -49,6 +49,7 @@ public static class AdminExtension
         UIConfig.UserTabs["SecuritySetting"] = typeof(PasswordEditForm);
         UIConfig.DevelopTabs["Menu.SysModuleList"] = typeof(ModuleList);
         UIConfig.DevelopTabs["WebApi"] = typeof(WebApiList);
+        UIConfig.EnableEdit = false;
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
@@ -64,6 +65,7 @@ public static class AdminExtension
         action?.Invoke(AdminOption.Instance);
         WeixinApi.Initialize(AdminOption.Instance.Weixin);
 
+        ModuleDB.IsAppData = false;
         AdminOption.Instance.AddAssembly(typeof(AdminExtension).Assembly);
 
         // 注入EFCore模型

@@ -11,7 +11,7 @@ class ModuleForm : BaseTabForm
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Module = Utils.MapTo<ModuleInfo>(Model.Data);
+        Module = Model.Data.ToModuleInfo();
         Module.IsView = Model.IsView;
         Module.Entity = DataHelper.ToEntity(Model.Data.EntityData);
 
@@ -38,7 +38,7 @@ class ModuleForm : BaseTabForm
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
 
         Tab.AddTab("BasicInfo", BuildDataForm);
-        Tab.AddTab("ModelSetting", b => ModuleForm.BuildModuleModel(b, Module));
+        Tab.AddTab("ModelSetting", b => BuildModuleModel(b, Module));
         //Tab.AddTab("FlowSetting", b => BuildModuleFlow(b, Module));
         Tab.AddTab("PageSetting", b => BuildModulePage(b, Module));
         Tab.AddTab("FormSetting", b => BuildModuleForm(b, Module));
@@ -104,8 +104,8 @@ class ModuleForm : BaseTabForm
         {
             model.EntityData = Module.EntityData;
             model.FlowData = Module.FlowData;
-            model.PageData = Module.PageData;
-            model.FormData = Module.FormData;
+            model.PageData = Utils.ToJson(Module.Page);
+            model.FormData = Utils.ToJson(Module.Form);
         }
         return Task.FromResult(true);
     }

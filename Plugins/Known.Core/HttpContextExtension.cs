@@ -1,4 +1,4 @@
-﻿namespace Known.Core.Extensions;
+﻿namespace Known.Core;
 
 /// <summary>
 /// Http上下文扩展类。

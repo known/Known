@@ -149,4 +149,26 @@ public class SysModule : EntityBase
         Actions = Page?.Actions?.ToList();
         Columns = Page?.Columns;
     }
+
+    internal ModuleInfo ToModuleInfo()
+    {
+        return new ModuleInfo
+        {
+            Id = Id,
+            ParentId = ParentId,
+            Code = Code,
+            Name = Name,
+            Icon = Icon,
+            Description = Description,
+            Target = Target,
+            Url = Url,
+            Sort = Sort,
+            Enabled = Enabled,
+            EntityData = EntityData,
+            FlowData = FlowData,
+            Note = Note,
+            Page = Page,
+            Form = Form
+        };
+    }
 }

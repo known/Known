@@ -8,11 +8,20 @@ static class MenuExtension
         if (user == null)
             return [];
 
-        var modules = DataHelper.Modules;
+        var modules = ModuleDB.Modules;
         if (modules == null || modules.Count == 0)
         {
-            modules = await db.Query<SysModule>().ToListAsync<ModuleInfo>();
-            DataHelper.Initialize(modules);
+            var items = await db.QueryListAsync<SysModule>();
+            if (items != null && items.Count > 0)
+            {
+                modules = new List<ModuleInfo>();
+                foreach (var item in items)
+                {
+                    modules.Add(item.ToModuleInfo());
+                }
+                ModuleDB.Initialize(modules);
+                DataHelper.Initialize(modules);
+            }
         }
 
         var routes = DataHelper.GetRouteModules(db.Context.Language, modules.Select(m => m.Url).ToList());

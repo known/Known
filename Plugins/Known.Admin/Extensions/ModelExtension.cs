@@ -20,7 +20,7 @@ static class ModelExtension
 
     internal static List<ModuleInfo> ToModuleLists(this List<SysModule> models)
     {
-        return models?.Select(Utils.MapTo<ModuleInfo>).ToList();
+        return models?.Select(m => m.ToModuleInfo()).ToList();
     }
 
     internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)

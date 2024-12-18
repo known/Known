@@ -20,7 +20,15 @@ public enum LogType
     /// <summary>
     /// 页面访问。
     /// </summary>
-    Page
+    Page,
+    /// <summary>
+    /// 操作。
+    /// </summary>
+    Operate,
+    /// <summary>
+    /// 其他。
+    /// </summary>
+    Other
 }
 
 /// <summary>
