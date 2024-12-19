@@ -30,7 +30,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
     protected override void BuildTextBox(RenderTreeBuilder builder)
     {
         if (Value != null && !string.IsNullOrWhiteSpace(Value.ToString()))
-            builder.Div("kui-module-icon", () => builder.Icon(Value.ToString()));
+            builder.Span().Class("kui-pick-icon").Child(() => builder.Icon(Value.ToString()));
         base.BuildTextBox(builder);
     }
 

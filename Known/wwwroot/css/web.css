@@ -111,6 +111,8 @@
     display:block;width:32px;height:32px;line-height:32px;
 }
 .kui-pick-clear {right:28px;}
+.kui-pick-icon {position:absolute;top:5px;left:5px;z-index:101;}
+.kui-pick-icon + input {padding-left:20px;}
 .kui-icon-picker {position:relative;height:300px;}
 .kui-icon-picker .search {position:absolute;top:0;left:0;right:0;}
 .kui-icon-picker .items {position:absolute;top:35px;left:0;bottom:0;right:0;overflow:auto;}

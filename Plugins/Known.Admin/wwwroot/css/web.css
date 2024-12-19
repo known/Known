@@ -54,10 +54,6 @@
 .kui-form-setting .kui-center {margin:10px;}
 .kui-form-setting .kui-center button {margin:0 5px;}
 
-/*Module*/
-.kui-module-icon {position:absolute;top:5px;left:5px;z-index:101;}
-.kui-module-icon + input {padding-left:20px;}
-
 @media screen and (max-width:768px) {
     .kui-system {margin:0;}
     .kui-user-form {margin:0;width:auto;}
