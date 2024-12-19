@@ -145,7 +145,7 @@ class AdminService(Context context) : ServiceBase(context), IAdminService
         var info = new AdminInfo
         {
             AppName = Config.App.Name,
-            UserMenus = MenuHelper.GetUserMenus(CurrentUser, ModuleDB.Modules)
+            UserMenus = MenuHelper.GetUserMenus(CurrentUser, AppData.Modules)
         };
         return Task.FromResult(info);
     }

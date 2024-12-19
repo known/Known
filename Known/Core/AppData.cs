@@ -3,28 +3,28 @@
 namespace Known.Core;
 
 /// <summary>
-/// 模块配置数据库文件。
+/// 框架配置数据库文件。
 /// </summary>
-public sealed class ModuleDB
+public sealed class AppData
 {
     private static readonly string KmdPath = "./AppData.kmd";
 
-    private ModuleDB() { }
+    private AppData() { }
 
     /// <summary>
     /// 取得或设置是否启用配置文件存储，默认启用。
     /// </summary>
-    public static bool IsAppData { get; set; } = true;
+    public static bool Enabled { get; set; } = true;
 
     /// <summary>
-    /// 取得系统配置的模块列表。
+    /// 取得或设置系统配置的模块列表。
     /// </summary>
-    public static List<ModuleInfo> Modules { get; internal set; } = [];
+    public static List<ModuleInfo> Modules { get; set; } = [];
 
     /// <summary>
     /// 取得或设置解析配置数据委托。
     /// </summary>
-    public static Func<byte[], List<ModuleInfo>> OnParseData { get; set; }
+    public static Action<byte[]> OnParseData { get; set; }
 
     /// <summary>
     /// 取得或设置格式化配置数据委托。
@@ -53,7 +53,7 @@ public sealed class ModuleDB
 
     internal static void Load()
     {
-        if (!IsAppData)
+        if (!Enabled)
             return;
 
         if (!File.Exists(KmdPath))
@@ -61,23 +61,23 @@ public sealed class ModuleDB
 
         var bytes = File.ReadAllBytes(KmdPath);
         if (OnParseData != null)
-            Modules = OnParseData(bytes);
+            OnParseData(bytes);
         else
-            Modules = ParseData(bytes);
+            ParseData(bytes);
     }
 
     internal static void Save()
     {
-        if (!IsAppData)
+        if (!Enabled)
             return;
 
         var bytes = OnFormatData != null
                   ? OnFormatData(Modules)
-                  : FormatData(Modules);
+                  : FormatData();
         File.WriteAllBytes(KmdPath, bytes);
     }
 
-    private static List<ModuleInfo> ParseData(byte[] bytes)
+    private static void ParseData(byte[] bytes)
     {
         using (var stream = new MemoryStream(bytes))
         using (var reader = new MemoryStream())
@@ -85,13 +85,13 @@ public sealed class ModuleDB
         {
             gzip.CopyTo(reader);
             var json = Encoding.UTF8.GetString(reader.ToArray());
-            return Utils.FromJson<List<ModuleInfo>>(json);
+            Modules = Utils.FromJson<List<ModuleInfo>>(json);
         }
     }
 
-    private static byte[] FormatData(List<ModuleInfo> modules)
+    private static byte[] FormatData()
     {
-        var json = Utils.ToJson(modules);
+        var json = Utils.ToJson(Modules);
         var bytes = Encoding.UTF8.GetBytes(json);
         using (var stream = new MemoryStream())
         using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))

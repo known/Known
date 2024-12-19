@@ -29,7 +29,7 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        ModuleDB.Modules = modules;
+        AppData.Modules = modules;
         Models.Clear();
         var models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
         foreach (var item in models)
@@ -146,7 +146,7 @@ public sealed class DataHelper
     /// <returns>实体信息。</returns>
     public static EntityInfo GetEntityByModuleId(string moduleId)
     {
-        var module = ModuleDB.GetModule(moduleId);
+        var module = AppData.GetModule(moduleId);
         return ToEntity(module?.EntityData);
     }
 

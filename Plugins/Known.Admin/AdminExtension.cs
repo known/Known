@@ -63,7 +63,7 @@ public static class AdminExtension
         action?.Invoke(AdminOption.Instance);
         WeixinApi.Initialize(AdminOption.Instance.Weixin);
 
-        ModuleDB.IsAppData = false;
+        AppData.Enabled = false;
         AdminOption.Instance.AddAssembly(typeof(AdminExtension).Assembly);
 
         // 注入EFCore模型

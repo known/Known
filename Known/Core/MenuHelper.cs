@@ -54,11 +54,11 @@ public sealed class MenuHelper
 
     internal static Task<Result> SaveMenuAsync(MenuInfo info)
     {
-        var module = ModuleDB.Modules.FirstOrDefault(m => m.Id == info.Id);
+        var module = AppData.Modules.FirstOrDefault(m => m.Id == info.Id);
         if (module == null)
         {
             module = new ModuleInfo();
-            ModuleDB.Modules.Add(module);
+            AppData.Modules.Add(module);
         }
         module.Id = info.Id;
         module.ParentId = info.ParentId;
@@ -74,7 +74,7 @@ public sealed class MenuHelper
         //module.FlowData = info.FlowData;
         module.Page = info.Page;
         module.Form = info.Form;
-        ModuleDB.Save();
+        AppData.Save();
         return Result.SuccessAsync("保存成功！", info);
     }
 

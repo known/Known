@@ -4,7 +4,7 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
-        var module = ModuleDB.GetModule(ImportContext.BizParam);
+        var module = AppData.GetModule(ImportContext.BizParam);
         if (module == null)
             return Result.Error(Language.Required("ModuleId"));
 

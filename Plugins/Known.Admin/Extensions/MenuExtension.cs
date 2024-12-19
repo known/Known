@@ -8,7 +8,7 @@ static class MenuExtension
         if (user == null)
             return [];
 
-        var modules = ModuleDB.Modules;
+        var modules = AppData.Modules;
         if (modules == null || modules.Count == 0)
         {
             var items = await db.QueryListAsync<SysModule>();
@@ -19,7 +19,7 @@ static class MenuExtension
                 {
                     modules.Add(item.ToModuleInfo());
                 }
-                ModuleDB.Initialize(modules);
+                AppData.Initialize(modules);
             }
         }
 
