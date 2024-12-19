@@ -1,6 +1,6 @@
-﻿namespace Known.Platforms;
+﻿namespace Known.Services;
 
-class PlatformService(Context context) : ServiceBase(context), IPlatformService
+class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     #region Config
     public async Task<bool> GetInstallAsync()
@@ -19,13 +19,6 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     public Task<Result> SaveConfigAsync(ConfigInfo info)
     {
         return Database.SaveConfigAsync(info.Key, info.Value);
-    }
-    #endregion
-
-    #region Menu
-    public Task<Result> SaveMenuAsync(MenuInfo info)
-    {
-        return DataHelper.SaveMenuAsync(info);
     }
     #endregion
 

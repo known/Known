@@ -1,6 +1,6 @@
 ﻿namespace Known.Core.Auths;
 
-class CookieAuthStateProvider(IHttpContextAccessor context, IPlatformService platform) : AuthenticationStateProvider, IAuthStateProvider
+class CookieAuthStateProvider(IHttpContextAccessor context, IAdminService platform) : AuthenticationStateProvider, IAuthStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {

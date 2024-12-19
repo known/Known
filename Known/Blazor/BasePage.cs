@@ -33,7 +33,7 @@ public class BasePage : BaseComponent
         if (firstRender)
         {
             if (Context.Current != null && !Config.IsClient)
-                await Platform.AddPageLogAsync(Context);
+                await Admin.AddPageLogAsync(Context);
         }
     }
 

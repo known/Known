@@ -57,6 +57,7 @@ class NavEdit : BaseComponent
 
     private void ShowMenuForm(ActionInfo info)
     {
+        var menus = Context.UserMenus ?? [];
         var form = new FormModel<MenuInfo>(this)
         {
             Title = $"添加{info.Name}",
@@ -72,7 +73,7 @@ class NavEdit : BaseComponent
             {
                 b.Component<TreePicker>()
                  .Set(c => c.Title, "选择上级菜单")
-                 .Set(c => c.Items, Context.UserMenus?.ToMenuItems(true))
+                 .Set(c => c.Items, menus.ToMenuItems(true))
                  .Set(c => c.OnChanged, v =>
                  {
                      form.Data.ParentId = v.Id;

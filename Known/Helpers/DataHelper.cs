@@ -48,42 +48,10 @@ public sealed class DataHelper
     }
 
     /// <summary>
-    /// 异步保存菜单信息。
-    /// </summary>
-    /// <param name="info">菜单信息。</param>
-    /// <returns>保存结果。</returns>
-    public static Task<Result> SaveMenuAsync(MenuInfo info)
-    {
-        var module = ModuleDB.Modules.FirstOrDefault(m => m.Id == info.Id);
-        if (module == null)
-        {
-            module = new ModuleInfo();
-            ModuleDB.Modules.Add(module);
-        }
-        module.Id = info.Id;
-        module.ParentId = info.ParentId;
-        module.Code = info.Code;
-        module.Name = info.Name;
-        module.Icon = info.Icon;
-        module.Description = info.Description;
-        module.Target = info.Target;
-        module.Url = info.Url;
-        module.Sort = info.Sort;
-        module.Enabled = info.Enabled;
-        //module.EntityData = info.EntityData;
-        //module.FlowData = info.FlowData;
-        module.Page = info.Page;
-        module.Form = info.Form;
-        ModuleDB.Save();
-        return Result.SuccessAsync("保存成功！", info);
-    }
-
-    /// <summary>
     /// 获取路由模块。
     /// </summary>
-    /// <param name="language">多语言对象。</param>
     /// <param name="moduleUrls">模块列表。</param>
-    public static List<ModuleInfo> GetRouteModules(Language language, List<string> moduleUrls)
+    public static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
     {
         var routes = Config.RouteTypes;
         if (routes.Count == 0)
@@ -93,7 +61,7 @@ public sealed class DataHelper
         var routeError = typeof(ErrorPage).RouteTemplate();
         var routeAuto = typeof(AutoTablePage).RouteTemplate();
         var target = Constants.Route;
-        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = language["Route"], Target = target, Icon = "share-alt", Enabled = true, Sort = moduleUrls.Count + 1 };
+        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt", Enabled = true, Sort = moduleUrls.Count + 1 };
         modules.Add(route);
         foreach (var item in routes.OrderBy(r => r.Key))
         {

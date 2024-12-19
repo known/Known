@@ -85,7 +85,7 @@ public class LoginPage : BaseComponent
             return;
 
         Model.IPAddress = Context.IPAddress;
-        var result = await Platform.SignInAsync(Model);
+        var result = await Admin.SignInAsync(Model);
         if (!result.IsValid)
         {
             UI.Error(result.Message);

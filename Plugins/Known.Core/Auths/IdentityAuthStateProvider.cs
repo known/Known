@@ -15,7 +15,7 @@ sealed class IdentityAuthStateProvider : RevalidatingServerAuthenticationStatePr
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IHttpContextAccessor contextAccessor;
-    private readonly IPlatformService platform;
+    private readonly IAdminService platform;
     private readonly PersistentComponentState state;
     private readonly IdentityOptions options;
 
@@ -27,7 +27,7 @@ sealed class IdentityAuthStateProvider : RevalidatingServerAuthenticationStatePr
         ILoggerFactory loggerFactory,
         IServiceScopeFactory serviceScopeFactory,
         IHttpContextAccessor httpContextAccessor,
-        IPlatformService platformService,
+        IAdminService platformService,
         PersistentComponentState persistentComponentState,
         IOptions<IdentityOptions> optionsAccessor)
         : base(loggerFactory)

@@ -85,8 +85,6 @@
     .kui-role-form, .kui-role-module, .kui-role-button, .kui-role-column {width:100%;}
 }
 
-.kui-login .ant-tabs-nav {margin-bottom:24px;}
-
 /*App*/
 .kui-app .form-user, .kui-app .form-password {padding:30px;}
 .kui-app .form-password .kui-form-button {margin-left:0;}

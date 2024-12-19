@@ -179,7 +179,7 @@ public class TopNavbar : BaseComponent
 
     private async Task<List<string>> GetTypesAsync()
     {
-        var json = await Platform.GetConfigAsync(Key);
+        var json = await Admin.GetConfigAsync(Key);
         var items = Utils.FromJson<List<string>>(json);
         if (items == null)
         {
@@ -195,5 +195,5 @@ public class TopNavbar : BaseComponent
         return items;
     }
 
-    private Task SaveConfigAsync() => Platform.SaveConfigAsync(new ConfigInfo { Key = Key, Value = types });
+    private Task SaveConfigAsync() => Admin.SaveConfigAsync(new ConfigInfo { Key = Key, Value = types });
 }

@@ -30,7 +30,7 @@ public class AutoPage : BaseComponent
             if (page != null)
             {
                 await page.InitializeAsync();
-                await Platform.AddPageLogAsync(Context);
+                await Admin.AddPageLogAsync(Context);
             }
         }
     }

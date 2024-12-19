@@ -11,7 +11,7 @@ class AdvancedSearch : BaseComponent
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
         var query = Query.Where(q => Columns.Exists(c => c.Id == q.Id)).ToList();
-        await Platform.SaveUserSettingFormAsync(new SettingFormInfo
+        await Admin.SaveUserSettingFormAsync(new SettingFormInfo
         {
             BizType = SettingKey,
             BizData = query
@@ -25,7 +25,7 @@ class AdvancedSearch : BaseComponent
         if (firstRender)
         {
             Query.Clear();
-            var json = await Platform.GetUserSettingAsync(SettingKey);
+            var json = await Admin.GetUserSettingAsync(SettingKey);
             var items = Utils.FromJson<List<QueryInfo>>(json);
             if (items != null && items.Count > 0)
                 Query.AddRange(items);

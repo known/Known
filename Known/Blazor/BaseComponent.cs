@@ -99,9 +99,14 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public UserInfo CurrentUser => Context?.CurrentUser;
 
     /// <summary>
-    /// 取得框架数据服务接口实例。
+    /// 取得框架平台数据服务接口实例。
     /// </summary>
     public IPlatformService Platform { get; private set; }
+
+    /// <summary>
+    /// 取得框架管理后台数据服务接口实例。
+    /// </summary>
+    public IAdminService Admin { get; private set; }
 
     /// <summary>
     /// 取得是否释放组件对象。
@@ -119,6 +124,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             await base.OnInitializedAsync();
             UI.Language = Language;
             Platform = await CreateServiceAsync<IPlatformService>();
+            Admin = await CreateServiceAsync<IAdminService>();
             await OnInitAsync();
         }
         catch (Exception ex)

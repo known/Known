@@ -1,8 +1,8 @@
 ﻿namespace Known.Extensions;
 
-static class PlatformExtension
+static class AdminExtension
 {
-    internal static Task<Result> AddPageLogAsync(this IPlatformService service, UIContext context)
+    internal static Task<Result> AddPageLogAsync(this IAdminService service, UIContext context)
     {
         return service.AddLogAsync(new LogInfo
         {
@@ -12,7 +12,7 @@ static class PlatformExtension
         });
     }
 
-    internal static Task<Result> SaveUserSettingAsync(this IPlatformService service, UserSettingInfo info)
+    internal static Task<Result> SaveUserSettingAsync(this IAdminService service, UserSettingInfo info)
     {
         return service.SaveUserSettingFormAsync(new SettingFormInfo
         {

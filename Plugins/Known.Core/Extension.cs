@@ -13,13 +13,9 @@ public static class Extension
     /// 添加桌面框架及身份认证支持。
     /// </summary>
     /// <param name="services">服务集合。</param>
-    /// <param name="action">配置委托。</param>
-    public static void AddKnownWin(this IServiceCollection services, Action<CoreOption> action = null)
+    public static void AddKnownWin(this IServiceCollection services)
     {
         AppHelper.LoadConnections();
-        action?.Invoke(option);
-        if (option.IsCompression)
-            services.AddResponseCompression();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();

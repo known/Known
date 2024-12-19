@@ -1,4 +1,4 @@
-﻿namespace Known.Platforms;
+﻿namespace Known.Services;
 
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {

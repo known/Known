@@ -1,24 +1,51 @@
-html, body {
-    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';width:100%;height:100%;overflow:hidden;}
+.loading {width:100%;height:100%;background:url(../img/logo1.png) no-repeat center;}
+.login, .login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
+.known, .ws-space, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
+.kui-logo {background:url(../img/logo1.png) no-repeat 5px;}
+:root[data-theme=dark] .kui-logo, .kui-menu-dark .kui-logo {background:url(../img/logo.png) no-repeat 5px;}
+:root[data-theme=dark] .kui-logo {background-color:var(--kui-bgcolor);}
+
+/*Login*/
+.login {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
+.login-head {display:flex;justify-content:space-between;padding:20px 200px;font-size:1.2rem;}
+.login-logo {display:flex;}
+.login-logo .kui-logo {position:initial;width:180px;height:50px;margin:0;padding:0;margin-top:4px;}
+.login-head ul {margin:0;padding:0;padding-top:13px;}
+.login-body {
+    background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 200px;display:grid;grid-template-columns:auto 430px;
+    border-radius:50px 0;/*border-radius:0 0 100% 100% / 0 0 8% 8%;*/
+}
+.login-left {padding:60px 100px;text-align:center;}
+.login-left ul {padding:40px 0 10px 0;display:flex;justify-content:center;}
+.login-left ul li {margin-right:33px;}
+.login-left ul li:first-child {list-style:none;}
+.login-left {color:#fff;font-size:1.5rem;font-weight:bold;}
+.login-left img {width:350px;}
+.login-form {padding:70px 0 50px 50px;}
+.login-form h1 {font-size:1.2rem;margin-top:1rem;margin-bottom:1rem;}
+.login-form .ant-input-affix-wrapper > .ant-input:not(textarea) {padding-left:10px;}
+.login-form-body {position:relative;border-radius:5px;padding:20px 30px;height:370px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);}
+.login-copyright {text-align:center;width:100%;font-size:1rem;margin-top:30px;}
+.login-copyright span {margin:0 5px;}
+
+@media screen and (max-width:768px) {
+    .login {top:50%;margin-top:-320px;}
+    .login-head {padding:0;flex-direction:column;}
+    .login-logo {padding:20px;flex-direction:column;}
+    .login-logo div {padding-left:10px;}
+    .login-body {padding:20px 30px;grid-template-columns:100%;height:auto;}
+    .login-left, .login-head ul {display:none;}
+    .login-form {padding-left:0;padding:0;}
+    .login-copyright {margin-top:20px;}
 }
 
-.loading {
-    width: 100%;
-    height: 100%;
-    background: url(../img/logo1.png) no-repeat center;
-}
+.login .ant-tabs-nav {margin-bottom:24px;}
+.login .ant-tabs-tab {font-size:14px;padding:12px 0;}
+.login .ant-input-affix-wrapper {font-size:14px;}
+.login .ant-form-item {font-size:14px;margin-bottom:24px;}
+.login .ant-form-item-control-input {min-height:32px;}
+.login .ant-btn {font-size:14px;padding:4px 10px;height:32px;}
 
-.kui-logo {
-    background: url(../img/logo1.png) no-repeat 5px;
-}
-
-:root[data-theme=dark] .kui-logo, .kui-menu-dark .kui-logo {
-    background: url(../img/logo.png) no-repeat 5px;
-}
-
-:root[data-theme=dark] .kui-logo {
-    background-color: var(--kui-bgcolor);
-}
+/*Dark*/
+:root[data-theme=dark] .login-body {background:linear-gradient(135deg, rgb(46, 46, 46), rgb(35, 40, 40));}

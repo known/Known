@@ -80,9 +80,19 @@ public class AdminLayout : LayoutComponentBase
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Component<KLayout>()
-               .Set(c => c.IsAdmin, true)
-               .Set(c => c.ChildContent, b => UIConfig.AdminBody?.Invoke(b, Body))
-               .Build();
+        if (UIConfig.AdminBody != null)
+        {
+            builder.Component<KLayout>()
+                   .Set(c => c.IsAdmin, true)
+                   .Set(c => c.ChildContent, b => UIConfig.AdminBody.Invoke(b, Body))
+                   .Build();
+        }
+        else
+        {
+            builder.Component<KLayout>()
+                   .Set(c => c.IsAdmin, true)
+                   .Set(c => c.ChildContent, Body)
+                   .Build();
+        }
     }
 }

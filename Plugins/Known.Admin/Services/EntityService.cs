@@ -1,4 +1,4 @@
-﻿namespace Known.Platforms;
+﻿namespace Known.Services;
 
 class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity> where TEntity : EntityBase, new()
 {

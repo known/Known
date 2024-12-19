@@ -1,6 +1,4 @@
-﻿using Known.Platforms;
-
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 依赖注入扩展类。
@@ -16,7 +14,7 @@ public static class AdminExtension
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
         // 注入平台服务
-        services.AddScoped<IPlatformService, PlatformService>();
+        services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 

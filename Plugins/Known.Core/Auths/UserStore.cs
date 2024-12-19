@@ -2,7 +2,7 @@
 
 namespace Known.Core.Auths;
 
-class UserStore(IPlatformService platform) : IUserStore<UserInfo>
+class UserStore(IAdminService platform) : IUserStore<UserInfo>
 {
     public Task<IdentityResult> CreateAsync(UserInfo user, CancellationToken cancellationToken)
     {

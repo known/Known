@@ -13,26 +13,20 @@
     <div class="login-body">
         <div class="login-left">
             <ul>
-                <li>@Language["OpenSource"]</li>
-                <li>@Language["LowCode"]</li>
-                <li>@Language["ModernUI"]</li>
+                <li>开源</li>
+                <li>低代码</li>
+                <li>现代UI</li>
             </ul>
             <img src="img/login.png" />
         </div>
         <div class="login-form">
             <div class="login-form-body">
                 <Tabs Animated>
-                    <TabPane Key="Account" Tab="@Language?["Login.WithAccount"]">
+                    <TabPane Key="Account" Tab="用户名登录">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
                     </TabPane>
-                    <TabPane Key="Phone" Tab="@Language?["Login.WithPhone"]">
+                    <TabPane Key="Phone" Tab="手机号登录">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
-                    </TabPane>
-                    <TabPane Key="QRCode" Tab="@Language?["Login.WithQRCode"]">
-                        <div style="text-align:center;">
-                            <div style="margin-bottom:10px;">请使用手机浏览器扫码登录</div>
-                            <KQRCode Option="qrCode" />
-                        </div>
                     </TabPane>
                 </Tabs>
             </div>
@@ -42,8 +36,7 @@
 </div>
 
 @code {
-    private bool IsCaptcha => AdminConfig.System?.IsLoginCaptcha == true;
-    private object qrCode => new { Text = Config.HostUrl, Width = 200, Height = 200 };
+    private bool IsCaptcha => false;
 
     private Task<Known.Result> OnSendSMS(string phone)
     {

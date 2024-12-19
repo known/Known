@@ -29,6 +29,7 @@ public static class Extension
         services.AddScoped<JSService>();
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformService>();
+        services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
@@ -74,6 +75,7 @@ public static class Extension
         services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformClient>();
+        services.AddScoped<IAdminService, AdminClient>();
         services.AddScoped<IAutoService, AutoClient>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
 

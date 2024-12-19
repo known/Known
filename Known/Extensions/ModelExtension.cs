@@ -25,6 +25,16 @@ public static class ModelExtension
     }
     #endregion
 
+    #region Module
+    internal static List<MenuInfo> ToMenus(this List<ModuleInfo> modules, bool isAdmin)
+    {
+        if (modules == null || modules.Count == 0)
+            return [];
+
+        return modules.Where(m => m.Enabled).Select(m => new MenuInfo(m, isAdmin)).ToList();
+    }
+    #endregion
+
     #region Menu
     /// <summary>
     /// 将菜单信息列表转成树形结构。

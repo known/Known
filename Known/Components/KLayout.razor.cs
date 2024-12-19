@@ -105,7 +105,7 @@ partial class KLayout
     /// <returns></returns>
     public override async Task SignOutAsync()
     {
-        var result = await Platform.SignOutAsync();
+        var result = await Admin.SignOutAsync();
         if (result.IsValid)
         {
             Context.SignOut();
@@ -138,7 +138,7 @@ partial class KLayout
 
         IsLoaded = false;
         await base.OnInitAsync();
-        var isInstall = await Platform.GetInstallAsync();
+        var isInstall = await Admin.GetInstallAsync();
         if (isInstall)
         {
             Navigation?.GoInstallPage();
@@ -153,7 +153,7 @@ partial class KLayout
         }
 
         Context.CurrentUser = user;
-        Info = await Platform.GetAdminAsync();
+        Info = await Admin.GetAdminAsync();
         Context.UserSetting = Info?.UserSetting ?? new();
         Context.UserTableSettings = Info?.UserTableSettings ?? [];
         if (!Context.IsMobileApp)
@@ -222,8 +222,10 @@ partial class KLayout
 
     internal override void AddMenuItem(MenuInfo item)
     {
-        Context.UserMenus?.Add(item);
-        UserMenus = Context.UserMenus?.ToMenuItems();
+        if (Context.UserMenus == null)
+            Context.UserMenus = [];
+        Context.UserMenus.Add(item);
+        UserMenus = Context.UserMenus.ToMenuItems();
         menu?.SetItems(UserMenus);
     }
 
@@ -265,7 +267,7 @@ partial class KLayout
 
     private async Task OnSaveSetting()
     {
-        var result = await Platform.SaveUserSettingAsync(Setting);
+        var result = await Admin.SaveUserSettingAsync(Setting);
         if (result.IsValid)
         {
             Context.UserSetting = Setting;

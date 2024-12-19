@@ -45,13 +45,9 @@ public partial class MainForm : Form
         var services = new ServiceCollection();
         services.AddWindowsFormsBlazorWebView();
 #if DEBUG
-        Config.IsDevelopment = true;
         services.AddBlazorWebViewDeveloperTools();
 #endif
-        services.AddKnown(info =>
-        {
-            info.Assembly = typeof(Program).Assembly;
-        });
+        services.AddApplication();
         blazorWebView.HostPage = "wwwroot\\index.html";
         blazorWebView.Services = services.BuildServiceProvider();
         blazorWebView.RootComponents.Add<App>("#app");

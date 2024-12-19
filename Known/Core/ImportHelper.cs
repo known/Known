@@ -1,4 +1,4 @@
-﻿namespace Known.Helpers;
+﻿namespace Known.Core;
 
 /// <summary>
 /// 数据导入帮助者类。

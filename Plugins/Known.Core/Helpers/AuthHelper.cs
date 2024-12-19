@@ -3,7 +3,7 @@
 class AuthHelper
 {
     //Account
-    internal static async Task<UserInfo> GetUserAsync(IPlatformService platform, string userName)
+    internal static async Task<UserInfo> GetUserAsync(IAdminService platform, string userName)
     {
         if (string.IsNullOrWhiteSpace(userName))
             return null;
@@ -18,7 +18,7 @@ class AuthHelper
         return user;
     }
 
-    internal static async Task<UserInfo> GetUserByIdAsync(IPlatformService platform, string userId)
+    internal static async Task<UserInfo> GetUserByIdAsync(IAdminService platform, string userId)
     {
         if (string.IsNullOrWhiteSpace(userId))
             return null;
