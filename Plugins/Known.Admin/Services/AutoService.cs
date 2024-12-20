@@ -45,12 +45,13 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     public async Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
-        var tableName = DataHelper.GetEntityByModuleId(info.PageId)?.Id;
-        if (string.IsNullOrWhiteSpace(tableName))
+        var entity = DataHelper.GetEntityByModuleId(info.PageId);
+        var tableName = entity?.Id;
+        if (entity == null || string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
         var model = info.Model;
-        var vr = DataHelper.Validate(Context, tableName, model);
+        var vr = DataHelper.Validate(Context, entity, model);
         if (!vr.IsValid)
             return vr;
 

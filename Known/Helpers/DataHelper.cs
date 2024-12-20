@@ -265,14 +265,13 @@ public sealed class DataHelper
     /// 验证无代码字典对象。
     /// </summary>
     /// <param name="context">系统上下文。</param>
-    /// <param name="tableName">数据表名。</param>
+    /// <param name="entity">数据实体信息。</param>
     /// <param name="model">字典对象。</param>
     /// <returns>验证结果。</returns>
-    public static Result Validate(Context context, string tableName, Dictionary<string, object> model)
+    public static Result Validate(Context context, EntityInfo entity, Dictionary<string, object> model)
     {
-        var entity = Models.FirstOrDefault(m => m.Id == tableName);
         if (entity == null)
-            return Result.Error(context.Language.Required(tableName));
+            return Result.Error(context.Language.Required("EntityInfo"));
 
         var dicError = new Dictionary<string, List<string>>();
         foreach (var field in entity.Fields)
