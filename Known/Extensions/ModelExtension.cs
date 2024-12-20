@@ -31,7 +31,17 @@ public static class ModelExtension
         if (modules == null || modules.Count == 0)
             return [];
 
-        return modules.Where(m => m.Enabled).Select(m => new MenuInfo(m, isAdmin)).ToList();
+        return modules.Where(m => m.Enabled).Select(m =>
+        {
+            var info = new MenuInfo(m, isAdmin);
+            if (!string.IsNullOrWhiteSpace(m.Url))
+            {
+                var route = Config.RouteTypes?.FirstOrDefault(r => r.Key?.StartsWith(m.Url) == true);
+                if (route != null)
+                    info.PageType = route.Value.Value;
+            }
+            return info;
+        }).ToList();
     }
     #endregion
 

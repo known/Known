@@ -60,6 +60,7 @@ public class MenuInfo
         Tools = model.Tools;
         Actions = model.Actions;
         Columns = model.Columns;
+        PageType = model.PageType;
     }
 
     /// <summary>
@@ -206,6 +207,7 @@ public class MenuInfo
         }
     }
 
+    internal Type PageType { get; set; }
     internal bool HasTool(string id) => Tools != null && Tools.Contains(id);
     internal bool HasAction(string id) => Actions != null && Actions.Contains(id);
     internal bool HasColumn(string id) => Columns != null && Columns.Exists(c => c.Id == id);
@@ -213,9 +215,9 @@ public class MenuInfo
     internal bool HasUrl(string url, RouteData route, string page)
     {
         if (Target == Constants.Route)
-            return Url == url || Id == route.PageType.FullName;
+            return Url == url || Id == route.PageType.FullName || PageType == route.PageType;
 
-        return Url == url || Url == $"/{page}" || Id == page;
+        return Url == url || Url == $"/{page}" || Id == page || PageType == route.PageType;
     }
 }
 

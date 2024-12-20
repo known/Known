@@ -84,11 +84,14 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     {
         if (isPage)
         {
-            var menu = Context?.Current;
-            Name = Language.GetString(menu);
             Clear();
-            SetPage(menu?.Model, menu?.Page, menu?.Form);
-            SetPermission();
+            var menu = Context?.Current;
+            if (menu != null)
+            {
+                Name = Language.GetString(menu);
+                SetPage(menu.Model, menu.Page, menu.Form);
+                SetPermission(menu);
+            }
         }
 
         SetQueryColumns();
@@ -153,20 +156,14 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             return column;
         }).ToList();
         Columns.Clear();
-        Columns.AddRange(AllColumns);
+        if (AllColumns != null && AllColumns.Count > 0)
+            Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
     }
 
-    private void SetPermission()
+    private void SetPermission(MenuInfo menu)
     {
-        if (Context == null)
-            return;
-
-        var menu = Context.Current;
-        if (menu == null)
-            return;
-
         Toolbar.Items = Toolbar.Items?.Where(t => menu.HasTool(t.Id)).ToList() ?? [];
         Actions = Actions?.Where(a => menu.HasAction(a.Id)).ToList() ?? [];
 
