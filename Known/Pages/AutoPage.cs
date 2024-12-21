@@ -54,14 +54,17 @@ public class AutoPage : BaseComponent
             return;
         }
 
+        if (UIConfig.PageBody != null)
+        {
+            UIConfig.PageBody.Invoke(builder, Context.Current);
+            return;
+        }
+
         if (type == ModuleType.Page)
         {
             builder.Component<AutoTablePage>()
                    .Set(c => c.PageId, PageId)
                    .Build(value => page = value);
         }
-
-        if (UIConfig.IsEditMode)
-            builder.Component<EditPage>().Build();
     }
 }

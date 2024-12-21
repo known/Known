@@ -42,6 +42,7 @@ public static class AdminExtension
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         UIConfig.AdminBody = (b, d) => b.Component<KAuthPanel>().Set(c => c.ChildContent, d).Build();
         UIConfig.ImportForm = BuildImportForm;
+        UIConfig.TopNavType = typeof(KTopNavbar);
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs["MyProfile"] = typeof(UserEditForm);
         UIConfig.UserTabs["SecuritySetting"] = typeof(PasswordEditForm);

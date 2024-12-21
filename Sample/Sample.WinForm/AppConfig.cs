@@ -1,4 +1,6 @@
-﻿namespace Sample.WinForm;
+﻿using Microsoft.AspNetCore.Components.Rendering;
+
+namespace Sample.WinForm;
 
 public static class AppConfig
 {
@@ -18,7 +20,6 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.Assembly = assembly;
-            info.IsLanguage = false;
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             //info.JsPath = "./script.js";
         });

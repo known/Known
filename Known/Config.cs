@@ -108,14 +108,18 @@ public sealed class Config
     public static List<ActionInfo> Actions { get; } = [];
 
     /// <summary>
-    /// 取得自定义扩展字段组件字典。
+    /// 取得自定义扩展字段组件类型字典。
     /// </summary>
     public static Dictionary<string, Type> FieldTypes { get; } = [];
 
-    // 取得路由页面类型，用于控制权限。
+    /// <summary>
+    /// 取得顶部导航组件类型字典。
+    /// </summary>
+    public static Dictionary<string, Type> NavItemTypes { get; } = [];
+
+    // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
-    internal static Dictionary<string, Type> NavItemTypes { get; } = [];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。

@@ -38,6 +38,16 @@ public class UIConfig
     public static Dictionary<string, ErrorConfigInfo> Errors { get; } = [];
 
     /// <summary>
+    /// 取得或设置顶部导航组件类型。
+    /// </summary>
+    public static Type TopNavType { get; set; }
+
+    /// <summary>
+    /// 取得或设置编辑菜单组件类型。
+    /// </summary>
+    public static Type EditMenuType { get; set; }
+
+    /// <summary>
     /// 取得或设置用户中心用户信息组件类型。
     /// </summary>
     public static Type UserProfileType { get; set; }
@@ -56,6 +66,11 @@ public class UIConfig
     /// 取得或设置管理模板内容委托。
     /// </summary>
     public static Action<RenderTreeBuilder, RenderFragment> AdminBody { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面内容委托。
+    /// </summary>
+    public static Action<RenderTreeBuilder, MenuInfo> PageBody { get; set; }
 
     /// <summary>
     /// 取得或设置自定义自动表格页面委托。
