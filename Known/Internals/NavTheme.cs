@@ -5,7 +5,7 @@ namespace Known.Internals;
 /// <summary>
 /// 自定义Ant主题组件类。
 /// </summary>
-[NavItem]
+[Plugin(PluginType.Navbar, "主题", Category = "组件")]
 public class NavTheme : BaseComponent
 {
     /// <summary>

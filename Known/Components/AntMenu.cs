@@ -45,11 +45,11 @@ public class AntMenu : Menu
         else
             BuildMenu(builder, Items);
 
-        if (UIConfig.IsEditMode && UIConfig.EditMenuType != null)
+        if (UIConfig.IsEditMode)
         {
             builder.Li().Class("kui-edit").Child(() => builder.Cascading(this, b =>
             {
-                b.DynamicComponent(UIConfig.EditMenuType);
+                b.Component<PluginAction>().Set(c => c.Type, PluginType.Menu).Build();
             }));
         }
     }

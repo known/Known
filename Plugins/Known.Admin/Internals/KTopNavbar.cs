@@ -17,10 +17,9 @@ class KTopNavbar : BaseComponent
     {
         foreach (var item in types)
         {
-            if (!Config.NavItemTypes.TryGetValue(item, out var type))
-                continue;
-
-            builder.Li(() => builder.Component(type));
+            var type = GetNavItemType(item);
+            if (type != null)
+                builder.Li(() => builder.Component(type));
         }
 
         if (CurrentUser?.IsSystemAdmin() == true)
@@ -115,19 +114,21 @@ class KTopNavbar : BaseComponent
 
     private List<CodeInfo> GetNavItems()
     {
+        var navPulgins = Config.Plugins.Where(p => p.Type == PluginType.Navbar).ToList();
         var items = new List<CodeInfo>();
-        foreach (var item in Config.NavItemTypes.Keys)
+        foreach (var item in navPulgins)
         {
-            if (types.Contains(item))
+            var name = item.Component.Name;
+            if (types.Contains(name))
                 continue;
-            if (item == "NavFontSize" && !Config.App.IsSize)
+            if (name == "NavFontSize" && !Config.App.IsSize)
                 continue;
-            if (item == nameof(NavLanguage) && !Config.App.IsLanguage)
+            if (name == nameof(NavLanguage) && !Config.App.IsLanguage)
                 continue;
-            if (item == nameof(NavTheme) && !Config.App.IsTheme)
+            if (name == nameof(NavTheme) && !Config.App.IsTheme)
                 continue;
 
-            items.Add(new CodeInfo(item, item));
+            items.Add(new CodeInfo(name, name));
         }
         return items;
     }
@@ -148,6 +149,12 @@ class KTopNavbar : BaseComponent
                 items.Add(nameof(NavTheme));
         }
         return items;
+    }
+
+    private static Type GetNavItemType(string item)
+    {
+        var plugin = Config.Plugins.FirstOrDefault(p => p.Type == PluginType.Navbar && p.Component.Name == item);
+        return plugin?.Component;
     }
 
     private Task SaveConfigAsync()

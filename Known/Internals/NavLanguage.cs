@@ -3,7 +3,7 @@
 /// <summary>
 /// 多语言下拉框组件类。
 /// </summary>
-[NavItem]
+[Plugin(PluginType.Navbar, "多语言", Category = "组件", Icon = "translation")]
 public class NavLanguage : BaseNav
 {
     private ActionInfo current;

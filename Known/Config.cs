@@ -113,9 +113,9 @@ public sealed class Config
     public static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
-    /// 取得顶部导航组件类型字典。
+    /// 取得框架插件列表。
     /// </summary>
-    public static Dictionary<string, Type> NavItemTypes { get; } = [];
+    public static List<PluginAttribute> Plugins { get; } = [];
 
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
@@ -283,9 +283,13 @@ public sealed class Config
                 }
             }
 
-            var navItem = item.GetCustomAttribute<NavItemAttribute>();
-            if (navItem != null)
-                NavItemTypes[item.Name] = item;
+            var plugin = item.GetCustomAttribute<PluginAttribute>();
+            if (plugin != null)
+            {
+                plugin.Id = item.FullName;
+                plugin.Component = item;
+                Plugins.Add(plugin);
+            }
 
             var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
             if (codeInfo != null)

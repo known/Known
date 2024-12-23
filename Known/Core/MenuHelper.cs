@@ -52,32 +52,6 @@ public sealed class MenuHelper
         return userModules.ToMenus(false);
     }
 
-    internal static Task<Result> SaveMenuAsync(MenuInfo info)
-    {
-        var module = AppData.Modules.FirstOrDefault(m => m.Id == info.Id);
-        if (module == null)
-        {
-            module = new ModuleInfo();
-            AppData.Modules.Add(module);
-        }
-        module.Id = info.Id;
-        module.ParentId = info.ParentId;
-        module.Code = info.Code;
-        module.Name = info.Name;
-        module.Icon = info.Icon;
-        module.Description = info.Description;
-        module.Target = info.Target;
-        module.Url = info.Url;
-        module.Sort = info.Sort;
-        module.Enabled = info.Enabled;
-        //module.EntityData = info.EntityData;
-        //module.FlowData = info.FlowData;
-        module.Page = info.Page;
-        module.Form = info.Form;
-        AppData.Save();
-        return Result.SuccessAsync("保存成功！", info);
-    }
-
     private static void AddParentModule(List<ModuleInfo> modules, List<ModuleInfo> userModules, ModuleInfo item)
     {
         if (!userModules.Exists(m => m.Id == item.ParentId))

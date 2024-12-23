@@ -1,6 +1,33 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 框架配置数据信息类。
+/// </summary>
+public partial class AppDataInfo
+{
+    /// <summary>
+    /// 取得或设置顶部导航信息列表。
+    /// </summary>
+    public List<TopNavInfo> TopNavs { get; set; }
+
+    /// <summary>
+    /// 取得或设置模块信息列表。
+    /// </summary>
+    public List<ModuleInfo> Modules { get; set; }
+}
+
+/// <summary>
+/// 顶部导航信息类。
+/// </summary>
+public class TopNavInfo
+{
+    /// <summary>
+    /// 取得或设置自定义导航项类型。
+    /// </summary>
+    public string NavItemType { get; set; }
+}
+
+/// <summary>
 /// 系统配置数据交互信息类。
 /// </summary>
 public class ConfigInfo

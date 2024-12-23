@@ -11,15 +11,17 @@ public sealed class AppData
 
     private AppData() { }
 
+    internal static AppDataInfo Data { get; set; } = new();
+
     /// <summary>
     /// 取得或设置是否启用配置文件存储，默认启用。
     /// </summary>
     public static bool Enabled { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置系统配置的模块列表。
+    /// 取得系统配置的模块列表。
     /// </summary>
-    public static List<ModuleInfo> Modules { get; set; } = [];
+    public static List<ModuleInfo> Modules => Data?.Modules;
 
     /// <summary>
     /// 取得或设置解析配置数据委托。
@@ -29,7 +31,7 @@ public sealed class AppData
     /// <summary>
     /// 取得或设置格式化配置数据委托。
     /// </summary>
-    public static Func<List<ModuleInfo>, byte[]> OnFormatData { get; set; }
+    public static Func<AppDataInfo, byte[]> OnFormatData { get; set; }
 
     /// <summary>
     /// 初始化模块数据库。
@@ -37,7 +39,8 @@ public sealed class AppData
     /// <param name="modules">系统模块列表。</param>
     public static void Initialize(List<ModuleInfo> modules)
     {
-        Modules = modules;
+        Data ??= new AppDataInfo();
+        Data.Modules = modules;
         Save();
     }
 
@@ -48,7 +51,41 @@ public sealed class AppData
     /// <returns>模块信息。</returns>
     public static ModuleInfo GetModule(string id)
     {
-        return Modules.FirstOrDefault(m => m.Id == id);
+        return Modules?.FirstOrDefault(m => m.Id == id);
+    }
+
+    internal static Task<Result> SaveTopNavsAsync(List<TopNavInfo> infos)
+    {
+        Data ??= new AppDataInfo();
+        Data.TopNavs = infos;
+        Save();
+        return Result.SuccessAsync("保存成功！");
+    }
+
+    internal static Task<Result> SaveMenuAsync(MenuInfo info)
+    {
+        var module = GetModule(info.Id);
+        if (module == null)
+        {
+            module = new ModuleInfo();
+            Modules.Add(module);
+        }
+        module.Id = info.Id;
+        module.ParentId = info.ParentId;
+        module.Code = info.Code;
+        module.Name = info.Name;
+        module.Icon = info.Icon;
+        module.Description = info.Description;
+        module.Target = info.Target;
+        module.Url = info.Url;
+        module.Sort = info.Sort;
+        module.Enabled = info.Enabled;
+        //module.EntityData = info.EntityData;
+        //module.FlowData = info.FlowData;
+        module.Page = info.Page;
+        module.Form = info.Form;
+        Save();
+        return Result.SuccessAsync("保存成功！", info);
     }
 
     internal static void Load()
@@ -72,7 +109,7 @@ public sealed class AppData
             return;
 
         var bytes = OnFormatData != null
-                  ? OnFormatData(Modules)
+                  ? OnFormatData(Data)
                   : FormatData();
         File.WriteAllBytes(KmdPath, bytes);
     }
@@ -85,13 +122,13 @@ public sealed class AppData
         {
             gzip.CopyTo(reader);
             var json = Encoding.UTF8.GetString(reader.ToArray());
-            Modules = Utils.FromJson<List<ModuleInfo>>(json);
+            Data = Utils.FromJson<AppDataInfo>(json);
         }
     }
 
     private static byte[] FormatData()
     {
-        var json = Utils.ToJson(Modules);
+        var json = Utils.ToJson(Data);
         var bytes = Encoding.UTF8.GetBytes(json);
         using (var stream = new MemoryStream())
         using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))

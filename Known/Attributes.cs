@@ -7,12 +7,6 @@
 public class CodeInfoAttribute : Attribute { }
 
 /// <summary>
-/// 导航条项目特性类，用于标识组件是否是全局导航条项目。
-/// </summary>
-[AttributeUsage(AttributeTargets.Class)]
-public class NavItemAttribute : Attribute { }
-
-/// <summary>
 /// 动作特性类，用于标识方法是否需要角色权限控制。
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]

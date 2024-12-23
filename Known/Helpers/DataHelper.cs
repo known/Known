@@ -29,7 +29,7 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        AppData.Modules = modules;
+        AppData.Data.Modules = modules;
         Models.Clear();
         var models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
         foreach (var item in models)
