@@ -1,4 +1,6 @@
-﻿namespace Known.Extensions;
+﻿using AntDesign;
+
+namespace Known.Extensions;
 
 /// <summary>
 /// 小碎片组件扩展类。
@@ -16,6 +18,20 @@ public static class FragmentExtension
         builder.Component<KAlert>()
                .Set(c => c.Text, text)
                .Set(c => c.Type, type)
+               .Build();
+    }
+
+    /// <summary>
+    /// 呈现一个文字提示。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="title">提示文字。</param>
+    /// <param name="childContent">子组件。</param>
+    public static void Tooltip(this RenderTreeBuilder builder, string title, RenderFragment childContent)
+    {
+        builder.Component<Tooltip>()
+               .Set(c => c.Title, title)
+               .Set(c => c.ChildContent, childContent)
                .Build();
     }
 
@@ -53,10 +69,19 @@ public static class FragmentExtension
     /// <summary>
     /// 呈现一个图标和名称组件。
     /// </summary>
-    /// <param name="builder"></param>
-    /// <param name="icon"></param>
-    /// <param name="name"></param>
-    public static void IconName(this RenderTreeBuilder builder, string icon, string name)
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="onClick">图标单击事件。</param>
+    public static void IconName(this RenderTreeBuilder builder, string icon, string name, EventCallback<MouseEventArgs>? onClick = null)
+    {
+        if (onClick != null)
+            builder.Span().OnClick(onClick).Child(() => BuildIconName(builder, icon, name));
+        else
+            BuildIconName(builder, icon, name);
+    }
+
+    private static void BuildIconName(RenderTreeBuilder builder, string icon, string name)
     {
         if (!string.IsNullOrWhiteSpace(icon))
         {

@@ -9,7 +9,7 @@
         if (count > showCount)
             count = _expand ? count : showCount;
         var offset = _expand ? (3 - count % 4) * 6 : 0;
-        <div class="ant-query-more">
+        <div class="kui-query-more">
             <QueryDataForm @ref="form" Model="Model.QueryData">
                 <AntRow>
                     @for (var i = 0; i < count; i++)

@@ -43,6 +43,11 @@ public class UIConfig
     public static Type TopNavType { get; set; }
 
     /// <summary>
+    /// 取得或设置编辑顶部导航组件类型。
+    /// </summary>
+    public static Type EditNavType { get; set; }
+
+    /// <summary>
     /// 取得或设置编辑菜单组件类型。
     /// </summary>
     public static Type EditMenuType { get; set; }

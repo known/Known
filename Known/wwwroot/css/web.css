@@ -51,7 +51,7 @@
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
 .kui-card {height:100%;}
-.kui-edit .anticon {color:#f18c63;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
+.kui-edit > span {display:block;color:#f18c63;padding:0 2px;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
@@ -247,6 +247,8 @@
     overflow-y:auto;overflow-x:hidden;scrollbar-width:none;
 }
 .kui-scroll .ant-menu {width:200px;}
+.kui-scroll .ant-menu > .kui-edit {margin:10px;}
+.kui-scroll .ant-menu > .kui-edit > span {padding:5px;}
 .kui-footer {text-align:center;padding:10px;}
 
 /*Style*/
@@ -260,7 +262,7 @@
 .kui-query .ant-form-item-label {width:100px;text-align:left;}
 .kui-query .ant-form-item-control {margin-right:10px;}
 .kui-query .ant-picker-range input {width:98px;}
-.ant-query-more .ant-picker-range input {width:100%;}
+.kui-query-more .ant-picker-range input {width:100%;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}
 .kui-system .ant-form-item-label {width:150px;}

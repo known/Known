@@ -20,6 +20,9 @@ public class TopNavbar : BaseComponent
         {
             builder.Cascading(this, b =>
             {
+                if (UIConfig.IsEditMode && UIConfig.EditNavType != null)
+                    b.Li().Child(() => b.DynamicComponent(UIConfig.EditNavType));
+
                 if (UIConfig.TopNavType != null)
                     b.DynamicComponent(UIConfig.TopNavType);
                 else
