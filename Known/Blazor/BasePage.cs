@@ -8,7 +8,7 @@ public class BasePage : BaseComponent
     /// <summary>
     /// 取得页面模块名称。
     /// </summary>
-    public string PageName => Language.GetString(Context.Current);
+    public string PageName => Language?.GetString(Context.Current);
 
     /// <summary>
     /// 异步初始化页面组件。

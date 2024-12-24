@@ -35,11 +35,7 @@ public class UserProfile : BasePage<UserInfo>, IReuseTabsPage
     /// <returns>标签页标题模板。</returns>
     public RenderFragment GetPageTitle()
     {
-        return this.BuildTree(b =>
-        {
-            b.Icon("user");
-            b.Span(Language["Nav.Profile"]);
-        });
+        return this.BuildTree(b => b.IconName("user", Language["Nav.Profile"]));
     }
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.DynamicComponent(UIConfig.UserProfileType);

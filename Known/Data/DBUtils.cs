@@ -134,9 +134,9 @@ public sealed class DbUtils
                 property.SetValue(obj, value);
             }
         }
-        if (obj is EntityBase)
+        if (obj is BaseEntity)
         {
-            (obj as EntityBase).SetOriginal(dic);
+            (obj as BaseEntity).SetOriginal(dic);
         }
         return obj;
     }

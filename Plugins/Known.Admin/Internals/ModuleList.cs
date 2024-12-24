@@ -1,4 +1,6 @@
-﻿namespace Known.Internals;
+﻿using AntDesign;
+
+namespace Known.Internals;
 
 /// <summary>
 /// 系统模块管理页面组件类。
@@ -6,7 +8,7 @@
 [StreamRendering]
 [Route("/dev/modules")]
 [Plugin(PluginType.Dev, "模块管理", Icon = "appstore-add")]
-public class ModuleList : BasePage<SysModule>
+public class ModuleList : BasePage<SysModule>, IReuseTabsPage
 {
     private IModuleService Service;
     private List<SysModule> modules;
@@ -14,6 +16,15 @@ public class ModuleList : BasePage<SysModule>
     private int total;
     private TreeModel tree;
     private TableModel<SysModule> table;
+
+    /// <summary>
+    /// 获取标签页标题模板。
+    /// </summary>
+    /// <returns>标签页标题模板。</returns>
+    public RenderFragment GetPageTitle()
+    {
+        return this.BuildTree(b => b.IconName("appstore-add", "模块管理"));
+    }
 
     /// <summary>
     /// 异步初始化页面。

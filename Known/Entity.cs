@@ -1,22 +1,46 @@
 ﻿namespace Known;
 
 /// <summary>
-/// 数据实体基类，主键ID为泛型。
+/// 数据实体基类。
 /// </summary>
-/// <typeparam name="TKey">主键ID类型。</typeparam>
-public class EntityBase<TKey>
+public class BaseEntity
 {
     private Dictionary<string, object> original;
-    
-    /// <summary>
-    /// 取得或设置实体ID。
-    /// </summary>
-    public TKey Id { get; set; }
 
     /// <summary>
     /// 取得或设置是否是新增实体。
     /// </summary>
     public virtual bool IsNew { get; set; }
+
+    internal void SetOriginal(Dictionary<string, object> original)
+    {
+        IsNew = false;
+        this.original = original;
+    }
+
+    internal bool IsChanged(string propertyName, object value)
+    {
+        if (original == null || !original.ContainsKey(propertyName))
+            return true;
+
+        var orgValue = original[propertyName];
+        if (orgValue == null)
+            return true;
+
+        return !orgValue.Equals(value);
+    }
+}
+
+/// <summary>
+/// 数据实体基类，主键ID为泛型。
+/// </summary>
+/// <typeparam name="TKey">主键ID类型。</typeparam>
+public class EntityBase<TKey> : BaseEntity
+{
+    /// <summary>
+    /// 取得或设置实体ID。
+    /// </summary>
+    public TKey Id { get; set; }
 
     /// <summary>
     /// 实体类对象的数据合法性校验。
@@ -49,24 +73,6 @@ public class EntityBase<TKey>
         }
 
         return Result.Success("");
-    }
-
-    internal void SetOriginal(Dictionary<string, object> original)
-    {
-        IsNew = false;
-        this.original = original;
-    }
-
-    internal bool IsChanged(string propertyName, object value)
-    {
-        if (original == null || !original.ContainsKey(propertyName))
-            return true;
-
-        var orgValue = original[propertyName];
-        if (orgValue == null)
-            return true;
-
-        return !orgValue.Equals(value);
     }
 }
 
