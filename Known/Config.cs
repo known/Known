@@ -288,6 +288,7 @@ public sealed class Config
             {
                 plugin.Id = item.FullName;
                 plugin.Component = item;
+                plugin.Url = routes?.FirstOrDefault()?.Template;
                 Plugins.Add(plugin);
             }
 

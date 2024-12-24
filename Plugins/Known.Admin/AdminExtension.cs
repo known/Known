@@ -46,8 +46,6 @@ public static class AdminExtension
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs["MyProfile"] = typeof(UserEditForm);
         UIConfig.UserTabs["SecuritySetting"] = typeof(PasswordEditForm);
-        UIConfig.DevelopTabs["Menu.SysModuleList"] = typeof(ModuleList);
-        UIConfig.DevelopTabs["WebApi"] = typeof(WebApiList);
         UIConfig.EnableEdit = false;
 
         // 添加样式

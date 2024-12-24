@@ -53,11 +53,6 @@ public class UIConfig
     public static Dictionary<string, Type> UserTabs { get; } = [];
 
     /// <summary>
-    /// 取得开发中心页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, Type> DevelopTabs { get; } = [];
-
-    /// <summary>
     /// 取得或设置管理模板内容委托。
     /// </summary>
     public static Action<RenderTreeBuilder, RenderFragment> AdminBody { get; set; }

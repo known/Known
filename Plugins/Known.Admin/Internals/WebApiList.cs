@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.Encodings.Web;
+﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Web;
 
@@ -8,7 +7,10 @@ namespace Known.Internals;
 /// <summary>
 /// WebApi文档组件类。
 /// </summary>
-class WebApiList : BaseTable<ApiMethodInfo>
+[StreamRendering]
+[Route("/dev/webapi")]
+[Plugin(PluginType.Dev, "WebApi", Icon = "pull-request")]
+public class WebApiList : BaseTable<ApiMethodInfo>
 {
     /// <summary>
     /// 异步初始化组件。
@@ -16,6 +18,12 @@ class WebApiList : BaseTable<ApiMethodInfo>
     /// <returns></returns>
     protected override async Task OnInitAsync()
     {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
         await base.OnInitAsync();
         Table.ShowPager = true;
         Table.OnQuery = OnQueryApisAsync;

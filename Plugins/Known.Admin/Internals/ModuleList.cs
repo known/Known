@@ -3,7 +3,10 @@
 /// <summary>
 /// 系统模块管理页面组件类。
 /// </summary>
-class ModuleList : BasePage<SysModule>
+[StreamRendering]
+[Route("/dev/modules")]
+[Plugin(PluginType.Dev, "模块管理", Icon = "appstore-add")]
+public class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
     private List<SysModule> modules;
@@ -18,6 +21,12 @@ class ModuleList : BasePage<SysModule>
     /// <returns></returns>
     protected override async Task OnInitPageAsync()
     {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IModuleService>();
 

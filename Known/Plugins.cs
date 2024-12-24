@@ -6,6 +6,10 @@
 public enum PluginType
 {
     /// <summary>
+    /// 开发。
+    /// </summary>
+    Dev,
+    /// <summary>
     /// 导航。
     /// </summary>
     Navbar,
@@ -56,4 +60,9 @@ public class PluginAttribute(PluginType type, string name) : Attribute
     /// 取得插件组件类型。
     /// </summary>
     public Type Component { get; internal set; }
+
+    /// <summary>
+    /// 取得插件组件URL。
+    /// </summary>
+    public string Url { get; internal set; }
 }

@@ -59,6 +59,20 @@ public static class WebExtension
         UIConfig.SetMenu(item);
         navigation.NavigateTo(item.RouteUrl);
     }
+
+    /// <summary>
+    /// 导航到指定动作对应的页面。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    /// <param name="item">跳转的动作对象。</param>
+    public static void NavigateTo(this NavigationManager navigation, ActionInfo item)
+    {
+        if (item == null)
+            return;
+
+        var menu = new MenuInfo { Id = item.Id, Name = item.Name, Icon = item.Icon, Url = item.Url };
+        navigation.NavigateTo(menu);
+    }
     #endregion
 
     #region File

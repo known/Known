@@ -55,36 +55,7 @@ class PluginAction : BaseComponent
     private List<ActionInfo> GetActionItems()
     {
         var plugins = Config.Plugins.Where(p => p.Type == Type && !Values.Contains(p.Id)).ToList();
-        var infos = new List<ActionInfo>();
-        var categories = plugins.Select(p => p.Category).Distinct();
-        foreach (var category in categories)
-        {
-            var items = plugins.Where(p => p.Category == category);
-            var info = new ActionInfo
-            {
-                Id = category,
-                Icon = "folder",
-                Name = category
-            };
-            info.Children.AddRange(items.Select(GetAction));
-            infos.Add(info);
-        }
-        var others = plugins.Where(p => string.IsNullOrWhiteSpace(p.Category));
-        foreach (var item in others)
-        {
-            infos.Add(GetAction(item));
-        }
-        return infos;
-    }
-
-    private static ActionInfo GetAction(PluginAttribute item)
-    {
-        return new ActionInfo
-        {
-            Id = item.Id,
-            Name = item.Name,
-            Icon = item.Icon ?? "file"
-        };
+        return plugins.ToActions();
     }
 
     private async Task OnNavbarClickAsync(ActionInfo info)
