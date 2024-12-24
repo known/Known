@@ -81,6 +81,11 @@ public static class TypeExtension
 
         return FieldType.Text;
     }
+
+    internal static string GetFieldName(this MemberInfo info)
+    {
+        return info?.GetCustomAttribute<ColumnAttribute>()?.Field ?? info?.Name;
+    }
     #endregion
 
     #region Method

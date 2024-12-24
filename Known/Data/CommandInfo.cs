@@ -62,7 +62,7 @@ public class CommandInfo
         }
     }
 
-    internal void SetParameters<T>(T data) => Params = DbUtils.ToDictionary(data);
+    internal void SetParameters<T>(T data) => Params = DbUtils.ToDictionary(data, true);
 
     /// <summary>
     /// 获取数据库访问命令对象的显示字符串，显示Text和Params内容。

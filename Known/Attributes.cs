@@ -16,8 +16,27 @@ public class ActionAttribute : Attribute { }
 /// 表格栏位特性类，用于编码方式设置实体类属性作为动态表格字段。
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-public class ColumnAttribute() : Attribute
+public class ColumnAttribute : Attribute
 {
+    /// <summary>
+    /// 构造函数，初始化一个栏位特性类的新实例。
+    /// </summary>
+    public ColumnAttribute() { }
+
+    /// <summary>
+    /// 构造函数，初始化一个栏位特性类类的新实例。
+    /// </summary>
+    /// <param name="field">数据库表字段名称。</param>
+    public ColumnAttribute(string field)
+    {
+        Field = field;
+    }
+
+    /// <summary>
+    /// 取得数据库表字段名称。
+    /// </summary>
+    public string Field { get; set; }
+
     /// <summary>
     /// 取得或设置栏位是否是汇总字段。
     /// </summary>

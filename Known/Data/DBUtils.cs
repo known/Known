@@ -47,6 +47,11 @@ public sealed class DbUtils
     /// <returns>字典对象。</returns>
     public static Dictionary<string, object> ToDictionary<T>(T value)
     {
+        return ToDictionary(value, false);
+    }
+
+    internal static Dictionary<string, object> ToDictionary<T>(T value, bool isField)
+    {
         if (value is Dictionary<string, object> dictionary)
             return dictionary;
 
@@ -59,7 +64,8 @@ public sealed class DbUtils
         {
             if (item.CanRead && !item.GetMethod.IsVirtual)
             {
-                dic[item.Name] = value == null ? null : item.GetValue(value, null);
+                var field = item.GetFieldName();
+                dic[field] = value == null ? null : item.GetValue(value, null);
             }
         }
         return dic;
@@ -78,7 +84,8 @@ public sealed class DbUtils
         {
             if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
             {
-                dic[item.Name] = null;
+                var field = item.GetFieldName();
+                dic[field] = null;
             }
         }
         return dic;

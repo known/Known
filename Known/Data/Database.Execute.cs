@@ -82,7 +82,7 @@ public partial class Database
     }
 
     /// <summary>
-    /// 异步保存多条数据。
+    /// 异步插入多条数据。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="entities">对象列表。</param>
@@ -187,7 +187,7 @@ public partial class Database
     {
         var info = entity.IsNew 
                  ? Provider.GetInsertCommand(entity)
-                 : Provider.GetUpdateCommand(entity);
+                 : Provider.GetUpdateCommand<T, string>(entity);
         info.IsSave = true;
         return ExecuteNonQueryAsync(info);
     }

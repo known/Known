@@ -131,7 +131,7 @@ class ExpressionHelper(DbProvider provider)
 
     private string RouteExpression<T>(MemberExpression me)
     {
-        var name = me.Member.Name;
+        var name = me.Member.GetFieldName();
         //var type = me.Member.DeclaringType;
         //if (type == typeof(EntityBase))
         //    type = typeof(T);
