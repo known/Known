@@ -9,7 +9,7 @@ public class TopNavbar : BaseComponent
     private TopNavInfo dragging;
     private NavPluginAction action;
 
-    private List<string> Values => items.Select(i => i.NavItemType).ToList();
+    private List<string> Values => items.Select(i => i.PluginId).ToList();
 
     /// <summary>
     /// 取得或设置按钮点击事件委托。
@@ -47,8 +47,8 @@ public class TopNavbar : BaseComponent
                          .Build(value => action = value);
                     });
                     b.Li().Class("kui-delete").Draggable()
-                       .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, null)))
-                       .Child(() => b.Icon("delete"));
+                     .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, null)))
+                     .Child(() => b.Icon("delete"));
                 }
 
                 if (UIConfig.TopNavType != null)
@@ -91,11 +91,17 @@ public class TopNavbar : BaseComponent
         }
     }
 
-    private static void BuildNavItem(RenderTreeBuilder builder, TopNavInfo item)
+    private void BuildNavItem(RenderTreeBuilder builder, TopNavInfo item)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.NavItemType);
-        if (plugin?.Component != null)
-            builder.DynamicComponent(plugin.Component);
+        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.PluginId);
+        if (plugin == null)
+            return;
+
+        plugin.Parameters = item.Parameters;
+        if (plugin.IsNavComponent)
+            builder.DynamicComponent(plugin.Type);
+        else
+            builder.BuildPlugin(this, plugin);
     }
 
     private async Task OnDropAsync(DragEventArgs e, TopNavInfo item)
@@ -129,11 +135,12 @@ public class TopNavbar : BaseComponent
         dragging = item;
     }
 
-    private async Task OnNavbarAddedAsync(ActionInfo info)
+    private async Task<Result> OnNavbarAddedAsync(TopNavInfo info)
     {
-        items.Add(new TopNavInfo { NavItemType = info.Id });
+        items.Add(info);
         await Platform.SaveTopNavsAsync(items);
         await StateChangedAsync();
         action?.SetValues(Values);
+        return Result.Success(Language.Success(Language.New));
     }
 }

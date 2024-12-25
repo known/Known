@@ -118,7 +118,7 @@ class KTopNavbar : BaseComponent
         var items = new List<CodeInfo>();
         foreach (var item in navPulgins)
         {
-            var name = item.Component.Name;
+            var name = item.Type.Name;
             if (types.Contains(name))
                 continue;
             if (name == "NavFontSize" && !Config.App.IsSize)
@@ -153,8 +153,8 @@ class KTopNavbar : BaseComponent
 
     private static Type GetNavItemType(string item)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.IsNavComponent && p.Component.Name == item);
-        return plugin?.Component;
+        var plugin = Config.Plugins.FirstOrDefault(p => p.IsNavComponent && p.Type.Name == item);
+        return plugin?.Type;
     }
 
     private Task SaveConfigAsync()

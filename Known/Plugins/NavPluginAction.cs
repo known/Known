@@ -5,7 +5,7 @@ class NavPluginAction : BaseComponent
     private List<ActionInfo> items = [];
 
     [Parameter] public List<string> Values { get; set; }
-    [Parameter] public Func<ActionInfo, Task> OnAdded { get; set; }
+    [Parameter] public Func<TopNavInfo, Task<Result>> OnAdded { get; set; }
 
     internal void SetValues(List<string> values)
     {
@@ -49,19 +49,20 @@ class NavPluginAction : BaseComponent
             return;
 
         if (plugin.IsNavComponent)
-            await OnAdded?.Invoke(info);
-        else
-            ShowDialog(plugin);
-    }
-
-    private void ShowDialog(PluginInfo plugin)
-    {
-        var model = new DialogModel
         {
-            Title = $"添加{plugin.Attribute.Name}",
-            Content = b => b.Component(plugin.Component),
-            //OnOk = 
-        };
-        UI.ShowDialog(model);
+            await OnAdded?.Invoke(new TopNavInfo { PluginId = info.Id });
+            return;
+        }
+
+        var instance = Activator.CreateInstance(plugin.Type) as IPlugin;
+        if (instance != null)
+        {
+            instance.Parent = this;
+            instance.Config(data => OnAdded?.Invoke(new TopNavInfo
+            {
+                PluginId = info.Id,
+                Parameters = Utils.ToJson(data)
+            }));
+        }
     }
 }

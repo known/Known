@@ -8,7 +8,7 @@ public class PluginInfo
     internal PluginInfo(Type type, PluginAttribute attribute)
     {
         Id = type.FullName;
-        Component = type;
+        Type = type;
         Attribute = attribute;
     }
 
@@ -20,7 +20,12 @@ public class PluginInfo
     /// <summary>
     /// 取得或设置插件组件类型。
     /// </summary>
-    public Type Component { get; set; }
+    public Type Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件参数JSON。
+    /// </summary>
+    public string Parameters { get; set; }
 
     /// <summary>
     /// 取得或设置插件特性。
@@ -35,7 +40,7 @@ public class PluginInfo
     /// <summary>
     /// 取得是否是导航组件。
     /// </summary>
-    public bool IsNavComponent => Component.IsSubclassOf(typeof(BaseNav));
+    public bool IsNavComponent => Type.IsSubclassOf(typeof(BaseNav));
 
     internal bool IsDev => Attribute is DevPluginAttribute;
     internal bool IsNav => Attribute is NavPluginAttribute;
