@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using Known.Plugins;
+
+namespace Known;
 
 /// <summary>
 /// 框架全局配置类。
@@ -113,9 +115,9 @@ public sealed class Config
     public static Dictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
-    /// 取得框架插件列表。
+    /// 取得框架插件信息列表。
     /// </summary>
-    public static List<PluginAttribute> Plugins { get; } = [];
+    public static List<PluginInfo> Plugins { get; } = [];
 
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
@@ -286,10 +288,9 @@ public sealed class Config
             var plugin = item.GetCustomAttribute<PluginAttribute>();
             if (plugin != null)
             {
-                plugin.Id = item.FullName;
-                plugin.Component = item;
-                plugin.Url = routes?.FirstOrDefault()?.Template;
-                Plugins.Add(plugin);
+                var info = new PluginInfo(item, plugin);
+                info.Url = routes?.FirstOrDefault()?.Template;
+                Plugins.Add(info);
             }
 
             var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();

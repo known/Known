@@ -2,16 +2,16 @@
 
 static class PluginExtension
 {
-    internal static List<ActionInfo> ToActions(this List<PluginAttribute> plugins)
+    internal static List<ActionInfo> ToActions(this List<PluginInfo> plugins)
     {
         var infos = new List<ActionInfo>();
-        var categories = plugins.Where(p => !string.IsNullOrWhiteSpace(p.Category))
-                                .Select(p => p.Category).Distinct().ToList();
+        var categories = plugins.Where(p => !string.IsNullOrWhiteSpace(p.Attribute.Category))
+                                .Select(p => p.Attribute.Category).Distinct().ToList();
         if (categories.Count > 0)
         {
             foreach (var category in categories)
             {
-                var items = plugins.Where(p => p.Category == category);
+                var items = plugins.Where(p => p.Attribute.Category == category);
                 var info = new ActionInfo
                 {
                     Id = category,
@@ -22,7 +22,7 @@ static class PluginExtension
                 infos.Add(info);
             }
         }
-        var others = plugins.Where(p => string.IsNullOrWhiteSpace(p.Category));
+        var others = plugins.Where(p => string.IsNullOrWhiteSpace(p.Attribute.Category));
         foreach (var item in others)
         {
             infos.Add(GetAction(item));
@@ -30,13 +30,13 @@ static class PluginExtension
         return infos;
     }
 
-    private static ActionInfo GetAction(PluginAttribute item)
+    private static ActionInfo GetAction(PluginInfo item)
     {
         return new ActionInfo
         {
             Id = item.Id,
-            Name = item.Name,
-            Icon = item.Icon ?? "file",
+            Name = item.Attribute.Name,
+            Icon = item.Attribute.Icon ?? "file",
             Url = item.Url
         };
     }

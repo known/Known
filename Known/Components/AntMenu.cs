@@ -49,7 +49,7 @@ public class AntMenu : Menu
         {
             builder.Li().Class("kui-edit").Child(() => builder.Cascading(this, b =>
             {
-                b.Component<PluginAction>().Set(c => c.Type, PluginType.Menu).Build();
+                b.Component<MenuPluginAction>().Build();
             }));
         }
     }

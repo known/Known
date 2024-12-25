@@ -7,7 +7,7 @@ namespace Known.Internals;
 /// </summary>
 [StreamRendering]
 [Route("/dev/modules")]
-[Plugin(PluginType.Dev, "模块管理", Icon = "appstore-add")]
+[DevPlugin("模块管理", "appstore-add")]
 public class ModuleList : BasePage<SysModule>, IReuseTabsPage
 {
     private IModuleService Service;
@@ -114,8 +114,7 @@ public class ModuleList : BasePage<SysModule>, IReuseTabsPage
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
     {
-        builder.Icon(row.Icon);
-        builder.Span(row.Name);
+        builder.IconName(row.Icon, row.Name);
     }
 
     private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)

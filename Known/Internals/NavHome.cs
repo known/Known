@@ -1,6 +1,6 @@
 ﻿namespace Known.Internals;
 
-[Plugin(PluginType.Navbar, "首页", Category = "组件", Icon = "home")]
+[NavPlugin("首页", "home", Category = "组件")]
 class NavHome : BaseNav
 {
     protected override string Title => Language["Nav.HomePage"];

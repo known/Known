@@ -11,6 +11,7 @@ global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Internals;
 global using Known.Pages;
+global using Known.Plugins;
 global using Known.Services;
 global using Known.Weixins;
 global using Known.WorkFlows;

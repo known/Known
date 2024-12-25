@@ -10,7 +10,7 @@ class NavDevelopment : BaseNav
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        var plugins = Config.Plugins.Where(p => p.Type == PluginType.Dev).ToList();
+        var plugins = Config.Plugins.Where(p => p.IsDev).ToList();
         items = plugins.ToActions();
     }
 

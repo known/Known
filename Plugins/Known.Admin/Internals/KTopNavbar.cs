@@ -114,7 +114,7 @@ class KTopNavbar : BaseComponent
 
     private List<CodeInfo> GetNavItems()
     {
-        var navPulgins = Config.Plugins.Where(p => p.Type == PluginType.Navbar).ToList();
+        var navPulgins = Config.Plugins.Where(p => p.IsNavComponent).ToList();
         var items = new List<CodeInfo>();
         foreach (var item in navPulgins)
         {
@@ -153,7 +153,7 @@ class KTopNavbar : BaseComponent
 
     private static Type GetNavItemType(string item)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Type == PluginType.Navbar && p.Component.Name == item);
+        var plugin = Config.Plugins.FirstOrDefault(p => p.IsNavComponent && p.Component.Name == item);
         return plugin?.Component;
     }
 
