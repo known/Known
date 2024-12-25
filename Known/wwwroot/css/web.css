@@ -51,9 +51,13 @@
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
 .kui-card {height:100%;}
+
 .kui-edit {text-align:center;}
 .kui-edit > div {display:block;color:#f18c63;padding:0 2px;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
 .kui-delete {color:#f50;}
+.kui-plugin {position:relative;border:1px solid #f18c63;border-radius:2px;}
+.kui-plugin .action {position:absolute;top:0;right:1px;color:#f18c63;}
+.kui-scroll > .kui-plugin {position:absolute;top:0;bottom:0;left:0;right:0;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}

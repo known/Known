@@ -39,13 +39,6 @@ public class DevPluginAttribute(string name, string icon) : PluginAttribute(name
 public class NavPluginAttribute(string name, string icon) : PluginAttribute(name, icon) { }
 
 /// <summary>
-/// 菜单插件特性类，用于标识组件是否是左侧菜单插件。
-/// </summary>
-/// <param name="name">插件名称。</param>
-/// <param name="icon">插件菜单图标。</param>
-public class MenuPluginAttribute(string name, string icon) : PluginAttribute(name, icon) { }
-
-/// <summary>
 /// 页面插件特性类，用于标识组件是否是页面区块插件。
 /// </summary>
 /// <param name="name">插件名称。</param>

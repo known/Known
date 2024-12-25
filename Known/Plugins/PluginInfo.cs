@@ -44,6 +44,5 @@ public class PluginInfo
 
     internal bool IsDev => Attribute is DevPluginAttribute;
     internal bool IsNav => Attribute is NavPluginAttribute;
-    internal bool IsMenu => Attribute is MenuPluginAttribute;
     internal bool IsPage => Attribute is PagePluginAttribute;
 }

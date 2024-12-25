@@ -12,7 +12,7 @@ partial class KLayout
     private bool showSetting = false;
     private bool collapsed = false;
 
-    private AntMenu menu;
+    private MainMenu menu;
     private ReloadContainer reload;
 
     private string WrapperClass => CssBuilder.Default("kui-wrapper").AddClass(Setting.Size).BuildClass();

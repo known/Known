@@ -1,0 +1,43 @@
+﻿@inherits BaseComponent
+
+<PluginPanel Actions="actions">
+    <AntMenu @ref="menu" Context="Context" Mode="Mode" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" />
+</PluginPanel>
+
+@code {
+    private AntMenu menu;
+    private List<ActionInfo> actions = [];
+
+    [Parameter] public MenuMode Mode { get; set; }
+    [Parameter] public UserSettingInfo Setting { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        actions.Add(new ActionInfo
+        {
+            Id = "Group",
+            Icon = "folder-add",
+            Name = "添加分组",
+            OnClick = this.Callback<MouseEventArgs>(OnAddGroup)
+        });
+        actions.Add(new ActionInfo { Id = "Page", Icon = "file-add", Name = "添加页面" });
+        actions.Add(new ActionInfo { Id = "Link", Icon = "link", Name = "添加连接" });
+        actions.Add(new ActionInfo { Id = "Menu", Icon = "menu", Name = "编辑菜单" });
+    }
+
+    /// <summary>
+    /// 设置菜单数据源。
+    /// </summary>
+    /// <param name="items">菜单信息列表。</param>
+    /// <returns></returns>
+    public void SetItems(List<MenuInfo> items)
+    {
+        menu?.SetItems(items);
+    }
+
+    private void OnAddGroup(MouseEventArgs e)
+    {
+        UI.Alert("添加分组");
+    }
+}

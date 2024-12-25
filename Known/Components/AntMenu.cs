@@ -44,14 +44,6 @@ public class AntMenu : Menu
             builder.Li("kui-p10", "Loading...");
         else
             BuildMenu(builder, Items);
-
-        if (UIConfig.IsEditMode)
-        {
-            builder.Li().Class("kui-edit").Child(() => builder.Cascading(this, b =>
-            {
-                b.Component<MenuPluginAction>().Build();
-            }));
-        }
     }
 
     private void BuildMenu(RenderTreeBuilder builder, List<MenuInfo> items)
