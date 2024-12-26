@@ -66,6 +66,16 @@ public class ModuleInfo
     public bool Enabled { get; set; }
 
     /// <summary>
+    /// 取得或设置插件ID。
+    /// </summary>
+    public string PluginId { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件参数JSON。
+    /// </summary>
+    public string Parameters { get; set; }
+
+    /// <summary>
     /// 取得或设置实体设置。
     /// </summary>
     public string EntityData { get; set; }
@@ -155,4 +165,13 @@ public class ModuleInfo
     /// </summary>
     /// <returns></returns>
     public List<string> GetTableActions() => Page?.Actions?.ToList();
+
+    /// <summary>
+    /// 获取模块的字符串表示。
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return $"{Name}({Url})";
+    }
 }

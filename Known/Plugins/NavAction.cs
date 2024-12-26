@@ -1,6 +1,6 @@
 ﻿namespace Known.Plugins;
 
-class NavPluginAction : BaseComponent
+class NavAction : BaseComponent
 {
     private List<ActionInfo> items = [];
 

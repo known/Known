@@ -47,24 +47,35 @@ public class AutoPage : BaseComponent
             return;
         }
 
-        var type = Utils.ConvertTo<ModuleType>(Context.Current.Target);
-        if (type == ModuleType.IFrame)
+        if (Context.Current.Target == nameof(ModuleType.IFrame))
         {
             builder.IFrame(Context.Current.Url);
             return;
         }
 
-        if (UIConfig.PageBody != null)
+        if (Context.Current.Type == nameof(MenuType.Page))
         {
-            UIConfig.PageBody.Invoke(builder, Context.Current);
+            BuildPluginPage(builder);
             return;
         }
 
-        if (type == ModuleType.Page)
+        if (Context.Current.Target == nameof(ModuleType.Page))
         {
-            builder.Component<AutoTablePage>()
-                   .Set(c => c.PageId, PageId)
-                   .Build(value => page = value);
+            BuildAutoTablePage(builder);
         }
+    }
+
+    private void BuildPluginPage(RenderTreeBuilder builder)
+    {
+        builder.Component<PluginPage>()
+               .Set(c => c.Menu, Context.Current)
+               .Build(value => page = value);
+    }
+
+    private void BuildAutoTablePage(RenderTreeBuilder builder)
+    {
+        builder.Component<AutoTablePage>()
+               .Set(c => c.PageId, PageId)
+               .Build(value => page = value);
     }
 }

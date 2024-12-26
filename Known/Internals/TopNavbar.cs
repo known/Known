@@ -7,7 +7,7 @@ public class TopNavbar : BaseComponent
 {
     private List<TopNavInfo> items;
     private TopNavInfo dragging;
-    private NavPluginAction action;
+    private NavAction action;
 
     private List<string> Values => items.Select(i => i.PluginId).ToList();
 
@@ -41,7 +41,7 @@ public class TopNavbar : BaseComponent
                 {
                     b.Li().Class("kui-edit").Child(() =>
                     {
-                        b.Component<NavPluginAction>()
+                        b.Component<NavAction>()
                          .Set(c => c.Values, Values)
                          .Set(c => c.OnAdded, OnNavbarAddedAsync)
                          .Build(value => action = value);

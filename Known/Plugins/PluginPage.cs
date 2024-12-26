@@ -1,8 +1,15 @@
 ﻿namespace Known.Plugins;
 
-class PagePluginAction : BaseComponent
+class PluginPage : BaseComponent, IAutoPage
 {
     private List<ActionInfo> items = [];
+
+    [Parameter] public MenuInfo Menu { get; set; }
+
+    public Task InitializeAsync()
+    {
+        return Task.CompletedTask;
+    }
 
     protected override async Task OnInitAsync()
     {
@@ -11,6 +18,19 @@ class PagePluginAction : BaseComponent
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == Menu.PluginId);
+        if (plugin != null)
+        {
+            plugin.Parameters = Menu.Parameters;
+            builder.BuildPlugin(this, plugin);
+        }
+
+        if (UIConfig.IsEditMode)
+            BuildAction(builder);
+    }
+
+    private void BuildAction(RenderTreeBuilder builder)
     {
         var model = new DropdownModel
         {

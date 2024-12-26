@@ -55,6 +55,7 @@ public class MenuInfo
         Name = info.Name;
         Icon = info.Icon;
         Description = info.Description;
+        Type = info.Type;
         Target = info.Target;
         Url = info.Url;
         Sort = info.Sort;
@@ -169,6 +170,16 @@ public class MenuInfo
     public object Data { get; set; }
 
     /// <summary>
+    /// 取得或设置插件ID。
+    /// </summary>
+    public string PluginId { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件参数JSON。
+    /// </summary>
+    public string Parameters { get; set; }
+
+    /// <summary>
     /// 取得或设置菜单关联的实体模型对象。
     /// </summary>
     public EntityInfo Model { get; set; }
@@ -205,14 +216,26 @@ public class MenuInfo
     {
         get
         {
-            if (Target != ModuleType.Page.ToString() && Target != ModuleType.IFrame.ToString())
+            if (Type == nameof(MenuType.Page))
+                return $"/page/{Id}";
+
+            if (Target != nameof(ModuleType.Page) && Target != nameof(ModuleType.IFrame))
                 return Url;
 
-            if (string.IsNullOrWhiteSpace(Url) || Target == ModuleType.IFrame.ToString())
+            if (string.IsNullOrWhiteSpace(Url) || Target == nameof(ModuleType.IFrame))
                 return $"/page/{Id}";
 
             return Url.StartsWith("/") ? $"/page{Url}" : $"/page/{Url}";
         }
+    }
+
+    /// <summary>
+    /// 获取菜单的字符串表示。
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return $"{Name}({RouteUrl})";
     }
 
     internal Type PageType { get; set; }

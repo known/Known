@@ -53,19 +53,23 @@ public partial class MainMenu
 
     private void OnAddMenu(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加菜单", new MenuInfo { Type = "Menu" });
+        var model = GetMenuFormModel("添加菜单", new MenuInfo { Type = nameof(MenuType.Menu) });
         UI.ShowForm(model);
     }
 
     private void OnAddPage(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加页面", new MenuInfo { Type = "Page" });
+        var model = GetMenuFormModel("添加页面", new MenuInfo { Type = nameof(MenuType.Page) });
         UI.ShowForm(model);
     }
 
     private void OnAddLink(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加连接", new MenuInfo { Type = "Link", Target = "None" });
+        var model = GetMenuFormModel("添加连接", new MenuInfo
+        {
+            Type = nameof(MenuType.Link),
+            Target = nameof(LinkTarget.None)
+        });
         model.AddRow().AddColumn(c => c.Url, c => c.Required = true);
         model.AddRow().AddColumn(c => c.Target, c =>
         {

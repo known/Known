@@ -21,18 +21,22 @@ public sealed class MenuHelper
 
         DataHelper.Initialize(modules);
 
-        var routes = DataHelper.GetRouteModules(modules.Select(m => m.Url).ToList());
+        // 定义新列表，在新列表中添加路由模块，不污染原模块列表
+        var allModules = new List<ModuleInfo>();
+        allModules.AddRange(modules);
+
+        var routes = DataHelper.GetRouteModules(allModules.Select(m => m.Url).ToList());
         if (routes != null && routes.Count > 0)
-            modules.AddRange(routes);
+            allModules.AddRange(routes);
 
         if (user.IsAdmin())
-            return modules.ToMenus(true);
+            return allModules.ToMenus(true);
 
         if (moduleIds == null || moduleIds.Count == 0)
             return [];
 
         var userModules = new List<ModuleInfo>();
-        foreach (var item in modules)
+        foreach (var item in allModules)
         {
             if (!item.Enabled)
                 continue;
@@ -43,7 +47,7 @@ public sealed class MenuHelper
             if (userModules.Exists(m => m.Id == item.Id))
                 continue;
 
-            AddParentModule(modules, userModules, item);
+            AddParentModule(allModules, userModules, item);
             item.Buttons = GetUserButtons(moduleIds, item);
             item.Actions = GetUserActions(moduleIds, item);
             item.Columns = GetUserColumns(moduleIds, item);

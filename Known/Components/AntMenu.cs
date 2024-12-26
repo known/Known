@@ -78,7 +78,7 @@ public class AntMenu : Menu
 
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
     {
-        if (item.Url?.StartsWith("http") == true && item.Target == ModuleType.Menu.ToString())
+        if (item.Url?.StartsWith("http") == true && item.Target != nameof(LinkTarget.IFrame))
         {
             builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)

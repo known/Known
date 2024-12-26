@@ -57,12 +57,11 @@ public sealed class DataHelper
         if (routes.Count == 0)
             return null;
 
-        var modules = new List<ModuleInfo>();
+        var infos = new List<ModuleInfo>();
         var routeError = typeof(ErrorPage).RouteTemplate();
-        var routeAuto = typeof(AutoTablePage).RouteTemplate();
+        var routeAuto = typeof(AutoPage).RouteTemplate();
         var target = Constants.Route;
         var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt", Enabled = true, Sort = moduleUrls.Count + 1 };
-        modules.Add(route);
         foreach (var item in routes.OrderBy(r => r.Key))
         {
             if (moduleUrls.Exists(m => m == item.Key) ||
@@ -76,17 +75,24 @@ public sealed class DataHelper
             {
                 var key = item.Key.Substring(0, index + 1);
                 var id = $"sub_{key}";
-                var sub = modules.FirstOrDefault(m => m.Id == id);
+                var sub = infos.FirstOrDefault(m => m.Id == id);
                 if (sub == null)
                 {
                     sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder", Enabled = true };
-                    modules.Add(sub);
+                    infos.Add(sub);
                 }
                 parentId = sub.Id;
             }
 
             var module = GetModule(item, parentId);
-            modules.Add(module);
+            infos.Add(module);
+        }
+
+        var modules = new List<ModuleInfo>();
+        if (infos.Count > 0)
+        {
+            modules.Add(route);
+            modules.AddRange(infos);
         }
         return modules;
     }

@@ -77,19 +77,13 @@ public sealed class AppData
         }
         module.Id = info.Id;
         module.ParentId = info.ParentId;
-        module.Code = info.Code;
         module.Name = info.Name;
         module.Icon = info.Icon;
-        module.Description = info.Description;
         module.Type = info.Type;
         module.Target = info.Target;
         module.Url = info.Url;
-        module.Sort = info.Sort;
-        module.Enabled = info.Enabled;
-        //module.EntityData = info.EntityData;
-        //module.FlowData = info.FlowData;
-        module.Page = info.Page;
-        module.Form = info.Form;
+        module.PluginId = info.PluginId;
+        module.Parameters = info.Parameters;
         Save();
         return Result.SuccessAsync("保存成功！", info);
     }
