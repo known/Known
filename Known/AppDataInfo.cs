@@ -8,12 +8,12 @@ public partial class AppDataInfo
     /// <summary>
     /// 取得或设置顶部导航信息列表。
     /// </summary>
-    public List<TopNavInfo> TopNavs { get; set; }
+    public List<TopNavInfo> TopNavs { get; set; } = [];
 
     /// <summary>
     /// 取得或设置模块信息列表。
     /// </summary>
-    public List<ModuleInfo> Modules { get; set; }
+    public List<ModuleInfo> Modules { get; set; } = [];
 }
 
 /// <summary>

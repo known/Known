@@ -10,6 +10,7 @@ public class MenuInfo
     /// </summary>
     public MenuInfo()
     {
+        Id = Utils.GetGuid();
         Visible = true;
         Enabled = true;
         Closable = true;
@@ -20,47 +21,48 @@ public class MenuInfo
     /// <summary>
     /// 构造函数，创建一个菜单信息类的实例。
     /// </summary>
-    /// <param name="module">系统模块信息。</param>
+    /// <param name="info">系统模块信息。</param>
     /// <param name="isAdmin">是否是管理员。</param>
-    public MenuInfo(ModuleInfo module, bool isAdmin = true) : this()
+    public MenuInfo(ModuleInfo info, bool isAdmin = true) : this()
     {
         if (isAdmin)
-            module.LoadData();
+            info.LoadData();
 
-        Data = module;
-        Id = module.Id;
-        Name = module.Name;
-        Icon = module.Icon;
-        Description = module.Description;
-        ParentId = module.ParentId;
-        Code = module.Code;
-        Target = module.Target;
-        Url = module.Url;
-        Sort = module.Sort;
-        Model = DataHelper.ToEntity(module.EntityData);
-        Page = module.Page;
-        Form = module.Form;
-        Tools = module.Buttons;
-        Actions = module.Actions;
-        Columns = module.Columns;
+        Data = info;
+        Id = info.Id;
+        Name = info.Name;
+        Icon = info.Icon;
+        Description = info.Description;
+        ParentId = info.ParentId;
+        Code = info.Code;
+        Type = info.Type;
+        Target = info.Target;
+        Url = info.Url;
+        Sort = info.Sort;
+        Model = DataHelper.ToEntity(info.EntityData);
+        Page = info.Page;
+        Form = info.Form;
+        Tools = info.Buttons;
+        Actions = info.Actions;
+        Columns = info.Columns;
     }
 
-    internal MenuInfo(MenuInfo model) : this()
+    internal MenuInfo(MenuInfo info) : this()
     {
-        Id = model.Id;
-        ParentId = model.ParentId;
-        Code = model.Code;
-        Name = model.Name;
-        Icon = model.Icon;
-        Description = model.Description;
-        Target = model.Target;
-        Url = model.Url;
-        Sort = model.Sort;
-        Color = model.Color;
-        Tools = model.Tools;
-        Actions = model.Actions;
-        Columns = model.Columns;
-        PageType = model.PageType;
+        Id = info.Id;
+        ParentId = info.ParentId;
+        Code = info.Code;
+        Name = info.Name;
+        Icon = info.Icon;
+        Description = info.Description;
+        Target = info.Target;
+        Url = info.Url;
+        Sort = info.Sort;
+        Color = info.Color;
+        Tools = info.Tools;
+        Actions = info.Actions;
+        Columns = info.Columns;
+        PageType = info.PageType;
     }
 
     /// <summary>
@@ -94,7 +96,13 @@ public class MenuInfo
     public string Description { get; set; }
 
     /// <summary>
-    /// 取得或设置菜单目标类型（Menu/Page/Custom/IFrame）。
+    /// 取得或设置菜单类型（Menu/Page/Link）。
+    /// </summary>
+    public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置URL目标类型（None/Blank/IFrame）；
+    /// 或者菜单目标类型（Menu/Page/Custom/IFrame）。
     /// </summary>
     public string Target { get; set; }
 

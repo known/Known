@@ -1,0 +1,60 @@
+﻿@inherits BaseComponent
+
+@if (UIConfig.IsEditMode)
+{
+    <div class="kui-plugin">
+        <div class="action">
+            @if (CanMove)
+            {
+                <span draggable ondragover="event.preventDefault()">
+                    <KIcon Icon="fullscreen" />
+                </span>
+            }
+            <AntDropdown Model="model" />
+        </div>
+        @ChildContent
+    </div>
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    private DropdownModel model;
+
+    /// <summary>
+    /// 取得或设置是否可以移动。
+    /// </summary>
+    [Parameter] public bool CanMove { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作信息列表。
+    /// </summary>
+    [Parameter] public List<ActionInfo> Actions { get; set; }
+
+    /// <summary>
+    /// 取得或设置子组件内容。
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        model = new DropdownModel
+        {
+            Icon = "menu",
+            Items = Actions,
+            TriggerType = "Click",
+            OnItemClick = OnItemClickAsync
+        };
+    }
+
+    private Task OnItemClickAsync(ActionInfo info)
+    {
+        if (!info.OnClick.HasDelegate)
+            return Task.CompletedTask;
+
+        return info.OnClick.InvokeAsync();
+    }
+}

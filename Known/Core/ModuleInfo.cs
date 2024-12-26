@@ -41,7 +41,12 @@ public class ModuleInfo
     public string Description { get; set; }
 
     /// <summary>
-    /// 取得或设置目标。
+    /// 取得或设置类型（Menu/Page/Link）。
+    /// </summary>
+    public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置目标（None/Blank/IFrame）。
     /// </summary>
     public string Target { get; set; }
 

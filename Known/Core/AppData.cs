@@ -68,6 +68,11 @@ public sealed class AppData
         if (module == null)
         {
             module = new ModuleInfo();
+            if (Modules == null)
+            {
+                Data ??= new AppDataInfo();
+                Data.Modules = [];
+            }
             Modules.Add(module);
         }
         module.Id = info.Id;
@@ -76,6 +81,7 @@ public sealed class AppData
         module.Name = info.Name;
         module.Icon = info.Icon;
         module.Description = info.Description;
+        module.Type = info.Type;
         module.Target = info.Target;
         module.Url = info.Url;
         module.Sort = info.Sort;
