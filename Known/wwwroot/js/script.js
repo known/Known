@@ -163,14 +163,14 @@ export class KBlazor {
         URL.revokeObjectURL(url);
     }
     //Pdf
-    static async showPdfByUrl(id, url) {
-        PDFObject.embed(url, '#' + id, { forceIframe: true });
+    static async showPdfByUrl(id, url, option) {
+        PDFObject.embed(url, '#' + id, option);
     }
-    static async showPdfByStream(id, stream) {
+    static async showPdfByStream(id, stream, option) {
         const buffer = await stream.arrayBuffer();
         const blob = new Blob([buffer], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        PDFObject.embed(url, '#' + id, { forceIframe: true });
+        PDFObject.embed(url, '#' + id, option);
         URL.revokeObjectURL(url);
     }
     //Image

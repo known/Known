@@ -16,7 +16,7 @@ public class JSService
     /// <param name="jsRuntime">JS运行时对象。</param>
     public JSService(IJSRuntime jsRuntime)
     {
-        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/js/script.js?v=241216").AsTask());
+        moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Known/js/script.js?v=241226").AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());
     }
@@ -96,7 +96,7 @@ public class JSService
     /// <param name="enabled">是否可用。</param>
     /// <returns></returns>
     public Task EnabledAsync(string clientId, bool enabled) => InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
-    
+
     /// <summary>
     /// 高亮显示代码。
     /// </summary>
@@ -302,14 +302,16 @@ public class JSService
     /// </summary>
     /// <param name="id">PDF前端控件ID。</param>
     /// <param name="url">PDF文件URL。</param>
+    /// <param name="option">PDF选项。</param>
     /// <returns></returns>
-    public async Task ShowPdfAsync(string id, string url)
+    public async Task ShowPdfAsync(string id, string url, object option = null)
     {
         if (string.IsNullOrWhiteSpace(url))
             return;
 
+        option ??= new { forceIframe = true };
         var module = await moduleTask.Value;
-        await module.InvokeVoidAsync("KBlazor.showPdfByUrl", id, url);
+        await module.InvokeVoidAsync("KBlazor.showPdfByUrl", id, url, option);
     }
 
     /// <summary>
@@ -317,15 +319,17 @@ public class JSService
     /// </summary>
     /// <param name="id">PDF前端控件ID。</param>
     /// <param name="stream">PDF文件流。</param>
+    /// <param name="option">PDF选项。</param>
     /// <returns></returns>
-    public async Task ShowPdfAsync(string id, Stream stream)
+    public async Task ShowPdfAsync(string id, Stream stream, object option = null)
     {
         if (stream == null)
             return;
 
+        option ??= new { forceIframe = true };
         var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KBlazor.showPdfByStream", id, streamRef);
+        await module.InvokeVoidAsync("KBlazor.showPdfByStream", id, streamRef, option);
     }
     #endregion
 
@@ -345,7 +349,7 @@ public class JSService
     /// <param name="imgId">图片前端Img控件ID。</param>
     /// <returns></returns>
     public Task PreviewImageByIdAsync(ElementReference? inputElem, string imgId) => InvokeVoidAsync("KBlazor.previewImageById", inputElem, imgId);
-    
+
     /// <summary>
     /// 异步绘制验证码组件。
     /// </summary>
