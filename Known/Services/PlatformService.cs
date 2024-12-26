@@ -9,14 +9,14 @@ public interface IPlatformService : IService
     /// 异步获取顶部导航信息列表。
     /// </summary>
     /// <returns>顶部导航信息列表。</returns>
-    Task<List<TopNavInfo>> GetTopNavsAsync();
+    Task<List<PluginInfo>> GetTopNavsAsync();
 
     /// <summary>
     /// 异步保存顶部导航信息列表。
     /// </summary>
     /// <param name="infos">顶部导航信息列表。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveTopNavsAsync(List<TopNavInfo> infos);
+    Task<Result> SaveTopNavsAsync(List<PluginInfo> infos);
 
     /// <summary>
     /// 异步保存菜单信息。
@@ -28,12 +28,12 @@ public interface IPlatformService : IService
 
 class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
-    public Task<List<TopNavInfo>> GetTopNavsAsync()
+    public Task<List<PluginInfo>> GetTopNavsAsync()
     {
         return Task.FromResult(AppData.Data?.TopNavs);
     }
 
-    public Task<Result> SaveTopNavsAsync(List<TopNavInfo> infos)
+    public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
         return AppData.SaveTopNavsAsync(infos);
     }
@@ -46,12 +46,12 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
 
 class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
 {
-    public Task<List<TopNavInfo>> GetTopNavsAsync()
+    public Task<List<PluginInfo>> GetTopNavsAsync()
     {
-        return Http.GetAsync<List<TopNavInfo>>("/Platform/GetTopNavs");
+        return Http.GetAsync<List<PluginInfo>>("/Platform/GetTopNavs");
     }
 
-    public Task<Result> SaveTopNavsAsync(List<TopNavInfo> infos)
+    public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
         return Http.PostAsync("/Platform/SaveTopNavs", infos);
     }

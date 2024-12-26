@@ -69,7 +69,8 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         {
             var id = bizId.Split('_')[1];
             var module = AppData.GetModule(id);
-            data = GetImportRule(db.Context, module.GetFormFields());
+            var plugin = module?.GetPlugin<EntityPluginInfo>();
+            data = GetImportRule(db.Context, plugin?.Form?.Fields);
         }
         else
         {

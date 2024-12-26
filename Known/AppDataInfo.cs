@@ -8,7 +8,7 @@ public partial class AppDataInfo
     /// <summary>
     /// 取得或设置顶部导航信息列表。
     /// </summary>
-    public List<TopNavInfo> TopNavs { get; set; } = [];
+    public List<PluginInfo> TopNavs { get; set; } = [];
 
     /// <summary>
     /// 取得或设置模块信息列表。
@@ -17,25 +17,37 @@ public partial class AppDataInfo
 }
 
 /// <summary>
-/// 顶部导航信息类。
+/// 框架插件信息类。
 /// </summary>
-public class TopNavInfo
+public class PluginInfo
 {
     /// <summary>
-    /// 取得或设置插件ID。
+    /// 取得或设置插件实例ID。
     /// </summary>
-    public string PluginId { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
-    /// 取得或设置插件参数JSON。
+    /// 取得或设置插件类型。
     /// </summary>
-    public string Parameters { get; set; }
+    public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件配置JSON。
+    /// </summary>
+    public string Setting { get; set; }
+
+    /// <summary>
+    /// 获取指定类型的插件对象。
+    /// </summary>
+    /// <typeparam name="T">插件类型。</typeparam>
+    /// <returns>插件对象。</returns>
+    public T AsPlugin<T>() => Utils.FromJson<T>(Setting);
 }
 
 /// <summary>
-/// 系统模块配置信息类。
+/// 框架模块信息类。
 /// </summary>
-public class ModuleInfo1
+public class ModuleInfo
 {
     /// <summary>
     /// 取得或设置ID。
@@ -73,12 +85,47 @@ public class ModuleInfo1
     public string Url { get; set; }
 
     /// <summary>
-    /// 取得或设置插件ID。
+    /// 取得或设置插件配置信息列表。
     /// </summary>
-    public string PluginId { get; set; }
+    public List<PluginInfo> Plugins { get; set; } = [];
 
     /// <summary>
-    /// 取得或设置插件参数JSON。
+    /// 取得或设置可用。
     /// </summary>
-    public string Parameters { get; set; }
+    public bool Enabled { get; set; } = true;
+
+    /// <summary>
+    /// 添加插件配置信息。
+    /// </summary>
+    /// <typeparam name="T">插件配置类型。</typeparam>
+    /// <param name="plugin">插件配置信息。</param>
+    /// <param name="id">插件实例ID。</param>
+    public void AddPlugin<T>(T plugin, string id = "")
+    {
+        Plugins ??= [];
+        Plugins.AddPlugin(plugin, id);
+    }
+
+    /// <summary>
+    /// 根据ID获取插件配置信息。
+    /// </summary>
+    /// <typeparam name="T">插件配置类型。</typeparam>
+    /// <param name="id">插件实例ID。</param>
+    /// <returns>插件配置信息。</returns>
+    public T GetPlugin<T>(string id = "")
+    {
+        if (Plugins == null)
+            return default;
+
+        return Plugins.GetPlugin<T>(id);
+    }
+
+    /// <summary>
+    /// 获取模块的字符串表示。
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return $"{Name}({Url})";
+    }
 }

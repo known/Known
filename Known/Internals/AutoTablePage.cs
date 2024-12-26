@@ -65,7 +65,10 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
         Table.Initialize();
         Table.OnQuery = OnQueryModelsAsync;
         Table.Criteria.Clear();
-        var fields = Context?.Current?.Model?.Fields;
+
+        var plugin = Context?.Current?.Plugins?.GetPlugin<EntityPluginInfo>();
+        var model = DataHelper.ToEntity(plugin?.EntityData);
+        var fields = model?.Fields;
         if (fields != null && fields.Count > 0)
         {
             foreach (var item in fields)

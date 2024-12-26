@@ -2,6 +2,9 @@
 
 namespace Known.Internals;
 
+/// <summary>
+/// 主菜单组件类。
+/// </summary>
 public partial class MainMenu
 {
     private AntMenu menu;
@@ -107,7 +110,7 @@ public partial class MainMenu
                  .Set(c => c.OnChanged, v =>
                  {
                      model.Data.ParentId = v.Id;
-                     model.Data.Sort = v.Children.Count + 1;
+                     //model.Data.Sort = v.Children.Count + 1;
                  })
                  .Build();
             };

@@ -27,7 +27,8 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         Table = table;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-        SetFormInfo(table.Context?.Current?.Form);
+        var plugin = table.Context?.Current?.Plugins?.GetPlugin<EntityPluginInfo>();
+        SetFormInfo(plugin?.Form);
     }
 
     internal bool IsDictionary { get; }

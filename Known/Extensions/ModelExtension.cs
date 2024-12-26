@@ -26,14 +26,14 @@ public static class ModelExtension
     #endregion
 
     #region Module
-    internal static List<MenuInfo> ToMenus(this List<ModuleInfo> modules, bool isAdmin)
+    internal static List<MenuInfo> ToMenus(this List<ModuleInfo> modules)
     {
         if (modules == null || modules.Count == 0)
             return [];
 
         return modules.Where(m => m.Enabled).Select(m =>
         {
-            var info = new MenuInfo(m, isAdmin);
+            var info = new MenuInfo(m);
             if (!string.IsNullOrWhiteSpace(m.Url))
             {
                 var route = Config.RouteTypes?.FirstOrDefault(r => r.Key?.StartsWith(m.Url) == true);
@@ -65,7 +65,7 @@ public static class ModelExtension
         if (menus == null || menus.Count == 0)
             return items;
 
-        var tops = menus.Where(m => m.ParentId == "0" && m.Target != Constants.Route).OrderBy(m => m.Sort).ToList();
+        var tops = menus.Where(m => m.ParentId == "0" && m.Target != Constants.Route).ToList();
         foreach (var item in tops)
         {
             if (item.Target == Constants.Route)
@@ -83,7 +83,7 @@ public static class ModelExtension
 
     private static void AddChildren(List<MenuInfo> menus, MenuInfo menu)
     {
-        var items = menus.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
+        var items = menus.Where(m => m.ParentId == menu.Id).ToList();
         if (items == null || items.Count == 0)
             return;
 

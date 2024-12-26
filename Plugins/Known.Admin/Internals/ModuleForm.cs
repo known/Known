@@ -4,20 +4,17 @@ namespace Known.Internals;
 
 class ModuleForm : BaseTabForm
 {
-    private ModuleInfo Module;
-
     [Parameter] public FormModel<SysModule> Model { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Module = Model.Data.ToModuleInfo();
-        Module.IsView = Model.IsView;
-        Module.Entity = DataHelper.ToEntity(Model.Data.EntityData);
+        Model.Data.IsView = Model.IsView;
+        Model.Data.Entity = DataHelper.ToEntity(Model.Data.EntityData);
 
         Model.SmallLabel = true;
         Model.OnFieldChanged = OnFieldChanged;
-        Model.OnSaving = OnModelSaving;
+        //Model.OnSaving = OnModelSaving;
 
         Model.AddRow().AddColumn(c => c.Code)
                       .AddColumn(c => c.Name)
@@ -38,16 +35,16 @@ class ModuleForm : BaseTabForm
         Model.AddRow().AddColumn(c => c.Note, c => c.Type = FieldType.TextArea);
 
         Tab.AddTab("BasicInfo", BuildDataForm);
-        Tab.AddTab("ModelSetting", b => BuildModuleModel(b, Module));
-        //Tab.AddTab("FlowSetting", b => BuildModuleFlow(b, Module));
-        Tab.AddTab("PageSetting", b => BuildModulePage(b, Module));
-        Tab.AddTab("FormSetting", b => BuildModuleForm(b, Module));
+        Tab.AddTab("ModelSetting", b => BuildModuleModel(b, Model.Data));
+        //Tab.AddTab("FlowSetting", b => BuildModuleFlow(b, Model.Data));
+        Tab.AddTab("PageSetting", b => BuildModulePage(b, Model.Data));
+        Tab.AddTab("FormSetting", b => BuildModuleForm(b, Model.Data));
         SetTabVisible();
     }
 
     private void BuildDataForm(RenderTreeBuilder builder) => builder.Form(Model);
 
-    private static void BuildModuleModel(RenderTreeBuilder builder, ModuleInfo model)
+    private static void BuildModuleModel(RenderTreeBuilder builder, SysModule model)
     {
         builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -57,7 +54,7 @@ class ModuleForm : BaseTabForm
                .Build();
     }
 
-    private static void BuildModuleFlow(RenderTreeBuilder builder, ModuleInfo model)
+    private static void BuildModuleFlow(RenderTreeBuilder builder, SysModule model)
     {
         builder.Component<FlowDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -67,7 +64,7 @@ class ModuleForm : BaseTabForm
                .Build();
     }
 
-    private static void BuildModulePage(RenderTreeBuilder builder, ModuleInfo model)
+    private static void BuildModulePage(RenderTreeBuilder builder, SysModule model)
     {
         model.Entity.PageUrl = model.Url;
         builder.Component<PageDesigner>()
@@ -78,7 +75,7 @@ class ModuleForm : BaseTabForm
                .Build();
     }
 
-    private static void BuildModuleForm(RenderTreeBuilder builder, ModuleInfo model)
+    private static void BuildModuleForm(RenderTreeBuilder builder, SysModule model)
     {
         builder.Component<FormDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -98,17 +95,17 @@ class ModuleForm : BaseTabForm
         }
     }
 
-    private Task<bool> OnModelSaving(SysModule model)
-    {
-        if (Module != null)
-        {
-            model.EntityData = Module.EntityData;
-            model.FlowData = Module.FlowData;
-            model.PageData = Utils.ToJson(Module.Page);
-            model.FormData = Utils.ToJson(Module.Form);
-        }
-        return Task.FromResult(true);
-    }
+    //private Task<bool> OnModelSaving(SysModule model)
+    //{
+    //    if (Module != null)
+    //    {
+    //        model.EntityData = Module.EntityData;
+    //        model.FlowData = Module.FlowData;
+    //        model.PageData = Utils.ToJson(Module.Page);
+    //        model.FormData = Utils.ToJson(Module.Form);
+    //    }
+    //    return Task.FromResult(true);
+    //}
 
     private void SetTabVisible()
     {

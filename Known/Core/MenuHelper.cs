@@ -19,22 +19,27 @@ public sealed class MenuHelper
         if (modules == null || modules.Count == 0)
             return [];
 
-        DataHelper.Initialize(modules);
+        //DataHelper.Initialize(modules);
 
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
         var allModules = new List<ModuleInfo>();
         allModules.AddRange(modules);
 
-        var routes = DataHelper.GetRouteModules(allModules.Select(m => m.Url).ToList());
+        // 添加路由模块
+        var urls = allModules.Select(m => m.Url).ToList();
+        var ids = user.IsAdmin() ? null : moduleIds;
+        var routes = DataHelper.GetRouteModules(urls, ids);
         if (routes != null && routes.Count > 0)
             allModules.AddRange(routes);
 
+        // 如果是管理员，返回所有菜单
         if (user.IsAdmin())
-            return allModules.ToMenus(true);
+            return allModules.ToMenus();
 
         if (moduleIds == null || moduleIds.Count == 0)
             return [];
 
+        // 如果是角色用户，根据用户角色模块ID列表返回菜单
         var userModules = new List<ModuleInfo>();
         foreach (var item in allModules)
         {
@@ -47,70 +52,23 @@ public sealed class MenuHelper
             if (userModules.Exists(m => m.Id == item.Id))
                 continue;
 
-            AddParentModule(allModules, userModules, item);
-            item.Buttons = GetUserButtons(moduleIds, item);
-            item.Actions = GetUserActions(moduleIds, item);
-            item.Columns = GetUserColumns(moduleIds, item);
+            AddParentModule(userModules, item);
             userModules.Add(item);
         }
-        return userModules.ToMenus(false);
+        return userModules.ToMenus();
     }
 
-    private static void AddParentModule(List<ModuleInfo> modules, List<ModuleInfo> userModules, ModuleInfo item)
+    private static void AddParentModule(List<ModuleInfo> userModules, ModuleInfo item)
     {
+        // 如果父模块不存在，则添加父模块
         if (!userModules.Exists(m => m.Id == item.ParentId))
         {
-            var parent = modules.FirstOrDefault(m => m.Id == item.ParentId);
+            var parent = AppData.GetModule(item.ParentId);
             if (parent != null)
             {
                 userModules.Add(parent);
-                AddParentModule(modules, userModules, parent);
+                AddParentModule(userModules, parent);
             }
         }
-    }
-
-    private static List<string> GetUserButtons(List<string> moduleIds, ModuleInfo module)
-    {
-        var buttons = module.GetToolButtons();
-        if (buttons == null || buttons.Count == 0)
-            return [];
-
-        var datas = new List<string>();
-        foreach (var item in buttons)
-        {
-            if (moduleIds.Contains($"b_{module.Id}_{item}"))
-                datas.Add(item);
-        }
-        return datas;
-    }
-
-    private static List<string> GetUserActions(List<string> moduleIds, ModuleInfo module)
-    {
-        var actions = module.GetTableActions();
-        if (actions == null || actions.Count == 0)
-            return [];
-
-        var datas = new List<string>();
-        foreach (var item in actions)
-        {
-            if (moduleIds.Contains($"b_{module.Id}_{item}"))
-                datas.Add(item);
-        }
-        return datas;
-    }
-
-    private static List<PageColumnInfo> GetUserColumns(List<string> moduleIds, ModuleInfo module)
-    {
-        var columns = module.GetPageColumns();
-        if (columns == null || columns.Count == 0)
-            return null;
-
-        var datas = new List<PageColumnInfo>();
-        foreach (var item in columns)
-        {
-            if (moduleIds.Contains($"c_{module.Id}_{item.Id}"))
-                datas.Add(item);
-        }
-        return datas;
     }
 }

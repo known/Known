@@ -117,7 +117,7 @@ public sealed class Config
     /// <summary>
     /// 取得框架插件信息列表。
     /// </summary>
-    public static List<PluginInfo> Plugins { get; } = [];
+    public static List<PluginMenuInfo> Plugins { get; } = [];
 
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
@@ -288,7 +288,7 @@ public sealed class Config
             var plugin = item.GetCustomAttribute<PluginAttribute>();
             if (plugin != null)
             {
-                var info = new PluginInfo(item, plugin);
+                var info = new PluginMenuInfo(item, plugin);
                 info.Url = routes?.FirstOrDefault()?.Template;
                 Plugins.Add(info);
             }

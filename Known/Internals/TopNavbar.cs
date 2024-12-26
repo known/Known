@@ -5,11 +5,11 @@
 /// </summary>
 public class TopNavbar : BaseComponent
 {
-    private List<TopNavInfo> items;
-    private TopNavInfo dragging;
+    private List<PluginInfo> items;
+    private PluginInfo dragging;
     private NavAction action;
 
-    private List<string> Values => items.Select(i => i.PluginId).ToList();
+    private List<string> Values => items.Select(i => i.Id).ToList();
 
     /// <summary>
     /// 取得或设置按钮点击事件委托。
@@ -91,20 +91,20 @@ public class TopNavbar : BaseComponent
         }
     }
 
-    private void BuildNavItem(RenderTreeBuilder builder, TopNavInfo item)
+    private void BuildNavItem(RenderTreeBuilder builder, PluginInfo item)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.PluginId);
+        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.Id);
         if (plugin == null)
             return;
 
-        plugin.Parameters = item.Parameters;
+        plugin.Parameter = item.Setting;
         if (plugin.IsNavComponent)
             builder.DynamicComponent(plugin.Type);
         else
             builder.BuildPlugin(this, plugin);
     }
 
-    private async Task OnDropAsync(DragEventArgs e, TopNavInfo item)
+    private async Task OnDropAsync(DragEventArgs e, PluginInfo item)
     {
         if (dragging == null)
             return;
@@ -128,14 +128,14 @@ public class TopNavbar : BaseComponent
         action?.SetValues(Values);
     }
 
-    private void OnDragStart(DragEventArgs e, TopNavInfo item)
+    private void OnDragStart(DragEventArgs e, PluginInfo item)
     {
         e.DataTransfer.DropEffect = "move";
         e.DataTransfer.EffectAllowed = "move";
         dragging = item;
     }
 
-    private async Task<Result> OnNavbarAddedAsync(TopNavInfo info)
+    private async Task<Result> OnNavbarAddedAsync(PluginInfo info)
     {
         items.Add(info);
         await Platform.SaveTopNavsAsync(items);

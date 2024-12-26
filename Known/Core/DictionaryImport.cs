@@ -8,11 +8,15 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
         if (module == null)
             return Result.Error(Language.Required("ModuleId"));
 
-        var entity = DataHelper.ToEntity(module.EntityData);
+        var plugin = module.GetPlugin<EntityPluginInfo>();
+        if (plugin == null)
+            return Result.Error(Language.Required("EntityPlugin"));
+
+        var entity = DataHelper.ToEntity(plugin.EntityData);
         if (entity == null || string.IsNullOrWhiteSpace(entity.Id))
             return Result.Error(Language.Required("TableName"));
 
-        var fields = module.GetFormFields();
+        var fields = plugin.Form?.Fields;
         if (fields == null)
             return Result.Error(Language.Required("Form.Fields"));
 

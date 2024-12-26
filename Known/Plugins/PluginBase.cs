@@ -21,7 +21,7 @@ public interface IPlugin
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="info">插件信息。</param>
-    void Render(RenderTreeBuilder builder, PluginInfo info);
+    void Render(RenderTreeBuilder builder, PluginMenuInfo info);
 }
 
 /// <summary>

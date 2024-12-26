@@ -15,36 +15,20 @@ public class MenuInfo
         Enabled = true;
         Closable = true;
         Children = [];
-        Columns = [];
     }
 
-    /// <summary>
-    /// 构造函数，创建一个菜单信息类的实例。
-    /// </summary>
-    /// <param name="info">系统模块信息。</param>
-    /// <param name="isAdmin">是否是管理员。</param>
-    public MenuInfo(ModuleInfo info, bool isAdmin = true) : this()
+    internal MenuInfo(ModuleInfo info) : this()
     {
-        if (isAdmin)
-            info.LoadData();
-
         Data = info;
         Id = info.Id;
         Name = info.Name;
         Icon = info.Icon;
-        Description = info.Description;
         ParentId = info.ParentId;
-        Code = info.Code;
         Type = info.Type;
         Target = info.Target;
         Url = info.Url;
-        Sort = info.Sort;
-        Model = DataHelper.ToEntity(info.EntityData);
-        Page = info.Page;
-        Form = info.Form;
-        Tools = info.Buttons;
-        Actions = info.Actions;
-        Columns = info.Columns;
+        Enabled = info.Enabled;
+        Plugins = info.Plugins;
     }
 
     internal MenuInfo(MenuInfo info) : this()
@@ -58,11 +42,9 @@ public class MenuInfo
         Type = info.Type;
         Target = info.Target;
         Url = info.Url;
-        Sort = info.Sort;
+        Enabled = info.Enabled;
+        Plugins = info.Plugins;
         Color = info.Color;
-        Tools = info.Tools;
-        Actions = info.Actions;
-        Columns = info.Columns;
         PageType = info.PageType;
     }
 
@@ -123,11 +105,6 @@ public class MenuInfo
     public string Color { get; set; }
 
     /// <summary>
-    /// 取得或设置菜单显示顺序。
-    /// </summary>
-    public int Sort { get; set; }
-
-    /// <summary>
     /// 取得或设置菜单徽章数量，适用于APP移动端应用。。
     /// </summary>
     public int Badge { get; set; }
@@ -170,44 +147,9 @@ public class MenuInfo
     public object Data { get; set; }
 
     /// <summary>
-    /// 取得或设置插件ID。
+    /// 取得或设置插件配置信息列表。
     /// </summary>
-    public string PluginId { get; set; }
-
-    /// <summary>
-    /// 取得或设置插件参数JSON。
-    /// </summary>
-    public string Parameters { get; set; }
-
-    /// <summary>
-    /// 取得或设置菜单关联的实体模型对象。
-    /// </summary>
-    public EntityInfo Model { get; set; }
-
-    /// <summary>
-    /// 取得或设置菜单关联的页面模型对象。
-    /// </summary>
-    public PageInfo Page { get; set; }
-
-    /// <summary>
-    /// 取得或设置菜单关联的表单模型对象。
-    /// </summary>
-    public FormInfo Form { get; set; }
-
-    /// <summary>
-    /// 取得或设置菜单关联的工具条权限按钮列表。
-    /// </summary>
-    public List<string> Tools { get; set; }
-
-    /// <summary>
-    /// 取得或设置菜单关联的表格操作列权限按钮列表。
-    /// </summary>
-    public List<string> Actions { get; set; }
-
-    /// <summary>
-    /// 取得或设置菜单关联的页面表格权限栏位信息列表。
-    /// </summary>
-    public List<PageColumnInfo> Columns { get; set; }
+    public List<PluginInfo> Plugins { get; set; }
 
     /// <summary>
     /// 取得菜单对应的路由URL。
@@ -239,9 +181,6 @@ public class MenuInfo
     }
 
     internal Type PageType { get; set; }
-    internal bool HasTool(string id) => Tools != null && Tools.Contains(id);
-    internal bool HasAction(string id) => Actions != null && Actions.Contains(id);
-    internal bool HasColumn(string id) => Columns != null && Columns.Exists(c => c.Id == id);
 
     internal bool HasUrl(string url, RouteData route, string page)
     {

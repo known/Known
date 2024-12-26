@@ -7,6 +7,8 @@
     <h1 style="font-size:2rem;font-weight:bold">Hello, world!</h1>
 
     Welcome to your new app.
+
+    <KPdfView @ref="pdf" Id="pdfViewer" Style="height:400px" Option="new { ForceIframe = true }" />
 </div>
 
 @if (Context.HasButton(nameof(New)))
@@ -23,6 +25,15 @@
 }
 
 @code {
+    private KPdfView pdf;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await pdf?.ShowAsync("/Files/5_新版报关委托书.pdf");
+    }
+
     [Action] public void New() { }
     [Action] public void Edit() { }
     [Action] public void TestItem() { }

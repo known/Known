@@ -88,8 +88,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
             return new FlowInfo();
 
         var database = Database;
-        var module = AppData.GetModule(moduleId);
-        var info = DataHelper.ToFlow(module?.FlowData);
+        var info = GetFlowByModuleId(moduleId);
         if (info == null)
             return new FlowInfo();
 
@@ -365,6 +364,13 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
                 await biz.OnStoppedAsync(db, info);
             }
         });
+    }
+
+    private static FlowInfo GetFlowByModuleId(string moduleId)
+    {
+        var module = AppData.GetModule(moduleId);
+        var plugin = module?.GetPlugin<EntityPluginInfo>();
+        return DataHelper.ToFlow(plugin?.FlowData);
     }
 
     private static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)

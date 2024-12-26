@@ -1,11 +1,11 @@
 ﻿namespace Known.Plugins;
 
 /// <summary>
-/// 插件信息类。
+/// 插件菜单信息类。
 /// </summary>
-public class PluginInfo
+public class PluginMenuInfo
 {
-    internal PluginInfo(Type type, PluginAttribute attribute)
+    internal PluginMenuInfo(Type type, PluginAttribute attribute)
     {
         Id = type.FullName;
         Type = type;
@@ -25,7 +25,7 @@ public class PluginInfo
     /// <summary>
     /// 取得或设置插件参数JSON。
     /// </summary>
-    public string Parameters { get; set; }
+    public string Parameter { get; set; }
 
     /// <summary>
     /// 取得或设置插件特性。

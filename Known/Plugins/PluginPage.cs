@@ -19,11 +19,17 @@ class PluginPage : BaseComponent, IAutoPage
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == Menu.PluginId);
-        if (plugin != null)
+        if (Menu.Plugins != null && Menu.Plugins.Count > 0)
         {
-            plugin.Parameters = Menu.Parameters;
-            builder.BuildPlugin(this, plugin);
+            foreach (var item in Menu.Plugins)
+            {
+                var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.Id);
+                if (plugin != null)
+                {
+                    plugin.Parameter = item.Setting;
+                    builder.BuildPlugin(this, plugin);
+                }
+            }
         }
 
         if (UIConfig.IsEditMode)

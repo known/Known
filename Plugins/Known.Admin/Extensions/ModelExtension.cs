@@ -10,11 +10,6 @@ static class ModelExtension
             modules.Remove(module);
     }
 
-    internal static List<ModuleInfo> ToModuleLists(this List<SysModule> models)
-    {
-        return models?.Select(m => m.ToModuleInfo()).ToList();
-    }
-
     internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
     {
         MenuInfo current = null;
@@ -37,11 +32,11 @@ static class ModelExtension
         if (models == null || models.Count == 0)
             return menus;
 
-        var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
+        var tops = models.Where(m => m.ParentId == "0").ToList();
         foreach (var item in tops)
         {
             item.ParentName = Config.App.Name;
-            var menu = CreateMenuInfo(item);
+            var menu = item.ToMenuInfo();
             if (current != null && current.Id == menu.Id)
                 current = menu;
 
@@ -58,14 +53,14 @@ static class ModelExtension
 
     private static void AddChildren(List<SysModule> models, MenuInfo menu, ref MenuInfo current)
     {
-        var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
+        var items = models.Where(m => m.ParentId == menu.Id).ToList();
         if (items == null || items.Count == 0)
             return;
 
         foreach (var item in items)
         {
             item.ParentName = menu.Name;
-            var sub = CreateMenuInfo(item);
+            var sub = item.ToMenuInfo();
             sub.Parent = menu;
             if (current != null && current.Id == sub.Id)
                 current = sub;
@@ -74,47 +69,28 @@ static class ModelExtension
             AddChildren(models, sub, ref current);
         }
     }
-
-    private static MenuInfo CreateMenuInfo(SysModule module)
-    {
-        module.LoadData();
-        var menu = new MenuInfo();
-        menu.Data = module;
-        menu.Id = module.Id;
-        menu.Name = module.Name;
-        menu.Icon = module.Icon;
-        menu.Description = module.Description;
-        menu.ParentId = module.ParentId;
-        menu.Code = module.Code;
-        menu.Target = module.Target;
-        menu.Url = module.Url;
-        menu.Sort = module.Sort;
-        menu.Model = DataHelper.ToEntity(module.EntityData);
-        menu.Page = module.Page;
-        menu.Form = module.Form;
-        menu.Tools = module.Buttons;
-        menu.Actions = module.Actions;
-        menu.Columns = module.Columns;
-        return menu;
-    }
     #endregion
 
     #region MenuInfo
     internal static List<CodeInfo> GetAllActions(this MenuInfo info)
     {
         var codes = new List<CodeInfo>();
-        if (info.Tools != null && info.Tools.Count > 0)
-            codes.AddRange(info.Tools.Select(b => GetAction(info, b)));
-        if (info.Actions != null && info.Actions.Count > 0)
-            codes.AddRange(info.Actions.Select(b => GetAction(info, b)));
+        var plugin = info.Plugins?.GetPlugin<EntityPluginInfo>();
+        var page = plugin?.Page;
+        if (page?.Tools != null && page?.Tools.Length > 0)
+            codes.AddRange(page?.Tools.Select(b => GetAction(info, b)));
+        if (page?.Actions != null && page?.Actions.Length > 0)
+            codes.AddRange(page?.Actions.Select(b => GetAction(info, b)));
         return codes;
     }
 
     internal static List<CodeInfo> GetAllColumns(this MenuInfo info)
     {
         var codes = new List<CodeInfo>();
-        if (info.Columns != null && info.Columns.Count > 0)
-            codes.AddRange(info.Columns.Select(b => new CodeInfo($"c_{info.Id}_{b.Id}", b.Name)));
+        var plugin = info.Plugins?.GetPlugin<EntityPluginInfo>();
+        var page = plugin?.Page;
+        if (page?.Columns != null && page?.Columns.Count > 0)
+            codes.AddRange(page?.Columns.Select(b => new CodeInfo($"c_{info.Id}_{b.Id}", b.Name)));
         return codes;
     }
 

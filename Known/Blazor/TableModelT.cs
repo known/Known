@@ -89,8 +89,19 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             if (menu != null)
             {
                 Name = Language.GetString(menu);
-                SetPage(menu.Model, menu.Page, menu.Form);
-                SetPermission(menu);
+                var plugin = menu.Plugins?.GetPlugin<EntityPluginInfo>();
+                var model = DataHelper.ToEntity(plugin?.EntityData);
+                SetPage(model, plugin?.Page, plugin?.Form);
+                if (Columns != null && Columns.Count > 0)
+                {
+                    var properties = TypeHelper.Properties(typeof(TItem));
+                    foreach (var item in Columns)
+                    {
+                        var info = properties.FirstOrDefault(p => p.Name == item.Id);
+                        if (info != null)
+                            item.SetPropertyInfo(info);
+                    }
+                }
             }
         }
 
@@ -160,26 +171,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
-    }
-
-    private void SetPermission(MenuInfo menu)
-    {
-        Toolbar.Items = Toolbar.Items?.Where(t => menu.HasTool(t.Id)).ToList() ?? [];
-        Actions = Actions?.Where(a => menu.HasAction(a.Id)).ToList() ?? [];
-
-        var columns = Columns?.Where(c => menu.HasColumn(c.Id)).ToList();
-        Columns.Clear();
-        Columns.AddRange(columns);
-        if (Columns != null && Columns.Count > 0)
-        {
-            var properties = TypeHelper.Properties(typeof(TItem));
-            foreach (var item in Columns)
-            {
-                var info = properties.FirstOrDefault(p => p.Name == item.Id);
-                if (info != null)
-                    item.SetPropertyInfo(info);
-            }
-        }
     }
 
     private static List<ColumnInfo> GetAttributeColumns(Type type)

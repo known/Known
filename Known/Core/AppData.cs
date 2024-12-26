@@ -54,7 +54,7 @@ public sealed class AppData
         return Modules?.FirstOrDefault(m => m.Id == id);
     }
 
-    internal static Task<Result> SaveTopNavsAsync(List<TopNavInfo> infos)
+    internal static Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
         Data ??= new AppDataInfo();
         Data.TopNavs = infos;
@@ -82,8 +82,7 @@ public sealed class AppData
         module.Type = info.Type;
         module.Target = info.Target;
         module.Url = info.Url;
-        module.PluginId = info.PluginId;
-        module.Parameters = info.Parameters;
+        module.Plugins = info.Plugins;
         Save();
         return Result.SuccessAsync("保存成功！", info);
     }

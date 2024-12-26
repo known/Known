@@ -9,7 +9,7 @@ class DemoModel : TableModel<Dictionary<string, object>>
         Toolbar.OnItemClick = OnItemClick;
     }
 
-    internal ModuleInfo Module { get; set; }
+    internal SysModule Module { get; set; }
     internal EntityInfo Entity { get; set; }
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryDatas(PagingCriteria criteria)

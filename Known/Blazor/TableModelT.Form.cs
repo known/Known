@@ -24,9 +24,10 @@ partial class TableModel<TItem>
 
     private bool ShowForm(FormModel<TItem> model)
     {
-        model.Info = Form;
-        model.Info ??= Context.Current?.Form;
-        model.Info ??= new FormInfo();
+        if (Form != null)
+            model.Info = Form;
+        //model.Info ??= Context.Current?.Form;
+        //model.Info ??= new FormInfo();
         return UI.ShowForm(model);
     }
 }

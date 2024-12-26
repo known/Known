@@ -94,21 +94,6 @@ public class SysModule : EntityBase
     [MaxLength(500)]
     public string Note { get; set; }
 
-    /// <summary>
-    /// 取得或设置上级模块名称。
-    /// </summary>
-    public virtual string ParentName { get; set; }
-
-    /// <summary>
-    /// 取得或设置是否上移。
-    /// </summary>
-    public virtual bool IsMoveUp { get; set; }
-
-    /// <summary>
-    /// 取得或设置实体模型配置信息。
-    /// </summary>
-    public virtual EntityInfo Entity { get; set; }
-
     private PageInfo page;
     internal virtual PageInfo Page
     {
@@ -139,36 +124,63 @@ public class SysModule : EntityBase
         }
     }
 
+    internal virtual EntityInfo Entity { get; set; }
+    internal virtual string ParentName { get; set; }
+    internal virtual bool IsCustomPage => Target == ModuleType.Custom.ToString();
+    internal virtual bool IsMoveUp { get; set; }
+    internal virtual bool IsView { get; set; }
     internal virtual List<string> Buttons { get; set; }
     internal virtual List<string> Actions { get; set; }
     internal virtual List<PageColumnInfo> Columns { get; set; }
 
-    internal void LoadData()
+    internal ModuleInfo ToModuleInfo()
+    {
+        var info = new ModuleInfo
+        {
+            Id = Id,
+            ParentId = ParentId,
+            Name = Name,
+            Icon = Icon,
+            Target = Target,
+            Url = Url,
+            Enabled = Enabled
+        };
+        info.AddPlugin(new EntityPluginInfo
+        {
+            EntityData = EntityData,
+            FlowData = FlowData,
+            Page = Page,
+            Form = Form
+        });
+        return info;
+    }
+
+    internal MenuInfo ToMenuInfo()
     {
         Buttons = Page?.Tools?.ToList();
         Actions = Page?.Actions?.ToList();
         Columns = Page?.Columns;
-    }
-
-    internal ModuleInfo ToModuleInfo()
-    {
-        return new ModuleInfo
+        var info = new MenuInfo
         {
             Id = Id,
             ParentId = ParentId,
             Code = Code,
             Name = Name,
             Icon = Icon,
-            Description = Description,
             Target = Target,
             Url = Url,
-            Sort = Sort,
             Enabled = Enabled,
+            Description = Description,
+            Data = this,
+            Plugins = []
+        };
+        info.Plugins.AddPlugin(new EntityPluginInfo
+        {
             EntityData = EntityData,
             FlowData = FlowData,
-            Note = Note,
             Page = Page,
             Form = Form
-        };
+        });
+        return info;
     }
 }

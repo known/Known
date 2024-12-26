@@ -12,9 +12,9 @@ class NavLink : PluginBase, IPlugin
         Parent.UI.ShowForm(model);
     }
 
-    public void Render(RenderTreeBuilder builder, PluginInfo info)
+    public void Render(RenderTreeBuilder builder, PluginMenuInfo info)
     {
-        var param = Utils.FromJson<LinkInfo>(info.Parameters);
+        var param = Utils.FromJson<LinkInfo>(info.Parameter);
         if (param == null)
             return;
 

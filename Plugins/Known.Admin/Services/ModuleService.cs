@@ -65,8 +65,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
     public async Task<List<SysModule>> GetModulesAsync()
     {
         var modules = await Database.QueryListAsync<SysModule>();
-        var lists = modules.Select(m => m.ToModuleInfo()).ToList();
-        DataHelper.Initialize(lists);
+        ModuleHelper.Initialize(modules);
         return modules;
     }
 

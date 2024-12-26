@@ -31,19 +31,23 @@ public sealed class DataHelper
 
         AppData.Data.Modules = modules;
         Models.Clear();
-        var models = modules.Where(m => !string.IsNullOrWhiteSpace(m.EntityData) && m.EntityData.Contains('|')).Select(m => m.EntityData).ToList();
-        foreach (var item in models)
-        {
-            var model = GetEntityInfo(item);
-            Models.Add(model);
-        }
-
         Flows.Clear();
-        var flows = modules.Where(m => !string.IsNullOrWhiteSpace(m.FlowData) && m.FlowData.Contains('|')).Select(m => m.FlowData).ToList();
-        foreach (var item in flows)
+        foreach (var item in modules)
         {
-            var flow = GetFlowInfo(item);
-            Flows.Add(flow);
+            var plugin = item.GetPlugin<EntityPluginInfo>();
+            if (plugin == null)
+                continue;
+
+            if (!string.IsNullOrWhiteSpace(plugin.EntityData) && plugin.EntityData.Contains('|'))
+            {
+                var model = GetEntityInfo(plugin.EntityData);
+                Models.Add(model);
+            }
+            if (!string.IsNullOrWhiteSpace(plugin.FlowData) && plugin.FlowData.Contains('|'))
+            {
+                var flow = GetFlowInfo(plugin.FlowData);
+                Flows.Add(flow);
+            }
         }
     }
 
@@ -51,7 +55,8 @@ public sealed class DataHelper
     /// 获取路由模块。
     /// </summary>
     /// <param name="moduleUrls">模块列表。</param>
-    public static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
+    /// <param name="moduleIds">当前用户角色模块ID列表。</param>
+    public static List<ModuleInfo> GetRouteModules(List<string> moduleUrls, List<string> moduleIds = null)
     {
         var routes = Config.RouteTypes;
         if (routes.Count == 0)
@@ -61,7 +66,7 @@ public sealed class DataHelper
         var routeError = typeof(ErrorPage).RouteTemplate();
         var routeAuto = typeof(AutoPage).RouteTemplate();
         var target = Constants.Route;
-        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt", Enabled = true, Sort = moduleUrls.Count + 1 };
+        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt" };
         foreach (var item in routes.OrderBy(r => r.Key))
         {
             if (moduleUrls.Exists(m => m == item.Key) ||
@@ -78,13 +83,13 @@ public sealed class DataHelper
                 var sub = infos.FirstOrDefault(m => m.Id == id);
                 if (sub == null)
                 {
-                    sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder", Enabled = true };
+                    sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder" };
                     infos.Add(sub);
                 }
                 parentId = sub.Id;
             }
 
-            var module = GetModule(item, parentId);
+            var module = GetModule(item, parentId, moduleIds);
             infos.Add(module);
         }
 
@@ -97,7 +102,7 @@ public sealed class DataHelper
         return modules;
     }
 
-    private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
+    private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId, List<string> moduleIds = null)
     {
         var tab = item.Value.GetCustomAttribute<ReuseTabsPageAttribute>();
         var name = tab?.Title ?? item.Key;
@@ -116,10 +121,14 @@ public sealed class DataHelper
         foreach (var method in methods)
         {
             if (method.GetCustomAttribute<ActionAttribute>() != null)
+            {
+                if (moduleIds != null && !moduleIds.Contains($"b_{info.Id}_{method.Name}"))
+                    continue;
                 actions.Add(method.Name);
+            }
         }
         if (actions.Count > 0)
-            info.Page = new PageInfo { Tools = [.. actions] };
+            info.AddPlugin(new EntityPluginInfo { Page = new PageInfo { Tools = [.. actions] } });
         return info;
     }
     #endregion
@@ -143,17 +152,6 @@ public sealed class DataHelper
             return name;
 
         return name.Substring(index);
-    }
-
-    /// <summary>
-    /// 根据模块ID获取实体信息。
-    /// </summary>
-    /// <param name="moduleId">模块ID。</param>
-    /// <returns>实体信息。</returns>
-    public static EntityInfo GetEntityByModuleId(string moduleId)
-    {
-        var module = AppData.GetModule(moduleId);
-        return ToEntity(module?.EntityData);
     }
 
     /// <summary>

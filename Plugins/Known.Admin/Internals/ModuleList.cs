@@ -251,7 +251,7 @@ public class ModuleList : BasePage<SysModule>, IReuseTabsPage
             tree.SelectedKeys = [current.Id];
             await table.RefreshAsync();
         }
-        DataHelper.Initialize(modules?.ToModuleLists());
+        ModuleHelper.Initialize(modules);
         return tree;
     }
 

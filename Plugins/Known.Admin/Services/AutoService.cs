@@ -8,7 +8,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (string.IsNullOrWhiteSpace(tableName))
         {
             var pageId = criteria.GetParameter<string>("PageId");
-            tableName = DataHelper.GetEntityByModuleId(pageId)?.Id;
+            tableName = GetEntityByModuleId(pageId)?.Id;
         }
 
         if (string.IsNullOrWhiteSpace(tableName))
@@ -20,7 +20,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     public async Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
     {
-        var tableName = DataHelper.GetEntityByModuleId(info.PageId)?.Id;
+        var tableName = GetEntityByModuleId(info.PageId)?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
@@ -45,7 +45,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     public async Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
-        var entity = DataHelper.GetEntityByModuleId(info.PageId);
+        var entity = GetEntityByModuleId(info.PageId);
         var tableName = entity?.Id;
         if (entity == null || string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
@@ -104,5 +104,12 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         {
             return Result.Error(ex.Message);
         }
+    }
+
+    private static EntityInfo GetEntityByModuleId(string moduleId)
+    {
+        var module = AppData.GetModule(moduleId);
+        var plugin = module?.GetPlugin<EntityPluginInfo>();
+        return DataHelper.ToEntity(plugin?.EntityData);
     }
 }

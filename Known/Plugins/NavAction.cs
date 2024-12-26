@@ -5,7 +5,7 @@ class NavAction : BaseComponent
     private List<ActionInfo> items = [];
 
     [Parameter] public List<string> Values { get; set; }
-    [Parameter] public Func<TopNavInfo, Task<Result>> OnAdded { get; set; }
+    [Parameter] public Func<PluginInfo, Task<Result>> OnAdded { get; set; }
 
     internal void SetValues(List<string> values)
     {
@@ -50,7 +50,7 @@ class NavAction : BaseComponent
 
         if (plugin.IsNavComponent)
         {
-            await OnAdded?.Invoke(new TopNavInfo { PluginId = info.Id });
+            await OnAdded?.Invoke(new PluginInfo { Id = info.Id });
             return;
         }
 
@@ -58,10 +58,10 @@ class NavAction : BaseComponent
         if (instance != null)
         {
             instance.Parent = this;
-            instance.Config(data => OnAdded?.Invoke(new TopNavInfo
+            instance.Config(data => OnAdded?.Invoke(new PluginInfo
             {
-                PluginId = info.Id,
-                Parameters = Utils.ToJson(data)
+                Id = info.Id,
+                Setting = Utils.ToJson(data)
             }));
         }
     }
