@@ -78,6 +78,11 @@ public class ModuleInfo
     public string Url { get; set; }
 
     /// <summary>
+    /// 取得或设置顺序。
+    /// </summary>
+    public int Sort { get; set; }
+
+    /// <summary>
     /// 取得或设置插件配置信息列表。
     /// </summary>
     public List<PluginInfo> Plugins { get; set; } = [];

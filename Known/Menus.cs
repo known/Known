@@ -27,6 +27,7 @@ public class MenuInfo
         Type = info.Type;
         Target = info.Target;
         Url = info.Url;
+        Sort = info.Sort;
         Enabled = info.Enabled;
         Plugins = info.Plugins;
     }
@@ -42,6 +43,7 @@ public class MenuInfo
         Type = info.Type;
         Target = info.Target;
         Url = info.Url;
+        Sort = info.Sort;
         Enabled = info.Enabled;
         Plugins = info.Plugins;
         Color = info.Color;
@@ -93,6 +95,11 @@ public class MenuInfo
     /// 取得或设置菜单URL。
     /// </summary>
     public string Url { get; set; }
+
+    /// <summary>
+    /// 取得或设置顺序。
+    /// </summary>
+    public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置菜单返回URL，适用于APP移动端应用。

@@ -85,7 +85,11 @@ public partial class MainMenu
 
     private void OnManageMenu(MouseEventArgs e)
     {
-        UI.Alert("管理菜单");
+        var model = new DialogModel
+        {
+            Title = "管理菜单",
+        };
+        UI.ShowDialog(model);
     }
 
     private FormModel<MenuInfo> GetMenuFormModel(string title, MenuInfo data)
@@ -110,7 +114,7 @@ public partial class MainMenu
                  .Set(c => c.OnChanged, v =>
                  {
                      model.Data.ParentId = v.Id;
-                     //model.Data.Sort = v.Children.Count + 1;
+                     model.Data.Sort = v.Children.Count + 1;
                  })
                  .Build();
             };

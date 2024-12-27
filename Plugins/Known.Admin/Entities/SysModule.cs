@@ -143,6 +143,7 @@ public class SysModule : EntityBase
             Icon = Icon,
             Target = Target,
             Url = Url,
+            Sort = Sort,
             Enabled = Enabled,
             Plugins = []
         };
@@ -170,6 +171,7 @@ public class SysModule : EntityBase
             Icon = Icon,
             Target = Target,
             Url = Url,
+            Sort = Sort,
             Enabled = Enabled,
             Description = Description,
             Data = this,

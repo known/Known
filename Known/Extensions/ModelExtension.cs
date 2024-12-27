@@ -65,7 +65,7 @@ public static class ModelExtension
         if (menus == null || menus.Count == 0)
             return items;
 
-        var tops = menus.Where(m => m.ParentId == "0" && m.Target != Constants.Route).ToList();
+        var tops = menus.Where(m => m.ParentId == "0" && m.Target != Constants.Route).OrderBy(m => m.Sort).ToList();
         foreach (var item in tops)
         {
             if (item.Target == Constants.Route)
@@ -83,7 +83,7 @@ public static class ModelExtension
 
     private static void AddChildren(List<MenuInfo> menus, MenuInfo menu)
     {
-        var items = menus.Where(m => m.ParentId == menu.Id).ToList();
+        var items = menus.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
         if (items == null || items.Count == 0)
             return;
 

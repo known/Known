@@ -100,6 +100,7 @@ public sealed class AppData
         module.Type = info.Type;
         module.Target = info.Target;
         module.Url = info.Url;
+        module.Sort = info.Sort;
         module.Plugins = info.Plugins;
         Save();
         return Result.SuccessAsync("保存成功！", info);
