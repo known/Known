@@ -109,13 +109,25 @@ public class UIContext : Context
 
     internal void SetCurrentMenu(RouteData route)
     {
-        var pageRoute = Url.StartsWith("/page/") ? Url.Substring(6) : "";
-        Current = UIConfig.Menus.FirstOrDefault(m => m.HasUrl(Url, route, pageRoute));
+        Current = GetCurrentMenu(UIConfig.Menus, route);
         if (Current == null)
         {
             var menus = IsMobileApp ? Config.AppMenus : UserMenus;
-            Current = menus?.FirstOrDefault(m => m.HasUrl(Url, route, pageRoute));
+            Current = GetCurrentMenu(menus, route);
         }
+    }
+
+    private MenuInfo GetCurrentMenu(List<MenuInfo> menus, RouteData route)
+    {
+        if (menus == null || menus.Count == 0)
+            return null;
+
+        var menu = menus.FirstOrDefault(m => m.Url == Url);
+        if (menu != null)
+            return menu;
+
+        var pageRoute = Url.StartsWith("/page/") ? Url.Substring(6) : "";
+        return menus.FirstOrDefault(m => m.HasUrl(Url, route, pageRoute));
     }
 
     private bool IsInMenu(string pageId, string buttonId)

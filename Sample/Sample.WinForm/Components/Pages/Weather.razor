@@ -1,4 +1,4 @@
-﻿@page "/weather"
+﻿@page "/weather/{id?}"
 @inherits BaseComponent
 
 <PageTitle>天气</PageTitle>
@@ -13,9 +13,15 @@
         await base.OnInitAsync();
         model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
         model.ShowPager = true;
-        model.Name = "天气";
+        model.Name = $"天气 - {Id}";
         model.OnQuery = OnQueryWeatherForecastsAsync;
         model.Toolbar.AddAction(nameof(New));
+    }
+
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        model.Name = $"天气 - {Id}";
     }
 
     public void New()
