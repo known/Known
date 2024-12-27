@@ -368,8 +368,7 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     private static FlowInfo GetFlowByModuleId(string moduleId)
     {
-        var module = AppData.GetModule(moduleId);
-        var plugin = module?.GetPlugin<EntityPluginInfo>();
+        var plugin = AppData.GetEntityPlugin(moduleId);
         return DataHelper.ToFlow(plugin?.FlowData);
     }
 

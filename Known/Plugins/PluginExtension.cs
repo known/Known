@@ -20,7 +20,7 @@ public static class PluginExtension
         if (plugin == null)
             return default;
 
-        return plugin.AsPlugin<T>();
+        return Utils.FromJson<T>(plugin.Setting);
     }
 
     /// <summary>

@@ -35,13 +35,6 @@ public class PluginInfo
     /// 取得或设置插件配置JSON。
     /// </summary>
     public string Setting { get; set; }
-
-    /// <summary>
-    /// 获取指定类型的插件对象。
-    /// </summary>
-    /// <typeparam name="T">插件类型。</typeparam>
-    /// <returns>插件对象。</returns>
-    public T AsPlugin<T>() => Utils.FromJson<T>(Setting);
 }
 
 /// <summary>
@@ -93,32 +86,6 @@ public class ModuleInfo
     /// 取得或设置可用。
     /// </summary>
     public bool Enabled { get; set; } = true;
-
-    /// <summary>
-    /// 添加插件配置信息。
-    /// </summary>
-    /// <typeparam name="T">插件配置类型。</typeparam>
-    /// <param name="plugin">插件配置信息。</param>
-    /// <param name="id">插件实例ID。</param>
-    public void AddPlugin<T>(T plugin, string id = "")
-    {
-        Plugins ??= [];
-        Plugins.AddPlugin(plugin, id);
-    }
-
-    /// <summary>
-    /// 根据ID获取插件配置信息。
-    /// </summary>
-    /// <typeparam name="T">插件配置类型。</typeparam>
-    /// <param name="id">插件实例ID。</param>
-    /// <returns>插件配置信息。</returns>
-    public T GetPlugin<T>(string id = "")
-    {
-        if (Plugins == null)
-            return default;
-
-        return Plugins.GetPlugin<T>(id);
-    }
 
     /// <summary>
     /// 获取模块的字符串表示。

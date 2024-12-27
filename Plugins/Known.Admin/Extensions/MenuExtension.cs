@@ -50,7 +50,7 @@ static class MenuExtension
 
     private static void SetPluginPermission(ModuleInfo module, List<string> moduleIds)
     {
-        var plugin = module.GetPlugin<EntityPluginInfo>();
+        var plugin = module?.Plugins?.GetPlugin<EntityPluginInfo>();
         if (plugin == null)
             return;
 
@@ -65,7 +65,7 @@ static class MenuExtension
         }
 
         module.Plugins = [];
-        module.AddPlugin(plugin);
+        module.Plugins.AddPlugin(plugin);
     }
 
     private static string[] GetUserButtons(string[] buttons, List<string> moduleIds, ModuleInfo module)

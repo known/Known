@@ -71,7 +71,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         {
             info.Modules.AddRange(routes.Select(r =>
             {
-                var plugin = r.GetPlugin<EntityPluginInfo>();
+                var plugin = r.Plugins?.GetPlugin<EntityPluginInfo>();
                 var module = new SysModule
                 {
                     Id = r.Id,

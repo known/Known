@@ -29,12 +29,11 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        AppData.Data.Modules = modules;
         Models.Clear();
         Flows.Clear();
         foreach (var item in modules)
         {
-            var plugin = item.GetPlugin<EntityPluginInfo>();
+            var plugin = item.Plugins?.GetPlugin<EntityPluginInfo>();
             if (plugin == null)
                 continue;
 
@@ -128,7 +127,7 @@ public sealed class DataHelper
             }
         }
         if (actions.Count > 0)
-            info.AddPlugin(new EntityPluginInfo { Page = new PageInfo { Tools = [.. actions] } });
+            info.Plugins?.AddPlugin(new EntityPluginInfo { Page = new PageInfo { Tools = [.. actions] } });
         return info;
     }
     #endregion

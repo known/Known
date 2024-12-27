@@ -19,8 +19,6 @@ public sealed class MenuHelper
         if (modules == null || modules.Count == 0)
             return [];
 
-        //DataHelper.Initialize(modules);
-
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
         var allModules = new List<ModuleInfo>();
         allModules.AddRange(modules);

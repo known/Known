@@ -143,9 +143,10 @@ public class SysModule : EntityBase
             Icon = Icon,
             Target = Target,
             Url = Url,
-            Enabled = Enabled
+            Enabled = Enabled,
+            Plugins = []
         };
-        info.AddPlugin(new EntityPluginInfo
+        info.Plugins.AddPlugin(new EntityPluginInfo
         {
             EntityData = EntityData,
             FlowData = FlowData,

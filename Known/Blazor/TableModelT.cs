@@ -116,12 +116,12 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     public void Clear()
     {
-        Columns.Clear();
-        QueryColumns.Clear();
-        QueryData.Clear();
-        Toolbar.Items?.Clear();
+        Columns?.Clear();
+        QueryColumns?.Clear();
+        QueryData?.Clear();
+        Toolbar?.Items?.Clear();
         Actions?.Clear();
-        Criteria.Clear();
+        Criteria?.Clear();
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         AllColumns = info.Columns?.Select(c =>
         {
             var column = new ColumnInfo(c);
-            var item = form?.Fields.FirstOrDefault(f => f.Id == c.Id);
+            var item = form?.Fields?.FirstOrDefault(f => f.Id == c.Id);
             if (item != null)
             {
                 column.Type = item.Type;
@@ -160,7 +160,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             }
             if (column.Type == FieldType.Text)
             {
-                var field = model.Fields.FirstOrDefault(f => f.Id == c.Id);
+                var field = model?.Fields?.FirstOrDefault(f => f.Id == c.Id);
                 if (field != null)
                     column.Type = field.Type;
             }

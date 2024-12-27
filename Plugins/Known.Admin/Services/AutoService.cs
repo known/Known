@@ -108,8 +108,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     private static EntityInfo GetEntityByModuleId(string moduleId)
     {
-        var module = AppData.GetModule(moduleId);
-        var plugin = module?.GetPlugin<EntityPluginInfo>();
+        var plugin = AppData.GetEntityPlugin(moduleId);
         return DataHelper.ToEntity(plugin?.EntityData);
     }
 }

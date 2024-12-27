@@ -4,11 +4,7 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
-        var module = AppData.GetModule(ImportContext.BizParam);
-        if (module == null)
-            return Result.Error(Language.Required("ModuleId"));
-
-        var plugin = module.GetPlugin<EntityPluginInfo>();
+        var plugin = AppData.GetEntityPlugin(ImportContext.BizParam);
         if (plugin == null)
             return Result.Error(Language.Required("EntityPlugin"));
 

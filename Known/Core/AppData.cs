@@ -11,7 +11,10 @@ public sealed class AppData
 
     private AppData() { }
 
-    internal static AppDataInfo Data { get; set; } = new();
+    /// <summary>
+    /// 取得框架配置数据信息。
+    /// </summary>
+    public static AppDataInfo Data { get; private set; } = new();
 
     /// <summary>
     /// 取得或设置是否启用配置文件存储，默认启用。
@@ -41,6 +44,7 @@ public sealed class AppData
     {
         Data ??= new AppDataInfo();
         Data.Modules = modules;
+        DataHelper.Initialize(modules);
         Save();
     }
 
@@ -52,6 +56,20 @@ public sealed class AppData
     public static ModuleInfo GetModule(string id)
     {
         return Modules?.FirstOrDefault(m => m.Id == id);
+    }
+
+    /// <summary>
+    /// 根据ID获取实体插件信息。
+    /// </summary>
+    /// <param name="id">模块ID。</param>
+    /// <returns>实体插件信息。</returns>
+    public static EntityPluginInfo GetEntityPlugin(string id)
+    {
+        var module = GetModule(id);
+        if (module == null || module.Plugins == null)
+            return null;
+
+        return module.Plugins.GetPlugin<EntityPluginInfo>();
     }
 
     internal static Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
