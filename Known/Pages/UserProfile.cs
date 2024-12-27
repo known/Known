@@ -1,13 +1,11 @@
-﻿using AntDesign;
-
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 用户个人中心页面组件类。
 /// </summary>
 [StreamRendering]
 [Route("/profile")]
-public class UserProfile : BasePage<UserInfo>, IReuseTabsPage
+public class UserProfile : BasePage<UserInfo>
 {
     private TabModel Tab { get; } = new();
 
@@ -27,15 +25,6 @@ public class UserProfile : BasePage<UserInfo>, IReuseTabsPage
         {
             Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
         }
-    }
-
-    /// <summary>
-    /// 获取标签页标题模板。
-    /// </summary>
-    /// <returns>标签页标题模板。</returns>
-    public RenderFragment GetPageTitle()
-    {
-        return this.BuildTree(b => b.IconName("user", Language["Nav.Profile"]));
     }
 
     private void BuildUserInfo(RenderTreeBuilder builder) => builder.DynamicComponent(UIConfig.UserProfileType);

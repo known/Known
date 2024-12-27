@@ -19,6 +19,11 @@
     private ChartCard chart;
     private CommFuncCard func;
 
+    public override RenderFragment GetPageTitle()
+    {
+        return GetPageTitle("home", "首页");
+    }
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();

@@ -1,7 +1,6 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Web;
-using AntDesign;
 
 namespace Known.Internals;
 
@@ -11,17 +10,8 @@ namespace Known.Internals;
 [StreamRendering]
 [Route("/dev/webapi")]
 [DevPlugin("WebApi", "pull-request")]
-public class WebApiList : BaseTablePage<ApiMethodInfo>, IReuseTabsPage
+public class WebApiList : BaseTablePage<ApiMethodInfo>
 {
-    /// <summary>
-    /// 获取标签页标题模板。
-    /// </summary>
-    /// <returns>标签页标题模板。</returns>
-    public RenderFragment GetPageTitle()
-    {
-        return this.BuildTree(b => b.IconName("pull-request", "WebApi"));
-    }
-
     /// <summary>
     /// 异步初始化组件。
     /// </summary>

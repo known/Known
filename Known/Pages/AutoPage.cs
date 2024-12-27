@@ -5,7 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/page/{*PageRoute}")]
-public class AutoPage : BaseComponent
+public class AutoPage : BasePage
 {
     private IAutoPage page;
     private string pageRoute;

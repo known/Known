@@ -1,14 +1,26 @@
-﻿namespace Known.Blazor;
+﻿using AntDesign;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// Web页面基类，继承组件基类。
 /// </summary>
-public class BasePage : BaseComponent
+public class BasePage : BaseComponent, IReuseTabsPage
 {
     /// <summary>
     /// 取得页面模块名称。
     /// </summary>
     public string PageName => Language?.GetString(Context.Current);
+
+    /// <summary>
+    /// 获取标签页标题模板。
+    /// </summary>
+    /// <returns>标签页标题模板。</returns>
+    public virtual RenderFragment GetPageTitle()
+    {
+        var menu = Context?.Current;
+        return GetPageTitle(menu?.Icon, PageName);
+    }
 
     /// <summary>
     /// 异步初始化页面组件。
@@ -48,6 +60,17 @@ public class BasePage : BaseComponent
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
+
+    /// <summary>
+    /// 获取页面标题内容。
+    /// </summary>
+    /// <param name="icon">页面图标。</param>
+    /// <param name="name">页面名称。</param>
+    /// <returns></returns>
+    protected RenderFragment GetPageTitle(string icon, string name)
+    {
+        return this.BuildTree(b => b.IconName(icon, name));
+    }
 }
 
 /// <summary>
