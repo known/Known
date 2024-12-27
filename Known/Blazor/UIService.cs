@@ -381,6 +381,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         if (text == "Menu") return "purple";
         else if (text == "Page") return "blue";
         else if (text == "Custom") return "green";
+        else if (text == "Link") return "green";
         //Log
         else if (text == "Login") return "success";
         else if (text == "Logout") return "red";

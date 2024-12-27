@@ -47,6 +47,18 @@ public static class ModelExtension
 
     #region Menu
     /// <summary>
+    /// 获取系统菜单根节点。
+    /// </summary>
+    /// <param name="app">系统信息。</param>
+    /// <returns></returns>
+    public static MenuInfo GetRootMenu(this AppInfo app)
+    {
+        var root = new MenuInfo { Id = "0", Name = app.Name, Icon = "desktop" };
+        root.Data = new ModuleInfo { Id = root.Id, Name = root.Name };
+        return root;
+    }
+
+    /// <summary>
     /// 将菜单信息列表转成树形结构。
     /// </summary>
     /// <param name="menus">菜单信息列表。</param>
@@ -58,8 +70,7 @@ public static class ModelExtension
         var items = new List<MenuInfo>();
         if (showRoot)
         {
-            root = new MenuInfo { Id = "0", Name = Config.App.Name, Icon = "desktop" };
-            root.Data = new ModuleInfo { Id = root.Id, Name = root.Name };
+            root = Config.App.GetRootMenu();
             items.Add(root);
         }
         if (menus == null || menus.Count == 0)

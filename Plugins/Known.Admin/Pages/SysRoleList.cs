@@ -105,15 +105,13 @@ class RoleForm : BaseForm<SysRole>
     private Task OnTreeClickAsync(MenuInfo item)
     {
         SelectNode(item);
-        StateChanged();
-        return Task.CompletedTask;
+        return StateChangedAsync();
     }
 
     private Task OnTreeCheckAsync(MenuInfo item)
     {
         CheckNode(item, item.Checked);
-        OnTreeClickAsync(item);
-        return Task.CompletedTask;
+        return OnTreeClickAsync(item);
     }
 
     private async Task<TreeModel> OnTreeModelChangedAsync()

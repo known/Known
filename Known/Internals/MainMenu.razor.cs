@@ -30,7 +30,7 @@ public partial class MainMenu
         AddAction("Menu", "folder-add", "添加菜单", OnAddMenu);
         AddAction("Page", "file-add", "添加页面", OnAddPage);
         AddAction("Link", "link", "添加连接", OnAddLink);
-        AddAction("Manage", "menu", "管理菜单", OnManageMenu);
+        AddAction("Manage", "menu", "菜单管理", OnManageMenu);
     }
 
     /// <summary>
@@ -73,21 +73,17 @@ public partial class MainMenu
             Type = nameof(MenuType.Link),
             Target = nameof(LinkTarget.None)
         });
-        model.AddRow().AddColumn(c => c.Url, c => c.Required = true);
-        model.AddRow().AddColumn(c => c.Target, c =>
-        {
-            c.Name = "目标";
-            c.Type = FieldType.RadioList;
-            c.Category = nameof(LinkTarget);
-        });
         UI.ShowForm(model);
     }
 
     private void OnManageMenu(MouseEventArgs e)
     {
-        var model = new DialogModel
+        DialogModel model = null;
+        model = new DialogModel
         {
-            Title = "管理菜单",
+            Title = "菜单管理",
+            Width = 600,
+            Content = b => b.Component<MenuTree>().Set(c => c.Menus, menu?.Items).Build()
         };
         UI.ShowDialog(model);
     }
@@ -97,6 +93,7 @@ public partial class MainMenu
         var menus = Context.UserMenus ?? [];
         var model = new FormModel<MenuInfo>(this)
         {
+            SmallLabel = true,
             Title = title,
             Data = data,
             OnSave = Platform.SaveMenuAsync,
@@ -119,17 +116,7 @@ public partial class MainMenu
                  .Build();
             };
         });
-        model.AddRow().AddColumn(c => c.Name, c =>
-        {
-            c.Name = "名称";
-            c.Required = true;
-        });
-        model.AddRow().AddColumn(c => c.Icon, c =>
-        {
-            c.Name = "图标";
-            c.Required = true;
-            c.CustomField = nameof(IconPicker);
-        });
+        MenuTree.AddMenuRow(model);
         return model;
     }
 }

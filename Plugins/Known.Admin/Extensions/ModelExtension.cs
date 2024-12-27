@@ -22,11 +22,9 @@ static class ModelExtension
         var menus = new List<MenuInfo>();
         if (showRoot)
         {
-            root = new MenuInfo { Id = "0", Name = Config.App.Name, Icon = "desktop" };
+            root = root = Config.App.GetRootMenu();
             if (current != null && current.Id == root.Id)
                 current = root;
-
-            root.Data = new ModuleInfo { Id = root.Id, Name = root.Name };
             menus.Add(root);
         }
         if (models == null || models.Count == 0)

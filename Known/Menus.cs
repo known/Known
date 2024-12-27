@@ -151,6 +151,7 @@ public class MenuInfo
     /// <summary>
     /// 取得或设置菜单关联的数据对象。
     /// </summary>
+    [JsonIgnore]
     public object Data { get; set; }
 
     /// <summary>
@@ -161,6 +162,7 @@ public class MenuInfo
     /// <summary>
     /// 取得菜单对应的路由URL。
     /// </summary>
+    [JsonIgnore]
     public string RouteUrl
     {
         get
