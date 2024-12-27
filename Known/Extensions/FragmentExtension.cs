@@ -15,10 +15,7 @@ public static class FragmentExtension
     /// <param name="type">提示框类型，默认Info。</param>
     public static void Alert(this RenderTreeBuilder builder, string text, StyleType type = StyleType.Info)
     {
-        builder.Component<KAlert>()
-               .Set(c => c.Text, text)
-               .Set(c => c.Type, type)
-               .Build();
+        builder.Component<KAlert>().Set(c => c.Text, text).Set(c => c.Type, type).Build();
     }
 
     /// <summary>
@@ -29,10 +26,7 @@ public static class FragmentExtension
     /// <param name="childContent">子组件。</param>
     public static void Tooltip(this RenderTreeBuilder builder, string title, RenderFragment childContent)
     {
-        builder.Component<Tooltip>()
-               .Set(c => c.Title, title)
-               .Set(c => c.ChildContent, childContent)
-               .Build();
+        builder.Component<Tooltip>().Set(c => c.Title, title).Set(c => c.ChildContent, childContent).Build();
     }
 
     /// <summary>
@@ -43,10 +37,7 @@ public static class FragmentExtension
     /// <param name="color">标签颜色。</param>
     public static void Tag(this RenderTreeBuilder builder, string text, string color = null)
     {
-        builder.Component<KTag>()
-               .Set(c => c.Text, text)
-               .Set(c => c.Color, color)
-               .Build();
+        builder.Component<KTag>().Set(c => c.Text, text).Set(c => c.Color, color).Build();
     }
 
     /// <summary>
@@ -60,10 +51,10 @@ public static class FragmentExtension
         if (string.IsNullOrWhiteSpace(icon))
             return;
 
-        builder.Component<KIcon>()
-               .Set(c => c.Icon, icon)
-               .Set(c => c.OnClick, onClick)
-               .Build();
+        if (onClick != null)
+            builder.Component<KIcon>().Set(c => c.Icon, icon).Set(c => c.OnClick, onClick).Build();
+        else
+            builder.Component<KIcon>().Set(c => c.Icon, icon).Build();
     }
 
     /// <summary>
@@ -85,9 +76,7 @@ public static class FragmentExtension
     {
         if (!string.IsNullOrWhiteSpace(icon))
         {
-            builder.Component<KIcon>()
-                   .Set(c => c.Icon, icon)
-                   .Build();
+            builder.Component<KIcon>().Set(c => c.Icon, icon).Build();
         }
         builder.Span(name);
     }

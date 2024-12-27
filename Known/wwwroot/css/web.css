@@ -90,6 +90,11 @@
 .kui-form-button button {margin-right:10px;}
 .kui-form-auth {width:400px;margin:0 auto;}
 
+/*FullScreen*/
+.kui-screen {position:relative;background-color:var(--kui-bgcolor);}
+.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;}
+.kui-screen .action {position:absolute;top:0;right:0;z-index:1000;}
+
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-border-color);border-radius:6px;}
 .kui-group-box .legend {position:absolute;top:-15px;left:20px;padding:0 10px;}

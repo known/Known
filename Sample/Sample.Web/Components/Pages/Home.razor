@@ -3,26 +3,28 @@
 
 <PageTitle>Home</PageTitle>
 
-<div class="kui-card" style="padding:20px">
-    <h1 style="font-size:2rem;font-weight:bold">Hello, world!</h1>
+<div class="kui-card" style="padding:10px">
+    <KFullScreen>
+        <h1 style="font-size:2rem;font-weight:bold">Hello, world!</h1>
 
-    Welcome to your new app.
+        Welcome to your new app.
 
-    <KPdfView @ref="pdf" Id="pdfViewer" Style="height:400px" Option="new { ForceIframe = true }" />
+        <KPdfView @ref="pdf" Id="pdfViewer" Style="height:400px" Option="new { ForceIframe = true }" />
+
+        @if (Context.HasButton(nameof(New)))
+        {
+            <Button>新增</Button>
+        }
+        @if (Context.HasButton(nameof(Edit)))
+        {
+            <Button>编辑</Button>
+        }
+        @if (Context.HasButton(nameof(TestItem)))
+        {
+            <Button>TestItem</Button>
+        }
+    </KFullScreen>
 </div>
-
-@if (Context.HasButton(nameof(New)))
-{
-    <Button>新增</Button>
-}
-@if (Context.HasButton(nameof(Edit)))
-{
-    <Button>编辑</Button>
-}
-@if (Context.HasButton(nameof(TestItem)))
-{
-    <Button>TestItem</Button>
-}
 
 @code {
     private KPdfView pdf;
