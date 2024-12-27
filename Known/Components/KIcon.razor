@@ -5,11 +5,11 @@
         <Tooltip Title="@Title">
             @if (Icon.StartsWith("fa"))
             {
-                <span class="@Icon" @onclick="OnClick"></span>
+                <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
             }
             else
             {
-                <Icon Type="@Icon" OnClick="OnClick" />
+                <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
             }
         </Tooltip>
     }
@@ -17,11 +17,11 @@
     {
         if (Icon.StartsWith("fa"))
         {
-            <span class="@Icon" @onclick="OnClick"></span>
+            <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
         }
         else
         {
-            <Icon Type="@Icon" OnClick="OnClick" />
+            <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
         }
     }
 }
@@ -40,5 +40,5 @@
     /// <summary>
     /// 取得或设置图标单击事件。
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs>? OnClick { get; set; }
 }

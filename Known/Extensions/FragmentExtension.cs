@@ -51,10 +51,7 @@ public static class FragmentExtension
         if (string.IsNullOrWhiteSpace(icon))
             return;
 
-        if (onClick != null)
-            builder.Component<KIcon>().Set(c => c.Icon, icon).Set(c => c.OnClick, onClick).Build();
-        else
-            builder.Component<KIcon>().Set(c => c.Icon, icon).Build();
+        builder.Component<KIcon>().Set(c => c.Icon, icon).Set(c => c.OnClick, onClick).Build();
     }
 
     /// <summary>

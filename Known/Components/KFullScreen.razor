@@ -2,7 +2,9 @@
 
 <div class="@Class">
     <div class="action">
-        <KIcon Title="@Title" Icon="@Icon" OnClick="OnFullScreenAsync" />
+        <Tooltip Title="@Title">
+            <Icon Type="@Icon" OnClick="OnFullScreenAsync" />
+        </Tooltip>
     </div>
     @ChildContent
 </div>
