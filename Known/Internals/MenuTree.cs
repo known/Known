@@ -1,6 +1,8 @@
-﻿namespace Known.Internals;
+﻿using AntDesign;
 
-internal class MenuTree : BaseComponent
+namespace Known.Internals;
+
+class MenuTree : BaseComponent
 {
     private TreeModel tree;
     private MenuInfo root;
@@ -17,7 +19,8 @@ internal class MenuTree : BaseComponent
         {
             ExpandRoot = true,
             Data = [root],
-            OnNodeClick = OnTreeClickAsync
+            OnNodeClick = OnTreeClickAsync,
+            OnModelChanged = OnTreeChangedAsync
         };
     }
 
@@ -25,16 +28,9 @@ internal class MenuTree : BaseComponent
     {
         builder.Div("kui-edit-menu", () =>
         {
-            builder.Div("", () => builder.Tree(tree));
-            builder.Div("", () => BuildForm(builder));
+            builder.Div(() => BuildTree(builder));
+            builder.Div(() => BuildForm(builder));
         });
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            await tree.RefreshAsync();
     }
 
     internal static void AddMenuRow(FormModel<MenuInfo> model)
@@ -62,6 +58,33 @@ internal class MenuTree : BaseComponent
         }
     }
 
+    private void BuildTree(RenderTreeBuilder builder)
+    {
+        builder.Component<AntTree>()
+               .Set(c => c.Model, tree)
+               //.Set(c => c.Draggable, true)
+               //.Set(c => c.OnDrop, this.Callback<TreeEventArgs<MenuInfo>>(OnTreeDrop))
+               //.Set(c => c.OnDragEnd, this.Callback<TreeEventArgs<MenuInfo>>(OnTreeDropEnd))
+               //.Set(c => c.TitleTemplate, this.BuildTree<TreeNode<MenuInfo>>(BuildTreeItem))
+               .Build();
+    }
+
+    private void BuildTreeItem(RenderTreeBuilder builder, TreeNode<MenuInfo> node)
+    {
+        var model = new DropdownModel
+        {
+            TriggerType = nameof(Trigger.ContextMenu),
+            OnItemClick = info => OnItemClick(info, node.DataItem),
+            Items = [
+                new ActionInfo { Id = "Delete", Icon = "close", Name = "删除" }
+            ]
+        };
+        builder.Component<AntDropdown>()
+               .Set(c => c.Model, model)
+               .Set(c => c.ChildContent, b => b.Span(node.DataItem.Name))
+               .Build();
+    }
+
     private void BuildForm(RenderTreeBuilder builder)
     {
         if (current?.Id == root.Id)
@@ -71,13 +94,9 @@ internal class MenuTree : BaseComponent
         {
             SmallLabel = true,
             Data = current,
-            OnFieldChanged = async f =>
-            {
-                await Platform.SaveMenuAsync(current);
-                await StateChangedAsync();
-            }
+            OnFieldChanged = async f => await SaveMenuAsync(current)
         };
-        model.AddRow().AddColumn("类型", b => b.Tag(current.Type));
+        model.AddRow().AddColumn("类型", b => BuildMenuType(b, current));
         AddMenuRow(model);
         model.AddRow().AddColumn(c => c.Sort, c =>
         {
@@ -87,9 +106,74 @@ internal class MenuTree : BaseComponent
         builder.Form(model);
     }
 
+    private void BuildMenuType(RenderTreeBuilder builder, MenuInfo item)
+    {
+        builder.Div("type", () =>
+        {
+            builder.Tag(item.Type);
+            builder.Div(() =>
+            {
+                builder.Span().Class("kui-danger")
+                       .Child(() => builder.Icon("delete", "删除", this.Callback<MouseEventArgs>(e => DeleteMenu(item))));
+            });
+        });
+    }
+
     private Task OnTreeClickAsync(MenuInfo item)
     {
         current = item;
         return StateChangedAsync();
+    }
+
+    private Task<TreeModel> OnTreeChangedAsync()
+    {
+        if (current != null && current.Parent != null)
+            current.Parent.Children = [.. current.Parent.Children.OrderBy(m => m.Sort)];
+        tree.Data = tree.Data;
+        return Task.FromResult(tree);
+    }
+
+    private Task OnTreeDrop(TreeEventArgs<MenuInfo> args)
+    {
+        var node = args.Node.DataItem;
+        return Task.CompletedTask;
+    }
+
+    private Task OnTreeDropEnd(TreeEventArgs<MenuInfo> args)
+    {
+        var node = args.Node.DataItem;
+        return Task.CompletedTask;
+    }
+
+    private Task OnItemClick(ActionInfo info, MenuInfo item)
+    {
+        UI.Alert(item.Name);
+        return Task.CompletedTask;
+    }
+
+    private async Task SaveMenuAsync(MenuInfo item)
+    {
+        var result = await Platform.SaveMenuAsync(item);
+        UI.Result(result, tree.RefreshAsync);
+    }
+
+    private void DeleteMenu(MenuInfo item)
+    {
+        if (item.Children != null && item.Children.Count > 0)
+        {
+            UI.Error("存在子菜单，不能删除！");
+            return;
+        }
+
+        UI.Confirm($"确定要删除菜单[{item.Name}]？", async () =>
+        {
+            var result = await Platform.DeleteMenuAsync(item);
+            UI.Result(result, () =>
+            {
+                item.Parent.Children.Remove(item);
+                item.Parent.Children.Resort();
+                return tree.RefreshAsync();
+            });
+        });
     }
 }

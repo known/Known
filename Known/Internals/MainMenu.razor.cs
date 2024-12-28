@@ -83,7 +83,12 @@ public partial class MainMenu
         {
             Title = "菜单管理",
             Width = 600,
-            Content = b => b.Component<MenuTree>().Set(c => c.Menus, menu?.Items).Build()
+            Content = b => b.Component<MenuTree>().Set(c => c.Menus, menu?.Items).Build(),
+            OnOk = () =>
+            {
+                menu?.SetItems(menu?.Items);
+                return model.CloseAsync();
+            }
         };
         UI.ShowDialog(model);
     }

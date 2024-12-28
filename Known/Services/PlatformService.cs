@@ -19,6 +19,13 @@ public interface IPlatformService : IService
     Task<Result> SaveTopNavsAsync(List<PluginInfo> infos);
 
     /// <summary>
+    /// 异步删除菜单信息。
+    /// </summary>
+    /// <param name="info">菜单信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> DeleteMenuAsync(MenuInfo info);
+
+    /// <summary>
     /// 异步保存菜单信息。
     /// </summary>
     /// <param name="info">菜单信息。</param>
@@ -38,6 +45,11 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
         return AppData.SaveTopNavsAsync(infos);
     }
 
+    public Task<Result> DeleteMenuAsync(MenuInfo info)
+    {
+        return AppData.DeleteMenuAsync(info);
+    }
+
     public Task<Result> SaveMenuAsync(MenuInfo info)
     {
         return AppData.SaveMenuAsync(info);
@@ -54,6 +66,11 @@ class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
     public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
         return Http.PostAsync("/Platform/SaveTopNavs", infos);
+    }
+
+    public Task<Result> DeleteMenuAsync(MenuInfo info)
+    {
+        return Http.PostAsync("/Platform/DeleteMenu", info);
     }
 
     public Task<Result> SaveMenuAsync(MenuInfo info)

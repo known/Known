@@ -43,6 +43,18 @@ public static class ModelExtension
             return info;
         }).ToList();
     }
+
+    internal static void Resort(this List<ModuleInfo> modules)
+    {
+        if (modules == null || modules.Count == 0)
+            return;
+
+        var index = 1;
+        foreach (var item in modules)
+        {
+            item.Sort = index++;
+        }
+    }
     #endregion
 
     #region Menu
@@ -90,6 +102,18 @@ public static class ModelExtension
             AddChildren(menus, menu);
         }
         return items;
+    }
+
+    internal static void Resort(this List<MenuInfo> menus)
+    {
+        if (menus == null || menus.Count == 0)
+            return;
+
+        var index = 1;
+        foreach (var item in menus)
+        {
+            item.Sort = index++;
+        }
     }
 
     private static void AddChildren(List<MenuInfo> menus, MenuInfo menu)

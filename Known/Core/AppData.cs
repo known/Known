@@ -80,6 +80,19 @@ public sealed class AppData
         return Result.SuccessAsync("保存成功！");
     }
 
+    internal static Task<Result> DeleteMenuAsync(MenuInfo info)
+    {
+        var module = GetModule(info.Id);
+        if (module == null)
+            return Result.ErrorAsync("模块不存在！");
+
+        Modules?.Remove(module);
+        var modules = Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
+        modules?.Resort();
+        Save();
+        return Result.SuccessAsync("删除成功！");
+    }
+
     internal static Task<Result> SaveMenuAsync(MenuInfo info)
     {
         var module = GetModule(info.Id);
