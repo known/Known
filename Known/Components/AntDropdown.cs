@@ -26,6 +26,8 @@ public class AntDropdown : Dropdown
             Item.Type = typeof(string);
         base.OnInitialized();
 
+        Class = Model?.Class;
+
         if (!string.IsNullOrWhiteSpace(Model?.Icon))
             ChildContent = BuildIcon;
         else if (!string.IsNullOrWhiteSpace(Model?.Text))

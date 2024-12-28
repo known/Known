@@ -1,9 +1,9 @@
 ﻿namespace Known.Internals;
 
 [NavPlugin("连接", "link")]
-class NavLink : PluginBase, IPlugin
+class NavLink : PluginBase<LinkInfo>
 {
-    public void Config(Func<object, Task<Result>> onConfig)
+    public override void Config(Func<object, Task<Result>> onConfig)
     {
         var model = new FormModel<LinkInfo>(Parent, true);
         model.Title = "添加连接";
@@ -12,29 +12,28 @@ class NavLink : PluginBase, IPlugin
         Parent.UI.ShowForm(model);
     }
 
-    public void Render(RenderTreeBuilder builder, PluginMenuInfo info)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
-        var param = Utils.FromJson<LinkInfo>(info.Parameter);
-        if (param == null)
+        if (Parameter == null)
             return;
 
-        if (param.Target == LinkTarget.Blank.ToString())
+        if (Parameter.Target == LinkTarget.Blank.ToString())
         {
-            builder.Link().Href(param.Url).Set("target", "_blank")
+            builder.Link().Href(Parameter.Url).Set("target", "_blank")
                    .Child(() =>
                    {
                        builder.Component<KIcon>()
-                              .Set(c => c.Title, param.Title)
-                              .Set(c => c.Icon, param.Icon)
+                              .Set(c => c.Title, Parameter.Title)
+                              .Set(c => c.Icon, Parameter.Icon)
                               .Build();
                    });
         }
         else
         {
             builder.Component<KIcon>()
-                   .Set(c => c.Title, param.Title)
-                   .Set(c => c.Icon, param.Icon)
-                   .Set(c => c.OnClick, Parent.Callback<MouseEventArgs>(e => OnClick(param)))
+                   .Set(c => c.Title, Parameter.Title)
+                   .Set(c => c.Icon, Parameter.Icon)
+                   .Set(c => c.OnClick, Parent.Callback<MouseEventArgs>(e => OnClick(Parameter)))
                    .Build();
         }
     }

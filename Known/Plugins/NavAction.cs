@@ -50,17 +50,17 @@ class NavAction : BaseComponent
 
         if (plugin.IsNavComponent)
         {
-            await OnAdded?.Invoke(new PluginInfo { Id = info.Id });
+            await OnAdded?.Invoke(new PluginInfo { Id = info.Id, Type = info.Id });
             return;
         }
 
-        var instance = Activator.CreateInstance(plugin.Type) as IPlugin;
-        if (instance != null)
+        if (Activator.CreateInstance(plugin.Type) is IPlugin instance)
         {
             instance.Parent = this;
             instance.Config(data => OnAdded?.Invoke(new PluginInfo
             {
-                Id = info.Id,
+                Id = Utils.GetGuid(),
+                Type = info.Id,
                 Setting = Utils.ToJson(data)
             }));
         }

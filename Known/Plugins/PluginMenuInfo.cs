@@ -23,11 +23,6 @@ public class PluginMenuInfo
     public Type Type { get; set; }
 
     /// <summary>
-    /// 取得或设置插件参数JSON。
-    /// </summary>
-    public string Parameter { get; set; }
-
-    /// <summary>
     /// 取得或设置插件特性。
     /// </summary>
     public PluginAttribute Attribute { get; set; }

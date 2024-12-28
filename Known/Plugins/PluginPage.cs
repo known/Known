@@ -1,6 +1,6 @@
 ﻿namespace Known.Plugins;
 
-class PluginPage : BaseComponent, IAutoPage
+class PluginPage : BasePage, IAutoPage
 {
     private List<ActionInfo> items = [];
 
@@ -11,25 +11,23 @@ class PluginPage : BaseComponent, IAutoPage
         return Task.CompletedTask;
     }
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitPageAsync()
     {
-        await base.OnInitAsync();
+        await base.OnInitPageAsync();
         items = GetActionItems();
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         if (Menu.Plugins != null && Menu.Plugins.Count > 0)
         {
-            foreach (var item in Menu.Plugins)
+            builder.Cascading(this, b =>
             {
-                var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.Id);
-                if (plugin != null)
+                foreach (var item in Menu.Plugins)
                 {
-                    plugin.Parameter = item.Setting;
-                    builder.BuildPlugin(this, plugin);
+                    b.BuildPlugin(item);
                 }
-            }
+            });
         }
 
         if (UIConfig.IsEditMode)
@@ -40,6 +38,7 @@ class PluginPage : BaseComponent, IAutoPage
     {
         var model = new DropdownModel
         {
+            Class = "kui-edit",
             Icon = "plus",
             Items = items,
             TriggerType = "Click",
@@ -55,9 +54,15 @@ class PluginPage : BaseComponent, IAutoPage
         return plugins.ToActions();
     }
 
-    private Task OnPageClickAsync(ActionInfo info)
+    private async Task OnPageClickAsync(ActionInfo info)
     {
-        UI.Alert(info.Name);
-        return Task.CompletedTask;
+        // 向当前页面添加插件实例
+        Menu.Plugins.Add(new PluginInfo
+        {
+            Id = Utils.GetGuid(),
+            Type = info.Id
+        });
+        await Platform.SaveMenuAsync(Menu);
+        await StateChangedAsync();
     }
 }

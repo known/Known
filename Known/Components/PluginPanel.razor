@@ -4,7 +4,7 @@
 {
     <div class="kui-plugin">
         <div class="action">
-            @if (CanMove)
+            @if (Draggable)
             {
                 <span draggable ondragover="event.preventDefault()">
                     <KIcon Icon="fullscreen" />
@@ -24,12 +24,12 @@ else
     private DropdownModel model;
 
     /// <summary>
-    /// 取得或设置是否可以移动。
+    /// 取得或设置插件是否可以拖拽。
     /// </summary>
-    [Parameter] public bool CanMove { get; set; }
+    [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
-    /// 取得或设置操作信息列表。
+    /// 取得或设置插件配置下拉菜单项列表。
     /// </summary>
     [Parameter] public List<ActionInfo> Actions { get; set; }
 

@@ -45,24 +45,33 @@ public static class PluginExtension
     /// 构建插件组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    /// <param name="parent">插件上级组件。</param>
     /// <param name="info">插件信息。</param>
-    public static void BuildPlugin(this RenderTreeBuilder builder, BaseComponent parent, PluginMenuInfo info)
+    /// <param name="menu">插件所属菜单信息。</param>
+    public static void BuildPlugin(this RenderTreeBuilder builder, PluginInfo info)
     {
-        var instance = Activator.CreateInstance(info.Type) as IPlugin;
-        if (instance != null)
+        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == info.Type);
+        if (plugin == null)
+            return;
+
+        if (plugin.IsNavComponent)
         {
-            instance.Parent = parent;
-            instance?.Render(builder, info);
+            builder.Component(plugin.Type);
+            return;
         }
+
+        builder.Component(plugin.Type, new Dictionary<string, object>
+        {
+            [nameof(IPlugin.Plugin)] = info
+        });
     }
 
+    // 插件菜单转下拉菜单项列表
     internal static List<ActionInfo> ToActions(this List<PluginMenuInfo> plugins)
     {
         var infos = new List<ActionInfo>();
         var categories = plugins.Where(p => !string.IsNullOrWhiteSpace(p.Attribute.Category))
                                 .Select(p => p.Attribute.Category).Distinct().ToList();
-        if (categories.Count > 0)
+        if (categories.Count > 0) // 菜单分组
         {
             foreach (var category in categories)
             {

@@ -110,6 +110,11 @@ public class DialogModel
 public class DropdownModel
 {
     /// <summary>
+    /// 取得或设置元素样式类。
+    /// </summary>
+    public string Class { get; set; }
+
+    /// <summary>
     /// 取得或设置触发类型（Click、ContextMenu、Hover、Focus），默认Hover。
     /// </summary>
     public string TriggerType { get; set; }

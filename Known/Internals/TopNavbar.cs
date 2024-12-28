@@ -38,18 +38,7 @@ public class TopNavbar : BaseComponent
             builder.Cascading(this, b =>
             {
                 if (UIConfig.IsEditMode)
-                {
-                    b.Li().Class("kui-edit").Child(() =>
-                    {
-                        b.Component<NavAction>()
-                         .Set(c => c.Values, Values)
-                         .Set(c => c.OnAdded, OnNavbarAddedAsync)
-                         .Build(value => action = value);
-                    });
-                    b.Li().Class("kui-delete").Draggable()
-                     .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, null)))
-                     .Child(() => b.Icon("delete"));
-                }
+                    BuildNavAction(b);
 
                 if (UIConfig.TopNavType != null)
                     b.DynamicComponent(UIConfig.TopNavType);
@@ -70,6 +59,20 @@ public class TopNavbar : BaseComponent
         });
     }
 
+    private void BuildNavAction(RenderTreeBuilder builder)
+    {
+        builder.Li().Class("kui-edit").Child(() =>
+        {
+            builder.Component<NavAction>()
+                   .Set(c => c.Values, Values)
+                   .Set(c => c.OnAdded, OnNavbarAddedAsync)
+                   .Build(value => action = value);
+        });
+        builder.Li().Class("kui-delete").Draggable()
+               .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, null)))
+               .Child(() => builder.Icon("delete"));
+    }
+
     private void BuildTopNavbar(RenderTreeBuilder builder)
     {
         if (items.Count == 0)
@@ -82,26 +85,13 @@ public class TopNavbar : BaseComponent
                 builder.Li().Draggable()
                        .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
                        .OnDragStart(this.Callback<DragEventArgs>(e => OnDragStart(e, item)))
-                       .Child(() => BuildNavItem(builder, item));
+                       .Child(() => builder.BuildPlugin(item));
             }
             else
             {
-                builder.Li(() => BuildNavItem(builder, item));
+                builder.Li(() => builder.BuildPlugin(item));
             }
         }
-    }
-
-    private void BuildNavItem(RenderTreeBuilder builder, PluginInfo item)
-    {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == item.Id);
-        if (plugin == null)
-            return;
-
-        plugin.Parameter = item.Setting;
-        if (plugin.IsNavComponent)
-            builder.DynamicComponent(plugin.Type);
-        else
-            builder.BuildPlugin(this, plugin);
     }
 
     private async Task OnDropAsync(DragEventArgs e, PluginInfo item)

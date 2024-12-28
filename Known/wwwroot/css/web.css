@@ -52,14 +52,16 @@
 }
 .kui-card {height:100%;}
 
-.kui-edit {text-align:center;}
-.kui-edit > div {display:block;color:#f18c63;padding:0 2px;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
+.kui-edit {display:block;color:#f18c63;padding:0 2px;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
 .kui-edit-menu {display:grid;grid-template-columns:200px auto;}
 .kui-edit-menu .type {display:flex;justify-content:space-between;}
 .kui-delete {color:#f50;}
+
+/*Plugin*/
 .kui-plugin {position:relative;border:1px solid #f18c63;border-radius:2px;}
 .kui-plugin .action {position:absolute;top:0;right:1px;color:#f18c63;z-index:1000;}
 .kui-scroll > .kui-plugin {position:absolute;top:0;bottom:0;left:0;right:0;}
+.kui-body > .kui-plugin {margin-bottom:10px;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
