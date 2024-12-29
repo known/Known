@@ -23,7 +23,7 @@
                 <span>@Language.GetString(Current.Parent)</span>
             </BreadcrumbItem>
         } *@
-        if (Current.Name != "Home")
+        if (Current.Id != "Index" && Current.Name != "Home")
         {
             var menuName = Language.GetString(Current);
             <BreadcrumbItem>

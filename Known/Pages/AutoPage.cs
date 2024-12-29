@@ -36,10 +36,20 @@ public class AutoPage : BasePage
     }
 
     /// <summary>
+    /// 页面呈现后异步方法。
+    /// </summary>
+    /// <param name="firstRender">是否首次呈现。</param>
+    /// <returns></returns>
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// 构建页面内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
         if (Context.Current == null)
         {

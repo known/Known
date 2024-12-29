@@ -36,7 +36,8 @@ public static class ModelExtension
             var info = new MenuInfo(m);
             if (!string.IsNullOrWhiteSpace(m.Url))
             {
-                var route = Config.RouteTypes?.FirstOrDefault(r => r.Key?.StartsWith(m.Url) == true);
+                var route = Config.RouteTypes?.FirstOrDefault(r => r.Key == m.Url);
+                route ??= Config.RouteTypes?.FirstOrDefault(r => r.Key?.StartsWith(m.Url) == true);
                 if (route != null)
                     info.PageType = route.Value.Value;
             }

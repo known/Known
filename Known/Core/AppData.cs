@@ -29,7 +29,7 @@ public sealed class AppData
     /// <summary>
     /// 取得或设置解析配置数据委托。
     /// </summary>
-    public static Action<byte[]> OnParseData { get; set; }
+    public static Func<byte[], AppDataInfo> OnParseData { get; set; }
 
     /// <summary>
     /// 取得或设置格式化配置数据委托。
@@ -129,9 +129,9 @@ public sealed class AppData
 
         var bytes = File.ReadAllBytes(KmdPath);
         if (OnParseData != null)
-            OnParseData(bytes);
+            Data = OnParseData(bytes);
         else
-            ParseData(bytes);
+            Data = ParseData(bytes);
     }
 
     internal static void Save()
@@ -141,11 +141,11 @@ public sealed class AppData
 
         var bytes = OnFormatData != null
                   ? OnFormatData(Data)
-                  : FormatData();
+                  : FormatData(Data);
         File.WriteAllBytes(KmdPath, bytes);
     }
 
-    private static void ParseData(byte[] bytes)
+    private static AppDataInfo ParseData(byte[] bytes)
     {
         using (var stream = new MemoryStream(bytes))
         using (var reader = new MemoryStream())
@@ -153,13 +153,13 @@ public sealed class AppData
         {
             gzip.CopyTo(reader);
             var json = Encoding.UTF8.GetString(reader.ToArray());
-            Data = Utils.FromJson<AppDataInfo>(json);
+            return Utils.FromJson<AppDataInfo>(json);
         }
     }
 
-    private static byte[] FormatData()
+    private static byte[] FormatData(AppDataInfo data)
     {
-        var json = Utils.ToJson(Data);
+        var json = Utils.ToJson(data);
         var bytes = Encoding.UTF8.GetBytes(json);
         using (var stream = new MemoryStream())
         using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))

@@ -3,7 +3,7 @@
 /// <summary>
 /// 框架配置数据信息类。
 /// </summary>
-public partial class AppDataInfo
+public class AppDataInfo
 {
     /// <summary>
     /// 取得或设置顶部导航信息列表。

@@ -1,6 +1,6 @@
 ﻿namespace Known.Plugins;
 
-class PluginPage : BasePage, IAutoPage
+class PluginPage : BaseComponent, IAutoPage
 {
     private List<ActionInfo> items = [];
 
@@ -11,15 +11,15 @@ class PluginPage : BasePage, IAutoPage
         return Task.CompletedTask;
     }
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnInitAsync();
         items = GetActionItems();
     }
 
-    protected override void BuildPage(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (Menu.Plugins != null && Menu.Plugins.Count > 0)
+        if (Menu != null && Menu.Plugins != null && Menu.Plugins.Count > 0)
         {
             builder.Cascading(this, b =>
             {
@@ -43,7 +43,7 @@ class PluginPage : BasePage, IAutoPage
             Items = items,
             TriggerType = "Click",
             Text = "添加区块",
-            OnItemClick = OnPageClickAsync
+            OnItemClick = OnItemClickAsync
         };
         builder.Dropdown(model);
     }
@@ -54,8 +54,14 @@ class PluginPage : BasePage, IAutoPage
         return plugins.ToActions();
     }
 
-    private async Task OnPageClickAsync(ActionInfo info)
+    private async Task OnItemClickAsync(ActionInfo info)
     {
+        if (Menu == null)
+        {
+            UI.Error("菜单不存在！");
+            return;
+        }
+
         // 向当前页面添加插件实例
         Menu.Plugins.Add(new PluginInfo
         {
