@@ -14,7 +14,7 @@ class MenuTree : BaseComponent
     {
         await base.OnInitAsync();
         root = Config.App.GetRootMenu();
-        root.Children.AddRange(Menus);
+        root.AddChildren(Menus);
         tree = new TreeModel
         {
             ExpandRoot = true,
@@ -69,25 +69,25 @@ class MenuTree : BaseComponent
                .Build();
     }
 
-    private void BuildTreeItem(RenderTreeBuilder builder, TreeNode<MenuInfo> node)
-    {
-        var model = new DropdownModel
-        {
-            TriggerType = nameof(Trigger.ContextMenu),
-            OnItemClick = info => OnItemClick(info, node.DataItem),
-            Items = [
-                new ActionInfo { Id = "Delete", Icon = "close", Name = "删除" }
-            ]
-        };
-        builder.Component<AntDropdown>()
-               .Set(c => c.Model, model)
-               .Set(c => c.ChildContent, b => b.Span(node.DataItem.Name))
-               .Build();
-    }
+    //private void BuildTreeItem(RenderTreeBuilder builder, TreeNode<MenuInfo> node)
+    //{
+    //    var model = new DropdownModel
+    //    {
+    //        TriggerType = nameof(Trigger.ContextMenu),
+    //        OnItemClick = info => OnItemClick(info, node.DataItem),
+    //        Items = [
+    //            new ActionInfo { Id = "Delete", Icon = "close", Name = "删除" }
+    //        ]
+    //    };
+    //    builder.Component<AntDropdown>()
+    //           .Set(c => c.Model, model)
+    //           .Set(c => c.ChildContent, b => b.Span(node.DataItem.Name))
+    //           .Build();
+    //}
 
     private void BuildForm(RenderTreeBuilder builder)
     {
-        if (current?.Id == root.Id)
+        if (string.IsNullOrWhiteSpace(current?.Name) || current?.Id == root.Id)
             return;
 
         var model = new FormModel<MenuInfo>(this)
@@ -113,6 +113,11 @@ class MenuTree : BaseComponent
             builder.Tag(item.Type);
             builder.Div(() =>
             {
+                //if (item.Parent.Children.IndexOf(item) > 0)
+                //    builder.Icon("arrow-up", "上移", this.Callback<MouseEventArgs>(e => MoveUpMenuAsync(item)));
+                //if (item.Parent.Children.IndexOf(item) < item.Parent.Children.Count - 1)
+                //    builder.Icon("arrow-down", "下移", this.Callback<MouseEventArgs>(e => MoveDownMenuAsync(item)));
+                //builder.Icon("drag", "移动到", this.Callback<MouseEventArgs>(e => MoveToMenu(item)));
                 builder.Span().Class("kui-danger")
                        .Child(() => builder.Icon("delete", "删除", this.Callback<MouseEventArgs>(e => DeleteMenu(item))));
             });
@@ -133,29 +138,46 @@ class MenuTree : BaseComponent
         return Task.FromResult(tree);
     }
 
-    private Task OnTreeDrop(TreeEventArgs<MenuInfo> args)
-    {
-        var node = args.Node.DataItem;
-        return Task.CompletedTask;
-    }
+    //private Task OnTreeDrop(TreeEventArgs<MenuInfo> args)
+    //{
+    //    var node = args.Node.DataItem;
+    //    return Task.CompletedTask;
+    //}
 
-    private Task OnTreeDropEnd(TreeEventArgs<MenuInfo> args)
-    {
-        var node = args.Node.DataItem;
-        return Task.CompletedTask;
-    }
+    //private Task OnTreeDropEnd(TreeEventArgs<MenuInfo> args)
+    //{
+    //    var node = args.Node.DataItem;
+    //    return Task.CompletedTask;
+    //}
 
-    private Task OnItemClick(ActionInfo info, MenuInfo item)
-    {
-        UI.Alert(item.Name);
-        return Task.CompletedTask;
-    }
+    //private Task OnItemClick(ActionInfo info, MenuInfo item)
+    //{
+    //    UI.Alert(item.Name);
+    //    return Task.CompletedTask;
+    //}
 
     private async Task SaveMenuAsync(MenuInfo item)
     {
         var result = await Platform.SaveMenuAsync(item);
         UI.Result(result, tree.RefreshAsync);
     }
+
+    //private async Task MoveUpMenuAsync(MenuInfo item)
+    //{
+    //    var result = await Platform.SaveMenuAsync(item);
+    //    UI.Result(result, tree.RefreshAsync);
+    //}
+
+    //private async Task MoveDownMenuAsync(MenuInfo item)
+    //{
+    //    var result = await Platform.SaveMenuAsync(item);
+    //    UI.Result(result, tree.RefreshAsync);
+    //}
+
+    //private void MoveToMenu(MenuInfo item)
+    //{
+    //    throw new NotImplementedException();
+    //}
 
     private void DeleteMenu(MenuInfo item)
     {

@@ -5,15 +5,18 @@ class NavLink : PluginBase<LinkInfo>
 {
     public override void Config(Func<object, Task<Result>> onConfig)
     {
-        var model = new FormModel<LinkInfo>(Parent, true);
-        model.Title = "添加连接";
-        model.Data = new LinkInfo();
-        model.OnSave = d => onConfig?.Invoke(d);
+        var model = new FormModel<LinkInfo>(Parent, true)
+        {
+            Title = "添加连接",
+            Data = new LinkInfo(),
+            OnSave = d => onConfig?.Invoke(d)
+        };
         Parent.UI.ShowForm(model);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
+        Parameter = Utils.FromJson<LinkInfo>(Plugin?.Setting);
         if (Parameter == null)
             return;
 

@@ -191,6 +191,20 @@ public class MenuInfo
 
     internal Type PageType { get; set; }
 
+    internal void AddChild(MenuInfo menu)
+    {
+        menu.Parent = this;
+        Children.Add(menu);
+    }
+
+    internal void AddChildren(List<MenuInfo> menus)
+    {
+        foreach (var menu in menus)
+        {
+            AddChild(menu);
+        }
+    }
+
     internal bool HasUrl(string url, RouteData route, string page)
     {
         if (Target == Constants.Route)

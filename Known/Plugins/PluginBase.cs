@@ -29,16 +29,12 @@ public interface IPlugin : Microsoft.AspNetCore.Components.IComponent
 public class PluginBase<TParam> : BaseComponent, IPlugin
 {
     [CascadingParameter] private PluginPage Page { get; set; }
+    private List<ActionInfo> Actions { get; } = [];
 
     /// <summary>
     /// 取得插件配置参数对象。
     /// </summary>
-    protected TParam Parameter { get; private set; }
-
-    /// <summary>
-    /// 取得插件配置下拉菜单项列表。
-    /// </summary>
-    protected List<ActionInfo> Actions { get; } = [];
+    protected TParam Parameter { get; set; }
 
     /// <summary>
     /// 取得或设置插件是否可以拖拽。
@@ -68,14 +64,7 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Parameter = Utils.FromJson<TParam>(Plugin?.Setting);
-        Actions.Add(new ActionInfo
-        {
-            Id = "Delete",
-            Icon = "delete",
-            Name = "删除",
-            OnClick = this.Callback<MouseEventArgs>(OnDelete)
-        });
+        AddAction("delete", "删除", OnDelete);
     }
 
     /// <summary>
@@ -84,6 +73,7 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
+        Parameter = Utils.FromJson<TParam>(Plugin?.Setting);
         builder.Component<PluginPanel>()
                .Set(c => c.Draggable, Draggable)
                .Set(c => c.Actions, Actions)
@@ -97,10 +87,47 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// <param name="builder">呈现树建造者。</param>
     protected virtual void BuildPlugin(RenderTreeBuilder builder) { }
 
-    private async Task OnDelete(MouseEventArgs args)
+    /// <summary>
+    /// 添加插件配置下拉菜单项。
+    /// </summary>
+    /// <param name="icon">图标。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="onClick">单击事件委托。</param>
+    /// <returns>下拉菜单项。</returns>
+    protected ActionInfo AddAction(string icon, string name, Action onClick)
     {
-        Page.Menu.Plugins.Remove(Plugin);
-        await Platform.SaveMenuAsync(Page.Menu);
-        await Page.StateChangedAsync();
+        var info = new ActionInfo
+        {
+            Icon = icon,
+            Name = name,
+            OnClick = this.Callback<MouseEventArgs>(e => onClick?.Invoke())
+        };
+        Actions.Add(info);
+        return info;
+    }
+
+    /// <summary>
+    /// 异步保存插件设置参数。
+    /// </summary>
+    /// <param name="parameter">插件参数对象。</param>
+    /// <returns></returns>
+    protected Task<Result> SaveParameterAsync(TParam parameter)
+    {
+        var plugin = Page.Menu.Plugins.FirstOrDefault(p => p.Id == Plugin.Id);
+        if (plugin == null)
+            return Result.ErrorAsync("插件不存在！");
+
+        plugin.Setting = Utils.ToJson(parameter);
+        return Platform.SaveMenuAsync(Page.Menu);
+    }
+
+    private void OnDelete()
+    {
+        UI.Confirm("确定要删除插件？", async () =>
+        {
+            Page.Menu.Plugins.Remove(Plugin);
+            await Platform.SaveMenuAsync(Page.Menu);
+            await Page.StateChangedAsync();
+        });
     }
 }

@@ -10,5 +10,6 @@ class NavEditMode : BaseNav
     {
         UIConfig.IsEditMode = !UIConfig.IsEditMode;
         App.StateChanged();
+        App.ReloadPage();
     }
 }

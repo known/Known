@@ -96,7 +96,7 @@ public static class ModelExtension
 
             var menu = new MenuInfo(item);
             if (showRoot)
-                root.Children.Add(menu);
+                root.AddChild(menu);
             else
                 items.Add(menu);
             AddChildren(menus, menu);
@@ -125,8 +125,7 @@ public static class ModelExtension
         foreach (var item in items)
         {
             var sub = new MenuInfo(item);
-            sub.Parent = menu;
-            menu.Children.Add(sub);
+            menu.AddChild(sub);
             AddChildren(menus, sub);
         }
     }

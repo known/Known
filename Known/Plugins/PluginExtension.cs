@@ -46,7 +46,6 @@ public static class PluginExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="info">插件信息。</param>
-    /// <param name="menu">插件所属菜单信息。</param>
     public static void BuildPlugin(this RenderTreeBuilder builder, PluginInfo info)
     {
         var plugin = Config.Plugins.FirstOrDefault(p => p.Id == info.Type);

@@ -1,4 +1,5 @@
-﻿using Known.Plugins;
+﻿using System.ComponentModel.DataAnnotations;
+using Known.Plugins;
 using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Sample.WinForm.Plugins;
@@ -10,7 +11,7 @@ class TestPlugin : PluginBase<TestPluginInfo>
     {
         await base.OnInitAsync();
         Draggable = true;
-        Actions.Add(new ActionInfo { Id = "Setting", Icon = "setting", Name = "设置" });
+        AddAction("setting", "设置", OnSetting);
     }
 
     protected override void BuildPlugin(RenderTreeBuilder builder)
@@ -23,9 +24,23 @@ class TestPlugin : PluginBase<TestPluginInfo>
             builder.Li("", $"插件参数：{Parameter?.Name}");
         });
     }
+
+    private void OnSetting()
+    {
+        var model = new FormModel<TestPluginInfo>(this, true)
+        {
+            Title = "测试插件配置",
+            Data = Parameter ?? new TestPluginInfo(),
+            OnSave = SaveParameterAsync,
+            OnSaved = d => StateChanged()
+        };
+        UI.ShowForm(model);
+    }
 }
 
 public class TestPluginInfo
 {
+    [Form]
+    [Required]
     public string Name { get; set; }
 }
