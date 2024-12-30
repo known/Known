@@ -8,6 +8,8 @@ namespace Known.Components;
 /// </summary>
 public class AntMenu : Menu
 {
+    private bool isLoading = true;
+
     /// <summary>
     /// 取得或设置系统上下文。
     /// </summary>
@@ -34,16 +36,22 @@ public class AntMenu : Menu
     /// <returns></returns>
     public void SetItems(List<MenuInfo> items)
     {
+        isLoading = false;
         Items = items;
         StateHasChanged();
     }
 
     private void BuildMenu(RenderTreeBuilder builder)
     {
-        if (Items == null || Items.Count == 0)
-            builder.Li("kui-p10", "Loading...");
-        else
+        if (Items != null && Items.Count > 0)
+        {
             BuildMenu(builder, Items);
+            return;
+        }
+        else if (isLoading)
+        {
+            builder.Li("kui-p10", "Loading...");
+        }
     }
 
     private void BuildMenu(RenderTreeBuilder builder, List<MenuInfo> items)
