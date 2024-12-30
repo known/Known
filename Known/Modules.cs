@@ -250,8 +250,9 @@ public class PageColumnInfo
     /// 取得或设置栏位对齐方式（left/center/right）。
     /// </summary>
     public string Align { get; set; }
+
     /// <summary>
-    /// 取得或设置栏位排序。
+    /// 取得或设置栏位默认显示位置。
     /// </summary>
     public int? Position { get; set; }
 }

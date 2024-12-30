@@ -147,7 +147,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             ActionCount = info.ActionSize.Value;
         Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList() ?? [];
 
-        AllColumns = info.Columns?.OrderBy(t=>t.Position).OrderBy(t=>t.Position).Select(c =>
+        AllColumns = info.Columns?.OrderBy(t => t.Position).Select(c =>
         {
             var column = new ColumnInfo(c);
             var item = form?.Fields?.FirstOrDefault(f => f.Id == c.Id);

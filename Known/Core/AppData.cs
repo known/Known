@@ -72,6 +72,7 @@ public sealed class AppData
         return module.Plugins.GetPlugin<EntityPluginInfo>();
     }
 
+    #region TopNav
     internal static Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
         Data ??= new AppDataInfo();
@@ -79,7 +80,39 @@ public sealed class AppData
         SaveData();
         return Result.SuccessAsync("保存成功！");
     }
+    #endregion
 
+    #region Language
+    internal static Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
+    {
+        foreach (var info in infos)
+        {
+            var item = Data.Languages.FirstOrDefault(b => b.Id == info.Id);
+            if (item != null)
+                Data.Languages.Remove(item);
+        }
+        SaveData();
+        return Result.SuccessAsync("删除成功！");
+    }
+
+    internal static Task<Result> SaveLanguageAsync(LanguageInfo info)
+    {
+        Data ??= new AppDataInfo();
+        var item = Data.Languages.FirstOrDefault(b => b.Id == info.Id);
+        if (item == null)
+        {
+            item = new LanguageInfo();
+            Data.Languages.Add(item);
+        }
+        item.Id = info.Id;
+        item.Name = info.Name;
+        item.Icon = info.Icon;
+        SaveData();
+        return Result.SuccessAsync("保存成功！");
+    }
+    #endregion
+
+    #region Button
     internal static Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)
     {
         foreach (var info in infos)
@@ -109,7 +142,9 @@ public sealed class AppData
         SaveData();
         return Result.SuccessAsync("保存成功！");
     }
+    #endregion
 
+    #region Menu
     internal static Task<Result> DeleteMenuAsync(MenuInfo info)
     {
         var module = GetModule(info.Id);
@@ -148,7 +183,9 @@ public sealed class AppData
         SaveData();
         return Result.SuccessAsync("保存成功！", info);
     }
+    #endregion
 
+    #region Private
     internal static void LoadData()
     {
         if (!Enabled)
@@ -203,4 +240,5 @@ public sealed class AppData
             return buffer;
         }
     }
+    #endregion
 }

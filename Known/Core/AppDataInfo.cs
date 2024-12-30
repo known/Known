@@ -34,16 +34,19 @@ public class LanguageInfo
     /// <summary>
     /// 取得或设置语言ID。
     /// </summary>
+    [Form, Required]
     public string Id { get; set; }
 
     /// <summary>
     /// 取得或设置语言名称。
     /// </summary>
+    [Form, Required]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置语言图标。
     /// </summary>
+    [Form, Required]
     public string Icon { get; set; }
 }
 

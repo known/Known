@@ -20,6 +20,29 @@ public interface IPlatformService : IService
     Task<Result> SaveTopNavsAsync(List<PluginInfo> infos);
     #endregion
 
+    #region Language
+    /// <summary>
+    /// 异步分页查询语言信息列表。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步删除语言信息列表。
+    /// </summary>
+    /// <param name="infos">语言信息列表。</param>
+    /// <returns>删除结果。</returns>
+    Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos);
+
+    /// <summary>
+    /// 异步保存语言信息列表。
+    /// </summary>
+    /// <param name="info">语言信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveLanguageAsync(LanguageInfo info);
+    #endregion
+
     #region Button
     /// <summary>
     /// 异步分页查询按钮信息列表。
@@ -74,18 +97,54 @@ class PlatformService(Context context) : ServiceBase(context), IPlatformService
     }
     #endregion
 
+    #region Language
+    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
+    {
+        var datas = AppData.Data?.Languages ?? [];
+        if (datas.Count == 0)
+            datas.AddRange(Language.Items.Select(CreateLanguage));
+        if (criteria.HasQuery(nameof(LanguageInfo.Name)))
+        {
+            var name = criteria.GetQueryValue(nameof(LanguageInfo.Name));
+            datas = datas.Where(b => b.Name.Contains(name)).ToList();
+        }
+        var result = datas.ToPagingResult(criteria);
+        return Task.FromResult(result);
+    }
+
+    public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
+    {
+        return AppData.DeleteLanguagesAsync(infos);
+    }
+
+    public Task<Result> SaveLanguageAsync(LanguageInfo info)
+    {
+        return AppData.SaveLanguageAsync(info);
+    }
+
+    private LanguageInfo CreateLanguage(ActionInfo info)
+    {
+        return new LanguageInfo
+        {
+            Id = info.Id,
+            Name = info.Name,
+            Icon = info.Icon
+        };
+    }
+    #endregion
+
     #region Button
     public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {
-        var buttons = AppData.Data?.Buttons ?? [];
-        if (buttons.Count == 0)
-            buttons.AddRange(Config.Actions.Select(CreateButton));
+        var datas = AppData.Data?.Buttons ?? [];
+        if (datas.Count == 0)
+            datas.AddRange(Config.Actions.Select(CreateButton));
         if (criteria.HasQuery(nameof(ButtonInfo.Name)))
         {
             var name = criteria.GetQueryValue(nameof(ButtonInfo.Name));
-            buttons = buttons.Where(b => b.Name.Contains(name)).ToList();
+            datas = datas.Where(b => b.Name.Contains(name)).ToList();
         }
-        var result = buttons.ToPagingResult(criteria);
+        var result = datas.ToPagingResult(criteria);
         return Task.FromResult(result);
     }
 
@@ -136,6 +195,23 @@ class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
     public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
         return Http.PostAsync("/Platform/SaveTopNavs", infos);
+    }
+    #endregion
+
+    #region Language
+    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
+    {
+        return Http.QueryAsync<LanguageInfo>("/Platform/QueryLanguages", criteria);
+    }
+
+    public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
+    {
+        return Http.PostAsync("/Platform/DeleteLanguages", infos);
+    }
+
+    public Task<Result> SaveLanguageAsync(LanguageInfo info)
+    {
+        return Http.PostAsync("/Platform/SaveLanguage", info);
     }
     #endregion
 
