@@ -22,6 +22,11 @@ public class PluginAttribute(string name, string icon) : Attribute
     /// 取得或设置插件分类。
     /// </summary>
     public string Category { get; set; }
+
+    /// <summary>
+    /// 取得或设置排序。
+    /// </summary>
+    public int Sort {  get; set; }
 }
 
 /// <summary>
@@ -44,3 +49,55 @@ public class NavPluginAttribute(string name, string icon) : PluginAttribute(name
 /// <param name="name">插件名称。</param>
 /// <param name="icon">插件菜单图标。</param>
 public class PagePluginAttribute(string name, string icon) : PluginAttribute(name, icon) { }
+
+/// <summary>
+/// 页面区块插件类型枚举。
+/// </summary>
+public enum PagePluginType
+{
+    /// <summary>
+    /// 模块。
+    /// </summary>
+    [Description("模块")]
+    Module,
+    /// <summary>
+    /// 表格。
+    /// </summary>
+    [Description("表格")]
+    Table,
+    /// <summary>
+    /// 表单。
+    /// </summary>
+    [Description("表单")]
+    Form,
+    /// <summary>
+    /// 详情。
+    /// </summary>
+    [Description("详情")]
+    Detail,
+    /// <summary>
+    /// 列表。
+    /// </summary>
+    [Description("列表")]
+    List,
+    /// <summary>
+    /// 图表。
+    /// </summary>
+    [Description("图表")]
+    Chart,
+    /// <summary>
+    /// 模板。
+    /// </summary>
+    [Description("模板")]
+    Template,
+    /// <summary>
+    /// AI。
+    /// </summary>
+    [Description("AI")]
+    AI,
+    /// <summary>
+    /// 其他。
+    /// </summary>
+    [Description("其他")]
+    Other
+}

@@ -40,4 +40,15 @@ public class PluginMenuInfo
     internal bool IsDev => Attribute is DevPluginAttribute;
     internal bool IsNav => Attribute is NavPluginAttribute;
     internal bool IsPage => Attribute is PagePluginAttribute;
+
+    internal ActionInfo ToAction()
+    {
+        return new ActionInfo
+        {
+            Id = Id,
+            Name = Attribute.Name,
+            Icon = Attribute.Icon ?? "file",
+            Url = Url
+        };
+    }
 }

@@ -302,6 +302,7 @@
 .ant-menu-vertical, 
 .ant-menu-vertical-left {border-right:none;}
 .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa + span {opacity:0;}
+.ant-dropdown-menu .anticon {margin-right:5px;}
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .kui-table .kui-title {padding-left:0;}

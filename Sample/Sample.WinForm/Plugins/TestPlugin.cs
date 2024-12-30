@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Sample.WinForm.Plugins;
 
-[PagePlugin("测试", "file")]
+[PagePlugin("测试", "file", Category = nameof(PagePluginType.Other), Sort = 1)]
 class TestPlugin : PluginBase<TestPluginInfo>
 {
     protected override async Task OnInitAsync()

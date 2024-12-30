@@ -70,37 +70,21 @@ public static class PluginExtension
         var infos = new List<ActionInfo>();
         var categories = plugins.Where(p => !string.IsNullOrWhiteSpace(p.Attribute.Category))
                                 .Select(p => p.Attribute.Category).Distinct().ToList();
-        if (categories.Count > 0) // 菜单分组
+        if (categories.Count > 0)
         {
             foreach (var category in categories)
             {
-                var items = plugins.Where(p => p.Attribute.Category == category);
-                var info = new ActionInfo
-                {
-                    Id = category,
-                    Icon = "folder",
-                    Name = category
-                };
-                info.Children.AddRange(items.Select(GetAction));
+                var items = plugins.Where(p => p.Attribute.Category == category).OrderBy(p => p.Attribute.Sort);
+                var info = new ActionInfo { Id = category, Icon = "folder", Name = category };
+                info.Children.AddRange(items.Select(item => item.ToAction()));
                 infos.Add(info);
             }
         }
-        var others = plugins.Where(p => string.IsNullOrWhiteSpace(p.Attribute.Category));
+        var others = plugins.Where(p => string.IsNullOrWhiteSpace(p.Attribute.Category)).OrderBy(p => p.Attribute.Sort);
         foreach (var item in others)
         {
-            infos.Add(GetAction(item));
+            infos.Add(item.ToAction());
         }
         return infos;
-    }
-
-    private static ActionInfo GetAction(PluginMenuInfo item)
-    {
-        return new ActionInfo
-        {
-            Id = item.Id,
-            Name = item.Attribute.Name,
-            Icon = item.Attribute.Icon ?? "file",
-            Url = item.Url
-        };
     }
 }

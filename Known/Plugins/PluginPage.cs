@@ -51,7 +51,40 @@ class PluginPage : BaseComponent, IAutoPage
     private static List<ActionInfo> GetActionItems()
     {
         var plugins = Config.Plugins.Where(p => p.IsPage).ToList();
-        return plugins.ToActions();
+        var infos = new List<ActionInfo>();
+        var types = Cache.GetCodes(nameof(PagePluginType));
+        foreach (var item in types)
+        {
+            var type = Utils.ConvertTo<PagePluginType>(item.Code);
+            var info = new ActionInfo { Id = item.Code, Name = item.Name, Icon = GetPluginIcon(type) };
+            var menus = plugins.Where(p => p.Attribute.Category == info.Id).ToList();
+            if (menus != null && menus.Count > 0)
+            {
+                foreach (var menu in menus)
+                {
+                    info.Children.Add(menu.ToAction());
+                }
+            }
+            infos.Add(info);
+        }
+        return infos;
+    }
+
+    private static string GetPluginIcon(PagePluginType type)
+    {
+        return type switch
+        {
+            PagePluginType.Module => "appstore",
+            PagePluginType.Table => "table",
+            PagePluginType.Form => "form",
+            PagePluginType.Detail => "profile",
+            PagePluginType.List => "unordered-list",
+            PagePluginType.Chart => "bar-chart",
+            PagePluginType.Template => "block",
+            PagePluginType.AI => "robot",
+            PagePluginType.Other => "folder",
+            _ => "",
+        };
     }
 
     private async Task OnItemClickAsync(ActionInfo info)
