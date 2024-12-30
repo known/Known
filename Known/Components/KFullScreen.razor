@@ -1,11 +1,14 @@
 ﻿@inherits BaseComponent
 
 <div class="@Class">
-    <div class="action">
-        <Tooltip Title="@Title">
-            <Icon Type="@Icon" OnClick="OnFullScreenAsync" />
-        </Tooltip>
-    </div>
+    @if (!isFullScreen)
+    {
+        <div class="action">
+            <Tooltip Title="@Title">
+                <Icon Type="@Icon" OnClick="OnFullScreenAsync" />
+            </Tooltip>
+        </div>
+    }
     @ChildContent
 </div>
 
