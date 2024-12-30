@@ -75,6 +75,7 @@ class PageDesigner : BaseViewDesigner<PageInfo>
         column.Fixed = info.Fixed;
         column.Width = info.Width;
         column.Align = info.Align;
+        column.Position = info.Position;
     }
 
     private void ChangeView()

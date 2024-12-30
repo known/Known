@@ -282,6 +282,7 @@
   "IsSort": "排序",
   "DefaultSort": "默认排序",
   "Fixed": "固定位置",
+  "Position":"位置",
   "SysModule.Icon": "图标",
   "Test": "测试",
   "Execute": "执行",
