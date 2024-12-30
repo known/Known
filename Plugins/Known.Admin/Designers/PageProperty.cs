@@ -21,6 +21,12 @@ class PageProperty : BaseProperty<PageColumnInfo>
                 Value = Model.IsQuery,
                 ValueChanged = this.Callback<bool>(value => { Model.IsQuery = value; OnChanged?.Invoke(Model); })
             }));
+            BuildPropertyItem(builder, "Position", b => b.Number(new InputModel<int?>
+            {
+                Disabled = IsReadOnly,
+                Value = Model.Position,
+                ValueChanged = this.Callback<int?>(value => { Model.Position = value; OnChanged?.Invoke(Model); })
+            }));
             if (Model.IsQuery)
             {
                 BuildPropertyItem(builder, "IsQueryAll", b => b.Switch(new InputModel<bool>

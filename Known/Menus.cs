@@ -398,6 +398,10 @@ public class ColumnInfo
     /// 取得或设置栏位对齐方式（left/center/right）。
     /// </summary>
     public string Align { get; set; }
+    /// <summary>
+    /// 取得或设置栏位位置。
+    /// </summary>
+    public int? Position { get; set; }
 
     internal bool IsForm { get; set; }
     internal string DisplayName { get; set; }
@@ -505,6 +509,7 @@ public class ColumnInfo
         Fixed = info.Fixed;
         Width = info.Width ?? 0;
         Align = info.Align;
+        Position = info.Position ?? 0;
 
         if (info.Id == nameof(EntityBase.CreateTime) || info.Id == nameof(EntityBase.ModifyTime))
             Type = FieldType.Date;
