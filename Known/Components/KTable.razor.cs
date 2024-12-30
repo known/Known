@@ -144,7 +144,10 @@ partial class KTable<TItem> : BaseComponent
         }
         else if (!string.IsNullOrWhiteSpace(item.Category))
         {
-            text = Cache.GetCodeName(item.Category, text);
+            if (value is string[])
+                text = Cache.GetCodeName(item.Category, (string[])value);
+            else
+                text = Cache.GetCodeName(item.Category, text);
         }
         return text;
     }

@@ -45,7 +45,7 @@ public sealed class AppData
         Data ??= new AppDataInfo();
         Data.Modules = modules;
         DataHelper.Initialize(modules);
-        Save();
+        SaveData();
     }
 
     /// <summary>
@@ -76,7 +76,37 @@ public sealed class AppData
     {
         Data ??= new AppDataInfo();
         Data.TopNavs = infos;
-        Save();
+        SaveData();
+        return Result.SuccessAsync("保存成功！");
+    }
+
+    internal static Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)
+    {
+        foreach (var info in infos)
+        {
+            var item = Data.Buttons.FirstOrDefault(b => b.Id == info.Id);
+            if (item != null)
+                Data.Buttons.Remove(item);
+        }
+        SaveData();
+        return Result.SuccessAsync("删除成功！");
+    }
+
+    internal static Task<Result> SaveButtonAsync(ButtonInfo info)
+    {
+        Data ??= new AppDataInfo();
+        var item = Data.Buttons.FirstOrDefault(b => b.Id == info.Id);
+        if (item == null)
+        {
+            item = new ButtonInfo();
+            Data.Buttons.Add(item);
+        }
+        item.Id = info.Id;
+        item.Name = info.Name;
+        item.Icon = info.Icon;
+        item.Style = info.Style;
+        item.Position = info.Position;
+        SaveData();
         return Result.SuccessAsync("保存成功！");
     }
 
@@ -89,7 +119,7 @@ public sealed class AppData
         Modules?.Remove(module);
         var modules = Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
         modules?.Resort();
-        Save();
+        SaveData();
         return Result.SuccessAsync("删除成功！");
     }
 
@@ -115,11 +145,11 @@ public sealed class AppData
         module.Url = info.Url;
         module.Sort = info.Sort;
         module.Plugins = info.Plugins;
-        Save();
+        SaveData();
         return Result.SuccessAsync("保存成功！", info);
     }
 
-    internal static void Load()
+    internal static void LoadData()
     {
         if (!Enabled)
             return;
@@ -134,7 +164,7 @@ public sealed class AppData
             Data = ParseData(bytes);
     }
 
-    internal static void Save()
+    private static void SaveData()
     {
         if (!Enabled)
             return;

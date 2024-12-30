@@ -117,7 +117,7 @@ public sealed class Cache
 
         var codes = GetCodes().Where(c => c.Category == category).ToList();
         if (codes == null || codes.Count == 0)
-            codes = category.Split(',', ';').Select(d => new CodeInfo(d, d)).ToList();
+            codes = category.Split(',', ';', '，', '；').Select(d => new CodeInfo(d, d)).ToList();
 
         if (codes != null && codes.Count > 0)
             infos.AddRange(codes);
@@ -155,6 +155,28 @@ public sealed class Cache
         var codes = GetCodes(category);
         var code = codes.FirstOrDefault(c => c.Code == codeOrName || c.Name == codeOrName);
         return code?.Name ?? code?.Code ?? codeOrName;
+    }
+
+    /// <summary>
+    /// 根据代码类别名和代码（或名称）获取代码表中项目的名称。
+    /// </summary>
+    /// <param name="category">代码类别名。</param>
+    /// <param name="codeOrNames">代码（或名称）集合。</param>
+    /// <returns>项目的名称。</returns>
+    public static string GetCodeName(string category, string[] codeOrNames)
+    {
+        if (codeOrNames == null || codeOrNames.Length == 0)
+            return string.Empty;
+
+        var codes = GetCodes(category);
+        var names = new List<string>();
+        foreach (var item in codeOrNames)
+        {
+            var code = codes.FirstOrDefault(c => c.Code == item || c.Name == item);
+            var name = code?.Name ?? code?.Code ?? item;
+            names.Add(name);
+        }
+        return string.Join(", ", names);
     }
 
     /// <summary>

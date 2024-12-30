@@ -136,4 +136,19 @@ public static class CommonExtension
         return expando;
     }
     #endregion
+
+    #region List
+    /// <summary>
+    /// 获取列表分页结果。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="lists">数据列表。</param>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns>分页结果。</returns>
+    public static PagingResult<T> ToPagingResult<T>(this List<T> lists, PagingCriteria criteria) where T : class
+    {
+        var data = lists.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+        return new PagingResult<T>(lists.Count, data);
+    }
+    #endregion
 }

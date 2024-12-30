@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Sample.WinForm;
+﻿namespace Sample.WinForm;
 
 public static class AppConfig
 {

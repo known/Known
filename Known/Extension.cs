@@ -109,7 +109,7 @@ public static class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
-        AppData.Load();
+        AppData.LoadData();
         LoadBuildTime(Config.Version);
     }
 

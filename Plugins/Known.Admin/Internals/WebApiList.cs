@@ -9,7 +9,7 @@ namespace Known.Internals;
 /// </summary>
 [StreamRendering]
 [Route("/dev/webapi")]
-[DevPlugin("WebApi", "pull-request")]
+[DevPlugin("WebApi", "pull-request", Sort = 4)]
 public class WebApiList : BaseTablePage<ApiMethodInfo>
 {
     /// <summary>

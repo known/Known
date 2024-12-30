@@ -1,4 +1,5 @@
-﻿namespace Known.Pages;
+﻿
+namespace Known.Pages;
 
 /// <summary>
 /// 表格页面组件类。
@@ -10,6 +11,16 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
     /// 取得或设置表格页面组件模型。
     /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
+
+    /// <summary>
+    /// 异步初始化组件。
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Model?.SetQueryColumns();
+    }
 
     /// <summary>
     /// 呈现表格页面组件内容。

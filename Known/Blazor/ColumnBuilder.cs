@@ -36,7 +36,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位呈现模板。
+    /// 设置表格栏位呈现模板。
     /// </summary>
     /// <param name="template">呈现模板。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -51,7 +51,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位宽度。
+    /// 设置表格栏位宽度。
     /// </summary>
     /// <param name="width">宽度。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -63,7 +63,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备栏位是否可见。
+    /// 设置表格栏位是否可见。
     /// </summary>
     /// <param name="visible">是否可见。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -75,7 +75,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备栏位是否只读。
+    /// 设置表格栏位是否只读。
     /// </summary>
     /// <param name="readOnly">是否只读。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -87,7 +87,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位为查看连接。
+    /// 设置表格栏位为查看连接。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> ViewLink()
@@ -98,7 +98,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位为汇总字段。
+    /// 设置表格栏位为汇总字段。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Sum()
@@ -109,7 +109,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位显示名称。
+    /// 设置表格栏位显示名称。
     /// </summary>
     /// <param name="name">显示名称。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -121,7 +121,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位的提示信息。
+    /// 设置表格栏位的提示信息。
     /// </summary>
     /// <param name="tooltip">提示信息。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -133,7 +133,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位关联的代码表类别。
+    /// 设置表格栏位关联的代码表类别。
     /// </summary>
     /// <param name="category">代码表类别。</param>
     /// <param name="isAll">下拉查询是否显示全部。</param>
@@ -149,7 +149,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位对齐方式。
+    /// 设置表格栏位对齐方式。
     /// </summary>
     /// <param name="align">对齐方式（left/center/right）。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -161,7 +161,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位为固定列。
+    /// 设置表格栏位为固定列。
     /// </summary>
     /// <param name="fixType">固定类型（left/right）。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -173,7 +173,7 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位字段类。
+    /// 设置表格栏位字段类。
     /// </summary>
     /// <param name="type">字段类型。</param>
     /// <returns>表格栏位建造者。</returns>
@@ -185,7 +185,18 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位为排序字段。
+    /// 设置表格栏位为查询字段。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Query()
+    {
+        if (column != null)
+            column.IsQuery = true;
+        return this;
+    }
+
+    /// <summary>
+    /// 设置表格栏位为排序字段。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Sort()
@@ -196,13 +207,13 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设备表格栏位默认升序。
+    /// 设置表格栏位默认升序。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
 
     /// <summary>
-    /// 设备表格栏位默认降序。
+    /// 设置表格栏位默认降序。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");

@@ -5,7 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/dev/modules")]
-[DevPlugin("模块管理", "appstore-add")]
+[DevPlugin("模块管理", "appstore-add", Sort = 3)]
 public class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
