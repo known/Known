@@ -6,14 +6,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Coravel" Version="6.0.0" />
+        <PackageReference Include="Coravel" Version="6.0.1" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0" />
         <!--
         <PackageReference Include="System.Data.OleDb" Version="9.0.0" />
         <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
         <PackageReference Include="MySqlConnector" Version="2.4.0" />
-        <PackageReference Include="Npgsql" Version="8.0.5" />
-        <PackageReference Include="DM.DmProvider" Version="8.3.1.28188" />
+        <PackageReference Include="Npgsql" Version="9.0.2" />
+        <PackageReference Include="DM.DmProvider" Version="8.3.1.30495" />
         -->
         <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
         <ProjectReference Include="..\..\Plugins\Known.Cells\Known.Cells.csproj" />

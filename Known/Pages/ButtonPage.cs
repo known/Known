@@ -22,8 +22,17 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
 
         Table.Column(c => c.Id).Width(150);
         Table.Column(c => c.Name).Width(120).Query();
-        Table.Column(c => c.Icon).Width(100);
-        Table.Column(c => c.Style).Width(100);
+        Table.Column(c => c.Icon).Width(100).Template((b, r) => b.IconName(r.Icon, r.Icon));
+        Table.Column(c => c.Style).Width(100).Template((b, r) =>
+        {
+            if (!string.IsNullOrEmpty(r.Style))
+            {
+                if (r.Style == "primary")
+                    b.Tag(r.Style, "blue-inverse");
+                else if (r.Style == "danger")
+                    b.Tag(r.Style, "red-inverse");
+            }
+        });
         Table.Column(c => c.Position);
 
         Table.Toolbar.AddAction(nameof(New));
