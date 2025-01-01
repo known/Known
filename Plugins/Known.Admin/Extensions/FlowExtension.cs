@@ -18,7 +18,6 @@ public static class FlowExtension
         var stepName = StepCreate;
         var flow = new SysFlow
         {
-            Id = Utils.GetGuid(),
             CompNo = db.User.CompNo,
             AppId = db.User.AppId,
             FlowCode = info.FlowCode,
@@ -61,7 +60,6 @@ public static class FlowExtension
     {
         return db.SaveAsync(new SysFlowLog
         {
-            Id = Utils.GetGuid(),
             CompNo = db.User.CompNo,
             AppId = db.User.AppId,
             BizId = bizId,

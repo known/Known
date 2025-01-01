@@ -10,7 +10,7 @@ public class TaskInfo
     /// </summary>
     public TaskInfo()
     {
-        Id = Utils.GetGuid();
+        Id = Utils.GetNextId();
     }
 
     /// <summary>

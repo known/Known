@@ -23,7 +23,7 @@ class KCaptcha : BaseComponent
     /// </summary>
     public KCaptcha()
     {
-        id = Utils.GetGuid();
+        id = Utils.GetNextId();
         CreateCode();
         Option = new CaptchaOption();
     }

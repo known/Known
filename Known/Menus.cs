@@ -10,7 +10,7 @@ public class MenuInfo
     /// </summary>
     public MenuInfo()
     {
-        Id = Utils.GetGuid();
+        Id = Utils.GetNextId();
         Visible = true;
         Enabled = true;
         Closable = true;

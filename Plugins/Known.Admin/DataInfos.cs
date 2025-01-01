@@ -10,7 +10,7 @@ public class SettingInfo
     /// </summary>
     public SettingInfo()
     {
-        Id = Utils.GetGuid();
+        Id = Utils.GetNextId();
     }
 
     /// <summary>

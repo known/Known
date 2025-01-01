@@ -10,7 +10,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     public BaseComponent()
     {
-        Id = Utils.GetGuid();
+        Id = Utils.GetNextId();
     }
 
     /// <summary>

@@ -125,7 +125,7 @@ public partial class Database
         }
 
         if (string.IsNullOrWhiteSpace(id))
-            data.SetValue(nameof(EntityBase.Id), Utils.GetGuid());
+            data.SetValue(nameof(EntityBase.Id), Utils.GetNextId());
         data.SetValue(nameof(EntityBase.CreateBy), User.UserName);
         data.SetValue(nameof(EntityBase.CreateTime), DateTime.Now);
         data.SetValue(nameof(EntityBase.ModifyBy), User.UserName);

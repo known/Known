@@ -11,11 +11,31 @@ public sealed class Utils
 
     #region Common
     /// <summary>
+    /// 根据AppInfo.NextIdType配置获取一个新的ID，默认是GUID。
+    /// </summary>
+    /// <returns></returns>
+    public static string GetNextId()
+    {
+        return Config.App.NextIdType switch
+        {
+            NextIdType.Guid => GetGuid(),
+            NextIdType.Snowflake => GetSnowflakeId().ToString(),
+            _ => GetGuid(),
+        };
+    }
+
+    /// <summary>
     /// 获取一个GUID字符串。
     /// </summary>
     /// <returns></returns>
     public static string GetGuid() => Guid.NewGuid().ToString("N").ToLower().Replace("-", "");
-    
+
+    /// <summary>
+    /// 获取一个Snowflake算法的ID。
+    /// </summary>
+    /// <returns></returns>
+    public static long GetSnowflakeId() => new Snowflake(1, 1).NextId();
+
     /// <summary>
     /// 将C#对象转换成指定泛型的对象，适用值类型和String。
     /// </summary>

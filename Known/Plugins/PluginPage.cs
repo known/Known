@@ -98,7 +98,7 @@ class PluginPage : BaseComponent, IAutoPage
         // 向当前页面添加插件实例
         Menu.Plugins.Add(new PluginInfo
         {
-            Id = Utils.GetGuid(),
+            Id = Utils.GetNextId(),
             Type = info.Id
         });
         await Platform.SaveMenuAsync(Menu);

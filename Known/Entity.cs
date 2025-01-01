@@ -89,7 +89,7 @@ public class EntityBase : EntityBase<string>
     public EntityBase()
     {
         IsNew = true;
-        Id = Utils.GetGuid();
+        Id = Utils.GetNextId();
         CreateBy = "temp";
         CreateTime = DateTime.Now;
         Version = 1;

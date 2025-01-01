@@ -60,7 +60,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         {
             var id = model.GetValue<string>(nameof(EntityBase.Id));
             if (string.IsNullOrWhiteSpace(id))
-                id = Utils.GetGuid();
+                id = Utils.GetNextId();
             if (info.Files != null && info.Files.Count > 0)
             {
                 foreach (var file in info.Files)

@@ -24,7 +24,7 @@ public class AttachFile
         ExtName = SourceName.Substring(index);
         FileName = SourceName;
         var filePath = GetFilePath(user.CompNo, bizType);
-        var fileId = Utils.GetGuid();
+        var fileId = Utils.GetNextId();
         var fileName = $"{user.UserName}_{fileId}{ExtName}";
         fileName = fileName.Replace(" ", "");
         if (string.IsNullOrEmpty(bizPath))

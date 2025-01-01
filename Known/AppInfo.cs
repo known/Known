@@ -20,6 +20,21 @@ public enum AppType
 }
 
 /// <summary>
+/// ID生成器类型枚举。
+/// </summary>
+public enum NextIdType
+{
+    /// <summary>
+    /// Guid。
+    /// </summary>
+    Guid,
+    /// <summary>
+    /// 雪花ID。
+    /// </summary>
+    Snowflake
+}
+
+/// <summary>
 /// 系统配置信息类。
 /// </summary>
 public class AppInfo
@@ -73,6 +88,11 @@ public class AppInfo
     /// 取得或设置系统主页顶部菜单是否显示主题切换，默认显示。
     /// </summary>
     public bool IsTheme { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置ID生成器类型。
+    /// </summary>
+    public NextIdType NextIdType { get; set; }
 
     /// <summary>
     /// 取得或设置系统Web根目录。

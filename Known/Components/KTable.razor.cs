@@ -112,8 +112,15 @@ partial class KTable<TItem> : BaseComponent
     {
         var sort = model.SortDirection == SortDirection.Descending ? "desc" : "asc";
         var fieldName = model.FieldName;
+        if (string.IsNullOrWhiteSpace(fieldName) && model.ColumnIndex > 0)
+        {
+            if (Model.Columns.Count >= model.ColumnIndex - 1)
+                fieldName = Model.Columns[model.ColumnIndex - 1].Id;
+        }
+
         if (string.IsNullOrWhiteSpace(fieldName))
-            fieldName = Model.Columns[model.ColumnIndex - 1].Id;
+            return string.Empty;
+
         return $"{fieldName} {sort}";
     }
 

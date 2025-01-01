@@ -112,7 +112,7 @@ public partial class Database
             return entity;
 
         if (newId)
-            entity.Id = Utils.GetGuid();
+            entity.Id = Utils.GetNextId();
         entity.IsNew = true;
         await SaveAsync(entity, false);
         return entity;

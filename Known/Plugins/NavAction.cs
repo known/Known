@@ -59,7 +59,7 @@ class NavAction : BaseComponent
             instance.Parent = this;
             instance.Config(data => OnAdded?.Invoke(new PluginInfo
             {
-                Id = Utils.GetGuid(),
+                Id = Utils.GetNextId(),
                 Type = info.Id,
                 Setting = Utils.ToJson(data)
             }));
