@@ -33,7 +33,7 @@ public static class WebExtension
     /// <param name="navigation">导航管理者对象。</param>
     public static void GoInstallPage(this NavigationManager navigation)
     {
-        navigation?.NavigateTo("/install", true);
+        navigation?.NavigateTo("/install");
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public static class WebExtension
     /// <param name="navigation">导航管理者对象。</param>
     public static void GoLoginPage(this NavigationManager navigation)
     {
-        navigation?.NavigateTo("/login", true);
+        navigation?.NavigateTo("/login");
     }
 
     /// <summary>

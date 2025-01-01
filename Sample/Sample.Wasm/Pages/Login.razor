@@ -1,0 +1,45 @@
+﻿@page "/login"
+@layout EmptyLayout
+@inherits LoginPage
+
+<div class="login">
+    <div class="login-head">
+        <div class="login-logo">
+            <a class="kui-logo" href="@Config.SiteUrl" target="_blank"></a>
+            <div class="kui-app-name">@AppConfig.AppName</div>
+        </div>
+        <TopRight />
+    </div>
+    <div class="login-body">
+        <div class="login-left">
+            <ul>
+                <li>开源</li>
+                <li>低代码</li>
+                <li>现代UI</li>
+            </ul>
+            <img src="img/login.png" />
+        </div>
+        <div class="login-form">
+            <div class="login-form-body">
+                <Tabs Animated>
+                    <TabPane Key="Account" Tab="用户名登录">
+                        <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
+                    </TabPane>
+                    <TabPane Key="Phone" Tab="手机号登录">
+                        <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
+                    </TabPane>
+                </Tabs>
+            </div>
+        </div>
+    </div>
+    <div class="login-copyright"><KFooter /></div>
+</div>
+
+@code {
+    private bool IsCaptcha => false;
+
+    private Task<Known.Result> OnSendSMS(string phone)
+    {
+        return Known.Result.SuccessAsync("发送成功！");
+    }
+}

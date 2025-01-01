@@ -108,7 +108,7 @@
                         </Layout>
                     </Layout>
                 }
-                <Drawer Closable="true" @bind-Visible="showSetting" Placement="right" Title="@(Language["Nav.Setting"])" Width="320">
+                <Drawer Closable="true" @bind-Visible="showSetting" Placement="DrawerPlacement.Right" Title="@(Language["Nav.Setting"])" Width="320">
                     <SettingForm Model="Setting" OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
                 </Drawer>
             }

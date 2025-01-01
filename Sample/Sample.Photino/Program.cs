@@ -1,4 +1,3 @@
-using Known;
 using Photino.Blazor;
 
 namespace Sample.Photino;
@@ -9,7 +8,7 @@ internal class Program
     static void Main(string[] args)
     {
         var builder = PhotinoBlazorAppBuilder.CreateDefault(args);
-        builder.Services.AddKnown();
+        builder.Services.AddApplication();
 
         // register root component and selector
         builder.RootComponents.Add<App>("app");

@@ -7,7 +7,7 @@
           @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)
     {
-        <Selection Type="@Model.SelectType.ToString().ToLower()" Align="ColumnAlign.Center" Width="40" Fixed="left" />
+        <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="ColumnFixPlacement.Left" />
     }
     @if (Model.Columns != null && Model.Columns.Count > 0)
     {
@@ -25,7 +25,7 @@
             }
             else
             {
-                <Column Title="@titleIndex" DataIndex="@columnId" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="left">
+                <Column Title="@titleIndex" DataIndex="@columnId" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
                 </Column>
             }
@@ -44,7 +44,7 @@
             {
                 var value = (context as Dictionary<string, object>).GetValue(item.Id);
                 <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                  Ellipsis ShowSorterTooltip="false" Fixed="@item.Fixed"
+                                  Ellipsis ShowSorterTooltip="false" Fixed="@GetColumnFixPlacement(item.Fixed)"
                                   Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                                   Align="@GetColumnAlign(item.Align)">
                     @if (template != null)
@@ -74,7 +74,7 @@
             {
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
                 <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
-                        Ellipsis ShowSorterTooltip="false" Fixed="@item.Fixed"
+                        Ellipsis ShowSorterTooltip="false" Fixed="@GetColumnFixPlacement(item.Fixed)"
                         Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                         Align="@GetColumnAlign(item.Align)">
                     <TitleTemplate>
@@ -122,7 +122,7 @@
         Model.UpdateRowActions?.Invoke(context, actions);
         actions = actions?.Where(a => a.Visible).ToList();
         actions?.ForEach(d => d.Name = Language.GetString(d));
-        <ActionColumn Title="@Language["Title.Action"]" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="right">
+        <ActionColumn Title="@Language["Title.Action"]" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
             @if (actions.Count > Model.ActionCount)
             {
                 var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();

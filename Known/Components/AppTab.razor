@@ -9,7 +9,7 @@
                 continue;
 
             <li @onclick="e=>OnItemClick(item)" class="@(current == item.Id ? "active" : "")">
-                <Icon Type="@item.Icon" Theme="outline" />
+                <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
                 <span>@item.Name</span>
             </li>
         }

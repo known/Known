@@ -1,14 +1,12 @@
 ﻿<KContext Value="Context">
-    <Router AppAssembly="@typeof(App).Assembly" AdditionalAssemblies="Config.Assemblies">
+    <Router AppAssembly="typeof(AppConfig).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            <KRouteData Value="routeData">
+                <RouteView RouteData="routeData" DefaultLayout="typeof(AdminLayout)" />
+            </KRouteData>
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
-            </LayoutView>
+            <Result Status="ResultStatus.Http404" />
         </NotFound>
     </Router>
     <KContainer />

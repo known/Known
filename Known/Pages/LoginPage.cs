@@ -72,7 +72,7 @@ public class LoginPage : BaseComponent
         }
 
         var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
-        Navigation.NavigateTo(url, true);
+        Navigation.NavigateTo(url);
     }
 
     /// <summary>

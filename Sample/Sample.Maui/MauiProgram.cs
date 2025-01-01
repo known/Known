@@ -1,5 +1,4 @@
-﻿using Known;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Sample.Maui
 {
@@ -13,7 +12,7 @@ namespace Sample.Maui
                    {
                        fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                    });
-            builder.Services.AddKnown();
+            builder.Services.AddApplication();
             builder.Services.AddMauiBlazorWebView();
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

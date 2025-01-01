@@ -33,10 +33,7 @@ class SysActive : BaseComponent
     {
         builder.Div("kui-card", () =>
         {
-            builder.Component<AntDesign.Result>()
-                   .Set(c => c.Status, "403")
-                   .Set(c => c.Title, AdminConfig.AuthStatus)
-                   .Build();
+            builder.Result("403", AdminConfig.AuthStatus);
             builder.Div("kui-form-auth", () =>
             {
                 builder.Form(model);

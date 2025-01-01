@@ -273,7 +273,7 @@ public class ActionInfo
     public string Url { get; set; }
 
     /// <summary>
-    /// 取得或设置操作样式，如：primary，danger等。
+    /// 取得或设置操作样式，如：primary，danger，default，dashed，link，text等。
     /// </summary>
     public string Style { get; set; }
 

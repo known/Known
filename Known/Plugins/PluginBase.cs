@@ -34,12 +34,12 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// <summary>
     /// 取得插件配置参数对象。
     /// </summary>
-    protected TParam Parameter { get; set; }
+    public TParam Parameter { get; internal set; }
 
     /// <summary>
     /// 取得或设置插件是否可以拖拽。
     /// </summary>
-    protected bool Draggable { get; set; }
+    public bool Draggable { get; set; }
 
     /// <summary>
     /// 取得或设置上级组件。

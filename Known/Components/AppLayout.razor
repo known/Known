@@ -7,7 +7,7 @@
             @if (!string.IsNullOrWhiteSpace(App?.CurrentMenu?.BackUrl))
             {
                 <span class="back" @onclick="e=>App?.Back()">
-                    <Icon Type="left" Theme="outline" />
+                    <Icon Type="left" Theme="IconThemeType.Outline" />
                     <span>返回</span>
                 </span>
             }

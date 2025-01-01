@@ -1,6 +1,6 @@
 ﻿<Alert ShowIcon="true" 
        Style="margin-bottom:10px;" 
-       Type="@Type.ToString().ToLower()"
+       Type="@GetAlertType()"
        Message="@Text"
 />
 
@@ -14,4 +14,16 @@
     /// 取得或设置提示框文本。
     /// </summary>
     [Parameter] public string Text { get; set; }
+
+    private AlertType GetAlertType()
+    {
+        return Type switch
+        {
+            StyleType.Success => AlertType.Success,
+            StyleType.Info => AlertType.Info,
+            StyleType.Warning => AlertType.Warning,
+            StyleType.Error => AlertType.Error,
+            _ => AlertType.Default
+        };
+    }
 }

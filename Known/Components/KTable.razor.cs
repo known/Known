@@ -110,12 +110,31 @@ partial class KTable<TItem> : BaseComponent
 
     private string GetOrderBy(ITableSortModel model)
     {
-        //descend  ascend
-        var sort = model.Sort == "descend" ? "desc" : "asc";
+        var sort = model.SortDirection == SortDirection.Descending ? "desc" : "asc";
         var fieldName = model.FieldName;
         if (string.IsNullOrWhiteSpace(fieldName))
             fieldName = Model.Columns[model.ColumnIndex - 1].Id;
         return $"{fieldName} {sort}";
+    }
+
+    private static SelectionType GetSelectionType(TableSelectType type)
+    {
+        return type switch
+        {
+            TableSelectType.Checkbox => SelectionType.Checkbox,
+            TableSelectType.Radio => SelectionType.Radio,
+            _ => SelectionType.Checkbox
+        };
+    }
+
+    private static ColumnFixPlacement GetColumnFixPlacement(string fix)
+    {
+        return fix switch
+        {
+            "left" => ColumnFixPlacement.Left,
+            "right" => ColumnFixPlacement.Right,
+            _ => ColumnFixPlacement.Left
+        };
     }
 
     private static ColumnAlign GetColumnAlign(string align)

@@ -18,6 +18,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Property);
         Table.Name = PageName;
         Table.ShowPager = true;
+        Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryButtonsAsync;
 
         Table.Column(c => c.Id).Width(150);

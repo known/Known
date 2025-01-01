@@ -1,4 +1,6 @@
-﻿namespace Known.Extensions;
+﻿using AntDesign;
+
+namespace Known.Extensions;
 
 /// <summary>
 /// 按钮组件扩展类。
@@ -16,7 +18,8 @@ public static class ButtonExtension
                .Set(c => c.Enabled, info.Enabled)
                .Set(c => c.Icon, info.Icon)
                .Set(c => c.Name, info.Name)
-               .Set(c => c.Type, info.Style)
+               .Set(c => c.Type, GetButtonType(info.Style))
+               .Set(c => c.Danger, GetButtonDanger(info.Style))
                .Set(c => c.OnClick, info.OnClick)
                .Build();
     }
@@ -25,17 +28,18 @@ public static class ButtonExtension
     /// 呈现一个按钮。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    /// <param name="action">操作信息。</param>
+    /// <param name="info">操作信息。</param>
     /// <param name="onClick">按钮单击事件。</param>
-    public static void Button(this RenderTreeBuilder builder, ActionInfo action, EventCallback<MouseEventArgs> onClick)
+    public static void Button(this RenderTreeBuilder builder, ActionInfo info, EventCallback<MouseEventArgs> onClick)
     {
         builder.Component<KButton>()
-               .Set(c => c.Id, action.Id)
-               .Set(c => c.Name, action.Name)
-               .Set(c => c.Icon, action.Icon)
-               .Set(c => c.Type, action.Style)
-               .Set(c => c.Enabled, action.Enabled)
-               .Set(c => c.Visible, action.Visible)
+               .Set(c => c.Id, info.Id)
+               .Set(c => c.Name, info.Name)
+               .Set(c => c.Icon, info.Icon)
+               .Set(c => c.Type, GetButtonType(info.Style))
+               .Set(c => c.Danger, GetButtonDanger(info.Style))
+               .Set(c => c.Enabled, info.Enabled)
+               .Set(c => c.Visible, info.Visible)
                .Set(c => c.OnClick, onClick)
                .Build();
     }
@@ -51,8 +55,27 @@ public static class ButtonExtension
     {
         builder.Component<KButton>()
                .Set(c => c.Name, name)
-               .Set(c => c.Type, type)
+               .Set(c => c.Type, GetButtonType(type))
+               .Set(c => c.Danger, GetButtonDanger(type))
                .Set(c => c.OnClick, onClick)
                .Build();
+    }
+
+    internal static ButtonType GetButtonType(string style)
+    {
+        return style switch
+        {
+            "default" => ButtonType.Default,
+            "primary" => ButtonType.Primary,
+            "dashed" => ButtonType.Dashed,
+            "link" => ButtonType.Link,
+            "text" => ButtonType.Text,
+            _ => ButtonType.Primary
+        };
+    }
+
+    internal static bool GetButtonDanger(string style)
+    {
+        return style == "danger";
     }
 }

@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Known.Plugins;
-using Microsoft.AspNetCore.Components.Rendering;
-
-namespace Sample.WinForm.Plugins;
+﻿namespace Sample.WinForm.Plugins;
 
 [PagePlugin("测试", "file", Category = nameof(PagePluginType.Other), Sort = 1)]
 class TestPlugin : PluginBase<TestPluginInfo>

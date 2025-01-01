@@ -201,7 +201,10 @@ public sealed class AppData
             Data = ParseData(bytes);
     }
 
-    private static void SaveData()
+    /// <summary>
+    /// 保存配置数据。
+    /// </summary>
+    public static void SaveData()
     {
         if (!Enabled)
             return;

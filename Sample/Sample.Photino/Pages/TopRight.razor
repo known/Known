@@ -1,0 +1,14 @@
+﻿@using Known.Internals
+@inherits BaseComponent
+
+<ul class="kui-menu">
+    <li><a href="@Config.SiteUrl/doc" target="_blank">文档</a></li>
+    @if (Config.App.IsLanguage)
+    {
+        <li style="text-align:center;"><NavLanguage /></li>
+    }
+    @if (Config.App.IsTheme)
+    {
+        <li style="margin-left:15px;"><NavTheme /></li>
+    }
+</ul>

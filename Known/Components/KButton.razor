@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Button Class="@Class" Icon="@Icon" Type="@BtnType" Style="Style"
+<Button Class="@Class" Icon="@Icon" Type="Type" Style="@Style"
         Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
         OnClick="OnButtonClickAsync">
     @Name
@@ -8,13 +8,16 @@
 
 @code {
     private bool isLoad;
-    private bool Danger => Type == "danger";
-    private string BtnType => Danger ? ButtonType.Primary : Type;
 
     /// <summary>
     /// 取得或设置是否是块级按钮。
     /// </summary>
     [Parameter] public bool Block { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否是危险状态。
+    /// </summary>
+    [Parameter] public bool Danger { get; set; }
 
     /// <summary>
     /// 取得或设置按钮图标。
@@ -24,7 +27,7 @@
     /// <summary>
     /// 取得或设置按钮类型（如：ButtonType.Primary）。
     /// </summary>
-    [Parameter] public string Type { get; set; }
+    [Parameter] public ButtonType Type { get; set; }
 
     /// <summary>
     /// 取得或设置按钮CSS类名。

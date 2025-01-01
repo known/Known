@@ -1,4 +1,6 @@
-﻿namespace Known.Extensions;
+﻿using AntDesign;
+
+namespace Known.Extensions;
 
 /// <summary>
 /// 页面级组件扩展类。
@@ -56,17 +58,36 @@ public static class PageExtension
         builder.Component<KToolbar>().Set(c => c.Model, model).Build();
     }
 
-    internal static void Result(this RenderTreeBuilder builder, string status, string message)
+    /// <summary>
+    /// 构建结果组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="status">状态：403|404|500|Success|Error|Info|Warning。</param>
+    /// <param name="title">标题。</param>
+    /// <param name="subTitle">子标题。</param>
+    public static void Result(this RenderTreeBuilder builder, string status, string title, string subTitle = null)
     {
+        var status1 = status switch
+        {
+            "403" => ResultStatus.Http403,
+            "404" => ResultStatus.Http404,
+            "500" => ResultStatus.Http500,
+            "Success" => ResultStatus.Success,
+            "Error" => ResultStatus.Error,
+            "Info" => ResultStatus.Info,
+            "Warning" => ResultStatus.Warning,
+            _ => ResultStatus.Error
+        };
+
         builder.Component<AntDesign.Result>()
-               .Set(c => c.Status, status)
-               .Set(c => c.Title, status)
-               .Set(c => c.SubTitle, message)
+               .Set(c => c.Status, status1)
+               .Set(c => c.Title, title)
+               .Set(c => c.SubTitle, subTitle)
                .Build();
     }
 
     internal static void Page404(this UIService service, RenderTreeBuilder builder, string pageId)
     {
-        builder.Result("404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
+        builder.Result("404", "404", $"{service.Language["Tip.Page404"]}PageId={pageId}");
     }
 }
