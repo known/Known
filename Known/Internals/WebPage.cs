@@ -16,11 +16,13 @@ class WebPage : BaseComponent
             return;
 
         if (Model.Type == PageType.None)
+        {
             BuildItems(builder);
-        else if (Model.Type == PageType.Column)
-            builder.Div($"kui-row-{Model.Spans}", () => BuildItems(builder));
-        else if (Model.Type == PageType.Row)
-            BuildItems(builder);
+            return;
+        }
+
+        var className = Model.Type == PageType.Column ? $"kui-row-{Model.Spans}" : Model.Custom;
+        builder.Div(className, () => BuildItems(builder));
     }
 
     private void BuildItems(RenderTreeBuilder builder)

@@ -95,6 +95,9 @@ public class AntDropdown : Dropdown
 
     private void BuildMenu(RenderTreeBuilder builder, List<ActionInfo> items)
     {
+        if (items == null || items.Count == 0)
+            return;
+
         foreach (var item in items)
         {
             BuildMenu(builder, item);

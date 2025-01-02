@@ -11,9 +11,14 @@ public class PageModel
 	public PageType Type { get; set; }
 
     /// <summary>
-    /// 取得或设置页面布局大小，如28，表示两列分别为20%和80%。
+    /// 取得或设置页面分栏布局大小，如28，表示两列分别为20%和80%。
     /// </summary>
     public string Spans { get; set; }
+
+    /// <summary>
+    /// 取得或设置自定义布局样式类。
+    /// </summary>
+    public string Custom { get; set; }
 
     /// <summary>
     /// 取得或设置页面配置信息列表。

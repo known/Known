@@ -29,6 +29,7 @@ public class MenuInfo
         Url = info.Url;
         Sort = info.Sort;
         Enabled = info.Enabled;
+        Layout = info.Layout;
         Plugins = info.Plugins;
     }
 
@@ -45,6 +46,7 @@ public class MenuInfo
         Url = info.Url;
         Sort = info.Sort;
         Enabled = info.Enabled;
+        Layout = info.Layout;
         Plugins = info.Plugins;
         Color = info.Color;
         PageType = info.PageType;
@@ -155,9 +157,14 @@ public class MenuInfo
     public object Data { get; set; }
 
     /// <summary>
+    /// 取得或设置布局信息。
+    /// </summary>
+    public LayoutInfo Layout { get; set; }
+
+    /// <summary>
     /// 取得或设置插件配置信息列表。
     /// </summary>
-    public List<PluginInfo> Plugins { get; set; }
+    public List<PluginInfo> Plugins { get; set; } = [];
 
     /// <summary>
     /// 取得菜单对应的路由URL。

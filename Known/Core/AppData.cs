@@ -179,6 +179,7 @@ public sealed class AppData
         module.Target = info.Target;
         module.Url = info.Url;
         module.Sort = info.Sort;
+        module.Layout = info.Layout;
         module.Plugins = info.Plugins;
         SaveData();
         return Result.SuccessAsync("保存成功！", info);

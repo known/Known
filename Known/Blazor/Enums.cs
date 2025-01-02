@@ -29,17 +29,20 @@ public enum StyleType
 public enum PageType
 {
     /// <summary>
-    /// 空白。
+    /// 一栏布局。
     /// </summary>
+    [Description("一栏")]
     None,
     /// <summary>
-    /// 列布局。
+    /// 两栏布局。
     /// </summary>
+    [Description("两栏")]
     Column,
     /// <summary>
-    /// 行布局。
+    /// 自定义。
     /// </summary>
-    Row
+    [Description("自定义")]
+    Custom
 }
 
 /// <summary>

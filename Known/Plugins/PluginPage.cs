@@ -23,15 +23,62 @@ class PluginPage : BaseComponent, IAutoPage
         {
             builder.Cascading(this, b =>
             {
-                foreach (var item in Menu.Plugins)
+                if (Menu.Layout == null || Menu.Layout.Type == nameof(PageType.None))
                 {
-                    b.BuildPlugin(item);
+                    Menu.Plugins.ForEach(item => b.BuildPlugin(item));
+                }
+                else
+                {
+                    var className = Menu.Layout.Type == nameof(PageType.Column)
+                                  ? $"kui-row-{Menu.Layout.Spans}"
+                                  : Menu.Layout.Custom;
+                    b.Div(className, () => Menu.Plugins.ForEach(item => b.BuildPlugin(item)));
                 }
             });
         }
 
         if (UIConfig.IsEditMode)
+        {
+            BuildLayout(builder);
             BuildAction(builder);
+        }
+    }
+
+    private void BuildLayout(RenderTreeBuilder builder)
+    {
+        var model = new DropdownModel
+        {
+            Class = "kui-edit",
+            Icon = "layout",
+            TriggerType = "Click",
+            Text = "页面布局",
+            Overlay = BuildLayoutOverlay
+        };
+        builder.Dropdown(model);
+    }
+
+    private void BuildLayoutOverlay(RenderTreeBuilder builder)
+    {
+        var data = Menu.Layout ?? new LayoutInfo();
+        var form = new FormModel<LayoutInfo>(this)
+        {
+            SmallLabel = true,
+            Data = data,
+            OnFieldChanged = async v =>
+            {
+                Menu.Layout = data;
+                await Platform.SaveMenuAsync(Menu);
+                await StateChangedAsync();
+            }
+        };
+        form.AddRow().AddColumn(c => c.Type);
+        form.AddRow().AddColumn(c => c.Spans, c => c.ReadOnly = data.Type != nameof(PageType.Column));
+        form.AddRow().AddColumn(c => c.Custom, c => c.ReadOnly = data.Type != nameof(PageType.Custom));
+        builder.Div("kui-card form-layout", () =>
+        {
+            builder.FormTitle("页面布局");
+            builder.Form(form);
+        });
     }
 
     private void BuildAction(RenderTreeBuilder builder)
@@ -96,6 +143,7 @@ class PluginPage : BaseComponent, IAutoPage
         }
 
         // 向当前页面添加插件实例
+        Menu.Plugins ??= [];
         Menu.Plugins.Add(new PluginInfo
         {
             Id = Utils.GetNextId(),
