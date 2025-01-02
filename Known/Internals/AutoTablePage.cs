@@ -65,6 +65,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
         Table.Initialize();
         Table.OnQuery = OnQueryModelsAsync;
         Table.Criteria.Clear();
+        Table.SetQueryColumns();
 
         var plugin = Context?.Current?.Plugins?.GetPlugin<EntityPluginInfo>();
         var model = DataHelper.ToEntity(plugin?.EntityData);

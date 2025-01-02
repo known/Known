@@ -67,20 +67,20 @@ public static class PageExtension
     /// <param name="subTitle">子标题。</param>
     public static void Result(this RenderTreeBuilder builder, string status, string title, string subTitle = null)
     {
-        var status1 = status switch
-        {
-            "403" => ResultStatus.Http403,
-            "404" => ResultStatus.Http404,
-            "500" => ResultStatus.Http500,
-            "Success" => ResultStatus.Success,
-            "Error" => ResultStatus.Error,
-            "Info" => ResultStatus.Info,
-            "Warning" => ResultStatus.Warning,
-            _ => ResultStatus.Error
-        };
+        //var status1 = status switch
+        //{
+        //    "403" => ResultStatus.Http403,
+        //    "404" => ResultStatus.Http404,
+        //    "500" => ResultStatus.Http500,
+        //    "Success" => ResultStatus.Success,
+        //    "Error" => ResultStatus.Error,
+        //    "Info" => ResultStatus.Info,
+        //    "Warning" => ResultStatus.Warning,
+        //    _ => ResultStatus.Error
+        //};
 
         builder.Component<AntDesign.Result>()
-               .Set(c => c.Status, status1)
+               .Set(c => c.Status, status)
                .Set(c => c.Title, title)
                .Set(c => c.SubTitle, subTitle)
                .Build();

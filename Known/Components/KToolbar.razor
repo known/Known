@@ -18,7 +18,7 @@
                 }
                 else
                 {
-                    <KButton Name="@itemName" Enabled="item.Enabled" Type="GetButtonType(item.Style)" Danger="GetButtonDanger(item.Style)" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
+                    <KButton Name="@itemName" Enabled="item.Enabled" Type="@GetButtonType(item.Style)" Danger="GetButtonDanger(item.Style)" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
                 }
             }
             var more = GetDropdownModel(Language["Button.More"]);
@@ -38,7 +38,7 @@
                 }
                 else
                 {
-                    <KButton Name="@itemName" Enabled="item.Enabled" Type="GetButtonType(item.Style)" Danger="GetButtonDanger(item.Style)" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
+                    <KButton Name="@itemName" Enabled="item.Enabled" Type="@GetButtonType(item.Style)" Danger="GetButtonDanger(item.Style)" Icon="@item.Icon" OnClick="e=>Model.OnItemClick?.Invoke(item)" />
                 }
             }
         }
@@ -57,7 +57,7 @@
         base.OnInitialized();
     }
 
-    private static ButtonType GetButtonType(string style)
+    private static string GetButtonType(string style)
     {
         return ButtonExtension.GetButtonType(style);
     }

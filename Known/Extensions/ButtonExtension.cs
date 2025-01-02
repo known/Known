@@ -61,7 +61,7 @@ public static class ButtonExtension
                .Build();
     }
 
-    internal static ButtonType GetButtonType(string style)
+    internal static string GetButtonType(string style)
     {
         return style switch
         {
