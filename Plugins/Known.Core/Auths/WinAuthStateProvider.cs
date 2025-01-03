@@ -1,4 +1,4 @@
-﻿namespace Known.Core.Auths;
+﻿namespace Known.Auths;
 
 class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
 {

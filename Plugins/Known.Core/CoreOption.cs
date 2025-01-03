@@ -1,4 +1,4 @@
-﻿namespace Known.Core;
+﻿namespace Known;
 
 /// <summary>
 /// 身份认证方式枚举。
@@ -35,7 +35,7 @@ public class CoreOption
     public bool IsCompression { get; set; }
 
     /// <summary>
-    /// 取得或设置是否动态生成WebApi，默认启用。
+    /// 取得或设置是否动态生成WebApi，默认禁用。
     /// </summary>
-    public bool IsAddWebApi { get; set; } = true;
+    public bool IsAddWebApi { get; set; }
 }

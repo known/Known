@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Known.Auths;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
-namespace Known.Core;
+namespace Known;
 
 /// <summary>
 /// 依赖注入扩展类。
@@ -59,6 +61,33 @@ public static class Extension
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// 添加框架WebApi，根据Service动态生成WebApi。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    public static void AddKnownWebApi(this IServiceCollection services)
+    {
+        var builder = services.AddControllers(option =>
+        {
+            option.EnableEndpointRouting = false;
+        });
+
+        builder.ConfigureApplicationPartManager(m =>
+        {
+            //m.ApplicationParts.Add(new AssemblyPart(typeof(IService).Assembly));
+            foreach (var item in Config.Assemblies)
+            {
+                m.ApplicationParts.Add(new AssemblyPart(item));
+            }
+            m.FeatureProviders.Add(new ApiFeatureProvider());
+        });
+
+        builder.Services.Configure<MvcOptions>(o =>
+        {
+            o.Conventions.Add(new ApiConvention());
+        });
     }
 
     /// <summary>

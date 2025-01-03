@@ -287,7 +287,10 @@
 .kui-edit-menu {display:grid;grid-template-columns:200px auto;}
 .kui-edit-menu .type {display:flex;justify-content:space-between;}
 .kui-delete {color:#f50;}
-.kui-card.form-layout {padding:10px;border-radius:3px;width:390px;}
+.kui-card.form-layout {
+    padding:10px;border-radius:2px;width:390px;
+    box-shadow:0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
 .kui-card.form-layout > .kui-title {margin-bottom:10px;}
 
 .kui-plugin {position:relative;background:var(--kui-bgcolor);border:1px solid #f18c63;border-radius:3px;min-height:50px;}
@@ -327,6 +330,8 @@
 .ant-modal-body .kui-small {padding:10px 10px 0 0;}
 .ant-modal-body .kui-form {padding:10px 10px 0 0;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
+
+.ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 
 .kui-tab-form .ant-modal-body {padding-top:0;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}

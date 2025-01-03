@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Known.Core.Auths;
+namespace Known.Auths;
 
 class UserStore(IAdminService platform) : IUserStore<UserInfo>
 {
@@ -31,17 +31,17 @@ class UserStore(IAdminService platform) : IUserStore<UserInfo>
 
     public Task<string> GetNormalizedUserNameAsync(UserInfo user, CancellationToken cancellationToken)
     {
-       return Task.FromResult(user.UserName.ToUpper());
+        return Task.FromResult(user.UserName.ToUpper());
     }
 
     public Task<string> GetUserIdAsync(UserInfo user, CancellationToken cancellationToken)
     {
-       return Task.FromResult(user.Id);
+        return Task.FromResult(user.Id);
     }
 
     public Task<string> GetUserNameAsync(UserInfo user, CancellationToken cancellationToken)
     {
-       return Task.FromResult(user.UserName);
+        return Task.FromResult(user.UserName);
     }
 
     public Task SetNormalizedUserNameAsync(UserInfo user, string normalizedName, CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-﻿namespace Known.Core.Auths;
+﻿namespace Known.Auths;
 
 class CookieAuthStateProvider(IHttpContextAccessor context, IAdminService platform) : AuthenticationStateProvider, IAuthStateProvider
 {

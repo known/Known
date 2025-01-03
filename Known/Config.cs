@@ -450,26 +450,3 @@ public class ApiMethodInfo
     /// </summary>
     public ParameterInfo[] Parameters { get; set; }
 }
-
-/// <summary>
-/// 客户端配置选项类。
-/// </summary>
-public class ClientOption
-{
-    internal static ClientOption Instance { get; } = new();
-
-    /// <summary>
-    /// 取得或设置WebApi地址。
-    /// </summary>
-    public string BaseAddress { get; set; }
-
-    /// <summary>
-    /// 取得或设置客户端动态代理请求Api拦截器类型。
-    /// </summary>
-    public Func<Type, Type> InterceptorType { get; set; }
-
-    /// <summary>
-    /// 取得或设置客户端动态代理请求拦截器提供者。
-    /// </summary>
-    public Func<Type, object, object> InterceptorProvider { get; set; }
-}

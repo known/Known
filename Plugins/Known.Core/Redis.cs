@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace Known.Core;
+namespace Known;
 
 enum RedisCmd
 {

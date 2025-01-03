@@ -1,4 +1,4 @@
-﻿namespace Known.Core.Helpers;
+﻿namespace Known.Helpers;
 
 class AuthHelper
 {

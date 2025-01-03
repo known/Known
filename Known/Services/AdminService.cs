@@ -193,6 +193,7 @@ class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 {
     public Task<bool> GetInstallAsync()
     {
+        Console.WriteLine($"BaseUri={Http.BaseAddress}");
         return Http.GetAsync<bool>("/Admin/GetInstall");
     }
 

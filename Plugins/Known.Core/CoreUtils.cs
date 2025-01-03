@@ -1,6 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 
-namespace Known.Core;
+namespace Known;
 
 /// <summary>
 /// 后端效用类。

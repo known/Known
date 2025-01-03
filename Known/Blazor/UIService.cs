@@ -172,6 +172,7 @@ public class UIService(ModalService modalService, MessageService messageService,
         var config = new NotificationConfig
         {
             Message = title,
+            ClassName = style.ToString(),
             Description = FormatMessage(message),
             Placement = NotificationPlacement.BottomRight
         };

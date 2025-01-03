@@ -15,7 +15,15 @@ public static class HttpExtension
     /// <returns>服务端数据。</returns>
     public static Task<string> GetAsync(this HttpClient http, string url)
     {
-        return http.GetStringAsync(url);
+        try
+        {
+            return http.GetStringAsync(url);
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url);
+            return Task.FromException<string>(ex);
+        }
     }
 
     /// <summary>
@@ -27,7 +35,15 @@ public static class HttpExtension
     /// <returns>泛型对象。</returns>
     public static Task<TResult> GetAsync<TResult>(this HttpClient http, string url)
     {
-        return http.GetFromJsonAsync<TResult>(url);
+        try
+        {
+            return http.GetFromJsonAsync<TResult>(url);
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url);
+            return Task.FromException<TResult>(ex);
+        }
     }
 
     /// <summary>
@@ -38,8 +54,16 @@ public static class HttpExtension
     /// <returns>调用结果。</returns>
     public static async Task<Result> PostAsync(this HttpClient http, string url)
     {
-        var response = await http.PostAsync(url, null);
-        return await response.Content.ReadFromJsonAsync<Result>();
+        try
+        {
+            var response = await http.PostAsync(url, null);
+            return await response.Content.ReadFromJsonAsync<Result>();
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url);
+            return Result.Error(ex.Message);
+        }
     }
 
     /// <summary>
@@ -53,8 +77,16 @@ public static class HttpExtension
     /// <returns>返回的数据对象。</returns>
     public static async Task<TResult> PostAsync<TParam, TResult>(this HttpClient http, string url, TParam data)
     {
-        var response = await http.PostAsJsonAsync(url, data);
-        return await response.Content.ReadFromJsonAsync<TResult>();
+        try
+        {
+            var response = await http.PostAsJsonAsync(url, data);
+            return await response.Content.ReadFromJsonAsync<TResult>();
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url, data);
+            return default;
+        }
     }
 
     /// <summary>
@@ -66,8 +98,16 @@ public static class HttpExtension
     /// <returns>发送结果。</returns>
     public static async Task<Result> PostAsync(this HttpClient http, string url, HttpContent data)
     {
-        var response = await http.PostAsync(url, data);
-        return await response.Content.ReadFromJsonAsync<Result>();
+        try
+        {
+            var response = await http.PostAsync(url, data);
+            return await response.Content.ReadFromJsonAsync<Result>();
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url, data);
+            return Result.Error(ex.Message);
+        }
     }
 
     /// <summary>
@@ -80,7 +120,15 @@ public static class HttpExtension
     /// <returns>发送结果。</returns>
     public static Task<Result> PostAsync<T>(this HttpClient http, string url, T data)
     {
-        return http.PostAsync<T, Result>(url, data);
+        try
+        {
+            return http.PostAsync<T, Result>(url, data);
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url, data);
+            return Task.FromException<Result>(ex);
+        }
     }
 
     /// <summary>
@@ -93,6 +141,19 @@ public static class HttpExtension
     /// <returns>分页查询结果。</returns>
     public static Task<PagingResult<T>> QueryAsync<T>(this HttpClient http, string url, PagingCriteria criteria)
     {
-        return http.PostAsync<PagingCriteria, PagingResult<T>>(url, criteria);
+        try
+        {
+            return http.PostAsync<PagingCriteria, PagingResult<T>>(url, criteria);
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url, criteria);
+            return Task.FromException<PagingResult<T>>(ex);
+        }
+    }
+
+    private static void HandleException(Exception ex, string url, object data = null)
+    {
+        ClientOption.Instance.OnError?.Invoke(new ErrorInfo { Url = url, Data = data, Exception = ex });
     }
 }

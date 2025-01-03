@@ -72,7 +72,7 @@ public static class Extension
         action?.Invoke(ClientOption.Instance);
 
         var option = ClientOption.Instance;
-        services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
+        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformClient>();
         services.AddScoped<IAdminService, AdminClient>();
@@ -126,6 +126,9 @@ public static class Extension
 
     private static void LoadBuildTime(VersionInfo info)
     {
+        if (info == null)
+            return;
+
         var dateTime = GetBuildTime();
         var count = dateTime.Year - 2000 + dateTime.Month + dateTime.Day;
         info.BuildTime = dateTime;
