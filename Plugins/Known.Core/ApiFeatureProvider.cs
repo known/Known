@@ -7,12 +7,10 @@ class ApiFeatureProvider : ControllerFeatureProvider
 {
     protected override bool IsController(TypeInfo typeInfo)
     {
-        if (!typeof(IService).IsAssignableFrom(typeInfo) ||
-            !typeInfo.IsPublic ||
-            typeInfo.IsAbstract ||
-            typeInfo.IsGenericType)
+        if (typeInfo.GetCustomAttribute<WebApiAttribute>() == null)
             return false;
 
+        //Console.WriteLine(typeInfo.FullName);
         return true;
     }
 }

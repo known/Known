@@ -108,12 +108,12 @@ class ApiConvention : IApplicationModelConvention
             }
         }
 
-        var routeTemplate = new StringBuilder();
-        //routeTemplate.Append("api");
+        var route = new StringBuilder();
+        route.Append("api");
         var names = action.Controller.ControllerType.Namespace.Split('.');
         if (names.Length > 2)
         {
-            routeTemplate.Append(names[^2]);
+            route.Append(names[^2]);
         }
 
         // Controller
@@ -121,7 +121,7 @@ class ApiConvention : IApplicationModelConvention
         if (controllerName.EndsWith("Service"))
             controllerName = controllerName[0..^7];
 
-        routeTemplate.Append($"/{controllerName}");
+        route.Append($"/{controllerName}");
 
         // Action
         var actionName = action.ActionName;
@@ -129,9 +129,10 @@ class ApiConvention : IApplicationModelConvention
             actionName = actionName[..^"Async".Length];
 
         if (!string.IsNullOrEmpty(actionName))
-            routeTemplate.Append($"/{actionName}");
+            route.Append($"/{actionName}");
 
-        return routeTemplate.ToString();
+        //Console.WriteLine(route);
+        return route.ToString();
     }
 
     private static string GetHttpMethod(ActionModel action)

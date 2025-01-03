@@ -34,6 +34,7 @@ public interface IAutoService : IService
     Task<Result> CreateTableAsync(AutoInfo<string> info);
 }
 
+[WebApi]
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)

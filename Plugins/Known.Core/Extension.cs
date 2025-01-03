@@ -36,7 +36,11 @@ public static class Extension
         if (option.IsCompression)
             services.AddResponseCompression();
         services.AddHttpContextAccessor();
-        services.AddControllers();
+        services.AddControllers().AddJsonOptions(o =>
+        {
+            o.JsonSerializerOptions.PropertyNamingPolicy = null;
+        });
+        services.AddRazorPages();
         services.AddCascadingAuthenticationState();
         switch (option.AuthMode)
         {
@@ -67,8 +71,18 @@ public static class Extension
     /// 添加框架WebApi，根据Service动态生成WebApi。
     /// </summary>
     /// <param name="services">服务集合。</param>
-    public static void AddKnownWebApi(this IServiceCollection services)
+    /// <param name="action">配置委托。</param>
+    public static void AddKnownWebApi(this IServiceCollection services, Action<CoreOption> action = null)
     {
+        AppHelper.LoadConnections();
+        action?.Invoke(option);
+        option.IsAddWebApi = false;
+        if (option.IsCompression)
+            services.AddResponseCompression();
+        services.AddHttpContextAccessor();
+        services.AddControllers();
+        services.AddRazorPages();
+
         var builder = services.AddControllers(option =>
         {
             option.EnableEndpointRouting = false;
@@ -117,6 +131,7 @@ public static class Extension
             app.UseKnownWebApi();
 
         app.MapControllers();
+        app.MapRazorPages();
         Config.ServiceProvider = app.Services;
     }
 

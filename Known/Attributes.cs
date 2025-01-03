@@ -1,6 +1,12 @@
 ﻿namespace Known;
 
 /// <summary>
+/// WebApi特性类，用于标识服务类是否自动生成WebApi。
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
+public class WebApiAttribute : Attribute { }
+
+/// <summary>
 /// 代码表特性类，用于标识常量类作为数据字典代码。
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]

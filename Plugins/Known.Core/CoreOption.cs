@@ -25,6 +25,11 @@ public enum AuthMode
 public class CoreOption
 {
     /// <summary>
+    /// 取得App配置信息。
+    /// </summary>
+    public AppInfo App => Config.App;
+
+    /// <summary>
     /// 取得或设置身份认证方式，默认浏览器Session。
     /// </summary>
     public AuthMode AuthMode { get; set; } = AuthMode.Session;
@@ -35,7 +40,7 @@ public class CoreOption
     public bool IsCompression { get; set; }
 
     /// <summary>
-    /// 取得或设置是否动态生成WebApi，默认禁用。
+    /// 取得或设置是否动态生成WebApi，默认启用。
     /// </summary>
-    public bool IsAddWebApi { get; set; }
+    public bool IsAddWebApi { get; set; } = true;
 }

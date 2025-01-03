@@ -106,6 +106,7 @@ public interface IAdminService : IService
     #endregion
 }
 
+[WebApi]
 class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     private static readonly Dictionary<string, string> Configs = [];
@@ -130,6 +131,9 @@ class AdminService(Context context) : ServiceBase(context), IAdminService
 
     public Task<Result> SignInAsync(LoginFormInfo info)
     {
+        if (string.IsNullOrWhiteSpace(info.UserName))
+            return Result.ErrorAsync("用户名不能为空！");
+
         var user = new UserInfo { UserName = info.UserName, Name = info.UserName };
         Users[info.UserName] = user;
         return Result.SuccessAsync("登录成功！", user);
@@ -193,7 +197,6 @@ class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 {
     public Task<bool> GetInstallAsync()
     {
-        Console.WriteLine($"BaseUri={Http.BaseAddress}");
         return Http.GetAsync<bool>("/Admin/GetInstall");
     }
 

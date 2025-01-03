@@ -1,6 +1,13 @@
+using Sample.Wasm;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddKnownWebApi();
+builder.Services.AddApplication();
+builder.Services.AddKnownWebApi(option =>
+{
+    option.App.WebRoot = builder.Environment.WebRootPath;
+    option.App.ContentRoot = builder.Environment.ContentRootPath;
+});
 
 var app = builder.Build();
 
@@ -17,8 +24,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-app.MapControllers();
+app.UseKnown();
 app.MapFallbackToFile("index.html");
 
 app.Run();

@@ -17,6 +17,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             return http.GetStringAsync(url);
         }
         catch (Exception ex)
@@ -37,6 +38,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             return http.GetFromJsonAsync<TResult>(url);
         }
         catch (Exception ex)
@@ -56,6 +58,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             var response = await http.PostAsync(url, null);
             return await response.Content.ReadFromJsonAsync<Result>();
         }
@@ -79,6 +82,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             var response = await http.PostAsJsonAsync(url, data);
             return await response.Content.ReadFromJsonAsync<TResult>();
         }
@@ -100,6 +104,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             var response = await http.PostAsync(url, data);
             return await response.Content.ReadFromJsonAsync<Result>();
         }
@@ -122,6 +127,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             return http.PostAsync<T, Result>(url, data);
         }
         catch (Exception ex)
@@ -143,6 +149,7 @@ public static class HttpExtension
     {
         try
         {
+            url = http.GetRequestUrl(url);
             return http.PostAsync<PagingCriteria, PagingResult<T>>(url, criteria);
         }
         catch (Exception ex)
@@ -150,6 +157,17 @@ public static class HttpExtension
             HandleException(ex, url, criteria);
             return Task.FromException<PagingResult<T>>(ex);
         }
+    }
+
+    private static string GetRequestUrl(this HttpClient http, string url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+            return http.BaseAddress?.ToString();
+
+        if (url.StartsWith("http"))
+            return url;
+
+        return $"{http.BaseAddress}{url}";
     }
 
     private static void HandleException(Exception ex, string url, object data = null)

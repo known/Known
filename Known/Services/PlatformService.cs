@@ -83,6 +83,7 @@ public interface IPlatformService : IService
     #endregion
 }
 
+[WebApi]
 class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
     #region TopNav
