@@ -18,6 +18,8 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.Assembly = assembly;
+            info.WebApi.IsEncrypt = true;
+            info.WebApi.DataPassword = "123456";
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             //info.JsPath = "./script.js";
         });

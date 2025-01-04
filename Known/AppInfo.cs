@@ -128,4 +128,25 @@ public class AppInfo
     /// 取得或设置系统JS脚本文件路径，该文件中的JS方法，可通过JSService的InvokeAppAsync和InvokeAppVoidAsync调用。
     /// </summary>
     public string JsPath { get; set; }
+
+    /// <summary>
+    /// 取得系统WebApi配置信息。
+    /// </summary>
+    public WebApiOption WebApi { get; } = new WebApiOption();
+}
+
+/// <summary>
+/// WebApi配置信息类。
+/// </summary>
+public class WebApiOption
+{
+    /// <summary>
+    /// 取得或设置系统WebApi是否加密传输数据。
+    /// </summary>
+    public bool IsEncrypt { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统WebApi加密传输数据的密码。
+    /// </summary>
+    public string DataPassword { get; set; }
 }
