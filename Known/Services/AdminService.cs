@@ -109,7 +109,6 @@ public interface IAdminService : IService
 class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     private static readonly Dictionary<string, string> Configs = [];
-    private static readonly Dictionary<string, UserInfo> Users = [];
 
     public Task<bool> GetInstallAsync()
     {
@@ -133,8 +132,8 @@ class AdminService(Context context) : ServiceBase(context), IAdminService
         if (string.IsNullOrWhiteSpace(info.UserName))
             return Result.ErrorAsync("用户名不能为空！");
 
-        var user = new UserInfo { UserName = info.UserName, Name = info.UserName };
-        Users[info.UserName] = user;
+        var user = new UserInfo { UserName = info.UserName, Name = info.UserName, Token = Utils.GetGuid() };
+        Cache.SetUser(user);
         return Result.SuccessAsync("登录成功！", user);
     }
 
@@ -155,7 +154,7 @@ class AdminService(Context context) : ServiceBase(context), IAdminService
 
     public Task<UserInfo> GetUserAsync(string userName)
     {
-        Users.TryGetValue(userName, out var user);
+        var user = Cache.GetUser(userName);
         return Task.FromResult(user);
     }
 

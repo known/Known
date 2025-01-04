@@ -72,6 +72,7 @@ public static class Extension
         action?.Invoke(ClientOption.Instance);
 
         var option = ClientOption.Instance;
+        services.AddScoped<AuthMessageHandler>();
         services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformClient>();

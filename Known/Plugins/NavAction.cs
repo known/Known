@@ -38,7 +38,7 @@ class NavAction : BaseComponent
 
     private List<ActionInfo> GetActionItems()
     {
-        var plugins = Config.Plugins.Where(p => p.IsNav && !Values.Contains(p.Id)).ToList();
+        var plugins = Config.Plugins.Where(p => p.IsNav && Values?.Contains(p.Id) == false).ToList();
         return plugins.ToActions();
     }
 

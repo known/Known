@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplication();
 builder.Services.AddKnownWeb(option =>
 {
+    option.AuthMode = AuthMode.None;
     option.App.WebRoot = builder.Environment.WebRootPath;
     option.App.ContentRoot = builder.Environment.ContentRootPath;
 });

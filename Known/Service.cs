@@ -18,14 +18,24 @@ public interface IService
 public abstract class ClientBase(HttpClient http) : IService
 {
     /// <summary>
+    /// 取得HTTP客户端对象。
+    /// </summary>
+    public HttpClient Http
+    {
+        get
+        {
+            var user = Context?.CurrentUser;
+            var token = user != null ? user.Token : "none";
+            http.DefaultRequestHeaders.Remove(Constants.KeyToken);
+            http.DefaultRequestHeaders.Add(Constants.KeyToken, token);
+            return http;
+        }
+    }
+
+    /// <summary>
     /// 取得或设置系统上下文对象。
     /// </summary>
     public Context Context { get; set; }
-
-    /// <summary>
-    /// 取得HTTP客户端对象。
-    /// </summary>
-    public HttpClient Http => http;
 }
 
 /// <summary>

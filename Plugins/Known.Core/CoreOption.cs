@@ -6,6 +6,10 @@
 public enum AuthMode
 {
     /// <summary>
+    /// 无。
+    /// </summary>
+    None,
+    /// <summary>
     /// 浏览器Session。
     /// </summary>
     Session,

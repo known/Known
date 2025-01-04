@@ -1,4 +1,5 @@
 ﻿using Known.Auths;
+using Known.Filters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
@@ -18,6 +19,7 @@ public static class Extension
     public static void AddKnownWin(this IServiceCollection services)
     {
         AppHelper.LoadConnections();
+        services.AddKnownCore();
         services.AddHttpContextAccessor();
         services.AddCascadingAuthenticationState();
         services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();
@@ -33,16 +35,19 @@ public static class Extension
     {
         AppHelper.LoadConnections();
         action?.Invoke(option);
+        services.AddKnownCore();
         if (option.IsCompression)
             services.AddResponseCompression();
         services.AddHttpContextAccessor();
         var builder = services.AddControllers(option =>
         {
             option.EnableEndpointRouting = false;
+            option.Filters.Add<AuthActionFilter>();
+            option.Filters.Add<ExceptionFilter>();
         })
-        .AddJsonOptions(o =>
+        .AddJsonOptions(option =>
         {
-            o.JsonSerializerOptions.PropertyNamingPolicy = null;
+            option.JsonSerializerOptions.PropertyNamingPolicy = null;
         });
         if (option.IsAddWebApi)
             builder.AddDynamicWebApi();
@@ -59,15 +64,7 @@ public static class Extension
                 services.AddScoped<IAuthStateProvider, SessionAuthStateProvider>();
                 break;
             case AuthMode.Identity:
-                services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider>();
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                }).AddIdentityCookies();
-                services.AddIdentityCore<UserInfo>().AddSignInManager().AddDefaultTokenProviders();
-                services.AddScoped<IUserStore<UserInfo>, UserStore>();
-                services.AddScoped<IAuthStateProvider>(sp => (IdentityAuthStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
+                services.AddIdentityAuth();
                 break;
             default:
                 break;
@@ -98,6 +95,7 @@ public static class Extension
         });
 
         //if (option.IsAddWebApi)
+        //    app.UseMiddleware<WebApiMiddleware>();
         //    app.UseKnownWebApi();
 
         app.MapControllers();
@@ -121,6 +119,19 @@ public static class Extension
         {
             o.Conventions.Add(new ApiConvention());
         });
+    }
+
+    private static void AddIdentityAuth(this IServiceCollection services)
+    {
+        services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider>();
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = IdentityConstants.ApplicationScheme;
+            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+        }).AddIdentityCookies();
+        services.AddIdentityCore<UserInfo>().AddSignInManager().AddDefaultTokenProviders();
+        services.AddScoped<IUserStore<UserInfo>, UserStore>();
+        services.AddScoped<IAuthStateProvider>(sp => (IdentityAuthStateProvider)sp.GetRequiredService<AuthenticationStateProvider>());
     }
 
     //private static void UseKnownWebApi(this IEndpointRouteBuilder app)

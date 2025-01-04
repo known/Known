@@ -3,7 +3,7 @@
 /// <summary>
 /// Http上下文扩展类。
 /// </summary>
-public static class HttpContextExtension
+public static class HttpExtension
 {
     /// <summary>
     /// 设置系统上下文的Http相关对象。

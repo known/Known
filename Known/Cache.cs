@@ -59,11 +59,11 @@ public sealed class Cache
     /// <summary>
     /// 获取缓存登录用户信息。
     /// </summary>
-    /// <param name="key">用户名。</param>
+    /// <param name="userName">用户名。</param>
     /// <returns>用户信息。</returns>
-    public static UserInfo GetUser(string key)
+    public static UserInfo GetUser(string userName)
     {
-        cachedUsers.TryGetValue(key, out UserInfo user);
+        cachedUsers.TryGetValue(userName, out UserInfo user);
         return user;
     }
 
@@ -81,7 +81,7 @@ public sealed class Cache
     }
 
     /// <summary>
-    /// 将登录用户添加到缓存里。
+    /// 将登录用户添加到缓存里，Key为用户名。
     /// </summary>
     /// <param name="user">用户信息。</param>
     public static void SetUser(UserInfo user)

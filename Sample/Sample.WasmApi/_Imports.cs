@@ -1,4 +1,5 @@
-﻿global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-global using Microsoft.AspNetCore.Mvc;
-global using Known;
+﻿global using Known;
+global using Known.Core;
 global using Known.Services;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

@@ -60,45 +60,49 @@ class ApiConvention : IApplicationModelConvention
     {
         RemoveEmptySelectors(model.Selectors);
 
-        if (model.Selectors.Count <= 0)
-            AddServiceSelector(model);
-        else
-            NormalizeSelectorRoutes(model);
-    }
-
-    private static void AddServiceSelector(ActionModel model)
-    {
+        var route = GetRouteTemplate(model);
         var method = GetHttpMethod(model);
-        var template = new RouteAttribute(GetRouteTemplate(model));
-        var selector = new SelectorModel
-        {
-            AttributeRouteModel = new AttributeRouteModel(template)
-        };
-        selector.ActionConstraints.Add(new HttpMethodActionConstraint([method]));
-        model.Selectors.Add(selector);
+        if (model.Selectors.Count <= 0)
+            AddServiceSelector(route, method, model);
+        else
+            NormalizeSelectorRoutes(route, method, model);
 
         if (method == "POST")
         {
             foreach (var item in model.Parameters)
             {
                 if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
+                {
+                    Console.WriteLine(item.ParameterType);
                     item.BindingInfo = BindingInfo.GetBindingInfo([new FromBodyAttribute()]);
+                }
             }
         }
     }
 
-    private static void NormalizeSelectorRoutes(ActionModel model)
+    private static void AddServiceSelector(string route, string method, ActionModel model)
+    {
+        var template = new RouteAttribute(route);
+        var selector = new SelectorModel
+        {
+            AttributeRouteModel = new AttributeRouteModel(template)
+        };
+        selector.ActionConstraints.Add(new HttpMethodActionConstraint([method]));
+        model.Selectors.Add(selector);
+    }
+
+    private static void NormalizeSelectorRoutes(string route, string method, ActionModel model)
     {
         foreach (var selector in model.Selectors)
         {
             if (selector.AttributeRouteModel == null)
             {
-                var template = new RouteAttribute(GetRouteTemplate(model));
+                var template = new RouteAttribute(route);
                 selector.AttributeRouteModel = new AttributeRouteModel(template);
             }
 
             if (selector.ActionConstraints.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods?.FirstOrDefault() == null)
-                selector.ActionConstraints.Add(new HttpMethodActionConstraint([GetHttpMethod(model)]));
+                selector.ActionConstraints.Add(new HttpMethodActionConstraint([method]));
         }
     }
 

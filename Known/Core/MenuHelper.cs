@@ -16,7 +16,7 @@ public sealed class MenuHelper
     /// <returns></returns>
     public static List<MenuInfo> GetUserMenus(UserInfo user, List<ModuleInfo> modules, List<string> moduleIds = null)
     {
-        if (modules == null || modules.Count == 0)
+        if (user == null || modules == null || modules.Count == 0)
             return [];
 
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
