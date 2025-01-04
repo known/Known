@@ -13,6 +13,7 @@ public interface ILogService : IService
     Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria);
 }
 
+[WebApi]
 class LogService(Context context) : ServiceBase(context), ILogService
 {
     public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)

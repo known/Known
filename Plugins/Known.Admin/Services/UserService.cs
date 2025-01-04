@@ -62,6 +62,7 @@ public interface IUserService : IService
     Task<Result> SaveUserAsync(SysUser model);
 }
 
+[WebApi]
 class UserService(Context context) : ServiceBase(context), IUserService
 {
     public async Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)

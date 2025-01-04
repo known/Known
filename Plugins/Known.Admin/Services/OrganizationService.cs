@@ -26,6 +26,7 @@ public interface IOrganizationService : IService
     Task<Result> SaveOrganizationAsync(SysOrganization model);
 }
 
+[WebApi]
 class OrganizationService(Context context) : ServiceBase(context), IOrganizationService
 {
     public Task<List<SysOrganization>> GetOrganizationsAsync()

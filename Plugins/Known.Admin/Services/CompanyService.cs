@@ -19,6 +19,7 @@ public interface ICompanyService : IService
     Task<Result> SaveCompanyAsync(object model);
 }
 
+[WebApi]
 class CompanyService(Context context) : ServiceBase(context), ICompanyService
 {
     private const string KeyCompany = "CompanyInfo";

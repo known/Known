@@ -38,6 +38,7 @@ public interface ISystemService : IService
     Task<Result> SaveProductKeyAsync(SystemInfo info);
 }
 
+[WebApi]
 class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     public async Task<SystemInfo> GetSystemAsync()

@@ -36,10 +36,17 @@ public static class Extension
         if (option.IsCompression)
             services.AddResponseCompression();
         services.AddHttpContextAccessor();
-        services.AddControllers().AddJsonOptions(o =>
+        var builder = services.AddControllers(option =>
+        {
+            option.EnableEndpointRouting = false;
+        })
+        .AddJsonOptions(o =>
         {
             o.JsonSerializerOptions.PropertyNamingPolicy = null;
         });
+        if (option.IsAddWebApi)
+            builder.AddDynamicWebApi();
+
         services.AddRazorPages();
         services.AddCascadingAuthenticationState();
         switch (option.AuthMode)
@@ -68,43 +75,6 @@ public static class Extension
     }
 
     /// <summary>
-    /// 添加框架WebApi，根据Service动态生成WebApi。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    /// <param name="action">配置委托。</param>
-    public static void AddKnownWebApi(this IServiceCollection services, Action<CoreOption> action = null)
-    {
-        AppHelper.LoadConnections();
-        action?.Invoke(option);
-        option.IsAddWebApi = false;
-        if (option.IsCompression)
-            services.AddResponseCompression();
-        services.AddHttpContextAccessor();
-        services.AddControllers();
-        services.AddRazorPages();
-
-        var builder = services.AddControllers(option =>
-        {
-            option.EnableEndpointRouting = false;
-        });
-
-        builder.ConfigureApplicationPartManager(m =>
-        {
-            //m.ApplicationParts.Add(new AssemblyPart(typeof(IService).Assembly));
-            foreach (var item in Config.Assemblies)
-            {
-                m.ApplicationParts.Add(new AssemblyPart(item));
-            }
-            m.FeatureProviders.Add(new ApiFeatureProvider());
-        });
-
-        builder.Services.Configure<MvcOptions>(o =>
-        {
-            o.Conventions.Add(new ApiConvention());
-        });
-    }
-
-    /// <summary>
     /// 使用框架静态文件和WebApi。
     /// </summary>
     /// <param name="app">Web应用程序。</param>
@@ -127,22 +97,40 @@ public static class Extension
             RequestPath = "/UploadFiles"
         });
 
-        if (option.IsAddWebApi)
-            app.UseKnownWebApi();
+        //if (option.IsAddWebApi)
+        //    app.UseKnownWebApi();
 
         app.MapControllers();
         app.MapRazorPages();
         Config.ServiceProvider = app.Services;
     }
 
-    private static void UseKnownWebApi(this IEndpointRouteBuilder app)
+    private static void AddDynamicWebApi(this IMvcBuilder builder)
     {
-        foreach (var item in Config.ApiMethods)
+        builder.ConfigureApplicationPartManager(m =>
         {
-            if (item.HttpMethod == HttpMethod.Get)
-                app.MapGet(item.Route, ctx => WebApi.Invoke(ctx, item));
-            else
-                app.MapPost(item.Route, ctx => WebApi.Invoke(ctx, item));
-        }
+            //m.ApplicationParts.Add(new AssemblyPart(Config.App.Assembly));
+            foreach (var item in Config.Assemblies)
+            {
+                m.ApplicationParts.Add(new AssemblyPart(item));
+            }
+            m.FeatureProviders.Add(new ApiFeatureProvider());
+        });
+
+        builder.Services.Configure<MvcOptions>(o =>
+        {
+            o.Conventions.Add(new ApiConvention());
+        });
     }
+
+    //private static void UseKnownWebApi(this IEndpointRouteBuilder app)
+    //{
+    //    foreach (var item in Config.ApiMethods)
+    //    {
+    //        if (item.HttpMethod == HttpMethod.Get)
+    //            app.MapGet(item.Route, ctx => WebApi.Invoke(ctx, item));
+    //        else
+    //            app.MapPost(item.Route, ctx => WebApi.Invoke(ctx, item));
+    //    }
+    //}
 }

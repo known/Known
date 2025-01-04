@@ -27,6 +27,7 @@ public interface ITaskService : IService
     Task<Result> ResetTasksAsync(List<SysTask> models);
 }
 
+[WebApi]
 class TaskService(Context context) : ServiceBase(context), ITaskService
 {
     public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)

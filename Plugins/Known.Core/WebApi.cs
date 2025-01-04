@@ -1,5 +1,6 @@
 ﻿namespace Known;
 
+// 已使用AddDynamicWebApi方式生成WebApi
 class WebApi
 {
     internal static async Task Invoke(HttpContext ctx, ApiMethodInfo info)

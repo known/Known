@@ -26,6 +26,7 @@ public interface IInstallService : IService
     [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
 }
 
+[WebApi]
 class InstallService(Context context) : ServiceBase(context), IInstallService
 {
     public async Task<InstallInfo> GetInstallAsync()

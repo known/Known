@@ -3,7 +3,7 @@ using Sample.Wasm;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
-builder.Services.AddKnownWebApi(option =>
+builder.Services.AddKnownWeb(option =>
 {
     option.App.WebRoot = builder.Environment.WebRootPath;
     option.App.ContentRoot = builder.Environment.ContentRootPath;

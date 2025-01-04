@@ -63,6 +63,7 @@ public interface IFlowService : IService
     Task<Result> StopFlowAsync(FlowFormInfo info);
 }
 
+[WebApi]
 class FlowService(Context context) : ServiceBase(context), IFlowService
 {
     private const string StepSubmit = "Submit";

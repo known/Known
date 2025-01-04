@@ -89,7 +89,7 @@ class WebApiForm : BaseComponent
             builder.Div(() =>
             {
                 WebApiList.BuildMethod(builder, Model);
-                builder.Text(Model.Route);
+                builder.Text($"/api{Model.Route}");
             });
             builder.Button(Language["Execute"], this.Callback<MouseEventArgs>(OnExexuteAsync));
         });
@@ -195,12 +195,12 @@ class WebApiForm : BaseComponent
     private async Task OnExexuteAsync(MouseEventArgs args)
     {
         var client = new HttpClient();
-        client.BaseAddress = new Uri(Config.HostUrl);
         client.DefaultRequestHeaders.Add(Constants.KeyToken, CurrentUser.Token);
         if (Model.HttpMethod == HttpMethod.Post)
         {
             var content = GetPostContent();
-            var res = await client.PostAsync(Model.Route, content);
+            var url = GetRequestUrl(Model.Route);
+            var res = await client.PostAsync(url, content);
             result = await res.Content.ReadAsStringAsync();
         }
         else
@@ -224,7 +224,12 @@ class WebApiForm : BaseComponent
             }
             url += "?" + string.Join("&", parameters);
         }
-        return url;
+        return GetRequestUrl(url);
+    }
+
+    private static string GetRequestUrl(string url)
+    {
+        return $"{Config.HostUrl}/api{url}";
     }
 
     private StringContent GetPostContent()

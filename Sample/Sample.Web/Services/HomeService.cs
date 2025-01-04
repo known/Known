@@ -7,6 +7,7 @@ public interface IHomeService : IService
     Task<HomeInfo> GetHomeAsync();
 }
 
+[WebApi]
 class HomeService(Context context) : ServiceBase(context), IHomeService
 {
     public async Task<HomeInfo> GetHomeAsync()

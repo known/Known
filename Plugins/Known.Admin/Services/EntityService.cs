@@ -1,5 +1,6 @@
 ﻿namespace Known.Services;
 
+[WebApi]
 class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity> where TEntity : EntityBase, new()
 {
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)

@@ -30,6 +30,7 @@ public interface IImportService : IService
     Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
 }
 
+[WebApi]
 class ImportService(Context context) : ServiceBase(context), IImportService
 {
     public async Task<ImportFormInfo> GetImportAsync(string bizId)

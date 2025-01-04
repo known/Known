@@ -9,7 +9,7 @@ public class TopNavbar : BaseComponent
     private PluginInfo dragging;
     private NavAction action;
 
-    private List<string> Values => items.Select(i => i.Id).ToList();
+    private List<string> Values => items?.Select(i => i.Id).ToList();
 
     /// <summary>
     /// 取得或设置按钮点击事件委托。
@@ -75,7 +75,7 @@ public class TopNavbar : BaseComponent
 
     private void BuildTopNavbar(RenderTreeBuilder builder)
     {
-        if (items.Count == 0)
+        if (items == null || items.Count == 0)
             return;
 
         foreach (var item in items)

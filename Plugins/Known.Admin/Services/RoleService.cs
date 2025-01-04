@@ -34,6 +34,7 @@ public interface IRoleService : IService
     Task<Result> SaveRoleAsync(SysRole model);
 }
 
+[WebApi]
 class RoleService(Context context) : ServiceBase(context), IRoleService
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)

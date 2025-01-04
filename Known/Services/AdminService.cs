@@ -106,7 +106,6 @@ public interface IAdminService : IService
     #endregion
 }
 
-[WebApi]
 class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     private static readonly Dictionary<string, string> Configs = [];

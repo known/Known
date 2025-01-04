@@ -40,7 +40,7 @@ public class CoreOption
     public bool IsCompression { get; set; }
 
     /// <summary>
-    /// 取得或设置是否动态生成WebApi，默认启用。
+    /// 取得或设置是否根据Service动态生成WebApi，默认启用。
     /// </summary>
     public bool IsAddWebApi { get; set; } = true;
 }

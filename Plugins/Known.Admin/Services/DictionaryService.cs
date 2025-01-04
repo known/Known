@@ -33,6 +33,7 @@ public interface IDictionaryService : IService
     Task<Result> SaveDictionaryAsync(SysDictionary model);
 }
 
+[WebApi]
 class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
 {
     public async Task<Result> RefreshCacheAsync()

@@ -41,6 +41,7 @@ public interface IWeixinService : IService
     Task<Result> SaveWeixinAsync(WeixinInfo model);
 }
 
+[WebApi]
 class WeixinService(Context context) : ServiceBase(context), IWeixinService
 {
     internal const string KeyWeixin = "WeixinInfo";

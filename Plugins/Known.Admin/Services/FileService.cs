@@ -20,6 +20,7 @@ public interface IFileService : IService
     Task<Result> DeleteFilesAsync(List<SysFile> models);
 }
 
+[WebApi]
 class FileService(Context context) : ServiceBase(context), IFileService
 {
     public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria)

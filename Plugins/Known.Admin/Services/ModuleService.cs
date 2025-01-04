@@ -60,6 +60,7 @@ public interface IModuleService : IService
     Task<Result> SaveModuleAsync(SysModule model);
 }
 
+[WebApi]
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
     public async Task<List<SysModule>> GetModulesAsync()

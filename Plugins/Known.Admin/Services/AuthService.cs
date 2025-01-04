@@ -27,6 +27,7 @@ public interface IAuthService : IService
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
 
+[WebApi]
 class AuthService(Context context) : ServiceBase(context), IAuthService
 {
     public async Task<Result> UpdateAvatarAsync(AvatarInfo info)

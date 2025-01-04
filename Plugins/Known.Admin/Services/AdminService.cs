@@ -1,5 +1,6 @@
 ﻿namespace Known.Services;
 
+[WebApi]
 class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     #region Config

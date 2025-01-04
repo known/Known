@@ -8,23 +8,19 @@ class ApiConvention : IApplicationModelConvention
 {
     public void Apply(ApplicationModel application)
     {
-        foreach (var controller in application.Controllers)
+        foreach (var item in application.Controllers)
         {
-            var type = controller.ControllerType;
-            if (typeof(IService).IsAssignableFrom(type))
-            {
-                ConfigureApiExplorer(controller);
-                ConfigureSelector(controller);
-            }
+            ConfigureApiExplorer(item);
+            ConfigureSelector(item);
         }
     }
 
-    private static void ConfigureApiExplorer(ControllerModel controller)
+    private static void ConfigureApiExplorer(ControllerModel model)
     {
-        if (!controller.ApiExplorer.IsVisible.HasValue)
-            controller.ApiExplorer.IsVisible = true;
+        if (!model.ApiExplorer.IsVisible.HasValue)
+            model.ApiExplorer.IsVisible = true;
 
-        foreach (var action in controller.Actions)
+        foreach (var action in model.Actions)
         {
             if (!action.ApiExplorer.IsVisible.HasValue)
             {
@@ -33,14 +29,14 @@ class ApiConvention : IApplicationModelConvention
         }
     }
 
-    private static void ConfigureSelector(ControllerModel controller)
+    private static void ConfigureSelector(ControllerModel model)
     {
-        RemoveEmptySelectors(controller.Selectors);
+        RemoveEmptySelectors(model.Selectors);
 
-        if (controller.Selectors.Any(selector => selector.AttributeRouteModel != null))
+        if (model.Selectors.Any(selector => selector.AttributeRouteModel != null))
             return;
 
-        foreach (var action in controller.Actions)
+        foreach (var action in model.Actions)
         {
             ConfigureSelector(action);
         }
@@ -60,30 +56,30 @@ class ApiConvention : IApplicationModelConvention
         }
     }
 
-    private static void ConfigureSelector(ActionModel action)
+    private static void ConfigureSelector(ActionModel model)
     {
-        RemoveEmptySelectors(action.Selectors);
+        RemoveEmptySelectors(model.Selectors);
 
-        if (action.Selectors.Count <= 0)
-            AddServiceSelector(action);
+        if (model.Selectors.Count <= 0)
+            AddServiceSelector(model);
         else
-            NormalizeSelectorRoutes(action);
+            NormalizeSelectorRoutes(model);
     }
 
-    private static void AddServiceSelector(ActionModel action)
+    private static void AddServiceSelector(ActionModel model)
     {
-        var method = GetHttpMethod(action);
-        var template = new RouteAttribute(GetRouteTemplate(action));
+        var method = GetHttpMethod(model);
+        var template = new RouteAttribute(GetRouteTemplate(model));
         var selector = new SelectorModel
         {
             AttributeRouteModel = new AttributeRouteModel(template)
         };
         selector.ActionConstraints.Add(new HttpMethodActionConstraint([method]));
-        action.Selectors.Add(selector);
+        model.Selectors.Add(selector);
 
         if (method == "POST")
         {
-            foreach (var item in action.Parameters)
+            foreach (var item in model.Parameters)
             {
                 if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
                     item.BindingInfo = BindingInfo.GetBindingInfo([new FromBodyAttribute()]);
@@ -91,26 +87,26 @@ class ApiConvention : IApplicationModelConvention
         }
     }
 
-    private static void NormalizeSelectorRoutes(ActionModel action)
+    private static void NormalizeSelectorRoutes(ActionModel model)
     {
-        foreach (var selector in action.Selectors)
+        foreach (var selector in model.Selectors)
         {
             if (selector.AttributeRouteModel == null)
             {
-                var template = new RouteAttribute(GetRouteTemplate(action));
+                var template = new RouteAttribute(GetRouteTemplate(model));
                 selector.AttributeRouteModel = new AttributeRouteModel(template);
             }
 
             if (selector.ActionConstraints.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods?.FirstOrDefault() == null)
-                selector.ActionConstraints.Add(new HttpMethodActionConstraint([GetHttpMethod(action)]));
+                selector.ActionConstraints.Add(new HttpMethodActionConstraint([GetHttpMethod(model)]));
         }
     }
 
-    private static string GetRouteTemplate(ActionModel action)
+    private static string GetRouteTemplate(ActionModel model)
     {
-        if (action.Attributes != null && action.Attributes.Count > 0)
+        if (model.Attributes != null && model.Attributes.Count > 0)
         {
-            foreach (var item in action.Attributes)
+            foreach (var item in model.Attributes)
             {
                 if (item is RouteAttribute attribute)
                 {
@@ -121,21 +117,20 @@ class ApiConvention : IApplicationModelConvention
 
         var route = new StringBuilder();
         route.Append("api");
-        var names = action.Controller.ControllerType.Namespace.Split('.');
-        if (names.Length > 2)
-        {
-            route.Append(names[^2]);
-        }
+        // 二级路径
+        //var names = model.Controller.ControllerType.Namespace.Split('.');
+        //if (names.Length > 2)
+        //    route.Append(names[^2]);
 
         // Controller
-        var controllerName = action.Controller.ControllerName;
+        var controllerName = model.Controller.ControllerName;
         if (controllerName.EndsWith("Service"))
             controllerName = controllerName[0..^7];
 
         route.Append($"/{controllerName}");
 
         // Action
-        var actionName = action.ActionName;
+        var actionName = model.ActionName;
         if (actionName.EndsWith("Async"))
             actionName = actionName[..^"Async".Length];
 
@@ -146,9 +141,9 @@ class ApiConvention : IApplicationModelConvention
         return route.ToString();
     }
 
-    private static string GetHttpMethod(ActionModel action)
+    private static string GetHttpMethod(ActionModel model)
     {
-        var actionName = action.ActionName;
+        var actionName = model.ActionName;
         if (actionName.StartsWith("Get"))
             return "GET";
 
