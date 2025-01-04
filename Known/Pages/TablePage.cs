@@ -1,5 +1,4 @@
-﻿
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 表格页面组件类。

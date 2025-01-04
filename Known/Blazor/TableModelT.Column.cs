@@ -25,13 +25,8 @@ partial class TableModel<TItem>
     public ColumnBuilder<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, bool isQuery = false)
     {
         var property = TypeHelper.Property(selector);
-        var column = new ColumnInfo(property);
+        var column = new ColumnInfo(property) { IsQuery = isQuery };
         Columns.Add(column);
-        if (isQuery)
-        {
-            QueryColumns.Add(column);
-            QueryData[property.Name] = new QueryInfo(column);
-        }
         return new ColumnBuilder<TItem>(column, this);
     }
 

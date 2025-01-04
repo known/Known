@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Known;
 
@@ -71,13 +72,23 @@ class ApiConvention : IApplicationModelConvention
 
     private static void AddServiceSelector(ActionModel action)
     {
+        var method = GetHttpMethod(action);
         var template = new RouteAttribute(GetRouteTemplate(action));
         var selector = new SelectorModel
         {
             AttributeRouteModel = new AttributeRouteModel(template)
         };
-        selector.ActionConstraints.Add(new HttpMethodActionConstraint([GetHttpMethod(action)]));
+        selector.ActionConstraints.Add(new HttpMethodActionConstraint([method]));
         action.Selectors.Add(selector);
+
+        if (method == "POST")
+        {
+            foreach (var item in action.Parameters)
+            {
+                if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
+                    item.BindingInfo = BindingInfo.GetBindingInfo([new FromBodyAttribute()]);
+            }
+        }
     }
 
     private static void NormalizeSelectorRoutes(ActionModel action)
