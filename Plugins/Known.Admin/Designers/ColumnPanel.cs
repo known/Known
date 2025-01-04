@@ -14,7 +14,6 @@ class ColumnPanel<TModel> : BaseComponent
     {
         base.OnInitialized();
         current = Designer.Fields?.FirstOrDefault();
-        fields = Designer.Module.Entity.GetFields(Language);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -22,6 +21,7 @@ class ColumnPanel<TModel> : BaseComponent
         //TODO：Page支持添加栏位以及位置移动
         builder.Div("caption", () => builder.Div("title", Language["Designer.Fields"]));
 
+        fields = Designer.Module.Entity.GetFields(Language);
         if (fields == null || fields.Count == 0)
             return;
 

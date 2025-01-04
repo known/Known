@@ -74,7 +74,7 @@ public static class Extension
         var option = ClientOption.Instance;
         services.AddScoped<AuthMessageHandler>();
         services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
-        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformClient>();
         services.AddScoped<IAdminService, AdminClient>();
         services.AddScoped<IAutoService, AutoClient>();

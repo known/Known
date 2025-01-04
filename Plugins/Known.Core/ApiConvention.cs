@@ -72,10 +72,7 @@ class ApiConvention : IApplicationModelConvention
             foreach (var item in model.Parameters)
             {
                 if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
-                {
-                    Console.WriteLine(item.ParameterType);
                     item.BindingInfo = BindingInfo.GetBindingInfo([new FromBodyAttribute()]);
-                }
             }
         }
     }

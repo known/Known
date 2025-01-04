@@ -39,8 +39,15 @@ partial class KTable<TItem> : BaseComponent
     /// <returns></returns>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
-        await JSRuntime.FillTableHeightAsync();
+        try
+        {
+            await base.OnAfterRenderAsync(firstRender);
+            await JSRuntime.FillTableHeightAsync();
+        }
+        catch (Exception ex)
+        {
+            await OnErrorAsync(ex);
+        }
     }
 
     private async Task RefreshTableAsync(bool isQuery)

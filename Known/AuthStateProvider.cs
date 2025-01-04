@@ -30,16 +30,24 @@ class AuthStateProvider : IAuthStateProvider
     private static UserInfo current;
 
     public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
+    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
+    public Task SignOutAsync() => SetCurrentUser(null);
 
-    public Task SignInAsync(UserInfo user)
+    private static Task SetCurrentUser(UserInfo user)
     {
         current = user;
         return Task.CompletedTask;
     }
+}
 
-    public Task SignOutAsync()
+class JSAuthStateProvider(JSService js) : IAuthStateProvider
+{
+    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
+    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
+    public Task SignOutAsync() => SetCurrentUser(null);
+
+    private async Task SetCurrentUser(UserInfo user)
     {
-        current = null;
-        return Task.CompletedTask;
+        await js.SetUserInfoAsync(user);
     }
 }

@@ -83,8 +83,8 @@ class AuthService(Context context) : ServiceBase(context), IAuthService
         if (entity == null)
             return Result.Error(Language["Tip.NoUser"]);
 
-        info.OldPwd = Utils.ToMd5(info.NewPwd);
-        if (entity.Password != info.OldPwd)
+        var oldPwd = Utils.ToMd5(info.OldPwd);
+        if (entity.Password != oldPwd)
             return Result.Error(Language["Tip.CurPwdInvalid"]);
 
         entity.Password = Utils.ToMd5(info.NewPwd);
