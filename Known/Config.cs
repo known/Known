@@ -274,6 +274,10 @@ public sealed class Config
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
 
+            var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
+            if (codeInfo != null)
+                Cache.AttachCodes(item);
+
             var routes = item.GetCustomAttributes<RouteAttribute>();
             if (routes != null && routes.Any())
             {
@@ -290,10 +294,6 @@ public sealed class Config
                 info.Url = routes?.FirstOrDefault()?.Template;
                 Plugins.Add(info);
             }
-
-            var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
-            if (codeInfo != null)
-                Cache.AttachCodes(item);
         }
     }
 

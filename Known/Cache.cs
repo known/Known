@@ -6,8 +6,8 @@
 public sealed class Cache
 {
     private static readonly string KeyCodes = $"Known_Codes_{Config.App.Id}";
-    private static readonly ConcurrentDictionary<string, object> cached = new();
-    private static readonly ConcurrentDictionary<string, UserInfo> cachedUsers = new();
+    private static readonly CacheService<object> cache = new();
+    private static readonly CacheService<UserInfo> user = new();
 
     private Cache() { }
 
@@ -19,10 +19,8 @@ public sealed class Cache
     /// <returns>缓存泛型对象。</returns>
     public static T Get<T>(string key)
     {
-        if (string.IsNullOrEmpty(key))
-            return default;
-
-        if (!cached.TryGetValue(key, out object value))
+        var value = cache.Get(key);
+        if (value == null)
             return default;
 
         return (T)value;
@@ -33,12 +31,10 @@ public sealed class Cache
     /// </summary>
     /// <param name="key">缓存键。</param>
     /// <param name="value">缓存对象。</param>
-    public static void Set(string key, object value)
+    /// <param name="timeSpan">缓存过期时间。</param>
+    public static void Set(string key, object value, TimeSpan? timeSpan = null)
     {
-        if (string.IsNullOrEmpty(key))
-            return;
-
-        cached[key] = value;
+        cache.Set(key, value, timeSpan);
     }
 
     /// <summary>
@@ -47,13 +43,7 @@ public sealed class Cache
     /// <param name="key">缓存键。</param>
     public static void Remove(string key)
     {
-        if (string.IsNullOrEmpty(key))
-            return;
-
-        if (!cached.ContainsKey(key))
-            return;
-
-        cached.TryRemove(key, out object _);
+        cache.Remove(key);
     }
 
     /// <summary>
@@ -63,8 +53,7 @@ public sealed class Cache
     /// <returns>用户信息。</returns>
     public static UserInfo GetUser(string userName)
     {
-        cachedUsers.TryGetValue(userName, out UserInfo user);
-        return user;
+        return user.Get(userName);
     }
 
     /// <summary>
@@ -77,31 +66,35 @@ public sealed class Cache
         if (string.IsNullOrWhiteSpace(token))
             return null;
 
-        return cachedUsers.Values.FirstOrDefault(u => u.Token == token);
+        return user.Values.FirstOrDefault(x => x.Token == token);
     }
 
     /// <summary>
     /// 将登录用户添加到缓存里，Key为用户名。
     /// </summary>
-    /// <param name="user">用户信息。</param>
-    public static void SetUser(UserInfo user)
+    /// <param name="info">用户信息。</param>
+    /// <param name="timeSpan">用户缓存过期时间。</param>
+    public static void SetUser(UserInfo info, TimeSpan? timeSpan = null)
     {
-        if (user == null)
+        if (info == null)
             return;
 
-        cachedUsers[user.UserName] = user;
+        if (timeSpan == null)
+            timeSpan = Config.App.AuthExpired;
+
+        user.Set(info.UserName, info, timeSpan);
     }
 
     /// <summary>
     /// 将登录用户从缓存里移除。
     /// </summary>
-    /// <param name="user">用户信息。</param>
-    public static void RemoveUser(UserInfo user)
+    /// <param name="info">用户信息。</param>
+    public static void RemoveUser(UserInfo info)
     {
-        if (user == null)
+        if (info == null)
             return;
 
-        cachedUsers.TryRemove(user.UserName, out UserInfo _);
+        user.Remove(info.UserName);
     }
 
     /// <summary>

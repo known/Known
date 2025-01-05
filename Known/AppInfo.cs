@@ -130,6 +130,11 @@ public class AppInfo
     public string JsPath { get; set; }
 
     /// <summary>
+    /// 取得或设置登录用户过期时长，默认30分钟。
+    /// </summary>
+    public TimeSpan AuthExpired { get; set; } = TimeSpan.FromMinutes(30);
+
+    /// <summary>
     /// 取得系统WebApi配置信息。
     /// </summary>
     public WebApiOption WebApi { get; } = new WebApiOption();

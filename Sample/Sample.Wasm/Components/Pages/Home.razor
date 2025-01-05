@@ -6,4 +6,25 @@
     <h1 style="font-size:2rem;font-weight:bold">Hello, world!</h1>
 
     Welcome to your new app.
+
+    <p>Cached Value: @cachedValue</p>
+
+    <input @bind="inputValue" placeholder="Enter value to cache" />
+    <button @onclick="CacheValue">Cache Value</button>
+    <button @onclick="GetCachedValue">Get Cached Value</button>
 </div>
+
+@code {
+    private string inputValue;
+    private string cachedValue;
+
+    private void CacheValue()
+    {
+        Cache.Set("myKey", inputValue, TimeSpan.FromSeconds(10));
+    }
+
+    private void GetCachedValue()
+    {
+        cachedValue = Cache.Get<string>("myKey");
+    }
+}

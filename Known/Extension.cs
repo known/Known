@@ -34,32 +34,9 @@ public static class Extension
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
-        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
-        KStyleSheet.AddStyle("_content/Known/css/theme/default.css");
-        KStyleSheet.AddStyle("_content/Known/css/size/default.css");
-        KStyleSheet.AddStyle("_content/Known/css/web.css");
-
-        KScript.AddScript("_content/AntDesign/js/ant-design-blazor.js");
-        KScript.AddScript("_content/Known/js/libs/jquery.js");
-        KScript.AddScript("_content/Known/js/libs/pdfobject.js");
-        //KScript.AddScript("_content/Known/js/libs/highcharts.js");
-        KScript.AddScript("_content/Known/js/libs/barcode.js");
-        KScript.AddScript("_content/Known/js/libs/qrcode.js");
-        KScript.AddScript("_content/Known/js/libs/prism.js");
-        KScript.AddScript("_content/Known/js/web.js");
-
-        UIConfig.EnableEdit = true;
-        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
-        var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
-        if (!string.IsNullOrWhiteSpace(content))
-        {
-            var lines = content.Split([.. Environment.NewLine]);
-            UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
-        }
-        UIConfig.Sizes = [
-            new ActionInfo { Id = "Default", Style = "size", Url = "_content/Known/css/size/default.css" },
-            new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known/css/size/compact.css" }
-        ];
+        AddStyles();
+        AddScripts();
+        ConfigureUI();
     }
 
     /// <summary>
@@ -80,24 +57,8 @@ public static class Extension
         services.AddScoped<IAdminService, AdminClient>();
         services.AddScoped<IAutoService, AutoClient>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
-
-        if (option.InterceptorType != null)
-        {
-            foreach (var type in Config.ApiTypes)
-            {
-                //Console.WriteLine(type.Name);
-                var interceptorType = option.InterceptorType.Invoke(type);
-                if (interceptorType == null)
-                    continue;
-
-                services.AddScoped(interceptorType);
-                services.AddScoped(type, provider =>
-                {
-                    var interceptor = provider.GetRequiredService(interceptorType);
-                    return option.InterceptorProvider?.Invoke(type, interceptor);
-                });
-            }
-        }
+        
+        //AddInterceptors(services, option);
     }
 
     /// <summary>
@@ -125,6 +86,63 @@ public static class Extension
         action?.Invoke(DatabaseOption.Instance);
         services.AddScoped<Database>();
     }
+
+    private static void AddStyles()
+    {
+        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
+        KStyleSheet.AddStyle("_content/Known/css/theme/default.css");
+        KStyleSheet.AddStyle("_content/Known/css/size/default.css");
+        KStyleSheet.AddStyle("_content/Known/css/web.css");
+    }
+
+    private static void AddScripts()
+    {
+        KScript.AddScript("_content/AntDesign/js/ant-design-blazor.js");
+        KScript.AddScript("_content/Known/js/libs/jquery.js");
+        KScript.AddScript("_content/Known/js/libs/pdfobject.js");
+        //KScript.AddScript("_content/Known/js/libs/highcharts.js");
+        KScript.AddScript("_content/Known/js/libs/barcode.js");
+        KScript.AddScript("_content/Known/js/libs/qrcode.js");
+        KScript.AddScript("_content/Known/js/libs/prism.js");
+        KScript.AddScript("_content/Known/js/web.js");
+    }
+
+    private static void ConfigureUI()
+    {
+        UIConfig.EnableEdit = true;
+        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
+        var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
+        if (!string.IsNullOrWhiteSpace(content))
+        {
+            var lines = content.Split([.. Environment.NewLine]);
+            UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
+        }
+        UIConfig.Sizes = [
+            new ActionInfo { Id = "Default", Style = "size", Url = "_content/Known/css/size/default.css" },
+            new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known/css/size/compact.css" }
+        ];
+    }
+
+    //private static void AddInterceptors(IServiceCollection services, ClientOption option)
+    //{
+    //    if (option.InterceptorType == null)
+    //        return;
+
+    //    foreach (var type in Config.ApiTypes)
+    //    {
+    //        //Console.WriteLine(type.Name);
+    //        var interceptorType = option.InterceptorType.Invoke(type);
+    //        if (interceptorType == null)
+    //            continue;
+
+    //        services.AddScoped(interceptorType);
+    //        services.AddScoped(type, provider =>
+    //        {
+    //            var interceptor = provider.GetRequiredService(interceptorType);
+    //            return option.InterceptorProvider?.Invoke(type, interceptor);
+    //        });
+    //    }
+    //}
 
     private static void LoadBuildTime(VersionInfo info)
     {
