@@ -542,7 +542,10 @@ class CodeGenerator : ICodeGenerator
             sb.AppendLine("        <DataItem Span=\"{0}\" Label=\"{1}\" Required>", span, item.Name);
         else
             sb.AppendLine("        <DataItem Span=\"{0}\" Label=\"{1}\">", span, item.Name);
-        sb.AppendLine("            <{0} @bind-Value=\"@context.{1}\" />", control, item.Id);
+        if (item.Type != FieldType.File)
+            sb.AppendLine("            <{0} @bind-Value=\"@context.{1}\" />", control, item.Id);
+        else
+            sb.AppendLine("            <KUpload Value=\"@context.{0}\" ReadOnly=\"Model.IsView\" IsButton=\"!Model.Data.IsNew\" />", item.Id);
         sb.AppendLine("        </DataItem>");
     }
 

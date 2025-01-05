@@ -27,6 +27,8 @@ partial class TableModel<TItem>
         var property = TypeHelper.Property(selector);
         var column = new ColumnInfo(property) { IsQuery = isQuery };
         Columns.Add(column);
+        if (isQuery)
+            AddQueryColumn(column);
         return new ColumnBuilder<TItem>(column, this);
     }
 
@@ -69,17 +71,5 @@ partial class TableModel<TItem>
         var column = new ColumnInfo { Id = id, Name = name };
         QueryColumns.Add(column);
         QueryData[column.Id] = new QueryInfo(id, type, value);
-    }
-
-    /// <summary>
-    /// 设置查询条件栏位。
-    /// </summary>
-    public void SetQueryColumns()
-    {
-        QueryColumns.Clear();
-        if (Columns != null && Columns.Count > 0)
-            QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
-
-        SetDefaultQuery();
     }
 }

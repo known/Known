@@ -107,6 +107,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
 
         if (PageSize != null)
             Criteria.PageSize = PageSize.Value;
+
+        SetQueryColumns();
     }
 
     /// <summary>

@@ -77,11 +77,11 @@
         await Model.SearchAsync();
     }
 
-    private void ShowAdvSearch() => Model.ShowAdvancedSearch(App);
+    private void ShowAdvSearch() => Model?.ShowAdvancedSearch(App);
 
     private void OnReset()
     {
-        Model.SetDefaultQuery();
+        Model?.SetDefaultQuery();
         StateChanged();
     }
 }

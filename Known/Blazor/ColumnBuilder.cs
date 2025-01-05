@@ -191,7 +191,10 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     public ColumnBuilder<TItem> Query()
     {
         if (column != null)
+        {
             column.IsQuery = true;
+            Table?.AddQueryColumn(column);
+        }
         return this;
     }
 

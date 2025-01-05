@@ -113,6 +113,18 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     }
 
     /// <summary>
+    /// 设置查询条件栏位。
+    /// </summary>
+    public void SetQueryColumns()
+    {
+        QueryColumns.Clear();
+        if (Columns != null && Columns.Count > 0)
+            QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
+
+        SetDefaultQuery();
+    }
+
+    /// <summary>
     /// 设置默认查询条件数据。
     /// </summary>
     public void SetDefaultQuery()

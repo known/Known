@@ -12,16 +12,6 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        Model?.SetQueryColumns();
-    }
-
-    /// <summary>
     /// 呈现表格页面组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
