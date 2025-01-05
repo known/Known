@@ -12,6 +12,16 @@ public static class JSExtension
     private static readonly string KeyLoginInfo = "Known_LoginInfo";
 
     /// <summary>
+    /// 异步检查是否是移动端访问。
+    /// </summary>
+    /// <param name="js">JS运行时。</param>
+    /// <returns></returns>
+    public static ValueTask<bool> CheckMobileAsync(this IJSRuntime js)
+    {
+        return js.InvokeAsync<bool>("isMobile");
+    }
+
+    /// <summary>
     /// 异步粘贴剪贴板里的数据。
     /// </summary>
     /// <param name="js">JS运行时。</param>

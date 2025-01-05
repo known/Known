@@ -37,3 +37,8 @@ $(function () {
         K_AutoFillTableHeight(true);
     });
 });
+
+window.isMobile = function () {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /android|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+};

@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Internals;
+﻿namespace Known.Internals;
 
 class MenuTree : BaseComponent
 {
@@ -46,9 +44,13 @@ class MenuTree : BaseComponent
             c.Required = true;
             c.CustomField = nameof(IconPicker);
         });
-        if (model.Data?.Type == nameof(MenuType.Link))
+
+        var isPage = model.Data?.Type == nameof(MenuType.Page);
+        var isLink = model.Data?.Type == nameof(MenuType.Link);
+        if (isPage || isLink)
+            model.AddRow().AddColumn(c => c.Url, c => c.Required = isLink);
+        if (isLink)
         {
-            model.AddRow().AddColumn(c => c.Url, c => c.Required = true);
             model.AddRow().AddColumn(c => c.Target, c =>
             {
                 c.Name = "目标";

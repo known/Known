@@ -1,4 +1,6 @@
-﻿<KContext Value="Context">
+﻿@inject IJSRuntime JSRuntime
+
+<KContext Value="Context">
     <Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="Config.Assemblies">
         <Found Context="routeData">
             <KRouteData Value="routeData">
@@ -14,4 +16,9 @@
 
 @code {
     [Inject] private UIContext Context { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Context.IsMobile = await JSRuntime.CheckMobileAsync();
+    }
 }

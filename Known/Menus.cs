@@ -175,7 +175,7 @@ public class MenuInfo
         get
         {
             if (Type == nameof(MenuType.Page))
-                return $"/page/{Id}";
+                return !string.IsNullOrWhiteSpace(Url) ? GetPageUrl(Url) : $"/page/{Id}";
 
             if (Target != nameof(ModuleType.Page) && Target != nameof(ModuleType.IFrame))
                 return Url;
@@ -183,7 +183,7 @@ public class MenuInfo
             if (string.IsNullOrWhiteSpace(Url) || Target == nameof(ModuleType.IFrame))
                 return $"/page/{Id}";
 
-            return Url.StartsWith("/") ? $"/page{Url}" : $"/page/{Url}";
+            return GetPageUrl(Url);
         }
     }
 
@@ -218,6 +218,11 @@ public class MenuInfo
             return Url == url || Id == route.PageType.FullName || PageType == route.PageType;
 
         return Url == url || Url == $"/{page}" || Id == page || PageType == route.PageType;
+    }
+
+    private static string GetPageUrl(string url)
+    {
+        return url.StartsWith("/") ? $"/page{url}" : $"/page/{url}";
     }
 }
 
