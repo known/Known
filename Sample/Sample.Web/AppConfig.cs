@@ -67,6 +67,7 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
             info.IsMobile = true;
+            //info.AuthExpired = TimeSpan.FromSeconds(10);
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             //info.JsPath = "./script.js";
         });

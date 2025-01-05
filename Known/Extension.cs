@@ -49,15 +49,23 @@ public static class Extension
         Config.IsClient = true;
         action?.Invoke(ClientOption.Instance);
 
-        var option = ClientOption.Instance;
-        services.AddScoped<AuthMessageHandler>();
-        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(option.BaseAddress) });
         services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformClient>();
         services.AddScoped<IAdminService, AdminClient>();
         services.AddScoped<IAutoService, AutoClient>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
-        
+
+        var option = ClientOption.Instance;
+        if (!string.IsNullOrWhiteSpace(option.BaseAddress))
+        {
+            services.AddSingleton(sp =>
+            {
+                var navi = sp.GetRequiredService<NavigationManager>();
+                var handler = new AuthHttpHandler(navi);
+                return new HttpClient(handler) { BaseAddress = new Uri(option.BaseAddress) };
+            });
+        }
+
         //AddInterceptors(services, option);
     }
 

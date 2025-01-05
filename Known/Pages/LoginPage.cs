@@ -28,6 +28,7 @@ public class LoginPage : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
+            await SetCurrentUserAsync(null);
             var info = await JS.GetLoginInfoAsync<LoginInfo>();
             if (info != null)
             {

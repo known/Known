@@ -7,7 +7,7 @@ builder.RootComponents.Add<App>("#app");
 builder.Services.AddApplication();
 builder.Services.AddKnownClient(option =>
 {
-    option.BaseAddress = builder.HostEnvironment.BaseAddress+ "api";
+    option.BaseAddress = builder.HostEnvironment.BaseAddress + "api";
 });
 
 await builder.Build().RunAsync();

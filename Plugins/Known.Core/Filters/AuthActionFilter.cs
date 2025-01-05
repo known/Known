@@ -18,14 +18,15 @@ class AuthActionFilter : IActionFilter
         var request = context.HttpContext.Request;
         if (!request.Headers.TryGetValue(Constants.KeyToken, out var token))
         {
-            context.Result = new JsonResult(new { Status = HttpStatusCode.Unauthorized, Message = $"Not {Constants.KeyToken}!" });
+            context.Result = new UnauthorizedResult();
             return;
         }
 
         var user = Cache.GetUserByToken(token);
         if (user == null)
         {
-            context.Result = new JsonResult(new { Status = HttpStatusCode.Unauthorized, Message = "Not authorized!" });
+            //context.Result = new JsonResult(new { Status = HttpStatusCode.Unauthorized, Message = "Not authorized!" });
+            context.Result = new UnauthorizedResult();
             return;
         }
 
