@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 /// <summary>
 /// 页面级组件扩展类。
@@ -46,16 +44,6 @@ public static class PageExtension
     public static void Tabs(this RenderTreeBuilder builder, TabModel model)
     {
         builder.Component<DataTabs>().Set(c => c.Model, model).Build();
-    }
-
-    internal static void Toolbar(this RenderTreeBuilder builder, Action action)
-    {
-        builder.Div("kui-toolbar", action);
-    }
-
-    internal static void Toolbar(this RenderTreeBuilder builder, ToolbarModel model)
-    {
-        builder.Component<KToolbar>().Set(c => c.Model, model).Build();
     }
 
     /// <summary>

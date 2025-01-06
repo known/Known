@@ -5,6 +5,7 @@ class PluginPage : BaseComponent, IAutoPage
     private List<ActionInfo> items = [];
 
     [Parameter] public MenuInfo Menu { get; set; }
+    [Parameter] public AutoPage Page { get; set; }
 
     public Task InitializeAsync()
     {
@@ -74,7 +75,7 @@ class PluginPage : BaseComponent, IAutoPage
         form.AddRow().AddColumn(c => c.Type);
         form.AddRow().AddColumn(c => c.Spans, c => c.ReadOnly = data.Type != nameof(PageType.Column));
         form.AddRow().AddColumn(c => c.Custom, c => c.ReadOnly = data.Type != nameof(PageType.Custom));
-        builder.Div("kui-card form-layout", () =>
+        builder.Overlay(() =>
         {
             builder.FormTitle("页面布局");
             builder.Form(form);

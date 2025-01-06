@@ -28,8 +28,13 @@ public interface IPlugin : Microsoft.AspNetCore.Components.IComponent
 /// <typeparam name="TParam">插件配置参数类型。</typeparam>
 public class PluginBase<TParam> : BaseComponent, IPlugin
 {
-    [CascadingParameter] private PluginPage Page { get; set; }
+    [CascadingParameter] internal PluginPage Page { get; set; }
     private List<ActionInfo> Actions { get; } = [];
+
+    /// <summary>
+    /// 取得自动页面组件对象。
+    /// </summary>
+    public AutoPage AutoPage => Page.Page;
 
     /// <summary>
     /// 取得插件配置参数对象。
@@ -42,7 +47,7 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     public bool Draggable { get; set; }
 
     /// <summary>
-    /// 取得或设置上级组件。
+    /// 取得或设置上级组件对象。
     /// </summary>
     public BaseComponent Parent { get; set; }
 

@@ -17,41 +17,6 @@ public class MenuInfo
         Children = [];
     }
 
-    internal MenuInfo(ModuleInfo info) : this()
-    {
-        Data = info;
-        Id = info.Id;
-        Name = info.Name;
-        Icon = info.Icon;
-        ParentId = info.ParentId;
-        Type = info.Type;
-        Target = info.Target;
-        Url = info.Url;
-        Sort = info.Sort;
-        Enabled = info.Enabled;
-        Layout = info.Layout;
-        Plugins = info.Plugins;
-    }
-
-    internal MenuInfo(MenuInfo info) : this()
-    {
-        Id = info.Id;
-        ParentId = info.ParentId;
-        Code = info.Code;
-        Name = info.Name;
-        Icon = info.Icon;
-        Description = info.Description;
-        Type = info.Type;
-        Target = info.Target;
-        Url = info.Url;
-        Sort = info.Sort;
-        Enabled = info.Enabled;
-        Layout = info.Layout;
-        Plugins = info.Plugins;
-        Color = info.Color;
-        PageType = info.PageType;
-    }
-
     /// <summary>
     /// 取得或设置菜单ID。
     /// </summary>

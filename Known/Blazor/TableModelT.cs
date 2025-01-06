@@ -18,6 +18,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         Page = page;
+        Name = page?.Name;
         if (mode == TableColumnMode.Property)
             AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
         else if (mode == TableColumnMode.Attribute)
@@ -31,11 +32,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         var isPage = !IsAuto && page is BasePage;
         Initialize(isPage);
     }
-
-    /// <summary>
-    /// 取得或设置表格名称。
-    /// </summary>
-    public string Name { get; set; }
 
     /// <summary>
     /// 取得表格用户列设置ID。
@@ -56,11 +52,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 取得或设置表格是否显示工具条，默认显示。
     /// </summary>
     public bool ShowToolbar { get; set; } = true;
-
-    /// <summary>
-    /// 取得或设置表格是否显示列设置，默认显示。
-    /// </summary>
-    public bool ShowSetting { get; set; } = true;
 
     /// <summary>
     /// 取得表格标签配置对象。

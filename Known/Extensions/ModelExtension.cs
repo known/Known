@@ -33,7 +33,7 @@ public static class ModelExtension
 
         return modules.Where(m => m.Enabled).Select(m =>
         {
-            var info = new MenuInfo(m);
+            var info = CreateMenu(m);
             if (!string.IsNullOrWhiteSpace(m.Url))
             {
                 var route = Config.RouteTypes?.FirstOrDefault(r => r.Key == m.Url);
@@ -55,6 +55,25 @@ public static class ModelExtension
         {
             item.Sort = index++;
         }
+    }
+
+    private static MenuInfo CreateMenu(ModuleInfo info)
+    {
+        return new MenuInfo
+        {
+            Data = info,
+            Id = info.Id,
+            Name = info.Name,
+            Icon = info.Icon,
+            ParentId = info.ParentId,
+            Type = info.Type,
+            Target = info.Target,
+            Url = info.Url,
+            Sort = info.Sort,
+            Enabled = info.Enabled,
+            Layout = info.Layout,
+            Plugins = info.Plugins
+        };
     }
     #endregion
 
@@ -95,7 +114,7 @@ public static class ModelExtension
             if (item.Target == Constants.Route)
                 continue;
 
-            var menu = new MenuInfo(item);
+            var menu = CreateMenu(item);
             if (showRoot)
                 root.AddChild(menu);
             else
@@ -125,10 +144,32 @@ public static class ModelExtension
 
         foreach (var item in items)
         {
-            var sub = new MenuInfo(item);
+            var sub = CreateMenu(item);
             menu.AddChild(sub);
             AddChildren(menus, sub);
         }
+    }
+
+    private static MenuInfo CreateMenu(MenuInfo info)
+    {
+        return new MenuInfo
+        {
+            Id = info.Id,
+            ParentId = info.ParentId,
+            Code = info.Code,
+            Name = info.Name,
+            Icon = info.Icon,
+            Description = info.Description,
+            Type = info.Type,
+            Target = info.Target,
+            Url = info.Url,
+            Sort = info.Sort,
+            Enabled = info.Enabled,
+            Layout = info.Layout,
+            Plugins = info.Plugins,
+            Color = info.Color,
+            PageType = info.PageType
+        };
     }
     #endregion
 

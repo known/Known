@@ -79,6 +79,7 @@ public class AutoPage : BasePage
     {
         builder.Component<PluginPage>()
                .Set(c => c.Menu, Context.Current)
+               .Set(c => c.Page, this)
                .Build(value => page = value);
     }
 

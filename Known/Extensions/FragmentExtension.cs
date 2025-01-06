@@ -19,6 +19,36 @@ public static class FragmentExtension
     }
 
     /// <summary>
+    /// 呈现下拉弹出层组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="action">组件内容。</param>
+    public static void Overlay(this RenderTreeBuilder builder, Action action)
+    {
+        builder.Div("kui-card overlay", action);
+    }
+
+    /// <summary>
+    /// 呈现工具条组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="action">组件内容。</param>
+    public static void Toolbar(this RenderTreeBuilder builder, Action action)
+    {
+        builder.Div("kui-toolbar", action);
+    }
+
+    /// <summary>
+    /// 呈现工具条组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">组件模型对象。</param>
+    public static void Toolbar(this RenderTreeBuilder builder, ToolbarModel model)
+    {
+        builder.Component<KToolbar>().Set(c => c.Model, model).Build();
+    }
+
+    /// <summary>
     /// 呈现一个文字提示。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>

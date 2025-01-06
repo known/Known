@@ -9,6 +9,16 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     private object defaultQuery;
 
     /// <summary>
+    /// 取得或设置表格名称。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格是否显示列设置，默认显示。
+    /// </summary>
+    public bool ShowSetting { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格是否显示高级搜索。
     /// </summary>
     public bool AdvSearch { get; set; }
