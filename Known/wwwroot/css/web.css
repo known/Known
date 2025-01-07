@@ -298,6 +298,7 @@
 .kui-scroll > .kui-plugin {position:absolute;top:0;bottom:0;left:0;right:0;}
 .kui-scroll > .kui-plugin .ant-menu {width:198px;}
 .kui-body > .kui-plugin {margin-bottom:10px;}
+.kui-body > .kui-plugin.table {margin-bottom:0;}
 
 /*AntDesign*/
 .ant-btn {padding:4px 10px;}

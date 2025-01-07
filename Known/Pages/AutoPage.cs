@@ -52,27 +52,13 @@ public class AutoPage : BasePage
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         if (Context.Current == null)
-        {
             UI.Page404(builder, PageId);
-            return;
-        }
-
-        if (Context.Current.Target == nameof(ModuleType.IFrame))
-        {
+        else if (Context.Current.Target == nameof(ModuleType.IFrame))
             builder.IFrame(Context.Current.Url);
-            return;
-        }
-
-        if (Context.Current.Type == nameof(MenuType.Page))
-        {
+        else if (Context.Current.Type == nameof(MenuType.Page))
             BuildPluginPage(builder);
-            return;
-        }
-
-        if (Context.Current.Target == nameof(ModuleType.Page))
-        {
+        else if (Context.Current.Target == nameof(ModuleType.Page))
             BuildAutoTablePage(builder);
-        }
     }
 
     private void BuildPluginPage(RenderTreeBuilder builder)

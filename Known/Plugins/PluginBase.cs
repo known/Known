@@ -118,21 +118,11 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// <returns></returns>
     protected Task<Result> SaveParameterAsync(TParam parameter)
     {
-        var plugin = Page.Menu.Plugins.FirstOrDefault(p => p.Id == Plugin.Id);
-        if (plugin == null)
-            return Result.ErrorAsync("插件不存在！");
-
-        plugin.Setting = Utils.ToJson(parameter);
-        return Platform.SaveMenuAsync(Page.Menu);
+        return Page.SaveParameterAsync(Plugin.Id, parameter);
     }
 
     private void OnDelete()
     {
-        UI.Confirm("确定要删除插件？", async () =>
-        {
-            Page.Menu.Plugins.Remove(Plugin);
-            await Platform.SaveMenuAsync(Page.Menu);
-            await Page.StateChangedAsync();
-        });
+        UI.Confirm("确定要删除插件？", () => Page.RemovePluginAsync(Plugin));
     }
 }

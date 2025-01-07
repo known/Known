@@ -25,7 +25,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
         if (UIConfig.AutoTablePage != null)
             UIConfig.AutoTablePage.Invoke(builder, Table);
         else
-            builder.Table(Table);
+            base.BuildPage(builder);
     }
 
     /// <summary>

@@ -49,5 +49,38 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// 构建表格页面组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildPage(RenderTreeBuilder builder) => builder.Table(Table);
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        if (UIConfig.EnableEdit)
+        {
+            var actions = new List<ActionInfo>
+            {
+                new() {
+                    Icon = "setting", Name = "表格设置",
+                    OnClick = this.Callback<MouseEventArgs>(OnModelSetting)
+                }
+            };
+            builder.Component<PluginPanel>()
+                   .Set(c => c.Class, "table")
+                   .Set(c => c.Actions, actions)
+                   .Set(c => c.ChildContent, b => b.Table(Table))
+                   .Build();
+        }
+        else
+        {
+            builder.Table(Table);
+        }
+    }
+
+    private void OnModelSetting(MouseEventArgs args)
+    {
+        DialogModel model = null;
+        model = new DialogModel
+        {
+            Title = "表格模型设置",
+            Content = b => b.Component<TablePageSetting>().Build(),
+            OnOk = () => model.CloseAsync()
+        };
+        UI.ShowDialog(model);
+    }
 }

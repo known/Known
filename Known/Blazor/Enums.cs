@@ -74,7 +74,7 @@ public enum ModuleType
     /// </summary>
     Menu,
     /// <summary>
-    /// 菜单页面。
+    /// 无代码表格页面。
     /// </summary>
     Page,
     /// <summary>

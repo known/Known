@@ -7,6 +7,23 @@ class PluginPage : BaseComponent, IAutoPage
     [Parameter] public MenuInfo Menu { get; set; }
     [Parameter] public AutoPage Page { get; set; }
 
+    internal Task<Result> SaveParameterAsync(string pluginId, object parameter)
+    {
+        var plugin = Menu.Plugins.FirstOrDefault(p => p.Id == pluginId);
+        if (plugin == null)
+            return Result.ErrorAsync("插件不存在！");
+
+        plugin.Setting = Utils.ToJson(parameter);
+        return Platform.SaveMenuAsync(Menu);
+    }
+
+    internal async Task RemovePluginAsync(PluginInfo plugin)
+    {
+        Menu.Plugins.Remove(plugin);
+        await Platform.SaveMenuAsync(Menu);
+        await StateChangedAsync();
+    }
+
     public Task InitializeAsync()
     {
         return Task.CompletedTask;

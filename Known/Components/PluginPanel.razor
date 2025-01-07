@@ -2,7 +2,7 @@
 
 @if (UIConfig.IsEditMode)
 {
-    <div class="kui-plugin">
+    <div class="@ClassName">
         <div class="action">
             @if (Draggable)
             {
@@ -22,6 +22,12 @@ else
 
 @code {
     private DropdownModel model;
+    private string ClassName => CssBuilder.Default("kui-plugin").AddClass(Class).BuildClass();
+
+    /// <summary>
+    /// 取得或设置插件样式类。
+    /// </summary>
+    [Parameter] public string Class { get; set; }
 
     /// <summary>
     /// 取得或设置插件是否可以拖拽。
