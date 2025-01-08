@@ -6,6 +6,9 @@
 /// <typeparam name="TItem">表格行数据类型。</typeparam>
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
+    private ReloadContainer container = null;
+    private MenuInfo Menu { get; set; }
+
     /// <summary>
     /// 取得或设置是否启用页面编辑，默认启用。
     /// </summary>
@@ -46,6 +49,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Menu = Context.Current;
         Table = new TableModel<TItem>(this);
         Table.Name = PageName;
         Table.DefaultQuery = DefaultQuery;
@@ -68,40 +72,45 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
                    .Set(c => c.Dropdown, model)
-                   .Set(c => c.ChildContent, b => b.Table(Table))
+                   .Set(c => c.ChildContent, BuildTable)
                    .Build();
         }
         else
         {
-            builder.Table(Table);
+            BuildTable(builder);
         }
     }
 
     private void BuildTableOverlay(RenderTreeBuilder builder)
     {
-        var menu = Context.Current;
-        // Table页面默认一个插件
-        //var plugin = menu.Plugins?.FirstOrDefault();
-        //plugin ??= new PluginInfo { Id = Id, Type = GetType().FullName };
-        var data = menu.Layout ?? new LayoutInfo();
-        var form = new FormModel<LayoutInfo>(this)
+        var data = Menu.TablePage.Page ?? new PageInfo();
+        var form = new FormModel<PageInfo>(this)
         {
             SmallLabel = true,
             Data = data,
             OnFieldChanged = async v =>
             {
-                menu.Layout = data;
-                await Platform.SaveMenuAsync(menu);
-                await StateChangedAsync();
+                Menu.TablePage.Page = data;
+                Menu.Plugins.AddPlugin(Menu.TablePage);
+                await Platform.SaveMenuAsync(Menu);
+                Table.Initialize();
+                container?.Reload();
             }
         };
-        form.AddRow().AddColumn(c => c.Type);
-        form.AddRow().AddColumn(c => c.Spans, c => c.ReadOnly = data.Type != nameof(PageType.Column));
-        form.AddRow().AddColumn(c => c.Custom, c => c.ReadOnly = data.Type != nameof(PageType.Custom));
+        form.AddRow().AddColumn(c => c.ShowPager);
+        form.AddRow().AddColumn(c => c.PageSize);
+        form.AddRow().AddColumn(c => c.ToolSize);
         builder.Overlay(() =>
         {
             builder.FormTitle("表格设置");
             builder.Form(form);
         });
+    }
+
+    private void BuildTable(RenderTreeBuilder builder)
+    {
+        builder.Component<ReloadContainer>()
+               .Set(c => c.ChildContent, b => b.Table(Table))
+               .Build(v => container = v);
     }
 }

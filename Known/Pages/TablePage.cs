@@ -46,7 +46,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                         builder.Toolbar(Model.Toolbar);
                 });
             }
-            builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
+            BuildDataTable(builder);
         });
     }
 
@@ -90,7 +90,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                     builder.Div(() => BuildRight(builder));
                 });
             }
-            builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
+            BuildDataTable(builder);
         });
     }
 
@@ -100,5 +100,10 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
             builder.Toolbar(Model.Toolbar);
         if (Model.ShowSetting)
             builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
+    }
+
+    private void BuildDataTable(RenderTreeBuilder builder)
+    {
+        builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
     }
 }

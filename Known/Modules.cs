@@ -139,21 +139,25 @@ public class PageInfo
     /// <summary>
     /// 取得或设置表格页面是否显示分页。
     /// </summary>
+    [DisplayName("显示分页")]
     public bool ShowPager { get; set; }
 
     /// <summary>
     /// 取得或设置表格页面分页每页大小。
     /// </summary>
+    [DisplayName("每页大小")]
     public int? PageSize { get; set; }
 
     /// <summary>
     /// 取得或设置表格页面工具条按钮显示数量大小。
     /// </summary>
+    [DisplayName("工具条大小")]
     public int? ToolSize { get; set; }
 
     /// <summary>
     /// 取得或设置表格行操作按钮显示数量大小（暂未使用）。
     /// </summary>
+    [DisplayName("操作列大小")]
     public int? ActionSize { get; set; }
     //public string FixedWidth { get; set; }
     //public string FixedHeight { get; set; }

@@ -163,6 +163,21 @@ public class MenuInfo
 
     internal Type PageType { get; set; }
 
+    private TablePageInfo tablePage;
+    internal TablePageInfo TablePage
+    {
+        get
+        {
+            tablePage ??= this.GetTablePageParameter();
+            if (tablePage == null)
+            {
+                tablePage = new TablePageInfo();
+                Plugins.AddPlugin(tablePage);
+            }
+            return tablePage;
+        }
+    }
+
     internal void AddChild(MenuInfo menu)
     {
         menu.Parent = this;

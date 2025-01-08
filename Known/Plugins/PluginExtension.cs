@@ -21,6 +21,19 @@ public static class PluginExtension
     }
 
     /// <summary>
+    /// 获取插件信息。
+    /// </summary>
+    /// <param name="plugins">插件列表。</param>
+    /// <param name="id">插件实例ID。</param>
+    /// <returns></returns>
+    public static PluginInfo GetPlugin(this List<PluginInfo> plugins, string id = null)
+    {
+        return !string.IsNullOrWhiteSpace(id)
+               ? plugins?.FirstOrDefault(p => p.Id == id)
+               : plugins?.FirstOrDefault();
+    }
+
+    /// <summary>
     /// 根据ID获取插件参数配置信息。
     /// </summary>
     /// <typeparam name="T">插件配置类型。</typeparam>
@@ -29,9 +42,7 @@ public static class PluginExtension
     /// <returns>插件配置信息。</returns>
     public static T GetPluginParameter<T>(this List<PluginInfo> plugins, string id = null)
     {
-        var plugin = !string.IsNullOrWhiteSpace(id)
-                   ? plugins?.FirstOrDefault(p => p.Id == id)
-                   : plugins?.FirstOrDefault();
+        var plugin = plugins.GetPlugin(id);
         if (plugin == null)
             return default;
 
@@ -48,13 +59,13 @@ public static class PluginExtension
     /// <param name="type">插件组件类型全名。</param>
     public static void AddPlugin<T>(this List<PluginInfo> plugins, T param, string id = null, string type = null)
     {
-        var info = new PluginInfo
+        var plugin = plugins.GetPlugin(id);
+        if (plugin == null)
         {
-            Id = id,
-            Type = type,
-            Setting = Utils.ToJson(param)
-        };
-        plugins?.Add(info);
+            plugin = new PluginInfo { Id = id, Type = type };
+            plugins.Add(plugin);
+        }
+        plugin.Setting = Utils.ToJson(param);
     }
 
     /// <summary>
