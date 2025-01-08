@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <ProjectReference Include="..\..\Known\Known.csproj" />
+        <ProjectReference Include="..\Known\Known.csproj" />
     </ItemGroup>
 
     <ItemGroup>

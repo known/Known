@@ -17,7 +17,7 @@
         -->
         <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
         <ProjectReference Include="..\..\Plugins\Known.Cells\Known.Cells.csproj" />
-        <ProjectReference Include="..\..\Plugins\Known.Core\Known.Core.csproj" />
+        <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
     </ItemGroup>
 
 </Project>
