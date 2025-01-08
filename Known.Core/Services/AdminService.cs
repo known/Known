@@ -1,4 +1,4 @@
-﻿namespace Sample.WasmApi.Services;
+﻿namespace Known.Services;
 
 [WebApi]
 class AdminService(Context context) : ServiceBase(context), IAdminService
@@ -13,13 +13,17 @@ class AdminService(Context context) : ServiceBase(context), IAdminService
 
     public Task<string> GetConfigAsync(string key)
     {
+        if (string.IsNullOrWhiteSpace(key))
+            return Task.FromResult("");
+
         Configs.TryGetValue(key, out var value);
         return Task.FromResult(value);
     }
 
     public Task<Result> SaveConfigAsync(ConfigInfo info)
     {
-        Configs[info.Key] = Utils.ToJson(info.Value);
+        if (!string.IsNullOrWhiteSpace(info.Key))
+            Configs[info.Key] = Utils.ToJson(info.Value);
         return Result.SuccessAsync("保存成功！");
     }
 
@@ -29,7 +33,13 @@ class AdminService(Context context) : ServiceBase(context), IAdminService
         if (string.IsNullOrWhiteSpace(info.UserName))
             return Result.ErrorAsync("用户名不能为空！");
 
-        var user = new UserInfo { UserName = info.UserName, Name = info.UserName, Token = Utils.GetGuid() };
+        var user = new UserInfo
+        {
+            UserName = info.UserName,
+            Name = "管理员",
+            AvatarUrl = "img/face1.png",
+            Token = Utils.GetGuid()
+        };
         Cache.SetUser(user);
         return Result.SuccessAsync("登录成功！", user);
     }

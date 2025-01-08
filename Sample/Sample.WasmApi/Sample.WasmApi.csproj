@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Plugins\Known.Core\Known.Core.csproj" />
         <ProjectReference Include="..\Sample.Wasm\Sample.Wasm.csproj" />
+        <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
     </ItemGroup>
 
 </Project>

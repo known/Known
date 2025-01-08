@@ -10,4 +10,6 @@ builder.Services.AddKnownClient(option =>
     option.BaseAddress = builder.HostEnvironment.BaseAddress + "api";
 });
 
+builder.Services.AddScoped<IHomeService, HomeClient>();
+
 await builder.Build().RunAsync();

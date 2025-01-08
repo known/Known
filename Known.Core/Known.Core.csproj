@@ -14,7 +14,7 @@
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://known.org.cn</PackageProjectUrl>
         <RepositoryUrl>https://gitee.com/known/Known</RepositoryUrl>
-        <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
+        <PackageOutputPath>..\..\..\Library</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,8 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\icon.png" />
-        <None Update="..\..\icon.png">
+        <None Include="..\icon.png" />
+        <None Update="..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>

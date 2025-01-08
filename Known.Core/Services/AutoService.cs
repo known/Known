@@ -1,4 +1,4 @@
-﻿namespace Sample.WasmApi.Services;
+﻿namespace Known.Services;
 
 [WebApi]
 class AutoService(Context context) : ServiceBase(context), IAutoService

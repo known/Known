@@ -1,4 +1,4 @@
-﻿namespace Sample.Wasm.Pages;
+﻿namespace Sample.Wasm.Tests;
 
 [Route("/dev/test")]
 [DevPlugin("测试", "file", Sort = 3)]

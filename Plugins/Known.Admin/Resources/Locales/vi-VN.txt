@@ -290,44 +290,5 @@
   "ResponseResults": "Kết quả trả lời",
 
   "Install": "Cài đặt",
-  "StartUsing": "Bắt đầu sử dụng",
-
-  "App.Name": "Hệ thống quản lý thông tin Known",
-  "SourceCode": "Mã nguồn",
-  "OpenSource": "Nguồn mở",
-  "LowCode": "Mã thấp",
-  "ModernUI": "UI hiện đại",
-  "Login.WithAccount": "Tên người dùng",
-  "Login.WithQRCode": "Quét mã",
-  "Login.WithPhone": "Số điện thoại",
-  
-  "Greeting0": "Xin chào！{name}，Dường như anh không ở trong không gian của chúng tôi！",
-  "Greeting5": "Chào buổi sáng！{name}，Bắt đầu một ngày làm việc của bạn！",
-  "Greeting9": "Chào buổi sáng！{name}，Cố lên！",
-  "Greeting11": "Chào buổi sáng！{name}，Đừng quên chuẩn bị bữa trưa！",
-  "Greeting13": "Chào buổi chiều！{name}，Tiếp tục đổ xăng！",
-  "Greeting15": "Chào buổi chiều！{name}，Một ngày làm việc mệt mỏi, pha trà chiều giải mệt！",
-  "Greeting18": "Chào buổi tối！{name}，Ăn tối chưa？",
-  "Greeting22": "Chúc ngủ ngon！{name}，Đến giờ đi ngủ rồi. Sáng mai trời sẽ sáng！",
-  "Greeting23": "{name}，Thân thể là tiền vốn của cách mạng！",
-
-  "Home.VisitCount": "Số lượng truy cập",
-  "Home.Today": "Hôm nay là：{date}",
-  "Home.Total": "Tổng",
-  "Home.UserCount": "Số lượng user",
-  "Home.LogCount": "Số log",
-  "Home.LogStatistic": "Thống kê nhật ký",
-  "Home.CommonFunc": "Chức năng thường dùng",
-  "Home.VisitTitle": "{month} thống kê truy cập hệ thống hàng tháng",
-  "Home.Date": "Ngày",
-  "Home.Count": "Số lượng",
-
-  "WebSite": "Trang web chính thức",
-  "Document": "Tài liệu",
-  "Known.Title": "Known là một framework phát triển plugin dựa trên Blazor nhẹ, đa nền tảng và rất dễ mở rộng.",
-  "Known.Note1": "Chứa các tính năng như mô-đun, từ điển, tổ chức, vai trò, người dùng, nhật ký, tin nhắn, quy trình làm việc, nhiệm vụ theo lịch trình và nhiều hơn nữa.",
-  "Known.Note2": "Mã thấp, ngắn gọn và dễ dàng mở rộng để làm cho phát triển dễ dàng hơn và nhanh hơn!",
-  "Known.WebSite": "Website chính thức：",
-  "Known.Source": "Tải xuống mã nguồn：",
-  "Known.QQNo": "Số nhóm AC："
+  "StartUsing": "Bắt đầu sử dụng"
 }

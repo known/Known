@@ -1,4 +1,4 @@
-﻿namespace Sample.Wasm.Plugins;
+﻿namespace Sample.Wasm.Tests;
 
 [PagePlugin("测试", "file", Category = nameof(PagePluginType.Other), Sort = 1)]
 class TestPlugin : PluginBase<TestPluginInfo>

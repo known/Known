@@ -1,4 +1,4 @@
-﻿namespace Sample.Wasm.Pages;
+﻿namespace Sample.Wasm.Tests;
 
 [Route("/test/table")]
 public class TestTablePage : BaseTablePage<TestInfo>
