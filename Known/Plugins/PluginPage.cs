@@ -92,7 +92,7 @@ class PluginPage : BaseComponent, IAutoPage
         form.AddRow().AddColumn(c => c.Type);
         form.AddRow().AddColumn(c => c.Spans, c => c.ReadOnly = data.Type != nameof(PageType.Column));
         form.AddRow().AddColumn(c => c.Custom, c => c.ReadOnly = data.Type != nameof(PageType.Custom));
-        builder.Overlay(() =>
+        builder.Overlay("kui-plugin-layout", () =>
         {
             builder.FormTitle("页面布局");
             builder.Form(form);

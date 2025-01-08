@@ -7,6 +7,11 @@
 public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
 {
     /// <summary>
+    /// 取得或设置是否启用页面编辑，默认启用。
+    /// </summary>
+    protected bool EnableEdit { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格页面默认查询条件匿名对象，对象属性名应与查询实体对应。
     /// </summary>
     protected object DefaultQuery { get; set; }
@@ -42,6 +47,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     {
         await base.OnInitPageAsync();
         Table = new TableModel<TItem>(this);
+        Table.Name = PageName;
         Table.DefaultQuery = DefaultQuery;
     }
 
@@ -51,18 +57,17 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        if (UIConfig.EnableEdit)
+        if (UIConfig.EnableEdit && EnableEdit)
         {
-            var actions = new List<ActionInfo>
+            var model = new DropdownModel
             {
-                new() {
-                    Icon = "setting", Name = "表格设置",
-                    OnClick = this.Callback<MouseEventArgs>(OnModelSetting)
-                }
+                Icon = "menu",
+                TriggerType = "Click",
+                Overlay = BuildTableOverlay
             };
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
-                   .Set(c => c.Actions, actions)
+                   .Set(c => c.Dropdown, model)
                    .Set(c => c.ChildContent, b => b.Table(Table))
                    .Build();
         }
@@ -72,15 +77,28 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         }
     }
 
-    private void OnModelSetting(MouseEventArgs args)
+    private void BuildTableOverlay(RenderTreeBuilder builder)
     {
-        DialogModel model = null;
-        model = new DialogModel
+        var menu = Context.Current;
+        var data = menu.Layout ?? new LayoutInfo();
+        var form = new FormModel<LayoutInfo>(this)
         {
-            Title = "表格模型设置",
-            Content = b => b.Component<TablePageSetting>().Build(),
-            OnOk = () => model.CloseAsync()
+            SmallLabel = true,
+            Data = data,
+            OnFieldChanged = async v =>
+            {
+                menu.Layout = data;
+                await Platform.SaveMenuAsync(menu);
+                await StateChangedAsync();
+            }
         };
-        UI.ShowDialog(model);
+        form.AddRow().AddColumn(c => c.Type);
+        form.AddRow().AddColumn(c => c.Spans, c => c.ReadOnly = data.Type != nameof(PageType.Column));
+        form.AddRow().AddColumn(c => c.Custom, c => c.ReadOnly = data.Type != nameof(PageType.Custom));
+        builder.Overlay(() =>
+        {
+            builder.FormTitle("表格设置");
+            builder.Form(form);
+        });
     }
 }

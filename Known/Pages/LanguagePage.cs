@@ -14,6 +14,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        EnableEdit = false;
 
         Table = new TableModel<LanguageInfo>(this, TableColumnMode.Property);
         Table.Name = PageName;

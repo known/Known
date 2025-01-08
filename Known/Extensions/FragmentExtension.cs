@@ -29,6 +29,17 @@ public static class FragmentExtension
     }
 
     /// <summary>
+    /// 呈现下拉弹出层组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="className">组件样式。</param>
+    /// <param name="action">组件内容。</param>
+    public static void Overlay(this RenderTreeBuilder builder, string className, Action action)
+    {
+        builder.Div($"kui-card overlay {className}", action);
+    }
+
+    /// <summary>
     /// 呈现工具条组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>

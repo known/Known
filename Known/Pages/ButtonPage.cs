@@ -14,6 +14,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        EnableEdit = false;
 
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Property);
         Table.Name = PageName;

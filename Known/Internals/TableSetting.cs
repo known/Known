@@ -29,7 +29,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildOverlay(RenderTreeBuilder builder)
     {
-        builder.Div("kui-table-setting", () =>
+        builder.Overlay("kui-table-setting", () =>
         {
             builder.Div("title", () =>
             {

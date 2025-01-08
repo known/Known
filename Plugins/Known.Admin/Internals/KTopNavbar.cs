@@ -39,7 +39,7 @@ class KTopNavbar : BaseComponent
 
     private void BuildOverlay(RenderTreeBuilder builder)
     {
-        builder.Div("kui-nav-setting", () =>
+        builder.Overlay("kui-nav-setting", () =>
         {
             builder.Div("title", Language["Custom"]);
             foreach (var item in types)
