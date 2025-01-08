@@ -80,9 +80,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             if (menu != null)
             {
                 Name = Language.GetString(menu);
-                var plugin = menu.Plugins?.GetPlugin<EntityPluginInfo>();
-                var model = DataHelper.ToEntity(plugin?.EntityData);
-                SetPage(model, plugin?.Page, plugin?.Form);
+                var param = menu.GetTablePageParameter();
+                var model = DataHelper.ToEntity(param?.EntityData);
+                SetPage(model, param?.Page, param?.Form);
                 if (Columns != null && Columns.Count > 0)
                 {
                     var properties = TypeHelper.Properties(typeof(TItem));

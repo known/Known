@@ -73,8 +73,8 @@ static class ModelExtension
     internal static List<CodeInfo> GetAllActions(this MenuInfo info)
     {
         var codes = new List<CodeInfo>();
-        var plugin = info.Plugins?.GetPlugin<EntityPluginInfo>();
-        var page = plugin?.Page;
+        var param = info.GetTablePageParameter();
+        var page = param?.Page;
         if (page?.Tools != null && page?.Tools.Length > 0)
             codes.AddRange(page?.Tools.Select(b => GetAction(info, b)));
         if (page?.Actions != null && page?.Actions.Length > 0)
@@ -85,8 +85,8 @@ static class ModelExtension
     internal static List<CodeInfo> GetAllColumns(this MenuInfo info)
     {
         var codes = new List<CodeInfo>();
-        var plugin = info.Plugins?.GetPlugin<EntityPluginInfo>();
-        var page = plugin?.Page;
+        var param = info.GetTablePageParameter();
+        var page = param?.Page;
         if (page?.Columns != null && page?.Columns.Count > 0)
             codes.AddRange(page?.Columns.Select(b => new CodeInfo($"c_{info.Id}_{b.Id}", b.Name)));
         return codes;

@@ -4,15 +4,15 @@ class DictionaryImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
-        var plugin = AppData.GetEntityPlugin(ImportContext.BizParam);
-        if (plugin == null)
+        var param = AppData.GetTablePageParameter(ImportContext.BizParam);
+        if (param == null)
             return Result.Error(Language.Required("EntityPlugin"));
 
-        var entity = DataHelper.ToEntity(plugin.EntityData);
+        var entity = DataHelper.ToEntity(param.EntityData);
         if (entity == null || string.IsNullOrWhiteSpace(entity.Id))
             return Result.Error(Language.Required("TableName"));
 
-        var fields = plugin.Form?.Fields;
+        var fields = param.Form?.Fields;
         if (fields == null)
             return Result.Error(Language.Required("Form.Fields"));
 

@@ -69,8 +69,8 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         if (bizId.StartsWith("Dictionary"))
         {
             var id = bizId.Split('_')[1];
-            var plugin = AppData.GetEntityPlugin(id);
-            data = GetImportRule(db.Context, plugin?.Form?.Fields);
+            var param = AppData.GetTablePageParameter(id);
+            data = GetImportRule(db.Context, param?.Form?.Fields);
         }
         else
         {

@@ -67,8 +67,8 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
         Table.Criteria.Clear();
         Table.SetQueryColumns();
 
-        var plugin = Context?.Current?.Plugins?.GetPlugin<EntityPluginInfo>();
-        var model = DataHelper.ToEntity(plugin?.EntityData);
+        var param = Context?.Current?.GetTablePageParameter();
+        var model = DataHelper.ToEntity(param?.EntityData);
         var fields = model?.Fields;
         if (fields != null && fields.Count > 0)
         {

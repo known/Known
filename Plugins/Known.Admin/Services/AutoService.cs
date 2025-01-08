@@ -109,7 +109,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     private static EntityInfo GetEntityByModuleId(string moduleId)
     {
-        var plugin = AppData.GetEntityPlugin(moduleId);
-        return DataHelper.ToEntity(plugin?.EntityData);
+        var param = AppData.GetTablePageParameter(moduleId);
+        return DataHelper.ToEntity(param?.EntityData);
     }
 }

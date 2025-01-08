@@ -50,22 +50,22 @@ static class MenuExtension
 
     private static void SetPluginPermission(ModuleInfo module, List<string> moduleIds)
     {
-        var plugin = module?.Plugins?.GetPlugin<EntityPluginInfo>();
-        if (plugin == null)
+        var param = module?.Plugins?.GetPluginParameter<TablePageInfo>();
+        if (param == null)
             return;
 
-        if (plugin.Page != null)
+        if (param.Page != null)
         {
-            if (plugin.Page.Tools != null)
-                plugin.Page.Tools = GetUserButtons(plugin.Page.Tools, moduleIds, module);
-            if (plugin.Page.Actions != null)
-                plugin.Page.Actions = GetUserActions(plugin.Page.Actions, moduleIds, module);
-            if (plugin.Page.Columns != null)
-                plugin.Page.Columns = GetUserColumns(plugin.Page.Columns, moduleIds, module);
+            if (param.Page.Tools != null)
+                param.Page.Tools = GetUserButtons(param.Page.Tools, moduleIds, module);
+            if (param.Page.Actions != null)
+                param.Page.Actions = GetUserActions(param.Page.Actions, moduleIds, module);
+            if (param.Page.Columns != null)
+                param.Page.Columns = GetUserColumns(param.Page.Columns, moduleIds, module);
         }
 
         module.Plugins = [];
-        module.Plugins.AddPlugin(plugin);
+        module.Plugins.AddPlugin(param);
     }
 
     private static string[] GetUserButtons(string[] buttons, List<string> moduleIds, ModuleInfo module)

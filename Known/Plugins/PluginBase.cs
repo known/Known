@@ -25,8 +25,8 @@ public interface IPlugin : Microsoft.AspNetCore.Components.IComponent
 /// <summary>
 /// 插件组件基类。
 /// </summary>
-/// <typeparam name="TParam">插件配置参数类型。</typeparam>
-public class PluginBase<TParam> : BaseComponent, IPlugin
+/// <typeparam name="T">插件配置参数类型。</typeparam>
+public class PluginBase<T> : BaseComponent, IPlugin
 {
     [CascadingParameter] internal PluginPage Page { get; set; }
     private List<ActionInfo> Actions { get; } = [];
@@ -39,7 +39,7 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// <summary>
     /// 取得插件配置参数对象。
     /// </summary>
-    public TParam Parameter { get; internal set; }
+    public T Parameter { get; internal set; }
 
     /// <summary>
     /// 取得或设置插件是否可以拖拽。
@@ -78,7 +78,7 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        Parameter = Utils.FromJson<TParam>(Plugin?.Setting);
+        Parameter = Utils.FromJson<T>(Plugin?.Setting);
         builder.Component<PluginPanel>()
                .Set(c => c.Draggable, Draggable)
                .Set(c => c.Actions, Actions)
@@ -116,7 +116,7 @@ public class PluginBase<TParam> : BaseComponent, IPlugin
     /// </summary>
     /// <param name="parameter">插件参数对象。</param>
     /// <returns></returns>
-    protected Task<Result> SaveParameterAsync(TParam parameter)
+    protected Task<Result> SaveParameterAsync(T parameter)
     {
         return Page.SaveParameterAsync(Plugin.Id, parameter);
     }

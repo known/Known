@@ -25,7 +25,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     {
         Table = table;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
-        var plugin = table.Context?.Current?.Plugins?.GetPlugin<EntityPluginInfo>();
+        var plugin = table.Context?.Current?.GetTablePageParameter();
         SetFormInfo(plugin?.Form);
     }
 

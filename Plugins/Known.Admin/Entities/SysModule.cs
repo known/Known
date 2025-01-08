@@ -147,7 +147,7 @@ public class SysModule : EntityBase
             Enabled = Enabled,
             Plugins = []
         };
-        info.Plugins.AddPlugin(new EntityPluginInfo
+        info.Plugins.AddPlugin(new TablePageInfo
         {
             EntityData = EntityData,
             FlowData = FlowData,
@@ -177,7 +177,7 @@ public class SysModule : EntityBase
             Data = this,
             Plugins = []
         };
-        info.Plugins.AddPlugin(new EntityPluginInfo
+        info.Plugins.AddPlugin(new TablePageInfo
         {
             EntityData = EntityData,
             FlowData = FlowData,

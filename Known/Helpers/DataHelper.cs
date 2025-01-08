@@ -33,18 +33,18 @@ public sealed class DataHelper
         Flows.Clear();
         foreach (var item in modules)
         {
-            var plugin = item.Plugins?.GetPlugin<EntityPluginInfo>();
-            if (plugin == null)
+            var param = item.Plugins?.GetPluginParameter<TablePageInfo>();
+            if (param == null)
                 continue;
 
-            if (!string.IsNullOrWhiteSpace(plugin.EntityData) && plugin.EntityData.Contains('|'))
+            if (!string.IsNullOrWhiteSpace(param.EntityData) && param.EntityData.Contains('|'))
             {
-                var model = GetEntityInfo(plugin.EntityData);
+                var model = GetEntityInfo(param.EntityData);
                 Models.Add(model);
             }
-            if (!string.IsNullOrWhiteSpace(plugin.FlowData) && plugin.FlowData.Contains('|'))
+            if (!string.IsNullOrWhiteSpace(param.FlowData) && param.FlowData.Contains('|'))
             {
-                var flow = GetFlowInfo(plugin.FlowData);
+                var flow = GetFlowInfo(param.FlowData);
                 Flows.Add(flow);
             }
         }
@@ -127,7 +127,7 @@ public sealed class DataHelper
             }
         }
         if (actions.Count > 0)
-            info.Plugins?.AddPlugin(new EntityPluginInfo { Page = new PageInfo { Tools = [.. actions] } });
+            info.Plugins.AddPlugin(new TablePageInfo { Page = new PageInfo { Tools = [.. actions] } });
         return info;
     }
     #endregion

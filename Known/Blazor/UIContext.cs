@@ -136,15 +136,15 @@ public class UIContext : Context
         if (menu == null)
             return false;
 
-        var plugin = menu.Plugins?.GetPlugin<EntityPluginInfo>();
-        if (plugin == null || plugin.Page == null)
+        var param = menu.GetTablePageParameter();
+        if (param == null || param.Page == null)
             return false;
 
         var hasButton = false;
-        if (plugin.Page.Tools != null && plugin.Page.Tools.Length > 0)
-            hasButton = plugin.Page.Tools.Contains(buttonId);
-        else if (plugin.Page.Actions != null && plugin.Page.Actions.Length > 0)
-            hasButton = plugin.Page.Actions.Contains(buttonId);
+        if (param.Page.Tools != null && param.Page.Tools.Length > 0)
+            hasButton = param.Page.Tools.Contains(buttonId);
+        else if (param.Page.Actions != null && param.Page.Actions.Length > 0)
+            hasButton = param.Page.Actions.Contains(buttonId);
         return hasButton;
     }
 }

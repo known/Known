@@ -100,12 +100,12 @@ public class PluginInfo
     public string Id { get; set; }
 
     /// <summary>
-    /// 取得或设置插件类型。
+    /// 取得或设置插件组件类型全名。
     /// </summary>
     public string Type { get; set; }
 
     /// <summary>
-    /// 取得或设置插件配置JSON。
+    /// 取得或设置插件组件参数配置JSON。
     /// </summary>
     public string Setting { get; set; }
 }

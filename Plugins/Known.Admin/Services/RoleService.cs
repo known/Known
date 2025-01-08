@@ -72,7 +72,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         {
             info.Modules.AddRange(routes.Select(r =>
             {
-                var plugin = r.Plugins?.GetPlugin<EntityPluginInfo>();
+                var param = r.Plugins?.GetPluginParameter<TablePageInfo>();
                 var module = new SysModule
                 {
                     Id = r.Id,
@@ -82,7 +82,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
                     Icon = r.Icon,
                     Target = r.Target,
                     Enabled = r.Enabled,
-                    Page = plugin?.Page
+                    Page = param?.Page
                 };
                 return module;
             }));

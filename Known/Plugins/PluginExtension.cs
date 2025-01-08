@@ -6,17 +6,32 @@
 public static class PluginExtension
 {
     /// <summary>
-    /// 根据ID获取插件配置信息。
+    /// 获取表格页面插件参数配置信息。
+    /// </summary>
+    /// <param name="menu">页面菜单信息。</param>
+    /// <returns></returns>
+    public static TablePageInfo GetTablePageParameter(this MenuInfo menu)
+    {
+        // 表格页面默认只有一个插件
+        var plugin = menu?.Plugins?.FirstOrDefault();
+        if (plugin == null)
+            return null;
+
+        return Utils.FromJson<TablePageInfo>(plugin.Setting);
+    }
+
+    /// <summary>
+    /// 根据ID获取插件参数配置信息。
     /// </summary>
     /// <typeparam name="T">插件配置类型。</typeparam>
     /// <param name="plugins">插件列表。</param>
     /// <param name="id">插件实例ID。</param>
     /// <returns>插件配置信息。</returns>
-    public static T GetPlugin<T>(this List<PluginInfo> plugins, string id = null)
+    public static T GetPluginParameter<T>(this List<PluginInfo> plugins, string id = null)
     {
         var plugin = !string.IsNullOrWhiteSpace(id)
                    ? plugins?.FirstOrDefault(p => p.Id == id)
-                   : plugins?.FirstOrDefault(p => p.Type == typeof(T).FullName);
+                   : plugins?.FirstOrDefault();
         if (plugin == null)
             return default;
 
@@ -26,17 +41,18 @@ public static class PluginExtension
     /// <summary>
     /// 添加插件配置信息。
     /// </summary>
-    /// <typeparam name="T">插件配置类型。</typeparam>
+    /// <typeparam name="T">插件参数配置类型。</typeparam>
     /// <param name="plugins">插件列表。</param>
-    /// <param name="plugin">插件配置信息。</param>
+    /// <param name="param">插件参数配置信息。</param>
     /// <param name="id">插件实例ID。</param>
-    public static void AddPlugin<T>(this List<PluginInfo> plugins, T plugin, string id = "")
+    /// <param name="type">插件组件类型全名。</param>
+    public static void AddPlugin<T>(this List<PluginInfo> plugins, T param, string id = null, string type = null)
     {
         var info = new PluginInfo
         {
             Id = id,
-            Type = typeof(T).FullName,
-            Setting = Utils.ToJson(plugin)
+            Type = type,
+            Setting = Utils.ToJson(param)
         };
         plugins?.Add(info);
     }

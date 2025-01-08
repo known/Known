@@ -369,8 +369,8 @@ class FlowService(Context context) : ServiceBase(context), IFlowService
 
     private static FlowInfo GetFlowByModuleId(string moduleId)
     {
-        var plugin = AppData.GetEntityPlugin(moduleId);
-        return DataHelper.ToFlow(plugin?.FlowData);
+        var param = AppData.GetTablePageParameter(moduleId);
+        return DataHelper.ToFlow(param?.FlowData);
     }
 
     private static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)

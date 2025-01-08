@@ -3,7 +3,7 @@
 /// <summary>
 /// 单表实体页面插件配置信息类。
 /// </summary>
-public class EntityPluginInfo
+public class TablePageInfo
 {
     /// <summary>
     /// 取得或设置实体设置。

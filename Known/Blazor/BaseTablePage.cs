@@ -80,6 +80,9 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     private void BuildTableOverlay(RenderTreeBuilder builder)
     {
         var menu = Context.Current;
+        // Table页面默认一个插件
+        //var plugin = menu.Plugins?.FirstOrDefault();
+        //plugin ??= new PluginInfo { Id = Id, Type = GetType().FullName };
         var data = menu.Layout ?? new LayoutInfo();
         var form = new FormModel<LayoutInfo>(this)
         {

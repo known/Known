@@ -59,17 +59,17 @@ public sealed class AppData
     }
 
     /// <summary>
-    /// 根据ID获取实体插件信息。
+    /// 根据ID获取实体插件参数配置信息。
     /// </summary>
     /// <param name="id">模块ID。</param>
-    /// <returns>实体插件信息。</returns>
-    public static EntityPluginInfo GetEntityPlugin(string id)
+    /// <returns>实体插件参数配置信息。</returns>
+    public static TablePageInfo GetTablePageParameter(string id)
     {
         var module = GetModule(id);
         if (module == null || module.Plugins == null)
             return null;
 
-        return module.Plugins.GetPlugin<EntityPluginInfo>();
+        return module.Plugins.GetPluginParameter<TablePageInfo>();
     }
 
     #region TopNav
