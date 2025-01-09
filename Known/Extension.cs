@@ -95,6 +95,16 @@ public static class Extension
         services.AddScoped<Database>();
     }
 
+    /// <summary>
+    /// 添加Known框架简易微信功能模块前端。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    public static void AddKnownWeixin(this IServiceCollection services)
+    {
+        // 配置UI
+        UIConfig.SystemTabs["WeChatSetting"] = b => b.Component<WeChatSetting>().Build();
+    }
+
     private static void AddStyles()
     {
         KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
@@ -129,6 +139,12 @@ public static class Extension
             new ActionInfo { Id = "Default", Style = "size", Url = "_content/Known/css/size/default.css" },
             new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known/css/size/compact.css" }
         ];
+
+        var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
+        UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
+        UIConfig.UserProfileType = typeof(UserProfileInfo);
+        UIConfig.UserTabs["MyProfile"] = typeof(UserEditForm);
+        UIConfig.UserTabs["SecuritySetting"] = typeof(PasswordEditForm);
     }
 
     //private static void AddInterceptors(IServiceCollection services, ClientOption option)

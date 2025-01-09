@@ -18,15 +18,15 @@
     <div class="kui-form-action">
         @if (Model.Current > 0)
         {
-            <KButton Type="ButtonType.Primary" Name="@Language["Button.Previous"]" OnClick="OnPrevClickAsync" />
+            <KButton Type="@ButtonType.Primary" Name="@Language["Button.Previous"]" OnClick="OnPrevClickAsync" />
         }
         @if (Model.Current < StepCount - 1)
         {
-            <KButton Type="ButtonType.Primary" Name="@Language["Button.Next"]" OnClick="OnNextClickAsync" />
+            <KButton Type="@ButtonType.Primary" Name="@Language["Button.Next"]" OnClick="OnNextClickAsync" />
         }
         @if (Model.Current == StepCount - 1 && !IsView)
         {
-            <KButton Type="ButtonType.Primary" Name="@Language["Button.Finish"]" OnClick="OnCompleteAsync" />
+            <KButton Type="@ButtonType.Primary" Name="@Language["Button.Finish"]" OnClick="OnCompleteAsync" />
         }
     </div>
 </div>

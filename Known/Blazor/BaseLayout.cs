@@ -91,7 +91,7 @@ public class AdminLayout : LayoutComponentBase
         {
             builder.Component<KLayout>()
                    .Set(c => c.IsAdmin, true)
-                   .Set(c => c.ChildContent, Body)
+                   .Set(c => c.ChildContent, b => b.Component<KAuthPanel>().Set(c => c.ChildContent, Body).Build())
                    .Build();
         }
     }

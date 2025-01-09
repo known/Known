@@ -25,7 +25,7 @@ public static class ModelExtension
     }
     #endregion
 
-    #region Module
+    #region ModuleInfo
     internal static List<MenuInfo> ToMenus(this List<ModuleInfo> modules)
     {
         if (modules == null || modules.Count == 0)
@@ -75,9 +75,69 @@ public static class ModelExtension
             Plugins = info.Plugins
         };
     }
+
+    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
+    {
+        MenuInfo current = null;
+        return models.ToMenuItems(ref current, showRoot);
+    }
+
+    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, ref MenuInfo current, bool showRoot = true)
+    {
+        MenuInfo root = null;
+        var menus = new List<MenuInfo>();
+        if (showRoot)
+        {
+            root = root = Config.App.GetRootMenu();
+            if (current != null && current.Id == root.Id)
+                current = root;
+            menus.Add(root);
+        }
+        if (models == null || models.Count == 0)
+            return menus;
+
+        var tops = models.Where(m => m.ParentId == "0").ToList();
+        foreach (var item in tops)
+        {
+            //item.ParentName = Config.App.Name;
+            //var menu = item.ToMenuInfo();
+            var menu = CreateMenu(item);
+            if (current != null && current.Id == menu.Id)
+                current = menu;
+
+            if (showRoot)
+                root.Children.Add(menu);
+            else
+                menus.Add(menu);
+            AddChildren(models, menu, ref current);
+        }
+
+        current ??= menus[0];
+        return menus;
+    }
+
+    private static void AddChildren(List<ModuleInfo> models, MenuInfo menu, ref MenuInfo current)
+    {
+        var items = models.Where(m => m.ParentId == menu.Id).ToList();
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            //item.ParentName = menu.Name;
+            //var sub = item.ToMenuInfo();
+            var sub = CreateMenu(item);
+            sub.Parent = menu;
+            if (current != null && current.Id == sub.Id)
+                current = sub;
+
+            menu.Children.Add(sub);
+            AddChildren(models, sub, ref current);
+        }
+    }
     #endregion
 
-    #region Menu
+    #region MenuInfo
     /// <summary>
     /// 获取系统菜单根节点。
     /// </summary>
@@ -171,6 +231,36 @@ public static class ModelExtension
             PageType = info.PageType
         };
     }
+
+    internal static List<CodeInfo> GetAllActions(this MenuInfo info)
+    {
+        var codes = new List<CodeInfo>();
+        var param = info.GetTablePageParameter();
+        var page = param?.Page;
+        if (page?.Tools != null && page?.Tools.Length > 0)
+            codes.AddRange(page?.Tools.Select(b => GetAction(info, b)));
+        if (page?.Actions != null && page?.Actions.Length > 0)
+            codes.AddRange(page?.Actions.Select(b => GetAction(info, b)));
+        return codes;
+    }
+
+    internal static List<CodeInfo> GetAllColumns(this MenuInfo info)
+    {
+        var codes = new List<CodeInfo>();
+        var param = info.GetTablePageParameter();
+        var page = param?.Page;
+        if (page?.Columns != null && page?.Columns.Count > 0)
+            codes.AddRange(page?.Columns.Select(b => new CodeInfo($"c_{info.Id}_{b.Id}", b.Name)));
+        return codes;
+    }
+
+    private static CodeInfo GetAction(MenuInfo menu, string id)
+    {
+        var code = $"b_{menu.Id}_{id}";
+        var button = Config.Actions.FirstOrDefault(b => b.Id == id);
+        var name = button != null ? button.Name : id;
+        return new CodeInfo(code, name);
+    }
     #endregion
 
     #region Language
@@ -188,6 +278,66 @@ public static class ModelExtension
     internal static string GetFieldName<TItem>(this Language language, ColumnInfo column)
     {
         return language?.GetFieldName(column, typeof(TItem));
+    }
+    #endregion
+
+    #region Organization
+    internal static List<MenuInfo> ToMenuItems(this List<SysOrganization> models)
+    {
+        MenuInfo current = null;
+        return models.ToMenuItems(ref current);
+    }
+
+    internal static List<MenuInfo> ToMenuItems(this List<SysOrganization> models, ref MenuInfo current)
+    {
+        var menus = new List<MenuInfo>();
+        if (models == null || models.Count == 0)
+            return menus;
+
+        var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Code).ToList();
+        foreach (var item in tops)
+        {
+            var menu = CreateMenuInfo(item);
+            if (current != null && current.Id == menu.Id)
+                current = menu;
+
+            menus.Add(menu);
+            AddChildren(models, menu, ref current);
+        }
+
+        current ??= menus[0];
+        return menus;
+    }
+
+    private static void AddChildren(List<SysOrganization> models, MenuInfo menu, ref MenuInfo current)
+    {
+        var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Code).ToList();
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            item.ParentName = menu.Name;
+            var sub = CreateMenuInfo(item);
+            sub.Parent = menu;
+            if (current != null && current.Id == sub.Id)
+                current = sub;
+
+            menu.Children.Add(sub);
+            AddChildren(models, sub, ref current);
+        }
+    }
+
+    private static MenuInfo CreateMenuInfo(SysOrganization model)
+    {
+        return new MenuInfo
+        {
+            Id = model.Id,
+            ParentId = model.ParentId,
+            Code = model.Code,
+            Name = model.Name,
+            Data = model
+        };
     }
     #endregion
 

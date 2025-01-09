@@ -42,7 +42,7 @@
 </div>
 
 @code {
-    private bool IsCaptcha => AdminConfig.System?.IsLoginCaptcha == true;
+    private bool IsCaptcha => Config.System?.IsLoginCaptcha == true;
     private object qrCode => new { Text = Config.HostUrl, Width = 200, Height = 200 };
 
     private Task<Known.Result> OnSendSMS(string phone)

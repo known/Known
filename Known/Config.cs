@@ -58,6 +58,11 @@ public sealed class Config
     public static Action OnExit { get; set; }
 
     /// <summary>
+    /// 取得或设置系统信息。
+    /// </summary>
+    public static SystemInfo System { get; set; }
+
+    /// <summary>
     /// 取得系统配置信息。
     /// </summary>
     public static AppInfo App { get; } = new();
@@ -96,6 +101,16 @@ public sealed class Config
     /// 取得或设置默认系统设置方法委托，用于配置系统默认设置。
     /// </summary>
     public static Action<UserSettingInfo> OnSetting { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统是否授权，默认true。
+    /// </summary>
+    public static bool IsAuth { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置系统授权状态提示信息。
+    /// </summary>
+    public static string AuthStatus { get; set; }
 
     /// <summary>
     /// 取得系统启动时间。
@@ -366,6 +381,47 @@ public sealed class Config
 
         return node.InnerText?.Trim('\n').Trim();
     }
+}
+
+/// <summary>
+/// 系统信息类。
+/// </summary>
+public class SystemInfo
+{
+    /// <summary>
+    /// 取得或设置企业编码。
+    /// </summary>
+    public string CompNo { get; set; }
+
+    /// <summary>
+    /// 取得或设置企业名称。
+    /// </summary>
+    public string CompName { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统名称。
+    /// </summary>
+    public string AppName { get; set; }
+
+    /// <summary>
+    /// 取得或设置产品ID。
+    /// </summary>
+    public string ProductId { get; set; }
+
+    /// <summary>
+    /// 取得或设置产品Key。
+    /// </summary>
+    public string ProductKey { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统用户默认密码。
+    /// </summary>
+    public string UserDefaultPwd { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统登录是否验证图片验证码。
+    /// </summary>
+    public bool IsLoginCaptcha { get; set; }
 }
 
 /// <summary>

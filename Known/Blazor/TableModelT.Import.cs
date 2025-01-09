@@ -23,7 +23,10 @@ partial class TableModel<TItem>
             await model.CloseAsync();
             await RefreshAsync();
         };
-        model.Content = builder => UIConfig.ImportForm?.Invoke(builder, info);
+        if (UIConfig.ImportForm != null)
+            model.Content = b => UIConfig.ImportForm.Invoke(b, info);
+        else
+            model.Content = b => b.Component<Importer>().Set(c => c.Info, info).Build();
         UI.ShowDialog(model);
         return Task.CompletedTask;
     }

@@ -28,6 +28,8 @@ public enum AuthMode
 /// </summary>
 public class CoreOption
 {
+    internal static CoreOption Instance = new();
+
     /// <summary>
     /// 取得App配置信息。
     /// </summary>
@@ -47,4 +49,51 @@ public class CoreOption
     /// 取得或设置是否根据Service动态生成WebApi，默认启用。
     /// </summary>
     public bool IsAddWebApi { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置微信配置信息。
+    /// </summary>
+    public WeixinConfigInfo Weixin { get; set; }
+
+    /// <summary>
+    /// 取得或设置【关于系统】模块显示的产品ID。
+    /// </summary>
+    public string ProductId { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统授权验证方法，如果设置，则页面会先校验系统License，不通过，则显示框架内置的未授权面板。
+    /// </summary>
+    public Func<SystemInfo, Result> CheckSystem { get; set; }
+
+    /// <summary>
+    /// 检查系统信息。
+    /// </summary>
+    /// <param name="info">系统信息。</param>
+    /// <returns>检查结果。</returns>
+    public Result CheckSystemInfo(SystemInfo info)
+    {
+        if (CheckSystem == null)
+            return Result.Success("");
+
+        var result = CheckSystem.Invoke(info);
+        Config.IsAuth = result.IsValid;
+        Config.AuthStatus = result.Message;
+        return result;
+    }
+
+    /// <summary>
+    /// 添加后端程序集，自动识别工作流类。
+    /// </summary>
+    /// <param name="assembly">应用程序集。</param>
+    public void AddAssembly(Assembly assembly)
+    {
+        if (assembly == null)
+            return;
+
+        foreach (var item in assembly.GetTypes())
+        {
+            if (item.IsAssignableTo(typeof(FlowBase)))
+                FlowBase.FlowTypes[item.Name] = item;
+        }
+    }
 }

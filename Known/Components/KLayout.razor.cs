@@ -138,7 +138,7 @@ partial class KLayout
 
         IsLoaded = false;
         await base.OnInitAsync();
-        var isInstall = await Admin.GetInstallAsync();
+        var isInstall = await Admin.GetIsInstallAsync();
         if (isInstall)
         {
             Navigation?.GoInstallPage();

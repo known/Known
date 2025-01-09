@@ -18,6 +18,16 @@ public class UIConfig
     public static bool IsEditMode { get; set; }
 
     /// <summary>
+    /// 取得或设置【关于系统】模块显示的版权信息。
+    /// </summary>
+    public static string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} 普漫科技。保留所有权利。";
+
+    /// <summary>
+    /// 取得或设置【关于系统】模块显示的软件许可信息。
+    /// </summary>
+    public static string SoftTerms { get; set; } = "您对该软件的使用受您为获得该软件而签订的许可协议的条款和条件的约束。如果您是批量许可客户，则您对该软件的使用应受批量许可协议的约束。如果您未从普漫科技或其许可的分销商处获得该软件的有效许可，则不得使用该软件。";
+
+    /// <summary>
     /// 取得或设置系统字体大小下拉项列表。
     /// </summary>
     public static List<ActionInfo> Sizes { get; set; } = [];
@@ -51,6 +61,11 @@ public class UIConfig
     /// 取得用户中心页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, Type> UserTabs { get; } = [];
+
+    /// <summary>
+    /// 取得关于系统页面自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, RenderFragment> SystemTabs { get; } = [];
 
     /// <summary>
     /// 取得或设置管理模板内容委托。
