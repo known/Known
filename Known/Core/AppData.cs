@@ -193,7 +193,10 @@ public sealed class AppData
             return;
 
         if (!File.Exists(KmdPath))
+        {
+            LoadDefaultData();
             return;
+        }
 
         var bytes = File.ReadAllBytes(KmdPath);
         if (OnParseData != null)
@@ -214,6 +217,13 @@ public sealed class AppData
                   ? OnFormatData(Data)
                   : FormatData(Data);
         File.WriteAllBytes(KmdPath, bytes);
+    }
+
+    private static void LoadDefaultData()
+    {
+        Data = new AppDataInfo();
+        Data.TopNavs = [];
+        Data.Modules = [];
     }
 
     private static AppDataInfo ParseData(byte[] bytes)

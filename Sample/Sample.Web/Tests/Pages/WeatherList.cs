@@ -1,4 +1,4 @@
-﻿namespace Sample.Web.Components.Pages;
+﻿namespace Sample.Web.Tests.Pages;
 
 [Route("/weathers")]
 public class WeatherList : BaseTablePage<WeatherForecast>
