@@ -28,7 +28,10 @@ public static class Extension
         services.AddScoped<UIContext>();
         services.AddScoped<UIService>();
         services.AddScoped<JSService>();
-        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        if (Config.App.IsClient)
+            services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
+        else
+            services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPlatformService, PlatformService>();
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAutoService, AutoService>();

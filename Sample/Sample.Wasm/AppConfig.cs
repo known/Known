@@ -18,6 +18,7 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.Assembly = assembly;
+            info.IsClient = true;
             //info.AuthExpired = TimeSpan.FromSeconds(10);
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             //info.JsPath = "./script.js";

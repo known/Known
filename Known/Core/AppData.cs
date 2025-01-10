@@ -222,7 +222,10 @@ public sealed class AppData
     private static void LoadDefaultData()
     {
         Data = new AppDataInfo();
-        Data.TopNavs = [];
+        Data.TopNavs = Config.Plugins.Where(p => p.IsNavComponent)
+                                     .OrderBy(p => p.Attribute.Sort)
+                                     .Select(p => new PluginInfo { Id = p.Id, Type = p.Id })
+                                     .ToList();
         Data.Modules = [];
     }
 
