@@ -5,6 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/sys/info")]
+[Menu(Constants.System, "关于系统", "info-circle", 1)]
 public class SysSystem : BaseTabPage
 {
     internal SystemDataInfo Model { get; private set; }

@@ -5,6 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/sys/files")]
+[Menu(Constants.System, "系统附件", "file", 5)]
 public class SysFileList : BaseTablePage<SysFile>
 {
     /// <summary>

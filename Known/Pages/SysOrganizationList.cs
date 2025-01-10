@@ -5,6 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/sys/organizations")]
+[Menu(Constants.BaseData, "组织架构", "partition", 3)]
 public class SysOrganizationList : BasePage<SysOrganization>
 {
     private MenuInfo current;

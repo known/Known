@@ -132,6 +132,12 @@ public sealed class Config
     /// </summary>
     public static List<PluginMenuInfo> Plugins { get; } = [];
 
+    /// <summary>
+    /// 取得框架初始模块信息列表。
+    /// </summary>
+    public static List<ModuleInfo> Modules { get; } = [];
+
+    internal static List<MenuAttribute> Menus { get; } = [];
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
@@ -230,6 +236,10 @@ public sealed class Config
 
     internal static void AddApp()
     {
+        // 添加默认一级模块
+        Modules.Add(new ModuleInfo { Id = Constants.BaseData, Name = "基础数据", Icon = "database", ParentId = "0", Sort = 1 });
+        Modules.Add(new ModuleInfo { Id = Constants.System, Name = "系统管理", Icon = "setting", ParentId = "0", Sort = 99 });
+
         Version = new VersionInfo(App.Assembly);
         InitAssembly(App.Assembly);
         AddModule(typeof(Config).Assembly);
@@ -293,22 +303,44 @@ public sealed class Config
             if (codeInfo != null)
                 Cache.AttachCodes(item);
 
-            var routes = item.GetCustomAttributes<RouteAttribute>();
-            if (routes != null && routes.Any())
-            {
-                foreach (var route in routes)
-                {
-                    RouteTypes[route.Template] = item;
-                }
-            }
+            var routes = GetRoutes(item);
+            AddPlugin(item, routes);
+            AddMenu(item, routes);
+        }
+    }
 
-            var plugin = item.GetCustomAttribute<PluginAttribute>();
-            if (plugin != null)
+    private static IEnumerable<RouteAttribute> GetRoutes(Type item)
+    {
+        var routes = item.GetCustomAttributes<RouteAttribute>();
+        if (routes != null && routes.Any())
+        {
+            foreach (var route in routes)
             {
-                var info = new PluginMenuInfo(item, plugin);
-                info.Url = routes?.FirstOrDefault()?.Template;
-                Plugins.Add(info);
+                RouteTypes[route.Template] = item;
             }
+        }
+        return routes;
+    }
+
+    private static void AddPlugin(Type item, IEnumerable<RouteAttribute> routes)
+    {
+        var plugin = item.GetCustomAttribute<PluginAttribute>();
+        if (plugin != null)
+        {
+            var info = new PluginMenuInfo(item, plugin);
+            info.Url = routes?.FirstOrDefault()?.Template;
+            Plugins.Add(info);
+        }
+    }
+
+    private static void AddMenu(Type item, IEnumerable<RouteAttribute> routes)
+    {
+        var menu = item.GetCustomAttribute<MenuAttribute>();
+        if (menu != null)
+        {
+            menu.Page = item;
+            menu.Url = routes?.FirstOrDefault()?.Template;
+            Menus.Add(menu);
         }
     }
 

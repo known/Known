@@ -27,10 +27,9 @@ public class Constants
     /// </summary>
     public const string SysUserName = "Admin";
 
-    /// <summary>
-    /// 标识路由菜单类型。
-    /// </summary>
     internal const string Route = "Route";
+    internal const string BaseData = "BaseData";
+    internal const string System = "System";
 }
 
 /// <summary>

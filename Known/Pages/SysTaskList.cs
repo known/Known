@@ -5,6 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/sys/tasks")]
+[Menu(Constants.System, "后台任务", "control", 4)]
 public class SysTaskList : BaseTablePage<SysTask>
 {
     /// <summary>

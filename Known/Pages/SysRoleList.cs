@@ -5,6 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/sys/roles")]
+[Menu(Constants.System, "角色管理", "team", 2)]
 public class SysRoleList : BaseTablePage<SysRole>
 {
     /// <summary>

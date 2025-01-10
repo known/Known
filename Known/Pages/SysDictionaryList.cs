@@ -5,6 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/sys/dictionaries")]
+[Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
 public class SysDictionaryList : BaseTablePage<SysDictionary>
 {
     private List<CodeInfo> categories;

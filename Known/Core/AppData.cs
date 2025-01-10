@@ -226,7 +226,20 @@ public sealed class AppData
                                      .OrderBy(p => p.Attribute.Sort)
                                      .Select(p => new PluginInfo { Id = p.Id, Type = p.Id })
                                      .ToList();
-        Data.Modules = [];
+        Data.Modules = Config.Modules;
+        foreach (var menu in Config.Menus)
+        {
+            var info = new ModuleInfo
+            {
+                Id = menu.Page.Name,
+                Name = menu.Name,
+                Icon = menu.Icon,
+                ParentId = menu.Parent,
+                Sort = menu.Sort,
+                Url = menu.Url
+            };
+            Data.Modules.Add(info);
+        }
     }
 
     private static AppDataInfo ParseData(byte[] bytes)

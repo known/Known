@@ -13,6 +13,40 @@ public class WebApiAttribute : Attribute { }
 public class CodeInfoAttribute : Attribute { }
 
 /// <summary>
+/// 菜单特性类，用于标识页面组件是否是模块菜单。
+/// </summary>
+/// <param name="parent">上级菜单。</param>
+/// <param name="name">菜单名称。</param>
+/// <param name="icon">菜单图标。</param>
+/// <param name="sort">菜单排序。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class MenuAttribute(string parent, string name, string icon, int sort) : Attribute
+{
+    /// <summary>
+    /// 取得上级菜单。
+    /// </summary>
+    public string Parent { get; } = parent;
+
+    /// <summary>
+    /// 取得菜单名称。
+    /// </summary>
+    public string Name { get; } = name;
+
+    /// <summary>
+    /// 取得菜单图标。
+    /// </summary>
+    public string Icon { get; } = icon;
+
+    /// <summary>
+    /// 取得菜单排序。
+    /// </summary>
+    public int Sort { get; } = sort;
+
+    internal Type Page { get; set; }
+    internal string Url { get; set; }
+}
+
+/// <summary>
 /// 动作特性类，用于标识方法是否需要角色权限控制。
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]

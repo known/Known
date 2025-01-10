@@ -4,6 +4,7 @@
 /// 企业信息页面组件类。
 /// </summary>
 [Route("/bds/company")]
+[Menu(Constants.BaseData, "企业信息", "idcard", 1)]
 public class CompanyForm : BaseTabPage
 {
     /// <summary>
