@@ -84,7 +84,7 @@ public partial class Database
                 }
                 if (criteria.ExportMode == ExportMode.None)
                 {
-                    if (criteria.StatisColumns != null && criteria.StatisColumns.Count > 0)
+                    if (criteria.StatisticColumns != null && criteria.StatisticColumns.Count > 0)
                     {
                         cmd.CommandText = info.StatSql;
                         using (var reader1 = cmd.ExecuteReader())

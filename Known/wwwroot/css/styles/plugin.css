@@ -1,0 +1,19 @@
+/*Plugin*/
+.kui-edit {display:block;color:#f18c63;padding:0 2px;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
+.kui-edit-border {border:1px solid #f18c63;border-radius:2px;}
+.kui-edit-menu {display:grid;grid-template-columns:200px auto;}
+.kui-edit-menu .type {display:flex;justify-content:space-between;}
+.kui-delete {color:#f50;}
+.kui-card.overlay {
+    padding:10px;border-radius:2px;
+    box-shadow:0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+.kui-card.overlay > .kui-title {margin-bottom:10px;}
+
+.kui-plugin {position:relative;background:var(--kui-bgcolor);border:1px solid #f18c63;border-radius:3px;min-height:50px;}
+.kui-plugin .action {position:absolute;top:0;right:1px;color:#f18c63;z-index:1000;}
+.kui-plugin-layout {width:390px;}
+.kui-scroll > .kui-plugin {position:absolute;top:0;bottom:0;left:0;right:0;}
+.kui-scroll > .kui-plugin .ant-menu {width:198px;}
+.kui-body > .kui-plugin {margin-bottom:10px;}
+.kui-body > .kui-plugin.table {margin-bottom:0;background:unset;}

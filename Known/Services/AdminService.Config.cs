@@ -51,7 +51,7 @@ partial class AdminClient
 {
     public Task<bool> GetIsInstallAsync()
     {
-        return Http.GetAsync<bool>("/Admin/GetInstall");
+        return Http.GetAsync<bool>("/Admin/GetIsInstall");
     }
 
     public Task<string> GetConfigAsync(string key)

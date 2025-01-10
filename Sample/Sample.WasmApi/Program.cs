@@ -3,12 +3,6 @@ using Sample.Wasm;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
-builder.Services.AddKnownWeb(option =>
-{
-    option.AuthMode = AuthMode.None;
-    option.App.WebRoot = builder.Environment.WebRootPath;
-    option.App.ContentRoot = builder.Environment.ContentRootPath;
-});
 
 var app = builder.Build();
 
@@ -25,7 +19,6 @@ else
 
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
-app.UseKnown();
 app.MapFallbackToFile("index.html");
 
 app.Run();

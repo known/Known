@@ -96,7 +96,7 @@ partial class KTable<TItem> : BaseComponent
             var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
             Model.Criteria.OrderBys = sorts.Select(GetOrderBy).ToArray();
         }
-        Model.Criteria.StatisColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisColumnInfo { Id = c.Id }).ToList();
+        Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
         Model.SelectedRows = [];
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         await Model.RefreshStatisAsync();

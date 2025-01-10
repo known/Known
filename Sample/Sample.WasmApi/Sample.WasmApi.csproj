@@ -13,7 +13,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Sample.Wasm\Sample.Wasm.csproj" />
-        <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
     </ItemGroup>
 
 </Project>

@@ -308,22 +308,6 @@ public class ImportFormInfo : FileFormInfo
 }
 
 /// <summary>
-/// 系统安全信息类。
-/// </summary>
-public class SystemSafeInfo
-{
-    /// <summary>
-    /// 取得或设置系统用户默认密码。
-    /// </summary>
-    public string UserDefaultPwd { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统登录是否验证图片验证码。
-    /// </summary>
-    public bool IsLoginCaptcha { get; set; }
-}
-
-/// <summary>
 /// 系统数据信息类。
 /// </summary>
 public class SystemDataInfo

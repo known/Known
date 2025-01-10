@@ -79,7 +79,7 @@ public static class UserExtension
             }
             else
             {
-                var info = await db.GetSystemSafeAsync();
+                var info = await db.GetSystemAsync();
                 model.Password = Utils.ToMd5(info?.UserDefaultPwd);
             }
             await db.SaveAsync(model);

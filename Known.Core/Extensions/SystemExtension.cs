@@ -18,12 +18,6 @@ static class SystemExtension
         }
     }
 
-    internal static async Task<SystemSafeInfo> GetSystemSafeAsync(this Database db)
-    {
-        var json = await db.GetConfigAsync(Constant.KeySystemSafe);
-        return Utils.FromJson<SystemSafeInfo>(json);
-    }
-
     internal static async Task<SystemInfo> GetUserSystemAsync(this Database db)
     {
         if (!Config.App.IsPlatform)

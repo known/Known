@@ -2,6 +2,7 @@
 
 partial class AdminService
 {
+    [AllowAnonymous]
     public async Task<bool> GetIsInstallAsync()
     {
         var db = Database;

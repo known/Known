@@ -213,7 +213,7 @@ class DbProvider
 
     private string GetStatSql(string text, PagingCriteria criteria)
     {
-        var statisColumns = criteria.StatisColumns.Select(c =>
+        var statisColumns = criteria.StatisticColumns.Select(c =>
         {
             if (!string.IsNullOrWhiteSpace(c.Expression))
                 return $"{c.Expression} as {FormatName(c.Id)}";

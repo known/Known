@@ -2,6 +2,7 @@
 
 partial class AdminService
 {
+    [AllowAnonymous]
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
         var database = Database;

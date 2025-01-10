@@ -13,5 +13,4 @@ class Constant
     /// 系统信息配置键。
     /// </summary>
     internal const string KeySystem = "SystemInfo";
-    internal const string KeySystemSafe = "SystemSafeInfo";
 }

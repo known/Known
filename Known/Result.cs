@@ -347,7 +347,7 @@ public class PagingCriteria
     /// <summary>
     /// 取得或设置统计栏位信息列表。
     /// </summary>
-    public List<StatisColumnInfo> StatisColumns { get; set; }
+    public List<StatisticColumnInfo> StatisticColumns { get; set; }
 
     /// <summary>
     /// 取得或设置扩展查询参数。
@@ -400,7 +400,7 @@ public class PagingCriteria
         IsQuery = false;
         ExportColumns = [];
         Parameters = [];
-        StatisColumns = [];
+        StatisticColumns = [];
         Query = [];
         OrderBys = [];
         Fields = [];
@@ -592,7 +592,7 @@ public class ExportColumnInfo
 /// <summary>
 /// 统计栏位信息类。
 /// </summary>
-public class StatisColumnInfo
+public class StatisticColumnInfo
 {
     /// <summary>
     /// 取得或设置统计栏位ID。

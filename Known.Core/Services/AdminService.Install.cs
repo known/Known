@@ -2,8 +2,12 @@
 
 partial class AdminService
 {
+    [AllowAnonymous]
     public async Task<InstallInfo> GetInstallAsync()
     {
+        if (Config.System != null)
+            return new InstallInfo();
+
         var info = await GetInstallDataAysnc(false);
         info.Databases = DbConfig.GetDatabases();
         info.IsDatabase = info.Databases?.Count(d => string.IsNullOrWhiteSpace(d.ConnectionString)) > 0;
@@ -18,8 +22,12 @@ partial class AdminService
         return info;
     }
 
+    [AllowAnonymous]
     public async Task<Result> TestConnectionAsync(DatabaseInfo info)
     {
+        if (Config.System != null)
+            return Result.Error("The system is installed.");
+
         try
         {
             var db = Database.Create(info.Name);
@@ -32,8 +40,12 @@ partial class AdminService
         }
     }
 
+    [AllowAnonymous]
     public async Task<Result> SaveInstallAsync(InstallInfo info)
     {
+        if (Config.System != null)
+            return Result.Error("The system is installed.");
+
         if (info == null)
             return Result.Error(Language["Tip.InstallRequired"]);
 
