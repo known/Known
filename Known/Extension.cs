@@ -76,6 +76,11 @@ public static class Extension
     /// <param name="action">系统配置方法。</param>
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        if (string.IsNullOrWhiteSpace(Config.App.WebRoot))
+            Config.App.WebRoot = AppDomain.CurrentDomain.BaseDirectory;
+        if (string.IsNullOrWhiteSpace(Config.App.ContentRoot))
+            Config.App.ContentRoot = AppDomain.CurrentDomain.BaseDirectory;
+
         action?.Invoke(Config.App);
         if (Config.App.Type == AppType.WebApi)
             return;

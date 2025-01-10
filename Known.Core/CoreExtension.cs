@@ -20,6 +20,8 @@ public static class CoreExtension
         AppHelper.LoadConnections();
         action?.Invoke(CoreOption.Instance);
 
+        if (CoreOption.Instance.Database != null)
+            services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownCore();
         services.AddKnownServices();
 
@@ -39,6 +41,8 @@ public static class CoreExtension
         AppHelper.LoadConnections();
         action?.Invoke(CoreOption.Instance);
 
+        if (CoreOption.Instance.Database != null)
+            services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownCore();
         services.AddKnownServices();
 
@@ -60,21 +64,7 @@ public static class CoreExtension
 
         services.AddRazorPages();
         services.AddCascadingAuthenticationState();
-        switch (CoreOption.Instance.AuthMode)
-        {
-            case AuthMode.Cookie:
-                services.AddAuthentication().AddCookie(Constant.KeyAuth);
-                services.AddScoped<IAuthStateProvider, CookieAuthStateProvider>();
-                break;
-            case AuthMode.Session:
-                services.AddScoped<IAuthStateProvider, SessionAuthStateProvider>();
-                break;
-            case AuthMode.Identity:
-                services.AddIdentityAuth();
-                break;
-            default:
-                break;
-        }
+        services.AddAuthProvider();
     }
 
     /// <summary>
@@ -125,6 +115,25 @@ public static class CoreExtension
         {
             o.Conventions.Add(new ApiConvention());
         });
+    }
+
+    private static void AddAuthProvider(this IServiceCollection services)
+    {
+        switch (CoreOption.Instance.AuthMode)
+        {
+            case AuthMode.Cookie:
+                services.AddAuthentication().AddCookie(Constant.KeyAuth);
+                services.AddScoped<IAuthStateProvider, CookieAuthStateProvider>();
+                break;
+            case AuthMode.Session:
+                services.AddScoped<IAuthStateProvider, SessionAuthStateProvider>();
+                break;
+            case AuthMode.Identity:
+                services.AddIdentityAuth();
+                break;
+            default:
+                break;
+        }
     }
 
     private static void AddIdentityAuth(this IServiceCollection services)

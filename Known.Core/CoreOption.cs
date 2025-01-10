@@ -51,6 +51,11 @@ public class CoreOption
     public bool IsAddWebApi { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置数据库访问配置选项委托。
+    /// </summary>
+    public Action<DatabaseOption> Database { get; set; }
+
+    /// <summary>
     /// 取得或设置微信配置信息。
     /// </summary>
     public WeixinConfigInfo Weixin { get; set; }

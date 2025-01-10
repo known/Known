@@ -34,16 +34,8 @@ public static class AppConfig
         Config.IsDebug = true;
 #endif
         //Stopwatcher.Enabled = true;
-        builder.Services.AddAppWeb();
-        builder.Services.AddAppWebCore(builder.Configuration);
-        builder.Services.AddKnownCore(info =>
-        {
-            info.WebRoot = builder.Environment.WebRootPath;
-            info.ContentRoot = builder.Environment.ContentRootPath;
-        });
-
-        builder.Services.AddScheduler();
-        builder.Services.AddTransient<ImportTaskJob>();
+        builder.AddAppWeb();
+        builder.AddAppWebCore();
     }
 
     public static void UseApplication(this WebApplication app)
@@ -58,10 +50,10 @@ public static class AppConfig
         });
     }
 
-    private static void AddAppWeb(this IServiceCollection services)
+    private static void AddAppWeb(this WebApplicationBuilder builder)
     {
         var assembly = typeof(AppConfig).Assembly;
-        services.AddKnown(info =>
+        builder.Services.AddKnown(info =>
         {
             info.Id = AppId;
             info.Name = AppName;
@@ -71,26 +63,15 @@ public static class AppConfig
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             //info.JsPath = "./script.js";
         });
-        services.AddKnownAdmin();
+        builder.Services.AddKnownAdmin();
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
     }
 
-    private static void AddAppWebCore(this IServiceCollection services, IConfiguration configuration)
+    private static void AddAppWebCore(this WebApplicationBuilder builder)
     {
-        services.AddKnownData(option =>
-        {
-            var connString = configuration.GetSection("ConnString").Get<string>();
-            //option.AddAccess<System.Data.OleDb.OleDbFactory>(connString);
-            option.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
-            //option.AddSqlServer<Microsoft.Data.SqlClient.SqlClientFactory>(connString);
-            //option.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
-            //option.AddPgSql<Npgsql.NpgsqlFactory>(connString);
-            //option.AddDM<Dm.DmClientFactory>(connString);
-            //option.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
-        });
-        services.AddKnownAdminCore(option =>
+        builder.Services.AddKnownAdminCore(option =>
         {
             //option.Code = new CodeConfigInfo
             //{
@@ -102,11 +83,29 @@ public static class AppConfig
             //option.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
             //option.AddModules(ModuleHelper.AddAppModules);
         });
-        services.AddKnownCells();
-        services.AddKnownWeb();
+        builder.Services.AddKnownCells();
+        builder.Services.AddKnownWeb(option =>
+        {
+            option.App.WebRoot = builder.Environment.WebRootPath;
+            option.App.ContentRoot = builder.Environment.ContentRootPath;
+            option.Database = db =>
+            {
+                var connString = builder.Configuration.GetSection("ConnString").Get<string>();
+                //db.AddAccess<System.Data.OleDb.OleDbFactory>(connString);
+                db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
+                //db.AddSqlServer<Microsoft.Data.SqlClient.SqlClientFactory>(connString);
+                //db.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
+                //db.AddPgSql<Npgsql.NpgsqlFactory>(connString);
+                //db.AddDM<Dm.DmClientFactory>(connString);
+                //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
+            };
+        });
 
         // 注入服务
-        services.AddScoped<IHomeService, HomeService>();
+        builder.Services.AddScoped<IHomeService, HomeService>();
+
+        builder.Services.AddScheduler();
+        builder.Services.AddTransient<ImportTaskJob>();
     }
 }
 

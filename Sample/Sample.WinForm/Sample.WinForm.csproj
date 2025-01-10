@@ -19,13 +19,4 @@
         <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Update="Pages\Index.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
-      <Content Update="Pages\Login.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
-    </ItemGroup>
-
 </Project>

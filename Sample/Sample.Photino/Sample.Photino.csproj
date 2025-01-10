@@ -12,22 +12,4 @@
         <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <None Update="favicon.ico">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <Content Update="wwwroot\**">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Update="Pages\Index.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
-      <Content Update="Pages\Login.razor">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </Content>
-    </ItemGroup>
-
 </Project>
