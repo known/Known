@@ -22,6 +22,11 @@ public static class AppConfig
             //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
             //info.JsPath = "./script.js";
         });
+        services.AddKnownCore(info =>
+        {
+            info.WebRoot = AppDomain.CurrentDomain.BaseDirectory;
+            info.ContentRoot = AppDomain.CurrentDomain.BaseDirectory;
+        });
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };

@@ -3,37 +3,37 @@
 <TypeForm Class="kui-system" Model="Model" Style="margin-top:20px">
     <AntRow>
         <DataItem Label="@Language[nameof(SystemInfo.CompName)]">
-            @($"{Model.System.CompNo}-{Model.System.CompName}")
+            @($"{Model.System?.CompNo}-{Model.System?.CompName}")
         </DataItem>
     </AntRow>
     <AntRow>
         <DataItem Label="@Language[nameof(SystemInfo.AppName)]">
-            <KEditInput Value="@Model.System.AppName" OnSave="OnSaveAppNameAsync" />
+            <KEditInput Value="@Model.System?.AppName" OnSave="OnSaveAppNameAsync" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[nameof(VersionInfo.AppVersion)]">@Model.Version.AppVersion</DataItem>
+        <DataItem Label="@Language[nameof(VersionInfo.AppVersion)]">@Model.Version?.AppVersion</DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[nameof(VersionInfo.SoftVersion)]">@Model.Version.SoftVersion</DataItem>
+        <DataItem Label="@Language[nameof(VersionInfo.SoftVersion)]">@Model.Version?.SoftVersion</DataItem>
     </AntRow>
     <AntRow>
         <DataItem Label="@Language[nameof(VersionInfo.BuildTime)]">
-            @($"{Model.Version.BuildTime:yyyy-MM-dd HH:mm:ss}")
+            @($"{Model.Version?.BuildTime:yyyy-MM-dd HH:mm:ss}")
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@Model.Version.FrameVersion</DataItem>
+        <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@Model.Version?.FrameVersion</DataItem>
     </AntRow>
     <AntRow>
         <DataItem Label="@Language[nameof(SystemDataInfo.RunTime)]">@($"{Model.RunTime} H")</DataItem>
     </AntRow>
-    @if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Model.System.ProductId))
+    @if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Model.System?.ProductId))
     {
         <AntRow>
-            <DataItem Label="@Language[nameof(SystemInfo.ProductId)]">@Model.System.ProductId</DataItem>
+            <DataItem Label="@Language[nameof(SystemInfo.ProductId)]">@Model.System?.ProductId</DataItem>
             <DataItem Label="@Language[nameof(SystemInfo.ProductKey)]">
-                <KEditInput Value="@Model.System.ProductKey" OnSave="OnSaveProductKeyAsync" />
+                <KEditInput Value="@Model.System?.ProductKey" OnSave="OnSaveProductKeyAsync" />
             </DataItem>
         </AntRow>
     }
@@ -63,6 +63,9 @@
 
     private async Task OnSaveAppNameAsync(string value)
     {
+        if (Model.System == null)
+            return;
+
         Model.System.AppName = value;
         var result = await Parent.SaveSystemAsync(Model.System);
         if (result.IsValid)
@@ -74,6 +77,9 @@
 
     private async Task OnSaveProductKeyAsync(string value)
     {
+        if (Model.System == null)
+            return;
+
         Model.System.ProductKey = value;
         await Parent.SaveKeyAsync(Model.System);
         await StateChangedAsync();

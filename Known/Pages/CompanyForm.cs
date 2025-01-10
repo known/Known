@@ -23,7 +23,7 @@ class CompanyBaseInfo : BaseEditForm<CompanyInfo>
     {
         await base.OnInitFormAsync();
         var json = await Admin.GetCompanyAsync();
-        var data = Utils.FromJson<CompanyInfo>(json);
+        var data = Utils.FromJson<CompanyInfo>(json) ?? new CompanyInfo();
         Model = new FormModel<CompanyInfo>(this, true) { IsView = true, Data = data };
     }
 

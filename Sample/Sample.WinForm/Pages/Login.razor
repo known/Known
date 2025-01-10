@@ -8,7 +8,17 @@
             <a class="kui-logo" href="@Config.SiteUrl" target="_blank"></a>
             <div class="kui-app-name">@AppConfig.AppName</div>
         </div>
-        <TopRight />
+        <ul class="kui-menu">
+            <li><a href="@Config.SiteUrl/doc" target="_blank">文档</a></li>
+            @if (Config.App.IsLanguage)
+            {
+                <li style="text-align:center;"><NavLanguage /></li>
+            }
+            @if (Config.App.IsTheme)
+            {
+                <li style="margin-left:15px;"><NavTheme /></li>
+            }
+        </ul>
     </div>
     <div class="login-body">
         <div class="login-left">
@@ -37,6 +47,13 @@
 
 @code {
     private bool IsCaptcha => false;
+
+    protected override Task OnInitAsync()
+    {
+        Model.UserName = "Admin";
+        Model.Password = "1";
+        return base.OnInitAsync();
+    }
 
     private Task<Known.Result> OnSendSMS(string phone)
     {

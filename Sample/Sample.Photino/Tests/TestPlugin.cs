@@ -1,4 +1,4 @@
-﻿namespace Sample.Maui.Plugins;
+﻿namespace Sample.Photino.Tests;
 
 [PagePlugin("测试", "file", Category = nameof(PagePluginType.Other), Sort = 1)]
 class TestPlugin : PluginBase<TestPluginInfo>

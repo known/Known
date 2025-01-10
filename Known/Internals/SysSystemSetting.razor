@@ -20,7 +20,7 @@
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Model = Parent.Model.System;
+        Model = Parent.Model.System ?? new();
     }
 
     private async Task OnSaveDefaultPwdAsync(string value)

@@ -1,4 +1,4 @@
-﻿namespace Sample.WinForm.Pages;
+﻿namespace Sample.WinForm.Tests;
 
 [Route("/test/table")]
 public class TestTablePage : BaseTablePage<TestInfo>

@@ -1,4 +1,4 @@
-﻿namespace Sample.WinForm.Pages;
+﻿namespace Sample.Photino.Tests;
 
 [Route("/dev/test")]
 [DevPlugin("测试", "file", Sort = 3)]

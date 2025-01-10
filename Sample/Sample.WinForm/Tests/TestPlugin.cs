@@ -1,4 +1,4 @@
-﻿namespace Sample.WinForm.Plugins;
+﻿namespace Sample.WinForm.Tests;
 
 [PagePlugin("测试", "file", Category = nameof(PagePluginType.Other), Sort = 1)]
 class TestPlugin : PluginBase<TestPluginInfo>

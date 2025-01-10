@@ -30,5 +30,8 @@ public static class AppConfig
 
         //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
+
+        // 注入服务
+        services.AddScoped<IHomeService, HomeService>();
     }
 }
