@@ -78,10 +78,7 @@ else
     /// </summary>
     [Parameter] public Func<AttachInfo, Task> OnDelete { get; set; }
 
-    /// <summary>
-    /// 刷新上传组件内容。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         if (string.IsNullOrWhiteSpace(Value))
@@ -104,11 +101,7 @@ else
         await RefreshAsync();
     }
 
-    /// <summary>
-    /// 上传组件呈现后，调用后端接口加载附件列表。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

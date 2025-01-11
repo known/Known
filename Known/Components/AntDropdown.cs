@@ -15,9 +15,7 @@ public class AntDropdown : Dropdown
     /// </summary>
     [Parameter] public DropdownModel Model { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)

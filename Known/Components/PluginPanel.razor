@@ -48,6 +48,7 @@ else
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

@@ -20,9 +20,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     /// </summary>
     [Parameter] public Action<string> RangeValueChanged { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -33,10 +31,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
         OnChange = this.Callback<DateRangeChangedEventArgs<DateTime?[]>>(OnDateRangeChange);
     }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();

@@ -59,12 +59,7 @@ partial class KLayout
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    /// <summary>
-    /// 异步显示快速旋转加载提示。
-    /// </summary>
-    /// <param name="text">提示文本。</param>
-    /// <param name="action">耗时操作委托。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task ShowSpinAsync(string text, Func<Task> action)
     {
         if (action == null)
@@ -88,21 +83,14 @@ partial class KLayout
         });
     }
 
-    /// <summary>
-    /// 异步设置当前登录用户信息。
-    /// </summary>
-    /// <param name="user">用户信息。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task SignInAsync(UserInfo user)
     {
         if (AuthProvider != null)
             await AuthProvider.SignInAsync(user);
     }
 
-    /// <summary>
-    /// 异步注销，用户安全退出系统。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task SignOutAsync()
     {
         var result = await Admin.SignOutAsync();
@@ -115,9 +103,7 @@ partial class KLayout
         }
     }
 
-    /// <summary>
-    /// 重新加载当前页面，如果是多标签，则刷新当前标签页。
-    /// </summary>
+    /// <inheritdoc />
     public override void ReloadPage()
     {
         if (Setting.MultiTab)
@@ -126,16 +112,13 @@ partial class KLayout
             reload?.Reload();
     }
 
-    /// <summary>
-    /// 异步初始化模板。
-    /// 如果系统未登录，则跳转到登录页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         if (!IsAdmin)
             return;
 
+        // 如果系统未登录，则跳转到登录页面。
         IsLoaded = false;
         await base.OnInitAsync();
         var isInstall = await Admin.GetIsInstallAsync();
@@ -163,10 +146,7 @@ partial class KLayout
         IsLoaded = true;
     }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
@@ -175,11 +155,7 @@ partial class KLayout
         CheckUrlAuthentication();
     }
 
-    /// <summary>
-    /// 模板呈现后异步操作方法，设置字体大小，语言，主题。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

@@ -12,9 +12,7 @@ public class AntTree : Tree<MenuInfo>
     /// </summary>
 	[Parameter] public TreeModel Model { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
 	protected override void OnInitialized()
 	{
         base.OnInitialized();
@@ -34,10 +32,7 @@ public class AntTree : Tree<MenuInfo>
             Model.OnRefresh = RefreshAsync;
     }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         if (Model == null)

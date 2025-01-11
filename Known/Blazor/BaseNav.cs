@@ -20,10 +20,7 @@ public class BaseNav : BaseComponent
     /// </summary>
     protected virtual EventCallback<MouseEventArgs> OnClick { get; }
 
-    /// <summary>
-    /// 呈现组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Component<KIcon>()

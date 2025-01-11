@@ -10,10 +10,7 @@ public abstract class BaseForm : BaseComponent
     /// </summary>
     protected bool IsPage { get; set; }
 
-    /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -21,15 +18,12 @@ public abstract class BaseForm : BaseComponent
     }
 
     /// <summary>
-    /// 异步初始化表单虚方法，子表单应覆写该方法。
+    /// 异步初始化表单。
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnInitFormAsync() => Task.CompletedTask;
 
-    /// <summary>
-    /// 呈现表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (IsPage)
@@ -39,7 +33,7 @@ public abstract class BaseForm : BaseComponent
     }
 
     /// <summary>
-    /// 构建表单组件虚方法，子表单应覆写该方法。
+    /// 构建表单组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected virtual void BuildForm(RenderTreeBuilder builder) { }
@@ -61,10 +55,7 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     /// </summary>
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    /// <summary>
-    /// 构建表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         if (Model == null)
@@ -93,10 +84,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
 {
     private bool isEdit = false;
 
-    /// <summary>
-    /// 构建表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         if (Model == null)
@@ -107,7 +95,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 构建表单组件虚方法。
+    /// 构建表单组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected virtual void BuildFormContent(RenderTreeBuilder builder)
@@ -137,14 +125,14 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 异步保存表单数据虚方法。
+    /// 异步保存表单数据。
     /// </summary>
     /// <param name="model">表单数据对象。</param>
     /// <returns>保存结果。</returns>
     protected virtual Task<Result> OnSaveAsync(TItem model) => Result.SuccessAsync("");
 
     /// <summary>
-    /// 保存成功回调虚方法。
+    /// 保存成功回调。
     /// </summary>
     /// <param name="result">保存返回结果实例。</param>
     protected virtual void OnSuccess(Result result) { }
@@ -174,10 +162,7 @@ public class BaseTabForm : BaseForm
     /// </summary>
     protected TabModel Tab { get; } = new();
 
-    /// <summary>
-    /// 构建表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-tab", () => builder.Tabs(Tab));
@@ -194,10 +179,7 @@ public class BaseStepForm : BaseForm
     /// </summary>
     protected StepModel Step { get; } = new();
 
-    /// <summary>
-    /// 构建表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-form-step", () => builder.Steps(Step));

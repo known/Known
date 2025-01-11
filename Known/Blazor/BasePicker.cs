@@ -66,10 +66,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
 
     internal Func<Task> OnClose { get; set; }
 
-    /// <summary>
-    /// 构建选择器组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (IsPick)

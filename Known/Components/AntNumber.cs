@@ -9,9 +9,7 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -30,9 +28,7 @@ public class AntInteger : AntDesign.InputNumber<int?>
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -51,9 +47,7 @@ public class AntDecimal : AntDesign.InputNumber<decimal?>
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)

@@ -5,10 +5,7 @@
 /// </summary>
 public class UserPicker : TablePicker<SysUser>, ICustomField
 {
-    /// <summary>
-    /// 异步初始化系统用户弹窗选择器组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -24,10 +21,7 @@ public class UserPicker : TablePicker<SysUser>, ICustomField
         Table.AddColumn(c => c.Role);
     }
 
-    /// <summary>
-    /// 选择器选择内容改变时触发的方法。
-    /// </summary>
-    /// <param name="items">选中的对象列表。</param>
+    /// <inheritdoc />
     protected override void OnValueChanged(List<SysUser> items)
     {
         var value = SelectType == TableSelectType.Checkbox

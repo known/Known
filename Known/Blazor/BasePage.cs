@@ -22,23 +22,13 @@ public class BasePage : BaseComponent, IReuseTabsPage
         return GetPageTitle(menu?.Icon, PageName);
     }
 
-    /// <summary>
-    /// 异步初始化页面组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override Task OnInitAsync() => OnInitPageAsync();
 
-    /// <summary>
-    /// 呈现页面组件内容，如果系统启用授权功能，则会先判断授权，再呈现页面。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
 
-    /// <summary>
-    /// 页面呈现后异步方法，此处会调用页面内容高度自适应计算脚本。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -50,13 +40,13 @@ public class BasePage : BaseComponent, IReuseTabsPage
     }
 
     /// <summary>
-    /// 异步初始化页面虚方法，子页面应覆写该方法。
+    /// 异步初始化页面。
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnInitPageAsync() => Task.CompletedTask;
 
     /// <summary>
-    /// 构建页面组件虚方法，子页面应覆写该方法。
+    /// 构建页面组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected virtual void BuildPage(RenderTreeBuilder builder) { }
@@ -84,17 +74,14 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
     /// </summary>
     protected PageModel Page { get; } = new();
 
-    /// <summary>
-    /// 构建Web页面组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<WebPage>().Set(c => c.Model, Page).Build();
     }
 
     /// <summary>
-    /// 查看表单虚方法。
+    /// 查看表单。
     /// </summary>
     /// <param name="type">查看类型。</param>
     /// <param name="row">表单数据。</param>
@@ -111,20 +98,14 @@ public class BaseTabPage : BasePage
     /// </summary>
     protected TabModel Tab { get; } = new();
 
-    /// <summary>
-    /// 异步初始化标签Web页面组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Tab.Left = b => b.FormTitle(PageName);
     }
 
-    /// <summary>
-    /// 构建标签Web页面组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("kui-card", () => builder.Tabs(Tab));
@@ -141,10 +122,7 @@ public class BaseStepPage : BasePage
     /// </summary>
     protected StepModel Step { get; } = new();
 
-    /// <summary>
-    /// 构建步骤Web页面组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("kui-card", () => builder.Steps(Step));

@@ -20,9 +20,7 @@ public class AntMenu : Menu
     /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }
 
-    /// <summary>
-    /// 初始化菜单组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();

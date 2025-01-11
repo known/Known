@@ -179,25 +179,25 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     }
 
     /// <summary>
-    /// 异步初始化组件虚方法，子组件应覆写该方法。
+    /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnInitAsync() => Task.CompletedTask;
 
     /// <summary>
-    /// 异步设置组件参数虚方法，子组件应覆写该方法。
+    /// 异步设置组件参数。
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnParameterAsync() => Task.CompletedTask;
 
     /// <summary>
-    /// 异步释放组件实例虚方法。
+    /// 异步释放组件实例。
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnDisposeAsync() => Task.CompletedTask;
 
     /// <summary>
-    /// 呈现组件虚方法，子组件应覆写该方法。
+    /// 呈现组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
@@ -210,7 +210,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
 
     /// <summary>
-    /// 异步刷新组件虚方法。
+    /// 异步刷新组件。
     /// </summary>
     /// <returns></returns>
     public virtual Task RefreshAsync() => Task.CompletedTask;

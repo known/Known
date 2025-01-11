@@ -21,16 +21,13 @@
     /// </summary>
     [Parameter] public object Option { get; set; }
 
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         Id = $"bc-{Id}";
     }
 
-    /// <summary>
-    /// 条形码组件呈现后，调用Barcode.js绘制条形码。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

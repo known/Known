@@ -10,9 +10,7 @@ public class AntSwitch : Switch
     [CascadingParameter] private IAntForm AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)

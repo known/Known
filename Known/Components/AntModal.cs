@@ -7,9 +7,7 @@ namespace Known.Components;
 /// </summary>
 public class AntModal : Modal
 {
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         base.OnInitialized();

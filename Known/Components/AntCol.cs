@@ -32,10 +32,7 @@ public class AntCol : ComponentBase
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    /// <summary>
-    /// 呈现列组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var className = CssBuilder.Default("ant-col")

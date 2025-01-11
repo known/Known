@@ -53,10 +53,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
         await RefreshAsync();
     }
 
-    /// <summary>
-    /// 异步刷新组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         criteria.Parameters["Key"] = searchKey;
@@ -64,10 +61,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
         await StateChangedAsync();
     }
 
-    /// <summary>
-    /// 呈现组件。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-app-search", () => BuildSearch(builder));
@@ -75,11 +69,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
         builder.Div("kui-app-search-info", () => BuildInfo(builder));
     }
 
-    /// <summary>
-    /// 呈现组件后异步执行。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

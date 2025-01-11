@@ -55,10 +55,7 @@
     /// </summary>
     [Parameter] public RenderFragment<CodeInfo> ItemTemplate { get; set; }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();

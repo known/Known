@@ -18,9 +18,7 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
     /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         Size = TableSize.Small;
@@ -44,9 +42,7 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
         base.OnInitialized();
     }
 
-    /// <summary>
-    /// 设置组件参数。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnParametersSet()
     {
         if (Model != null)

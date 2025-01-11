@@ -16,10 +16,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     /// </summary>
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
-    /// <summary>
-    /// 异步初始化表格组件，默认关闭高级搜索。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -31,27 +28,21 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
 
-    /// <summary>
-    /// 呈现表格组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder) => builder.Table(Table);
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
-    /// <summary>
-    /// 刷新表格。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override Task RefreshAsync() => Table.RefreshAsync();
 
     /// <summary>
-    /// 表格行异步上移虚方法。
+    /// 表格行异步上移。
     /// </summary>
     /// <param name="row">行对象。</param>
     public virtual Task MoveUp(TItem row) => MoveRowAsync(row, true);
 
     /// <summary>
-    /// 表格行异步下移虚方法。
+    /// 表格行异步下移。
     /// </summary>
     /// <param name="row">行对象。</param>
     public virtual Task MoveDown(TItem row) => MoveRowAsync(row, false);

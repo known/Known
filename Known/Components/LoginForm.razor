@@ -57,6 +57,7 @@
     [Parameter] public Func<string, Task<Known.Result>> OnSendSMS { get; set; }
     [Parameter] public Func<Task> OnLogin { get; set; }
 
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

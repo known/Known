@@ -34,8 +34,15 @@
 </div>
 
 @code {
+    /// <summary>
+    /// 取得或设置统计数量信息列表。
+    /// </summary>
     [Parameter] public List<StatisticCountInfo> Counts { get; set; }
 
+    /// <summary>
+    /// 设置统计数量信息列表。
+    /// </summary>
+    /// <param name="counts"></param>
     public void SetCounts(List<StatisticCountInfo> counts)
     {
         Counts = counts;

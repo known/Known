@@ -25,7 +25,7 @@ public class BaseLayout : BaseComponent
     }
 
     /// <summary>
-    /// 异步显示加载提示框虚方法。
+    /// 异步显示加载提示框。
     /// </summary>
     /// <param name="text">加载提示信息。</param>
     /// <param name="action">异步加载方法的委托。</param>
@@ -59,10 +59,7 @@ public class BaseLayout : BaseComponent
 /// </summary>
 public class EmptyLayout : LayoutComponentBase
 {
-    /// <summary>
-    /// 呈现空模板组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Div("kui-wrapper", () => builder.Fragment(Body));
@@ -74,10 +71,7 @@ public class EmptyLayout : LayoutComponentBase
 /// </summary>
 public class AdminLayout : LayoutComponentBase
 {
-    /// <summary>
-    /// 呈现模板内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (UIConfig.AdminBody != null)

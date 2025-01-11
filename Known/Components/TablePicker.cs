@@ -32,10 +32,7 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
         }
     }
 
-    /// <summary>
-    /// 异步初始化表格选择器组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -59,10 +56,7 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
             Table.OnRowDoubleClick = OnRowDoubleClick;
     }
 
-    /// <summary>
-    /// 呈现表格选择器内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildContent(RenderTreeBuilder builder) => builder.Table(Table);
 
     private Task OnRowDoubleClick(TItem item)

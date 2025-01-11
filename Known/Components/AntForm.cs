@@ -23,9 +23,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     /// </summary>
     [Parameter] public FormModel<TItem> Form { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         //为true时，AutoComplete无法选中
@@ -43,10 +41,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         base.OnInitialized();
     }
 
-    /// <summary>
-    /// 呈现表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.Cascading<IAntForm>(this, b =>

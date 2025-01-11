@@ -15,9 +15,7 @@ public class AntInput : Input<string>
     /// </summary>
     [Parameter] public string Icon { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)

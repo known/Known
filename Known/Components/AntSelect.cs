@@ -15,9 +15,7 @@ public class AntSelect : Select<string, string>
     /// </summary>
     [Parameter] public string Icon { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -47,9 +45,7 @@ public class AntSelectCode : Select<string, CodeInfo>
     /// </summary>
     [Parameter] public string Category { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)

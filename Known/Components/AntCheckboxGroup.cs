@@ -20,9 +20,7 @@ public class AntCheckboxGroup : CheckboxGroup<string>
     /// </summary>
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -34,10 +32,7 @@ public class AntCheckboxGroup : CheckboxGroup<string>
         base.OnInitialized();
     }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();

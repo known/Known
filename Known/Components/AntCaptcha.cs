@@ -39,9 +39,7 @@ public class AntCaptcha : Input<string>
     /// </summary>
     public void Refresh() => captcha.Refresh();
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (!string.IsNullOrWhiteSpace(Icon))
@@ -49,10 +47,7 @@ public class AntCaptcha : Input<string>
         base.OnInitialized();
     }
 
-    /// <summary>
-    /// 呈现验证码组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         base.BuildRenderTree(builder);

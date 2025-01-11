@@ -29,23 +29,13 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     /// </summary>
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
-    /// <summary>
-    /// 刷新页面表格组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override Task RefreshAsync() => Table.RefreshAsync();
 
-    /// <summary>
-    /// 查看表单。
-    /// </summary>
-    /// <param name="type">查看类型。</param>
-    /// <param name="row">表单数据。</param>
+    /// <inheritdoc />
     public override void ViewForm(FormViewType type, TItem row) => Table.ViewForm(type, row);
 
-    /// <summary>
-    /// 异步初始化表格页面组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -55,10 +45,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         Table.DefaultQuery = DefaultQuery;
     }
 
-    /// <summary>
-    /// 构建表格页面组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         if (UIConfig.EnableEdit && EnableEdit)

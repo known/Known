@@ -19,10 +19,7 @@ public class KStyleSheet : ComponentBase
         Items.Add(fileName);
     }
 
-    /// <summary>
-    /// 呈现脚本HTML标签。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         foreach (var item in Items)

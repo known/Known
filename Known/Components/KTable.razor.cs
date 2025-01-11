@@ -19,9 +19,7 @@ partial class KTable<TItem> : BaseComponent
     /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
 
-    /// <summary>
-    /// 初始化表格组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 0).Sum();
@@ -32,11 +30,7 @@ partial class KTable<TItem> : BaseComponent
         base.OnInitialized();
     }
 
-    /// <summary>
-    /// 表格数据呈现后执行方法。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try

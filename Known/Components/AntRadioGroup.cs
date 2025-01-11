@@ -20,9 +20,7 @@ public class AntRadioGroup : RadioGroup<string>
     /// </summary>
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
-    /// <summary>
-    /// 初始化组件。
-    /// </summary>
+    /// <inheritdoc />
     protected override void OnInitialized()
     {
         if (AntForm != null)
@@ -36,10 +34,7 @@ public class AntRadioGroup : RadioGroup<string>
         OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
     }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();

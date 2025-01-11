@@ -57,10 +57,7 @@
     /// </summary>
     [Parameter] public Func<bool, Task<bool>> OnSave { get; set; }
 
-    /// <summary>
-    /// 异步初始化步骤表单组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
