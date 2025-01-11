@@ -26,7 +26,7 @@ public class SysUser : EntityBase
     [Required]
     [MaxLength(50)]
     [Column(IsQuery = true)]
-    [Form]
+    [Form(Row = 1, Column = 1)]
     public string UserName { get; set; }
 
     /// <summary>
@@ -41,14 +41,14 @@ public class SysUser : EntityBase
     [Required]
     [MaxLength(50)]
     [Column]
-    [Form]
+    [Form(Row = 1, Column = 2)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置英文名。
     /// </summary>
     [MaxLength(50)]
-    [Form]
+    [Form(Row = 2, Column = 1)]
     public string EnglishName { get; set; }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class SysUser : EntityBase
     [MaxLength(50)]
     [Category(nameof(GenderType))]
     [Column]
-    [Form]
+    [Form(Row = 2, Column = 2, Type = nameof(FieldType.RadioList))]
     public string Gender { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Phone, ErrorMessage = "固定电话格式不正确！")]
-    [Form]
+    [Form(Row = 3, Column = 1)]
     public string Phone { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class SysUser : EntityBase
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Mobile, ErrorMessage = "移动电话格式不正确！")]
     [Column]
-    [Form]
+    [Form(Row = 3, Column = 2)]
     public string Mobile { get; set; }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class SysUser : EntityBase
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Email, ErrorMessage = "电子邮件格式不正确！")]
     [Column]
-    [Form]
+    [Form(Row = 4, Column = 1)]
     public string Email { get; set; }
 
     /// <summary>
@@ -92,14 +92,12 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [Column]
-    [Form]
+    [Form(Row = 4, Column = 2)]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [MaxLength(500)]
-    [Form]
     public string Note { get; set; }
 
     /// <summary>
@@ -135,7 +133,6 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(500)]
     [Column]
-    [Form]
     public string Role { get; set; }
 
     /// <summary>
@@ -151,7 +148,6 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置用户关联的角色ID集合。
     /// </summary>
-    [Form(Type = "CheckList")]
     [Category("Roles")]
     public virtual string[] RoleIds { get; set; }
 

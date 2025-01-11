@@ -51,6 +51,37 @@ public sealed class DataHelper
     }
 
     /// <summary>
+    /// 获取角色管理所有可以模块信息列表。
+    /// </summary>
+    /// <returns></returns>
+    public static List<ModuleInfo> GetRoleModules()
+    {
+        var modules = AppData.Modules;
+        var routes = GetRouteModules(modules.Select(m => m.Url).ToList());
+        if (routes != null && routes.Count > 0)
+        {
+            modules.AddRange(routes.Select(r =>
+            {
+                var param = r.Plugins?.GetPluginParameter<TablePageInfo>();
+                var module = new ModuleInfo
+                {
+                    Id = r.Id,
+                    ParentId = r.ParentId,
+                    Name = r.Name,
+                    Url = r.Url,
+                    Icon = r.Icon,
+                    Target = r.Target,
+                    Enabled = r.Enabled,
+                    Sort = r.Sort,
+                    //Page = param?.Page
+                };
+                return module;
+            }));
+        }
+        return modules.Where(m => m.Enabled).OrderBy(m => m.Sort).ToList();
+    }
+
+    /// <summary>
     /// 获取路由模块。
     /// </summary>
     /// <param name="moduleUrls">模块列表。</param>
@@ -65,7 +96,7 @@ public sealed class DataHelper
         var routeError = typeof(ErrorPage).RouteTemplate();
         var routeAuto = typeof(AutoPage).RouteTemplate();
         var target = Constants.Route;
-        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt" };
+        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt", Sort = 999 };
         foreach (var item in routes.OrderBy(r => r.Key))
         {
             if (moduleUrls.Exists(m => m == item.Key) ||

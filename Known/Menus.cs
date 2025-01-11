@@ -500,9 +500,9 @@ public class ColumnInfo
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;
         Fixed = info.Fixed;
-        Width = info.Width ?? 0;
+        Width = info.Width;
         Align = info.Align;
-        Position = info.Position ?? 0;
+        Position = info.Position;
 
         if (info.Id == nameof(EntityBase.CreateTime) || info.Id == nameof(EntityBase.ModifyTime))
             Type = FieldType.Date;
@@ -552,7 +552,9 @@ public class ColumnInfo
         if (info == null)
             return;
 
-        Type = info.GetFieldType();
+        if (Type == FieldType.Text)
+            Type = info.GetFieldType();
+
         DisplayName = info.DisplayName();
         if (string.IsNullOrWhiteSpace(Name))
             Name = DisplayName ?? info.Name;
@@ -574,7 +576,7 @@ public class ColumnInfo
         IsSort = attr.IsSort;
         DefaultSort = attr.DefaultSort;
         Fixed = attr.Fixed;
-        Width = attr.Width ?? 0;
+        Width = attr.Width;
         Align = attr.Align;
     }
 

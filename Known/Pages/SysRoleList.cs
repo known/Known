@@ -16,6 +16,7 @@ public class SysRoleList : BaseTablePage<SysRole>
         Table.FormType = typeof(RoleForm);
         Table.OnQuery = Admin.QueryRolesAsync;
         Table.RowKey = r => r.Id;
+        Table.Form = new FormInfo { Width = 1000 };
     }
 
     /// <summary>
@@ -116,8 +117,7 @@ class RoleForm : BaseForm<SysRole>
         if (Model.IsView)
             tree.DisableCheckKeys = model.Modules.Select(m => m.Id).ToArray();
         tree.Data = model.Modules?.ToMenuItems(false);
-        if (Model.Data.MenuIds != null)
-            tree.CheckedKeys = [.. Model.Data.MenuIds];
+        tree.CheckedKeys = [.. Model.Data.MenuIds];
         return tree;
     }
 
@@ -138,11 +138,11 @@ class RoleForm : BaseForm<SysRole>
         current = item;
 
         btnModel.Disabled = ChkDisabled;
-        btnModel.Codes = current.GetAllActions();
+        btnModel.Codes = current.GetAllActions(Language);
         btnModel.Value = [.. Model.Data.MenuIds];
 
         colModel.Disabled = ChkDisabled;
-        colModel.Codes = current.GetAllColumns();
+        colModel.Codes = current.GetAllColumns(Language);
         colModel.Value = [.. Model.Data.MenuIds];
     }
 
@@ -163,8 +163,8 @@ class RoleForm : BaseForm<SysRole>
 
     private void CheckItem(MenuInfo item, bool isChecked)
     {
-        var btnItems = isChecked ? item.GetAllActions().Select(o => o.Code).ToArray() : null;
-        var colItems = isChecked ? item.GetAllColumns().Select(o => o.Code).ToArray() : null;
+        var btnItems = isChecked ? item.GetAllActions(Language).Select(o => o.Code).ToArray() : null;
+        var colItems = isChecked ? item.GetAllColumns(Language).Select(o => o.Code).ToArray() : null;
         SetMenuData($"b_{item.Id}", btnItems);
         SetMenuData($"c_{item.Id}", colItems);
 

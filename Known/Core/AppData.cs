@@ -351,6 +351,7 @@ public sealed class AppData
             Id = item.Name,
             Name = item.DisplayName(),
             Category = item.Category(),
+            Width = item.GetColumnWidth(),
             IsSum = column.IsSum,
             IsSort = column.IsSort,
             DefaultSort = column.DefaultSort,
@@ -359,7 +360,6 @@ public sealed class AppData
             IsQueryAll = column.IsQueryAll,
             Type = column.Type,
             Fixed = column.Fixed,
-            Width = column.Width,
             Align = column.Align
         });
     }

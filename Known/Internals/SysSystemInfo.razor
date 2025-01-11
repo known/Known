@@ -40,13 +40,13 @@
     @if (!string.IsNullOrWhiteSpace(UIConfig.Copyright))
     {
         <AntRow>
-            <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@UIConfig.Copyright</DataItem>
+            <DataItem Label="@Language[nameof(UIConfig.Copyright)]">@UIConfig.Copyright</DataItem>
         </AntRow>
     }
     @if (!string.IsNullOrWhiteSpace(UIConfig.SoftTerms))
     {
         <AntRow>
-            <DataItem Label="@Language[nameof(VersionInfo.FrameVersion)]">@UIConfig.SoftTerms</DataItem>
+            <DataItem Label="@Language[nameof(UIConfig.SoftTerms)]">@UIConfig.SoftTerms</DataItem>
         </AntRow>
     }
 </TypeForm>

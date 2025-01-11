@@ -64,7 +64,7 @@ public class SysDictionary : EntityBase
     /// 取得或设置备注。
     /// </summary>
     [Column]
-    [Form]
+    [Form(Type = nameof(FieldType.TextArea))]
     public string Note { get; set; }
 
     /// <summary>

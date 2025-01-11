@@ -40,7 +40,8 @@ partial class AdminService
 
     public Task<SysRole> GetRoleAsync(string roleId)
     {
-        return Task.FromResult(new SysRole());
+        var info = new SysRole { Modules = DataHelper.GetRoleModules() };
+        return Task.FromResult(info);
     }
 
     public Task<Result> DeleteRolesAsync(List<SysRole> models)

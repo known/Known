@@ -67,6 +67,8 @@ partial class AdminService
     {
         return Config.System ?? new SystemInfo
         {
+            CompNo = Constants.CompNo,
+            CompName = Constants.CompName,
             AppName = Config.App.Name
         };
     }

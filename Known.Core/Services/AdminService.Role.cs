@@ -31,28 +31,7 @@ partial class AdminService
                  ? new SysRole()
                  : await database.QueryByIdAsync<SysRole>(roleId);
         info ??= new SysRole();
-        info.Modules = AppData.Modules;
-        var routes = DataHelper.GetRouteModules(info.Modules.Select(m => m.Url).ToList());
-        if (routes != null && routes.Count > 0)
-        {
-            info.Modules.AddRange(routes.Select(r =>
-            {
-                var param = r.Plugins?.GetPluginParameter<TablePageInfo>();
-                var module = new ModuleInfo
-                {
-                    Id = r.Id,
-                    ParentId = r.ParentId,
-                    Name = r.Name,
-                    Url = r.Url,
-                    Icon = r.Icon,
-                    Target = r.Target,
-                    Enabled = r.Enabled,
-                    //Page = param?.Page
-                };
-                return module;
-            }));
-        }
-        info.Modules = info.Modules.Where(m => m.Enabled).ToList();
+        info.Modules = DataHelper.GetRoleModules();
         var roleModules = await database.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
         info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
         await database.CloseAsync();

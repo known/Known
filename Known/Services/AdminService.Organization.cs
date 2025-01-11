@@ -27,7 +27,12 @@ partial class AdminService
 {
     public Task<List<SysOrganization>> GetOrganizationsAsync()
     {
-        return Task.FromResult(new List<SysOrganization>());
+        var info = GetSystem();
+        var lists = new List<SysOrganization>
+        {
+            new() { Id = info.CompNo, ParentId = "0", CompNo = info.CompNo, Code = info.CompNo, Name = info.CompName }
+        };
+        return Task.FromResult(lists);
     }
 
     public Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models)

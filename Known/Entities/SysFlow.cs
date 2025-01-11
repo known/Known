@@ -117,6 +117,5 @@ public class SysFlow : EntityBase
     /// <summary>
     /// 取得或设置审核意见。
     /// </summary>
-    [MaxLength(500)]
     public string VerifyNote { get; set; }
 }

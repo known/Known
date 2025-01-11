@@ -33,18 +33,17 @@ public class SysRole : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [MaxLength(500)]
     [Column]
-    [Form]
+    [Form(Type = nameof(FieldType.TextArea))]
     public string Note { get; set; }
 
     /// <summary>
     /// 取得或设置角色关联的模块列表。
     /// </summary>
-    public virtual List<ModuleInfo> Modules { get; set; }
+    public virtual List<ModuleInfo> Modules { get; set; } = [];
 
     /// <summary>
     /// 取得或设置角色关联的菜单ID列表。
     /// </summary>
-    public virtual List<string> MenuIds { get; set; }
+    public virtual List<string> MenuIds { get; set; } = [];
 }

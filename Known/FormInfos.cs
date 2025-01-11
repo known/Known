@@ -434,6 +434,5 @@ public class CompanyInfo
     /// 取得或设置企业备注。
     /// </summary>
     [Form(Row = 6, Column = 1, Type = nameof(FieldType.TextArea))]
-    [MaxLength(500)]
     public string Note { get; set; }
 }

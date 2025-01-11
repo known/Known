@@ -232,33 +232,41 @@ public static class ModelExtension
         };
     }
 
-    internal static List<CodeInfo> GetAllActions(this MenuInfo info)
+    internal static List<CodeInfo> GetAllActions(this MenuInfo info, Language language)
     {
         var codes = new List<CodeInfo>();
         var param = info.GetTablePageParameter();
         var page = param?.Page;
         if (page?.Tools != null && page?.Tools.Count > 0)
-            codes.AddRange(page?.Tools.Select(b => GetAction(info, b)));
+            codes.AddRange(page?.Tools.Select(b => GetAction(info, language, b)));
         if (page?.Actions != null && page?.Actions.Count > 0)
-            codes.AddRange(page?.Actions.Select(b => GetAction(info, b)));
+            codes.AddRange(page?.Actions.Select(b => GetAction(info, language, b)));
         return codes;
     }
 
-    internal static List<CodeInfo> GetAllColumns(this MenuInfo info)
+    internal static List<CodeInfo> GetAllColumns(this MenuInfo info, Language language)
     {
         var codes = new List<CodeInfo>();
         var param = info.GetTablePageParameter();
         var page = param?.Page;
         if (page?.Columns != null && page?.Columns.Count > 0)
-            codes.AddRange(page?.Columns.Select(b => new CodeInfo($"c_{info.Id}_{b.Id}", b.Name)));
+            codes.AddRange(page?.Columns.Select(c => GetColumn(info, language, c)));
         return codes;
     }
 
-    private static CodeInfo GetAction(MenuInfo menu, string id)
+    private static CodeInfo GetAction(MenuInfo menu, Language language, string id)
     {
         var code = $"b_{menu.Id}_{id}";
         var button = Config.Actions.FirstOrDefault(b => b.Id == id);
         var name = button != null ? button.Name : id;
+        name = language.GetText("Button", id, name);
+        return new CodeInfo(code, name);
+    }
+
+    private static CodeInfo GetColumn(MenuInfo menu, Language language, PageColumnInfo info)
+    {
+        var code = $"c_{menu.Id}_{info.Id}";
+        var name = language.GetText("", info.Id, info.Name);
         return new CodeInfo(code, name);
     }
     #endregion

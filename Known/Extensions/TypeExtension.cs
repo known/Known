@@ -19,31 +19,31 @@ public static class TypeExtension
     /// <summary>
     /// 获取成员关联的DisplayName特性的显示名称。
     /// </summary>
-    /// <param name="member">成员对象。</param>
+    /// <param name="info">成员对象。</param>
     /// <returns>属性显示名称。</returns>
-    public static string DisplayName(this MemberInfo member)
+    public static string DisplayName(this MemberInfo info)
     {
-        return member?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
+        return info?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
     }
 
     /// <summary>
     /// 获取成员关联的Category特性的显示名称。
     /// </summary>
-    /// <param name="member">成员对象。</param>
+    /// <param name="info">成员对象。</param>
     /// <returns>属性显示名称。</returns>
-    public static string Category(this MemberInfo member)
+    public static string Category(this MemberInfo info)
     {
-        return member?.GetCustomAttribute<CategoryAttribute>()?.Category;
+        return info?.GetCustomAttribute<CategoryAttribute>()?.Category;
     }
 
     /// <summary>
     /// 判断成员是否允许匿名访问。
     /// </summary>
-    /// <param name="member">成员对象。</param>
+    /// <param name="info">成员对象。</param>
     /// <returns>是否允许匿名访问。</returns>
-    public static bool IsAllowAnonymous(this MemberInfo member)
+    public static bool IsAllowAnonymous(this MemberInfo info)
     {
-        return member?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
+        return info?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
     }
     #endregion
 
@@ -51,36 +51,50 @@ public static class TypeExtension
     /// <summary>
     /// 获取属性是否关联的RequiredA特性。
     /// </summary>
-    /// <param name="property">属性对象。</param>
+    /// <param name="info">属性对象。</param>
     /// <returns>是否必填。</returns>
-    public static bool IsRequired(this PropertyInfo property)
+    public static bool IsRequired(this PropertyInfo info)
     {
-        return property?.GetCustomAttribute<RequiredAttribute>() is not null;
+        return info?.GetCustomAttribute<RequiredAttribute>() is not null;
     }
 
     /// <summary>
     /// 获取属性关联的MinLength特性的长度。
     /// </summary>
-    /// <param name="property">属性对象。</param>
+    /// <param name="info">属性对象。</param>
     /// <returns>属性最小长度。</returns>
-    public static int? MinLength(this PropertyInfo property)
+    public static int? MinLength(this PropertyInfo info)
     {
-        return property?.GetCustomAttribute<MinLengthAttribute>()?.Length;
+        return info?.GetCustomAttribute<MinLengthAttribute>()?.Length;
     }
 
     /// <summary>
     /// 获取属性关联的MaxLength特性的长度。
     /// </summary>
-    /// <param name="property">属性对象。</param>
+    /// <param name="info">属性对象。</param>
     /// <returns>属性最大长度。</returns>
-    public static int? MaxLength(this PropertyInfo property)
+    public static int? MaxLength(this PropertyInfo info)
     {
-        return property?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
+        return info?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
     }
 
-    internal static FieldType GetFieldType(this PropertyInfo property)
+    internal static int? GetColumnWidth(this PropertyInfo info)
     {
-        var type = property.PropertyType;
+        var type = info.GetFieldType();
+        if (type == FieldType.Switch) return 50;
+        if (type == FieldType.Number) return 100;
+        if (type == FieldType.Date) return 100;
+        if (type == FieldType.DateTime) return 140;
+
+        var length = info.MaxLength();
+        if (length == null) return null;
+        if (length < 100) return length * 2;
+        return length;
+    }
+
+    internal static FieldType GetFieldType(this PropertyInfo info)
+    {
+        var type = info.PropertyType;
 
         if (type == typeof(bool))
             return FieldType.Switch;
@@ -107,11 +121,11 @@ public static class TypeExtension
     /// <summary>
     /// 判断方法是否是匿名访问方法。
     /// </summary>
-    /// <param name="method">方法对象。</param>
+    /// <param name="info">方法对象。</param>
     /// <returns>是否匿名访问方法。</returns>
-    public static bool AllowAnonymous(this MethodInfo method)
+    public static bool AllowAnonymous(this MethodInfo info)
     {
-        return method?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
+        return info?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
     }
     #endregion
 }

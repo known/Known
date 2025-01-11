@@ -38,9 +38,8 @@ public class SysOrganization : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [MaxLength(500)]
     [Column]
-    [Form]
+    [Form(Type = nameof(FieldType.TextArea))]
     public string Note { get; set; }
 
     /// <summary>

@@ -35,7 +35,8 @@ public class SysUserList : BaseTablePage<SysUser>
         {
             FormType = typeof(UserForm),
             RowKey = r => r.Id,
-            OnQuery = OnQueryUsersAsync
+            OnQuery = OnQueryUsersAsync,
+            Form = new FormInfo { Width = 800 }
         };
         Table.Toolbar.ShowCount = 6;
         Table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
@@ -174,7 +175,7 @@ class UserForm : BaseForm<SysUser>
 
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
-        Model.AddRow().AddColumn(c => c.RoleIds);
+        Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

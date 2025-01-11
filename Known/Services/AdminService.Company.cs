@@ -20,7 +20,9 @@ partial class AdminService
 {
     public Task<string> GetCompanyAsync()
     {
-        return Task.FromResult("");
+        var info = GetSystem();
+        var json = Utils.ToJson(new CompanyInfo { Code = info.CompNo, Name = info.CompName });
+        return Task.FromResult(json);
     }
 
     public Task<Result> SaveCompanyAsync(object model)
