@@ -83,16 +83,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
                 var param = menu.GetTablePageParameter();
                 var model = DataHelper.ToEntity(param?.EntityData);
                 SetPage(model, param?.Page, param?.Form);
-                if (Columns != null && Columns.Count > 0)
-                {
-                    var properties = TypeHelper.Properties(typeof(TItem));
-                    foreach (var item in Columns)
-                    {
-                        var info = properties.FirstOrDefault(p => p.Name == item.Id);
-                        if (info != null)
-                            item.SetPropertyInfo(info);
-                    }
-                }
             }
         }
 
@@ -140,21 +130,14 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             ActionCount = info.ActionSize.Value;
         Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList() ?? [];
 
+        var properties = TypeHelper.Properties(typeof(TItem));
         AllColumns = info.Columns?.OrderBy(t => t.Position).Select(c =>
         {
             var column = new ColumnInfo(c);
-            var item = form?.Fields?.FirstOrDefault(f => f.Id == c.Id);
-            if (item != null)
-            {
-                column.Type = item.Type;
-                column.Category = item.Category;
-            }
-            if (column.Type == FieldType.Text)
-            {
-                var field = model?.Fields?.FirstOrDefault(f => f.Id == c.Id);
-                if (field != null)
-                    column.Type = field.Type;
-            }
+            SetColumn(column, model, form);
+            var info = properties.FirstOrDefault(p => p.Name == column.Id);
+            if (info != null)
+                column.SetColumnInfo(info);
             return column;
         }).ToList();
         Columns.Clear();
@@ -162,6 +145,22 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
+    }
+
+    private static void SetColumn(ColumnInfo column, EntityInfo model, FormInfo form)
+    {
+        var item = form?.Fields?.FirstOrDefault(f => f.Id == column.Id);
+        if (item != null)
+        {
+            column.Type = item.Type;
+            column.Category = item.Category;
+        }
+        if (column.Type == FieldType.Text)
+        {
+            var field = model?.Fields?.FirstOrDefault(f => f.Id == column.Id);
+            if (field != null)
+                column.Type = field.Type;
+        }
     }
 
     private static List<ColumnInfo> GetAttributeColumns(Type type)

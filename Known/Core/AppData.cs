@@ -42,7 +42,6 @@ public sealed class AppData
     /// <param name="modules">系统模块列表。</param>
     public static void Initialize(List<ModuleInfo> modules)
     {
-        Data ??= new AppDataInfo();
         Data.Modules = modules;
         DataHelper.Initialize(modules);
         SaveData();

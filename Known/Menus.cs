@@ -534,21 +534,7 @@ public class ColumnInfo
 
         Property = info;
         Id = info.Name;
-
-        var name = info.GetCustomAttribute<DisplayNameAttribute>();
-        DisplayName = name?.DisplayName;
-        if (string.IsNullOrWhiteSpace(Name))
-            Name = DisplayName ?? info.Name;
-
-        var required = info.GetCustomAttribute<RequiredAttribute>();
-        if (required != null)
-            Required = true;
-
-        var code = info.GetCustomAttribute<CategoryAttribute>();
-        if (code != null)
-            Category = code.Category;
-
-        Type = info.GetFieldType();
+        Required = info.IsRequired();
 
         var column = info.GetCustomAttribute<ColumnAttribute>();
         if (column != null)
@@ -557,6 +543,23 @@ public class ColumnInfo
         var form = info.GetCustomAttribute<FormAttribute>();
         if (form != null)
             SetFormAttribute(form);
+
+        SetColumnInfo(info);
+    }
+
+    internal void SetColumnInfo(PropertyInfo info)
+    {
+        if (info == null)
+            return;
+
+        Type = info.GetFieldType();
+        DisplayName = info.DisplayName();
+        if (string.IsNullOrWhiteSpace(Name))
+            Name = DisplayName ?? info.Name;
+
+        var category = info.Category();
+        if (!string.IsNullOrWhiteSpace(category))
+            Category = category;
     }
 
     private void SetColumnAttribute(ColumnAttribute attr)
