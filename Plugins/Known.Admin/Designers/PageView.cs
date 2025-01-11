@@ -181,7 +181,7 @@ class PageView : BaseView<PageInfo>
         });
     }
 
-    private void ShowActions(string type, string[] value, Action<string[]> onChange)
+    private void ShowActions(string type, List<string> value, Action<List<string>> onChange)
     {
         var title = Language[$"Designer.{type}"];
         ActionTable table = null;

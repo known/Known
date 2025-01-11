@@ -5,9 +5,9 @@ class ActionTable : BaseTable<ActionInfo>
     private List<ActionInfo> actions;
 
     [Parameter] public string Type { get; set; }
-    [Parameter] public string[] Value { get; set; }
+    [Parameter] public List<string> Value { get; set; }
 
-    public string[] Values => Table.DataSource?.Select(d => d.Id).ToArray();
+    public List<string> Values => Table.DataSource?.Select(d => d.Id).ToList();
 
     protected override async Task OnInitAsync()
     {

@@ -141,9 +141,9 @@ public class UIContext : Context
             return false;
 
         var hasButton = false;
-        if (param.Page.Tools != null && param.Page.Tools.Length > 0)
+        if (param.Page.Tools != null && param.Page.Tools.Count > 0)
             hasButton = param.Page.Tools.Contains(buttonId);
-        else if (param.Page.Actions != null && param.Page.Actions.Length > 0)
+        else if (param.Page.Actions != null && param.Page.Actions.Count > 0)
             hasButton = param.Page.Actions.Contains(buttonId);
         return hasButton;
     }

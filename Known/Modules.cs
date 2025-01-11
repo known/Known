@@ -165,12 +165,12 @@ public class PageInfo
     /// <summary>
     /// 取得或设置表格工具条按钮代码集合。
     /// </summary>
-    public string[] Tools { get; set; }
+    public List<string> Tools { get; set; } = [];
 
     /// <summary>
     /// 取得或设置表格行操作按钮代码集合。
     /// </summary>
-    public string[] Actions { get; set; }
+    public List<string> Actions { get; set; } = [];
 
     /// <summary>
     /// 取得或设置页面表格栏位信息列表。

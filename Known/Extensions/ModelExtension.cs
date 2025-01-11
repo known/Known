@@ -237,9 +237,9 @@ public static class ModelExtension
         var codes = new List<CodeInfo>();
         var param = info.GetTablePageParameter();
         var page = param?.Page;
-        if (page?.Tools != null && page?.Tools.Length > 0)
+        if (page?.Tools != null && page?.Tools.Count > 0)
             codes.AddRange(page?.Tools.Select(b => GetAction(info, b)));
-        if (page?.Actions != null && page?.Actions.Length > 0)
+        if (page?.Actions != null && page?.Actions.Count > 0)
             codes.AddRange(page?.Actions.Select(b => GetAction(info, b)));
         return codes;
     }

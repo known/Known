@@ -437,7 +437,7 @@ class CodeGenerator : ICodeGenerator
 
         var import = string.Empty;
         var export = string.Empty;
-        if (page.Tools != null && page.Tools.Length > 0)
+        if (page.Tools != null && page.Tools.Count > 0)
         {
             foreach (var item in page.Tools)
             {
@@ -462,7 +462,7 @@ class CodeGenerator : ICodeGenerator
             }
         }
 
-        if (page.Actions != null && page.Actions.Length > 0)
+        if (page.Actions != null && page.Actions.Count > 0)
         {
             foreach (var item in page.Actions)
             {
@@ -604,7 +604,7 @@ class CodeGenerator : ICodeGenerator
         if (HasDelete(page))
             sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> models);", pluralName, entity.Id);
 
-        if (page.Tools != null && page.Tools.Length > 0)
+        if (page.Tools != null && page.Tools.Count > 0)
         {
             foreach (var item in page.Tools)
             {
@@ -615,7 +615,7 @@ class CodeGenerator : ICodeGenerator
             }
         }
 
-        if (page.Actions != null && page.Actions.Length > 0)
+        if (page.Actions != null && page.Actions.Count > 0)
         {
             foreach (var item in page.Actions)
             {
@@ -678,7 +678,7 @@ class CodeGenerator : ICodeGenerator
             sb.AppendLine("    }");
         }
 
-        if (page.Tools != null && page.Tools.Length > 0)
+        if (page.Tools != null && page.Tools.Count > 0)
         {
             foreach (var item in page.Tools)
             {
@@ -698,7 +698,7 @@ class CodeGenerator : ICodeGenerator
             }
         }
 
-        if (page.Actions != null && page.Actions.Length > 0)
+        if (page.Actions != null && page.Actions.Count > 0)
         {
             foreach (var item in page.Actions)
             {

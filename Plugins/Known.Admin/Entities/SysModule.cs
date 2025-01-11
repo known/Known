@@ -147,13 +147,7 @@ public class SysModule : EntityBase
             Enabled = Enabled,
             Plugins = []
         };
-        info.Plugins.AddPlugin(new TablePageInfo
-        {
-            EntityData = EntityData,
-            FlowData = FlowData,
-            Page = Page,
-            Form = Form
-        });
+        info.Plugins.AddPlugin(ToTablePageInfo());
         return info;
     }
 
@@ -177,13 +171,18 @@ public class SysModule : EntityBase
             Data = this,
             Plugins = []
         };
-        info.Plugins.AddPlugin(new TablePageInfo
+        info.Plugins.AddPlugin(ToTablePageInfo());
+        return info;
+    }
+
+    private TablePageInfo ToTablePageInfo()
+    {
+        return new TablePageInfo
         {
             EntityData = EntityData,
             FlowData = FlowData,
             Page = Page,
             Form = Form
-        });
-        return info;
+        };
     }
 }

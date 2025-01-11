@@ -61,7 +61,7 @@ static class MenuExtension
         module.Plugins.AddPlugin(param);
     }
 
-    private static string[] GetUserButtons(string[] buttons, List<string> moduleIds, ModuleInfo module)
+    private static List<string> GetUserButtons(List<string> buttons, List<string> moduleIds, ModuleInfo module)
     {
         var datas = new List<string>();
         foreach (var item in buttons)
@@ -69,10 +69,10 @@ static class MenuExtension
             if (moduleIds.Contains($"b_{module.Id}_{item}"))
                 datas.Add(item);
         }
-        return [.. datas];
+        return datas;
     }
 
-    private static string[] GetUserActions(string[] actions, List<string> moduleIds, ModuleInfo module)
+    private static List<string> GetUserActions(List<string> actions, List<string> moduleIds, ModuleInfo module)
     {
         var datas = new List<string>();
         foreach (var item in actions)
@@ -80,7 +80,7 @@ static class MenuExtension
             if (moduleIds.Contains($"b_{module.Id}_{item}"))
                 datas.Add(item);
         }
-        return [.. datas];
+        return datas;
     }
 
     private static List<PageColumnInfo> GetUserColumns(List<PageColumnInfo> columns, List<string> moduleIds, ModuleInfo module)
