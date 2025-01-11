@@ -30,12 +30,7 @@ partial class AdminService
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
         var info = await Database.GetSystemAsync();
-        return new SystemDataInfo
-        {
-            System = info,
-            Version = Config.Version,
-            RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2)
-        };
+        return new SystemDataInfo { System = info };
     }
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)

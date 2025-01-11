@@ -25,6 +25,8 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(IsQuery = true)]
+    [Form]
     public string UserName { get; set; }
 
     /// <summary>
@@ -38,12 +40,15 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column]
+    [Form]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置英文名。
     /// </summary>
     [MaxLength(50)]
+    [Form]
     public string EnglishName { get; set; }
 
     /// <summary>
@@ -52,6 +57,8 @@ public class SysUser : EntityBase
     [Required]
     [MaxLength(50)]
     [Category(nameof(GenderType))]
+    [Column]
+    [Form]
     public string Gender { get; set; }
 
     /// <summary>
@@ -59,6 +66,7 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Phone, ErrorMessage = "固定电话格式不正确！")]
+    [Form]
     public string Phone { get; set; }
 
     /// <summary>
@@ -66,6 +74,8 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Mobile, ErrorMessage = "移动电话格式不正确！")]
+    [Column]
+    [Form]
     public string Mobile { get; set; }
 
     /// <summary>
@@ -73,18 +83,23 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Email, ErrorMessage = "电子邮件格式不正确！")]
+    [Column]
+    [Form]
     public string Email { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [Required]
+    [Column]
+    [Form]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
     [MaxLength(500)]
+    [Form]
     public string Note { get; set; }
 
     /// <summary>
@@ -119,6 +134,8 @@ public class SysUser : EntityBase
     /// 取得或设置角色。
     /// </summary>
     [MaxLength(500)]
+    [Column]
+    [Form]
     public string Role { get; set; }
 
     /// <summary>

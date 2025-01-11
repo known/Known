@@ -39,17 +39,18 @@ partial class AdminService
 {
     public Task<SystemInfo> GetSystemAsync()
     {
-        return Task.FromResult(new SystemInfo());
+        return Task.FromResult(GetSystem());
     }
 
     public Task<SystemInfo> GetProductAsync()
     {
-        return Task.FromResult(new SystemInfo());
+        return Task.FromResult(GetSystem());
     }
 
     public Task<SystemDataInfo> GetSystemDataAsync()
     {
-        return Task.FromResult(new SystemDataInfo());
+        var info = new SystemDataInfo { System = GetSystem() };
+        return Task.FromResult(info);
     }
 
     public Task<Result> SaveSystemAsync(SystemInfo info)
@@ -60,6 +61,14 @@ partial class AdminService
     public Task<Result> SaveProductKeyAsync(SystemInfo info)
     {
         return Result.SuccessAsync("保存成功！");
+    }
+
+    private static SystemInfo GetSystem()
+    {
+        return Config.System ?? new SystemInfo
+        {
+            AppName = Config.App.Name
+        };
     }
 }
 

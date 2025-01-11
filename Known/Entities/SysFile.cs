@@ -10,12 +10,14 @@ public class SysFile : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(IsQuery = true)]
     public string Category1 { get; set; }
 
     /// <summary>
     /// 取得或设置二级分类。
     /// </summary>
     [MaxLength(50)]
+    [Column]
     public string Category2 { get; set; }
 
     /// <summary>
@@ -23,12 +25,14 @@ public class SysFile : EntityBase
     /// </summary>
     [Required]
     [MaxLength(250)]
+    [Column(IsQuery = true)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置文件类型。
     /// </summary>
     [MaxLength(50)]
+    [Column]
     public string Type { get; set; }
 
     /// <summary>
@@ -41,6 +45,7 @@ public class SysFile : EntityBase
     /// 取得或设置文件大小。
     /// </summary>
     [Required]
+    [Column]
     public long Size { get; set; }
 
     /// <summary>
@@ -48,6 +53,7 @@ public class SysFile : EntityBase
     /// </summary>
     [Required]
     [MaxLength(250)]
+    [Column]
     public string SourceName { get; set; }
 
     /// <summary>
@@ -55,11 +61,13 @@ public class SysFile : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column]
     public string ExtName { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
+    [Column]
     public string Note { get; set; }
 
     /// <summary>

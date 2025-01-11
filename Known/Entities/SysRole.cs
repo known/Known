@@ -18,18 +18,24 @@ public class SysRole : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(IsQuery = true)]
+    [Form]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [Required]
+    [Column]
+    [Form]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
     [MaxLength(500)]
+    [Column]
+    [Form]
     public string Note { get; set; }
 
     /// <summary>

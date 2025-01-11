@@ -313,6 +313,15 @@ public class ImportFormInfo : FileFormInfo
 public class SystemDataInfo
 {
     /// <summary>
+    /// 构造函数。
+    /// </summary>
+    public SystemDataInfo()
+    {
+        Version = Config.Version;
+        RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2);
+    }
+
+    /// <summary>
     /// 取得或设置系统信息对象。
     /// </summary>
     public SystemInfo System { get; set; }

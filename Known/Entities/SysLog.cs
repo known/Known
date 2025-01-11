@@ -11,6 +11,7 @@ public class SysLog : EntityBase
     [Category(nameof(LogType))]
     [Required]
     [MaxLength(50)]
+    [Column(IsQuery = true, Type = FieldType.Select)]
     public string Type { get; set; }
 
     /// <summary>
@@ -18,10 +19,12 @@ public class SysLog : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column]
     public string Target { get; set; }
 
     /// <summary>
     /// 取得或设置操作内容。
     /// </summary>
+    [Column(IsQuery = true)]
     public string Content { get; set; }
 }

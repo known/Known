@@ -27,6 +27,16 @@ public static class TypeExtension
     }
 
     /// <summary>
+    /// 获取成员关联的Category特性的显示名称。
+    /// </summary>
+    /// <param name="member">成员对象。</param>
+    /// <returns>属性显示名称。</returns>
+    public static string Category(this MemberInfo member)
+    {
+        return member?.GetCustomAttribute<CategoryAttribute>()?.Category;
+    }
+
+    /// <summary>
     /// 判断成员是否允许匿名访问。
     /// </summary>
     /// <param name="member">成员对象。</param>
@@ -38,10 +48,15 @@ public static class TypeExtension
     #endregion
 
     #region Property
-    //public static bool IsRequired(this PropertyInfo property)
-    //{
-    //    return property?.GetCustomAttribute<RequiredAttribute>() is not null;
-    //}
+    /// <summary>
+    /// 获取属性是否关联的RequiredA特性。
+    /// </summary>
+    /// <param name="property">属性对象。</param>
+    /// <returns>是否必填。</returns>
+    public static bool IsRequired(this PropertyInfo property)
+    {
+        return property?.GetCustomAttribute<RequiredAttribute>() is not null;
+    }
 
     /// <summary>
     /// 获取属性关联的MinLength特性的长度。

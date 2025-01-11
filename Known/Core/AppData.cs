@@ -186,7 +186,7 @@ public sealed class AppData
     }
     #endregion
 
-    #region Private
+    #region Data
     internal static void LoadData()
     {
         if (!Enabled)
@@ -203,6 +203,9 @@ public sealed class AppData
             Data = OnParseData(bytes);
         else
             Data = ParseData(bytes);
+
+        // 加载新增菜单页面
+        LoadDefaultData();
     }
 
     /// <summary>
@@ -217,29 +220,6 @@ public sealed class AppData
                   ? OnFormatData(Data)
                   : FormatData(Data);
         File.WriteAllBytes(KmdPath, bytes);
-    }
-
-    private static void LoadDefaultData()
-    {
-        Data = new AppDataInfo();
-        Data.TopNavs = Config.Plugins.Where(p => p.IsNavComponent)
-                                     .OrderBy(p => p.Attribute.Sort)
-                                     .Select(p => new PluginInfo { Id = p.Id, Type = p.Id })
-                                     .ToList();
-        Data.Modules = Config.Modules;
-        foreach (var menu in Config.Menus)
-        {
-            var info = new ModuleInfo
-            {
-                Id = menu.Page.Name,
-                Name = menu.Name,
-                Icon = menu.Icon,
-                ParentId = menu.Parent,
-                Sort = menu.Sort,
-                Url = menu.Url
-            };
-            Data.Modules.Add(info);
-        }
     }
 
     private static AppDataInfo ParseData(byte[] bytes)
@@ -269,6 +249,137 @@ public sealed class AppData
             stream.Read(buffer, 0, buffer.Length);
             return buffer;
         }
+    }
+    #endregion
+
+    #region LoadDefaultData
+    private static void LoadDefaultData()
+    {
+        // 加载顶部导航
+        if (Data.TopNavs.Count == 0)
+            Data.TopNavs = LoadTopNavs();
+        // 加载配置的一级模块
+        LoadModules();
+        // 加载Menu特性的组件菜单
+        LoadMenus();
+    }
+
+    private static List<PluginInfo> LoadTopNavs()
+    {
+        return Config.Plugins.Where(p => p.IsNavComponent)
+                             .OrderBy(p => p.Attribute.Sort)
+                             .Select(p => new PluginInfo { Id = p.Id, Type = p.Id })
+                             .ToList();
+    }
+
+    private static void LoadModules()
+    {
+        foreach (var item in Config.Modules)
+        {
+            if (!Data.Modules.Exists(m => m.Id == item.Id))
+                Data.Modules.Add(item);
+        }
+    }
+
+    private static void LoadMenus()
+    {
+        foreach (var item in Config.Menus)
+        {
+            if (Data.Modules.Exists(m => m.Id == item.Page.Name))
+                continue;
+
+            var info = new ModuleInfo
+            {
+                Id = item.Page.Name,
+                Name = item.Name,
+                Icon = item.Icon,
+                ParentId = item.Parent,
+                Sort = item.Sort,
+                Url = item.Url
+            };
+            if (TypeHelper.IsSubclassOfGeneric(item.Page, typeof(BaseTablePage<>), out var types))
+                info.Plugins.AddPlugin(CreateTablePage(item.Page, types[0]));
+            Data.Modules.Add(info);
+        }
+    }
+
+    private static TablePageInfo CreateTablePage(Type pageType, Type entityType)
+    {
+        var info = new TablePageInfo
+        {
+            Page = new PageInfo { Type = pageType.FullName, ShowPager = true, PageSize = Config.App.DefaultPageSize },
+            Form = new FormInfo()
+        };
+        SetMethods(info, pageType);
+        SetProperties(info, entityType);
+        return info;
+    }
+
+    private static void SetMethods(TablePageInfo info, Type pageType)
+    {
+        var methods = pageType.GetMethods();
+        foreach (var item in methods)
+        {
+            if (item.GetCustomAttribute<ActionAttribute>() is not null)
+            {
+                if (item.GetParameters().Length == 0)
+                    info.Page.Tools.Add(item.Name);
+                else
+                    info.Page.Actions.Add(item.Name);
+            }
+        }
+    }
+
+    private static void SetProperties(TablePageInfo info, Type entityType)
+    {
+        var properties = TypeHelper.Properties(entityType);
+        foreach (var item in properties)
+        {
+            var column = item.GetCustomAttribute<ColumnAttribute>();
+            if (column != null)
+                SetPageColumns(info, item, column);
+
+            var form = item.GetCustomAttribute<FormAttribute>();
+            if (form != null)
+                SetFormFields(info, item, form);
+        }
+    }
+
+    private static void SetPageColumns(TablePageInfo info, PropertyInfo item, ColumnAttribute column)
+    {
+        info.Page.Columns.Add(new PageColumnInfo
+        {
+            Id = item.Name,
+            Name = item.DisplayName(),
+            Category = item.Category(),
+            IsSum = column.IsSum,
+            IsSort = column.IsSort,
+            DefaultSort = column.DefaultSort,
+            IsViewLink = column.IsViewLink,
+            IsQuery = column.IsQuery,
+            IsQueryAll = column.IsQueryAll,
+            Type = column.Type,
+            Fixed = column.Fixed,
+            Width = column.Width,
+            Align = column.Align
+        });
+    }
+
+    private static void SetFormFields(TablePageInfo info, PropertyInfo item, FormAttribute form)
+    {
+        info.Form.Fields.Add(new FormFieldInfo
+        {
+            Id = item.Name,
+            Name = item.DisplayName(),
+            Category = item.Category(),
+            Required = item.IsRequired(),
+            Row = form.Row,
+            Column = form.Column,
+            Type = Utils.ConvertTo<FieldType>(form.Type),
+            CustomField = form.CustomField,
+            ReadOnly = form.ReadOnly,
+            Placeholder = form.Placeholder
+        });
     }
     #endregion
 }

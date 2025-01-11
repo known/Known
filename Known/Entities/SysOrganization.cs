@@ -16,6 +16,8 @@ public class SysOrganization : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column]
+    [Form]
     public string Code { get; set; }
 
     /// <summary>
@@ -23,6 +25,8 @@ public class SysOrganization : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column]
+    [Form]
     public string Name { get; set; }
 
     /// <summary>
@@ -35,6 +39,8 @@ public class SysOrganization : EntityBase
     /// 取得或设置备注。
     /// </summary>
     [MaxLength(500)]
+    [Column]
+    [Form]
     public string Note { get; set; }
 
     /// <summary>
