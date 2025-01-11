@@ -8,10 +8,7 @@
 [Menu(Constants.System, "后台任务", "control", 4)]
 public class SysTaskList : BaseTablePage<SysTask>
 {
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -23,20 +20,20 @@ public class SysTaskList : BaseTablePage<SysTask>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysTask row) => Table.Delete(Admin.DeleteTasksAsync, row);
+    [Action] public void Delete(SysTask row) => Table.Delete(Admin.DeleteTasksAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Admin.DeleteTasksAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteTasksAsync);
 
     /// <summary>
     /// 批量重置后台任务。
     /// </summary>
-    public void Reset() => Table.SelectRows(Admin.ResetTasksAsync);
+    [Action] public void Reset() => Table.SelectRows(Admin.ResetTasksAsync);
 
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public Task Export() => Table.ExportDataAsync();
+    [Action] public Task Export() => Table.ExportDataAsync();
 }

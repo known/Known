@@ -8,10 +8,7 @@
 [Menu(Constants.System, "角色管理", "team", 2)]
 public class SysRoleList : BaseTablePage<SysRole>
 {
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -24,24 +21,24 @@ public class SysRoleList : BaseTablePage<SysRole>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    public void New() => Table.NewForm(Admin.SaveRoleAsync, new SysRole());
+    [Action] public void New() => Table.NewForm(Admin.SaveRoleAsync, new SysRole());
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(SysRole row) => Table.EditForm(Admin.SaveRoleAsync, row);
+    [Action] public void Edit(SysRole row) => Table.EditForm(Admin.SaveRoleAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysRole row) => Table.Delete(Admin.DeleteRolesAsync, row);
+    [Action] public void Delete(SysRole row) => Table.Delete(Admin.DeleteRolesAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Admin.DeleteRolesAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteRolesAsync);
 }
 
 class RoleForm : BaseForm<SysRole>
@@ -119,7 +116,8 @@ class RoleForm : BaseForm<SysRole>
         if (Model.IsView)
             tree.DisableCheckKeys = model.Modules.Select(m => m.Id).ToArray();
         tree.Data = model.Modules?.ToMenuItems(false);
-        tree.CheckedKeys = [.. Model.Data.MenuIds];
+        if (Model.Data.MenuIds != null)
+            tree.CheckedKeys = [.. Model.Data.MenuIds];
         return tree;
     }
 

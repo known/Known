@@ -7,20 +7,14 @@
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {
-    /// <summary>
-    /// 异步初始化表单。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
         Model = new FormModel<PwdFormInfo>(this, true) { Data = new PwdFormInfo() };
     }
 
-    /// <summary>
-    /// 构建表单内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.FormPage(() =>

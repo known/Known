@@ -8,10 +8,7 @@ public class EntityTablePage<TEntity> : BaseTablePage<TEntity> where TEntity : c
 {
     private IEntityService<TEntity> Service;
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         Table = new TableModel<TEntity>(this, TableColumnMode.Property);

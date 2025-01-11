@@ -6,28 +6,21 @@
 [StreamRendering]
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
-public class SysUserList : BasePage<SysUser>
+public class SysUserList : BaseTablePage<SysUser>
 {
     private List<SysOrganization> orgs;
     private SysOrganization currentOrg;
     private TreeModel Tree;
-    private TableModel<SysUser> Table;
+    private bool HasOrg => orgs != null && orgs.Count > 1;
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
 
         orgs = await Admin.GetOrganizationsAsync();
-        var hasOrg = orgs != null && orgs.Count > 1;
-        if (hasOrg)
+        if (HasOrg)
         {
-            Page.Type = PageType.Column;
-            Page.Spans = "28";
-
             currentOrg = orgs.FirstOrDefault(o => o.ParentId == "0");
             Tree = new TreeModel
             {
@@ -36,8 +29,6 @@ public class SysUserList : BasePage<SysUser>
                 OnNodeClick = OnNodeClickAsync,
                 SelectedKeys = [currentOrg.Id]
             };
-
-            Page.AddItem("kui-card kui-p10", BuildTree);
         }
 
         Table = new TableModel<SysUser>(this)
@@ -48,18 +39,27 @@ public class SysUserList : BasePage<SysUser>
         };
         Table.Toolbar.ShowCount = 6;
         Table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
-
-        Page.AddItem(BuildTable);
     }
 
-    /// <summary>
-    /// 异步刷新页面。
-    /// </summary>
-    /// <returns></returns>
-    public override Task RefreshAsync() => Table.RefreshAsync();
+    /// <inheritdoc />
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        if (HasOrg)
+        {
+            builder.Div("kui-row-28", () =>
+            {
+                builder.Div("kui-card kui-p10", () => builder.Tree(Tree));
+                base.BuildPage(builder);
+            });
+        }
+        else
+        {
+            base.BuildPage(builder);
+        }
+    }
 
-    private void BuildTree(RenderTreeBuilder builder) => builder.Tree(Tree);
-    private void BuildTable(RenderTreeBuilder builder) => builder.Table(Table);
+    /// <inheritdoc />
+    public override Task RefreshAsync() => Table.RefreshAsync();
 
     private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {
@@ -71,54 +71,54 @@ public class SysUserList : BasePage<SysUser>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    public void New() => Table.NewForm(Admin.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    [Action] public void New() => Table.NewForm(Admin.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(SysUser row) => Table.EditForm(Admin.SaveUserAsync, row);
+    [Action] public void Edit(SysUser row) => Table.EditForm(Admin.SaveUserAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysUser row) => Table.Delete(Admin.DeleteUsersAsync, row);
+    [Action] public void Delete(SysUser row) => Table.Delete(Admin.DeleteUsersAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Admin.DeleteUsersAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteUsersAsync);
 
     /// <summary>
     /// 批量重置用户默认密码。
     /// </summary>
-    public void ResetPassword() => Table.SelectRows(Admin.SetUserPwdsAsync, Language.Reset);
+    [Action] public void ResetPassword() => Table.SelectRows(Admin.SetUserPwdsAsync, Language.Reset);
 
     /// <summary>
     /// 批量切换用户所属部门。
     /// </summary>
-    public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
+    [Action] public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
 
     /// <summary>
     /// 批量启用用户。
     /// </summary>
-    public void Enable() => Table.SelectRows(Admin.EnableUsersAsync, Language.Enable);
+    [Action] public void Enable() => Table.SelectRows(Admin.EnableUsersAsync, Language.Enable);
 
     /// <summary>
     /// 批量禁用用户。
     /// </summary>
-    public void Disable() => Table.SelectRows(Admin.DisableUsersAsync, Language.Disable);
+    [Action] public void Disable() => Table.SelectRows(Admin.DisableUsersAsync, Language.Disable);
 
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public Task Import() => Table.ShowImportAsync();
+    [Action] public Task Import() => Table.ShowImportAsync();
 
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public Task Export() => Table.ExportDataAsync();
+    [Action] public Task Export() => Table.ExportDataAsync();
 
     private void OnChangeDepartment(List<SysUser> rows)
     {

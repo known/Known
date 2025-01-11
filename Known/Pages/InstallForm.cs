@@ -18,10 +18,7 @@ public class InstallForm : BaseForm<InstallInfo>
     /// </summary>
     [Parameter] public Action<InstallInfo> OnInstall { get; set; }
 
-    /// <summary>
-    /// 异步初始化安装表单。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -39,10 +36,7 @@ public class InstallForm : BaseForm<InstallInfo>
         Step.AddStep("AccountInfo", BuildAccount);
     }
 
-    /// <summary>
-    /// 构建安装表单内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         builder.Div("kui-install", () =>

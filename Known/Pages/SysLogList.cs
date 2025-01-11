@@ -8,10 +8,7 @@
 [Menu(Constants.System, "系统日志", "clock-circle", 6)]
 public class SysLogList : BaseTablePage<SysLog>
 {
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         var date = DateTime.Now.ToString("yyyy-MM-dd");
@@ -26,5 +23,5 @@ public class SysLogList : BaseTablePage<SysLog>
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public Task Export() => Table.ExportDataAsync();
+    [Action] public Task Export() => Table.ExportDataAsync();
 }

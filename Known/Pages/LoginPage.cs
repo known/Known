@@ -18,11 +18,7 @@ public class LoginPage : BaseComponent
     /// </summary>
     [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
 
-    /// <summary>
-    /// 登录组件呈现后，调用JS获取本地记忆的用户名。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -43,12 +39,12 @@ public class LoginPage : BaseComponent
     }
 
     /// <summary>
-    /// 登录提交前调用的验证虚方法。
+    /// 登录提交前调用的验证。
     /// </summary>
     protected virtual Task<bool> OnLoginingAsync() => Task.FromResult(true);
 
     /// <summary>
-    /// 登录提交成功后调用的虚方法。
+    /// 登录提交成功后调用。
     /// </summary>
     /// <param name="user">登录用户信息。</param>
     protected virtual async Task OnLoginedAsync(UserInfo user)
@@ -103,7 +99,7 @@ public class LoginPage : BaseComponent
     }
 
     /// <summary>
-    /// 调用身份认证提供者，异步设置当前登录用户信息
+    /// 调用身份认证提供者，异步设置当前登录用户信息。
     /// </summary>
     /// <param name="user">当前用户信息。</param>
     /// <returns></returns>

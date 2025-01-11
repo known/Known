@@ -13,10 +13,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private bool isAddCategory;
     private int total;
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -27,11 +24,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.Column(c => c.Category).Template((b, r) => b.Text(r.CategoryName));
     }
 
-    /// <summary>
-    /// 页面呈现后，调用后台数据。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -39,10 +32,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             await LoadCategoriesAsync();
     }
 
-    /// <summary>
-    /// 构建页面内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Div("kui-row-28", () =>
@@ -52,10 +42,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         });
     }
 
-    /// <summary>
-    /// 异步刷新页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         if (isAddCategory)
@@ -67,6 +54,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     /// <summary>
     /// 弹出添加类别对话框。
     /// </summary>
+    [Action]
     public void AddCategory()
     {
         isAddCategory = true;
@@ -84,29 +72,29 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    public void New() => NewForm(category, total);
+    [Action] public void New() => NewForm(category, total);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Admin.DeleteDictionariesAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteDictionariesAsync);
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(SysDictionary row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
+    [Action] public void Edit(SysDictionary row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysDictionary row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
+    [Action] public void Delete(SysDictionary row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
 
     /// <summary>
     /// 弹出数据导入对话框。
     /// </summary>
-    public Task Import() => Table.ShowImportAsync();
+    [Action] public Task Import() => Table.ShowImportAsync();
 
     private void BuildListBox(RenderTreeBuilder builder)
     {

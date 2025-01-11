@@ -13,19 +13,13 @@ public class ErrorPage : BasePage
     /// </summary>
     [Parameter] public string Code { get; set; }
 
-    /// <summary>
-    /// 获取标签页标题模板。
-    /// </summary>
-    /// <returns>标签页标题模板。</returns>
+    /// <inheritdoc />
     public override RenderFragment GetPageTitle()
     {
         return GetPageTitle("close-circle", Language?["Title.Error"]);
     }
 
-    /// <summary>
-    /// 呈现错误页面内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         UIConfig.Errors.TryGetValue(Code, out ErrorConfigInfo error);

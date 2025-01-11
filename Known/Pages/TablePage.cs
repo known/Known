@@ -11,10 +11,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
     /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
 
-    /// <summary>
-    /// 呈现表格页面组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)

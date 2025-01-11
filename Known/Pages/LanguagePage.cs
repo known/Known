@@ -7,10 +7,7 @@
 [DevPlugin("语言管理", "global", Sort = 1)]
 public class LanguagePage : BaseTablePage<LanguageInfo>
 {
-    /// <summary>
-    /// 异步初始化页面组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();

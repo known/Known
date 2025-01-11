@@ -6,33 +6,24 @@
 [StreamRendering]
 [Route("/sys/organizations")]
 [Menu(Constants.BaseData, "组织架构", "partition", 3)]
-public class SysOrganizationList : BasePage<SysOrganization>
+public class SysOrganizationList : BaseTablePage<SysOrganization>
 {
     private MenuInfo current;
-    private TreeModel tree;
-    private TableModel<SysOrganization> table;
+    private TreeModel Tree;
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
 
-        Page.Type = PageType.Column;
-        Page.Spans = "28";
-        Page.AddItem("kui-card kui-p10", BuildTree);
-        Page.AddItem(BuildTable);
-
-        tree = new TreeModel
+        Tree = new TreeModel
         {
             ExpandRoot = true,
             OnNodeClick = OnNodeClickAsync,
             OnModelChanged = OnTreeModelChangedAsync
         };
 
-        table = new TableModel<SysOrganization>(this)
+        Table = new TableModel<SysOrganization>(this)
         {
             FormTitle = row => $"{PageName} - {row.ParentName}",
             RowKey = r => r.Id,
@@ -41,41 +32,35 @@ public class SysOrganizationList : BasePage<SysOrganization>
         };
     }
 
-    /// <summary>
-    /// 页面呈现后，调用后台数据。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-row-28", () =>
+        {
+            builder.Div("kui-card kui-p10", () => builder.Tree(Tree));
+            base.BuildPage(builder);
+        });
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-            await tree.RefreshAsync();
+            await Tree.RefreshAsync();
     }
 
-    /// <summary>
-    /// 异步刷新页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
-        await tree.RefreshAsync();
-        await table.RefreshAsync();
-    }
-
-    private void BuildTree(RenderTreeBuilder builder) => builder.Tree(tree);
-    private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
-
-    private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
-    {
-        var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
-        var result = new PagingResult<SysOrganization>(data);
-        return Task.FromResult(result);
+        await Tree.RefreshAsync();
+        await Table.RefreshAsync();
     }
 
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
+    [Action]
     public void New()
     {
         if (current == null)
@@ -84,30 +69,30 @@ public class SysOrganizationList : BasePage<SysOrganization>
             return;
         }
 
-        table.NewForm(Admin.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
+        Table.NewForm(Admin.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(SysOrganization row) => table.EditForm(Admin.SaveOrganizationAsync, row);
+    [Action] public void Edit(SysOrganization row) => Table.EditForm(Admin.SaveOrganizationAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysOrganization row) => table.Delete(Admin.DeleteOrganizationsAsync, row);
+    [Action] public void Delete(SysOrganization row) => Table.Delete(Admin.DeleteOrganizationsAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => table.DeleteM(Admin.DeleteOrganizationsAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteOrganizationsAsync);
 
     private async Task OnNodeClickAsync(MenuInfo item)
     {
         current = item;
-        await table.RefreshAsync();
+        await Table.RefreshAsync();
     }
 
     private async Task<TreeModel> OnTreeModelChangedAsync()
@@ -115,10 +100,17 @@ public class SysOrganizationList : BasePage<SysOrganization>
         var datas = await Admin.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)
         {
-            tree.Data = datas.ToMenuItems(ref current);
-            tree.SelectedKeys = [current.Id];
-            await table.RefreshAsync();
+            Tree.Data = datas.ToMenuItems(ref current);
+            Tree.SelectedKeys = [current.Id];
+            await Table.RefreshAsync();
         }
-        return tree;
+        return Tree;
+    }
+
+    private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
+    {
+        var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
+        var result = new PagingResult<SysOrganization>(data);
+        return Task.FromResult(result);
     }
 }

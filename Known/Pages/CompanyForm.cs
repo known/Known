@@ -7,10 +7,7 @@
 [Menu(Constants.BaseData, "企业信息", "idcard", 1)]
 public class CompanyForm : BaseTabPage
 {
-    /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();

@@ -8,10 +8,7 @@
 [Menu(Constants.System, "系统附件", "file", 5)]
 public class SysFileList : BaseTablePage<SysFile>
 {
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -24,17 +21,17 @@ public class SysFileList : BaseTablePage<SysFile>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysFile row) => Table.Delete(Admin.DeleteFilesAsync, row);
+    [Action] public void Delete(SysFile row) => Table.Delete(Admin.DeleteFilesAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Admin.DeleteFilesAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteFilesAsync);
 
     /// <summary>
     /// 导出表格数据。
     /// </summary>
-    public Task Export() => Table.ExportDataAsync();
+    [Action] public Task Export() => Table.ExportDataAsync();
 
     private void BuildFileName(RenderTreeBuilder builder, SysFile row)
     {

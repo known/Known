@@ -7,10 +7,7 @@
 [DevPlugin("按钮管理", "border", Sort = 2)]
 public class ButtonPage : BaseTablePage<ButtonInfo>
 {
-    /// <summary>
-    /// 异步初始化页面组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();

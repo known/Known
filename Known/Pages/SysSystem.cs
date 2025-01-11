@@ -10,10 +10,7 @@ public class SysSystem : BaseTabPage
 {
     internal SystemDataInfo Model { get; private set; }
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -27,10 +24,7 @@ public class SysSystem : BaseTabPage
         }
     }
 
-    /// <summary>
-    /// 构建页面内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     internal Task<Result> SaveSystemAsync(SystemInfo info)

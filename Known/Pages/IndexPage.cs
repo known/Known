@@ -5,19 +5,13 @@
 /// </summary>
 public class IndexPage : BasePage
 {
-    /// <summary>
-    /// 获取页面标题内容。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     public override RenderFragment GetPageTitle()
     {
         return GetPageTitle("home", "首页");
     }
 
-    /// <summary>
-    /// 构建页面内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         var menu = Context.Current;

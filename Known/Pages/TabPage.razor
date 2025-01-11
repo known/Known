@@ -30,6 +30,7 @@
     [Parameter] public RenderFragment TabBottom { get; set; }
     [Parameter] public Func<string, Task> OnChange { get; set; }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
