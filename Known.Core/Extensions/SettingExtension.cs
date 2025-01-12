@@ -31,7 +31,12 @@ static class SettingExtension
         if (settings == null || settings.Count == 0)
             return [];
 
-        return settings.ToDictionary(k => k.BizType, v => v.DataAs<List<TableSettingInfo>>());
+        var dics = new Dictionary<string, List<TableSettingInfo>>();
+        foreach (var item in settings)
+        {
+            dics[item.BizType] = item.DataAs<List<TableSettingInfo>>();
+        }
+        return dics;
     }
 
     internal static async Task SaveSettingAsync(this Database db, SettingInfo info)
