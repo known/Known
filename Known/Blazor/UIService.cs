@@ -27,78 +27,32 @@ public class UIService(ModalService modalService, MessageService messageService,
     /// <returns></returns>
     internal Type GetInputType(Type dataType, FieldType fieldType)
     {
-        if (fieldType == FieldType.AutoComplete)
-            return typeof(AntAutoComplete);
-
-        if (fieldType == FieldType.Select)
-            return typeof(AntSelectCode);
-
-        if (fieldType == FieldType.CheckBox)
-            return typeof(Checkbox);
-
-        if (fieldType == FieldType.CheckList)
-            return typeof(AntCheckboxGroup);
-
-        if (fieldType == FieldType.RadioList)
-            return typeof(AntRadioGroup);
-
-        if (fieldType == FieldType.Password)
-            return typeof(InputPassword);
-
-        if (fieldType == FieldType.TextArea)
-            return typeof(AntTextArea);
-
-        if (dataType == typeof(bool))
-            return typeof(Switch);
-
-        if (dataType == typeof(short))
-            return typeof(AntNumber<short>);
-
-        if (dataType == typeof(short?))
-            return typeof(AntNumber<short?>);
-
-        if (dataType == typeof(int))
-            return typeof(AntNumber<int>);
-
-        if (dataType == typeof(int?))
-            return typeof(AntNumber<int?>);
-
-        if (dataType == typeof(long))
-            return typeof(AntNumber<long>);
-
-        if (dataType == typeof(long?))
-            return typeof(AntNumber<long?>);
-
-        if (dataType == typeof(float))
-            return typeof(AntNumber<float>);
-
-        if (dataType == typeof(float?))
-            return typeof(AntNumber<float?>);
-
-        if (dataType == typeof(double))
-            return typeof(AntNumber<double>);
-
-        if (dataType == typeof(double?))
-            return typeof(AntNumber<double?>);
-
-        if (dataType == typeof(decimal))
-            return typeof(AntNumber<decimal>);
-
-        if (dataType == typeof(decimal?))
-            return typeof(AntNumber<decimal?>);
-
-        if (dataType == typeof(DateTime))
-            return typeof(DatePicker<DateTime>);
-
-        if (dataType == typeof(DateTime?))
-            return typeof(AntDatePicker);
-
-        if (dataType == typeof(DateTimeOffset))
-            return typeof(DatePicker<DateTimeOffset>);
-
-        if (dataType == typeof(DateTimeOffset?))
-            return typeof(DatePicker<DateTimeOffset?>);
-
+        if (fieldType == FieldType.AutoComplete) return typeof(AntAutoComplete);
+        if (fieldType == FieldType.Select) return typeof(AntSelectCode);
+        if (fieldType == FieldType.CheckBox) return typeof(Checkbox);
+        if (fieldType == FieldType.CheckList) return typeof(AntCheckboxGroup);
+        if (fieldType == FieldType.RadioList) return typeof(AntRadioGroup);
+        if (fieldType == FieldType.Password) return typeof(InputPassword);
+        if (fieldType == FieldType.TextArea) return typeof(AntTextArea);
+        if (fieldType == FieldType.Date) return typeof(AntDatePicker);
+        if (fieldType == FieldType.DateTime) return typeof(AntDateTimePicker);
+        if (dataType == typeof(bool)) return typeof(Switch);
+        if (dataType == typeof(short)) return typeof(AntNumber<short>);
+        if (dataType == typeof(short?)) return typeof(AntNumber<short?>);
+        if (dataType == typeof(int)) return typeof(AntNumber<int>);
+        if (dataType == typeof(int?)) return typeof(AntNumber<int?>);
+        if (dataType == typeof(long)) return typeof(AntNumber<long>);
+        if (dataType == typeof(long?)) return typeof(AntNumber<long?>);
+        if (dataType == typeof(float)) return typeof(AntNumber<float>);
+        if (dataType == typeof(float?)) return typeof(AntNumber<float?>);
+        if (dataType == typeof(double)) return typeof(AntNumber<double>);
+        if (dataType == typeof(double?)) return typeof(AntNumber<double?>);
+        if (dataType == typeof(decimal)) return typeof(AntNumber<decimal>);
+        if (dataType == typeof(decimal?)) return typeof(AntNumber<decimal?>);
+        if (dataType == typeof(DateTime)) return typeof(DatePicker<DateTime>);
+        if (dataType == typeof(DateTime?)) return typeof(AntDatePicker);
+        if (dataType == typeof(DateTimeOffset)) return typeof(DatePicker<DateTimeOffset>);
+        if (dataType == typeof(DateTimeOffset?)) return typeof(DatePicker<DateTimeOffset?>);
         return typeof(AntInput);
         //return typeof(AntInput<>).MakeGenericType(dataType);
     }
