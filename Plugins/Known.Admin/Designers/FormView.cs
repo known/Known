@@ -6,7 +6,6 @@ class FormView : BaseView<FormInfo>
     private FormModel<Dictionary<string, object>> form;
     private TableModel<FormFieldInfo> list;
     private string codeForm;
-    private string htmlForm;
 
     [Parameter] public FlowInfo Flow { get; set; }
 
@@ -34,16 +33,6 @@ class FormView : BaseView<FormInfo>
         };
 
         tab.AddTab("Designer.Property", BuildProperty);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (IsCustomPage)
-        {
-            if (string.IsNullOrWhiteSpace(htmlForm))
-                htmlForm = await JS.HighlightAsync(codeForm, "html");
-        }
     }
 
     internal override async Task SetModelAsync(FormInfo model)
@@ -79,7 +68,7 @@ class FormView : BaseView<FormInfo>
         var path = Path.Combine(modulePath, "Pages", "Forms", $"{className}Form.razor");
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeForm));
-        BuildCode(builder, "page", path, htmlForm);
+        BuildCode(builder, "page", path, codeForm, "html");
     }
 
     private void BuildProperty(RenderTreeBuilder builder)
@@ -140,7 +129,6 @@ class FormView : BaseView<FormInfo>
         form.SetFormInfo(Model);
         form.InitColumns();
 
-        htmlForm = string.Empty;
         if (IsCustomPage)
             codeForm = Generator?.GetForm(Model, Module?.Entity);
     }

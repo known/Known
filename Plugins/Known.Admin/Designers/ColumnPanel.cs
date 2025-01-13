@@ -48,7 +48,11 @@ class ColumnPanel<TModel> : BaseComponent
     private void OnFieldChecked(FieldInfo field, bool isCheck)
     {
         if (!isCheck)
-            Designer.Fields.Remove(field);
+        {
+            var info = Designer.Fields.FirstOrDefault(f => f.Id == field.Id);
+            if (info != null)
+                Designer.Fields.Remove(info);
+        }
 
         var infos = new List<FieldInfo>();
         foreach (var item in fields)

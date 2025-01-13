@@ -1,0 +1,41 @@
+﻿@inherits BaseComponent
+
+<pre class="highlight kui-code @Class language-csharp">
+    <code>@markup</code>
+</pre>
+
+@code {
+    private MarkupString markup;
+    private string code;
+
+    /// <summary>
+    /// 取得或设置样式类。
+    /// </summary>
+    [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// 取得或设置代码。
+    /// </summary>
+    [Parameter] public string Code { get; set; }
+
+    /// <summary>
+    /// 取得或设置代码语言。
+    /// </summary>
+    [Parameter] public string Lang { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (code != Code)
+        {
+            Console.WriteLine(Lang);
+            code = Code;
+            var html = string.Empty;
+            if (!string.IsNullOrWhiteSpace(code))
+                html = await JS.HighlightAsync(code, Lang);
+            markup = new MarkupString(html);
+            await StateChangedAsync();
+        }
+    }
+}

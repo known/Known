@@ -36,13 +36,16 @@ class BaseView<TModel> : BaseComponent
         });
     }
 
-    protected void BuildCode(RenderTreeBuilder builder, string type, string path, string code)
+    protected void BuildCode(RenderTreeBuilder builder, string type, string path, string code, string lang = "csharp")
     {
         if (!string.IsNullOrWhiteSpace(path))
             builder.Div($"kui-code-path {type}", () => builder.Tag(path));
 
-        var html = $"<pre class=\"highlight kui-code {type} language-csharp\"><code>{code}</code></pre>";
-        builder.Markup(html);
+        builder.Component<KCodeView>()
+               .Set(c => c.Class, type)
+               .Set(c => c.Code, code)
+               .Set(c => c.Lang, lang)
+               .Build();
     }
 
     protected void BuildPropertyItem(RenderTreeBuilder builder, string label, Action<RenderTreeBuilder> template)

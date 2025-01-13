@@ -8,9 +8,6 @@ class PageView : BaseView<PageInfo>
     private string codePage;
     private string codeService;
     private string codeServiceI;
-    private string htmlPage;
-    private string htmlService;
-    private string htmlServiceI;
 
     protected override async Task OnInitAsync()
     {
@@ -59,21 +56,6 @@ class PageView : BaseView<PageInfo>
         }
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (IsCustomPage)
-        {
-            if (string.IsNullOrWhiteSpace(htmlPage))
-                htmlPage = await JS.HighlightAsync(codePage, "csharp");
-            if (string.IsNullOrWhiteSpace(htmlService))
-                htmlService = await JS.HighlightAsync(codeService, "csharp");
-            if (string.IsNullOrWhiteSpace(htmlServiceI))
-                htmlServiceI = await JS.HighlightAsync(codeServiceI, "csharp");
-            //await StateChangedAsync();
-        }
-    }
-
     internal override async Task SetModelAsync(PageInfo model)
     {
         await base.SetModelAsync(model);
@@ -97,7 +79,7 @@ class PageView : BaseView<PageInfo>
         var path = Path.Combine(modulePath, "Pages", $"{className}List.cs");
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
-        BuildCode(builder, "page", path, htmlPage);
+        BuildCode(builder, "page", path, codePage);
     }
 
     private void BuildService(RenderTreeBuilder builder)
@@ -107,7 +89,7 @@ class PageView : BaseView<PageInfo>
         var path = Path.Combine(modulePath, "Services", $"{className}Service.cs");
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
-        BuildCode(builder, "page", path, htmlService);
+        BuildCode(builder, "page", path, codeService);
     }
 
     private void BuildServiceI(RenderTreeBuilder builder)
@@ -117,7 +99,7 @@ class PageView : BaseView<PageInfo>
         var path = Path.Combine(modulePath, "Services", $"I{className}Service.cs");
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
-        BuildCode(builder, "page", path, htmlServiceI);
+        BuildCode(builder, "page", path, codeServiceI);
     }
 
     private void BuildProperty(RenderTreeBuilder builder)
@@ -226,9 +208,6 @@ class PageView : BaseView<PageInfo>
 
     private void SetSourceCode()
     {
-        htmlPage = string.Empty;
-        htmlService = string.Empty;
-        htmlServiceI = string.Empty;
         if (!IsCustomPage)
             return;
 
