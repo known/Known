@@ -56,7 +56,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 取得表格标签配置对象。
     /// </summary>
-    public TabModel Tab { get; } = new();
+    public TabModel Tab { get; } = new TabModel { IsFillHeight = true };
 
     /// <summary>
     /// 取得或设置树形表格子节点表达式。

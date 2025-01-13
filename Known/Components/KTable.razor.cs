@@ -36,7 +36,7 @@ partial class KTable<TItem> : BaseComponent
         try
         {
             await base.OnAfterRenderAsync(firstRender);
-            await JSRuntime.FillTableHeightAsync();
+            await JSRuntime.FillHeightAsync();
         }
         catch (Exception ex)
         {

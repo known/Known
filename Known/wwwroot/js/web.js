@@ -1,9 +1,10 @@
-﻿function K_AutoFillTableHeight(isResize) {
+﻿function K_AutoFillHeight(isResize) {
     if ($('.ant-modal-body .ant-table-body').length)
         return;
 
     var parent = $('.kui-nav-tabs').length ? '.ant-tabs-tabpane-active' : '.kui-body';
     var table = $(parent + ' .ant-table-body');
+    //console.log(parent);
     if (table.data('autofill') && !isResize)
         return;
 
@@ -34,7 +35,7 @@ var KUtils = {
 
 $(function () {
     $(window).resize(function () {
-        K_AutoFillTableHeight(true);
+        K_AutoFillHeight(true);
     });
 });
 

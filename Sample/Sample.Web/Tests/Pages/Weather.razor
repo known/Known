@@ -4,7 +4,19 @@
 
 <PageTitle>天气</PageTitle>
 
-<TablePage Model="model" />
+<TabPage PageName="天气" Query="model">
+    <TabContent>
+        <TabPane Key="Order" Tab="北京">
+            <KTable Model="model" />
+        </TabPane>
+        <TabPane Key="Distr" Tab="上海">
+            <KTable Model="model" />
+        </TabPane>
+    </TabContent>
+    <TabRight>
+        <KToolbar Model="model.Toolbar" />
+    </TabRight>
+</TabPage>
 
 @code {
     private TableModel<WeatherForecast> model;

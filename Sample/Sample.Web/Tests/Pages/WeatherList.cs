@@ -10,6 +10,14 @@ public class WeatherList : BaseTablePage<WeatherForecast>
         Table.ShowPager = true;
         Table.Name = "天气";
         Table.OnQuery = OnQueryWeatherForecastsAsync;
+
+        Table.Tab.AddTab("北京");
+        Table.Tab.AddTab("上海");
+        Table.Tab.OnChange = async t =>
+        {
+            UI.Info(t);
+            await RefreshAsync();
+        };
     }
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)

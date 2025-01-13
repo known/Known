@@ -51,7 +51,8 @@
             {
                 Model.Current = current;
                 Model.Change();
-                await JSRuntime.FillTableHeightAsync();
+                if (Model.IsFillHeight)
+                    await JSRuntime.FillHeightAsync();
             }
         }
         catch (Exception ex)

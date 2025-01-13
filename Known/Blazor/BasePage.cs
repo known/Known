@@ -96,7 +96,7 @@ public class BaseTabPage : BasePage
     /// <summary>
     /// 取得标签Web页面组件模型实例。
     /// </summary>
-    protected TabModel Tab { get; } = new();
+    protected TabModel Tab { get; } = new TabModel { IsFillHeight = true };
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()

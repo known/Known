@@ -37,7 +37,8 @@
         if (current != activeKey)
         {
             current = activeKey;
-            await OnChange?.Invoke(current);
+            if (OnChange != null)
+                await OnChange.Invoke(current);
         }
     }
 }

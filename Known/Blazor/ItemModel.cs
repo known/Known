@@ -49,6 +49,11 @@ public class ItemModel(string id, string title)
 public class TabModel
 {
     /// <summary>
+    /// 取得或设置是否执行自动填充高度脚本。
+    /// </summary>
+    public bool IsFillHeight { get; set; }
+
+    /// <summary>
     /// 取得或设置步骤CSS类名。
     /// </summary>
     public string Class { get; set; }

@@ -34,13 +34,14 @@ public static class JSExtension
     }
 
     /// <summary>
-    /// 异步自动填充页面表格高度。
+    /// 异步自动填充页面高度。
     /// </summary>
     /// <param name="js">JS运行时。</param>
+    /// <param name="isResize">是否重设大小。</param>
     /// <returns></returns>
-    public static ValueTask FillTableHeightAsync(this IJSRuntime js)
+    public static ValueTask FillHeightAsync(this IJSRuntime js, bool isResize = false)
     {
-        return js.InvokeVoidAsync("K_AutoFillTableHeight");
+        return js.InvokeVoidAsync("K_AutoFillHeight", isResize);
     }
 
     /// <summary>
