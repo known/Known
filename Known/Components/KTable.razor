@@ -25,7 +25,7 @@
             }
             else
             {
-                <Column Title="@titleIndex" DataIndex="@columnId" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="left">
+                <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
                 </Column>
             }
@@ -73,7 +73,7 @@
             else
             {
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
+                <Column Title="@title" TData="object" Width="@width"
                         Ellipsis ShowSorterTooltip="false" Fixed="@GetColumnFixPlacement(item.Fixed)"
                         Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                         Align="@GetColumnAlign(item.Align)">
