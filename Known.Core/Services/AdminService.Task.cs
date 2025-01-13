@@ -2,38 +2,42 @@
 
 partial class AdminService
 {
-    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
+    public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria)
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(SysTask.CreateTime)} desc"];
-        return Database.QueryPageAsync<SysTask>(criteria);
+            criteria.OrderBys = [$"{nameof(TaskInfo.CreateTime)} desc"];
+        return Database.Query<SysTask>(criteria).ToPageAsync<TaskInfo>();
     }
 
-    public async Task<Result> DeleteTasksAsync(List<SysTask> models)
+    public async Task<Result> DeleteTasksAsync(List<TaskInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return await Database.TransactionAsync(Language.Delete, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                await db.DeleteAsync(item);
+                await db.DeleteAsync<SysTask>(item.Id);
             }
         });
     }
 
-    public async Task<Result> ResetTasksAsync(List<SysTask> models)
+    public async Task<Result> ResetTasksAsync(List<TaskInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return await Database.TransactionAsync(Language.Reset, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                item.Status = TaskJobStatus.Pending;
-                await db.SaveAsync(item);
+                var task = await db.QueryByIdAsync<SysTask>(item.Id);
+                if (task != null)
+                {
+                    task.Status = TaskJobStatus.Pending;
+                    await db.SaveAsync(task);
+                }
             }
         });
     }

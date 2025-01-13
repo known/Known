@@ -3,7 +3,7 @@
 /// <summary>
 /// 工作流程记录表格组件类。
 /// </summary>
-public class FlowLogGrid : BaseTable<SysFlowLog>
+public class FlowLogGrid : BaseTable<FlowLogInfo>
 {
     /// <summary>
     /// 取得或设置业务数据ID。
@@ -27,9 +27,9 @@ public class FlowLogGrid : BaseTable<SysFlowLog>
         Table.AddColumn(c => c.Note);
     }
 
-    private Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
+    private Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
-        criteria.SetQuery(nameof(SysFlowLog.BizId), QueryType.Equal, BizId ?? "0");
+        criteria.SetQuery(nameof(FlowLogInfo.BizId), QueryType.Equal, BizId ?? "0");
         return Admin.QueryFlowLogsAsync(criteria);
     }
 }

@@ -96,6 +96,15 @@ public static class FileExtension
         await db.DeleteAsync(item);
     }
 
+    internal static async Task DeleteFileAsync(this Database db, AttachInfo item, List<string> oldFiles)
+    {
+        oldFiles.Add(item.Path);
+        if (!string.IsNullOrWhiteSpace(item.ThumbPath))
+            oldFiles.Add(item.ThumbPath);
+
+        await db.DeleteFileAsync(item.Id);
+    }
+
     private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
     {
         await attach.SaveAsync();

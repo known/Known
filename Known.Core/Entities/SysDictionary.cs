@@ -18,7 +18,6 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column]
     public string Category { get; set; }
 
     /// <summary>
@@ -32,39 +31,29 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Required]
     [MaxLength(100)]
-    [Column(IsQuery = true)]
-    [Form]
     public string Code { get; set; }
 
     /// <summary>
     /// 取得或设置名称。
     /// </summary>
     [MaxLength(150)]
-    [Column(IsQuery = true)]
-    [Form]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置顺序。
     /// </summary>
     [Required]
-    [Column]
-    [Form]
     public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [Required]
-    [Column]
-    [Form]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column]
-    [Form(Type = nameof(FieldType.TextArea))]
     public string Note { get; set; }
 
     /// <summary>

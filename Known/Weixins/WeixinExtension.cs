@@ -13,17 +13,12 @@ public static class WeixinExtension
     /// <returns></returns>
     public static async Task ShowWeixinQRCodeAsync(this BasePage page, QRCodeOption option)
     {
-        var user = page.CurrentUser;
-        var weixin = await page.Admin.GetWeixinAsync(user.Id);
-        if (weixin == null || !weixin.IsWeixinAuth)
+        var qrCodeUrl = await page.Admin.GetQRCodeUrlAsync(option.SceneId);
+        if (string.IsNullOrWhiteSpace(qrCodeUrl))
             return;
 
-        if (weixin.User == null)
-        {
-            //扫码场景ID：{场景ID}_{用户ID}
-            var qrCodeUrl = await page.Admin.GetQRCodeUrlAsync($"{option.SceneId}_{user.Id}");
-            ShowWeixinQRCode(page, option, qrCodeUrl, user);
-        }
+        var user = page.CurrentUser;
+        ShowWeixinQRCode(page, option, qrCodeUrl, user);
     }
 
     private static void ShowWeixinQRCode(BasePage page, QRCodeOption option, string qrCodeUrl, UserInfo user)

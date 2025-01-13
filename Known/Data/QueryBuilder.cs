@@ -219,18 +219,6 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
         return provider.FormatName(pi.Name);
     }
 
-    private QueryBuilder<T> AddSelect(string name, string asName = null)
-    {
-        var select = name;
-        if (!string.IsNullOrWhiteSpace(asName))
-        {
-            var nameAs = provider.FormatName(asName);
-            select += $" as {nameAs}";
-        }
-        selects.Add(select);
-        return this;
-    }
-
     private CommandInfo GetCountCommand()
     {
         var sb = provider.Sql.SelectCount().From<T>();

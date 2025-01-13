@@ -106,7 +106,7 @@ partial class AdminService
             Type = form.BizType,
             Name = form.BizName,
             Target = "",
-            Status = Core.TaskJobStatus.Pending
+            Status = TaskJobStatus.Pending
         };
     }
 

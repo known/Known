@@ -17,7 +17,6 @@ public class SysTask : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
     public string Type { get; set; }
 
     /// <summary>
@@ -25,13 +24,11 @@ public class SysTask : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置执行目标。
     /// </summary>
-    [Column]
     public string Target { get; set; }
 
     /// <summary>
@@ -40,24 +37,20 @@ public class SysTask : EntityBase
     [Category(nameof(TaskJobStatus))]
     [Required]
     [MaxLength(50)]
-    [Column]
     public string Status { get; set; }
 
     /// <summary>
     /// 取得或设置开始时间。
     /// </summary>
-    [Column]
     public DateTime? BeginTime { get; set; }
 
     /// <summary>
     /// 取得或设置结束时间。
     /// </summary>
-    [Column]
     public DateTime? EndTime { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column]
     public string Note { get; set; }
 }

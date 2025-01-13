@@ -2,15 +2,15 @@
 
 partial class AdminService
 {
-    public Task<Result> AddLogAsync(LogInfo log)
+    public Task<Result> AddLogAsync(LogInfo info)
     {
-        return Database.AddLogAsync(log);
+        return Database.AddLogAsync(info);
     }
 
-    public Task<PagingResult<SysLog>> QueryLogsAsync(PagingCriteria criteria)
+    public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria)
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(SysLog.CreateTime)} desc"];
-        return Database.QueryPageAsync<SysLog>(criteria);
+            criteria.OrderBys = [$"{nameof(LogInfo.CreateTime)} desc"];
+        return Database.Query<SysLog>(criteria).ToPageAsync<LogInfo>();
     }
 }

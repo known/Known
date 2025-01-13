@@ -6,7 +6,7 @@
 [StreamRendering]
 [Route("/sys/files")]
 [Menu(Constants.System, "系统附件", "file", 5)]
-public class SysFileList : BaseTablePage<SysFile>
+public class SysFileList : BaseTablePage<AttachInfo>
 {
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -21,7 +21,7 @@ public class SysFileList : BaseTablePage<SysFile>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(SysFile row) => Table.Delete(Admin.DeleteFilesAsync, row);
+    [Action] public void Delete(AttachInfo row) => Table.Delete(Admin.DeleteFilesAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
@@ -33,13 +33,13 @@ public class SysFileList : BaseTablePage<SysFile>
     /// </summary>
     [Action] public Task Export() => Table.ExportDataAsync();
 
-    private void BuildFileName(RenderTreeBuilder builder, SysFile row)
+    private void BuildFileName(RenderTreeBuilder builder, AttachInfo row)
     {
         var info = Utils.MapTo<AttachInfo>(row);
         builder.FileLink(info);
     }
 
-    private void BuildFileSize(RenderTreeBuilder builder, SysFile row)
+    private void BuildFileSize(RenderTreeBuilder builder, AttachInfo row)
     {
         var size = Utils.Round(row.Size / 1024M, 0);
         builder.Span($"{size} KB");

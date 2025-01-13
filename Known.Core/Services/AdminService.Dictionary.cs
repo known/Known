@@ -13,47 +13,59 @@ partial class AdminService
     {
         var categories = await Database.Query<SysDictionary>()
                                        .Where(d => d.Enabled && d.Category == Constants.DicCategory)
-                                       .OrderBy(d => d.Sort).ToListAsync();
+                                       .OrderBy(d => d.Sort)
+                                       .ToListAsync();
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
     }
 
-    public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
+    public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [nameof(SysDictionary.Sort)];
-        return Database.QueryPageAsync<SysDictionary>(criteria);
+            criteria.OrderBys = [nameof(DictionaryInfo.Sort)];
+        return Database.Query<SysDictionary>(criteria).ToPageAsync<DictionaryInfo>();
     }
 
-    public async Task<Result> DeleteDictionariesAsync(List<SysDictionary> models)
+    public async Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        foreach (var model in models)
+        foreach (var item in infos)
         {
-            if (await database.ExistsAsync<SysDictionary>(d => d.Category == model.Code))
+            if (await database.ExistsAsync<DictionaryInfo>(d => d.Category == item.Code))
                 return Result.Error(Language["Tip.DicDeleteExistsChild"]);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
                 await db.DeleteAsync<SysDictionary>(d => d.CompNo == db.User.CompNo && d.Category == item.Code);
-                await db.DeleteAsync(item);
+                await db.DeleteAsync<SysDictionary>(item.Id);
             }
         });
     }
 
-    public async Task<Result> SaveDictionaryAsync(SysDictionary model)
+    public async Task<Result> SaveDictionaryAsync(DictionaryInfo info)
     {
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysDictionary>(info.Id);
+        model ??= new SysDictionary();
         model.CompNo = CurrentUser.CompNo;
+        model.Category = info.Category;
+        model.CategoryName = info.CategoryName;
+        model.Code = info.Code;
+        model.Name = info.Name;
+        model.Sort = info.Sort;
+        model.Enabled = info.Enabled;
+        model.Note = info.Note;
+        model.Child = info.Child;
+
         var vr = model.Validate(Context);
         if (!vr.IsValid)
             return vr;
 
-        var database = Database;
         var exists = await database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
         if (exists)
             return Result.Error(Language["Tip.DicCodeExists"]);

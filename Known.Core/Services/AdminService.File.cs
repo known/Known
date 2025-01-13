@@ -7,32 +7,32 @@ partial class AdminService
         return Database.GetFilesAsync(bizId);
     }
 
-    public async Task<Result> DeleteFileAsync(AttachInfo file)
+    public async Task<Result> DeleteFileAsync(AttachInfo info)
     {
-        if (file == null || string.IsNullOrWhiteSpace(file.Path))
+        if (info == null || string.IsNullOrWhiteSpace(info.Path))
             return Result.Error(Language["Tip.FileNotExists"]);
 
-        await Database.DeleteFileAsync(file.Id);
-        AttachFile.DeleteFile(file.Path);
+        await Database.DeleteFileAsync(info.Id);
+        AttachFile.DeleteFile(info.Path);
         return Result.Success(Language.Success(Language.Delete));
     }
 
-    public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria)
+    public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria)
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(SysFile.CreateTime)} desc"];
-        return Database.QueryPageAsync<SysFile>(criteria);
+            criteria.OrderBys = [$"{nameof(AttachInfo.CreateTime)} desc"];
+        return Database.Query<SysFile>(criteria).ToPageAsync<AttachInfo>();
     }
 
-    public async Task<Result> DeleteFilesAsync(List<SysFile> models)
+    public async Task<Result> DeleteFilesAsync(List<AttachInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var oldFiles = new List<string>();
         var result = await Database.TransactionAsync(Language.Delete, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
                 await db.DeleteFileAsync(item, oldFiles);
             }

@@ -6,7 +6,7 @@
 [StreamRendering]
 [Route("/sys/tasks")]
 [Menu(Constants.System, "后台任务", "control", 4)]
-public class SysTaskList : BaseTablePage<SysTask>
+public class SysTaskList : BaseTablePage<TaskInfo>
 {
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -20,7 +20,7 @@ public class SysTaskList : BaseTablePage<SysTask>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(SysTask row) => Table.Delete(Admin.DeleteTasksAsync, row);
+    [Action] public void Delete(TaskInfo row) => Table.Delete(Admin.DeleteTasksAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。

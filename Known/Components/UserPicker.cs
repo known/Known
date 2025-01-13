@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统用户弹窗选择器组件类。
 /// </summary>
-public class UserPicker : TablePicker<SysUser>, ICustomField
+public class UserPicker : TablePicker<UserInfo>, ICustomField
 {
     /// <inheritdoc />
     protected override async Task OnInitAsync()
@@ -22,7 +22,7 @@ public class UserPicker : TablePicker<SysUser>, ICustomField
     }
 
     /// <inheritdoc />
-    protected override void OnValueChanged(List<SysUser> items)
+    protected override void OnValueChanged(List<UserInfo> items)
     {
         var value = SelectType == TableSelectType.Checkbox
                   ? string.Join(",", items.Select(d => d.UserName))

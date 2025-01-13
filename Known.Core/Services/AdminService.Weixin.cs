@@ -4,7 +4,19 @@ partial class AdminService
 {
     internal const string KeyWeixin = "WeixinInfo";
 
-    public Task<string> GetQRCodeUrlAsync(string sceneId) => WeixinApi.GetQRCodeUrlAsync(sceneId);
+    public async Task<string> GetQRCodeUrlAsync(string sceneId)
+    {
+        var user = CurrentUser;
+        var weixin = await GetWeixinAsync(user.Id);
+        if (weixin == null || !weixin.IsWeixinAuth)
+            return string.Empty;
+
+        if (weixin.User != null)
+            return string.Empty;
+
+        //扫码场景ID：{场景ID}_{用户ID}
+        return await WeixinApi.GetQRCodeUrlAsync($"{sceneId}_{user.Id}");
+    }
 
     #region Weixin
     public async Task<WeixinInfo> GetWeixinAsync(string userId)
@@ -12,13 +24,13 @@ partial class AdminService
         var database = Database;
         var info = await database.GetConfigAsync<WeixinInfo>(KeyWeixin);
         if (info != null && !string.IsNullOrWhiteSpace(userId))
-            info.User = await database.GetWeixinAsync(userId);
+            info.User = await database.GetWeixinUserAsync(userId);
         return info;
     }
 
-    public async Task<Result> SaveWeixinAsync(WeixinInfo model)
+    public async Task<Result> SaveWeixinAsync(WeixinInfo info)
     {
-        await Database.SaveConfigAsync(KeyWeixin, model);
+        await Database.SaveConfigAsync(KeyWeixin, info);
         return Result.Success(Language.Success(Language.Save));
     }
 
@@ -27,9 +39,9 @@ partial class AdminService
     //    return WeixinHelper.GetWeixinByOpenIdAsync(Database, openId);
     //}
 
-    public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
+    public Task<WeixinUserInfo> GetWeixinByUserIdAsync(string userId)
     {
-        return Database.GetWeixinAsync(userId);
+        return Database.GetWeixinUserAsync(userId);
     }
     #endregion
 
@@ -43,17 +55,18 @@ partial class AdminService
     //    return WeixinApi.GetAuthorizeUrl(state);
     //}
 
-    public async Task<UserInfo> CheckWeixinAsync(UserInfo user)
+    public async Task<UserInfo> CheckWeixinAsync(UserInfo info)
     {
+        // 检查用户是否扫码关注成功
         var database = Database;
-        var weixin = await database.GetWeixinAsync(user.Token);
+        var weixin = await database.QueryAsync<SysWeixin>(d => d.UserId == info.Token);
         if (weixin == null)
             return null;
 
-        weixin.UserId = user.Id;
+        weixin.UserId = info.Id;
         await database.SaveAsync(weixin);
-        user.OpenId = weixin.OpenId;
-        return user;
+        info.OpenId = weixin.OpenId;
+        return info;
     }
     #endregion
 }

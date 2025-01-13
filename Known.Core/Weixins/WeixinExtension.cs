@@ -1,4 +1,4 @@
-﻿namespace Known.Extensions;
+﻿namespace Known.Weixins;
 
 /// <summary>
 /// 微信数据扩展类。
@@ -11,9 +11,9 @@ public static class WeixinExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="userId">系统用户ID。</param>
     /// <returns>微信信息。</returns>
-    public static Task<SysWeixin> GetWeixinAsync(this Database db, string userId)
+    public static Task<WeixinUserInfo> GetWeixinUserAsync(this Database db, string userId)
     {
-        return db.QueryAsync<SysWeixin>(d => d.UserId == userId);
+        return db.Query<SysWeixin>().Where(d => d.UserId == userId).FirstAsync<WeixinUserInfo>();
     }
 
     /// <summary>

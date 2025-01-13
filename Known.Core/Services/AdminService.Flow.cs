@@ -14,9 +14,9 @@ partial class AdminService
     private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);
     private string NotExecuteFlow(string user) => Language["Tip.NotExecuteFlow"].Replace("{user}", user);
 
-    public Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
+    public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
-        return Database.QueryPageAsync<SysFlowLog>(criteria);
+        return Database.Query<SysFlowLog>(criteria).ToPageAsync<FlowLogInfo>();
     }
 
     public async Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)

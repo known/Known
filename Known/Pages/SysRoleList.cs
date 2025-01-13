@@ -6,7 +6,7 @@
 [StreamRendering]
 [Route("/sys/roles")]
 [Menu(Constants.System, "角色管理", "team", 2)]
-public class SysRoleList : BaseTablePage<SysRole>
+public class SysRoleList : BaseTablePage<RoleInfo>
 {
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -22,19 +22,19 @@ public class SysRoleList : BaseTablePage<SysRole>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    [Action] public void New() => Table.NewForm(Admin.SaveRoleAsync, new SysRole());
+    [Action] public void New() => Table.NewForm(Admin.SaveRoleAsync, new RoleInfo());
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(SysRole row) => Table.EditForm(Admin.SaveRoleAsync, row);
+    [Action] public void Edit(RoleInfo row) => Table.EditForm(Admin.SaveRoleAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(SysRole row) => Table.Delete(Admin.DeleteRolesAsync, row);
+    [Action] public void Delete(RoleInfo row) => Table.Delete(Admin.DeleteRolesAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
@@ -42,7 +42,7 @@ public class SysRoleList : BaseTablePage<SysRole>
     [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteRolesAsync);
 }
 
-class RoleForm : BaseForm<SysRole>
+class RoleForm : BaseForm<RoleInfo>
 {
     private TreeModel tree;
     private MenuInfo current;

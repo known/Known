@@ -6,10 +6,10 @@
 [StreamRendering]
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
-public class SysUserList : BaseTablePage<SysUser>
+public class SysUserList : BaseTablePage<UserInfo>
 {
-    private List<SysOrganization> orgs;
-    private SysOrganization currentOrg;
+    private List<OrganizationInfo> orgs;
+    private OrganizationInfo currentOrg;
     private TreeModel Tree;
     private bool HasOrg => orgs != null && orgs.Count > 1;
 
@@ -31,7 +31,7 @@ public class SysUserList : BaseTablePage<SysUser>
             };
         }
 
-        Table = new TableModel<SysUser>(this)
+        Table = new TableModel<UserInfo>(this)
         {
             FormType = typeof(UserForm),
             RowKey = r => r.Id,
@@ -62,29 +62,29 @@ public class SysUserList : BaseTablePage<SysUser>
     /// <inheritdoc />
     public override Task RefreshAsync() => Table.RefreshAsync();
 
-    private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
+    private Task<PagingResult<UserInfo>> OnQueryUsersAsync(PagingCriteria criteria)
     {
         if (currentOrg != null)
-            criteria.Parameters[nameof(SysUser.OrgNo)] = currentOrg?.Id;
+            criteria.Parameters[nameof(UserInfo.OrgNo)] = currentOrg?.Id;
         return Admin.QueryUsersAsync(criteria);
     }
 
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    [Action] public void New() => Table.NewForm(Admin.SaveUserAsync, new SysUser { OrgNo = currentOrg?.Id });
+    [Action] public void New() => Table.NewForm(Admin.SaveUserAsync, new UserInfo { OrgNo = currentOrg?.Id });
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(SysUser row) => Table.EditForm(Admin.SaveUserAsync, row);
+    [Action] public void Edit(UserInfo row) => Table.EditForm(Admin.SaveUserAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(SysUser row) => Table.Delete(Admin.DeleteUsersAsync, row);
+    [Action] public void Delete(UserInfo row) => Table.Delete(Admin.DeleteUsersAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
@@ -121,9 +121,9 @@ public class SysUserList : BaseTablePage<SysUser>
     /// </summary>
     [Action] public Task Export() => Table.ExportDataAsync();
 
-    private void OnChangeDepartment(List<SysUser> rows)
+    private void OnChangeDepartment(List<UserInfo> rows)
     {
-        SysOrganization node = null;
+        OrganizationInfo node = null;
         var model = new DialogModel
         {
             Title = Language["Title.ChangeDepartment"],
@@ -135,7 +135,7 @@ public class SysUserList : BaseTablePage<SysUser>
                     Data = orgs.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as SysOrganization;
+                        node = n.Data as OrganizationInfo;
                         return Task.CompletedTask;
                     }
                 });
@@ -162,12 +162,12 @@ public class SysUserList : BaseTablePage<SysUser>
 
     private async Task OnNodeClickAsync(MenuInfo item)
     {
-        currentOrg = item.Data as SysOrganization;
+        currentOrg = item.Data as OrganizationInfo;
         await Table.RefreshAsync();
     }
 }
 
-class UserForm : BaseForm<SysUser>
+class UserForm : BaseForm<UserInfo>
 {
     protected override async Task OnInitFormAsync()
     {

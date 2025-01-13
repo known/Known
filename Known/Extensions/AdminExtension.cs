@@ -6,7 +6,7 @@ static class AdminExtension
     {
         return service?.AddLogAsync(new LogInfo
         {
-            Type = LogType.Page,
+            Type = nameof(LogType.Page),
             Target = context?.Current?.Name,
             Content = context?.Url
         });

@@ -6,7 +6,7 @@
 [StreamRendering]
 [Route("/sys/organizations")]
 [Menu(Constants.BaseData, "组织架构", "partition", 3)]
-public class SysOrganizationList : BaseTablePage<SysOrganization>
+public class SysOrganizationList : BaseTablePage<OrganizationInfo>
 {
     private MenuInfo current;
     private TreeModel Tree;
@@ -23,7 +23,7 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
             OnModelChanged = OnTreeModelChangedAsync
         };
 
-        Table = new TableModel<SysOrganization>(this)
+        Table = new TableModel<OrganizationInfo>(this)
         {
             FormTitle = row => $"{PageName} - {row.ParentName}",
             RowKey = r => r.Id,
@@ -69,20 +69,20 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
             return;
         }
 
-        Table.NewForm(Admin.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
+        Table.NewForm(Admin.SaveOrganizationAsync, new OrganizationInfo { ParentId = current?.Id, ParentName = current?.Name });
     }
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(SysOrganization row) => Table.EditForm(Admin.SaveOrganizationAsync, row);
+    [Action] public void Edit(OrganizationInfo row) => Table.EditForm(Admin.SaveOrganizationAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(SysOrganization row) => Table.Delete(Admin.DeleteOrganizationsAsync, row);
+    [Action] public void Delete(OrganizationInfo row) => Table.Delete(Admin.DeleteOrganizationsAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
@@ -107,10 +107,10 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
         return Tree;
     }
 
-    private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
+    private Task<PagingResult<OrganizationInfo>> OnQueryOrganizationsAsync(PagingCriteria criteria)
     {
-        var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
-        var result = new PagingResult<SysOrganization>(data);
+        var data = current?.Children?.Select(c => (OrganizationInfo)c.Data).ToList();
+        var result = new PagingResult<OrganizationInfo>(data);
         return Task.FromResult(result);
     }
 }

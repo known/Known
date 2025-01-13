@@ -7,7 +7,7 @@ public partial interface IAdminService
     /// </summary>
     /// <param name="criteria">查询条件对象。</param>
     /// <returns>分页结果。</returns>
-    Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria);
+    Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria);
 
     /// <summary>
     /// 异步获取流程配置信息。
@@ -62,9 +62,9 @@ public partial interface IAdminService
 
 partial class AdminService
 {
-    public Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
+    public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<SysFlowLog>());
+        return Task.FromResult(new PagingResult<FlowLogInfo>());
     }
 
     public Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)
@@ -105,9 +105,9 @@ partial class AdminService
 
 partial class AdminClient
 {
-    public Task<PagingResult<SysFlowLog>> QueryFlowLogsAsync(PagingCriteria criteria)
+    public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
-        return Http.QueryAsync<SysFlowLog>("/Admin/QueryFlowLogs", criteria);
+        return Http.QueryAsync<FlowLogInfo>("/Admin/QueryFlowLogs", criteria);
     }
 
     public Task<FlowInfo> GetFlowAsync(string moduleId, string bizId)

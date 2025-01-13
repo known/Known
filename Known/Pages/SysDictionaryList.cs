@@ -6,7 +6,7 @@
 [StreamRendering]
 [Route("/sys/dictionaries")]
 [Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
-public class SysDictionaryList : BaseTablePage<SysDictionary>
+public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 {
     private List<CodeInfo> categories;
     private CodeInfo category;
@@ -83,13 +83,13 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(SysDictionary row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
+    [Action] public void Edit(DictionaryInfo row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(SysDictionary row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
+    [Action] public void Delete(DictionaryInfo row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
 
     /// <summary>
     /// 弹出数据导入对话框。
@@ -114,12 +114,12 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         return Table.RefreshAsync();
     }
 
-    private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
+    private async Task<PagingResult<DictionaryInfo>> QueryDictionarysAsync(PagingCriteria criteria)
     {
         if (category == null)
             return default;
 
-        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
+        criteria.SetQuery(nameof(DictionaryInfo.Category), QueryType.Equal, category?.Code);
         var result = await Admin.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
@@ -142,7 +142,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         }
 
         isAddCategory = false;
-        Table.NewForm(Admin.SaveDictionaryAsync, new SysDictionary
+        Table.NewForm(Admin.SaveDictionaryAsync, new DictionaryInfo
         {
             Category = info?.Code,
             CategoryName = info?.Name,
@@ -151,7 +151,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     }
 }
 
-class CategoryGrid : BaseTable<SysDictionary>
+class CategoryGrid : BaseTable<DictionaryInfo>
 {
     private readonly CodeInfo category = new(Constants.DicCategory, Constants.DicCategory, Constants.DicCategory, null);
     private int total;
@@ -182,7 +182,7 @@ class CategoryGrid : BaseTable<SysDictionary>
 
     public void New()
     {
-        Table.NewForm(Admin.SaveDictionaryAsync, new SysDictionary
+        Table.NewForm(Admin.SaveDictionaryAsync, new DictionaryInfo
         {
             Category = category.Code,
             CategoryName = category.Name,
@@ -190,15 +190,15 @@ class CategoryGrid : BaseTable<SysDictionary>
         });
     }
 
-    public void Edit(SysDictionary row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
-    public void Delete(SysDictionary row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
+    public void Edit(DictionaryInfo row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
+    public void Delete(DictionaryInfo row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
 
-    private async Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
+    private async Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
     {
         if (category == null)
             return default;
 
-        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
+        criteria.SetQuery(nameof(DictionaryInfo.Category), QueryType.Equal, category?.Code);
         var result = await Admin.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;

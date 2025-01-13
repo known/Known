@@ -18,32 +18,16 @@ public class SysRole : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
-    [Form]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [Required]
-    [Column]
-    [Form]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column]
-    [Form(Type = nameof(FieldType.TextArea))]
     public string Note { get; set; }
-
-    /// <summary>
-    /// 取得或设置角色关联的模块列表。
-    /// </summary>
-    public virtual List<ModuleInfo> Modules { get; set; } = [];
-
-    /// <summary>
-    /// 取得或设置角色关联的菜单ID列表。
-    /// </summary>
-    public virtual List<string> MenuIds { get; set; } = [];
 }

@@ -2,35 +2,45 @@
 
 partial class AdminService
 {
-    public Task<List<SysOrganization>> GetOrganizationsAsync()
+    public Task<List<OrganizationInfo>> GetOrganizationsAsync()
     {
-        return Database.QueryListAsync<SysOrganization>(d => d.CompNo == CurrentUser.CompNo);
+        return Database.Query<SysOrganization>()
+                       .Where(d => d.CompNo == CurrentUser.CompNo)
+                       .ToListAsync<OrganizationInfo>();
     }
 
-    public async Task<Result> DeleteOrganizationsAsync(List<SysOrganization> models)
+    public async Task<Result> DeleteOrganizationsAsync(List<OrganizationInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        foreach (var model in models)
+        foreach (var item in infos)
         {
-            if (await database.ExistsAsync<SysOrganization>(d => d.ParentId == model.Id))
+            if (await database.ExistsAsync<SysOrganization>(d => d.ParentId == item.Id))
                 return Result.Error(Language["Tip.OrgDeleteExistsChild"]);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                await db.DeleteAsync(item);
+                await db.DeleteAsync<SysOrganization>(item.Id);
             }
         });
     }
 
-    public async Task<Result> SaveOrganizationAsync(SysOrganization model)
+    public async Task<Result> SaveOrganizationAsync(OrganizationInfo info)
     {
         var database = Database;
+        var model = await database.QueryByIdAsync<SysOrganization>(info.Id);
+        model ??= new SysOrganization();
+        model.ParentId = info.ParentId;
+        model.Code = info.Code;
+        model.Name = info.Name;
+        model.ManagerId = info.ManagerId;
+        model.Note = info.Note;
+
         var vr = model.Validate(Context);
         if (vr.IsValid)
         {
@@ -44,6 +54,6 @@ partial class AdminService
         {
             await db.SaveAsync(model);
             //PlatformHelper.SetBizOrganization(db, entity);
-        }, model);
+        }, info);
     }
 }

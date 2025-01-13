@@ -6,7 +6,7 @@
 [StreamRendering]
 [Route("/sys/logs")]
 [Menu(Constants.System, "系统日志", "clock-circle", 6)]
-public class SysLogList : BaseTablePage<SysLog>
+public class SysLogList : BaseTablePage<LogInfo>
 {
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()

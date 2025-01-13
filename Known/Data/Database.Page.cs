@@ -18,15 +18,25 @@ public partial class Database
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="criteria">查询条件对象。</param>
-    /// <param name="onExport">导出扩展字段委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
+    public virtual QueryPageBuilder Query<T>(PagingCriteria criteria) where T : class, new()
     {
         var sb = Provider?.Sql.SelectAll().From<T>();
         if (typeof(T).IsAssignableFrom(typeof(EntityBase)))
             sb?.Where(nameof(EntityBase.CompNo));
-        var sql = sb?.ToSqlString();
-        return QueryPageAsync(sql, criteria, onExport);
+        return new QueryPageBuilder(this) { Sql = sb?.ToSqlString(), Criteria = criteria };
+    }
+
+    /// <summary>
+    /// 异步查询分页数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <param name="onExport">导出扩展字段委托。</param>
+    /// <returns>分页查询结果。</returns>
+    public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
+    {
+        return Query<T>(criteria).ToPageAsync(onExport);
     }
 
     /// <summary>
@@ -104,7 +114,7 @@ public partial class Database
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-            
+
             watch.Watch("PagingResult");
             watch.WriteLog();
             return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
@@ -114,5 +124,26 @@ public partial class Database
             HandException(info, ex);
             return new PagingResult<T>();
         }
+    }
+}
+
+/// <summary>
+/// 分页查询建造者类。
+/// </summary>
+/// <param name="database">数据库访问对象。</param>
+public class QueryPageBuilder(Database database)
+{
+    internal string Sql { get; set; }
+    internal PagingCriteria Criteria { get; set; }
+
+    /// <summary>
+    /// 查询分页结果。
+    /// </summary>
+    /// <typeparam name="TItem">分页数据类型。</typeparam>
+    /// <param name="onExport">导出扩展字段委托。</param>
+    /// <returns></returns>
+    public Task<PagingResult<TItem>> ToPageAsync<TItem>(Func<TItem, ExportColumnInfo, object> onExport = null) where TItem : class, new()
+    {
+        return database.QueryPageAsync(Sql, Criteria, onExport);
     }
 }

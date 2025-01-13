@@ -25,8 +25,6 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
-    [Form(Row = 1, Column = 1)]
     public string UserName { get; set; }
 
     /// <summary>
@@ -40,15 +38,12 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column]
-    [Form(Row = 1, Column = 2)]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置英文名。
     /// </summary>
     [MaxLength(50)]
-    [Form(Row = 2, Column = 1)]
     public string EnglishName { get; set; }
 
     /// <summary>
@@ -57,8 +52,6 @@ public class SysUser : EntityBase
     [Required]
     [MaxLength(50)]
     [Category(nameof(GenderType))]
-    [Column]
-    [Form(Row = 2, Column = 2, Type = nameof(FieldType.RadioList))]
     public string Gender { get; set; }
 
     /// <summary>
@@ -66,7 +59,6 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Phone, ErrorMessage = "固定电话格式不正确！")]
-    [Form(Row = 3, Column = 1)]
     public string Phone { get; set; }
 
     /// <summary>
@@ -74,8 +66,6 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Mobile, ErrorMessage = "移动电话格式不正确！")]
-    [Column]
-    [Form(Row = 3, Column = 2)]
     public string Mobile { get; set; }
 
     /// <summary>
@@ -83,16 +73,12 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Email, ErrorMessage = "电子邮件格式不正确！")]
-    [Column]
-    [Form(Row = 4, Column = 1)]
     public string Email { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [Required]
-    [Column]
-    [Form(Row = 4, Column = 2)]
     public bool Enabled { get; set; }
 
     /// <summary>
@@ -132,31 +118,10 @@ public class SysUser : EntityBase
     /// 取得或设置角色。
     /// </summary>
     [MaxLength(500)]
-    [Column]
     public string Role { get; set; }
 
     /// <summary>
     /// 取得或设置数据。
     /// </summary>
     public string Data { get; set; }
-
-    /// <summary>
-    /// 取得或设置用户部门名称。
-    /// </summary>
-    public virtual string Department { get; set; }
-
-    /// <summary>
-    /// 取得或设置用户关联的角色ID集合。
-    /// </summary>
-    [Category("Roles")]
-    public virtual string[] RoleIds { get; set; }
-
-    // 取得或设置用户关联的数据权限ID集合。
-    //public virtual string[] DataIds { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统角色代码表列表。
-    /// </summary>
-    public virtual List<CodeInfo> Roles { get; set; }
-    //public virtual List<CodeInfo> Datas { get; set; }
 }

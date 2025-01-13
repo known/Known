@@ -12,23 +12,23 @@ public partial interface IAdminService
     /// <summary>
     /// 异步删除单条系统附件。
     /// </summary>
-    /// <param name="file">系统附件对象。</param>
+    /// <param name="info">系统附件对象。</param>
     /// <returns>删除结果。</returns>
-    Task<Result> DeleteFileAsync(AttachInfo file);
+    Task<Result> DeleteFileAsync(AttachInfo info);
 
     /// <summary>
     /// 异步分页查询系统附件。
     /// </summary>
     /// <param name="criteria">查询条件对象。</param>
     /// <returns>分页结果。</returns>
-    Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria);
+    Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria);
 
     /// <summary>
     /// 异步删除多条系统附件。
     /// </summary>
-    /// <param name="models">系统附件列表。</param>
+    /// <param name="infos">系统附件列表。</param>
     /// <returns>删除结果。</returns>
-    Task<Result> DeleteFilesAsync(List<SysFile> models);
+    Task<Result> DeleteFilesAsync(List<AttachInfo> infos);
 }
 
 partial class AdminService
@@ -38,17 +38,17 @@ partial class AdminService
         return Task.FromResult(new List<AttachInfo>());
     }
 
-    public Task<Result> DeleteFileAsync(AttachInfo file)
+    public Task<Result> DeleteFileAsync(AttachInfo info)
     {
         return Result.SuccessAsync("删除成功！");
     }
 
-    public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria)
+    public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<SysFile>());
+        return Task.FromResult(new PagingResult<AttachInfo>());
     }
 
-    public Task<Result> DeleteFilesAsync(List<SysFile> models)
+    public Task<Result> DeleteFilesAsync(List<AttachInfo> infos)
     {
         return Result.SuccessAsync("删除成功！");
     }
@@ -61,18 +61,18 @@ partial class AdminClient
         return Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
     }
 
-    public Task<Result> DeleteFileAsync(AttachInfo file)
+    public Task<Result> DeleteFileAsync(AttachInfo info)
     {
-        return Http.PostAsync("/Admin/DeleteFile", file);
+        return Http.PostAsync("/Admin/DeleteFile", info);
     }
 
-    public Task<PagingResult<SysFile>> QueryFilesAsync(PagingCriteria criteria)
+    public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria)
     {
-        return Http.QueryAsync<SysFile>("/Admin/QueryFiles", criteria);
+        return Http.QueryAsync<AttachInfo>("/Admin/QueryFiles", criteria);
     }
 
-    public Task<Result> DeleteFilesAsync(List<SysFile> models)
+    public Task<Result> DeleteFilesAsync(List<AttachInfo> infos)
     {
-        return Http.PostAsync("/Admin/DeleteFiles", models);
+        return Http.PostAsync("/Admin/DeleteFiles", infos);
     }
 }

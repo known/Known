@@ -3,7 +3,7 @@
 /// <summary>
 /// 授权验证面板组件类。
 /// </summary>
-class KAuthPanel : BaseComponent
+class AuthPanel : BaseComponent
 {
     /// <summary>
     /// 取得或设置组件子内容模板。

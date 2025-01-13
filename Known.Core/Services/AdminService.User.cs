@@ -2,7 +2,7 @@
 
 partial class AdminService
 {
-    public async Task<PagingResult<SysUser>> QueryUsersAsync(PagingCriteria criteria)
+    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
         var db = Database;
         var sql = $@"select a.*,b.Name as Department 
@@ -20,15 +20,15 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 criteria.RemoveQuery(orgNoId);
         }
         criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
-        return await db.QueryPageAsync<SysUser>(sql, criteria);
+        return await db.QueryPageAsync<UserInfo>(sql, criteria);
     }
 
-    public async Task<SysUser> GetUserDataAsync(string id)
+    public async Task<UserInfo> GetUserDataAsync(string id)
     {
         var database = Database;
         await database.OpenAsync();
-        var user = await database.QueryByIdAsync<SysUser>(id);
-        user ??= new SysUser();
+        var user = await database.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
+        user ??= new UserInfo();
         var roles = await database.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
         var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
         var roleIds = userRoles?.Select(r => r.RoleId).ToList();
@@ -40,68 +40,81 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         return user;
     }
 
-    public async Task<Result> DeleteUsersAsync(List<SysUser> models)
+    public async Task<Result> DeleteUsersAsync(List<UserInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return await Database.TransactionAsync(Language.Delete, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                await db.DeleteAsync(item);
+                await db.DeleteAsync<SysUser>(item.Id);
                 await db.DeleteAsync<SysUserRole>(d => d.UserId == item.Id);
             }
         });
     }
 
-    public async Task<Result> ChangeDepartmentAsync(List<SysUser> models)
+    public async Task<Result> ChangeDepartmentAsync(List<UserInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                await db.SaveAsync(item);
+                var model = await db.QueryByIdAsync<SysUser>(item.Id);
+                if (model != null)
+                {
+                    model.OrgNo = item.OrgNo;
+                    await db.SaveAsync(model);
+                }
             }
         });
     }
 
-    public async Task<Result> EnableUsersAsync(List<SysUser> models)
+    public async Task<Result> EnableUsersAsync(List<UserInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return await Database.TransactionAsync(Language.Enable, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                item.Enabled = true;
-                await db.SaveAsync(item);
+                var model = await db.QueryByIdAsync<SysUser>(item.Id);
+                if (model != null)
+                {
+                    model.Enabled = true;
+                    await db.SaveAsync(model);
+                }
             }
         });
     }
 
-    public async Task<Result> DisableUsersAsync(List<SysUser> models)
+    public async Task<Result> DisableUsersAsync(List<UserInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         return await Database.TransactionAsync(Language.Disable, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                item.Enabled = false;
-                await db.SaveAsync(item);
+                var model = await db.QueryByIdAsync<SysUser>(item.Id);
+                if (model != null)
+                {
+                    model.Enabled = false;
+                    await db.SaveAsync(model);
+                }
             }
         });
     }
 
-    public async Task<Result> SetUserPwdsAsync(List<SysUser> models)
+    public async Task<Result> SetUserPwdsAsync(List<UserInfo> infos)
     {
-        if (models == null || models.Count == 0)
+        if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
@@ -111,32 +124,37 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
 
         return await database.TransactionAsync(Language.Reset, async db =>
         {
-            foreach (var item in models)
+            foreach (var item in infos)
             {
-                item.Password = Utils.ToMd5(info.UserDefaultPwd);
-                await db.SaveAsync(item);
+                var model = await db.QueryByIdAsync<SysUser>(item.Id);
+                if (model != null)
+                {
+                    model.Password = Utils.ToMd5(info.UserDefaultPwd);
+                    await db.SaveAsync(model);
+                }
             }
         });
     }
 
-    public async Task<Result> SaveUserAsync(SysUser model)
+    public async Task<Result> SaveUserAsync(UserInfo info)
     {
         List<SysRole> roles = null;
         var database = Database;
-        if (model.RoleIds != null && model.RoleIds.Length > 0)
-            roles = await database.QueryListByIdAsync<SysRole>(model.RoleIds);
-        var user = CurrentUser;
+        if (info.RoleIds != null && info.RoleIds.Length > 0)
+            roles = await database.QueryListByIdAsync<SysRole>(info.RoleIds);
+
+        var model = await GetUserModelAsync(database, info);
         if (model.IsNew)
         {
-            var info = await database.GetSystemAsync();
-            if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
+            var sysInfo = await database.GetSystemAsync();
+            if (sysInfo == null || string.IsNullOrEmpty(sysInfo.UserDefaultPwd))
                 return Result.Error(Language["Tip.NoDefaultPwd"]);
 
-            model.Password = Utils.ToMd5(info.UserDefaultPwd);
+            model.Password = Utils.ToMd5(sysInfo.UserDefaultPwd);
         }
 
         if (string.IsNullOrWhiteSpace(model.OrgNo))
-            model.OrgNo = user.OrgNo;
+            model.OrgNo = CurrentUser.OrgNo;
         var vr = model.Validate(Context);
         if (vr.IsValid)
         {
@@ -163,6 +181,22 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 }
             }
             await db.SaveAsync(model);
-        }, model);
+        }, info);
+    }
+
+    private static async Task<SysUser> GetUserModelAsync(Database database, UserInfo info)
+    {
+        var model = await database.QueryByIdAsync<SysUser>(info.Id);
+        model ??= new SysUser();
+        model.UserName = info.UserName;
+        model.Name = info.Name;
+        model.EnglishName = info.EnglishName;
+        model.Gender = info.Gender;
+        model.Phone = info.Phone;
+        model.Mobile = info.Mobile;
+        model.Email = info.Email;
+        model.Enabled = info.Enabled;
+        model.Note = info.Note;
+        return model;
     }
 }

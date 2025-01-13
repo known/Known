@@ -21,7 +21,7 @@ public partial interface IAdminService
     /// </summary>
     /// <param name="userId">系统用户ID。</param>
     /// <returns>微信用户信息。</returns>
-    Task<SysWeixin> GetWeixinByUserIdAsync(string userId);
+    Task<WeixinUserInfo> GetWeixinByUserIdAsync(string userId);
 
     /// <summary>
     /// 异步检查和关联系统微信用户。
@@ -50,9 +50,9 @@ partial class AdminService
         return Task.FromResult(new WeixinInfo());
     }
 
-    public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
+    public Task<WeixinUserInfo> GetWeixinByUserIdAsync(string userId)
     {
-        return Task.FromResult(new SysWeixin());
+        return Task.FromResult(new WeixinUserInfo());
     }
 
     public Task<UserInfo> CheckWeixinAsync(UserInfo info)
@@ -78,9 +78,9 @@ partial class AdminClient
         return Http.GetAsync<WeixinInfo>($"/Admin/GetWeixin?userId={userId}");
     }
 
-    public Task<SysWeixin> GetWeixinByUserIdAsync(string userId)
+    public Task<WeixinUserInfo> GetWeixinByUserIdAsync(string userId)
     {
-        return Http.GetAsync<SysWeixin>($"/Admin/GetWeixinByUserId?userId={userId}");
+        return Http.GetAsync<WeixinUserInfo>($"/Admin/GetWeixinByUserId?userId={userId}");
     }
 
     public Task<UserInfo> CheckWeixinAsync(UserInfo info)
