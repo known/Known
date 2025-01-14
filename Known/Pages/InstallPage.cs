@@ -3,20 +3,12 @@
 /// <summary>
 /// 安装页面表单组件类。
 /// </summary>
-public class InstallForm : BaseForm<InstallInfo>
+[Route("/install")]
+[Layout(typeof(EmptyLayout))]
+public class InstallPage : BaseForm<InstallInfo>
 {
     private readonly StepModel Step = new();
     private readonly Dictionary<string, FormDatabase> formDBs = [];
-
-    /// <summary>
-    /// 取得或设置页面组件顶部菜单模板。
-    /// </summary>
-    [Parameter] public RenderFragment TopMenu { get; set; }
-
-    /// <summary>
-    /// 取得或设置安装成功后回调方法。
-    /// </summary>
-    [Parameter] public Action<InstallInfo> OnInstall { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitFormAsync()
@@ -48,7 +40,6 @@ public class InstallForm : BaseForm<InstallInfo>
                     builder.Div().Class("kui-logo").Style("position:initial;height:55px;").Close();
                     builder.Div("kui-app-name", $"{Config.App.Name} - {Language["Install"]}");
                 });
-                builder.Fragment(TopMenu);
             });
             builder.Div("kui-install-body", () =>
             {
@@ -115,8 +106,6 @@ public class InstallForm : BaseForm<InstallInfo>
             var result = await Admin.SaveInstallAsync(Model.Data);
             UI.Result(result, () =>
             {
-                var info = result.DataAs<InstallInfo>();
-                OnInstall?.Invoke(info);
                 Navigation?.GoLoginPage();
                 return Task.CompletedTask;
             });
