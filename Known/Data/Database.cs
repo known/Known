@@ -76,7 +76,7 @@ public partial class Database : IDisposable
     {
         get
         {
-            provider ??= DbProvider.Create(DatabaseType);
+            provider ??= DbProvider.Create(this);
             return provider;
         }
     }
@@ -94,7 +94,7 @@ public partial class Database : IDisposable
         this.connName = connName;
         DatabaseType = setting.DatabaseType;
         ConnectionString = setting.ConnectionString;
-        provider = DbProvider.Create(DatabaseType);
+        provider = DbProvider.Create(this);
 
         var factory = DbProviderFactories.GetFactory(setting.DatabaseType.ToString());
         conn = factory.CreateConnection();

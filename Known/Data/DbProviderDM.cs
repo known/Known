@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class DMProvider : DbProvider
+class DMProvider(Database db) : DbProvider(db)
 {
     public override string Prefix => ":";
 

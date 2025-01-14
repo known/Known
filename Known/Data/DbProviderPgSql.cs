@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class PgSqlProvider : DbProvider
+class PgSqlProvider(Database db) : DbProvider(db)
 {
     //public override string FormatName(string name) => $"\"{name}\"";
     public override object FormatDate(string date) => DateTime.Parse(date);

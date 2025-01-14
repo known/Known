@@ -1,9 +1,23 @@
 ﻿namespace Known.Data;
 
-class MySqlProvider : DbProvider
+class MySqlProvider(Database db) : DbProvider(db)
 {
     internal override string GetTableSql(string dbName)
     {
+        if (string.IsNullOrWhiteSpace(dbName))
+        {
+            var items = Database.ConnectionString.Split(';');
+            foreach (var item in items)
+            {
+                var names = item?.Split('=');
+                if (names != null && names.Length > 1 && names[0] == "Initial Catalog")
+                {
+                    dbName = names[1];
+                    break;
+                }
+            }
+        }
+
         return $"SELECT table_name FROM information_schema.tables WHERE table_schema = '{dbName}' AND table_type = 'BASE TABLE';";
     }
 

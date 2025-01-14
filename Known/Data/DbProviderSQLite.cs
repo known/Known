@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class SQLiteProvider : DbProvider
+class SQLiteProvider(Database db) : DbProvider(db)
 {
     internal override string GetTableSql(string dbName)
     {

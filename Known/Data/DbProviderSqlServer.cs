@@ -1,6 +1,6 @@
 ﻿namespace Known.Data;
 
-class SqlServerProvider : DbProvider
+class SqlServerProvider(Database db) : DbProvider(db)
 {
     public override string FormatName(string name) => $"[{name}]";
 

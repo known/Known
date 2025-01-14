@@ -1,32 +1,32 @@
 ﻿namespace Known.Data;
 
-class DbProvider
+class DbProvider(Database db)
 {
-    internal static DbProvider Create(DatabaseType type)
+    internal static DbProvider Create(Database db)
     {
-        var builder = new DbProvider();
-        switch (type)
+        var builder = new DbProvider(db);
+        switch (db.DatabaseType)
         {
             case DatabaseType.Access:
-                builder = new AccessProvider();
+                builder = new AccessProvider(db);
                 break;
             case DatabaseType.SQLite:
-                builder = new SQLiteProvider();
+                builder = new SQLiteProvider(db);
                 break;
             case DatabaseType.SqlServer:
-                builder = new SqlServerProvider();
+                builder = new SqlServerProvider(db);
                 break;
             case DatabaseType.Oracle:
-                builder = new OracleProvider();
+                builder = new OracleProvider(db);
                 break;
             case DatabaseType.MySql:
-                builder = new MySqlProvider();
+                builder = new MySqlProvider(db);
                 break;
             case DatabaseType.PgSql:
-                builder = new PgSqlProvider();
+                builder = new PgSqlProvider(db);
                 break;
             case DatabaseType.DM:
-                builder = new DMProvider();
+                builder = new DMProvider(db);
                 break;
         }
         return builder;
@@ -35,6 +35,7 @@ class DbProvider
     private string IdName => FormatName(nameof(EntityBase.Id));
     private string CreateTimeName => FormatName(nameof(EntityBase.CreateTime));
 
+    internal Database Database { get; } = db;
     internal SqlBuilder Sql => new(this);
 
     public virtual string Prefix => "@";
