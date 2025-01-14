@@ -32,10 +32,10 @@ class DbProvider
         return builder;
     }
 
-    internal SqlBuilder Sql => new(this);
-
     private string IdName => FormatName(nameof(EntityBase.Id));
     private string CreateTimeName => FormatName(nameof(EntityBase.CreateTime));
+
+    internal SqlBuilder Sql => new(this);
 
     public virtual string Prefix => "@";
     public virtual string FormatName(string name) => name;
@@ -173,6 +173,9 @@ class DbProvider
         }
         return new CommandInfo(this, sql, paramters);
     }
+
+    internal virtual string GetTableSql(string dbName) => "";
+    internal virtual string GetTableScript(string tableName, DbModelInfo info) => "";
 
     internal virtual string GetTopSql(int size, string text)
     {

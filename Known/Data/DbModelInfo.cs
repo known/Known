@@ -14,4 +14,14 @@ public class DbModelInfo
     /// 取得或设置主键字段列表。
     /// </summary>
     public List<string> Keys { get; set; }
+
+    internal List<FieldInfo> Fields { get; set; }
+
+    internal void InitFields()
+    {
+        Fields = Type.IsSubclassOf(typeof(EntityBase)) ? TypeHelper.GetBaseFields() : [];
+        var fields = TypeHelper.GetFields(Type);
+        if (fields != null && fields.Count > 0)
+            Fields.AddRange(fields);
+    }
 }

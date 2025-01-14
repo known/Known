@@ -1,6 +1,4 @@
-﻿using Known.Designers;
-
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 代码生成器接口。
@@ -71,38 +69,20 @@ class CodeGenerator : ICodeGenerator
         if (entity == null)
             return string.Empty;
 
-        var columns = new List<FieldInfo>
-        {
-            new() { Id = nameof(EntityBase.Id), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateBy), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateTime), Type = FieldType.DateTime, Required = true },
-            new() { Id = nameof(EntityBase.ModifyBy), Type = FieldType.Text, Length = "50" },
-            new() { Id = nameof(EntityBase.ModifyTime), Type = FieldType.DateTime },
-            new() { Id = nameof(EntityBase.Version), Type = FieldType.Number, Required = true },
-            new() { Id = nameof(EntityBase.Extension), Type = FieldType.Text },
-            new() { Id = nameof(EntityBase.AppId), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CompNo), Type = FieldType.Text, Length = "50", Required = true }
-        };
+        var columns = TypeHelper.GetBaseFields();
         columns.AddRange(entity.Fields);
 
         var maxLength = columns.Select(f => (f.Id ?? "").Length).Max();
-        switch (dbType)
+        return dbType switch
         {
-            case DatabaseType.Access:
-                return GetAccessScript(entity.Id, columns, maxLength);
-            case DatabaseType.SQLite:
-                return GetSQLiteScript(entity.Id, columns, maxLength);
-            case DatabaseType.SqlServer:
-                return GetSqlServerScript(entity.Id, columns, maxLength);
-            case DatabaseType.Oracle:
-                return GetOracleScript(entity.Id, columns, maxLength);
-            case DatabaseType.MySql:
-                return GetMySqlScript(entity.Id, columns, maxLength);
-            case DatabaseType.PgSql:
-                return GetPgSqlScript(entity.Id, columns, maxLength);
-            default:
-                return string.Empty;
-        }
+            DatabaseType.Access => GetAccessScript(entity.Id, columns, maxLength),
+            DatabaseType.SQLite => GetSQLiteScript(entity.Id, columns, maxLength),
+            DatabaseType.SqlServer => GetSqlServerScript(entity.Id, columns, maxLength),
+            DatabaseType.Oracle => GetOracleScript(entity.Id, columns, maxLength),
+            DatabaseType.MySql => GetMySqlScript(entity.Id, columns, maxLength),
+            DatabaseType.PgSql => GetPgSqlScript(entity.Id, columns, maxLength),
+            _ => string.Empty,
+        };
     }
 
     private static string GetAccessScript(string tableName, List<FieldInfo> columns, int maxLength)
@@ -260,7 +240,7 @@ class CodeGenerator : ICodeGenerator
             sb.AppendLine($"    {column} {type} {required}{comma}");
         }
         sb.AppendLine(");");
-        sb.AppendLine("alter table {0}{1} add constraint PK_{0} primary key(Id);", tableName);
+        sb.AppendLine("alter table {0} add constraint PK_{0} primary key(Id);", tableName);
         return sb.ToString();
     }
 

@@ -30,14 +30,9 @@ public static class DataExtension
         if (!exists)
         {
             Console.WriteLine("Table is initializing...");
-            var name = db.DatabaseType.ToString();
-            foreach (var item in Config.Assemblies)
+            foreach (var item in DbConfig.Models)
             {
-                var script = Utils.GetResource(item, $"{name}.sql");
-                if (string.IsNullOrWhiteSpace(script))
-                    continue;
-
-                await db.ExecuteAsync(script);
+                await db.CreateTableAsync(item);
             }
             Console.WriteLine("Table is initialized.");
         }

@@ -45,7 +45,7 @@ partial class AdminClient
 {
     public Task<InstallInfo> GetInstallAsync()
     {
-        return Http.GetAsync<InstallInfo>("/Admin/GetInstallData");
+        return Http.GetAsync<InstallInfo>("/Admin/GetInstall");
     }
 
     public Task<Result> TestConnectionAsync(DatabaseInfo info)

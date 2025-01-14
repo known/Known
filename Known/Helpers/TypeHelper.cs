@@ -44,36 +44,55 @@ public sealed class TypeHelper
         return codes;
     }
 
-    //internal static List<FieldInfo> GetFields(Type entityType, Language language)
-    //{
-    //    var fields = new List<FieldInfo>();
-    //    var properties = Properties(entityType);
-    //    if (properties == null || properties.Length == 0)
-    //        return fields;
+    /// <summary>
+    /// 获取实体基类字段信息列表。
+    /// </summary>
+    /// <returns></returns>
+    public static List<FieldInfo> GetBaseFields()
+    {
+        return
+        [
+            new() { Id = nameof(EntityBase.Id), Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateBy), Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateTime), Type = FieldType.DateTime, Required = true },
+            new() { Id = nameof(EntityBase.ModifyBy), Type = FieldType.Text, Length = "50" },
+            new() { Id = nameof(EntityBase.ModifyTime), Type = FieldType.DateTime },
+            new() { Id = nameof(EntityBase.Version), Type = FieldType.Number, Required = true },
+            new() { Id = nameof(EntityBase.Extension), Type = FieldType.Text },
+            new() { Id = nameof(EntityBase.AppId), Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CompNo), Type = FieldType.Text, Length = "50", Required = true }
+        ];
+    }
 
-    //    foreach (var item in properties)
-    //    {
-    //        if (item.Name == nameof(EntityBase.Id) ||
-    //            item.Name == nameof(EntityBase.Version) ||
-    //            item.Name == nameof(EntityBase.Extension) ||
-    //            item.Name == nameof(EntityBase.AppId) ||
-    //            item.Name == nameof(EntityBase.CompNo))
-    //            continue;
+    internal static List<FieldInfo> GetFields(Type entityType, Language language = null)
+    {
+        var fields = new List<FieldInfo>();
+        var properties = Properties(entityType);
+        if (properties == null || properties.Length == 0)
+            return fields;
 
-    //        if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
-    //        {
-    //            var name = item.DisplayName();
-    //            var type = item.GetFieldType();
-    //            fields.Add(new FieldInfo
-    //            {
-    //                Id = item.Name,
-    //                Name = language.GetText("", item.Name, name),
-    //                Type = type
-    //            });
-    //        }
-    //    }
-    //    return fields;
-    //}
+        var isEntity = entityType.IsSubclassOf(typeof(EntityBase));
+        var baseFields = GetBaseFields();
+        foreach (var item in properties)
+        {
+            if (isEntity && baseFields.Exists(f => f.Id == item.Name))
+                continue;
+
+            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
+            {
+                var name = item.DisplayName();
+                fields.Add(new FieldInfo
+                {
+                    Id = item.Name,
+                    Name = language?.GetText("", item.Name, name) ?? name,
+                    Type = item.GetFieldType(),
+                    Required = item.IsRequired(),
+                    Length = item.MaxLength()?.ToString()
+                });
+            }
+        }
+        return fields;
+    }
 
     /// <summary>
     /// 获取数据对象属性值。

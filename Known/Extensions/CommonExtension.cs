@@ -5,6 +5,20 @@
 /// </summary>
 public static class CommonExtension
 {
+    #region String
+    /// <summary>
+    /// 追加一行格式化字符串。
+    /// </summary>
+    /// <param name="sb">字符串建造者。</param>
+    /// <param name="format">格式字符串。</param>
+    /// <param name="args">格式参数集合。</param>
+    public static void AppendLine(this StringBuilder sb, string format, params object[] args)
+    {
+        var value = string.Format(format, args);
+        sb.AppendLine(value);
+    }
+    #endregion
+
     #region Enum
     /// <summary>
     /// 获取枚举字段描述。

@@ -52,28 +52,6 @@ public partial class Database
     }
 
     /// <summary>
-    /// 异步判断是否存在数据表。
-    /// </summary>
-    /// <typeparam name="T">泛型类型。</typeparam>
-    /// <returns>是否存在。</returns>
-    public virtual async Task<bool> ExistsAsync<T>()
-    {
-        try
-        {
-            var sb = Provider?.Sql.SelectCount().From<T>();
-            var sql = sb.ToSqlString();
-            var value = await ScalarAsync<int?>(sql);
-            if (value == null)
-                return false;
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    /// <summary>
     /// 异步判断是否存在数据。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
