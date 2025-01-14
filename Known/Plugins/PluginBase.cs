@@ -62,20 +62,14 @@ public class PluginBase<T> : BaseComponent, IPlugin
     /// <param name="onConfig">配置委托。</param>
     public virtual void Config(Func<object, Task<Result>> onConfig) { }
 
-    /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         AddAction("delete", "删除", OnDelete);
     }
 
-    /// <summary>
-    /// 构建插件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         Parameter = Utils.FromJson<T>(Plugin?.Setting);

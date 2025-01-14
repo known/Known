@@ -11,10 +11,10 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        EnableEdit = false;
 
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Property);
         Table.Name = PageName;
+        Table.EnableEdit = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryButtonsAsync;

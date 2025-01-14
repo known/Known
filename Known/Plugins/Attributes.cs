@@ -30,14 +30,14 @@ public class PluginAttribute(string name, string icon) : Attribute
 }
 
 /// <summary>
-/// 开发插件特性类，用于标识组件是否是开发中心插件。
+/// 开发中心插件特性类，用于标识组件是否是开发中心插件。
 /// </summary>
 /// <param name="name">插件名称。</param>
 /// <param name="icon">插件菜单图标。</param>
 public class DevPluginAttribute(string name, string icon) : PluginAttribute(name, icon) { }
 
 /// <summary>
-/// 导航插件特性类，用于标识组件是否是顶部导航条插件。
+/// 顶部导航插件特性类，用于标识组件是否是顶部导航条插件。
 /// </summary>
 /// <param name="name">插件名称。</param>
 /// <param name="icon">插件菜单图标。</param>

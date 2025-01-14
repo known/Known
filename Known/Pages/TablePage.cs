@@ -6,6 +6,8 @@
 /// <typeparam name="TItem"></typeparam>
 public class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
+    private ReloadContainer container = null;
+
     /// <summary>
     /// 取得或设置表格页面组件模型。
     /// </summary>
@@ -17,10 +19,64 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
-        if (Model.IsForm)
-            BuildFormList(builder);
+        if (UIConfig.EnableEdit && Model.EnableEdit)
+        {
+            var model = new DropdownModel
+            {
+                Icon = "menu",
+                TriggerType = "Click",
+                Overlay = BuildTableOverlay
+            };
+            builder.Component<PluginPanel>()
+                   .Set(c => c.Class, "table")
+                   .Set(c => c.Dropdown, model)
+                   .Set(c => c.ChildContent, BuildContent)
+                   .Build();
+        }
         else
-            BuildPageList(builder);
+        {
+            BuildContent(builder);
+        }
+    }
+
+    private void BuildTableOverlay(RenderTreeBuilder builder)
+    {
+        var Menu = Context.Current;
+        var data = Menu.TablePage.Page ?? new PageInfo();
+        var form = new FormModel<PageInfo>(this)
+        {
+            SmallLabel = true,
+            Data = data,
+            OnFieldChanged = async v =>
+            {
+                Menu.TablePage.Page = data;
+                Menu.Plugins.AddPlugin(Menu.TablePage);
+                await Platform.SaveMenuAsync(Menu);
+                Model.Initialize();
+                container?.Reload();
+            }
+        };
+        form.AddRow().AddColumn(c => c.ShowPager);
+        form.AddRow().AddColumn(c => c.PageSize);
+        form.AddRow().AddColumn(c => c.ToolSize);
+        builder.Overlay(() =>
+        {
+            builder.FormTitle("表格设置");
+            builder.Form(form);
+        });
+    }
+
+    private void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.Component<ReloadContainer>()
+               .Set(c => c.ChildContent, b =>
+               {
+                   if (Model.IsForm)
+                       BuildFormList(b);
+                   else
+                       BuildPageList(b);
+               })
+               .Build(v => container = v);
     }
 
     private void BuildFormList(RenderTreeBuilder builder)

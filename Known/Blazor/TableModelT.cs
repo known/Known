@@ -54,6 +54,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置是否启用页面编辑，默认启用。
+    /// </summary>
+    public bool EnableEdit { get; set; } = true;
+
+    /// <summary>
     /// 取得表格标签配置对象。
     /// </summary>
     public TabModel Tab { get; } = new TabModel { IsFillHeight = true };
@@ -80,9 +85,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             if (menu != null)
             {
                 Name = Language.GetString(menu);
-                var param = menu.GetTablePageParameter();
-                var model = DataHelper.ToEntity(param?.EntityData);
-                SetPage(model, param?.Page, param?.Form);
+                var info = menu.GetTablePageParameter();
+                SetPage(info);
             }
         }
 
@@ -145,6 +149,12 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
+    }
+
+    internal void SetPage(TablePageInfo info)
+    {
+        var model = DataHelper.ToEntity(info?.EntityData);
+        SetPage(model, info?.Page, info?.Form);
     }
 
     private static void SetColumn(ColumnInfo column, EntityInfo model, FormInfo form)
