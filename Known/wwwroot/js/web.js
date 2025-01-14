@@ -30,10 +30,15 @@ var KUtils = {
             height = defaultHeight || 0;
         //console.log(selector + '=' + height);
         return height;
+    },
+    highlight: function (code, lang) {
+        return Prism.highlight(code, Prism.languages[lang], lang);
     }
 };
 
 $(function () {
+    Prism.disableWorkerMessageHandler = true;
+    Prism.manual = true;
     $(window).resize(function () {
         K_AutoFillHeight(true);
     });

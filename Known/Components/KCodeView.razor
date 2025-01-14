@@ -1,12 +1,11 @@
 ﻿@inherits BaseComponent
 
-<pre class="highlight kui-code @Class language-csharp">
-    <code>@markup</code>
+<pre class="highlight kui-code @Class">
+    <code class="language-@Lang">@Code</code>
 </pre>
 
 @code {
-    private MarkupString markup;
-    private string code;
+    private string rawCode;
 
     /// <summary>
     /// 取得或设置样式类。
@@ -27,15 +26,10 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (code != Code)
+        if (rawCode != Code)
         {
-            Console.WriteLine(Lang);
-            code = Code;
-            var html = string.Empty;
-            if (!string.IsNullOrWhiteSpace(code))
-                html = await JS.HighlightAsync(code, Lang);
-            markup = new MarkupString(html);
-            await StateChangedAsync();
+            rawCode = Code;
+            await JSRuntime.InvokeVoidAsync("Prism.highlightAll");
         }
     }
 }
