@@ -1,4 +1,5 @@
 ﻿@page "/counter"
+@inherits BaseComponent
 @attribute [ReuseTabsPage(Title = "计数器")]
 
 <PageTitle>Counter</PageTitle>
@@ -9,13 +10,44 @@
     <p role="status">Current count: @currentCount</p>
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
+
+    <AntForm Form="model">
+        <AntRow>
+            <DataItem Span="24" Label="测试">
+                <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
+            </DataItem>
+        </AntRow>
+        <div>@string.Join(",", value)</div>
+        <div>@model.Data.Field</div>
+    </AntForm>
 </div>
 
 @code {
     private int currentCount = 0;
+    private string[] value = [];
+    private FormModel<Test> model;
+    private Test test = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        model = new FormModel<Test>(this);
+        model.Data = new Test();
+    }
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    class Test
+    {
+        public string Field { get; set; }
+
+        public string[] Fields
+        {
+            get { return Field?.Split(','); }
+            set { Field = string.Join(',', value); }
+        }
     }
 }

@@ -118,11 +118,14 @@ partial class KLayout
         if (!IsAdmin)
             return;
 
-        // 如果系统未登录，则跳转到登录页面。
         IsLoaded = false;
         await base.OnInitAsync();
-        var isInstall = await Admin.GetIsInstallAsync();
-        if (isInstall)
+        if (!Config.IsInstalled)
+        {
+            var isInstall = await Admin.GetIsInstallAsync(); //检查是否需要安装
+            Config.IsInstalled = !isInstall;
+        }
+        if (!Config.IsInstalled)
         {
             Navigation?.GoInstallPage();
             return;

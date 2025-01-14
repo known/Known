@@ -38,6 +38,11 @@ public sealed class Config
     public static bool IsDevelopment { get; set; }
 
     /// <summary>
+    /// 取得或设置系统是否已经安装。
+    /// </summary>
+    public static bool IsInstalled { get; set; }
+
+    /// <summary>
     /// 取得或设置系统主机地址或域名。
     /// </summary>
     public static string HostUrl { get; set; }

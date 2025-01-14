@@ -13,7 +13,7 @@ public static class HttpExtension
     /// <param name="http">HTTP客户端对象。</param>
     /// <param name="url">远程URL。</param>
     /// <returns>服务端数据。</returns>
-    public static Task<string> GetAsync(this HttpClient http, string url)
+    public static Task<string> GetTextAsync(this HttpClient http, string url)
     {
         try
         {

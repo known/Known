@@ -35,7 +35,7 @@ partial class AdminClient
 {
     public Task<string> GetCompanyAsync()
     {
-        return Http.GetStringAsync("/Admin/GetCompany");
+        return Http.GetTextAsync("/Admin/GetCompany");
     }
 
     public Task<Result> SaveCompanyAsync(object model)
