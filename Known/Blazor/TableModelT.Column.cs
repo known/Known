@@ -26,6 +26,7 @@ partial class TableModel<TItem>
     {
         var property = TypeHelper.Property(selector);
         var column = new ColumnInfo(property) { IsQuery = isQuery };
+        AllColumns.Add(column);
         Columns.Add(column);
         if (isQuery)
             AddQueryColumn(column);
@@ -77,17 +78,20 @@ partial class TableModel<TItem>
     {
         Context.UserTableSettings.TryGetValue(SettingId, out List<TableSettingInfo> settings);
         var infos = new List<ColumnInfo>();
-        foreach (var item in AllColumns)
+        if (AllColumns != null && AllColumns.Count > 0)
         {
-            var info = CreateColumn(item);
-            var setting = settings?.FirstOrDefault(c => c.Id == item.Id);
-            if (setting != null)
+            foreach (var item in AllColumns)
             {
-                info.IsVisible = setting.IsVisible;
-                info.Width = setting.Width;
-                info.Sort = setting.Sort;
+                var info = CreateColumn(item);
+                var setting = settings?.FirstOrDefault(c => c.Id == item.Id);
+                if (setting != null)
+                {
+                    info.IsVisible = setting.IsVisible;
+                    info.Width = setting.Width;
+                    info.Sort = setting.Sort;
+                }
+                infos.Add(info);
             }
-            infos.Add(info);
         }
         return [.. infos.OrderBy(c => c.Sort)];
     }

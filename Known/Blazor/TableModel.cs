@@ -73,7 +73,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
 
     internal virtual string TableId { get; }
     internal virtual Type DataType { get; }
-    internal List<ColumnInfo> AllColumns { get; set; }
+    internal List<ColumnInfo> AllColumns { get; set; } = [];
 
     internal Task SearchAsync()
     {
