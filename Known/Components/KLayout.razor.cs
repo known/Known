@@ -30,11 +30,6 @@ partial class KLayout
     [Inject] private ReuseTabsService Service { get; set; }
 
     /// <summary>
-    /// 取得或设置页面是否加载完成。
-    /// </summary>
-    protected bool IsLoaded { get; set; } = true;
-
-    /// <summary>
     /// 取得或设置用户设置信息。
     /// </summary>
     protected UserSettingInfo Setting { get; set; } = new();
@@ -118,27 +113,7 @@ partial class KLayout
         if (!IsAdmin)
             return;
 
-        IsLoaded = false;
         await base.OnInitAsync();
-        if (!Config.IsInstalled)
-        {
-            var isInstall = await Admin.GetIsInstallAsync(); //检查是否需要安装
-            Config.IsInstalled = !isInstall;
-        }
-        if (!Config.IsInstalled)
-        {
-            Navigation?.GoInstallPage();
-            return;
-        }
-
-        var user = await GetCurrentUserAsync();
-        if (user == null)
-        {
-            Navigation?.GoLoginPage();
-            return;
-        }
-
-        Context.CurrentUser = user;
         Info = await Admin.GetAdminAsync();
         Context.UserSetting = Info?.UserSetting ?? new();
         Context.UserTableSettings = Info?.UserTableSettings ?? [];
@@ -146,7 +121,6 @@ partial class KLayout
             SetUserMenus(Info?.UserMenus);
         Cache.AttachCodes(Info?.Codes);
         Setting = Context.UserSetting;
-        IsLoaded = true;
     }
 
     /// <inheritdoc />
@@ -162,34 +136,27 @@ partial class KLayout
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        try
+        if (firstRender)
         {
-            if (firstRender)
+            await JS.InitFilesAsync();
+            await OnThemeColorAsync();
+            if (Config.App.IsSize)
             {
-                await JS.InitFilesAsync();
-                await OnThemeColorAsync();
-                if (Config.App.IsSize)
-                {
-                    var size = await JS.GetCurrentSizeAsync();
-                    if (string.IsNullOrWhiteSpace(size))
-                        size = Setting.Size;
-                    if (string.IsNullOrWhiteSpace(size))
-                        size = Config.App.DefaultSize;
-                    await JS.SetCurrentSizeAsync(size);
-                }
-                if (Config.App.IsLanguage)
-                {
-                    var language = await JS.GetCurrentLanguageAsync();
-                    if (string.IsNullOrWhiteSpace(language))
-                        language = Setting.Language;
-                    Context.CurrentLanguage = language;
-                }
+                var size = await JS.GetCurrentSizeAsync();
+                if (string.IsNullOrWhiteSpace(size))
+                    size = Setting.Size;
+                if (string.IsNullOrWhiteSpace(size))
+                    size = Config.App.DefaultSize;
+                await JS.SetCurrentSizeAsync(size);
+            }
+            if (Config.App.IsLanguage)
+            {
+                var language = await JS.GetCurrentLanguageAsync();
+                if (string.IsNullOrWhiteSpace(language))
+                    language = Setting.Language;
+                Context.CurrentLanguage = language;
             }
             menu?.SetItems(UserMenus);
-        }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
         }
     }
 
@@ -206,14 +173,6 @@ partial class KLayout
         Context.UserMenus.Add(item);
         UserMenus = Context.UserMenus.ToMenuItems();
         menu?.SetItems(UserMenus);
-    }
-
-    private async Task<UserInfo> GetCurrentUserAsync()
-    {
-        if (AuthProvider == null)
-            return null;
-
-        return await AuthProvider.GetUserAsync();
     }
 
     private void SetUserMenus(List<MenuInfo> menus)

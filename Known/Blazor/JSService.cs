@@ -31,8 +31,15 @@ public class JSService
     /// <returns>指定泛型的对象。</returns>
     public async Task<T> InvokeAppAsync<T>(string identifier, params object[] args)
     {
-        var module = await appTask.Value;
-        return await module.InvokeAsync<T>(identifier, args);
+        try
+        {
+            var module = await appTask.Value;
+            return await module.InvokeAsync<T>(identifier, args);
+        }
+        catch
+        {
+            return default;
+        }
     }
 
     /// <summary>
@@ -43,20 +50,39 @@ public class JSService
     /// <returns></returns>
     public async Task InvokeAppVoidAsync(string identifier, params object[] args)
     {
-        var module = await appTask.Value;
-        await module.InvokeVoidAsync(identifier, args);
+        try
+        {
+            var module = await appTask.Value;
+            await module.InvokeVoidAsync(identifier, args);
+        }
+        catch
+        {
+        }
     }
 
     private async Task<T> InvokeAsync<T>(string identifier, params object[] args)
     {
-        var module = await moduleTask.Value;
-        return await module.InvokeAsync<T>(identifier, args);
+        try
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<T>(identifier, args);
+        }
+        catch
+        {
+            return default;
+        }
     }
 
     private async Task InvokeVoidAsync(string identifier, params object[] args)
     {
-        var module = await moduleTask.Value;
-        await module.InvokeVoidAsync(identifier, args);
+        try
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync(identifier, args);
+        }
+        catch
+        {
+        }
     }
     #endregion
 

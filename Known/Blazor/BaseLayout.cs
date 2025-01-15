@@ -71,9 +71,48 @@ public class EmptyLayout : LayoutComponentBase
 /// </summary>
 public class AdminLayout : LayoutComponentBase
 {
+    [CascadingParameter] private UIContext Context { get; set; }
+    [Inject] private IAuthStateProvider AuthProvider { get; set; }
+    [Inject] private IServiceScopeFactory Factory { get; set; }
+    [Inject] private NavigationManager Navigation { get; set; }
+    private IAdminService Admin { get; set; }
+    private bool IsLoaded { get; set; } = true;
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Admin = await Factory.CreateAsync<IAdminService>(Context);
+
+        IsLoaded = false;
+        if (!Config.IsInstalled)
+        {
+            var isInstall = await Admin.GetIsInstallAsync(); //检查是否需要安装
+            Config.IsInstalled = !isInstall;
+        }
+        if (!Config.IsInstalled)
+        {
+            Navigation?.GoInstallPage();
+            return;
+        }
+
+        var user = await GetCurrentUserAsync();
+        if (user == null)
+        {
+            Navigation?.GoLoginPage();
+            return;
+        }
+
+        Context.CurrentUser = user;
+        IsLoaded = true;
+    }
+
     /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (!IsLoaded)
+            return;
+
         if (UIConfig.AdminBody != null)
         {
             builder.Component<KLayout>()
@@ -88,5 +127,13 @@ public class AdminLayout : LayoutComponentBase
                    .Set(c => c.ChildContent, b => b.Component<AuthPanel>().Set(c => c.ChildContent, Body).Build())
                    .Build();
         }
+    }
+
+    private async Task<UserInfo> GetCurrentUserAsync()
+    {
+        if (AuthProvider == null)
+            return null;
+
+        return await AuthProvider.GetUserAsync();
     }
 }
