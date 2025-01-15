@@ -154,6 +154,7 @@
 /*Setting*/
 .kui-nav-setting, .kui-table-setting {max-height:500px;overflow:auto;}
 .kui-nav-setting .title, .kui-table-setting .title {font-weight:bold;margin:0 0 10px 30px;}
+.kui-table-setting .title {display:flex;justify-content:space-between;align-items:center;}
 .kui-table-setting .item {display:flex;align-items:center;margin-bottom:5px;}
 .kui-table-setting .item > .anticon {width:30px;cursor:move;color:var(--kui-color);}
 .kui-table-setting .item > .ant-checkbox-wrapper {width:150px;}

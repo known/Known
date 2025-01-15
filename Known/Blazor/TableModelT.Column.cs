@@ -72,4 +72,62 @@ partial class TableModel<TItem>
         QueryColumns.Add(column);
         QueryData[column.Id] = new QueryInfo(id, type, value);
     }
+
+    internal List<ColumnInfo> GetUserColumns()
+    {
+        Context.UserTableSettings.TryGetValue(SettingId, out List<TableSettingInfo> settings);
+        var infos = new List<ColumnInfo>();
+        foreach (var item in AllColumns)
+        {
+            var info = CreateColumn(item);
+            var setting = settings?.FirstOrDefault(c => c.Id == item.Id);
+            if (setting != null)
+            {
+                info.IsVisible = setting.IsVisible;
+                info.Width = setting.Width;
+                info.Sort = setting.Sort;
+            }
+            infos.Add(info);
+        }
+        return [.. infos.OrderBy(c => c.Sort)];
+    }
+
+    private static ColumnInfo CreateColumn(ColumnInfo info)
+    {
+        return new ColumnInfo
+        {
+            Id = info.Id,
+            Name = info.Name,
+            Tooltip = info.Tooltip,
+            IsVisible = info.IsVisible,
+            IsSum = info.IsSum,
+            IsSort = info.IsSort,
+            DefaultSort = info.DefaultSort,
+            IsViewLink = info.IsViewLink,
+            IsQuery = info.IsQuery,
+            IsQueryAll = info.IsQueryAll,
+            Fixed = info.Fixed,
+            Width = info.Width,
+            Sort = info.Sort,
+            Align = info.Align,
+            Position = info.Position,
+            IsForm = info.IsForm,
+            DisplayName = info.DisplayName,
+            Label = info.Label,
+            Category = info.Category,
+            Placeholder = info.Placeholder,
+            Row = info.Row,
+            Column = info.Column,
+            Span = info.Span,
+            Type = info.Type,
+            CustomField = info.CustomField,
+            MultiFile = info.MultiFile,
+            Required = info.Required,
+            ReadOnly = info.ReadOnly,
+            Codes = info.Codes,
+            Template = info.Template,
+            Property = info.Property,
+            Note = info.Note
+        };
+    }
 }

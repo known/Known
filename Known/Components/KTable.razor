@@ -30,8 +30,7 @@
                 </Column>
             }
         }
-        var columns = Context.GetUserTableColumns(Model);
-        foreach (var item in columns)
+        foreach (var item in Model.Columns)
         {
             if (!item.IsVisible)
                 continue;

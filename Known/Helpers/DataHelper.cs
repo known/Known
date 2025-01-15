@@ -60,23 +60,7 @@ public sealed class DataHelper
         var routes = GetRouteModules(modules.Select(m => m.Url).ToList());
         if (routes != null && routes.Count > 0)
         {
-            modules.AddRange(routes.Select(r =>
-            {
-                var param = r.Plugins?.GetPluginParameter<TablePageInfo>();
-                var module = new ModuleInfo
-                {
-                    Id = r.Id,
-                    ParentId = r.ParentId,
-                    Name = r.Name,
-                    Url = r.Url,
-                    Icon = r.Icon,
-                    Target = r.Target,
-                    Enabled = r.Enabled,
-                    Sort = r.Sort,
-                    //Page = param?.Page
-                };
-                return module;
-            }));
+            modules.AddRange(routes);
         }
         return modules.Where(m => m.Enabled).OrderBy(m => m.Sort).ToList();
     }

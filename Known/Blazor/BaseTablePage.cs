@@ -34,6 +34,7 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         Table = new TableModel<TItem>(this);
         Table.Name = PageName;
         Table.DefaultQuery = DefaultQuery;
+        Table.Columns = Table.GetUserColumns();
     }
 
     /// <inheritdoc />

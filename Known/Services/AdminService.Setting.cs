@@ -27,7 +27,8 @@ partial class AdminService
 
     public Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
     {
-        Configs[info.BizType] = Utils.ToJson(info.BizData);
+        if (info.BizData != null)
+            Configs[info.BizType] = Utils.ToJson(info.BizData);
         return Result.SuccessAsync("保存成功！");
     }
 }

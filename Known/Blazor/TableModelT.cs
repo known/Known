@@ -19,18 +19,20 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         AdvSearch = true;
         Page = page;
         Name = page?.Name;
+        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
+        OnAction = page.OnActionClick;
+        Toolbar.OnItemClick = page.OnToolClick;
+        
         if (mode == TableColumnMode.Property)
             AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
         else if (mode == TableColumnMode.Attribute)
             AllColumns = GetAttributeColumns(typeof(TItem));
-        if (AllColumns != null && AllColumns.Count > 0)
-            Columns = AllColumns;
 
-        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
-        OnAction = page.OnActionClick;
-        Toolbar.OnItemClick = page.OnToolClick;
         var isPage = !IsAuto && page is BasePage;
         Initialize(isPage);
+
+        if (AllColumns != null && AllColumns.Count > 0)
+            Columns.AddRange(AllColumns);
     }
 
     /// <summary>
@@ -144,9 +146,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
                 column.SetColumnInfo(info);
             return column;
         }).ToList();
-        Columns.Clear();
-        if (AllColumns != null && AllColumns.Count > 0)
-            Columns.AddRange(AllColumns);
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
     }

@@ -475,9 +475,9 @@ public class ColumnInfo
     public RenderFragment Template { get; set; }
 
     /// <summary>
-    /// 取得或设置栏位关联的对象属性。
+    /// 取得栏位关联的对象属性。
     /// </summary>
-    public PropertyInfo Property { get; private set; }
+    public PropertyInfo Property { get; internal set; }
 
     /// <summary>
     /// 取得或设置栏位备注。

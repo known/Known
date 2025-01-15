@@ -10,7 +10,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        columns = Context.GetUserTableColumns(Table);
+        columns = Table.GetUserColumns();
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -40,6 +40,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
                     Value = CheckAll,
                     ValueChanged = this.Callback<bool>(CheckAllChangedAsync)
                 });
+                builder.Button(Language.Reset, this.Callback<MouseEventArgs>(OnReset));
             });
             foreach (var item in columns)
             {
@@ -85,27 +86,14 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         await OnColumnChangedAsync();
     }
 
-    private async Task OnColumnChangedAsync()
+    private async Task OnReset(MouseEventArgs args)
     {
-        var index = 0;
-        var infos = new List<TableSettingInfo>();
-        foreach (var item in columns)
-        {
-            infos.Add(new TableSettingInfo
-            {
-                Id = item.Id,
-                IsVisible = item.IsVisible,
-                Width = item.Width,
-                Sort = ++index
-            });
-        }
-        await Admin.SaveUserSettingFormAsync(new SettingFormInfo
-        {
-            BizType = Table.SettingId,
-            BizData = infos
-        });
-        Context.UserTableSettings[Table.SettingId] = infos;
-        await Table.StateChangeAsync();
+        if (!Context.UserTableSettings.ContainsKey(Table.SettingId))
+            return;
+
+        await SaveSettingAsync(null);
+        columns = Table.GetUserColumns();
+        await StateChangedAsync();
     }
 
     private async Task OnDropAsync(DragEventArgs e, ColumnInfo info)
@@ -126,5 +114,33 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         e.DataTransfer.DropEffect = "move";
         e.DataTransfer.EffectAllowed = "move";
         dragging = info;
+    }
+
+    private async Task OnColumnChangedAsync()
+    {
+        var index = 0;
+        var infos = new List<TableSettingInfo>();
+        foreach (var item in columns)
+        {
+            infos.Add(new TableSettingInfo
+            {
+                Id = item.Id,
+                IsVisible = item.IsVisible,
+                Width = item.Width,
+                Sort = ++index
+            });
+        }
+        await SaveSettingAsync(infos);
+    }
+
+    private async Task SaveSettingAsync(List<TableSettingInfo> infos)
+    {
+        if (infos == null)
+            Context.UserTableSettings.Remove(Table.SettingId);
+        else
+            Context.UserTableSettings[Table.SettingId] = infos;
+        Table.Columns = Table.GetUserColumns();
+        await Admin.SaveUserSettingFormAsync(new SettingFormInfo { BizType = Table.SettingId, BizData = infos });
+        await Table.StateChangeAsync();
     }
 }

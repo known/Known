@@ -52,9 +52,9 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     public PagingCriteria Criteria { get; } = new();
 
     /// <summary>
-    /// 取得表格栏位信息列表。
+    /// 取得或设置表格栏位信息列表。
     /// </summary>
-    public List<ColumnInfo> Columns { get; internal set; } = [];
+    public List<ColumnInfo> Columns { get; set; } = [];
 
     /// <summary>
     /// 取得或设置表格刷新委托，创建抽象表格时赋值。
@@ -108,7 +108,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
             Width = 700,
             Content = b => b.Component<AdvancedSearch>()
                             .Set(c => c.TableId, TableId)
-                            .Set(c => c.Columns, Columns)
+                            .Set(c => c.Columns, AllColumns)
                             .Build(value => search = value)
         };
         model.OnOk = async () =>
@@ -128,8 +128,8 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     public void SetQueryColumns()
     {
         QueryColumns.Clear();
-        if (Columns != null && Columns.Count > 0)
-            QueryColumns.AddRange(Columns.Where(c => c.IsQuery));
+        if (AllColumns != null && AllColumns.Count > 0)
+            QueryColumns.AddRange(AllColumns.Where(c => c.IsQuery));
 
         SetDefaultQuery();
     }
