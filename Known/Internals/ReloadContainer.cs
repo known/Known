@@ -13,7 +13,7 @@ public class ReloadContainer : Microsoft.AspNetCore.Components.IComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// 附件呈现处理者。
+    /// 附加呈现处理者。
     /// </summary>
     /// <param name="renderHandle">呈现处理者。</param>
     public void Attach(RenderHandle renderHandle)
@@ -21,11 +21,7 @@ public class ReloadContainer : Microsoft.AspNetCore.Components.IComponent
         this.renderHandle = renderHandle;
     }
 
-    /// <summary>
-    /// 异步设置组件参数。
-    /// </summary>
-    /// <param name="parameters">组件参数。</param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task SetParametersAsync(ParameterView parameters)
     {
         parameters.SetParameterProperties(this);

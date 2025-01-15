@@ -38,10 +38,5 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override void BuildPage(RenderTreeBuilder builder)
-    {
-        builder.Component<TablePage<TItem>>()
-               .Set(c => c.Model, Table)
-               .Build();
-    }
+    protected override void BuildPage(RenderTreeBuilder builder) => builder.Table(Table);
 }

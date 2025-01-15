@@ -139,8 +139,14 @@ public class PageInfo
     /// <summary>
     /// 取得或设置表格页面是否显示分页。
     /// </summary>
-    [DisplayName("显示分页")]
+    [DisplayName("分页")]
     public bool ShowPager { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格页面是否显示列设置，默认是。
+    /// </summary>
+    [DisplayName("列设置")]
+    public bool ShowSetting { get; set; } = true;
 
     /// <summary>
     /// 取得或设置表格页面分页每页大小。

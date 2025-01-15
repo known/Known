@@ -125,6 +125,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         //FixedWidth = info.FixedWidth;
         //FixedHeight = info.FixedHeight;
         ShowPager = info.ShowPager;
+        ShowSetting = info.ShowSetting;
         if (info.PageSize != null)
             Criteria.PageSize = info.PageSize.Value;
 

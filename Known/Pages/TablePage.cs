@@ -57,6 +57,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
             }
         };
         form.AddRow().AddColumn(c => c.ShowPager);
+        form.AddRow().AddColumn(c => c.ShowSetting);
         form.AddRow().AddColumn(c => c.PageSize);
         form.AddRow().AddColumn(c => c.ToolSize);
         builder.Overlay(() =>
