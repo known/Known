@@ -26,7 +26,12 @@ public static class ModelExtension
     #endregion
 
     #region ModuleInfo
-    internal static List<MenuInfo> ToMenus(this List<ModuleInfo> modules)
+    /// <summary>
+    /// 将模块信息列表转成菜单信息列表。
+    /// </summary>
+    /// <param name="modules">模块信息列表。</param>
+    /// <returns>菜单信息列表。</returns>
+    public static List<MenuInfo> ToMenus(this List<ModuleInfo> modules)
     {
         if (modules == null || modules.Count == 0)
             return [];

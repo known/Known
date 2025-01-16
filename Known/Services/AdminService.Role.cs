@@ -38,10 +38,9 @@ partial class AdminService
         return Task.FromResult(new PagingResult<RoleInfo>());
     }
 
-    public Task<RoleInfo> GetRoleAsync(string roleId)
+    public async Task<RoleInfo> GetRoleAsync(string roleId)
     {
-        var info = new RoleInfo { Modules = DataHelper.GetRoleModules() };
-        return Task.FromResult(info);
+        return new RoleInfo { Modules = await DataHelper.GetModulesAsync() };
     }
 
     public Task<Result> DeleteRolesAsync(List<RoleInfo> infos)

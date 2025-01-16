@@ -63,7 +63,7 @@ public static class AdminExtension
             {
                 modules.Add(item.ToModuleInfo());
             }
-            AppData.Initialize(modules);
+            DataHelper.Initialize(modules);
         }
         return modules;
     }

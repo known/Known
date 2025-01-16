@@ -29,6 +29,7 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
+        AppData.Data.Modules = modules;
         Models.Clear();
         Flows.Clear();
         foreach (var item in modules)
@@ -54,23 +55,24 @@ public sealed class DataHelper
     /// 获取角色管理所有可以模块信息列表。
     /// </summary>
     /// <returns></returns>
-    public static List<ModuleInfo> GetRoleModules()
+    public static async Task<List<ModuleInfo>> GetModulesAsync(Database db = null)
     {
-        var modules = AppData.Modules;
+        var modules = CoreConfig.OnInitialModules != null
+                    ? await CoreConfig.OnInitialModules.Invoke(db)
+                    : AppData.Data.Modules ?? [];
+        // 定义新列表，在新列表中添加路由模块，不污染原模块列表
+        var allModules = new List<ModuleInfo>();
+        allModules.AddRange(modules);
+        // 添加路由模块
         var routes = GetRouteModules(modules.Select(m => m.Url).ToList());
         if (routes != null && routes.Count > 0)
         {
-            modules.AddRange(routes);
+            allModules.AddRange(routes);
         }
-        return modules.Where(m => m.Enabled).OrderBy(m => m.Sort).ToList();
+        return allModules.Where(m => m.Enabled).OrderBy(m => m.Sort).ToList();
     }
 
-    /// <summary>
-    /// 获取路由模块。
-    /// </summary>
-    /// <param name="moduleUrls">模块列表。</param>
-    /// <param name="moduleIds">当前用户角色模块ID列表。</param>
-    public static List<ModuleInfo> GetRouteModules(List<string> moduleUrls, List<string> moduleIds = null)
+    private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
     {
         var routes = Config.RouteTypes;
         if (routes.Count == 0)
@@ -103,7 +105,7 @@ public sealed class DataHelper
                 parentId = sub.Id;
             }
 
-            var module = GetModule(item, parentId, moduleIds);
+            var module = GetModule(item, parentId);
             infos.Add(module);
         }
 
@@ -116,7 +118,7 @@ public sealed class DataHelper
         return modules;
     }
 
-    private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId, List<string> moduleIds = null)
+    private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
     {
         var tab = item.Value.GetCustomAttribute<ReuseTabsPageAttribute>();
         var name = tab?.Title ?? item.Key;
@@ -135,11 +137,7 @@ public sealed class DataHelper
         foreach (var method in methods)
         {
             if (method.GetCustomAttribute<ActionAttribute>() != null)
-            {
-                if (moduleIds != null && !moduleIds.Contains($"b_{info.Id}_{method.Name}"))
-                    continue;
                 actions.Add(method.Name);
-            }
         }
         if (actions.Count > 0)
             info.Plugins.AddPlugin(new TablePageInfo { Page = new PageInfo { Tools = [.. actions] } });

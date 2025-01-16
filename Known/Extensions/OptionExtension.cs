@@ -54,22 +54,27 @@ static class OptionExtension
         return SortDirection.None;
     }
 
-    internal static ColumnFixPlacement ToColumnFixPlacement(this ColumnInfo info)
+    internal static ColumnFixPlacement? ToColumnFixPlacement(this ColumnInfo info)
     {
         return info.Fixed switch
         {
+            "Left" => ColumnFixPlacement.Left,
             "left" => ColumnFixPlacement.Left,
+            "Right" => ColumnFixPlacement.Right,
             "right" => ColumnFixPlacement.Right,
-            _ => ColumnFixPlacement.Left
+            _ => null
         };
     }
 
     internal static ColumnAlign ToColumnAlign(this ColumnInfo info)
     {
-        if (info.Align == "center")
-            return ColumnAlign.Center;
-        else if (info.Align == "right")
-            return ColumnAlign.Right;
-        return ColumnAlign.Left;
+        return info.Align switch
+        {
+            "Center" => ColumnAlign.Center,
+            "center" => ColumnAlign.Center,
+            "Right" => ColumnAlign.Right,
+            "right" => ColumnAlign.Right,
+            _ => ColumnAlign.Left
+        };
     }
 }

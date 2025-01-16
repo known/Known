@@ -85,7 +85,7 @@ partial class AdminService
         var info = new AdminInfo
         {
             AppName = Config.App.Name,
-            UserMenus = MenuHelper.GetUserMenus(CurrentUser, AppData.Modules)
+            UserMenus = AppData.Data.Modules.ToMenus()
         };
         return Task.FromResult(info);
     }

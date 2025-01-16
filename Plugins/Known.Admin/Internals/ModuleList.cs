@@ -240,7 +240,6 @@ public class ModuleList : BasePage<SysModule>
             tree.SelectedKeys = [current.Id];
             await table.RefreshAsync();
         }
-        ModuleHelper.Initialize(modules);
         return tree;
     }
 

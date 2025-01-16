@@ -66,7 +66,8 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
     public async Task<List<SysModule>> GetModulesAsync()
     {
         var modules = await Database.Query<SysModule>().OrderBy(m => m.Sort).ToListAsync();
-        ModuleHelper.Initialize(modules);
+        var lists = modules.OrderBy(m => m.Sort).Select(m => m.ToModuleInfo()).ToList();
+        DataHelper.Initialize(lists);
         return modules;
     }
 

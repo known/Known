@@ -22,11 +22,6 @@ public sealed class AppData
     public static bool Enabled { get; set; } = true;
 
     /// <summary>
-    /// 取得系统配置的模块列表。
-    /// </summary>
-    public static List<ModuleInfo> Modules => Data?.Modules;
-
-    /// <summary>
     /// 取得或设置解析配置数据委托。
     /// </summary>
     public static Func<byte[], AppDataInfo> OnParseData { get; set; }
@@ -37,24 +32,13 @@ public sealed class AppData
     public static Func<AppDataInfo, byte[]> OnFormatData { get; set; }
 
     /// <summary>
-    /// 初始化模块数据库。
-    /// </summary>
-    /// <param name="modules">系统模块列表。</param>
-    public static void Initialize(List<ModuleInfo> modules)
-    {
-        Data.Modules = modules;
-        DataHelper.Initialize(modules);
-        SaveData();
-    }
-
-    /// <summary>
     /// 根据ID获取模块信息。
     /// </summary>
     /// <param name="id">模块ID。</param>
     /// <returns>模块信息。</returns>
     public static ModuleInfo GetModule(string id)
     {
-        return Modules?.FirstOrDefault(m => m.Id == id);
+        return Data.Modules?.FirstOrDefault(m => m.Id == id);
     }
 
     /// <summary>
@@ -150,8 +134,8 @@ public sealed class AppData
         if (module == null)
             return Result.ErrorAsync("模块不存在！");
 
-        Modules?.Remove(module);
-        var modules = Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
+        Data.Modules?.Remove(module);
+        var modules = Data.Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
         modules?.Resort();
         SaveData();
         return Result.SuccessAsync("删除成功！");
@@ -163,12 +147,9 @@ public sealed class AppData
         if (module == null)
         {
             module = new ModuleInfo();
-            if (Modules == null)
-            {
-                Data ??= new AppDataInfo();
+            if (Data.Modules == null)
                 Data.Modules = [];
-            }
-            Modules.Add(module);
+            Data.Modules.Add(module);
         }
         module.Id = info.Id;
         module.ParentId = info.ParentId;

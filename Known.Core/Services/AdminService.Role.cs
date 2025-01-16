@@ -31,7 +31,7 @@ partial class AdminService
                  ? new RoleInfo()
                  : await database.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
         info ??= new RoleInfo();
-        info.Modules = DataHelper.GetRoleModules();
+        info.Modules = await DataHelper.GetModulesAsync(database);
         var roleModules = await database.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
         info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
         await database.CloseAsync();

@@ -39,13 +39,6 @@ class ModuleHelper
         }
     }
 
-    internal static void Initialize(List<SysModule> modules)
-    {
-        var lists = modules.OrderBy(m => m.Sort).Select(m => m.ToModuleInfo()).ToList();
-        AppData.Data.Modules = lists;
-        DataHelper.Initialize(lists);
-    }
-
     internal static List<SysModule> GetModules()
     {
         var modules = new List<SysModule>();

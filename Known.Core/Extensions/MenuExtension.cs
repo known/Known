@@ -8,17 +8,10 @@ static class MenuExtension
         if (user == null)
             return [];
 
-        var modules = AppData.Modules ?? [];
-        if (modules.Count == 0)
-        {
-            // 从数据库中加载模块信息
-            if (CoreConfig.OnInitialModules != null)
-                modules = await CoreConfig.OnInitialModules.Invoke(db);
-        }
-
+        var modules = await DataHelper.GetModulesAsync(db);
         // 如果是管理员，返回所有菜单
         if (user.IsAdmin())
-            return MenuHelper.GetUserMenus(user, modules);
+            return modules.ToMenus();
 
         // 如果是角色用户，根据用户角色模块ID列表返回菜单
         var moduleIds = await db.GetRoleModuleIdsAsync(user.Id);
@@ -34,11 +27,26 @@ static class MenuExtension
             if (userModules.Exists(m => m.Id == item.Id))
                 continue;
 
+            AddParentModule(userModules, item);
             SetPluginPermission(item, moduleIds);
             userModules.Add(item);
         }
 
-        return MenuHelper.GetUserMenus(user, userModules, moduleIds);
+        return userModules.ToMenus();
+    }
+
+    private static void AddParentModule(List<ModuleInfo> userModules, ModuleInfo item)
+    {
+        // 如果父模块不存在，则添加父模块
+        if (!userModules.Exists(m => m.Id == item.ParentId))
+        {
+            var parent = AppData.GetModule(item.ParentId);
+            if (parent != null)
+            {
+                userModules.Add(parent);
+                AddParentModule(userModules, parent);
+            }
+        }
     }
 
     private static void SetPluginPermission(ModuleInfo module, List<string> moduleIds)
