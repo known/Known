@@ -1,13 +1,16 @@
 ﻿@inherits BaseComponent
 @typeparam TItem where TItem : class, new()
-
+@{
+    var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
+    var scrollX = totalWidth.ToString();
+}
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
           ScrollX="@scrollX" ScrollY="@ScrollY" Loading="isQuering"
           OnChange="OnChange" OnRow="OnRow"
           @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)
     {
-        <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="left" />
+        <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="ColumnFixPlacement.Left" />
     }
     @if (Model.Columns != null && Model.Columns.Count > 0)
     {
@@ -19,13 +22,13 @@
             var columnId = Model.Columns[0].Id;
             if (isDictionary)
             {
-                @* <DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="left">
+                @* <DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
                 </DictionaryColumn> *@
             }
             else
             {
-                <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="left">
+                <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
                 </Column>
             }
@@ -42,10 +45,7 @@
             if (isDictionary)
             {
                 var value = (context as Dictionary<string, object>).GetValue(item.Id);
-                <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                  Ellipsis ShowSorterTooltip="false" Fixed="@GetColumnFixPlacement(item.Fixed)"
-                                  Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                  Align="@GetColumnAlign(item.Align)">
+                <DictionaryColumn Title="@title" Width="@width" Column="item">
                     @if (template != null)
                     {
                         @template(context)
@@ -72,10 +72,7 @@
             else
             {
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <Column Title="@title" TData="object" Width="@width"
-                        Ellipsis ShowSorterTooltip="false" Fixed="@GetColumnFixPlacement(item.Fixed)"
-                        Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                        Align="@GetColumnAlign(item.Align)">
+                <AntColumn Title="@title" Width="@width" Column="item">
                     <TitleTemplate>
                         @if (!string.IsNullOrWhiteSpace(item.Tooltip))
                         {
@@ -109,7 +106,7 @@
                             }
                         }
                     </ChildContent>
-                </Column>
+                </AntColumn>
             }
         }
     }
@@ -121,7 +118,7 @@
         Model.UpdateRowActions?.Invoke(context, actions);
         actions = actions?.Where(a => a.Visible).ToList();
         actions?.ForEach(d => d.Name = Language.GetString(d));
-        <ActionColumn Title="@Language["Title.Action"]" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="right">
+        <ActionColumn Title="@Language["Title.Action"]" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
             @if (actions.Count > Model.ActionCount)
             {
                 var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();

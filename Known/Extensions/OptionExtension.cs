@@ -41,16 +41,35 @@ static class OptionExtension
         }).ToArray();
     }
 
-    internal static SortDirection ToSortDirection(this ColumnInfo colmun)
+    internal static SortDirection ToSortDirection(this ColumnInfo info)
     {
-        if (string.IsNullOrWhiteSpace(colmun.DefaultSort))
+        if (string.IsNullOrWhiteSpace(info.DefaultSort))
             return SortDirection.None;
 
-        if (colmun.DefaultSort == "asc" || colmun.DefaultSort == "Ascend")
+        if (info.DefaultSort == "asc" || info.DefaultSort == "Ascend")
             return SortDirection.Ascending;
-        else if (colmun.DefaultSort == "desc" || colmun.DefaultSort == "Descend")
+        else if (info.DefaultSort == "desc" || info.DefaultSort == "Descend")
             return SortDirection.Descending;
 
         return SortDirection.None;
+    }
+
+    internal static ColumnFixPlacement ToColumnFixPlacement(this ColumnInfo info)
+    {
+        return info.Fixed switch
+        {
+            "left" => ColumnFixPlacement.Left,
+            "right" => ColumnFixPlacement.Right,
+            _ => ColumnFixPlacement.Left
+        };
+    }
+
+    internal static ColumnAlign ToColumnAlign(this ColumnInfo info)
+    {
+        if (info.Align == "center")
+            return ColumnAlign.Center;
+        else if (info.Align == "right")
+            return ColumnAlign.Right;
+        return ColumnAlign.Left;
     }
 }

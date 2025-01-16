@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<LoginInfoForm @ref="form" Name="form1" Class="@FormStyle" Model="Model" Method="post" OnFinish="OnFinish">
+<LoginInfoForm @ref="form" Name="form1" Class="@FormStyle" Model="Model" Method="HttpMethod.Post" OnFinish="OnFinish">
     @if (OnSendSMS != null)
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">

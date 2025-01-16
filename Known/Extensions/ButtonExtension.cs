@@ -61,14 +61,19 @@ public static class ButtonExtension
                .Build();
     }
 
-    internal static string GetButtonType(string style)
+    internal static ButtonType GetButtonType(string style)
     {
         return style switch
         {
+            "Default" => ButtonType.Default,
             "default" => ButtonType.Default,
+            "Primary" => ButtonType.Primary,
             "primary" => ButtonType.Primary,
+            "Dashed" => ButtonType.Dashed,
             "dashed" => ButtonType.Dashed,
+            "Link" => ButtonType.Link,
             "link" => ButtonType.Link,
+            "Text" => ButtonType.Text,
             "text" => ButtonType.Text,
             _ => ButtonType.Primary
         };

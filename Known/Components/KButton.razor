@@ -1,8 +1,8 @@
 ﻿@inherits BaseComponent
 
 <Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
-        Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
-        OnClick="OnButtonClickAsync">
+Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
+OnClick="OnButtonClickAsync">
     @Name
 </Button>
 
@@ -27,7 +27,7 @@
     /// <summary>
     /// 取得或设置按钮类型（如：ButtonType.Primary）。
     /// </summary>
-    [Parameter] public string Type { get; set; }
+    [Parameter] public ButtonType Type { get; set; }
 
     /// <summary>
     /// 取得或设置按钮CSS类名。

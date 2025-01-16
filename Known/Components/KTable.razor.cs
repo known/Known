@@ -11,8 +11,7 @@ partial class KTable<TItem> : BaseComponent
 {
     private AntTable<TItem> table;
     private bool isQuering = false;
-    private string scrollX = "";
-    private string ScrollY => Model.FixedHeight ?? "1000px";
+    private string ScrollY => Model.FixedHeight ?? "800px";
 
     /// <summary>
     /// 取得或设置表格数据模型。
@@ -22,8 +21,6 @@ partial class KTable<TItem> : BaseComponent
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 0).Sum();
-        scrollX = totalWidth.ToString();
         Model.OnStateChanged = StateChanged;
         Model.OnStateChangedTask = StateChangedAsync;
         Model.OnRefresh = RefreshTableAsync;
@@ -87,7 +84,8 @@ partial class KTable<TItem> : BaseComponent
         Model.Criteria.PageSize = query.PageSize;
         if (query.SortModel != null)
         {
-            var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+            //var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+            var sorts = query.SortModel.Where(s => s.SortDirection != SortDirection.None);
             Model.Criteria.OrderBys = sorts.Select(GetOrderBy).ToArray();
         }
         Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
@@ -112,7 +110,8 @@ partial class KTable<TItem> : BaseComponent
     private string GetOrderBy(ITableSortModel model)
     {
         //descend  ascend
-        var sort = model.Sort == "descend" ? "desc" : "asc";
+        //var sort = model.Sort == "descend" ? "desc" : "asc";
+        var sort = model.SortDirection == SortDirection.Descending ? "desc" : "asc";
         var fieldName = model.FieldName;
         if (string.IsNullOrWhiteSpace(fieldName) && model.ColumnIndex > 0)
         {
@@ -126,35 +125,15 @@ partial class KTable<TItem> : BaseComponent
         return $"{fieldName} {sort}";
     }
 
-    private static string GetSelectionType(TableSelectType type)
+    private static SelectionType GetSelectionType(TableSelectType type)
     {
-        return type.ToString().ToLower();
-        //return type switch
-        //{
-        //    TableSelectType.Checkbox => SelectionType.Checkbox,
-        //    TableSelectType.Radio => SelectionType.Radio,
-        //    _ => SelectionType.Checkbox
-        //};
-    }
-
-    private static string GetColumnFixPlacement(string fix)
-    {
-        return fix;
-        //return fix switch
-        //{
-        //    "left" => ColumnFixPlacement.Left,
-        //    "right" => ColumnFixPlacement.Right,
-        //    _ => ColumnFixPlacement.Left
-        //};
-    }
-
-    private static ColumnAlign GetColumnAlign(string align)
-    {
-        if (align == "center")
-            return ColumnAlign.Center;
-        else if (align == "right")
-            return ColumnAlign.Right;
-        return ColumnAlign.Left;
+        //return type.ToString().ToLower();
+        return type switch
+        {
+            TableSelectType.Checkbox => SelectionType.Checkbox,
+            TableSelectType.Radio => SelectionType.Radio,
+            _ => SelectionType.Checkbox
+        };
     }
 
     private static string GetColumnText(ColumnInfo item, object value)
@@ -174,8 +153,8 @@ partial class KTable<TItem> : BaseComponent
         }
         else if (!string.IsNullOrWhiteSpace(item.Category))
         {
-            if (value is string[])
-                text = Cache.GetCodeName(item.Category, (string[])value);
+            if (value is string[] values)
+                text = Cache.GetCodeName(item.Category, values);
             else
                 text = Cache.GetCodeName(item.Category, text);
         }
