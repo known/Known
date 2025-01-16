@@ -8,14 +8,12 @@
 [Menu(Constants.System, "关于系统", "info-circle", 1)]
 public class SysSystem : BaseTabPage
 {
-    internal SystemDataInfo Model { get; private set; }
+    internal SystemDataInfo Model { get; set; } = new SystemDataInfo();
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Model = await Admin.GetSystemDataAsync();
-
         Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
         Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting>().Build());
         foreach (var item in UIConfig.SystemTabs)

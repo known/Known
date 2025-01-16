@@ -52,12 +52,14 @@
 </TypeForm>
 
 @code {
-    private SystemDataInfo Model;
+    private SystemDataInfo Model = new ();
     [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        // 首个Tab组件初始化Model
+        Parent.Model = await Admin.GetSystemDataAsync();
         Model = Parent.Model;
     }
 

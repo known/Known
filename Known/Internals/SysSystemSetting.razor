@@ -14,7 +14,7 @@
 </TypeForm>
 
 @code {
-    private SystemInfo Model;
+    private SystemInfo Model = new ();
     [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitAsync()

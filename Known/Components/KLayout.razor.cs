@@ -114,13 +114,8 @@ partial class KLayout
             return;
 
         await base.OnInitAsync();
-        Info = await Admin.GetAdminAsync();
-        Context.UserSetting = Info?.UserSetting ?? new();
-        Context.UserTableSettings = Info?.UserTableSettings ?? [];
-        if (!Context.IsMobileApp)
-            SetUserMenus(Info?.UserMenus);
-        Cache.AttachCodes(Info?.Codes);
-        Setting = Context.UserSetting;
+        if (IsServerMode)
+            await InitAdminAsync();
     }
 
     /// <inheritdoc />
@@ -156,6 +151,9 @@ partial class KLayout
                     language = Setting.Language;
                 Context.CurrentLanguage = language;
             }
+
+            if (!IsServerMode)
+                await InitAdminAsync();
             menu?.SetItems(UserMenus);
         }
     }
@@ -173,6 +171,17 @@ partial class KLayout
         Context.UserMenus.Add(item);
         UserMenus = Context.UserMenus.ToMenuItems();
         menu?.SetItems(UserMenus);
+    }
+
+    private async Task InitAdminAsync()
+    {
+        Info = await Admin.GetAdminAsync();
+        Context.UserSetting = Info?.UserSetting ?? new();
+        Context.UserTableSettings = Info?.UserTableSettings ?? [];
+        if (!Context.IsMobileApp)
+            SetUserMenus(Info?.UserMenus);
+        Cache.AttachCodes(Info?.Codes);
+        Setting = Context.UserSetting;
     }
 
     private void SetUserMenus(List<MenuInfo> menus)
