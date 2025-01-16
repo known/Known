@@ -94,6 +94,8 @@ public static class CoreExtension
         //    app.UseMiddleware<WebApiMiddleware>();
         //    app.UseKnownWebApi();
 
+        app.UseRouting();
+        app.UseAntiforgery();
         app.MapControllers();
         app.MapRazorPages();
         Config.ServiceProvider = app.Services;

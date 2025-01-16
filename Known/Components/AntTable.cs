@@ -26,11 +26,6 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
         ScrollBarWidth = "8px";
         if (Model != null)
         {
-            if (Model.IsStriped)
-                Class = "kui-striped";
-            Resizable = Model.Resizable;
-            RowKey = Model.RowKey;
-            HidePagination = !Model.ShowPager;
             PageSizeChanged = this.Callback<int>(e => PageIndex = 1);
             if (Model.TreeChildren != null)
                 TreeChildren = Model.TreeChildren;
@@ -47,6 +42,11 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
     {
         if (Model != null)
         {
+            if (Model.IsStriped)
+                Class = "kui-striped";
+            Resizable = Model.Resizable;
+            RowKey = Model.RowKey;
+            HidePagination = !Model.ShowPager;
             if (Model.ShowPager)
             {
                 PageIndex = Model.Criteria.PageIndex;

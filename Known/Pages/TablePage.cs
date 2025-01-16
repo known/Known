@@ -41,18 +41,18 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildTableOverlay(RenderTreeBuilder builder)
     {
-        var Menu = Context.Current;
-        var data = Menu.TablePage.Page ?? new PageInfo();
+        var menu = Context.Current;
+        var data = menu.TablePage.Page ?? new PageInfo();
         var form = new FormModel<PageInfo>(this)
         {
             SmallLabel = true,
             Data = data,
             OnFieldChanged = async v =>
             {
-                Menu.TablePage.Page = data;
-                Menu.Plugins.AddPlugin(Menu.TablePage);
-                await Platform.SaveMenuAsync(Menu);
-                Model.Initialize();
+                menu.TablePage.Page = data;
+                menu.Plugins.AddPlugin(menu.TablePage);
+                await Platform.SaveMenuAsync(menu);
+                Model.Initialize(menu.TablePage);
                 container?.Reload();
             }
         };

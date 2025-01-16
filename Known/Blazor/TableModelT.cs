@@ -22,7 +22,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         OnAction = page.OnActionClick;
         Toolbar.OnItemClick = page.OnToolClick;
-        
+
         if (mode == TableColumnMode.Property)
             AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
         else if (mode == TableColumnMode.Attribute)
@@ -30,9 +30,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
 
         var isPage = !IsAuto && page is BasePage;
         Initialize(isPage);
-
-        if (AllColumns != null && AllColumns.Count > 0)
-            Columns.AddRange(AllColumns);
     }
 
     /// <summary>
@@ -75,6 +72,52 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     internal void Initialize() => Initialize(true);
 
     /// <summary>
+    /// 初始化页面表格模型配置。
+    /// </summary>
+    /// <param name="info">表格配置模型信息。</param>
+    /// <param name="entity">表格关联的数据模型。</param>
+    public void Initialize(TablePageInfo info, EntityInfo entity = null)
+    {
+        if (info != null && info.Page != null)
+        {
+            entity ??= DataHelper.ToEntity(info.EntityData);
+            //FixedWidth = info.Page.FixedWidth;
+            //FixedHeight = info.Page.FixedHeight;
+            ShowPager = info.Page.ShowPager;
+            ShowSetting = info.Page.ShowSetting;
+            if (info.Page.PageSize != null)
+                Criteria.PageSize = info.Page.PageSize.Value;
+
+            if (info.Page.ToolSize != null)
+                Toolbar.ShowCount = info.Page.ToolSize.Value;
+            Toolbar.Items = info.Page.Tools?.Select(t => new ActionInfo(t)).ToList() ?? [];
+
+            if (info.Page.ActionSize != null)
+                ActionCount = info.Page.ActionSize.Value;
+            Actions = info.Page.Actions?.Select(a => new ActionInfo(a)).ToList() ?? [];
+
+            var properties = TypeHelper.Properties(typeof(TItem));
+            AllColumns = info.Page.Columns?.OrderBy(t => t.Position).Select(c =>
+            {
+                var column = new ColumnInfo(c);
+                SetColumn(column, entity, info.Form);
+                var property = properties.FirstOrDefault(p => p.Name == column.Id);
+                if (property != null)
+                    column.SetColumnInfo(property);
+                return column;
+            }).ToList();
+        }
+
+        SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
+
+        Columns.Clear();
+        if (AllColumns != null && AllColumns.Count > 0)
+            Columns.AddRange(AllColumns);
+
+        SetQueryColumns();
+    }
+
+    /// <summary>
     /// 初始化表格栏位、权限、查询条件。
     /// </summary>
     /// <param name="isPage">是否是表格页面。</param>
@@ -88,14 +131,20 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             {
                 Name = Language.GetString(menu);
                 var info = menu.GetTablePageParameter();
-                SetPage(info);
+                Initialize(info);
             }
+        }
+        else
+        {
+            Columns.Clear();
+            if (AllColumns != null && AllColumns.Count > 0)
+                Columns.AddRange(AllColumns);
+
+            SetQueryColumns();
         }
 
         if (PageSize != null)
             Criteria.PageSize = PageSize.Value;
-
-        SetQueryColumns();
     }
 
     /// <summary>
@@ -109,52 +158,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar?.Items?.Clear();
         Actions?.Clear();
         Criteria?.Clear();
-    }
-
-    /// <summary>
-    /// 设置无代码页面信息。
-    /// </summary>
-    /// <param name="model">实体模型。</param>
-    /// <param name="info">页面模型。</param>
-    /// <param name="form">表单模型。</param>
-    public void SetPage(EntityInfo model, PageInfo info, FormInfo form)
-    {
-        if (info == null)
-            return;
-
-        //FixedWidth = info.FixedWidth;
-        //FixedHeight = info.FixedHeight;
-        ShowPager = info.ShowPager;
-        ShowSetting = info.ShowSetting;
-        if (info.PageSize != null)
-            Criteria.PageSize = info.PageSize.Value;
-
-        if (info.ToolSize != null)
-            Toolbar.ShowCount = info.ToolSize.Value;
-        Toolbar.Items = info.Tools?.Select(t => new ActionInfo(t)).ToList() ?? [];
-
-        if (info.ActionSize != null)
-            ActionCount = info.ActionSize.Value;
-        Actions = info.Actions?.Select(a => new ActionInfo(a)).ToList() ?? [];
-
-        var properties = TypeHelper.Properties(typeof(TItem));
-        AllColumns = info.Columns?.OrderBy(t => t.Position).Select(c =>
-        {
-            var column = new ColumnInfo(c);
-            SetColumn(column, model, form);
-            var info = properties.FirstOrDefault(p => p.Name == column.Id);
-            if (info != null)
-                column.SetColumnInfo(info);
-            return column;
-        }).ToList();
-
-        SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
-    }
-
-    internal void SetPage(TablePageInfo info)
-    {
-        var model = DataHelper.ToEntity(info?.EntityData);
-        SetPage(model, info?.Page, info?.Form);
     }
 
     private static void SetColumn(ColumnInfo column, EntityInfo model, FormInfo form)

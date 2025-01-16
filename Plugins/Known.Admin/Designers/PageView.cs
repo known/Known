@@ -166,7 +166,7 @@ class PageView : BaseView<PageInfo>
     private void ShowActions(string type, List<string> value, Action<List<string>> onChange)
     {
         var title = Language[$"Designer.{type}"];
-        ActionTable table = null;
+        ActionTable action = null;
         var model = new DialogModel
         {
             Title = Language?.GetFormTitle("Edit", title),
@@ -174,11 +174,11 @@ class PageView : BaseView<PageInfo>
                             .Set(c => c.Type, type)
                             .Set(c => c.Name, title)
                             .Set(c => c.Value, value)
-                            .Build(value => table = value),
+                            .Build(value => action = value),
         };
         model.OnOk = async () =>
         {
-            onChange.Invoke(table?.Values);
+            onChange.Invoke(action?.Values);
             await model.CloseAsync();
         };
         UI.ShowDialog(model);
@@ -187,21 +187,15 @@ class PageView : BaseView<PageInfo>
     private void OnPropertyChanged()
     {
         OnChanged?.Invoke(Model);
-        table.SetPage(Module?.Entity, Model, Module?.Form);
-        table.SetQueryColumns();
+        table.Initialize(new TablePageInfo { Page = Model, Form = Module?.Form }, Module?.Entity);
         SetSourceCode();
         StateChanged();
     }
 
     private async Task SetTablePageAsync()
     {
-        table = new DemoModel(this)
-        {
-            Module = Module,
-            Entity = Module?.Entity
-        };
-        table.SetPage(Module?.Entity, Model, Module?.Form);
-        table.SetQueryColumns();
+        table = new DemoModel(this) { Module = Module, Entity = Module?.Entity };
+        table.Initialize(new TablePageInfo { Page = Model, Form = Module?.Form }, Module?.Entity);
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
         SetSourceCode();
     }
