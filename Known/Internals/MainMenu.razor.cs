@@ -21,6 +21,11 @@ public partial class MainMenu
     [Parameter] public UserSettingInfo Setting { get; set; }
 
     /// <summary>
+    /// 取得或设置菜单数据列表。
+    /// </summary>
+    [Parameter] public List<MenuInfo> Items { get; set; }
+
+    /// <summary>
     /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>

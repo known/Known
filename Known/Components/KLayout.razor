@@ -14,7 +14,7 @@
                     <Header Class="@HeaderClass">
                         <div class="left">
                             <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                            <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Setting="Setting" />
+                            <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Setting="Setting" Items="UserMenus" />
                         </div>
                         <TopNavbar OnMenuClick="OnMenuClick" />
                     </Header>
@@ -53,7 +53,7 @@
                         <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                             <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
                             <div class="kui-scroll">
-                                <MainMenu @ref="menu" Mode="MenuMode.Inline" Setting="Setting" />
+                                <MainMenu @ref="menu" Mode="MenuMode.Inline" Setting="Setting" Items="UserMenus" />
                             </div>
                         </Sider>
                     }
@@ -62,7 +62,7 @@
                         <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                             <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
                             <div class="kui-scroll">
-                                <MainMenu @ref="menu" Mode="MenuMode.Inline" Setting="Setting" />
+                                <MainMenu @ref="menu" Mode="MenuMode.Inline" Setting="Setting" Items="UserMenus" />
                             </div>
                         </Sider>
                     }
