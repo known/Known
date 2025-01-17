@@ -53,6 +53,7 @@ public static class CoreExtension
         {
             option.EnableEndpointRouting = false;
             option.Filters.Add<AuthActionFilter>();
+            option.Filters.Add<LogActionFilter>();
             option.Filters.Add<ExceptionFilter>();
         })
         .AddJsonOptions(option =>

@@ -9,12 +9,12 @@ class VisitLog
         if (context.CurrentUser == null)
             return;
 
-        var origin = ctx.Request.Headers["Origin"].ToString();
-        var referer = ctx.Request.Headers["Referer"].ToString();
-        if (string.IsNullOrWhiteSpace(origin) || string.IsNullOrWhiteSpace(referer))
+        ctx.Request.Headers.TryGetValue("Referer", out var referer);
+        if (string.IsNullOrWhiteSpace(referer))
             return;
 
-        var pageUrl = referer.Replace(origin, "");
+        var url = referer.ToString().Replace("://", "");
+        var pageUrl = url.Substring(url.IndexOf("/"));
         visitPages.TryGetValue(context.CurrentUser.Token, out string prevUrl);
         if (pageUrl == prevUrl)
             return;
@@ -22,6 +22,12 @@ class VisitLog
         visitPages[context.CurrentUser.Token] = pageUrl;
         var service = ctx.RequestServices.GetRequiredService<IAdminService>();
         service.Context = context;
-        await service.AddLogAsync(new LogInfo { Type = nameof(LogType.Page), Content = pageUrl });
+        var module = AppData.Data.Modules?.FirstOrDefault(m => m.Url == pageUrl);
+        await service.AddLogAsync(new LogInfo
+        {
+            Type = nameof(LogType.Page),
+            Target = module?.Name ?? pageUrl,
+            Content = pageUrl
+        });
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Reflection;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Controllers;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Known.Filters;
