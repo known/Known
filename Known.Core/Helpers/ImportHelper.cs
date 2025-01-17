@@ -1,4 +1,7 @@
-﻿namespace Known.Core;
+﻿using Known.Cells;
+using Known.Imports;
+
+namespace Known.Helpers;
 
 /// <summary>
 /// 数据导入帮助者类。
@@ -88,7 +91,7 @@ public sealed class ImportHelper
     private static ImportBase CreateImport(ImportContext context)
     {
         if (context.IsDictionary)
-            return new DictionaryImport(context);
+            return new AutoImport(context);
 
         if (!ImportTypes.TryGetValue(context.BizId, out Type type))
             return null;

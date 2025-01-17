@@ -22,7 +22,7 @@ class Importer : BaseComponent
         if (!string.IsNullOrWhiteSpace(Info.Param))
             id += $"_{Info.Param}";
         if (Info.IsDictionary)
-            id += $"_{Info.PageId}";
+            id = $"AutoImport_{Info.PageId}";
         Model = await Admin.GetImportAsync(id);
         Model.Name = Info.PageName;
         Model.BizName = $"导入{Info.PageName}";
@@ -48,7 +48,7 @@ class Importer : BaseComponent
                     {
                         Disabled = !isFinished,
                         Label = Language["Import.IsAsync"],
-                        Value = Model.IsAsync,
+                        Value = Model?.IsAsync == true,
                         ValueChanged = this.Callback<bool>(v => Model.IsAsync = v)
                     });
                 });

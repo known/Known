@@ -42,8 +42,8 @@ public static class AdminExtension
         DbConfig.Models.Add<SysMessage>(x => x.Id);
         DbConfig.Models.Add<SysModule>(x => x.Id);
 
-        CoreConfig.OnInstallModules = OnInstallModules;
-        CoreConfig.OnInitialModules = OnInitialModules;
+        Config.OnInstallModules = OnInstallModules;
+        Config.OnInitialModules = OnInitialModules;
     }
 
     private static async Task OnInstallModules(Database db)

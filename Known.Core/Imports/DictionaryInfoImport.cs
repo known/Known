@@ -1,6 +1,6 @@
 ﻿namespace Known.Imports;
 
-class SysDictionaryImport(ImportContext context) : ImportBase<SysDictionary>(context)
+class DictionaryInfoImport(ImportContext context) : ImportBase<SysDictionary>(context)
 {
     public override void InitColumns()
     {

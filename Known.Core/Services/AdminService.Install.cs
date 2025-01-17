@@ -63,10 +63,10 @@ partial class AdminService
         await database.InitializeTableAsync();
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
-            if (CoreConfig.OnInstallModules != null)
+            if (Config.OnInstallModules != null)
             {
                 Console.WriteLine("Module is installing...");
-                await CoreConfig.OnInstallModules.Invoke(db);
+                await Config.OnInstallModules.Invoke(db);
                 Console.WriteLine("Module is installed.");
             }
             var sys = CreateSystemInfo(info);

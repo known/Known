@@ -276,24 +276,6 @@ public static class ModelExtension
     }
     #endregion
 
-    #region Language
-    internal static string GetFieldName(this Language language, ColumnInfo column, Type type = null)
-    {
-        if (!string.IsNullOrEmpty(column.Label))
-            return column.Label;
-
-        if (!string.IsNullOrEmpty(column.DisplayName))
-            return column.DisplayName;
-
-        return language?.GetString(column, type);
-    }
-
-    internal static string GetFieldName<TItem>(this Language language, ColumnInfo column)
-    {
-        return language?.GetFieldName(column, typeof(TItem));
-    }
-    #endregion
-
     #region Organization
     internal static List<MenuInfo> ToMenuItems(this List<OrganizationInfo> models)
     {

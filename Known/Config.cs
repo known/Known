@@ -142,6 +142,16 @@ public sealed class Config
     /// </summary>
     public static List<ModuleInfo> Modules { get; } = [];
 
+    /// <summary>
+    /// 取得或设置系统安装时，初始化系统模块数据方法委托。
+    /// </summary>
+    public static Func<Database, Task> OnInstallModules { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统登录时，初始化系统模块数据方法委托。
+    /// </summary>
+    public static Func<Database, Task<List<ModuleInfo>>> OnInitialModules { get; set; }
+
     internal static List<MenuAttribute> Menus { get; } = [];
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
@@ -295,8 +305,6 @@ public sealed class Config
                 AddApiMethod(typeof(IEntityService<>).MakeGenericType(typeArguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item, item.Name[1..].Replace("Service", ""));
-            else if (item.IsAssignableTo(typeof(ImportBase)))
-                ImportHelper.ImportTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(ICustomField)))
@@ -332,9 +340,10 @@ public sealed class Config
         var plugin = item.GetCustomAttribute<PluginAttribute>();
         if (plugin != null)
         {
-            var info = new PluginMenuInfo(item, plugin);
-            info.Url = routes?.FirstOrDefault()?.Template;
-            Plugins.Add(info);
+            Plugins.Add(new PluginMenuInfo(item, plugin)
+            {
+                Url = routes?.FirstOrDefault()?.Template
+            });
         }
     }
 

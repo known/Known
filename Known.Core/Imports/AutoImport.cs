@@ -1,6 +1,6 @@
-﻿namespace Known.Core;
+﻿namespace Known.Imports;
 
-class DictionaryImport(ImportContext context) : ImportBase(context)
+class AutoImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {

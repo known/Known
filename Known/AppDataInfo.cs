@@ -1,4 +1,14 @@
-﻿namespace Known.Core;
+﻿/* 项目“Known (net9.0)”的未合并的更改
+在此之前:
+namespace Known.Core;
+在此之后:
+using Known;
+using Known;
+using Known.Core;
+
+namespace Known;
+*/
+namespace Known;
 
 /// <summary>
 /// 框架配置数据信息类。

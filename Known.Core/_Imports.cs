@@ -1,12 +1,12 @@
 ﻿global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics;
+global using System.Globalization;
 global using System.Net.Http.Json;
 global using System.Reflection;
 global using System.Security.Claims;
 global using System.Text;
 global using Known.Blazor;
-global using Known.Core;
 global using Known.Data;
 global using Known.Entities;
 global using Known.Extensions;

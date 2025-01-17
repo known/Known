@@ -1,4 +1,6 @@
-﻿namespace Known.Core;
+﻿using System.Linq.Expressions;
+
+namespace Known;
 
 /// <summary>
 /// 数据导入基类。
@@ -49,10 +51,15 @@ public abstract class ImportBase(ImportContext context)
 /// </summary>
 public class ImportContext
 {
+    /// <summary>
+    /// 自动无代码导入ID前缀。
+    /// </summary>
+    public const string AutoBizIdPrefix = "AutoImport";
+
     internal Context Context { get; set; }
     internal Database Database { get; set; }
     internal string BizId { get; set; }
-    internal bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith("Dictionary");
+    internal bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith(AutoBizIdPrefix);
 
     /// <summary>
     /// 取得导入业务参数字符串。

@@ -38,7 +38,7 @@ partial class AdminService
     {
         byte[] data = null;
         var db = Database;
-        if (bizId.StartsWith("Dictionary"))
+        if (bizId.StartsWith(ImportContext.AutoBizIdPrefix))
         {
             var id = bizId.Split('_')[1];
             var param = AppData.GetTablePageParameter(id);

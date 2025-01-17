@@ -57,8 +57,8 @@ public sealed class DataHelper
     /// <returns></returns>
     public static async Task<List<ModuleInfo>> GetModulesAsync(Database db = null)
     {
-        var modules = CoreConfig.OnInitialModules != null
-                    ? await CoreConfig.OnInitialModules.Invoke(db)
+        var modules = Config.OnInitialModules != null
+                    ? await Config.OnInitialModules.Invoke(db)
                     : AppData.Data.Modules ?? [];
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
         var allModules = new List<ModuleInfo>();

@@ -97,7 +97,9 @@ public class CoreOption
 
         foreach (var item in assembly.GetTypes())
         {
-            if (item.IsAssignableTo(typeof(FlowBase)))
+            if (item.IsAssignableTo(typeof(ImportBase)))
+                ImportHelper.ImportTypes[item.Name] = item;
+            else if (item.IsAssignableTo(typeof(FlowBase)))
                 FlowBase.FlowTypes[item.Name] = item;
         }
     }

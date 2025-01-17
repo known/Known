@@ -1,4 +1,4 @@
-﻿namespace Known.Core;
+﻿namespace Known.Helpers;
 
 /// <summary>
 /// 后台异步任务帮助者类。
