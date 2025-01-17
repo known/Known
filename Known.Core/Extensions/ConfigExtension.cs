@@ -17,6 +17,9 @@ static class ConfigExtension
 
     internal static async Task<Result> SaveConfigAsync(this Database db, string key, object value)
     {
+        if (string.IsNullOrWhiteSpace(key))
+            return Result.Error("配置键不能为空！");
+
         var appId = Config.App.Id;
         var data = new Dictionary<string, object>();
         data[nameof(SysConfig.AppId)] = appId;

@@ -14,7 +14,7 @@ public partial interface IAdminService
     /// </summary>
     /// <param name="info">设置表单信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveUserSettingFormAsync(SettingFormInfo info);
+    Task<Result> SaveUserSettingAsync(SettingFormInfo info);
 }
 
 partial class AdminService
@@ -25,7 +25,7 @@ partial class AdminService
         return Task.FromResult(value);
     }
 
-    public Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
+    public Task<Result> SaveUserSettingAsync(SettingFormInfo info)
     {
         if (info.BizData != null)
             Configs[info.BizType] = Utils.ToJson(info.BizData);
@@ -40,8 +40,8 @@ partial class AdminClient
         return Http.GetStringAsync($"/Admin/GetUserSetting?bizType={bizType}");
     }
 
-    public Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
+    public Task<Result> SaveUserSettingAsync(SettingFormInfo info)
     {
-        return Http.PostAsync("/Admin/SaveConfig", info);
+        return Http.PostAsync("/Admin/SaveUserSetting", info);
     }
 }

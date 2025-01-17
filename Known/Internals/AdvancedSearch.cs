@@ -11,7 +11,7 @@ class AdvancedSearch : BaseComponent
     internal async Task<List<QueryInfo>> SaveQueryAsync()
     {
         var query = Query.Where(q => Columns.Exists(c => c.Id == q.Id)).ToList();
-        await Admin.SaveUserSettingFormAsync(new SettingFormInfo
+        await Admin.SaveUserSettingAsync(new SettingFormInfo
         {
             BizType = SettingKey,
             BizData = query

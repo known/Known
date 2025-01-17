@@ -11,7 +11,7 @@ partial class AdminService
         return setting.BizData;
     }
 
-    public async Task<Result> SaveUserSettingFormAsync(SettingFormInfo info)
+    public async Task<Result> SaveUserSettingAsync(SettingFormInfo info)
     {
         var database = Database;
         var setting = await database.GetUserSettingAsync(info.BizType);

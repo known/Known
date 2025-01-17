@@ -3,16 +3,19 @@
 [WebApi]
 class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity> where TEntity : EntityBase, new()
 {
+    [Route("/api/Entities")]
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
     {
         return Database.QueryPageAsync<TEntity>(criteria);
     }
 
+    [Route("/api/Entity")]
     public Task<TEntity> GetAsync(object id)
     {
         return Database.QueryByIdAsync<TEntity>(id?.ToString());
     }
 
+    [Route("/api/Entity/DeleteEntities")]
     public async Task<Result> DeleteAsync(List<TEntity> models)
     {
         if (models == null || models.Count == 0)
@@ -27,6 +30,7 @@ class EntityService<TEntity>(Context context) : ServiceBase(context), IEntitySer
         });
     }
 
+    [Route("/api/Entity/SaveEntity")]
     public async Task<Result> SaveAsync(TEntity model)
     {
         var vr = model.Validate(Context);

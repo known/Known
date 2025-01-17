@@ -140,7 +140,7 @@ class TableSetting<TItem> : BaseComponent where TItem : class, new()
         else
             Context.UserTableSettings[Table.SettingId] = infos;
         Table.Columns = Table.GetUserColumns();
-        await Admin.SaveUserSettingFormAsync(new SettingFormInfo { BizType = Table.SettingId, BizData = infos });
+        await Admin.SaveUserSettingAsync(new SettingFormInfo { BizType = Table.SettingId, BizData = infos });
         await Table.StateChangeAsync();
     }
 }

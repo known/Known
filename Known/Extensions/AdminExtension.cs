@@ -14,7 +14,7 @@ static class AdminExtension
 
     internal static Task<Result> SaveUserSettingAsync(this IAdminService service, UserSettingInfo info)
     {
-        return service?.SaveUserSettingFormAsync(new SettingFormInfo
+        return service?.SaveUserSettingAsync(new SettingFormInfo
         {
             BizType = Constants.UserSetting,
             BizData = info

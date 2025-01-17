@@ -62,7 +62,7 @@ class EntityClient<TEntity>(HttpClient http) : ClientBase(http), IEntityService<
 {
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
     {
-        return Http.QueryAsync<TEntity>("/Entity/QueryEntities", criteria);
+        return Http.QueryAsync<TEntity>("/Entities", criteria);
     }
 
     public Task<TEntity> GetAsync(object id)
