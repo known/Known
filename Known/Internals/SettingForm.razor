@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<SettingTypeForm Class="kui-setting-form" Model="Model" LabelColSpan="6" OnFinish="OnSave">
+<SettingTypeForm Class="kui-setting-form" Model="Context.UserSetting" LabelColSpan="6" OnFinish="OnSave">
     <Title Level="4">@Language["Set.ThemeSetting"]</Title>
     <div class="kui-theme-color">
         @foreach (var item in Colors)
@@ -67,14 +67,13 @@
         new CodeInfo("Float", Language["Set.Float"])
     ];
 
-    [Parameter] public UserSettingInfo Model { get; set; }
     [Parameter] public Action OnChange { get; set; }
     [Parameter] public Func<Task> OnSave { get; set; }
     [Parameter] public Func<Task> OnReset { get; set; }
 
     private async Task OnThemeColor(string theme)
     {
-        Model.ThemeColor = theme;
+        Context.UserSetting.ThemeColor = theme;
         var href = $"_content/Known/css/theme/{theme}.css";
         await JS.SetStyleSheetAsync("/theme/", href);
     }

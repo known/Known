@@ -16,11 +16,6 @@ public partial class MainMenu
     [Parameter] public MenuMode Mode { get; set; }
 
     /// <summary>
-    /// 取得或设置菜单用户设置。
-    /// </summary>
-    [Parameter] public UserSettingInfo Setting { get; set; }
-
-    /// <summary>
     /// 取得或设置菜单数据列表。
     /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }

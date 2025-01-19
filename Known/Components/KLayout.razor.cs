@@ -15,24 +15,19 @@ partial class KLayout
     private MainMenu menu;
     private ReloadContainer reload;
 
-    private string WrapperClass => CssBuilder.Default("kui-wrapper").AddClass(Setting.Size).BuildClass();
-    private string TabsClass => CssBuilder.Default("kui-nav-tabs").AddClass("is-top", Setting.IsTopTab).BuildClass();
+    private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(Context.UserSetting.Size).BuildClass();
+    private string TabsClass => CssBuilder.Default("kui-nav-tabs").AddClass("is-top", Context.UserSetting.IsTopTab).BuildClass();
     private string HeaderClass => CssBuilder.Default("kui-header")
-                                            .AddClass("kui-menu-dark", Setting.MenuTheme == "Dark")
+                                            .AddClass("kui-menu-dark", Context.UserSetting.MenuTheme == "Dark")
                                             .BuildClass();
     private string MenuClass => CssBuilder.Default()
-                                          .AddClass("kui-menu-dark", Setting.MenuTheme == "Dark")
-                                          .AddClass("kui-menu-float", Setting.LayoutMode == LayoutMode.Float.ToString())
+                                          .AddClass("kui-menu-dark", Context.UserSetting.MenuTheme == "Dark")
+                                          .AddClass("kui-menu-float", Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
                                           .BuildClass();
 
     private AdminInfo Info { get; set; }
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
     [Inject] private ReuseTabsService Service { get; set; }
-
-    /// <summary>
-    /// 取得或设置用户设置信息。
-    /// </summary>
-    protected UserSettingInfo Setting { get; set; } = new();
 
     /// <summary>
     /// 取得或设置路由数据对象。
@@ -101,10 +96,10 @@ partial class KLayout
     /// <inheritdoc />
     public override void ReloadPage()
     {
-        if (Setting.MultiTab)
+        if (Context.UserSetting.MultiTab)
             Service.ReloadPage();
         else
-            reload?.Reload();
+            reload?.ReloadPage();
     }
 
     /// <inheritdoc />
@@ -139,7 +134,7 @@ partial class KLayout
             {
                 var size = await JS.GetCurrentSizeAsync();
                 if (string.IsNullOrWhiteSpace(size))
-                    size = Setting.Size;
+                    size = Context.UserSetting.Size;
                 if (string.IsNullOrWhiteSpace(size))
                     size = Config.App.DefaultSize;
                 await JS.SetCurrentSizeAsync(size);
@@ -148,7 +143,7 @@ partial class KLayout
             {
                 var language = await JS.GetCurrentLanguageAsync();
                 if (string.IsNullOrWhiteSpace(language))
-                    language = Setting.Language;
+                    language = Context.UserSetting.Language;
                 Context.CurrentLanguage = language;
             }
 
@@ -181,7 +176,6 @@ partial class KLayout
         if (!Context.IsMobileApp)
             SetUserMenus(Info?.UserMenus);
         Cache.AttachCodes(Info?.Codes);
-        Setting = Context.UserSetting;
     }
 
     private void SetUserMenus(List<MenuInfo> menus)
@@ -207,24 +201,21 @@ partial class KLayout
 
     private async Task OnThemeColorAsync()
     {
-        var theme = Setting.ThemeColor;
+        var theme = Context.UserSetting.ThemeColor;
         var href = $"_content/Known/css/theme/{theme}.css";
         await JS.SetStyleSheetAsync("/theme/", href);
     }
 
     private async Task OnSaveSetting()
     {
-        var result = await Admin.SaveUserSettingAsync(Setting);
+        var result = await Admin.SaveUserSettingAsync(Context.UserSetting);
         if (result.IsValid)
-        {
-            Context.UserSetting = Setting;
             await OnThemeColorAsync();
-        }
     }
 
     private Task OnResetSetting()
     {
-        Setting = new();
+        Context.UserSetting = new();
         return OnSaveSetting();
     }
 

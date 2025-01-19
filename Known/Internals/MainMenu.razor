@@ -1,5 +1,7 @@
 ﻿@inherits BaseComponent
 
 <PluginPanel Actions="actions">
-    <AntMenu @ref="menu" Context="Context" Mode="Mode" Items="Items" Accordion="Setting.Accordion" Theme="Setting.ToMenuTheme()" />
+    <AntMenu @ref="menu" Context="Context" Mode="Mode" Items="Items"
+             Accordion="Context.UserSetting.Accordion"
+             Theme="Context.UserSetting.ToMenuTheme()" />
 </PluginPanel>

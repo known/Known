@@ -1,27 +1,86 @@
 ﻿@inherits BaseLayout
 
-<div class="@WrapperClass">
-    <LayoutValue Value="this" IsFixed>
-        @if (Context.IsMobileApp)
+<LayoutValue Value="this" IsFixed>
+    @if (Context.IsMobileApp)
+    {
+        <AppLayout>@ChildContent</AppLayout>
+    }
+    else
+    {
+        if (Context.UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
         {
-            <AppLayout>@ChildContent</AppLayout>
+            <Layout Class="@LayoutClass">
+                <Header Class="@HeaderClass">
+                    <div class="left">
+                        <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
+                        <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Items="UserMenus" />
+                    </div>
+                    <TopNavbar OnMenuClick="OnMenuClick" />
+                </Header>
+                <Content>
+                    @if (Context.UserSetting.MultiTab)
+                    {
+                        <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" />
+                    }
+                    else
+                    {
+                        <div class="kui-body">
+                            <ReloadContainer @ref="reload">
+                                @ChildContent
+                            </ReloadContainer>
+                        </div>
+                    }
+                </Content>
+                @if (Context.UserSetting.ShowFooter)
+                {
+                    if (UIConfig.Footer != null)
+                    {
+                        <Footer Class="kui-footer">@UIConfig.Footer</Footer>
+                    }
+                    else
+                    {
+                        <Footer Class="kui-footer"><KFooter /></Footer>
+                    }
+                }
+            </Layout>
         }
         else
         {
-            if (Setting.LayoutMode == LayoutMode.Horizontal.ToString())
-            {
-                <Layout Class="kui-layout">
-                    <Header Class="@HeaderClass">
+            <Layout Class="@LayoutClass">
+                @if (Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
+                {
+                    <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
+                        <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
+                        <div class="kui-scroll">
+                            <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="UserMenus" />
+                        </div>
+                    </Sider>
+                }
+                else
+                {
+                    <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
+                        <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
+                        <div class="kui-scroll">
+                            <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="UserMenus" />
+                        </div>
+                    </Sider>
+                }
+                <Layout>
+                    <Header Class="kui-header">
                         <div class="left">
-                            <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                            <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Setting="Setting" Items="UserMenus" />
+                            @if (Context.UserSetting.LayoutMode != LayoutMode.Float.ToString())
+                            {
+                                <DynamicComponent Type="typeof(NavToggle)" />
+                            }
+                            <DynamicComponent Type="typeof(NavRefresh)" />
+                            <TopBreadcrumb Current="Context.Current" />
                         </div>
                         <TopNavbar OnMenuClick="OnMenuClick" />
                     </Header>
                     <Content>
-                        @if (Setting.MultiTab)
+                        @if (Context.UserSetting.MultiTab)
                         {
-                            <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" />
+                            <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" />
                         }
                         else
                         {
@@ -32,7 +91,7 @@
                             </div>
                         }
                     </Content>
-                    @if (Setting.ShowFooter)
+                    @if (Context.UserSetting.ShowFooter)
                     {
                         if (UIConfig.Footer != null)
                         {
@@ -44,75 +103,14 @@
                         }
                     }
                 </Layout>
-            }
-            else
-            {
-                <Layout Class="kui-layout">
-                    @if (Setting.LayoutMode == LayoutMode.Float.ToString())
-                    {
-                        <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
-                            <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                            <div class="kui-scroll">
-                                <MainMenu @ref="menu" Mode="MenuMode.Inline" Setting="Setting" Items="UserMenus" />
-                            </div>
-                        </Sider>
-                    }
-                    else
-                    {
-                        <Sider Theme="Setting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
-                            <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                            <div class="kui-scroll">
-                                <MainMenu @ref="menu" Mode="MenuMode.Inline" Setting="Setting" Items="UserMenus" />
-                            </div>
-                        </Sider>
-                    }
-                    <Layout>
-                        <Header Class="kui-header">
-                            <div class="left">
-                                @if (Setting.LayoutMode != LayoutMode.Float.ToString())
-                                {
-                                    <DynamicComponent Type="typeof(NavToggle)" />
-                                }
-                                <DynamicComponent Type="typeof(NavRefresh)" />
-                                <TopBreadcrumb Current="Context.Current" />
-                            </div>
-                            <TopNavbar OnMenuClick="OnMenuClick" />
-                        </Header>
-                        <Content>
-                            @if (Setting.MultiTab)
-                            {
-                                <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" />
-                            }
-                            else
-                            {
-                                <div class="kui-body">
-                                    <ReloadContainer @ref="reload">
-                                        @ChildContent
-                                    </ReloadContainer>
-                                </div>
-                            }
-                        </Content>
-                        @if (Setting.ShowFooter)
-                        {
-                            if (UIConfig.Footer != null)
-                            {
-                                <Footer Class="kui-footer">@UIConfig.Footer</Footer>
-                            }
-                            else
-                            {
-                                <Footer Class="kui-footer"><KFooter /></Footer>
-                            }
-                        }
-                    </Layout>
-                </Layout>
-            }
-            <Drawer Closable="true" @bind-Visible="showSetting" Placement="DrawerPlacement.Right" Title="@(Language["Nav.Setting"])" Width="320">
-                <SettingForm Model="Setting" OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
-            </Drawer>
+            </Layout>
         }
-        @if (showSpin)
-        {
-            <Spin Tip="@spinTip" />
-        }
-    </LayoutValue>
-</div>
+        <Drawer Closable="true" @bind-Visible="showSetting" Placement="DrawerPlacement.Right" Title="@(Language["Nav.Setting"])" Width="320">
+            <SettingForm OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
+        </Drawer>
+    }
+    @if (showSpin)
+    {
+        <Spin Tip="@spinTip" />
+    }
+</LayoutValue>

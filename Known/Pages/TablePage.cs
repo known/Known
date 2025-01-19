@@ -53,7 +53,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                 menu.Plugins.AddPlugin(menu.TablePage);
                 await Platform.SaveMenuAsync(menu);
                 Model.Initialize(menu.TablePage);
-                container?.Reload();
+                container?.ReloadPage();
             }
         };
         form.AddRow().AddColumn(c => c.ShowPager);

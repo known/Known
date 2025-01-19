@@ -113,20 +113,18 @@ public class AdminLayout : LayoutComponentBase
         if (!IsLoaded)
             return;
 
-        if (UIConfig.AdminBody != null)
+        builder.Div("kui-wrapper", () =>
         {
-            builder.Component<KLayout>()
-                   .Set(c => c.IsAdmin, true)
-                   .Set(c => c.ChildContent, b => UIConfig.AdminBody.Invoke(b, Body))
-                   .Build();
-        }
-        else
-        {
-            builder.Component<KLayout>()
-                   .Set(c => c.IsAdmin, true)
-                   .Set(c => c.ChildContent, b => b.Component<AuthPanel>().Set(c => c.ChildContent, Body).Build())
-                   .Build();
-        }
+            if (UIConfig.AdminBody != null)
+                UIConfig.AdminBody.Invoke(builder, BuildBody);
+            else
+                builder.Component<KLayout>().Set(c => c.IsAdmin, true).Set(c => c.ChildContent, BuildBody).Build();
+        });
+    }
+
+    private void BuildBody(RenderTreeBuilder builder)
+    {
+        builder.Component<AuthPanel>().Set(c => c.ChildContent, Body).Build();
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()
