@@ -21,6 +21,17 @@ public class NavToggle : BaseNav
     /// <inheritdoc />
     protected override EventCallback<MouseEventArgs> OnClick => this.Callback<MouseEventArgs>(e => OnItemToggle());
 
+    /// <summary>
+    /// 切换菜单栏。
+    /// </summary>
+    /// <param name="collapsed">是否折叠。</param>
+    public void Toggle(bool collapsed)
+    {
+        this.collapsed = collapsed;
+        OnToggle?.Invoke(collapsed);
+        StateChanged();
+    }
+
     private void OnItemToggle()
     {
         collapsed = !collapsed;

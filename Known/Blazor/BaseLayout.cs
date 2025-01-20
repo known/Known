@@ -66,10 +66,7 @@ public class BaseLayout : BaseComponent
             }
 
             if (!IsServerMode)
-            {
                 await InitAdminAsync();
-                LoadMenus();
-            }
         }
     }
 
@@ -167,6 +164,7 @@ public class BaseLayout : BaseComponent
     {
         Context.UserMenus = menus;
         UserMenus = menus?.ToMenuItems();
+        LoadMenus();
     }
 
     private void CheckUrlAuthentication()

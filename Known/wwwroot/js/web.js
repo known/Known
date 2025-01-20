@@ -8,7 +8,7 @@
     if (table.data('autofill') && !isResize)
         return;
 
-    var height = $('.kui-layout .kui-body').height();
+    var height = $('.kui-body').height();
     height -= KUtils.getHeight(parent + ' .kui-query');
     height -= KUtils.getHeight(parent + ' .kui-toolbar');
     height -= KUtils.getHeight(parent + ' .ant-tabs-nav');

@@ -52,7 +52,7 @@ public static class WebExtension
     /// <param name="item">跳转的菜单对象。</param>
     public static void NavigateTo(this NavigationManager navigation, MenuInfo item)
     {
-        if (item == null)
+        if (item == null || string.IsNullOrWhiteSpace(item.RouteUrl))
             return;
 
         //缓存APP代码中添加的菜单

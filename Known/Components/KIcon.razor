@@ -11,6 +11,10 @@
             {
                 <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
             }
+            @if (!string.IsNullOrWhiteSpace(Name))
+            {
+                <span class="icon-name">@Name</span>
+            }
         </Tooltip>
     }
     else
@@ -23,6 +27,10 @@
         {
             <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
         }
+        @if (!string.IsNullOrWhiteSpace(Name))
+        {
+            <span class="icon-name">@Name</span>
+        }
     }
 }
 
@@ -31,6 +39,11 @@
     /// 取得或设置图标。
     /// </summary>
     [Parameter] public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置图标名称。
+    /// </summary>
+    [Parameter] public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置图标提示标题。
