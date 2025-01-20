@@ -7,110 +7,64 @@
     }
     else
     {
-        if (Context.UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
-        {
-            <Layout Class="@LayoutClass">
-                <Header Class="@HeaderClass">
-                    <div class="left">
-                        <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                        <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Items="UserMenus" />
-                    </div>
-                    <TopNavbar OnMenuClick="OnMenuClick" />
-                </Header>
-                <Content>
-                    @if (Context.UserSetting.MultiTab)
-                    {
-                        <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" />
-                    }
-                    else
-                    {
-                        <div class="kui-body">
-                            <ReloadContainer @ref="reload">
-                                @ChildContent
-                            </ReloadContainer>
-                        </div>
-                    }
-                </Content>
-                @if (Context.UserSetting.ShowFooter)
-                {
-                    if (UIConfig.Footer != null)
-                    {
-                        <Footer Class="kui-footer">@UIConfig.Footer</Footer>
-                    }
-                    else
-                    {
-                        <Footer Class="kui-footer"><KFooter /></Footer>
-                    }
-                }
-            </Layout>
-        }
-        else
-        {
-            <Layout Class="@LayoutClass">
-                @if (Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
-                {
-                    <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
-                        <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                        <div class="kui-scroll">
-                            <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="UserMenus" />
-                        </div>
-                    </Sider>
-                }
-                else
-                {
-                    <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
-                        <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                        <div class="kui-scroll">
-                            <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="UserMenus" />
-                        </div>
-                    </Sider>
-                }
-                <Layout>
-                    <Header Class="kui-header">
-                        <div class="left">
-                            @if (Context.UserSetting.LayoutMode != LayoutMode.Float.ToString())
-                            {
-                                <DynamicComponent Type="typeof(NavToggle)" />
-                            }
-                            <DynamicComponent Type="typeof(NavRefresh)" />
-                            <TopBreadcrumb Current="Context.Current" />
-                        </div>
-                        <TopNavbar OnMenuClick="OnMenuClick" />
-                    </Header>
-                    <Content>
-                        @if (Context.UserSetting.MultiTab)
-                        {
-                            <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" />
-                        }
-                        else
-                        {
-                            <div class="kui-body">
-                                <ReloadContainer @ref="reload">
-                                    @ChildContent
-                                </ReloadContainer>
-                            </div>
-                        }
-                    </Content>
-                    @if (Context.UserSetting.ShowFooter)
-                    {
-                        if (UIConfig.Footer != null)
-                        {
-                            <Footer Class="kui-footer">@UIConfig.Footer</Footer>
-                        }
-                        else
-                        {
-                            <Footer Class="kui-footer"><KFooter /></Footer>
-                        }
-                    }
-                </Layout>
-            </Layout>
-        }
-        <Drawer Closable="true" @bind-Visible="showSetting" Placement="DrawerPlacement.Right" Title="@(Language["Nav.Setting"])" Width="320">
-            <SettingForm OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
-        </Drawer>
+        @ChildContent
     }
     @if (showSpin)
     {
         <Spin Tip="@spinTip" />
     }
 </LayoutValue>
+
+@code {
+    private string spinTip = "";
+    private bool showSpin = false;
+
+    /// <summary>
+    /// 取得或设置子组件内容。
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public Action OnReloadPage { get; set; }
+    [Parameter] public Action OnLoadMenus { get; set; }
+    [Parameter] public Action<bool> OnToggleSide { get; set; }
+
+    /// <inheritdoc />
+    public override async Task ShowSpinAsync(string text, Func<Task> action)
+    {
+        if (action == null)
+            return;
+
+        showSpin = true;
+        spinTip = text;
+        await StateChangedAsync();
+        await Task.Run(async () =>
+        {
+            try
+            {
+                await action?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                await OnErrorAsync(ex);
+            }
+            showSpin = false;
+            await StateChangedAsync();
+        });
+    }
+
+    /// <inheritdoc />
+    public override void ReloadPage()
+    {
+        OnReloadPage?.Invoke();
+    }
+
+    internal override void LoadMenus()
+    {
+        OnLoadMenus?.Invoke();
+    }
+
+    internal override void ToggleSide(bool collapsed)
+    {
+        OnToggleSide?.Invoke(collapsed);
+    }
+}

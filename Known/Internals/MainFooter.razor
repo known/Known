@@ -1,0 +1,13 @@
+﻿@inherits BaseComponent
+
+@if (Context.UserSetting.ShowFooter)
+{
+    if (UIConfig.Footer != null)
+    {
+        <Footer Class="kui-footer">@UIConfig.Footer</Footer>
+    }
+    else
+    {
+        <Footer Class="kui-footer"><KFooter /></Footer>
+    }
+}

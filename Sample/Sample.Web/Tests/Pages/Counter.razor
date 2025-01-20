@@ -10,6 +10,7 @@
     <p role="status">Current count: @currentCount</p>
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
+    <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
 
     <AntForm Form="model">
         <AntRow>
@@ -41,6 +42,15 @@
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void OnLoad()
+    {
+        App?.ShowSpinAsync("耗时操作中...", () =>
+        {
+            Thread.Sleep(10000);
+            return Task.CompletedTask;
+        });
     }
 
     class Test
