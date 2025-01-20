@@ -66,8 +66,10 @@ public class BaseLayout : BaseComponent
             }
 
             if (!IsServerMode)
+            {
                 await InitAdminAsync();
-            LoadMenus();
+                LoadMenus();
+            }
         }
     }
 
@@ -134,7 +136,6 @@ public class BaseLayout : BaseComponent
     }
 
     internal virtual void LoadMenus() { }
-    internal virtual void ToggleSide(bool collapsed) { }
 
     internal virtual void AddMenuItem(MenuInfo item)
     {

@@ -12,9 +12,9 @@ public class TopNavbar : BaseComponent
     private List<string> Values => items?.Select(i => i.Id).ToList();
 
     /// <summary>
-    /// 取得或设置按钮点击事件委托。
+    /// 取得或设置系统设置按钮点击事件委托。
     /// </summary>
-    [Parameter] public Action<string> OnMenuClick { get; set; }
+    [Parameter] public Action OnSetting { get; set; }
 
     /// <summary>
     /// 异步初始化组件。

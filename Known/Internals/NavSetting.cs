@@ -6,5 +6,5 @@ class NavSetting : BaseNav
 
     protected override string Title => Language["Nav.Setting"];
     protected override string Icon => "setting";
-    protected override EventCallback<MouseEventArgs> OnClick => this.Callback<MouseEventArgs>(e => Topbar?.OnMenuClick?.Invoke("setting"));
+    protected override EventCallback<MouseEventArgs> OnClick => this.Callback<MouseEventArgs>(e => Topbar?.OnSetting?.Invoke());
 }

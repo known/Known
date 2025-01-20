@@ -1,15 +1,15 @@
 ﻿@inherits BaseComponent
 
-<KLayout OnReloadPage="OnReloadPage" OnLoadMenus="OnLoadMenus" OnToggleSide="OnToggleSide">
+<KLayout @ref="layout" IsAdmin OnLoadMenus="OnLoadMenus" OnReloadPage="OnReloadPage">
     @if (Context.UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
     {
         <Layout Class="@LayoutClass">
             <Header Class="@HeaderClass">
                 <div class="left">
                     <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                    <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Items="App.UserMenus" />
+                    <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Items="layout?.UserMenus" />
                 </div>
-                <TopNavbar OnMenuClick="OnMenuClick" />
+                <TopNavbar OnSetting="OnSetting" />
             </Header>
             <Content>
                 <MainBody @ref="body" ChildContent="ChildContent" />
@@ -25,7 +25,7 @@
                 <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                     <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
                     <div class="kui-scroll">
-                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="App.UserMenus" />
+                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="layout?.UserMenus" />
                     </div>
                 </Sider>
             }
@@ -34,7 +34,7 @@
                 <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                     <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
                     <div class="kui-scroll">
-                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="App.UserMenus" />
+                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="layout?.UserMenus" />
                     </div>
                 </Sider>
             }
@@ -43,12 +43,12 @@
                     <div class="left">
                         @if (Context.UserSetting.LayoutMode != LayoutMode.Float.ToString())
                         {
-                            <DynamicComponent Type="typeof(NavToggle)" />
+                            <NavToggle OnToggle="OnToggle" />
                         }
                         <DynamicComponent Type="typeof(NavRefresh)" />
                         <TopBreadcrumb Current="Context.Current" />
                     </div>
-                    <TopNavbar OnMenuClick="OnMenuClick" />
+                    <TopNavbar OnSetting="OnSetting" />
                 </Header>
                 <Content>
                     <MainBody @ref="body" ChildContent="ChildContent" />
@@ -57,15 +57,12 @@
             </Layout>
         </Layout>
     }
-    <Drawer Closable="true" @bind-Visible="showSetting" Placement="DrawerPlacement.Right" Title="@(Language["Nav.Setting"])" Width="320">
-        <SettingForm OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
-    </Drawer>
 </KLayout>
 
 @code {
-    private bool showSetting = false;
     private bool collapsed = false;
 
+    private KLayout layout;
     private MainMenu menu;
     private MainBody body;
 
@@ -83,33 +80,20 @@
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    private void OnLoadMenus(List<MenuInfo> menus)
+    {
+        menu?.SetItems(menus);
+    }
+
     private void OnReloadPage()
     {
         body?.ReloadPage();
     }
 
-    private void OnLoadMenus()
-    {
-        menu?.SetItems(App.UserMenus);
-    }
-
-    private void OnToggleSide(bool collapsed)
+    private void OnToggle(bool collapsed)
     {
         this.collapsed = collapsed;
         StateChanged();
-    }
-
-    private async Task OnSaveSetting()
-    {
-        var result = await Admin.SaveUserSettingAsync(Context.UserSetting);
-        if (result.IsValid)
-            await App.OnThemeColorAsync();
-    }
-
-    private Task OnResetSetting()
-    {
-        Context.UserSetting = new();
-        return OnSaveSetting();
     }
 
     private void OnLogoClick()
@@ -117,17 +101,8 @@
         Navigation.NavigateTo("/");
     }
 
-    private void OnMenuClick(string id)
+    private void OnSetting()
     {
-        switch (id)
-        {
-            case "logout":
-                App.Logout();
-                break;
-            case "setting":
-                showSetting = true;
-                StateHasChanged();
-                break;
-        }
+        layout?.ShowSetting();
     }
 }

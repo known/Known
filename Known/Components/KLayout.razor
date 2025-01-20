@@ -8,6 +8,9 @@
     else
     {
         @ChildContent
+        <Drawer Closable="true" @bind-Visible="showSetting" Placement="DrawerPlacement.Right" Title="@(Language["Nav.Setting"])" Width="320">
+            <SettingForm OnSave="OnSaveSetting" OnReset="OnResetSetting" OnChange="StateHasChanged" />
+        </Drawer>
     }
     @if (showSpin)
     {
@@ -18,15 +21,22 @@
 @code {
     private string spinTip = "";
     private bool showSpin = false;
+    private bool showSetting = false;
 
     /// <summary>
     /// 取得或设置子组件内容。
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// 取得或设置加载按钮委托。
+    /// </summary>
+    [Parameter] public Action<List<MenuInfo>> OnLoadMenus { get; set; }
+
+    /// <summary>
+    /// 取得或设置重新加载页面委托。
+    /// </summary>
     [Parameter] public Action OnReloadPage { get; set; }
-    [Parameter] public Action OnLoadMenus { get; set; }
-    [Parameter] public Action<bool> OnToggleSide { get; set; }
 
     /// <inheritdoc />
     public override async Task ShowSpinAsync(string text, Func<Task> action)
@@ -58,13 +68,30 @@
         OnReloadPage?.Invoke();
     }
 
-    internal override void LoadMenus()
+    /// <summary>
+    /// 显示设置表单。
+    /// </summary>
+    public void ShowSetting()
     {
-        OnLoadMenus?.Invoke();
+        showSetting = true;
+        StateChanged();
     }
 
-    internal override void ToggleSide(bool collapsed)
+    internal override void LoadMenus()
     {
-        OnToggleSide?.Invoke(collapsed);
+        OnLoadMenus?.Invoke(UserMenus);
+    }
+
+    private async Task OnSaveSetting()
+    {
+        var result = await Admin.SaveUserSettingAsync(Context.UserSetting);
+        if (result.IsValid)
+            await OnThemeColorAsync();
+    }
+
+    private Task OnResetSetting()
+    {
+        Context.UserSetting = new();
+        return OnSaveSetting();
     }
 }

@@ -72,19 +72,11 @@ public class AdminLayout : LayoutComponentBase
 
         builder.Div("kui-wrapper", () =>
         {
-            builder.Component<KLayout>()
-                   .Set(c => c.IsAdmin, true)
-                   .Set(c => c.ChildContent, BuildLayout)
-                   .Build();
+            if (UIConfig.AdminBody != null)
+                UIConfig.AdminBody.Invoke(builder, BuildBody);
+            else
+                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
         });
-    }
-
-    private void BuildLayout(RenderTreeBuilder builder)
-    {
-        if (UIConfig.AdminBody != null)
-            UIConfig.AdminBody.Invoke(builder, BuildBody);
-        else
-            builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
     }
 
     private void BuildBody(RenderTreeBuilder builder)
