@@ -13,7 +13,7 @@ public partial interface IAdminService
     /// </summary>
     /// <param name="info">数据库连接信息。</param>
     /// <returns>测试结果。</returns>
-    [AllowAnonymous] Task<Result> TestConnectionAsync(DatabaseInfo info);
+    [AllowAnonymous] Task<Result> TestConnectionAsync(ConnectionInfo info);
 
     /// <summary>
     /// 异步保存系统安装信息。
@@ -30,7 +30,7 @@ partial class AdminService
         return Task.FromResult(new InstallInfo());
     }
 
-    public Task<Result> TestConnectionAsync(DatabaseInfo info)
+    public Task<Result> TestConnectionAsync(ConnectionInfo info)
     {
         return Result.SuccessAsync("测试成功！");
     }
@@ -48,7 +48,7 @@ partial class AdminClient
         return Http.GetAsync<InstallInfo>("/Admin/GetInstall");
     }
 
-    public Task<Result> TestConnectionAsync(DatabaseInfo info)
+    public Task<Result> TestConnectionAsync(ConnectionInfo info)
     {
         return Http.PostAsync("/Admin/TestConnection", info);
     }

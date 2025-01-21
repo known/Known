@@ -28,13 +28,13 @@ public sealed class DbConfig
     /// 获取数据库配置信息列表。
     /// </summary>
     /// <returns></returns>
-    public static List<DatabaseInfo> GetDatabases()
+    public static List<ConnectionInfo> GetConnections()
     {
-        return DatabaseOption.Instance.Connections.Select(c => new DatabaseInfo
+        return DatabaseOption.Instance.Databases.Select(d => new ConnectionInfo
         {
-            Name = c.Name,
-            Type = c.DatabaseType.ToString(),
-            ConnectionString = c.ConnectionString
+            Name = d.Name,
+            Type = d.DatabaseType.ToString(),
+            ConnectionString = d.ConnectionString
         }).ToList();
     }
 
@@ -42,9 +42,9 @@ public sealed class DbConfig
     /// 加载保存的数据库连接配置信息。
     /// </summary>
     /// <param name="onLoad">加载数据库配置信息委托。</param>
-    public static void LoadConnections(Action<List<ConnectionInfo>> onLoad)
+    public static void LoadConnections(Action<List<DatabaseInfo>> onLoad)
     {
-        onLoad?.Invoke(DatabaseOption.Instance.Connections);
+        onLoad?.Invoke(DatabaseOption.Instance.Databases);
     }
 
     /// <summary>
@@ -52,18 +52,18 @@ public sealed class DbConfig
     /// </summary>
     /// <param name="infos">数据库配置信息列表。</param>
     /// <param name="onSave">保存数据库配置信息委托。</param>
-    public static void SetConnections(List<DatabaseInfo> infos, Action<List<ConnectionInfo>> onSave = null)
+    public static void SetConnections(List<ConnectionInfo> infos, Action<List<DatabaseInfo>> onSave = null)
     {
         if (infos == null || infos.Count == 0)
             return;
 
         foreach (var info in infos)
         {
-            var conn = DatabaseOption.Instance.GetConnection(info.Name);
+            var conn = DatabaseOption.Instance.GetDatabase(info.Name);
             if (conn != null)
                 conn.ConnectionString = info.ConnectionString;
         }
 
-        onSave?.Invoke(DatabaseOption.Instance.Connections);
+        onSave?.Invoke(DatabaseOption.Instance.Databases);
     }
 }

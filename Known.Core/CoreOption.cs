@@ -29,6 +29,8 @@ public enum AuthMode
 public class CoreOption
 {
     internal static CoreOption Instance = new();
+    internal static List<Func<List<CodeInfo>>> Funcs = [];
+    internal static List<Func<Database, Task<List<CodeInfo>>>> FuncTasks = [];
 
     /// <summary>
     /// 取得App配置信息。
@@ -103,4 +105,16 @@ public class CoreOption
                 FlowBase.FlowTypes[item.Name] = item;
         }
     }
+
+    /// <summary>
+    /// 添加代码委托。
+    /// </summary>
+    /// <param name="func">代码委托。</param>
+    public void AddCode(Func<List<CodeInfo>> func) => Funcs.Add(func);
+
+    /// <summary>
+    /// 添加代码异步委托。
+    /// </summary>
+    /// <param name="func">代码委托。</param>
+    public void AddCode(Func<Database, Task<List<CodeInfo>>> func) => FuncTasks.Add(func);
 }

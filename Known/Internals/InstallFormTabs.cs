@@ -1,14 +1,14 @@
 ﻿namespace Known.Internals;
 
-class FormDatabase : BaseForm<DatabaseInfo>
+class FormDatabase : BaseForm<ConnectionInfo>
 {
-    [Parameter] public DatabaseInfo Info { get; set; }
-    [Parameter] public Func<DatabaseInfo, Task> OnTest { get; set; }
+    [Parameter] public ConnectionInfo Info { get; set; }
+    [Parameter] public Func<ConnectionInfo, Task> OnTest { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        Model = new FormModel<DatabaseInfo>(this) { SmallLabel = true, Data = Info };
+        Model = new FormModel<ConnectionInfo>(this) { SmallLabel = true, Data = Info };
         Model.AddRow().AddColumn(c => c.Name, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.Type, c => c.ReadOnly = true);
         Model.AddRow().AddColumn(c => c.ConnectionString, c =>

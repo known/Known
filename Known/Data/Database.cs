@@ -82,23 +82,35 @@ public partial class Database : IDisposable
     }
 
     /// <summary>
-    /// 设置数据库连接。
+    /// 设置数据库连接配置。
     /// </summary>
-    /// <param name="connName">连接名称。</param>
+    /// <param name="connName">配置名称。</param>
     public virtual void SetDatabase(string connName)
     {
-        var setting = DatabaseOption.Instance.GetConnection(connName);
-        if (setting == null)
+        var info = DatabaseOption.Instance.GetDatabase(connName);
+        if (info == null)
             return;
 
         this.connName = connName;
-        DatabaseType = setting.DatabaseType;
-        ConnectionString = setting.ConnectionString;
+        SetDatabase(info);
+    }
+
+    /// <summary>
+    /// 设置数据库连接配置。
+    /// </summary>
+    /// <param name="info">配置信息。</param>
+    public void SetDatabase(DatabaseInfo info)
+    {
+        if (info == null)
+            return;
+
+        DatabaseType = info.DatabaseType;
+        ConnectionString = info.ConnectionString;
         provider = DbProvider.Create(this);
 
-        var factory = DbProviderFactories.GetFactory(setting.DatabaseType.ToString());
+        var factory = DbProviderFactories.GetFactory(DatabaseType.ToString());
         conn = factory.CreateConnection();
-        conn.ConnectionString = setting.ConnectionString;
+        conn.ConnectionString = ConnectionString;
     }
 
     /// <summary>

@@ -9,25 +9,24 @@ partial class AdminService
             return new InstallInfo();
 
         var info = await GetInstallDataAysnc(false);
-        info.Databases = DbConfig.GetDatabases();
-        info.IsDatabase = info.Databases?.Count(d => string.IsNullOrWhiteSpace(d.ConnectionString)) > 0;
+        info.Connections = DbConfig.GetConnections();
+        info.IsDatabase = info.Connections?.Count(d => string.IsNullOrWhiteSpace(d.ConnectionString)) > 0;
         if (info.IsDatabase)
         {
-            foreach (var item in info.Databases)
+            foreach (var item in info.Connections)
             {
-                var type = Utils.ConvertTo<DatabaseType>(item.Type);
-                item.ConnectionString = GetDefaultConnectionString(type);
+                item.ConnectionString = item.GetDefaultConnectionString();
             }
         }
         else
         {
-            info.Databases = [];
+            info.Connections = [];
         }
         return info;
     }
 
     [AllowAnonymous]
-    public async Task<Result> TestConnectionAsync(DatabaseInfo info)
+    public async Task<Result> TestConnectionAsync(Data.ConnectionInfo info)
     {
         if (Config.System != null)
             return Result.Error("The system is installed.");
@@ -172,20 +171,5 @@ partial class AdminService
             Name = info.AdminName
         };
         return db;
-    }
-
-    private static string GetDefaultConnectionString(DatabaseType type)
-    {
-        return type switch
-        {
-            DatabaseType.Access => "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx",
-            DatabaseType.SQLite => "Data Source=..\\Sample.db",
-            DatabaseType.SqlServer => "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;",
-            DatabaseType.Oracle => "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;",
-            DatabaseType.MySql => "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;",
-            DatabaseType.PgSql => "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;",
-            DatabaseType.DM => "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;",
-            _ => string.Empty,
-        };
     }
 }

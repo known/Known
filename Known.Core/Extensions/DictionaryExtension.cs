@@ -13,6 +13,21 @@ static class DictionaryExtension
                      : $"{e.Code}-{e.Name}";
             return new CodeInfo(e.Category, code, name, e);
         }).ToList();
+
+        foreach (var item in CoreOption.Funcs)
+        {
+            var items = item.Invoke();
+            if (items != null && items.Count > 0)
+                codes.AddRange(items);
+        }
+
+        foreach (var item in CoreOption.FuncTasks)
+        {
+            var items = await item.Invoke(db);
+            if (items != null && items.Count > 0)
+                codes.AddRange(items);
+        }
+
         return codes;
     }
 }

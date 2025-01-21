@@ -58,7 +58,7 @@ public class InstallInfo
     /// <summary>
     /// 取得或设置数据库信息列表。
     /// </summary>
-    public List<DatabaseInfo> Databases { get; set; }
+    public List<ConnectionInfo> Connections { get; set; }
 }
 
 /// <summary>

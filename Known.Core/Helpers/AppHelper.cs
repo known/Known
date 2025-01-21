@@ -28,10 +28,10 @@ class AppHelper
 
     internal static void SetConnections(InstallInfo info)
     {
-        if (info.Databases == null || info.Databases.Count == 0)
+        if (info.Connections == null || info.Connections.Count == 0)
             return;
 
-        DbConfig.SetConnections(info.Databases, items =>
+        DbConfig.SetConnections(info.Connections, items =>
         {
             if (info.IsDatabase)
             {

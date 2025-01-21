@@ -62,10 +62,10 @@ public class InstallPage : BaseForm<InstallInfo>
 
     private void BuildDatabase(RenderTreeBuilder builder)
     {
-        if (Model.Data == null || Model.Data.Databases == null || Model.Data.Databases.Count == 0)
+        if (Model.Data == null || Model.Data.Connections == null || Model.Data.Connections.Count == 0)
             return;
 
-        foreach (var database in Model.Data.Databases)
+        foreach (var database in Model.Data.Connections)
         {
             builder.Component<FormDatabase>()
                    .Set(c => c.Info, database)
@@ -84,7 +84,7 @@ public class InstallPage : BaseForm<InstallInfo>
         builder.Component<FormAccount>().Set(c => c.Model, Model).Build();
     }
 
-    private async Task OnTestAsync(DatabaseInfo info)
+    private async Task OnTestAsync(ConnectionInfo info)
     {
         var result = await Admin.TestConnectionAsync(info);
         UI.Result(result);
