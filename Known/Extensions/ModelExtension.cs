@@ -27,6 +27,24 @@ public static class ModelExtension
 
     #region ModuleInfo
     /// <summary>
+    /// 添加一个模块信息。
+    /// </summary>
+    /// <param name="modules">模块列表。</param>
+    /// <param name="id">ID。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="parentId">上级ID。</param>
+    /// <param name="sort">排序。</param>
+    /// <param name="url">URL。</param>
+    /// <returns>菜单信息。</returns>
+    public static ModuleInfo Add(this List<ModuleInfo> modules, string id, string name, string icon, string parentId, int sort, string url = null)
+    {
+        var info = new ModuleInfo { Id = id, Name = name, Icon = icon, ParentId = parentId, Sort = sort, Url = url };
+        modules.Add(info);
+        return info;
+    }
+
+    /// <summary>
     /// 将模块信息列表转成菜单信息列表。
     /// </summary>
     /// <param name="modules">模块信息列表。</param>

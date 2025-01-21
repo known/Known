@@ -192,12 +192,12 @@ public class MenuInfo
         }
     }
 
-    internal bool HasUrl(string url, RouteData route, string page)
+    internal bool HasRoute(string url, RouteData route)
     {
         if (Target == Constants.Route)
-            return Url == url || Id == route.PageType.FullName || PageType == route.PageType;
+            return Id == route.PageType.FullName || PageType == route.PageType;
 
-        return Url == url || Url == $"/{page}" || Id == page || PageType == route.PageType;
+        return RouteUrl == url;
     }
 
     private static string GetPageUrl(string url)

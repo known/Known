@@ -100,8 +100,7 @@ public class UIContext : Context
         if (menu != null)
             return menu;
 
-        var pageRoute = Url.StartsWith("/page/") ? Url.Substring(6) : "";
-        return menus.FirstOrDefault(m => m.HasUrl(Url, route, pageRoute));
+        return menus.FirstOrDefault(m => m.HasRoute(Url, route));
     }
 
     private bool IsInMenu(string pageId, string buttonId)
