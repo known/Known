@@ -26,6 +26,6 @@ partial class AdminService
             setting.BizData = Utils.ToJson(info.BizData);
             await database.SaveSettingAsync(setting);
         }
-        return Result.Success(Language.Success(Language.Save));
+        return Result.Success(Language.SaveSuccess);
     }
 }

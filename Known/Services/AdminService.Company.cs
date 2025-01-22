@@ -35,7 +35,7 @@ partial class AdminService
     public Task<Result> SaveCompanyAsync(object model)
     {
         AppData.SaveBizData(KeyCompany, model);
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

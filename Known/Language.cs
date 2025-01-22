@@ -109,9 +109,19 @@ public class Language
     public string Delete => this["Button.Delete"];
 
     /// <summary>
+    /// 删除成功。
+    /// </summary>
+    public string DeleteSuccess => Success(Delete);
+
+    /// <summary>
     /// 保存。
     /// </summary>
     public string Save => this["Button.Save"];
+
+    /// <summary>
+    /// 保存成功。
+    /// </summary>
+    public string SaveSuccess => Success(Save);
 
     /// <summary>
     /// 搜索。

@@ -31,7 +31,7 @@ partial class AdminService
     public async Task<Result> SaveWeixinAsync(WeixinInfo info)
     {
         await Database.SaveConfigAsync(KeyWeixin, info);
-        return Result.Success(Language.Success(Language.Save));
+        return Result.Success(Language.SaveSuccess);
     }
 
     //public Task<SysWeixin> GetWeixinByOpenIdAsync(string openId)

@@ -27,7 +27,7 @@ partial class PlatformService
     {
         AppData.Data.TopNavs = infos;
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

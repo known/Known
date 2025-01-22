@@ -52,7 +52,7 @@ partial class PlatformService
                 AppData.Data.Buttons.Remove(item);
         }
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Delete));
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
     public Task<Result> SaveButtonAsync(ButtonInfo info)
@@ -69,7 +69,7 @@ partial class PlatformService
         item.Style = info.Style;
         item.Position = info.Position;
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     private ButtonInfo CreateButton(ActionInfo info)

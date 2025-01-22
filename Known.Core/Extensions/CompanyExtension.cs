@@ -33,6 +33,6 @@ static class CompanyExtension
 
         data.SystemData = Utils.ToJson(model);
         await db.SaveAsync(data);
-        return Result.Success(lang.Success(lang.Save));
+        return Result.Success(lang.SaveSuccess);
     }
 }

@@ -36,7 +36,7 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
                 datas.Remove(item);
         }
         AppData.SaveBizData(key, datas);
-        return Result.SuccessAsync(Language.Success(Language.Delete));
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
     private Task<Result> SaveModelAsync<T>(string key, T info)
@@ -48,7 +48,7 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
             datas.Remove(item);
         datas.Add(info);
         AppData.SaveBizData(key, datas);
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

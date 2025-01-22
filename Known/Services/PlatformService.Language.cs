@@ -52,7 +52,7 @@ partial class PlatformService
                 AppData.Data.Languages.Remove(item);
         }
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Delete));
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
     public Task<Result> SaveLanguageAsync(LanguageInfo info)
@@ -67,7 +67,7 @@ partial class PlatformService
         item.Name = info.Name;
         item.Icon = info.Icon;
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     private LanguageInfo CreateLanguage(ActionInfo info)

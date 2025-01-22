@@ -46,7 +46,7 @@ partial class AdminService
         {
             await database.SaveSystemAsync(info);
         }
-        return Result.Success(Language.Success(Language.Save));
+        return Result.Success(Language.SaveSuccess);
     }
 
     public async Task<Result> SaveProductKeyAsync(SystemInfo info)

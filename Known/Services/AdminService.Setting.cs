@@ -29,7 +29,7 @@ partial class AdminService
     {
         if (info.BizData != null)
             Configs[info.BizType] = Utils.ToJson(info.BizData);
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

@@ -104,17 +104,17 @@ partial class AdminService
 
     public Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     public Task<Result> UpdateUserAsync(UserInfo info)
     {
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     public Task<Result> UpdatePasswordAsync(PwdFormInfo info)
     {
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

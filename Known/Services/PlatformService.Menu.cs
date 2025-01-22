@@ -29,7 +29,7 @@ partial class PlatformService
         var modules = AppData.Data.Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
         modules?.Resort();
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Delete));
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
     public Task<Result> SaveMenuAsync(MenuInfo info)
@@ -53,7 +53,7 @@ partial class PlatformService
         module.Layout = info.Layout;
         module.Plugins = info.Plugins;
         AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Save), info);
+        return Result.SuccessAsync(Language.SaveSuccess, info);
     }
 }
 

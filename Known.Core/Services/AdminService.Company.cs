@@ -33,7 +33,7 @@ partial class AdminService
         {
             await database.SaveConfigAsync(KeyCompany, model);
         }
-        return Result.Success(Language.Success(Language.Save));
+        return Result.Success(Language.SaveSuccess);
     }
 
     private static async Task<string> GetCompanyDataAsync(Database db)

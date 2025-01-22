@@ -14,7 +14,7 @@ partial class AdminService
 
         await Database.DeleteFileAsync(info.Id);
         AttachFile.DeleteFile(info.Path);
-        return Result.Success(Language.Success(Language.Delete));
+        return Result.Success(Language.DeleteSuccess);
     }
 
     public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria)

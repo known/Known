@@ -33,12 +33,12 @@ partial class AdminService
 
     public Task<Result> DeleteTasksAsync(List<TaskInfo> infos)
     {
-        return Result.SuccessAsync(Language.Success(Language.Delete));
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
     public Task<Result> ResetTasksAsync(List<TaskInfo> infos)
     {
-        return Result.SuccessAsync(Language.Success(Language.Save));
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

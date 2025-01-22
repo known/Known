@@ -100,7 +100,7 @@ partial class AdminService
         var url = Config.GetFileUrl(attach.FilePath);
         entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
         await database.SaveAsync(entity);
-        return Result.Success(Language.Success(Language.Save), url);
+        return Result.Success(Language.SaveSuccess, url);
     }
 
     public async Task<Result> UpdateUserAsync(UserInfo info)
@@ -112,7 +112,7 @@ partial class AdminService
         if (!result.IsValid)
             return result;
 
-        return Result.Success(Language.Success(Language.Save), info);
+        return Result.Success(Language.SaveSuccess, info);
     }
 
     public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)
