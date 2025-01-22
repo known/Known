@@ -32,24 +32,37 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    private const string KeyDictionary = "Dictionaries";
+
     public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<DictionaryInfo>());
+        var category = criteria.GetQueryValue(nameof(DictionaryInfo.Category));
+        return QueryModelsAsync<DictionaryInfo>(KeyDictionary, criteria, datas =>
+        {
+            return datas?.Where(d => d.Category == category)
+                         .OrderBy(d => d.Sort)
+                         .ToList();
+        });
     }
 
     public Task<List<CodeInfo>> GetCategoriesAsync()
     {
-        return Task.FromResult(new List<CodeInfo>());
+        var datas = AppData.GetBizData<List<DictionaryInfo>>(KeyDictionary);
+        var codes = datas?.Where(c => c.Category == Constants.DicCategory)
+                          .OrderBy(d => d.Sort)
+                          .Select(c => new CodeInfo(c.Category, c.Code, c.Name))
+                          .ToList();
+        return Task.FromResult(codes);
     }
 
     public Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos)
     {
-        return Result.SuccessAsync("删除成功！");
+        return DeleteModelsAsync(KeyDictionary, infos);
     }
 
     public Task<Result> SaveDictionaryAsync(DictionaryInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return SaveModelAsync(KeyDictionary, info);
     }
 }
 

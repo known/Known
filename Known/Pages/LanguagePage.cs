@@ -18,7 +18,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         Table.ShowPager = true;
         Table.OnQuery = Platform.QueryLanguagesAsync;
 
-        Table.Column(c => c.Id).Width(120);
+        Table.Column(c => c.Id).Width(120).ViewLink();
         Table.Column(c => c.Name).Width(120).Query();
         Table.Column(c => c.Icon);
 

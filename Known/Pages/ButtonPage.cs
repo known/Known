@@ -19,7 +19,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryButtonsAsync;
 
-        Table.Column(c => c.Id).Width(150);
+        Table.Column(c => c.Id).Width(150).ViewLink();
         Table.Column(c => c.Name).Width(120).Query();
         Table.Column(c => c.Icon).Width(100).Template((b, r) => b.IconName(r.Icon, r.Icon));
         Table.Column(c => c.Style).Width(100).Template((b, r) =>

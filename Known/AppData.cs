@@ -8,6 +8,7 @@ namespace Known;
 public sealed class AppData
 {
     private static readonly string KmdPath = "./AppData.kmd";
+    private static readonly string KdbPath = "./AppData.kdb";
 
     private AppData() { }
 
@@ -166,8 +167,8 @@ public sealed class AppData
     }
     #endregion
 
-    #region Data
-    internal static void LoadData()
+    #region AppData
+    internal static void LoadAppData()
     {
         if (!Enabled)
             return;
@@ -182,7 +183,7 @@ public sealed class AppData
         if (OnParseData != null)
             Data = OnParseData(bytes);
         else
-            Data = ParseData(bytes);
+            Data = ParseData<AppDataInfo>(bytes);
 
         // 加载新增菜单页面
         LoadDefaultData();
@@ -200,35 +201,6 @@ public sealed class AppData
                   ? OnFormatData(Data)
                   : FormatData(Data);
         File.WriteAllBytes(KmdPath, bytes);
-    }
-
-    private static AppDataInfo ParseData(byte[] bytes)
-    {
-        using (var stream = new MemoryStream(bytes))
-        using (var reader = new MemoryStream())
-        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
-        {
-            gzip.CopyTo(reader);
-            var json = Encoding.UTF8.GetString(reader.ToArray());
-            return Utils.FromJson<AppDataInfo>(json);
-        }
-    }
-
-    private static byte[] FormatData(AppDataInfo data)
-    {
-        var json = Utils.ToJson(data);
-        var bytes = Encoding.UTF8.GetBytes(json);
-        using (var stream = new MemoryStream())
-        using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
-        {
-            gzip.Write(bytes, 0, bytes.Length);
-            gzip.Flush();
-            stream.Position = 0;
-
-            var buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
-        }
     }
     #endregion
 
@@ -360,6 +332,65 @@ public sealed class AppData
             ReadOnly = form.ReadOnly,
             Placeholder = form.Placeholder
         });
+    }
+    #endregion
+
+    #region BizData
+    private static Dictionary<string, string> BizData { get; set; } = [];
+
+    internal static T GetBizData<T>(string key)
+    {
+        if (BizData.TryGetValue(key, out var value))
+            return Utils.FromJson<T>(value);
+
+        return default;
+    }
+
+    internal static void LoadBizData()
+    {
+        if (!File.Exists(KdbPath))
+            return;
+
+        var bytes = File.ReadAllBytes(KdbPath);
+        BizData = ParseData<Dictionary<string, string>>(bytes);
+    }
+
+    internal static void SaveBizData(string key, object value)
+    {
+        BizData[key] = Utils.ToJson(value);
+        var bytes = FormatData(BizData);
+        File.WriteAllBytes(KdbPath, bytes);
+    }
+    #endregion
+
+    #region Private
+    private static T ParseData<T>(byte[] bytes)
+    {
+        using (var stream = new MemoryStream(bytes))
+        using (var reader = new MemoryStream())
+        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
+        {
+            gzip.CopyTo(reader);
+            var json = Encoding.UTF8.GetString(reader.ToArray());
+            return Utils.FromJson<T>(json);
+        }
+    }
+
+    private static byte[] FormatData(object data)
+    {
+        var json = Utils.ToJson(data);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        using (var stream = new MemoryStream())
+        using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
+        {
+            gzip.Write(bytes, 0, bytes.Length);
+            gzip.Flush();
+            stream.Position = 0;
+
+            var buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
+        }
     }
     #endregion
 }

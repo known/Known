@@ -10,6 +10,7 @@ public class DictionaryInfo
     /// </summary>
     public DictionaryInfo()
     {
+        Id = Utils.GetNextId();
         Enabled = true;
     }
 
@@ -37,7 +38,7 @@ public class DictionaryInfo
     /// </summary>
     [Required]
     [MaxLength(100)]
-    [Column(IsQuery = true)]
+    [Column(IsQuery = true, IsViewLink = true)]
     [Form]
     public string Code { get; set; }
 
@@ -84,6 +85,14 @@ public class DictionaryInfo
 public class OrganizationInfo
 {
     /// <summary>
+    /// 构造函数。
+    /// </summary>
+    public OrganizationInfo()
+    {
+        Id = Utils.GetNextId();
+    }
+
+    /// <summary>
     /// 取得或设置实体ID。
     /// </summary>
     public string Id { get; set; }
@@ -99,7 +108,7 @@ public class OrganizationInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column]
+    [Column(IsViewLink = true)]
     [Form]
     public string Code { get; set; }
 
@@ -141,6 +150,7 @@ public class RoleInfo
     /// </summary>
     public RoleInfo()
     {
+        Id = Utils.GetNextId();
         Enabled = true;
     }
 
@@ -154,7 +164,7 @@ public class RoleInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
+    [Column(IsQuery = true, IsViewLink = true)]
     [Form]
     public string Name { get; set; }
 
@@ -220,6 +230,14 @@ public enum LogType
 /// </summary>
 public class LogInfo
 {
+    /// <summary>
+    /// 构造函数。
+    /// </summary>
+    public LogInfo()
+    {
+        Id = Utils.GetNextId();
+    }
+
     /// <summary>
     /// 取得或设置实体ID。
     /// </summary>

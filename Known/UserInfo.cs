@@ -10,6 +10,7 @@ public class UserInfo
     /// </summary>
     public UserInfo()
     {
+        Id = Utils.GetNextId();
         IsNew = true;
         Enabled = true;
         Gender = "Female";
@@ -30,7 +31,7 @@ public class UserInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
+    [Column(IsQuery = true, IsViewLink = true)]
     [Form(Row = 1, Column = 1)]
     public string UserName { get; set; }
 

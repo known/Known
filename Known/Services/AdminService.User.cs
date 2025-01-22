@@ -61,9 +61,11 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    private const string KeyUser = "Users";
+
     public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<UserInfo>());
+        return QueryModelsAsync<UserInfo>(KeyUser, criteria);
     }
 
     public Task<UserInfo> GetUserDataAsync(string id)
@@ -73,7 +75,7 @@ partial class AdminService
 
     public Task<Result> DeleteUsersAsync(List<UserInfo> infos)
     {
-        return Result.SuccessAsync("删除成功！");
+        return DeleteModelsAsync(KeyUser, infos);
     }
 
     public Task<Result> ChangeDepartmentAsync(List<UserInfo> infos)
@@ -98,7 +100,7 @@ partial class AdminService
 
     public Task<Result> SaveUserAsync(UserInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return SaveModelAsync(KeyUser, info);
     }
 }
 

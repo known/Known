@@ -124,6 +124,16 @@ public class FieldInfo
     /// 取得或设置字段是否必填。
     /// </summary>
     public bool Required { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段类型名称。
+    /// </summary>
+    [JsonIgnore]
+    public string TypeName
+    {
+        get { return Type.ToString(); }
+        set { Type = Utils.ConvertTo<FieldType>(value); }
+    }
 }
 
 /// <summary>

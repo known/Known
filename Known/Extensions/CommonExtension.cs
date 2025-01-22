@@ -92,6 +92,20 @@ public static class CommonExtension
 
     #region Object
     /// <summary>
+    /// 获取对象属性值。
+    /// </summary>
+    /// <param name="obj">对象。</param>
+    /// <param name="propertyName">属性名。</param>
+    /// <returns>属性值。</returns>
+    public static object Property(this object obj, string propertyName)
+    {
+        if (obj == null)
+            return null;
+
+        return TypeHelper.GetPropertyValue(obj, propertyName);
+    }
+
+    /// <summary>
     /// 合并两个对象。
     /// </summary>
     /// <param name="obj1">对象1。</param>
@@ -159,8 +173,11 @@ public static class CommonExtension
     /// <param name="lists">数据列表。</param>
     /// <param name="criteria">查询条件。</param>
     /// <returns>分页结果。</returns>
-    public static PagingResult<T> ToPagingResult<T>(this List<T> lists, PagingCriteria criteria) where T : class
+    public static PagingResult<T> ToPagingResult<T>(this List<T> lists, PagingCriteria criteria)
     {
+        if (lists == null || lists.Count == 0)
+            return new PagingResult<T>(0, []);
+
         var data = lists.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
         return new PagingResult<T>(lists.Count, data);
     }

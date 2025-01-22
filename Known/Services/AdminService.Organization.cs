@@ -25,24 +25,24 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    private const string KeyOrganization = "Organizations";
+
     public Task<List<OrganizationInfo>> GetOrganizationsAsync()
     {
+        var datas = AppData.GetBizData<List<OrganizationInfo>>(KeyOrganization) ?? [];
         var info = GetSystem();
-        var lists = new List<OrganizationInfo>
-        {
-            new() { Id = info.CompNo, ParentId = "0", Code = info.CompNo, Name = info.CompName }
-        };
-        return Task.FromResult(lists);
+        datas.Add(new() { Id = info.CompNo, ParentId = "0", Code = info.CompNo, Name = info.CompName });
+        return Task.FromResult(datas);
     }
 
     public Task<Result> DeleteOrganizationsAsync(List<OrganizationInfo> infos)
     {
-        return Result.SuccessAsync("删除成功！");
+        return DeleteModelsAsync(KeyOrganization, infos);
     }
 
     public Task<Result> SaveOrganizationAsync(OrganizationInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return SaveModelAsync(KeyOrganization, info);
     }
 }
 

@@ -33,24 +33,29 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    private const string KeyRole = "Roles";
+
     public Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<RoleInfo>());
+        return QueryModelsAsync<RoleInfo>(KeyRole, criteria);
     }
 
     public async Task<RoleInfo> GetRoleAsync(string roleId)
     {
-        return new RoleInfo { Modules = await DataHelper.GetModulesAsync() };
+        var datas = AppData.GetBizData<List<RoleInfo>>(KeyRole);
+        var info = datas?.FirstOrDefault(d => d.Id == roleId) ?? new RoleInfo();
+        info.Modules = await DataHelper.GetModulesAsync();
+        return info;
     }
 
     public Task<Result> DeleteRolesAsync(List<RoleInfo> infos)
     {
-        return Result.SuccessAsync("删除成功！");
+        return DeleteModelsAsync(KeyRole, infos);
     }
 
     public Task<Result> SaveRoleAsync(RoleInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return SaveModelAsync(KeyRole, info);
     }
 }
 

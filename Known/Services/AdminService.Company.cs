@@ -20,13 +20,19 @@ partial class AdminService
 {
     public Task<string> GetCompanyAsync()
     {
-        var info = GetSystem();
-        var json = Utils.ToJson(new CompanyInfo { Code = info.CompNo, Name = info.CompName });
+        var company = AppData.GetBizData<CompanyInfo>("Company");
+        if (company == null)
+        {
+            var info = GetSystem();
+            company = new CompanyInfo { Code = info.CompNo, Name = info.CompName };
+        }
+        var json = Utils.ToJson(company);
         return Task.FromResult(json);
     }
 
     public Task<Result> SaveCompanyAsync(object model)
     {
+        AppData.SaveBizData("Company", model);
         return Result.SuccessAsync("保存成功！");
     }
 }
