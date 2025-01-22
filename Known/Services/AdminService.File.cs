@@ -40,7 +40,7 @@ partial class AdminService
 
     public Task<Result> DeleteFileAsync(AttachInfo info)
     {
-        return Result.SuccessAsync("删除成功！");
+        return Result.SuccessAsync(Language.Success(Language.Delete));
     }
 
     public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria)
@@ -50,7 +50,7 @@ partial class AdminService
 
     public Task<Result> DeleteFilesAsync(List<AttachInfo> infos)
     {
-        return Result.SuccessAsync("删除成功！");
+        return Result.SuccessAsync(Language.Success(Language.Delete));
     }
 }
 

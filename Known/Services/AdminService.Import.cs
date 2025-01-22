@@ -38,7 +38,7 @@ partial class AdminService
 
     public Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {
-        return Result.SuccessAsync("导入成功！");
+        return Result.SuccessAsync(Language.Success(Language.Import));
     }
 }
 

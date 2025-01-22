@@ -43,7 +43,7 @@ partial class AdminService
     {
         if (!string.IsNullOrWhiteSpace(info.Key))
             Configs[info.Key] = Utils.ToJson(info.Value);
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 }
 

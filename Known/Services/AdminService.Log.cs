@@ -19,14 +19,18 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    private const string KeyLog = "Logs";
+
     public Task<Result> AddLogAsync(LogInfo info)
     {
-        return Result.SuccessAsync("添加成功！");
+        info.CreateBy = CurrentUser.UserName;
+        info.CreateTime = DateTime.Now;
+        return SaveModelAsync(KeyLog, info);
     }
 
     public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<LogInfo>());
+        return QueryModelsAsync<LogInfo>(KeyLog, criteria);
     }
 }
 

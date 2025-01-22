@@ -18,9 +18,11 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    private const string KeyCompany = "Company";
+
     public Task<string> GetCompanyAsync()
     {
-        var company = AppData.GetBizData<CompanyInfo>("Company");
+        var company = AppData.GetBizData<CompanyInfo>(KeyCompany);
         if (company == null)
         {
             var info = GetSystem();
@@ -32,8 +34,8 @@ partial class AdminService
 
     public Task<Result> SaveCompanyAsync(object model)
     {
-        AppData.SaveBizData("Company", model);
-        return Result.SuccessAsync("保存成功！");
+        AppData.SaveBizData(KeyCompany, model);
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 }
 

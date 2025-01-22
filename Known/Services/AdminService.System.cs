@@ -55,12 +55,12 @@ partial class AdminService
 
     public Task<Result> SaveSystemAsync(SystemInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 
     public Task<Result> SaveProductKeyAsync(SystemInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 
     private static SystemInfo GetSystem()

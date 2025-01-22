@@ -74,12 +74,12 @@ partial class AdminService
 
     public Task<Result> SubmitFlowAsync(FlowFormInfo info)
     {
-        return Result.SuccessAsync("提交成功！");
+        return Result.SuccessAsync(Language.Success(Language.Submit));
     }
 
     public Task<Result> RevokeFlowAsync(FlowFormInfo info)
     {
-        return Result.SuccessAsync("撤回成功！");
+        return Result.SuccessAsync(Language.Success(Language.Revoke));
     }
 
     public Task<Result> AssignFlowAsync(FlowFormInfo info)

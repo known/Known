@@ -18,6 +18,7 @@ public class SysLogList : BaseTablePage<LogInfo>
 
         Table.OnQuery = Admin.QueryLogsAsync;
         Table.Column(c => c.Type).Template((b, r) => b.Tag(r.Type));
+        Table.Column(c => c.CreateTime).Type(FieldType.DateTime);
     }
 
     /// <summary>

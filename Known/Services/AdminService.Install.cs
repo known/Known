@@ -37,7 +37,7 @@ partial class AdminService
 
     public Task<Result> SaveInstallAsync(InstallInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 }
 

@@ -72,12 +72,13 @@ partial class AdminService
             Token = Utils.GetGuid()
         };
         Cache.SetUser(user);
-        return Result.SuccessAsync("登录成功！", user);
+        return Result.SuccessAsync(Language.Success(Language["Login"]), user);
     }
 
     public Task<Result> SignOutAsync()
     {
-        return Result.SuccessAsync("注销成功！");
+        Cache.RemoveUser(CurrentUser);
+        return Result.SuccessAsync(Language["Tip.ExitSuccess"]);
     }
 
     public Task<AdminInfo> GetAdminAsync()
@@ -103,17 +104,17 @@ partial class AdminService
 
     public Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 
     public Task<Result> UpdateUserAsync(UserInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 
     public Task<Result> UpdatePasswordAsync(PwdFormInfo info)
     {
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync(Language.Success(Language.Save));
     }
 }
 
