@@ -8,7 +8,7 @@ class NavEditMode : BaseNav
 
     private void OnEdit()
     {
-        UIConfig.IsEditMode = !UIConfig.IsEditMode;
+        Context.IsEditMode = !Context.IsEditMode;
         App.StateChanged();
         App.ReloadPage();
     }

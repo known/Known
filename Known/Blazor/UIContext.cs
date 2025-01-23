@@ -11,6 +11,11 @@ public class UIContext : Context
     public MenuInfo Current { get; private set; }
 
     /// <summary>
+    /// 取得或设置界面是否是编辑模式。
+    /// </summary>
+    public bool IsEditMode { get; set; }
+
+    /// <summary>
     /// 取得当前菜单URL。
     /// </summary>
     public string Url { get; internal set; }

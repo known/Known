@@ -55,7 +55,7 @@ class PluginPage : BaseComponent, IAutoPage
             });
         }
 
-        if (UIConfig.IsEditMode)
+        if (Context.IsEditMode)
         {
             BuildLayout(builder);
             BuildAction(builder);

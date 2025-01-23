@@ -37,7 +37,7 @@ public class TopNavbar : BaseComponent
         {
             builder.Cascading(this, b =>
             {
-                if (UIConfig.IsEditMode)
+                if (Context.IsEditMode)
                     BuildNavAction(b);
 
                 if (UIConfig.TopNavType != null)
@@ -49,7 +49,7 @@ public class TopNavbar : BaseComponent
                 {
                     if (UIConfig.EnableEdit)
                     {
-                        var className = UIConfig.IsEditMode ? "edit" : "";
+                        var className = Context.IsEditMode ? "edit" : "";
                         b.Li().Class(className).Child(() => b.Component<NavEditMode>().Build());
                     }
                     b.Li(() => b.Component<NavDevelopment>().Build());
@@ -80,7 +80,7 @@ public class TopNavbar : BaseComponent
 
         foreach (var item in items)
         {
-            if (UIConfig.IsEditMode)
+            if (Context.IsEditMode)
             {
                 builder.Li().Draggable()
                        .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, item)))
