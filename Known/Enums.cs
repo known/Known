@@ -14,3 +14,45 @@ public enum GenderType
     /// </summary>
     Female
 }
+
+/// <summary>
+/// 菜单类型枚举。
+/// </summary>
+public enum MenuType
+{
+    /// <summary>
+    /// 菜单。
+    /// </summary>
+    Menu,
+    /// <summary>
+    /// 页面。
+    /// </summary>
+    Page,
+    /// <summary>
+    /// 链接。
+    /// </summary>
+    Link
+}
+
+/// <summary>
+/// 模块菜单类型枚举，适用于Admin插件。
+/// </summary>
+public enum ModuleType
+{
+    /// <summary>
+    /// 菜单。
+    /// </summary>
+    Menu,
+    /// <summary>
+    /// 无代码表格页面。
+    /// </summary>
+    Page,
+    /// <summary>
+    /// 自定义页面。
+    /// </summary>
+    Custom,
+    /// <summary>
+    /// IFrame页面。
+    /// </summary>
+    IFrame
+}
