@@ -21,16 +21,7 @@ public partial class JSService
         }
         catch
         {
-            try
-            {
-                var data = Utils.FromJson<T>(value);
-                await SetLocalStorageAsync(key, data);
-                return data;
-            }
-            catch
-            {
-                return default;
-            }
+            return default;
         }
     }
 
@@ -88,9 +79,9 @@ public partial class JSService
         return InvokeVoidAsync("KBlazor.removeStyleSheet", href);
     }
 
-    internal Task SetThemeAsync(string theme)
+    internal Task<string> SetThemeAsync(string theme)
     {
-        return InvokeVoidAsync("KBlazor.setTheme", theme);
+        return InvokeAsync<string>("KBlazor.setTheme", theme);
     }
 
     /// <summary>

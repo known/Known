@@ -32,20 +32,14 @@ public class NavTheme : BaseNav
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Context.Theme = await JS.GetCurrentThemeAsync();
-            await ThemeChangedAsync(Context.Theme == "dark");
+            Context.Theme = await JS.SetThemeAsync(null);
             await StateChangedAsync();
         }
     }
 
     private async Task ThemeChangedAsync(bool isDark)
     {
-        var darkUrl = "_content/AntDesign/css/ant-design-blazor.dark.css";
         Context.Theme = isDark ? "dark" : "default";
-        if (isDark)
-            await JS.InsertStyleSheetAsync("Known/css/web.css", darkUrl);
-        else
-            await JS.RemoveStyleSheetAsync(darkUrl);
-        await JS.SetCurrentThemeAsync(Context.Theme);
+        await JS.SetThemeAsync(Context.Theme);
     }
 }

@@ -43,14 +43,13 @@ public class AdminLayout : LayoutComponentBase
             return;
         }
 
-        var user = await GetCurrentUserAsync();
-        if (user == null)
+        Context.CurrentUser = await GetCurrentUserAsync();
+        if (Context.CurrentUser == null)
         {
             Navigation?.GoLoginPage();
             return;
         }
 
-        Context.CurrentUser = user;
         IsLoaded = true;
     }
 
@@ -60,7 +59,8 @@ public class AdminLayout : LayoutComponentBase
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            await JS.InitFilesAsync();
+            if (Context.CurrentUser == null)
+                await JS.InitFilesAsync();
         }
     }
 

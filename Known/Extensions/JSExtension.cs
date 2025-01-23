@@ -8,7 +8,6 @@ public static class JSExtension
     private static readonly string KeyUserInfo = "Known_User";
     private static readonly string KeySize = "Known_Size";
     private static readonly string KeyLanguage = "Known_Language";
-    private static readonly string KeyTheme = "Known_Theme";
     private static readonly string KeyLoginInfo = "Known_LoginInfo";
 
     /// <summary>
@@ -75,11 +74,6 @@ public static class JSExtension
         return js.SetLocalStorageAsync(KeyLoginInfo, value);
     }
 
-    internal static Task<string> GetCurrentSizeAsync(this JSService js)
-    {
-        return js.GetLocalStorageAsync<string>(KeySize);
-    }
-
     internal static async Task SetCurrentSizeAsync(this JSService js, string size)
     {
         var item = UIConfig.Sizes.FirstOrDefault(s => s.Id == size);
@@ -96,34 +90,5 @@ public static class JSExtension
     internal static Task SetCurrentLanguageAsync(this JSService js, string language)
     {
         return js.SetLocalStorageAsync(KeyLanguage, language);
-    }
-
-    /// <summary>
-    /// 异步获取系统当前主题。
-    /// </summary>
-    /// <param name="js">JS服务。</param>
-    /// <returns>当前主题。</returns>
-    internal static async Task<string> GetCurrentThemeAsync(this JSService js)
-    {
-        var theme = await js.GetLocalStorageAsync<string>(KeyTheme);
-        if (string.IsNullOrWhiteSpace(theme))
-        {
-            var hour = DateTime.Now.Hour;
-            theme = hour > 6 && hour < 20 ? "light" : "dark";
-        }
-        await js.SetThemeAsync(theme);
-        return theme;
-    }
-
-    /// <summary>
-    /// 异步存储系统当前主题。
-    /// </summary>
-    /// <param name="js">JS服务。</param>
-    /// <param name="theme">当前主题。</param>
-    /// <returns></returns>
-    internal static async Task SetCurrentThemeAsync(this JSService js, string theme)
-    {
-        await js.SetThemeAsync(theme);
-        await js.SetLocalStorageAsync(KeyTheme, theme);
     }
 }

@@ -138,7 +138,20 @@ export class KBlazor {
         }
     }
     static setTheme(theme) {
+        if (!theme)
+            theme = KBlazor.getLocalStorage('Known_Theme');
+        if (!theme) {
+            var hour = new Date().getHours();
+            theme = hour > 6 && hour < 20 ? "light" : "dark";
+        }
         $('html').attr('data-theme', theme);
+        KBlazor.setLocalStorage('Known_Theme', theme);
+        var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
+        if (theme == 'dark')
+            KBlazor.insertStyleSheet('Known/css/web.css', darkUrl);
+        else
+            KBlazor.removeStyleSheet(darkUrl);
+        return theme;
     }
     static setUserSetting(setting) {
         KBlazor.setStyleSheet('/theme/', '_content/Known/css/theme/' + setting.themeColor + '.css');
