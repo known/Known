@@ -14,10 +14,15 @@
 
     <AntForm Form="model">
         <AntRow>
-            <DataItem Span="24" Label="测试">
+            <DataItem Span="24" Label="附件">
+                <KUpload MultiFile Accept=".jpg, .png, .doc" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="12" Label="测试">
                 <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
             </DataItem>
-            <DataItem Span="24" Label="测试">
+            <DataItem Span="12" Label="测试">
                 <AntSelectCode @bind-Value="context.Field" Category="Item1,Item2,Item3" />
             </DataItem>
         </AntRow>

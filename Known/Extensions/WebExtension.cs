@@ -80,14 +80,20 @@ public static class WebExtension
     /// 异步创建浏览器上传的附件，如果是图片，则压缩高清图后再上传。
     /// </summary>
     /// <param name="file">浏览器附件对象。</param>
+    /// <param name="isCompress">是否压缩图片。</param>
+    /// <param name="size">压缩图片大小。</param>
     /// <returns>附件数据对象。</returns>
-    public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file)
+    public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file, bool isCompress = true, Size? size = null)
     {
-        if (!Utils.CheckImage(file.Name))
+        if (!Utils.CheckImage(file.Name) || !isCompress)
             return await file.ReadFileAsync();
 
+        if (size == null)
+            size = new Size(1920, 1080);
+        var width = size.Value.Width;
+        var height = size.Value.Height;
         var format = file.ContentType;
-        var image = await file.RequestImageFileAsync(format, 1920, 1080);
+        var image = await file.RequestImageFileAsync(format, width, height);
         return await image.ReadFileAsync();
     }
 

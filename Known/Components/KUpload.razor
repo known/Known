@@ -8,7 +8,7 @@
             <div class="kui-button">
                 <KIcon Icon="upload" />
                 <span>@Language.Upload</span>
-                <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" OnChange="OnInputFileChangedAsync" />
+                <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
             </div>
         }
         @BuildFiles
@@ -18,7 +18,7 @@ else
 {
     if (!ReadOnly)
     {
-        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" OnChange="OnInputFileChangedAsync" />
+        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
     }
     @BuildFiles
 }
@@ -35,13 +35,18 @@ else
             <div>
                 @if (!ReadOnly)
                 {
-                    <span class="kui-link kui-danger" @onclick="e=>OnDeleteFile(item)">@Language.Delete</span>
+                    <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language.Delete</span>
                 }
                 <FileLink Item="item" />
             </div>
         }
-    </div>
-    ;
+    </div>;
+
+    /// <summary>
+    /// 取得或设置上传组件附件属性列表。
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> InputAttributes { get; set; }
 
     /// <summary>
     /// 取得或设置是否显示上传按钮。
@@ -54,6 +59,11 @@ else
     [Parameter] public string Value { get; set; }
 
     /// <summary>
+    /// 取得或设置上传组件关联的文件类型，例如：.jpg, .png, .doc。
+    /// </summary>
+    [Parameter] public string Accept { get; set; }
+
+    /// <summary>
     /// 取得或设置上传组件是否支持多文件上传。
     /// </summary>
     [Parameter] public bool MultiFile { get; set; }
@@ -62,6 +72,16 @@ else
     /// 取得或设置上传组件是否支持文件夹上传。
     /// </summary>
     [Parameter] public bool Directory { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传组件是否压缩图片，默认压缩。
+    /// </summary>
+    [Parameter] public bool IsCompress { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置上传组件压缩图片大小，默认1920*1080。
+    /// </summary>
+    [Parameter] public Size CompressSize { get; set; } = new Size(1920, 1080);
 
     /// <summary>
     /// 取得或设置上传组件文件改变事件委托。
@@ -127,7 +147,8 @@ else
         if (isChange)
         {
             await StateChangedAsync();
-            await OnFilesChanged?.Invoke(files);
+            if (OnFilesChanged != null)
+                await OnFilesChanged.Invoke(files);
         }
     }
 
@@ -136,21 +157,22 @@ else
         if (files.Exists(f => f.Name == item.Name))
             return false;
 
-        var file = await item.CreateFileAsync();
+        var file = await item.CreateFileAsync(IsCompress, CompressSize);
         files.Add(file);
         sysFiles ??= [];
         sysFiles.Add(new AttachInfo { Id = "", Name = item.Name });
         return true;
     }
 
-    private void OnDeleteFile(AttachInfo item)
+    private async Task OnDeleteFileAsync(AttachInfo item)
     {
         if (string.IsNullOrWhiteSpace(item.Id))
         {
             var file = files.FirstOrDefault(f => f.Name == item.Name);
             files.Remove(file);
             sysFiles?.Remove(item);
-            OnFilesChanged?.Invoke(files);
+            if (OnFilesChanged != null)
+                await OnFilesChanged.Invoke(files);
             return;
         }
 
