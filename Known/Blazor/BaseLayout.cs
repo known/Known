@@ -47,16 +47,6 @@ public class BaseLayout : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            await OnThemeColorAsync();
-            if (Config.App.IsSize)
-            {
-                var size = await JS.GetCurrentSizeAsync();
-                if (string.IsNullOrWhiteSpace(size))
-                    size = Context.UserSetting.Size;
-                if (string.IsNullOrWhiteSpace(size))
-                    size = Config.App.DefaultSize;
-                await JS.SetCurrentSizeAsync(size);
-            }
             if (Config.App.IsLanguage)
             {
                 var language = await JS.GetCurrentLanguageAsync();
@@ -64,6 +54,11 @@ public class BaseLayout : BaseComponent
                     language = Context.UserSetting.Language;
                 Context.CurrentLanguage = language;
             }
+
+            var setting = Context.UserSetting;
+            if (string.IsNullOrWhiteSpace(setting.Size))
+                setting.Size = Config.App.DefaultSize;
+            await JS.SetUserSettingAsync(setting);
 
             if (!IsServerMode)
                 await InitAdminAsync();

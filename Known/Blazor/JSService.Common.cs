@@ -9,6 +9,11 @@ public partial class JSService
         return InvokeVoidAsync("KBlazor.initStaticFile", styles, scripts);
     }
 
+    internal Task SetUserSettingAsync(UserSettingInfo setting)
+    {
+        return InvokeVoidAsync("KBlazor.setUserSetting", setting);
+    }
+
     /// <summary>
     /// 异步执行一段JS脚本，返回执行结果对象。
     /// </summary>
