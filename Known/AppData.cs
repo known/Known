@@ -132,11 +132,13 @@ public sealed class AppData
             var info = new ModuleInfo
             {
                 Id = item.Page.Name,
+                Type = nameof(MenuType.Link),
                 Name = item.Name,
                 Icon = item.Icon,
                 ParentId = item.Parent,
                 Sort = item.Sort,
-                Url = item.Url
+                Url = item.Url,
+                Target = nameof(LinkTarget.None)
             };
             if (TypeHelper.IsSubclassOfGeneric(item.Page, typeof(BaseTablePage<>), out var types))
                 info.Plugins.AddPlugin(CreateTablePage(item.Page, types[0]));

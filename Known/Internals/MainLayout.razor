@@ -7,7 +7,7 @@
             <Header Class="@HeaderClass">
                 <div class="left">
                     <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
-                    <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Items="layout?.UserMenus" />
+                    <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Parent="root" />
                 </div>
                 <TopNavbar OnSetting="OnSetting" />
             </Header>
@@ -25,7 +25,7 @@
                 <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                     <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
                     <div class="kui-scroll">
-                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="layout?.UserMenus" />
+                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
                     </div>
                 </Sider>
             }
@@ -34,7 +34,7 @@
                 <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                     <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
                     <div class="kui-scroll">
-                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Items="layout?.UserMenus" />
+                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
                     </div>
                 </Sider>
             }
@@ -65,6 +65,7 @@
     private KLayout layout;
     private MainMenu menu;
     private MainBody body;
+    private MenuInfo root;
 
     private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(Context.UserSetting.Size).BuildClass();
     private string HeaderClass => CssBuilder.Default("kui-header")
@@ -82,7 +83,9 @@
 
     private void OnLoadMenus(List<MenuInfo> menus)
     {
-        menu?.SetItems(menus);
+        root = Config.App.GetRootMenu();
+        root.AddChildren(menus);
+        menu?.SetData(root);
     }
 
     private void OnReloadPage()

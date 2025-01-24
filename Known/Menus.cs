@@ -178,13 +178,21 @@ public class MenuInfo
         }
     }
 
-    internal void AddChild(MenuInfo menu)
+    /// <summary>
+    /// 添加子菜单。
+    /// </summary>
+    /// <param name="menu">菜单信息。</param>
+    public void AddChild(MenuInfo menu)
     {
         menu.Parent = this;
         Children.Add(menu);
     }
 
-    internal void AddChildren(List<MenuInfo> menus)
+    /// <summary>
+    /// 添加多个子菜单。
+    /// </summary>
+    /// <param name="menus">菜单列表。</param>
+    public void AddChildren(List<MenuInfo> menus)
     {
         foreach (var menu in menus)
         {

@@ -39,7 +39,21 @@ public static class ModelExtension
     /// <returns>菜单信息。</returns>
     public static ModuleInfo Add(this List<ModuleInfo> modules, string id, string name, string icon, string parentId, int sort, string url = null)
     {
-        var info = new ModuleInfo { Id = id, Name = name, Icon = icon, ParentId = parentId, Sort = sort, Url = url };
+        var info = new ModuleInfo
+        {
+            Id = id,
+            Type = nameof(MenuType.Menu),
+            Name = name,
+            Icon = icon,
+            ParentId = parentId,
+            Sort = sort,
+            Url = url
+        };
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            info.Type = nameof(MenuType.Link);
+            info.Target = nameof(LinkTarget.None);
+        }
         modules.Add(info);
         return info;
     }

@@ -3,20 +3,17 @@
 class MenuTree : BaseComponent
 {
     private TreeModel tree;
-    private MenuInfo root;
     private MenuInfo current = new();
 
-    [Parameter] public List<MenuInfo> Menus { get; set; }
+    [Parameter] public MenuInfo Parent { get; set; }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        root = Config.App.GetRootMenu();
-        root.AddChildren(Menus);
         tree = new TreeModel
         {
             ExpandRoot = true,
-            Data = [root],
+            Data = [Parent],
             OnNodeClick = OnTreeClickAsync,
             OnModelChanged = OnTreeChangedAsync
         };
@@ -89,7 +86,7 @@ class MenuTree : BaseComponent
 
     private void BuildForm(RenderTreeBuilder builder)
     {
-        if (string.IsNullOrWhiteSpace(current?.Name) || current?.Id == root.Id)
+        if (string.IsNullOrWhiteSpace(current?.Name) || current?.Id == "0")
             return;
 
         var model = new FormModel<MenuInfo>(this)
@@ -160,8 +157,8 @@ class MenuTree : BaseComponent
 
     private async Task SaveMenuAsync(MenuInfo item)
     {
-        var result = await Platform.SaveMenuAsync(item);
-        UI.Result(result, tree.RefreshAsync);
+        await Platform.SaveMenuAsync(item);
+        await tree.RefreshAsync();
     }
 
     //private async Task MoveUpMenuAsync(MenuInfo item)
@@ -194,8 +191,13 @@ class MenuTree : BaseComponent
             var result = await Platform.DeleteMenuAsync(item);
             UI.Result(result, () =>
             {
-                item.Parent.Children.Remove(item);
-                item.Parent.Children.Resort();
+                if (item.Id == Parent.Id)
+                    tree.Data.Remove(item);
+                if (item.Parent != null)
+                {
+                    item.Parent.Children.Remove(item);
+                    item.Parent.Children.Resort();
+                }
                 return tree.RefreshAsync();
             });
         });

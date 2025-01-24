@@ -16,9 +16,14 @@ public partial class MainMenu
     [Parameter] public MenuMode Mode { get; set; }
 
     /// <summary>
-    /// 取得或设置菜单数据列表。
+    /// 取得或设置上级菜单。
     /// </summary>
-    [Parameter] public List<MenuInfo> Items { get; set; }
+    [Parameter] public MenuInfo Parent { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单管理后委托。
+    /// </summary>
+    [Parameter] public Action<MenuInfo> OnManaged { get; set; }
 
     /// <summary>
     /// 异步初始化组件。
@@ -36,11 +41,12 @@ public partial class MainMenu
     /// <summary>
     /// 设置菜单数据源。
     /// </summary>
-    /// <param name="items">菜单信息列表。</param>
+    /// <param name="info">菜单信息。</param>
     /// <returns></returns>
-    public void SetItems(List<MenuInfo> items)
+    public void SetData(MenuInfo info)
     {
-        menu?.SetItems(items);
+        Parent = info;
+        menu?.SetItems(info.Children);
     }
 
     private void AddAction(string id, string icon, string name, Action<MouseEventArgs> onClick)
@@ -83,10 +89,11 @@ public partial class MainMenu
         {
             Title = "菜单管理",
             Width = 600,
-            Content = b => b.Component<MenuTree>().Set(c => c.Menus, menu?.Items).Build(),
+            Content = b => b.Component<MenuTree>().Set(c => c.Parent, Parent).Build(),
             OnOk = () =>
             {
-                menu?.SetItems(menu?.Items);
+                menu?.SetItems(Parent.Children);
+                OnManaged?.Invoke(Parent);
                 return model.CloseAsync();
             }
         };
@@ -95,7 +102,6 @@ public partial class MainMenu
 
     private FormModel<MenuInfo> GetMenuFormModel(string title, MenuInfo data)
     {
-        var menus = Context.UserMenus ?? [];
         var model = new FormModel<MenuInfo>(this)
         {
             SmallLabel = true,
@@ -112,7 +118,7 @@ public partial class MainMenu
             {
                 b.Component<TreePicker>()
                  .Set(c => c.Title, "选择上级菜单")
-                 .Set(c => c.Items, menus.ToMenuItems(true))
+                 .Set(c => c.Items, [Parent])
                  .Set(c => c.OnChanged, v =>
                  {
                      model.Data.ParentId = v.Id;

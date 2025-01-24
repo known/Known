@@ -14,7 +14,7 @@ public class AntTree : Tree<MenuInfo>
 
     /// <inheritdoc />
 	protected override void OnInitialized()
-	{
+    {
         base.OnInitialized();
         BlockNode = true;
         ShowIcon = true;
@@ -27,7 +27,7 @@ public class AntTree : Tree<MenuInfo>
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;
         TitleIconTemplate = this.BuildTree<TreeNode<MenuInfo>>((b, t) => b.Icon(t.Icon));
         OnClick = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeClick);
-		OnCheck = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeCheck);
+        OnCheck = this.Callback<TreeEventArgs<MenuInfo>>(OnTreeCheck);
         if (Model != null)
             Model.OnRefresh = RefreshAsync;
     }
@@ -42,8 +42,8 @@ public class AntTree : Tree<MenuInfo>
         DataSource = Model.Data;
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
-        if (Model.ExpandRoot)
-            DefaultExpandedKeys = [Model.Data?[0]?.Id];
+        if (Model.ExpandRoot && Model.Data != null && Model.Data.Count > 0)
+            DefaultExpandedKeys = [Model.Data[0].Id];
         DefaultSelectedKeys = Model.SelectedKeys;
         DefaultCheckedKeys = Model.CheckedKeys;
         DisableCheckKeys = Model.DisableCheckKeys;
@@ -54,8 +54,8 @@ public class AntTree : Tree<MenuInfo>
         if (Model.OnModelChanged != null)
             Model = await Model.OnModelChanged.Invoke();
         DataSource = Model.Data;
-        if (Model.ExpandRoot)
-            DefaultExpandedKeys = [Model.Data?[0]?.Id];
+        if (Model.ExpandRoot && Model.Data != null && Model.Data.Count > 0)
+            DefaultExpandedKeys = [Model.Data[0].Id];
         DefaultSelectedKeys = Model.SelectedKeys;
         DefaultCheckedKeys = Model.CheckedKeys;
         DisableCheckKeys = Model.DisableCheckKeys;
@@ -63,16 +63,16 @@ public class AntTree : Tree<MenuInfo>
     }
 
     private void OnTreeClick(TreeEventArgs<MenuInfo> e)
-	{
-		var item = e.Node.DataItem;
+    {
+        var item = e.Node.DataItem;
         item.Checked = e.Node.Checked;
         Model.OnNodeClick?.Invoke(item);
-	}
+    }
 
-	private void OnTreeCheck(TreeEventArgs<MenuInfo> e)
-	{
-		var item = e.Node.DataItem;
-		item.Checked = e.Node.Checked;
+    private void OnTreeCheck(TreeEventArgs<MenuInfo> e)
+    {
+        var item = e.Node.DataItem;
+        item.Checked = e.Node.Checked;
         Model.OnNodeCheck?.Invoke(item);
     }
 }
