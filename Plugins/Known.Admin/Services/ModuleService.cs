@@ -60,6 +60,49 @@ public interface IModuleService : IService
     Task<Result> SaveModuleAsync(SysModule model);
 }
 
+class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
+{
+    public Task<List<SysModule>> GetModulesAsync()
+    {
+        return Http.GetAsync<List<SysModule>>("/Module/GetModules");
+    }
+
+    public Task<FileDataInfo> ExportModulesAsync()
+    {
+        return Http.GetAsync<FileDataInfo>("/Module/ExportModules");
+    }
+
+    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info)
+    {
+        return Http.PostAsync("/Module/ImportModules", info);
+    }
+
+    public Task<Result> DeleteModulesAsync(List<SysModule> models)
+    {
+        return Http.PostAsync("/Module/DeleteModules", models);
+    }
+
+    public Task<Result> CopyModulesAsync(List<SysModule> models)
+    {
+        return Http.PostAsync("/Module/CopyModules", models);
+    }
+
+    public Task<Result> MoveModulesAsync(List<SysModule> models)
+    {
+        return Http.PostAsync("/Module/MoveModules", models);
+    }
+
+    public Task<Result> MoveModuleAsync(SysModule model)
+    {
+        return Http.PostAsync("/Module/MoveModule", model);
+    }
+
+    public Task<Result> SaveModuleAsync(SysModule model)
+    {
+        return Http.PostAsync("/Module/SaveModule", model);
+    }
+}
+
 [WebApi]
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {

@@ -56,7 +56,7 @@ partial class AdminClient
 
     public Task<string> GetConfigAsync(string key)
     {
-        return Http.GetStringAsync($"/Admin/GetConfig?key={key}");
+        return Http.GetTextAsync($"/Admin/GetConfig?key={key}");
     }
 
     public Task<Result> SaveConfigAsync(ConfigInfo info)

@@ -6,18 +6,12 @@
 public static class AdminExtension
 {
     /// <summary>
-    /// 添加Known框架后台管理模块前端。
+    /// 添加Known框架后台管理模块。
     /// </summary>
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
-
-        // 注入服务
-        services.AddScoped<IModuleService, ModuleService>();
-
-        // 添加模块
-        Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 配置UI
         UIConfig.TopNavType = typeof(KTopNavbar);
@@ -25,6 +19,19 @@ public static class AdminExtension
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
+    }
+
+    /// <summary>
+    /// 添加Known框架后台管理模块前端。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    public static void AddKnownAdminClient(this IServiceCollection services)
+    {
+        // 注入服务
+        services.AddScoped<IModuleService, ModuleClient>();
+
+        // 添加模块
+        Config.AddModule(typeof(AdminExtension).Assembly);
     }
 
     /// <summary>
@@ -37,6 +44,12 @@ public static class AdminExtension
         action?.Invoke(AdminOption.Instance);
  
         AppData.Enabled = false;
+
+        // 注入服务
+        services.AddScoped<IModuleService, ModuleService>();
+
+        // 添加模块
+        Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 注入EFCore模型
         DbConfig.Models.Add<SysMessage>(x => x.Id);
