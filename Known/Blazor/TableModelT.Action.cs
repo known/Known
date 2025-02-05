@@ -37,4 +37,27 @@ partial class TableModel<TItem>
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>
     public void AddAction(string idOrName) => Actions?.Add(new ActionInfo(idOrName));
+
+    /// <summary>
+    /// 异步操作表格行数据。
+    /// </summary>
+    /// <param name="action">操作方法委托。</param>
+    /// <param name="row">操作对象。</param>
+    /// <param name="buttonId">确认操作按钮ID。</param>
+    public async Task ActionAsync(Func<TItem, Task<Result>> action, TItem row, string buttonId = null)
+    {
+        if (!string.IsNullOrWhiteSpace(buttonId))
+        {
+            UI.Confirm(GetConfirmText(buttonId), async () =>
+            {
+                var result = await action?.Invoke(row);
+                UI.Result(result, PageRefreshAsync);
+            });
+        }
+        else
+        {
+            var result = await action?.Invoke(row);
+            UI.Result(result, PageRefreshAsync);
+        }
+    }
 }

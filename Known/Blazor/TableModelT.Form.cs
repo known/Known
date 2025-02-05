@@ -3,11 +3,6 @@
 partial class TableModel<TItem>
 {
     /// <summary>
-    /// 取得或设置表格是否是表单对话框的子表格。
-    /// </summary>
-    public bool IsForm { get; set; }
-
-    /// <summary>
     /// 取得或设置表格关联的表单配置信息。
     /// </summary>
     public FormInfo Form { get; set; }

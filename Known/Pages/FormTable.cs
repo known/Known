@@ -1,10 +1,10 @@
 ﻿namespace Known.Pages;
 
 /// <summary>
-/// 表格页面组件类。
+/// 表单表格组件类。
 /// </summary>
-/// <typeparam name="TItem"></typeparam>
-public class TablePage<TItem> : BaseComponent where TItem : class, new()
+/// <typeparam name="TItem">数据类型。</typeparam>
+public class FormTable<TItem> : BaseComponent where TItem : class, new()
 {
     private ReloadContainer container = null;
 
@@ -70,17 +70,11 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
     private void BuildContent(RenderTreeBuilder builder)
     {
         builder.Component<ReloadContainer>()
-               .Set(c => c.ChildContent, b =>
-               {
-                   if (Model.IsForm)
-                       BuildFormList(b);
-                   else
-                       BuildPageList(b);
-               })
+               .Set(c => c.ChildContent, BuildTable)
                .Build(v => container = v);
     }
 
-    private void BuildFormList(RenderTreeBuilder builder)
+    private void BuildTable(RenderTreeBuilder builder)
     {
         builder.Div("kui-table form-list", () =>
         {
@@ -100,64 +94,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                         builder.Toolbar(Model.Toolbar);
                 });
             }
-            BuildDataTable(builder);
+            builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
         });
-    }
-
-    private void BuildPageList(RenderTreeBuilder builder)
-    {
-        if (Model.QueryColumns.Count > 0)
-        {
-            builder.Div("kui-table-page", () =>
-            {
-                builder.Div("kui-query", () => builder.Query(Model));
-                BuildTable(builder);
-            });
-        }
-        else
-        {
-            BuildTable(builder);
-        }
-    }
-
-    private void BuildTable(RenderTreeBuilder builder)
-    {
-        builder.Div("kui-table", () =>
-        {
-            if (Model.Tab.HasItem)
-            {
-                Model.Tab.Left = b => b.FormTitle(Model.Name);
-                if (Model.Toolbar.HasItem)
-                    Model.Tab.Right = BuildRight;
-                builder.Tabs(Model.Tab);
-            }
-            else
-            {
-                builder.Toolbar(() =>
-                {
-                    builder.Div(() =>
-                    {
-                        builder.FormTitle(Model.Name);
-                        if (Model.TopStatis != null)
-                            builder.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
-                    });
-                    builder.Div(() => BuildRight(builder));
-                });
-            }
-            BuildDataTable(builder);
-        });
-    }
-
-    private void BuildRight(RenderTreeBuilder builder)
-    {
-        if (Model.Toolbar.HasItem)
-            builder.Toolbar(Model.Toolbar);
-        if (Model.ShowSetting)
-            builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
-    }
-
-    private void BuildDataTable(RenderTreeBuilder builder)
-    {
-        builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
     }
 }

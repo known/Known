@@ -22,14 +22,17 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         await base.OnInitAsync();
         Table = new TableModel<TItem>(this);
         Table.AdvSearch = false;
-        Table.IsForm = true;
         Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.ShowSetting = false;
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
 
     /// <inheritdoc />
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.Table(Table);
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        builder.Component<FormTable<TItem>>().Set(c => c.Model, Table).Build();
+    }
+
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
     /// <inheritdoc />

@@ -14,9 +14,9 @@ public static class PageExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="model">表格配置模型。</param>
     /// <param name="action">表格页面实例委托。</param>
-    public static void Table<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<TablePage<TItem>> action = null) where TItem : class, new()
+    public static void Table<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<PageTable<TItem>> action = null) where TItem : class, new()
     {
-        builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build(action);
+        builder.Component<PageTable<TItem>>().Set(c => c.Model, model).Build(action);
     }
 
     /// <summary>

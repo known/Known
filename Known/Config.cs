@@ -291,11 +291,17 @@ public sealed class Config
         return HttpMethod.Post;
     }
 
+    private static readonly List<string> InitAssemblies = [];
+
     private static void InitAssembly(Assembly assembly)
     {
         if (assembly == null)
             return;
 
+        if (InitAssemblies.Contains(assembly.FullName))
+            return;
+
+        InitAssemblies.Add(assembly.FullName);
         AddActions(assembly);
         Language.Initialize(assembly);
 

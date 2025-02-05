@@ -38,7 +38,6 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
         await base.OnInitAsync();
         Table = new TableModel<TItem>(this)
         {
-            IsForm = true,
             AdvSearch = false,
             ShowPager = true,
             SelectType = SelectType
@@ -57,7 +56,10 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override void BuildContent(RenderTreeBuilder builder) => builder.Table(Table);
+    protected override void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.Component<FormTable<TItem>>().Set(c => c.Model, Table).Build();
+    }
 
     private Task OnRowDoubleClick(TItem item)
     {

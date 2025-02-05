@@ -33,14 +33,14 @@ partial class TableModel<TItem>
     /// 选择表格一行数据，带确认对话框的操作。
     /// </summary>
     /// <param name="action">操作方法委托。</param>
-    /// <param name="confirmText">确认对话框文本。</param>
-    public void SelectRow(Func<TItem, Task<Result>> action, string confirmText = null)
+    /// <param name="buttonId">确认操作按钮ID。</param>
+    public void SelectRow(Func<TItem, Task<Result>> action, string buttonId = null)
     {
         SelectRow(async row =>
         {
-            if (!string.IsNullOrWhiteSpace(confirmText))
+            if (!string.IsNullOrWhiteSpace(buttonId))
             {
-                UI.Confirm(GetConfirmText(confirmText), async () =>
+                UI.Confirm(GetConfirmText(buttonId), async () =>
                 {
                     var result = await action?.Invoke(row);
                     UI.Result(result, PageRefreshAsync);
@@ -80,14 +80,14 @@ partial class TableModel<TItem>
     /// 选择表格多行数据，带确认对话框的操作。
     /// </summary>
     /// <param name="action">操作方法委托。</param>
-    /// <param name="confirmText">确认对话框文本。</param>
-    public void SelectRows(Func<List<TItem>, Task<Result>> action, string confirmText = null)
+    /// <param name="buttonId">确认操作按钮ID。</param>
+    public void SelectRows(Func<List<TItem>, Task<Result>> action, string buttonId = null)
     {
         SelectRows(async rows =>
         {
-            if (!string.IsNullOrWhiteSpace(confirmText))
+            if (!string.IsNullOrWhiteSpace(buttonId))
             {
-                UI.Confirm(GetConfirmText(confirmText), async () =>
+                UI.Confirm(GetConfirmText(buttonId), async () =>
                 {
                     var result = await action?.Invoke(rows);
                     UI.Result(result, PageRefreshAsync);
@@ -101,9 +101,9 @@ partial class TableModel<TItem>
         });
     }
 
-    private string GetConfirmText(string text)
+    private string GetConfirmText(string buttonId)
     {
-        text = Language.GetText("Button", text);
+        var text = Language.GetText("Button", buttonId);
         return Language?["Tip.ConfirmRecordName"]?.Replace("{text}", text);
     }
 }

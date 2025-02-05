@@ -79,6 +79,19 @@ public sealed class AppData
     }
 
     /// <summary>
+    /// 恢复配置数据。
+    /// </summary>
+    /// <param name="kmdPath">配置文件路径。</param>
+    public static void Restore(string kmdPath)
+    {
+        if (!Enabled)
+            return;
+
+        Utils.CopyFile(kmdPath, KmdPath);
+        LoadAppData();
+    }
+
+    /// <summary>
     /// 保存配置数据。
     /// </summary>
     public static void SaveData()
