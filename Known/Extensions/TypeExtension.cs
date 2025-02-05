@@ -7,6 +7,17 @@ public static class TypeExtension
 {
     #region Type
     /// <summary>
+    /// 判断类型是否包含指定属性。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <param name="propertyName">属性名。</param>
+    /// <returns>是否包含指定属性。</returns>
+    public static bool HasProperty(this Type type, string propertyName)
+    {
+        return TypeHelper.Property(type, propertyName) != null;
+    }
+
+    /// <summary>
     /// 获取类型关联的Route特性的路由模板。
     /// </summary>
     /// <param name="type">类型对象。</param>

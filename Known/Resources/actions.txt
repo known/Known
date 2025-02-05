@@ -9,8 +9,10 @@ Import           | 导入    | import       | primary    | Toolbar
 Export           | 导出    | export       | primary    | Toolbar
 Copy             | 复制    | copy         | primary    | Toolbar
 Move             | 移动    | drag         | primary    | Toolbar
+Backup           | 备份    | block         | primary    | Toolbar
 MoveUp           | 上移    | up           | primary    | Action
 MoveDown         | 下移    | down         | primary    | Action
+Download         | 下载    | download     | primary    | Toolbar,Action
 Enable           | 启用    | check-circle | primary    | Toolbar,Action
 Disable          | 禁用    | close-circle | primary    | Toolbar,Action
 Print            | 打印    | printer      | primary    | Toolbar,Action

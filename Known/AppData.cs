@@ -64,7 +64,7 @@ public sealed class AppData
 
         if (!File.Exists(KmdPath))
         {
-            LoadDefaultData();
+            AppDefaultData.Load(Data);
             return;
         }
 
@@ -75,7 +75,7 @@ public sealed class AppData
             Data = ParseData<AppDataInfo>(bytes);
 
         // 加载新增菜单页面
-        LoadDefaultData();
+        AppDefaultData.Load(Data);
     }
 
     /// <summary>
@@ -93,149 +93,8 @@ public sealed class AppData
     }
     #endregion
 
-    #region LoadDefaultData
-    private static void LoadDefaultData()
-    {
-        // 加载顶部导航
-        if (Data.TopNavs.Count == 0)
-            Data.TopNavs = LoadTopNavs();
-        // 加载配置的一级模块
-        LoadModules();
-        // 加载Menu特性的组件菜单
-        LoadMenus();
-    }
-
-    private static List<PluginInfo> LoadTopNavs()
-    {
-        return Config.Plugins.Where(p => p.IsNavComponent)
-                             .OrderBy(p => p.Attribute.Sort)
-                             .Select(p => new PluginInfo { Id = p.Id, Type = p.Id })
-                             .ToList();
-    }
-
-    private static void LoadModules()
-    {
-        foreach (var item in Config.Modules)
-        {
-            if (!Data.Modules.Exists(m => m.Id == item.Id))
-                Data.Modules.Add(item);
-        }
-    }
-
-    private static void LoadMenus()
-    {
-        foreach (var item in Config.Menus)
-        {
-            if (Data.Modules.Exists(m => m.Id == item.Page.Name))
-                continue;
-
-            var info = new ModuleInfo
-            {
-                Id = item.Page.Name,
-                Type = nameof(MenuType.Link),
-                Name = item.Name,
-                Icon = item.Icon,
-                ParentId = item.Parent,
-                Sort = item.Sort,
-                Url = item.Url,
-                Target = nameof(LinkTarget.None)
-            };
-            if (TypeHelper.IsSubclassOfGeneric(item.Page, typeof(BaseTablePage<>), out var types))
-                info.Plugins.AddPlugin(CreateTablePage(item.Page, types[0]));
-            Data.Modules.Add(info);
-        }
-    }
-
-    private static TablePageInfo CreateTablePage(Type pageType, Type entityType)
-    {
-        var info = new TablePageInfo
-        {
-            Page = new PageInfo { Type = pageType.FullName, ShowPager = true, PageSize = Config.App.DefaultPageSize },
-            Form = new FormInfo()
-        };
-        SetMethods(info, pageType);
-        SetProperties(info, entityType);
-        return info;
-    }
-
-    private static void SetMethods(TablePageInfo info, Type pageType)
-    {
-        var methods = pageType.GetMethods();
-        foreach (var item in methods)
-        {
-            if (item.GetCustomAttribute<ActionAttribute>() is not null)
-            {
-                if (item.GetParameters().Length == 0)
-                    info.Page.Tools.Add(item.Name);
-                else
-                    info.Page.Actions.Add(item.Name);
-            }
-        }
-    }
-
-    private static void SetProperties(TablePageInfo info, Type entityType)
-    {
-        var properties = TypeHelper.Properties(entityType);
-        foreach (var item in properties)
-        {
-            var column = item.GetCustomAttribute<ColumnAttribute>();
-            if (column != null)
-                SetPageColumns(info, item, column);
-
-            var form = item.GetCustomAttribute<FormAttribute>();
-            if (form != null)
-                SetFormFields(info, item, form);
-        }
-    }
-
-    private static void SetPageColumns(TablePageInfo info, PropertyInfo item, ColumnAttribute column)
-    {
-        info.Page.Columns.Add(new PageColumnInfo
-        {
-            Id = item.Name,
-            Name = item.DisplayName(),
-            Category = item.Category(),
-            Width = item.GetColumnWidth(),
-            IsSum = column.IsSum,
-            IsSort = column.IsSort,
-            DefaultSort = column.DefaultSort,
-            IsViewLink = column.IsViewLink,
-            IsQuery = column.IsQuery,
-            IsQueryAll = column.IsQueryAll,
-            Type = column.Type,
-            Fixed = column.Fixed,
-            Align = column.Align
-        });
-    }
-
-    private static void SetFormFields(TablePageInfo info, PropertyInfo item, FormAttribute form)
-    {
-        info.Form.Fields.Add(new FormFieldInfo
-        {
-            Id = item.Name,
-            Name = item.DisplayName(),
-            Category = item.Category(),
-            Required = item.IsRequired(),
-            Row = form.Row,
-            Column = form.Column,
-            Type = Utils.ConvertTo<FieldType>(form.Type),
-            CustomField = form.CustomField,
-            ReadOnly = form.ReadOnly,
-            Placeholder = form.Placeholder
-        });
-    }
-    #endregion
-
     #region BizData
     private static Dictionary<string, string> BizData { get; set; } = [];
-
-    internal static T GetBizData<T>(string key)
-    {
-        if (BizData.TryGetValue(key, out var value))
-            return Utils.FromJson<T>(value);
-
-        return default;
-    }
 
     internal static void LoadBizData()
     {
@@ -246,11 +105,80 @@ public sealed class AppData
         BizData = ParseData<Dictionary<string, string>>(bytes);
     }
 
-    internal static void SaveBizData(string key, object value)
+    /// <summary>
+    /// 分页查询业务数据。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="key">数据存储键。</param>
+    /// <param name="criteria">查询条件。</param>
+    /// <param name="filter">查询过滤。</param>
+    /// <returns></returns>
+    public static PagingResult<T> QueryModels<T>(string key, PagingCriteria criteria, Func<List<T>, List<T>> filter = null)
+    {
+        var datas = GetBizData<List<T>>(key) ?? [];
+        if (filter != null)
+            datas = filter.Invoke(datas);
+        return datas == null ? new PagingResult<T>(0, []) : datas.ToPagingResult(criteria);
+    }
+
+    /// <summary>
+    /// 删除业务数据。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="key">数据存储键。</param>
+    /// <param name="infos">业务数据列表。</param>
+    /// <returns></returns>
+    public static Result DeleteModels<T>(string key, List<T> infos)
+    {
+        if (!typeof(T).HasProperty("Id"))
+            return Result.Error("The model must have an Id property.");
+
+        var datas = GetBizData<List<T>>(key) ?? [];
+        foreach (var info in infos)
+        {
+            var id = info.Property("Id");
+            var item = datas.FirstOrDefault(d => d.Property("Id").Equals(id));
+            if (item != null)
+                datas.Remove(item);
+        }
+        return SaveBizData(key, datas);
+    }
+
+    /// <summary>
+    /// 保存业务数据。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="key">数据存储键。</param>
+    /// <param name="info">业务数据。</param>
+    /// <returns></returns>
+    public static Result SaveModel<T>(string key, T info)
+    {
+        if (!typeof(T).HasProperty("Id"))
+            return Result.Error("The model must have an Id property.");
+
+        var id = info.Property("Id");
+        var datas = GetBizData<List<T>>(key) ?? [];
+        var item = datas.FirstOrDefault(d => d.Property("Id").Equals(id));
+        if (item != null)
+            datas.Remove(item);
+        datas.Add(info);
+        return SaveBizData(key, datas);
+    }
+
+    internal static T GetBizData<T>(string key)
+    {
+        if (BizData.TryGetValue(key, out var value))
+            return Utils.FromJson<T>(value);
+
+        return default;
+    }
+
+    internal static Result SaveBizData(string key, object value)
     {
         BizData[key] = Utils.ToJson(value);
         var bytes = FormatData(BizData);
         File.WriteAllBytes(KdbPath, bytes);
+        return Result.Success("Save successful!");
     }
     #endregion
 
