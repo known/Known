@@ -17,6 +17,11 @@ public class TopNavbar : BaseComponent
     [Parameter] public Action OnSetting { get; set; }
 
     /// <summary>
+    /// 取得或设置导航菜单点击事件委托。
+    /// </summary>
+    [Parameter] public Action<ActionInfo> OnActionClick { get; set; }
+
+    /// <summary>
     /// 异步初始化组件。
     /// </summary>
     /// <returns></returns>

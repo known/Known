@@ -23,13 +23,19 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
             return Result.ErrorAsync(Language.SelectOneAtLeast);
 
         var result = AppData.DeleteModels(key, infos);
-        return Task.FromResult(result);
+        if (!result.IsValid)
+            return Result.ErrorAsync(result.Message);
+
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
-    private static Task<Result> SaveModelAsync<T>(string key, T info)
+    private Task<Result> SaveModelAsync<T>(string key, T info)
     {
         var result = AppData.SaveModel(key, info);
-        return Task.FromResult(result);
+        if (!result.IsValid)
+            return Result.ErrorAsync(result.Message);
+
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 }
 

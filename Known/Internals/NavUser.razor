@@ -12,6 +12,8 @@
     private DropdownModel model = new();
     private string AvatarUrl => CurrentUser?.AvatarUrl ?? "img/face1.png";
 
+    [CascadingParameter] private TopNavbar Topbar { get; set; }
+
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -27,6 +29,7 @@
             Navigation?.NavigateTo(item);
         else if (item.Id == "logout")
             App?.Logout();
+        Topbar?.OnActionClick?.Invoke(item);
         return Task.CompletedTask;
     }
 }

@@ -4,6 +4,8 @@ class NavDevelopment : BaseNav
 {
     private List<ActionInfo> items = [];
 
+    [CascadingParameter] private TopNavbar Topbar { get; set; }
+
     protected override string Title => Language["Nav.Development"];
     protected override string Icon => "appstore";
 
@@ -30,6 +32,7 @@ class NavDevelopment : BaseNav
     {
         if (!string.IsNullOrWhiteSpace(item.Url))
             Navigation?.NavigateTo(item);
+        Topbar?.OnActionClick?.Invoke(item);
         return Task.CompletedTask;
     }
 }
