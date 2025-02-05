@@ -99,7 +99,7 @@ public class ModuleList : BasePage<SysModule>
     }
 
     private void BuildTree(RenderTreeBuilder builder) => builder.Tree(tree);
-    private void BuildTable(RenderTreeBuilder builder) => builder.Table(table);
+    private void BuildTable(RenderTreeBuilder builder) => builder.PageTable(table);
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
     {

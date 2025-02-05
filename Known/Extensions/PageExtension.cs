@@ -8,15 +8,51 @@ namespace Known.Extensions;
 public static class PageExtension
 {
     /// <summary>
+    /// 呈现表单表格组件。
+    /// </summary>
+    /// <typeparam name="TItem">表格数据类型。</typeparam>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">表格配置模型。</param>
+    /// <param name="action">表格实例委托。</param>
+    public static void FormTable<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<FormTable<TItem>> action = null) where TItem : class, new()
+    {
+        builder.Component<FormTable<TItem>>().Set(c => c.Model, model).Build(action);
+    }
+
+    /// <summary>
+    /// 呈现页面表格组件。
+    /// </summary>
+    /// <typeparam name="TItem">表格数据类型。</typeparam>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">表格配置模型。</param>
+    /// <param name="action">表格实例委托。</param>
+    public static void PageTable<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<PageTable<TItem>> action = null) where TItem : class, new()
+    {
+        builder.Component<PageTable<TItem>>().Set(c => c.Model, model).Build(action);
+    }
+
+    /// <summary>
+    /// 呈现表格页面组件。
+    /// </summary>
+    /// <typeparam name="TItem">表格数据类型。</typeparam>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">表格配置模型。</param>
+    /// <param name="action">表格实例委托。</param>
+    public static void TablePage<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<TablePage<TItem>> action = null) where TItem : class, new()
+    {
+        builder.Component<TablePage<TItem>>().Set(c => c.Model, model).Build(action);
+    }
+
+    /// <summary>
     /// 呈现表格组件。
     /// </summary>
     /// <typeparam name="TItem">表格数据类型。</typeparam>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="model">表格配置模型。</param>
-    /// <param name="action">表格页面实例委托。</param>
-    public static void Table<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<PageTable<TItem>> action = null) where TItem : class, new()
+    /// <param name="action">表格实例委托。</param>
+    public static void Table<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<KTable<TItem>> action = null) where TItem : class, new()
     {
-        builder.Component<PageTable<TItem>>().Set(c => c.Model, model).Build(action);
+        builder.Component<KTable<TItem>>().Set(c => c.Model, model).Build(action);
     }
 
     /// <summary>

@@ -45,7 +45,7 @@ class EntityView : BaseView<EntityInfo>
     private void BuildView(RenderTreeBuilder builder)
     {
         builder.Div("entity-title", $"{Model?.Name}（{Model?.Id}）");
-        builder.Table(table);
+        builder.FormTable(table);
     }
 
     private void BuildEntity(RenderTreeBuilder builder)

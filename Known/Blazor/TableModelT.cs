@@ -53,7 +53,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置是否启用页面编辑，默认启用。
+    /// 取得或设置是否启用在线编辑，默认启用。
     /// </summary>
     public bool EnableEdit { get; set; } = true;
 

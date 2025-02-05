@@ -1,10 +1,10 @@
 ﻿namespace Known.Pages;
 
 /// <summary>
-/// 表单表格组件类。
+/// 页面表格组件类。
 /// </summary>
 /// <typeparam name="TItem">数据类型。</typeparam>
-public class FormTable<TItem> : BaseComponent where TItem : class, new()
+public class TablePage<TItem> : BaseComponent where TItem : class, new()
 {
     private ReloadContainer container = null;
 
@@ -25,7 +25,7 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
             {
                 Icon = "menu",
                 TriggerType = "Click",
-                Overlay = BuildTableOverlay
+                Overlay = BuildOverlay
             };
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
@@ -39,7 +39,7 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
         }
     }
 
-    private void BuildTableOverlay(RenderTreeBuilder builder)
+    private void BuildOverlay(RenderTreeBuilder builder)
     {
         var menu = Context.Current;
         var data = menu.TablePage.Page ?? new PageInfo();
@@ -70,31 +70,12 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
     private void BuildContent(RenderTreeBuilder builder)
     {
         builder.Component<ReloadContainer>()
-               .Set(c => c.ChildContent, BuildTable)
-               .Build(v => container = v);
+               .Set(c => c.ChildContent, BuildTablePage)
+               .Build(value => container = value);
     }
 
-    private void BuildTable(RenderTreeBuilder builder)
+    private void BuildTablePage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-table form-list", () =>
-        {
-            if (!string.IsNullOrWhiteSpace(Model.Name) ||
-                 Model.QueryColumns.Count > 0 ||
-                 Model.ShowToolbar && Model.Toolbar.HasItem)
-            {
-                builder.Toolbar(() =>
-                {
-                    builder.Div(() =>
-                    {
-                        builder.FormTitle(Model.Name);
-                        if (Model.QueryColumns.Count > 0)
-                            builder.Query(Model);
-                    });
-                    if (Model.ShowToolbar && Model.Toolbar.HasItem)
-                        builder.Toolbar(Model.Toolbar);
-                });
-            }
-            builder.Component<KTable<TItem>>().Set(c => c.Model, Model).Build();
-        });
+        builder.PageTable(Model);
     }
 }

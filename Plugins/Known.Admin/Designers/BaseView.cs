@@ -22,7 +22,7 @@ class BaseView<TModel> : BaseComponent
 
     protected void BuildList<TItem>(RenderTreeBuilder builder, TableModel<TItem> model) where TItem : class, new()
     {
-        builder.Div("list-view", () => builder.Table(model));
+        builder.Div("list-view", () => builder.FormTable(model));
     }
 
     protected void BuildAction(RenderTreeBuilder builder, string button, Action action)

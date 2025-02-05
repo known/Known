@@ -33,7 +33,7 @@
 .kui-designer .list-view {padding:10px 10px 0 10px;}
 .kui-designer form {padding-right:50px;background-color:var(--kui-bgcolor);}
 .kui-designer .ant-tabs-content-holder {padding:0;}
-.kui-designer .kui-table .ant-table-wrapper {padding:0 10px 10px 10px;}
+.kui-designer .kui-table .ant-table-wrapper {padding:0;}
 
 /*Property*/
 .kui-designer .panel-property {border-left:1px solid var(--kui-border-color);}

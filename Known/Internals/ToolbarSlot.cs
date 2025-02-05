@@ -12,7 +12,10 @@ class ToolbarSlot<TItem> : BaseComponent where TItem : class, new()
         Table.OnRefreshStatis = OnRefreshStatis;
     }
 
-    protected override void BuildRender(RenderTreeBuilder builder) => builder.Fragment(Table.TopStatis, result);
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        builder.Fragment(Table.TopStatis, result);
+    }
 
     private Task OnRefreshStatis(PagingResult<TItem> result)
     {
