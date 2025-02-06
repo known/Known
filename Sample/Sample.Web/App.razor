@@ -19,7 +19,12 @@
     <Routes @rendermode="InteractiveMode" Context="Context" />
     <KScript />
     <script src="_framework/blazor.web.js"></script>
-    <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script>
+        Blazor.defaultReconnectionHandler.onConnectionDown = () => {
+            location.href = './login';
+        };
+        navigator.serviceWorker.register('service-worker.js');
+    </script>
 </body>
 </html>
 

@@ -1,15 +1,15 @@
 ﻿<AntContainer />
 <div id="components-reconnect-modal">
     <div class="mask"></div>
-    <div class="show">
+    @* <div class="show">
         <div class="text">系统正在更新，请稍候...</div>
-    </div>
+    </div> *@
     <div class="failed">
         <div class="text">系统连接失败，请确认网络，尝试重新连接！</div>
         <a href="javascript:window.Blazor.reconnect()" class="ant-btn ant-btn-primary">重新连接</a>
     </div>
     <div class="rejected">
-        <div class="text">系统更新成功，请重新加载！</div>
+        <div class="text">系统连接成功，请重新加载！</div>
         <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">重新加载</a>
     </div>
 </div>

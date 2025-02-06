@@ -28,9 +28,9 @@
     background-color:#fff;padding:15px;border-radius:5px;font-size:18px;
 }
 #blazor-error-ui > .error {display:block;}
-#components-reconnect-modal.components-reconnect-show,
-#components-reconnect-modal.components-reconnect-show > .mask,
-#components-reconnect-modal.components-reconnect-show > .show,
+#components-reconnect-modal.components-reconnect-show1,
+#components-reconnect-modal.components-reconnect-show1 > .mask,
+#components-reconnect-modal.components-reconnect-show1 > .show,
 #components-reconnect-modal.components-reconnect-failed,
 #components-reconnect-modal.components-reconnect-failed > .mask,
 #components-reconnect-modal.components-reconnect-failed > .failed,

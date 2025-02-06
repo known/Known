@@ -37,6 +37,9 @@ class AppDefaultData
             if (data.Modules.Exists(m => m.Id == item.Page.Name))
                 continue;
 
+            if (!data.Modules.Exists(m => m.Id == item.Parent))
+                continue;
+
             var info = new ModuleInfo
             {
                 Id = item.Page.Name,

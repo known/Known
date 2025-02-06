@@ -5,14 +5,14 @@
 `Known`是基于`Blazor`轻量级、跨平台、极易扩展的插件开发框架。
 
 [![star](https://gitee.com/known/Known/badge/star.svg?theme=dark)](https://gitee.com/known/Known/stargazers)
-[![stars](https://img.shields.io/github/stars/known/known?color=%231890FF)](https://github.com/known/Known)
+[![star](https://img.shields.io/github/stars/known/known?color=%231890FF)](https://github.com/known/Known)
 [![License](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/known/Known/blob/master/LICENSE)
 [![Nuget](https://img.shields.io/nuget/v/Known.svg?color=red&logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 [![Nuget](https://img.shields.io/nuget/dt/Known.svg?logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-green)
 ![.NET](https://img.shields.io/badge/.NET-9.0-green)
-![DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
+![.DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 </center>
@@ -24,11 +24,11 @@
 ### 项目结构
 
 ```
-├─Known             -> 框架核心类库，定义统一的对象模型、接口、组件和扩展。
+├─Known             -> 框架核心类库，定义统一的对象模型、接口、组件和扩展，内置权限、微信、工作流。
+├─Known.Core        -> 基于Asp.Net Core的服务端类库。
 ├─Plugins           -> 插件项目
-| ├─Known.Admin     -> 后台通用权限管理、简易无代码设计器、微信和工作流模块。
-| ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件库。
-| ├─Known.Core      -> 基于Asp.Net Core的服务端插件库。
+| ├─Known.Admin     -> 简易无代码设计器插件。
+| ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件。
 ├─Sample            -> 示例项目
   ├─Sample.Maui     -> 框架MAUI示例。
   ├─Sample.Photino  -> 框架Photino.NET示例。
