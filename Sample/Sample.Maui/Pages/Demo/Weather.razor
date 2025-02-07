@@ -1,8 +1,7 @@
-﻿@page "/weather"
+﻿@page "/demo/weather"
 @inherits BaseComponent
-@inject HttpClient Http
-
-<PageTitle>天气</PageTitle>
+@attribute [StreamRendering]
+@attribute [Menu(AppConstant.Demo, "天气", "cloud", 3)]
 
 <TablePage Model="model" />
 
@@ -32,20 +31,18 @@
     {
         await Task.Delay(500);
 
-        // var startDate = DateOnly.FromDateTime(DateTime.Now);
-        // var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        // var forecasts = Enumerable.Range(1, criteria.PageSize).Select(index => new WeatherForecast
-        // {
-        //     Date = startDate.AddDays(index),
-        //     TemperatureC = Random.Shared.Next(-20, 55),
-        //     Summary = summaries[Random.Shared.Next(summaries.Length)]
-        // }).ToList();
-
-        var forecasts = await Http.GetFromJsonAsync<List<WeatherForecast>>("sample-data/weather.json");
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+        var forecasts = Enumerable.Range(1, criteria.PageSize).Select(index => new WeatherForecast
+        {
+            Date = startDate.AddDays(index),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = summaries[Random.Shared.Next(summaries.Length)]
+        }).ToList();
         return new PagingResult<WeatherForecast>(100, forecasts);
     }
 
-    public class WeatherForecast
+    private class WeatherForecast
     {
         [Column(IsQuery = true)]
         [DisplayName("日期")]

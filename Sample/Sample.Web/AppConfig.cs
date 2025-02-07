@@ -33,6 +33,8 @@ public static class AppConfig
 #if DEBUG
         Config.IsDebug = true;
 #endif
+        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
+
         //Stopwatcher.Enabled = true;
         builder.AddAppWeb();
         builder.AddAppWebCore();

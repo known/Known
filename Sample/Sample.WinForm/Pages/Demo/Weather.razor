@@ -1,5 +1,7 @@
-﻿@page "/weather"
+﻿@page "/demo/weather/{id?}"
 @inherits BaseComponent
+@attribute [StreamRendering]
+@attribute [Menu(AppConstant.Demo, "天气", "cloud", 3)]
 
 <PageTitle>天气</PageTitle>
 
@@ -13,9 +15,15 @@
         await base.OnInitAsync();
         model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
         model.ShowPager = true;
-        model.Name = "天气";
+        model.Name = $"天气 - {Id}";
         model.OnQuery = OnQueryWeatherForecastsAsync;
         model.Toolbar.AddAction(nameof(New));
+    }
+
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        model.Name = $"天气 - {Id}";
     }
 
     public void New()
@@ -45,7 +53,7 @@
     private class WeatherForecast
     {
         [Column(IsQuery = true)]
-        [DisplayName("日期")]
+        //[DisplayName("日期")]
         public DateOnly Date { get; set; }
         public int TemperatureC { get; set; }
         public string Summary { get; set; }
