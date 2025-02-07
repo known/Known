@@ -11,7 +11,11 @@ public class CompanyForm : BaseTabPage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Tab.AddTab("BasicInfo", b => b.Component<CompanyBaseInfo>().Build());
+
+        foreach (var item in UIConfig.CompanyTabs.OrderBy(t => t.Value.Id))
+        {
+            Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
+        }
     }
 }
 

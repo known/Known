@@ -111,7 +111,7 @@ public static class Extension
     public static void AddKnownWeixin(this IServiceCollection services)
     {
         // 配置UI
-        UIConfig.SystemTabs["WeChatSetting"] = b => b.Component<WeChatSetting>().Build();
+        UIConfig.SystemTabs.Set<WeChatSetting>(3, "WeChatSetting");
     }
 
     private static void AddStyles()
@@ -151,9 +151,15 @@ public static class Extension
 
         var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
+        //用户中心
         UIConfig.UserProfileType = typeof(UserProfileInfo);
-        UIConfig.UserTabs["MyProfile"] = typeof(UserEditForm);
-        UIConfig.UserTabs["SecuritySetting"] = typeof(PasswordEditForm);
+        UIConfig.UserTabs.Set<UserEditForm>(1, "MyProfile");
+        UIConfig.UserTabs.Set<PasswordEditForm>(2, "SecuritySetting");
+        //企业信息
+        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, "BasicInfo");
+        //关于系统
+        UIConfig.SystemTabs.Set<SysSystemInfo>(1, "SystemInfo");
+        UIConfig.SystemTabs.Set<SysSystemSetting>(2, "SystemSetting");
     }
 
     //private static void AddInterceptors(IServiceCollection services, ClientOption option)

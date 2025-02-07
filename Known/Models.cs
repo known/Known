@@ -1,6 +1,27 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 动态组件信息类。
+/// </summary>
+public class ComponentInfo
+{
+    /// <summary>
+    /// 取得或设置组件排序。
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置组件类型。
+    /// </summary>
+    public Type Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置组件参数。
+    /// </summary>
+    public Dictionary<string, object> Parameters { get; set; }
+}
+
+/// <summary>
 /// 后台管理主页数据交互信息类。
 /// </summary>
 public class AdminInfo

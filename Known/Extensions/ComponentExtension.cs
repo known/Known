@@ -50,6 +50,20 @@ public static class ComponentExtension
     /// 构建动态组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
+    /// <param name="info">组件信息。</param>
+    /// <param name="action">组件实例委托。</param>
+    public static void DynamicComponent(this RenderTreeBuilder builder, ComponentInfo info, Action<DynamicComponent> action = null)
+    {
+        if (info == null)
+            return;
+
+        builder.DynamicComponent(info.Type, info.Parameters, action);
+    }
+
+    /// <summary>
+    /// 构建动态组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     /// <param name="type">组件类型。</param>
     /// <param name="parameters">组件参数。</param>
     /// <param name="action">组件实例委托。</param>

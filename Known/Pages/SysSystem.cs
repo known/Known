@@ -14,11 +14,10 @@ public class SysSystem : BaseTabPage
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Tab.AddTab("SystemInfo", b => b.Component<SysSystemInfo>().Build());
-        Tab.AddTab("SystemSetting", b => b.Component<SysSystemSetting>().Build());
-        foreach (var item in UIConfig.SystemTabs)
+
+        foreach (var item in UIConfig.SystemTabs.OrderBy(t => t.Value.Id))
         {
-            Tab.AddTab(item.Key, item.Value);
+            Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
         }
     }
 
