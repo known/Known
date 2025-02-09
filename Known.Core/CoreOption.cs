@@ -107,14 +107,14 @@ public class CoreOption
     }
 
     /// <summary>
-    /// 添加代码委托。
+    /// 添加附加数据字典代码表委托。
     /// </summary>
-    /// <param name="func">代码委托。</param>
+    /// <param name="func">代码表委托。</param>
     public void AddCode(Func<List<CodeInfo>> func) => Funcs.Add(func);
 
     /// <summary>
-    /// 添加代码异步委托。
+    /// 添加附加数据字典代码表异步委托。
     /// </summary>
-    /// <param name="func">代码委托。</param>
+    /// <param name="func">代码表委托。</param>
     public void AddCode(Func<Database, Task<List<CodeInfo>>> func) => FuncTasks.Add(func);
 }

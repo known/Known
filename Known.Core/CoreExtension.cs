@@ -157,12 +157,12 @@ public static class CoreExtension
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         CoreOption.Instance.AddAssembly(typeof(CoreOption).Assembly);
 
-        // 注入平台服务
+        // 添加服务
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
-        // 注入EFCore模型
+        // 添加模型
         DbConfig.Models.Add<SysCompany>(x => x.Id);
         DbConfig.Models.Add<SysDictionary>(x => x.Id);
         DbConfig.Models.Add<SysFile>(x => x.Id);

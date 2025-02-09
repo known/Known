@@ -27,12 +27,19 @@ public class Constants
     /// </summary>
     public const string SysUserName = "Admin";
 
+    /// <summary>
+    /// 基础数据菜单。
+    /// </summary>
+    public const string BaseData = "BaseData";
+
+    /// <summary>
+    /// 系统管理菜单。
+    /// </summary>
+    public const string System = "System";
+
     internal const string CompNo = "puman";
     internal const string CompName = "普漫科技";
-
     internal const string Route = "Route";
-    internal const string BaseData = "BaseData";
-    internal const string System = "System";
 }
 
 /// <summary>

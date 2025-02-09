@@ -7,10 +7,15 @@ partial class AdminService
     {
         var database = Database;
         var userName = info.UserName?.ToLower();
-        await database.OpenAsync();
         var password = Utils.ToMd5(info.Password);
+        if (CoreConfig.OnLoging != null)
+        {
+            var result = await CoreConfig.OnLoging.Invoke(database, info);
+            if (!result.IsValid)
+                return result;
+        }
+
         var user = await database.GetUserInfoAsync(userName, password);
-        await database.CloseAsync();
         if (user == null)
             return Result.Error(Language["Tip.LoginNoNamePwd"]);
 
@@ -69,6 +74,8 @@ partial class AdminService
             UserTableSettings = await db.GetUserTableSettingsAsync(),
             Codes = await db.GetDictionariesAsync()
         };
+        if (CoreConfig.OnAdmin != null)
+            await CoreConfig.OnAdmin.Invoke(db, info);
         await db.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
