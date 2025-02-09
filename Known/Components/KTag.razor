@@ -3,7 +3,14 @@
 @{
     var text = GetText();
 }
-<Tag Color="@GetColor(text)">@text</Tag>
+@if (OnClick.HasDelegate)
+{
+    <Tag Color="@GetColor(text)" OnClick="OnClick">@text</Tag>
+}
+else
+{
+    <Tag Color="@GetColor(text)">@text</Tag>
+}
 
 @code {
     /// <summary>
@@ -15,6 +22,11 @@
     /// 取得或设置标签颜色。
     /// </summary>
     [Parameter] public string Color { get; set; }
+
+    /// <summary>
+    /// 取得或设置标签点击事件。
+    /// </summary>
+    [Parameter] public EventCallback OnClick { get; set; }
 
     private string GetText()
     {
