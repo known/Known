@@ -64,7 +64,7 @@ class FormView : BaseView<FormInfo>
     private void BuildForm(RenderTreeBuilder builder)
     {
         var modulePath = AdminOption.Instance.Code?.PagePath ?? ModulePath;
-        var className = AdminHelper.GetClassName(Module?.Entity?.Id);
+        var className = DataHelper.GetClassName(Module?.Entity?.Id);
         var path = Path.Combine(modulePath, "Pages", "Forms", $"{className}Form.razor");
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeForm));

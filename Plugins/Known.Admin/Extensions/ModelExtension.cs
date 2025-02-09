@@ -2,7 +2,6 @@
 
 static class ModelExtension
 {
-    #region Module
     internal static void RemoveModule(this List<SysModule> modules, string code)
     {
         var module = modules.FirstOrDefault(m => m.Code == code);
@@ -67,43 +66,4 @@ static class ModelExtension
             AddChildren(models, sub, ref current);
         }
     }
-    #endregion
-
-    #region User
-    /// <summary>
-    /// 发送站内消息。
-    /// </summary>
-    /// <param name="user">用户对象。</param>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="toUser">站内收件人。</param>
-    /// <param name="subject">消息主题。</param>
-    /// <param name="content">消息内容。</param>
-    /// <param name="isUrgent">是否紧急。</param>
-    /// <param name="filePath">附件路径。</param>
-    /// <param name="bizId">关联业务数据ID。</param>
-    /// <returns></returns>
-    public static Task SendMessageAsync(this UserInfo user, Database db, string toUser, string subject, string content, bool isUrgent = false, string filePath = null, string bizId = null)
-    {
-        var level = isUrgent ? Constant.UMLUrgent : Constant.UMLGeneral;
-        return SendMessageAsync(db, user, level, toUser, subject, content, filePath, bizId);
-    }
-
-    private static Task SendMessageAsync(Database db, UserInfo user, string level, string toUser, string subject, string content, string filePath = null, string bizId = null)
-    {
-        var model = new SysMessage
-        {
-            UserId = toUser,
-            Type = Constant.UMTypeReceive,
-            MsgBy = user.Name,
-            MsgLevel = level,
-            Subject = subject,
-            Content = content,
-            FilePath = filePath,
-            IsHtml = true,
-            Status = Constant.UMStatusUnread,
-            BizId = bizId
-        };
-        return db.SaveAsync(model);
-    }
-    #endregion'
 }

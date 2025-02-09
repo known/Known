@@ -11,8 +11,6 @@ public static class AdminExtension
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
-        services.AddSingleton<ICodeGenerator, CodeGenerator>();
-
         // 配置UI
         UIConfig.TopNavType = typeof(KTopNavbar);
         UIConfig.EnableEdit = false;
@@ -52,7 +50,6 @@ public static class AdminExtension
         Config.AddModule(typeof(AdminExtension).Assembly);
 
         // 注入EFCore模型
-        DbConfig.Models.Add<SysMessage>(x => x.Id);
         DbConfig.Models.Add<SysModule>(x => x.Id);
 
         Config.OnInstallModules = OnInstallModules;

@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Helpers;
 
 /// <summary>
 /// 代码生成器接口。

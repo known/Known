@@ -61,7 +61,7 @@ public static class WeixinApi
         AppSecret = info.AppSecret;
         RedirectUri = info.RedirectUri;
 
-        ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
+        //ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
         //Task.Run(async () =>
         //{
         //    while (true)
@@ -74,29 +74,29 @@ public static class WeixinApi
 
     //获取稳定版接口调用凭据
     //https://mmbizurl.cn/s/JtxxFh33r 
-    private static async Task<string> GetStableAccessTokenAsync(string appId, string appSecret)
-    {
-        try
-        {
-            using var http = new HttpClient();
-            var url = "https://api.weixin.qq.com/cgi-bin/stable_token";
-            var data = new
-            {
-                grant_type = "client_credential",
-                appid = appId,
-                secret = appSecret,
-                force_refresh = true
-            };
-            var result = await http.PostDataAsync(url, data);
-            Console.WriteLine("AT=" + Utils.ToJson(result));
-            return result.GetValue<string>("access_token");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-            return null;
-        }
-    }
+    //private static async Task<string> GetStableAccessTokenAsync(string appId, string appSecret)
+    //{
+    //    try
+    //    {
+    //        using var http = new HttpClient();
+    //        var url = "https://api.weixin.qq.com/cgi-bin/stable_token";
+    //        var data = new
+    //        {
+    //            grant_type = "client_credential",
+    //            appid = appId,
+    //            secret = appSecret,
+    //            force_refresh = true
+    //        };
+    //        var result = await http.PostDataAsync(url, data);
+    //        Console.WriteLine("AT=" + Utils.ToJson(result));
+    //        return result.GetValue<string>("access_token");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Console.WriteLine(ex.ToString());
+    //        return null;
+    //    }
+    //}
 
     //获取ACCESS_TOKEN，7200秒过期，需要定时刷新才能调用接口
     //{"access_token":"ACCESS_TOKEN","expires_in":7200}
@@ -117,11 +117,11 @@ public static class WeixinApi
         }
     }
 
-    private static bool RemoteCertificateValidate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors error)
-    {
-        //为了通过证书验证，总是返回true
-        return true;
-    }
+    //private static bool RemoteCertificateValidate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors error)
+    //{
+    //    //为了通过证书验证，总是返回true
+    //    return true;
+    //}
     #endregion
 
     #region 二维码

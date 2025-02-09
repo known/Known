@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Helpers;
 
 partial class CodeGenerator
 {

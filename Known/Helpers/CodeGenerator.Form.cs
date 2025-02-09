@@ -1,11 +1,11 @@
-﻿namespace Known;
+﻿namespace Known.Helpers;
 
 partial class CodeGenerator
 {
     public string GetForm(FormInfo form, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
-        var className = AdminHelper.GetClassName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("@inherits BaseForm<{0}.Entities.{1}>", Config.App.Id, entity.Id);
         sb.AppendLine("");

@@ -1,11 +1,11 @@
-﻿namespace Known;
+﻿namespace Known.Helpers;
 
 partial class CodeGenerator
 {
     public string GetPage(PageInfo page, EntityInfo entity)
     {
         var pluralName = GetPluralName(entity.Id);
-        var className = AdminHelper.GetClassName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("using {0}.Entities;", Config.App.Id);
         sb.AppendLine("using {0}.Services;", Config.App.Id);
@@ -79,7 +79,7 @@ partial class CodeGenerator
         if (string.IsNullOrWhiteSpace(name))
             return string.Empty;
 
-        var className = AdminHelper.GetClassName(name);
+        var className = DataHelper.GetClassName(name);
         if (!className.EndsWith('y'))
             return className + "s";
 

@@ -169,6 +169,7 @@ public static class CoreExtension
         DbConfig.Models.Add<SysFlow>(x => x.Id);
         DbConfig.Models.Add<SysFlowLog>(x => x.Id);
         DbConfig.Models.Add<SysLog>(x => x.Id);
+        DbConfig.Models.Add<SysMessage>(x => x.Id);
         DbConfig.Models.Add<SysOrganization>(x => x.Id);
         DbConfig.Models.Add<SysRole>(x => x.Id);
         DbConfig.Models.Add<SysSetting>(x => x.Id);

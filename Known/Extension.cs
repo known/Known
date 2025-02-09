@@ -23,6 +23,7 @@ public static class Extension
         Config.AddApp();
         services.AddAntDesign();
 
+        services.AddSingleton<ICodeGenerator, CodeGenerator>();
         services.AddSingleton<IEncryptService, EncryptService>();
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();

@@ -76,8 +76,22 @@ public static class FragmentExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">标签文本。</param>
     /// <param name="color">标签颜色。</param>
+    public static void Tag(this RenderTreeBuilder builder, string text, string color = null)
+    {
+        builder.Component<KTag>()
+               .Set(c => c.Text, text)
+               .Set(c => c.Color, color)
+               .Build();
+    }
+
+    /// <summary>
+    /// 呈现一个标签组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="text">标签文本。</param>
     /// <param name="onClick">标签点击事件。</param>
-    public static void Tag(this RenderTreeBuilder builder, string text, string color = null, EventCallback? onClick = null)
+    /// <param name="color">标签颜色。</param>
+    public static void Tag(this RenderTreeBuilder builder, string text, EventCallback onClick, string color = null)
     {
         builder.Component<KTag>()
                .Set(c => c.Text, text)
