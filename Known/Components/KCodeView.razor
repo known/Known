@@ -29,7 +29,7 @@
         if (rawCode != Code)
         {
             rawCode = Code;
-            await JSRuntime.InvokeVoidAsync("Prism.highlightAll");
+            await JSRuntime.HighlightAllAsync();
         }
     }
 }

@@ -21,6 +21,16 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步高亮显示页面代码。
+    /// </summary>
+    /// <param name="js">JS运行时。</param>
+    /// <returns></returns>
+    public static ValueTask HighlightAllAsync(this IJSRuntime js)
+    {
+        return js.InvokeVoidAsync("Prism.highlightAll");
+    }
+
+    /// <summary>
     /// 异步粘贴剪贴板里的数据。
     /// </summary>
     /// <param name="js">JS运行时。</param>
