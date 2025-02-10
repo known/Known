@@ -143,6 +143,11 @@ public sealed class Config
     public static List<ModuleInfo> Modules { get; } = [];
 
     /// <summary>
+    /// 取得框架初始模块菜单信息列表。
+    /// </summary>
+    public static List<MenuAttribute> Menus { get; } = [];
+
+    /// <summary>
     /// 取得或设置系统安装时，初始化系统模块数据方法委托。
     /// </summary>
     public static Func<Database, Task> OnInstallModules { get; set; }
@@ -152,7 +157,6 @@ public sealed class Config
     /// </summary>
     public static Func<Database, Task<List<ModuleInfo>>> OnInitialModules { get; set; }
 
-    internal static List<MenuAttribute> Menus { get; } = [];
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];

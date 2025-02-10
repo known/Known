@@ -64,7 +64,7 @@ public static class UserExtension
             {
                 OrgNo = user.OrgNo,
                 UserName = user.UserName,
-                Password = Utils.ToMd5(user.Password),
+                Password = user.Password,
                 Name = user.Name,
                 Gender = user.Gender,
                 Phone = user.Phone,
@@ -86,6 +86,11 @@ public static class UserExtension
             var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
             if (role != null)
                 await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
+        }
+        else
+        {
+            model.Enabled = true;
+            await db.SaveAsync(model);
         }
     }
 

@@ -42,8 +42,15 @@ public class MenuAttribute(string parent, string name, string icon, int sort) : 
     /// </summary>
     public int Sort { get; } = sort;
 
-    internal Type Page { get; set; }
-    internal string Url { get; set; }
+    /// <summary>
+    /// 取得或设置菜单URL。
+    /// </summary>
+    public string Url { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单关联的组件类型。
+    /// </summary>
+    public Type Page { get; set; }
 }
 
 /// <summary>

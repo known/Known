@@ -64,8 +64,8 @@ public partial class UIService
         if (model.IsView || noFooter || (isTabForm || isStepForm) && model.Info?.ShowFooter == false)
             option.Footer = null;
 
-        var modal = _modal.CreateModal(option);
-        model.OnClose = modal.CloseAsync;
+        var dialog = modal.CreateModal(option);
+        model.OnClose = dialog.CloseAsync;
         return true;
     }
 }

@@ -47,8 +47,8 @@ public partial class UIService
         if (model.Footer != null)
             option.Footer = model.Footer;
 
-        var modal = _modal.CreateModal(option);
-        model.OnClose = modal.CloseAsync;
+        var dialog = modal.CreateModal(option);
+        model.OnClose = dialog.CloseAsync;
         return true;
     }
 

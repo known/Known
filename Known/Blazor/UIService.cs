@@ -5,15 +5,12 @@ namespace Known.Blazor;
 /// <summary>
 /// UI组件服务类。
 /// </summary>
-/// <param name="modalService">模态弹窗服务。</param>
-/// <param name="messageService">消息弹窗服务。</param>
-/// <param name="noticeService">通知弹窗服务。</param>
-public partial class UIService(ModalService modalService, MessageService messageService, INotificationService noticeService)
+/// <param name="modal">模态弹窗服务。</param>
+/// <param name="drawer">抽屉弹窗服务。</param>
+/// <param name="message">消息弹窗服务。</param>
+/// <param name="notice">通知弹窗服务。</param>
+public partial class UIService(ModalService modal, DrawerService drawer, MessageService message, INotificationService notice)
 {
-    private readonly ModalService _modal = modalService;
-    private readonly MessageService _message = messageService;
-    private readonly INotificationService _notice = noticeService;
-
     /// <summary>
     /// 取得或设置语言实例。
     /// </summary>
