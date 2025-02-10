@@ -254,8 +254,8 @@ public sealed class Config
         // 添加默认一级模块
         if (App.IsModule)
         {
-            Modules.Add(Constants.BaseData, "基础数据", "database", "0", 1);
-            Modules.Add(Constants.System, "系统管理", "setting", "0", 99);
+            Modules.AddItem("0", Constants.BaseData, "基础数据", "database", 1);
+            Modules.AddItem("0", Constants.System, "系统管理", "setting", 99);
         }
 
         Version = new VersionInfo(App.Assembly);

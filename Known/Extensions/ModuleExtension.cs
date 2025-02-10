@@ -18,6 +18,22 @@ public static class ModuleExtension
     /// <returns>菜单信息。</returns>
     public static ModuleInfo Add(this List<ModuleInfo> modules, string id, string name, string icon, string parentId, int sort, string url = null)
     {
+        return AddItem(modules, parentId, id, name, icon, sort, url);
+    }
+
+    /// <summary>
+    /// 添加一个模块信息。
+    /// </summary>
+    /// <param name="modules">模块列表。</param>
+    /// <param name="parentId">上级ID。</param>
+    /// <param name="id">ID。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="sort">排序。</param>
+    /// <param name="url">URL。</param>
+    /// <returns>菜单信息。</returns>
+    public static ModuleInfo AddItem(this List<ModuleInfo> modules, string parentId, string id, string name, string icon, int sort, string url = null)
+    {
         var info = new ModuleInfo
         {
             Id = id,

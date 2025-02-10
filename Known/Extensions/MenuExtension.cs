@@ -18,6 +18,38 @@ public static class MenuExtension
     }
 
     /// <summary>
+    /// 添加一个菜单信息。
+    /// </summary>
+    /// <param name="menus">菜单列表。</param>
+    /// <param name="parentId">上级ID。</param>
+    /// <param name="id">ID。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="sort">排序。</param>
+    /// <param name="url">URL。</param>
+    /// <returns>菜单信息。</returns>
+    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null)
+    {
+        var info = new MenuInfo
+        {
+            ParentId = parentId,
+            Id = id,
+            Type = nameof(MenuType.Menu),
+            Name = name,
+            Icon = icon,
+            Sort = sort,
+            Url = url
+        };
+        if (!string.IsNullOrWhiteSpace(url))
+        {
+            info.Type = nameof(MenuType.Link);
+            info.Target = nameof(LinkTarget.None);
+        }
+        menus.Add(info);
+        return info;
+    }
+
+    /// <summary>
     /// 将菜单信息列表转成树形结构。
     /// </summary>
     /// <param name="menus">菜单信息列表。</param>
