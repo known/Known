@@ -56,10 +56,7 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override void BuildContent(RenderTreeBuilder builder)
-    {
-        builder.Component<FormTable<TItem>>().Set(c => c.Model, Table).Build();
-    }
+    protected override void BuildContent(RenderTreeBuilder builder) => builder.FormTable(Table);
 
     private Task OnRowDoubleClick(TItem item)
     {

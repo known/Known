@@ -52,7 +52,7 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// <summary>
     /// 取得或设置选择器组件字段值改变事件处理方法。
     /// </summary>
-    [Parameter] public Action<object> ValueChanged { get; set; }
+    [Parameter] public EventCallback<object> ValueChanged { get; set; }
 
     /// <summary>
     /// 取得字段关联的栏位配置信息。
@@ -113,14 +113,15 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
     /// <param name="items">选中的对象列表。</param>
     protected virtual void OnValueChanged(List<TItem> items) { }
 
-    private void OnClear(MouseEventArgs args)
+    private async Task OnClear(MouseEventArgs args)
     {
         if (ReadOnly)
             return;
 
         Text = string.Empty;
         Value = string.Empty;
-        ValueChanged?.Invoke(Value);
+        if (ValueChanged.HasDelegate)
+            await ValueChanged.InvokeAsync(Value);
     }
 
     private void ShowModal(MouseEventArgs args)

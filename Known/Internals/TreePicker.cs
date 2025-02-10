@@ -38,7 +38,8 @@ class TreePicker : BasePicker<MenuInfo>
         var item = items?.FirstOrDefault();
         Text = item?.Name;
         Value = item?.Id;
-        ValueChanged?.Invoke(Value);
+        if (ValueChanged.HasDelegate)
+            ValueChanged.InvokeAsync(Value);
         OnChanged?.Invoke(item);
     }
 }

@@ -27,6 +27,7 @@ public class UserPicker : TablePicker<UserInfo>, ICustomField
         var value = SelectType == TableSelectType.Checkbox
                   ? string.Join(",", items.Select(d => d.UserName))
                   : items?.FirstOrDefault()?.UserName;
-        ValueChanged?.Invoke(value);
+        if (ValueChanged.HasDelegate)
+            ValueChanged.InvokeAsync(value);
     }
 }

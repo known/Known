@@ -15,8 +15,11 @@
 
     <AntForm Form="model">
         <AntRow>
-            <DataItem Span="24" Label="附件">
+            <DataItem Span="12" Label="附件">
                 <KUpload MultiFile Accept=".jpg, .png, .doc" />
+            </DataItem>
+            <DataItem Span="12" Label="用户">
+                <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
             </DataItem>
         </AntRow>
         <AntRow>
@@ -62,6 +65,7 @@
     class Test
     {
         public string Field { get; set; }
+        public string User { get; set; }
 
         public string[] Fields
         {

@@ -28,11 +28,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override void BuildRender(RenderTreeBuilder builder)
-    {
-        builder.Component<FormTable<TItem>>().Set(c => c.Model, Table).Build();
-    }
-
+    protected override void BuildRender(RenderTreeBuilder builder) => builder.FormTable(Table);
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
     /// <inheritdoc />

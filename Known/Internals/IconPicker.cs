@@ -38,7 +38,8 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
 
     protected override void OnValueChanged(List<IconInfo> items)
     {
-        ValueChanged?.Invoke(items?.FirstOrDefault()?.Icon);
+        if (ValueChanged.HasDelegate)
+            ValueChanged.InvokeAsync(items?.FirstOrDefault()?.Icon);
     }
 
     private void BuildContent(RenderTreeBuilder builder, string key)

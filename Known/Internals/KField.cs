@@ -59,7 +59,7 @@ class CustomField<TItem> : BaseComponent where TItem : class, new()
         var parameters = new Dictionary<string, object>();
         parameters[nameof(ICustomField.ReadOnly)] = Model.Form.IsView;
         parameters[nameof(ICustomField.Value)] = Model.Value;
-        parameters[nameof(ICustomField.ValueChanged)] = delegate (object value) { Model.Value = value; };
+        parameters[nameof(ICustomField.ValueChanged)] = this.Callback<object>(value => Model.Value = value);
         parameters[nameof(ICustomField.Column)] = Model.Column;
         builder.Component(type, parameters);
     }

@@ -74,8 +74,5 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
                .Build(value => container = value);
     }
 
-    private void BuildTablePage(RenderTreeBuilder builder)
-    {
-        builder.PageTable(Model);
-    }
+    private void BuildTablePage(RenderTreeBuilder builder) => builder.PageTable(Model);
 }

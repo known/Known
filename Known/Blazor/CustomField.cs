@@ -18,7 +18,7 @@ public interface ICustomField
     /// <summary>
     /// 取得或设置字段组件绑定值改变的事件方法委托。
     /// </summary>
-    Action<object> ValueChanged { get; set; }
+    EventCallback<object> ValueChanged { get; set; }
 
     /// <summary>
     /// 取得或设置字段关联的栏位配置信息。
@@ -39,7 +39,7 @@ public abstract class CustomField : BaseComponent, ICustomField
     /// <summary>
     /// 取得或设置字段组件绑定值改变的事件方法委托。
     /// </summary>
-    [Parameter] public Action<object> ValueChanged { get; set; }
+    [Parameter] public EventCallback<object> ValueChanged { get; set; }
 
     /// <summary>
     /// 取得或设置字段关联的栏位配置信息。
