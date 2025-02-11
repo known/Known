@@ -83,7 +83,7 @@ public static class UserExtension
                 model.Password = Utils.ToMd5(info?.UserDefaultPwd);
             }
             await db.SaveAsync(model);
-            var role = await db.QueryAsync<SysRole>(d => d.CompNo == user.CompNo && d.Name == user.Role);
+            var role = await db.QueryAsync<SysRole>(d => d.CompNo == model.CompNo && d.Name == model.Role);
             if (role != null)
                 await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
         }

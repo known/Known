@@ -45,6 +45,9 @@ public partial class MainMenu
     /// <returns></returns>
     public void SetData(MenuInfo info)
     {
+        if (info == null)
+            return;
+
         Parent = info;
         menu?.SetItems(info.Children);
     }

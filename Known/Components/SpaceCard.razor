@@ -8,6 +8,7 @@
             <span class="ws-tips">@Language["Home.Today"].Replace("{date}", DateTime.Now.ToString("yyyy-MM-dd dddd"))</span>
         </div>
     </div>
+    @Right
     @if (Counts != null && Counts.Count > 0)
     {
         <ul class="count">
@@ -34,6 +35,11 @@
 </div>
 
 @code {
+    /// <summary>
+    /// 取得或设置右侧内容模板。
+    /// </summary>
+    [Parameter] public RenderFragment Right { get; set; }
+
     /// <summary>
     /// 取得或设置统计数量信息列表。
     /// </summary>

@@ -8,7 +8,7 @@
 @import "styles/app.css";
 @import "styles/antd.css";
 
-::-webkit-scrollbar {width:20px;}
+::-webkit-scrollbar {width:8px;}
 ::-webkit-scrollbar-track {background:transparent;}
 ::-webkit-scrollbar-thumb {background:rgba(0,0,0,0.5);border-radius:6px;}
 /* ’Î∂‘Firefox */
