@@ -8,6 +8,26 @@ public sealed class DbUtils
     private DbUtils() { }
 
     /// <summary>
+    /// 获取默认数据库连接字符串。
+    /// </summary>
+    /// <param name="type">数据库类型。</param>
+    /// <returns></returns>
+    public static string GetConnectionString(DatabaseType type)
+    {
+        return type switch
+        {
+            DatabaseType.Access => "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Sample;Jet OLEDB:Database Password=xxx",
+            DatabaseType.SQLite => "Data Source=..\\Sample.db",
+            DatabaseType.SqlServer => "Data Source=localhost;Initial Catalog=Sample;User Id=xxx;Password=xxx;",
+            DatabaseType.Oracle => "Data Source=localhost:1521/orcl;User Id=xxx;Password=xxx;",
+            DatabaseType.MySql => "Data Source=localhost;port=3306;Initial Catalog=Sample;user id=xxx;password=xxx;Charset=utf8;SslMode=none;AllowZeroDateTime=True;",
+            DatabaseType.PgSql => "Host=localhost;Port=5432;Database=Sample;Username=xxx;Password=xxx;",
+            DatabaseType.DM => "Server=localhost;Schema=Sample;DATABASE=Sample;uid=xxx;pwd=xxx;",
+            _ => string.Empty,
+        };
+    }
+
+    /// <summary>
     /// 将DataReader转换成泛型对象。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>

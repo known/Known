@@ -54,6 +54,21 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步下载文件。
+    /// </summary>
+    /// <param name="js">JS服务。</param>
+    /// <param name="info">文件信息。</param>
+    /// <returns></returns>
+    public static async Task DownloadFileAsync(this JSService js, FileDataInfo info)
+    {
+        if (info != null && info.Bytes != null && info.Bytes.Length > 0)
+        {
+            var stream = new MemoryStream(info.Bytes);
+            await js.DownloadFileAsync(info.Name, stream);
+        }
+    }
+
+    /// <summary>
     /// 异步获取浏览器会话存储的当前用户信息。
     /// </summary>
     /// <param name="js">JS服务。</param>

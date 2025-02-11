@@ -154,8 +154,10 @@ public static class CoreExtension
 
     private static void AddKnownServices(this IServiceCollection services)
     {
+        var assembly = typeof(CoreOption).Assembly;
+        Config.AddModule(assembly);
+        CoreOption.Instance.AddAssembly(assembly);
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
-        CoreOption.Instance.AddAssembly(typeof(CoreOption).Assembly);
 
         // 添加服务
         services.AddScoped<IAdminService, AdminService>();
