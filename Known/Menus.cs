@@ -599,5 +599,7 @@ public class ColumnInfo
             CustomField = form.CustomField;
         ReadOnly = form.ReadOnly;
         Placeholder = form.Placeholder;
+        if (string.IsNullOrWhiteSpace(Placeholder) && Type == FieldType.Select)
+            Placeholder = "请选择";
     }
 }

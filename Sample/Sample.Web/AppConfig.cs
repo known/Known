@@ -97,6 +97,7 @@ public static class AppConfig
                 //db.AddAccess<System.Data.OleDb.OleDbFactory>(connString);
                 db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
                 //db.AddSqlServer<Microsoft.Data.SqlClient.SqlClientFactory>(connString);
+                //db.AddSqlServer<Oracle.ManagedDataAccess.Client.OracleClientFactory>(connString);
                 //db.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
                 //db.AddPgSql<Npgsql.NpgsqlFactory>(connString);
                 //db.AddDM<Dm.DmClientFactory>(connString);

@@ -149,6 +149,18 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
+    /// 设置表单组件占位符。
+    /// </summary>
+    /// <param name="placeholder">占位符。</param>
+    /// <returns></returns>
+    public ColumnBuilder<TItem> Placeholder(string placeholder)
+    {
+        if (column != null)
+            column.Placeholder = placeholder;
+        return this;
+    }
+
+    /// <summary>
     /// 设置表格栏位对齐方式。
     /// </summary>
     /// <param name="align">对齐方式（left/center/right）。</param>

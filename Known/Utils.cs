@@ -576,6 +576,97 @@ public sealed class Utils
 
         File.Delete(path);
     }
+
+    /// <summary>
+    /// 重命名文件名。
+    /// </summary>
+    /// <param name="sourceFile">原文件。</param>
+    /// <param name="newName">新文件名。</param>
+    /// <exception cref="FileNotFoundException"></exception>
+    public static void RenameFile(string sourceFile, string newName)
+    {
+        var directory = Path.GetDirectoryName(sourceFile);
+        if (directory == null)
+            throw new FileNotFoundException($"The file '{sourceFile}' does not have a parent directory.");
+
+        var extName = Path.GetExtension(sourceFile);
+        var destFile = Path.Combine(directory, newName + extName);
+        File.Move(sourceFile, destFile);
+    }
+
+    /// <summary>
+    /// 重命名文件夹名称。
+    /// </summary>
+    /// <param name="sourceDir">原文件夹。</param>
+    /// <param name="newName">新文件夹名。</param>
+    /// <exception cref="DirectoryNotFoundException"></exception>
+    public static void RenameDirectory(string sourceDir, string newName)
+    {
+        var parentDir = Path.GetDirectoryName(sourceDir);
+        if (parentDir == null)
+            throw new DirectoryNotFoundException($"The directory '{sourceDir}' does not have a parent directory.");
+
+        var destDir = Path.Combine(parentDir, newName);
+        Directory.Move(sourceDir, destDir);
+    }
+
+    /// <summary>
+    /// 删除文件夹及子文件夹和文件。
+    /// </summary>
+    /// <param name="targetDir">文件夹目录。</param>
+    public static void DeleteDirectory(string targetDir)
+    {
+        if (string.IsNullOrEmpty(targetDir))
+            return;
+
+        if (!Directory.Exists(targetDir))
+            return;
+
+        File.SetAttributes(targetDir, FileAttributes.Normal);
+
+        string[] files = Directory.GetFiles(targetDir);
+        string[] dirs = Directory.GetDirectories(targetDir);
+
+        foreach (string file in files)
+        {
+            File.SetAttributes(file, FileAttributes.Normal);
+            File.Delete(file);
+        }
+
+        foreach (string dir in dirs)
+        {
+            DeleteDirectory(dir);
+        }
+
+        Directory.Delete(targetDir, false);
+    }
+
+    /// <summary>
+    /// 复制文件夹到新位置。
+    /// </summary>
+    /// <param name="sourceDir">原文件夹。</param>
+    /// <param name="destDir">新文件夹。</param>
+    public static void CopyDirectory(string sourceDir, string destDir)
+    {
+        // 创建目标目录
+        Directory.CreateDirectory(destDir);
+
+        // 复制所有文件
+        foreach (var file in Directory.GetFiles(sourceDir))
+        {
+            var name = Path.GetFileName(file);
+            var destFile = Path.Combine(destDir, name);
+            File.Copy(file, destFile, true);
+        }
+
+        // 递归复制所有子目录
+        foreach (var dir in Directory.GetDirectories(sourceDir))
+        {
+            var name = Path.GetFileName(dir);
+            var destSubDir = Path.Combine(destDir, name);
+            CopyDirectory(dir, destSubDir);
+        }
+    }
     #endregion
 
     #region Color

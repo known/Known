@@ -28,6 +28,14 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     }
 
     /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender && !IsServerMode)
+            await Table.RefreshAsync();
+    }
+
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder) => builder.FormTable(Table);
     //protected void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
 
