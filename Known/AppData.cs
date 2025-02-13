@@ -43,6 +43,19 @@ public sealed class AppData
     }
 
     /// <summary>
+    /// 创建实体表格页面插件配置信息。
+    /// </summary>
+    /// <param name="pageType">页面组件类型。</param>
+    /// <returns>插件配置信息。</returns>
+    public static TablePageInfo CreateTablePage(Type pageType)
+    {
+        if (TypeHelper.IsSubclassOfGeneric(pageType, typeof(BaseTablePage<>), out var types))
+            return AppDefaultData.CreateTablePage(pageType, types[0]);
+
+        return null;
+    }
+
+    /// <summary>
     /// 根据ID获取实体插件参数配置信息。
     /// </summary>
     /// <param name="id">模块ID。</param>

@@ -150,6 +150,9 @@ public class TableModel(BaseComponent page) : BaseModel(page)
 
         foreach (var item in QueryColumns)
         {
+            if (string.IsNullOrWhiteSpace(item.Id))
+                continue;
+
             var info = new QueryInfo(item);
             info.Value = TypeHelper.GetPropertyValue<string>(query, item.Id);
             QueryData[item.Id] = info;

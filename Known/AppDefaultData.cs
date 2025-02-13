@@ -51,13 +51,14 @@ class AppDefaultData
                 Url = item.Url,
                 Target = nameof(LinkTarget.None)
             };
-            if (TypeHelper.IsSubclassOfGeneric(item.Page, typeof(BaseTablePage<>), out var types))
-                info.Plugins.AddPlugin(CreateTablePage(item.Page, types[0]));
+            var table = AppData.CreateTablePage(item.Page);
+            if (table != null)
+                info.Plugins.AddPlugin(table);
             data.Modules.Add(info);
         }
     }
 
-    private static TablePageInfo CreateTablePage(Type pageType, Type entityType)
+    internal static TablePageInfo CreateTablePage(Type pageType, Type entityType)
     {
         var info = new TablePageInfo
         {
