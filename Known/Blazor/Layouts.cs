@@ -72,10 +72,17 @@ public class AdminLayout : LayoutComponentBase
 
         builder.Div("kui-wrapper", () =>
         {
-            if (UIConfig.AdminBody != null)
-                UIConfig.AdminBody.Invoke(builder, BuildBody);
+            if (Context.IsMobileApp)
+            {
+                builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
+            }
             else
-                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
+            {
+                if (UIConfig.AdminBody != null)
+                    UIConfig.AdminBody.Invoke(builder, BuildBody);
+                else
+                    builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
+            }
         });
     }
 

@@ -1,14 +1,7 @@
 ﻿@inherits BaseLayout
 
 <LayoutValue Value="this" IsFixed>
-    @if (Context.IsMobileApp)
-    {
-        <AppLayout>@ChildContent</AppLayout>
-    }
-    else
-    {
-        @ChildContent
-    }
+    @ChildContent
 </LayoutValue>
 
 @code {
@@ -34,17 +27,17 @@
             return Task.CompletedTask;
 
         JS.ShowSpinAsync(text);
-        return Task.Run(() =>
+        return Task.Run(async () =>
         {
             try
             {
-                action?.Invoke();
+                await action?.Invoke();
             }
             catch (Exception ex)
             {
-                OnErrorAsync(ex);
+                await OnErrorAsync(ex);
             }
-            JS.HideSpinAsync();
+            await JS.HideSpinAsync();
         });
     }
 

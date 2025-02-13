@@ -81,6 +81,13 @@
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <inheritdoc />
+    protected override Task OnInitAsync()
+    {
+        collapsed = Context.IsMobile;
+        return base.OnInitAsync();
+    }
+
     private void OnLoadMenus(List<MenuInfo> menus)
     {
         root = Config.App.GetRootMenu();

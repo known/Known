@@ -41,29 +41,32 @@ partial class KTable<TItem> : BaseComponent
         }
     }
 
-    private async Task RefreshTableAsync(bool isQuery)
+    private Task RefreshTableAsync(bool isQuery)
     {
         //Model.Criteria.IsQuery = isQuery;
-        await InvokeAsync(() =>
+        return InvokeAsync(() =>
         {
             var query = table?.GetQueryModel();
             table?.ReloadData(query);
         });
     }
 
-    private void OnChange(QueryModel<TItem> query)
+    private Task OnChange(QueryModel<TItem> query)
     {
         if (Model.OnQuery == null || isQuering)
-            return;
+            return Task.CompletedTask;
 
         isQuering = true;
         JS.ShowSpinAsync();
-        OnChangeAsync(query);
-        isQuering = false;
-        JS.HideSpinAsync();
+        return Task.Run(async () =>
+        {
+            await OnChangeAsync(query);
+            isQuering = false;
+            await JS.HideSpinAsync();
+        });
     }
 
-    private async void OnChangeAsync(QueryModel<TItem> query)
+    private async Task OnChangeAsync(QueryModel<TItem> query)
     {
         var watch = Stopwatcher.Start<TItem>();
         Model.Criteria.PageIndex = query.PageIndex;

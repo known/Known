@@ -45,13 +45,15 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
             {
                 builder.Toolbar(() =>
                 {
-                    builder.Div(() =>
+                    builder.Div("left", () =>
                     {
                         builder.FormTitle(Model.Name);
                         if (Model.TopStatis != null)
                             builder.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
+                        if (Model.ShowSetting && Context.IsMobile)
+                            builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
                     });
-                    builder.Div(() => BuildRight(builder));
+                    builder.Div("right", () => BuildRight(builder));
                 });
             }
             builder.Table(Model);
@@ -62,7 +64,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
     {
         if (Model.Toolbar.HasItem)
             builder.Toolbar(Model.Toolbar);
-        if (Model.ShowSetting)
+        if (Model.ShowSetting && !Context.IsMobile)
             builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
     }
 }

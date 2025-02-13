@@ -1,27 +1,29 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-app">
-    @if (!IsHome)
-    {
-        <div class="kui-app-nav">
-            @if (!string.IsNullOrWhiteSpace(App?.CurrentMenu?.BackUrl))
-            {
-                <span class="back" @onclick="e=>App?.Back()">
-                    <Icon Type="left" Theme="IconThemeType.Outline" />
-                    <span>返回</span>
-                </span>
-            }
-            @App?.CurrentMenu?.Name
+<KLayout>
+    <div class="kui-app">
+        @if (!IsHome)
+        {
+            <div class="kui-app-nav">
+                @if (!string.IsNullOrWhiteSpace(App?.CurrentMenu?.BackUrl))
+                {
+                    <span class="back" @onclick="e=>App?.Back()">
+                        <Icon Type="left" Theme="IconThemeType.Outline" />
+                        <span>返回</span>
+                    </span>
+                }
+                @App?.CurrentMenu?.Name
+            </div>
+        }
+        <div class="@pageClass">
+            @ChildContent
         </div>
-    }
-    <div class="@pageClass">
-        @ChildContent
+        @if (IsTab)
+        {
+            <AppTab Items="Config.AppMenus" />
+        }
     </div>
-    @if (IsTab)
-    {
-        <AppTab Items="Config.AppMenus" />
-    }
-</div>
+</KLayout>
 
 @code {
     private bool IsHome => Context.Url == "/app";
