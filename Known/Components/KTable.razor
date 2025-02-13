@@ -5,7 +5,7 @@
     var scrollX = totalWidth.ToString();
 }
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
-          ScrollX="@scrollX" ScrollY="@ScrollY" Loading="isQuering"
+          ScrollX="@scrollX" ScrollY="@ScrollY"
           OnChange="OnChange" OnRow="OnRow"
           @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)

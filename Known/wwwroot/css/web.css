@@ -14,6 +14,10 @@
 /* Õë¶ÔFirefox */
 * {scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.5) transparent;}
 
+#kuiSpin {position:fixed;top:0;left:0;right:0;bottom:0;z-index:2000;}
+#kuiSpin .mask {position:fixed;top:0;left:0;right:0;bottom:0;z-index:2001;background-color:#000;opacity:0.25;}
+#kuiSpin .spin {position:absolute;z-index:2002;top:50%;left:50%;text-align:center;}
+
 #components-reconnect-modal, #blazor-error-ui,
 #components-reconnect-modal > .mask, #blazor-error-ui > .mask {
     text-align:center;position:fixed;z-index:2000;top:0;left:0;right:0;bottom:0;

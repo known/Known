@@ -9,16 +9,9 @@
     {
         @ChildContent
     }
-    @if (showSpin)
-    {
-        <Spin Tip="@spinTip" />
-    }
 </LayoutValue>
 
 @code {
-    private string spinTip = "";
-    private bool showSpin = false;
-
     /// <summary>
     /// 取得或设置子组件内容。
     /// </summary>
@@ -35,26 +28,23 @@
     [Parameter] public Action OnReloadPage { get; set; }
 
     /// <inheritdoc />
-    public override async Task ShowSpinAsync(string text, Func<Task> action)
+    public override Task ShowSpinAsync(string text, Func<Task> action)
     {
         if (action == null)
-            return;
+            return Task.CompletedTask;
 
-        showSpin = true;
-        spinTip = text;
-        await StateChangedAsync();
-        await Task.Run(async () =>
+        JS.ShowSpinAsync(text);
+        return Task.Run(() =>
         {
             try
             {
-                await action?.Invoke();
+                action?.Invoke();
             }
             catch (Exception ex)
             {
-                await OnErrorAsync(ex);
+                OnErrorAsync(ex);
             }
-            showSpin = false;
-            await StateChangedAsync();
+            JS.HideSpinAsync();
         });
     }
 

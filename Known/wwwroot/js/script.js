@@ -264,4 +264,22 @@ export class KBlazor {
         if (!code) return '';
         return Prism.highlight(code, Prism.languages[language], language);
     }
+    //Spin
+    static showSpin(tip) {
+        var html = '<div class="mask"></div>';
+        html += '<div class="spin">';
+        html += '<span class="ant-spin-dot ant-spin-dot-spin">';
+        html += '<i class="ant-spin-dot-item"></i>';
+        html += '<i class="ant-spin-dot-item"></i>';
+        html += '<i class="ant-spin-dot-item"></i>';
+        html += '<i class="ant-spin-dot-item"></i>';
+        html += '</span>';
+        if (tip)
+            html += '<div class="ant-spin-text">' + tip + '</div>';
+        html += '</div>';
+        $('<div>').attr('id', 'kuiSpin').html(html).appendTo($('body'));
+    }
+    static hideSpin() {
+        $('#kuiSpin').remove();
+    }
 }

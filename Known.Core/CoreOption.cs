@@ -89,7 +89,7 @@ public class CoreOption
     }
 
     /// <summary>
-    /// 添加后端程序集，自动识别工作流类。
+    /// 添加后端程序集，自动识别导入和工作流类。
     /// </summary>
     /// <param name="assembly">应用程序集。</param>
     public void AddAssembly(Assembly assembly)

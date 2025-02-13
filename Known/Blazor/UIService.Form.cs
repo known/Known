@@ -47,7 +47,8 @@ public partial class UIService
             };
             content = b => b.Component(model.Type, parameters);
         }
-        option.Content = b => b.Component<KModalBody>().Set(c => c.Content, content).Build();
+        option.Content = content;
+        //option.Content = b => b.Component<KModalBody>().Set(c => c.Content, content).Build();
 
         if (isTabForm)
             option.WrapClassName = "kui-tab-form";

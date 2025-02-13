@@ -1,6 +1,6 @@
 ﻿namespace Known.Internals;
 
-class KModalBody : ComponentBase
+class KModalBody : BaseComponent
 {
     private bool showLoading = true;
 

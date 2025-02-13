@@ -20,7 +20,8 @@ public partial class UIService
             WrapClassName = model.ClassName,
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,
-            Content = b => b.Component<KModalBody>().Set(c => c.Content, model.Content).Build()
+            Content = model.Content
+            //Content = b => b.Component<KModalBody>().Set(c => c.Content, model.Content).Build()
         };
 
         if (model.OnOk != null)

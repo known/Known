@@ -51,31 +51,19 @@ partial class KTable<TItem> : BaseComponent
         });
     }
 
-    private async Task OnChange(QueryModel<TItem> query)
+    private void OnChange(QueryModel<TItem> query)
     {
         if (Model.OnQuery == null || isQuering)
             return;
 
-        if (IsServerMode)
-        {
-            isQuering = true;
-            await StateChangedAsync();
-            await Task.Run(async () =>
-            {
-                await OnChangeAsync(query);
-                isQuering = false;
-                await StateChangedAsync();
-            });
-        }
-        else
-        {
-            isQuering = true;
-            await OnChangeAsync(query);
-            isQuering = false;
-        }
+        isQuering = true;
+        JS.ShowSpinAsync();
+        OnChangeAsync(query);
+        isQuering = false;
+        JS.HideSpinAsync();
     }
 
-    private async Task OnChangeAsync(QueryModel<TItem> query)
+    private async void OnChangeAsync(QueryModel<TItem> query)
     {
         var watch = Stopwatcher.Start<TItem>();
         Model.Criteria.PageIndex = query.PageIndex;
