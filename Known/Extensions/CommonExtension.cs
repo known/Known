@@ -178,8 +178,13 @@ public static class CommonExtension
         if (lists == null || lists.Count == 0)
             return new PagingResult<T>(0, []);
 
-        var data = lists.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-        return new PagingResult<T>(lists.Count, data);
+        var pageData = lists.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+        var result = new PagingResult<T>(lists.Count, pageData);
+
+        if (criteria.ExportMode != ExportMode.None)
+            result.ExportData = DbUtils.GetExportData(criteria, pageData);
+
+        return result;
     }
     #endregion
 }
