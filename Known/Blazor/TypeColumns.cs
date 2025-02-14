@@ -5,57 +5,12 @@ namespace Known.Blazor;
 /// <summary>
 /// 字典类型列组件类。
 /// </summary>
-public class DictionaryColumn : PropertyColumn<Dictionary<string, object>, object>
-{
-    /// <summary>
-    /// 取得或设置栏位配置信息。
-    /// </summary>
-    [Parameter] public ColumnInfo Column { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (Column != null)
-        {
-            Property = c => c.GetValue(Column.Id);
-            Ellipsis = true;
-            ShowSorterTooltip = false;
-            if (!string.IsNullOrWhiteSpace(Column.Fixed))
-                Fixed = Column.ToColumnFixPlacement();
-            Sortable = Column.IsSort;
-            DefaultSortOrder = Column.ToSortDirection();
-            Align = Column.ToColumnAlign();
-        }
-    }
-}
+public class DictionaryColumn : PropertyColumn<Dictionary<string, object>, object> { }
 
 /// <summary>
 /// 表格列扩展类。
 /// </summary>
-public class AntColumn : Column<object>
-{
-    /// <summary>
-    /// 取得或设置栏位配置信息。
-    /// </summary>
-    [Parameter] public ColumnInfo Column { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        if (Column != null)
-        {
-            Ellipsis = true;
-            ShowSorterTooltip = false;
-            if (!string.IsNullOrWhiteSpace(Column.Fixed))
-                Fixed = Column.ToColumnFixPlacement();
-            Sortable = Column.IsSort;
-            DefaultSortOrder = Column.ToSortDirection();
-            Align = Column.ToColumnAlign();
-        }
-    }
-}
+public class AntColumn : Column<object> { }
 
 /// <summary>
 /// 字符串类型列组件类。

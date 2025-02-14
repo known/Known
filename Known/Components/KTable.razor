@@ -45,7 +45,10 @@
             if (isDictionary)
             {
                 var value = (context as Dictionary<string, object>).GetValue(item.Id);
-                <DictionaryColumn Title="@title" Width="@width" Column="item">
+                <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
+                                  Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                  Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                  Align="@item.ToColumnAlign()">
                     @if (template != null)
                     {
                         @template(context)
@@ -72,7 +75,10 @@
             else
             {
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <AntColumn Title="@title" Width="@width" Column="item">
+                <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
+                        Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                        Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                        Align="@item.ToColumnAlign()">
                     <TitleTemplate>
                         @if (!string.IsNullOrWhiteSpace(item.Tooltip))
                         {
@@ -106,7 +112,7 @@
                             }
                         }
                     </ChildContent>
-                </AntColumn>
+                </Column>
             }
         }
     }
