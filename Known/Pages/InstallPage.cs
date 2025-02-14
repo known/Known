@@ -37,7 +37,7 @@ public class InstallPage : BaseForm<InstallInfo>
             {
                 builder.Div("kui-flex", () =>
                 {
-                    builder.Div().Class("kui-logo").Style("position:initial;height:55px;").Close();
+                    builder.Div().Class("kui-logo").Close();
                     builder.Div("kui-app-name", $"{Config.App.Name} - {Language["Install"]}");
                 });
             });
