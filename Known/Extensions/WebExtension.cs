@@ -46,32 +46,17 @@ public static class WebExtension
     }
 
     /// <summary>
-    /// 导航到指定菜单对应的页面。
-    /// </summary>
-    /// <param name="navigation">导航管理者对象。</param>
-    /// <param name="item">跳转的菜单对象。</param>
-    public static void NavigateTo(this NavigationManager navigation, MenuInfo item)
-    {
-        if (item == null || string.IsNullOrWhiteSpace(item.RouteUrl))
-            return;
-
-        //缓存APP代码中添加的菜单
-        UIConfig.SetMenu(item);
-        navigation.NavigateTo(item.RouteUrl);
-    }
-
-    /// <summary>
     /// 导航到指定动作对应的页面。
     /// </summary>
-    /// <param name="navigation">导航管理者对象。</param>
+    /// <param name="context">UI上下文。</param>
     /// <param name="item">跳转的动作对象。</param>
-    public static void NavigateTo(this NavigationManager navigation, ActionInfo item)
+    public static void NavigateTo(this UIContext context, ActionInfo item)
     {
         if (item == null)
             return;
 
         var menu = new MenuInfo { Id = item.Id, Name = item.Name, Icon = item.Icon, Url = item.Url };
-        navigation.NavigateTo(menu);
+        context.NavigateTo(menu);
     }
     #endregion
 

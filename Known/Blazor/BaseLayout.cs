@@ -69,7 +69,7 @@ public class BaseLayout : BaseComponent
     /// 导航到指定菜单对应的页面。
     /// </summary>
     /// <param name="item">跳转的菜单对象。</param>
-    public void NavigateTo(MenuInfo item) => Navigation?.NavigateTo(item);
+    public void NavigateTo(MenuInfo item) => Context.NavigateTo(item);
 
     /// <summary>
     /// 返回到上一个页面。

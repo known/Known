@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using AntDesign;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// UI上下文信息类。
@@ -39,6 +41,14 @@ public class UIContext : Context
     /// 取得或设置当前用户权限菜单信息列表。
     /// </summary>
     public List<MenuInfo> UserMenus { get; set; }
+
+    /// <summary>
+    /// 取得UI服务实例。
+    /// </summary>
+    public UIService UI { get; internal set; }
+
+    internal NavigationManager Navigation { get; set; }
+    internal ReuseTabsService TabsService { get; set; }
 
     /// <summary>
     /// 根据菜单ID获取菜单信息列表。
@@ -84,6 +94,28 @@ public class UIContext : Context
     {
         CurrentUser = null;
         UserMenus = null;
+    }
+
+    /// <summary>
+    /// 导航到指定菜单页面。
+    /// </summary>
+    /// <param name="info">菜单信息。</param>
+    public void NavigateTo(MenuInfo info)
+    {
+        if (info == null || string.IsNullOrWhiteSpace(info.RouteUrl))
+            return;
+
+        if (UserSetting.MaxTabCount.HasValue)
+        {
+            if (TabsService.Pages.Count + 1 > UserSetting.MaxTabCount)
+            {
+                UI.Info("超过最大标签页数！");
+                return;
+            }
+        }
+        //缓存APP代码中添加的菜单
+        UIConfig.SetMenu(info);
+        Navigation.NavigateTo(info.RouteUrl);
     }
 
     internal void SetCurrentMenu(RouteData route)

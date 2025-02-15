@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using AntDesign;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// 抽象组件基类。
@@ -12,6 +14,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         Id = Utils.GetNextId();
     }
+
+    [Inject] private ReuseTabsService TabsService { get; set; }
 
     /// <summary>
     /// 取得或设置是否是静态组件。
@@ -125,6 +129,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
             UI.Language = Language;
             Platform = await CreateServiceAsync<IPlatformService>();
             Admin = await CreateServiceAsync<IAdminService>();
+            Context.UI = UI;
+            Context.Navigation = Navigation;
+            Context.TabsService = TabsService;
             await OnInitAsync();
         }
         catch (Exception ex)

@@ -51,6 +51,6 @@ class NavLink : PluginBase<LinkInfo>
         };
         if (param.Target == LinkTarget.IFrame.ToString())
             menu.Target = ModuleType.IFrame.ToString();
-        Parent.Navigation.NavigateTo(menu);
+        Parent.Context.NavigateTo(menu);
     }
 }

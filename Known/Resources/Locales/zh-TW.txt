@@ -219,6 +219,7 @@
   "Set.Layout": "佈局",
   "Set.Tabs": "標籤",
   "Set.TopTab": "頂行標籤",
+  "Set.MaxTabCount": "最大標籤數",
   "Set.PreferenceSetting": "偏好設定",
   "Set.Accordion": "手風琴",
   "Set.RegionalSetting": "區域設定",

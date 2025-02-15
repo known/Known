@@ -75,7 +75,7 @@
             else
             {
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
+                <Column Title="@title" TData="object" Width="@width"
                         Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                         Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                         Align="@item.ToColumnAlign()">

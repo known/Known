@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using Microsoft.AspNetCore.Components.Routing;
 
 namespace Known.Components;
 
@@ -97,8 +96,9 @@ public class AntMenu : Menu
             builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
                .Set(c => c.Disabled, !item.Enabled)
-               .Set(c => c.RouterMatch, NavLinkMatch.Prefix)
-               .Set(c => c.RouterLink, item.RouteUrl)
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnMenuItemClick(item)))
+               //.Set(c => c.RouterMatch, NavLinkMatch.Prefix)
+               //.Set(c => c.RouterLink, item.RouteUrl)
                .Set(c => c.ChildContent, b => BuildItemName(b, item))
                .Build();
         }
@@ -114,5 +114,10 @@ public class AntMenu : Menu
     {
         var itemName = Context?.Language?.GetString(item);
         builder.IconName(item.Icon, itemName);
+    }
+
+    private void OnMenuItemClick(MenuInfo item)
+    {
+        Context.NavigateTo(item);
     }
 }

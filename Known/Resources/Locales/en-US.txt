@@ -219,6 +219,7 @@
   "Set.Layout": "Layout",
   "Set.Tabs": "Tabs",
   "Set.TopTab": "Top Tabs",
+  "Set.MaxTabCount": "MaxTabCount",
   "Set.PreferenceSetting": "Preference Settings",
   "Set.Accordion": "Accordion",
   "Set.RegionalSetting": "Regional Settings",

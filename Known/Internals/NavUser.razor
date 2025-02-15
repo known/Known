@@ -26,7 +26,7 @@
     private Task OnItemClickAsync(ActionInfo item)
     {
         if (!string.IsNullOrWhiteSpace(item.Url))
-            Navigation?.NavigateTo(item);
+            Context.NavigateTo(item);
         else if (item.Id == "logout")
             App?.Logout();
         Topbar?.OnActionClick?.Invoke(item);

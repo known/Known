@@ -31,7 +31,7 @@ class NavDevelopment : BaseNav
     private Task OnItemClickAsync(ActionInfo item)
     {
         if (!string.IsNullOrWhiteSpace(item.Url))
-            Navigation?.NavigateTo(item);
+            Context.NavigateTo(item);
         Topbar?.OnActionClick?.Invoke(item);
         return Task.CompletedTask;
     }

@@ -219,6 +219,7 @@
   "Set.Layout": "Bố trí",
   "Set.Tabs": "Trang chủ",
   "Set.TopTab": "Hàng đầu",
+  "Set.MaxTabCount": "Số thẻ tối đa",
   "Set.PreferenceSetting": "Tùy chọn",
   "Set.Accordion": "Trang chủ",
   "Set.RegionalSetting": "Thiết lập vùng",

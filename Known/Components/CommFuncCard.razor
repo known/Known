@@ -14,7 +14,7 @@
                 if (menu == null)
                     continue;
 
-                <div class="ws-func-menu" @onclick="e=>Navigation?.NavigateTo(menu)">
+                <div class="ws-func-menu" @onclick="e=>Context.NavigateTo(menu)">
                     <KIcon Icon="@menu.Icon" />
                     <span class="name">@Language?.GetString(menu)</span>
                 </div>

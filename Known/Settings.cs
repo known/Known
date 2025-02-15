@@ -121,6 +121,11 @@ public class UserSettingInfo
     public bool IsTopTab { get; set; }
 
     /// <summary>
+    /// 取得或是设置最大标签数量。
+    /// </summary>
+    public int? MaxTabCount { get; set; }
+
+    /// <summary>
     /// 取得或设置系统菜单是否是手风琴， 默认是。
     /// </summary>
     public bool Accordion { get; set; } = true;

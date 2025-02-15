@@ -29,6 +29,9 @@
         <FormItem Label="@Language["Set.TopTab"]">
             <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
         </FormItem>
+        <FormItem Label="@Language["Set.MaxTabCount"]">
+            <AntInteger @bind-Value="context.MaxTabCount" />
+        </FormItem>
     }
     <Divider />
     <Title Level="4">@Language["Set.PreferenceSetting"]</Title>
@@ -41,7 +44,7 @@
     </FormItem>
     <FormItem WrapperColOffset="6" WrapperColSpan="16">
         <Button Type="@ButtonType.Primary" HtmlType="submit">@Language.Save</Button>
-        <Button OnClick="OnReset">@Language.Reset</Button>
+        <Button OnClick="OnResetAsync">@Language.Reset</Button>
     </FormItem>
 </SettingTypeForm>
 
@@ -59,12 +62,12 @@
     };
     private List<CodeInfo> MenuThemes => [
         new CodeInfo("Dark", Language["Set.Dark"]),
-        new CodeInfo("Light", Language["Set.Light"])
+    new CodeInfo("Light", Language["Set.Light"])
     ];
     private List<CodeInfo> LayoutModes => [
         new CodeInfo("Vertical", Language["Set.Vertical"]),
-        new CodeInfo("Horizontal", Language["Set.Horizontal"]),
-        new CodeInfo("Float", Language["Set.Float"])
+    new CodeInfo("Horizontal", Language["Set.Horizontal"]),
+    new CodeInfo("Float", Language["Set.Float"])
     ];
 
     [Parameter] public Action OnChange { get; set; }
@@ -76,5 +79,15 @@
         Context.UserSetting.ThemeColor = theme;
         var href = $"_content/Known/css/theme/{theme}.css";
         await JS.SetStyleSheetAsync("/theme/", href);
+    }
+
+    private async Task OnResetAsync()
+    {
+        if (OnReset != null)
+        {
+            await OnReset.Invoke();
+            await StateChangedAsync();
+            OnChange?.Invoke();
+        }
     }
 }
