@@ -139,10 +139,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             Columns.Clear();
             if (AllColumns != null && AllColumns.Count > 0)
                 Columns.AddRange(AllColumns);
-
-            SetQueryColumns();
         }
 
+        SetQueryColumns();
         if (PageSize != null)
             Criteria.PageSize = PageSize.Value;
     }

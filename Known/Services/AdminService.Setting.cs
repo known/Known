@@ -37,7 +37,7 @@ partial class AdminClient
 {
     public Task<string> GetUserSettingAsync(string bizType)
     {
-        return Http.GetStringAsync($"/Admin/GetUserSetting?bizType={bizType}");
+        return Http.GetTextAsync($"/Admin/GetUserSetting?bizType={bizType}");
     }
 
     public Task<Result> SaveUserSettingAsync(SettingFormInfo info)

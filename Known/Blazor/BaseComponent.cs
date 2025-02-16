@@ -257,27 +257,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
+    
     internal void OnAction(ActionInfo info, object[] parameters)
     {
-        var type = GetType();
-        var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
-        var method = paramTypes == null
-                   ? type.GetMethod(info.Id)
-                   : type.GetMethod(info.Id, paramTypes);
-        if (method == null)
-        {
-            var message = Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
-            UI.Error(message);
-            return;
-        }
-        try
-        {
-            method.Invoke(this, parameters);
-        }
-        catch (Exception ex)
-        {
-            UI.Error(ex.Message);
-        }
+        Context.OnAction(this, info, parameters);
     }
 
     private async ValueTask DisposeAsync(bool disposing)

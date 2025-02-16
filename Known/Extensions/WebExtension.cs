@@ -44,20 +44,6 @@ public static class WebExtension
     {
         navigation?.NavigateTo("/login");
     }
-
-    /// <summary>
-    /// 导航到指定动作对应的页面。
-    /// </summary>
-    /// <param name="context">UI上下文。</param>
-    /// <param name="item">跳转的动作对象。</param>
-    public static void NavigateTo(this UIContext context, ActionInfo item)
-    {
-        if (item == null)
-            return;
-
-        var menu = new MenuInfo { Id = item.Id, Name = item.Name, Icon = item.Icon, Url = item.Url };
-        context.NavigateTo(menu);
-    }
     #endregion
 
     #region File

@@ -70,7 +70,7 @@ partial class AdminClient
 {
     public Task<string> GetQRCodeUrlAsync(string sceneId)
     {
-        return Http.GetStringAsync($"/Admin/GetQRCodeUrl?sceneId={sceneId}");
+        return Http.GetTextAsync($"/Admin/GetQRCodeUrl?sceneId={sceneId}");
     }
 
     public Task<WeixinInfo> GetWeixinAsync(string userId)
