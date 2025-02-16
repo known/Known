@@ -319,7 +319,12 @@ public class ColumnInfo
         Template = template;
     }
 
-    internal ColumnInfo(ColumnAttribute attr) => SetColumnAttribute(attr);
+    internal ColumnInfo(ColumnAttribute attr)
+    {
+        SetColumnAttribute(attr);
+        SetPropertyInfo(attr.Property);
+    }
+
     internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
 
@@ -327,7 +332,12 @@ public class ColumnInfo
     /// 构造函数，创建一个栏位信息类的实例。
     /// </summary>
     /// <param name="info">栏位属性对象。</param>
-    public ColumnInfo(PropertyInfo info) => SetPropertyInfo(info);
+    public ColumnInfo(PropertyInfo info)
+    {
+        var column = info?.GetCustomAttribute<ColumnAttribute>();
+        SetColumnAttribute(column);
+        SetPropertyInfo(info);
+    }
 
     /// <summary>
     /// 取得或设置栏位ID。
@@ -535,7 +545,7 @@ public class ColumnInfo
         Category = info.Category;
     }
 
-    internal void SetPropertyInfo(PropertyInfo info)
+    private void SetPropertyInfo(PropertyInfo info)
     {
         if (info == null)
             return;
@@ -543,10 +553,6 @@ public class ColumnInfo
         Property = info;
         Id = info.Name;
         Required = info.IsRequired();
-
-        var column = info.GetCustomAttribute<ColumnAttribute>();
-        if (column != null)
-            SetColumnAttribute(column);
 
         var form = info.GetCustomAttribute<FormAttribute>();
         if (form != null)
@@ -574,6 +580,9 @@ public class ColumnInfo
 
     private void SetColumnAttribute(ColumnAttribute attr)
     {
+        if (attr == null)
+            return;
+
         IsViewLink = attr.IsViewLink;
         IsQuery = attr.IsQuery;
         IsQueryAll = attr.IsQueryAll;
@@ -588,17 +597,20 @@ public class ColumnInfo
         Align = attr.Align;
     }
 
-    private void SetFormAttribute(FormAttribute form)
+    private void SetFormAttribute(FormAttribute attr)
     {
+        if (attr == null)
+            return;
+
         IsForm = true;
-        Row = form.Row;
-        Column = form.Column;
-        if (!string.IsNullOrWhiteSpace(form.Type))
-            Type = Utils.ConvertTo<FieldType>(form.Type);
+        Row = attr.Row;
+        Column = attr.Column;
+        if (!string.IsNullOrWhiteSpace(attr.Type))
+            Type = Utils.ConvertTo<FieldType>(attr.Type);
         if (Type == FieldType.Custom)
-            CustomField = form.CustomField;
-        ReadOnly = form.ReadOnly;
-        Placeholder = form.Placeholder;
+            CustomField = attr.CustomField;
+        ReadOnly = attr.ReadOnly;
+        Placeholder = attr.Placeholder;
         if (string.IsNullOrWhiteSpace(Placeholder) && Type == FieldType.Select)
             Placeholder = "请选择";
     }

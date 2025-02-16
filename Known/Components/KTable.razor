@@ -5,8 +5,7 @@
     var scrollX = totalWidth.ToString();
 }
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
-          ScrollX="@scrollX" ScrollY="@ScrollY"
-          OnChange="OnChange" OnRow="OnRow"
+          ScrollX="@scrollX" ScrollY="@ScrollY" OnChange="OnChange" OnRow="OnRow"
           @bind-SelectedRows="Model.SelectedRows">
     @if (Model.SelectType != TableSelectType.None)
     {
@@ -15,16 +14,15 @@
     @if (Model.Columns != null && Model.Columns.Count > 0)
     {
         var isDictionary = Model.IsDictionary;
-
-        @if (Model.ShowIndex)
+        if (Model.ShowIndex)
         {
             var titleIndex = Language?.GetString("Index");
             var columnId = Model.Columns[0].Id;
             if (isDictionary)
             {
-                @* <DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
+                @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
-                </DictionaryColumn> *@
+                </DictionaryColumn>*@
             }
             else
             {
@@ -35,7 +33,7 @@
         }
         foreach (var item in Model.Columns)
         {
-            if (!item.IsVisible)
+            if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
                 continue;
 
             var title = Language?.GetFieldName<TItem>(item);
@@ -44,7 +42,8 @@
             Model.Templates?.TryGetValue(item.Id, out template);
             if (isDictionary)
             {
-                var value = (context as Dictionary<string, object>).GetValue(item.Id);
+                var data = context as Dictionary<string, object>;
+                var value = data?.GetValue(item.Id);
                 <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
                                   Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                   Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
@@ -74,8 +73,11 @@
             }
             else
             {
+                if (!typeof(TItem).HasProperty(item.Id))
+                    continue;
+
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <Column Title="@title" TData="object" Width="@width"
+                <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
                         Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                         Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                         Align="@item.ToColumnAlign()">
@@ -165,7 +167,7 @@
             {
                 foreach (var item in Model.Columns)
                 {
-                    if (!item.IsVisible)
+                    if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
                         continue;
 
                     if (item.IsSum)

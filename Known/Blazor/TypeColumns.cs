@@ -8,11 +8,6 @@ namespace Known.Blazor;
 public class DictionaryColumn : PropertyColumn<Dictionary<string, object>, object> { }
 
 /// <summary>
-/// 表格列扩展类。
-/// </summary>
-public class AntColumn : Column<object> { }
-
-/// <summary>
 /// 字符串类型列组件类。
 /// </summary>
 public class StringColumn : Column<string> { }
