@@ -159,7 +159,13 @@ public static class HttpExtension
         }
     }
 
-    private static string GetRequestUrl(this HttpClient http, string url)
+    /// <summary>
+    /// 获取请求URL。
+    /// </summary>
+    /// <param name="http">HTTP客户端对象。</param>
+    /// <param name="url">URL。</param>
+    /// <returns>请求URL。</returns>
+    public static string GetRequestUrl(this HttpClient http, string url)
     {
         if (string.IsNullOrWhiteSpace(url))
             return http.BaseAddress?.ToString();
