@@ -1,6 +1,5 @@
 ﻿using Coravel;
 using Coravel.Invocable;
-using Sample.Web.Services;
 
 namespace Sample.Web;
 
@@ -35,7 +34,6 @@ public static class AppConfig
 #endif
         Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
 
-        //Stopwatcher.Enabled = true;
         builder.AddAppWeb();
         builder.AddAppWebCore();
     }
@@ -61,19 +59,16 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
             info.IsMobile = true;
-            //info.AuthExpired = TimeSpan.FromSeconds(10);
-            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
-            //info.JsPath = "./script.js";
         });
         builder.Services.AddKnownAdmin();
 
-        //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
-        UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
         UIConfig.EnableEdit = true;
     }
 
     private static void AddAppWebCore(this WebApplicationBuilder builder)
     {
+        var assembly = typeof(AppConfig).Assembly;
+        builder.Services.AddServices(assembly);
         builder.Services.AddKnownAdminCore(option =>
         {
             //option.Code = new CodeConfigInfo
@@ -105,9 +100,7 @@ public static class AppConfig
             };
         });
 
-        // 注入服务
-        builder.Services.AddScoped<IHomeService, HomeService>();
-
+        // 添加任务
         builder.Services.AddScheduler();
         builder.Services.AddTransient<ImportTaskJob>();
     }

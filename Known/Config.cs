@@ -318,10 +318,12 @@ public sealed class Config
                 AddApiMethod(typeof(IEntityService<>).MakeGenericType(typeArguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item, item.Name[1..].Replace("Service", ""));
-            else if (item.IsAssignableTo(typeof(BaseForm)))
-                FormTypes[item.Name] = item;
             else if (item.IsAssignableTo(typeof(ICustomField)))
                 AddFieldType(item);
+            else if (item.IsAssignableTo(typeof(BaseForm)))
+                FormTypes[item.Name] = item;
+            else if (item.IsAssignableTo(typeof(EntityBase)))
+                DbConfig.Models.Add(item);
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
 

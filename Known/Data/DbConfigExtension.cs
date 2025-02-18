@@ -6,13 +6,30 @@
 public static class DbConfigExtension
 {
     /// <summary>
-    /// 添加数据模型配置。
+    /// 添加数据实体模型配置。
+    /// </summary>
+    /// <param name="models">实体模型列表。</param>
+    /// <param name="type">实体模型类型。</param>
+    public static void Add(this List<DbModelInfo> models, Type type)
+    {
+        if (models.Exists(m => m.Type.FullName == type.FullName))
+            return;
+
+        models.Add(new DbModelInfo { Type = type, Keys = [nameof(EntityBase.Id)] });
+    }
+
+    /// <summary>
+    /// 添加数据实体模型配置。
     /// </summary>
     /// <typeparam name="T">实体类型。</typeparam>
-    /// <param name="models"></param>
-    /// <param name="selector"></param>
+    /// <param name="models">实体模型列表。</param>
+    /// <param name="selector">主键选择表达式。</param>
     public static void Add<T>(this List<DbModelInfo> models, Expression<Func<T, object>> selector)
     {
+        var type = typeof(T);
+        if (models.Exists(m => m.Type.FullName == type.FullName))
+            return;
+
         var keys = new List<string>();
         if (selector.Body is MemberExpression)
         {
@@ -25,6 +42,6 @@ public static class DbConfigExtension
             var arguments = member.Arguments.Select(a => ((MemberExpression)a).Member.Name);
             keys.AddRange(arguments);
         }
-        models.Add(new DbModelInfo { Type = typeof(T), Keys = keys });
+        models.Add(new DbModelInfo { Type = type, Keys = keys });
     }
 }

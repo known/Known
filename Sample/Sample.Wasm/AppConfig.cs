@@ -21,16 +21,8 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
             info.IsClient = true;
-            //info.AuthExpired = TimeSpan.FromSeconds(10);
-            //JS路径，通过JS.InvokeAppVoidAsync调用JS方法
-            //info.JsPath = "./script.js";
         });
+        services.AddServices(assembly);
         services.AddKnownCore();
-
-        //UIConfig.AutoTablePage = (b, m) => b.Component<CustomTablePage>().Set(c => c.Model, m).Build();
-        UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "你没有此页面的访问权限。" };
-
-        // 注入服务
-        services.AddScoped<IHomeService, HomeService>();
     }
 }

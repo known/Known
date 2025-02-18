@@ -164,19 +164,6 @@ public static class CoreExtension
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         // 添加模型
-        DbConfig.Models.Add<SysCompany>(x => x.Id);
-        DbConfig.Models.Add<SysDictionary>(x => x.Id);
-        DbConfig.Models.Add<SysFile>(x => x.Id);
-        DbConfig.Models.Add<SysFlow>(x => x.Id);
-        DbConfig.Models.Add<SysFlowLog>(x => x.Id);
-        DbConfig.Models.Add<SysLog>(x => x.Id);
-        DbConfig.Models.Add<SysMessage>(x => x.Id);
-        DbConfig.Models.Add<SysOrganization>(x => x.Id);
-        DbConfig.Models.Add<SysRole>(x => x.Id);
-        DbConfig.Models.Add<SysSetting>(x => x.Id);
-        DbConfig.Models.Add<SysTask>(x => x.Id);
-        DbConfig.Models.Add<SysUser>(x => x.Id);
-        DbConfig.Models.Add<SysWeixin>(x => x.Id);
         DbConfig.Models.Add<SysConfig>(x => new { x.AppId, x.ConfigKey });
         DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
         DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });

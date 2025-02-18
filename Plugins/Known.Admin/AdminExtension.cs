@@ -49,9 +49,6 @@ public static class AdminExtension
         // 添加模块
         Config.AddModule(typeof(AdminExtension).Assembly);
 
-        // 注入EFCore模型
-        DbConfig.Models.Add<SysModule>(x => x.Id);
-
         Config.OnInstallModules = OnInstallModules;
         Config.OnInitialModules = OnInitialModules;
     }
