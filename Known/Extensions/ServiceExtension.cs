@@ -32,4 +32,72 @@ public static class ServiceExtension
         service.Context = context;
         return service;
     }
+
+    /// <summary>
+    /// 添加注入程序集中 Service 特性的服务类。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="assembly">程序集。</param>
+    public static void AddServices(this IServiceCollection services, Assembly assembly)
+    {
+        if (assembly == null)
+            return;
+
+        foreach (var item in assembly.GetTypes())
+        {
+            var attr = item.GetCustomAttribute<ServiceAttribute>();
+            if (attr == null)
+                continue;
+
+            services.AddServices(attr.Lifetime, item);
+        }
+    }
+
+    /// <summary>
+    /// 添加注入程序集中 Client 特性的客户端类。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="assembly">程序集。</param>
+    public static void AddClients(this IServiceCollection services, Assembly assembly)
+    {
+        if (assembly == null)
+            return;
+
+        foreach (var item in assembly.GetTypes())
+        {
+            var attr = item.GetCustomAttribute<ClientAttribute>();
+            if (attr == null)
+                continue;
+
+            services.AddServices(attr.Lifetime, item);
+        }
+    }
+
+    private static void AddServices(this IServiceCollection services, ServiceLifetime lifetime, Type item)
+    {
+        var interfaces = item.GetInterfaces().Where(s => s.Name != nameof(IService)).ToList();
+        switch (lifetime)
+        {
+            case ServiceLifetime.Scoped:
+                if (interfaces == null || interfaces.Count == 0)
+                    services.AddScoped(item);
+                else
+                    services.AddScoped(interfaces[0], item);
+                break;
+            case ServiceLifetime.Singleton:
+                if (interfaces == null || interfaces.Count == 0)
+                    services.AddSingleton(item);
+                else
+                    services.AddSingleton(interfaces[0], item);
+                break;
+            case ServiceLifetime.Transient:
+                if (interfaces == null || interfaces.Count == 0)
+                    services.AddTransient(item);
+                else
+                    services.AddTransient(interfaces[0], item);
+                break;
+            default:
+                break;
+        }
+    }
 }

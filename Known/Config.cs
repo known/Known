@@ -253,7 +253,7 @@ public sealed class Config
         return isWeb ? $"Files/{path}" : $"UploadFiles/{path}";
     }
 
-    internal static void AddApp()
+    internal static void AddApp(Assembly assembly)
     {
         // 添加默认一级模块
         if (App.IsModule)
@@ -264,7 +264,7 @@ public sealed class Config
 
         Version = new VersionInfo(App.Assembly);
         InitAssembly(App.Assembly);
-        AddModule(typeof(Config).Assembly);
+        AddModule(assembly);
     }
 
     private static void AddApiMethod(Type type, string apiName)
@@ -325,13 +325,47 @@ public sealed class Config
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
 
-            var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
-            if (codeInfo != null)
-                Cache.AttachCodes(item);
-
             var routes = GetRoutes(item);
             AddPlugin(item, routes);
             AddMenu(item, routes);
+            AddCodeInfo(item);
+        }
+    }
+
+    private static void AddActions(Assembly assembly)
+    {
+        var content = Utils.GetResource(assembly, "actions");
+        if (string.IsNullOrWhiteSpace(content))
+            return;
+
+        var lines = content.Split([.. Environment.NewLine]);
+        if (lines == null || lines.Length == 0)
+            return;
+
+        foreach (var item in lines)
+        {
+            if (string.IsNullOrWhiteSpace(item) || item.StartsWith("按钮编码"))
+                continue;
+
+            var values = item.Split('|');
+            if (values.Length < 2)
+                continue;
+
+            var id = values[0].Trim();
+            var info = Actions.FirstOrDefault(i => i.Id == id);
+            if (info == null)
+            {
+                info = new ActionInfo { Id = id };
+                Actions.Add(info);
+            }
+            if (values.Length > 1)
+                info.Name = values[1].Trim();
+            if (values.Length > 2)
+                info.Icon = values[2].Trim();
+            if (values.Length > 3)
+                info.Style = values[3].Trim();
+            if (values.Length > 4)
+                info.Position = values[4].Trim();
         }
     }
 
@@ -371,41 +405,11 @@ public sealed class Config
         }
     }
 
-    private static void AddActions(Assembly assembly)
+    private static void AddCodeInfo(Type item)
     {
-        var content = Utils.GetResource(assembly, "actions");
-        if (string.IsNullOrWhiteSpace(content))
-            return;
-
-        var lines = content.Split([.. Environment.NewLine]);
-        if (lines == null || lines.Length == 0)
-            return;
-
-        foreach (var item in lines)
-        {
-            if (string.IsNullOrWhiteSpace(item) || item.StartsWith("按钮编码"))
-                continue;
-
-            var values = item.Split('|');
-            if (values.Length < 2)
-                continue;
-
-            var id = values[0].Trim();
-            var info = Actions.FirstOrDefault(i => i.Id == id);
-            if (info == null)
-            {
-                info = new ActionInfo { Id = id };
-                Actions.Add(info);
-            }
-            if (values.Length > 1)
-                info.Name = values[1].Trim();
-            if (values.Length > 2)
-                info.Icon = values[2].Trim();
-            if (values.Length > 3)
-                info.Style = values[3].Trim();
-            if (values.Length > 4)
-                info.Position = values[4].Trim();
-        }
+        var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
+        if (codeInfo != null)
+            Cache.AttachCodes(item);
     }
 
     private static void AddFieldType(Type item)

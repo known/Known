@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-[WebApi]
+[WebApi, Service]
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)

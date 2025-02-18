@@ -3,6 +3,7 @@
 /// <summary>
 /// JS服务类。
 /// </summary>
+[Service]
 public partial class JSService
 {
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;

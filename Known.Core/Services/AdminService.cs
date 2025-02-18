@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-[WebApi]
+[WebApi, Service]
 partial class AdminService(Context context) : ServiceBase(context), IAdminService
 {
 }

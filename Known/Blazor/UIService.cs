@@ -9,6 +9,7 @@ namespace Known.Blazor;
 /// <param name="drawer">抽屉弹窗服务。</param>
 /// <param name="message">消息弹窗服务。</param>
 /// <param name="notice">通知弹窗服务。</param>
+[Service]
 public partial class UIService(ModalService modal, DrawerService drawer, MessageService message, INotificationService notice)
 {
     /// <summary>

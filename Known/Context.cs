@@ -79,6 +79,25 @@ public class Context
             return language;
         }
     }
+
+    /// <summary>
+    /// 取得上下文参数字典。
+    /// </summary>
+    public Dictionary<string, object> Paramter { get; } = [];
+
+    /// <summary>
+    /// 根据Key获取上下文参数。
+    /// </summary>
+    /// <typeparam name="T">参数类型。</typeparam>
+    /// <param name="key">参数Key。</param>
+    /// <returns>参数对象。</returns>
+    public T GetParameter<T>(string key)
+    {
+        if (!Paramter.TryGetValue(key, out var value))
+            return default;
+
+        return (T)value;
+    }
 }
 
 /// <summary>

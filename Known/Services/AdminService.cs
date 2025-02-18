@@ -7,6 +7,7 @@ public partial interface IAdminService : IService
 {
 }
 
+[Service]
 partial class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     private static readonly Dictionary<string, string> Configs = [];
@@ -39,6 +40,7 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
     }
 }
 
+[Client]
 partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 {
 }

@@ -56,3 +56,22 @@ public enum ModuleType
     /// </summary>
     IFrame
 }
+
+/// <summary>
+/// 服务生命周期枚举。
+/// </summary>
+public enum ServiceLifetime
+{
+    /// <summary>
+    /// 作用域。
+    /// </summary>
+    Scoped,
+    /// <summary>
+    /// 单例。
+    /// </summary>
+    Singleton,
+    /// <summary>
+    /// 瞬时。
+    /// </summary>
+    Transient
+}

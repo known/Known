@@ -20,22 +20,17 @@ public static class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
-        Config.AddApp();
+        var assembly = typeof(Extension).Assembly;
+        Config.AddApp(assembly);
         services.AddAntDesign();
 
-        services.AddSingleton<ICodeGenerator, CodeGenerator>();
-        services.AddSingleton<IEncryptService, EncryptService>();
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();
-        services.AddScoped<UIService>();
-        services.AddScoped<JSService>();
+        services.AddServices(assembly);
         if (Config.App.IsClient)
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         else
             services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        services.AddScoped<IPlatformService, PlatformService>();
-        services.AddScoped<IAdminService, AdminService>();
-        services.AddScoped<IAutoService, AutoService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         AddStyles();
@@ -54,9 +49,7 @@ public static class Extension
         action?.Invoke(ClientOption.Instance);
 
         services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
-        services.AddScoped<IPlatformService, PlatformClient>();
-        services.AddScoped<IAdminService, AdminClient>();
-        services.AddScoped<IAutoService, AutoClient>();
+        services.AddClients(typeof(Extension).Assembly);
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
 
         var option = ClientOption.Instance;
@@ -69,8 +62,7 @@ public static class Extension
                 return new HttpClient(handler) { BaseAddress = new Uri(option.BaseAddress) };
             });
         }
-
-        //AddInterceptors(services, option);
+        //services.AddInterceptors(option);
     }
 
     /// <summary>
@@ -163,7 +155,7 @@ public static class Extension
         UIConfig.SystemTabs.Set<SysSystemSetting>(2, "SystemSetting");
     }
 
-    //private static void AddInterceptors(IServiceCollection services, ClientOption option)
+    //private static void AddInterceptors(this IServiceCollection services, ClientOption option)
     //{
     //    if (option.InterceptorType == null)
     //        return;

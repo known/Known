@@ -160,8 +160,7 @@ public static class CoreExtension
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
 
         // 添加服务
-        services.AddScoped<IAdminService, AdminService>();
-        services.AddScoped<IAutoService, AutoService>();
+        services.AddServices(assembly);
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         // 添加模型

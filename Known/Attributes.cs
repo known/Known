@@ -7,6 +7,30 @@
 public class WebApiAttribute : Attribute { }
 
 /// <summary>
+/// 服务特性类，用于标识服务类是否需要注入，生命周期默认Scoped。
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
+public class ServiceAttribute(ServiceLifetime lifetime = ServiceLifetime.Scoped) : Attribute
+{
+    /// <summary>
+    /// 取得服务生命周期类型。
+    /// </summary>
+    public ServiceLifetime Lifetime { get; } = lifetime;
+}
+
+/// <summary>
+/// 客户端特性类，用于标识客户端类是否需要注入，生命周期默认Scoped。
+/// </summary>
+[AttributeUsage(AttributeTargets.Class)]
+public class ClientAttribute(ServiceLifetime lifetime = ServiceLifetime.Scoped) : Attribute
+{
+    /// <summary>
+    /// 取得服务生命周期类型。
+    /// </summary>
+    public ServiceLifetime Lifetime { get; } = lifetime;
+}
+
+/// <summary>
 /// 代码表特性类，用于标识常量类作为数据字典代码。
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]

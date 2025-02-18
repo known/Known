@@ -61,6 +61,7 @@ public interface ICodeGenerator
     string GetRepository(PageInfo page, EntityInfo entity);
 }
 
+[Service(ServiceLifetime.Singleton)]
 partial class CodeGenerator : ICodeGenerator
 {
     public string GetRepository(PageInfo page, EntityInfo entity)

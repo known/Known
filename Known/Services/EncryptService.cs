@@ -25,6 +25,7 @@ public interface IEncryptService
     string Decrypt(string cipherText);
 }
 
+[Service(ServiceLifetime.Singleton)]
 class EncryptService : IEncryptService
 {
     public string Password { get; set; }
