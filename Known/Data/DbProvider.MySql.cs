@@ -29,7 +29,9 @@ class MySqlProvider(Database db) : DbProvider(db)
         {
             var required = item.Required ? "not null" : "null";
             var column = $"`{item.Id}`";
-            var type = GetMySqlDbType(item);
+            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
+                     ? "int"
+                     : GetMySqlDbType(item);
             sb.AppendLine($"    {column} {type} {required},");
         }
         var keys = string.Join(", ", info.Keys.Select(k => $"`{k}`"));

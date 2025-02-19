@@ -1,14 +1,20 @@
 ﻿namespace Known.Data;
 
-class DMProvider(Database db) : DbProvider(db)
+class OracleProvider(Database db) : DbProvider(db)
 {
     public override string Prefix => ":";
 
-    public override string FormatName(string name) => $"\"{name}\"";
+    public override string GetDateSql(string name, bool withTime = true)
+    {
+        var format = "yyyy-mm-dd";
+        if (withTime)
+            format += " hh24:mi:ss";
+        return $"to_date(:{name},'{format}')";
+    }
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT table_name FROM all_tables;";
+        return "SELECT table_name FROM user_tables;";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
@@ -21,7 +27,9 @@ class DMProvider(Database db) : DbProvider(db)
             var comma = ++index == info.Fields.Count ? "" : ",";
             var required = item.Required ? "not null" : "null";
             var column = item.Id;
-            var type = GetDmDbType(item);
+            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
+                     ? "number(8)"
+                     : GetOracleDbType(item);
             sb.AppendLine($"    {column} {type} {required}{comma}");
         }
         sb.AppendLine(");");
@@ -30,7 +38,7 @@ class DMProvider(Database db) : DbProvider(db)
         return sb.ToString();
     }
 
-    private static string GetDmDbType(FieldInfo item)
+    private static string GetOracleDbType(FieldInfo item)
     {
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)

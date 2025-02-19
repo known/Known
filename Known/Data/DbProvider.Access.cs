@@ -19,7 +19,9 @@ class AccessProvider(Database db) : DbProvider(db)
             var comma = ++index == info.Fields.Count && info.Keys.Count < 2 ? "" : ",";
             var required = item.Required ? "NOT NULL" : "NULL";
             var column = $"`{item.Id}`";
-            var type = GetAccessDbType(item);
+            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
+                     ? "Long"
+                     : GetAccessDbType(item);
             if (item.Id == nameof(EntityBase.Id))
                 sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
             else

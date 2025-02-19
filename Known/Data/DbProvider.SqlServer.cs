@@ -17,7 +17,9 @@ class SqlServerProvider(Database db) : DbProvider(db)
         {
             var required = item.Required ? "NOT NULL" : "NULL";
             var column = $"[{item.Id}]";
-            var type = GetSqlServerDbType(item);
+            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
+                     ? "[int]"
+                     : GetSqlServerDbType(item);
             sb.AppendLine($"    {column} {type} {required},");
         }
         var keys = string.Join(", ", info.Keys.Select(k => $"[{k}] ASC"));

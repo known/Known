@@ -18,7 +18,9 @@ class PgSqlProvider(Database db) : DbProvider(db)
         {
             var required = item.Required ? " NOT NULL" : "";
             var column = item.Id;
-            var type = GetPgSqlDbType(item);
+            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
+                     ? "integer"
+                     : GetPgSqlDbType(item);
             var line = $"    {column} {type}".TrimEnd();
             sb.AppendLine($"    {line}{required},");
         }
