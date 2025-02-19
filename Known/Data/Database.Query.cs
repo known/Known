@@ -75,6 +75,20 @@ public partial class Database
     }
 
     /// <summary>
+    /// 异步查询实体对象。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="id">ID字段值。</param>
+    /// <returns>实体对象。</returns>
+    public Task<T> QueryByIdAsync<T>(int id) where T : EntityBase<int>, new()
+    {
+        if (id <= 0)
+            return Task.FromResult(default(T));
+
+        return QueryByIdAsync<T, int>(id);
+    }
+
+    /// <summary>
     /// 异步查询多条数据。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
@@ -152,6 +166,14 @@ public partial class Database
     /// <param name="ids">实体ID集合。</param>
     /// <returns>多条数据。</returns>
     public Task<List<T>> QueryListByIdAsync<T>(long[] ids) => QueryListByIdAsync<T, long>(ids);
+
+    /// <summary>
+    /// 异步查询多条数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="ids">实体ID集合。</param>
+    /// <returns>多条数据。</returns>
+    public Task<List<T>> QueryListByIdAsync<T>(int[] ids) => QueryListByIdAsync<T, int>(ids);
 
     /// <summary>
     /// 异步查询DataTable。

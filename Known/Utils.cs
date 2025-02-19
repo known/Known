@@ -11,6 +11,12 @@ public sealed class Utils
     private Utils() { }
 
     #region Common
+    internal static T GetNextId<T>()
+    {
+        var id = GetNextId();
+        return ConvertTo<T>(id);
+    }
+
     /// <summary>
     /// 根据AppInfo.NextIdType配置获取一个新的ID，默认是GUID。
     /// </summary>
@@ -21,6 +27,7 @@ public sealed class Utils
         {
             NextIdType.Guid => GetGuid(),
             NextIdType.Snowflake => GetSnowflakeId().ToString(),
+            NextIdType.AutoInteger => "-1",
             _ => GetGuid(),
         };
     }

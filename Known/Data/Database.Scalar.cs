@@ -106,4 +106,11 @@ public partial class Database
         }
         return data;
     }
+
+    private Task<int> GetMaxIdAsync<T>()
+    {
+        var tableName = Provider.GetTableName(typeof(T));
+        var sql = $"select max(Id) from {Provider.FormatName(tableName)}";
+        return ScalarAsync<int>(sql);
+    }
 }

@@ -92,9 +92,12 @@ public partial class Database
         if (entities == null || entities.Count == 0)
             return;
 
+        var maxId = await GetMaxIdAsync<T>();
         foreach (var entity in entities)
         {
             entity.IsNew = true;
+            if (entity.Id == "-1")
+                entity.Id = (++maxId).ToString();
             await SaveAsync(entity, false);
         }
     }
@@ -203,6 +206,12 @@ public partial class Database
         var none = "Anonymous";
         if (entity.IsNew)
         {
+            if (entity.Id == "-1")
+            {
+                var maxId = await GetMaxIdAsync<T>();
+                entity.Id = (++maxId).ToString();
+            }
+
             if (entity.CreateBy == "temp")
                 entity.CreateBy = User?.UserName ?? none;
             entity.CreateTime = DateTime.Now;

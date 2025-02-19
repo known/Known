@@ -38,6 +38,15 @@ public class BaseEntity
 public class EntityBase<TKey> : BaseEntity
 {
     /// <summary>
+    /// 构造函数，创建一个数据实体类的实例。
+    /// </summary>
+    public EntityBase()
+    {
+        IsNew = true;
+        Id = Utils.GetNextId<TKey>();
+    }
+
+    /// <summary>
     /// 取得或设置实体ID。
     /// </summary>
     public TKey Id { get; set; }
@@ -86,10 +95,8 @@ public class EntityBase : EntityBase<string>
     /// <summary>
     /// 构造函数，创建一个数据实体类的实例。
     /// </summary>
-    public EntityBase()
+    public EntityBase() : base()
     {
-        IsNew = true;
-        Id = Utils.GetNextId();
         CreateBy = "temp";
         CreateTime = DateTime.Now;
         Version = 1;

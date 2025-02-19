@@ -12,6 +12,9 @@ public static class DbConfigExtension
     /// <param name="type">实体模型类型。</param>
     public static void Add(this List<DbModelInfo> models, Type type)
     {
+        if (type.Name == nameof(EntityBase) || type.Name == nameof(FlowEntity))
+            return;
+
         if (models.Exists(m => m.Type.FullName == type.FullName))
             return;
 
