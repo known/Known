@@ -33,7 +33,7 @@ public class SysUserList : BaseTablePage<UserInfo>
 
         Table = new TableModel<UserInfo>(this)
         {
-            FormType = typeof(UserForm),
+            FormType = typeof(UserTabForm),
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync,
             Form = new FormInfo { Width = 800 }
@@ -166,12 +166,37 @@ public class SysUserList : BaseTablePage<UserInfo>
     }
 }
 
+class UserTabForm : BaseTabForm
+{
+    /// <summary>
+    /// 取得或设置泛型表单组件模型实例。
+    /// </summary>
+    [Parameter] public FormModel<UserInfo> Model { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+
+        Tab.AddTab("BasicInfo", b => b.Component<UserForm>().Set(c => c.Model, Model).Build());
+        foreach (var item in UIConfig.UserFormTabs.OrderBy(t => t.Value.Id))
+        {
+            if (item.Value.Parameters == null)
+                item.Value.Parameters = [];
+            item.Value.Parameters[nameof(UserFormTab.User)] = Model.Data;
+            Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
+        }
+    }
+}
+
 class UserForm : BaseForm<UserInfo>
 {
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
 
+        SaveClose = false;
+        ShowAction = true;
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);

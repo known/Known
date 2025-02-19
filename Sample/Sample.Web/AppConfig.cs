@@ -1,5 +1,6 @@
 ﻿using Coravel;
 using Coravel.Invocable;
+using Sample.Web.Tests;
 
 namespace Sample.Web;
 
@@ -63,6 +64,7 @@ public static class AppConfig
         builder.Services.AddKnownAdmin();
 
         UIConfig.EnableEdit = true;
+        UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
     }
 
     private static void AddAppWebCore(this WebApplicationBuilder builder)

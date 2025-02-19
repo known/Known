@@ -58,6 +58,11 @@ public class UIConfig
     public static Dictionary<string, ComponentInfo> UserTabs { get; } = [];
 
     /// <summary>
+    /// 取得用户表单组件自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, ComponentInfo> UserFormTabs { get; } = [];
+
+    /// <summary>
     /// 取得企业信息页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, ComponentInfo> CompanyTabs { get; } = [];

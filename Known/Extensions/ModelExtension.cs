@@ -12,11 +12,11 @@ public static class ModelExtension
     /// <typeparam name="T">组件类型。</typeparam>
     /// <param name="components">组件字典。</param>
     /// <param name="id">组件ID。</param>
-    /// <param name="key">组件键。</param>
+    /// <param name="title">Tab标题。</param>
     /// <param name="parameters">组件参数。</param>
-    public static void Set<T>(this Dictionary<string, ComponentInfo> components, int id, string key, Dictionary<string, object> parameters = null)
+    public static void Set<T>(this Dictionary<string, ComponentInfo> components, int id, string title, Dictionary<string, object> parameters = null)
     {
-        components[key] = new ComponentInfo { Id = id, Type = typeof(T), Parameters = parameters };
+        components[title] = new ComponentInfo { Id = id, Type = typeof(T), Parameters = parameters };
     }
     #endregion
 

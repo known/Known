@@ -46,6 +46,11 @@ public abstract class BaseForm : BaseComponent
 public class BaseForm<TItem> : BaseForm where TItem : class, new()
 {
     /// <summary>
+    /// 取得或设置保存是否关闭对话框，默认关闭。
+    /// </summary>
+    protected bool SaveClose { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置是否显示【确定】和【取消】操作按钮。
     /// </summary>
     [Parameter] public bool ShowAction { get; set; }
@@ -72,7 +77,7 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
         }
     }
 
-    private Task OnSaveAsync(MouseEventArgs args) => Model.SaveAsync();
+    private Task OnSaveAsync(MouseEventArgs args) => Model.SaveAsync(SaveClose);
     private Task OnCloseAsync(MouseEventArgs args) => Model.CloseAsync();
 }
 
