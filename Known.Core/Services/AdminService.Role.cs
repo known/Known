@@ -43,9 +43,7 @@ partial class AdminService
         var database = Database;
         var model = await database.QueryByIdAsync<SysRole>(info.Id);
         model ??= new SysRole();
-        model.Name = info.Name;
-        model.Enabled = info.Enabled;
-        model.Note = info.Note;
+        model.FillModel(info);
 
         var vr = model.Validate(Context);
         if (!vr.IsValid)

@@ -35,11 +35,7 @@ partial class AdminService
         var database = Database;
         var model = await database.QueryByIdAsync<SysOrganization>(info.Id);
         model ??= new SysOrganization();
-        model.ParentId = info.ParentId;
-        model.Code = info.Code;
-        model.Name = info.Name;
-        model.ManagerId = info.ManagerId;
-        model.Note = info.Note;
+        model.FillModel(info);
 
         var vr = model.Validate(Context);
         if (vr.IsValid)

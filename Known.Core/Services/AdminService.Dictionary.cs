@@ -52,15 +52,7 @@ partial class AdminService
         var database = Database;
         var model = await database.QueryByIdAsync<SysDictionary>(info.Id);
         model ??= new SysDictionary();
-        model.CompNo = CurrentUser.CompNo;
-        model.Category = info.Category;
-        model.CategoryName = info.CategoryName;
-        model.Code = info.Code;
-        model.Name = info.Name;
-        model.Sort = info.Sort;
-        model.Enabled = info.Enabled;
-        model.Note = info.Note;
-        model.Child = info.Child;
+        model.FillModel(info);
 
         var vr = model.Validate(Context);
         if (!vr.IsValid)

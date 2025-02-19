@@ -143,7 +143,10 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         if (info.RoleIds != null && info.RoleIds.Length > 0)
             roles = await database.QueryListByIdAsync<SysRole>(info.RoleIds);
 
-        var model = await GetUserModelAsync(database, info);
+        var model = await database.QueryByIdAsync<SysUser>(info.Id);
+        model ??= new SysUser();
+        model.FillModel(info);
+
         if (model.IsNew)
         {
             var sysInfo = await database.GetSystemAsync();
@@ -160,9 +163,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         {
             model.UserName = model.UserName.ToLower();
             if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
-            {
                 vr.AddError(Language["Tip.UserNameExists"]);
-            }
         }
 
         if (!vr.IsValid)
@@ -182,21 +183,5 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             }
             await db.SaveAsync(model);
         }, info);
-    }
-
-    private static async Task<SysUser> GetUserModelAsync(Database database, UserInfo info)
-    {
-        var model = await database.QueryByIdAsync<SysUser>(info.Id);
-        model ??= new SysUser();
-        model.UserName = info.UserName;
-        model.Name = info.Name;
-        model.EnglishName = info.EnglishName;
-        model.Gender = info.Gender;
-        model.Phone = info.Phone;
-        model.Mobile = info.Mobile;
-        model.Email = info.Email;
-        model.Enabled = info.Enabled;
-        model.Note = info.Note;
-        return model;
     }
 }

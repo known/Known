@@ -52,6 +52,34 @@ public class EntityBase<TKey> : BaseEntity
     public TKey Id { get; set; }
 
     /// <summary>
+    /// 填充实体对应的数据传输对象属性。
+    /// </summary>
+    /// <param name="model">数据传输对象。</param>
+    public virtual void FillModel(object model)
+    {
+        var type = GetType();
+        var baseFields = TypeHelper.GetBaseFields();
+        var properties = TypeHelper.Properties(type);
+        var modelProperties = TypeHelper.Properties(model.GetType()).ToList();
+        foreach (var item in properties)
+        {
+            if (baseFields.Exists(d => d.Id == item.Name) || item.Name == nameof(IsNew))
+                continue;
+
+            var modelProperty = modelProperties.FirstOrDefault(p => p.Name == item.Name);
+            if (modelProperty == null)
+                continue;
+
+            var value = item.GetValue(this, null);
+            var data = modelProperty.GetValue(model, null);
+            if ((value != null && !value.Equals(data)) ||
+                (value != null && data == null) ||
+                (value == null && data != null))
+                item.SetValue(this, data);
+        }
+    }
+
+    /// <summary>
     /// 实体类对象的数据合法性校验。
     /// </summary>
     /// <param name="context">系统上下文对象。</param>
