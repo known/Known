@@ -23,6 +23,7 @@ public class AntMenu : Menu
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
         ChildContent = BuildMenu;
     }
 
@@ -35,6 +36,7 @@ public class AntMenu : Menu
     {
         isLoading = false;
         Items = items;
+        DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
         StateHasChanged();
     }
 

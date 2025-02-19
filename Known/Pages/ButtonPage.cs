@@ -10,6 +10,12 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
         await base.OnInitPageAsync();
 
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Property);

@@ -74,10 +74,5 @@
   "DefaultSort": "默认排序",
   "Fixed": "固定位置",
   "Position": "位置",
-  "SysModule.Icon": "图标",
-  "Test": "测试",
-  "Execute": "执行",
-  "RequestHeaders": "请求头",
-  "RequestParameters": "请求参数",
-  "ResponseResults": "响应结果"
+  "SysModule.Icon": "图标"
 }

@@ -377,6 +377,11 @@
   "MenuTheme": "菜单主题",
   "Light": "亮色",
   "Dark": "暗色",
+  "Test": "测试",
+  "Execute": "执行",
+  "RequestHeaders": "请求头",
+  "RequestParameters": "请求参数",
+  "ResponseResults": "响应结果",
 
   "Install": "安装",
   "StartUsing": "开始使用",

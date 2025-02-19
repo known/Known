@@ -74,10 +74,5 @@
   "DefaultSort": "Sắp xếp mặc định",
   "Fixed": "Vị trí cố định",
   "Position": "位置",
-  "SysModule.Icon": "Biểu tượng",
-  "Test": "Thử nghiệm",
-  "Execute": "Thực hiện",
-  "RequestHeaders": "Đầu yêu cầu",
-  "RequestParameters": "Yêu cầu tham số",
-  "ResponseResults": "Kết quả trả lời"
+  "SysModule.Icon": "Biểu tượng"
 }

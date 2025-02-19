@@ -3,7 +3,7 @@
 .kui-header {
     padding:0 10px;height:54px;line-height:54px;
     display:flex;justify-content:space-between;
-    color:var(--kui-color);
+    color:var(--kui-color);z-index:1000;
 }
 .kui-layout > .kui-header {padding-left:0;}
 .kui-header .left {display:flex;align-items:center;}

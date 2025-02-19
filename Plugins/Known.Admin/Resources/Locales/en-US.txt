@@ -74,10 +74,5 @@
   "DefaultSort": "DefaultSort",
   "Fixed": "Fixed",
   "Position": "Position",
-  "SysModule.Icon": "Icon",
-  "Test": "Test",
-  "Execute": "Execute",
-  "RequestHeaders": "Headers",
-  "RequestParameters": "Request",
-  "ResponseResults": "Response"
+  "SysModule.Icon": "Icon"
 }

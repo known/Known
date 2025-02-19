@@ -377,6 +377,11 @@
   "MenuTheme": "Menu Theme",
   "Light": "Light",
   "Dark": "Dark",
+  "Test": "Test",
+  "Execute": "Execute",
+  "RequestHeaders": "Headers",
+  "RequestParameters": "Request",
+  "ResponseResults": "Response",
 
   "Install": "Install",
   "StartUsing": "Start",
