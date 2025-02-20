@@ -37,16 +37,14 @@ public sealed class Processer
     /// 启动一个可执行的exe文件进程。
     /// </summary>
     /// <param name="exeFile">exe文件路径。</param>
-    /// <param name="arg">启动参数。</param>
+    /// <param name="args">启动参数。</param>
     /// <returns>启动结果。</returns>
-    public static StartResult Start(string exeFile, string arg = null)
+    public static StartResult Start(string exeFile, string args = null)
     {
         var process = new Process();
         process.StartInfo.FileName = exeFile;
-        if (!string.IsNullOrEmpty(arg))
-        {
-            process.StartInfo.Arguments = arg;
-        }
+        if (!string.IsNullOrEmpty(args))
+            process.StartInfo.Arguments = args;
         process.StartInfo.UseShellExecute = true;
         process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
         process.Start();
@@ -110,5 +108,31 @@ public sealed class Processer
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 执行进程返回控制台输出信息。
+    /// </summary>
+    /// <param name="fileName">进程文件名。</param>
+    /// <param name="arguments">命令参数。</param>
+    /// <param name="waitExit">是否等待退出，默认是。</param>
+    /// <returns>控制台输出信息。</returns>
+    public static string Execute(string fileName, string arguments, bool waitExit = true)
+    {
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            }
+        };
+        process.Start();
+        var output = process.StandardOutput.ReadToEnd();
+        if (waitExit)
+            process.WaitForExit();
+        return output;
     }
 }

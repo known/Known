@@ -7,13 +7,16 @@
         <Authors>KnownChen</Authors>
         <Description>Known.Admin是基于Known开发的后台通用权限系统管理模块。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.1.6</Version>
+        <Version>1.1.6.2</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Admin, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
         <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
+        <SignAssembly>True</SignAssembly>
+        <DelaySign>True</DelaySign>
+        <AssemblyOriginatorKeyFile>..\..\Known.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -35,8 +38,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\icon.png" />
-        <None Update="..\..\icon.png">
+        <None Include="..\..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>

@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known是基于Blazor轻量级、跨平台、极易扩展的插件开发框架。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>3.1.6</Version>
+        <Version>3.1.6.2</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Framework, .NET, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -14,6 +14,9 @@
         <PackageProjectUrl>https://known.org.cn</PackageProjectUrl>
         <RepositoryUrl>https://gitee.com/known/Known</RepositoryUrl>
         <PackageOutputPath>..\..\..\Library</PackageOutputPath>
+        <SignAssembly>True</SignAssembly>
+        <DelaySign>True</DelaySign>
+        <AssemblyOriginatorKeyFile>..\Known.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,8 +37,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png" />
-        <None Update="..\icon.png">
+        <None Include="..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
