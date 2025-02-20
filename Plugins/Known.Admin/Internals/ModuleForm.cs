@@ -1,6 +1,4 @@
-﻿using Known.Designers;
-
-namespace Known.Internals;
+﻿namespace Known.Internals;
 
 class ModuleForm : BaseTabForm
 {

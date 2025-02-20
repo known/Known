@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.IO.Compression;
+using System.Security.Cryptography;
 using System.Xml.Serialization;
 
 namespace Known;
@@ -760,6 +761,51 @@ public sealed class Utils
         }
 
         return string.Join(separator, items.ToArray());
+    }
+    #endregion
+
+    #region Zip
+    /// <summary>
+    /// 将字符串压缩成GZip格式字节流。
+    /// </summary>
+    /// <param name="data">字符串</param>
+    /// <returns>字节流。</returns>
+    public static async Task<byte[]> ZipDataAsync(string data)
+    {
+        if (string.IsNullOrWhiteSpace(data))
+            return null;
+
+        var bytes = Encoding.UTF8.GetBytes(data);
+        using (var stream = new MemoryStream())
+        using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
+        {
+            await gzip.WriteAsync(bytes, 0, bytes.Length);
+            await gzip.FlushAsync();
+            stream.Position = 0;
+
+            var buffer = new byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
+        }
+    }
+
+    /// <summary>
+    /// 将字GZip字节数组解压成原始字符串。
+    /// </summary>
+    /// <param name="bytes">GZip字节。</param>
+    /// <returns>原始字符串。</returns>
+    public static async Task<string> UnZipDataAsync(byte[] bytes)
+    {
+        if (bytes == null || bytes.Length == 0)
+            return string.Empty;
+
+        using (var stream = new MemoryStream(bytes))
+        using (var reader = new MemoryStream())
+        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
+        {
+            await gzip.CopyToAsync(reader);
+            return Encoding.UTF8.GetString(reader.ToArray());
+        }
     }
     #endregion
 }

@@ -50,6 +50,7 @@ partial class AdminService
         {
             await db.SaveAsync(model);
             //PlatformHelper.SetBizOrganization(db, entity);
+            info.Id = model.Id;
         }, info);
     }
 }

@@ -116,9 +116,11 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
 
     public async Task<FileDataInfo> ExportModulesAsync()
     {
+        var modules = await Database.QueryListAsync<SysModule>();
+        var json = Utils.ToJson(modules);
         var info = new FileDataInfo();
         info.Name = $"SysModule_{Config.App.Id}.kmd";
-        info.Bytes = await ModuleHelper.ExportModulesAsync(Database);
+        info.Bytes = await Utils.ZipDataAsync(json);
         return info;
     }
 
@@ -131,7 +133,14 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         try
         {
             var file = info.Files[key][0];
-            await ModuleHelper.ImportModulesAsync(Database, file);
+            var json = await Utils.UnZipDataAsync(file.Bytes);
+            var modules = Utils.FromJson<List<SysModule>>(json);
+            if (modules != null && modules.Count > 0)
+            {
+                var db = Database;
+                await db.DeleteAllAsync<SysModule>();
+                await db.InsertListAsync(modules);
+            }
             return Result.Success(Language.Success(Language.Import));
         }
         catch (Exception ex)

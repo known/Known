@@ -64,6 +64,7 @@ partial class AdminService
 
         await database.SaveAsync(model);
         await RefreshCacheAsync();
-        return Result.Success(Language.SaveSuccess, model);
+        info.Id = model.Id;
+        return Result.Success(Language.SaveSuccess, info);
     }
 }

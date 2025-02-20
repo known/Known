@@ -60,6 +60,7 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
             info.IsMobile = true;
+            //info.NextIdType = NextIdType.AutoInteger;
         });
         builder.Services.AddKnownAdmin();
 

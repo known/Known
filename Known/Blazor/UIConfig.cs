@@ -53,6 +53,16 @@ public class UIConfig
     public static Type UserProfileType { get; set; }
 
     /// <summary>
+    /// 取得或设置模块页面组件类型。
+    /// </summary>
+    public static Type ModulePageType { get; set; }
+
+    /// <summary>
+    /// 取得模块表单组件自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, ComponentInfo> ModuleFormTabs { get; } = [];
+
+    /// <summary>
     /// 取得用户中心页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, ComponentInfo> UserTabs { get; } = [];

@@ -60,6 +60,7 @@ partial class AdminService
                     await db.InsertAsync(new SysRoleModule { RoleId = model.Id, ModuleId = item });
                 }
             }
+            info.Id = model.Id;
         }, info);
     }
 }

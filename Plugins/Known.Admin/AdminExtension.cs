@@ -13,6 +13,7 @@ public static class AdminExtension
     {
         // 配置UI
         UIConfig.TopNavType = typeof(KTopNavbar);
+        UIConfig.ModulePageType = typeof(ModuleList);
         UIConfig.EnableEdit = false;
 
         // 添加样式

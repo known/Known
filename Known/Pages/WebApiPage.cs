@@ -7,8 +7,8 @@ namespace Known.Pages;
 /// </summary>
 [StreamRendering]
 [Route("/dev/webapi")]
-[DevPlugin("WebApi", "pull-request", Sort = 99)]
-public class WebApiList : BaseTablePage<ApiMethodInfo>
+[DevPlugin("WebApi", "pull-request", Sort = 4)]
+public class WebApiPage : BaseTablePage<ApiMethodInfo>
 {
     /// <summary>
     /// 异步初始化组件。
@@ -87,7 +87,7 @@ class WebApiForm : BaseComponent
         {
             builder.Div(() =>
             {
-                WebApiList.BuildMethod(builder, Model);
+                WebApiPage.BuildMethod(builder, Model);
                 builder.Text($"/api{Model.Route}");
             });
             builder.Button(Language["Execute"], this.Callback<MouseEventArgs>(OnExexuteAsync));

@@ -182,6 +182,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 }
             }
             await db.SaveAsync(model);
+            info.Id = model.Id;
         }, info);
     }
 }

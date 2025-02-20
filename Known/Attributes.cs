@@ -47,24 +47,24 @@ public class CodeInfoAttribute : Attribute { }
 public class MenuAttribute(string parent, string name, string icon, int sort) : Attribute
 {
     /// <summary>
-    /// 取得上级菜单。
+    /// 取得或设置上级菜单。
     /// </summary>
-    public string Parent { get; } = parent;
+    public string Parent { get; set; } = parent;
 
     /// <summary>
-    /// 取得菜单名称。
+    /// 取得或设置菜单名称。
     /// </summary>
-    public string Name { get; } = name;
+    public string Name { get; set; } = name;
 
     /// <summary>
-    /// 取得菜单图标。
+    /// 取得或设置菜单图标。
     /// </summary>
-    public string Icon { get; } = icon;
+    public string Icon { get; set; } = icon;
 
     /// <summary>
-    /// 取得菜单排序。
+    /// 取得或设置菜单排序。
     /// </summary>
-    public int Sort { get; } = sort;
+    public int Sort { get; set; } = sort;
 
     /// <summary>
     /// 取得或设置菜单URL。
