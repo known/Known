@@ -96,6 +96,7 @@ public partial class Database
                  ? Provider.GetInsertCommand(entity)
                  : Provider.GetUpdateCommand<T, TKey>(entity);
         info.IsSave = true;
+        info.Original = entity.Original;
         return ExecuteNonQueryAsync(info);
     }
 
@@ -130,7 +131,7 @@ public partial class Database
 
     private async Task SetOriginalAsync<T, TKey>(T entity) where T : EntityBase<TKey>, new()
     {
-        DatabaseOption.Instance.SqlMonitor?.Invoke(new CommandInfo { Text = "The follow SQL is a update query" });
+        DbMonitor.OnSql(new CommandInfo { Text = "The follow SQL is a update query" });
         var info = Provider?.GetSelectCommand<T>(d => d.Id.Equals(entity.Id));
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);

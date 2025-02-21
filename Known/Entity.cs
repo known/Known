@@ -5,7 +5,7 @@
 /// </summary>
 public class BaseEntity
 {
-    private Dictionary<string, object> original;
+    internal Dictionary<string, object> Original { get; set; }
 
     /// <summary>
     /// 取得或设置是否是新增实体。
@@ -15,15 +15,15 @@ public class BaseEntity
     internal void SetOriginal(Dictionary<string, object> original)
     {
         IsNew = false;
-        this.original = original;
+        Original = original;
     }
 
     internal bool IsChanged(string propertyName, object value)
     {
-        if (original == null || !original.ContainsKey(propertyName))
+        if (Original == null || !Original.ContainsKey(propertyName))
             return true;
 
-        var orgValue = original[propertyName];
+        var orgValue = Original[propertyName];
         if (orgValue == null)
             return true;
 

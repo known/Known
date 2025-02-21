@@ -33,7 +33,7 @@ partial class AdminService
         var database = Database;
         foreach (var item in infos)
         {
-            if (await database.ExistsAsync<DictionaryInfo>(d => d.Category == item.Code))
+            if (await database.ExistsAsync<SysDictionary>(d => d.Category == item.Code))
                 return Result.Error(Language["Tip.DicDeleteExistsChild"]);
         }
 

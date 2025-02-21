@@ -45,6 +45,9 @@ class DbProvider(Database db)
 
     public string GetTableName(Type type)
     {
+        if (type == null)
+            return string.Empty;
+
         Type entityType = type;
         if (DbConfig.TableNames.TryGetValue(type, out Type value))
             entityType = value;
@@ -93,7 +96,7 @@ class DbProvider(Database db)
             sb.WhereSql(qb.WhereSql);
         }
         var sql = sb.ToSqlString();
-        return new CommandInfo(this, sql, paramters);
+        return new CommandInfo(this, typeof(T), sql, paramters);
     }
 
     public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
@@ -114,7 +117,7 @@ class DbProvider(Database db)
             sb.OrderBy(nameof(EntityBase.CreateTime));
         }
         var sql = sb.ToSqlString();
-        return new CommandInfo(this, sql, paramters);
+        return new CommandInfo(this, typeof(T), sql, paramters);
     }
 
     public CommandInfo GetInsertCommand<T>(T data = default)
@@ -136,7 +139,7 @@ class DbProvider(Database db)
         var cloumn = string.Join(",", keys.Select(FormatName).ToArray());
         var value = string.Join(",", keys.Select(k => $"@{k}").ToArray());
         var sql = $"insert into {FormatName(tableName)}({cloumn}) values({value})";
-        return new CommandInfo(this, sql, changes);
+        return new CommandInfo(this, typeof(T), sql, changes);
     }
 
     public CommandInfo GetUpdateCommand<T, TKey>(T data = default) where T : EntityBase<TKey>
@@ -158,7 +161,7 @@ class DbProvider(Database db)
         var column = string.Join(",", [.. changeKeys]);
         var sql = $"update {FormatName(tableName)} set {column} where {IdName}=@Id";
         changes["Id"] = data.Id;
-        return new CommandInfo(this, sql, changes);
+        return new CommandInfo(this, typeof(T), sql, changes);
     }
 
     public CommandInfo GetDeleteCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
@@ -172,7 +175,7 @@ class DbProvider(Database db)
             paramters = qb.Parameters;
             sql += $" where {qb.WhereSql}";
         }
-        return new CommandInfo(this, sql, paramters);
+        return new CommandInfo(this, typeof(T), sql, paramters);
     }
 
     internal virtual string GetTableSql(string dbName) => "";

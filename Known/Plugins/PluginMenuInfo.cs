@@ -10,6 +10,7 @@ public class PluginMenuInfo
         Id = type.FullName;
         Type = type;
         Attribute = attribute;
+        Sort = attribute.Sort;
     }
 
     /// <summary>
@@ -31,6 +32,11 @@ public class PluginMenuInfo
     /// 取得或设置插件组件URL。
     /// </summary>
     public string Url { get; set; }
+
+    /// <summary>
+    /// 取得或设置排序。
+    /// </summary>
+    public int Sort { get; set; }
 
     /// <summary>
     /// 取得是否是导航组件。

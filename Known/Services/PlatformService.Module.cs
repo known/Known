@@ -103,10 +103,7 @@ partial class PlatformService
         {
             if (AppData.Data.Modules.Any(d => d.ParentId == item.Id))
                 return Result.ErrorAsync(Language["Tip.ModuleDeleteExistsChild"]);
-        }
 
-        foreach (var item in infos)
-        {
             var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
             if (module != null)
                 AppData.Data.Modules.Remove(module);
@@ -114,25 +111,23 @@ partial class PlatformService
         return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
-    public async Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
+    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.Error(Language.SelectOneAtLeast);
+            return Result.ErrorAsync(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Copy, async db =>
+        foreach (var item in infos)
         {
-            foreach (var item in infos)
+            var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
+            if (module != null)
             {
-                var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
-                if (module != null)
-                {
-                    var newModule = CreateModule(module);
-                    newModule.Id = Utils.GetNextId();
-                    newModule.ParentId = item.ParentId;
-                    AppData.Data.Modules.Add(newModule);
-                }
+                var newModule = CreateModule(module);
+                newModule.Id = Utils.GetNextId();
+                newModule.ParentId = item.ParentId;
+                AppData.Data.Modules.Add(newModule);
             }
-        });
+        }
+        return Result.SuccessAsync(Language.Success(Language.Copy));
     }
 
     public Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
@@ -147,25 +142,23 @@ partial class PlatformService
         return Result.SuccessAsync(Language.SaveSuccess);
     }
 
-    public async Task<Result> MoveModuleAsync(ModuleInfo info)
+    public Task<Result> MoveModuleAsync(ModuleInfo info)
     {
         if (info == null)
-            return Result.Error(Language.SelectOne);
+            return Result.ErrorAsync(Language.SelectOne);
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        var sort = info.IsMoveUp ? info.Sort - 1 : info.Sort + 1;
+        var module = AppData.Data.Modules.FirstOrDefault(d => d.ParentId == info.ParentId && d.Sort == sort);
+        if (module != null)
         {
-            var sort = info.IsMoveUp ? info.Sort - 1 : info.Sort + 1;
-            var module = AppData.Data.Modules.FirstOrDefault(d => d.ParentId == info.ParentId && d.Sort == sort);
-            if (module != null)
-            {
-                module.Sort = info.Sort;
+            module.Sort = info.Sort;
 
-                if (info.IsMoveUp)
-                    info.Sort--;
-                else
-                    info.Sort++;
-            }
-        });
+            if (info.IsMoveUp)
+                info.Sort--;
+            else
+                info.Sort++;
+        }
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     public Task<Result> SaveModuleAsync(ModuleInfo info)

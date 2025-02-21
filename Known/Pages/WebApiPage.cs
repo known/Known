@@ -7,7 +7,7 @@ namespace Known.Pages;
 /// </summary>
 [StreamRendering]
 [Route("/dev/webapi")]
-[DevPlugin("WebApi", "pull-request", Sort = 4)]
+[DevPlugin("WebApi", "pull-request", Sort = 2)]
 public class WebApiPage : BaseTablePage<ApiMethodInfo>
 {
     /// <summary>

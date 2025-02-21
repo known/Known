@@ -18,7 +18,7 @@ public partial class Database
     /// <returns>单条数据。</returns>
     public virtual Task<T> QueryAsync<T>(string sql, object param = null)
     {
-        var info = new CommandInfo(Provider, sql, param);
+        var info = new CommandInfo(Provider, typeof(T), sql, param);
         return QueryAsync<T>(info);
     }
 
@@ -108,7 +108,7 @@ public partial class Database
     /// <returns>多条数据。</returns>
     public virtual Task<List<T>> QueryListAsync<T>(string sql, object param = null)
     {
-        var info = new CommandInfo(Provider, sql, param);
+        var info = new CommandInfo(Provider, typeof(T), sql, param);
         return QueryListAsync<T>(info);
     }
 
@@ -147,7 +147,7 @@ public partial class Database
         var where = string.Join(" or ", [.. idTexts]);
         var sb = Provider?.Sql.SelectAll().From<T>().WhereSql(where);
         var sql = sb.ToSqlString();
-        var info = new CommandInfo(Provider, sql, paramters);
+        var info = new CommandInfo(Provider, typeof(T), sql, paramters);
         return QueryListAsync<T>(info);
     }
 

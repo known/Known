@@ -12,7 +12,7 @@ class NavDevelopment : BaseNav
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        var plugins = Config.Plugins.Where(p => p.IsDev).ToList();
+        var plugins = Config.Plugins.Where(p => p.IsDev).OrderBy(p => p.Sort).ToList();
         if (!UIConfig.EnableEdit)
             plugins = plugins.Where(p => p.Type != typeof(LanguagePage) && p.Type != typeof(ButtonPage)).ToList();
         items = plugins.ToActions();

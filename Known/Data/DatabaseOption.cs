@@ -23,6 +23,11 @@ public class DatabaseOption
     public Action<CommandInfo> SqlMonitor { get; set; }
 
     /// <summary>
+    /// 取得或设置系统数据操作监听器委托。
+    /// </summary>
+    public Action<DbOperateInfo> OperateMonitor { get; set; }
+
+    /// <summary>
     /// 添加数据库访问提供者。
     /// </summary>
     /// <typeparam name="TProvider">提供者类型。</typeparam>

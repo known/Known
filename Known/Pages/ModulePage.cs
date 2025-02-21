@@ -5,7 +5,7 @@
 /// </summary>
 [StreamRendering]
 [Route("/dev/modules")]
-[DevPlugin("模块管理", "appstore-add", Sort = 3)]
+[DevPlugin("模块管理", "appstore-add", Sort = 1)]
 public class ModulePage : BasePage
 {
     /// <inheritdoc />

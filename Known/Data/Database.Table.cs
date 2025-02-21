@@ -23,7 +23,7 @@ public partial class Database
     public virtual async Task<bool> ExistsAsync(string tableName, string id)
     {
         var sql = $"select count(*) from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
-        var info = new CommandInfo(Provider, sql, new { id });
+        var info = new CommandInfo(Provider, null, tableName, sql, new { id });
         var count = await ScalarAsync<int>(info);
         return count > 0;
     }
@@ -34,14 +34,19 @@ public partial class Database
     /// <param name="tableName">数据库表名。</param>
     /// <param name="id">ID字段值。</param>
     /// <returns>影响的行数。</returns>
-    public virtual Task<int> DeleteAsync(string tableName, string id)
+    public virtual async Task<int> DeleteAsync(string tableName, string id)
     {
         if (string.IsNullOrEmpty(id))
-            return Task.FromResult(0);
+            return 0;
 
         var sql = $"delete from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
-        var info = new CommandInfo(Provider, sql, new { id });
-        return ExecuteNonQueryAsync(info);
+        var info = new CommandInfo(Provider, null, tableName, sql, new { id });
+        if (DatabaseOption.Instance.OperateMonitor != null)
+        {
+            var sql1 = $"select * from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+            info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(sql, new { id });
+        }
+        return await ExecuteNonQueryAsync(info);
     }
 
     /// <summary>
@@ -70,7 +75,7 @@ public partial class Database
         var cloumn = string.Join(",", keys.Select(FormatName).ToArray());
         var value = string.Join(",", keys.Select(k => $"@{k}").ToArray());
         var sql = $"insert into {FormatName(tableName)}({cloumn}) values({value})";
-        var info = new CommandInfo(Provider, sql, changes);
+        var info = new CommandInfo(Provider, null, tableName, sql, changes);
         return ExecuteNonQueryAsync(info);
     }
 
@@ -101,7 +106,7 @@ public partial class Database
         }
         var where = string.Join(" and ", keyFields);
         var sql = $"update {FormatName(tableName)} set {column} where {where}";
-        var info = new CommandInfo(Provider, sql, data);
+        var info = new CommandInfo(Provider, null, tableName, sql, data);
         return ExecuteNonQueryAsync(info);
     }
 

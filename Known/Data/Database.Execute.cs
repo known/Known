@@ -152,10 +152,15 @@ public partial class Database
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="expression">查询表达式。</param>
     /// <returns>影响的行数。</returns>
-    public virtual Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
+    public virtual async Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
         var info = Provider?.GetDeleteCommand(expression);
-        return ExecuteNonQueryAsync(info);
+        if (DatabaseOption.Instance.OperateMonitor != null)
+        {
+            var cmd = Provider?.GetSelectCommand(expression);
+            info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(cmd);
+        }
+        return await ExecuteNonQueryAsync(info);
     }
 
     /// <summary>
@@ -163,10 +168,15 @@ public partial class Database
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <returns>影响的行数。</returns>
-    public virtual Task<int> DeleteAllAsync<T>() where T : class, new()
+    public virtual async Task<int> DeleteAllAsync<T>() where T : class, new()
     {
         var info = Provider?.GetDeleteCommand<T>();
-        return ExecuteNonQueryAsync(info);
+        if (DatabaseOption.Instance.OperateMonitor != null)
+        {
+            var cmd = Provider?.GetSelectCommand<T>();
+            info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(cmd);
+        }
+        return await ExecuteNonQueryAsync(info);
     }
 
     /// <summary>
@@ -192,6 +202,7 @@ public partial class Database
                  ? Provider.GetInsertCommand(entity)
                  : Provider.GetUpdateCommand<T, string>(entity);
         info.IsSave = true;
+        info.Original = entity.Original;
         return ExecuteNonQueryAsync(info);
     }
 
@@ -235,7 +246,7 @@ public partial class Database
 
     private async Task SetOriginalAsync<T>(T entity) where T : EntityBase, new()
     {
-        DatabaseOption.Instance.SqlMonitor?.Invoke(new CommandInfo { Text= "The follow SQL is a update query" });
+        DbMonitor.OnSql(new CommandInfo { Text= "The follow SQL is a update query" });
         var info = Provider?.GetSelectCommand<T>(d => d.Id == entity.Id);
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);
@@ -250,10 +261,12 @@ public partial class Database
             cmd.Parameters.Clear();
             if (info.IsClose)
                 conn?.Close();
+            DbMonitor.OnOperate(info, true);
             return value;
         }
         catch (Exception ex)
         {
+            DbMonitor.OnOperate(info, false);
             HandException(info, ex);
             throw new SystemException(ex.Message, ex);
         }

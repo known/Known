@@ -225,7 +225,7 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
         if (!string.IsNullOrWhiteSpace(WhereSql))
             sb.WhereSql(WhereSql);
         var sql = sb.ToSqlString();
-        return new CommandInfo(provider, sql, Parameters);
+        return new CommandInfo(provider, null, TableName, sql, Parameters);
     }
 
     private CommandInfo GetSelectCommand(bool first = false)
@@ -246,6 +246,6 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
         if (first)
             sql = provider.GetTopSql(1, sql);
 
-        return new CommandInfo(provider, sql, Parameters);
+        return new CommandInfo(provider, null, TableName, sql, Parameters);
     }
 }

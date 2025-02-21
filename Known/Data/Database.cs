@@ -242,8 +242,7 @@ public partial class Database : IDisposable
 
     private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {
-        DatabaseOption.Instance.SqlMonitor?.Invoke(info);
-
+        DbMonitor.OnSql(info);
         var cmd = GetDbCommandAsync(info);
         cmd.CommandText = info.Text;
         if (info.Params != null && info.Params.Count > 0)

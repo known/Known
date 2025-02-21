@@ -10,8 +10,18 @@ public class CommandInfo
     /// </summary>
     public CommandInfo() { }
 
-    internal CommandInfo(DbProvider provider, string text, object param = null)
+    internal CommandInfo(DbProvider provider, string text, object param = null) : this(provider, null, text, param)
     {
+    }
+
+    internal CommandInfo(DbProvider provider, Type type, string text, object param = null) : this(provider, type, null, text, param)
+    {
+    }
+
+    internal CommandInfo(DbProvider provider, Type type, string tableName, string text, object param = null)
+    {
+        Type = type;
+        TableName = tableName ?? provider.GetTableName(type);
         Prefix = provider?.Prefix;
         Text = text?.Replace("@", Prefix);
         if (param != null)
@@ -20,6 +30,10 @@ public class CommandInfo
 
     internal bool IsSave { get; set; }
     internal bool IsClose { get; set; }
+    internal string TableName { get; set; }
+    internal Type Type { get; set; }
+    internal Dictionary<string, object> Original { get; set; }
+    internal List<Dictionary<string, object>> DeleteItems { get; set; }
 
     /// <summary>
     /// 取得SQL参数名称前缀。

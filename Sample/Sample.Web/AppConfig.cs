@@ -100,6 +100,7 @@ public static class AppConfig
                 //db.AddPgSql<Npgsql.NpgsqlFactory>(connString);
                 //db.AddDM<Dm.DmClientFactory>(connString);
                 //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
+                //db.OperateMonitor = info => Console.WriteLine(info.ToString());
             };
         });
 
