@@ -69,7 +69,7 @@ class DbMonitor
 
     internal static void OnOperate(CommandInfo info, bool success)
     {
-        if (DatabaseOption.Instance.OperateMonitor == null)
+        if (!DatabaseOption.Instance.HasOperateMonitor)
             return;
 
         Task.Run(() =>
@@ -89,7 +89,10 @@ class DbMonitor
                 Original = info.Original,
                 DeleteItems = info.DeleteItems
             };
-            DatabaseOption.Instance.OperateMonitor.Invoke(operate);
+            foreach (var item in DatabaseOption.Instance.OperateMonitors)
+            {
+                item.Invoke(operate);
+            }
         });
     }
 }

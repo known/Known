@@ -155,7 +155,7 @@ public partial class Database
     public virtual async Task<int> DeleteAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
         var info = Provider?.GetDeleteCommand(expression);
-        if (DatabaseOption.Instance.OperateMonitor != null)
+        if (DatabaseOption.Instance.HasOperateMonitor)
         {
             var cmd = Provider?.GetSelectCommand(expression);
             info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(cmd);
@@ -171,7 +171,7 @@ public partial class Database
     public virtual async Task<int> DeleteAllAsync<T>() where T : class, new()
     {
         var info = Provider?.GetDeleteCommand<T>();
-        if (DatabaseOption.Instance.OperateMonitor != null)
+        if (DatabaseOption.Instance.HasOperateMonitor)
         {
             var cmd = Provider?.GetSelectCommand<T>();
             info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(cmd);

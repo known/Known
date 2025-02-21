@@ -41,7 +41,7 @@ public partial class Database
 
         var sql = $"delete from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
         var info = new CommandInfo(Provider, null, tableName, sql, new { id });
-        if (DatabaseOption.Instance.OperateMonitor != null)
+        if (DatabaseOption.Instance.HasOperateMonitor)
         {
             var sql1 = $"select * from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
             info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(sql, new { id });

@@ -23,9 +23,11 @@ public class DatabaseOption
     public Action<CommandInfo> SqlMonitor { get; set; }
 
     /// <summary>
-    /// 取得或设置系统数据操作监听器委托。
+    /// 取得系统数据操作监听器委托列表。
     /// </summary>
-    public Action<DbOperateInfo> OperateMonitor { get; set; }
+    public List<Action<DbOperateInfo>> OperateMonitors { get; } = [];
+
+    internal bool HasOperateMonitor => OperateMonitors.Count > 0;
 
     /// <summary>
     /// 添加数据库访问提供者。
