@@ -418,6 +418,11 @@ public class ColumnInfo
     internal string DisplayName { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位是否显示标题名称，默认显示。
+    /// </summary>
+    public bool ShowLabel { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置栏标题名称。
     /// </summary>
     public string Label { get; set; }

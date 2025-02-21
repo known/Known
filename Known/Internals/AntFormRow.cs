@@ -20,7 +20,7 @@ class AntFormRow<TItem> : BaseComponent where TItem : class, new()
         foreach (var field in Row.Fields)
         {
             var column = field.Column;
-            var label = Language?.GetFieldName<TItem>(column);
+            var label = column.ShowLabel ? Language?.GetFieldName<TItem>(column) : "";
             builder.Component<DataItem>()
                    .Set(c => c.Span, column.Span ?? colSpan)
                    .Set(c => c.Label, label)

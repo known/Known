@@ -1,11 +1,15 @@
 ﻿@inherits BaseComponent
 
-<pre class="highlight kui-code @Class">
-    <code class="language-@Lang">@Code</code>
-</pre>
+<ReloadContainer @ref="container">
+    <pre class="highlight kui-code @Class">
+        <code class="language-@Lang">@Code</code>
+    </pre>
+</ReloadContainer>
 
 @code {
-    private string rawCode;
+    private ReloadContainer container;
+    private bool shouldHighlight;
+    private string originalCode;
 
     /// <summary>
     /// 取得或设置样式类。
@@ -23,13 +27,35 @@
     [Parameter] public string Lang { get; set; }
 
     /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        originalCode = Code;
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (rawCode != Code)
+        if (firstRender || shouldHighlight)
         {
-            rawCode = Code;
+            shouldHighlight = false;
             await JSRuntime.HighlightAllAsync();
         }
+    }
+
+    /// <summary>
+    /// 设置代码。
+    /// </summary>
+    /// <param name="code">代码。</param>
+    public void SetCode(string code)
+    {
+        if (originalCode == code)
+            return;
+
+        originalCode = code;
+        Code = code;
+        shouldHighlight = true;
+        container?.ReloadPage();
     }
 }

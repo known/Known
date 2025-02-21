@@ -14,7 +14,7 @@ public partial class UIService
     {
         if (fieldType == FieldType.AutoComplete) return typeof(AntAutoComplete);
         if (fieldType == FieldType.Select) return typeof(AntSelectCode);
-        if (fieldType == FieldType.CheckBox) return typeof(Checkbox);
+        if (fieldType == FieldType.CheckBox) return typeof(AntCheckBox);
         if (fieldType == FieldType.CheckList) return typeof(AntCheckboxGroup);
         if (fieldType == FieldType.RadioList) return typeof(AntRadioGroup);
         if (fieldType == FieldType.Password) return typeof(InputPassword);
@@ -62,6 +62,9 @@ public partial class UIService
             if (column.Type == FieldType.CheckList)
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
+
+        if (column.Type == FieldType.CheckBox)
+            attributes[nameof(AntCheckBox.Label)] = column.Label;
 
         if (column.Type == FieldType.AutoComplete)
             attributes[nameof(AntAutoComplete.Options)] = model.GetCodes("");

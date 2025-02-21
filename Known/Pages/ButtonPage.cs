@@ -4,7 +4,7 @@
 /// 按钮管理开发插件页面组件类。
 /// </summary>
 [Route("/dev/buttons")]
-[DevPlugin("按钮管理", "border", Sort = 4)]
+[DevPlugin("按钮管理", "border", Sort = 3)]
 public class ButtonPage : BaseTablePage<ButtonInfo>
 {
     /// <inheritdoc />
