@@ -31,6 +31,17 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步复制文本到剪贴板。
+    /// </summary>
+    /// <param name="js">JS运行时。</param>
+    /// <param name="text">要复制的文本。</param>
+    /// <returns></returns>
+    public static ValueTask CopyTextAsync(this IJSRuntime js, string text)
+    {
+        return js.InvokeVoidAsync("navigator.clipboard.writeText", text);
+    }
+
+    /// <summary>
     /// 异步粘贴剪贴板里的数据。
     /// </summary>
     /// <param name="js">JS运行时。</param>

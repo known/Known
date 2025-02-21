@@ -76,30 +76,33 @@ class PageView : BaseView<PageInfo>
     {
         var modulePath = AdminOption.Instance.Code?.PagePath ?? ModulePath;
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
-        var path = Path.Combine(modulePath, "Pages", $"{className}List.cs");
+        var fileName = $"{className}List.cs";
+        var path = Path.Combine(modulePath, "Pages", fileName);
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codePage));
-        BuildCode(builder, "page", path, codePage);
+        BuildCode(builder, "page", path, fileName, codePage);
     }
 
     private void BuildService(RenderTreeBuilder builder)
     {
         var modulePath = AdminOption.Instance.Code?.ServicePath ?? ModulePath;
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
-        var path = Path.Combine(modulePath, "Services", $"{className}Service.cs");
+        var fileName = $"{className}Service.cs";
+        var path = Path.Combine(modulePath, "Services", fileName);
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeService));
-        BuildCode(builder, "page", path, codeService);
+        BuildCode(builder, "page", path, fileName, codeService);
     }
 
     private void BuildServiceI(RenderTreeBuilder builder)
     {
         var modulePath = AdminOption.Instance.Code?.EntityPath ?? ModulePath;
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
-        var path = Path.Combine(modulePath, "Services", $"I{className}Service.cs");
+        var fileName = $"I{className}Service.cs";
+        var path = Path.Combine(modulePath, "Services", fileName);
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeServiceI));
-        BuildCode(builder, "page", path, codeServiceI);
+        BuildCode(builder, "page", path, fileName, codeServiceI);
     }
 
     private void BuildProperty(RenderTreeBuilder builder)

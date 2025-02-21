@@ -47,4 +47,13 @@
 .kui-designer .panel-property .item .ant-switch {width:44px;}
 
 :root[data-theme=dark] .kui-designer .panel-view .view {background-color:#1f1f1f;}
+
+.kui-code-action {position:absolute;top:0;right:0;}
+.kui-code-action.sql {top:-45px;}
+.kui-code-path {margin-top:8px;}
+.kui-code-path.page {margin-left:10px;}
+.kui-code.entity {height:358px;}
+.kui-code.script {height:390px;}
+.kui-code.script pre {height:390px;}
+.kui-code.page {height:358px;margin-left:10px;}
 /*---Designer---*/

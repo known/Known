@@ -25,18 +25,18 @@ class BaseView<TModel> : BaseComponent
         builder.Div("list-view", () => builder.FormTable(model));
     }
 
-    protected void BuildAction(RenderTreeBuilder builder, string button, Action action)
+    protected void BuildAction(RenderTreeBuilder builder, string button, Action action, string lang = "")
     {
         if (ReadOnly)
             return;
 
-        builder.Div("kui-code-action", () =>
+        builder.Div($"kui-code-action {lang}", () =>
         {
             builder.Button(button, this.Callback<MouseEventArgs>(e => action()));
         });
     }
 
-    protected void BuildCode(RenderTreeBuilder builder, string type, string path, string code, string lang = "csharp")
+    protected void BuildCode(RenderTreeBuilder builder, string type, string path, string fileName, string code, string lang = "csharp")
     {
         if (!string.IsNullOrWhiteSpace(path))
             builder.Div($"kui-code-path {type}", () => builder.Tag(path));
@@ -45,6 +45,7 @@ class BaseView<TModel> : BaseComponent
                .Set(c => c.Class, type)
                .Set(c => c.Code, code)
                .Set(c => c.Lang, lang)
+               .Set(c => c.FileName, fileName)
                .Build();
     }
 

@@ -224,7 +224,7 @@ export class KBlazor {
     }
     static async downloadFileByStream(fileName, stream) {
         const buffer = await stream.arrayBuffer();
-        const blob = new Blob([buffer]);
+        const blob = new Blob([buffer], { type: 'application/octet-stream' });
         const url = URL.createObjectURL(blob);
         KBlazor.downloadFileByUrl(fileName, url);
         URL.revokeObjectURL(url);

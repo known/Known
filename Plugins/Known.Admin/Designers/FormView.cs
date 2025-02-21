@@ -65,10 +65,11 @@ class FormView : BaseView<FormInfo>
     {
         var modulePath = AdminOption.Instance.Code?.PagePath ?? ModulePath;
         var className = DataHelper.GetClassName(Module?.Entity?.Id);
-        var path = Path.Combine(modulePath, "Pages", "Forms", $"{className}Form.razor");
+        var fileName = $"{className}Form.razor";
+        var path = Path.Combine(modulePath, "Pages", "Forms", fileName);
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, codeForm));
-        BuildCode(builder, "page", path, codeForm, "html");
+        BuildCode(builder, "page", path, fileName, codeForm, "html");
     }
 
     private void BuildProperty(RenderTreeBuilder builder)

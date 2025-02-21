@@ -51,10 +51,11 @@ class EntityView : BaseView<EntityInfo>
     private void BuildEntity(RenderTreeBuilder builder)
     {
         var modulePath = AdminOption.Instance.Code?.EntityPath ?? ModulePath;
-        var path = Path.Combine(modulePath, "Entities", $"{Model?.Id}.cs");
+        var fileName = $"{Model?.Id}.cs";
+        var path = Path.Combine(modulePath, "Entities", fileName);
         if (Config.IsDebug)
             BuildAction(builder, Language.Save, () => SaveSourceCode(path, entity));
-        BuildCode(builder, "entity", path, entity);
+        BuildCode(builder, "entity", path, fileName, entity);
     }
 
     private void BuildScript(RenderTreeBuilder builder)
@@ -64,8 +65,8 @@ class EntityView : BaseView<EntityInfo>
             var info = new AutoInfo<string> { PageId = tableName, Data = tableScript };
             var result = await Auto.CreateTableAsync(info);
             UI.Result(result);
-        });
-        BuildCode(builder, "script", "", script);
+        }, "sql");
+        BuildCode(builder, "script", "", $"{Model?.Id}.sql", script);
     }
 
     private void SetViewData(EntityInfo model)

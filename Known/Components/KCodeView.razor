@@ -1,9 +1,15 @@
 ﻿@inherits BaseComponent
 
 <ReloadContainer @ref="container">
-    <pre class="highlight kui-code @Class">
-        <code class="language-@Lang">@Code</code>
-    </pre>
+    <div class="kui-code @Class">
+        <div class="action">
+            <KIcon Icon="copy" Title="复制代码" OnClick="this.Callback<MouseEventArgs>(OnCopy)" />
+            <KIcon Icon="download" Title="下载代码" OnClick="this.Callback<MouseEventArgs>(OnDownload)" />
+        </div>
+        <pre class="highlight">
+            <code class="language-@Lang">@Code</code>
+        </pre>
+    </div>
 </ReloadContainer>
 
 @code {
@@ -25,6 +31,11 @@
     /// 取得或设置代码语言。
     /// </summary>
     [Parameter] public string Lang { get; set; }
+
+    /// <summary>
+    /// 取得或设置代码文件名。
+    /// </summary>
+    [Parameter] public string FileName { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitAsync()
@@ -57,5 +68,18 @@
         Code = code;
         shouldHighlight = true;
         container?.ReloadPage();
+    }
+
+    private void OnCopy(MouseEventArgs args)
+    {
+        JSRuntime.CopyTextAsync(Code);
+        UI.Success("复制成功！");
+    }
+
+    private Task OnDownload(MouseEventArgs args)
+    {
+        var bytes = Encoding.UTF8.GetBytes(Code);
+        var info = new FileDataInfo { Name = FileName, Size = bytes.Length, Bytes = bytes };
+        return JS.DownloadFileAsync(info);
     }
 }
