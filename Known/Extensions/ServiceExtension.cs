@@ -45,6 +45,9 @@ public static class ServiceExtension
 
         foreach (var item in assembly.GetTypes())
         {
+            if (item.IsAssignableTo(typeof(EntityBase)))
+                DbConfig.Models.Add(item);
+
             var attr = item.GetCustomAttribute<ServiceAttribute>();
             if (attr == null)
                 continue;

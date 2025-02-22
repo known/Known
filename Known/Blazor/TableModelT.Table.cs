@@ -23,6 +23,11 @@ partial class TableModel<TItem>
     public bool Resizable { get; set; }
 
     /// <summary>
+    /// 取得或设置表格是否自动适应高度，默认是。
+    /// </summary>
+    public bool AutoHeight { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格是否显示自动序号。
     /// </summary>
     public bool ShowIndex { get; set; }

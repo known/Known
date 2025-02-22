@@ -322,8 +322,6 @@ public sealed class Config
                 AddFieldType(item);
             else if (item.IsAssignableTo(typeof(BaseForm)))
                 FormTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(EntityBase)))
-                DbConfig.Models.Add(item);
             else if (item.IsEnum)
                 Cache.AttachEnumCodes(item);
 

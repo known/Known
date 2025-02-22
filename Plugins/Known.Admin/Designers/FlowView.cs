@@ -17,6 +17,7 @@ class FlowView : BaseView<FlowInfo>
 
         table = new(this, TableColumnMode.Property)
         {
+            AutoHeight = false,
             ShowSetting = false,
             FixedHeight = "355px",
             OnQuery = c =>

@@ -32,6 +32,7 @@ class EntityView : BaseView<EntityInfo>
 
         table = new(this, TableColumnMode.Property)
         {
+            AutoHeight = false,
             ShowSetting = false,
             FixedHeight = "330px",
             OnQuery = c =>

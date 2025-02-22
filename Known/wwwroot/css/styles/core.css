@@ -211,7 +211,7 @@
 /*Code*/
 .kui-code {position:relative;margin:10px 0 0 0;border-left:3px solid var(--kui-border-color);}
 .kui-code .action {position:absolute;top:0;right:10px;font-size:16px;color:#1890ff;cursor:pointer;}
-.kui-code pre[class*=language-] {margin:0;padding:0;overflow:auto;height:360px;}
+.kui-code pre[class*=language-] {margin:0;padding:10px;overflow:auto;height:360px;}
 :root[data-theme=dark] :not(pre)>code[class*=language-], pre[class*=language-] {background-color:rgba(255,255,255,0.08);}
 
 /*WebApi*/

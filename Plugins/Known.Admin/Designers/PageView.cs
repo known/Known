@@ -26,6 +26,7 @@ class PageView : BaseView<PageInfo>
 
         list = new(this, TableColumnMode.Property)
         {
+            AutoHeight = false,
             ShowSetting = false,
             FixedHeight = "355px",
             OnQuery = c =>

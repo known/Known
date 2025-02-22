@@ -45,6 +45,7 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
             if (Model.IsStriped)
                 Class = "kui-striped";
             Resizable = Model.Resizable;
+            AutoHeight = Model.AutoHeight;
             RowKey = Model.RowKey;
             HidePagination = !Model.ShowPager;
             if (Model.ShowPager)
