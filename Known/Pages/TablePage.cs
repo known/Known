@@ -29,6 +29,7 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
             };
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
+                   .Set(c => c.Name, "低代码表格")
                    .Set(c => c.Dropdown, model)
                    .Set(c => c.ChildContent, BuildContent)
                    .Build();

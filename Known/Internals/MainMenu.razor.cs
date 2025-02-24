@@ -10,6 +10,8 @@ public partial class MainMenu
     private AntMenu menu;
     private readonly List<ActionInfo> actions = [];
 
+    private bool CanEdit => Parent?.CanEdit == true;
+
     /// <summary>
     /// 取得或设置菜单模式。
     /// </summary>

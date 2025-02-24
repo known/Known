@@ -73,7 +73,10 @@ public class PluginBase<T> : BaseComponent, IPlugin
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         Parameter = Utils.FromJson<T>(Plugin?.Setting);
+        var attr = GetType().GetCustomAttribute<PagePluginAttribute>();
+        var name = attr != null ? attr.Name : Name;
         builder.Component<PluginPanel>()
+               .Set(c => c.Name, name)
                .Set(c => c.Draggable, Draggable)
                .Set(c => c.Actions, Actions)
                .Set(c => c.ChildContent, BuildPlugin)

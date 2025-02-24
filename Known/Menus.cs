@@ -11,10 +11,6 @@ public class MenuInfo
     public MenuInfo()
     {
         Id = Utils.GetNextId();
-        Visible = true;
-        Enabled = true;
-        Closable = true;
-        Children = [];
     }
 
     /// <summary>
@@ -84,24 +80,29 @@ public class MenuInfo
     public int Badge { get; set; }
 
     /// <summary>
-    /// 取得或设置菜单是否可见。
+    /// 取得或设置菜单是否可见，默认可见。
     /// </summary>
-    public bool Visible { get; set; }
+    public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置菜单是否可用。
+    /// 取得或设置菜单是否可用，默认可用。
     /// </summary>
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置菜单是否可关闭，适用于多标签页。
+    /// 取得或设置菜单是否可关闭，适用于多标签页，默认可关闭。
     /// </summary>
-    public bool Closable { get; set; }
+    public bool Closable { get; set; } = true;
 
     /// <summary>
     /// 取得或设置菜单是否勾选，适用于角色权限配置。
     /// </summary>
     public bool Checked { get; set; }
+
+    /// <summary>
+    /// 取得或设置菜单是否可以编辑，默认可编辑。
+    /// </summary>
+    public bool CanEdit { get; set; } = true;
 
     /// <summary>
     /// 取得或设置上级菜单对象。
@@ -113,7 +114,7 @@ public class MenuInfo
     /// 取得或设置子菜单对象列表。
     /// </summary>
     [JsonIgnore]
-    public List<MenuInfo> Children { get; set; }
+    public List<MenuInfo> Children { get; set; } = [];
 
     /// <summary>
     /// 取得或设置菜单关联的数据对象。
