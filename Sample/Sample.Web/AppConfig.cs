@@ -1,6 +1,4 @@
-﻿using Coravel;
-using Coravel.Invocable;
-using Sample.Web.Tests;
+﻿using Sample.Web.Tests;
 
 namespace Sample.Web;
 
@@ -33,7 +31,6 @@ public static class AppConfig
 #if DEBUG
         Config.IsDebug = true;
 #endif
-        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
 
         builder.AddAppWeb();
         builder.AddAppWebCore();
@@ -41,14 +38,8 @@ public static class AppConfig
 
     public static void UseApplication(this WebApplication app)
     {
-        //使用Known框架
         app.UseKnown();
-        //配置定时任务
-        app.Services.UseScheduler(scheduler =>
-        {
-            //每5秒执行一次异步导入
-            scheduler.Schedule<ImportTaskJob>().EveryFiveSeconds();
-        });
+        app.UseTaskJobs();
     }
 
     private static void AddAppWeb(this WebApplicationBuilder builder)
@@ -63,9 +54,8 @@ public static class AppConfig
             //info.NextIdType = NextIdType.AutoInteger;
         });
         builder.Services.AddKnownAdmin();
-
-        UIConfig.EnableEdit = true;
-        UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
+        builder.Services.AddModules();
+        builder.Services.ConfigUI();
     }
 
     private static void AddAppWebCore(this WebApplicationBuilder builder)
@@ -105,12 +95,17 @@ public static class AppConfig
         });
 
         // 添加任务
-        builder.Services.AddScheduler();
-        builder.Services.AddTransient<ImportTaskJob>();
+        builder.Services.AddTaskJobs();
     }
-}
 
-class ImportTaskJob : IInvocable
-{
-    public Task Invoke() => ImportHelper.ExecuteAsync();
+    private static void AddModules(this IServiceCollection services)
+    {
+        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
+    }
+
+    private static void ConfigUI(this IServiceCollection services)
+    {
+        UIConfig.EnableEdit = true;
+        UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
+    }
 }

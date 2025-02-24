@@ -12,7 +12,6 @@ public static class AppConfig
         Config.IsDevelopment = true;
         Config.IsDebug = true;
 #endif
-        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
 
         var assembly = typeof(AppConfig).Assembly;
         services.AddKnown(info =>
@@ -21,7 +20,13 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
         });
+        services.AddModules();
         services.AddServices(assembly);
         services.AddKnownCore();
+    }
+
+    private static void AddModules(this IServiceCollection services)
+    {
+        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
     }
 }
