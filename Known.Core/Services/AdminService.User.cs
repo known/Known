@@ -43,12 +43,18 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        var database = Database;
+        var result = await UserHelper.OnDeletingAsync(database, infos);
+        if (!result.IsValid)
+            return result;
+
+        return await database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in infos)
             {
                 await db.DeleteAsync<SysUser>(item.Id);
                 await db.DeleteAsync<SysUserRole>(d => d.UserId == item.Id);
+                await UserHelper.OnDeletedAsync(db, item);
             }
         });
     }
@@ -58,7 +64,12 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Save, async db =>
+        var database = Database;
+        var result = await UserHelper.OnChangingDepartmentAsync(database, infos);
+        if (!result.IsValid)
+            return result;
+
+        return await database.TransactionAsync(Language.Save, async db =>
         {
             foreach (var item in infos)
             {
@@ -67,6 +78,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 {
                     model.OrgNo = item.OrgNo;
                     await db.SaveAsync(model);
+                    await UserHelper.OnChangedDepartmentAsync(db, model);
                 }
             }
         });
@@ -77,7 +89,12 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Enable, async db =>
+        var database = Database;
+        var result = await UserHelper.OnEnablingAsync(database, infos);
+        if (!result.IsValid)
+            return result;
+
+        return await database.TransactionAsync(Language.Enable, async db =>
         {
             foreach (var item in infos)
             {
@@ -86,6 +103,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 {
                     model.Enabled = true;
                     await db.SaveAsync(model);
+                    await UserHelper.OnEnabledAsync(db, model);
                 }
             }
         });
@@ -96,7 +114,12 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Disable, async db =>
+        var database = Database;
+        var result = await UserHelper.OnDisablingAsync(database, infos);
+        if (!result.IsValid)
+            return result;
+
+        return await database.TransactionAsync(Language.Disable, async db =>
         {
             foreach (var item in infos)
             {
@@ -105,6 +128,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 {
                     model.Enabled = false;
                     await db.SaveAsync(model);
+                    await UserHelper.OnDisabledAsync(db, model);
                 }
             }
         });
@@ -158,6 +182,10 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             model.UserName = model.UserName.ToLower();
             if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
                 vr.AddError(Language["Tip.UserNameExists"]);
+
+            var result = await UserHelper.OnSavingAsync(database, info);
+            if (!result.IsValid)
+                vr.AddError(result.Message);
         }
 
         if (!vr.IsValid)
@@ -177,6 +205,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
                 }
             }
             await db.SaveAsync(model);
+            await UserHelper.OnSavedAsync(db, model);
             info.Id = model.Id;
         }, info);
     }

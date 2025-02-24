@@ -306,13 +306,11 @@ public sealed class TypeHelper
     /// <param name="genericArguments">泛型参数。</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static bool IsSubclassOfGeneric(Type derivedType, Type genericBaseType, out Type[] genericArguments)
+    public static bool IsGenericSubclass(Type derivedType, Type genericBaseType, out Type[] genericArguments)
     {
         // 确保 genericBaseType 是泛型类型
         if (!genericBaseType.IsGenericType)
-        {
             throw new ArgumentException("genericBaseType 必须是一个泛型类型");
-        }
 
         // 获取当前基类
         Type baseType = derivedType.BaseType;

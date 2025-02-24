@@ -314,8 +314,8 @@ public sealed class Config
 
         foreach (var item in assembly.GetTypes())
         {
-            if (TypeHelper.IsSubclassOfGeneric(item, typeof(EntityTablePage<>), out var typeArguments))
-                AddApiMethod(typeof(IEntityService<>).MakeGenericType(typeArguments), item.Name);
+            if (TypeHelper.IsGenericSubclass(item, typeof(EntityTablePage<>), out var arguments))
+                AddApiMethod(typeof(IEntityService<>).MakeGenericType(arguments), item.Name);
             else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
                 AddApiMethod(item, item.Name[1..].Replace("Service", ""));
             else if (item.IsAssignableTo(typeof(ICustomField)))

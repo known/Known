@@ -8,6 +8,11 @@ public class CoreConfig
     private CoreConfig() { }
 
     /// <summary>
+    /// 取得或设置自定义用户业务逻辑处理者实例。
+    /// </summary>
+    public static UserHandler UserHandler { get; set; }
+
+    /// <summary>
     /// 取得或设置用户登录前验证逻辑委托。
     /// </summary>
     public static Func<Database, LoginFormInfo, Task<Result>> OnLoging { get; set; }

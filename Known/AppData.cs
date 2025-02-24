@@ -49,7 +49,7 @@ public sealed class AppData
     /// <returns>插件配置信息。</returns>
     public static TablePageInfo CreateTablePage(Type pageType)
     {
-        if (TypeHelper.IsSubclassOfGeneric(pageType, typeof(BaseTablePage<>), out var types))
+        if (TypeHelper.IsGenericSubclass(pageType, typeof(BaseTablePage<>), out var types))
             return AppDefaultData.CreateTablePage(pageType, types[0]);
 
         return null;
