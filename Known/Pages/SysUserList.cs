@@ -33,7 +33,7 @@ public class SysUserList : BaseTablePage<UserInfo>
 
         Table = new TableModel<UserInfo>(this)
         {
-            FormType = typeof(UserTabForm),
+            FormType = UIConfig.UserFormTabs.Count > 0 ? typeof(UserTabForm) : typeof(UserForm),
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync,
             Form = new FormInfo { Width = 800 }
@@ -195,8 +195,9 @@ class UserForm : BaseForm<UserInfo>
     {
         await base.OnInitFormAsync();
 
-        SaveClose = false;
-        ShowAction = true;
+        SaveClose = UIConfig.UserFormTabs.Count == 0;
+        ShowAction = UIConfig.UserFormTabs.Count > 0;
+        Model.Header = b => b.Alert(Language.GetString("Tip.UserDefaultPwd").Replace("{password}", Config.System?.UserDefaultPwd));
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);

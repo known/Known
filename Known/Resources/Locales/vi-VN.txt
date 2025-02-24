@@ -88,6 +88,7 @@
   "Tip.PwdNotEqual": "Hai lần nhập mật khẩu không phù hợp！",
   "Tip.CurPwdInvalid": "Mật khẩu hiện tại không chính xác！",
   "Tip.NoDefaultPwd": "Mật khẩu mặc định của người dùng chưa được cấu hình！",
+  "Tip.UserDefaultPwd": "Mật khẩu mặc định của người dùng là: {password}。",
   "Tip.ExitSuccess": "Thoát thành công！",
   "Tip.ConnectSuccess": "Kết nối thành công！",
   "Tip.CompanyNotExists": "Doanh nghiệp không tồn tại！",

@@ -88,6 +88,7 @@
   "Tip.PwdNotEqual": "The two password inputs are inconsistent!",
   "Tip.CurPwdInvalid": "The current password is incorrect!",
   "Tip.NoDefaultPwd": "User default password not configured!",
+  "Tip.UserDefaultPwd": "The default password for the user is {password}.",
   "Tip.ExitSuccess": "Exit successful!",
   "Tip.ConnectSuccess": "Connect successful!",
   "Tip.CompanyNotExists": "The enterprise does not exist!",

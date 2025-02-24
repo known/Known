@@ -88,6 +88,7 @@
   "Tip.PwdNotEqual": "两次密码输入不一致！",
   "Tip.CurPwdInvalid": "当前密码不正确！",
   "Tip.NoDefaultPwd": "用户默认密码未配置！",
+  "Tip.UserDefaultPwd": "用户默认密码为：{password}。",
   "Tip.ExitSuccess": "退出成功！",
   "Tip.ConnectSuccess": "连接成功！",
   "Tip.CompanyNotExists": "企业不存在！",
