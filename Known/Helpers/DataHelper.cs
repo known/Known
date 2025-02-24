@@ -140,18 +140,17 @@ public sealed class DataHelper
 
     private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
     {
-        var tab = item.Value.GetCustomAttribute<ReuseTabsPageAttribute>();
-        var name = tab?.Title ?? item.Key;
         var info = new ModuleInfo
         {
             Id = item.Value.FullName,
             ParentId = parentId,
-            Name = name,
+            Name = item.Value.Name,
             Url = item.Key,
             Target = Constants.Route,
             Icon = "file",
             Enabled = true
         };
+        SetRouteInfo(info, item.Value);
         var actions = new List<string>();
         var methods = item.Value.GetMethods();
         foreach (var method in methods)
@@ -162,6 +161,31 @@ public sealed class DataHelper
         if (actions.Count > 0)
             info.Plugins.AddPlugin(new TablePageInfo { Page = new PageInfo { Tools = [.. actions] } });
         return info;
+    }
+
+    private static void SetRouteInfo(ModuleInfo info, Type type)
+    {
+        var tab = type.GetCustomAttribute<ReuseTabsPageAttribute>();
+        if (tab != null)
+        {
+            info.Name = tab.Title;
+            return;
+        }
+
+        var plugin = type.GetCustomAttribute<PluginAttribute>();
+        if (plugin != null)
+        {
+            info.Name = plugin.Name;
+            info.Icon = plugin.Icon;
+            return;
+        }
+
+        var menu = type.GetCustomAttribute<MenuAttribute>();
+        if (menu != null)
+        {
+            info.Name = menu.Name;
+            info.Icon = menu.Icon;
+        }
     }
     #endregion
 

@@ -9,6 +9,18 @@
 public class ModulePage : BasePage
 {
     /// <inheritdoc />
+    protected override async Task OnInitPageAsync()
+    {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
+        await base.OnInitPageAsync();
+    }
+
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         if (UIConfig.ModulePageType != null)

@@ -118,6 +118,12 @@ public class UIContext : Context
 
     internal void SetCurrentMenu(RouteData route)
     {
+        if (Url == "/profile")
+        {
+            Current = new MenuInfo { Name = Language["Nav.Profile"], Icon = "user" };
+            return;
+        }
+
         var menus = IsMobileApp ? Config.AppMenus : UserMenus;
         Current = GetCurrentMenu(menus, route);
     }
