@@ -106,14 +106,6 @@ public class UIConfig
     /// 取得或设置页面标签颜色委托。
     /// </summary>
     public static Func<string, string> TagColor { get; set; }
-
-    internal static List<MenuInfo> Menus { get; } = [];
-
-    internal static void SetMenu(MenuInfo info)
-    {
-        if (!Menus.Exists(m => m.Url == info.Url))
-            Menus.Add(info);
-    }
 }
 
 /// <summary>

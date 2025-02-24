@@ -5,6 +5,58 @@
 /// </summary>
 public static class ModelExtension
 {
+    #region PageInfo
+    internal static List<ActionInfo> GetToolItems(this PageInfo info)
+    {
+        if (info == null || info.Tools == null || info.Tools.Count == 0)
+            return [];
+
+        return info.Tools.Select(t => new ActionInfo(t)).ToList();
+    }
+
+    internal static List<ActionInfo> GetActionItems(this PageInfo info)
+    {
+        if (info == null || info.Actions == null || info.Actions.Count == 0)
+            return [];
+
+        return info.Actions.Select(a => new ActionInfo(a)).ToList();
+    }
+
+    internal static List<ColumnInfo> GetColumns<T>(this PageInfo info, FormInfo form)
+    {
+        if (info == null || info.Columns == null || info.Columns.Count == 0)
+            return [];
+
+        var properties = TypeHelper.Properties(typeof(T));
+        return info.Columns.OrderBy(t => t.Position).Select(c =>
+        {
+            var column = new ColumnInfo(c);
+            SetColumn(column, form);
+            var property = properties.FirstOrDefault(p => p.Name == column.Id);
+            if (property != null)
+                column.SetColumnInfo(property);
+            return column;
+        }).ToList();
+    }
+
+    private static void SetColumn(ColumnInfo column, FormInfo form)
+    {
+        var item = form?.Fields?.FirstOrDefault(f => f.Id == column.Id);
+        if (item != null)
+        {
+            column.Type = item.Type;
+            column.Category = item.Category;
+        }
+        //if (column.Type == FieldType.Text)
+        //{
+        //    EntityInfo model = form?.Model;
+        //    var field = model?.Fields?.FirstOrDefault(f => f.Id == column.Id);
+        //    if (field != null)
+        //        column.Type = field.Type;
+        //}
+    }
+    #endregion
+
     #region ComponentInfo
     /// <summary>
     /// 设置组件信息。
@@ -17,51 +69,6 @@ public static class ModelExtension
     public static void Set<T>(this Dictionary<string, ComponentInfo> components, int id, string title, Dictionary<string, object> parameters = null)
     {
         components[title] = new ComponentInfo { Id = id, Type = typeof(T), Parameters = parameters };
-    }
-    #endregion
-
-    #region CodeInfo
-    /// <summary>
-    /// 添加代码表数据。
-    /// </summary>
-    /// <param name="codes">代码表列表。</param>
-    /// <param name="code">代码。</param>
-    /// <param name="name">名称。</param>
-    /// <param name="data">附加数据。</param>
-    public static void Add(this List<CodeInfo> codes, string code, string name, object data = null)
-    {
-        codes.Add(new CodeInfo(code, name, data));
-    }
-
-    /// <summary>
-    /// 添加代码表数据。
-    /// </summary>
-    /// <param name="codes">代码表列表。</param>
-    /// <param name="category">类别。</param>
-    /// <param name="code">代码。</param>
-    /// <param name="name">名称。</param>
-    /// <param name="data">附加数据。</param>
-    public static void Add(this List<CodeInfo> codes, string category, string code, string name, object data = null)
-    {
-        codes.Add(new CodeInfo(category, code, name, data));
-    }
-
-    /// <summary>
-    /// 往代码表列表中插入空文本字符串。
-    /// </summary>
-    /// <param name="codes">代码表列表。</param>
-    /// <param name="emptyText">空文本字符串，默认空。</param>
-    /// <returns>新代码表列表。</returns>
-    public static List<CodeInfo> ToCodes(this List<CodeInfo> codes, string emptyText = "")
-    {
-        var infos = new List<CodeInfo>();
-        if (!string.IsNullOrWhiteSpace(emptyText))
-            infos.Add(new CodeInfo("", emptyText));
-
-        if (codes != null && codes.Count > 0)
-            infos.AddRange(codes);
-
-        return infos;
     }
     #endregion
 
@@ -122,59 +129,6 @@ public static class ModelExtension
             Name = model.Name,
             Data = model
         };
-    }
-    #endregion
-
-    #region File
-    /// <summary>
-    /// 将附件数据转换成附件类的实例。
-    /// </summary>
-    /// <param name="file">附件信息。</param>
-    /// <param name="user">当前用户信息。</param>
-    /// <param name="form">附件表单信息。</param>
-    /// <returns></returns>
-    public static AttachFile ToAttachFile(this FileDataInfo file, UserInfo user, FileFormInfo form)
-    {
-        return new AttachFile(file, user, form.BizType, form.BizPath) { Category2 = form.Category };
-    }
-
-    /// <summary>
-    /// 获取附件字段的文件对象列表。
-    /// </summary>
-    /// <param name="files">表单的附件字典。</param>
-    /// <param name="user">当前用户。</param>
-    /// <param name="key">字段名。</param>
-    /// <param name="bizType">业务类型。</param>
-    /// <param name="bizPath">业务路径。</param>
-    /// <returns>文件对象列表。</returns>
-    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, string bizType, string bizPath = null)
-    {
-        return files?.GetAttachFiles(user, key, new FileFormInfo { BizType = bizType, BizPath = bizPath });
-    }
-
-    /// <summary>
-    /// 获取附件字段的文件对象列表。
-    /// </summary>
-    /// <param name="files">表单的附件字典。</param>
-    /// <param name="user">当前用户。</param>
-    /// <param name="key">字段名。</param>
-    /// <param name="form">附件表单对象。</param>
-    /// <returns>文件对象列表。</returns>
-    public static List<AttachFile> GetAttachFiles(this Dictionary<string, List<FileDataInfo>> files, UserInfo user, string key, FileFormInfo form)
-    {
-        if (files == null || files.Count == 0)
-            return null;
-
-        if (!files.TryGetValue(key, out List<FileDataInfo> value))
-            return null;
-
-        var attaches = new List<AttachFile>();
-        foreach (var item in value)
-        {
-            var attach = item.ToAttachFile(user, form);
-            attaches.Add(attach);
-        }
-        return attaches;
     }
     #endregion
 

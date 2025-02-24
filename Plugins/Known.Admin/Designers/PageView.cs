@@ -191,7 +191,7 @@ class PageView : BaseView<PageInfo>
     private void OnPropertyChanged()
     {
         OnChanged?.Invoke(Model);
-        table.Initialize(new TablePageInfo { Page = Model, Form = Module?.Form }, Module?.Entity);
+        table.Initialize(new TablePageInfo { Page = Model, Form = Module?.Form });
         SetSourceCode();
         StateChanged();
     }
@@ -199,7 +199,7 @@ class PageView : BaseView<PageInfo>
     private async Task SetTablePageAsync()
     {
         table = new DemoModel(this) { Module = Module, Entity = Module?.Entity };
-        table.Initialize(new TablePageInfo { Page = Model, Form = Module?.Form }, Module?.Entity);
+        table.Initialize(new TablePageInfo { Page = Model, Form = Module?.Form });
         table.Result = await table.OnQuery?.Invoke(table.Criteria);
         SetSourceCode();
     }

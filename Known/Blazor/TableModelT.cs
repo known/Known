@@ -75,37 +75,25 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 初始化页面表格模型配置。
     /// </summary>
     /// <param name="info">表格配置模型信息。</param>
-    /// <param name="entity">表格关联的数据模型。</param>
-    public void Initialize(TablePageInfo info, EntityInfo entity = null)
+    public void Initialize(TablePageInfo info)
     {
         if (info != null && info.Page != null)
         {
-            entity ??= DataHelper.ToEntity(info.EntityData);
             //FixedWidth = info.Page.FixedWidth;
             //FixedHeight = info.Page.FixedHeight;
             ShowPager = info.Page.ShowPager;
             ShowSetting = info.Page.ShowSetting;
+
             if (info.Page.PageSize != null)
                 Criteria.PageSize = info.Page.PageSize.Value;
-
             if (info.Page.ToolSize != null)
                 Toolbar.ShowCount = info.Page.ToolSize.Value;
-            Toolbar.Items = info.Page.Tools?.Select(t => new ActionInfo(t)).ToList() ?? [];
-
             if (info.Page.ActionSize != null)
                 ActionCount = info.Page.ActionSize.Value;
-            Actions = info.Page.Actions?.Select(a => new ActionInfo(a)).ToList() ?? [];
 
-            var properties = TypeHelper.Properties(typeof(TItem));
-            AllColumns = info.Page.Columns?.OrderBy(t => t.Position).Select(c =>
-            {
-                var column = new ColumnInfo(c);
-                SetColumn(column, entity, info.Form);
-                var property = properties.FirstOrDefault(p => p.Name == column.Id);
-                if (property != null)
-                    column.SetColumnInfo(property);
-                return column;
-            }).ToList();
+            Toolbar.Items = info.Page.GetToolItems();
+            Actions = info.Page.GetActionItems();
+            AllColumns = info.Page.GetColumns<TItem>(info.Form);
         }
 
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
@@ -157,22 +145,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar?.Items?.Clear();
         Actions?.Clear();
         Criteria?.Clear();
-    }
-
-    private static void SetColumn(ColumnInfo column, EntityInfo model, FormInfo form)
-    {
-        var item = form?.Fields?.FirstOrDefault(f => f.Id == column.Id);
-        if (item != null)
-        {
-            column.Type = item.Type;
-            column.Category = item.Category;
-        }
-        if (column.Type == FieldType.Text)
-        {
-            var field = model?.Fields?.FirstOrDefault(f => f.Id == column.Id);
-            if (field != null)
-                column.Type = field.Type;
-        }
     }
 
     private static List<ColumnInfo> GetAttributeColumns(Type type)

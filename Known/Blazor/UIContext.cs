@@ -113,19 +113,13 @@ public class UIContext : Context
                 return;
             }
         }
-        //缓存APP代码中添加的菜单
-        UIConfig.SetMenu(info);
         Navigation.NavigateTo(info.RouteUrl);
     }
 
     internal void SetCurrentMenu(RouteData route)
     {
-        Current = GetCurrentMenu(UIConfig.Menus, route);
-        if (Current == null)
-        {
-            var menus = IsMobileApp ? Config.AppMenus : UserMenus;
-            Current = GetCurrentMenu(menus, route);
-        }
+        var menus = IsMobileApp ? Config.AppMenus : UserMenus;
+        Current = GetCurrentMenu(menus, route);
     }
 
     private MenuInfo GetCurrentMenu(List<MenuInfo> menus, RouteData route)
