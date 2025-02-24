@@ -211,4 +211,30 @@ public static class UserExtension
         info.AvatarUrl = avatarUrl;
         return info;
     }
+
+    internal static void UpdateUserRoleName(this Database db)
+    {
+        Task.Run(async () =>
+        {
+            try
+            {
+                var users = await db.QueryListAsync<SysUser>();
+                foreach (var user in users)
+                {
+                    if (user.UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase))
+                        continue;
+
+                    var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
+                    var roleIds = userRoles?.Select(d => d.RoleId).ToArray();
+                    var roles = await db.QueryListByIdAsync<SysRole>(roleIds);
+                    user.Role = string.Join(",", roles?.Select(r => r.Name).ToArray());
+                    await db.SaveAsync(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        });
+    }
 }

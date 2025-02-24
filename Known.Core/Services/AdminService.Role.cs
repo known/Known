@@ -12,7 +12,8 @@ partial class AdminService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        var database = Database;
+        var result = await database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in infos)
             {
@@ -21,6 +22,9 @@ partial class AdminService
                 await db.DeleteAsync<SysRoleModule>(d => d.RoleId == item.Id);
             }
         });
+        if (result.IsValid)
+            database.UpdateUserRoleName();
+        return result;
     }
 
     public async Task<RoleInfo> GetRoleAsync(string roleId)
@@ -49,7 +53,7 @@ partial class AdminService
         if (!vr.IsValid)
             return vr;
 
-        return await database.TransactionAsync(Language.Save, async db =>
+        var result = await database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
             await db.DeleteAsync<SysRoleModule>(d => d.RoleId == model.Id);
@@ -62,5 +66,8 @@ partial class AdminService
             }
             info.Id = model.Id;
         }, info);
+        if (result.IsValid)
+            database.UpdateUserRoleName();
+        return result;
     }
 }

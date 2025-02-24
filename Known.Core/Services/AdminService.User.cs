@@ -32,10 +32,8 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         var roles = await database.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
         var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
         var roleIds = userRoles?.Select(r => r.RoleId).ToList();
-        //var datas = PlatformHelper.UserDatas?.Invoke(db);
         user.Roles = roles.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
         user.RoleIds = roleIds.ToArray();
-        //user.Datas = datas?.ToArray();
         await database.CloseAsync();
         return user;
     }
@@ -138,11 +136,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
 
     public async Task<Result> SaveUserAsync(UserInfo info)
     {
-        List<SysRole> roles = null;
         var database = Database;
-        if (info.RoleIds != null && info.RoleIds.Length > 0)
-            roles = await database.QueryListByIdAsync<SysRole>(info.RoleIds);
-
         var model = await database.QueryByIdAsync<SysUser>(info.Id);
         model ??= new SysUser();
         model.FillModel(info);
@@ -173,6 +167,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         {
             model.Role = string.Empty;
             await db.DeleteAsync<SysUserRole>(d => d.UserId == model.Id);
+            var roles = await db.QueryListByIdAsync<SysRole>(info.RoleIds);
             if (roles != null && roles.Count > 0)
             {
                 model.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
