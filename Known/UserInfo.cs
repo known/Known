@@ -191,6 +191,11 @@ public class UserInfo
     public string Department { get; set; }
 
     /// <summary>
+    /// 取得或设置默认密码。
+    /// </summary>
+    public string DefaultPassword { get; set; }
+
+    /// <summary>
     /// 取得或设置用户关联的角色ID集合。
     /// </summary>
     [Category("Roles")]

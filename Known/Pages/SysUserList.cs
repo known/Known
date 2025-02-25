@@ -191,13 +191,15 @@ class UserTabForm : BaseTabForm
 
 class UserForm : BaseForm<UserInfo>
 {
+    private string defaultPassword;
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
 
         SaveClose = UIConfig.UserFormTabs.Count == 0;
         ShowAction = UIConfig.UserFormTabs.Count > 0;
-        Model.Header = b => b.Alert(Language.GetString("Tip.UserDefaultPwd").Replace("{password}", Config.System?.UserDefaultPwd));
+        Model.Header = b => b.Alert(Language.GetString("Tip.UserDefaultPwd").Replace("{password}", defaultPassword));
         Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
@@ -209,6 +211,7 @@ class UserForm : BaseForm<UserInfo>
         if (firstRender)
         {
             var user = await Admin.GetUserDataAsync(Model.Data.Id);
+            defaultPassword = user.DefaultPassword;
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;
         }
