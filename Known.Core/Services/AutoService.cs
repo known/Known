@@ -77,6 +77,33 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         }, model);
     }
 
+    public Task<CodeConfigInfo> GetCodeConfigAsync()
+    {
+        var modulePath = Config.IsDebug ? Config.App.ContentRoot : "";
+        var info = new CodeConfigInfo
+        {
+            EntityPath = CoreOption.Instance.Code?.EntityPath ?? modulePath,
+            PagePath = CoreOption.Instance.Code?.PagePath ?? modulePath,
+            ServicePath = CoreOption.Instance.Code?.ServicePath ?? modulePath
+        };
+        return Task.FromResult(info);
+    }
+
+    public async Task<Result> SaveCodeAsync(AutoInfo<string> info)
+    {
+        if (!Config.IsDebug)
+            return Result.Error("非开发环境，不能保存代码！");
+
+        if (string.IsNullOrWhiteSpace(info.PageId))
+            return Result.Error("路径不能为空！");
+
+        if (File.Exists(info.PageId))
+            return Result.Error($"文件[{info.PageId}]已存在！");
+
+        await Utils.SaveFileAsync(info.PageId, info.Data);
+        return Result.Success("保存成功！");
+    }
+
     public async Task<Result> CreateTableAsync(AutoInfo<string> info)
     {
         try

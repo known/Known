@@ -25,6 +25,7 @@ public class AntSelect : Select<string, string>
             Item.Type = typeof(string);
             Placeholder = Item.Language.GetString("PleaseSelect");
         }
+        EnableVirtualization = true;
         EnableSearch = true;
         if (!string.IsNullOrWhiteSpace(Icon))
             PrefixIcon = b => b.Span().Style("padding:0 9px 0 7px;").Child(() => b.Icon(Icon));
@@ -61,6 +62,7 @@ public class AntSelectCode : Select<string, CodeInfo>
             DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
         ValueName = nameof(CodeInfo.Code);
         LabelName = nameof(CodeInfo.Name);
+        EnableVirtualization = true;
         EnableSearch = true;
         AllowClear = true;
         base.OnInitialized();

@@ -11,6 +11,7 @@ partial class CodeGenerator
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Services;", Config.App.Id);
         sb.AppendLine(" ");
+        sb.AppendLine("[WebApi, Service]");
         sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
         sb.AppendLine("{");
         sb.AppendLine("    public Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria)", entity.Id, pluralName);
@@ -21,14 +22,14 @@ partial class CodeGenerator
         if (HasDelete(page))
         {
             sb.AppendLine(" ");
-            sb.AppendLine("    public async Task<Result> Delete{0}Async(List<{1}> models)", pluralName, entity.Id);
+            sb.AppendLine("    public async Task<Result> Delete{0}Async(List<{1}> infos)", pluralName, entity.Id);
             sb.AppendLine("    {");
-            sb.AppendLine("        if (models == null || models.Count == 0)");
+            sb.AppendLine("        if (infos == null || infos.Count == 0)");
             sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
             sb.AppendLine(" ");
             sb.AppendLine("        return await Database.TransactionAsync(Language.Delete, async db =>");
             sb.AppendLine("        {");
-            sb.AppendLine("            foreach (var item in models)");
+            sb.AppendLine("            foreach (var item in infos)");
             sb.AppendLine("            {");
             sb.AppendLine("                await db.DeleteAsync(item);");
             sb.AppendLine("            }");
@@ -44,9 +45,9 @@ partial class CodeGenerator
                     continue;
 
                 sb.AppendLine(" ");
-                sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> models)", item, pluralName, entity.Id);
+                sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> infos)", item, pluralName, entity.Id);
                 sb.AppendLine("    {");
-                sb.AppendLine("        if (models == null || models.Count == 0)");
+                sb.AppendLine("        if (infos == null || infos.Count == 0)");
                 sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
                 sb.AppendLine(" ");
                 sb.AppendLine("        return await Database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
@@ -64,8 +65,9 @@ partial class CodeGenerator
                     continue;
 
                 sb.AppendLine(" ");
-                sb.AppendLine("    public async Task<Result> {0}{1}Async({2} model)", item, className, entity.Id);
+                sb.AppendLine("    public async Task<Result> {0}{1}Async({2} info)", item, className, entity.Id);
                 sb.AppendLine("    {");
+                sb.AppendLine("        throw new NotImplementedException();");
                 sb.AppendLine("    }");
             }
         }
@@ -73,16 +75,22 @@ partial class CodeGenerator
         if (HasSave(page))
         {
             sb.AppendLine(" ");
-            sb.AppendLine("    public async Task<Result> Save{0}Async({1} model)", className, entity.Id);
+            sb.AppendLine("    public async Task<Result> Save{0}Async({1} info)", className, entity.Id);
             sb.AppendLine("    {");
+            sb.AppendLine("        var database = Database;");
+            sb.AppendLine("        var model = await database.QueryByIdAsync<{0}>(info.Id);", entity.Id);
+            sb.AppendLine("        model ??= new {0}();", entity.Id);
+            sb.AppendLine("        model.FillModel(info);");
+            sb.AppendLine(" ");
             sb.AppendLine("        var vr = model.Validate(Context);");
             sb.AppendLine("        if (!vr.IsValid)");
             sb.AppendLine("            return vr;");
             sb.AppendLine(" ");
-            sb.AppendLine("        return await Database.TransactionAsync(Language.Save, async db =>", entity.Id);
+            sb.AppendLine("        return await database.TransactionAsync(Language.Save, async db =>", entity.Id);
             sb.AppendLine("        {");
             sb.AppendLine("            await db.SaveAsync(model);");
-            sb.AppendLine("        }, model);");
+            sb.AppendLine("            info.Id = model.Id;");
+            sb.AppendLine("        }, info);");
             sb.AppendLine("    }");
         }
 

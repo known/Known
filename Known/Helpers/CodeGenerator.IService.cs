@@ -16,7 +16,7 @@ partial class CodeGenerator
         sb.AppendLine("    Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria);", entity.Id, pluralName);
 
         if (HasDelete(page))
-            sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> models);", pluralName, entity.Id);
+            sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> infos);", pluralName, entity.Id);
 
         if (page.Tools != null && page.Tools.Count > 0)
         {
@@ -25,7 +25,7 @@ partial class CodeGenerator
                 if (item == "New" || item == "DeleteM" || item == "Import" || item == "Export")
                     continue;
 
-                sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> models);", item, pluralName, entity.Id);
+                sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> infos);", item, pluralName, entity.Id);
             }
         }
 
@@ -36,12 +36,12 @@ partial class CodeGenerator
                 if (item == "Edit" || item == "Delete")
                     continue;
 
-                sb.AppendLine("    Task<Result> {0}{1}Async({2} model);", item, className, entity.Id);
+                sb.AppendLine("    Task<Result> {0}{1}Async({2} info);", item, className, entity.Id);
             }
         }
 
         if (HasSave(page))
-            sb.AppendLine("    Task<Result> Save{0}Async({1} model);", className, entity.Id);
+            sb.AppendLine("    Task<Result> Save{0}Async({1} info);", className, entity.Id);
         sb.AppendLine("}");
         return sb.ToString();
     }
