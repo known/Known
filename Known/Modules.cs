@@ -275,6 +275,16 @@ public class PageColumnInfo
     /// 取得或设置栏位默认显示位置。
     /// </summary>
     public int? Position { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段长度。
+    /// </summary>
+    public string Length { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段是否必填。
+    /// </summary>
+    public bool Required { get; set; }
 }
 
 /// <summary>

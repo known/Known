@@ -148,11 +148,12 @@ public class BaseLayout : BaseComponent
     private async Task InitAdminAsync()
     {
         Info = await Admin.GetAdminAsync();
-        Context.UserSetting = Info?.UserSetting ?? new();
-        Context.UserTableSettings = Info?.UserTableSettings ?? [];
+        Config.DatabaseType = Info.DatabaseType;
+        Context.UserSetting = Info.UserSetting ?? new();
+        Context.UserTableSettings = Info.UserTableSettings ?? [];
         if (!Context.IsMobileApp)
-            SetUserMenus(Info?.UserMenus);
-        Cache.AttachCodes(Info?.Codes);
+            SetUserMenus(Info.UserMenus);
+        Cache.AttachCodes(Info.Codes);
     }
 
     private void SetUserMenus(List<MenuInfo> menus)

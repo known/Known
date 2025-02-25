@@ -69,6 +69,7 @@ partial class AdminService
         var info = new AdminInfo
         {
             AppName = await db.GetUserSystemNameAsync(),
+            DatabaseType = db.DatabaseType,
             UserMenus = await db.GetUserMenusAsync(),
             UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting),
             UserTableSettings = await db.GetUserTableSettingsAsync(),

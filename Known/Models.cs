@@ -32,6 +32,11 @@ public class AdminInfo
     public string AppName { get; set; }
 
     /// <summary>
+    /// 取得或设置当前系统数据库类型。
+    /// </summary>
+    public DatabaseType DatabaseType { get; set; }
+
+    /// <summary>
     /// 取得或设置用户设置信息。
     /// </summary>
     public UserSettingInfo UserSetting { get; set; }

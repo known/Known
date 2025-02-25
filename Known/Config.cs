@@ -58,6 +58,11 @@ public sealed class Config
     public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm";
 
     /// <summary>
+    /// 取得或设置当前系统数据库类型。
+    /// </summary>
+    public static DatabaseType DatabaseType { get; set; }
+
+    /// <summary>
     /// 取得或设置系统退出动作，适用于桌面程序。
     /// </summary>
     public static Action OnExit { get; set; }
