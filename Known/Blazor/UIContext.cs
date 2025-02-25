@@ -50,6 +50,8 @@ public class UIContext : Context
     internal NavigationManager Navigation { get; set; }
     internal ReuseTabsService TabsService { get; set; }
 
+    internal bool IsEditTable => UIConfig.IsEditTable && IsEditMode;
+
     /// <summary>
     /// 根据菜单ID获取菜单信息列表。
     /// </summary>

@@ -18,10 +18,10 @@ public class TablePageInfo
     /// <summary>
     /// 取得或设置无代码页面配置信息。
     /// </summary>
-    public PageInfo Page { get; set; }
+    public PageInfo Page { get; set; } = new();
 
     /// <summary>
     /// 取得或设置无代码表单配置信息。
     /// </summary>
-    public FormInfo Form { get; set; }
+    public FormInfo Form { get; set; } = new();
 }

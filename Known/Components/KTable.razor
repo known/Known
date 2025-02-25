@@ -4,35 +4,29 @@
     var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
     var scrollX = totalWidth.ToString();
 }
-<AntTable @ref="table" TItem="TItem" Context="Context" Model="Model"
-          ScrollX="@scrollX" ScrollY="@ScrollY" OnChange="OnChange" OnRow="OnRow"
-          @bind-SelectedRows="Model.SelectedRows">
-    @if (Model.SelectType != TableSelectType.None)
-    {
+<AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" OnChange="OnChange" OnRow="OnRow" @bind-SelectedRows="Model.SelectedRows">
+    @if (Context.IsEditTable) {
+        <Column TitleTemplate="ColumnTitle" TData="object" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />
+    }
+    @if (Model.SelectType != TableSelectType.None) {
         <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="ColumnFixPlacement.Left" />
     }
-    @if (Model.Columns != null && Model.Columns.Count > 0)
-    {
+    @if (Model.Columns != null && Model.Columns.Count > 0) {
         var isDictionary = Model.IsDictionary;
-        if (Model.ShowIndex)
-        {
+        if (Model.ShowIndex) {
             var titleIndex = Language?.GetString("Index");
             var columnId = Model.Columns[0].Id;
-            if (isDictionary)
-            {
+            if (isDictionary) {
                 @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
                 </DictionaryColumn>*@
-            }
-            else
-            {
+            } else {
                 <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                     <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
                 </Column>
             }
         }
-        foreach (var item in Model.Columns)
-        {
+        foreach (var item in Model.Columns) {
             if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
                 continue;
 
@@ -40,152 +34,142 @@
             var width = item.Width > 0 ? item.Width.ToString() : "";
             RenderFragment<TItem> template = null;
             Model.Templates?.TryGetValue(item.Id, out template);
-            if (isDictionary)
-            {
+            if (isDictionary) {
                 var data = context as Dictionary<string, object>;
                 var value = data?.GetValue(item.Id);
-                <DictionaryColumn Title="@title" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                  Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                  Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                  Align="@item.ToColumnAlign()">
-                    @if (template != null)
-                    {
+                <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
+                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                Align="@item.ToColumnAlign()">
+                    @if (template != null) {
                         @template(context)
-                    }
-                    else if (item.Type == FieldType.Switch)
-                    {
-                        var isChecked = Utils.ConvertTo<bool>(value);
-                        <Switch Disabled Value="isChecked" />
-                    }
-                    else
-                    {
-                        var text = GetColumnText(item, value);
-                        if (item.IsViewLink)
-                        {
-                            <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@text</span>
-                        }
-                        else
-                        {
-                            <span>@text</span>
-                        }
+                    } else {
+                        @RenderCell(context, item, value)
                     }
                 </DictionaryColumn>
-            }
-            else
-            {
+            } else {
                 if (!typeof(TItem).HasProperty(item.Id))
                     continue;
 
                 var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <Column Title="@title" DataIndex="@item.Id" TData="object" Width="@width"
-                        Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                        Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                        Align="@item.ToColumnAlign()">
-                    <TitleTemplate>
-                        @if (!string.IsNullOrWhiteSpace(item.Tooltip))
-                        {
-                            <Tooltip Title="@item.Tooltip">@title</Tooltip>
-                        }
-                        else
-                        {
-                            @title
-                        }
-                    </TitleTemplate>
-                    <ChildContent>
-                        @if (template != null)
-                        {
-                            @template(context)
-                        }
-                        else if (item.Type == FieldType.Switch)
-                        {
-                            var isChecked = Utils.ConvertTo<bool>(value);
-                            <Switch Disabled Value="isChecked" />
-                        }
-                        else
-                        {
-                            var text = GetColumnText(item, value);
-                            if (item.IsViewLink)
-                            {
-                                <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@text</span>
-                            }
-                            else
-                            {
-                                <span>@text</span>
-                            }
-                        }
-                    </ChildContent>
+                <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
+                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                Align="@item.ToColumnAlign()">
+                    @if (template != null) {
+                        @template(context)
+                    } else {
+                        @RenderCell(context, item, value)
+                    }
                 </Column>
             }
         }
     }
-    @if (Model.HasAction)
-    {
-        var actions = Model.RowActions?.Invoke(context);
-        if (actions == null)
-            actions = Model.Actions;
-        Model.UpdateRowActions?.Invoke(context, actions);
-        actions = actions?.Where(a => a.Visible).ToList();
-        actions?.ForEach(d => d.Name = Language.GetString(d));
-        <ActionColumn Title="@Language["Title.Action"]" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-            @if (actions.Count > Model.ActionCount)
-            {
-                var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
-                var mores = actions.Skip(Model.ActionCount - 1).ToList();
-                foreach (var item in takes)
-                {
-                    <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
-                }
-                var model = new DropdownModel
-                {
-                    Text = Language["Button.More"],
-                    Items = mores,
-                    OnItemClick = e =>
-                    {
-                        Model.OnAction?.Invoke(e, context);
-                        return Task.CompletedTask;
-                    }
-                };
-                <AntDropdown Context="Context" Model="model" />
-            }
-            else
-            {
-                foreach (var item in actions)
-                {
-                    <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
-                }
-            }
+    @if (Model.HasAction) {
+        <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+            @RenderAction(context)
         </ActionColumn>
+    } else if (Context.IsEditTable) {
+        <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right" />
     }
-    @if (Model.HasSum)
-    {
-        <SummaryRow>
-            @if (Model.SelectType != TableSelectType.None)
-            {
-                <SummaryCell Class="kui-table-check" Align="ColumnAlign.Center">@Language["IsSum"]</SummaryCell>
-            }
-            @if (Model.Columns != null && Model.Columns.Count > 0)
-            {
-                foreach (var item in Model.Columns)
-                {
-                    if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
-                        continue;
-
-                    if (item.IsSum)
-                    {
-                        object value = null;
-                        Model.Result?.Statis?.TryGetValue(item.Id, out value);
-                        <SummaryCell>@value</SummaryCell>
-                    }
-                    else
-                    {
-                        <SummaryCell />
-                    }
-                }
-            }
-            @if (Model.HasAction)
-            {
-                <SummaryCell />
-            }
-        </SummaryRow>
+    @if (Model.HasSum) {
+        @RenderSummary()
     }
 </AntTable>
+
+@code {
+    RenderFragment ActionTitle => @<span>
+        <span>@Language["Title.Action"]</span>
+        @if (Context.IsEditTable) {
+            <Tooltip Title="添加操作按钮" Class="kui-edit" Style="margin-left:10px;display:inline-block;">
+                <KIcon Icon="plus" OnClick="this.Callback<MouseEventArgs>(e => OnAddAction())" />
+            </Tooltip>
+        }
+    </span>;
+
+    RenderFragment ColumnTitle => @<Tooltip Title="添加表格列" Class="kui-edit">
+        <KIcon Icon="plus" OnClick="this.Callback<MouseEventArgs>(e => OnAddColumn())" />
+    </Tooltip>;
+
+    RenderFragment DataTitle(ColumnInfo item, string title) => @<span>
+        @if (!string.IsNullOrWhiteSpace(item.Tooltip)) {
+            <Tooltip Title="@item.Tooltip">@title</Tooltip>
+        } else {
+            @title
+        }
+        @if (Context.IsEditTable) {
+            <KIcon Icon="menu" OnClick="this.Callback<MouseEventArgs>(e => OnAddColumn())" />
+        }
+    </span>;
+
+    RenderFragment RenderCell(TItem context, ColumnInfo item, object value) => @<span>
+        @if (item.Type == FieldType.Switch) {
+            var isChecked = Utils.ConvertTo<bool>(value);
+            <Switch Disabled Value="isChecked" />
+        } else {
+            var text = GetColumnText(item, value);
+            if (item.IsViewLink) {
+                <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@text</span>
+            } else {
+                <span>@text</span>
+            }
+        }
+    </span>;
+
+    RenderFragment RenderAction(TItem context) => @<span>
+        @{
+            var actions = Model.RowActions?.Invoke(context);
+            if (actions == null)
+                actions = Model.Actions;
+            Model.UpdateRowActions?.Invoke(context, actions);
+            actions = actions?.Where(a => a.Visible).ToList();
+            actions?.ForEach(d => d.Name = Language.GetString(d));
+        }
+        @if (actions.Count > Model.ActionCount) {
+            var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
+            var mores = actions.Skip(Model.ActionCount - 1).ToList();
+            foreach (var item in takes) {
+                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+            }
+            var model = new DropdownModel {
+                Text = Language["Button.More"],
+                Items = mores,
+                OnItemClick = e => {
+                    Model.OnAction?.Invoke(e, context);
+                    return Task.CompletedTask;
+                }
+            };
+            <AntDropdown Context="Context" Model="model" />
+        } else {
+            foreach (var item in actions) {
+                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+            }
+        }
+    </span>;
+
+    RenderFragment RenderSummary() => @<SummaryRow>
+        @if (Context.IsEditTable) {
+            <SummaryCell />
+        }
+        @if (Model.SelectType != TableSelectType.None) {
+            <SummaryCell Class="kui-table-check" Align="ColumnAlign.Center">@Language["IsSum"]</SummaryCell>
+        }
+        @if (Model.Columns != null && Model.Columns.Count > 0) {
+            foreach (var item in Model.Columns) {
+                if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
+                    continue;
+
+                if (item.IsSum) {
+                    object value = null;
+                    Model.Result?.Statis?.TryGetValue(item.Id, out value);
+                    <SummaryCell>@value</SummaryCell>
+                } else {
+                    <SummaryCell />
+                }
+            }
+        }
+        @if (Model.HasAction) {
+            <SummaryCell />
+        }
+    </SummaryRow>;
+}

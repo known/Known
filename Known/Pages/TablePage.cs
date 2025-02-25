@@ -3,8 +3,37 @@
 /// <summary>
 /// 页面表格组件类。
 /// </summary>
+public class BaseTablePage : BaseComponent
+{
+    /// <summary>
+    /// 取得当前页面菜单信息。
+    /// </summary>
+    public MenuInfo Menu { get; private set; }
+
+    /// <summary>
+    /// 异步保存表格模型配置信息。
+    /// </summary>
+    /// <param name="info">表格模型配置信息。</param>
+    /// <returns></returns>
+    public virtual Task<Result> SaveSettingAsync(TablePageInfo info)
+    {
+        Menu.Plugins.AddPlugin(info);
+        return Platform.SaveMenuAsync(Menu);
+    }
+
+    /// <inheritdoc />
+    protected override Task OnInitAsync()
+    {
+        Menu = Context.Current;
+        return base.OnInitAsync();
+    }
+}
+
+/// <summary>
+/// 泛型页面表格组件类。
+/// </summary>
 /// <typeparam name="TItem">数据类型。</typeparam>
-public class TablePage<TItem> : BaseComponent where TItem : class, new()
+public class TablePage<TItem> : BaseTablePage where TItem : class, new()
 {
     private ReloadContainer container = null;
 
@@ -14,6 +43,15 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     /// <inheritdoc />
+    public override async Task<Result> SaveSettingAsync(TablePageInfo info)
+    {
+        var result = await base.SaveSettingAsync(info);
+        Model.Initialize(info);
+        container?.ReloadPage();
+        return result;
+    }
+
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)
@@ -21,16 +59,15 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
 
         if (UIConfig.EnableEdit && Model.EnableEdit)
         {
-            var model = new DropdownModel
-            {
-                Icon = "menu",
-                TriggerType = "Click",
-                Overlay = BuildOverlay
-            };
+            var actions = UIConfig.TablePageActions?.Invoke(this);
+            DropdownModel model = null;
+            if (actions == null || actions.Count == 0)
+                model = new DropdownModel { Icon = "menu", TriggerType = "Click", Overlay = BuildOverlay };
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
                    .Set(c => c.Name, "低代码表格")
                    .Set(c => c.Dropdown, model)
+                   .Set(c => c.Actions, actions)
                    .Set(c => c.ChildContent, BuildContent)
                    .Build();
         }
@@ -42,19 +79,15 @@ public class TablePage<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildOverlay(RenderTreeBuilder builder)
     {
-        var menu = Context.Current;
-        var data = menu.TablePage.Page ?? new PageInfo();
+        var data = Menu.TablePage.Page ?? new PageInfo();
         var form = new FormModel<PageInfo>(this)
         {
             SmallLabel = true,
             Data = data,
             OnFieldChanged = async v =>
             {
-                menu.TablePage.Page = data;
-                menu.Plugins.AddPlugin(menu.TablePage);
-                await Platform.SaveMenuAsync(menu);
-                Model.Initialize(menu.TablePage);
-                container?.ReloadPage();
+                Menu.TablePage.Page = data;
+                await SaveSettingAsync(Menu.TablePage);
             }
         };
         form.AddRow().AddColumn(c => c.ShowPager);

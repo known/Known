@@ -15,18 +15,18 @@
 
     <AntForm Form="model">
         <AntRow>
-            <DataItem Span="12" Label="附件">
+            <DataItem Span="8" Label="附件">
                 <KUpload MultiFile Accept=".jpg, .png, .doc" />
             </DataItem>
-            <DataItem Span="12" Label="用户">
+            <DataItem Span="8" Label="用户">
                 <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
             </DataItem>
         </AntRow>
         <AntRow>
-            <DataItem Span="12" Label="测试">
+            <DataItem Span="8" Label="测试">
                 <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
             </DataItem>
-            <DataItem Span="12" Label="测试">
+            <DataItem Span="8" Label="测试">
                 <AntSelectCode @bind-Value="context.Field" Category="Item1,Item2,Item3" />
             </DataItem>
         </AntRow>

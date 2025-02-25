@@ -1,4 +1,5 @@
 /*AntDesign*/
+.ant-layout-header {background:var(--kui-bgcolor);}
 .ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:2px;}
@@ -29,6 +30,7 @@
 .ant-modal-body .kui-small {padding:10px 10px 0 0;}
 .ant-modal-body .kui-form {padding:10px 10px 0 0;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
+.ant-modal-body .nopadding {padding:0;}
 
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 

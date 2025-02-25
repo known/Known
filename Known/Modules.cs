@@ -285,7 +285,7 @@ public class FormInfo
     /// <summary>
     /// 取得或设置表单对话框显示宽度。
     /// </summary>
-    public double? Width { get; set; }
+    public int? Width { get; set; }
 
     /// <summary>
     /// 取得或设置表单对话框是否显示最大化按钮。

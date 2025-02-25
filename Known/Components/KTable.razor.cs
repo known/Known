@@ -156,4 +156,14 @@ partial class KTable<TItem> : BaseComponent
     {
         return style == "danger" ? "red-inverse" : "blue-inverse";
     }
+
+    private void OnAddColumn()
+    {
+        UI.Alert("AddColumn");
+    }
+
+    private void OnAddAction()
+    {
+        UI.Alert("AddAction");
+    }
 }

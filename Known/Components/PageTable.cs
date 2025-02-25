@@ -37,7 +37,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
         {
             if (Model.Tab.HasItem)
             {
-                Model.Tab.Left = b => b.FormTitle(Model.Name);
+                Model.Tab.Left = BuildTitle;
                 Model.Tab.Right = BuildRight;
                 builder.Tabs(Model.Tab);
             }
@@ -47,7 +47,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
                 {
                     builder.Div("left", () =>
                     {
-                        builder.FormTitle(Model.Name);
+                        BuildTitle(builder);
                         if (Model.TopStatis != null)
                             builder.Component<ToolbarSlot<TItem>>().Set(c => c.Table, Model).Build();
                         if (Model.ShowSetting && Context.IsMobile)
@@ -58,6 +58,20 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
             }
             builder.Table(Model);
         });
+    }
+
+    private void BuildTitle(RenderTreeBuilder builder)
+    {
+        builder.FormTitle(Model.Name);
+        if (Context.IsEditTable)
+        {
+            builder.Div().Class("kui-edit").Style("margin-left:10px;")
+                   .Child(() => builder.IconName("plus", "配置", this.Callback<MouseEventArgs>(e => OnConfig())));
+        }
+    }
+
+    private void OnConfig()
+    {
     }
 
     private void BuildRight(RenderTreeBuilder builder)

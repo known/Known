@@ -107,11 +107,11 @@ class FormView : BaseView<FormInfo>
                     return OnPropertyChangedAsync();
                 })
             }));
-            BuildPropertyItem(builder, "Width", b => b.Number(new InputModel<double?>
+            BuildPropertyItem(builder, "Width", b => b.Number(new InputModel<int?>
             {
                 Disabled = ReadOnly,
                 Value = Model.Width,
-                ValueChanged = this.Callback<double?>(value =>
+                ValueChanged = this.Callback<int?>(value =>
                 {
                     Model.Width = value;
                     return OnPropertyChangedAsync();

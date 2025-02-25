@@ -1,5 +1,11 @@
 ﻿@inherits BaseComponent
 
+@if (Context.IsEditTable)
+{
+    <div class="kui-edit" style="margin-right:10px;" @onclick="OnAddTool">
+        <KIcon Icon="plus" Title="添加工具条按钮" />
+    </div>
+}
 @if (Model != null && Model.HasItem)
 {
     var items = Model.Items.Where(i => i.Visible).ToList();
@@ -59,6 +65,11 @@
 
         Model.OnRefresh = StateChanged;
         base.OnInitialized();
+    }
+
+    private void OnAddTool()
+    {
+        UI.Alert("AddTool");
     }
 
     private static ButtonType GetButtonType(string style)
