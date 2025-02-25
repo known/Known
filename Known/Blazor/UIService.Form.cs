@@ -50,10 +50,10 @@ public partial class UIService
         option.Content = content;
         //option.Content = b => b.Component<KModalBody>().Set(c => c.Content, content).Build();
 
-        if (isTabForm)
-            option.WrapClassName = "kui-tab-form";
-        else if (isStepForm)
-            option.WrapClassName = "kui-step-form";
+        option.WrapClassName = CssBuilder.Default(model.WrapClass)
+                                         .AddClass("kui-tab-form", isTabForm)
+                                         .AddClass("kui-step-form", isStepForm)
+                                         .BuildClass();
         if (model.Info != null)
         {
             option.Maximizable = model.Info.Maximizable;

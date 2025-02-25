@@ -43,6 +43,11 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置表单对话框CSS类名。
+    /// </summary>
+    public string WrapClass { get; set; }
+
+    /// <summary>
     /// 取得或设置表单CSS类名。
     /// </summary>
     public string Class { get; set; }

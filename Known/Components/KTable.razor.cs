@@ -159,11 +159,11 @@ partial class KTable<TItem> : BaseComponent
 
     private void OnAddColumn()
     {
-        UI.Alert("AddColumn");
+        UIConfig.OnEditTable?.Invoke();
     }
 
     private void OnAddAction()
     {
-        UI.Alert("AddAction");
+        UIConfig.OnEditTable?.Invoke();
     }
 }

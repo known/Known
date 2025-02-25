@@ -97,9 +97,6 @@
         } else {
             @title
         }
-        @if (Context.IsEditTable) {
-            <KIcon Icon="menu" OnClick="this.Callback<MouseEventArgs>(e => OnAddColumn())" />
-        }
     </span>;
 
     RenderFragment RenderCell(TItem context, ColumnInfo item, object value) => @<span>

@@ -72,12 +72,12 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
 
     private void OnConfig()
     {
+        UIConfig.OnEditTable?.Invoke();
     }
 
     private void BuildRight(RenderTreeBuilder builder)
     {
-        if (Model.Toolbar.HasItem)
-            builder.Toolbar(Model.Toolbar);
+        builder.Toolbar(Model.Toolbar);
         if (Model.ShowSetting && !Context.IsMobile)
             builder.Component<TableSetting<TItem>>().Set(c => c.Table, Model).Build();
     }

@@ -69,7 +69,7 @@
 
     private void OnAddTool()
     {
-        UI.Alert("AddTool");
+        UIConfig.OnEditTable?.Invoke();
     }
 
     private static ButtonType GetButtonType(string style)

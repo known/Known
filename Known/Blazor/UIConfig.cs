@@ -13,11 +13,6 @@ public class UIConfig
     public static bool EnableEdit { get; set; }
 
     /// <summary>
-    /// 取得或设置是否启用表格可视化编辑。
-    /// </summary>
-    public static bool IsEditTable { get; set; }
-
-    /// <summary>
     /// 取得或设置【关于系统】模块显示的版权信息。
     /// </summary>
     public static string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} {Constants.CompName}。保留所有权利。";
@@ -116,6 +111,11 @@ public class UIConfig
     /// 取得或设置页面标签颜色委托。
     /// </summary>
     public static Func<string, string> TagColor { get; set; }
+
+    /// <summary>
+    /// 取得或设置编辑表格委托。
+    /// </summary>
+    public static Action OnEditTable { get; set; }
 }
 
 /// <summary>

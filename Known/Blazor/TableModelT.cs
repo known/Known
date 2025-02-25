@@ -18,7 +18,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         Page = page;
-        Name = page?.Name;
         IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
         OnAction = page.OnActionClick;
         Toolbar.OnItemClick = page.OnToolClick;
@@ -41,6 +40,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 取得表格关联的页面组件。
     /// </summary>
     public BaseComponent Page { get; }
+
+    /// <summary>
+    /// 取得或设置表格关联的页面。
+    /// </summary>
+    public BaseTablePage TablePage { get; set; }
 
     /// <summary>
     /// 取得表格数据是否是字典类型。

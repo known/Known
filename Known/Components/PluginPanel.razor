@@ -11,7 +11,7 @@
                     <KIcon Icon="drag" />
                 </span>
             }
-            <AntDropdown Model="Dropdown" />
+            <AntDropdown Model="model" />
         </div>
         @ChildContent
     </div>
@@ -23,6 +23,7 @@ else
 
 @code {
     private string ClassName => CssBuilder.Default("kui-plugin").AddClass(Class).BuildClass();
+    private DropdownModel model;
 
     /// <summary>
     /// 取得或设置插件样式类。
@@ -58,7 +59,7 @@ else
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Dropdown ??= new DropdownModel
+        model = Dropdown ?? new DropdownModel
         {
             Icon = "menu",
             Items = Actions,
