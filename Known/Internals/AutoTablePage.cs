@@ -87,11 +87,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 
     private Task<Result> DeleteModelsAsync(List<Dictionary<string, object>> models)
     {
-        var info = new AutoInfo<List<Dictionary<string, object>>>
-        {
-            PageId = PageId,
-            Data = models
-        };
+        var info = new AutoInfo<List<Dictionary<string, object>>> { PageId = PageId, Data = models };
         return Service.DeleteModelsAsync(info);
     }
 

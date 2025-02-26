@@ -76,25 +76,23 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="info">表格配置模型信息。</param>
     public void Initialize(TablePageInfo info)
     {
-        if (info != null && info.Page != null)
-        {
-            //FixedWidth = info.Page.FixedWidth;
-            //FixedHeight = info.Page.FixedHeight;
-            ShowPager = info.Page.ShowPager;
-            ShowSetting = info.Page.ShowSetting;
+        //FixedWidth = info.Page.FixedWidth;
+        //FixedHeight = info.Page.FixedHeight;
+        Name = info?.Page?.Name;
+        AdvSearch = info?.Page?.ShowAdvSearch == true;
+        ShowPager = info?.Page?.ShowPager == true;
+        ShowSetting = info?.Page?.ShowSetting == true;
 
-            if (info.Page.PageSize != null)
-                Criteria.PageSize = info.Page.PageSize.Value;
-            if (info.Page.ToolSize != null)
-                Toolbar.ShowCount = info.Page.ToolSize.Value;
-            if (info.Page.ActionSize != null)
-                ActionCount = info.Page.ActionSize.Value;
+        if (info?.Page?.PageSize != null)
+            Criteria.PageSize = info.Page.PageSize.Value;
+        if (info?.Page?.ToolSize != null)
+            Toolbar.ShowCount = info.Page.ToolSize.Value;
+        if (info?.Page?.ActionSize != null)
+            ActionCount = info.Page.ActionSize.Value;
 
-            Toolbar.Items = info.Page.GetToolItems();
-            Actions = info.Page.GetActionItems();
-            AllColumns = info.Page.GetColumns<TItem>(info.Form);
-        }
-
+        Toolbar.Items = info?.Page?.GetToolItems();
+        Actions = info?.Page?.GetActionItems();
+        AllColumns = info?.Page?.GetColumns<TItem>(info.Form);
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
 
         Columns.Clear();
@@ -116,9 +114,10 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             var menu = Context?.Current;
             if (menu != null)
             {
-                Name = Language.GetString(menu);
                 var info = menu.GetTablePageParameter();
                 Initialize(info);
+                if (string.IsNullOrWhiteSpace(Name))
+                    Name = Language.GetString(menu);
                 Columns = GetUserColumns();
             }
         }

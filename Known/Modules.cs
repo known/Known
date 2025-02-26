@@ -142,9 +142,19 @@ public class FieldInfo
 public class PageInfo
 {
     /// <summary>
+    /// 取得或设置表格名称。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
     /// 取得或设置页面类型（暂未使用）。
     /// </summary>
     public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格页面是否显示高级搜索，默认显示。
+    /// </summary>
+    public bool ShowAdvSearch { get; set; } = true;
 
     /// <summary>
     /// 取得或设置表格页面是否显示分页。
@@ -153,7 +163,7 @@ public class PageInfo
     public bool ShowPager { get; set; }
 
     /// <summary>
-    /// 取得或设置表格页面是否显示列设置，默认是。
+    /// 取得或设置表格页面是否显示列设置，默认显示。
     /// </summary>
     [DisplayName("列设置")]
     public bool ShowSetting { get; set; } = true;
