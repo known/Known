@@ -89,6 +89,15 @@ public static class TypeExtension
         return info?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
     }
 
+    internal static string GetFieldLength(this PropertyInfo info)
+    {
+        var type = info.GetFieldType();
+        if (type == FieldType.Switch) return "50";
+        if (type == FieldType.Number) return "18,2";
+
+        return info.MaxLength()?.ToString();
+    }
+
     internal static int? GetColumnWidth(this PropertyInfo info)
     {
         var type = info.GetFieldType();

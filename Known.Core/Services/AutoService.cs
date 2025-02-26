@@ -108,10 +108,13 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     public async Task<Result> CreateTableAsync(AutoInfo<string> info)
     {
+        var tableName = info.PageId;
+        if (string.IsNullOrWhiteSpace(tableName))
+            return Result.Error("实体表名不能为空！");
+
         try
         {
             var database = Database;
-            var tableName = info.PageId;
             var script = info.Data;
             try
             {

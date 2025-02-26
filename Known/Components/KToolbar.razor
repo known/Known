@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-@if (Context.IsEditMode)
+@if (Context.IsEditTable && Model?.Table?.EnableEdit == true)
 {
     <div class="kui-edit" style="margin-right:10px;" @onclick="OnEditTool">
         <KIcon Icon="edit" Title="编辑工具条按钮" />

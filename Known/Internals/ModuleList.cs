@@ -40,6 +40,7 @@ class ModuleList : BasePage<ModuleInfo>
             FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 800, Maximizable = true, ShowFooter = true },
             RowKey = r => r.Id,
+            EnableEdit = false,
             ShowPager = false,
             SelectType = TableSelectType.Checkbox,
             OnQuery = OnQueryModulesAsync

@@ -57,11 +57,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置是否启用在线编辑，默认启用。
-    /// </summary>
-    public bool EnableEdit { get; set; } = true;
-
-    /// <summary>
     /// 取得表格标签配置对象。
     /// </summary>
     public TabModel Tab { get; } = new TabModel { IsFillHeight = true };

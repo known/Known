@@ -196,6 +196,11 @@ public class StepModel
 public class ToolbarModel
 {
     /// <summary>
+    /// 取得关联的表格模型。
+    /// </summary>
+    public TableModel Table { get; internal set; }
+
+    /// <summary>
     /// 取得或设置工具条最大显示按钮数量，默认4个。
     /// </summary>
     public int ShowCount { get; set; } = 4;

@@ -3,10 +3,18 @@
 /// <summary>
 /// 表格组件模型信息类。
 /// </summary>
-/// <param name="page">表格关联的页面组件。</param>
-public class TableModel(BaseComponent page) : BaseModel(page)
+public class TableModel : BaseModel
 {
     private object defaultQuery;
+
+    /// <summary>
+    /// 构造函数，创建一个表格组件模型实例。
+    /// </summary>
+    /// <param name="page">表格关联的页面组件。</param>
+    public TableModel(BaseComponent page) : base(page)
+    {
+        Toolbar = new ToolbarModel { Table = this };
+    }
 
     /// <summary>
     /// 取得或设置表格名称。
@@ -22,6 +30,11 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     /// 取得或设置表格是否显示高级搜索。
     /// </summary>
     public bool AdvSearch { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否启用在线编辑，默认启用。
+    /// </summary>
+    public bool EnableEdit { get; set; } = true;
 
     /// <summary>
     /// 取得或设置表格默认查询条件匿名对象，对象属性名应与查询实体对应。
@@ -64,7 +77,7 @@ public class TableModel(BaseComponent page) : BaseModel(page)
     /// <summary>
     /// 取得表格工具条配置模型对象。
     /// </summary>
-    public ToolbarModel Toolbar { get; } = new();
+    public ToolbarModel Toolbar { get; }
 
     /// <summary>
     /// 取得表格是否有工具条按钮。

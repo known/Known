@@ -106,6 +106,8 @@ class AppDefaultData
         {
             Id = item.Name,
             Name = item.DisplayName(),
+            Length = item.GetFieldLength(),
+            Required = item.IsRequired(),
             Category = item.Category(),
             Width = item.GetColumnWidth(),
             IsSum = column.IsSum,
@@ -114,7 +116,7 @@ class AppDefaultData
             IsViewLink = column.IsViewLink,
             IsQuery = column.IsQuery,
             IsQueryAll = column.IsQueryAll,
-            Type = column.Type,
+            Type = item.GetFieldType(),
             Fixed = column.Fixed,
             Align = column.Align
         });
@@ -127,10 +129,11 @@ class AppDefaultData
             Id = item.Name,
             Name = item.DisplayName(),
             Category = item.Category(),
+            Length = item.GetFieldLength(),
             Required = item.IsRequired(),
             Row = form.Row,
             Column = form.Column,
-            Type = Utils.ConvertTo<FieldType>(form.Type),
+            Type = item.GetFieldType(),
             CustomField = form.CustomField,
             ReadOnly = form.ReadOnly,
             Placeholder = form.Placeholder

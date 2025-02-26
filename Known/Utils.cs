@@ -348,12 +348,10 @@ public sealed class Utils
         catch (Exception ex)
         {
             Console.WriteLine("========================================================");
-            Console.WriteLine(typeof(T).FullName);
+            Console.WriteLine($"TYPE：{typeof(T).FullName}");
+            Console.WriteLine($"JSON：{json}");
             Console.WriteLine("--------------------------------------------------------");
-            Console.WriteLine(json);
-            Console.WriteLine("--------------------------------------------------------");
-            Console.WriteLine(ex.ToString());
-            return default;
+            throw new Exception(ex.Message, ex);
         }
     }
 

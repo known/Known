@@ -10,6 +10,13 @@ public partial interface IPlatformService
     Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria);
 
     /// <summary>
+    /// 异步获取指定位置的按钮信息列表。
+    /// </summary>
+    /// <param name="position">按钮位置。</param>
+    /// <returns>按钮信息列表。</returns>
+    Task<List<ButtonInfo>> GetButtonsAsync(string position);
+
+    /// <summary>
     /// 异步删除按钮信息列表。
     /// </summary>
     /// <param name="infos">按钮信息列表。</param>
@@ -38,6 +45,15 @@ partial class PlatformService
         }
         var result = datas.ToPagingResult(criteria);
         return Task.FromResult(result);
+    }
+
+    public Task<List<ButtonInfo>> GetButtonsAsync(string position)
+    {
+        var datas = AppData.Data.Buttons ?? [];
+        if (datas.Count == 0)
+            datas.AddRange(Config.Actions.Select(CreateButton));
+        var infos = datas.Where(b => b.Position?.Contains(position) == true).ToList();
+        return Task.FromResult(infos);
     }
 
     public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)
@@ -90,6 +106,11 @@ partial class PlatformClient
     public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {
         return Http.QueryAsync<ButtonInfo>("/Platform/QueryButtons", criteria);
+    }
+
+    public Task<List<ButtonInfo>> GetButtonsAsync(string position)
+    {
+        return Http.GetAsync<List<ButtonInfo>>($"/Platform/GetButtons?position={position}");
     }
 
     public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)

@@ -1,7 +1,10 @@
 ﻿<div class="ant-form-item ant-form-item-row ant-row @Class" style="@Style">
-    <div class="ant-form-item-label">
-        <label class="@LabelClass">@Label</label>
-    </div>
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <div class="ant-form-item-label">
+            <label class="@LabelClass">@Label</label>
+        </div>
+    }
     <div class="ant-form-item-control">
         @ChildContent
     </div>

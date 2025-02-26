@@ -24,6 +24,7 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
 
         await base.OnInitPageAsync();
 
+        Table.EnableEdit = false;
         Table.ShowPager = true;
         Table.OnQuery = OnQueryApisAsync;
         Table.AddColumn(c => c.HttpMethod).Width(90).Template(BuildMethod);
