@@ -4,7 +4,7 @@
 /// 泛型弹窗选择器组件基类。
 /// </summary>
 /// <typeparam name="TItem">选择对象类型。</typeparam>
-public class BasePicker<TItem> : BaseComponent where TItem : class, new()
+public class BasePicker<TItem> : BaseComponent
 {
     /// <summary>
     /// 构造函数，创建一个弹窗选择器组件实例。
@@ -75,15 +75,18 @@ public class BasePicker<TItem> : BaseComponent where TItem : class, new()
             return;
         }
 
-        BuildTextBox(builder);
-        builder.TextBox(new InputModel<string> { Value = Text ?? Value?.ToString(), Disabled = true });
-
-        if (!ReadOnly)
+        builder.Div("kui-picker", () =>
         {
-            if (AllowClear)
-                builder.Icon("fa fa-close kui-pick-clear", this.Callback<MouseEventArgs>(OnClear));
-            builder.Icon("fa fa-ellipsis-h kui-pick", this.Callback<MouseEventArgs>(ShowModal));
-        }
+            BuildTextBox(builder);
+            builder.TextBox(new InputModel<string> { Value = Text ?? Value?.ToString(), Disabled = true });
+
+            if (!ReadOnly)
+            {
+                if (AllowClear)
+                    builder.Icon("fa fa-close kui-pick-clear", this.Callback<MouseEventArgs>(OnClear));
+                builder.Icon("fa fa-ellipsis-h kui-pick", this.Callback<MouseEventArgs>(ShowModal));
+            }
+        });
     }
 
     /// <summary>

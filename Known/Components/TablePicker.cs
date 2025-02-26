@@ -39,6 +39,7 @@ public class TablePicker<TItem> : BasePicker<TItem> where TItem : class, new()
         Table = new TableModel<TItem>(this)
         {
             AdvSearch = false,
+            AutoHeight = false,
             ShowPager = true,
             SelectType = SelectType
         };

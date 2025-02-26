@@ -90,9 +90,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         if (info?.Page?.ActionSize != null)
             ActionCount = info.Page.ActionSize.Value;
 
-        Toolbar.Items = info?.Page?.GetToolItems();
-        Actions = info?.Page?.GetActionItems();
-        AllColumns = info?.Page?.GetColumns<TItem>(info.Form);
+        Toolbar.Items = info?.Page?.GetToolItems() ?? [];
+        Actions = info?.Page?.GetActionItems() ?? [];
+        AllColumns = info?.Page?.GetColumns<TItem>(info.Form) ?? [];
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
 
         Columns.Clear();

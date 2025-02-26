@@ -1,19 +1,16 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Components;
 
-class IconInfo
-{
-    public string Icon { get; set; }
-
-    public override string ToString() => Icon;
-}
-
-class IconPicker : BasePicker<IconInfo>, ICustomField
+/// <summary>
+/// 图标选择器组件类。
+/// </summary>
+public class IconPicker : BasePicker<string>, ICustomField
 {
     private const string KeyCustom = "Custom";
     private readonly TabModel tab = new();
-    private Dictionary<string, List<IconInfo>> icons = [];
+    private Dictionary<string, List<string>> icons = [];
     private string searchKey;
 
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -24,9 +21,10 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
             tab.AddTab(item.Key, b => BuildContent(b, item.Key));
         }
         tab.AddTab(KeyCustom, b => BuildContent(b, KeyCustom));
-        icons = UIConfig.Icons.ToDictionary(k => k.Key, v => v.Value.Select(x => new IconInfo { Icon = x }).ToList());
+        icons = UIConfig.Icons;
     }
 
+    /// <inheritdoc />
     protected override void BuildTextBox(RenderTreeBuilder builder)
     {
         if (Value != null && !string.IsNullOrWhiteSpace(Value.ToString()))
@@ -34,17 +32,19 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
         base.BuildTextBox(builder);
     }
 
+    /// <inheritdoc />
     protected override void BuildContent(RenderTreeBuilder builder) => builder.Tabs(tab);
 
-    protected override void OnValueChanged(List<IconInfo> items)
+    /// <inheritdoc />
+    protected override void OnValueChanged(List<string> items)
     {
         if (ValueChanged.HasDelegate)
-            ValueChanged.InvokeAsync(items?.FirstOrDefault()?.Icon);
+            ValueChanged.InvokeAsync(items?.FirstOrDefault());
     }
 
     private void BuildContent(RenderTreeBuilder builder, string key)
     {
-        var value = SelectedItems.Count == 0 ? "" : SelectedItems[0].Icon;
+        var value = SelectedItems.Count == 0 ? "" : SelectedItems[0];
         builder.Div("kui-icon-picker", () =>
         {
             if (key == KeyCustom)
@@ -55,7 +55,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
                     ValueChanged = this.Callback<string>(value =>
                     {
                         SelectedItems.Clear();
-                        SelectedItems.Add(new IconInfo { Icon = value });
+                        SelectedItems.Add(value);
                     })
                 });
             }
@@ -71,7 +71,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
     {
         var items = icons[key];
         if (!string.IsNullOrWhiteSpace(searchKey))
-            items = items.Where(i => i.Icon.Contains(searchKey)).ToList();
+            items = items.Where(i => i.Contains(searchKey)).ToList();
 
         builder.Div("items", () =>
         {
@@ -87,8 +87,8 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
                            //if (key == "FontAwesome")
                            //    builder.Span(item.Icon, "");
                            //else
-                           builder.Icon(item.Icon);
-                           builder.Span("name", item.Icon);
+                           builder.Icon(item);
+                           builder.Span("name", item);
                        });
             }
         });
@@ -111,7 +111,7 @@ class IconPicker : BasePicker<IconInfo>, ICustomField
         });
     }
 
-    private void OnSelectItem(IconInfo item)
+    private void OnSelectItem(string item)
     {
         if (!SelectedItems.Remove(item))
             SelectedItems.Add(item);

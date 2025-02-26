@@ -107,6 +107,7 @@
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
 
 /*Pick*/
+.kui-picker {position:relative;}
 .kui-pick, .kui-pick-clear {
     position:absolute;top:0;right:0;cursor:pointer;text-align:center;
     display:block;width:32px;height:32px;line-height:32px;

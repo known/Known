@@ -167,6 +167,7 @@ class CategoryGrid : BaseTable<DictionaryInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Table.AutoHeight = false;
         Table.ShowPager = true;
         Table.OnQuery = QueryDictionariesAsync;
         Table.Form = new FormInfo { Width = 500 };
