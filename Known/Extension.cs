@@ -31,6 +31,7 @@ public static class Extension
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         else
             services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        services.AddScoped<IPluginService, PluginService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         AddStyles();

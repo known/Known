@@ -1,9 +1,9 @@
 ﻿@inherits BaseComponent
 
-@if (Context.IsEditTable)
+@if (Context.IsEditMode)
 {
-    <div class="kui-edit" style="margin-right:10px;" @onclick="OnAddTool">
-        <KIcon Icon="plus" Title="添加工具条按钮" />
+    <div class="kui-edit" style="margin-right:10px;" @onclick="OnEditTool">
+        <KIcon Icon="edit" Title="编辑工具条按钮" />
     </div>
 }
 @if (Model != null && Model.HasItem)
@@ -52,6 +52,8 @@
 }
 
 @code {
+    [Inject] private IPluginService Plugin { get; set; }
+
     /// <summary>
     /// 取得或设置工具条模型。
     /// </summary>
@@ -67,9 +69,9 @@
         base.OnInitialized();
     }
 
-    private void OnAddTool()
+    private void OnEditTool()
     {
-        UIConfig.OnEditTable?.Invoke();
+        Plugin?.EditToolbar(this);
     }
 
     private static ButtonType GetButtonType(string style)

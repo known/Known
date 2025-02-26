@@ -8,7 +8,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var tableName = criteria.GetParameter<string>("TableName");
         if (string.IsNullOrWhiteSpace(tableName))
         {
-            var pageId = criteria.GetParameter<string>("PageId");
+            var pageId = criteria.GetParameter<string>(nameof(AutoInfo<string>.PageId));
             tableName = GetEntityByModuleId(pageId)?.Id;
         }
 
@@ -79,13 +79,15 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     public Task<CodeConfigInfo> GetCodeConfigAsync()
     {
-        var modulePath = Config.IsDebug ? Config.App.ContentRoot : "";
-        var info = new CodeConfigInfo
+        var info = new CodeConfigInfo();
+        if (Config.IsDebug)
         {
-            EntityPath = CoreOption.Instance.Code?.EntityPath ?? modulePath,
-            PagePath = CoreOption.Instance.Code?.PagePath ?? modulePath,
-            ServicePath = CoreOption.Instance.Code?.ServicePath ?? modulePath
-        };
+            var clientPath = Config.App.ContentRoot?.Replace(".Web", "");
+            var serverPath = Config.App.ContentRoot;
+            info.EntityPath = CoreOption.Instance.Code?.EntityPath ?? clientPath;
+            info.PagePath = CoreOption.Instance.Code?.PagePath ?? clientPath;
+            info.ServicePath = CoreOption.Instance.Code?.ServicePath ?? serverPath;
+        }
         return Task.FromResult(info);
     }
 

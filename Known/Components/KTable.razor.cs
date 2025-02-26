@@ -13,6 +13,8 @@ partial class KTable<TItem> : BaseComponent
     private bool isQuering = false;
     private string ScrollY => Model.FixedHeight ?? "800px";
 
+    [Inject] private IPluginService Plugin { get; set; }
+
     /// <summary>
     /// 取得或设置表格数据模型。
     /// </summary>
@@ -159,11 +161,11 @@ partial class KTable<TItem> : BaseComponent
 
     private void OnAddColumn()
     {
-        UIConfig.OnEditTable?.Invoke();
+        Plugin?.AddTableColumn();
     }
 
     private void OnAddAction()
     {
-        UIConfig.OnEditTable?.Invoke();
+        Plugin?.AddTableAction();
     }
 }

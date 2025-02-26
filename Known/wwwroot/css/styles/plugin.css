@@ -10,7 +10,7 @@
 }
 .kui-card.overlay > .kui-title {margin-bottom:10px;}
 
-.kui-plugin {position:relative;background:var(--kui-bgcolor);border:1px solid #f18c63;border-radius:3px;min-height:50px;}
+.kui-plugin {position:relative;border:1px solid #f18c63;border-radius:3px;min-height:50px;}
 .kui-plugin .name {position:absolute;top:0;left:1px;color:#f18c63;z-index:1000;font-size:10px;}
 .kui-plugin .action {position:absolute;top:0;right:1px;color:#f18c63;z-index:1000;}
 .kui-plugin-layout {width:390px;}

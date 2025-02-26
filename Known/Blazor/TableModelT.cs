@@ -124,6 +124,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
                 Name = Language.GetString(menu);
                 var info = menu.GetTablePageParameter();
                 Initialize(info);
+                Columns = GetUserColumns();
             }
         }
         else

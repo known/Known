@@ -37,6 +37,8 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
 {
     private ReloadContainer container = null;
 
+    [Inject] private IPluginService Plugin { get; set; }
+
     /// <summary>
     /// 取得或设置表格页面组件模型。
     /// </summary>
@@ -59,7 +61,7 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
 
         if (UIConfig.EnableEdit && Model.EnableEdit)
         {
-            var actions = UIConfig.TablePageActions?.Invoke(this);
+            var actions = Plugin?.GetTableActions(this);
             DropdownModel model = null;
             if (actions == null || actions.Count == 0)
                 model = new DropdownModel { Icon = "menu", TriggerType = "Click", Overlay = BuildOverlay };

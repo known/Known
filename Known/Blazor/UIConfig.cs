@@ -13,6 +13,11 @@ public class UIConfig
     public static bool EnableEdit { get; set; }
 
     /// <summary>
+    /// 取得或设置是否启用编辑表格。
+    /// </summary>
+    public static bool IsEditTable { get; set; }
+
+    /// <summary>
     /// 取得或设置【关于系统】模块显示的版权信息。
     /// </summary>
     public static string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} {Constants.CompName}。保留所有权利。";
@@ -98,11 +103,6 @@ public class UIConfig
     public static Action<RenderTreeBuilder, ImportInfo> ImportForm { get; set; }
 
     /// <summary>
-    /// 取得或设置低代码表格页面插件设置按钮列表。
-    /// </summary>
-    public static Func<BaseTablePage, List<ActionInfo>> TablePageActions { get; set; }
-
-    /// <summary>
     /// 取得忽略URL鉴权的路由列表。
     /// </summary>
     public static List<string> IgnoreRoutes { get; } = ["/"];
@@ -111,11 +111,6 @@ public class UIConfig
     /// 取得或设置页面标签颜色委托。
     /// </summary>
     public static Func<string, string> TagColor { get; set; }
-
-    /// <summary>
-    /// 取得或设置编辑表格委托。
-    /// </summary>
-    public static Action OnEditTable { get; set; }
 }
 
 /// <summary>
