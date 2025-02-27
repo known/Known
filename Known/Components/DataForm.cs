@@ -1,10 +1,10 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 自定义数据表单组件类。
 /// </summary>
 /// <typeparam name="TItem">表单数据对象类型。</typeparam>
-class DataForm<TItem> : BaseComponent where TItem : class, new()
+public class DataForm<TItem> : BaseForm where TItem : class, new()
 {
     /// <summary>
     /// 取得或设置表单组件模型对象实例。
@@ -15,20 +15,21 @@ class DataForm<TItem> : BaseComponent where TItem : class, new()
     /// 呈现表单组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override void BuildRender(RenderTreeBuilder builder)
+    protected override void BuildForm(RenderTreeBuilder builder)
     {
         if (Model == null)
             return;
 
         if (Model.Header != null)
             builder.Fragment(Model.Header);
+
         builder.Component<AntForm<TItem>>()
                .Set(c => c.Form, Model)
-               .Set(c => c.ChildContent, this.BuildTree<TItem>(BuildContent))
+               .Set(c => c.ChildContent, this.BuildTree<TItem>(BuildFormBody))
                .Build();
     }
 
-    private void BuildContent(RenderTreeBuilder builder, TItem item)
+    private void BuildFormBody(RenderTreeBuilder builder, TItem item)
     {
         if (Model.Rows == null || Model.Rows.Count == 0)
             return;

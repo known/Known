@@ -105,6 +105,16 @@ public class MenuInfo
     public bool CanEdit { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置布局信息。
+    /// </summary>
+    public LayoutInfo Layout { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件配置信息列表。
+    /// </summary>
+    public List<PluginInfo> Plugins { get; set; } = [];
+
+    /// <summary>
     /// 取得或设置上级菜单对象。
     /// </summary>
     [JsonIgnore]
@@ -123,14 +133,10 @@ public class MenuInfo
     public object Data { get; set; }
 
     /// <summary>
-    /// 取得或设置布局信息。
+    /// 取得菜单关联的页面组件类型。
     /// </summary>
-    public LayoutInfo Layout { get; set; }
-
-    /// <summary>
-    /// 取得或设置插件配置信息列表。
-    /// </summary>
-    public List<PluginInfo> Plugins { get; set; } = [];
+    [JsonIgnore]
+    public Type PageType { get; internal set; }
 
     /// <summary>
     /// 取得菜单对应的路由URL。
@@ -161,8 +167,6 @@ public class MenuInfo
     {
         return $"{Name}({RouteUrl})";
     }
-
-    internal Type PageType { get; set; }
 
     private TablePageInfo tablePage;
     internal TablePageInfo TablePage

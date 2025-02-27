@@ -58,6 +58,11 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     public FormInfo Info { get; set; }
 
     /// <summary>
+    /// 取得或设置是否启用在线编辑。
+    /// </summary>
+    public bool EnableEdit { get; set; }
+
+    /// <summary>
     /// 取得或设置表单是否窄宽标题。
     /// </summary>
     public bool SmallLabel { get; set; }
@@ -130,7 +135,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
         if (!string.IsNullOrWhiteSpace(Title))
             return Title;
 
-        var title = Language?.GetString(Context.Current);
+        var title = Table?.Name;
         if (Table?.FormTitle != null)
             title = Table.FormTitle.Invoke(Data);
         return Language?.GetFormTitle(Action, title);

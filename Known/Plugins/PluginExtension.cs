@@ -62,6 +62,8 @@ public static class PluginExtension
         var plugin = plugins.GetPlugin(id);
         if (plugin == null)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                id = Utils.GetNextId();
             plugin = new PluginInfo { Id = id, Type = type };
             plugins.Add(plugin);
         }

@@ -13,6 +13,13 @@ public interface IPluginService
     List<ActionInfo> GetTableActions(BaseTablePage page);
 
     /// <summary>
+    /// 获取低代码表单插件设置按钮列表。
+    /// </summary>
+    /// <param name="form">表单页面。</param>
+    /// <returns>下拉操作列表。</returns>
+    List<ActionInfo> GetFormActions(BaseForm form);
+
+    /// <summary>
     /// 
     /// </summary>
     void ConfigTable();
@@ -37,6 +44,8 @@ public interface IPluginService
 class PluginService : IPluginService
 {
     public List<ActionInfo> GetTableActions(BaseTablePage page) => [];
+
+    public List<ActionInfo> GetFormActions(BaseForm form) => [];
 
     public void ConfigTable() { }
 

@@ -33,6 +33,7 @@ public partial class UIService
         RenderFragment content = null;
         var isTabForm = false;
         var isStepForm = false;
+        model.EnableEdit = true;
         if (model.Type == null)
         {
             content = b => b.Form(model);
