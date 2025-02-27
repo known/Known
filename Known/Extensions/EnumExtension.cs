@@ -23,6 +23,18 @@ public static class EnumExtension
     }
 
     /// <summary>
+    /// 判断字段类型是否是字典类型。
+    /// </summary>
+    /// <param name="type">字段类型。</param>
+    /// <returns></returns>
+    public static bool IsDictionary(this FieldType type)
+    {
+        return type == FieldType.Select ||
+               type == FieldType.CheckList ||
+               type == FieldType.RadioList;
+    }
+
+    /// <summary>
     /// 将查询类型转换成SQL操作符。
     /// </summary>
     /// <param name="type">查询类型</param>
