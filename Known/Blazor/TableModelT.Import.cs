@@ -3,6 +3,11 @@
 partial class TableModel<TItem>
 {
     /// <summary>
+    /// 取得或设置插件ID。
+    /// </summary>
+    public string PluginId { get; set; }
+
+    /// <summary>
     /// 异步弹窗显示导入表单。
     /// </summary>
     /// <param name="param">与后端对应的导入参数。</param>
@@ -11,7 +16,7 @@ partial class TableModel<TItem>
     {
         var info = new ImportInfo
         {
-            PageId = Context.Current.Id,
+            PageId = PluginId ?? Context.Current.Id,
             PageName = Name,
             EntityType = typeof(TItem),
             IsDictionary = IsDictionary,

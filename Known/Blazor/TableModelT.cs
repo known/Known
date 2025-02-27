@@ -47,6 +47,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public BaseTablePage TablePage { get; set; }
 
     /// <summary>
+    /// 取得或设置表格配置信息。
+    /// </summary>
+    public TablePageInfo Info { get; set; }
+
+    /// <summary>
     /// 取得表格数据是否是字典类型。
     /// </summary>
     public bool IsDictionary { get; }
@@ -76,6 +81,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="info">表格配置模型信息。</param>
     public void Initialize(TablePageInfo info)
     {
+        Info = info;
         //FixedWidth = info.Page.FixedWidth;
         //FixedHeight = info.Page.FixedHeight;
         Name = info?.Page?.Name;

@@ -17,6 +17,16 @@ partial class FormModel<TItem>
     }
 
     /// <summary>
+    /// 初始化表单布局。
+    /// </summary>
+    /// <param name="info">表单配置信息。</param>
+    public void Initialize(FormInfo info)
+    {
+        SetFormInfo(info);
+        InitColumns();
+    }
+
+    /// <summary>
     /// 初始化无代码表单栏位。
     /// </summary>
     public void InitColumns()
