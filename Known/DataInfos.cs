@@ -23,7 +23,7 @@ public class ConfigInfo
 public class AutoInfo<TData>
 {
     /// <summary>
-    /// 取得或设置页面ID。
+    /// 取得或设置页面模块ID或插件ID。
     /// </summary>
     public string PageId { get; set; }
 

@@ -134,6 +134,22 @@ public class FieldInfo
         get { return Type.ToString(); }
         set { Type = Utils.ConvertTo<FieldType>(value); }
     }
+
+    /// <summary>
+    /// 转换成字段信息。
+    /// </summary>
+    /// <returns></returns>
+    public FieldInfo ToField()
+    {
+        return new FieldInfo
+        {
+            Id = Id,
+            Name = Name,
+            Type = Type,
+            Length = Length,
+            Required = Required
+        };
+    }
 }
 
 /// <summary>

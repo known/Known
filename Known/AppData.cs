@@ -33,6 +33,11 @@ public sealed class AppData
     public static Func<AppDataInfo, byte[]> OnFormatData { get; set; }
 
     /// <summary>
+    /// 取得或设置表格插件配置信息委托。
+    /// </summary>
+    public static Func<PluginInfo, TablePageInfo> OnTablePage { get; set; }
+
+    /// <summary>
     /// 根据ID获取模块信息。
     /// </summary>
     /// <param name="id">模块ID。</param>
@@ -58,15 +63,28 @@ public sealed class AppData
     /// <summary>
     /// 根据ID获取实体插件参数配置信息。
     /// </summary>
-    /// <param name="id">模块ID。</param>
+    /// <param name="id">模块ID或插件ID。</param>
     /// <returns>实体插件参数配置信息。</returns>
     public static TablePageInfo GetTablePageParameter(string id)
     {
         var module = GetModule(id);
-        if (module == null || module.Plugins == null)
+        if (module != null && module.Plugins != null)
+            return module.Plugins.GetPluginParameter<TablePageInfo>();
+
+        var plugins = new List<PluginInfo>();
+        foreach (var item in Data.Modules)
+        {
+            plugins.AddRange(item.Plugins);
+        }
+
+        var plugin = plugins.FirstOrDefault(p => p.Id == id);
+        if (plugin == null)
             return null;
 
-        return module.Plugins.GetPluginParameter<TablePageInfo>();
+        if (OnTablePage != null)
+            return OnTablePage.Invoke(plugin);
+
+        return Utils.FromJson<TablePageInfo>(plugin.Setting);
     }
 
     #region AppData

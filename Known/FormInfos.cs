@@ -155,7 +155,7 @@ public class UploadInfo<TModel>
     }
 
     /// <summary>
-    /// 取得或设置页面模块ID。
+    /// 取得或设置页面模块ID或插件ID。
     /// </summary>
     public string PageId { get; set; }
 

@@ -15,6 +15,7 @@ class ActionTable : BaseTable<ActionInfo>
         actions.ForEach(a => a.Name = Language.GetString(a));
 
         await base.OnInitAsync();
+        Table.AutoHeight = false;
         Table.Name = Name;
         Table.ActionWidth = "200";
         Table.ActionCount = 3;

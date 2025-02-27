@@ -207,6 +207,25 @@ public sealed class DataHelper
         return GetEntityInfo(model);
     }
 
+    /// <summary>
+    /// 将实体信息对象转换成模型配置字符串。
+    /// </summary>
+    /// <param name="info">实体信息对象。</param>
+    /// <returns></returns>
+    public static string ToEntityData(EntityInfo info)
+    {
+        if (info == null)
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        sb.AppendLine($"{info.Name}|{info.Id}");
+        foreach (var item in info.Fields)
+        {
+            sb.AppendLine($"{item.Name}|{item.Id}|{item.Type}|{item.Length}|{(item.Required ? "Y" : "N")}");
+        }
+        return sb.ToString();
+    }
+
     private static EntityInfo GetEntityInfo(string model)
     {
         var info = new EntityInfo();
