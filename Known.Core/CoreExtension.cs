@@ -55,10 +55,12 @@ public static class CoreExtension
             option.Filters.Add<AuthActionFilter>();
             option.Filters.Add<LogActionFilter>();
             option.Filters.Add<ExceptionFilter>();
+            CoreOption.Instance.Mvc?.Invoke(option);
         })
         .AddJsonOptions(option =>
         {
-            option.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //option.JsonSerializerOptions.PropertyNamingPolicy = null;
+            CoreOption.Instance.Json?.Invoke(option);
         });
         if (CoreOption.Instance.IsAddWebApi)
             builder.AddDynamicWebApi();

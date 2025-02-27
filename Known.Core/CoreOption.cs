@@ -53,6 +53,16 @@ public class CoreOption
     public bool IsAddWebApi { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置MVC配置选项委托。
+    /// </summary>
+    public Action<MvcOptions> Mvc { get; set; }
+
+    /// <summary>
+    /// 取得或设置JSON配置选项委托。
+    /// </summary>
+    public Action<JsonOptions> Json { get; set; }
+
+    /// <summary>
     /// 取得或设置数据库访问配置选项委托。
     /// </summary>
     public Action<DatabaseOption> Database { get; set; }
