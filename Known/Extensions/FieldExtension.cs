@@ -82,39 +82,38 @@ public static class FieldExtension
     /// <summary>
     /// 构建日期选择框组件。
     /// </summary>
-    /// <typeparam name="TValue"></typeparam>
+    /// <typeparam name="TValue">日期类型。</typeparam>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="model">输入模型对象。</param>
     public static void DatePicker<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)
     {
-        if (typeof(TValue) == typeof(string))
-        {
-            builder.Component<AntRangePicker>()
-                   .Set(c => c.Disabled, model.Disabled)
-                   .Set(c => c.Placeholder, model.Placeholder)
-                   .Set(c => c.RangeValue, model.Value?.ToString())
-                   .Set(c => c.RangeValueChanged, v =>
-                   {
-                       var value = Utils.ConvertTo<TValue>(v);
-                       model.ValueChanged.InvokeAsync(value);
-                   })
-                   .Build();
-        }
-        else
-        {
-            builder.Component<DatePicker<TValue>>()
-                   .Set(c => c.Disabled, model.Disabled)
-                   .Set(c => c.Placeholder, model.Placeholder)
-                   .Set(c => c.Value, model.Value)
-                   .Set(c => c.ValueChanged, model.ValueChanged)
-                   .Build();
-        }
+        builder.Component<DatePicker<TValue>>()
+               .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
+               .Set(c => c.Value, model.Value)
+               .Set(c => c.ValueChanged, model.ValueChanged)
+               .Build();
+    }
+
+    /// <summary>
+    /// 构建日期范围选择框组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="model">输入模型对象。</param>
+    public static void RangePicker(this RenderTreeBuilder builder, InputModel<string> model)
+    {
+        builder.Component<AntRangePicker>()
+               .Set(c => c.Disabled, model.Disabled)
+               .Set(c => c.Placeholder, model.Placeholder)
+               .Set(c => c.RangeValue, model.Value)
+               .Set(c => c.RangeValueChanged, model.ValueChanged)
+               .Build();
     }
 
     /// <summary>
     /// 构建数字输入框组件。
     /// </summary>
-    /// <typeparam name="TValue"></typeparam>
+    /// <typeparam name="TValue">数字类型。</typeparam>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="model">输入模型对象。</param>
     public static void Number<TValue>(this RenderTreeBuilder builder, InputModel<TValue> model)

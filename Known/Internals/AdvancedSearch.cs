@@ -125,7 +125,7 @@ class AdvancedSearchItem : BaseComponent
                 break;
             case FieldType.Date:
             case FieldType.DateTime:
-                builder.DatePicker(new InputModel<string>
+                builder.RangePicker(new InputModel<string>
                 {
                     Value = item.Value,
                     ValueChanged = this.Callback<string>(v => item.Value = v)

@@ -18,7 +18,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     /// <summary>
     /// 取得或设置日期范围组件字段绑定值改变事件方法。
     /// </summary>
-    [Parameter] public Action<string> RangeValueChanged { get; set; }
+    [Parameter] public EventCallback<string> RangeValueChanged { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -47,7 +47,10 @@ public class AntRangePicker : RangePicker<DateTime?[]>
 
     private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)
     {
-        RangeValue = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
-        RangeValueChanged?.Invoke(RangeValue);
+        if (RangeValueChanged.HasDelegate)
+        {
+            RangeValue = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
+            RangeValueChanged.InvokeAsync(RangeValue);
+        }
     }
 }
