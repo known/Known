@@ -72,7 +72,7 @@ public sealed class DataHelper
     }
 
     /// <summary>
-    /// 获取角色管理所有可以模块信息列表。
+    /// 获取所有模块信息列表。
     /// </summary>
     /// <returns></returns>
     public static async Task<List<ModuleInfo>> GetModulesAsync(Database db = null)
@@ -80,6 +80,16 @@ public sealed class DataHelper
         var modules = Config.OnInitialModules != null
                     ? await Config.OnInitialModules.Invoke(db)
                     : AppData.Data.Modules ?? [];
+        return GetModules(modules);
+    }
+
+    /// <summary>
+    /// 获取所有新模块信息实例列表。
+    /// </summary>
+    /// <param name="modules">原模块信息列表。</param>
+    /// <returns>新模块信息列表。</returns>
+    public static List<ModuleInfo> GetModules(List<ModuleInfo> modules)
+    {
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
         var allModules = new List<ModuleInfo>();
         allModules.AddRange(modules);

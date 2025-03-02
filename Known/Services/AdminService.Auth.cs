@@ -84,10 +84,11 @@ partial class AdminService
 
     public Task<AdminInfo> GetAdminAsync()
     {
+        var modules = DataHelper.GetModules(AppData.Data.Modules);
         var info = new AdminInfo
         {
             AppName = Config.App.Name,
-            UserMenus = AppData.Data.Modules.ToMenus()
+            UserMenus = modules.ToMenus()
         };
         return Task.FromResult(info);
     }
