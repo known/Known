@@ -1,0 +1,35 @@
+﻿<UIContextValue IsFixed Value="Value">
+    <ErrorBoundary ErrorContent="ErrorContent" ChildContent="ChildContent" />
+</UIContextValue>
+
+@code {
+    /// <summary>
+    /// 取得或设置上下文值。
+    /// </summary>
+    [Parameter] public UIContext Value { get; set; }
+
+    /// <summary>
+    /// 取得或设置内容模板。
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private RenderFragment<Exception> ErrorContent => ex => builder =>
+    {
+        Logger.Error(LogTarget.FrontEnd, Value?.CurrentUser, ex.ToString());
+        builder.Div("kui-wrapper", () =>
+        {
+            builder.Component<AntDesign.Result>()
+                   .Set(c => c.Status, ResultStatus.Http500)
+                   .Set(c => c.Title, "500")
+                   .Set(c => c.SubTitle, ex.Message)
+                   .Set(c => c.Extra, BuildExtra)
+                   .Build();
+        });
+    };
+
+    private void BuildExtra(RenderTreeBuilder builder)
+    {
+        builder.Button("重新加载", this.Callback<MouseEventArgs>(e => Value?.Refresh()));
+        builder.Button("返回首页", this.Callback<MouseEventArgs>(e => Value?.GoHomePage()));
+    }
+}

@@ -22,6 +22,7 @@ public static class Extension
 
         var assembly = typeof(Extension).Assembly;
         Config.AddApp(assembly);
+        Cache.AttachEnumCodes(typeof(LogLevel));
         services.AddAntDesign();
 
         services.AddScoped<Context>();

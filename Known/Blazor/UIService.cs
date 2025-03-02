@@ -36,7 +36,12 @@ public partial class UIService(ModalService modal, DrawerService drawer, Message
         else if (text == "Link") return "green";
         //Log
         else if (text == "Login") return "success";
-        else if (text == "Logout") return "red";
+        else if (text == "Logout" || text == nameof(LogLevel.Error)) return "red";
+        else if (text == nameof(LogLevel.Critical)) return "magenta";
+        else if (text == nameof(LogLevel.Warning)) return "orange";
+        else if (text == nameof(LogLevel.Information) || text == nameof(LogTarget.JSON)) return "blue";
+        else if (text == nameof(LogLevel.Debug) || text == nameof(LogTarget.BackEnd)) return "geekblue";
+        else if (text == nameof(LogLevel.Trace) || text == nameof(LogTarget.FrontEnd)) return "cyan";
         //Task
         else if (text == "Pending") return "default";
         else if (text == "Running") return "processing";

@@ -14,7 +14,9 @@
 .kui-header .ant-breadcrumb a {color:var(--kui-color);}
 .kui-nav-tabs {height:calc(100vh - 54px);}
 .kui-body {position:relative;height:calc(100vh - 54px);padding:10px;overflow:auto;}
-.ant-tabs-content > .kui-body {position:relative;height:calc(100vh - 94px);}
+.kui-body > .kui-frame {height:calc(100vh - 79px);}
+.ant-tabs-content > .kui-body {height:calc(100vh - 94px);}
+.ant-tabs-content > .kui-body > .kui-frame {height:calc(100vh - 119px);}
 .ant-tabs-top > .ant-tabs-nav {margin:0;padding:0 10px;}
 .kui-table .ant-tabs-top > .ant-tabs-nav {margin-bottom:5px;}
 .ant-modal-body .ant-tabs-top > .ant-tabs-nav {margin-bottom:5px;}

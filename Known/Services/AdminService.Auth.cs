@@ -69,7 +69,8 @@ partial class AdminService
             UserName = info.UserName,
             Name = "管理员",
             AvatarUrl = "img/face1.png",
-            Token = Utils.GetGuid()
+            Token = Utils.GetGuid(),
+            Role = "管理员"
         };
         Cache.SetUser(user);
         return Result.SuccessAsync(Language.Success(Language["Login"]), user);

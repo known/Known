@@ -226,6 +226,25 @@ public enum LogType
 }
 
 /// <summary>
+/// 日志目标枚举类。
+/// </summary>
+public enum LogTarget
+{
+    /// <summary>
+    /// JSON序列化。
+    /// </summary>
+    JSON,
+    /// <summary>
+    /// 前端。
+    /// </summary>
+    FrontEnd,
+    /// <summary>
+    /// 后端。
+    /// </summary>
+    BackEnd
+}
+
+/// <summary>
 /// 系统日志信息类。
 /// </summary>
 public class LogInfo
@@ -277,5 +296,5 @@ public class LogInfo
     /// 取得或设置实体创建时间。
     /// </summary>
     [Column(IsQuery = true)]
-    public DateTime CreateTime { get; set; }
+    public DateTime? CreateTime { get; set; }
 }

@@ -27,8 +27,9 @@ public static class MenuExtension
     /// <param name="icon">图标。</param>
     /// <param name="sort">排序。</param>
     /// <param name="url">URL。</param>
+    /// <param name="target">打开目标。</param>
     /// <returns>菜单信息。</returns>
-    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null)
+    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null, string target = null)
     {
         var info = new MenuInfo
         {
@@ -45,6 +46,8 @@ public static class MenuExtension
             info.Type = nameof(MenuType.Link);
             info.Target = nameof(LinkTarget.None);
         }
+        if (!string.IsNullOrWhiteSpace(target))
+            info.Target = target;
         menus.Add(info);
         return info;
     }

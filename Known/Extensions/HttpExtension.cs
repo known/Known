@@ -178,6 +178,7 @@ public static class HttpExtension
 
     private static void HandleException(Exception ex, string url, object data = null)
     {
+        Logger.Error(LogTarget.FrontEnd, null, $"URL: {url}{Environment.NewLine}DATA: {Utils.ToJson(data)}{Environment.NewLine}{ex}");
         ClientOption.Instance.OnError?.Invoke(new ErrorInfo { Url = url, Data = data, Exception = ex });
     }
 }

@@ -118,6 +118,22 @@ public class UIContext : Context
         Navigation.NavigateTo(info.RouteUrl);
     }
 
+    /// <summary>
+    /// 导航到首页。
+    /// </summary>
+    public void GoHomePage()
+    {
+        Navigation.GoHomePage(true);
+    }
+
+    /// <summary>
+    /// 刷新当前页面。
+    /// </summary>
+    public void Refresh()
+    {
+        Navigation.NavigateTo(Current?.RouteUrl, true);
+    }
+
     internal void SetCurrentMenu(RouteData route)
     {
         if (Url == "/profile")

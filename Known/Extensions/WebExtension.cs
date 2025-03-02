@@ -31,18 +31,30 @@ public static class WebExtension
     /// 导航到安装页面。
     /// </summary>
     /// <param name="navigation">导航管理者对象。</param>
-    public static void GoInstallPage(this NavigationManager navigation)
+    /// <param name="forceLoad">是否强制刷新。</param>
+    public static void GoInstallPage(this NavigationManager navigation, bool forceLoad = false)
     {
-        navigation?.NavigateTo("/install");
+        navigation?.NavigateTo("/install", forceLoad);
     }
 
     /// <summary>
     /// 导航到登录页面。
     /// </summary>
     /// <param name="navigation">导航管理者对象。</param>
-    public static void GoLoginPage(this NavigationManager navigation)
+    /// <param name="forceLoad">是否强制刷新。</param>
+    public static void GoLoginPage(this NavigationManager navigation, bool forceLoad = false)
     {
-        navigation?.NavigateTo("/login");
+        navigation?.NavigateTo("/login", forceLoad);
+    }
+
+    /// <summary>
+    /// 导航到首页。
+    /// </summary>
+    /// <param name="navigation">导航管理者对象。</param>
+    /// <param name="forceLoad">是否强制刷新。</param>
+    public static void GoHomePage(this NavigationManager navigation, bool forceLoad = false)
+    {
+        navigation?.NavigateTo("/", forceLoad);
     }
     #endregion
 

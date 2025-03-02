@@ -53,6 +53,11 @@ public class CoreOption
     public bool IsAddWebApi { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置Web日志保留天数，默认7天。
+    /// </summary>
+    public int WebLogDays { get; set; } = 7;
+
+    /// <summary>
     /// 取得或设置MVC配置选项委托。
     /// </summary>
     public Action<MvcOptions> Mvc { get; set; }

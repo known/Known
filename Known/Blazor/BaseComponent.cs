@@ -48,11 +48,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置日志工厂实例。
-    /// </summary>
-    [Inject] public ILoggerFactory Logger { get; set; }
-
-    /// <summary>
     /// 取得或设置JS运行时实例。
     /// </summary>
     [Inject] public IJSRuntime JSRuntime { get; set; }
@@ -240,7 +235,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <returns></returns>
     public async Task OnErrorAsync(Exception ex)
     {
-        Logger.CreateLogger<BaseComponent>().Error(ex);
+        Logger.Error(LogTarget.FrontEnd, CurrentUser, ex.ToString());
         var message = Config.IsDebug ? ex.ToString() : ex.Message;
         await UI.NoticeAsync(Language?["Title.Error"], message, StyleType.Error);
     }

@@ -1,6 +1,7 @@
 按钮编码         | 按钮名称 | 按钮图标      | 按钮样式    | 按钮位置
 Add              | 添加    | plus         | primary    | Toolbar
 New              | 新增    | plus         | primary    | Toolbar
+View             | 查看    | eye          | primary    | Action
 Edit             | 编辑    | edit         | primary    | Action
 Delete           | 删除    | delete       | danger    | Action
 DeleteM          | 批量删除 | delete      | danger    | Toolbar

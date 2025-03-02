@@ -13,4 +13,19 @@ partial class AdminService
             criteria.OrderBys = [$"{nameof(LogInfo.CreateTime)} desc"];
         return Database.Query<SysLog>(criteria).ToPageAsync<LogInfo>();
     }
+
+    public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria)
+    {
+        return Logger.QueryLogsAsync(criteria);
+    }
+
+    public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)
+    {
+        return Logger.DeleteLogsAsync(infos);
+    }
+
+    public Task<Result> ClearWebLogsAsync()
+    {
+        return Logger.ClearLogsAsync();
+    }
 }

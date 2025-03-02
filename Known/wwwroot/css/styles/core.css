@@ -29,7 +29,7 @@
 .kui-link {color:#1890ff;cursor:pointer;}
 .kui-menu li {list-style:none;display:inline-block;margin-left:10px;}
 .kui-menu li a {color:var(--kui-color);}
-.kui-frame {border:none;width:100%;height:calc(100vh - 80px);min-height:550px;}
+.kui-frame {border:none;width:100%;min-height:550px;}
 .kui-tips {color:#1890ff;margin-left:10px;}
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}

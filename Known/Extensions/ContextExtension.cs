@@ -45,6 +45,7 @@ public static class ContextExtension
         }
         catch (Exception ex)
         {
+            Logger.Error(LogTarget.FrontEnd, context.CurrentUser, ex.ToString());
             context.UI.Error(ex.Message);
         }
     }

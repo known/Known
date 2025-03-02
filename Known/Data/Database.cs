@@ -214,6 +214,8 @@ public partial class Database : IDisposable
         var logger = loggerFactory.CreateLogger<Database>();
         logger.Info(info);
         logger.Error(ex);
+        Logger.Information(LogTarget.BackEnd, User, info.ToString());
+        Logger.Error(LogTarget.BackEnd, User, ex.ToString());
     }
 
     /// <summary>
