@@ -31,7 +31,24 @@ html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helv
 .login-copyright {text-align:center;width:100%;font-size:1rem;margin-top:30px;}
 .login-copyright span {margin:0 5px;}
 
+@media screen and (max-width:1024px) {
+    .login-head {padding:20px 100px;}
+    .login-body {padding:0 100px;}
+    .login-left {padding:40px;}
+}
+@media screen and (max-width:912px) {
+    .login-head {padding:20px 50px;}
+    .login-body {padding:0 10px;}
+    .login-left {padding:40px 0;}
+    .login-form {padding-left:10px;padding-right:20px;}
+}
 @media screen and (max-width:768px) {
+    .login-head {padding:20px 50px;}
+    .login-body {padding:0 10px;grid-template-columns:300px auto;}
+    .login-left {padding:40px 0;}
+    .login-form {padding-left:10px;padding-right:20px;}
+}
+@media screen and (max-width:574px) {
     .login {top:50%;margin-top:-320px;}
     .login-head {padding:0;flex-direction:column;}
     .login-logo {padding:20px;flex-direction:column;}

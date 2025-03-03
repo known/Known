@@ -51,7 +51,7 @@
 .ant-tree .ant-tree-node-content-wrapper .ant-tree-iconEle {width:auto;}
 .ant-notification-notice .ant-notification-notice-description {max-height:300px;overflow:auto;}
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:767px) {
     .kui-header .left, .kui-nav-full, .kui-nav-setting {display:none;}
     .ant-layout-header {line-height:normal;}
     .ant-modal {top:10px;margin-top:10px;margin-left:8px;}

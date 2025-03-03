@@ -51,13 +51,17 @@
 }
 
 @media screen and (max-width:768px) {
-    .known, .ws-space, .ws-welcome {flex-direction:column;padding:10px;}
+    .known, .ws-space {flex-direction:column;padding:10px;}
     .ws-welcome {padding:0;}
     .known-desc {text-align:justify;margin-bottom:10px;}
     .ws-space {justify-content:stretch;}
-    .ws-space .count {flex-direction:column;}
+    .ws-space .count {gap:10px;}
     .ws-space .count li {width:100%;margin:0;margin-top:15px;}
     .ws-func {margin-left:0;margin-top:10px;height:auto;}
+}
+@media screen and (max-width:574px) {
+    .ws-welcome {flex-direction:column;}
+    .ws-space .count {flex-direction:column;}
 }
 
 .Compact .known, .Compact .ws-space {padding:10px;}

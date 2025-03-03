@@ -128,15 +128,17 @@
     .kui-toolbar > .left {flex-direction:row;justify-content:space-between;align-items:center;}
     .kui-logo {margin-left:6px;}
     .kui-app-name {display:none;}
-    .kui-header {flex-direction:column;padding:0;}
+    .kui-header {padding:0;}
     .kui-nav {justify-content:flex-end;gap:8px;margin:5px 0 0 0;padding:5px;}
     .kui-form-page {padding:10px 10px 20px 10px;}
-    .kui-form-page-button {margin-left:0;}
     .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
         grid-template-columns:100%;grid-row-gap:10px;padding-right:0;
     }
     .kui-card {min-height:200px;}
     .kui-table > .kui-toolbar {height:auto;}
+}
+@media screen and (max-width:574px) {
+    .kui-form-page-button {margin-left:0;}
 }
 
 :root[data-theme=dark] .kui-toolbar {border-bottom:1px solid #303030;}
