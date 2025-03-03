@@ -60,6 +60,7 @@ public interface IModuleService : IService
     Task<Result> SaveModuleAsync(SysModule model);
 }
 
+[Client]
 class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
 {
     public Task<List<SysModule>> GetModulesAsync()
@@ -103,7 +104,7 @@ class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
     }
 }
 
-[WebApi]
+[WebApi, Service]
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
     public async Task<List<SysModule>> GetModulesAsync()

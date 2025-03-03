@@ -34,7 +34,7 @@ public static class ServiceExtension
     }
 
     /// <summary>
-    /// 添加注入程序集中 Service 特性的服务类。
+    /// 添加注入程序集中 Service 特性的服务类、继承 EntityBase 类的实体类、并自动创建新数据库表。
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="assembly">程序集。</param>

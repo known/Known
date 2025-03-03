@@ -26,11 +26,9 @@ public static class AdminExtension
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdminClient(this IServiceCollection services)
     {
-        // 注入服务
-        services.AddScoped<IModuleService, ModuleClient>();
-
-        // 添加模块
-        Config.AddModule(typeof(AdminExtension).Assembly);
+        var assembly = typeof(AdminExtension).Assembly;
+        services.AddClients(assembly);
+        Config.AddModule(assembly);
     }
 
     /// <summary>
@@ -41,15 +39,11 @@ public static class AdminExtension
     public static void AddKnownAdminCore(this IServiceCollection services, Action<AdminOption> action = null)
     {
         action?.Invoke(AdminOption.Instance);
- 
         AppData.Enabled = false;
 
-        // 注入服务
-        services.AddScoped<IModuleService, ModuleService>();
-
-        // 添加模块
-        Config.AddModule(typeof(AdminExtension).Assembly);
-
+        var assembly = typeof(AdminExtension).Assembly;
+        services.AddServices(assembly);
+        Config.AddModule(assembly);
         Config.OnInstallModules = OnInstallModules;
         Config.OnInitialModules = OnInitialModules;
     }
