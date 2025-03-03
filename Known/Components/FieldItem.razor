@@ -3,6 +3,10 @@
     {
         <div class="ant-form-item-label">
             <label class="@LabelClass">@Label</label>
+            @if (!string.IsNullOrWhiteSpace(Tooltip))
+            {
+                <KIcon Icon="question-circle" Title="@Tooltip" />
+            }
         </div>
     }
     <div class="ant-form-item-control">
@@ -13,9 +17,33 @@
 @code {
     private string LabelClass => Required ? "ant-form-item-required" : "";
 
+    /// <summary>
+    /// 取得或设置样式类。
+    /// </summary>
     [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// 取得或设置样式。
+    /// </summary>
     [Parameter] public string Style { get; set; }
+
+    /// <summary>
+    /// 取得或设置标题。
+    /// </summary>
     [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// 取得或设置提示文字。
+    /// </summary>
+    [Parameter] public string Tooltip { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否必填。
+    /// </summary>
     [Parameter] public bool Required { get; set; }
+
+    /// <summary>
+    /// 取得或设置子内容。
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 }

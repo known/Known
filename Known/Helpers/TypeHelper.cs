@@ -28,7 +28,12 @@ public sealed class TypeHelper
             && (type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic;
     }
 
-    internal static List<CodeInfo> GetEnumCodes(Type type)
+    /// <summary>
+    /// 获取枚举类型代码表信息列表。
+    /// </summary>
+    /// <param name="type">枚举类型。</param>
+    /// <returns>代码表信息列表。</returns>
+    public static List<CodeInfo> GetEnumCodes(Type type)
     {
         var category = type.Name;
         var codes = new List<CodeInfo>();

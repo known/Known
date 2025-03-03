@@ -111,13 +111,14 @@ public sealed class Processer
     }
 
     /// <summary>
-    /// 执行进程返回控制台输出信息。
+    /// 执行命令行操作返回控制台输出信息。
     /// </summary>
-    /// <param name="fileName">进程文件名。</param>
+    /// <param name="fileName">命令文件名。</param>
     /// <param name="arguments">命令参数。</param>
+    /// <param name="onReceived">接收控制台信息委托。</param>
     /// <param name="waitExit">是否等待退出，默认是。</param>
     /// <returns>控制台输出信息。</returns>
-    public static string Execute(string fileName, string arguments, bool waitExit = true)
+    public static string Execute(string fileName, string arguments, Action<string> onReceived = null, bool waitExit = true)
     {
         var process = new Process
         {
@@ -125,11 +126,21 @@ public sealed class Processer
             {
                 FileName = fileName,
                 Arguments = arguments,
+                UseShellExecute = false,
                 RedirectStandardOutput = true,
-                UseShellExecute = false
+                RedirectStandardError = true,
+                StandardOutputEncoding = Encoding.UTF8,
+                StandardErrorEncoding = Encoding.UTF8
             }
         };
+        if (onReceived != null)
+        {
+            process.OutputDataReceived += (sender, args) => onReceived.Invoke(args.Data);
+            process.ErrorDataReceived += (sender, args) => onReceived.Invoke(args.Data);
+        }
         process.Start();
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
         var output = process.StandardOutput.ReadToEnd();
         if (waitExit)
             process.WaitForExit();

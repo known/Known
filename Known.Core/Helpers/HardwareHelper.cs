@@ -28,7 +28,7 @@ public class HardwareHelper
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            var output = Processer.Execute("sysctl", "-n machdep.cpu.vendor machdep.cpu.brand_string", false);
+            var output = Processer.Execute("sysctl", "-n machdep.cpu.vendor machdep.cpu.brand_string", null, false);
             return output.Trim().Replace("\n", " ");
         }
         return "Unsupported Platform";
@@ -78,7 +78,7 @@ public class HardwareHelper
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            var output = Processer.Execute("diskutil", "info disk0", false);
+            var output = Processer.Execute("diskutil", "info disk0", null, false);
             return output.Split(["Device / Media Serial Number:"], StringSplitOptions.None)[1].Split('\n')[0].Trim();
         }
         return "Unsupported Platform";
