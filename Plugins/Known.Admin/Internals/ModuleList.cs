@@ -3,14 +3,13 @@
 /// <summary>
 /// 系统模块管理页面组件类。
 /// </summary>
-class ModuleList : BasePage<SysModule>
+class ModuleList : BaseTablePage<SysModule>
 {
     private IModuleService Service;
     private List<SysModule> modules;
     private MenuInfo current;
     private int total;
-    private TreeModel tree;
-    private TableModel<SysModule> table;
+    private TreeModel Tree;
 
     /// <summary>
     /// 异步初始化页面。
@@ -27,19 +26,14 @@ class ModuleList : BasePage<SysModule>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IModuleService>();
 
-        Page.Type = PageType.Column;
-        Page.Spans = "28";
-        Page.AddItem("kui-card kui-p10", BuildTree);
-        Page.AddItem(BuildTable);
-
-        tree = new TreeModel
+        Tree = new TreeModel
         {
             ExpandRoot = true,
             OnNodeClick = OnNodeClickAsync,
             OnModelChanged = OnTreeModelChanged
         };
 
-        table = new TableModel<SysModule>(this)
+        Table = new TableModel<SysModule>(this)
         {
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
@@ -50,39 +44,36 @@ class ModuleList : BasePage<SysModule>
             OnQuery = OnQueryModulesAsync
         };
 
-        table.Toolbar.ShowCount = 6;
-        table.Toolbar.AddAction(nameof(New));
-        table.Toolbar.AddAction(nameof(DeleteM));
-        table.Toolbar.AddAction(nameof(Copy));
-        table.Toolbar.AddAction(nameof(Move));
-        table.Toolbar.AddAction(nameof(Import));
-        table.Toolbar.AddAction(nameof(Export));
+        Table.Toolbar.ShowCount = 6;
+        Table.Toolbar.AddAction(nameof(New));
+        Table.Toolbar.AddAction(nameof(DeleteM));
+        Table.Toolbar.AddAction(nameof(Copy));
+        Table.Toolbar.AddAction(nameof(Move));
+        Table.Toolbar.AddAction(nameof(Import));
+        Table.Toolbar.AddAction(nameof(Export));
 
-        table.AddColumn(c => c.Code).Width(130).ViewLink();
-        table.AddColumn(c => c.Name).Width(120).Template(BuildName);
-        table.AddColumn(c => c.Description).Width(180);
-        table.AddColumn(c => c.Target).Width(80).Template((b, r) => b.Tag(r.Target));
-        table.AddColumn(c => c.Url).Width(150);
-        table.AddColumn(c => c.Sort).Width(60).Align("center");
-        table.AddColumn(c => c.Enabled).Width(60).Align("center");
-        table.AddColumn(c => c.Note).Width(150);
+        Table.AddColumn(c => c.Code).Width(130).ViewLink();
+        Table.AddColumn(c => c.Name).Width(120).Template(BuildName);
+        Table.AddColumn(c => c.Description).Width(180);
+        Table.AddColumn(c => c.Target).Width(80).Template((b, r) => b.Tag(r.Target));
+        Table.AddColumn(c => c.Url).Width(150);
+        Table.AddColumn(c => c.Sort).Width(60).Align("center");
+        Table.AddColumn(c => c.Enabled).Width(60).Align("center");
+        Table.AddColumn(c => c.Note).Width(150);
 
-        table.AddAction(nameof(Edit));
-        table.AddAction(nameof(Delete));
-        table.AddAction(nameof(MoveUp));
-        table.AddAction(nameof(MoveDown));
+        Table.AddAction(nameof(Edit));
+        Table.AddAction(nameof(Delete));
+        Table.AddAction(nameof(MoveUp));
+        Table.AddAction(nameof(MoveDown));
     }
 
-    /// <summary>
-    /// 页面呈现后，调和后台数据。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    /// <inheritdoc />
+    protected override void BuildPage(RenderTreeBuilder builder)
     {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            await tree.RefreshAsync();
+        builder.Component<KTreeTable<SysModule>>()
+               .Set(c => c.Tree, Tree)
+               .Set(c => c.Table, Table)
+               .Build();
     }
 
     /// <summary>
@@ -91,12 +82,9 @@ class ModuleList : BasePage<SysModule>
     /// <returns></returns>
     public override async Task RefreshAsync()
     {
-        await tree.RefreshAsync();
-        await table.RefreshAsync();
+        await Tree.RefreshAsync();
+        await Table.RefreshAsync();
     }
-
-    private void BuildTree(RenderTreeBuilder builder) => builder.Tree(tree);
-    private void BuildTable(RenderTreeBuilder builder) => builder.PageTable(table);
 
     private void BuildName(RenderTreeBuilder builder, SysModule row)
     {
@@ -122,35 +110,35 @@ class ModuleList : BasePage<SysModule>
             return;
         }
 
-        table.NewForm(Service.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+        Table.NewForm(Service.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(SysModule row) => table.EditForm(Service.SaveModuleAsync, row);
+    public void Edit(SysModule row) => Table.EditForm(Service.SaveModuleAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(SysModule row) => table.Delete(Service.DeleteModulesAsync, row);
+    public void Delete(SysModule row) => Table.Delete(Service.DeleteModulesAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => table.DeleteM(Service.DeleteModulesAsync);
+    public void DeleteM() => Table.DeleteM(Service.DeleteModulesAsync);
 
     /// <summary>
     /// 复制多个模块到另一个模块下面。
     /// </summary>
-    public void Copy() => table.SelectRows(OnCopy);
+    public void Copy() => Table.SelectRows(OnCopy);
 
     /// <summary>
     /// 移动多个模块到另一个模块下面。
     /// </summary>
-    public void Move() => table.SelectRows(OnMove);
+    public void Move() => Table.SelectRows(OnMove);
 
     /// <summary>
     /// 上移一个模块。
@@ -225,7 +213,7 @@ class ModuleList : BasePage<SysModule>
     private async Task OnNodeClickAsync(MenuInfo item)
     {
         current = item;
-        await table.RefreshAsync();
+        await Table.RefreshAsync();
     }
 
     private async Task<TreeModel> OnTreeModelChanged()
@@ -233,11 +221,11 @@ class ModuleList : BasePage<SysModule>
         modules = await Service.GetModulesAsync();
         if (modules != null && modules.Count > 0)
         {
-            tree.Data = modules.ToMenuItems(ref current);
-            tree.SelectedKeys = [current.Id];
-            await table.RefreshAsync();
+            Tree.Data = modules.ToMenuItems(ref current);
+            Tree.SelectedKeys = [current.Id];
+            await Table.RefreshAsync();
         }
-        return tree;
+        return Tree;
     }
 
     private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)

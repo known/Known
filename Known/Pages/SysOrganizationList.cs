@@ -35,19 +35,10 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-row-28", () =>
-        {
-            builder.Div("kui-card kui-p10", () => builder.Tree(Tree));
-            base.BuildPage(builder);
-        });
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            await Tree.RefreshAsync();
+        builder.Component<KTreeTable<OrganizationInfo>>()
+               .Set(c => c.Tree, Tree)
+               .Set(c => c.Table, Table)
+               .Build();
     }
 
     /// <inheritdoc />
