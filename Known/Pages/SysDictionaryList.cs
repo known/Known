@@ -35,11 +35,11 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-row-28", () =>
-        {
-            builder.Div("kui-card", () => BuildListBox(builder));
-            base.BuildPage(builder);
-        });
+        builder.Component<KListTable<DictionaryInfo>>()
+               .Set(c => c.ListData, categories)
+               .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
+               .Set(c => c.Table, Table)
+               .Build();
     }
 
     /// <inheritdoc />
@@ -96,18 +96,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     /// </summary>
     [Action] public Task Import() => Table.ShowImportAsync();
 
-    private void BuildListBox(RenderTreeBuilder builder)
-    {
-        builder.Component<KListBox>()
-               .Set(c => c.ShowSearch, true)
-               .Set(c => c.DataSource, categories)
-               .Set(c => c.ItemTemplate, ItemTemplate)
-               .Set(c => c.OnItemClick, OnItemClickAsync)
-               .Build();
-    }
-
-    private RenderFragment ItemTemplate(CodeInfo info) => b => b.Text($"{info.Name} ({info.Code})");
-
     private Task OnItemClickAsync(CodeInfo info)
     {
         category = info;
@@ -128,9 +116,9 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     private async Task LoadCategoriesAsync()
     {
         categories = await Admin.GetCategoriesAsync();
+        await StateChangedAsync();
         category = categories?.FirstOrDefault();
         await OnItemClickAsync(category);
-        await StateChangedAsync();
     }
 
     private void NewForm(CodeInfo info, int sort)

@@ -48,7 +48,7 @@
     /// <summary>
     /// 取得或设置列表项单击事件。
     /// </summary>
-    [Parameter] public Func<CodeInfo, Task> OnItemClick { get; set; }
+    [Parameter] public EventCallback<CodeInfo> OnItemClick { get; set; }
 
     /// <summary>
     /// 取得或设置列表项呈现模板。
@@ -77,6 +77,7 @@
             return;
 
         curItem = info.Code;
-        await OnItemClick?.Invoke(info);
+        if (OnItemClick.HasDelegate)
+            await OnItemClick.InvokeAsync(info);
     }
 }

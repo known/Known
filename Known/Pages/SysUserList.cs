@@ -46,11 +46,10 @@ public class SysUserList : BaseTablePage<UserInfo>
     {
         if (HasOrg)
         {
-            builder.Div("kui-row-28", () =>
-            {
-                builder.Div("kui-card kui-p10", () => builder.Tree(Tree));
-                base.BuildPage(builder);
-            });
+            builder.Component<KTreeTable<UserInfo>>()
+                   .Set(c => c.Tree, Tree)
+                   .Set(c => c.Table, Table)
+                   .Build();
         }
         else
         {
