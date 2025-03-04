@@ -3,7 +3,6 @@
 /// <summary>
 /// 用户信息表单组件类。
 /// </summary>
-[StreamRendering]
 [Route("/profile/user")]
 public class UserEditForm : BaseEditForm<UserInfo>
 {

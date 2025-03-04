@@ -3,7 +3,6 @@
 /// <summary>
 /// 系统日志模块页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/sys/logs")]
 [Menu(Constants.System, "系统日志", "clock-circle", 6)]
 public class SysLogList : BaseTablePage<LogInfo>

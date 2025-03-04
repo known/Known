@@ -3,7 +3,6 @@
 /// <summary>
 /// 组织架构模块页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/sys/organizations")]
 [Menu(Constants.BaseData, "组织架构", "partition", 3)]
 public class SysOrganizationList : BaseTablePage<OrganizationInfo>

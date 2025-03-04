@@ -64,7 +64,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildTitle(RenderTreeBuilder builder)
     {
-        builder.FormTitle(Model.Name);
+        builder.FormTitle(Model.Name, Model.Tips);
         if (Context.IsEditTable)
         {
             builder.Div().Class("kui-edit").Style("margin-left:10px;")

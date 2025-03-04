@@ -3,7 +3,6 @@
 /// <summary>
 /// 无代码页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/page/{*PageRoute}")]
 public class AutoPage : BasePage
 {

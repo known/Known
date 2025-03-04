@@ -5,7 +5,6 @@ namespace Known.Pages;
 /// <summary>
 /// WebApi文档组件类。
 /// </summary>
-[StreamRendering]
 [Route("/dev/webapi")]
 [DevPlugin("WebApi", "pull-request", Sort = 99)]
 public class WebApiPage : BaseTablePage<ApiMethodInfo>

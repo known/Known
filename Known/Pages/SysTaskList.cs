@@ -3,7 +3,6 @@
 /// <summary>
 /// 系统后台任务页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/sys/tasks")]
 [Menu(Constants.System, "后台任务", "control", 4)]
 public class SysTaskList : BaseTablePage<TaskInfo>

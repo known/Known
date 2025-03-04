@@ -5,6 +5,7 @@ namespace Known.Blazor;
 /// <summary>
 /// 抽象组件基类。
 /// </summary>
+[StreamRendering]
 public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 {
     /// <summary>

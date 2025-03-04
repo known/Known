@@ -40,9 +40,9 @@ $(function () {
     window.Prism = window.Prism || {};
     Prism.disableWorkerMessageHandler = true;
     Prism.manual = true;
-    $(window).resize(function () {
-        K_AutoFillHeight(true);
-    });
+    //$(window).resize(function () {
+    //    K_AutoFillHeight(true);
+    //});
 });
 
 window.isMobile = function () {

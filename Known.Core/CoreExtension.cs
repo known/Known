@@ -160,7 +160,7 @@ public static class CoreExtension
         Config.AddModule(assembly);
         CoreOption.Instance.AddAssembly(assembly);
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
-        Logger.Initialize(CoreOption.Instance.WebLogDays);
+        Logger.Initialize(Config.App.WebLogDays);
 
         // 添加服务
         services.AddServices(assembly);

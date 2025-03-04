@@ -3,7 +3,6 @@
 /// <summary>
 /// 系统跟踪日志开发插件页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/dev/weblog")]
 [DevPlugin("跟踪日志", "exception", Sort = 98)]
 public class WebLogPage : BaseTablePage<LogInfo>
@@ -17,6 +16,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
         Table.EnableEdit = false;
         Table.ShowPager = true;
         Table.OnQuery = Admin.QueryWebLogsAsync;
+        Table.Tips = $"该日志为内存日志，默认保留{Config.App.WebLogDays}天。";
 
         Table.Clear();
         Table.AddColumn(c => c.Type, true).Width(100).Category(nameof(LogLevel)).Template((b, r) => b.Tag(r.Type));

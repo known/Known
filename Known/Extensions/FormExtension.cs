@@ -61,9 +61,10 @@ public static class FormExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">表单标题。</param>
-    public static void FormTitle(this RenderTreeBuilder builder, string text)
+    /// <param name="subText">表单子标题。</param>
+    public static void FormTitle(this RenderTreeBuilder builder, string text, string subText = null)
     {
-        builder.Component<KTitle>().Set(c => c.Text, text).Build();
+        builder.Component<KTitle>().Set(c => c.Text, text).Set(c => c.SubText, subText).Build();
     }
 
     /// <summary>

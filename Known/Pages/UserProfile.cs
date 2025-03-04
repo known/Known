@@ -5,7 +5,6 @@ namespace Known.Pages;
 /// <summary>
 /// 用户个人中心页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/profile")]
 [ReuseTabsPage(Title = "个人中心")]
 public class UserProfile : BasePage<UserInfo>

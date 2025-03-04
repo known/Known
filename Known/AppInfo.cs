@@ -139,6 +139,11 @@ public class AppInfo
     public string JsPath { get; set; }
 
     /// <summary>
+    /// 取得或设置Web日志保留天数，默认7天。
+    /// </summary>
+    public int WebLogDays { get; set; } = 7;
+
+    /// <summary>
     /// 取得或设置登录用户过期时长，默认30分钟。
     /// </summary>
     public TimeSpan AuthExpired { get; set; } = TimeSpan.FromMinutes(30);

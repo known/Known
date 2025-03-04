@@ -3,7 +3,6 @@
 /// <summary>
 /// 数据字典模块页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/sys/dictionaries")]
 [Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
 public class SysDictionaryList : BaseTablePage<DictionaryInfo>

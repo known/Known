@@ -19,6 +19,7 @@
 .kui-nav li.edit {background-color:#f18c63;color:#fff;padding:15px 2px;border-radius:2px;}
 .kui-query {margin-bottom:10px;padding:10px;}
 .kui-title {font-size:1rem;font-weight:bold;}
+.kui-sub-title {font-size:0.8rem;margin-left:10px;font-weight:normal;color:#1890ff;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
 .kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid #f0f0f0;}
@@ -104,6 +105,7 @@
 .kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
 
 /*Search*/
+.kui-query-more .ant-row {gap:8px 0;}
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
 
 /*Pick*/

@@ -3,7 +3,6 @@
 /// <summary>
 /// 错误页面组件类。
 /// </summary>
-[StreamRendering]
 [AllowAnonymous]
 [Route("/error/{code}")]
 public class ErrorPage : BasePage

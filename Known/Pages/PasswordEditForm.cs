@@ -3,7 +3,6 @@
 /// <summary>
 /// 用户修改密码表单组件类。
 /// </summary>
-[StreamRendering]
 [Route("/profile/password")]
 public class PasswordEditForm : BaseForm<PwdFormInfo>
 {

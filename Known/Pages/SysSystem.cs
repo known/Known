@@ -3,7 +3,6 @@
 /// <summary>
 /// 关于系统页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/sys/info")]
 [Menu(Constants.System, "关于系统", "info-circle", 1)]
 public class SysSystem : BaseTabPage

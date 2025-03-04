@@ -3,7 +3,6 @@
 /// <summary>
 /// 系统附件模块页面组件类。
 /// </summary>
-[StreamRendering]
 [Route("/sys/files")]
 [Menu(Constants.System, "系统附件", "file", 5)]
 public class SysFileList : BaseTablePage<AttachInfo>
