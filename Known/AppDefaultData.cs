@@ -4,15 +4,13 @@ class AppDefaultData
 {
     internal static void Load(AppDataInfo data)
     {
-        // 加载顶部导航
         if (data.TopNavs.Count == 0)
             data.TopNavs = LoadTopNavs();
-        // 加载配置的一级模块
         LoadModules(data);
-        // 加载Menu特性的组件菜单
         LoadMenus(data);
     }
 
+    // 加载顶部导航
     private static List<PluginInfo> LoadTopNavs()
     {
         var plugins = Config.Plugins.Where(p => p.IsNavComponent).OrderBy(p => p.Sort).ToList();
@@ -30,6 +28,7 @@ class AppDefaultData
         return infos;
     }
 
+    // 加载配置的一级模块
     private static void LoadModules(AppDataInfo data)
     {
         foreach (var item in Config.Modules)
@@ -39,31 +38,33 @@ class AppDefaultData
         }
     }
 
+    // 加载Menu特性的组件菜单
     private static void LoadMenus(AppDataInfo data)
     {
         foreach (var item in Config.Menus)
         {
-            if (data.Modules.Exists(m => m.Id == item.Page.Name))
-                continue;
-
             if (!data.Modules.Exists(m => m.Id == item.Parent))
                 continue;
 
-            var info = new ModuleInfo
+            var info = data.Modules.FirstOrDefault(m => m.Id == item.Page.Name);
+            if (info == null)
             {
-                Id = item.Page.Name,
-                Type = nameof(MenuType.Link),
-                Name = item.Name,
-                Icon = item.Icon,
-                ParentId = item.Parent,
-                Sort = item.Sort,
-                Url = item.Url,
-                Target = nameof(LinkTarget.None)
-            };
+                info = new ModuleInfo
+                {
+                    Id = item.Page.Name,
+                    Type = nameof(MenuType.Link),
+                    Name = item.Name,
+                    Icon = item.Icon,
+                    ParentId = item.Parent,
+                    Sort = item.Sort,
+                    Url = item.Url,
+                    Target = nameof(LinkTarget.None)
+                };
+                data.Modules.Add(info);
+            }
             var table = AppData.CreateTablePage(item.Page);
             if (table != null)
                 info.Plugins.AddPlugin(table);
-            data.Modules.Add(info);
         }
     }
 
@@ -84,9 +85,25 @@ class AppDefaultData
         var methods = pageType.GetMethods();
         foreach (var item in methods)
         {
-            if (item.GetCustomAttribute<ActionAttribute>() is not null)
+            var attr = item.GetCustomAttribute<ActionAttribute>();
+            if (attr != null)
             {
-                if (item.GetParameters().Length == 0)
+                var hasParameter = item.GetParameters().Length > 0;
+                var button = AppData.Data.Buttons.FirstOrDefault(b => b.Id == item.Name);
+                if (button == null)
+                {
+                    // 将代码定义的按钮添加到按钮列表中
+                    AppData.Data.Buttons.Add(new ButtonInfo
+                    {
+                        Id = item.Name,
+                        Name = attr.Name,
+                        Icon = attr.Icon,
+                        Style = "primary",
+                        Position = hasParameter ? ["Action"] : ["Toolbar"]
+                    });
+                }
+
+                if (!hasParameter)
                     info.Page.Tools.Add(item.Name);
                 else
                     info.Page.Actions.Add(item.Name);

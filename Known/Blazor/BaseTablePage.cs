@@ -1,6 +1,35 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
+/// 页面表格组件类。
+/// </summary>
+public class BaseTablePage : BaseComponent
+{
+    /// <summary>
+    /// 取得当前页面菜单信息。
+    /// </summary>
+    public MenuInfo Menu { get; private set; }
+
+    /// <summary>
+    /// 异步保存表格模型配置信息。
+    /// </summary>
+    /// <param name="info">表格模型配置信息。</param>
+    /// <returns></returns>
+    public virtual Task<Result> SaveSettingAsync(TablePageInfo info)
+    {
+        Menu.Plugins.AddPlugin(info);
+        return Platform.SaveMenuAsync(Menu);
+    }
+
+    /// <inheritdoc />
+    protected override Task OnInitAsync()
+    {
+        Menu = Context.Current;
+        return base.OnInitAsync();
+    }
+}
+
+/// <summary>
 /// 表格Web页面组件基类。
 /// </summary>
 /// <typeparam name="TItem">表格行数据类型。</typeparam>

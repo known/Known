@@ -55,6 +55,11 @@ public class AdminInfo
     /// 取得或设置系统数据字典和代码表信息列表，用于前后端分离时，缓存在前端。
     /// </summary>
     public List<CodeInfo> Codes { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统按钮信息列表。
+    /// </summary>
+    public List<ActionInfo> Actions { get; set; }
 }
 
 /// <summary>

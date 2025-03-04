@@ -81,7 +81,18 @@ public class MenuAttribute(string parent, string name, string icon, int sort) : 
 /// 动作特性类，用于标识方法是否需要角色权限控制。
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
-public class ActionAttribute : Attribute { }
+public class ActionAttribute : Attribute
+{
+    /// <summary>
+    /// 取得或设置操作图标。
+    /// </summary>
+    public string Icon { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作名称。
+    /// </summary>
+    public string Name { get; set; }
+}
 
 /// <summary>
 /// 表格栏位特性类，用于编码方式设置实体类属性作为动态表格字段。

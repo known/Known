@@ -87,6 +87,20 @@ public class ButtonInfo
     [Form(Type = nameof(FieldType.CheckList))]
     [Category("Toolbar，Action")]
     public string[] Position { get; set; }
+
+    internal ActionInfo ToAction()
+    {
+        var info = new ActionInfo
+        {
+            Id = Id,
+            Name = Name,
+            Icon = Icon,
+            Style = Style
+        };
+        if (Position != null && Position.Length > 0)
+            info.Position = string.Join(",", Position);
+        return info;
+    }
 }
 
 /// <summary>

@@ -128,9 +128,9 @@ public sealed class Config
     public static DateTime StartTime { get; internal set; }
 
     /// <summary>
-    /// 取得操作按钮信息列表。
+    /// 取得或设置操作按钮信息列表。
     /// </summary>
-    public static List<ActionInfo> Actions { get; } = [];
+    public static List<ActionInfo> Actions { get; set; } = [];
 
     /// <summary>
     /// 取得自定义扩展字段组件类型字典。

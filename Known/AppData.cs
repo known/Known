@@ -48,6 +48,18 @@ public sealed class AppData
     }
 
     /// <summary>
+    /// 获取系统所有操作信息列表。
+    /// </summary>
+    /// <returns></returns>
+    public static List<ActionInfo> GetActions()
+    {
+        var actions = Data.Buttons?.Select(b => b.ToAction()).ToList() ?? [];
+        if (actions.Count == 0)
+            actions.AddRange(Config.Actions);
+        return actions;
+    }
+
+    /// <summary>
     /// 创建实体表格页面插件配置信息。
     /// </summary>
     /// <param name="pageType">页面组件类型。</param>

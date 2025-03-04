@@ -82,7 +82,12 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(DictionaryInfo row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
+    [Action]
+    public void Edit(DictionaryInfo row)
+    {
+        isAddCategory = false;
+        Table.EditForm(Admin.SaveDictionaryAsync, row);
+    }
 
     /// <summary>
     /// 删除一条数据。

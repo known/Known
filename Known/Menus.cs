@@ -305,6 +305,7 @@ public class ActionInfo
     /// <summary>
     /// 取得或设置操作单击事件方法。
     /// </summary>
+    [JsonIgnore]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 }
 

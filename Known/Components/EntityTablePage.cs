@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 泛型实体自动表格页面。

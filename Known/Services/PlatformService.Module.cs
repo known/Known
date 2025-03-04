@@ -170,13 +170,21 @@ partial class PlatformService
         return Result.SuccessAsync(Language.SaveSuccess);
     }
 
-    private void SaveModule(ModuleInfo info)
+    private static void SaveModule(ModuleInfo info)
     {
         var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == info.Id);
         if (module != null)
         {
-            info.Id = module.Id;
-            module = CreateModule(info);
+            module.ParentId = info.ParentId;
+            module.Name = info.Name;
+            module.Icon = info.Icon;
+            module.Type = info.Type;
+            module.Target = info.Target;
+            module.Url = info.Url;
+            module.Sort = info.Sort;
+            module.Enabled = info.Enabled;
+            module.Layout = info.Layout;
+            module.Plugins = info.Plugins;
         }
         else
         {
@@ -198,7 +206,7 @@ partial class PlatformService
             Sort = info.Sort,
             Enabled = info.Enabled,
             Layout = info.Layout,
-            Plugins = info.Plugins,
+            Plugins = info.Plugins
         };
     }
 }
