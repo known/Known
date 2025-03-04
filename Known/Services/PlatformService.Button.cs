@@ -35,9 +35,7 @@ partial class PlatformService
 {
     public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {
-        var datas = AppData.Data.Buttons ?? [];
-        if (datas.Count == 0)
-            datas.AddRange(Config.Actions.Select(CreateButton));
+        var datas = AppData.GetButtons();
         if (criteria.HasQuery(nameof(ButtonInfo.Name)))
         {
             var name = criteria.GetQueryValue(nameof(ButtonInfo.Name));
@@ -49,9 +47,7 @@ partial class PlatformService
 
     public Task<List<ButtonInfo>> GetButtonsAsync(string position)
     {
-        var datas = AppData.Data.Buttons ?? [];
-        if (datas.Count == 0)
-            datas.AddRange(Config.Actions.Select(CreateButton));
+        var datas = AppData.GetButtons();
         var infos = datas.Where(b => b.Position?.Contains(position) == true).ToList();
         return Task.FromResult(infos);
     }
@@ -86,18 +82,6 @@ partial class PlatformService
         item.Position = info.Position;
         AppData.SaveData();
         return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    private ButtonInfo CreateButton(ActionInfo info)
-    {
-        return new ButtonInfo
-        {
-            Id = info.Id,
-            Name = info.Name,
-            Icon = info.Icon,
-            Style = info.Style,
-            Position = info.Position?.Split(',')
-        };
     }
 }
 

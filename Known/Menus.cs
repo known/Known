@@ -307,6 +307,18 @@ public class ActionInfo
     /// </summary>
     [JsonIgnore]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    internal ButtonInfo ToButton()
+    {
+        return new ButtonInfo
+        {
+            Id = Id,
+            Name = Name,
+            Icon = Icon,
+            Style = Style,
+            Position = Position?.Split(',')
+        };
+    }
 }
 
 /// <summary>

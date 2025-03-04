@@ -82,6 +82,7 @@ class AppDefaultData
 
     private static void SetMethods(TablePageInfo info, Type pageType)
     {
+        var actions = AppData.GetActions();
         var methods = pageType.GetMethods();
         foreach (var item in methods)
         {
@@ -89,18 +90,19 @@ class AppDefaultData
             if (attr != null)
             {
                 var hasParameter = item.GetParameters().Length > 0;
-                var button = AppData.Data.Buttons.FirstOrDefault(b => b.Id == item.Name);
-                if (button == null)
+                var action = actions?.FirstOrDefault(b => b.Id == item.Name);
+                if (action == null)
                 {
                     // 将代码定义的按钮添加到按钮列表中
-                    AppData.Data.Buttons.Add(new ButtonInfo
+                    action = new ActionInfo
                     {
                         Id = item.Name,
                         Name = attr.Name,
                         Icon = attr.Icon,
                         Style = "primary",
-                        Position = hasParameter ? ["Action"] : ["Toolbar"]
-                    });
+                        Position = hasParameter ? "Action" : "Toolbar"
+                    };
+                    Config.Actions.Add(action);
                 }
 
                 if (!hasParameter)

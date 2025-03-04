@@ -48,15 +48,37 @@ public sealed class AppData
     }
 
     /// <summary>
+    /// 获取系统所有按钮信息列表。
+    /// </summary>
+    /// <returns></returns>
+    public static List<ButtonInfo> GetButtons()
+    {
+        var datas = Data.Buttons ?? [];
+        foreach (var item in Config.Actions)
+        {
+            if (datas.Exists(d => d.Id == item.Id))
+                continue;
+
+            datas.Add(item.ToButton());
+        }
+        return datas;
+    }
+
+    /// <summary>
     /// 获取系统所有操作信息列表。
     /// </summary>
     /// <returns></returns>
     public static List<ActionInfo> GetActions()
     {
-        var actions = Data.Buttons?.Select(b => b.ToAction()).ToList() ?? [];
-        if (actions.Count == 0)
-            actions.AddRange(Config.Actions);
-        return actions;
+        var datas = Data.Buttons?.Select(b => b.ToAction()).ToList() ?? [];
+        foreach (var item in Config.Actions)
+        {
+            if (datas.Exists(d => d.Id == item.Id))
+                continue;
+
+            datas.Add(item);
+        }
+        return datas;
     }
 
     /// <summary>
