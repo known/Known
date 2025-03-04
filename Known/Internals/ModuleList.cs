@@ -55,9 +55,9 @@ class ModuleList : BasePage<ModuleInfo>
         table.Toolbar.AddAction(nameof(Export));
 
         table.AddColumn(c => c.Name).Width(120).Template(BuildName);
-        table.AddColumn(c => c.Type).Width(80).Template((b, r) => b.Tag(r.Type));
+        table.AddColumn(c => c.Type).Width(80).Tag();
         table.AddColumn(c => c.Url).Width(150);
-        table.AddColumn(c => c.Target).Width(100).Template((b, r) => b.Tag(r.Target));
+        table.AddColumn(c => c.Target).Width(100).Tag();
         table.AddColumn(c => c.Sort).Width(60).Align("center");
         table.AddColumn(c => c.Enabled).Width(60).Align("center");
 

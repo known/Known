@@ -55,7 +55,7 @@ class ModuleList : BaseTablePage<SysModule>
         Table.AddColumn(c => c.Code).Width(130).ViewLink();
         Table.AddColumn(c => c.Name).Width(120).Template(BuildName);
         Table.AddColumn(c => c.Description).Width(180);
-        Table.AddColumn(c => c.Target).Width(80).Template((b, r) => b.Tag(r.Target));
+        Table.AddColumn(c => c.Target).Width(80).Tag();
         Table.AddColumn(c => c.Url).Width(150);
         Table.AddColumn(c => c.Sort).Width(60).Align("center");
         Table.AddColumn(c => c.Enabled).Width(60).Align("center");

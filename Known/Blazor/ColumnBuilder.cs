@@ -51,6 +51,26 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
+    /// 设置表格栏位呈现为Tag组件。
+    /// </summary>
+    /// <param name="colorAction">颜色，默认自动。</param>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Tag(Func<TItem, string> colorAction = null)
+    {
+        Template((b, r) =>
+        {
+            var text = r.Property(id)?.ToString();
+            if (!string.IsNullOrWhiteSpace(column?.Category))
+                text = Cache.GetCodeName(column.Category, text);
+            var color = string.Empty;
+            if (colorAction != null)
+                color = colorAction.Invoke(r);
+            b.Tag(text, color);
+        });
+        return this;
+    }
+
+    /// <summary>
     /// 设置表格栏位宽度。
     /// </summary>
     /// <param name="width">宽度。</param>

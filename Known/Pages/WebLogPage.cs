@@ -19,8 +19,8 @@ public class WebLogPage : BaseTablePage<LogInfo>
         Table.Tips = $"该日志为内存日志，默认保留{Config.App.WebLogDays}天。";
 
         Table.Clear();
-        Table.AddColumn(c => c.Type, true).Width(100).Category(nameof(LogLevel)).Template((b, r) => b.Tag(r.Type));
-        Table.AddColumn(c => c.Target, true).Width(100).Category(nameof(LogTarget)).Template((b, r) => b.Tag(r.Target));
+        Table.AddColumn(c => c.Type, true).Width(100).Category(nameof(LogLevel)).Tag();
+        Table.AddColumn(c => c.Target, true).Width(100).Category(nameof(LogTarget)).Tag();
         Table.AddColumn(c => c.CreateBy, true).Width(100);
         Table.AddColumn(c => c.CreateTime).Width(140).Type(FieldType.DateTime);
         Table.AddColumn(c => c.Content, true);

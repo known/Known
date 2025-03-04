@@ -27,7 +27,7 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
         Table.ShowPager = true;
         Table.OnQuery = OnQueryApisAsync;
         Table.AddColumn(c => c.HttpMethod).Width(90).Template(BuildMethod);
-        Table.AddColumn(c => c.Route, true).Width(250).Template((b, r) => b.Tag(r.Route));
+        Table.AddColumn(c => c.Route, true).Width(250).Tag();
         Table.AddColumn(c => c.Description);
         Table.AddAction(nameof(Test));
     }

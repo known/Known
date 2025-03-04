@@ -12,7 +12,7 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     {
         await base.OnInitPageAsync();
         Table.OnQuery = Admin.QueryTasksAsync;
-        Table.Column(c => c.Status).Template((b, r) => b.Tag(r.Status));
+        Table.Column(c => c.Status).Tag();
         Table.Column(c => c.BeginTime).Type(FieldType.DateTime);
         Table.Column(c => c.EndTime).Type(FieldType.DateTime);
     }

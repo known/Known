@@ -21,11 +21,7 @@ class ActionTable : BaseTable<ActionInfo>
         Table.ActionCount = 3;
         Table.Toolbar.AddAction(nameof(Add));
         Table.DataSource = Value?.Select(v => actions.FirstOrDefault(a => a.Id == v)).ToList() ?? [];
-        Table.AddColumn(c => c.Name).Template((b, r) =>
-        {
-            b.Icon(r.Icon);
-            b.Text(r.Name);
-        });
+        Table.AddColumn(c => c.Name).Template((b, r) => b.IconName(r.Icon, r.Name));
         Table.AddAction(nameof(Delete));
         Table.AddAction(nameof(MoveUp));
         Table.AddAction(nameof(MoveDown));

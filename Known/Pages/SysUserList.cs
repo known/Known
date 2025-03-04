@@ -37,7 +37,7 @@ public class SysUserList : BaseTablePage<UserInfo>
             OnQuery = OnQueryUsersAsync,
             Form = new FormInfo { Width = 800 }
         };
-        Table.Column(c => c.Gender).Template((b, r) => b.Tag(r.Gender));
+        Table.Column(c => c.Gender).Tag();
     }
 
     /// <inheritdoc />

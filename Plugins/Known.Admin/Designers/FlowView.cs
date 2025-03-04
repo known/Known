@@ -26,8 +26,8 @@ class FlowView : BaseView<FlowInfo>
                 return Task.FromResult(result);
             }
         };
-        table.Column(c => c.Pass).Template((b, r) => b.Tag(r.Pass));
-        table.Column(c => c.Fail).Template((b, r) => b.Tag(r.Fail));
+        table.Column(c => c.Pass).Tag();
+        table.Column(c => c.Fail).Tag();
     }
 
     private void BuildView(RenderTreeBuilder builder)
