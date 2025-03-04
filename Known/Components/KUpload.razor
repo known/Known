@@ -1,6 +1,23 @@
 ﻿@inherits BaseComponent
 
-@if (IsButton)
+@if (IsDrag)
+{
+    <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
+        <div class="ant-upload" style="display:grid;">
+            @if (!ReadOnly)
+            {
+                <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
+            }
+            <div class="ant-upload-drag-container">
+                <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
+                <p class="ant-upload-text">单击或拖动文件到此区域进行上传</p>
+                <p class="ant-upload-hint">@HintText</p>
+            </div>
+        </div>
+    </div>
+    @BuildFiles
+}
+else if (IsButton)
 {
     <div class="kui-upload">
         @if (!ReadOnly)
@@ -49,6 +66,11 @@ else
     public IDictionary<string, object> InputAttributes { get; set; }
 
     /// <summary>
+    /// 取得或设置是否支持拖拽。
+    /// </summary>
+    [Parameter] public bool IsDrag { get; set; }
+
+    /// <summary>
     /// 取得或设置是否显示上传按钮。
     /// </summary>
     [Parameter] public bool IsButton { get; set; }
@@ -57,6 +79,11 @@ else
     /// 取得或设置上传组件关联字段值。
     /// </summary>
     [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// 取得或设置上传文件提示信息。
+    /// </summary>
+    [Parameter] public string HintText { get; set; }
 
     /// <summary>
     /// 取得或设置上传组件关联的文件类型，例如：.jpg, .png, .doc。
