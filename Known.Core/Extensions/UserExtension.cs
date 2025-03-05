@@ -162,7 +162,7 @@ public static class UserExtension
         user.CompName = info?.CompName;
         if (!string.IsNullOrEmpty(user.OrgNo))
         {
-            var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == user.CompNo && d.Code == user.OrgNo);
+            var org = await db.QueryAsync<SysOrganization>(d => d.Id == user.OrgNo || (d.CompNo == user.CompNo && d.Code == user.OrgNo));
             var orgName = org?.Name ?? user.CompName;
             user.OrgName = orgName;
             if (string.IsNullOrEmpty(user.CompName))

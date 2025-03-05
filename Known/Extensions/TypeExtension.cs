@@ -114,8 +114,11 @@ public static class TypeExtension
 
     internal static FieldType GetFieldType(this PropertyInfo info)
     {
-        var type = info.PropertyType;
+        var form = info.GetCustomAttribute<FormAttribute>();
+        if (form != null && !string.IsNullOrWhiteSpace(form.Type))
+            return Utils.ConvertTo<FieldType>(form.Type);
 
+        var type = info.PropertyType;
         if (type == typeof(bool))
             return FieldType.Switch;
 

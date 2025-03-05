@@ -70,7 +70,11 @@ partial class AdminService
 
     public Task<UserInfo> GetUserDataAsync(string id)
     {
-        return Task.FromResult(new UserInfo());
+        var info = AppData.GetBizData<List<UserInfo>>(KeyUser)?.FirstOrDefault(d => d.Id == id);
+        info ??= new UserInfo();
+        var roles = AppData.GetBizData<List<RoleInfo>>(KeyRole);
+        info.Roles = roles?.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
+        return Task.FromResult(info);
     }
 
     public Task<Result> DeleteUsersAsync(List<UserInfo> infos)

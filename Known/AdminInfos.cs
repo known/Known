@@ -63,7 +63,7 @@ public class DictionaryInfo
     /// </summary>
     [Required]
     [Column]
-    [Form]
+    [Form(Type = nameof(FieldType.Switch))]
     public bool Enabled { get; set; }
 
     /// <summary>
@@ -173,7 +173,7 @@ public class RoleInfo
     /// </summary>
     [Required]
     [Column]
-    [Form]
+    [Form(Type = nameof(FieldType.Switch))]
     public bool Enabled { get; set; }
 
     /// <summary>

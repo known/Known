@@ -92,7 +92,7 @@ public class UserInfo
     /// </summary>
     [Required]
     [Column]
-    [Form(Row = 4, Column = 2)]
+    [Form(Row = 4, Column = 2, Type = nameof(FieldType.Switch))]
     public bool Enabled { get; set; }
 
     /// <summary>
