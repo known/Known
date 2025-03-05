@@ -47,7 +47,13 @@ public class ExcelFactory
     /// </summary>
     /// <param name="fileName">文件路径。</param>
     /// <returns>Excel对象。</returns>
-    public static IExcel Create(string fileName) => Factory?.Create(fileName);
+    public static IExcel Create(string fileName)
+    {
+        //用File读取流，再创建Excel实例，适配Docker环境
+        var bytes = File.ReadAllBytes(fileName);
+        var stream = new MemoryStream(bytes);
+        return Create(stream);
+    }
 
     /// <summary>
     /// 根据文件流创建一个Excel对象。

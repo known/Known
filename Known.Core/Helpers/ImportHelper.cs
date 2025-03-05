@@ -130,10 +130,7 @@ public sealed class ImportHelper
 
     private static Result ReadExcelFile<TItem>(Context context, string path, Action<ImportRow<TItem>> action)
     {
-        //用File读取流，再创建Excel实例，适配Docker环境
-        var bytes = File.ReadAllBytes(path);
-        var stream = new MemoryStream(bytes);
-        var excel = ExcelFactory.Create(stream);
+        var excel = ExcelFactory.Create(path);
         if (excel == null)
             return Result.Error(context.Language["Import.ExcelFailed"]);
 
