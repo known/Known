@@ -28,6 +28,7 @@ public class BaseLayout : BaseComponent
             return;
 
         await base.OnInitAsync();
+        Context.App = this;
         if (IsServerMode)
             await InitAdminAsync();
     }

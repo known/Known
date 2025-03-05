@@ -3,7 +3,7 @@
 <AntCol Span="Span" Class="@Class">
     @if (NoForm)
     {
-        <FieldItem Label="@Label" Class="@Class" Style="@Style" Tooltip="@Tooltip">
+        <FieldItem Label="@Label" LabelTemplate="LabelTemplate" Class="@Class" Style="@Style" Tooltip="@Tooltip">
             <div class="ant-form-item-control-input">
                 <div class="ant-form-item-control-input-content">
                     @ChildContent
@@ -13,7 +13,7 @@
     }
     else
     {
-        <FormItem Label="@Label" Class="@Class" Style="@Style" Required="Required" Rules="Rules" Tooltip="@Tooltip">
+        <FormItem Label="@Label" LabelTemplate="LabelTemplate" Class="@Class" Style="@Style" Required="Required" Rules="Rules" Tooltip="@Tooltip">
             <DataItemValue IsFixed Value="this">
                 @ChildContent
             </DataItemValue>
@@ -46,6 +46,11 @@
     /// 取得或设置标题。
     /// </summary>
     [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// 取得或设置标题模板。
+    /// </summary>
+    [Parameter] public RenderFragment LabelTemplate { get; set; }
 
     /// <summary>
     /// 取得或设置提示文字。

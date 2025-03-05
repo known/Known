@@ -177,11 +177,7 @@ class ModuleList : BaseTablePage<SysModule>
         return App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>
         {
             var info = await Service.ExportModulesAsync();
-            if (info != null && info.Bytes != null && info.Bytes.Length > 0)
-            {
-                var stream = new MemoryStream(info.Bytes);
-                await JS.DownloadFileAsync(info.Name, stream);
-            }
+            await JS.DownloadFileAsync(info);
         });
     }
 

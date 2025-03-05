@@ -154,6 +154,23 @@ public class ChartDataInfo
 public class FileDataInfo
 {
     /// <summary>
+    /// 构造函数，创建一个附件数据信息类实例。
+    /// </summary>
+    public FileDataInfo() { }
+
+    /// <summary>
+    /// 构造函数，创建一个附件数据信息类实例。
+    /// </summary>
+    /// <param name="name">附件名称。</param>
+    /// <param name="bytes">附件数据。</param>
+    public FileDataInfo(string name, byte[] bytes)
+    {
+        Name = name;
+        Size = bytes == null ? 0 : bytes.Length;
+        Bytes = bytes;
+    }
+
+    /// <summary>
     /// 取得或设置附件文件名。
     /// </summary>
     public string Name { get; set; }

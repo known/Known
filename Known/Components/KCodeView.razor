@@ -79,7 +79,7 @@
     private Task OnDownload(MouseEventArgs args)
     {
         var bytes = Encoding.UTF8.GetBytes(Code);
-        var info = new FileDataInfo { Name = FileName, Size = bytes.Length, Bytes = bytes };
+        var info = new FileDataInfo(FileName, bytes);
         return JS.DownloadFileAsync(info);
     }
 }

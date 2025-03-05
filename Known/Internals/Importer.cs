@@ -126,16 +126,18 @@ class Importer : BaseComponent
         }
     }
 
-    private async Task OnDownloadTemplateAsync()
+    private Task OnDownloadTemplateAsync()
     {
-        var bytes = await Admin.GetImportRuleAsync(Model.BizId);
-        if (bytes == null || bytes.Length == 0)
+        return App?.DownloadAsync(async () =>
         {
-            UI.Error(Language["Import.FileNotExists"]);
-            return;
-        }
+            var bytes = await Admin.GetImportRuleAsync(Model.BizId);
+            if (bytes == null || bytes.Length == 0)
+            {
+                UI.Error(Language["Import.FileNotExists"]);
+                return;
+            }
 
-        var stream = new MemoryStream(bytes);
-        await JS.DownloadFileAsync($"{Language["Import.Template"]}_{Model.Name}.xlsx", stream);
+            await JS.DownloadFileAsync($"{Language["Import.Template"]}_{Model.Name}.xlsx", bytes);
+        });
     }
 }

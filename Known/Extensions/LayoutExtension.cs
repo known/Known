@@ -6,6 +6,17 @@
 public static class LayoutExtension
 {
     /// <summary>
+    /// 异步下载文件，显示Loading提示。
+    /// </summary>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="action">下载文件委托。</param>
+    /// <returns></returns>
+    public static Task DownloadAsync(this BaseLayout app, Func<Task> action)
+    {
+        return app?.ShowSpinAsync("下载中...", action);
+    }
+
+    /// <summary>
     /// 异步查询数据，显示Loading提示。
     /// </summary>
     /// <param name="app">模板基类实例。</param>
@@ -34,11 +45,7 @@ public static class LayoutExtension
             var result = await table.OnQuery?.Invoke(table.Criteria);
             table.Criteria.ExportMode = ExportMode.None;
             var bytes = result.ExportData;
-            if (bytes != null && bytes.Length > 0)
-            {
-                var stream = new MemoryStream(bytes);
-                await app.JS.DownloadFileAsync($"{name}.xlsx", stream);
-            }
+            await app.JS.DownloadFileAsync($"{name}.xlsx", bytes);
         });
     }
 

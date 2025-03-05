@@ -22,17 +22,16 @@ public class FileLink : BaseComponent
             builder.Span("kui-link", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFileAsync(Item)));
     }
 
-    private async Task OnDownloadFileAsync(AttachInfo item)
+    private Task OnDownloadFileAsync(AttachInfo item)
     {
-        var path = Config.GetUploadPath(item.Path);
-        if (!File.Exists(path))
-            return;
-
-        var bytes = await File.ReadAllBytesAsync(path);
-        if (bytes != null && bytes.Length > 0)
+        return App?.DownloadAsync(async () =>
         {
-            var stream = new MemoryStream(bytes);
-            await JS.DownloadFileAsync(item.SourceName, stream);
-        }
+            var path = Config.GetUploadPath(item.Path);
+            if (!File.Exists(path))
+                return;
+
+            var bytes = await File.ReadAllBytesAsync(path);
+            await JS.DownloadFileAsync(item.SourceName, bytes);
+        });
     }
 }

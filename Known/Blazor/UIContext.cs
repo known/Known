@@ -47,6 +47,11 @@ public class UIContext : Context
     /// </summary>
     public UIService UI { get; internal set; }
 
+    /// <summary>
+    /// 取得基础模板实例。
+    /// </summary>
+    public BaseLayout App { get; internal set; }
+
     internal NavigationManager Navigation { get; set; }
     internal ReuseTabsService TabsService { get; set; }
 

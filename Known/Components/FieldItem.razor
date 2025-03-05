@@ -1,4 +1,4 @@
-﻿<div class="ant-form-item ant-form-item-row ant-row @Class" style="@Style">
+﻿<div class="@ClassName" style="@Style">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <div class="ant-form-item-label">
@@ -9,12 +9,19 @@
             }
         </div>
     }
+    else if (LabelTemplate != null)
+    {
+        <div class="ant-form-item-label">
+            @LabelTemplate
+        </div>
+    }
     <div class="ant-form-item-control">
         @ChildContent
     </div>
 </div>
 
 @code {
+    private string ClassName => CssBuilder.Default("ant-form-item ant-form-item-row ant-row").AddClass(Class).BuildClass();
     private string LabelClass => Required ? "ant-form-item-required" : "";
 
     /// <summary>
@@ -31,6 +38,11 @@
     /// 取得或设置标题。
     /// </summary>
     [Parameter] public string Label { get; set; }
+
+    /// <summary>
+    /// 取得或设置标题模板。
+    /// </summary>
+    [Parameter] public RenderFragment LabelTemplate { get; set; }
 
     /// <summary>
     /// 取得或设置提示文字。

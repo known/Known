@@ -79,11 +79,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [CascadingParameter] public UIContext Context { get; set; }
 
     /// <summary>
-    /// 取得或设置基础模板布局级联值实例。
-    /// </summary>
-    [CascadingParameter] public BaseLayout App { get; set; }
-
-    /// <summary>
     /// 取得组件是否是Server模式。
     /// </summary>
     public bool IsServerMode => JSRuntime.GetType().ToString() == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime";
@@ -97,6 +92,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// 取得上下文当前用户信息实例。
     /// </summary>
     public UserInfo CurrentUser => Context?.CurrentUser;
+
+    /// <summary>
+    /// 取得上下文基础模板实例。
+    /// </summary>
+    public BaseLayout App => Context?.App;
 
     /// <summary>
     /// 取得框架平台数据服务接口实例。
