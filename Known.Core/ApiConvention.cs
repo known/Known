@@ -144,6 +144,18 @@ class ApiConvention : IApplicationModelConvention
 
     private static string GetHttpMethod(ActionModel model)
     {
+        if (model.ActionMethod.GetCustomAttribute<HttpGetAttribute>() != null)
+            return "GET";
+
+        if (model.ActionMethod.GetCustomAttribute<HttpPostAttribute>() != null)
+            return "POST";
+
+        if (model.ActionMethod.GetCustomAttribute<HttpPutAttribute>() != null)
+            return "PUT";
+
+        if (model.ActionMethod.GetCustomAttribute<HttpDeleteAttribute>() != null)
+            return "DELETE";
+
         var actionName = model.ActionName;
         if (actionName.StartsWith("Get"))
             return "GET";

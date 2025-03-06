@@ -8,7 +8,11 @@ class AuthActionFilter : IActionFilter
     public void OnActionExecuting(ActionExecutingContext context)
     {
         var action = context.ActionDescriptor as ControllerActionDescriptor;
-        var attribute = action.MethodInfo.GetCustomAttribute(typeof(AllowAnonymousAttribute), false);
+        var attribute = action.ControllerTypeInfo.GetCustomAttribute<AllowAnonymousAttribute>(false);
+        if (attribute != null)
+            return;
+
+        attribute = action.MethodInfo.GetCustomAttribute<AllowAnonymousAttribute>(false);
         if (attribute != null)
             return;
 
