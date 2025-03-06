@@ -29,7 +29,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         await database.OpenAsync();
         var user = await database.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
         user ??= new UserInfo();
-        user.DefaultPassword = Config.System.UserDefaultPwd;
+        user.DefaultPassword = Config.System?.UserDefaultPwd;
         var roles = await database.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
         var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
         var roleIds = userRoles?.Select(r => r.RoleId).ToList();

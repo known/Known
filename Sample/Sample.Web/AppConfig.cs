@@ -31,7 +31,6 @@ public static class AppConfig
 #if DEBUG
         Config.IsDebug = true;
 #endif
-
         builder.AddAppWeb();
         builder.AddAppWebCore();
     }

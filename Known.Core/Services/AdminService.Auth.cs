@@ -66,6 +66,7 @@ partial class AdminService
 
         var db = Database;
         await db.OpenAsync();
+        Config.System ??= await db.GetSystemAsync();
         var info = new AdminInfo
         {
             AppName = await db.GetUserSystemNameAsync(),
