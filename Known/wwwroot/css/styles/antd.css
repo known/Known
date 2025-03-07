@@ -1,5 +1,15 @@
 /*AntDesign*/
 .ant-layout-header {background:var(--kui-bgcolor);}
+.ant-btn, .ant-input, .ant-input-number, .ant-input-affix-wrapper,
+.ant-select:not(.ant-select-customize-input) .ant-select-selector, .ant-select-dropdown,
+.ant-tag, .ant-alert, .ant-message-notice-content, .ant-segmented,
+.ant-picker, .ant-picker-panel-container, .ant-dropdown-menu, .ant-upload.ant-upload-drag,
+.ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
+    border-radius:5px;
+}
+.ant-radio-button-wrapper:first-child {border-radius:5px 0 0 5px;}
+.ant-radio-button-wrapper:last-child {border-radius:0 5px 5px 0;}
+.ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}
 .ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:2px;}
