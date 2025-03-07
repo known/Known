@@ -7,6 +7,7 @@
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
     border-radius:5px;
 }
+.ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {border-radius:0 5px 5px 0;}
 .ant-radio-button-wrapper:first-child {border-radius:5px 0 0 5px;}
 .ant-radio-button-wrapper:last-child {border-radius:0 5px 5px 0;}
 .ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}

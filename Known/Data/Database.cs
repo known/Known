@@ -272,7 +272,7 @@ public partial class Database : IDisposable
             return DBNull.Value;
 
         if (item.Value is bool boolean)
-            return boolean.ToString();
+            return boolean ? 1 : 0;
 
         if (item.Value is Enum)
             return item.Value.ToString();
