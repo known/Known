@@ -37,6 +37,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         builder.Component<KListTable<DictionaryInfo>>()
                .Set(c => c.ListData, categories)
                .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
+               .Set(c => c.OnAddClick, this.Callback<MouseEventArgs>(e => AddCategory()))
                .Set(c => c.Table, Table)
                .Build();
     }

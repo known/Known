@@ -27,6 +27,12 @@
                 </li>
             }
         }
+        else
+        {
+            <Empty>
+                <KButton Type="ButtonType.Primary" Name="添加数据" OnClick="OnAddClick" />
+            </Empty>
+        }
     </ul>
 </div>
 
@@ -54,6 +60,11 @@
     /// 取得或设置列表项呈现模板。
     /// </summary>
     [Parameter] public RenderFragment<CodeInfo> ItemTemplate { get; set; }
+
+    /// <summary>
+    /// 取得或设置添加数据按钮单击事件。
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnParameterAsync()

@@ -1,35 +1,36 @@
-按钮编码         | 按钮名称 | 按钮图标      | 按钮样式    | 按钮位置
-Add              | 添加    | plus         | primary    | Toolbar
-New              | 新增    | plus         | primary    | Toolbar
-View             | 查看    | eye          | primary    | Action
-Edit             | 编辑    | edit         | primary    | Action
-Delete           | 删除    | delete       | danger    | Action
-DeleteM          | 批量删除 | delete      | danger    | Toolbar
-Clear            | 清空    | delete       | danger    | Toolbar
-Import           | 导入    | import       | primary    | Toolbar
-Export           | 导出    | export       | primary    | Toolbar
-Copy             | 复制    | copy         | primary    | Toolbar
-Move             | 移动    | drag         | primary    | Toolbar
-Backup           | 备份    | block         | primary    | Toolbar
-MoveUp           | 上移    | up           | primary    | Action
-MoveDown         | 下移    | down         | primary    | Action
-Download         | 下载    | download     | primary    | Toolbar,Action
-Enable           | 启用    | check-circle | primary    | Toolbar,Action
-Disable          | 禁用    | close-circle | primary    | Toolbar,Action
-Print            | 打印    | printer      | primary    | Toolbar,Action
-Reset            | 重置    | undo         | primary    | Toolbar
-Save             | 保存    | save         | primary
-OK               | 确定    | check        | primary
-Cancel           | 取消    | close        | 
-Restore          | 恢复    | rollback     | primary    | Action
-Authorize        | 授权    | safety       | primary    | Action
+按钮编码         | 按钮名称  | 按钮图标     | 按钮样式   | 按钮位置
+Add              | 添加     | plus         | primary    | Toolbar
+New              | 新增     | plus         | primary    | Toolbar
+View             | 查看     | eye          | primary    | Action
+Edit             | 编辑     | edit         | primary    | Action
+Delete           | 删除     | delete       | danger     | Action
+DeleteM          | 批量删除 | delete       | danger     | Toolbar
+Clear            | 清空     | delete       | danger     | Toolbar
+Import           | 导入     | import       | primary    | Toolbar
+Export           | 导出     | export       | primary    | Toolbar
+Copy             | 复制     | copy         | primary    | Toolbar
+Move             | 移动     | drag         | primary    | Toolbar
+Backup           | 备份     | block        | primary    | Toolbar
+MoveUp           | 上移     | up           | primary    | Action
+MoveDown         | 下移     | down         | primary    | Action
+Download         | 下载     | download     | primary    | Toolbar,Action
+Enable           | 启用     | check-circle | primary    | Toolbar,Action
+Disable          | 禁用     | close-circle | primary    | Toolbar,Action
+Print            | 打印     | printer      | primary    | Toolbar,Action
+Reset            | 重置     | undo         | primary    | Toolbar
+Save             | 保存     | save         | primary
+OK               | 确定     | check        | primary
+Cancel           | 取消     | close        | 
+Restore          | 恢复     | rollback     | primary    | Toolbar,Action
+Authorize        | 授权     | safety       | primary    | Toolbar,Action
+Test             | 测试     | experiment   | primary    | Toolbar,Action
 
-Submit           | 提交    | send         | primary    | Action
-Revoke           | 撤回    | undo         | primary    | Action
-Assign           | 分配    | user-switch  | primary    | Action
-Verify           | 审核    | check        | primary    | Action
-Pass             | 审核通过 | check-circle | primary
-Fail             | 审核退回 | close-circle | primary
+Submit           | 提交     | send         | primary    | Action
+Revoke           | 撤回     | undo         | primary    | Action
+Assign           | 分配     | user-switch  | primary    | Action
+Verify           | 审核     | check        | primary    | Action
+Pass             | 审核通过 | check-circle | primary   | Toolbar
+Fail             | 审核退回 | close-circle | primary   | Toolbar
 Reapply          | 重新申请 | redo         | primary   | Toolbar
 
 ResetPassword    | 重置密码 | lock        | primary    | Toolbar

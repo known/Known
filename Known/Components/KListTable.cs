@@ -22,6 +22,11 @@ public class KListTable<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public EventCallback<CodeInfo> OnListClick { get; set; }
 
     /// <summary>
+    /// 取得或设置添加数据按钮单击事件。
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
+
+    /// <summary>
     /// 取得或设置表格配置模型。
     /// </summary>
     [Parameter] public TableModel<TItem> Table { get; set; }
@@ -43,6 +48,7 @@ public class KListTable<TItem> : BaseComponent where TItem : class, new()
                .Set(c => c.DataSource, ListData)
                .Set(c => c.ItemTemplate, ItemTemplate)
                .Set(c => c.OnItemClick, OnListClick)
+               .Set(c => c.OnAddClick, OnAddClick)
                .Build();
     }
 
