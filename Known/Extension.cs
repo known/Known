@@ -83,6 +83,8 @@ public static class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
+        // 设置当前路径为程序根目录（适配Maui）
+        Environment.CurrentDirectory = AppContext.BaseDirectory;
         AppData.LoadAppData();
         AppData.LoadBizData();
         LoadBuildTime(Config.Version);
