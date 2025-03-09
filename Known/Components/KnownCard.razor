@@ -9,7 +9,7 @@
     <div style="display:flex;">
         <div style="margin-right:10px;">
             <img src="https://img.shields.io/nuget/v/Known.svg?color=red&logo=nuget&logoColor=green" /><br />
-            <img src="@imgUrl" />
+            <img src="@knownImgUrl" />
         </div>
         <div class="known-url">
             @Language["Known.WebSite"]<a href="@Config.SiteUrl" target="_blank">@Language["WebSite"]</a>
@@ -22,14 +22,14 @@
 </div>
 
 @code {
-    private string imgUrl;
+    private string knownImgUrl;
 
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         var vknown = GetVersion<Config>();
-        imgUrl = $"https://img.shields.io/badge/Known-{vknown}-blue";
+        knownImgUrl = $"https://img.shields.io/badge/Known-{vknown}-blue";
     }
 
     private string GetVersion<T>()

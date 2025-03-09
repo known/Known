@@ -23,78 +23,39 @@ public static class AppConfig
     public static string AppId => "KIMS";
     public static string AppName => "Known信息管理系统";
 
-    public static void AddApplication(this WebApplicationBuilder builder)
+    public static void AddApplication(this IServiceCollection services, Action<CoreOption> action)
     {
         Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
-        Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
 #if DEBUG
         Config.IsDebug = true;
 #endif
-        builder.AddAppWeb();
-        builder.AddAppWebCore();
+        // 添加前端
+        var assembly = typeof(AppConfig).Assembly;
+        services.AddKnown(option =>
+        {
+            option.Id = AppId;
+            option.Name = AppName;
+            option.Assembly = assembly;
+            option.IsMobile = true;
+            //option.NextIdType = NextIdType.AutoInteger;
+        });
+        services.AddKnownAdmin();
+        services.AddModules();
+        services.ConfigUI();
+
+        // 添加后端
+        services.AddServices(assembly);
+        services.AddTaskJobs();
+        services.AddKnownCells();
+        services.AddKnownAdminCore();
+        services.AddKnownWeb(action);
     }
 
     public static void UseApplication(this WebApplication app)
     {
         app.UseKnown();
         app.UseTaskJobs();
-    }
-
-    private static void AddAppWeb(this WebApplicationBuilder builder)
-    {
-        var assembly = typeof(AppConfig).Assembly;
-        builder.Services.AddKnown(info =>
-        {
-            info.Id = AppId;
-            info.Name = AppName;
-            info.Assembly = assembly;
-            info.IsMobile = true;
-            //info.NextIdType = NextIdType.AutoInteger;
-        });
-        builder.Services.AddKnownAdmin();
-        builder.Services.AddModules();
-        builder.Services.ConfigUI();
-    }
-
-    private static void AddAppWebCore(this WebApplicationBuilder builder)
-    {
-        var assembly = typeof(AppConfig).Assembly;
-        builder.Services.AddServices(assembly);
-        builder.Services.AddKnownAdminCore(option =>
-        {
-            //option.Code = new CodeConfigInfo
-            //{
-            //    EntityPath = @"D:\Sample",
-            //    PagePath = @"D:\Sample.Client",
-            //    ServicePath = @"D:\Sample.Web"
-            //};
-            //option.ProductId = "Test";
-            //option.CheckSystem = info => Result.Error("无效密钥，请重新授权！");
-            //option.AddModules(ModuleHelper.AddAppModules);
-        });
-        builder.Services.AddKnownCells();
-        builder.Services.AddKnownWeb(option =>
-        {
-            option.App.WebRoot = builder.Environment.WebRootPath;
-            option.App.ContentRoot = builder.Environment.ContentRootPath;
-            option.Database = db =>
-            {
-                var connString = builder.Configuration.GetSection("ConnString").Get<string>();
-                //db.AddAccess<System.Data.OleDb.OleDbFactory>(connString);
-                db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
-                //db.AddSqlServer<Microsoft.Data.SqlClient.SqlClientFactory>(connString);
-                //db.AddSqlServer<Oracle.ManagedDataAccess.Client.OracleClientFactory>(connString);
-                //db.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
-                //db.AddPgSql<Npgsql.NpgsqlFactory>(connString);
-                //db.AddDM<Dm.DmClientFactory>(connString);
-                //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
-                //db.OperateMonitors.Add(info => Console.WriteLine(info.ToString()));
-            };
-        });
-
-        // 添加任务
-        builder.Services.AddTaskJobs();
     }
 
     private static void AddModules(this IServiceCollection services)

@@ -13,8 +13,8 @@
         <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
         <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.7.0" />
         <PackageReference Include="MySqlConnector" Version="2.4.0" />
-        <PackageReference Include="Npgsql" Version="9.0.2" />
-        <PackageReference Include="DM.DmProvider" Version="8.3.1.30495" />
+        <PackageReference Include="Npgsql" Version="9.0.3" />
+        <PackageReference Include="DM.DmProvider" Version="8.3.1.33449" />
         -->
         <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
         <ProjectReference Include="..\..\Plugins\Known.Cells\Known.Cells.csproj" />

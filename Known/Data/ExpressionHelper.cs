@@ -141,12 +141,12 @@ class ExpressionHelper(DbProvider provider)
 
         if (WhereSql.EndsWith("Not"))
         {
-            WhereSql = WhereSql[..^3] + $"{field}='False'";
+            WhereSql = WhereSql[..^3] + $"({field}='False' or {field}='0')";
             return null;
         }
         else if (me.Member.ToString().Contains("Boolean"))
         {
-            WhereSql += $"{field}='True'";
+            WhereSql += $"({field}='True' or {field}='1')";
             return null;
         }
         return field;
