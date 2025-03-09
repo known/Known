@@ -45,6 +45,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
         form.Class = "kui-form-weblog";
         form.Info = new FormInfo { Width = 800 };
         form.Data = row;
+        form.IsView = true;
         form.AddRow().AddColumn("信息", b =>
         {
             b.Tag(row.Type);
@@ -52,13 +53,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
             b.Tag(row.CreateBy);
             b.Tag(row.CreateTime?.ToString("yyyy-MM-dd HH:mm:ss"));
         });
-        //form.AddRow().AddColumn(c => c.CreateBy, c => c.ReadOnly = true)
-        //             .AddColumn(c => c.CreateTime, c => c.ReadOnly = true);
-        form.AddRow().AddColumn(c => c.Content, c =>
-        {
-            c.ReadOnly = true;
-            c.Type = FieldType.TextArea;
-        });
+        form.AddRow().AddColumn("内容", b => b.Pre().Class("error").Child(row.Content));
         UI.ShowForm(form);
     }
 

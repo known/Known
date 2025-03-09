@@ -49,6 +49,7 @@
 .kui-body > .kui-card > .ant-tabs > .ant-tabs-content-holder {
     position:absolute;top:56px;left:10px;right:10px;bottom:10px;overflow:auto;padding:15px;
 }
+pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-radius:3px;max-height:300px;overflow:auto;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
