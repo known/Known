@@ -21,7 +21,7 @@ public partial class UIService
         if (fieldType == FieldType.TextArea) return typeof(AntTextArea);
         if (fieldType == FieldType.Date) return typeof(AntDatePicker);
         if (fieldType == FieldType.DateTime) return typeof(AntDateTimePicker);
-        if (dataType == typeof(bool)) return typeof(Switch);
+        if (dataType == typeof(bool)) return typeof(AntSwitch);
         if (dataType == typeof(short)) return typeof(AntNumber<short>);
         if (dataType == typeof(short?)) return typeof(AntNumber<short?>);
         if (dataType == typeof(int)) return typeof(AntNumber<int>);
@@ -35,7 +35,7 @@ public partial class UIService
         if (dataType == typeof(decimal)) return typeof(AntNumber<decimal>);
         if (dataType == typeof(decimal?)) return typeof(AntNumber<decimal?>);
         if (dataType == typeof(DateTime)) return typeof(DatePicker<DateTime>);
-        if (dataType == typeof(DateTime?)) return typeof(AntDatePicker);
+        if (dataType == typeof(DateTime?)) return typeof(DatePicker<DateTime?>);
         if (dataType == typeof(DateTimeOffset)) return typeof(DatePicker<DateTimeOffset>);
         if (dataType == typeof(DateTimeOffset?)) return typeof(DatePicker<DateTimeOffset?>);
         return typeof(AntInput);
@@ -68,8 +68,5 @@ public partial class UIService
 
         if (column.Type == FieldType.AutoComplete)
             attributes[nameof(AntAutoComplete.Options)] = model.GetCodes("");
-
-        if (column.Type == FieldType.Date || column.Type == FieldType.DateTime)
-            attributes["disabled"] = OneOf.OneOf<bool, bool[]>.FromT0(model.IsReadOnly);
     }
 }
