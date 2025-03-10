@@ -239,6 +239,9 @@ public sealed class Config
     /// <returns>文件物理路径。</returns>
     public static string GetUploadPath(string filePath, bool isWeb = false)
     {
+        if (string.IsNullOrWhiteSpace(filePath))
+            return string.Empty;
+
         var path = GetUploadPath(isWeb);
         return Path.Combine(path, filePath);
     }

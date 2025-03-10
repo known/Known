@@ -23,7 +23,12 @@ public class AntDropdown : Dropdown
         if (Item != null)
             Item.Type = typeof(string);
         base.OnInitialized();
+    }
 
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
         Class = Model?.Class;
 
         if (!string.IsNullOrWhiteSpace(Model?.Icon))
