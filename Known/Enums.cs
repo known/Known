@@ -31,7 +31,12 @@ public enum MenuType
     /// <summary>
     /// 链接。
     /// </summary>
-    Link
+    Link,
+    /// <summary>
+    /// 原型。
+    /// </summary>
+    [CodeIgnore]
+    Prototype
 }
 
 /// <summary>

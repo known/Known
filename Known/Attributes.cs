@@ -37,6 +37,11 @@ public class ClientAttribute(ServiceLifetime lifetime = ServiceLifetime.Scoped) 
 public class CodeInfoAttribute : Attribute { }
 
 /// <summary>
+/// 代码表项目忽略特性类，用于标识常量类或枚举项目忽略作为数据字典代码。
+/// </summary>
+public class CodeIgnoreAttribute : Attribute { }
+
+/// <summary>
 /// 菜单特性类，用于标识页面组件是否是模块菜单。
 /// </summary>
 /// <param name="parent">上级菜单。</param>

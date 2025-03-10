@@ -40,6 +40,11 @@ public sealed class TypeHelper
         var values = Enum.GetValues(type);
         foreach (Enum item in values)
         {
+            var fieldName = Enum.GetName(type, item);
+            var field = type.GetField(fieldName);
+            if (field.GetCustomAttribute<CodeIgnoreAttribute>() != null)
+                continue;
+
             var code = Enum.GetName(type, item);
             var name = item.GetDescription();
             if (string.IsNullOrWhiteSpace(name))
