@@ -103,6 +103,11 @@ public class UIConfig
     public static Action<RenderTreeBuilder, ImportInfo> ImportForm { get; set; }
 
     /// <summary>
+    /// 取得或设置原型模拟数据委托。
+    /// </summary>
+    public static Func<MenuInfo, PageColumnInfo, object> OnPrototypeMock { get; set; }
+
+    /// <summary>
     /// 取得忽略URL鉴权的路由列表。
     /// </summary>
     public static List<string> IgnoreRoutes { get; } = ["/"];

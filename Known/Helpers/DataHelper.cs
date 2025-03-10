@@ -373,5 +373,28 @@ public sealed class DataHelper
 
         return Result.Success("");
     }
+
+    internal static Task<PagingResult<Dictionary<string, object>>> QueryPrototypeDataAsync(PagingCriteria criteria, MenuInfo info)
+    {
+        var columns = info?.TablePage?.Page?.Columns;
+        if (columns == null || columns.Count == 0)
+            return Task.FromResult(new PagingResult<Dictionary<string, object>>());
+
+        var datas = new List<Dictionary<string, object>>();
+        for (int i = 0; i < 100; i++)
+        {
+            var data = new Dictionary<string, object>();
+            foreach (var column in columns)
+            {
+                if (UIConfig.OnPrototypeMock != null)
+                    data[column.Id] = UIConfig.OnPrototypeMock.Invoke(info, column);
+                else
+                    data[column.Id] = "测试";
+            }
+            datas.Add(data);
+        }
+        var result = datas.ToPagingResult(criteria);
+        return Task.FromResult(result);
+    }
     #endregion
 }

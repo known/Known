@@ -81,6 +81,9 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryModelsAsync(PagingCriteria criteria)
     {
+        if (Context.Current?.Type == nameof(MenuType.Prototype))
+            return DataHelper.QueryPrototypeDataAsync(criteria, Context.Current);
+
         criteria.Parameters[nameof(PageId)] = PageId;
         return Service.QueryModelsAsync(criteria);
     }

@@ -44,10 +44,10 @@ public class AutoPage : BasePage
             UI.Page404(builder, PageId);
         else if (Context.Current.Target == nameof(ModuleType.IFrame))
             builder.IFrame(Context.Current.Url);
-        else if (Context.Current.Type == nameof(MenuType.Page))
-            BuildPluginPage(builder);
         else if (Context.Current.Target == nameof(ModuleType.Page))
             BuildAutoTablePage(builder);
+        else if (Context.Current.Type == nameof(MenuType.Page))
+            BuildPluginPage(builder);
     }
 
     private void BuildPluginPage(RenderTreeBuilder builder)
