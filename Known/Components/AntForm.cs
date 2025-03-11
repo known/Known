@@ -48,7 +48,11 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         {
             b.Div(Form?.ClassName, () =>
             {
+                if (Form.Header != null)
+                    b.Fragment(Form.Header);
+
                 base.BuildRenderTree(b);
+
                 if (ShowAction && !Form.IsView)
                 {
                     b.FormAction(() =>

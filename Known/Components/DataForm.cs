@@ -20,9 +20,6 @@ public class DataForm<TItem> : BaseForm where TItem : class, new()
         if (Model == null)
             return;
 
-        if (Model.Header != null)
-            builder.Fragment(Model.Header);
-
         builder.Component<AntForm<TItem>>()
                .Set(c => c.Form, Model)
                .Set(c => c.ChildContent, this.BuildTree<TItem>(BuildFormBody))

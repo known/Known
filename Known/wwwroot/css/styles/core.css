@@ -67,6 +67,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-row-91 {grid-template-columns:90% 10%;}
 
 /*Form*/
+.kui-form, .kui-small {padding:10px;}
 .kui-steps-content {
     margin-top:16px;padding:10px;background-color:var(--kui-bgcolor);
     border:1px dashed var(--kui-border-color);

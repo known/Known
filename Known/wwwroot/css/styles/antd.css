@@ -37,16 +37,16 @@
 .ant-modal-body > .ant-steps {padding:15px 0 10px 0;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
-.ant-modal-body, .ant-drawer-body {padding:15px;}
-.ant-modal-body .kui-small {padding:10px 10px 0 0;}
-.ant-modal-body .kui-form {padding:10px 10px 0 0;}
-.ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
+.ant-modal-body, .ant-drawer-body {padding:5px;}
+.ant-modal-body1 .kui-form-action {padding:0 10px 10px 0;}
 .ant-modal-body .nopadding {padding:0;}
+.ant-drawer-body .kui-form-action {position:fixed;bottom:10px;right:10px;}
 
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 
-.kui-tab-form .ant-modal-body {padding-top:0;}
+.kui-tab-form .ant-modal-body .kui-form, .kui-tab-form .ant-drawer-body .kui-form {padding-top:0;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
+.kui-form-tab .ant-tabs-content-holder {padding-top:10px;}
 
 :root[data-theme=dark] .ant-layout-sider, :root[data-theme=dark] .kui-menu-dark {
     color:var(--kui-color);background-color:var(--kui-bgcolor);
@@ -73,6 +73,8 @@
     .ant-form-inline {flex-direction:column;}
     .ant-form-item .ant-form-item-label {padding-bottom:0;}
     .ant-input-search-icon {font-size:20px;}
+    .ant-form .ant-form-item .ant-form-item-label, 
+    .ant-form .ant-form-item .ant-form-item-control {width:100%;}
     .kui-query {padding:10px;}
     .kui-query .ant-form-item-label {text-align:left;}
     .ant-query-btn {margin-top:5px;}
