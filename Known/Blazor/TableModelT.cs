@@ -18,7 +18,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         Page = page;
-        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
+        IsDictionary = typeof(TItem).IsDictionary();
         OnAction = page.OnActionClick;
         Toolbar.OnItemClick = page.OnToolClick;
 

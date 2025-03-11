@@ -15,7 +15,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <param name="isAuto">是否根据表单数据类型自动生成布局，默认否。</param>
     public FormModel(BaseComponent page, bool isAuto = false) : base(page)
     {
-        IsDictionary = typeof(TItem) == typeof(Dictionary<string, object>);
+        IsDictionary = typeof(TItem).IsDictionary();
         Page = page;
         if (isAuto)
             columns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).Where(c => c.IsForm).ToList();

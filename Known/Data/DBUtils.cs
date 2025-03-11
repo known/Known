@@ -36,8 +36,7 @@ public sealed class DbUtils
     public static object ConvertTo<T>(IDataReader reader)
     {
         var dic = GetDictionary(reader);
-        var type = typeof(T);
-        if (type == typeof(Dictionary<string, object>))
+        if (typeof(T).IsDictionary())
             return dic;
 
         return ConvertTo<T>(dic);
@@ -52,8 +51,7 @@ public sealed class DbUtils
     public static object ConvertTo<T>(DataRow row)
     {
         var dic = GetDictionary(row);
-        var type = typeof(T);
-        if (type == typeof(Dictionary<string, object>))
+        if (typeof(T).IsDictionary())
             return dic;
 
         return ConvertTo<T>(dic);
@@ -184,7 +182,7 @@ public sealed class DbUtils
         }
 
         var rowIndex = 0;
-        var isDictionary = typeof(T) == typeof(Dictionary<string, object>);
+        var isDictionary = typeof(T).IsDictionary();
         foreach (var data in pageData)
         {
             rowIndex++;

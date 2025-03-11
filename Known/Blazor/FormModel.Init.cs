@@ -81,7 +81,7 @@ partial class FormModel<TItem>
     private static List<ColumnInfo> GetFormColumns(FormInfo form)
     {
         var columns = new List<ColumnInfo>();
-        if (typeof(TItem) == typeof(Dictionary<string, object>))
+        if (typeof(TItem).IsDictionary())
         {
             columns = form?.Fields?.Select(f => new ColumnInfo(f)).ToList();
         }

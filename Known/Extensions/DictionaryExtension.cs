@@ -6,6 +6,16 @@
 public static class DictionaryExtension
 {
     /// <summary>
+    /// 判断类型是否是字典（Dictionary[string, object]）。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <returns></returns>
+    public static bool IsDictionary(this Type type)
+    {
+        return type == typeof(Dictionary<string, object>);
+    }
+
+    /// <summary>
     /// 获取字典项目值。
     /// </summary>
     /// <param name="dic">字典对象。</param>
