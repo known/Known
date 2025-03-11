@@ -66,7 +66,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     public Type GetPropertyType()
     {
         if (Form.IsDictionary)
-            return GetPropertyType(Column, Value);
+            return GetPropertyType(Column);
 
         return Property?.GetFieldPropertyType();
     }
@@ -135,38 +135,25 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             return null;
 
         var value = data.GetValue(column.Id);
-        switch (column.Type)
+        return column.Type switch
         {
-            case FieldType.Date:
-            case FieldType.DateTime:
-                return Utils.ConvertTo<DateTime?>(value);
-            case FieldType.Number:
-                return Utils.ConvertTo<decimal?>(value);
-            case FieldType.Switch:
-            case FieldType.CheckBox:
-                return Utils.ConvertTo<bool>(value);
-            default:
-                return value?.ToString();
-        }
+            FieldType.Date or FieldType.DateTime => Utils.ConvertTo<DateTime?>(value),
+            FieldType.Number => Utils.ConvertTo<decimal?>(value),
+            FieldType.Switch or FieldType.CheckBox => Utils.ConvertTo<bool>(value),
+            _ => value?.ToString(),
+        };
     }
 
-    private static Type GetPropertyType(ColumnInfo column, object value)
+    private static Type GetPropertyType(ColumnInfo column)
     {
-        switch (column.Type)
+        return column.Type switch
         {
-            case FieldType.Date:
-            case FieldType.DateTime:
-                return value != null ? value.GetType() : typeof(DateTime?);
-            case FieldType.Number:
-                return value != null ? value.GetType() : typeof(decimal?);
-            case FieldType.Switch:
-            case FieldType.CheckBox:
-                return typeof(bool);
-            case FieldType.CheckList:
-                return typeof(string[]);
-            default:
-                return typeof(string);
-        }
+            FieldType.Date or FieldType.DateTime => typeof(DateTime?),
+            FieldType.Number => typeof(decimal?),
+            FieldType.Switch or FieldType.CheckBox => typeof(bool),
+            FieldType.CheckList => typeof(string[]),
+            _ => typeof(string),
+        };
     }
 }
 
@@ -207,24 +194,14 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
             try
             {
                 MemberExpression access = null;
-                switch (model.Column.Type)
+                access = model.Column.Type switch
                 {
-                    case FieldType.Date:
-                    case FieldType.DateTime:
-                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsDateTime));
-                        break;
-                    case FieldType.Number:
-                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsDecimal));
-                        break;
-                    case FieldType.Switch:
-                    case FieldType.CheckBox:
-                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsBool));
-                        break;
+                    FieldType.Date or FieldType.DateTime => Expression.Property(Expression.Constant(model), nameof(model.ValueAsDateTime)),
+                    FieldType.Number => Expression.Property(Expression.Constant(model), nameof(model.ValueAsDecimal)),
+                    FieldType.Switch or FieldType.CheckBox => Expression.Property(Expression.Constant(model), nameof(model.ValueAsBool)),
                     //case FieldType.CheckList: //return typeof(string[]);
-                    default:
-                        access = Expression.Property(Expression.Constant(model), nameof(model.ValueAsString));
-                        break;
-                }
+                    _ => Expression.Property(Expression.Constant(model), nameof(model.ValueAsString)),
+                };
                 lambda = Expression.Lambda(typeof(Func<>).MakeGenericType(propertyType), access);
             }
             catch //(Exception ex)
