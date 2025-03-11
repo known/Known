@@ -16,7 +16,7 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     /// <inheritdoc />
-    public override async Task<Result> SaveSettingAsync(TablePageInfo info)
+    public override async Task<Result> SaveSettingAsync(AutoPageInfo info)
     {
         var result = await base.SaveSettingAsync(info);
         Model.Initialize(info);

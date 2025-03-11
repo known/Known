@@ -140,7 +140,7 @@ public static class MenuExtension
     internal static List<CodeInfo> GetAllActions(this MenuInfo info, Language language)
     {
         var codes = new List<CodeInfo>();
-        var param = info.GetTablePageParameter();
+        var param = info.GetAutoPageParameter();
         var page = param?.Page;
         if (page?.Tools != null && page?.Tools.Count > 0)
             codes.AddRange(page?.Tools.Select(b => GetAction(info, language, b)));
@@ -152,7 +152,7 @@ public static class MenuExtension
     internal static List<CodeInfo> GetAllColumns(this MenuInfo info, Language language)
     {
         var codes = new List<CodeInfo>();
-        var param = info.GetTablePageParameter();
+        var param = info.GetAutoPageParameter();
         var page = param?.Page;
         if (page?.Columns != null && page?.Columns.Count > 0)
             codes.AddRange(page?.Columns.Select(c => GetColumn(info, language, c)));

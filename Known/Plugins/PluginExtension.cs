@@ -6,18 +6,18 @@
 public static class PluginExtension
 {
     /// <summary>
-    /// 获取表格页面插件参数配置信息。
+    /// 获取自动页面插件参数配置信息。
     /// </summary>
     /// <param name="menu">页面菜单信息。</param>
     /// <returns></returns>
-    public static TablePageInfo GetTablePageParameter(this MenuInfo menu)
+    public static AutoPageInfo GetAutoPageParameter(this MenuInfo menu)
     {
-        // 表格页面默认只有一个插件
+        // 页面默认只有一个插件
         var plugin = menu?.Plugins?.FirstOrDefault();
         if (plugin == null)
             return null;
 
-        return Utils.FromJson<TablePageInfo>(plugin.Setting);
+        return Utils.FromJson<AutoPageInfo>(plugin.Setting);
     }
 
     /// <summary>

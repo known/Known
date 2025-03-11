@@ -141,7 +141,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 
     private static EntityInfo GetEntityByModuleId(string moduleId)
     {
-        var param = AppData.GetTablePageParameter(moduleId);
+        var param = AppData.GetAutoPageParameter(moduleId);
         return DataHelper.ToEntity(param?.EntityData);
     }
 }

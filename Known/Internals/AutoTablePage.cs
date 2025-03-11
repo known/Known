@@ -69,7 +69,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
         Table.Criteria.Clear();
         Table.SetQueryColumns();
 
-        var param = Context?.Current?.GetTablePageParameter();
+        var param = Context?.Current?.GetAutoPageParameter();
         var model = DataHelper.ToEntity(param?.EntityData);
         var fields = model?.Fields;
         if (fields != null && fields.Count > 0)

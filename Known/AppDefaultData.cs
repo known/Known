@@ -62,15 +62,15 @@ class AppDefaultData
                 };
                 data.Modules.Add(info);
             }
-            var table = AppData.CreateTablePage(item.Page);
+            var table = AppData.CreateAutoPage(item.Page);
             if (table != null)
                 info.Plugins.AddPlugin(table);
         }
     }
 
-    internal static TablePageInfo CreateTablePage(Type pageType, Type entityType)
+    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType)
     {
-        var info = new TablePageInfo
+        var info = new AutoPageInfo
         {
             Page = new PageInfo { Type = pageType.FullName, ShowPager = true, PageSize = Config.App.DefaultPageSize },
             Form = new FormInfo()
@@ -80,7 +80,7 @@ class AppDefaultData
         return info;
     }
 
-    private static void SetMethods(TablePageInfo info, Type pageType)
+    private static void SetMethods(AutoPageInfo info, Type pageType)
     {
         var actions = AppData.GetActions();
         var methods = pageType.GetMethods();
@@ -113,7 +113,7 @@ class AppDefaultData
         }
     }
 
-    private static void SetProperties(TablePageInfo info, Type entityType)
+    private static void SetProperties(AutoPageInfo info, Type entityType)
     {
         var properties = TypeHelper.Properties(entityType);
         foreach (var item in properties)
@@ -128,7 +128,7 @@ class AppDefaultData
         }
     }
 
-    private static void SetPageColumns(TablePageInfo info, PropertyInfo item, ColumnAttribute column)
+    private static void SetPageColumns(AutoPageInfo info, PropertyInfo item, ColumnAttribute column)
     {
         info.Page.Columns.Add(new PageColumnInfo
         {
@@ -150,7 +150,7 @@ class AppDefaultData
         });
     }
 
-    private static void SetFormFields(TablePageInfo info, PropertyInfo item, FormAttribute form)
+    private static void SetFormFields(AutoPageInfo info, PropertyInfo item, FormAttribute form)
     {
         info.Form.Fields.Add(new FormFieldInfo
         {

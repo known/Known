@@ -28,7 +28,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
         var info = table.Info?.Form;
         if (info == null)
         {
-            var plugin = table.Context?.Current?.GetTablePageParameter();
+            var plugin = table.Context?.Current?.GetAutoPageParameter();
             info = plugin?.Form;
         }
         SetFormInfo(info);

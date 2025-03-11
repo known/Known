@@ -305,7 +305,7 @@ partial class AdminService
 
     private static FlowInfo GetFlowByModuleId(string moduleId)
     {
-        var param = AppData.GetTablePageParameter(moduleId);
+        var param = AppData.GetAutoPageParameter(moduleId);
         return DataHelper.ToFlow(param?.FlowData);
     }
 

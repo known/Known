@@ -169,7 +169,7 @@ public class UIContext : Context
         if (menu == null)
             return false;
 
-        var param = menu.GetTablePageParameter();
+        var param = menu.GetAutoPageParameter();
         if (param == null || param.Page == null)
             return false;
 

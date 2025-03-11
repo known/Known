@@ -49,7 +49,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 取得或设置表格配置信息。
     /// </summary>
-    public TablePageInfo Info { get; set; }
+    public AutoPageInfo Info { get; set; }
 
     /// <summary>
     /// 取得表格数据是否是字典类型。
@@ -79,7 +79,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 初始化页面表格模型配置。
     /// </summary>
     /// <param name="info">表格配置模型信息。</param>
-    public void Initialize(TablePageInfo info)
+    public void Initialize(AutoPageInfo info)
     {
         Info = info;
         //FixedWidth = info.Page.FixedWidth;
@@ -120,7 +120,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             var menu = Context?.Current;
             if (menu != null)
             {
-                var info = menu.GetTablePageParameter();
+                var info = menu.GetAutoPageParameter();
                 Initialize(info);
                 if (string.IsNullOrWhiteSpace(Name))
                     Name = Language.GetString(menu);

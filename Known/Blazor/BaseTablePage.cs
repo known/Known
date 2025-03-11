@@ -15,7 +15,7 @@ public class BaseTablePage : BaseComponent
     /// </summary>
     /// <param name="info">表格模型配置信息。</param>
     /// <returns></returns>
-    public virtual Task<Result> SaveSettingAsync(TablePageInfo info)
+    public virtual Task<Result> SaveSettingAsync(AutoPageInfo info)
     {
         Menu.Plugins.AddPlugin(info);
         return Platform.SaveMenuAsync(Menu);

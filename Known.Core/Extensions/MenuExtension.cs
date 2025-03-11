@@ -51,7 +51,7 @@ static class MenuExtension
 
     private static void SetPluginPermission(ModuleInfo module, List<string> moduleIds)
     {
-        var param = module?.Plugins?.GetPluginParameter<TablePageInfo>();
+        var param = module?.Plugins?.GetPluginParameter<AutoPageInfo>();
         if (param == null)
             return;
 

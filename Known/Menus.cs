@@ -168,15 +168,15 @@ public class MenuInfo
         return $"{Name}({RouteUrl})";
     }
 
-    private TablePageInfo tablePage;
-    internal TablePageInfo TablePage
+    private AutoPageInfo tablePage;
+    internal AutoPageInfo TablePage
     {
         get
         {
-            tablePage ??= this.GetTablePageParameter();
+            tablePage ??= this.GetAutoPageParameter();
             if (tablePage == null)
             {
-                tablePage = new TablePageInfo();
+                tablePage = new AutoPageInfo();
                 Plugins.AddPlugin(tablePage);
             }
             return tablePage;

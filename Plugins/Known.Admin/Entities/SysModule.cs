@@ -175,9 +175,9 @@ public class SysModule : EntityBase
         return info;
     }
 
-    private TablePageInfo ToTablePageInfo()
+    private AutoPageInfo ToTablePageInfo()
     {
-        return new TablePageInfo
+        return new AutoPageInfo
         {
             EntityData = EntityData,
             FlowData = FlowData,

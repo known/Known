@@ -35,7 +35,7 @@ public sealed class AppData
     /// <summary>
     /// 取得或设置表格插件配置信息委托。
     /// </summary>
-    public static Func<PluginInfo, TablePageInfo> OnTablePage { get; set; }
+    public static Func<PluginInfo, AutoPageInfo> OnTablePage { get; set; }
 
     /// <summary>
     /// 根据ID获取模块信息。
@@ -82,14 +82,14 @@ public sealed class AppData
     }
 
     /// <summary>
-    /// 创建实体表格页面插件配置信息。
+    /// 创建自动页面插件配置信息。
     /// </summary>
     /// <param name="pageType">页面组件类型。</param>
     /// <returns>插件配置信息。</returns>
-    public static TablePageInfo CreateTablePage(Type pageType)
+    public static AutoPageInfo CreateAutoPage(Type pageType)
     {
         if (TypeHelper.IsGenericSubclass(pageType, typeof(BaseTablePage<>), out var types))
-            return AppDefaultData.CreateTablePage(pageType, types[0]);
+            return AppDefaultData.CreateAutoPage(pageType, types[0]);
 
         return null;
     }
@@ -99,11 +99,11 @@ public sealed class AppData
     /// </summary>
     /// <param name="id">模块ID或插件ID。</param>
     /// <returns>实体插件参数配置信息。</returns>
-    public static TablePageInfo GetTablePageParameter(string id)
+    public static AutoPageInfo GetAutoPageParameter(string id)
     {
         var module = GetModule(id);
         if (module != null && module.Plugins != null)
-            return module.Plugins.GetPluginParameter<TablePageInfo>();
+            return module.Plugins.GetPluginParameter<AutoPageInfo>();
 
         var plugins = new List<PluginInfo>();
         foreach (var item in Data.Modules)
@@ -118,7 +118,7 @@ public sealed class AppData
         if (OnTablePage != null)
             return OnTablePage.Invoke(plugin);
 
-        return Utils.FromJson<TablePageInfo>(plugin.Setting);
+        return Utils.FromJson<AutoPageInfo>(plugin.Setting);
     }
 
     #region AppData

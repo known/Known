@@ -54,7 +54,7 @@ public sealed class DataHelper
         Flows.Clear();
         foreach (var item in modules)
         {
-            var param = item.Plugins?.GetPluginParameter<TablePageInfo>();
+            var param = item.Plugins?.GetPluginParameter<AutoPageInfo>();
             if (param == null)
                 continue;
 
@@ -169,7 +169,7 @@ public sealed class DataHelper
                 actions.Add(method.Name);
         }
         if (actions.Count > 0)
-            info.Plugins.AddPlugin(new TablePageInfo { Page = new PageInfo { Tools = [.. actions] } });
+            info.Plugins.AddPlugin(new AutoPageInfo { Page = new PageInfo { Tools = [.. actions] } });
         return info;
     }
 

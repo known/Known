@@ -4,7 +4,7 @@ class AutoImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
-        var param = AppData.GetTablePageParameter(ImportContext.BizParam);
+        var param = AppData.GetAutoPageParameter(ImportContext.BizParam);
         if (param == null)
             return Result.Error(Language.Required("EntityPlugin"));
 
