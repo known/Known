@@ -59,7 +59,12 @@ public enum ModuleType
     /// <summary>
     /// IFrame页面。
     /// </summary>
-    IFrame
+    IFrame,
+    /// <summary>
+    /// 无代码表单页面。
+    /// </summary>
+    [CodeIgnore]
+    Form
 }
 
 /// <summary>

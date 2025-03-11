@@ -46,8 +46,26 @@ public class AutoPage : BasePage
             builder.IFrame(Context.Current.Url);
         else if (Context.Current.Target == nameof(ModuleType.Page))
             BuildAutoTablePage(builder);
+        else if (Context.Current.Target == nameof(ModuleType.Form))
+            BuildAutoFormPage(builder);
+        else if (Context.Current.Target == nameof(ModuleType.Custom))
+            BuildPluginPage(builder);
         else if (Context.Current.Type == nameof(MenuType.Page))
             BuildPluginPage(builder);
+    }
+
+    private void BuildAutoTablePage(RenderTreeBuilder builder)
+    {
+        builder.Component<AutoTablePage>()
+               .Set(c => c.PageId, PageId)
+               .Build(value => page = value);
+    }
+
+    private void BuildAutoFormPage(RenderTreeBuilder builder)
+    {
+        builder.Component<AutoFormPage>()
+               .Set(c => c.PageId, PageId)
+               .Build(value => page = value);
     }
 
     private void BuildPluginPage(RenderTreeBuilder builder)
@@ -55,13 +73,6 @@ public class AutoPage : BasePage
         builder.Component<PluginPage>()
                .Set(c => c.Menu, Context.Current)
                .Set(c => c.Page, this)
-               .Build(value => page = value);
-    }
-
-    private void BuildAutoTablePage(RenderTreeBuilder builder)
-    {
-        builder.Component<AutoTablePage>()
-               .Set(c => c.PageId, PageId)
                .Build(value => page = value);
     }
 }

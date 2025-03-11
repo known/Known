@@ -3,7 +3,7 @@
 class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 {
     private IAutoService Service;
-    private IAutoService AutoDemo;
+    private AutoService AutoDemo;
     private readonly Dictionary<string, object> defaultData = [];
 
     [Parameter] public string PageId { get; set; }
