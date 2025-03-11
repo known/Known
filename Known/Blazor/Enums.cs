@@ -108,6 +108,11 @@ public enum FormViewType
 public enum FormOpenType
 {
     /// <summary>
+    /// 未设置。
+    /// </summary>
+    [CodeIgnore]
+    None,
+    /// <summary>
     /// 模态对话框。
     /// </summary>
     [Description("模态框")]

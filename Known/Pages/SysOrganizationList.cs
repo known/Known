@@ -25,6 +25,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
         Table = new TableModel<OrganizationInfo>(this)
         {
             FormTitle = row => $"{PageName} - {row.ParentName}",
+            Form = new FormInfo { SmallLabel = true },
             RowKey = r => r.Id,
             ShowPager = false,
             OnQuery = OnQueryOrganizationsAsync

@@ -20,7 +20,10 @@ partial class TableModel<TItem>
     private bool ShowForm(FormModel<TItem> model)
     {
         if (Form != null)
+        {
             model.Info = Form;
+            model.SmallLabel = Form.SmallLabel;
+        }
         //model.Info ??= Context.Current?.Form;
         //model.Info ??= new FormInfo();
         return UI.ShowForm(model);

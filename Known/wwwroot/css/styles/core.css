@@ -77,7 +77,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-action {text-align:right;}
 .kui-form-action button {margin-left:8px;}
 .kui-form-page {padding:24px 50px 20px 0;}
-.kui-form-page-button {margin-left:var(--kui-form-label-width);}
+.kui-form-page-button {margin-left:130px;}
 .kui-form-page-button button {margin-right:10px;}
 .kui-form-button {margin-left:200px;}
 .kui-form-button button {margin-right:10px;}

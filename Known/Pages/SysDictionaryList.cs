@@ -18,6 +18,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         await base.OnInitPageAsync();
 
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
+        Table.Form = new FormInfo { SmallLabel = true };
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
         Table.Column(c => c.Category).Template((b, r) => b.Text(r.CategoryName));
@@ -163,7 +164,7 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         Table.AutoHeight = false;
         Table.ShowPager = true;
         Table.OnQuery = QueryDictionariesAsync;
-        Table.Form = new FormInfo { Width = 500 };
+        Table.Form = new FormInfo { Width = 500, OpenType = FormOpenType.Modal };
         Table.Toolbar.AddAction(nameof(New));
         Table.AddColumn(c => c.Code, true).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);

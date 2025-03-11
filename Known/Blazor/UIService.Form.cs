@@ -12,7 +12,7 @@ public partial class UIService
     public bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var openType = model.Info.OpenType;
-        if (openType != FormOpenType.Url)
+        if (openType == FormOpenType.None)
             openType = Utils.ConvertTo<FormOpenType>(model.Context.UserSetting.OpenType);
         switch (openType)
         {
@@ -71,7 +71,7 @@ public partial class UIService
         var option = new DrawerOptions
         {
             Title = model.GetFormTitle(),
-            Width = model.Info.Width?.ToString(),
+            Width = model.Info.Width?.ToString() ?? "400px",
             Closable = true,
             MaskClosable = false,
             Placement = DrawerPlacement.Right,

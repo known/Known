@@ -33,9 +33,9 @@ public class SysUserList : BaseTablePage<UserInfo>
         Table = new TableModel<UserInfo>(this)
         {
             FormType = UIConfig.UserFormTabs.Count > 0 ? typeof(UserTabForm) : typeof(UserForm),
+            Form = new FormInfo { Width = 800, SmallLabel = true },
             RowKey = r => r.Id,
-            OnQuery = OnQueryUsersAsync,
-            Form = new FormInfo { Width = 800 }
+            OnQuery = OnQueryUsersAsync
         };
         Table.Column(c => c.Gender).Tag();
     }

@@ -13,9 +13,9 @@ public class SysRoleList : BaseTablePage<RoleInfo>
         await base.OnInitPageAsync();
 
         Table.FormType = typeof(RoleForm);
+        Table.Form = new FormInfo { Width = 1000, SmallLabel = true };
         Table.OnQuery = Admin.QueryRolesAsync;
         Table.RowKey = r => r.Id;
-        Table.Form = new FormInfo { Width = 1000 };
     }
 
     /// <summary>
