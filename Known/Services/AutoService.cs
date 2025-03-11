@@ -52,17 +52,21 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
 {
     public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
-        return Task.FromResult(new PagingResult<Dictionary<string, object>>());
+        var key = criteria.GetParameter<string>(nameof(AutoInfo<string>.PageId));
+        return QueryModelsAsync<Dictionary<string, object>>(key, criteria);
     }
 
     public Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
     {
-        return Result.SuccessAsync("添加成功！");
+        return DeleteModelsAsync(info.PageId, info.Data);
     }
 
     public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
-        return Result.SuccessAsync("保存成功！");
+        var id = nameof(EntityBase.Id);
+        if (!info.Model.ContainsKey(id))
+            info.Model[id] = Utils.GetNextId();
+        return SaveModelAsync(info.PageId, info.Model);
     }
 
     public Task<CodeConfigInfo> GetCodeConfigAsync()

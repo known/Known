@@ -105,7 +105,7 @@ public class UIConfig
     /// <summary>
     /// 取得或设置原型模拟数据委托。
     /// </summary>
-    public static Func<MenuInfo, PageColumnInfo, object> OnPrototypeMock { get; set; }
+    public static Func<MenuInfo, PageColumnInfo, object> OnMockData { get; set; }
 
     /// <summary>
     /// 取得忽略URL鉴权的路由列表。

@@ -208,14 +208,12 @@ public sealed class AppData
     /// <returns></returns>
     public static Result DeleteModels<T>(string key, List<T> infos)
     {
-        if (!typeof(T).HasProperty("Id"))
-            return Result.Error("The model must have an Id property.");
-
+        var idName = nameof(EntityBase.Id);
         var datas = GetBizData<List<T>>(key) ?? [];
         foreach (var info in infos)
         {
-            var id = info.Property("Id");
-            var item = datas.FirstOrDefault(d => d.Property("Id").Equals(id));
+            var id = info.Property(idName)?.ToString();
+            var item = datas.FirstOrDefault(d => CheckIdValue(d, idName, id));
             if (item != null)
                 datas.Remove(item);
         }
@@ -231,16 +229,25 @@ public sealed class AppData
     /// <returns></returns>
     public static Result SaveModel<T>(string key, T info)
     {
-        if (!typeof(T).HasProperty("Id"))
-            return Result.Error("The model must have an Id property.");
+        var idName = nameof(EntityBase.Id);
+        var id = info.Property(idName)?.ToString();
+        if (string.IsNullOrWhiteSpace(id))
+            return Result.Error($"The model must have a property of {idName}.");
 
-        var id = info.Property("Id");
         var datas = GetBizData<List<T>>(key) ?? [];
-        var item = datas.FirstOrDefault(d => d.Property("Id").Equals(id));
+        var item = datas.FirstOrDefault(d => CheckIdValue(d, idName, id));
         if (item != null)
             datas.Remove(item);
         datas.Add(info);
         return SaveBizData(key, datas);
+    }
+
+    internal static Result SaveBizData(string key, object value)
+    {
+        BizData[key] = Utils.ToJson(value);
+        var bytes = FormatData(BizData);
+        File.WriteAllBytes(KdbPath, bytes);
+        return Result.Success("Save successful!");
     }
 
     internal static T GetBizData<T>(string key)
@@ -251,12 +258,10 @@ public sealed class AppData
         return default;
     }
 
-    internal static Result SaveBizData(string key, object value)
+    private static bool CheckIdValue(object item, string idName, string id)
     {
-        BizData[key] = Utils.ToJson(value);
-        var bytes = FormatData(BizData);
-        File.WriteAllBytes(KdbPath, bytes);
-        return Result.Success("Save successful!");
+        var value = item.Property(idName)?.ToString();
+        return value == id;
     }
     #endregion
 

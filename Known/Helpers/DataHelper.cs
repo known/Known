@@ -386,10 +386,10 @@ public sealed class DataHelper
             var data = new Dictionary<string, object>();
             foreach (var column in columns)
             {
-                if (UIConfig.OnPrototypeMock != null)
-                    data[column.Id] = UIConfig.OnPrototypeMock.Invoke(info, column);
+                if (UIConfig.OnMockData != null)
+                    data[column.Id] = UIConfig.OnMockData.Invoke(info, column);
                 else
-                    data[column.Id] = "测试";
+                    data[column.Id] = "TestData";
             }
             datas.Add(data);
         }

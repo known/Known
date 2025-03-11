@@ -3,6 +3,7 @@
 class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 {
     private IAutoService Service;
+    private IAutoService AutoDemo;
     private readonly Dictionary<string, object> defaultData = [];
 
     [Parameter] public string PageId { get; set; }
@@ -17,6 +18,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
     {
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IAutoService>();
+        AutoDemo = new AutoService(Context);
         await InitializeAsync();
     }
 
@@ -81,22 +83,25 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 
     private Task<PagingResult<Dictionary<string, object>>> OnQueryModelsAsync(PagingCriteria criteria)
     {
-        if (Context.Current?.Type == nameof(MenuType.Prototype))
-            return DataHelper.QueryPrototypeDataAsync(criteria, Context.Current);
-
         criteria.Parameters[nameof(PageId)] = PageId;
+        if (Context.Current?.Type == nameof(MenuType.Prototype))
+            return AutoDemo.QueryModelsAsync(criteria);
         return Service.QueryModelsAsync(criteria);
     }
 
     private Task<Result> DeleteModelsAsync(List<Dictionary<string, object>> models)
     {
         var info = new AutoInfo<List<Dictionary<string, object>>> { PageId = PageId, Data = models };
+        if (Context.Current?.Type == nameof(MenuType.Prototype))
+            return AutoDemo.DeleteModelsAsync(info);
         return Service.DeleteModelsAsync(info);
     }
 
     private Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
         info.PageId = PageId;
+        if (Context.Current?.Type == nameof(MenuType.Prototype))
+            return AutoDemo.SaveModelAsync(info);
         return Service.SaveModelAsync(info);
     }
 }

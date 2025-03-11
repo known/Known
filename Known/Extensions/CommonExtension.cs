@@ -31,7 +31,11 @@ public static class CommonExtension
         if (obj == null)
             return null;
 
-        return TypeHelper.GetPropertyValue(obj, propertyName);
+        if (!obj.GetType().IsDictionary())
+            return TypeHelper.GetPropertyValue(obj, propertyName);
+
+        (obj as Dictionary<string, object>).TryGetValue(propertyName, out object value);
+        return value;
     }
 
     /// <summary>
