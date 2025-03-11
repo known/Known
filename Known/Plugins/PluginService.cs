@@ -20,22 +20,22 @@ public interface IPluginService
     List<ActionInfo> GetFormActions(BaseForm form);
 
     /// <summary>
-    /// 
+    /// 所见即所得配置表格插件。
     /// </summary>
     void ConfigTable();
 
     /// <summary>
-    /// 
+    /// 添加所见即所得表格栏位插件。
     /// </summary>
     void AddTableColumn();
 
     /// <summary>
-    /// 
+    /// 添加所见即所得表格操作列插件。
     /// </summary>
     void AddTableAction();
 
     /// <summary>
-    /// 编辑工具条。
+    /// 编辑所见即所得工具条。
     /// </summary>
     /// <param name="toolbar">工具条。</param>
     void EditToolbar(KToolbar toolbar);

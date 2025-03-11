@@ -64,6 +64,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Inject] public UIService UI { get; set; }
 
     /// <summary>
+    /// 取得或设置注入的插件服务实例。
+    /// </summary>
+    [Inject] public IPluginService Plugin { get; set; }
+
+    /// <summary>
     /// 取得或设置注入的导航管理者实例。
     /// </summary>
     [Inject] public NavigationManager Navigation { get; set; }

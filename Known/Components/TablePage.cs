@@ -8,8 +8,6 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
 {
     private ReloadContainer container = null;
 
-    [Inject] private IPluginService Plugin { get; set; }
-
     /// <summary>
     /// 取得或设置表格页面组件模型。
     /// </summary>

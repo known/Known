@@ -6,8 +6,6 @@
 /// <typeparam name="TItem">数据类型。</typeparam>
 public class PageTable<TItem> : BaseComponent where TItem : class, new()
 {
-    [Inject] private IPluginService Plugin { get; set; }
-
     /// <summary>
     /// 取得或设置表格页面组件模型。
     /// </summary>
