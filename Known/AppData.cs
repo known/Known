@@ -33,9 +33,9 @@ public sealed class AppData
     public static Func<AppDataInfo, byte[]> OnFormatData { get; set; }
 
     /// <summary>
-    /// 取得或设置表格插件配置信息委托。
+    /// 取得或设置自动页面插件配置信息委托。
     /// </summary>
-    public static Func<PluginInfo, AutoPageInfo> OnTablePage { get; set; }
+    public static Func<PluginInfo, AutoPageInfo> OnAutoPage { get; set; }
 
     /// <summary>
     /// 根据ID获取模块信息。
@@ -115,8 +115,8 @@ public sealed class AppData
         if (plugin == null)
             return null;
 
-        if (OnTablePage != null)
-            return OnTablePage.Invoke(plugin);
+        if (OnAutoPage != null)
+            return OnAutoPage.Invoke(plugin);
 
         return Utils.FromJson<AutoPageInfo>(plugin.Setting);
     }
@@ -197,6 +197,23 @@ public sealed class AppData
         if (filter != null)
             datas = filter.Invoke(datas);
         return datas == null ? new PagingResult<T>(0, []) : datas.ToPagingResult(criteria);
+    }
+
+    /// <summary>
+    /// 根据ID获取业务数据。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="key">数据存储键。</param>
+    /// <param name="id">ID。</param>
+    /// <returns></returns>
+    public static T GetModel<T>(string key, string id)
+    {
+        var idName = nameof(EntityBase.Id);
+        var datas = GetBizData<List<T>>(key) ?? [];
+        if (string.IsNullOrWhiteSpace(id))
+            return datas.FirstOrDefault();
+
+        return datas.FirstOrDefault(d => CheckIdValue(d, idName, id));
     }
 
     /// <summary>

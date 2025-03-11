@@ -19,6 +19,15 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         return Database.QueryPageAsync(tableName, criteria);
     }
 
+    public async Task<Dictionary<string, object>> GetModelAsync(string pageId, string id)
+    {
+        var tableName = GetEntityByModuleId(pageId)?.Id;
+        if (string.IsNullOrWhiteSpace(tableName))
+            return [];
+
+        return await Database.QueryByIdAsync(tableName, id);
+    }
+
     public async Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
     {
         var tableName = GetEntityByModuleId(info.PageId)?.Id;
@@ -33,7 +42,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         {
             foreach (var item in info.Data)
             {
-                var id = item.GetValue<string>("Id");
+                var id = item.GetValue<string>(nameof(EntityBase.Id));
                 await db.DeleteFlowAsync(id);
                 await db.DeleteFilesAsync(id, oldFiles);
                 await db.DeleteAsync(tableName, id);

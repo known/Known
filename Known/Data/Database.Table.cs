@@ -15,6 +15,19 @@ public partial class Database
     }
 
     /// <summary>
+    /// 异步查询数据。
+    /// </summary>
+    /// <param name="tableName">数据库表名。</param>
+    /// <param name="id">ID。</param>
+    /// <returns></returns>
+    public virtual Task<Dictionary<string,object>> QueryByIdAsync(string tableName, string id)
+    {
+        var sql = $"select * from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+        var info = new CommandInfo(Provider, null, tableName, sql, new { id });
+        return QueryAsync<Dictionary<string, object>>(sql, info);
+    }
+
+    /// <summary>
     /// 异步判断表中是否存在ID。
     /// </summary>
     /// <param name="tableName">数据库表名。</param>

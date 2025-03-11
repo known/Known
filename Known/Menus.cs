@@ -146,6 +146,9 @@ public class MenuInfo
     {
         get
         {
+            if (Type == nameof(MenuType.Prototype))
+                return $"/page/{Id}";
+
             if (Type == nameof(MenuType.Page))
                 return !string.IsNullOrWhiteSpace(Url) ? GetPageUrl(Url) : $"/page/{Id}";
 
@@ -155,6 +158,7 @@ public class MenuInfo
             if (string.IsNullOrWhiteSpace(Url) || Target == nameof(ModuleType.IFrame))
                 return $"/page/{Id}";
 
+            // 无代码页面有自定义URL，例如：/page/自定义
             return GetPageUrl(Url);
         }
     }

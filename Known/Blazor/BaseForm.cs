@@ -134,7 +134,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
     /// </summary>
     /// <param name="model">表单数据对象。</param>
     /// <returns>保存结果。</returns>
-    protected virtual Task<Result> OnSaveAsync(TItem model) => Result.SuccessAsync("");
+    protected virtual Task<Result> OnSaveAsync(TItem model) => Model.OnSave?.Invoke(model);
 
     /// <summary>
     /// 保存成功回调。
