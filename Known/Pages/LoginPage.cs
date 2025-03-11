@@ -19,6 +19,13 @@ public class LoginPage : BaseComponent
     [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
 
     /// <inheritdoc />
+    protected override Task OnInitAsync()
+    {
+        Context.TabsService?.CloseAll();
+        return base.OnInitAsync();
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
