@@ -4,26 +4,26 @@ class VisitLog
 {
     private static readonly Dictionary<string, string> visitPages = [];
 
-    internal static async Task AddLogAsync(HttpContext ctx, Context context)
+    internal static Task AddLogAsync(HttpContext ctx, Context context)
     {
         if (context.CurrentUser == null)
-            return;
+            return Task.CompletedTask;
 
         ctx.Request.Headers.TryGetValue("Referer", out var referer);
         if (string.IsNullOrWhiteSpace(referer))
-            return;
+            return Task.CompletedTask;
 
         var url = referer.ToString().Replace("://", "");
         var pageUrl = url.Substring(url.IndexOf("/"));
         visitPages.TryGetValue(context.CurrentUser.Token, out string prevUrl);
         if (pageUrl == prevUrl)
-            return;
+            return Task.CompletedTask;
 
         visitPages[context.CurrentUser.Token] = pageUrl;
         var service = ctx.RequestServices.GetRequiredService<IAdminService>();
         service.Context = context;
         var module = AppData.Data.Modules?.FirstOrDefault(m => m.Url == pageUrl);
-        await service.AddLogAsync(new LogInfo
+        return service.AddLogAsync(new LogInfo
         {
             Type = nameof(LogType.Page),
             Target = module?.Name ?? pageUrl,

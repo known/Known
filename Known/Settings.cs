@@ -151,6 +151,11 @@ public class UserSettingInfo
     public string LayoutMode { get; set; }
 
     /// <summary>
+    /// 取得或设置表单打开方式，默认Modal-模态对话框。
+    /// </summary>
+    public string OpenType { get; set; } = nameof(FormOpenType.Modal);
+
+    /// <summary>
     /// 取得或设置是否显示页面底部，默认否。
     /// </summary>
     public bool ShowFooter { get; set; }

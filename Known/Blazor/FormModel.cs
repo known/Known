@@ -60,7 +60,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <summary>
     /// 取得或设置表单配置信息。
     /// </summary>
-    public FormInfo Info { get; set; }
+    public FormInfo Info { get; set; } = new();
 
     /// <summary>
     /// 取得或设置是否启用在线编辑。
@@ -127,9 +127,13 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     }
 
     /// <summary>
-    /// 取得或设置表单查看类型。
+    /// 取得或设置表单查看类型， 默认View-查看。
     /// </summary>
-    public FormViewType FormType { get; set; }
+    public FormViewType ViewType { get; set; }
+
+    internal bool IsTabForm => Type?.IsSubclassOf(typeof(BaseTabForm)) == true;
+    internal bool IsStepForm => Type?.IsSubclassOf(typeof(BaseStepForm)) == true;
+    internal bool IsNoFooter => IsView || IsTabForm || IsStepForm || Info?.NoFooter == true;
 
     /// <summary>
     /// 获取表单标题。

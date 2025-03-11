@@ -18,7 +18,7 @@ partial class TableModel<TItem>
         isShowView = true;
         var isShow = ShowForm(new FormModel<TItem>(this, IsAuto)
         {
-            FormType = type,
+            ViewType = type,
             IsView = true,
             Action = $"{type}",
             Data = row

@@ -29,14 +29,14 @@ public class BasePage : BaseComponent, IReuseTabsPage
     protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
             if (Context.Current != null && !Config.IsClient)
-                await Admin.AddPageLogAsync(Context);
+                Admin.AddPageLogAsync(Context);
         }
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     /// <summary>

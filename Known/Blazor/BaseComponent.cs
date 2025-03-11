@@ -164,10 +164,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     /// <param name="firstRender">是否首次呈现。</param>
     /// <returns></returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
         IsStatic = false;
-        await base.OnAfterRenderAsync(firstRender);
+        return base.OnAfterRenderAsync(firstRender);
     }
 
     /// <summary>

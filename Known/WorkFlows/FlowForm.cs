@@ -37,15 +37,15 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     {
         builder.Div("kui-form-content", () => Content?.Invoke(builder));
 
-        if (Model == null || Model.IsView && Model.FormType == FormViewType.View)
+        if (Model == null || Model.IsView && Model.ViewType == FormViewType.View)
             return;
 
-        if (Model.FormType != FormViewType.View)
+        if (Model.ViewType != FormViewType.View)
             BuildFlowAction(builder);
 
         builder.FormAction(() =>
         {
-            if (Model.FormType == FormViewType.Verify)
+            if (Model.ViewType == FormViewType.Verify)
                 builder.Button(new ActionInfo(Context, "Assign") { Icon = "" }, this.Callback<MouseEventArgs>(OnAssignAsync));
 
             builder.Button(new ActionInfo(Context, "OK") { Icon = "" }, this.Callback<MouseEventArgs>(OnSaveAsync));
@@ -55,7 +55,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void BuildFlowAction(RenderTreeBuilder builder)
     {
-        var action = Language[$"Button.{Model.FormType}"];
+        var action = Language[$"Button.{Model.ViewType}"];
         var title = Language["Title.FlowAction"].Replace("{action}", action);
         builder.Div("kui-flow", () => builder.GroupBox(title, () => builder.Form(flow)));
     }
@@ -68,7 +68,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
             return;
 
         Result result;
-        switch (Model.FormType)
+        switch (Model.ViewType)
         {
             case FormViewType.Submit:
                 result = await Admin.SubmitFlowAsync(info);
@@ -88,13 +88,13 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 
     private void InitFlowModel()
     {
-        if (Model == null || Model.FormType == FormViewType.View)
+        if (Model == null || Model.ViewType == FormViewType.View)
             return;
 
         info.BizId = Model.Data?.Id;
         flow = new FlowFormModel(this) { Data = info };
 
-        switch (Model.FormType)
+        switch (Model.ViewType)
         {
             case FormViewType.Submit:
                 flow.AddUserColumn("SubmitTo", "User");

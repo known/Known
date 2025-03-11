@@ -319,6 +319,11 @@ public class PageColumnInfo
 public class FormInfo
 {
     /// <summary>
+    /// 取得或设置表单打开方式。
+    /// </summary>
+    public FormOpenType OpenType { get; set; }
+
+    /// <summary>
     /// 取得或设置表单对话框显示宽度。
     /// </summary>
     public int? Width { get; set; }
