@@ -16,7 +16,7 @@ class NavLink : PluginBase<LinkInfo>
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        Parameter = Utils.FromJson<LinkInfo>(Plugin?.Setting);
+        Parameter = Utils.FromJson<LinkInfo>(Info?.Setting);
         if (Parameter == null)
             return;
 

@@ -89,7 +89,7 @@ public static class PluginExtension
 
         builder.Component(plugin.Type, new Dictionary<string, object>
         {
-            [nameof(IPlugin.Plugin)] = info
+            [nameof(IPlugin.Info)] = info
         });
     }
 

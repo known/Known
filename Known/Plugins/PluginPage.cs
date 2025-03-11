@@ -4,6 +4,7 @@ class PluginPage : BaseComponent, IAutoPage
 {
     private List<ActionInfo> items = [];
 
+    [Parameter] public string PageId { get; set; }
     [Parameter] public MenuInfo Menu { get; set; }
     [Parameter] public AutoPage Page { get; set; }
 

@@ -13,7 +13,7 @@ public interface IPlugin : Microsoft.AspNetCore.Components.IComponent
     /// <summary>
     /// 取得或设置插件配置信息。
     /// </summary>
-    PluginInfo Plugin { get; set; }
+    PluginInfo Info { get; set; }
 
     /// <summary>
     /// 显示插件配置界面。
@@ -54,7 +54,7 @@ public class PluginBase<T> : BaseComponent, IPlugin
     /// <summary>
     /// 取得或设置插件配置信息。
     /// </summary>
-    [Parameter] public PluginInfo Plugin { get; set; }
+    [Parameter] public PluginInfo Info { get; set; }
 
     /// <summary>
     /// 显示插件配置界面。
@@ -72,7 +72,7 @@ public class PluginBase<T> : BaseComponent, IPlugin
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        Parameter = Utils.FromJson<T>(Plugin?.Setting);
+        Parameter = Utils.FromJson<T>(Info?.Setting);
         var attr = GetType().GetCustomAttribute<PagePluginAttribute>();
         var name = attr != null ? attr.Name : Name;
         builder.Component<PluginPanel>()
@@ -115,11 +115,11 @@ public class PluginBase<T> : BaseComponent, IPlugin
     /// <returns></returns>
     protected Task<Result> SaveParameterAsync(T parameter)
     {
-        return Page.SaveParameterAsync(Plugin.Id, parameter);
+        return Page.SaveParameterAsync(Info.Id, parameter);
     }
 
     private void OnDelete()
     {
-        UI.Confirm("确定要删除插件？", () => Page.RemovePluginAsync(Plugin));
+        UI.Confirm("确定要删除插件？", () => Page.RemovePluginAsync(Info));
     }
 }

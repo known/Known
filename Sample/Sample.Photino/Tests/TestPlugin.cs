@@ -15,8 +15,8 @@ class TestPlugin : PluginBase<TestPluginInfo>
         builder.Ul(() =>
         {
             builder.Li("", $"当前页面：{Context?.Current?.Name}");
-            builder.Li("", $"插件ID：{Plugin?.Id}");
-            builder.Li("", $"插件类型：{Plugin?.Type}");
+            builder.Li("", $"插件ID：{Info?.Id}");
+            builder.Li("", $"插件类型：{Info?.Type}");
             builder.Li("", $"插件参数：{Parameter?.Name}");
         });
     }
