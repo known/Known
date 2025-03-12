@@ -59,7 +59,9 @@ public partial class UIService
             option.OnOk = e => model.SaveAsync();
             option.OnCancel = e => model.CloseAsync();
         }
-        if (model.IsNoFooter)
+        if (model.IsNoFooter && !model.Info.ShowFooter)
+            option.Footer = null;
+        if (model.IsView)
             option.Footer = null;
 
         var dialog = modal.CreateModal(option);
@@ -129,7 +131,10 @@ public partial class UIService
 
     private static void BuildDrawerFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-        if (model.IsNoFooter)
+        if (model.IsView)
+            return;
+
+        if (model.IsNoFooter && !model.Info.ShowFooter)
             return;
 
         if (model.Footer != null)

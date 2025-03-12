@@ -133,7 +133,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
 
     internal bool IsTabForm => Type?.IsSubclassOf(typeof(BaseTabForm)) == true;
     internal bool IsStepForm => Type?.IsSubclassOf(typeof(BaseStepForm)) == true;
-    internal bool IsNoFooter => IsView || IsTabForm || IsStepForm || Info?.NoFooter == true;
+    internal bool IsNoFooter => IsTabForm || IsStepForm || Info?.NoFooter == true;
 
     /// <summary>
     /// 获取表单标题。
