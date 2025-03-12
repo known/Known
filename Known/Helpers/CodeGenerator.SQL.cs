@@ -52,6 +52,10 @@ partial class CodeGenerator
         {
             type = "DateTime";
         }
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+        {
+            type = "Long";
+        }
         else if (item.Type == FieldType.Number)
         {
             type = string.IsNullOrWhiteSpace(item.Length) ? "Long" : $"decimal({item.Length})";
@@ -100,6 +104,10 @@ partial class CodeGenerator
         {
             type = "datetime";
         }
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+        {
+            type = "int";
+        }
         else if (item.Type == FieldType.Number)
         {
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
@@ -144,6 +152,10 @@ partial class CodeGenerator
         {
             type = "[datetime]";
         }
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+        {
+            type = "[int]";
+        }
         else if (item.Type == FieldType.Number)
         {
             type = string.IsNullOrWhiteSpace(item.Length) ? "[int]" : $"[decimal]({item.Length})";
@@ -187,6 +199,8 @@ partial class CodeGenerator
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "date";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "number(8)";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "number(8)" : $"number({item.Length})";
         else
@@ -220,6 +234,8 @@ partial class CodeGenerator
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "datetime";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "int";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
@@ -254,6 +270,8 @@ partial class CodeGenerator
         string type;
         if (item.Type == FieldType.Date)
             type = "date";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "int";
         else if (item.Type == FieldType.DateTime)
             type = "timestamp without time zone";
         else if (item.Type == FieldType.Number)
