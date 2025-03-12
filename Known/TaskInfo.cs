@@ -3,6 +3,7 @@
 /// <summary>
 /// 系统后台任务信息类。
 /// </summary>
+[DisplayName("后台任务")]
 public class TaskInfo
 {
     /// <summary>
@@ -33,6 +34,7 @@ public class TaskInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [DisplayName("业务ID")]
     public string BizId { get; set; }
 
     /// <summary>
@@ -41,6 +43,7 @@ public class TaskInfo
     [Required]
     [MaxLength(50)]
     [Column(IsQuery = true)]
+    [DisplayName("类型")]
     public string Type { get; set; }
 
     /// <summary>
@@ -49,12 +52,14 @@ public class TaskInfo
     [Required]
     [MaxLength(50)]
     [Column(IsQuery = true)]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置执行目标。
     /// </summary>
     [Column]
+    [DisplayName("目标")]
     public string Target { get; set; }
 
     /// <summary>
@@ -64,24 +69,28 @@ public class TaskInfo
     [Required]
     [MaxLength(50)]
     [Column]
+    [DisplayName("执行状态")]
     public string Status { get; set; }
 
     /// <summary>
     /// 取得或设置开始时间。
     /// </summary>
     [Column]
+    [DisplayName("开始时间")]
     public DateTime? BeginTime { get; set; }
 
     /// <summary>
     /// 取得或设置结束时间。
     /// </summary>
     [Column]
+    [DisplayName("结束时间")]
     public DateTime? EndTime { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
     [Column]
+    [DisplayName("备注")]
     public string Note { get; set; }
 
     /// <summary>

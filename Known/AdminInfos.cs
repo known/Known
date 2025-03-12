@@ -3,6 +3,7 @@
 /// <summary>
 /// 数据字典信息类。
 /// </summary>
+[DisplayName("数据字典")]
 public class DictionaryInfo
 {
     /// <summary>
@@ -25,12 +26,14 @@ public class DictionaryInfo
     [Required]
     [MaxLength(50)]
     [Column]
+    [DisplayName("类别")]
     public string Category { get; set; }
 
     /// <summary>
     /// 取得或设置类别名称。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("类别名称")]
     public string CategoryName { get; set; }
 
     /// <summary>
@@ -40,6 +43,7 @@ public class DictionaryInfo
     [MaxLength(100)]
     [Column(IsQuery = true, IsViewLink = true)]
     [Form]
+    [DisplayName("代码")]
     public string Code { get; set; }
 
     /// <summary>
@@ -48,6 +52,7 @@ public class DictionaryInfo
     [MaxLength(150)]
     [Column(IsQuery = true)]
     [Form]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
@@ -56,6 +61,7 @@ public class DictionaryInfo
     [Required]
     [Column]
     [Form]
+    [DisplayName("顺序")]
     public int Sort { get; set; }
 
     /// <summary>
@@ -64,6 +70,7 @@ public class DictionaryInfo
     [Required]
     [Column]
     [Form(Type = nameof(FieldType.Switch))]
+    [DisplayName("状态")]
     public bool Enabled { get; set; }
 
     /// <summary>
@@ -71,17 +78,20 @@ public class DictionaryInfo
     /// </summary>
     [Column]
     [Form(Type = nameof(FieldType.TextArea))]
+    [DisplayName("备注")]
     public string Note { get; set; }
 
     /// <summary>
     /// 取得或设置子字典。
     /// </summary>
+    [DisplayName("子字典")]
     public string Child { get; set; }
 }
 
 /// <summary>
 /// 组织架构信息类。
 /// </summary>
+[DisplayName("组织架构")]
 public class OrganizationInfo
 {
     /// <summary>
@@ -101,6 +111,7 @@ public class OrganizationInfo
     /// 取得或设置上级组织。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("上级组织")]
     public string ParentId { get; set; }
 
     /// <summary>
@@ -110,6 +121,7 @@ public class OrganizationInfo
     [MaxLength(50)]
     [Column(IsViewLink = true)]
     [Form]
+    [DisplayName("编码")]
     public string Code { get; set; }
 
     /// <summary>
@@ -119,12 +131,14 @@ public class OrganizationInfo
     [MaxLength(50)]
     [Column]
     [Form]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置管理者。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("管理者")]
     public string ManagerId { get; set; }
 
     /// <summary>
@@ -132,6 +146,7 @@ public class OrganizationInfo
     /// </summary>
     [Column]
     [Form(Type = nameof(FieldType.TextArea))]
+    [DisplayName("备注")]
     public string Note { get; set; }
 
     /// <summary>
@@ -143,6 +158,7 @@ public class OrganizationInfo
 /// <summary>
 /// 角色信息类。
 /// </summary>
+[DisplayName("系统角色")]
 public class RoleInfo
 {
     /// <summary>
@@ -166,6 +182,7 @@ public class RoleInfo
     [MaxLength(50)]
     [Column(IsQuery = true, IsViewLink = true)]
     [Form]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
@@ -174,6 +191,7 @@ public class RoleInfo
     [Required]
     [Column]
     [Form(Type = nameof(FieldType.Switch))]
+    [DisplayName("状态")]
     public bool Enabled { get; set; }
 
     /// <summary>
@@ -181,6 +199,7 @@ public class RoleInfo
     /// </summary>
     [Column]
     [Form(Type = nameof(FieldType.TextArea))]
+    [DisplayName("备注")]
     public string Note { get; set; }
 
     /// <summary>
@@ -197,6 +216,7 @@ public class RoleInfo
 /// <summary>
 /// 用户表单信息类。
 /// </summary>
+[DisplayName("系统用户")]
 public class UserDataInfo : UserInfo
 {
     /// <summary>
@@ -222,6 +242,7 @@ public class UserDataInfo : UserInfo
     [MaxLength(50)]
     [Column(IsQuery = true, IsViewLink = true)]
     [Form(Row = 1, Column = 1)]
+    [DisplayName("用户名")]
     public new string UserName { get; set; }
 
     /// <summary>
@@ -230,6 +251,7 @@ public class UserDataInfo : UserInfo
     [Required]
     [MaxLength(50)]
     [Form(Row = 1, Column = 2, Type = nameof(FieldType.Password))]
+    [DisplayName("密码")]
     public string Password { get; set; }
 
     /// <summary>
@@ -239,6 +261,7 @@ public class UserDataInfo : UserInfo
     [MaxLength(50)]
     [Column]
     [Form(Row = 2, Column = 1)]
+    [DisplayName("姓名")]
     public new string Name { get; set; }
 
     /// <summary>
@@ -246,6 +269,7 @@ public class UserDataInfo : UserInfo
     /// </summary>
     [MaxLength(50)]
     [Form(Row = 2, Column = 2)]
+    [DisplayName("英文名")]
     public new string EnglishName { get; set; }
 
     /// <summary>
@@ -256,6 +280,7 @@ public class UserDataInfo : UserInfo
     [Category(nameof(GenderType))]
     [Column]
     [Form(Row = 3, Column = 1, Type = nameof(FieldType.RadioList))]
+    [DisplayName("性别")]
     public new string Gender { get; set; }
 
     /// <summary>
@@ -264,6 +289,7 @@ public class UserDataInfo : UserInfo
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Phone, ErrorMessage = "固定电话格式不正确！")]
     [Form(Row = 3, Column = 2)]
+    [DisplayName("固定电话")]
     public new string Phone { get; set; }
 
     /// <summary>
@@ -273,6 +299,7 @@ public class UserDataInfo : UserInfo
     [RegularExpression(RegexPattern.Mobile, ErrorMessage = "移动电话格式不正确！")]
     [Column]
     [Form(Row = 4, Column = 1)]
+    [DisplayName("移动电话")]
     public new string Mobile { get; set; }
 
     /// <summary>
@@ -282,6 +309,7 @@ public class UserDataInfo : UserInfo
     [RegularExpression(RegexPattern.Email, ErrorMessage = "电子邮件格式不正确！")]
     [Column]
     [Form(Row = 4, Column = 2)]
+    [DisplayName("电子邮件")]
     public new string Email { get; set; }
 
     /// <summary>
@@ -290,6 +318,7 @@ public class UserDataInfo : UserInfo
     [Required]
     [Column]
     [Form(Row = 5, Column = 1, Type = nameof(FieldType.Switch))]
+    [DisplayName("状态")]
     public new bool Enabled { get; set; }
 
     /// <summary>
@@ -301,6 +330,7 @@ public class UserDataInfo : UserInfo
     /// 取得或设置用户所属组织编码。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("所属组织")]
     public new string OrgNo { get; set; }
 
     /// <summary>
@@ -308,6 +338,7 @@ public class UserDataInfo : UserInfo
     /// </summary>
     [MaxLength(500)]
     [Column]
+    [DisplayName("角色")]
     public new string Role { get; set; }
 
     /// <summary>
@@ -378,6 +409,7 @@ public enum LogTarget
 /// <summary>
 /// 系统日志信息类。
 /// </summary>
+[DisplayName("系统日志")]
 public class LogInfo
 {
     /// <summary>
@@ -400,6 +432,7 @@ public class LogInfo
     [Required]
     [MaxLength(50)]
     [Column(IsQuery = true, Type = FieldType.Select)]
+    [DisplayName("操作类型")]
     public string Type { get; set; }
 
     /// <summary>
@@ -408,12 +441,14 @@ public class LogInfo
     [Required]
     [MaxLength(50)]
     [Column]
+    [DisplayName("操作对象")]
     public string Target { get; set; }
 
     /// <summary>
     /// 取得或设置操作内容。
     /// </summary>
     [Column(IsQuery = true)]
+    [DisplayName("操作内容")]
     public string Content { get; set; }
 
     /// <summary>

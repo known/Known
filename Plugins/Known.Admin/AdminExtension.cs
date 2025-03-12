@@ -50,9 +50,15 @@ public static class AdminExtension
 
     private static async Task OnInstallModules(Database db)
     {
-        var modules = ModuleHelper.GetModules();
+        AppData.LoadAppData();
+        var modules = AppData.Data.Modules?.Select(SysModule.Load).OrderBy(m => m.ParentId).ThenBy(m => m.Sort).ToList();
         await db.DeleteAllAsync<SysModule>();
-        await db.InsertAsync(modules);
+        foreach (var item in modules)
+        {
+            var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
+            item.ParentId = parent?.Id ?? "0";
+            await db.InsertAsync(item, false);
+        }
     }
 
     private static async Task<List<ModuleInfo>> OnInitialModules(Database db)

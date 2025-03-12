@@ -133,6 +133,29 @@ public class SysModule : EntityBase
     internal virtual List<string> Actions { get; set; }
     internal virtual List<PageColumnInfo> Columns { get; set; }
 
+    internal static SysModule Load(ModuleInfo info)
+    {
+        var plugin = info.Plugins?.GetPluginParameter<AutoPageInfo>();
+        var model = new SysModule
+        {
+            ParentId = info.ParentId,
+            Code = info.Id,
+            Name = info.Name,
+            Icon = info.Icon,
+            Target = nameof(ModuleType.Menu),
+            Url = info.Url,
+            Sort = info.Sort,
+            Enabled = info.Enabled,
+            EntityData = plugin?.EntityData,
+            FlowData = plugin?.FlowData,
+            Page = plugin?.Page,
+            Form = plugin?.Form
+        };
+        if (info.Type == nameof(MenuType.Link))
+            model.Target = nameof(ModuleType.Custom);
+        return model;
+    }
+
     internal ModuleInfo ToModuleInfo()
     {
         var info = new ModuleInfo
@@ -147,7 +170,7 @@ public class SysModule : EntityBase
             Enabled = Enabled,
             Plugins = []
         };
-        info.Plugins.AddPlugin(ToTablePageInfo());
+        info.Plugins.AddPlugin(ToAutoPageInfo());
         return info;
     }
 
@@ -171,11 +194,11 @@ public class SysModule : EntityBase
             Data = this,
             Plugins = []
         };
-        info.Plugins.AddPlugin(ToTablePageInfo());
+        info.Plugins.AddPlugin(ToAutoPageInfo());
         return info;
     }
 
-    private AutoPageInfo ToTablePageInfo()
+    private AutoPageInfo ToAutoPageInfo()
     {
         return new AutoPageInfo
         {

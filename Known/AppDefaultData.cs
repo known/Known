@@ -115,6 +115,7 @@ class AppDefaultData
 
     private static void SetProperties(AutoPageInfo info, Type entityType)
     {
+        var entity = new EntityInfo { Id = entityType.Name, Name = entityType.DisplayName() };
         var properties = TypeHelper.Properties(entityType);
         foreach (var item in properties)
         {
@@ -125,7 +126,12 @@ class AppDefaultData
             var form = item.GetCustomAttribute<FormAttribute>();
             if (form != null)
                 SetFormFields(info, item, form);
+
+            var field = GetField(item);
+            if (field != null)
+                entity.Fields.Add(field);
         }
+        info.EntityData = DataHelper.ToEntityData(entity);
     }
 
     private static void SetPageColumns(AutoPageInfo info, PropertyInfo item, ColumnAttribute column)
@@ -166,5 +172,21 @@ class AppDefaultData
             ReadOnly = form.ReadOnly,
             Placeholder = form.Placeholder
         });
+    }
+
+    private static FieldInfo GetField(PropertyInfo item)
+    {
+        var name = item.DisplayName();
+        if (string.IsNullOrWhiteSpace(name))
+            return null;
+
+        return new FieldInfo
+        {
+            Id = item.Name,
+            Name = name,
+            Length = item.GetFieldLength(),
+            Required = item.IsRequired(),
+            Type = item.GetFieldType()
+        };
     }
 }

@@ -122,11 +122,11 @@ public sealed class AppData
     }
 
     #region AppData
-    internal static void LoadAppData()
+    /// <summary>
+    /// 加载默认菜单配置数据。
+    /// </summary>
+    public static void LoadAppData()
     {
-        if (!Enabled)
-            return;
-
         if (!File.Exists(KmdPath))
         {
             AppDefaultData.Load(Data);
