@@ -11,7 +11,7 @@ class AccessProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        return GetTableScript(tableName, info.Fields);
+        return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
     internal override string GetTopSql(int size, string text)
@@ -47,7 +47,7 @@ class AccessProvider(Database db) : DbProvider(db)
 ) t3 order by t3.{order}";
     }
 
-    internal static string GetTableScript(string tableName, List<FieldInfo> fields, int maxLength = 0)
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE `{0}` (", tableName);
@@ -59,7 +59,7 @@ class AccessProvider(Database db) : DbProvider(db)
             var column = $"`{item.Id}`";
             column = GetColumnName(column, maxLength + 2);
             var type = GetAccessDbType(item);
-            if (item.Id == "Id")
+            if (keys != null && keys.Contains(item.Id))
                 sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
             else
                 sb.AppendLine($"    {column} {type} {required}{comma}");

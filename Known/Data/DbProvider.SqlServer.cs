@@ -11,7 +11,7 @@ class SqlServerProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        return GetTableScript(tableName, info.Fields);
+        return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
     internal override string GetTopSql(int size, string text)
@@ -19,11 +19,11 @@ class SqlServerProvider(Database db) : DbProvider(db)
         return text.Replace("select", $"select top {size}");
     }
 
-    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE [{0}] (", tableName);
-        foreach (var item in columns)
+        foreach (var item in fields)
         {
             var required = item.Required ? "NOT NULL" : "NULL";
             var column = $"[{item.Id}]";
@@ -31,7 +31,11 @@ class SqlServerProvider(Database db) : DbProvider(db)
             var type = GetSqlServerDbType(item);
             sb.AppendLine($"    {column} {type} {required},");
         }
-        sb.AppendLine("    CONSTRAINT [PK_{0}] PRIMARY KEY ([Id] ASC)", tableName);
+        if (keys != null && keys.Count > 0)
+        {
+            var key = string.Join(", ", keys.Select(k => $"[{k}] ASC"));
+            sb.AppendLine($"    CONSTRAINT [PK_{tableName}] PRIMARY KEY ({key})");
+        }
         sb.AppendLine(");");
         return sb.ToString();
     }

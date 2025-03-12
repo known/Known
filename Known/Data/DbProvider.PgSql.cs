@@ -12,14 +12,14 @@ class PgSqlProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        return GetTableScript(tableName, info.Fields);
+        return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
-    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE {0} (", tableName);
-        foreach (var item in columns)
+        foreach (var item in fields)
         {
             var required = item.Required ? " NOT NULL" : "";
             var column = $"{item.Id}";
@@ -28,7 +28,11 @@ class PgSqlProvider(Database db) : DbProvider(db)
             var line = $"    {column} {type}".TrimEnd();
             sb.AppendLine($"    {line}{required},");
         }
-        sb.AppendLine("    PRIMARY KEY(Id)");
+        if (keys != null && keys.Count > 0)
+        {
+            var key = string.Join(", ", keys);
+            sb.AppendLine($"    PRIMARY KEY({key})");
+        }
         sb.AppendLine(");");
         return sb.ToString();
     }

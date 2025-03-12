@@ -9,7 +9,7 @@ class SQLiteProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        return GetTableScript(tableName, info.Fields);
+        return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
     internal override string GetTopSql(int size, string text)
@@ -23,19 +23,19 @@ class SQLiteProvider(Database db) : DbProvider(db)
         return $"{text} order by {order} limit {criteria.PageSize} offset {startNo}";
     }
 
-    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE [{0}] (", tableName);
         var index = 0;
-        foreach (var item in columns)
+        foreach (var item in fields)
         {
-            var comma = ++index == columns.Count ? "" : ",";
+            var comma = ++index == fields.Count ? "" : ",";
             var required = item.Required ? "NOT NULL" : "NULL";
             var column = $"[{item.Id}]";
             column = GetColumnName(column, maxLength + 2);
             var type = GetSQLiteDbType(item);
-            if (item.Id == "Id")
+            if (keys != null && keys.Contains(item.Id))
                 sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
             else
                 sb.AppendLine($"    {column} {type} {required}{comma}");

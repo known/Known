@@ -23,7 +23,7 @@ class MySqlProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        return GetTableScript(tableName, info.Fields);
+        return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
     internal override string GetTopSql(int size, string text) => $"{text} limit 0, {size}";
@@ -34,11 +34,11 @@ class MySqlProvider(Database db) : DbProvider(db)
         return $"{text} order by {order} limit {startNo}, {criteria.PageSize}";
     }
 
-    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();
         sb.AppendLine("create table `{0}` (", tableName);
-        foreach (var item in columns)
+        foreach (var item in fields)
         {
             var required = item.Required ? "not null" : "null";
             var column = $"`{item.Id}`";
@@ -46,7 +46,11 @@ class MySqlProvider(Database db) : DbProvider(db)
             var type = GetMySqlDbType(item);
             sb.AppendLine($"    {column} {type} {required},");
         }
-        sb.AppendLine("    PRIMARY KEY(`Id`)");
+        if (keys != null && keys.Count > 0)
+        {
+            var key = string.Join(", ", keys.Select(k => $"`{k}`"));
+            sb.AppendLine($"    PRIMARY KEY({key})");
+        }
         sb.AppendLine(");");
         return sb.ToString();
     }

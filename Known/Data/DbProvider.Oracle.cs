@@ -19,24 +19,28 @@ class OracleProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        return GetTableScript(tableName, info.Fields);
+        return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
-    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();
         sb.AppendLine("create table {0}(", tableName);
         var index = 0;
-        foreach (var item in columns)
+        foreach (var item in fields)
         {
-            var comma = ++index == columns.Count ? "" : ",";
+            var comma = ++index == fields.Count ? "" : ",";
             var required = item.Required ? "not null" : "null";
             var column = GetColumnName(item.Id, maxLength);
             var type = GetOracleDbType(item);
             sb.AppendLine($"    {column} {type} {required}{comma}");
         }
         sb.AppendLine(");");
-        sb.AppendLine("alter table {0} add constraint PK_{0} primary key(Id);", tableName);
+        if (keys != null && keys.Count > 0)
+        {
+            var key = string.Join(", ", keys);
+            sb.AppendLine($"alter table {tableName} add constraint PK_{tableName} primary key({key});");
+        }
         return sb.ToString();
     }
 
