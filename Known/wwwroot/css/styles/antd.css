@@ -23,7 +23,6 @@
 .ant-dropdown-menu .anticon {margin-right:5px;}
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
-.kui-table .kui-title {padding-left:0;}
 .ant-table-wrapper {padding:0 10px;}
 .ant-table .ant-tag {cursor:pointer;}
 .ant-table-thead > tr > th {font-weight:bold;}
@@ -44,6 +43,7 @@
 
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 
+.kui-table .kui-title {padding-left:0;}
 .kui-tab-form .ant-modal-body .kui-form, .kui-tab-form .ant-drawer-body .kui-form {padding-top:0;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 .kui-tab-form .ant-tabs-tabpane {padding:0 10px;}
@@ -72,6 +72,7 @@
     .ant-row {flex-direction:column;}
     .ant-col-20, .ant-col-18, .ant-col-16, .ant-col-14, .ant-col-12, 
     .ant-col-10, .ant-col-8, .ant-col-6, .ant-col-4 {max-width:100%;}
+    .ant-col-offset-18 {margin-left:0;}
     .ant-toolbar {flex-wrap:wrap;padding-top:0;}
     .ant-form-inline {flex-direction:column;}
     .ant-form-item .ant-form-item-label {padding-bottom:0;}
