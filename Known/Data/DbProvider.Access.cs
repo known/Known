@@ -11,30 +11,7 @@ class AccessProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("CREATE TABLE `{0}` (", tableName);
-        var index = 0;
-        foreach (var item in info.Fields)
-        {
-            var comma = ++index == info.Fields.Count && info.Keys.Count < 2 ? "" : ",";
-            var required = item.Required ? "NOT NULL" : "NULL";
-            var column = $"`{item.Id}`";
-            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
-                     ? "Long"
-                     : GetAccessDbType(item);
-            if (item.Id == nameof(EntityBase.Id))
-                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
-            else
-                sb.AppendLine($"    {column} {type} {required}{comma}");
-        }
-        if (info.Keys.Count > 1)
-        {
-            var keys = string.Join(", ", info.Keys.Select(k => $"`{k}`"));
-            sb.AppendLine($"    CONSTRAINT `PK_{tableName}` PRIMARY KEY ({keys})");
-        }
-        sb.AppendLine(")");
-        sb.AppendLine("GO");
-        return sb.ToString();
+        return GetTableScript(tableName, info.Fields);
     }
 
     internal override string GetTopSql(int size, string text)
@@ -70,17 +47,39 @@ class AccessProvider(Database db) : DbProvider(db)
 ) t3 order by t3.{order}";
     }
 
+    internal static string GetTableScript(string tableName, List<FieldInfo> fields, int maxLength = 0)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("CREATE TABLE `{0}` (", tableName);
+        var index = 0;
+        foreach (var item in fields)
+        {
+            var comma = ++index == fields.Count ? "" : ",";
+            var required = item.Required ? "NOT NULL" : "NULL";
+            var column = $"`{item.Id}`";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetAccessDbType(item);
+            if (item.Id == "Id")
+                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
+            else
+                sb.AppendLine($"    {column} {type} {required}{comma}");
+        }
+        sb.AppendLine(")");
+        sb.AppendLine("GO");
+        return sb.ToString();
+    }
+
     private static string GetAccessDbType(FieldInfo item)
     {
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
-        {
             type = "DateTime";
-        }
+        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+            type = "Long";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "Long";
         else if (item.Type == FieldType.Number)
-        {
             type = string.IsNullOrWhiteSpace(item.Length) ? "Long" : $"decimal({item.Length})";
-        }
         else
         {
             if (string.IsNullOrWhiteSpace(item.Length))
@@ -90,6 +89,9 @@ class AccessProvider(Database db) : DbProvider(db)
             else
                 type = $"VarChar({item.Length})";
         }
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
 
         return type;
     }

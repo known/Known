@@ -12,20 +12,23 @@ class PgSqlProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
+        return GetTableScript(tableName, info.Fields);
+    }
+
+    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    {
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE {0} (", tableName);
-        foreach (var item in info.Fields)
+        foreach (var item in columns)
         {
             var required = item.Required ? " NOT NULL" : "";
-            var column = item.Id;
-            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
-                     ? "integer"
-                     : GetPgSqlDbType(item);
+            var column = $"{item.Id}";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetPgSqlDbType(item);
             var line = $"    {column} {type}".TrimEnd();
             sb.AppendLine($"    {line}{required},");
         }
-        var keys = string.Join(", ", info.Keys);
-        sb.AppendLine($"    PRIMARY KEY({keys})");
+        sb.AppendLine("    PRIMARY KEY(Id)");
         sb.AppendLine(");");
         return sb.ToString();
     }
@@ -35,12 +38,19 @@ class PgSqlProvider(Database db) : DbProvider(db)
         string type;
         if (item.Type == FieldType.Date)
             type = "date";
+        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+            type = "int";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "int";
         else if (item.Type == FieldType.DateTime)
             type = "timestamp without time zone";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"character varying({item.Length})";
+
+        if (type.Length < 24)
+            type += new string(' ', 24 - type.Length);
 
         return type;
     }

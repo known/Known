@@ -23,21 +23,7 @@ class MySqlProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("create table `{0}` (", tableName);
-        foreach (var item in info.Fields)
-        {
-            var required = item.Required ? "not null" : "null";
-            var column = $"`{item.Id}`";
-            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
-                     ? "int"
-                     : GetMySqlDbType(item);
-            sb.AppendLine($"    {column} {type} {required},");
-        }
-        var keys = string.Join(", ", info.Keys.Select(k => $"`{k}`"));
-        sb.AppendLine($"    PRIMARY KEY({keys})");
-        sb.AppendLine(");");
-        return sb.ToString();
+        return GetTableScript(tableName, info.Fields);
     }
 
     internal override string GetTopSql(int size, string text) => $"{text} limit 0, {size}";
@@ -48,15 +34,39 @@ class MySqlProvider(Database db) : DbProvider(db)
         return $"{text} order by {order} limit {startNo}, {criteria.PageSize}";
     }
 
+    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("create table `{0}` (", tableName);
+        foreach (var item in columns)
+        {
+            var required = item.Required ? "not null" : "null";
+            var column = $"`{item.Id}`";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetMySqlDbType(item);
+            sb.AppendLine($"    {column} {type} {required},");
+        }
+        sb.AppendLine("    PRIMARY KEY(`Id`)");
+        sb.AppendLine(");");
+        return sb.ToString();
+    }
+
     private static string GetMySqlDbType(FieldInfo item)
     {
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "datetime";
+        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+            type = "int";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "int";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"varchar({item.Length})";
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
 
         return type;
     }

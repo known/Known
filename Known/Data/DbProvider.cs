@@ -4,32 +4,32 @@ class DbProvider(Database db)
 {
     internal static DbProvider Create(Database db)
     {
-        var builder = new DbProvider(db);
+        var provider = new DbProvider(db);
         switch (db.DatabaseType)
         {
             case DatabaseType.Access:
-                builder = new AccessProvider(db);
+                provider = new AccessProvider(db);
                 break;
             case DatabaseType.SQLite:
-                builder = new SQLiteProvider(db);
+                provider = new SQLiteProvider(db);
                 break;
             case DatabaseType.SqlServer:
-                builder = new SqlServerProvider(db);
+                provider = new SqlServerProvider(db);
                 break;
             case DatabaseType.Oracle:
-                builder = new OracleProvider(db);
+                provider = new OracleProvider(db);
                 break;
             case DatabaseType.MySql:
-                builder = new MySqlProvider(db);
+                provider = new MySqlProvider(db);
                 break;
             case DatabaseType.PgSql:
-                builder = new PgSqlProvider(db);
+                provider = new PgSqlProvider(db);
                 break;
             case DatabaseType.DM:
-                builder = new DMProvider(db);
+                provider = new DMProvider(db);
                 break;
         }
-        return builder;
+        return provider;
     }
 
     private string IdName => FormatName(nameof(EntityBase.Id));
@@ -180,6 +180,15 @@ class DbProvider(Database db)
 
     internal virtual string GetTableSql(string dbName) => "";
     internal virtual string GetTableScript(string tableName, DbModelInfo info) => "";
+
+    internal static string GetColumnName(string column, int maxLength)
+    {
+        column ??= "";
+        if (column.Length < maxLength)
+            column += new string(' ', maxLength - column.Length);
+
+        return column;
+    }
 
     internal virtual string GetTopSql(int size, string text)
     {

@@ -9,29 +9,7 @@ class SQLiteProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("CREATE TABLE [{0}] (", tableName);
-        var index = 0;
-        foreach (var item in info.Fields)
-        {
-            var comma = ++index == info.Fields.Count && info.Keys.Count < 2 ? "" : ",";
-            var required = item.Required ? "NOT NULL" : "NULL";
-            var column = $"[{item.Id}]";
-            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
-                     ? "int"
-                     : GetSQLiteDbType(item);
-            if (item.Id == nameof(EntityBase.Id))
-                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
-            else
-                sb.AppendLine($"    {column} {type} {required}{comma}");
-        }
-        if (info.Keys.Count > 1)
-        {
-            var keys = string.Join(", ", info.Keys.Select(k => $"[{k}] ASC"));
-            sb.AppendLine($"    CONSTRAINT [PK_{tableName}] PRIMARY KEY ({keys})");
-        }
-        sb.AppendLine(");");
-        return sb.ToString();
+        return GetTableScript(tableName, info.Fields);
     }
 
     internal override string GetTopSql(int size, string text)
@@ -45,17 +23,38 @@ class SQLiteProvider(Database db) : DbProvider(db)
         return $"{text} order by {order} limit {criteria.PageSize} offset {startNo}";
     }
 
+    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("CREATE TABLE [{0}] (", tableName);
+        var index = 0;
+        foreach (var item in columns)
+        {
+            var comma = ++index == columns.Count ? "" : ",";
+            var required = item.Required ? "NOT NULL" : "NULL";
+            var column = $"[{item.Id}]";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetSQLiteDbType(item);
+            if (item.Id == "Id")
+                sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
+            else
+                sb.AppendLine($"    {column} {type} {required}{comma}");
+        }
+        sb.AppendLine(");");
+        return sb.ToString();
+    }
+
     private static string GetSQLiteDbType(FieldInfo item)
     {
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
-        {
             type = "datetime";
-        }
+        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+            type = "int";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "int";
         else if (item.Type == FieldType.Number)
-        {
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
-        }
         else
         {
             if (string.IsNullOrWhiteSpace(item.Length))
@@ -65,6 +64,9 @@ class SQLiteProvider(Database db) : DbProvider(db)
             else
                 type = $"nvarchar({item.Length})";
         }
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
 
         return type;
     }

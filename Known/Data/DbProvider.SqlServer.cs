@@ -11,21 +11,7 @@ class SqlServerProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine("CREATE TABLE [{0}] (", tableName);
-        foreach (var item in info.Fields)
-        {
-            var required = item.Required ? "NOT NULL" : "NULL";
-            var column = $"[{item.Id}]";
-            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
-                     ? "[int]"
-                     : GetSqlServerDbType(item);
-            sb.AppendLine($"    {column} {type} {required},");
-        }
-        var keys = string.Join(", ", info.Keys.Select(k => $"[{k}] ASC"));
-        sb.AppendLine($"    CONSTRAINT [PK_{tableName}] PRIMARY KEY ({keys})");
-        sb.AppendLine(");");
-        return sb.ToString();
+        return GetTableScript(tableName, info.Fields);
     }
 
     internal override string GetTopSql(int size, string text)
@@ -33,17 +19,34 @@ class SqlServerProvider(Database db) : DbProvider(db)
         return text.Replace("select", $"select top {size}");
     }
 
+    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("CREATE TABLE [{0}] (", tableName);
+        foreach (var item in columns)
+        {
+            var required = item.Required ? "NOT NULL" : "NULL";
+            var column = $"[{item.Id}]";
+            column = GetColumnName(column, maxLength + 2);
+            var type = GetSqlServerDbType(item);
+            sb.AppendLine($"    {column} {type} {required},");
+        }
+        sb.AppendLine("    CONSTRAINT [PK_{0}] PRIMARY KEY ([Id] ASC)", tableName);
+        sb.AppendLine(");");
+        return sb.ToString();
+    }
+
     private static string GetSqlServerDbType(FieldInfo item)
     {
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
-        {
             type = "[datetime]";
-        }
+        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+            type = "[int]";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "[int]";
         else if (item.Type == FieldType.Number)
-        {
             type = string.IsNullOrWhiteSpace(item.Length) ? "[int]" : $"[decimal]({item.Length})";
-        }
         else
         {
             if (string.IsNullOrWhiteSpace(item.Length))
@@ -53,6 +56,9 @@ class SqlServerProvider(Database db) : DbProvider(db)
             else
                 type = $"[nvarchar]({item.Length})";
         }
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
 
         return type;
     }

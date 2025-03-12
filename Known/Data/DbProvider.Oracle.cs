@@ -19,22 +19,24 @@ class OracleProvider(Database db) : DbProvider(db)
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
     {
+        return GetTableScript(tableName, info.Fields);
+    }
+
+    internal static string GetTableScript(string tableName, List<FieldInfo> columns, int maxLength = 0)
+    {
         var sb = new StringBuilder();
         sb.AppendLine("create table {0}(", tableName);
         var index = 0;
-        foreach (var item in info.Fields)
+        foreach (var item in columns)
         {
-            var comma = ++index == info.Fields.Count ? "" : ",";
+            var comma = ++index == columns.Count ? "" : ",";
             var required = item.Required ? "not null" : "null";
-            var column = item.Id;
-            var type = item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger
-                     ? "number(8)"
-                     : GetOracleDbType(item);
+            var column = GetColumnName(item.Id, maxLength);
+            var type = GetOracleDbType(item);
             sb.AppendLine($"    {column} {type} {required}{comma}");
         }
         sb.AppendLine(");");
-        var keys = string.Join(",", info.Keys);
-        sb.AppendLine("alter table {0} add constraint PK_{0} primary key({1});", tableName, keys);
+        sb.AppendLine("alter table {0} add constraint PK_{0} primary key(Id);", tableName);
         return sb.ToString();
     }
 
@@ -43,10 +45,17 @@ class OracleProvider(Database db) : DbProvider(db)
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "date";
+        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+            type = "number(8)";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "number(8)";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "number(8)" : $"number({item.Length})";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "varchar2(4000)" : $"varchar2({item.Length})";
+
+        if (type.Length < 16)
+            type += new string(' ', 16 - type.Length);
 
         return type;
     }
