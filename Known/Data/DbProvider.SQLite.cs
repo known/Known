@@ -30,15 +30,20 @@ class SQLiteProvider(Database db) : DbProvider(db)
         var index = 0;
         foreach (var item in fields)
         {
-            var comma = ++index == fields.Count ? "" : ",";
+            var comma = ++index == fields.Count && keys.Count < 2 ? "" : ",";
             var required = item.Required ? "NOT NULL" : "NULL";
             var column = $"[{item.Id}]";
             column = GetColumnName(column, maxLength + 2);
             var type = GetSQLiteDbType(item);
-            if (keys != null && keys.Contains(item.Id))
+            if (item.Id == nameof(EntityBase.Id))
                 sb.AppendLine($"    {column} {type} {required} PRIMARY KEY{comma}");
             else
                 sb.AppendLine($"    {column} {type} {required}{comma}");
+        }
+        if (keys.Count > 1)
+        {
+            var key = string.Join(", ", keys.Select(k => $"[{k}] ASC"));
+            sb.AppendLine($"    CONSTRAINT [PK_{tableName}] PRIMARY KEY ({key})");
         }
         sb.AppendLine(");");
         return sb.ToString();

@@ -22,7 +22,7 @@ class PgSqlProvider(Database db) : DbProvider(db)
         foreach (var item in fields)
         {
             var required = item.Required ? " NOT NULL" : "";
-            var column = $"{item.Id}";
+            var column = item.Id;
             column = GetColumnName(column, maxLength + 2);
             var type = GetPgSqlDbType(item);
             var line = $"    {column} {type}".TrimEnd();
