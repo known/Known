@@ -7,10 +7,10 @@ namespace Known;
 /// </summary>
 public sealed class AppData
 {
-    private static readonly string KmdPath = "./AppData.kmd";
-    private static readonly string KdbPath = "./AppData.kdb";
-
     private AppData() { }
+
+    internal static string KmdPath { get; set; }
+    internal static string KdbPath { get; set; }
 
     /// <summary>
     /// 取得框架配置数据信息。

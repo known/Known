@@ -86,6 +86,7 @@ partial class PlatformService
             var file = info.Files[key][0];
             var json = await Utils.UnZipDataAsync(file.Bytes);
             AppData.Data.Modules = Utils.FromJson<List<ModuleInfo>>(json);
+            AppData.SaveData();
             return Result.Success(Language.Success(Language.Import));
         }
         catch (Exception ex)
@@ -108,6 +109,7 @@ partial class PlatformService
             if (module != null)
                 AppData.Data.Modules.Remove(module);
         }
+        AppData.SaveData();
         return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
@@ -127,6 +129,7 @@ partial class PlatformService
                 AppData.Data.Modules.Add(newModule);
             }
         }
+        AppData.SaveData();
         return Result.SuccessAsync(Language.Success(Language.Copy));
     }
 
@@ -139,6 +142,7 @@ partial class PlatformService
         {
             SaveModule(item);
         }
+        AppData.SaveData();
         return Result.SuccessAsync(Language.SaveSuccess);
     }
 
@@ -158,6 +162,7 @@ partial class PlatformService
             else
                 info.Sort++;
         }
+        AppData.SaveData();
         return Result.SuccessAsync(Language.SaveSuccess);
     }
 
@@ -167,6 +172,7 @@ partial class PlatformService
             info.Icon = "";//AntDesign不识别null值
 
         SaveModule(info);
+        AppData.SaveData();
         return Result.SuccessAsync(Language.SaveSuccess);
     }
 
