@@ -10,53 +10,60 @@ public partial interface IAdminService
     Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
 
     /// <summary>
+    /// 异步分页查询系统用户。
+    /// </summary>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria);
+
+    /// <summary>
     /// 异步获取系统用户数据。
     /// </summary>
     /// <param name="id">用户ID。</param>
     /// <returns>系统用户数据。</returns>
-    Task<UserInfo> GetUserDataAsync(string id);
+    Task<UserDataInfo> GetUserDataAsync(string id);
 
     /// <summary>
     /// 异步删除系统用户。
     /// </summary>
     /// <param name="infos">系统用户列表。</param>
     /// <returns>删除结果。</returns>
-    Task<Result> DeleteUsersAsync(List<UserInfo> infos);
+    Task<Result> DeleteUsersAsync(List<UserDataInfo> infos);
 
     /// <summary>
     /// 异步切换系统用户所属部门。
     /// </summary>
     /// <param name="infos">系统用户列表。</param>
     /// <returns>切换结果。</returns>
-    Task<Result> ChangeDepartmentAsync(List<UserInfo> infos);
+    Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos);
 
     /// <summary>
     /// 异步启用系统用户。
     /// </summary>
     /// <param name="infos">系统用户列表。</param>
     /// <returns>启用结果。</returns>
-    Task<Result> EnableUsersAsync(List<UserInfo> infos);
+    Task<Result> EnableUsersAsync(List<UserDataInfo> infos);
 
     /// <summary>
     /// 异步禁用系统用户。
     /// </summary>
     /// <param name="infos">系统用户列表。</param>
     /// <returns>禁用结果。</returns>
-    Task<Result> DisableUsersAsync(List<UserInfo> infos);
+    Task<Result> DisableUsersAsync(List<UserDataInfo> infos);
 
     /// <summary>
     /// 异步重置系统用户密码。
     /// </summary>
     /// <param name="infos">系统用户列表。</param>
     /// <returns>重置结果。</returns>
-    Task<Result> SetUserPwdsAsync(List<UserInfo> infos);
+    Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos);
 
     /// <summary>
     /// 异步保存系统用户。
     /// </summary>
     /// <param name="info">系统用户信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveUserAsync(UserInfo info);
+    Task<Result> SaveUserAsync(UserDataInfo info);
 }
 
 partial class AdminService
@@ -68,41 +75,46 @@ partial class AdminService
         return QueryModelsAsync<UserInfo>(KeyUser, criteria);
     }
 
-    public Task<UserInfo> GetUserDataAsync(string id)
+    public Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria)
     {
-        var info = AppData.GetBizData<List<UserInfo>>(KeyUser)?.FirstOrDefault(d => d.Id == id);
-        info ??= new UserInfo();
+        return QueryModelsAsync<UserDataInfo>(KeyUser, criteria);
+    }
+
+    public Task<UserDataInfo> GetUserDataAsync(string id)
+    {
+        var info = AppData.GetBizData<List<UserDataInfo>>(KeyUser)?.FirstOrDefault(d => d.Id == id);
+        info ??= new UserDataInfo();
         var roles = AppData.GetBizData<List<RoleInfo>>(KeyRole);
         info.Roles = roles?.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
         return Task.FromResult(info);
     }
 
-    public Task<Result> DeleteUsersAsync(List<UserInfo> infos)
+    public Task<Result> DeleteUsersAsync(List<UserDataInfo> infos)
     {
         return DeleteModelsAsync(KeyUser, infos);
     }
 
-    public Task<Result> ChangeDepartmentAsync(List<UserInfo> infos)
+    public Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos)
     {
         return Result.SuccessAsync("更改成功！");
     }
 
-    public Task<Result> EnableUsersAsync(List<UserInfo> infos)
+    public Task<Result> EnableUsersAsync(List<UserDataInfo> infos)
     {
         return Result.SuccessAsync("启用成功！");
     }
 
-    public Task<Result> DisableUsersAsync(List<UserInfo> infos)
+    public Task<Result> DisableUsersAsync(List<UserDataInfo> infos)
     {
         return Result.SuccessAsync("禁用成功！");
     }
 
-    public Task<Result> SetUserPwdsAsync(List<UserInfo> infos)
+    public Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos)
     {
         return Result.SuccessAsync("设置成功！");
     }
 
-    public Task<Result> SaveUserAsync(UserInfo info)
+    public Task<Result> SaveUserAsync(UserDataInfo info)
     {
         return SaveModelAsync(KeyUser, info);
     }
@@ -113,39 +125,44 @@ partial class AdminClient
     public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
         return Http.QueryAsync<UserInfo>("/Admin/QueryUsers", criteria);
-    }
 
-    public Task<UserInfo> GetUserDataAsync(string id)
+    }
+    public Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria)
     {
-        return Http.GetAsync<UserInfo>($"/Admin/GetUserData?id={id}");
+        return Http.QueryAsync<UserDataInfo>("/Admin/QueryUserDatas", criteria);
     }
 
-    public Task<Result> DeleteUsersAsync(List<UserInfo> infos)
+    public Task<UserDataInfo> GetUserDataAsync(string id)
+    {
+        return Http.GetAsync<UserDataInfo>($"/Admin/GetUserData?id={id}");
+    }
+
+    public Task<Result> DeleteUsersAsync(List<UserDataInfo> infos)
     {
         return Http.PostAsync("/Admin/DeleteUsers", infos);
     }
 
-    public Task<Result> ChangeDepartmentAsync(List<UserInfo> infos)
+    public Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos)
     {
         return Http.PostAsync("/Admin/ChangeDepartment", infos);
     }
 
-    public Task<Result> EnableUsersAsync(List<UserInfo> infos)
+    public Task<Result> EnableUsersAsync(List<UserDataInfo> infos)
     {
         return Http.PostAsync("/Admin/EnableUsers", infos);
     }
 
-    public Task<Result> DisableUsersAsync(List<UserInfo> infos)
+    public Task<Result> DisableUsersAsync(List<UserDataInfo> infos)
     {
         return Http.PostAsync("/Admin/DisableUsers", infos);
     }
 
-    public Task<Result> SetUserPwdsAsync(List<UserInfo> infos)
+    public Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos)
     {
         return Http.PostAsync("/Admin/SetUserPwds", infos);
     }
 
-    public Task<Result> SaveUserAsync(UserInfo info)
+    public Task<Result> SaveUserAsync(UserDataInfo info)
     {
         return Http.PostAsync("/Admin/SaveUser", info);
     }

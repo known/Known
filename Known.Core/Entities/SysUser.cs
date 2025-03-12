@@ -30,6 +30,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置密码。
     /// </summary>
+    [Required]
     [MaxLength(50)]
     public string Password { get; set; }
 

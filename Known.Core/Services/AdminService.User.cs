@@ -4,31 +4,20 @@ partial class AdminService
 {
     public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
-        var db = Database;
-        var sql = $@"select a.*,b.Name as Department 
-from SysUser a 
-left join SysOrganization b on b.Id=a.OrgNo 
-where a.CompNo=@CompNo and a.UserName<>'admin'";
-        var orgNoId = nameof(UserInfo.OrgNo);
-        var orgNo = criteria.GetParameter<string>(orgNoId);
-        if (!string.IsNullOrWhiteSpace(orgNo))
-        {
-            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
-            if (org != null && org.Code != db.User?.CompNo)
-                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
-            else
-                criteria.RemoveQuery(orgNoId);
-        }
-        criteria.Fields[nameof(UserInfo.Name)] = "a.Name";
-        return await db.QueryPageAsync<UserInfo>(sql, criteria);
+        return await QueryUsersAsync<UserInfo>(criteria);
     }
 
-    public async Task<UserInfo> GetUserDataAsync(string id)
+    public async Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria)
+    {
+        return await QueryUsersAsync<UserDataInfo>(criteria);
+    }
+
+    public async Task<UserDataInfo> GetUserDataAsync(string id)
     {
         var database = Database;
         await database.OpenAsync();
-        var user = await database.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
-        user ??= new UserInfo();
+        var user = await database.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserDataInfo>();
+        user ??= new UserDataInfo { Password = Config.System?.UserDefaultPwd };
         user.DefaultPassword = Config.System?.UserDefaultPwd;
         var roles = await database.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
         var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
@@ -39,13 +28,13 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         return user;
     }
 
-    public async Task<Result> DeleteUsersAsync(List<UserInfo> infos)
+    public async Task<Result> DeleteUsersAsync(List<UserDataInfo> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnDeletingAsync(database, infos);
+        var result = await UserHelper.OnDeletingAsync(database, [.. infos.Select(u=>(UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -60,13 +49,13 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         });
     }
 
-    public async Task<Result> ChangeDepartmentAsync(List<UserInfo> infos)
+    public async Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnChangingDepartmentAsync(database, infos);
+        var result = await UserHelper.OnChangingDepartmentAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -85,13 +74,13 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         });
     }
 
-    public async Task<Result> EnableUsersAsync(List<UserInfo> infos)
+    public async Task<Result> EnableUsersAsync(List<UserDataInfo> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnEnablingAsync(database, infos);
+        var result = await UserHelper.OnEnablingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -110,13 +99,13 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         });
     }
 
-    public async Task<Result> DisableUsersAsync(List<UserInfo> infos)
+    public async Task<Result> DisableUsersAsync(List<UserDataInfo> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnDisablingAsync(database, infos);
+        var result = await UserHelper.OnDisablingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -135,7 +124,7 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         });
     }
 
-    public async Task<Result> SetUserPwdsAsync(List<UserInfo> infos)
+    public async Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -159,21 +148,17 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         });
     }
 
-    public async Task<Result> SaveUserAsync(UserInfo info)
+    public async Task<Result> SaveUserAsync(UserDataInfo info)
     {
         var database = Database;
         var model = await database.QueryByIdAsync<SysUser>(info.Id);
+        var orgPassword = model?.Password;
         model ??= new SysUser();
         model.FillModel(info);
 
-        if (model.IsNew)
-        {
-            var sysInfo = await database.GetSystemAsync();
-            if (sysInfo == null || string.IsNullOrEmpty(sysInfo.UserDefaultPwd))
-                return Result.Error(Language["Tip.NoDefaultPwd"]);
-
-            model.Password = Utils.ToMd5(sysInfo.UserDefaultPwd);
-        }
+        // 与原始密码不一致，更新密码
+        if (model.Password != orgPassword)
+            model.Password = Utils.ToMd5(model.Password);
 
         if (string.IsNullOrWhiteSpace(model.OrgNo))
             model.OrgNo = CurrentUser.OrgNo;
@@ -209,5 +194,26 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
             await UserHelper.OnSavedAsync(db, model);
             info.Id = model.Id;
         }, info);
+    }
+
+    private async Task<PagingResult<T>> QueryUsersAsync<T>(PagingCriteria criteria) where T : class, new()
+    {
+        var db = Database;
+        var sql = $@"select a.*,b.Name as Department 
+from SysUser a 
+left join SysOrganization b on b.Id=a.OrgNo 
+where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var orgNoId = nameof(UserDataInfo.OrgNo);
+        var orgNo = criteria.GetParameter<string>(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User?.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
+        }
+        criteria.Fields[nameof(UserDataInfo.Name)] = "a.Name";
+        return await db.QueryPageAsync<T>(sql, criteria);
     }
 }

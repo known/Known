@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
-public class SysUserList : BaseTablePage<UserInfo>
+public class SysUserList : BaseTablePage<UserDataInfo>
 {
     private List<OrganizationInfo> orgs;
     private OrganizationInfo currentOrg;
@@ -30,7 +30,7 @@ public class SysUserList : BaseTablePage<UserInfo>
             };
         }
 
-        Table = new TableModel<UserInfo>(this)
+        Table = new TableModel<UserDataInfo>(this)
         {
             FormType = UIConfig.UserFormTabs.Count > 0 ? typeof(UserTabForm) : typeof(UserForm),
             Form = new FormInfo { Width = 800, SmallLabel = true },
@@ -45,7 +45,7 @@ public class SysUserList : BaseTablePage<UserInfo>
     {
         if (HasOrg)
         {
-            builder.Component<KTreeTable<UserInfo>>()
+            builder.Component<KTreeTable<UserDataInfo>>()
                    .Set(c => c.Tree, Tree)
                    .Set(c => c.Table, Table)
                    .Build();
@@ -59,29 +59,29 @@ public class SysUserList : BaseTablePage<UserInfo>
     /// <inheritdoc />
     public override Task RefreshAsync() => Table.RefreshAsync();
 
-    private Task<PagingResult<UserInfo>> OnQueryUsersAsync(PagingCriteria criteria)
+    private Task<PagingResult<UserDataInfo>> OnQueryUsersAsync(PagingCriteria criteria)
     {
         if (currentOrg != null)
             criteria.Parameters[nameof(UserInfo.OrgNo)] = currentOrg?.Id;
-        return Admin.QueryUsersAsync(criteria);
+        return Admin.QueryUserDatasAsync(criteria);
     }
 
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    [Action] public void New() => Table.NewForm(Admin.SaveUserAsync, new UserInfo { OrgNo = currentOrg?.Id });
+    [Action] public void New() => Table.NewForm(Admin.SaveUserAsync, new UserDataInfo { OrgNo = currentOrg?.Id });
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(UserInfo row) => Table.EditForm(Admin.SaveUserAsync, row);
+    [Action] public void Edit(UserDataInfo row) => Table.EditForm(Admin.SaveUserAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(UserInfo row) => Table.Delete(Admin.DeleteUsersAsync, row);
+    [Action] public void Delete(UserDataInfo row) => Table.Delete(Admin.DeleteUsersAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
@@ -118,7 +118,7 @@ public class SysUserList : BaseTablePage<UserInfo>
     /// </summary>
     [Action] public Task Export() => Table.ExportDataAsync();
 
-    private void OnChangeDepartment(List<UserInfo> rows)
+    private void OnChangeDepartment(List<UserDataInfo> rows)
     {
         OrganizationInfo node = null;
         var model = new DialogModel
@@ -169,7 +169,7 @@ class UserTabForm : BaseTabForm
     /// <summary>
     /// 取得或设置泛型表单组件模型实例。
     /// </summary>
-    [Parameter] public FormModel<UserInfo> Model { get; set; }
+    [Parameter] public FormModel<UserDataInfo> Model { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitFormAsync()
@@ -187,7 +187,7 @@ class UserTabForm : BaseTabForm
     }
 }
 
-class UserForm : BaseForm<UserInfo>
+class UserForm : BaseForm<UserDataInfo>
 {
     private string defaultPassword;
 
@@ -210,6 +210,8 @@ class UserForm : BaseForm<UserInfo>
         {
             var user = await Admin.GetUserDataAsync(Model.Data.Id);
             defaultPassword = user.DefaultPassword;
+            if (Model.IsNew)
+                Model.Data.Password = defaultPassword;
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;
         }
