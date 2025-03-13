@@ -48,12 +48,20 @@ public class WebLogPage : BaseTablePage<LogInfo>
         form.IsView = true;
         form.AddRow().AddColumn("信息", b =>
         {
-            b.Tag(row.Type);
-            b.Tag(row.Target);
-            b.Tag(row.CreateBy);
-            b.Tag(row.CreateTime?.ToString("yyyy-MM-dd HH:mm:ss"));
+            b.Tags(row.Type, row.Target, row.CreateBy, row.CreateTime?.ToString("yyyy-MM-dd HH:mm:ss"));
         });
-        form.AddRow().AddColumn("内容", b => b.Pre().Class("error").Child(row.Content));
+        form.AddRow().AddColumn("内容", b =>
+        {
+            b.Div("kui-code", () =>
+            {
+                b.Div("action", () => b.Icon("copy", "复制错误", this.Callback<MouseEventArgs>(e =>
+                {
+                    JSRuntime.CopyTextAsync(row.Content);
+                    UI.Success("复制成功！");
+                })));
+                b.Pre().Class("error").Child(row.Content);
+            });
+        });
         UI.ShowForm(form);
     }
 

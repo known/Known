@@ -101,6 +101,19 @@ public static class FragmentExtension
     }
 
     /// <summary>
+    /// 呈现一个标签组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="texts">标签文本集合。</param>
+    public static void Tags(this RenderTreeBuilder builder, params string[] texts)
+    {
+        foreach (var text in texts)
+        {
+            builder.Component<KTag>().Set(c => c.Text, text).Build();
+        }
+    }
+
+    /// <summary>
     /// 呈现一个图标组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
