@@ -198,6 +198,7 @@ class MenuTree : BaseComponent
                     item.Parent.Children.Remove(item);
                     item.Parent.Children.Resort();
                 }
+                App?.RemoveMenuItem(item);
                 return tree.RefreshAsync();
             });
         });

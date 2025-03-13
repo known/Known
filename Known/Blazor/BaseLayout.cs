@@ -130,13 +130,28 @@ public class BaseLayout : BaseComponent
 
     internal virtual void LoadMenus() { }
 
-    internal virtual void AddMenuItem(MenuInfo item)
+    /// <summary>
+    /// 添加菜单项。
+    /// </summary>
+    /// <param name="item">菜单项。</param>
+    public virtual void AddMenuItem(MenuInfo item)
     {
-        if (Context.UserMenus == null)
-            Context.UserMenus = [];
-        Context.UserMenus.Add(item);
-        UserMenus = Context.UserMenus.ToMenuItems();
-        LoadMenus();
+        var menus = Context.UserMenus ?? [];
+        menus.Add(item);
+        SetUserMenus(menus);
+    }
+
+    /// <summary>
+    /// 移除菜单项。
+    /// </summary>
+    /// <param name="item">菜单项。</param>
+    public virtual void RemoveMenuItem(MenuInfo item)
+    {
+        var menus = Context.UserMenus ?? [];
+        var info = menus.FirstOrDefault(m => m.Id == item.Id);
+        if (info != null)
+            menus.Remove(info);
+        SetUserMenus(menus);
     }
 
     internal async Task OnThemeColorAsync()

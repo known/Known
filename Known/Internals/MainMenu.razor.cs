@@ -23,6 +23,11 @@ public partial class MainMenu
     [Parameter] public MenuInfo Parent { get; set; }
 
     /// <summary>
+    /// 取得或设置添加菜单后委托。
+    /// </summary>
+    [Parameter] public Action<MenuInfo> OnAdded { get; set; }
+
+    /// <summary>
     /// 取得或设置菜单管理后委托。
     /// </summary>
     [Parameter] public Action<MenuInfo> OnManaged { get; set; }
@@ -113,7 +118,11 @@ public partial class MainMenu
             Title = title,
             Data = data,
             OnSave = Platform.SaveMenuAsync,
-            OnSaved = d => App?.AddMenuItem(d)
+            OnSaved = d =>
+            {
+                App?.AddMenuItem(d);
+                OnAdded?.Invoke(d);
+            }
         };
         model.AddRow().AddColumn(c => c.ParentId, c =>
         {
