@@ -82,33 +82,36 @@ class WebApiForm : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div("kui-api-name", Model.Description);
-        builder.Div("kui-api-route", () =>
+        builder.Div().Style("padding:0 10px").Child(() =>
         {
-            builder.Div(() =>
+            builder.Div("kui-api-name", Model.Description);
+            builder.Div("kui-api-route", () =>
             {
-                WebApiPage.BuildMethod(builder, Model);
-                builder.Text($"/api{Model.Route}");
+                builder.Div(() =>
+                {
+                    WebApiPage.BuildMethod(builder, Model);
+                    builder.Text($"/api{Model.Route}");
+                });
+                builder.Button(Language["Execute"], this.Callback<MouseEventArgs>(OnExexuteAsync));
             });
-            builder.Button(Language["Execute"], this.Callback<MouseEventArgs>(OnExexuteAsync));
-        });
-        builder.Div("kui-api-row", () =>
-        {
-            builder.Div("kui-api-title", Language["RequestHeaders"]);
-            BuildHeaders(builder);
-        });
-        if (Model.Parameters != null && Model.Parameters.Length > 0)
-        {
             builder.Div("kui-api-row", () =>
             {
-                builder.Div("kui-api-title", Language["RequestParameters"]);
-                BuildParamters(builder);
+                builder.Div("kui-api-title", Language["RequestHeaders"]);
+                BuildHeaders(builder);
             });
-        }
-        builder.Div("kui-api-row", () =>
-        {
-            builder.Div("kui-api-title", Language["ResponseResults"]);
-            BuildResult(builder);
+            if (Model.Parameters != null && Model.Parameters.Length > 0)
+            {
+                builder.Div("kui-api-row", () =>
+                {
+                    builder.Div("kui-api-title", Language["RequestParameters"]);
+                    BuildParamters(builder);
+                });
+            }
+            builder.Div("kui-api-row", () =>
+            {
+                builder.Div("kui-api-title", Language["ResponseResults"]);
+                BuildResult(builder);
+            });
         });
     }
 

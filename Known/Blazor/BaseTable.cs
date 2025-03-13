@@ -22,6 +22,7 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         await base.OnInitAsync();
         Table = new TableModel<TItem>(this);
         Table.AdvSearch = false;
+        Table.AutoHeight = false;
         Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.ShowSetting = false;
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
