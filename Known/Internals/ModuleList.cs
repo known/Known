@@ -39,7 +39,7 @@ class ModuleList : BasePage<ModuleInfo>
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 800, Maximizable = true, ShowFooter = true },
-            RowKey = r => r.Id,
+            //RowKey = r => r.Id,
             EnableEdit = false,
             ShowPager = false,
             SelectType = TableSelectType.Checkbox,
@@ -116,7 +116,14 @@ class ModuleList : BasePage<ModuleInfo>
             return;
         }
 
-        table.NewForm(Platform.SaveModuleAsync, new ModuleInfo { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
+        table.NewForm(Platform.SaveModuleAsync, new ModuleInfo
+        {
+            ParentId = current?.Id,
+            ParentName = current?.Name,
+            Type = nameof(MenuType.Menu),
+            Target = nameof(LinkTarget.None),
+            Sort = total + 1
+        });
     }
 
     /// <summary>

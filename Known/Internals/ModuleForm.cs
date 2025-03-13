@@ -25,7 +25,7 @@ class ModuleForm : BaseTabForm
         }).AddColumn(c => c.Enabled, c => c.Span = 6)
           .AddColumn(c => c.Sort, c => c.Span = 6);
         Model.AddRow().AddColumn(c => c.Url)
-            .AddColumn(c => c.Type, c =>
+            .AddColumn(c => c.Target, c =>
             {
                 c.Category = nameof(LinkTarget);
                 c.Type = FieldType.RadioList;

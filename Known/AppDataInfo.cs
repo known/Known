@@ -132,7 +132,7 @@ public class ModuleInfo
     /// <summary>
     /// 取得或设置ID。
     /// </summary>
-    public string Id { get; set; }
+    public string Id { get; set; } = Utils.GetNextId();
 
     /// <summary>
     /// 取得或设置上级。
