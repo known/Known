@@ -44,8 +44,8 @@ class PgSqlProvider(Database db) : DbProvider(db)
             type = "date";
         else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
             type = "int";
-        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
-            type = "int";
+        //else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+        //    type = "int";
         else if (item.Type == FieldType.DateTime)
             type = "timestamp without time zone";
         else if (item.Type == FieldType.Number)

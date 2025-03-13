@@ -81,8 +81,8 @@ class AccessProvider(Database db) : DbProvider(db)
             type = "DateTime";
         else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
             type = "Long";
-        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
-            type = "Long";
+        //else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+        //    type = "Long";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "Long" : $"decimal({item.Length})";
         else
