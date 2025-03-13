@@ -43,7 +43,7 @@ partial class KTable<TItem> : BaseComponent
 
     private Task RefreshTableAsync(bool isQuery)
     {
-        //Model.Criteria.IsQuery = isQuery;
+        Model.Criteria.IsQuery = isQuery;
         return InvokeAsync(() =>
         {
             var query = table?.GetQueryModel();
@@ -82,6 +82,7 @@ partial class KTable<TItem> : BaseComponent
         Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
         Model.SelectedRows = [];
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+        Model.Criteria.IsQuery = false;
         await Model.RefreshStatisAsync();
         watch.Write($"Changed {Model.Criteria.PageIndex}");
     }
