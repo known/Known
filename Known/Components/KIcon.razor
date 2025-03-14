@@ -3,34 +3,12 @@
     if (!string.IsNullOrWhiteSpace(Title))
     {
         <Tooltip Title="@Title">
-            @if (Icon.StartsWith("fa"))
-            {
-                <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
-            }
-            else
-            {
-                <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
-            }
-            @if (!string.IsNullOrWhiteSpace(Name))
-            {
-                <span class="icon-name">@Name</span>
-            }
+            @RenderItem()
         </Tooltip>
     }
     else
     {
-        if (Icon.StartsWith("fa"))
-        {
-            <span class="@Icon" @onclick="e=>OnClick?.InvokeAsync(e)"></span>
-        }
-        else
-        {
-            <Icon Type="@Icon" OnClick="e=>OnClick?.InvokeAsync(e)" />
-        }
-        @if (!string.IsNullOrWhiteSpace(Name))
-        {
-            <span class="icon-name">@Name</span>
-        }
+        @RenderItem()
     }
 }
 
@@ -54,4 +32,30 @@
     /// 取得或设置图标单击事件。
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs>? OnClick { get; set; }
+
+    private RenderFragment RenderItem()
+    {
+        if (string.IsNullOrWhiteSpace(Name))
+            return b => RenderIcon(b, OnClick);
+
+        return b => b.Div().Class("kui-icon").OnClick(OnClick).Child(() =>
+        {
+            RenderIcon(b);
+            b.Span("icon-name", Name);
+        });
+    }
+
+    private void RenderIcon(RenderTreeBuilder builder, EventCallback<MouseEventArgs>? onClick = null)
+    {
+        if (Icon.StartsWith("fa"))
+        {
+            builder.Span().Class(Icon).OnClick(OnClick).Close();
+            return;
+        }
+
+        if (onClick != null)
+            builder.Component<Icon>().Set(c => c.Type, Icon).Set(c => c.OnClick, onClick.Value).Build();
+        else
+            builder.Component<Icon>().Set(c => c.Type, Icon).Build();
+    }
 }

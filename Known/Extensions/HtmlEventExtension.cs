@@ -37,7 +37,13 @@ public static class HtmlEventExtension
     /// <param name="builder">元素建造者。</param>
     /// <param name="onClick">onclick属性值。</param>
     /// <returns>元素建造者。</returns>
-    public static ElementBuilder OnClick(this ElementBuilder builder, object onClick) => builder.Set("onclick", onClick);
+    public static ElementBuilder OnClick(this ElementBuilder builder, object onClick)
+    {
+        if (onClick == null)
+            return builder;
+
+        return builder.Set("onclick", onClick);
+    }
 
     /// <summary>
     /// 阻止HTML元素的onclick属性的默认事件。
