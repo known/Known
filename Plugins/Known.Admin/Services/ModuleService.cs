@@ -180,6 +180,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         {
             foreach (var item in models)
             {
+                item.Id = Utils.GetNextId();
                 await db.InsertAsync(item);
             }
         });
