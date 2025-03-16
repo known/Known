@@ -19,13 +19,13 @@ partial class TableModel<TItem>
 
     private bool ShowForm(FormModel<TItem> model)
     {
-        if (Form != null)
-        {
-            model.Info = Form;
-            model.SmallLabel = Form.SmallLabel;
-        }
-        //model.Info ??= Context.Current?.Form;
-        //model.Info ??= new FormInfo();
+        model.SmallLabel = Form?.SmallLabel == true;
+        model.Info ??= Form;
+        model.Info ??= new FormInfo();
+
+        if (model.Info.Width == null)
+            model.Info.Width = Form?.Width;
+
         return UI.ShowForm(model);
     }
 }

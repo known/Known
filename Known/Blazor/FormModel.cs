@@ -60,7 +60,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <summary>
     /// 取得或设置表单配置信息。
     /// </summary>
-    public FormInfo Info { get; set; } = new();
+    public FormInfo Info { get; set; }
 
     /// <summary>
     /// 取得或设置是否启用在线编辑。
