@@ -27,18 +27,18 @@ public class AntCheckboxGroup : CheckboxGroup<string>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(string);
-        if (!string.IsNullOrWhiteSpace(Category))
-            Codes = Cache.GetCodes(Category);
         base.OnInitialized();
     }
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync();
+        if (!string.IsNullOrWhiteSpace(Category))
+            Codes = Cache.GetCodes(Category);
         Options = Codes.ToCheckboxOptions(o =>
         {
             o.Checked = Value != null && Value.Contains(o.Value);
         });
+        await base.OnParametersSetAsync();
     }
 }

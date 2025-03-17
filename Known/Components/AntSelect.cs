@@ -51,20 +51,26 @@ public class AntSelectCode : Select<string, CodeInfo>
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
-        var emptyText = "";
         if (Item != null)
-        {
             Item.Type = typeof(string);
-            emptyText = Item.Language.GetString("PleaseSelect");
-            Placeholder = emptyText;
-        }
-        if (!string.IsNullOrWhiteSpace(Category))
-            DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
         ValueName = nameof(CodeInfo.Code);
         LabelName = nameof(CodeInfo.Name);
         EnableVirtualization = true;
         EnableSearch = true;
         AllowClear = true;
         base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        var emptyText = "";
+        if (Item != null)
+            emptyText = Item.Language.GetString("PleaseSelect");
+        if (string.IsNullOrEmpty(Placeholder))
+            Placeholder = emptyText;
+        if (!string.IsNullOrWhiteSpace(Category))
+            DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
+        await base.OnParametersSetAsync();
     }
 }

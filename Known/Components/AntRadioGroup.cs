@@ -27,17 +27,17 @@ public class AntRadioGroup : RadioGroup<string>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(string);
-        if (!string.IsNullOrWhiteSpace(Category))
-            Codes = Cache.GetCodes(Category);
         base.OnInitialized();
-        //Fixed单选按钮组切换不刷新问题
-        OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
     }
 
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync();
+        if (!string.IsNullOrWhiteSpace(Category))
+            Codes = Cache.GetCodes(Category);
         Options = Codes.ToRadioOptions();
+        await base.OnParametersSetAsync();
+        //Fixed单选按钮组切换不刷新问题
+        //OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
     }
 }
