@@ -63,6 +63,11 @@ public class UIConfig
     public static Type ModulePageType { get; set; }
 
     /// <summary>
+    /// 取得模块页面组件自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, ComponentInfo> ModuleTabs { get; } = [];
+
+    /// <summary>
     /// 取得模块表单组件自定义标签字典。
     /// </summary>
     public static Dictionary<string, ComponentInfo> ModuleFormTabs { get; } = [];

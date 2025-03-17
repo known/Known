@@ -37,7 +37,7 @@
 }
 .kui-body > .kui-card {height:100%;}
 .kui-body > .kui-card > .ant-tabs > .ant-tabs-content-holder {
-    position:absolute;top:56px;left:10px;right:10px;bottom:10px;overflow:auto;padding:15px;
+    position:absolute;top:56px;left:10px;right:10px;bottom:10px;overflow:auto;
 }
 pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-radius:3px;max-height:300px;overflow:auto;}
 .kui-icon {display:flex;align-items:center;gap:3px;cursor:pointer;}

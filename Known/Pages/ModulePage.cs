@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/dev/modules")]
 [DevPlugin("模块管理", "appstore-add", Sort = 1)]
-public class ModulePage : BasePage
+public class ModulePage : BaseTabPage
 {
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -17,8 +17,15 @@ public class ModulePage : BasePage
         }
 
         await base.OnInitPageAsync();
+        foreach (var item in UIConfig.ModuleTabs.OrderBy(t => t.Value.Id))
+        {
+            Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
+        }
     }
+}
 
+class SysModuleList : BasePage
+{
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {

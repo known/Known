@@ -11,7 +11,7 @@ public partial class UIService
     /// <param name="model">表单组件模型对象。</param>
     public bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
-        var openType = model.Info.OpenType;
+        var openType = model.Info?.OpenType;
         if (openType == FormOpenType.None)
             openType = Utils.ConvertTo<FormOpenType>(model.Context.UserSetting.OpenType);
         switch (openType)
@@ -39,15 +39,15 @@ public partial class UIService
             MaskClosable = false,
             Draggable = model.Draggable,
             Resizable = model.Resizable,
-            Maximizable = model.Info.Maximizable,
-            DefaultMaximized = model.Info.DefaultMaximized,
+            Maximizable = model.Info?.Maximizable == true,
+            DefaultMaximized = model.Info?.DefaultMaximized == true,
             Title = model.GetFormTitle(),
             OkText = Language?.OK,
             CancelText = Language?.Cancel,
             WrapClassName = GetWrapperClass(model),
             Content = GetFormContent(model)
         };
-        if (model.Info.Width != null)
+        if (model.Info?.Width != null)
             option.Width = model.Info.Width.Value;
 
         if (model.Footer != null)
@@ -59,7 +59,7 @@ public partial class UIService
             option.OnOk = e => model.SaveAsync();
             option.OnCancel = e => model.CloseAsync();
         }
-        if (model.IsNoFooter && !model.Info.ShowFooter)
+        if (model.IsNoFooter && !model.Info?.ShowFooter == true)
             option.Footer = null;
         if (model.IsView)
             option.Footer = null;
@@ -73,7 +73,7 @@ public partial class UIService
         var option = new DrawerOptions
         {
             Title = model.GetFormTitle(),
-            Width = model.Info.Width?.ToString() ?? "400px",
+            Width = model.Info?.Width?.ToString() ?? "400px",
             Closable = true,
             MaskClosable = false,
             Placement = DrawerPlacement.Right,

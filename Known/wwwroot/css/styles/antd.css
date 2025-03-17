@@ -34,7 +34,7 @@
 .ant-toolbar {display:flex;gap:3px;}
 
 .ant-modal {top:30px;}
-.ant-modal-body > .ant-steps {padding:15px 0 10px 0;}
+.ant-modal-body > .ant-steps {padding:10px;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
 .ant-modal-body, .ant-drawer-body {padding:5px;}
@@ -46,11 +46,13 @@
 
 /*Form*/
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
+.kui-tab-form .ant-modal-body {padding:0;}
 .kui-tab-form .ant-modal-body .kui-form, .kui-tab-form .ant-drawer-body .kui-form,
-.kui-tab-form .ant-modal-body .kui-small, .kui-tab-form .ant-drawer-body .kui-small {padding-top:0;}
+.kui-tab-form .ant-modal-body .kui-small, .kui-tab-form .ant-drawer-body .kui-small {}
+.kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 10px;}
 .kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 /*.kui-tab-form .ant-tabs-tabpane {padding:0 10px;}*/
-.kui-form-tab .ant-tabs-content-holder {padding-top:10px;}
+.kui-form-tab .ant-tabs-content-holder {padding:0;}
 .kui-tab-form .ant-tabs-tabpane .kui-form, .kui-tab-form .ant-tabs-tabpane .kui-small {padding-right:10px;}
 
 :root[data-theme=dark] .ant-layout-sider, :root[data-theme=dark] .kui-menu-dark {

@@ -150,6 +150,8 @@ public static class Extension
 
         var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
+        //模块管理
+        UIConfig.ModuleTabs.Set<SysModuleList>(1, "系统模块");
         //用户中心
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs.Set<UserEditForm>(1, "MyProfile");
