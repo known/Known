@@ -26,6 +26,8 @@ partial class TableModel<TItem>
     {
         var property = TypeHelper.Property(selector);
         var column = new ColumnInfo(property) { IsQuery = isQuery };
+        if (property.DeclaringType != typeof(TItem))
+            column.Id = $"{property.DeclaringType.Name}.{property.Name}";
         AllColumns.Add(column);
         Columns.Add(column);
         if (isQuery)

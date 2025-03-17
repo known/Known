@@ -224,7 +224,7 @@ public sealed class TypeHelper
 
         var type = typeof(T);
         var propertyInfo = propInfoCandidate.DeclaringType != type
-                         ? type.GetProperty(propInfoCandidate.Name, propInfoCandidate.PropertyType)
+                         ? propInfoCandidate.DeclaringType.GetProperty(propInfoCandidate.Name, propInfoCandidate.PropertyType)
                          : propInfoCandidate;
         if (propertyInfo is null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
@@ -255,7 +255,7 @@ public sealed class TypeHelper
 
         var type = typeof(T);
         var propertyInfo = propInfoCandidate.DeclaringType != type
-                         ? type.GetProperty(propInfoCandidate.Name)
+                         ? propInfoCandidate.DeclaringType.GetProperty(propInfoCandidate.Name)
                          : propInfoCandidate;
         if (propertyInfo is null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));

@@ -48,20 +48,30 @@
                     }
                 </DictionaryColumn>
             } else {
-                if (!typeof(TItem).HasProperty(item.Id))
-                    continue;
-
-                var value = TypeHelper.GetPropertyValue(context, item.Id);
-                <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                Align="@item.ToColumnAlign()">
-                    @if (template != null) {
-                        @template(context)
-                    } else {
-                        @RenderCell(context, item, value)
-                    }
-                </Column>
+                if (typeof(TItem).HasProperty(item.Id)) {
+                    var value = TypeHelper.GetPropertyValue(context, item.Id);
+                    <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
+                    Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                    Align="@item.ToColumnAlign()">
+                        @if (template != null) {
+                            @template(context)
+                        } else {
+                            @RenderCell(context, item, value)
+                        }
+                    </Column>
+                } else {
+                    <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
+                    Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                    Align="@item.ToColumnAlign()">
+                        @if (template != null) {
+                            @template(context)
+                        } else {
+                            @RenderCell(context, item, item.Id)
+                        }
+                    </Column>
+                }
             }
         }
     }
