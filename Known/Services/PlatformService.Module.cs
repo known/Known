@@ -68,10 +68,9 @@ partial class PlatformService
     public async Task<FileDataInfo> ExportModulesAsync()
     {
         var modules = AppData.Data.Modules;
-        var json = Utils.ToJson(modules);
         var info = new FileDataInfo();
         info.Name = $"SysModule_{Config.App.Id}.kmd";
-        info.Bytes = await Utils.ZipDataAsync(json);
+        info.Bytes = await ZipHelper.ZipDataAsync(modules);
         return info;
     }
 
@@ -84,8 +83,7 @@ partial class PlatformService
         try
         {
             var file = info.Files[key][0];
-            var json = await Utils.UnZipDataAsync(file.Bytes);
-            AppData.Data.Modules = Utils.FromJson<List<ModuleInfo>>(json);
+            AppData.Data.Modules = await ZipHelper.UnZipDataAsync<List<ModuleInfo>>(file.Bytes);
             AppData.SaveData();
             return Result.Success(Language.Success(Language.Import));
         }

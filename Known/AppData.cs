@@ -285,31 +285,12 @@ public sealed class AppData
     #region Private
     private static T ParseData<T>(byte[] bytes)
     {
-        using (var stream = new MemoryStream(bytes))
-        using (var reader = new MemoryStream())
-        using (var gzip = new GZipStream(stream, CompressionMode.Decompress))
-        {
-            gzip.CopyTo(reader);
-            var json = Encoding.UTF8.GetString(reader.ToArray());
-            return Utils.FromJson<T>(json);
-        }
+        return ZipHelper.UnZipData<T>(bytes);
     }
 
     private static byte[] FormatData(object data)
     {
-        var json = Utils.ToJson(data);
-        var bytes = Encoding.UTF8.GetBytes(json);
-        using (var stream = new MemoryStream())
-        using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
-        {
-            gzip.Write(bytes, 0, bytes.Length);
-            gzip.Flush();
-            stream.Position = 0;
-
-            var buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
-        }
+        return ZipHelper.ZipData(data);
     }
     #endregion
 }

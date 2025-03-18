@@ -15,7 +15,7 @@ static class ConfigExtension
         return Utils.FromJson<T>(json);
     }
 
-    internal static async Task<Result> SaveConfigAsync(this Database db, string key, object value)
+    internal static async Task<Result> SaveConfigAsync(this Database db, string key, object value, bool isGZip = false)
     {
         if (string.IsNullOrWhiteSpace(key))
             return Result.Error("配置键不能为空！");
@@ -24,7 +24,7 @@ static class ConfigExtension
         var data = new Dictionary<string, object>();
         data[nameof(SysConfig.AppId)] = appId;
         data[nameof(SysConfig.ConfigKey)] = key;
-        data[nameof(SysConfig.ConfigValue)] = Utils.ToJson(value);
+        data[nameof(SysConfig.ConfigValue)] = isGZip ? ZipHelper.ZipDataAsString(value) : Utils.ToJson(value);
         var scalar = await db.CountAsync<SysConfig>(d => d.AppId == appId && d.ConfigKey == key);
         if (scalar > 0)
             await db.UpdateAsync(nameof(SysConfig), "AppId,ConfigKey", data);

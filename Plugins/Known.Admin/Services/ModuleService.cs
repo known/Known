@@ -118,10 +118,9 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
     public async Task<FileDataInfo> ExportModulesAsync()
     {
         var modules = await Database.QueryListAsync<SysModule>();
-        var json = Utils.ToJson(modules);
         var info = new FileDataInfo();
         info.Name = $"SysModule_{Config.App.Id}.kmd";
-        info.Bytes = await Utils.ZipDataAsync(json);
+        info.Bytes = await ZipHelper.ZipDataAsync(modules);
         return info;
     }
 
@@ -134,8 +133,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         try
         {
             var file = info.Files[key][0];
-            var json = await Utils.UnZipDataAsync(file.Bytes);
-            var modules = Utils.FromJson<List<SysModule>>(json);
+            var modules = await ZipHelper.UnZipDataAsync<List<SysModule>>(file.Bytes);
             if (modules != null && modules.Count > 0)
             {
                 var db = Database;

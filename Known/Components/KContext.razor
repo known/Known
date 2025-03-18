@@ -18,10 +18,14 @@
         Logger.Error(LogTarget.FrontEnd, Value?.CurrentUser, ex.ToString());
         builder.Div("kui-wrapper", () =>
         {
+            var subTitle = ex.Message;
+#if DEBUG
+            subTitle = ex.ToString();
+#endif
             builder.Component<AntDesign.Result>()
                    .Set(c => c.Status, ResultStatus.Http500)
                    .Set(c => c.Title, "500")
-                   .Set(c => c.SubTitle, ex.Message)
+                   .Set(c => c.SubTitle, subTitle)
                    .Set(c => c.Extra, BuildExtra)
                    .Build();
         });
