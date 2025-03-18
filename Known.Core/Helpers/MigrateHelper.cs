@@ -45,13 +45,21 @@ class MigrateHelper
 
     private static async Task MigrateButtonsAsync(Database db)
     {
-        var datas = AppData.Data.Buttons;
-        if (datas == null || datas.Count == 0)
+        var buttons = AppData.Data.Buttons;
+        if (buttons == null || buttons.Count == 0)
             return;
 
-        if (await db.ExistsConfigAsync(Constant.KeyButton))
-            return;
-
+        var datas = new List<ButtonInfo>();
+        datas.AddRange(buttons);
+        var items = await db.GetConfigAsync<List<ButtonInfo>>(Constant.KeyButton, true);
+        if (items != null && items.Count > 0)
+        {
+            foreach (var item in items)
+            {
+                if (!datas.Exists(d => d.Id == item.Id))
+                    datas.Add(item);
+            }
+        }
         await db.SaveConfigAsync(Constant.KeyButton, datas, true);
     }
 
@@ -67,8 +75,31 @@ class MigrateHelper
         await db.SaveConfigAsync(Constant.KeyTopNav, datas, true);
     }
 
-    private static Task MigrateModulesAsync(Database db)
+    private static async Task MigrateModulesAsync(Database db)
     {
-        return Task.CompletedTask;
+        var modules = await db.QueryListAsync<SysModule>();
+        foreach (var module in modules)
+        {
+            if (string.IsNullOrWhiteSpace(module.PluginData))
+            {
+                var plugins = module.ToPlugins();
+                module.PluginData = ZipHelper.ZipDataAsString(plugins);
+            }
+        }
+
+        var items = AppData.Data.Modules;
+        if (items != null && items.Count > 0)
+        {
+            foreach (var item in items)
+            {
+                if (!modules.Exists(d => d.Name == item.Name))
+                {
+                    var module = SysModule.Load(item);
+                    modules.Add(module);
+                }
+            }
+        }
+        await db.DeleteAllAsync<SysModule>();
+        await db.InsertListAsync(modules);
     }
 }

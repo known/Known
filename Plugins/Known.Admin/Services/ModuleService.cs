@@ -136,9 +136,11 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
             var modules = await ZipHelper.UnZipDataAsync<List<SysModule>>(file.Bytes);
             if (modules != null && modules.Count > 0)
             {
-                var db = Database;
-                await db.DeleteAllAsync<SysModule>();
-                await db.InsertListAsync(modules);
+                await Database.TransactionAsync(Language.Import, async db =>
+                {
+                    await db.DeleteAllAsync<SysModule>();
+                    await db.InsertListAsync(modules);
+                });
             }
             return Result.Success(Language.Success(Language.Import));
         }

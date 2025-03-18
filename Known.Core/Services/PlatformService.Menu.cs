@@ -2,40 +2,49 @@
 
 partial class PlatformService
 {
-    public Task<Result> DeleteMenuAsync(MenuInfo info)
+    public async Task<Result> DeleteMenuAsync(MenuInfo info)
     {
-        var module = AppData.GetModule(info.Id);
+        var database = Database;
+        var module = await database.QueryByIdAsync<SysModule>(info.Id);
         if (module == null)
-            return Result.ErrorAsync("模块不存在！");
+            return Result.Error("模块不存在！");
 
-        AppData.Data.Modules?.Remove(module);
-        var modules = AppData.Data.Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
-        modules?.Resort();
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.DeleteSuccess);
+        return await database.TransactionAsync(Language.Delete, async db =>
+        {
+            await db.DeleteAsync(module);
+            var modules = await db.Query<SysModule>().Where(m => m.ParentId == info.ParentId).ToListAsync();
+            if (modules != null && modules.Count > 0)
+            {
+                var index = 1;
+                foreach (var item in modules)
+                {
+                    item.Sort = index++;
+                    await db.SaveAsync(item);
+                }
+            }
+        });
     }
 
-    public Task<Result> SaveMenuAsync(MenuInfo info)
+    public async Task<Result> SaveMenuAsync(MenuInfo info)
     {
-        var module = AppData.GetModule(info.Id);
-        if (module == null)
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysModule>(info.Id);
+        model ??= new SysModule();
+        model.FillModel(info);
+
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        if (string.IsNullOrWhiteSpace(model.Icon))
+            model.Icon = "";//AntDesign不识别null值
+
+        model.LayoutData = Utils.ToJson(info.Layout);
+        model.PluginData = ZipHelper.ZipDataAsString(info.Plugins);
+        return await Database.TransactionAsync(Language.Save, async db =>
         {
-            module = new ModuleInfo();
-            if (AppData.Data.Modules == null)
-                AppData.Data.Modules = [];
-            AppData.Data.Modules.Add(module);
-        }
-        module.Id = info.Id;
-        module.ParentId = info.ParentId;
-        module.Name = info.Name;
-        module.Icon = info.Icon;
-        module.Type = info.Type;
-        module.Target = info.Target;
-        module.Url = info.Url;
-        module.Sort = info.Sort;
-        module.Layout = info.Layout;
-        module.Plugins = info.Plugins;
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess, info);
+            await db.SaveAsync(model);
+            info.Id = model.Id;
+        }, info);
     }
 }

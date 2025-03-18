@@ -6,14 +6,6 @@
 public class SysModule : EntityBase
 {
     /// <summary>
-    /// 构造函数。
-    /// </summary>
-    public SysModule()
-    {
-        Enabled = true;
-    }
-
-    /// <summary>
     /// 取得或设置上级。
     /// </summary>
     [MaxLength(50)]
@@ -66,7 +58,7 @@ public class SysModule : EntityBase
     /// <summary>
     /// 取得或设置可用。
     /// </summary>
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// 取得或设置实体设置。

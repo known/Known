@@ -1,7 +1,7 @@
 ﻿namespace Known;
 
 /// <summary>
-/// 框架配置数据库文件。
+/// 框架配置数据，从代码中自动加载由特性配置的数据。
 /// </summary>
 public sealed class AppData
 {

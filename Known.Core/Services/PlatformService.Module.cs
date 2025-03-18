@@ -2,15 +2,17 @@
 
 partial class PlatformService
 {
-    public Task<List<ModuleInfo>> GetModulesAsync()
+    public async Task<List<ModuleInfo>> GetModulesAsync()
     {
-        var infos = AppData.Data.Modules.OrderBy(m => m.Sort).ToList();
-        return Task.FromResult(infos);
+        var modules = await Database.QueryListAsync<SysModule>();
+        var lists = modules.OrderBy(m => m.Sort).Select(m => m.ToModuleInfo()).ToList();
+        DataHelper.Initialize(lists);
+        return lists;
     }
 
     public async Task<FileDataInfo> ExportModulesAsync()
     {
-        var modules = AppData.Data.Modules;
+        var modules = await Database.QueryListAsync<SysModule>();
         var info = new FileDataInfo();
         info.Name = $"SysModule_{Config.App.Id}.kmd";
         info.Bytes = await ZipHelper.ZipDataAsync(modules);
@@ -26,8 +28,15 @@ partial class PlatformService
         try
         {
             var file = info.Files[key][0];
-            AppData.Data.Modules = await ZipHelper.UnZipDataAsync<List<ModuleInfo>>(file.Bytes);
-            AppData.SaveData();
+            var modules = await ZipHelper.UnZipDataAsync<List<SysModule>>(file.Bytes);
+            if (modules != null && modules.Count > 0)
+            {
+                await Database.TransactionAsync(Language.Import, async db =>
+                {
+                    await db.DeleteAllAsync<SysModule>();
+                    await db.InsertListAsync(modules);
+                });
+            }
             return Result.Success(Language.Success(Language.Import));
         }
         catch (Exception ex)
@@ -36,124 +45,110 @@ partial class PlatformService
         }
     }
 
-    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
+            return Result.Error(Language.SelectOneAtLeast);
 
-        foreach (var item in infos)
+        var database = Database;
+        foreach (var model in infos)
         {
-            if (AppData.Data.Modules.Any(d => d.ParentId == item.Id))
-                return Result.ErrorAsync(Language["Tip.ModuleDeleteExistsChild"]);
-
-            var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
-            if (module != null)
-                AppData.Data.Modules.Remove(module);
+            if (await database.ExistsAsync<SysModule>(d => d.ParentId == model.Id))
+                return Result.Error(Language["Tip.ModuleDeleteExistsChild"]);
         }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.DeleteSuccess);
-    }
 
-    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
-    {
-        if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
-
-        foreach (var item in infos)
+        return await database.TransactionAsync(Language.Delete, async db =>
         {
-            var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
-            if (module != null)
+            foreach (var item in infos)
             {
-                var newModule = CreateModule(module);
-                newModule.Id = Utils.GetNextId();
-                newModule.ParentId = item.ParentId;
-                AppData.Data.Modules.Add(newModule);
+                await db.DeleteAsync<SysModule>(item.Id);
             }
-        }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Copy));
+        });
     }
 
-    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
+            return Result.Error(Language.SelectOneAtLeast);
 
-        foreach (var item in infos)
+        return await Database.TransactionAsync(Language.Copy, async db =>
         {
-            SaveModule(item);
-        }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
+            foreach (var item in infos)
+            {
+                var module = await db.QueryByIdAsync<SysModule>(item.Id);
+                if (module != null)
+                {
+                    module.Id = Utils.GetNextId();
+                    module.ParentId = item.ParentId;
+                    await db.InsertAsync(module);
+                }
+            }
+        });
     }
 
-    public Task<Result> MoveModuleAsync(ModuleInfo info)
+    public async Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
+    {
+        if (infos == null || infos.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            foreach (var item in infos)
+            {
+                var module = await db.QueryByIdAsync<SysModule>(item.Id);
+                if (module != null)
+                {
+                    module.ParentId = item.ParentId;
+                    await db.SaveAsync(module);
+                }
+            }
+        });
+    }
+
+    public async Task<Result> MoveModuleAsync(ModuleInfo info)
     {
         if (info == null)
-            return Result.ErrorAsync(Language.SelectOne);
+            return Result.Error(Language.SelectOne);
 
-        var sort = info.IsMoveUp ? info.Sort - 1 : info.Sort + 1;
-        var module = AppData.Data.Modules.FirstOrDefault(d => d.ParentId == info.ParentId && d.Sort == sort);
-        if (module != null)
+        return await Database.TransactionAsync(Language.Save, async db =>
         {
-            module.Sort = info.Sort;
+            var sort = info.IsMoveUp ? info.Sort - 1 : info.Sort + 1;
+            var model = await db.QueryByIdAsync<SysModule>(info.Id);
+            var module = await db.QueryAsync<SysModule>(d => d.ParentId == info.ParentId && d.Sort == sort);
+            if (model != null && module != null)
+            {
+                module.Sort = info.Sort;
+                await db.SaveAsync(module);
 
-            if (info.IsMoveUp)
-                info.Sort--;
-            else
-                info.Sort++;
-        }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
+                if (info.IsMoveUp)
+                    model.Sort--;
+                else
+                    model.Sort++;
+                await db.SaveAsync(model);
+            }
+        });
     }
 
-    public Task<Result> SaveModuleAsync(ModuleInfo info)
+    public async Task<Result> SaveModuleAsync(ModuleInfo info)
     {
-        if (string.IsNullOrWhiteSpace(info.Icon))
-            info.Icon = "";//AntDesign不识别null值
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysModule>(info.Id);
+        model ??= new SysModule();
+        model.FillModel(info);
 
-        SaveModule(info);
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
 
-    private static void SaveModule(ModuleInfo info)
-    {
-        var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == info.Id);
-        if (module != null)
-        {
-            module.ParentId = info.ParentId;
-            module.Name = info.Name;
-            module.Icon = info.Icon;
-            module.Type = info.Type;
-            module.Target = info.Target;
-            module.Url = info.Url;
-            module.Sort = info.Sort;
-            module.Enabled = info.Enabled;
-            module.Layout = info.Layout;
-            module.Plugins = info.Plugins;
-        }
-        else
-        {
-            AppData.Data.Modules.Add(info);
-        }
-    }
+        if (string.IsNullOrWhiteSpace(model.Icon))
+            model.Icon = "";//AntDesign不识别null值
 
-    private static ModuleInfo CreateModule(ModuleInfo info)
-    {
-        return new ModuleInfo
+        model.LayoutData = Utils.ToJson(info.Layout);
+        model.PluginData = ZipHelper.ZipDataAsString(info.Plugins);
+        return await Database.TransactionAsync(Language.Save, async db =>
         {
-            Id = info.Id,
-            ParentId = info.ParentId,
-            Name = info.Name,
-            Icon = info.Icon,
-            Type = info.Type,
-            Target = info.Target,
-            Url = info.Url,
-            Sort = info.Sort,
-            Enabled = info.Enabled,
-            Layout = info.Layout,
-            Plugins = info.Plugins
-        };
+            await db.SaveAsync(model);
+            info.Id = model.Id;
+        }, info);
     }
 }
