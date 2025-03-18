@@ -2,8 +2,6 @@
 
 public partial class Database
 {
-    private List<string> Tables { get; set; }
-
     /// <summary>
     /// 异步判断是否存在数据表。
     /// </summary>
@@ -52,7 +50,7 @@ public partial class Database
 
     private async Task<bool> ExistsTableAsync(string tableName)
     {
-        Tables ??= await GetTablesAsync();
-        return Tables.Exists(t => t.Equals(tableName, StringComparison.OrdinalIgnoreCase));
+        var tables = await GetTablesAsync();
+        return tables.Exists(t => t.Equals(tableName, StringComparison.OrdinalIgnoreCase));
     }
 }

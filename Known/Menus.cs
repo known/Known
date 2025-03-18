@@ -312,7 +312,11 @@ public class ActionInfo
     [JsonIgnore]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    internal ButtonInfo ToButton()
+    /// <summary>
+    /// 转换成按钮信息。
+    /// </summary>
+    /// <returns></returns>
+    public ButtonInfo ToButton()
     {
         return new ButtonInfo
         {

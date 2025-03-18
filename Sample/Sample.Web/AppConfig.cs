@@ -40,7 +40,7 @@ public static class AppConfig
             option.IsMobile = true;
             //option.NextIdType = NextIdType.AutoInteger;
         });
-        services.AddKnownAdmin();
+        //services.AddKnownAdmin();
         services.AddModules();
         services.ConfigUI();
 
@@ -48,7 +48,7 @@ public static class AppConfig
         services.AddServices(assembly);
         services.AddTaskJobs();
         services.AddKnownCells();
-        services.AddKnownAdminCore();
+        //services.AddKnownAdminCore();
         services.AddKnownWeb(action);
     }
 

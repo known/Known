@@ -21,4 +21,9 @@ public class CoreConfig
     /// 取得或设置获取Admin信息后附加操作委托。
     /// </summary>
     public static Func<Database, AdminInfo, Task> OnAdmin { get; set; }
+
+    /// <summary>
+    /// 取得或设置迁移系统配置数据委托。
+    /// </summary>
+    public static Func<Database, Task> OnMigrateAppData { get; set; }
 }

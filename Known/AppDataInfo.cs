@@ -190,7 +190,12 @@ public class ModuleInfo
     public List<PluginInfo> Plugins { get; set; } = [];
 
     internal string ParentName { get; set; }
-    internal bool IsMoveUp { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否移动模块。
+    /// </summary>
+    [JsonIgnore]
+    public bool IsMoveUp { get; set; }
 
     /// <summary>
     /// 获取模块的字符串表示。

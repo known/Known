@@ -7,7 +7,7 @@ public partial interface IPlatformService : IService
 {
 }
 
-[WebApi, Service]
+[Service]
 partial class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
 }

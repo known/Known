@@ -77,7 +77,11 @@ public static class ModuleExtension
         }).ToList();
     }
 
-    internal static void Resort(this List<ModuleInfo> modules)
+    /// <summary>
+    /// 重新给模块列表排序。
+    /// </summary>
+    /// <param name="modules">模块列表。</param>
+    public static void Resort(this List<ModuleInfo> modules)
     {
         if (modules == null || modules.Count == 0)
             return;

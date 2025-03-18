@@ -1,6 +1,4 @@
-﻿using System.IO.Compression;
-
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 框架配置数据库文件。

@@ -37,4 +37,9 @@ public static class DataExtension
             Console.WriteLine("Table is initialized.");
         }
     }
+
+    internal static Task MigrateDataAsync(this Database db)
+    {
+        return MigrateHelper.MigrateDataAsync(db);
+    }
 }

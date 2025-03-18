@@ -102,6 +102,9 @@ public static class CoreExtension
         app.MapControllers();
         app.MapRazorPages();
         Config.ServiceProvider = app.Services;
+
+        var db = Database.Create();
+        db.MigrateDataAsync();
     }
 
     private static void AddDynamicWebApi(this IMvcBuilder builder)

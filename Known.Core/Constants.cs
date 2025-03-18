@@ -13,6 +13,9 @@ class Constant
     /// 系统信息配置键。
     /// </summary>
     internal const string KeySystem = "SystemInfo";
+    internal const string KeyLanguage = "AppLanguageData";
+    internal const string KeyButton = "AppButtonData";
+    internal const string KeyTopNav = "AppTopNavData";
 
     //internal const string UTOperation = "Operation";
     internal const string UMTypeReceive = "Receive";

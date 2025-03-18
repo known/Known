@@ -60,6 +60,7 @@ partial class AdminService
         AppHelper.SetConnections(info);
         var database = GetDatabase(info);
         await database.InitializeTableAsync();
+        await database.MigrateDataAsync();
         var result = await database.TransactionAsync(Language["Install"], async db =>
         {
             if (Config.OnInstallModules != null)

@@ -2,6 +2,12 @@
 
 static class ConfigExtension
 {
+    internal static async Task<bool> ExistsConfigAsync(this Database db, string key)
+    {
+        var value = await db.GetConfigAsync(key);
+        return !string.IsNullOrWhiteSpace(value);
+    }
+
     internal static async Task<string> GetConfigAsync(this Database db, string key)
     {
         var appId = Config.App.Id;
@@ -9,10 +15,13 @@ static class ConfigExtension
         return config?.ConfigValue;
     }
 
-    internal static async Task<T> GetConfigAsync<T>(this Database db, string key)
+    internal static async Task<T> GetConfigAsync<T>(this Database db, string key, bool isGZip = false)
     {
-        var json = await db.GetConfigAsync(key);
-        return Utils.FromJson<T>(json);
+        var value = await db.GetConfigAsync(key);
+        if (!isGZip)
+            return Utils.FromJson<T>(value);
+
+        return ZipHelper.UnZipDataFromString<T>(value);
     }
 
     internal static async Task<Result> SaveConfigAsync(this Database db, string key, object value, bool isGZip = false)

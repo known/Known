@@ -16,8 +16,11 @@ public sealed class ZipHelper
     /// <returns>GZip格式字节字符串。</returns>
     public static string ZipDataAsString<T>(T value)
     {
+        if (value == null)
+            return string.Empty;
+
         var bytes = ZipData(value);
-        return Encoding.UTF8.GetString(bytes);
+        return Convert.ToBase64String(bytes);
     }
 
     /// <summary>
@@ -25,9 +28,12 @@ public sealed class ZipHelper
     /// </summary>
     /// <param name="value">GZip字节。</param>
     /// <returns>原始泛型对象。</returns>
-    public static T UnZipData<T>(string value)
+    public static T UnZipDataFromString<T>(string value)
     {
-        var bytes = Encoding.UTF8.GetBytes(value);
+        if (string.IsNullOrWhiteSpace(value))
+            return default;
+
+        var bytes = Convert.FromBase64String(value);
         return UnZipData<T>(bytes);
     }
 
@@ -61,6 +67,9 @@ public sealed class ZipHelper
     /// <returns>字节流。</returns>
     public static byte[] ZipData(string data)
     {
+        if (string.IsNullOrWhiteSpace(data))
+            return null;
+
         var bytes = Encoding.UTF8.GetBytes(data);
         using (var stream = new MemoryStream())
         using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
