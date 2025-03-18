@@ -125,7 +125,7 @@ public class SysModule : EntityBase
         return new SysModule
         {
             ParentId = info.ParentId,
-            Code = info.Id,
+            Code = info.Id,//用于查询上级模块
             Name = info.Name,
             Icon = info.Icon,
             Type = info.Type,
@@ -134,13 +134,13 @@ public class SysModule : EntityBase
             Sort = info.Sort,
             Enabled = info.Enabled,
             LayoutData = Utils.ToJson(info.Layout),
-            PluginData = ZipHelper.ZipDataAsString(info.Plugins)
+            PluginData = info.Plugins?.ZipDataString()
         };
     }
 
     internal List<PluginInfo> ToPlugins()
     {
-        if (Target == nameof(ModuleType.Menu))
+        if (Type == nameof(MenuType.Menu) || Target == nameof(ModuleType.Menu))
             return null;
 
         var plugins = new List<PluginInfo>();

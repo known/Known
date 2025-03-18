@@ -84,11 +84,7 @@ public partial class MainMenu
 
     private void OnAddLink(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加连接", new MenuInfo
-        {
-            Type = nameof(MenuType.Link),
-            Target = nameof(LinkTarget.None)
-        });
+        var model = GetMenuFormModel("添加连接", new MenuInfo { Type = nameof(MenuType.Link) });
         UI.ShowForm(model);
     }
 

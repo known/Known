@@ -52,7 +52,7 @@ public class MenuInfo
     /// 取得或设置URL目标类型（None/Blank/IFrame）；
     /// 或者菜单目标类型（Menu/Page/Custom/IFrame）。
     /// </summary>
-    public string Target { get; set; }
+    public string Target { get; set; } = nameof(LinkTarget.None);
 
     /// <summary>
     /// 取得或设置菜单URL。

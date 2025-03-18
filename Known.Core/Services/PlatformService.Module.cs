@@ -144,7 +144,7 @@ partial class PlatformService
             model.Icon = "";//AntDesign不识别null值
 
         model.LayoutData = Utils.ToJson(info.Layout);
-        model.PluginData = ZipHelper.ZipDataAsString(info.Plugins);
+        model.PluginData = info.Plugins?.ZipDataString();
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);

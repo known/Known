@@ -154,13 +154,13 @@ public class ModuleInfo
     /// <summary>
     /// 取得或设置类型（Menu/Page/Link）。
     /// </summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = nameof(MenuType.Menu);
 
     /// <summary>
     /// 取得或设置目标（None/Blank/IFrame）。
     /// </summary>
     [Required]
-    public string Target { get; set; }
+    public string Target { get; set; } = nameof(LinkTarget.None);
 
     /// <summary>
     /// 取得或设置Url地址。

@@ -80,10 +80,17 @@ class MigrateHelper
         var modules = await db.QueryListAsync<SysModule>();
         foreach (var module in modules)
         {
+            if (string.IsNullOrWhiteSpace(module.Type))
+            {
+                module.Type = module.Target == nameof(ModuleType.Menu)
+                            ? nameof(MenuType.Menu)
+                            : (module.Target == nameof(ModuleType.Custom) ? nameof(MenuType.Link) : nameof(MenuType.Page));
+                module.Target = module.Target == nameof(ModuleType.IFrame) ? nameof(LinkTarget.IFrame) : nameof(LinkTarget.None);
+            }
             if (string.IsNullOrWhiteSpace(module.PluginData))
             {
                 var plugins = module.ToPlugins();
-                module.PluginData = ZipHelper.ZipDataAsString(plugins);
+                module.PluginData = plugins?.ZipDataString();
             }
         }
 
@@ -95,6 +102,8 @@ class MigrateHelper
                 if (!modules.Exists(d => d.Name == item.Name))
                 {
                     var module = SysModule.Load(item);
+                    var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
+                    module.ParentId = parent?.Id ?? "0";
                     modules.Add(module);
                 }
             }
