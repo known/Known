@@ -164,6 +164,7 @@ public static class CoreExtension
         CoreOption.Instance.AddAssembly(assembly);
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
+        Config.OnInitialModules = OnInitialModules;
 
         // 添加服务
         services.AddServices(assembly);
@@ -177,6 +178,21 @@ public static class CoreExtension
         // 注入后台任务
         TaskHelper.OnPendingTask = GetPendingTaskAsync;
         TaskHelper.OnSaveTask = SaveTaskAsync;
+    }
+
+    private static async Task<List<ModuleInfo>> OnInitialModules(Database db)
+    {
+        var modules = new List<ModuleInfo>();
+        var items = await db.QueryListAsync<SysModule>();
+        if (items != null && items.Count > 0)
+        {
+            foreach (var item in items.OrderBy(m => m.Sort))
+            {
+                modules.Add(item.ToModuleInfo());
+            }
+            DataHelper.Initialize(modules);
+        }
+        return modules;
     }
 
     private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string type)

@@ -1,4 +1,4 @@
-﻿namespace Known.Extensions;
+﻿namespace Known;
 
 static class ModelExtension
 {

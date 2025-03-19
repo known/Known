@@ -2,15 +2,20 @@
 
 public partial class Database
 {
+    private List<string> Tables { get; set; }
+
     /// <summary>
     /// 异步判断是否存在数据表。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="isLoadTable">是否加载表格。</param>
     /// <returns>是否存在。</returns>
-    public virtual Task<bool> ExistsAsync<T>()
+    public virtual async Task<bool> ExistsAsync<T>(bool isLoadTable = false)
     {
+        if (isLoadTable)
+            Tables = await GetTablesAsync();
         var tableName = Provider.GetTableName(typeof(T));
-        return ExistsTableAsync(tableName);
+        return await ExistsTableAsync(tableName);
     }
 
     /// <summary>
@@ -46,11 +51,12 @@ public partial class Database
             return;
 
         await ExecuteAsync(script);
+        Tables.Add(tableName);
     }
 
     private async Task<bool> ExistsTableAsync(string tableName)
     {
-        var tables = await GetTablesAsync();
-        return tables.Exists(t => t.Equals(tableName, StringComparison.OrdinalIgnoreCase));
+        Tables ??= await GetTablesAsync();
+        return Tables.Exists(t => t.Equals(tableName, StringComparison.OrdinalIgnoreCase));
     }
 }

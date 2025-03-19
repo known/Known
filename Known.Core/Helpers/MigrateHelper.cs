@@ -8,7 +8,7 @@ class MigrateHelper
         try
         {
             database.EnableLog = false;
-            var exists = await database.ExistsAsync<SysConfig>();
+            var exists = await database.ExistsAsync<SysConfig>(true);
             if (!exists) //未安装，则安装时初始化
                 return;
 
