@@ -4,7 +4,6 @@ class MigrateHelper
 {
     internal static async Task MigrateDataAsync(Database database)
     {
-#if DEBUG
         try
         {
             if (Config.IsAdmin)
@@ -32,7 +31,6 @@ class MigrateHelper
         {
             Console.WriteLine(ex.ToString());
         }
-#endif
     }
 
     private static async Task MigrateLanguagesAsync(Database db)

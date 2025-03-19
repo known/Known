@@ -9,6 +9,12 @@ public partial interface IPlatformService
     Task<List<ModuleInfo>> GetModulesAsync();
 
     /// <summary>
+    /// 异步迁移老框架系统模块数据。
+    /// </summary>
+    /// <returns>迁移结果。</returns>
+    Task<Result> MigrateModulesAsync();
+
+    /// <summary>
     /// 异步导出系统模块数据。
     /// </summary>
     /// <returns>导出文件对象。</returns>
@@ -63,6 +69,11 @@ partial class PlatformService
     {
         var infos = AppData.Data.Modules.OrderBy(m => m.Sort).ToList();
         return Task.FromResult(infos);
+    }
+
+    public Task<Result> MigrateModulesAsync()
+    {
+        return Result.SuccessAsync("迁移成功！");
     }
 
     public async Task<FileDataInfo> ExportModulesAsync()
@@ -220,6 +231,11 @@ partial class PlatformClient
     public Task<List<ModuleInfo>> GetModulesAsync()
     {
         return Http.GetAsync<List<ModuleInfo>>("/Platform/GetModules");
+    }
+
+    public Task<Result> MigrateModulesAsync()
+    {
+        return Http.PostAsync("/Platform/MigrateModules");
     }
 
     public Task<FileDataInfo> ExportModulesAsync()

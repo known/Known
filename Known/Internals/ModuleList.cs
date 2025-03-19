@@ -46,13 +46,14 @@ class ModuleList : BasePage<ModuleInfo>
             OnQuery = OnQueryModulesAsync
         };
 
-        table.Toolbar.ShowCount = 6;
+        table.Toolbar.ShowCount = 7;
         table.Toolbar.AddAction(nameof(New));
         table.Toolbar.AddAction(nameof(DeleteM));
         table.Toolbar.AddAction(nameof(Copy));
         table.Toolbar.AddAction(nameof(Move));
         table.Toolbar.AddAction(nameof(Import));
         table.Toolbar.AddAction(nameof(Export));
+        table.Toolbar.AddAction(nameof(Migrate), "可将 AppData.kmd 和 Admin 插件配置数据迁移至新框架配置库。");
 
         table.AddColumn(c => c.Name).Width(120).Template(BuildName);
         table.AddColumn(c => c.Type).Width(80).Tag();
@@ -191,6 +192,18 @@ class ModuleList : BasePage<ModuleInfo>
         {
             var info = await Platform.ExportModulesAsync();
             await JS.DownloadFileAsync(info);
+        });
+    }
+
+    /// <summary>
+    /// 迁移配置数据。
+    /// </summary>
+    public void Migrate()
+    {
+        UI.Confirm("确定迁移AppData或Admin插件配置数据？", async () =>
+        {
+            var result = await Platform.MigrateModulesAsync();
+            UI.Result(result, RefreshAsync);
         });
     }
 

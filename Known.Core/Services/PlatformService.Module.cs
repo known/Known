@@ -10,6 +10,12 @@ partial class PlatformService
         return lists;
     }
 
+    public async Task<Result> MigrateModulesAsync()
+    {
+        await Database.MigrateDataAsync();
+        return Result.Success("迁移成功！");
+    }
+
     public async Task<FileDataInfo> ExportModulesAsync()
     {
         var modules = await Database.QueryListAsync<SysModule>();
