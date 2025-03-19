@@ -28,6 +28,11 @@ public sealed class Config
     public static bool IsClient { get; internal set; }
 
     /// <summary>
+    /// 取得或设置是否是Admin插件。
+    /// </summary>
+    public static bool IsAdmin { get; set; }
+
+    /// <summary>
     /// 取得或设置是否是调试模式。
     /// </summary>
     public static bool IsDebug { get; set; }

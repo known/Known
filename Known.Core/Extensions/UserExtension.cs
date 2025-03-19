@@ -13,6 +13,10 @@ public static class UserExtension
     /// <returns>用户信息。</returns>
     public static Task<UserInfo> GetUserAsync(this Database db, string userName)
     {
+        if (string.IsNullOrWhiteSpace(userName))
+            return Task.FromResult(default(UserInfo));
+
+        userName = userName.ToLower();
         return db.Query<SysUser>().Where(d => d.UserName == userName).FirstAsync<UserInfo>();
     }
 
@@ -24,6 +28,9 @@ public static class UserExtension
     /// <returns>用户信息。</returns>
     public static Task<UserInfo> GetUserByIdAsync(this Database db, string id)
     {
+        if (string.IsNullOrWhiteSpace(id))
+            return Task.FromResult(default(UserInfo));
+
         return db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
     }
 
@@ -35,6 +42,9 @@ public static class UserExtension
     /// <returns>用户信息。</returns>
     public static Task<UserInfo> GetUserByNameAsync(this Database db, string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            return Task.FromResult(default(UserInfo));
+
         return db.Query<SysUser>().Where(d => d.Name == name).FirstAsync<UserInfo>();
     }
 

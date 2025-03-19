@@ -39,6 +39,8 @@ partial class PlatformService
         if (string.IsNullOrWhiteSpace(model.Icon))
             model.Icon = "";//AntDesign不识别null值
 
+        if (string.IsNullOrWhiteSpace(model.Code))
+            model.Code = model.Name;
         model.LayoutData = Utils.ToJson(info.Layout);
         model.PluginData = info.Plugins?.ZipDataString();
         return await Database.TransactionAsync(Language.Save, async db =>

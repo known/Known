@@ -125,13 +125,16 @@ public class SysModule : EntityBase
     internal virtual List<string> Actions { get; set; }
     internal virtual List<PageColumnInfo> Columns { get; set; }
 
-    internal static SysModule Load(ModuleInfo info)
+    internal static SysModule Load(UserInfo user, ModuleInfo info)
     {
         var plugin = info.Plugins?.GetPluginParameter<AutoPageInfo>();
         var model = new SysModule
         {
+            AppId = user.AppId,
+            CompNo = user.CompNo,
+            CreateBy = user.UserName,
             ParentId = info.ParentId,
-            Code = info.Id,
+            Code = info.Id,//用于查询上级模块
             Name = info.Name,
             Icon = info.Icon,
             Target = nameof(ModuleType.Menu),

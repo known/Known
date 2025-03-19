@@ -11,6 +11,8 @@ public static class AdminExtension
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
+        Config.IsAdmin = true;
+
         // 配置UI
         UIConfig.TopNavType = typeof(KTopNavbar);
         UIConfig.ModulePageType = typeof(ModuleList);
@@ -51,7 +53,7 @@ public static class AdminExtension
     private static async Task OnInstallModules(Database db)
     {
         AppData.LoadAppData();
-        var modules = AppData.Data.Modules?.Select(SysModule.Load).OrderBy(m => m.ParentId).ThenBy(m => m.Sort).ToList();
+        var modules = AppData.Data.Modules?.Select(m => SysModule.Load(db.User, m)).OrderBy(m => m.ParentId).ThenBy(m => m.Sort).ToList();
         await db.DeleteAllAsync<SysModule>();
         foreach (var item in modules)
         {

@@ -7,11 +7,15 @@ class MigrateHelper
 #if DEBUG
         try
         {
+            if (Config.IsAdmin)
+                return;
+
             database.EnableLog = false;
             var exists = await database.ExistsAsync<SysConfig>(true);
             if (!exists) //未安装，则安装时初始化
                 return;
 
+            database.User ??= await database.GetUserAsync(Constants.SysUserName);
             await database.TransactionAsync("迁移", async db =>
             {
                 Console.WriteLine("AppData is Migrating...");
@@ -77,6 +81,10 @@ class MigrateHelper
 
     private static async Task MigrateModulesAsync(Database db)
     {
+        var table = DbConfig.Models.FirstOrDefault(m => m.Type == typeof(SysModule));
+        if (table != null)
+            await db.CreateTableAsync(table);
+
         var modules = await db.QueryListAsync<SysModule>();
         foreach (var module in modules)
         {
@@ -101,7 +109,7 @@ class MigrateHelper
             {
                 if (!modules.Exists(d => d.Name == item.Name))
                 {
-                    var module = SysModule.Load(item);
+                    var module = SysModule.Load(db.User, item);
                     var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
                     module.ParentId = parent?.Id ?? "0";
                     modules.Add(module);

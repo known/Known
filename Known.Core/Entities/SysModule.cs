@@ -120,16 +120,19 @@ public class SysModule : EntityBase
         };
     }
 
-    internal static SysModule Load(ModuleInfo info)
+    internal static SysModule Load(UserInfo user, ModuleInfo info)
     {
         return new SysModule
         {
+            AppId = user.AppId,
+            CompNo = user.CompNo,
+            CreateBy = user.UserName,
             ParentId = info.ParentId,
             Code = info.Id,//用于查询上级模块
             Name = info.Name,
             Icon = info.Icon,
             Type = info.Type,
-            Target = info.Target,
+            Target = info.Target ?? nameof(LinkTarget.None),
             Url = info.Url,
             Sort = info.Sort,
             Enabled = info.Enabled,
@@ -138,6 +141,7 @@ public class SysModule : EntityBase
         };
     }
 
+    // 适用于Admin插件迁移
     internal List<PluginInfo> ToPlugins()
     {
         if (Type == nameof(MenuType.Menu) || Target == nameof(ModuleType.Menu))

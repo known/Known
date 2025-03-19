@@ -164,7 +164,8 @@ public static class CoreExtension
         CoreOption.Instance.AddAssembly(assembly);
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
-        Config.OnInitialModules = OnInitialModules;
+        if (!Config.IsAdmin)
+            Config.OnInitialModules = OnInitialModules;
 
         // 添加服务
         services.AddServices(assembly);
