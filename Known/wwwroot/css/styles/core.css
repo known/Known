@@ -8,6 +8,10 @@
     position:absolute;top:0;bottom:0;left:0;right:0;z-index:9999;
     display:flex;justify-content:center;align-items:center;flex-direction:column;
 }
+.kui-wrapper > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;overflow:auto;}
+.kui-wrapper > .ant-result pre {
+    text-align:left;border-left:5px solid #ed4014;padding:5px;background-color:var(--kui-border-color);border-radius:5px;
+}
 .kui-header, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }

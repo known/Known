@@ -18,22 +18,24 @@
         Logger.Error(LogTarget.FrontEnd, Value?.CurrentUser, ex.ToString());
         builder.Div("kui-wrapper", () =>
         {
-            var subTitle = ex.Message;
-#if DEBUG
-            subTitle = ex.ToString();
-#endif
             builder.Component<AntDesign.Result>()
                    .Set(c => c.Status, ResultStatus.Http500)
                    .Set(c => c.Title, "500")
-                   .Set(c => c.SubTitle, subTitle)
-                   .Set(c => c.Extra, BuildExtra)
+                   .Set(c => c.SubTitle, ex.Message)
+                   .Set(c => c.Extra, b => BuildExtra(b, ex))
                    .Build();
         });
     };
 
-    private void BuildExtra(RenderTreeBuilder builder)
+    private void BuildExtra(RenderTreeBuilder builder, Exception ex)
     {
-        builder.Button("重新加载", this.Callback<MouseEventArgs>(e => Value?.Refresh()));
-        builder.Button("返回首页", this.Callback<MouseEventArgs>(e => Value?.GoHomePage()));
+#if DEBUG
+        builder.Pre().Child(ex.ToString());
+#endif
+        builder.Div().Child(() =>
+        {
+            builder.Button("重新加载", this.Callback<MouseEventArgs>(e => Value?.Refresh()));
+            builder.Button("返回首页", this.Callback<MouseEventArgs>(e => Value?.GoHomePage()));
+        });
     }
 }

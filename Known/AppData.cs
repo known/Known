@@ -106,7 +106,8 @@ public sealed class AppData
         var plugins = new List<PluginInfo>();
         foreach (var item in Data.Modules)
         {
-            plugins.AddRange(item.Plugins);
+            if (item.Plugins != null && item.Plugins.Count > 0)
+                plugins.AddRange(item.Plugins);
         }
 
         var plugin = plugins.FirstOrDefault(p => p.Id == id);

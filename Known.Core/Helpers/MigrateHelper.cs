@@ -104,19 +104,27 @@ class MigrateHelper
 
         var items = AppData.Data.Modules;
         if (items != null && items.Count > 0)
-        {
-            foreach (var item in items)
-            {
-                if (!modules.Exists(d => d.Name == item.Name))
-                {
-                    var module = SysModule.Load(db.User, item);
-                    var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
-                    module.ParentId = parent?.Id ?? "0";
-                    modules.Add(module);
-                }
-            }
-        }
+            AddModules(db, modules, items, "0");
         await db.DeleteAllAsync<SysModule>();
         await db.InsertListAsync(modules);
+    }
+
+    private static void AddModules(Database db, List<SysModule> modules, List<ModuleInfo> allItems, string parentId)
+    {
+        var items = allItems.Where(m => m.ParentId == parentId).OrderBy(m => m.Sort).ToList();
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            if (!modules.Exists(m => m.Name == item.Name && m.Url == item.Url))
+            {
+                var module = SysModule.Load(db.User, item);
+                var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
+                module.ParentId = parent?.Id ?? "0";
+                modules.Add(module);
+                AddModules(db, modules, allItems, module.Code);
+            }
+        }
     }
 }
