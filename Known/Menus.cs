@@ -287,6 +287,11 @@ public class ActionInfo
     public string Style { get; set; }
 
     /// <summary>
+    /// 取得或设置按钮提示信息。
+    /// </summary>
+    public string Title { get; set; }
+
+    /// <summary>
     /// 取得或设置操作位置，如：Toolbar，Action。
     /// </summary>
     public string Position { get; set; }

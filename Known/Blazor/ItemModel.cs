@@ -229,7 +229,11 @@ public class ToolbarModel
     /// 添加一个操作按钮。
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>
-    public void AddAction(string idOrName) => Items.Add(new ActionInfo(idOrName));
+    /// <param name="title">按钮提示信息。</param>
+    public void AddAction(string idOrName, string title = "")
+    {
+        Items.Add(new ActionInfo(idOrName) { Title = title });
+    }
 
     /// <summary>
     /// 添加一个操作按钮。
