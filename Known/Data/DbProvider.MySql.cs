@@ -10,7 +10,7 @@ class MySqlProvider(Database db) : DbProvider(db)
             foreach (var item in items)
             {
                 var names = item?.Split('=');
-                if (names != null && names.Length > 1 && names[0] == "Initial Catalog")
+                if (names != null && names.Length > 1 && (names[0] == "Initial Catalog" || names[0] == "Database"))
                 {
                     dbName = names[1];
                     break;
@@ -18,7 +18,7 @@ class MySqlProvider(Database db) : DbProvider(db)
             }
         }
 
-        return $"SELECT table_name FROM information_schema.tables WHERE table_schema = '{dbName}' AND table_type = 'BASE TABLE';";
+        return $"SELECT table_name FROM information_schema.tables WHERE table_schema='{dbName}' AND table_type='BASE TABLE';";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

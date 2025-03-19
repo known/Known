@@ -12,6 +12,10 @@ partial class PlatformService
 
     public async Task<Result> MigrateModulesAsync()
     {
+        var topNav = await Database.GetConfigAsync(Constant.KeyTopNav);
+        if (!string.IsNullOrWhiteSpace(topNav))
+            return Result.Error("已经迁移过，无需再次迁移！");
+
         await Database.MigrateDataAsync();
         return Result.Success("迁移成功！");
     }
