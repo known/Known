@@ -407,6 +407,11 @@ public class FormFieldInfo : FieldInfo
     public string Placeholder { get; set; }
 
     /// <summary>
+    /// 取得或设置文本域组件行数，默认3。
+    /// </summary>
+    public uint Rows { get; set; } = 3;
+
+    /// <summary>
     /// 取得或设置表单字段是否为只读。
     /// </summary>
     public bool ReadOnly { get; set; }

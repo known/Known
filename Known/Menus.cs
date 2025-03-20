@@ -509,6 +509,11 @@ public class ColumnInfo
     }
 
     /// <summary>
+    /// 取得或设置文本域组件行数，默认3。
+    /// </summary>
+    public uint Rows { get; set; } = 3;
+
+    /// <summary>
     /// 取得或设置表单字段附件是否可多选。
     /// </summary>
     public bool MultiFile { get; set; }
@@ -583,6 +588,7 @@ public class ColumnInfo
         ReadOnly = info.ReadOnly;
         Required = info.Required;
         Placeholder = info.Placeholder;
+        Rows = info.Rows;
         Category = info.Category;
     }
 

@@ -63,6 +63,9 @@ public partial class UIService
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
 
+        if (column.Type == FieldType.TextArea)
+            attributes[nameof(AntTextArea.Rows)] = column.Rows;
+
         if (column.Type == FieldType.CheckBox)
             attributes[nameof(AntCheckBox.Label)] = column.Label;
 

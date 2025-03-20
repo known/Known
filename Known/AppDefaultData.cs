@@ -170,7 +170,8 @@ class AppDefaultData
             Type = item.GetFieldType(),
             CustomField = form.CustomField,
             ReadOnly = form.ReadOnly,
-            Placeholder = form.Placeholder
+            Placeholder = form.Placeholder,
+            Rows = form.Rows
         });
     }
 

@@ -222,4 +222,9 @@ public class FormAttribute() : Attribute
     /// 取得或设置字段控件占位符字符串。
     /// </summary>
     public string Placeholder { get; set; }
+
+    /// <summary>
+    /// 取得或设置文本域组件行数，默认3。
+    /// </summary>
+    public uint Rows { get; set; } = 3;
 }

@@ -57,6 +57,7 @@ class ModuleList : BasePage<ModuleInfo>
         table.AddColumn(c => c.Sort).Width(60).Align("center");
         table.AddColumn(c => c.Enabled).Width(60).Align("center");
 
+        table.ActionCount = 4;
         table.AddAction(nameof(Edit));
         table.AddAction(nameof(Delete));
         table.AddAction(nameof(MoveUp));
