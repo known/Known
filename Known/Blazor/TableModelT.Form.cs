@@ -17,6 +17,11 @@ partial class TableModel<TItem>
     /// </summary>
     public Func<TItem, string> FormTitle { get; set; }
 
+    /// <summary>
+    /// 取得或设置表格关联的表单内容委托。
+    /// </summary>
+    public Action<FormModel<TItem>> OnForm { get; set; }
+
     private bool ShowForm(FormModel<TItem> model)
     {
         model.SmallLabel = Form?.SmallLabel == true;
@@ -26,6 +31,7 @@ partial class TableModel<TItem>
         if (model.Info.Width == null)
             model.Info.Width = Form?.Width;
 
+        OnForm?.Invoke(model);
         return UI.ShowForm(model);
     }
 }

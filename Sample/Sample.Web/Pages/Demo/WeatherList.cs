@@ -1,14 +1,19 @@
 ﻿namespace Sample.Web.Pages.Demo;
 
-[Route("/weathers")]
+[Route("/weathers/{id?}")]
 public class WeatherList : BaseTablePage<WeatherForecast>
 {
+    protected override Task OnParameterAsync()
+    {
+        Table.Name = $"天气列表 - {Id}";
+        return base.OnParameterAsync();
+    }
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Table = new TableModel<WeatherForecast>(this);
         Table.ShowPager = true;
-        Table.Name = "天气";
         Table.OnQuery = OnQueryWeatherForecastsAsync;
 
         Table.AddColumn(c => c.Date, true);

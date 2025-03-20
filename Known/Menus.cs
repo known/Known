@@ -75,7 +75,7 @@ public class MenuInfo
     public string Color { get; set; }
 
     /// <summary>
-    /// 取得或设置菜单徽章数量，适用于APP移动端应用。。
+    /// 取得或设置菜单徽章数量。
     /// </summary>
     public int Badge { get; set; }
 
@@ -295,6 +295,11 @@ public class ActionInfo
     /// 取得或设置操作位置，如：Toolbar，Action。
     /// </summary>
     public string Position { get; set; }
+
+    /// <summary>
+    /// 取得或设置徽章数量。
+    /// </summary>
+    public int Badge { get; set; }
 
     /// <summary>
     /// 取得或设置操作是否可用。

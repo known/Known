@@ -3,20 +3,20 @@
 @if (!string.IsNullOrWhiteSpace(Title))
 {
     <Tooltip Title="@Title">
-        <Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
-                Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
-                OnClick="OnButtonClickAsync">@Name</Button>
+        @RenderBadgeButton()
     </Tooltip>
 }
 else
 {
-    <Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
-            Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
-            OnClick="OnButtonClickAsync">@Name</Button>
+    @RenderBadgeButton()
 }
 
 @code {
     private bool isLoad;
+
+    private RenderFragment RenderButton => @<Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
+                                                    Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
+                                                    OnClick="OnButtonClickAsync">@Name</Button>;
 
     /// <summary>
     /// 取得或设置是否是块级按钮。
@@ -54,6 +54,11 @@ else
     [Parameter] public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置徽章数量。
+    /// </summary>
+    [Parameter] public int Badge { get; set; }
+
+    /// <summary>
     /// 取得或设置按钮单击事件。
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
@@ -66,5 +71,13 @@ else
         isLoad = true;
         await OnClick.InvokeAsync(args);
         isLoad = false;
+    }
+
+    private RenderFragment RenderBadgeButton()
+    {
+        if (Badge <= 0)
+            return RenderButton;
+
+        return @<Badge Count="Badge">@RenderButton</Badge>;
     }
 }
