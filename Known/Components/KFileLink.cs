@@ -1,10 +1,15 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 附件连接组件类型。
 /// </summary>
-public class FileLink : BaseComponent
+public class KFileLink : BaseComponent
 {
+    /// <summary>
+    /// 取得或设置附件信息。
+    /// </summary>
+    [Parameter] public FileUrlInfo Url { get; set; }
+
     /// <summary>
     /// 取得或设置附件信息。
     /// </summary>
@@ -16,10 +21,15 @@ public class FileLink : BaseComponent
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (Config.App.Type == AppType.Web)
-            builder.OpenFile(Item.Name, Item.FileUrl);
-        else
+        if (Config.App.Type != AppType.Web)
+        {
             builder.Span("kui-link", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFileAsync(Item)));
+            return;
+        }
+
+        var name = Item != null ? Item.Name : Name;
+        var url = Item != null ? Item.FileUrl : Url;
+        builder.OpenFile(name, url);
     }
 
     private Task OnDownloadFileAsync(AttachInfo item)

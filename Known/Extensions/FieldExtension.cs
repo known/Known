@@ -210,6 +210,6 @@ public static class FieldExtension
     /// <param name="item">系统附件对象。</param>
     public static void FileLink(this RenderTreeBuilder builder, AttachInfo item)
     {
-        builder.Component<FileLink>().Set(c => c.Item, item).Build();
+        builder.Component<KFileLink>().Set(c => c.Item, item).Build();
     }
 }
