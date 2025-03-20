@@ -72,6 +72,29 @@ partial class PlatformService
             foreach (var item in infos)
             {
                 await db.DeleteAsync<SysModule>(item.Id);
+                await ResortModulesAsync(db, item.ParentId);
+            }
+        });
+    }
+
+    public async Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
+    {
+        if (infos == null || infos.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync("安装", async db =>
+        {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
+            foreach (var item in infos)
+            {
+                var model = new SysModule();
+                model.FillModel(item);
+                if (string.IsNullOrWhiteSpace(model.Code))
+                    model.Code = model.Name;
+                model.Sort = ++count;
+                model.LayoutData = Utils.ToJson(item.Layout);
+                model.PluginData = item.Plugins?.ZipDataString();
+                await db.SaveAsync(model);
             }
         });
     }
@@ -83,6 +106,7 @@ partial class PlatformService
 
         return await Database.TransactionAsync(Language.Copy, async db =>
         {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
             foreach (var item in infos)
             {
                 var module = await db.QueryByIdAsync<SysModule>(item.Id);
@@ -90,6 +114,7 @@ partial class PlatformService
                 {
                     module.Id = Utils.GetNextId();
                     module.ParentId = item.ParentId;
+                    module.Sort = ++count;
                     await db.InsertAsync(module);
                 }
             }
@@ -103,12 +128,14 @@ partial class PlatformService
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
             foreach (var item in infos)
             {
                 var module = await db.QueryByIdAsync<SysModule>(item.Id);
                 if (module != null)
                 {
                     module.ParentId = item.ParentId;
+                    module.Sort = ++count;
                     await db.SaveAsync(module);
                 }
             }
@@ -150,6 +177,8 @@ partial class PlatformService
         if (!vr.IsValid)
             return vr;
 
+        if (string.IsNullOrWhiteSpace(model.Code))
+            model.Code = model.Name;
         if (string.IsNullOrWhiteSpace(model.Icon))
             model.Icon = "";//AntDesign不识别null值
 
@@ -160,5 +189,16 @@ partial class PlatformService
             await db.SaveAsync(model);
             info.Id = model.Id;
         }, info);
+    }
+
+    private static async Task ResortModulesAsync(Database db, string parentId)
+    {
+        var items = await db.Query<SysModule>().Where(d => d.ParentId == parentId).OrderBy(d => d.Sort).ToListAsync();
+        var index = 1;
+        foreach (var item in items)
+        {
+            item.Sort = index++;
+            await db.SaveAsync(item);
+        }
     }
 }

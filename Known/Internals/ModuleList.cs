@@ -14,12 +14,6 @@ class ModuleList : BasePage<ModuleInfo>
     /// <returns></returns>
     protected override async Task OnInitPageAsync()
     {
-        if (!CurrentUser.IsSystemAdmin())
-        {
-            Navigation.GoErrorPage("403");
-            return;
-        }
-
         await base.OnInitPageAsync();
 
         Page.Type = PageType.Column;
@@ -46,13 +40,14 @@ class ModuleList : BasePage<ModuleInfo>
             OnQuery = OnQueryModulesAsync
         };
 
-        table.Toolbar.ShowCount = 7;
+        table.Toolbar.ShowCount = 10;
         table.Toolbar.AddAction(nameof(New));
         table.Toolbar.AddAction(nameof(DeleteM));
         table.Toolbar.AddAction(nameof(Copy));
         table.Toolbar.AddAction(nameof(Move));
         table.Toolbar.AddAction(nameof(Import));
         table.Toolbar.AddAction(nameof(Export));
+        table.Toolbar.AddAction(nameof(Install), "点此安装新模块。");
         table.Toolbar.AddAction(nameof(Migrate), "可将 AppData.kmd 和 Admin 插件配置数据迁移至新框架配置库。");
 
         table.AddColumn(c => c.Name).Width(120).Template(BuildName);
@@ -193,6 +188,25 @@ class ModuleList : BasePage<ModuleInfo>
             var info = await Platform.ExportModulesAsync();
             await JS.DownloadFileAsync(info);
         });
+    }
+
+    /// <summary>
+    /// 安装新模块数据。
+    /// </summary>
+    public void Install()
+    {
+        var model = new DialogModel
+        {
+            Title = "安装新模块",
+            Width = 800,
+            Content = b => b.Component<ModuleInstallList>().Set(c => c.Modules, modules).Build()
+        };
+        model.OnOk = async () =>
+        {
+            await model.CloseAsync();
+            await RefreshAsync();
+        };
+        UI.ShowDialog(model);
     }
 
     /// <summary>

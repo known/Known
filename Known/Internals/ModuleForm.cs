@@ -9,7 +9,6 @@ class ModuleForm : BaseTabForm
         await base.OnInitFormAsync();
         Model.SmallLabel = true;
         Model.OnFieldChanged = OnFieldChanged;
-        //Model.OnSaving = OnModelSaving;
 
         Model.AddRow().AddColumn(c => c.Name)
                       .AddColumn(c => c.Icon, c =>
@@ -25,11 +24,11 @@ class ModuleForm : BaseTabForm
         }).AddColumn(c => c.Enabled, c => c.Span = 6)
           .AddColumn(c => c.Sort, c => c.Span = 6);
         Model.AddRow().AddColumn(c => c.Url)
-            .AddColumn(c => c.Target, c =>
-            {
-                c.Category = nameof(LinkTarget);
-                c.Type = FieldType.RadioList;
-            });
+             .AddColumn(c => c.Target, c =>
+             {
+                 c.Category = nameof(LinkTarget);
+                 c.Type = FieldType.RadioList;
+             });
 
         Tab.AddTab("BasicInfo", b => b.Form(Model));
         foreach (var item in UIConfig.ModuleFormTabs.OrderBy(t => t.Value.Id))
@@ -50,18 +49,6 @@ class ModuleForm : BaseTabForm
             Tab.StateChanged();
         }
     }
-
-    //private Task<bool> OnModelSaving(SysModule model)
-    //{
-    //    if (Module != null)
-    //    {
-    //        model.EntityData = Module.EntityData;
-    //        model.FlowData = Module.FlowData;
-    //        model.PageData = Utils.ToJson(Module.Page);
-    //        model.FormData = Utils.ToJson(Module.Form);
-    //    }
-    //    return Task.FromResult(true);
-    //}
 
     private void SetTabVisible()
     {

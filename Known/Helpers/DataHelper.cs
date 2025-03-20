@@ -49,7 +49,7 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        AppData.Data.Modules = modules;
+        //AppData.Data.Modules = modules;
         Models.Clear();
         Flows.Clear();
         foreach (var item in modules)

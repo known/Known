@@ -167,6 +167,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
             foreach (var item in models)
             {
                 await db.DeleteAsync(item);
+                await ResortModulesAsync(db, item.ParentId);
             }
         });
     }
@@ -178,9 +179,11 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
 
         return await Database.TransactionAsync(Language.Copy, async db =>
         {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == models[0].ParentId);
             foreach (var item in models)
             {
                 item.Id = Utils.GetNextId();
+                item.Sort = ++count;
                 await db.InsertAsync(item);
             }
         });
@@ -193,8 +196,10 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == models[0].ParentId);
             foreach (var item in models)
             {
+                item.Sort = ++count;
                 await db.SaveAsync(item);
             }
         });
@@ -247,5 +252,16 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
             modules.RemoveModule("SysTenantList");
         }
         return modules;
+    }
+
+    private static async Task ResortModulesAsync(Database db, string parentId)
+    {
+        var items = await db.Query<SysModule>().Where(d => d.ParentId == parentId).OrderBy(d => d.Sort).ToListAsync();
+        var index = 1;
+        foreach (var item in items)
+        {
+            item.Sort = index++;
+            await db.SaveAsync(item);
+        }
     }
 }

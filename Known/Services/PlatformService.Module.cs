@@ -35,6 +35,13 @@ public partial interface IPlatformService
     Task<Result> DeleteModulesAsync(List<ModuleInfo> infos);
 
     /// <summary>
+    /// 异步安装系统模块。
+    /// </summary>
+    /// <param name="infos">系统模块列表。</param>
+    /// <returns>安装结果。</returns>
+    Task<Result> InstallModulesAsync(List<ModuleInfo> infos);
+
+    /// <summary>
     /// 异步复制系统模块。
     /// </summary>
     /// <param name="infos">系统模块列表。</param>
@@ -120,6 +127,11 @@ partial class PlatformService
         }
         AppData.SaveData();
         return Result.SuccessAsync(Language.DeleteSuccess);
+    }
+
+    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
+    {
+        return Result.SuccessAsync("安装成功！");
     }
 
     public Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
@@ -251,6 +263,11 @@ partial class PlatformClient
     public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
     {
         return Http.PostAsync("/Platform/DeleteModules", infos);
+    }
+
+    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
+    {
+        return Http.PostAsync("/Platform/InstallModules", infos);
     }
 
     public Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
