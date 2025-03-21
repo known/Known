@@ -5,7 +5,10 @@
 /// </summary>
 public partial class Database : IDisposable
 {
-    internal const string DefaultConnName = "Default";
+    /// <summary>
+    /// 默认主数据库连接名。
+    /// </summary>
+    public const string DefaultConnName = "Default";
 
     /// <summary>
     /// 创建数据库访问实例。
@@ -21,7 +24,6 @@ public partial class Database : IDisposable
         return database;
     }
 
-    private string connName;
     private IDbConnection conn;
     private IDbTransaction trans;
     private string TransId { get; set; }
@@ -35,6 +37,11 @@ public partial class Database : IDisposable
     {
         this.loggerFactory = loggerFactory;
     }
+
+    /// <summary>
+    /// 取得数据库连接名称。
+    /// </summary>
+    public string ConnectionName { get; private set; }
 
     /// <summary>
     /// 取得或设置数据库类型。
@@ -88,10 +95,6 @@ public partial class Database : IDisposable
     public virtual void SetDatabase(string connName)
     {
         var info = DatabaseOption.Instance.GetDatabase(connName);
-        if (info == null)
-            return;
-
-        this.connName = connName;
         SetDatabase(info);
     }
 
@@ -104,6 +107,7 @@ public partial class Database : IDisposable
         if (info == null)
             return;
 
+        ConnectionName = info.Name;
         DatabaseType = info.DatabaseType;
         ConnectionString = info.ConnectionString;
         provider = DbProvider.Create(this);
@@ -165,7 +169,7 @@ public partial class Database : IDisposable
     protected virtual Database CreateDatabase()
     {
         var database = new Database(loggerFactory);
-        database.SetDatabase(connName);
+        database.SetDatabase(ConnectionName);
         database.Context = Context;
         database.User = User;
         return database;

@@ -53,20 +53,7 @@ class DbProvider(Database db)
         if (DbConfig.TableNames.TryGetValue(type, out Type value))
             entityType = value;
 
-        var tableName = string.Empty;
-        var attrs = entityType.GetCustomAttributes(true);
-        foreach (var item in attrs)
-        {
-            if (item is TableAttribute attr)
-            {
-                tableName = attr.Name;
-                break;
-            }
-        }
-        if (string.IsNullOrWhiteSpace(tableName))
-            tableName = entityType.Name;
-
-        return tableName;
+        return entityType.TableName();
     }
 
     public CommandInfo GetCommand(string sql, PagingCriteria criteria, UserInfo user)

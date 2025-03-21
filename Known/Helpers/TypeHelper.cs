@@ -62,15 +62,15 @@ public sealed class TypeHelper
     {
         return
         [
-            new() { Id = nameof(EntityBase.Id), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateBy), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateTime), Type = FieldType.DateTime, Required = true },
-            new() { Id = nameof(EntityBase.ModifyBy), Type = FieldType.Text, Length = "50" },
-            new() { Id = nameof(EntityBase.ModifyTime), Type = FieldType.DateTime },
-            new() { Id = nameof(EntityBase.Version), Type = FieldType.Number, Required = true },
-            new() { Id = nameof(EntityBase.Extension), Type = FieldType.Text },
-            new() { Id = nameof(EntityBase.AppId), Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CompNo), Type = FieldType.Text, Length = "50", Required = true }
+            new() { Id = nameof(EntityBase.Id), Name = "ID", Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateBy), Name = "创建人", Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateTime), Name = "创建时间", Type = FieldType.DateTime, Required = true },
+            new() { Id = nameof(EntityBase.ModifyBy), Name = "修改人", Type = FieldType.Text, Length = "50" },
+            new() { Id = nameof(EntityBase.ModifyTime), Name = "修改时间", Type = FieldType.DateTime },
+            new() { Id = nameof(EntityBase.Version), Name = "版本", Type = FieldType.Number, Required = true },
+            new() { Id = nameof(EntityBase.Extension), Name = "扩展数据", Type = FieldType.Text },
+            new() { Id = nameof(EntityBase.AppId), Name = "系统ID", Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CompNo), Name = "企业编码", Type = FieldType.Text, Length = "50", Required = true }
         ];
     }
 
@@ -96,8 +96,9 @@ public sealed class TypeHelper
                     Id = item.Name,
                     Name = language?.GetText("", item.Name, name) ?? name,
                     Type = item.GetFieldType(),
+                    Length = item.MaxLength()?.ToString(),
                     Required = item.IsRequired(),
-                    Length = item.MaxLength()?.ToString()
+                    IsKey = item.IsKey()
                 });
             }
         }

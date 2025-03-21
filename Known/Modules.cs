@@ -21,6 +21,11 @@ public class EntityInfo
     public string PageUrl { get; set; }
 
     /// <summary>
+    /// 取得或设置是否继承实体基类，默认是。
+    /// </summary>
+    public bool IsEntity { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置是否是工作流实体。
     /// </summary>
     public bool IsFlow { get; set; }
@@ -124,6 +129,11 @@ public class FieldInfo
     /// 取得或设置字段是否必填。
     /// </summary>
     public bool Required { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段是否主键。
+    /// </summary>
+    public bool IsKey { get; set; }
 
     /// <summary>
     /// 取得或设置字段类型名称。

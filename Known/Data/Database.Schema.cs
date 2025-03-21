@@ -10,11 +10,22 @@ public partial class Database
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="isLoadTable">是否加载表格。</param>
     /// <returns>是否存在。</returns>
-    public virtual async Task<bool> ExistsAsync<T>(bool isLoadTable = false)
+    public virtual Task<bool> ExistsAsync<T>(bool isLoadTable = false)
+    {
+        return ExistsAsync(typeof(T), isLoadTable);
+    }
+
+    /// <summary>
+    /// 异步判断是否存在数据表。
+    /// </summary>
+    /// <param name="type">实体类型。</param>
+    /// <param name="isLoadTable">是否加载表格。</param>
+    /// <returns>是否存在。</returns>
+    public virtual async Task<bool> ExistsAsync(Type type, bool isLoadTable = false)
     {
         if (isLoadTable)
             Tables = await GetTablesAsync();
-        var tableName = Provider.GetTableName(typeof(T));
+        var tableName = Provider.GetTableName(type);
         return await ExistsTableAsync(tableName);
     }
 
@@ -42,7 +53,6 @@ public partial class Database
         if (await ExistsTableAsync(tableName))
             return;
 
-        info.InitFields();
         if (info.Fields == null || info.Fields.Count == 0)
             return;
 

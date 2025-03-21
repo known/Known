@@ -18,6 +18,7 @@ Enable           | 启用     | check-circle | primary    | Toolbar,Action
 Disable          | 禁用     | close-circle | primary    | Toolbar,Action
 Print            | 打印     | printer      | primary    | Toolbar,Action
 Reset            | 重置     | undo         | primary    | Toolbar
+Fetch            | 提取     | funnel-plot  | primary    | Toolbar
 Install          | 安装     | download     | primary    | Toolbar
 Migrate          | 迁移     | delivered-procedure | primary    | Toolbar
 Save             | 保存     | save         | primary

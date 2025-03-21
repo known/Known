@@ -7,19 +7,22 @@ partial class CodeGenerator
         if (entity == null)
             return string.Empty;
 
-        var columns = TypeHelper.GetBaseFields();
+        List<FieldInfo> columns = entity.IsEntity ? TypeHelper.GetBaseFields() : [];
         columns.AddRange(entity.Fields);
+        var keys = entity.IsEntity
+                 ? [nameof(EntityBase.Id)]
+                 : entity.Fields.Where(f => f.IsKey).Select(f => f.Id).ToList();
 
         var maxLength = columns.Select(f => (f.Id ?? "").Length).Max();
         return dbType switch
         {
-            DatabaseType.Access => AccessProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
-            DatabaseType.SQLite => SQLiteProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
-            DatabaseType.SqlServer => SqlServerProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
-            DatabaseType.Oracle => OracleProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
-            DatabaseType.MySql => MySqlProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
-            DatabaseType.PgSql => PgSqlProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
-            DatabaseType.DM => DMProvider.GetTableScript(entity.Id, columns, [nameof(EntityBase.Id)], maxLength),
+            DatabaseType.Access => AccessProvider.GetTableScript(entity.Id, columns, keys, maxLength),
+            DatabaseType.SQLite => SQLiteProvider.GetTableScript(entity.Id, columns, keys, maxLength),
+            DatabaseType.SqlServer => SqlServerProvider.GetTableScript(entity.Id, columns, keys, maxLength),
+            DatabaseType.Oracle => OracleProvider.GetTableScript(entity.Id, columns, keys, maxLength),
+            DatabaseType.MySql => MySqlProvider.GetTableScript(entity.Id, columns, keys, maxLength),
+            DatabaseType.PgSql => PgSqlProvider.GetTableScript(entity.Id, columns, keys, maxLength),
+            DatabaseType.DM => DMProvider.GetTableScript(entity.Id, columns, keys, maxLength),
             _ => string.Empty,
         };
     }

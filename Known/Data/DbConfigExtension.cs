@@ -18,7 +18,7 @@ public static class DbConfigExtension
         if (models.Exists(m => m.Type.FullName == type.FullName))
             return;
 
-        models.Add(new DbModelInfo { Type = type, Keys = [nameof(EntityBase.Id)] });
+        models.Add(new DbModelInfo(type, [nameof(EntityBase.Id)]));
     }
 
     /// <summary>
@@ -45,6 +45,6 @@ public static class DbConfigExtension
             var arguments = member.Arguments.Select(a => ((MemberExpression)a).Member.Name);
             keys.AddRange(arguments);
         }
-        models.Add(new DbModelInfo { Type = type, Keys = keys });
+        models.Add(new DbModelInfo(type, keys));
     }
 }

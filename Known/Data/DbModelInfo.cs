@@ -6,22 +6,43 @@
 public class DbModelInfo
 {
     /// <summary>
-    /// 取得或设置实体类型。
+    /// 构造函数，初始化数据模型配置信息类。
     /// </summary>
-    public Type Type { get; set; }
+    /// <param name="type">实体类型。</param>
+    /// <param name="keys">主键列表。</param>
+    public DbModelInfo(Type type, List<string> keys)
+    {
+        Type = type;
+        Keys = keys;
+        Fields = GetFields(true);
+    }
 
     /// <summary>
-    /// 取得或设置主键字段列表。
+    /// 取得实体类型。
     /// </summary>
-    public List<string> Keys { get; set; }
+    public Type Type { get; }
 
-    internal List<FieldInfo> Fields { get; set; }
+    /// <summary>
+    /// 取得主键字段列表。
+    /// </summary>
+    public List<string> Keys { get; }
 
-    internal void InitFields()
+    /// <summary>
+    /// 取得字段列表。
+    /// </summary>
+    public List<FieldInfo> Fields { get; }
+
+    /// <summary>
+    /// 获取字段列表。
+    /// </summary>
+    /// <param name="includeBase">是否包含基类字段。</param>
+    /// <returns></returns>
+    public List<FieldInfo> GetFields(bool includeBase = false)
     {
-        Fields = Type.IsSubclassOf(typeof(EntityBase)) ? TypeHelper.GetBaseFields() : [];
+        var allFields = Type.IsSubclassOf(typeof(EntityBase)) && includeBase ? TypeHelper.GetBaseFields() : [];
         var fields = TypeHelper.GetFields(Type);
         if (fields != null && fields.Count > 0)
-            Fields.AddRange(fields);
+            allFields.AddRange(fields);
+        return allFields;
     }
 }

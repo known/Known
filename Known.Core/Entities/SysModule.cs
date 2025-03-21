@@ -3,18 +3,21 @@
 /// <summary>
 /// 系统模块实体类。
 /// </summary>
+[DisplayName("系统模块")]
 public class SysModule : EntityBase
 {
     /// <summary>
     /// 取得或设置上级。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("上级ID")]
     public string ParentId { get; set; }
 
     /// <summary>
     /// 取得或设置代码。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("代码")]
     public string Code { get; set; }
 
     /// <summary>
@@ -22,25 +25,29 @@ public class SysModule : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置图标。
     /// </summary>
     [MaxLength(50)]
+    [DisplayName("图标")]
     public string Icon { get; set; }
 
     /// <summary>
     /// 取得或设置描述。
     /// </summary>
     [MaxLength(200)]
+    [DisplayName("描述")]
     public string Description { get; set; }
 
     /// <summary>
-    /// 取得或设置目标。
+    /// 取得或设置类型。
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [DisplayName("类型")]
     public string Type { get; set; }
 
     /// <summary>
@@ -48,58 +55,69 @@ public class SysModule : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [DisplayName("目标")]
     public string Target { get; set; }
 
     /// <summary>
     /// 取得或设置Url地址。
     /// </summary>
     [MaxLength(200)]
+    [DisplayName("Url地址")]
     public string Url { get; set; }
 
     /// <summary>
     /// 取得或设置顺序。
     /// </summary>
+    [DisplayName("顺序")]
     public int Sort { get; set; }
 
     /// <summary>
     /// 取得或设置可用。
     /// </summary>
+    [DisplayName("可用")]
     public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// 取得或设置页面布局配置数据。
     /// </summary>
+    [DisplayName("布局数据")]
     public string LayoutData { get; set; }
 
     /// <summary>
     /// 取得或设置插件配置数据。
     /// </summary>
+    [DisplayName("插件数据")]
     public string PluginData { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
     [MaxLength(500)]
+    [DisplayName("备注")]
     public string Note { get; set; }
 
     /// <summary>
     /// 取得或设置实体设置。
     /// </summary>
+    [DisplayName("实体设置")]
     public string EntityData { get; set; }
 
     /// <summary>
     /// 取得或设置流程设置。
     /// </summary>
+    [DisplayName("流程设置")]
     public string FlowData { get; set; }
 
     /// <summary>
     /// 取得或设置页面设置。
     /// </summary>
+    [DisplayName("页面设置")]
     public string PageData { get; set; }
 
     /// <summary>
     /// 取得或设置表单设置。
     /// </summary>
+    [DisplayName("表单设置")]
     public string FormData { get; set; }
 
     internal ModuleInfo ToModuleInfo()

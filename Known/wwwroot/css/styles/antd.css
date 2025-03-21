@@ -26,7 +26,7 @@
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .ant-table-wrapper {padding:0 10px;}
-.ant-table .ant-tag {cursor:pointer;margin-right:0;}
+.ant-table .ant-tag {cursor:pointer;margin-right:0;line-height:unset;}
 .ant-table-thead > tr > th {font-weight:bold;}
 .ant-table-tbody > tr > td.kui-table-action > div > a {padding:0 5px;}
 .ant-table.ant-table-small .ant-table-tbody > tr > td {padding:3px 5px;}

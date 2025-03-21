@@ -28,6 +28,16 @@ public static class TypeExtension
     }
 
     /// <summary>
+    /// 获取成员关联的Table特性的名称。
+    /// </summary>
+    /// <param name="info">成员对象。</param>
+    /// <returns>名称。</returns>
+    public static string TableName(this MemberInfo info)
+    {
+        return info?.GetCustomAttribute<TableAttribute>()?.Name ?? info.Name;
+    }
+
+    /// <summary>
     /// 获取成员关联的DisplayName特性的显示名称。
     /// </summary>
     /// <param name="info">成员对象。</param>
@@ -35,6 +45,16 @@ public static class TypeExtension
     public static string DisplayName(this MemberInfo info)
     {
         return info?.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName;
+    }
+
+    /// <summary>
+    /// 获取成员关联的Description特性的描述信息。
+    /// </summary>
+    /// <param name="info">成员对象。</param>
+    /// <returns>描述信息。</returns>
+    public static string Description(this MemberInfo info)
+    {
+        return info?.GetCustomAttribute<DescriptionAttribute>()?.Description;
     }
 
     /// <summary>
@@ -60,7 +80,17 @@ public static class TypeExtension
 
     #region Property
     /// <summary>
-    /// 获取属性是否关联的RequiredA特性。
+    /// 获取属性是否关联Key特性。
+    /// </summary>
+    /// <param name="info">属性对象。</param>
+    /// <returns>是否必填。</returns>
+    public static bool IsKey(this PropertyInfo info)
+    {
+        return info?.GetCustomAttribute<KeyAttribute>() is not null;
+    }
+
+    /// <summary>
+    /// 获取属性是否关联Required特性。
     /// </summary>
     /// <param name="info">属性对象。</param>
     /// <returns>是否必填。</returns>

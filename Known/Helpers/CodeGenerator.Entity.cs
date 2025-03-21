@@ -7,13 +7,20 @@ partial class CodeGenerator
         if (entity == null)
             return string.Empty;
 
+        var baseType = string.Empty;
+        if (entity.IsEntity)
+            baseType = " : EntityBase";
+        if (entity.IsFlow)
+            baseType = " : FlowEntity";
+
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// {0}实体类。", entity.Name);
         sb.AppendLine("/// </summary>");
-        sb.AppendLine("public partial class {0} : {1}", entity.Id, entity.IsFlow ? "FlowEntity" : "EntityBase");
+        sb.AppendLine("[DisplayName(\"{0}\")]", entity.Name);
+        sb.AppendLine("public partial class {0}{1}", entity.Id, baseType);
         sb.AppendLine("{");
 
         var index = 0;
@@ -29,11 +36,13 @@ partial class CodeGenerator
             sb.AppendLine("    /// <summary>");
             sb.AppendLine("    /// 取得或设置{0}。", item.Name);
             sb.AppendLine("    /// </summary>");
-            sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
-            if (item.Required)
+            if (item.IsKey)
+                sb.AppendLine("    [Required, Key]");
+            else if (item.Required)
                 sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length) && type == "string")
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
+            sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Id);
         }
         sb.AppendLine("}");
