@@ -18,15 +18,11 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
 
         await base.OnInitPageAsync();
 
-        Table = new TableModel<LanguageInfo>(this, TableColumnMode.Property);
+        Table = new TableModel<LanguageInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
         Table.EnableEdit = false;
         Table.ShowPager = true;
         Table.OnQuery = Platform.QueryLanguagesAsync;
-
-        Table.Column(c => c.Id).Width(120).ViewLink();
-        Table.Column(c => c.Name).Width(120).Query();
-        Table.Column(c => c.Icon);
 
         Table.Toolbar.AddAction(nameof(New));
         Table.AddAction(nameof(Edit));

@@ -18,17 +18,15 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
 
         await base.OnInitPageAsync();
 
-        Table = new TableModel<ButtonInfo>(this, TableColumnMode.Property);
+        Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
         Table.EnableEdit = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryButtonsAsync;
 
-        Table.Column(c => c.Id).Width(150).ViewLink();
-        Table.Column(c => c.Name).Width(120).Query();
-        Table.Column(c => c.Icon).Width(100).Template((b, r) => b.IconName(r.Icon, r.Icon));
-        Table.Column(c => c.Style).Width(100).Template((b, r) =>
+        Table.Column(c => c.Icon).Template((b, r) => b.IconName(r.Icon, r.Icon));
+        Table.Column(c => c.Style).Template((b, r) =>
         {
             if (!string.IsNullOrEmpty(r.Style))
             {
@@ -38,7 +36,6 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
                     b.Tag(r.Style, "red-inverse");
             }
         });
-        Table.Column(c => c.Position);
 
         Table.Toolbar.AddAction(nameof(New));
         Table.Toolbar.AddAction(nameof(DeleteM));

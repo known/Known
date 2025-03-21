@@ -9,7 +9,7 @@ public class ConnectionInfo
     /// 取得或设置数据库连接名称。
     /// </summary>
     [Required]
-    [Column(IsQuery = true, IsViewLink = true)]
+    [Column(IsQuery = true, IsViewLink = true, Width = 120)]
     [Form]
     [DisplayName("名称")]
     public string Name { get; set; }
@@ -18,7 +18,7 @@ public class ConnectionInfo
     /// 取得或设置数据库类型。
     /// </summary>
     [Required]
-    [Column]
+    [Column(Width = 100)]
     [Form(Type = nameof(FieldType.Select))]
     [DisplayName("类型")]
     public string Type { get; set; }
