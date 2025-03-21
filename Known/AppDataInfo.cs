@@ -41,12 +41,14 @@ public class LanguageInfo
     /// 取得或设置语言名称。
     /// </summary>
     [Form, Required]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置语言图标。
     /// </summary>
     [Form, Required]
+    [DisplayName("图标")]
     public string Icon { get; set; }
 }
 
@@ -65,6 +67,7 @@ public class ButtonInfo
     /// 取得或设置操作名称。
     /// </summary>
     [Form, Required]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
@@ -72,6 +75,7 @@ public class ButtonInfo
     /// </summary>
     [Required]
     [Form(Type = nameof(FieldType.Custom), CustomField = nameof(IconPicker))]
+    [DisplayName("图标")]
     public string Icon { get; set; }
 
     /// <summary>
@@ -79,6 +83,7 @@ public class ButtonInfo
     /// </summary>
     [Form(Type = nameof(FieldType.RadioList))]
     [Category("primary，danger")]
+    [DisplayName("样式")]
     public string Style { get; set; }
 
     /// <summary>
@@ -86,6 +91,7 @@ public class ButtonInfo
     /// </summary>
     [Form(Type = nameof(FieldType.CheckList))]
     [Category("Toolbar，Action")]
+    [DisplayName("位置")]
     public string[] Position { get; set; }
 
     internal ActionInfo ToAction()
