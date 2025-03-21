@@ -91,7 +91,7 @@ public sealed class TypeHelper
             if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
             {
                 var name = item.DisplayName();
-                fields.Add(new FieldInfo
+                var field = new FieldInfo
                 {
                     Id = item.Name,
                     Name = language?.GetText("", item.Name, name) ?? name,
@@ -99,7 +99,10 @@ public sealed class TypeHelper
                     Length = item.MaxLength()?.ToString(),
                     Required = item.IsRequired(),
                     IsKey = item.IsKey()
-                });
+                };
+                if (item.PropertyType == typeof(bool))
+                    field.Required = true;
+                fields.Add(field);
             }
         }
         return fields;
