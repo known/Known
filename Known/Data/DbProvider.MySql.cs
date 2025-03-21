@@ -62,8 +62,8 @@ class MySqlProvider(Database db) : DbProvider(db)
             type = "datetime";
         else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
             type = "int";
-        //else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
-        //    type = "int";
+        else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
+            type = "varchar(50)";
         else if (item.Type == FieldType.Number)
             type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
         else
