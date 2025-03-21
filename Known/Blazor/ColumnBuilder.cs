@@ -4,7 +4,7 @@
 /// 表格栏位建造者类，提供一系列表格栏位代码操作。
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class ColumnBuilder<TItem> where TItem : class, new()
+public partial class ColumnBuilder<TItem> where TItem : class, new()
 {
     private readonly string id;
     private readonly ColumnInfo column;
@@ -24,65 +24,6 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     }
 
     /// <summary>
-    /// 设置表格栏位呈现模板。
-    /// </summary>
-    /// <param name="template">呈现模板。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Template(RenderFragment template)
-    {
-        if (column != null)
-            column.Template = template;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位呈现模板。
-    /// </summary>
-    /// <param name="template">呈现模板。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Template(Action<RenderTreeBuilder, TItem> template)
-    {
-        if (string.IsNullOrWhiteSpace(id))
-            return this;
-
-        if (Table != null)
-            Table.Templates[id] = (row) => delegate (RenderTreeBuilder builder) { template(builder, row); };
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位呈现为Tag组件。
-    /// </summary>
-    /// <param name="colorAction">颜色，默认自动。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Tag(Func<TItem, string> colorAction = null)
-    {
-        Template((b, r) =>
-        {
-            var text = r.Property(id)?.ToString();
-            if (!string.IsNullOrWhiteSpace(column?.Category))
-                text = Cache.GetCodeName(column.Category, text);
-            var color = string.Empty;
-            if (colorAction != null)
-                color = colorAction.Invoke(r);
-            b.Tag(text, color);
-        });
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位宽度。
-    /// </summary>
-    /// <param name="width">宽度。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Width(int width)
-    {
-        if (column != null)
-            column.Width = width;
-        return this;
-    }
-
-    /// <summary>
     /// 设置表格栏位是否可见。
     /// </summary>
     /// <param name="visible">是否可见。</param>
@@ -91,40 +32,6 @@ public class ColumnBuilder<TItem> where TItem : class, new()
     {
         if (column != null)
             column.IsVisible = visible;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位是否只读。
-    /// </summary>
-    /// <param name="readOnly">是否只读。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> ReadOnly(bool readOnly)
-    {
-        if (column != null)
-            column.ReadOnly = readOnly;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位为查看连接。
-    /// </summary>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> ViewLink()
-    {
-        if (column != null)
-            column.IsViewLink = true;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位为汇总字段。
-    /// </summary>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Sum()
-    {
-        if (column != null)
-            column.IsSum = true;
         return this;
     }
 
@@ -165,98 +72,6 @@ public class ColumnBuilder<TItem> where TItem : class, new()
             column.Category = category;
             column.IsQueryAll = isAll;
         }
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表单组件占位符。
-    /// </summary>
-    /// <param name="placeholder">占位符。</param>
-    /// <returns></returns>
-    public ColumnBuilder<TItem> Placeholder(string placeholder)
-    {
-        if (column != null)
-            column.Placeholder = placeholder;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位对齐方式。
-    /// </summary>
-    /// <param name="align">对齐方式（left/center/right）。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Align(string align)
-    {
-        if (column != null)
-            column.Align = align;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位为固定列。
-    /// </summary>
-    /// <param name="fixType">固定类型（left/right）。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Fixed(string fixType)
-    {
-        if (column != null)
-            column.Fixed = fixType;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位字段类。
-    /// </summary>
-    /// <param name="type">字段类型。</param>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Type(FieldType type)
-    {
-        if (column != null)
-            column.Type = type;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位为查询字段。
-    /// </summary>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Query()
-    {
-        if (column != null)
-        {
-            column.IsQuery = true;
-            Table?.AddQueryColumn(column);
-        }
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位为排序字段。
-    /// </summary>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Sort()
-    {
-        if (column != null)
-            column.IsSort = true;
-        return this;
-    }
-
-    /// <summary>
-    /// 设置表格栏位默认升序。
-    /// </summary>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> DefaultAscend() => DefaultSort("asc");
-
-    /// <summary>
-    /// 设置表格栏位默认降序。
-    /// </summary>
-    /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> DefaultDescend() => DefaultSort("desc");
-
-    private ColumnBuilder<TItem> DefaultSort(string sort)
-    {
-        if (column != null)
-            column.DefaultSort = sort;
         return this;
     }
 }

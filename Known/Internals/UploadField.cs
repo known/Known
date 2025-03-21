@@ -10,6 +10,7 @@ class UploadField<TItem> : KUpload where TItem : class, new()
         ReadOnly = Model.Form.IsView;
         Value = Model.Value?.ToString();
         MultiFile = Model.Column.MultiFile;
+        TemplateUrl = Model.Column.TemplateUrl;
         OnFilesChanged = files =>
         {
             Model.Form.Files[Id] = files;
