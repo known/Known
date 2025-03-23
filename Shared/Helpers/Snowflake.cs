@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Helpers;
 
 class Snowflake(long machineId, long datacenterId)
 {

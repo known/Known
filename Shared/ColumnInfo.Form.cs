@@ -2,8 +2,6 @@
 
 public partial class ColumnInfo
 {
-    internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);
-
     internal bool IsForm { get; set; }
     internal string DisplayName { get; set; }
 
@@ -91,24 +89,4 @@ public partial class ColumnInfo
     /// 取得或设置表单字段代码表列表。
     /// </summary>
     public List<CodeInfo> Codes { get; set; }
-
-    internal void SetFormFieldInfo(FormFieldInfo info)
-    {
-        if (info == null)
-            return;
-
-        Id = info.Id;
-        Name = info.Name ?? info.Id;
-        Row = info.Row;
-        Column = info.Column;
-        Span = info.Span;
-        Type = info.Type;
-        CustomField = info.CustomField;
-        MultiFile = info.MultiFile;
-        ReadOnly = info.ReadOnly;
-        Required = info.Required;
-        Placeholder = info.Placeholder;
-        Rows = info.Rows;
-        Category = info.Category;
-    }
 }

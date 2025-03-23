@@ -13,7 +13,6 @@
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://gitee.com/known/Known</PackageProjectUrl>
-        <PackageOutputPath>..\..\..\..\Library</PackageOutputPath>
         <SignAssembly>True</SignAssembly>
         <DelaySign>True</DelaySign>
         <AssemblyOriginatorKeyFile>..\..\Known.snk</AssemblyOriginatorKeyFile>

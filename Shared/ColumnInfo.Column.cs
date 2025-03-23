@@ -2,8 +2,6 @@
 
 public partial class ColumnInfo
 {
-    internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
-
     /// <summary>
     /// 取得或设置栏位是否是汇总字段。
     /// </summary>
@@ -58,28 +56,4 @@ public partial class ColumnInfo
     /// 取得或设置栏位默认显示位置。
     /// </summary>
     public int? Position { get; set; }
-
-    private void SetPageColumnInfo(PageColumnInfo info)
-    {
-        if (info == null)
-            return;
-
-        Id = info.Id;
-        Name = info.Name ?? info.Id;
-        IsViewLink = info.IsViewLink;
-        IsQuery = info.IsQuery;
-        IsQueryAll = info.IsQueryAll;
-        Type = info.Type;
-        Category = info.Category;
-        IsSum = info.IsSum;
-        IsSort = info.IsSort;
-        DefaultSort = info.DefaultSort;
-        Fixed = info.Fixed;
-        Width = info.Width;
-        Align = info.Align;
-        Position = info.Position;
-
-        if (info.Id == nameof(EntityBase.CreateTime) || info.Id == nameof(EntityBase.ModifyTime))
-            Type = FieldType.Date;
-    }
 }

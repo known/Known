@@ -14,7 +14,6 @@
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://known.org.cn</PackageProjectUrl>
         <RepositoryUrl>https://gitee.com/known/Known</RepositoryUrl>
-        <PackageOutputPath>..\..\..\Library</PackageOutputPath>
         <SignAssembly>True</SignAssembly>
         <DelaySign>True</DelaySign>
         <AssemblyOriginatorKeyFile>..\Known.snk</AssemblyOriginatorKeyFile>

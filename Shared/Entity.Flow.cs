@@ -1,4 +1,4 @@
-﻿namespace Known.WorkFlows;
+﻿namespace Known;
 
 /// <summary>
 /// 流程实体基类。

@@ -18,16 +18,6 @@ public static class TypeExtension
     }
 
     /// <summary>
-    /// 获取类型关联的Route特性的路由模板。
-    /// </summary>
-    /// <param name="type">类型对象。</param>
-    /// <returns>路由模板。</returns>
-    public static string RouteTemplate(this Type type)
-    {
-        return type?.GetCustomAttribute<RouteAttribute>()?.Template;
-    }
-
-    /// <summary>
     /// 获取成员关联的Table特性的名称。
     /// </summary>
     /// <param name="info">成员对象。</param>
@@ -65,16 +55,6 @@ public static class TypeExtension
     public static string Category(this MemberInfo info)
     {
         return info?.GetCustomAttribute<CategoryAttribute>()?.Category;
-    }
-
-    /// <summary>
-    /// 判断成员是否允许匿名访问。
-    /// </summary>
-    /// <param name="info">成员对象。</param>
-    /// <returns>是否允许匿名访问。</returns>
-    public static bool IsAllowAnonymous(this MemberInfo info)
-    {
-        return info?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
     }
     #endregion
 
@@ -167,18 +147,6 @@ public static class TypeExtension
     internal static string GetFieldName(this MemberInfo info)
     {
         return info?.GetCustomAttribute<ColumnAttribute>()?.Field ?? info?.Name;
-    }
-    #endregion
-
-    #region Method
-    /// <summary>
-    /// 判断方法是否是匿名访问方法。
-    /// </summary>
-    /// <param name="info">方法对象。</param>
-    /// <returns>是否匿名访问方法。</returns>
-    public static bool AllowAnonymous(this MethodInfo info)
-    {
-        return info?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
     }
     #endregion
 }

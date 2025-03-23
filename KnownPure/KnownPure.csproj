@@ -4,36 +4,31 @@
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Authors>KnownChen</Authors>
-        <Description>Known.Cells是基于Aspose.Cells实现的Excel操作类库。</Description>
+        <Description>KnownPure是一个轻量级、跨平台、极易扩展的.NET类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>1.0.4</Version>
+        <Version>3.2.4</Version>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>Known, Library, .NET, Excel</PackageTags>
+        <PackageTags>Known, Framework, .NET</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageProjectUrl>https://known.org.cn</PackageProjectUrl>
         <RepositoryUrl>https://gitee.com/known/Known</RepositoryUrl>
         <SignAssembly>True</SignAssembly>
         <DelaySign>True</DelaySign>
-        <AssemblyOriginatorKeyFile>..\..\Known.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>..\Known.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="Aspose.Cells">
-            <HintPath>..\..\Library\Aspose.Cells.dll</HintPath>
-        </Reference>
-        <ProjectReference Include="..\..\Known\Known.csproj" />
+        <None Include="..\icon.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
     </ItemGroup>
 
-    <ItemGroup>
-        <None Include="..\..\icon.png">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-        <None Include="..\..\LICENSE">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-    </ItemGroup>
+    <Import Project="..\Shared\Shared.projitems" Label="Shared" />
 
 </Project>

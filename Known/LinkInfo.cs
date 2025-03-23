@@ -38,22 +38,3 @@ public class LinkInfo
     [Category(nameof(LinkTarget))]
     public string Target { get; set; }
 }
-
-/// <summary>
-/// 连接打开目标位置。
-/// </summary>
-public enum LinkTarget
-{
-    /// <summary>
-    /// 当前窗口。
-    /// </summary>
-    None,
-    /// <summary>
-    /// 新窗口。
-    /// </summary>
-    Blank,
-    /// <summary>
-    /// iFrame窗口。
-    /// </summary>
-    IFrame
-}

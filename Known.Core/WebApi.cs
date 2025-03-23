@@ -10,7 +10,7 @@ class WebApi
             var context = ctx.RequestServices.GetRequiredService<Context>();
             var token = ctx.Request.Headers[Constants.KeyToken].ToString();
             context.CurrentUser = Cache.GetUserByToken(token);
-            if (context.CurrentUser == null && !info.MethodInfo.AllowAnonymous())
+            if (context.CurrentUser == null && !info.MethodInfo.IsAllowAnonymous())
             {
                 await ctx.Response.WriteAsJsonAsync(Result.Error("用户登录已过期！"));
                 return;

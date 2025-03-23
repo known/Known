@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>1d2095d4-02d0-4e46-b464-d409fbe13696</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Admin.Dictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Admin.Log.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Admin.Organization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Admin.Role.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Admin.User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attach.File.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attach.Info.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entity.Flow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Snowflake.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache.Code.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cells\CellInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cells\Excel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cells\ExcelFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cells\Sheet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Cells\StyleInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColumnInfo.Column.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColumnInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ColumnInfo.Form.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Context.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataInfos.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\CommandInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ConnectionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Execute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Page.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Query.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Scalar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Schema.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Table.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.TKey.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Database.Trans.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DatabaseInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DatabaseOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DatabaseType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbConfigExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbFunc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbModelInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.Access.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.DM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.MySql.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.Oracle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.PgSql.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.SQLite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbProvider.SqlServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DBUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ExpressionHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\QueryBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\QueryHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\SqlBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CodeExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CommonExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DictionaryExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\PropertyExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FormInfos.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\TypeHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ZipHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Language.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules.Field.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result.Criteria.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result.Enums.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result.Export.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Result.Paging.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\CacheService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\EncryptService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)QueryInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stopwatcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SystemInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TaskInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
+  </ItemGroup>
+</Project>
