@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attach.Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Entity.Flow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Snowflake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleInfo.cs" />
