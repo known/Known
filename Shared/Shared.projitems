@@ -95,5 +95,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)TaskInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\QRCodeOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowFormInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowLogInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowStepInfo.cs" />
   </ItemGroup>
 </Project>
