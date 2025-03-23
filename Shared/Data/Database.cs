@@ -15,6 +15,20 @@ public partial class Database : IDisposable
     private string TransId { get; set; }
 
     /// <summary>
+    /// 创建数据库访问实例。
+    /// </summary>
+    /// <param name="name">数据库连接名。</param>
+    /// <returns>数据库访问实例。</returns>
+    /// <exception cref="SystemException">数据库访问实现类不支持。</exception>
+    public static Database Create(string name = DefaultConnName)
+    {
+        var scope = Config.ServiceProvider.CreateScope();
+        var database = scope.ServiceProvider.GetRequiredService<Database>();
+        database.SetDatabase(name);
+        return database;
+    }
+
+    /// <summary>
     /// 取得数据库连接名称。
     /// </summary>
     public string ConnectionName { get; private set; }

@@ -22,3 +22,4 @@ global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Services;
 global using Known.WorkFlows;
+global using Microsoft.Extensions.DependencyInjection;

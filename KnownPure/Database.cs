@@ -3,19 +3,6 @@
 public partial class Database
 {
     /// <summary>
-    /// 创建数据库访问实例。
-    /// </summary>
-    /// <param name="name">数据库连接名。</param>
-    /// <returns>数据库访问实例。</returns>
-    /// <exception cref="SystemException">数据库访问实现类不支持。</exception>
-    public static Database Create(string name = DefaultConnName)
-    {
-        var database = new Database();
-        database.SetDatabase(name);
-        return database;
-    }
-
-    /// <summary>
     /// 创建一个事务数据库访问实例。
     /// </summary>
     /// <returns></returns>

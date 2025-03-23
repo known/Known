@@ -18,6 +18,14 @@
         <AssemblyOriginatorKeyFile>..\Known.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
+    <ItemGroup Condition="$(TargetFramework) == 'net8.0'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(TargetFramework) == 'net9.0'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+    </ItemGroup>
+
     <ItemGroup>
         <None Include="..\icon.png">
             <Pack>True</Pack>
