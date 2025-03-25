@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Net.Http.Json;
 using System.Web;
 
 namespace Known.Weixins;
@@ -21,17 +19,17 @@ public static class WeixinApi
     /// <summary>
     /// 取得微信公众号AppId。
     /// </summary>
-    internal static string AppId { get; private set; }
+    public static string AppId { get; private set; }
 
     /// <summary>
     /// 取得微信公众号安全密钥。
     /// </summary>
-    internal static string AppSecret { get; private set; }
+    public static string AppSecret { get; private set; }
 
     /// <summary>
     /// 取得微信公众绑定的服务器URL。
     /// </summary>
-    internal static string RedirectUri { get; private set; }
+    public static string RedirectUri { get; private set; }
 
     #region 初始化接口
     /// <summary>
@@ -199,14 +197,14 @@ public static class WeixinApi
     /// <param name="http">http客户端。</param>
     /// <param name="openId">用户OpenId。</param>
     /// <returns>微信用户信息。</returns>
-    public static async Task<SysWeixin> GetUserInfoAsync(this HttpClient http, string openId)
+    public static async Task<WeixinUserInfo> GetUserInfoAsync(this HttpClient http, string openId)
     {
         try
         {
             var url = $"https://api.weixin.qq.com/cgi-bin/user/info?access_token={AccessToken}&openid={openId}&lang=zh_CN";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             var privileges = result.GetValue<List<string>>("privilege");
-            var info = new SysWeixin
+            var info = new WeixinUserInfo
             {
                 OpenId = result.GetValue<string>("openid"),
                 NickName = result.GetValue<string>("nickname"),
@@ -311,14 +309,14 @@ public static class WeixinApi
     /// <param name="accessToken">访问Token。</param>
     /// <param name="openId">用户OpenId。</param>
     /// <returns>微信用户信息。</returns>
-    public static async Task<SysWeixin> GetUserInfoAsync(this HttpClient http, string accessToken, string openId)
+    public static async Task<WeixinUserInfo> GetUserInfoAsync(this HttpClient http, string accessToken, string openId)
     {
         try
         {
             var url = $"https://api.weixin.qq.com/sns/userinfo?access_token={accessToken}&openid={openId}&lang=zh_CN";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
             var privileges = result.GetValue<List<string>>("privilege");
-            var info = new SysWeixin
+            var info = new WeixinUserInfo
             {
                 OpenId = result.GetValue<string>("openid"),
                 NickName = result.GetValue<string>("nickname"),
