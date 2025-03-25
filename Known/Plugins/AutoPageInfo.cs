@@ -6,6 +6,21 @@
 public class AutoPageInfo
 {
     /// <summary>
+    /// 取得或设置页面ID。
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面名称。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面关联单表实体ID。
+    /// </summary>
+    public string EntityId { get; set; }
+
+    /// <summary>
     /// 取得或设置实体设置。
     /// </summary>
     public string EntityData { get; set; }

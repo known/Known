@@ -84,7 +84,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Info = info;
         //FixedWidth = info.Page.FixedWidth;
         //FixedHeight = info.Page.FixedHeight;
-        Name = info?.Page?.Name;
+        Name = info?.Name ?? info?.Page?.Name;
         AdvSearch = info?.Page?.ShowAdvSearch == true;
         ShowPager = info?.Page?.ShowPager == true;
         ShowSetting = info?.Page?.ShowSetting == true;

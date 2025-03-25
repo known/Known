@@ -61,7 +61,8 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     {
         await base.OnInitPageAsync();
         Table = new TableModel<TItem>(this);
-        Table.Name = PageName;
+        if (string.IsNullOrWhiteSpace(Table.Name))
+            Table.Name = PageName;
         Table.DefaultQuery = DefaultQuery;
         Table.Columns = Table.GetUserColumns();
     }

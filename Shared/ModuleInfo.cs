@@ -62,4 +62,7 @@ public partial class ModuleInfo
     public bool IsMoveUp { get; set; }
 
     internal string ParentName { get; set; }
+
+    /// <inheritdoc />
+    public override string ToString() => $"{Name}({Url})";
 }
