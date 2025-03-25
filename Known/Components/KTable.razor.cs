@@ -167,4 +167,15 @@ partial class KTable<TItem> : BaseComponent
     {
         Plugin?.AddTableAction();
     }
+
+    private RenderFragment<RowData<TItem>> ExpandTemplate
+    {
+        get
+        {
+            if (Model.ExpandTemplate == null)
+                return null;
+
+            return this.BuildTree<RowData<TItem>>((b, d) => Model.ExpandTemplate(b, d.Data));
+        }
+    }
 }

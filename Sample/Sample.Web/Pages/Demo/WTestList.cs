@@ -22,6 +22,8 @@ public class WTestList : BaseTablePage<WeatherForecast>
         Table.AddColumn(c => c.Summary);
         Table.AddColumn(c => c.Info.Summary1).Template((b, r) => b.Text(r.Info.Summary1));
 
+        Table.ExpandTemplate = (b, r) => b.Text(r.Summary);
+
         Table.Tab.AddTab("北京");
         Table.Tab.AddTab("上海");
         Table.Tab.OnChange = async t =>

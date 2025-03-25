@@ -73,6 +73,11 @@ partial class TableModel<TItem>
     public Func<TItem, string> RowClass { get; set; }
 
     /// <summary>
+    /// 取得或设置表格行展开数据呈现模板。
+    /// </summary>
+    public Action<RenderTreeBuilder, TItem> ExpandTemplate { get; set; }
+
+    /// <summary>
     /// 取得表格栏位呈现模板字典。
     /// </summary>
     internal Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];
