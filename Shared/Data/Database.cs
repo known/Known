@@ -29,6 +29,18 @@ public partial class Database : IDisposable
     }
 
     /// <summary>
+    /// 初始化数据库访问实例。
+    /// </summary>
+    /// <param name="databaseType">数据库类型。</param>
+    /// <param name="connectionString">连接字符串。</param>
+    public Database(DatabaseType databaseType, string connectionString = null)
+    {
+        DatabaseType = databaseType;
+        ConnectionString = connectionString;
+        provider = DbProvider.Create(this);
+    }
+
+    /// <summary>
     /// 取得数据库连接名称。
     /// </summary>
     public string ConnectionName { get; private set; }
@@ -103,7 +115,7 @@ public partial class Database : IDisposable
         provider = DbProvider.Create(this);
 
         var factory = DbProviderFactories.GetFactory(DatabaseType.ToString());
-        conn = factory.CreateConnection();
+        conn = factory?.CreateConnection();
         conn.ConnectionString = ConnectionString;
     }
 

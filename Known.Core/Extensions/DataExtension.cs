@@ -30,10 +30,7 @@ public static class DataExtension
         if (!exists)
         {
             Console.WriteLine("Table is initializing...");
-            foreach (var item in DbConfig.Models)
-            {
-                await db.CreateTableAsync(item);
-            }
+            await db.CreateTablesAsync();
             Console.WriteLine("Table is initialized.");
         }
     }

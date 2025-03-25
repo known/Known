@@ -43,6 +43,20 @@ public partial class Database
     }
 
     /// <summary>
+    /// 获取实体模型建表脚本。
+    /// </summary>
+    /// <param name="info">数据实体模型。</param>
+    /// <returns></returns>
+    public string GetTableScript(DbModelInfo info)
+    {
+        var tableName = Provider.GetTableName(info.Type);
+        if (info.Fields == null || info.Fields.Count == 0)
+            return string.Empty;
+
+        return Provider.GetTableScript(tableName, info);
+    }
+
+    /// <summary>
     /// 异步创建数据库表。
     /// </summary>
     /// <param name="info">数据实体模型。</param>
@@ -53,15 +67,40 @@ public partial class Database
         if (await ExistsTableAsync(tableName))
             return;
 
-        if (info.Fields == null || info.Fields.Count == 0)
-            return;
-
-        var script = Provider.GetTableScript(tableName, info);
+        var script = GetTableScript(info);
         if (string.IsNullOrWhiteSpace(script))
             return;
 
         await ExecuteAsync(script);
         Tables.Add(tableName);
+    }
+
+    /// <summary>
+    /// 异步创建所有实体模型数据库表。
+    /// </summary>
+    /// <returns></returns>
+    public async Task CreateTablesAsync()
+    {
+        foreach (var item in DbConfig.Models)
+        {
+            await CreateTableAsync(item);
+        }
+    }
+
+    /// <summary>
+    /// 导出所有实体模型建表脚本。
+    /// </summary>
+    /// <returns></returns>
+    public string ExportTableScripts()
+    {
+        var sb = new StringBuilder();
+        foreach (var item in DbConfig.Models)
+        {
+            var script = GetTableScript(item);
+            if (!string.IsNullOrWhiteSpace(script))
+                sb.AppendLine(script);
+        }
+        return sb.ToString();
     }
 
     private async Task<bool> ExistsTableAsync(string tableName)
