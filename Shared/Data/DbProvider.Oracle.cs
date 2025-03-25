@@ -15,7 +15,7 @@ class OracleProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT table_name FROM user_tables;";
+        return "SELECT table_name FROM user_tables";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

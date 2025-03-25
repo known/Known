@@ -18,7 +18,7 @@ class MySqlProvider(Database db) : DbProvider(db)
             }
         }
 
-        return $"SELECT table_name FROM information_schema.tables WHERE table_schema='{dbName}' AND table_type='BASE TABLE';";
+        return $"SELECT table_name FROM information_schema.tables WHERE table_schema='{dbName}' AND table_type='BASE TABLE'";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

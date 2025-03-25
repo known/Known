@@ -9,7 +9,7 @@ class DMProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT table_name FROM all_tables;";
+        return "SELECT table_name FROM all_tables";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
