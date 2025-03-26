@@ -18,7 +18,7 @@ partial class TableModel<TItem>
     public bool IsStriped { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置表格是否可调整大小。
+    /// 取得或设置表格列是否可调整大小。
     /// </summary>
     public bool Resizable { get; set; }
 

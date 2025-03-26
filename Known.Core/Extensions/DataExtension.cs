@@ -25,7 +25,6 @@ public static class DataExtension
 
     internal static async Task InitializeTableAsync(this Database db)
     {
-        db.EnableLog = false;
         var exists = await db.ExistsAsync<SysConfig>();
         if (!exists)
         {
