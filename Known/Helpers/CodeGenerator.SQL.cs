@@ -13,7 +13,7 @@ partial class CodeGenerator
                  ? [nameof(EntityBase.Id)]
                  : entity.Fields.Where(f => f.IsKey).Select(f => f.Id).ToList();
 
-        var maxLength = columns.Select(f => (f.Id ?? "").Length).Max();
+        var maxLength = columns.Count > 0 ? columns.Select(f => (f.Id ?? "").Length).Max() : 0;
         return dbType switch
         {
             DatabaseType.Access => AccessProvider.GetTableScript(entity.Id, columns, keys, maxLength),

@@ -31,6 +31,11 @@ public partial class Database : IDisposable
     /// <summary>
     /// 初始化数据库访问实例。
     /// </summary>
+    public Database() { }
+
+    /// <summary>
+    /// 初始化数据库访问实例。
+    /// </summary>
     /// <param name="databaseType">数据库类型。</param>
     /// <param name="connectionString">连接字符串。</param>
     public Database(DatabaseType databaseType, string connectionString = null)
