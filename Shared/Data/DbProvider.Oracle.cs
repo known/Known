@@ -4,6 +4,7 @@ class OracleProvider(Database db) : DbProvider(db)
 {
     public override string Prefix => ":";
     public override object FormatBoolean(bool value) => value ? 1 : 0;
+    public override string GetBooleanSql(string field, bool isTrue) => isTrue ? $"{field}=1" : $"{field}=0";
 
     public override string GetDateSql(string name, bool withTime = true)
     {

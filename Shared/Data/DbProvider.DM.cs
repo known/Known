@@ -6,6 +6,7 @@ class DMProvider(Database db) : DbProvider(db)
 
     public override string FormatName(string name) => $"\"{name}\"";
     public override object FormatBoolean(bool value) => value ? 1 : 0;
+    public override string GetBooleanSql(string field, bool isTrue) => isTrue ? $"{field}=1" : $"{field}=0";
 
     internal override string GetTableSql(string dbName)
     {
