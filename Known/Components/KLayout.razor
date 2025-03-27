@@ -21,13 +21,13 @@
     [Parameter] public Action OnReloadPage { get; set; }
 
     /// <inheritdoc />
-    public override Task ShowSpinAsync(string text, Func<Task> action)
+    public override async Task ShowSpinAsync(string text, Func<Task> action)
     {
         if (action == null)
-            return Task.CompletedTask;
+            return;
 
-        JS.ShowSpinAsync(text);
-        return Task.Run(async () =>
+        await JS.ShowSpinAsync(text);
+        await Task.Run(async () =>
         {
             try
             {
