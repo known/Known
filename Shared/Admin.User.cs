@@ -14,7 +14,7 @@ public class UserDataInfo : UserInfo
         Id = Utils.GetNextId();
         IsNew = true;
         Enabled = true;
-        Gender = "Female";
+        Gender = nameof(GenderType.Male);
     }
 
     /// <summary>

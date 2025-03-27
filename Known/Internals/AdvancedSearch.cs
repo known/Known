@@ -60,7 +60,7 @@ class AdvancedSearch : BaseComponent
 
 class AdvancedSearchItem : BaseComponent
 {
-    private readonly List<CodeInfo> QueryTypes = TypeHelper.GetEnumCodes(typeof(QueryType));
+    private readonly List<CodeInfo> QueryTypes = Cache.GetCodes<QueryType>();
     private ColumnInfo column;
 
     [Parameter] public List<ColumnInfo> Columns { get; set; }

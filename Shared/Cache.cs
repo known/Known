@@ -98,6 +98,16 @@ public sealed class Cache
     }
 
     /// <summary>
+    /// 获取枚举类型的代码表列表。
+    /// </summary>
+    /// <typeparam name="T">枚举类型。</typeparam>
+    /// <returns>代码表列表。</returns>
+    public static List<CodeInfo> GetCodes<T>() where T : Enum
+    {
+        return GetCodes(typeof(T).Name);
+    }
+
+    /// <summary>
     /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
     /// </summary>
     /// <param name="category">代码类别名/</param>

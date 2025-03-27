@@ -31,6 +31,16 @@ public sealed class TypeHelper
     /// <summary>
     /// 获取枚举类型代码表信息列表。
     /// </summary>
+    /// <typeparam name="T">枚举类型。</typeparam>
+    /// <returns>代码表信息列表。</returns>
+    public static List<CodeInfo> GetEnumCodes<T>() where T : Enum
+    {
+        return GetEnumCodes(typeof(T));
+    }
+
+    /// <summary>
+    /// 获取枚举类型代码表信息列表。
+    /// </summary>
     /// <param name="type">枚举类型。</param>
     /// <returns>代码表信息列表。</returns>
     public static List<CodeInfo> GetEnumCodes(Type type)
