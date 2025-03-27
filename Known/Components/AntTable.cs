@@ -48,17 +48,6 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
             AutoHeight = Model.AutoHeight;
             RowKey = Model.RowKey;
             HidePagination = !Model.ShowPager;
-            if (Model.ShowPager)
-            {
-                PageIndex = Model.Criteria.PageIndex;
-                PageSize = Model.Criteria.PageSize;
-            }
-
-            if (Model.Result != null)
-            {
-                DataSource = Model.Result.PageData;
-                Total = Model.Result.TotalCount;
-            }
         }
         base.OnParametersSet();
     }

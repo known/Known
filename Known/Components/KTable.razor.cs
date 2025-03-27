@@ -10,6 +10,8 @@ namespace Known.Components;
 partial class KTable<TItem> : BaseComponent
 {
     private AntTable<TItem> table;
+    private int totalCount;
+    private List<TItem> dataSource;
     private bool isQuering = false;
     private string ScrollY => Model.FixedHeight ?? "800px";
 
@@ -27,47 +29,19 @@ partial class KTable<TItem> : BaseComponent
         base.OnInitialized();
     }
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        try
-        {
-            await base.OnAfterRenderAsync(firstRender);
-            await JSRuntime.FillHeightAsync();
-        }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
-        }
-    }
-
     private Task RefreshTableAsync(bool isQuery)
     {
         Model.Criteria.IsQuery = isQuery;
-        return InvokeAsync(() =>
-        {
-            var query = table?.GetQueryModel();
-            table?.ReloadData(query);
-        });
+        var query = table?.GetQueryModel();
+        return OnChange(query);
     }
 
-    private Task OnChange(QueryModel<TItem> query)
+    private async Task OnChange(QueryModel query)
     {
         if (Model.OnQuery == null || isQuering)
-            return Task.CompletedTask;
+            return;
 
         isQuering = true;
-        JS.ShowSpinAsync();
-        return Task.Run(async () =>
-        {
-            await OnChangeAsync(query);
-            isQuering = false;
-            await JS.HideSpinAsync();
-        });
-    }
-
-    private async Task OnChangeAsync(QueryModel<TItem> query)
-    {
         var watch = Stopwatcher.Start<TItem>();
         Model.Criteria.PageIndex = query.PageIndex;
         if (Model.Criteria.IsQuery)
@@ -82,9 +56,14 @@ partial class KTable<TItem> : BaseComponent
         Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
         Model.SelectedRows = [];
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
-        Model.Criteria.IsQuery = false;
+        totalCount = Model.Result.TotalCount;
+        dataSource = Model.Result.PageData;
+        await StateChangedAsync();
         await Model.RefreshStatisAsync();
+        Model.Criteria.IsQuery = false;
+        isQuering = false;
         watch.Write($"Changed {Model.Criteria.PageIndex}");
+        //Console.WriteLine($"{typeof(TItem)}-OnChange-{totalCount}");
     }
 
     private Dictionary<string, object> OnRow(RowData<TItem> row)
