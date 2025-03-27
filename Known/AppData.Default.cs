@@ -143,7 +143,7 @@ class AppDefaultData
             Length = item.GetFieldLength(),
             Required = item.IsRequired(),
             Category = item.Category(),
-            Width = item.GetColumnWidth(),
+            Width = column.Width > 0 ? column.Width : item.GetColumnWidth(),
             IsSum = column.IsSum,
             IsSort = column.IsSort,
             DefaultSort = column.DefaultSort,
