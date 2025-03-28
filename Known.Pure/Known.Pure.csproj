@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Known</RootNamespace>
         <Authors>KnownChen</Authors>
         <Description>KnownPure是一个轻量级、跨平台、极易扩展的.NET类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>

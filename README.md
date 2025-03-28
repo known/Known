@@ -24,8 +24,10 @@
 ### 项目结构
 
 ```
+├─Shared            -> Known与Known.Pure的代码共享项目，包含Excel接口、Database、微信、工作流等公用代码。
 ├─Known             -> 框架核心类库，定义统一的对象模型、接口、组件和扩展，内置权限、微信、工作流。
 ├─Known.Core        -> 基于Asp.Net Core的服务端类库。
+├─Known.Pure        -> 无Blazor功能的纯净版Known类库。
 ├─Plugins           -> 插件项目
 | ├─Known.Admin     -> 简易无代码设计器插件。
 | ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件。

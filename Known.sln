@@ -10,9 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7
 		Document\示例文档.md = Document\示例文档.md
 	EndProjectSection
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{1D2095D4-02D0-4E46-B464-D409FBE13696}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known", "Known\Known.csproj", "{7ECA9043-B6CC-4532-9881-FC5F4EFCD9A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Known.Core", "Known.Core\Known.Core.csproj", "{BEA20DB8-1EC5-45C8-A2B2-1D4708087B07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Known.Pure", "Known.Pure\Known.Pure.csproj", "{91F682A1-C88E-447B-A3F0-C71BA5E2E040}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{D41AC7F1-8B6F-49C7-964C-451CEBC64E03}"
 EndProject
@@ -31,10 +35,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Maui", "Sample\Sample.Maui\Sample.Maui.csproj", "{183C9914-BC00-444F-B53B-39102882CA3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Photino", "Sample\Sample.Photino\Sample.Photino.csproj", "{5ADA1A00-D402-402D-976E-802E581C4F64}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnownPure", "KnownPure\KnownPure.csproj", "{91F682A1-C88E-447B-A3F0-C71BA5E2E040}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{1D2095D4-02D0-4E46-B464-D409FBE13696}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
