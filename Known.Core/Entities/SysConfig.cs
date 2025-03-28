@@ -18,7 +18,7 @@ public class SysConfig
     /// 取得或设置配置键。
     /// </summary>
     [Required, Key]
-    [MaxLength(250)]
+    [MaxLength(150)]
     [DisplayName("配置键")]
     public string ConfigKey { get; set; }
 
