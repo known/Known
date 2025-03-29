@@ -77,7 +77,7 @@ public static class PluginExtension
     /// <param name="info">插件信息。</param>
     public static void BuildPlugin(this RenderTreeBuilder builder, PluginInfo info)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == info.Type);
+        var plugin = PluginConfig.GetPlugin(info.Type);
         if (plugin == null)
             return;
 

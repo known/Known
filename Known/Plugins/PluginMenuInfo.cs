@@ -14,7 +14,7 @@ public class PluginMenuInfo
     }
 
     /// <summary>
-    /// 取得或设置插件ID。
+    /// 取得或设置插件组件类型ID。
     /// </summary>
     public string Id { get; set; }
 

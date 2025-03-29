@@ -13,9 +13,8 @@ class AppDefaultData
     // 加载顶部导航
     private static List<PluginInfo> LoadTopNavs()
     {
-        var plugins = Config.Plugins.Where(p => p.IsNavComponent).OrderBy(p => p.Sort).ToList();
         var infos = new List<PluginInfo>();
-        foreach (var item in plugins)
+        foreach (var item in PluginConfig.TopNavs)
         {
             if (item.Type == typeof(NavFontSize) && !Config.App.IsSize)
                 continue;

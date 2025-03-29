@@ -22,11 +22,6 @@ public partial class Config
     /// </summary>
     public static List<ActionInfo> Actions { get; set; } = [];
 
-    /// <summary>
-    /// 取得框架插件信息列表。
-    /// </summary>
-    public static List<PluginMenuInfo> Plugins { get; } = [];
-
     internal static void AddApp(Assembly assembly)
     {
         // 添加默认一级模块
@@ -67,7 +62,7 @@ public partial class Config
                 Cache.AttachEnumCodes(item);
 
             var routes = GetRoutes(item);
-            AddPlugin(item, routes);
+            PluginConfig.AddPlugin(item, routes);
             AddMenu(item, routes);
             AddCodeInfo(item);
         }
@@ -121,18 +116,6 @@ public partial class Config
             }
         }
         return routes;
-    }
-
-    private static void AddPlugin(Type item, IEnumerable<RouteAttribute> routes)
-    {
-        var plugin = item.GetCustomAttribute<PluginAttribute>();
-        if (plugin != null)
-        {
-            Plugins.Add(new PluginMenuInfo(item, plugin)
-            {
-                Url = routes?.FirstOrDefault()?.Template
-            });
-        }
     }
 
     private static void AddMenu(Type item, IEnumerable<RouteAttribute> routes)

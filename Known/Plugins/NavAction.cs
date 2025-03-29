@@ -38,13 +38,13 @@ class NavAction : BaseComponent
 
     private List<ActionInfo> GetActionItems()
     {
-        var plugins = Config.Plugins.Where(p => p.IsNav && Values?.Contains(p.Id) == false).ToList();
+        var plugins = PluginConfig.NavPlugins.Where(p => Values?.Contains(p.Id) == false).ToList();
         return plugins.ToActions();
     }
 
     private async Task OnNavbarClickAsync(ActionInfo info)
     {
-        var plugin = Config.Plugins.FirstOrDefault(p => p.Id == info.Id);
+        var plugin = PluginConfig.GetPlugin(info.Id);
         if (plugin == null)
             return;
 

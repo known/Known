@@ -116,7 +116,7 @@ class PluginPage : BaseComponent, IAutoPage
 
     private static List<ActionInfo> GetActionItems()
     {
-        var plugins = Config.Plugins.Where(p => p.IsPage).ToList();
+        var plugins = PluginConfig.PagePlugins;
         var infos = new List<ActionInfo>();
         var types = Cache.GetCodes(nameof(PagePluginType));
         foreach (var item in types)
