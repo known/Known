@@ -79,16 +79,24 @@ public static class CoreExtension
         if (CoreOption.Instance.IsCompression)
             app.UseResponseCompression();
 
+        var provider = new FileExtensionContentTypeProvider();
+        foreach (var item in CoreOption.Instance.ContentTypes)
+        {
+            provider.Mappings[item.Key] = item.Value;
+        }
+
         app.UseStaticFiles();
         var webFiles = Config.GetUploadPath(true);
         app.UseStaticFiles(new StaticFileOptions
         {
+            ContentTypeProvider = provider,
             FileProvider = new PhysicalFileProvider(webFiles),
             RequestPath = "/Files"
         });
         var upload = Config.GetUploadPath();
         app.UseStaticFiles(new StaticFileOptions
         {
+            ContentTypeProvider = provider,
             FileProvider = new PhysicalFileProvider(upload),
             RequestPath = "/UploadFiles"
         });

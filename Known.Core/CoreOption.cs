@@ -88,6 +88,11 @@ public class CoreOption
     public Func<SystemInfo, Result> CheckSystem { get; set; }
 
     /// <summary>
+    /// 取得或设置文件内容类型字典。
+    /// </summary>
+    public Dictionary<string, string> ContentTypes { get; set; } = [];
+
+    /// <summary>
     /// 检查系统信息。
     /// </summary>
     /// <param name="info">系统信息。</param>

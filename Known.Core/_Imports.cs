@@ -21,5 +21,6 @@ global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.StaticFiles;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.FileProviders;
