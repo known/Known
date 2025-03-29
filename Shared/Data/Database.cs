@@ -223,6 +223,13 @@ public partial class Database : IDisposable
     /// <returns>格式化的表或字段名。</returns>
     public string FormatName(string name) => Provider?.FormatName(name);
 
+    /// <summary>
+    /// 格式化数据库布尔字段值。
+    /// </summary>
+    /// <param name="value">布尔值。</param>
+    /// <returns></returns>
+    public object FormatBoolean(bool value) => Provider?.FormatBoolean(value);
+
     private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {
         DbMonitor.OnSql(info);
