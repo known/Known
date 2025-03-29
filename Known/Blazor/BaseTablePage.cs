@@ -17,6 +17,8 @@ public class BaseTablePage : BaseComponent
     /// <returns></returns>
     public virtual Task<Result> SaveSettingAsync(AutoPageInfo info)
     {
+        if (Menu.Plugins == null)
+            Menu.Plugins = [];
         Menu.Plugins.AddPlugin(info);
         return Platform.SaveMenuAsync(Menu);
     }
