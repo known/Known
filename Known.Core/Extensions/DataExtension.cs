@@ -23,6 +23,43 @@ public static class DataExtension
         return logs?.Select(l => l.Field1).ToList();
     }
 
+    /// <summary>
+    /// 异步创建数据表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="tableName">数据表名。</param>
+    /// <param name="script">建表脚本。</param>
+    /// <returns></returns>
+    public static async Task<Result> CreateTableAsync(this Database db, string tableName, string script)
+    {
+        if (string.IsNullOrWhiteSpace(tableName))
+            return Result.Error("实体表名不能为空！");
+
+        try
+        {
+            try
+            {
+                var sql = $"select count(*) from {tableName}";
+                var count = await db.ScalarAsync<int>(sql);
+                if (count > 0)
+                    return Result.Error(db.Context.Language["Tip.TableHasData"]);
+
+                sql = $"drop table {tableName}";
+                await db.ExecuteAsync(sql);
+            }
+            catch
+            {
+            }
+
+            await db.ExecuteAsync(script);
+            return Result.Success(db.Context.Language["Tip.ExecuteSuccess"]);
+        }
+        catch (Exception ex)
+        {
+            return Result.Error(ex.Message);
+        }
+    }
+
     internal static async Task InitializeTableAsync(this Database db)
     {
         var exists = await db.ExistsAsync<SysConfig>();

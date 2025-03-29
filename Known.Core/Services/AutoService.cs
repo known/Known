@@ -115,37 +115,11 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         return Result.Success("保存成功！");
     }
 
-    public async Task<Result> CreateTableAsync(AutoInfo<string> info)
+    public Task<Result> CreateTableAsync(AutoInfo<string> info)
     {
         var tableName = info.PageId;
-        if (string.IsNullOrWhiteSpace(tableName))
-            return Result.Error("实体表名不能为空！");
-
-        try
-        {
-            var database = Database;
-            var script = info.Data;
-            try
-            {
-                var sql = $"select count(*) from {tableName}";
-                var count = await database.ScalarAsync<int>(sql);
-                if (count > 0)
-                    return Result.Error(Language["Tip.TableHasData"]);
-
-                sql = $"drop table {tableName}";
-                await database.ExecuteAsync(sql);
-            }
-            catch
-            {
-            }
-
-            await database.ExecuteAsync(script);
-            return Result.Success(Language["Tip.ExecuteSuccess"]);
-        }
-        catch (Exception ex)
-        {
-            return Result.Error(ex.Message);
-        }
+        var script = info.Data;
+        return Database.CreateTableAsync(tableName, script);
     }
 
     private static EntityInfo GetEntityByModuleId(string moduleId)
