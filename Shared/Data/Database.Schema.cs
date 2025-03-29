@@ -59,6 +59,20 @@ public partial class Database
     /// <summary>
     /// 异步创建数据库表。
     /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <returns></returns>
+    public async Task CreateTableAsync<T>()
+    {
+        var model = DbConfig.Models.FirstOrDefault(m => m.Type == typeof(T));
+        if (model == null)
+            return;
+
+        await CreateTableAsync(model);
+    }
+
+    /// <summary>
+    /// 异步创建数据库表。
+    /// </summary>
     /// <param name="info">数据实体模型。</param>
     /// <returns></returns>
     public async Task CreateTableAsync(DbModelInfo info)

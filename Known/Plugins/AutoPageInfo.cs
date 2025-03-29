@@ -16,9 +16,19 @@ public class AutoPageInfo
     public string Name { get; set; }
 
     /// <summary>
-    /// 取得或设置页面关联单表实体ID。
+    /// 取得或设置页面类型。
     /// </summary>
-    public string EntityId { get; set; }
+    public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面关联实体的数据库连接名。
+    /// </summary>
+    public string Database { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面关联实体的数据库表或SQL语句。
+    /// </summary>
+    public string Script { get; set; }
 
     /// <summary>
     /// 取得或设置实体设置。

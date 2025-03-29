@@ -15,6 +15,7 @@ class MigrateHelper
                 return;
 
             database.User ??= await database.GetUserAsync(Constants.SysUserName);
+            await database.CreateTablesAsync();
             await database.TransactionAsync("迁移", async db =>
             {
                 Console.WriteLine("AppData is Migrating...");
@@ -79,10 +80,6 @@ class MigrateHelper
 
     private static async Task MigrateModulesAsync(Database db)
     {
-        var table = DbConfig.Models.FirstOrDefault(m => m.Type == typeof(SysModule));
-        if (table != null)
-            await db.CreateTableAsync(table);
-
         var modules = await db.QueryListAsync<SysModule>();
         foreach (var module in modules)
         {
@@ -104,7 +101,7 @@ class MigrateHelper
         if (items != null && items.Count > 0)
             AddModules(db, modules, items, "0");
         await db.DeleteAllAsync<SysModule>();
-        await db.InsertListAsync(modules);
+        await db.InsertAsync(modules);
     }
 
     private static void AddModules(Database db, List<SysModule> modules, List<ModuleInfo> allItems, string parentId)
