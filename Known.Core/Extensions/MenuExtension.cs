@@ -35,7 +35,7 @@ static class MenuExtension
             if (userModules.Exists(m => m.Id == item.Id))
                 continue;
 
-            AddParentModule(userModules, item);
+            AddParentModule(modules, userModules, item);
             SetPluginPermission(item, moduleIds);
             userModules.Add(item);
         }
@@ -43,16 +43,16 @@ static class MenuExtension
         return userModules.ToMenus();
     }
 
-    private static void AddParentModule(List<ModuleInfo> userModules, ModuleInfo item)
+    private static void AddParentModule(List<ModuleInfo> allModules, List<ModuleInfo> userModules, ModuleInfo item)
     {
         // 如果父模块不存在，则添加父模块
         if (!userModules.Exists(m => m.Id == item.ParentId))
         {
-            var parent = AppData.GetModule(item.ParentId);
+            var parent = allModules.FirstOrDefault(m => m.Id == item.ParentId);
             if (parent != null)
             {
                 userModules.Add(parent);
-                AddParentModule(userModules, parent);
+                AddParentModule(allModules, userModules, parent);
             }
         }
     }
