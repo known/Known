@@ -123,7 +123,7 @@ class PluginPage : BaseComponent, IAutoPage
         {
             var type = Utils.ConvertTo<PagePluginType>(item.Code);
             var info = new ActionInfo { Id = item.Code, Name = item.Name, Icon = GetPluginIcon(type) };
-            var menus = plugins.Where(p => p.Attribute.Category == info.Id).ToList();
+            var menus = plugins.Where(p => p.Attribute.Category == info.Id).OrderBy(p => p.Sort).ToList();
             if (menus != null && menus.Count > 0)
             {
                 foreach (var menu in menus)

@@ -48,9 +48,7 @@ public class AutoPage : BasePage
             BuildAutoTablePage(builder);
         else if (Context.Current.Target == nameof(ModuleType.Form))
             BuildAutoFormPage(builder);
-        else if (Context.Current.Target == nameof(ModuleType.Custom))
-            BuildPluginPage(builder);
-        else if (Context.Current.Type == nameof(MenuType.Page))
+        else
             BuildPluginPage(builder);
     }
 
