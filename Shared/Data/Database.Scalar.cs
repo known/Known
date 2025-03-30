@@ -107,7 +107,12 @@ public partial class Database
         return data;
     }
 
-    private Task<int> GetMaxIdAsync<T>()
+    /// <summary>
+    /// 异步获取实体最大整型ID值。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <returns></returns>
+    public Task<int> GetMaxIdAsync<T>()
     {
         var tableName = Provider.GetTableName(typeof(T));
         var sql = $"select max(Id) from {Provider.FormatName(tableName)}";

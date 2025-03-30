@@ -47,8 +47,8 @@ class SqlServerProvider(Database db) : DbProvider(db)
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "[datetime]";
-        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
-            type = "[int]";
+        //else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+        //    type = "[int]";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "[int]";
         else if (item.Type == FieldType.Number)

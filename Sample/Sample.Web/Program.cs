@@ -23,6 +23,11 @@ builder.Services.AddApplication(option =>
         //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
         //db.OperateMonitors.Add(info => Console.WriteLine(info.ToString()));
     };
+    option.OnNewUser = async (db, model) =>
+    {
+        var maxId = await db.GetMaxIdAsync<SysUser>();
+        model.Id = (++maxId).ToString();
+    };
 });
 
 var app = builder.Build();

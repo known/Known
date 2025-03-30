@@ -27,7 +27,7 @@ public sealed class Utils
         {
             NextIdType.Guid => GetGuid(),
             NextIdType.Snowflake => GetSnowflakeId().ToString(),
-            NextIdType.AutoInteger => "-1",
+            //NextIdType.AutoInteger => "-1",
             _ => GetGuid(),
         };
     }
@@ -254,15 +254,13 @@ public sealed class Utils
             return null;
 
         var settings = new XmlWriterSettings { Indent = true, Encoding = new UTF8Encoding(false) };
-        using (var stream = new MemoryStream())
-        using (var writer = XmlWriter.Create(stream, settings))
-        {
-            var namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "");
-            var serializer = new XmlSerializer(value.GetType());
-            serializer.Serialize(writer, value, namespaces);
-            return Encoding.UTF8.GetString(stream.ToArray());
-        }
+        using var stream = new MemoryStream();
+        using var writer = XmlWriter.Create(stream, settings);
+        var namespaces = new XmlSerializerNamespaces();
+        namespaces.Add("", "");
+        var serializer = new XmlSerializer(value.GetType());
+        serializer.Serialize(writer, value, namespaces);
+        return Encoding.UTF8.GetString(stream.ToArray());
     }
 
     /// <summary>
@@ -274,14 +272,12 @@ public sealed class Utils
     public static T FromXml<T>(string xml) where T : class
     {
         if (string.IsNullOrWhiteSpace(xml))
-            return default(T);
+            return default;
 
-        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
-        using (var reader = new StreamReader(stream, Encoding.UTF8))
-        {
-            var serializer = new XmlSerializer(typeof(T));
-            return (T)serializer.Deserialize(reader);
-        }
+        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        var serializer = new XmlSerializer(typeof(T));
+        return (T)serializer.Deserialize(reader);
     }
 
     /// <summary>

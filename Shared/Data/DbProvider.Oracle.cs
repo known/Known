@@ -51,8 +51,8 @@ class OracleProvider(Database db) : DbProvider(db)
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "date";
-        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
-            type = "number(8)";
+        //else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+        //    type = "number(8)";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "number(8)";
         else if (item.Type == FieldType.Number)

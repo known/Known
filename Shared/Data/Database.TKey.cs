@@ -14,12 +14,12 @@ public partial class Database
         if (entities == null || entities.Count == 0)
             return;
 
-        var maxId = await GetMaxIdAsync<T>();
+        //var maxId = await GetMaxIdAsync<T>();
         foreach (var entity in entities)
         {
             entity.IsNew = true;
-            if (entity.Id.Equals("-1"))
-                entity.Id = Utils.ConvertTo<TKey>(++maxId);
+            //if (entity.Id.Equals("-1"))
+            //    entity.Id = Utils.ConvertTo<TKey>(++maxId);
             await SaveAsync<T, TKey>(entity, false);
         }
     }
@@ -119,11 +119,11 @@ public partial class Database
         if (!entity.IsNew)
             await SetOriginalAsync<T, TKey>(entity);
 
-        if (entity.IsNew && entity.Id.Equals("-1"))
-        {
-            var maxId = await GetMaxIdAsync<T>();
-            entity.Id = Utils.ConvertTo<TKey>(++maxId);
-        }
+        //if (entity.IsNew && entity.Id.Equals("-1"))
+        //{
+        //    var maxId = await GetMaxIdAsync<T>();
+        //    entity.Id = Utils.ConvertTo<TKey>(++maxId);
+        //}
 
         await SaveDataAsync<T, TKey>(entity);
         entity.IsNew = false;

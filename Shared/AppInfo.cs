@@ -31,11 +31,7 @@ public enum NextIdType
     /// <summary>
     /// 雪花ID。
     /// </summary>
-    Snowflake,
-    /// <summary>
-    /// 自增整型。
-    /// </summary>
-    AutoInteger
+    Snowflake
 }
 
 /// <summary>

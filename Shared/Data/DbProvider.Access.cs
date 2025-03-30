@@ -79,8 +79,8 @@ class AccessProvider(Database db) : DbProvider(db)
         string type;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             type = "DateTime";
-        else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
-            type = "Long";
+        //else if (item.Id == nameof(EntityBase.Id) && Config.App.NextIdType == NextIdType.AutoInteger)
+        //    type = "Long";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "VarChar(50)";
         else if (item.Type == FieldType.Number)
