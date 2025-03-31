@@ -33,7 +33,7 @@
 .kui-nav-tabs .ant-tabs-tab-remove {margin-left:0;}
 .kui-nav-tabs .ant-tabs-tab-remove .anticon {margin-right:0;}
 .ant-layout-sider + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {
-    position:absolute;top:0;left:250px;right:350px;height:54px;border-bottom:0;transition:all 0.2s;
+    position:absolute;top:0;left:250px;right:350px;height:54px;border-bottom:0;transition:all 0.2s;z-index:1000;
 }
 .ant-layout-sider-collapsed + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:110px;}
 .kui-menu-float + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:85px;}
