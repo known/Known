@@ -6,7 +6,7 @@
         <Layout Class="@LayoutClass">
             <Header Class="@HeaderClass">
                 <div class="left">
-                    <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
+                    <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Parent="root" />
                 </div>
                 <TopNavbar OnSetting="OnSetting" />
@@ -23,7 +23,7 @@
             @if (Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
             {
                 <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
-                    <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
+                    <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
                     </div>
@@ -32,7 +32,7 @@
             else
             {
                 <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
-                    <div class="kui-logo" @onclick="e=>OnLogoClick()"></div>
+                    <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
                     </div>
@@ -58,61 +58,3 @@
         </Layout>
     }
 </KLayout>
-
-@code {
-    private bool collapsed = false;
-
-    private KLayout layout;
-    private MainMenu menu;
-    private MainBody body;
-    private MenuInfo root;
-
-    private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(Context.UserSetting.Size).BuildClass();
-    private string HeaderClass => CssBuilder.Default("kui-header")
-                                            .AddClass("kui-menu-dark", Context.UserSetting.MenuTheme == "Dark")
-                                            .BuildClass();
-    private string MenuClass => CssBuilder.Default()
-                                          .AddClass("kui-menu-dark", Context.UserSetting.MenuTheme == "Dark")
-                                          .AddClass("kui-menu-float", Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
-                                          .BuildClass();
-
-    /// <summary>
-    /// 取得或设置子组件内容。
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <inheritdoc />
-    protected override Task OnInitAsync()
-    {
-        collapsed = Context.IsMobile;
-        return base.OnInitAsync();
-    }
-
-    private void OnLoadMenus(List<MenuInfo> menus)
-    {
-        root = Config.App.GetRootMenu();
-        root.AddChildren(menus);
-        menu?.SetData(root);
-    }
-
-    private void OnReloadPage()
-    {
-        body?.ReloadPage();
-    }
-
-    private void OnToggle(bool collapsed)
-    {
-        this.collapsed = collapsed;
-        StateChanged();
-    }
-
-    private void OnLogoClick()
-    {
-        Navigation.NavigateTo("/");
-    }
-
-    private void OnSetting()
-    {
-        layout?.ShowSetting();
-    }
-}

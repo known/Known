@@ -2,10 +2,10 @@
 
 <Breadcrumb>
     <BreadcrumbItem>
-        <a href="/">
-            @* <Icon Type="home" Style="cursor:pointer;" /> *@
-            <span style="cursor:pointer;">@Language.Home</span>
-        </a>
+        <span style="cursor:pointer;" @onclick="OnHomeClick">
+            @* <Icon Type="home" /> *@
+            <span>@Language.Home</span>
+        </span>
     </BreadcrumbItem>
     @if (Current != null)
     {
@@ -33,7 +33,3 @@
         }
     }
 </Breadcrumb>
-
-@code {
-    [Parameter] public MenuInfo Current { get; set; }
-}
