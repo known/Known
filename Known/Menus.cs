@@ -219,6 +219,9 @@ public class MenuInfo
 
     private static string GetPageUrl(string url)
     {
+        if (Config.RouteTypes.ContainsKey(url))
+            return url;
+
         return url.StartsWith("/") ? $"/page{url}" : $"/page/{url}";
     }
 }
