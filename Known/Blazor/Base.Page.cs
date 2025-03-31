@@ -8,9 +8,14 @@ namespace Known.Blazor;
 public class BasePage : BaseComponent, IReuseTabsPage
 {
     /// <summary>
+    /// 取得当前页面菜单信息。
+    /// </summary>
+    public MenuInfo Menu { get; private set; }
+
+    /// <summary>
     /// 取得页面模块名称。
     /// </summary>
-    public string PageName => Language?.GetString(Context.Current);
+    public string PageName => Language?.GetString(Menu);
 
     /// <summary>
     /// 获取标签页标题模板。
@@ -18,12 +23,28 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <returns>标签页标题模板。</returns>
     public virtual RenderFragment GetPageTitle()
     {
-        var menu = Context?.Current;
-        return GetPageTitle(menu?.Icon, PageName);
+        return GetPageTitle(Menu?.Icon, PageName);
+    }
+
+    /// <summary>
+    /// 异步保存表格模型配置信息。
+    /// </summary>
+    /// <param name="info">表格模型配置信息。</param>
+    /// <returns></returns>
+    public virtual Task<Result> SaveSettingAsync(AutoPageInfo info)
+    {
+        if (Menu.Plugins == null)
+            Menu.Plugins = [];
+        Menu.Plugins.AddPlugin(info);
+        return Platform.SaveMenuAsync(Menu);
     }
 
     /// <inheritdoc />
-    protected override Task OnInitAsync() => OnInitPageAsync();
+    protected override Task OnInitAsync()
+    {
+        Menu = Context.Current;
+        return OnInitPageAsync();
+    }
 
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
