@@ -1,5 +1,8 @@
 ﻿namespace Known.Internals;
 
+/// <summary>
+/// 系统设置抽屉表单组件类。
+/// </summary>
 public partial class SettingForm
 {
     private readonly Dictionary<string, string> Colors = new()

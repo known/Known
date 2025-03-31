@@ -5,25 +5,3 @@
     <span>@Criteria.PageIndex / @PageCount</span>
     <Button Type="@ButtonType.Link" Disabled="!CanNext" Icon="right-circle" OnClick="OnNextAsync" Style="width:45px;" />
 </div>
-
-@code {
-    private int PageCount => (int)Math.Ceiling(TotalCount * 1.0 / Criteria.PageSize);
-    private bool CanPrevious => Criteria.PageIndex > 1;
-    private bool CanNext => Criteria.PageIndex >= 1 && Criteria.PageIndex < PageCount;
-
-    [Parameter] public int TotalCount { get; set; }
-    [Parameter] public PagingCriteria Criteria { get; set; }
-    [Parameter] public Func<Task> OnChanged { get; set; }
-
-    private async Task OnPreviousAsync()
-    {
-        Criteria.PageIndex--;
-        await OnChanged?.Invoke();
-    }
-
-    private async Task OnNextAsync()
-    {
-        Criteria.PageIndex++;
-        await OnChanged?.Invoke();
-    }
-}

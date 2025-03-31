@@ -15,22 +15,3 @@
         }
     }
 </ul>
-
-@code {
-    private string current;
-
-    [Parameter] public List<MenuInfo> Items { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        current = Items?.FirstOrDefault()?.Id;
-    }
-
-    private void OnItemClick(MenuInfo item)
-    {
-        current = item.Id;
-        Context.NavigateTo(item);
-    }
-}

@@ -26,30 +26,3 @@
         }
     }
 </FieldItem>
-
-@code {
-    private string itemType = "String";
-    private string SelectStyle => IsInline ? "width:194px;" : "";
-
-    [Parameter] public string Label { get; set; }
-    [Parameter] public bool IsInline { get; set; }
-    [Parameter] public ColumnInfo Item { get; set; }
-    [Parameter] public Dictionary<string, QueryInfo> Data { get; set; }
-    [Parameter] public Func<Task> OnSearch { get; set; }
-
-    protected override Task OnInitAsync()
-    {
-        if (Item.Property != null)
-            itemType = Item.Property.PropertyType.ToString();
-        return base.OnInitAsync();
-    }
-
-    private async Task OnSelectChangedAsync(string id, string value)
-    {
-        if (value == Data[id].Value)
-            return;
-
-        Data[id].Value = value;
-        await OnSearch?.Invoke();
-    }
-}

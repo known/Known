@@ -22,13 +22,3 @@
         }
     </Card>
 </div>
-
-@code {
-    [Parameter] public List<string> Menus { get; set; }
-
-    public void SetMenus(List<string> menus)
-    {
-        Menus = menus;
-        StateChanged();
-    }
-}

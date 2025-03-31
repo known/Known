@@ -16,23 +16,3 @@
         </div>
     </div>
 </div>
-
-@code {
-    private KChart chart;
-    private bool isLoad;
-
-    [Parameter] public string Title { get; set; }
-
-    public async Task SetOptionAsync(ChartCardOption option)
-    {
-        isLoad = true;
-        await StateChangedAsync();
-        var info = option?.Charts?.FirstOrDefault();
-        if (info?.Type == "Line")
-            await chart?.ShowLineAsync(info?.Title, info?.Datas);
-        else if (info?.Type == "Bar")
-            await chart?.ShowBarAsync(info?.Title, info?.Datas);
-        else if (info?.Type == "Pie")
-            await chart?.ShowPieAsync(info?.Title, info?.Datas);
-    }
-}

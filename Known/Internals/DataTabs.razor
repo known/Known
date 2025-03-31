@@ -29,33 +29,3 @@
         @Model.Right
     </TabBarExtraContentRight>
 </Tabs>
-
-@code {
-    private string current;
-
-    [Parameter] public TabModel Model { get; set; }
-    [Parameter] public Action<string> OnChange { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        Model.OnStateChanged = StateChanged;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        try
-        {
-            await base.OnAfterRenderAsync(firstRender);
-            if (current != Model.Current)
-            {
-                Model.Current = current;
-                Model.Change();
-            }
-        }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
-        }
-    }
-}

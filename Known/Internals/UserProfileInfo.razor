@@ -16,30 +16,3 @@
         <li><Icon Type="comment" /><span>@user?.Note</span></li>
     </ul>
 </div>
-
-@code {
-    private UserInfo user;
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        user = CurrentUser;
-    }
-
-    private async Task OnFileChangedAsync(InputFileChangeEventArgs e)
-    {
-        var file = await e.File.CreateFileAsync();
-        var info = new AvatarInfo { UserId = CurrentUser?.Id, File = file };
-        var result = await Admin?.UpdateAvatarAsync(info);
-        if (!result.IsValid)
-        {
-            UI.Error(result.Message);
-            return;
-        }
-
-        var user = CurrentUser;
-        user.AvatarUrl = result.DataAs<string>();
-        App?.SignInAsync(user);
-        Navigation.Refresh(true);
-    }
-}

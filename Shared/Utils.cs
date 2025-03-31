@@ -710,7 +710,7 @@ public sealed class Utils
             return null;
 
         var bytes = new byte[stream.Length];
-        stream.Read(bytes, 0, bytes.Length);
+        stream.ReadExactly(bytes);
         stream.Seek(0, SeekOrigin.Begin);
         return bytes;
     }

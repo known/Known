@@ -1,31 +1,12 @@
-﻿@page "/app/mine"
-@inherits AppPage
+﻿namespace Known.Pages;
 
-<div style="padding:50px 30px;text-align:center;">
-    <Avatar Size="@("5rem")" Src="@user?.AvatarUrl" />
-    <div style="margin-top:10px;">@user?.Name (@user?.UserName)</div>
-</div>
-<div style="padding:20px;">
-    <AppMenuList DataSource="items">
-        <ListItem OnClick="()=>OnItemClick(context)">
-            <div>
-                <Icon Type="@context.Icon" />
-                <span>@context.Name</span>
-            </div>
-            @if (!string.IsNullOrWhiteSpace(context.Url))
-            {
-                <Icon Type="right" />
-            }
-        </ListItem>
-    </AppMenuList>
-</div>
-<div style="padding:20px;">
-    <Button Type="@ButtonType.Primary" Danger Block OnClick="e=>App.Logout()">@Language["Nav.Exit"]</Button>
-</div>
-
-@code {
+/// <summary>
+/// 移动端我的页面组件类。
+/// </summary>
+public partial class AppMine
+{
     private UserInfo user;
-    private List<MenuInfo> items = [];
+    private readonly List<MenuInfo> items = [];
 
     /// <inheritdoc />
     protected override async Task OnInitAsync()

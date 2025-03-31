@@ -7,29 +7,3 @@
         <span>@CurrentUser?.Name</span>
     </div>
 </AntDropdown>
-
-@code {
-    private DropdownModel model = new();
-    private string AvatarUrl => CurrentUser?.AvatarUrl ?? "img/face1.png";
-
-    [CascadingParameter] private TopNavbar Topbar { get; set; }
-
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        model.Items = new List<ActionInfo>();
-        model.Items.Add(new ActionInfo { Id = "profile", Name = Language["Nav.Profile"], Icon = "user", Url = "/profile" });
-        model.Items.Add(new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" });
-        model.OnItemClick = OnItemClickAsync;
-    }
-
-    private Task OnItemClickAsync(ActionInfo item)
-    {
-        if (!string.IsNullOrWhiteSpace(item.Url))
-            Context.NavigateTo(item);
-        else if (item.Id == "logout")
-            App?.Logout();
-        Topbar?.OnActionClick?.Invoke(item);
-        return Task.CompletedTask;
-    }
-}

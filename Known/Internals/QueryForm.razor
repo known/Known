@@ -60,26 +60,3 @@
         </QueryDataForm>
     } 
 }
-
-@code {
-    private bool _expand = false;
-    private QueryDataForm form;
-    private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
-
-    [Parameter] public TableModel Model { get; set; }
-    [Parameter] public bool AdvSearch { get; set; }
-
-    private async Task OnSearchAsync()
-    {
-        Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
-        await Model.SearchAsync();
-    }
-
-    private void ShowAdvSearch() => Model?.ShowAdvancedSearch(App);
-
-    private void OnReset()
-    {
-        Model?.SetDefaultQuery();
-        StateChanged();
-    }
-}

@@ -18,27 +18,3 @@
     </Tabs>
     @TabBottom
 </div>
-
-@code {
-    private string current;
-    private string activeKey;
-
-    [Parameter] public string PageName { get; set; }
-    [Parameter] public TableModel Query { get; set; }
-    [Parameter] public RenderFragment TabContent { get; set; }
-    [Parameter] public RenderFragment TabRight { get; set; }
-    [Parameter] public RenderFragment TabBottom { get; set; }
-    [Parameter] public Func<string, Task> OnChange { get; set; }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (current != activeKey)
-        {
-            current = activeKey;
-            if (OnChange != null)
-                await OnChange.Invoke(current);
-        }
-    }
-}

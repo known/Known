@@ -28,18 +28,3 @@
         }
     }
 </ul>
-
-@code {
-    private double Width => 100 / Count;
-
-    [Parameter] public int Count { get; set; } = 2;
-    [Parameter] public List<MenuInfo> Items { get; set; }
-
-    private void OnItemClick(MenuInfo item)
-    {
-        if (string.IsNullOrWhiteSpace(item.Url))
-            return;
-
-        Context.NavigateTo(item);
-    }
-}

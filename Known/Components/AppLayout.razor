@@ -15,7 +15,7 @@
                 @App?.CurrentMenu?.Name
             </div>
         }
-        <div class="@pageClass">
+        <div class="@PageClass">
             @ChildContent
         </div>
         @if (IsTab)
@@ -24,14 +24,3 @@
         }
     </div>
 </KLayout>
-
-@code {
-    private bool IsHome => Context.Url == "/app";
-    private bool IsTab => Context.Current?.Target == "Tab";
-    private string pageClass => CssBuilder.Default("kui-app-page")
-                                          .AddClass("nav", !IsHome)
-                                          .AddClass("tab", IsTab)
-                                          .BuildClass();
-
-    [Parameter] public RenderFragment ChildContent { get; set; }
-}
