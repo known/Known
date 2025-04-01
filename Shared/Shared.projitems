@@ -6,7 +6,7 @@
     <SharedGUID>1d2095d4-02d0-4e46-b464-d409fbe13696</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Shared</Import_RootNamespace>
+    <Import_RootNamespace>Known</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Dictionary.cs" />
@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attach.File.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attach.Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DbTableInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />

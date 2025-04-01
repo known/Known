@@ -8,7 +8,7 @@ class SqlServerProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'";
+        return "SELECT TABLE_NAME AS Id, TABLE_COMMENT AS Name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

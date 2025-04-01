@@ -5,20 +5,11 @@ class MySqlProvider(Database db) : DbProvider(db)
     internal override string GetTableSql(string dbName)
     {
         if (string.IsNullOrWhiteSpace(dbName))
-        {
-            var items = Database.ConnectionString.Split(';');
-            foreach (var item in items)
-            {
-                var names = item?.Split('=');
-                if (names != null && names.Length > 1 && (names[0] == "Initial Catalog" || names[0] == "Database"))
-                {
-                    dbName = names[1];
-                    break;
-                }
-            }
-        }
+            dbName = GetSchemaName(dbName);
 
-        return $"SELECT table_name FROM information_schema.tables WHERE table_schema='{dbName}' AND table_type='BASE TABLE'";
+        return @$"SELECT TABLE_NAME AS Id, TABLE_COMMENT AS Name 
+FROM INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_SCHEMA='{dbName}' AND TABLE_TYPE='BASE TABLE'";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
@@ -73,5 +64,21 @@ class MySqlProvider(Database db) : DbProvider(db)
             type += new string(' ', 16 - type.Length);
 
         return type;
+    }
+
+    private string GetSchemaName(string dbName)
+    {
+        var items = Database.ConnectionString.Split(';');
+        foreach (var item in items)
+        {
+            var names = item?.Split('=');
+            if (names != null && names.Length > 1 && (names[0] == "Initial Catalog" || names[0] == "Database"))
+            {
+                dbName = names[1];
+                break;
+            }
+        }
+
+        return dbName;
     }
 }

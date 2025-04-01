@@ -16,7 +16,10 @@ class OracleProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT table_name FROM user_tables";
+        return @"SELECT a.TABLE_NAME AS Id, b.COMMENTS AS Name 
+FROM ALL_TABLES a 
+LEFT JOIN ALL_TAB_COMMENTS b ON b.OWNER=a.OWNER AND b.TABLE_NAME=a.TABLE_NAME 
+WHERE a.OWNER NOT IN ('SYS', 'SYSTEM')";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

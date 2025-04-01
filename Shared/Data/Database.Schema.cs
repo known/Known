@@ -24,16 +24,48 @@ public partial class Database
     public virtual async Task<bool> ExistsAsync(Type type, bool isLoadTable = false)
     {
         if (isLoadTable)
-            Tables = await GetTablesAsync();
+            Tables = await GetTableNamesAsync();
         var tableName = Provider.GetTableName(type);
         return await ExistsTableAsync(tableName);
+    }
+
+    /// <summary>
+    /// 异步获取数据库所有数据表信息。
+    /// </summary>
+    /// <returns></returns>
+    public async Task<List<DbTableInfo>> GetTablesAsync()
+    {
+        var sql = Provider.GetTableSql(conn.Database);
+        if (string.IsNullOrWhiteSpace(sql))
+            return [];
+
+        await OpenAsync();
+        var tables = await QueryListAsync<DbTableInfo>(sql);
+        if (tables != null && tables.Count > 0)
+        {
+            foreach (var table in tables)
+            {
+                var info = new CommandInfo() { Text = $"select * from {table.Id} where 1=0" };
+                using var reader = await ExecuteReaderAsync(info);
+                var schema = reader.GetSchemaTable();
+                if (schema != null && schema.Rows.Count > 0)
+                {
+                    foreach (DataRow row in schema.Rows)
+                    {
+                        table.Fields.Add(CreateField(row));
+                    }
+                }
+            }
+        }
+        await CloseAsync();
+        return tables;
     }
 
     /// <summary>
     /// 异步获取数据库所有数据表名。
     /// </summary>
     /// <returns></returns>
-    public Task<List<string>> GetTablesAsync()
+    public Task<List<string>> GetTableNamesAsync()
     {
         var sql = Provider.GetTableSql("");
         if (string.IsNullOrWhiteSpace(sql))
@@ -119,7 +151,39 @@ public partial class Database
 
     private async Task<bool> ExistsTableAsync(string tableName)
     {
-        Tables ??= await GetTablesAsync();
+        Tables ??= await GetTableNamesAsync();
         return Tables.Exists(t => t.Equals(tableName, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static FieldInfo CreateField(DataRow row)
+    {
+        var id = Utils.ConvertTo<string>(row["ColumnName"]);
+        var type = Utils.ConvertTo<string>(row["DataType"]);
+        var typeName = Utils.ConvertTo<string>(row["DataTypeName"]);
+        var size = Utils.ConvertTo<int>(row["ColumnSize"]);
+        size = size < 0 ? 50 : size;
+        return new FieldInfo
+        {
+            Id = id,
+            Name = id,
+            Type = GetFieldType(id, type, typeName, size),
+            Length = size > 500 ? "" : $"{size}",
+            Required = !Utils.ConvertTo<bool>(row["AllowDBNull"]),
+            IsKey = Utils.ConvertTo<bool>(row["IsKey"])
+        };
+    }
+
+    private static FieldType GetFieldType(string id, string type, string typeName, int size)
+    {
+        if (type.Contains("DateTime") || typeName.Contains("time") || id.EndsWith("Time"))
+            return FieldType.DateTime;
+        else if (type.Contains("Date") || typeName.Contains("date") || id.EndsWith("Date"))
+            return FieldType.Date;
+        else if (type.Contains("Int32") || type.Contains("Int64"))
+            return FieldType.Number;
+        else if (typeName.Contains("text"))
+            return FieldType.TextArea;
+        else
+            return size > 500 ? FieldType.TextArea : FieldType.Text;
     }
 }

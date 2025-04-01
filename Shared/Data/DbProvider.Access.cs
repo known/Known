@@ -6,7 +6,7 @@ class AccessProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT Name FROM MSysObjects WHERE Type=1 AND Flags=0;";
+        return "SELECT Name AS Id, [Description] AS Name FROM MSysObjects WHERE Type=1 AND Flags=0";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

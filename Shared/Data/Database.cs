@@ -10,8 +10,8 @@ public partial class Database : IDisposable
     /// </summary>
     public const string DefaultConnName = "Default";
 
-    private IDbConnection conn;
-    private IDbTransaction trans;
+    private DbConnection conn;
+    private DbTransaction trans;
     private string TransId { get; set; }
 
     /// <summary>
@@ -175,7 +175,7 @@ public partial class Database : IDisposable
     /// <param name="info">命令信息对象。</param>
     /// <returns>数据库操作命令。</returns>
     /// <exception cref="ArgumentException">有事务，则连接不能为空</exception>
-    protected virtual IDbCommand GetDbCommandAsync(CommandInfo info)
+    protected virtual DbCommand GetDbCommandAsync(CommandInfo info)
     {
         info.IsClose = false;
         var cmd = conn.CreateCommand();
@@ -230,7 +230,7 @@ public partial class Database : IDisposable
     /// <returns></returns>
     public object FormatBoolean(bool value) => Provider?.FormatBoolean(value);
 
-    private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
+    private Task<DbCommand> PrepareCommandAsync(CommandInfo info)
     {
         DbMonitor.OnSql(info);
         var cmd = GetDbCommandAsync(info);
