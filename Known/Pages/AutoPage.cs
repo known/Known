@@ -8,7 +8,11 @@ public class AutoPage : BasePage
 {
     private IAutoPage page;
     private string pageRoute;
-    private string PageId { get; set; }
+
+    /// <summary>
+    /// 取得页面模块ID。
+    /// </summary>
+    public string PageId { get; private set; }
 
     /// <summary>
     /// 取得或设置页面路由。

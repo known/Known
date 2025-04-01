@@ -34,14 +34,14 @@ partial class AdminService
         return info;
     }
 
-    public Task<byte[]> GetImportRuleAsync(string bizId)
+    public async Task<byte[]> GetImportRuleAsync(string bizId)
     {
         byte[] data = null;
         var db = Database;
         if (bizId.StartsWith(ImportContext.AutoBizIdPrefix))
         {
             var id = bizId.Split('_')[1];
-            var param = AppData.GetAutoPageParameter(id);
+            var param = await db.GetAutoPageParameterAsync(id, "");
             data = GetImportRule(db.Context, param?.Form?.Fields);
         }
         else
@@ -60,7 +60,7 @@ partial class AdminService
                 data = GetImportRule(db.Context, fields);
             }
         }
-        return Task.FromResult(data);
+        return data;
     }
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
@@ -115,15 +115,18 @@ partial class AdminService
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");
         sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
-        sheet.MergeCells(0, 0, 1, fields.Count);
-        for (int i = 0; i < fields.Count; i++)
+        if (fields != null && fields.Count > 0)
         {
-            var field = fields[i];
-            var note = !string.IsNullOrWhiteSpace(field.Length) ? $"{field.Length}" : "";
-            sheet.SetColumnWidth(i, 13);
-            sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
-            var fontColor = field.Required ? Color.Red : Color.White;
-            sheet.SetCellValue(2, i, field.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
+            sheet.MergeCells(0, 0, 1, fields.Count);
+            for (int i = 0; i < fields.Count; i++)
+            {
+                var field = fields[i];
+                var note = !string.IsNullOrWhiteSpace(field.Length) ? $"{field.Length}" : "";
+                sheet.SetColumnWidth(i, 13);
+                sheet.SetCellValue(1, i, note, new StyleInfo { IsBorder = true, IsTextWrapped = true });
+                var fontColor = field.Required ? Color.Red : Color.White;
+                sheet.SetCellValue(2, i, field.Name, new StyleInfo { IsBorder = true, FontColor = fontColor, BackgroundColor = Utils.FromHtml("#6D87C1") });
+            }
         }
         sheet.SetRowHeight(1, 30);
         var stream = excel.SaveToStream();

@@ -4,7 +4,8 @@ class AutoImport(ImportContext context) : ImportBase(context)
 {
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
-        var param = AppData.GetAutoPageParameter(ImportContext.BizParam);
+        var database = Database;
+        var param = await database.GetAutoPageParameterAsync(ImportContext.BizParam, "");
         if (param == null)
             return Result.Error(Language.Required("EntityPlugin"));
 
@@ -33,7 +34,7 @@ class AutoImport(ImportContext context) : ImportBase(context)
         if (!result.IsValid)
             return result;
 
-        return await Database.TransactionAsync(Language.Import, async db =>
+        return await database.TransactionAsync(Language.Import, async db =>
         {
             foreach (var item in models)
             {

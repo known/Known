@@ -7,9 +7,14 @@
 public class AutoInfo<TData>
 {
     /// <summary>
-    /// 取得或设置页面模块ID或插件ID。
+    /// 取得或设置页面模块ID。
     /// </summary>
     public string PageId { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面插件ID。
+    /// </summary>
+    public string PluginId { get; set; }
 
     /// <summary>
     /// 取得或设置交互数据泛型对象。

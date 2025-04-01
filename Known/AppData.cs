@@ -40,7 +40,7 @@ public sealed class AppData
     /// </summary>
     /// <param name="id">模块ID。</param>
     /// <returns>模块信息。</returns>
-    public static ModuleInfo GetModule(string id)
+    internal static ModuleInfo GetModule(string id)
     {
         return Data.Modules?.FirstOrDefault(m => m.Id == id);
     }
@@ -90,34 +90,6 @@ public sealed class AppData
             return AppDefaultData.CreateAutoPage(pageType, types[0]);
 
         return null;
-    }
-
-    /// <summary>
-    /// 根据ID获取实体插件参数配置信息。
-    /// </summary>
-    /// <param name="id">模块ID或插件ID。</param>
-    /// <returns>实体插件参数配置信息。</returns>
-    public static AutoPageInfo GetAutoPageParameter(string id)
-    {
-        var module = GetModule(id);
-        if (module != null && module.Plugins != null)
-            return module.Plugins.GetPluginParameter<AutoPageInfo>();
-
-        var plugins = new List<PluginInfo>();
-        foreach (var item in Data.Modules)
-        {
-            if (item.Plugins != null && item.Plugins.Count > 0)
-                plugins.AddRange(item.Plugins);
-        }
-
-        var plugin = plugins.FirstOrDefault(p => p.Id == id);
-        if (plugin == null)
-            return null;
-
-        if (OnAutoPage != null)
-            return OnAutoPage.Invoke(plugin);
-
-        return Utils.FromJson<AutoPageInfo>(plugin.Setting);
     }
 
     #region AppData

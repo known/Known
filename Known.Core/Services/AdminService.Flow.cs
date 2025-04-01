@@ -25,7 +25,7 @@ partial class AdminService
             return new FlowInfo();
 
         var database = Database;
-        var info = GetFlowByModuleId(moduleId);
+        var info = await GetFlowByModuleIdAsync(database, moduleId);
         if (info == null)
             return new FlowInfo();
 
@@ -303,9 +303,9 @@ partial class AdminService
         });
     }
 
-    private static FlowInfo GetFlowByModuleId(string moduleId)
+    private static async Task<FlowInfo> GetFlowByModuleIdAsync(Database db, string moduleId)
     {
-        var param = AppData.GetAutoPageParameter(moduleId);
+        var param = await db.GetAutoPageParameterAsync(moduleId, "");
         return DataHelper.ToFlow(param?.FlowData);
     }
 
