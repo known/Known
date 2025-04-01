@@ -35,6 +35,9 @@ public partial class Database
     /// <returns></returns>
     public async Task<List<DbTableInfo>> GetTablesAsync()
     {
+        if (conn == null)
+            return [];
+
         var sql = Provider.GetTableSql(conn.Database);
         if (string.IsNullOrWhiteSpace(sql))
             return [];

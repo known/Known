@@ -156,6 +156,9 @@ public class DatabaseOption
         if (Databases == null || Databases.Count == 0)
             return null;
 
+        if (string.IsNullOrWhiteSpace(name))
+            name = Database.DefaultConnName;
+
         return Databases.FirstOrDefault(c => c.Name == name);
     }
 

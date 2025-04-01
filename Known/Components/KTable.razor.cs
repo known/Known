@@ -58,6 +58,7 @@ partial class KTable<TItem> : BaseComponent
         Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
         totalCount = Model.Result.TotalCount;
         dataSource = Model.Result.PageData;
+        Model.SetAutoColumns(dataSource);
         await StateChangedAsync();
         await Model.RefreshStatisAsync();
         Model.Criteria.IsQuery = false;

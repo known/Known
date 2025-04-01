@@ -76,6 +76,22 @@ partial class TableModel<TItem>
         QueryData[column.Id] = new QueryInfo(id, type, value);
     }
 
+    internal void SetAutoColumns(List<TItem> dataSource)
+    {
+        if (Columns != null && Columns.Count > 0) return;
+        if (!IsDictionary) return;
+        if (dataSource == null || dataSource.Count == 0) return;
+
+        var dic = dataSource as List<Dictionary<string, object>>;
+        foreach (var item in dic.FirstOrDefault())
+        {
+            var info = new ColumnInfo { Id = item.Key, Name = item.Key };
+            if (item.Value != null)
+                info.Width = item.Value.GetType().GetColumnWidth();
+            Columns.Add(info);
+        }
+    }
+
     internal List<ColumnInfo> GetUserColumns()
     {
         Context.UserTableSettings.TryGetValue(SettingId, out List<TableSettingInfo> settings);
