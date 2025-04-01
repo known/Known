@@ -88,4 +88,26 @@ public static class DictionaryExtension
             key = id.ToUpper();
         dic[key] = value;
     }
+
+    /// <summary>
+    /// 根据字典对象自动获取表格栏位列表。
+    /// </summary>
+    /// <param name="value">字典对象</param>
+    /// <returns></returns>
+    public static List<ColumnInfo> GetColumns(this Dictionary<string, object> value)
+    {
+        var columns = new List<ColumnInfo>();
+        foreach (var item in value)
+        {
+            var info = new ColumnInfo { Id = item.Key, Name = item.Key };
+            if (item.Value != null)
+            {
+                var type = item.Value.GetType();
+                info.Type = type.GetFieldType();
+                info.Width = type.GetColumnWidth();
+            }
+            columns.Add(info);
+        }
+        return columns;
+    }
 }

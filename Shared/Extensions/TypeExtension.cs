@@ -122,7 +122,12 @@ public static class TypeExtension
         return length;
     }
 
-    internal static int? GetColumnWidth(this Type type)
+    /// <summary>
+    /// 获取表格栏位宽度。
+    /// </summary>
+    /// <param name="type">栏位数据类型。</param>
+    /// <returns></returns>
+    public static int? GetColumnWidth(this Type type)
     {
         var fieldType = type.GetFieldType();
         if (fieldType == FieldType.Switch) return 60;
@@ -141,7 +146,12 @@ public static class TypeExtension
         return info.PropertyType.GetFieldType();
     }
 
-    internal static FieldType GetFieldType(this Type type)
+    /// <summary>
+    /// 获取栏位字段类型。
+    /// </summary>
+    /// <param name="type">栏位数据类型。</param>
+    /// <returns></returns>
+    public static FieldType GetFieldType(this Type type)
     {
         if (type == typeof(bool))
             return FieldType.Switch;

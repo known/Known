@@ -83,13 +83,9 @@ partial class TableModel<TItem>
         if (dataSource == null || dataSource.Count == 0) return;
 
         var dic = dataSource as List<Dictionary<string, object>>;
-        foreach (var item in dic.FirstOrDefault())
-        {
-            var info = new ColumnInfo { Id = item.Key, Name = item.Key };
-            if (item.Value != null)
-                info.Width = item.Value.GetType().GetColumnWidth();
-            Columns.Add(info);
-        }
+        var columns = dic.FirstOrDefault().GetColumns();
+        if (columns.Count > 0)
+            Columns.AddRange(columns);
     }
 
     internal List<ColumnInfo> GetUserColumns()
