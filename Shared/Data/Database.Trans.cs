@@ -24,11 +24,11 @@ public partial class Database
             catch (Exception ex)
             {
                 await db.RollbackTransAsync();
-                HandException(null, ex);
                 if (ex is SystemException)
                     return Result.Error(ex.Message);
-                else
-                    return Result.Error(Context?.Language["Tip.TransError"]);
+
+                HandException(null, ex);
+                return Result.Error(ex.Message);
             }
             finally
             {
