@@ -66,7 +66,7 @@ public partial class Database
         var fields = new List<FieldInfo>();
         var info = new CommandInfo() { Text = $"select * from {tableName} where 1=0" };
         using var reader = await ExecuteReaderAsync(info);
-        var schema = reader.GetSchemaTable();
+        var schema = reader?.GetSchemaTable();
         if (schema != null && schema.Rows.Count > 0)
         {
             foreach (DataRow row in schema.Rows)
@@ -173,10 +173,10 @@ public partial class Database
 
     private static FieldInfo CreateField(DataRow row)
     {
-        var id = Utils.ConvertTo<string>(row["ColumnName"]);
-        var type = Utils.ConvertTo<string>(row["DataType"]);
-        var typeName = Utils.ConvertTo<string>(row["DataTypeName"]);
-        var size = Utils.ConvertTo<int>(row["ColumnSize"]);
+        var id = row.GetValue<string>("ColumnName");
+        var type = row.GetValue<string>("DataType");
+        var typeName = row.GetValue<string>("DataTypeName");
+        var size = row.GetValue<int>("ColumnSize");
         size = size < 0 ? 50 : size;
         return new FieldInfo
         {
@@ -184,20 +184,20 @@ public partial class Database
             Name = id,
             Type = GetFieldType(id, type, typeName, size),
             Length = size > 500 ? "" : $"{size}",
-            Required = !Utils.ConvertTo<bool>(row["AllowDBNull"]),
-            IsKey = Utils.ConvertTo<bool>(row["IsKey"])
+            Required = !row.GetValue<bool>("AllowDBNull"),
+            IsKey = row.GetValue<bool>("IsKey")
         };
     }
 
     private static FieldType GetFieldType(string id, string type, string typeName, int size)
     {
-        if (type.Contains("DateTime") || typeName.Contains("time") || id.EndsWith("Time"))
+        if (type?.Contains("DateTime") == true || typeName?.Contains("time") == true || id?.EndsWith("Time") == true)
             return FieldType.DateTime;
-        else if (type.Contains("Date") || typeName.Contains("date") || id.EndsWith("Date"))
+        else if (type?.Contains("Date") == true || typeName?.Contains("date") == true || id?.EndsWith("Date") == true)
             return FieldType.Date;
-        else if (type.Contains("Int32") || type.Contains("Int64"))
+        else if (type?.Contains("Int32") == true || type?.Contains("Int64") == true)
             return FieldType.Number;
-        else if (typeName.Contains("text"))
+        else if (typeName?.Contains("text") == true)
             return FieldType.TextArea;
         else
             return size > 500 ? FieldType.TextArea : FieldType.Text;

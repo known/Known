@@ -20,7 +20,11 @@ public partial class Database
     protected virtual Database CreateDatabase()
     {
         var database = new Database(loggerFactory);
-        database.SetDatabase(ConnectionName);
+        var info = DatabaseOption.Instance.GetDatabase(ConnectionName);
+        if (info != null)
+            database.SetDatabase(info);
+        else
+            database.SetDatabase(ConnectionName, DatabaseType, ConnectionString);
         database.Context = Context;
         database.User = User;
         return database;

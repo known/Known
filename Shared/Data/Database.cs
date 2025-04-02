@@ -114,14 +114,7 @@ public partial class Database : IDisposable
         if (info == null)
             return;
 
-        ConnectionName = info.Name;
-        DatabaseType = info.DatabaseType;
-        ConnectionString = info.ConnectionString;
-        provider = DbProvider.Create(this);
-
-        var factory = DbProviderFactories.GetFactory(DatabaseType.ToString());
-        conn = factory?.CreateConnection();
-        conn.ConnectionString = ConnectionString;
+        SetDatabase(info.Name, info.DatabaseType, info.ConnectionString);
     }
 
     /// <summary>
@@ -229,6 +222,17 @@ public partial class Database : IDisposable
     /// <param name="value">布尔值。</param>
     /// <returns></returns>
     public object FormatBoolean(bool value) => Provider?.FormatBoolean(value);
+
+    private void SetDatabase(string connectionName, DatabaseType databaseType, string connectionString)
+    {
+        ConnectionName = connectionName;
+        DatabaseType = databaseType;
+        ConnectionString = connectionString;
+        provider = DbProvider.Create(this);
+        var factory = DbProviderFactories.GetFactory(DatabaseType.ToString());
+        conn = factory?.CreateConnection();
+        conn.ConnectionString = ConnectionString;
+    }
 
     private Task<DbCommand> PrepareCommandAsync(CommandInfo info)
     {

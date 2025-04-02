@@ -17,7 +17,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             return new PagingResult<Dictionary<string, object>>();
 
         criteria.SetQuery(nameof(EntityBase.CompNo), QueryType.Equal, CurrentUser?.CompNo);
-        var db = database.GetDatabase(autoPage);
+        var db = await database.GetDatabaseAsync(autoPage);
         return await db.QueryPageAsync(tableName, criteria);
     }
 
@@ -29,7 +29,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (string.IsNullOrWhiteSpace(tableName))
             return [];
 
-        var db = database.GetDatabase(autoPage);
+        var db = await database.GetDatabaseAsync(autoPage);
         return await db.QueryByIdAsync(tableName, id);
     }
 
@@ -45,7 +45,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             return Result.Error(Language.SelectOneAtLeast);
 
         var oldFiles = new List<string>();
-        var database1 = database.GetDatabase(autoPage);
+        var database1 = await database.GetDatabaseAsync(autoPage);
         var result = await database1.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in info.Data)
@@ -75,7 +75,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (!vr.IsValid)
             return vr;
 
-        var database1 = database.GetDatabase(autoPage);
+        var database1 = await database.GetDatabaseAsync(autoPage);
         return await database1.TransactionAsync(Language.Save, async db =>
         {
             var id = model.GetValue<string>(nameof(EntityBase.Id));
@@ -129,7 +129,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     {
         var database = Database;
         var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
-        var database1 = database.GetDatabase(autoPage);
+        var database1 = await database.GetDatabaseAsync(autoPage);
         // autoPage为空时，为Admin插件创建表，表名取info.PageId
         return await database1.CreateTableAsync(autoPage?.Script ?? info.PageId, info.Data);
     }

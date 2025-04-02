@@ -107,14 +107,14 @@ public static class DataExtension
         return MigrateHelper.MigrateDataAsync(db);
     }
 
-    internal static Database GetDatabase(this Database database, AutoPageInfo info)
+    internal static async Task<Database> GetDatabaseAsync(this Database database, AutoPageInfo info)
     {
-        if (info == null)
+        if (info == null || string.IsNullOrWhiteSpace(info.Database) || info.Database == database.ConnectionName)
             return database;
 
         if (CoreConfig.OnDatabase == null)
             return database;
 
-        return CoreConfig.OnDatabase.Invoke(database, info);
+        return await CoreConfig.OnDatabase.Invoke(database, info);
     }
 }
