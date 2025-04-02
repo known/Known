@@ -113,6 +113,11 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     public Dictionary<string, List<FileDataInfo>> Files { get; } = [];
 
     /// <summary>
+    /// 取得表单操作按钮信息列表，用于扩展表单底部按钮。
+    /// </summary>
+    public List<ActionInfo> Actions { get; } = [];
+
+    /// <summary>
     /// 取得表单CSS类名。
     /// </summary>
     public string ClassName
@@ -164,5 +169,15 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
             return false;
 
         return value.Count > 0;
+    }
+
+    /// <summary>
+    /// 添加操作列按钮。
+    /// </summary>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="onClick">点击事件委托。</param>
+    public void AddAction(string idOrName, EventCallback<MouseEventArgs> onClick)
+    {
+        Actions?.Add(new ActionInfo(idOrName) { OnClick = onClick });
     }
 }
