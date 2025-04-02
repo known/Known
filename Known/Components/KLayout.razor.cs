@@ -76,9 +76,13 @@ public partial class KLayout
             await OnThemeColorAsync();
     }
 
-    private Task OnResetSetting()
+    private async Task OnResetSetting()
     {
-        Context.UserSetting = new();
-        return OnSaveSetting();
+        var result = await Admin.ResetUserSettingAsync();
+        if (result.IsValid)
+        {
+            Context.UserSetting = result.DataAs<UserSettingInfo>();
+            await OnThemeColorAsync();
+        }
     }
 }

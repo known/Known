@@ -32,8 +32,9 @@ public partial class Database
     /// <summary>
     /// 异步获取数据库所有数据表信息。
     /// </summary>
+    /// <param name="isLoadSchema">是否加载表架构。</param>
     /// <returns></returns>
-    public async Task<List<DbTableInfo>> GetTablesAsync()
+    public async Task<List<DbTableInfo>> GetTablesAsync(bool isLoadSchema = false)
     {
         if (conn == null)
             return [];
@@ -44,24 +45,36 @@ public partial class Database
 
         await OpenAsync();
         var tables = await QueryListAsync<DbTableInfo>(sql);
-        if (tables != null && tables.Count > 0)
+        if (tables != null && tables.Count > 0 && isLoadSchema)
         {
             foreach (var table in tables)
             {
-                var info = new CommandInfo() { Text = $"select * from {table.Id} where 1=0" };
-                using var reader = await ExecuteReaderAsync(info);
-                var schema = reader.GetSchemaTable();
-                if (schema != null && schema.Rows.Count > 0)
-                {
-                    foreach (DataRow row in schema.Rows)
-                    {
-                        table.Fields.Add(CreateField(row));
-                    }
-                }
+                table.Fields = await GetTableFieldsAsync(table.Id);
             }
         }
         await CloseAsync();
         return tables;
+    }
+
+    /// <summary>
+    /// 异步获取表字段架构信息列表。
+    /// </summary>
+    /// <param name="tableName">数据库表名。</param>
+    /// <returns></returns>
+    public async Task<List<FieldInfo>> GetTableFieldsAsync(string tableName)
+    {
+        var fields = new List<FieldInfo>();
+        var info = new CommandInfo() { Text = $"select * from {tableName} where 1=0" };
+        using var reader = await ExecuteReaderAsync(info);
+        var schema = reader.GetSchemaTable();
+        if (schema != null && schema.Rows.Count > 0)
+        {
+            foreach (DataRow row in schema.Rows)
+            {
+                fields.Add(CreateField(row));
+            }
+        }
+        return fields;
     }
 
     /// <summary>

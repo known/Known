@@ -30,7 +30,6 @@ public class UserSettingInfo
     public UserSettingInfo()
     {
         LayoutMode = Known.LayoutMode.Vertical.ToString();
-        Config.OnSetting?.Invoke(this);
     }
 
     /// <summary>

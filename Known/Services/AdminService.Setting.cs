@@ -15,6 +15,12 @@ public partial interface IAdminService
     /// <param name="info">设置表单信息。</param>
     /// <returns>保存结果。</returns>
     Task<Result> SaveUserSettingAsync(SettingFormInfo info);
+
+    /// <summary>
+    /// 异步重置用户系统设置信息。
+    /// </summary>
+    /// <returns>重置结果。</returns>
+    Task<Result> ResetUserSettingAsync();
 }
 
 partial class AdminService
@@ -31,6 +37,12 @@ partial class AdminService
             Configs[info.BizType] = Utils.ToJson(info.BizData);
         return Result.SuccessAsync(Language.SaveSuccess);
     }
+
+    public Task<Result> ResetUserSettingAsync()
+    {
+        var info = new UserSettingInfo();
+        return Result.SuccessAsync("重置成功！", info);
+    }
 }
 
 partial class AdminClient
@@ -43,5 +55,10 @@ partial class AdminClient
     public Task<Result> SaveUserSettingAsync(SettingFormInfo info)
     {
         return Http.PostAsync("/Admin/SaveUserSetting", info);
+    }
+
+    public Task<Result> ResetUserSettingAsync()
+    {
+        return Http.PostAsync("/Admin/ResetUserSetting");
     }
 }

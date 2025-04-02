@@ -13,11 +13,6 @@ public partial class Config
     public static List<MenuAttribute> Menus { get; } = [];
 
     /// <summary>
-    /// 取得或设置默认系统设置方法委托，用于配置系统默认设置。
-    /// </summary>
-    public static Action<UserSettingInfo> OnSetting { get; set; }
-
-    /// <summary>
     /// 取得或设置操作按钮信息列表。
     /// </summary>
     public static List<ActionInfo> Actions { get; set; } = [];

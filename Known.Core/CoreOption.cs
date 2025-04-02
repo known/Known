@@ -73,6 +73,11 @@ public class CoreOption
     public Action<DatabaseOption> Database { get; set; }
 
     /// <summary>
+    /// 取得或设置默认用户系统设置信息对象。
+    /// </summary>
+    public UserSettingInfo UserSetting { get; set; } = new();
+
+    /// <summary>
     /// 取得或设置微信配置信息。
     /// </summary>
     public WeixinConfigInfo Weixin { get; set; }

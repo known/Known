@@ -77,6 +77,7 @@ partial class AdminService
             Codes = await db.GetDictionariesAsync(),
             Actions = AppData.GetActions()
         };
+        info.UserSetting ??= CoreOption.Instance.UserSetting.Clone();
         if (CoreConfig.OnAdmin != null)
             await CoreConfig.OnAdmin.Invoke(db, info);
         await db.CloseAsync();

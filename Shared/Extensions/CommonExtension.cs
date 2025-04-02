@@ -39,6 +39,18 @@ public static class CommonExtension
     }
 
     /// <summary>
+    /// 采用JSON序列化方式克隆对象新实例。
+    /// </summary>
+    /// <typeparam name="T">对象类型。</typeparam>
+    /// <param name="obj">原对象。</param>
+    /// <returns>新对象。</returns>
+    public static T Clone<T>(this T obj)
+    {
+        var json = Utils.ToJson(obj);
+        return Utils.FromJson<T>(json);
+    }
+
+    /// <summary>
     /// 合并两个对象。
     /// </summary>
     /// <param name="obj1">对象1。</param>

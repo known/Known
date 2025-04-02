@@ -28,4 +28,15 @@ partial class AdminService
         }
         return Result.Success(Language.SaveSuccess);
     }
+
+    public async Task<Result> ResetUserSettingAsync()
+    {
+        var result = await SaveUserSettingAsync(new SettingFormInfo
+        {
+            BizType = Constants.UserSetting,
+            BizData = null
+        });
+        result.Data = CoreOption.Instance.UserSetting.Clone();
+        return result;
+    }
 }
