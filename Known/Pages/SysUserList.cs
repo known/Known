@@ -198,7 +198,6 @@ class UserForm : BaseForm<UserDataInfo>
         SaveClose = UIConfig.UserFormTabs.Count == 0;
         ShowAction = UIConfig.UserFormTabs.Count > 0;
         Model.Header = b => b.Alert(Language.GetString("Tip.UserDefaultPwd").Replace("{password}", defaultPassword));
-        Model.Initialize();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
     }
