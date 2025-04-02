@@ -49,4 +49,21 @@ public class AutoPageInfo
     /// 取得或设置无代码表单配置信息。
     /// </summary>
     public FormInfo Form { get; set; } = new();
+
+    /// <summary>
+    /// 转换成实体信息对象。
+    /// </summary>
+    /// <returns></returns>
+    public EntityInfo ToEntity()
+    {
+        if (!string.IsNullOrWhiteSpace(EntityData))
+            return DataHelper.ToEntity(EntityData);
+
+        return new EntityInfo
+        {
+            Id = Script,
+            Name = Name,
+            Fields = [.. Form?.Fields?.Select(f => f.ToField())]
+        };
+    }
 }

@@ -24,6 +24,37 @@ public static class DataExtension
     }
 
     /// <summary>
+    /// 根据ID获取实体插件参数配置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="moduleId">模块ID。</param>
+    /// <param name="pluginId">插件ID。</param>
+    /// <returns>实体插件参数配置信息。</returns>
+    public static async Task<AutoPageInfo> GetAutoPageAsync(this Database db, string moduleId, string pluginId)
+    {
+        var entity = await db.QueryByIdAsync<SysModule>(moduleId);
+        var module = entity?.ToModuleInfo();
+        if (module != null && module.Plugins != null && module.Plugins.Count > 0)
+            return module.Plugins.GetPluginParameter<AutoPageInfo>(pluginId);
+
+        var plugins = new List<PluginInfo>();
+        foreach (var item in AppData.Data.Modules)
+        {
+            if (item.Plugins != null && item.Plugins.Count > 0)
+                plugins.AddRange(item.Plugins);
+        }
+
+        var plugin = plugins.FirstOrDefault(p => p.Id == pluginId);
+        if (plugin == null)
+            return null;
+
+        if (AppData.OnAutoPage != null)
+            return AppData.OnAutoPage.Invoke(plugin);
+
+        return Utils.FromJson<AutoPageInfo>(plugin.Setting);
+    }
+
+    /// <summary>
     /// 异步创建数据表。
     /// </summary>
     /// <param name="db">数据库对象。</param>
@@ -76,34 +107,14 @@ public static class DataExtension
         return MigrateHelper.MigrateDataAsync(db);
     }
 
-    /// <summary>
-    /// 根据ID获取实体插件参数配置信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="moduleId">模块ID。</param>
-    /// <param name="pluginId">插件ID。</param>
-    /// <returns>实体插件参数配置信息。</returns>
-    public static async Task<AutoPageInfo> GetAutoPageParameterAsync(this Database db, string moduleId, string pluginId)
+    internal static Database GetDatabase(this Database database, AutoPageInfo info)
     {
-        var entity = await db.QueryByIdAsync<SysModule>(moduleId);
-        var module = entity?.ToModuleInfo();
-        if (module != null && module.Plugins != null)
-            return module.Plugins.GetPluginParameter<AutoPageInfo>(pluginId);
+        if (info == null)
+            return database;
 
-        var plugins = new List<PluginInfo>();
-        foreach (var item in AppData.Data.Modules)
-        {
-            if (item.Plugins != null && item.Plugins.Count > 0)
-                plugins.AddRange(item.Plugins);
-        }
+        if (CoreConfig.OnDatabase == null)
+            return database;
 
-        var plugin = plugins.FirstOrDefault(p => p.Id == pluginId);
-        if (plugin == null)
-            return null;
-
-        if (AppData.OnAutoPage != null)
-            return AppData.OnAutoPage.Invoke(plugin);
-
-        return Utils.FromJson<AutoPageInfo>(plugin.Setting);
+        return CoreConfig.OnDatabase.Invoke(database, info);
     }
 }

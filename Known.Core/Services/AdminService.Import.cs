@@ -41,7 +41,7 @@ partial class AdminService
         if (bizId.StartsWith(ImportContext.AutoBizIdPrefix))
         {
             var id = bizId.Split('_')[1];
-            var param = await db.GetAutoPageParameterAsync(id, "");
+            var param = await db.GetAutoPageAsync(id, "");
             data = GetImportRule(db.Context, param?.Form?.Fields);
         }
         else

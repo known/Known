@@ -139,27 +139,19 @@ public partial class UIService
     {
         builder.FormAction(() =>
         {
-            builder.Div("left", () =>
+            if (model.Actions != null && model.Actions.Count > 0)
             {
-                if (model.FooterLeft != null)
-                    builder.Fragment(model.FooterLeft);
-            });
-            builder.Div("right", () =>
+                foreach (var action in model.Actions)
+                {
+                    builder.Button(action);
+                }
+            }
+            if (model.Page != null)
             {
-                if (model.Actions != null && model.Actions.Count > 0)
-                {
-                    foreach (var action in model.Actions)
-                    {
-                        builder.Button(action);
-                    }
-                }
-                if (model.Page != null)
-                {
-                    var language = model.Language;
-                    builder.Button(language?.OK, model.Page.Callback<MouseEventArgs>(e => model.SaveAsync()));
-                    builder.Button(language?.Cancel, model.Page.Callback<MouseEventArgs>(e => model.CloseAsync()), "default");
-                }
-            });
-        });
+                var language = model.Language;
+                builder.Button(language?.OK, model.Page.Callback<MouseEventArgs>(e => model.SaveAsync()));
+                builder.Button(language?.Cancel, model.Page.Callback<MouseEventArgs>(e => model.CloseAsync()), "default");
+            }
+        }, model.FooterLeft);
     }
 }

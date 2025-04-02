@@ -51,9 +51,14 @@ public static class FormExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">子内容委托。</param>
-    public static void FormAction(this RenderTreeBuilder builder, Action child)
+    /// <param name="left">左侧内容委托。</param>
+    public static void FormAction(this RenderTreeBuilder builder, Action child, RenderFragment left = null)
     {
-        builder.Div("kui-form-action", child);
+        builder.Div("kui-form-action", () =>
+        {
+            builder.Div("left", () => builder.Fragment(left));
+            builder.Div("right", child);
+        });
     }
 
     /// <summary>

@@ -305,7 +305,7 @@ partial class AdminService
 
     private static async Task<FlowInfo> GetFlowByModuleIdAsync(Database db, string moduleId)
     {
-        var param = await db.GetAutoPageParameterAsync(moduleId, "");
+        var param = await db.GetAutoPageAsync(moduleId, "");
         return DataHelper.ToFlow(param?.FlowData);
     }
 

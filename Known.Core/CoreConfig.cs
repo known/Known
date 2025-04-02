@@ -26,4 +26,9 @@ public class CoreConfig
     /// 取得或设置迁移系统配置数据委托。
     /// </summary>
     public static Func<Database, Task> OnMigrateAppData { get; set; }
+
+    /// <summary>
+    /// 取得或设置无代码插件数据服务关联数据库委托，用于根据插件获取关联的数据库对象。
+    /// </summary>
+    public static Func<Database, AutoPageInfo, Database> OnDatabase { get; set; }
 }

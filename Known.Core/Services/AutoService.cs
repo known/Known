@@ -6,38 +6,38 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     public async Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
         var database = Database;
+        var pageId = criteria.GetParameter<string>(nameof(AutoInfo<object>.PageId));
+        var pluginId = criteria.GetParameter<string>(nameof(AutoInfo<object>.PluginId));
+        var autoPage = await database.GetAutoPageAsync(pageId, pluginId);
         var tableName = criteria.GetParameter<string>("TableName");
         if (string.IsNullOrWhiteSpace(tableName))
-        {
-            var pageId = criteria.GetParameter<string>(nameof(AutoInfo<object>.PageId));
-            var pluginId = criteria.GetParameter<string>(nameof(AutoInfo<object>.PluginId));
-            var entity = await GetEntityByModuleIdAsync(database, pageId, pluginId);
-            tableName = entity?.Id;
-        }
+            tableName = autoPage?.ToEntity()?.Id;
 
         if (string.IsNullOrWhiteSpace(tableName))
             return new PagingResult<Dictionary<string, object>>();
 
         criteria.SetQuery(nameof(EntityBase.CompNo), QueryType.Equal, CurrentUser?.CompNo);
-        return await database.QueryPageAsync(tableName, criteria);
+        var db = database.GetDatabase(autoPage);
+        return await db.QueryPageAsync(tableName, criteria);
     }
 
     public async Task<Dictionary<string, object>> GetModelAsync(string pageId, string id)
     {
         var database = Database;
-        var entity = await GetEntityByModuleIdAsync(database, pageId, "");
-        var tableName = entity?.Id;
+        var autoPage = await database.GetAutoPageAsync(pageId, "");
+        var tableName = autoPage?.ToEntity()?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return [];
 
-        return await database.QueryByIdAsync(tableName, id);
+        var db = database.GetDatabase(autoPage);
+        return await db.QueryByIdAsync(tableName, id);
     }
 
     public async Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
     {
         var database = Database;
-        var entity = await GetEntityByModuleIdAsync(database, info.PageId, info.PluginId);
-        var tableName = entity?.Id;
+        var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
+        var tableName = autoPage?.ToEntity()?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
@@ -45,7 +45,8 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             return Result.Error(Language.SelectOneAtLeast);
 
         var oldFiles = new List<string>();
-        var result = await database.TransactionAsync(Language.Delete, async db =>
+        var database1 = database.GetDatabase(autoPage);
+        var result = await database1.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in info.Data)
             {
@@ -63,9 +64,10 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     public async Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
         var database = Database;
-        var entity = await GetEntityByModuleIdAsync(database, info.PageId, info.PluginId);
+        var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
+        var entity = autoPage?.ToEntity();
         var tableName = entity?.Id;
-        if (entity == null || string.IsNullOrWhiteSpace(tableName))
+        if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
         var model = info.Model;
@@ -73,7 +75,8 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (!vr.IsValid)
             return vr;
 
-        return await database.TransactionAsync(Language.Save, async db =>
+        var database1 = database.GetDatabase(autoPage);
+        return await database1.TransactionAsync(Language.Save, async db =>
         {
             var id = model.GetValue<string>(nameof(EntityBase.Id));
             if (string.IsNullOrWhiteSpace(id))
@@ -122,27 +125,12 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         return Result.Success("保存成功！");
     }
 
-    public Task<Result> CreateTableAsync(AutoInfo<string> info)
+    public async Task<Result> CreateTableAsync(AutoInfo<string> info)
     {
-        var tableName = info.PageId;
-        var script = info.Data;
-        return Database.CreateTableAsync(tableName, script);
-    }
-
-    private static async Task<EntityInfo> GetEntityByModuleIdAsync(Database db, string moduleId, string pluginId)
-    {
-        var param = await db.GetAutoPageParameterAsync(moduleId, pluginId);
-        if (param == null)
-            return null;
-
-        if (!string.IsNullOrWhiteSpace(param.EntityData))
-            return DataHelper.ToEntity(param.EntityData);
-
-        return new EntityInfo
-        {
-            Id = param.Script,
-            Name = param.Name,
-            Fields = [.. param.Form.Fields.Select(f => f.ToField())]
-        };
+        var database = Database;
+        var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
+        var database1 = database.GetDatabase(autoPage);
+        // autoPage为空时，为Admin插件创建表，表名取info.PageId
+        return await database1.CreateTableAsync(autoPage?.Script ?? info.PageId, info.Data);
     }
 }
