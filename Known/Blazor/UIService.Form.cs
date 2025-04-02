@@ -51,14 +51,10 @@ public partial class UIService
             option.Width = model.Info.Width.Value;
 
         if (model.Footer != null)
-        {
             option.Footer = model.Footer;
-        }
         else
-        {
-            option.OnOk = e => model.SaveAsync();
-            option.OnCancel = e => model.CloseAsync();
-        }
+            option.Footer = BuildTree(b => BuildFormFooter(b, model));
+
         if (model.IsNoFooter && !model.Info?.ShowFooter == true)
             option.Footer = null;
         if (model.IsView)
@@ -113,15 +109,11 @@ public partial class UIService
         model.EnableEdit = true;
         return b =>
         {
+            var parameters = new Dictionary<string, object> { { nameof(BaseForm<TItem>.Model), model } };
             if (model.Type == null)
-            {
                 b.Form(model);
-            }
             else
-            {
-                var parameters = new Dictionary<string, object> { { nameof(BaseForm<TItem>.Model), model } };
                 b.Component(model.Type, parameters);
-            }
 
             if (isDrawer)
                 BuildDrawerFooter(b, model);
@@ -131,11 +123,8 @@ public partial class UIService
 
     private static void BuildDrawerFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-        if (model.IsView)
-            return;
-
-        if (model.IsNoFooter && !model.Info.ShowFooter)
-            return;
+        if (model.IsView) return;
+        if (model.IsNoFooter && !model.Info.ShowFooter) return;
 
         if (model.Footer != null)
         {
@@ -143,14 +132,34 @@ public partial class UIService
             return;
         }
 
-        if (model.Page == null)
-            return;
+        BuildFormFooter(builder, model);
+    }
 
-        var language = model.Language;
+    private static void BuildFormFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
+    {
         builder.FormAction(() =>
         {
-            builder.Button(language?.OK, model.Page.Callback<MouseEventArgs>(e => model.SaveAsync()));
-            builder.Button(language?.Cancel, model.Page.Callback<MouseEventArgs>(e => model.CloseAsync()), "default");
+            builder.Div("left", () =>
+            {
+                if (model.FooterLeft != null)
+                    builder.Fragment(model.FooterLeft);
+            });
+            builder.Div("right", () =>
+            {
+                if (model.Actions != null && model.Actions.Count > 0)
+                {
+                    foreach (var action in model.Actions)
+                    {
+                        builder.Button(action);
+                    }
+                }
+                if (model.Page != null)
+                {
+                    var language = model.Language;
+                    builder.Button(language?.OK, model.Page.Callback<MouseEventArgs>(e => model.SaveAsync()));
+                    builder.Button(language?.Cancel, model.Page.Callback<MouseEventArgs>(e => model.CloseAsync()), "default");
+                }
+            });
         });
     }
 }

@@ -5,6 +5,11 @@ partial class FormModel<TItem>
     internal string Action { get; set; }
 
     /// <summary>
+    /// 取得表单操作按钮信息列表，用于扩展表单底部按钮。
+    /// </summary>
+    public List<ActionInfo> Actions { get; } = [];
+
+    /// <summary>
     /// 取得表单是否是新增表单，当Action为New时。
     /// </summary>
     public bool IsNew => Action == "New";
@@ -82,5 +87,15 @@ partial class FormModel<TItem>
             if (isContinue)
                 await LoadDataAsync(null);
         });
+    }
+
+    /// <summary>
+    /// 添加操作列按钮。
+    /// </summary>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="onClick">点击事件委托。</param>
+    public void AddAction(string idOrName, EventCallback<MouseEventArgs> onClick)
+    {
+        Actions?.Add(new ActionInfo(idOrName) { OnClick = onClick });
     }
 }

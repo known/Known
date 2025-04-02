@@ -52,9 +52,4 @@ public partial class UIService
         model.OnClose = dialog.CloseAsync;
         return true;
     }
-
-    private static RenderFragment BuildTree(Action<RenderTreeBuilder> action)
-    {
-        return delegate (RenderTreeBuilder builder) { action(builder); };
-    }
 }

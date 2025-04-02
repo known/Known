@@ -37,7 +37,7 @@ public class WTestList : BaseTablePage<WeatherForecast>
     {
         await Task.Delay(500);
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var startDate = DateTime.Now;
         var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
         var forecasts = Enumerable.Range(1, criteria.PageSize).Select(index => new WeatherForecast
         {

@@ -66,4 +66,9 @@ public partial class UIService(ModalService modal, DrawerService drawer, Message
 
         return "default";
     }
+
+    private static RenderFragment BuildTree(Action<RenderTreeBuilder> action)
+    {
+        return delegate (RenderTreeBuilder builder) { action(builder); };
+    }
 }

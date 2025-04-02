@@ -41,7 +41,8 @@
 .ant-modal-body, .ant-drawer-body {padding:10px;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
 .ant-modal-body .nopadding {padding:0;}
-.ant-drawer-body .kui-form-action {position:fixed;bottom:10px;right:10px;}
+.ant-drawer-body {transform:rotate(360deg);}
+.ant-drawer-body .kui-form-action {position:fixed;left:10px;right:10px;bottom:10px;}
 
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 

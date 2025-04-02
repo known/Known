@@ -96,7 +96,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     border-radius:6px;min-height:200px;
 }
 .kui-form-content {padding:10px;}
-.kui-form-action {text-align:right;}
+.kui-form-action {display:flex;justify-content:space-between;align-items:center;}
 .kui-form-action button {margin-left:8px;}
 .kui-form-page {padding:24px 50px 20px 0;}
 .kui-form-page-button {margin-left:120px;}
