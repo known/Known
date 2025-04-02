@@ -4,7 +4,7 @@ class SQLiteProvider(Database db) : DbProvider(db)
 {
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT name AS Id, name AS Name FROM sqlite_master WHERE type='table'";
+        return "select name as Id, name as Name from sqlite_master where type='table'";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

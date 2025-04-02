@@ -10,10 +10,11 @@ class DMProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return @"SELECT a.TABLE_NAME AS Id, b.COMMENTS AS Name 
-FROM ALL_TABLES a 
-LEFT JOIN ALL_TAB_COMMENTS b ON b.OWNER=a.OWNER AND b.TABLE_NAME=a.TABLE_NAME 
-WHERE a.OWNER NOT IN ('SYS', 'SYSTEM')";
+        return @"select a.table_name as Id, nvl(b.comments,b.table_name) as Name 
+from user_tables a,user_tab_comments b 
+where a.table_name=b.table_name 
+union 
+select view_name as Id, view_name as Name from user_views";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)

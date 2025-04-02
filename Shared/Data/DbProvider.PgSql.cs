@@ -7,7 +7,7 @@ class PgSqlProvider(Database db) : DbProvider(db)
 
     internal override string GetTableSql(string dbName)
     {
-        return "SELECT TABLE_NAME AS Id, TABLE_COMMENT AS Name FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='public'";
+        return "select tablename as Id, tablename as Name from pg_tables where schemaname='public'";
     }
 
     internal override string GetTableScript(string tableName, DbModelInfo info)
