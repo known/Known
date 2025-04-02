@@ -233,6 +233,11 @@ public class ImportInfo
     public string PageId { get; set; }
 
     /// <summary>
+    /// 取得或设置插件ID。
+    /// </summary>
+    public string PluginId { get; set; }
+
+    /// <summary>
     /// 取得或设置页面名称。
     /// </summary>
     public string PageName { get; set; }

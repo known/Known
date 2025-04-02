@@ -3,6 +3,11 @@
 public partial class Config
 {
     /// <summary>
+    /// 自动无代码导入ID前缀。
+    /// </summary>
+    public const string AutoBizIdPrefix = "AutoImport";
+
+    /// <summary>
     /// 取得或设置系统移动端菜单信息列表。
     /// </summary>
     public static List<MenuInfo> AppMenus { get; set; }

@@ -5,11 +5,11 @@ class AutoImport(ImportContext context) : ImportBase(context)
     public override async Task<Result> ExecuteAsync(AttachInfo file)
     {
         var database = Database;
-        var param = await database.GetAutoPageAsync(ImportContext.BizParam, "");
+        var param = await database.GetAutoPageAsync(ImportContext.PageId, ImportContext.PluginId);
         if (param == null)
             return Result.Error(Language.Required("EntityPlugin"));
 
-        var entity = DataHelper.ToEntity(param.EntityData);
+        var entity = param.ToEntity();
         if (entity == null || string.IsNullOrWhiteSpace(entity.Id))
             return Result.Error(Language.Required("TableName"));
 

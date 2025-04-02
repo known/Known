@@ -22,7 +22,7 @@ class Importer : BaseComponent
         if (!string.IsNullOrWhiteSpace(Info.Param))
             id += $"_{Info.Param}";
         if (Info.IsDictionary)
-            id = $"AutoImport_{Info.PageId}";
+            id = $"{Config.AutoBizIdPrefix}_{Info.PageId}_{Info.PluginId}";
         Model = await Admin.GetImportAsync(id);
         Model.Name = Info.PageName;
         Model.BizName = $"导入{Info.PageName}";

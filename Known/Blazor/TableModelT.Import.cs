@@ -16,7 +16,8 @@ partial class TableModel<TItem>
     {
         var info = new ImportInfo
         {
-            PageId = PluginId ?? Context.Current.Id,
+            PageId = Context.Current.Id,
+            PluginId = PluginId,
             PageName = Name,
             EntityType = typeof(TItem),
             IsDictionary = IsDictionary,

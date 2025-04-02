@@ -38,10 +38,12 @@ partial class AdminService
     {
         byte[] data = null;
         var db = Database;
-        if (bizId.StartsWith(ImportContext.AutoBizIdPrefix))
+        if (bizId.StartsWith(Config.AutoBizIdPrefix))
         {
-            var id = bizId.Split('_')[1];
-            var param = await db.GetAutoPageAsync(id, "");
+            var bizIds = bizId.Split('_');
+            var pageId = bizIds.Length > 1 ? bizIds[1] : "";
+            var pluginId = bizIds.Length > 2 ? bizIds[2] : "";
+            var param = await db.GetAutoPageAsync(pageId, pluginId);
             data = GetImportRule(db.Context, param?.Form?.Fields);
         }
         else

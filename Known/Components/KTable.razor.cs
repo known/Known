@@ -41,30 +41,38 @@ partial class KTable<TItem> : BaseComponent
         if (Model.OnQuery == null || isQuering)
             return;
 
-        isQuering = true;
-        var watch = Stopwatcher.Start<TItem>();
-        Model.Criteria.PageIndex = query.PageIndex;
-        if (Model.Criteria.IsQuery)
-            Model.Criteria.PageIndex = 1;
-        Model.Criteria.PageSize = query.PageSize;
-        if (query.SortModel != null)
+        try
         {
-            //var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
-            var sorts = query.SortModel.Where(s => s.SortDirection != SortDirection.None);
-            Model.Criteria.OrderBys = sorts.Select(GetOrderBy).ToArray();
+            isQuering = true;
+            var watch = Stopwatcher.Start<TItem>();
+            Model.Criteria.PageIndex = query.PageIndex;
+            if (Model.Criteria.IsQuery)
+                Model.Criteria.PageIndex = 1;
+            Model.Criteria.PageSize = query.PageSize;
+            if (query.SortModel != null)
+            {
+                //var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
+                var sorts = query.SortModel.Where(s => s.SortDirection != SortDirection.None);
+                Model.Criteria.OrderBys = sorts.Select(GetOrderBy).ToArray();
+            }
+            Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
+            Model.SelectedRows = [];
+            Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
+            totalCount = Model.Result.TotalCount;
+            dataSource = Model.Result.PageData;
+            Model.SetAutoColumns(dataSource);
+            await StateChangedAsync();
+            await Model.RefreshStatisAsync();
+            Model.Criteria.IsQuery = false;
+            isQuering = false;
+            watch.Write($"Changed {Model.Criteria.PageIndex}");
+            //Console.WriteLine($"{typeof(TItem)}-OnChange-{totalCount}");
         }
-        Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
-        Model.SelectedRows = [];
-        Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
-        totalCount = Model.Result.TotalCount;
-        dataSource = Model.Result.PageData;
-        Model.SetAutoColumns(dataSource);
-        await StateChangedAsync();
-        await Model.RefreshStatisAsync();
-        Model.Criteria.IsQuery = false;
-        isQuering = false;
-        watch.Write($"Changed {Model.Criteria.PageIndex}");
-        //Console.WriteLine($"{typeof(TItem)}-OnChange-{totalCount}");
+        catch (Exception ex)
+        {
+            isQuering = false;
+            App?.OnErrorAsync(ex);
+        }
     }
 
     private Dictionary<string, object> OnRow(RowData<TItem> row)
