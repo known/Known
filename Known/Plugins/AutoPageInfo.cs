@@ -1,6 +1,25 @@
 ﻿namespace Known.Plugins;
 
 /// <summary>
+/// 自动页面类型。
+/// </summary>
+public enum AutoPageType
+{
+    /// <summary>
+    /// 新建数据库表。
+    /// </summary>
+    NewTable,
+    /// <summary>
+    /// 已有数据库表。
+    /// </summary>
+    OldTable,
+    /// <summary>
+    /// SQL查询语句。
+    /// </summary>
+    SqlQuery
+}
+
+/// <summary>
 /// 自动页面插件配置信息类。
 /// </summary>
 public class AutoPageInfo
@@ -18,7 +37,7 @@ public class AutoPageInfo
     /// <summary>
     /// 取得或设置页面类型。
     /// </summary>
-    public string Type { get; set; }
+    public AutoPageType Type { get; set; }
 
     /// <summary>
     /// 取得或设置页面关联实体的数据库连接名。
@@ -29,6 +48,11 @@ public class AutoPageInfo
     /// 取得或设置页面关联实体的数据库表或SQL语句。
     /// </summary>
     public string Script { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面关联实体的数据库表的主键字段，默认Id。
+    /// </summary>
+    public string IdField { get; set; } = nameof(EntityBase.Id);
 
     /// <summary>
     /// 取得或设置实体设置。

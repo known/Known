@@ -19,10 +19,11 @@ public partial class Database
     /// </summary>
     /// <param name="tableName">数据库表名。</param>
     /// <param name="id">ID。</param>
+    /// <param name="idField">ID字段名。</param>
     /// <returns></returns>
-    public virtual Task<Dictionary<string,object>> QueryByIdAsync(string tableName, string id)
+    public virtual Task<Dictionary<string,object>> QueryByIdAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
     {
-        var sql = $"select * from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+        var sql = $"select * from {FormatName(tableName)} where {FormatName(idField)}=@id";
         var info = new CommandInfo(Provider, null, tableName, sql, new { id });
         return QueryAsync<Dictionary<string, object>>(sql, info);
     }
@@ -32,10 +33,11 @@ public partial class Database
     /// </summary>
     /// <param name="tableName">数据库表名。</param>
     /// <param name="id">ID字段值。</param>
+    /// <param name="idField">ID字段名。</param>
     /// <returns>是否存在。</returns>
-    public virtual async Task<bool> ExistsAsync(string tableName, string id)
+    public virtual async Task<bool> ExistsAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
     {
-        var sql = $"select count(*) from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+        var sql = $"select count(*) from {FormatName(tableName)} where {FormatName(idField)}=@id";
         var info = new CommandInfo(Provider, null, tableName, sql, new { id });
         var count = await ScalarAsync<int>(info);
         return count > 0;
@@ -46,17 +48,18 @@ public partial class Database
     /// </summary>
     /// <param name="tableName">数据库表名。</param>
     /// <param name="id">ID字段值。</param>
+    /// <param name="idField">ID字段名。</param>
     /// <returns>影响的行数。</returns>
-    public virtual async Task<int> DeleteAsync(string tableName, string id)
+    public virtual async Task<int> DeleteAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
     {
         if (string.IsNullOrEmpty(id))
             return 0;
 
-        var sql = $"delete from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+        var sql = $"delete from {FormatName(tableName)} where {FormatName(idField)}=@id";
         var info = new CommandInfo(Provider, null, tableName, sql, new { id });
         if (DatabaseOption.Instance.HasOperateMonitor)
         {
-            var sql1 = $"select * from {FormatName(tableName)} where {FormatName(nameof(EntityBase.Id))}=@id";
+            var sql1 = $"select * from {FormatName(tableName)} where {FormatName(idField)}=@id";
             info.DeleteItems = await QueryListAsync<Dictionary<string, object>>(sql, new { id });
         }
         return await ExecuteNonQueryAsync(info);
@@ -128,29 +131,35 @@ public partial class Database
     /// </summary>
     /// <param name="tableName">数据库表名。</param>
     /// <param name="data">字典对象。</param>
+    /// <param name="idField">ID字段名。</param>
+    /// <param name="isEntity">表是否包含EntityBase字段。</param>
     /// <returns>影响的行数。</returns>
-    public virtual async Task<int> SaveAsync(string tableName, Dictionary<string, object> data)
+    public virtual async Task<int> SaveAsync(string tableName, Dictionary<string, object> data, string idField = nameof(EntityBase.Id), bool isEntity = true)
     {
         if (data == null || data.Count == 0)
             return 0;
 
-        var id = data.GetValue<string>(nameof(EntityBase.Id));
-        if (await ExistsAsync(tableName, id))
+        var id = data.GetValue<string>(idField);
+        if (await ExistsAsync(tableName, id, idField))
         {
             var version = data.GetValue<int>(nameof(EntityBase.Version)) + 1;
-            data.SetValue(nameof(EntityBase.Version), version);
-            return await UpdateAsync(tableName, nameof(EntityBase.Id), data);
+            if (isEntity)
+                data.SetValue(nameof(EntityBase.Version), version);
+            return await UpdateAsync(tableName, idField, data);
         }
 
         if (string.IsNullOrWhiteSpace(id))
-            data.SetValue(nameof(EntityBase.Id), Utils.GetNextId());
-        data.SetValue(nameof(EntityBase.CreateBy), User.UserName);
-        data.SetValue(nameof(EntityBase.CreateTime), DateTime.Now);
-        data.SetValue(nameof(EntityBase.ModifyBy), User.UserName);
-        data.SetValue(nameof(EntityBase.ModifyTime), DateTime.Now);
-        data.SetValue(nameof(EntityBase.Version), 1);
-        data.SetValue(nameof(EntityBase.AppId), User.AppId);
-        data.SetValue(nameof(EntityBase.CompNo), User.CompNo);
+            data.SetValue(idField, Utils.GetNextId());
+        if (isEntity)
+        {
+            data.SetValue(nameof(EntityBase.CreateBy), User.UserName);
+            data.SetValue(nameof(EntityBase.CreateTime), DateTime.Now);
+            data.SetValue(nameof(EntityBase.ModifyBy), User.UserName);
+            data.SetValue(nameof(EntityBase.ModifyTime), DateTime.Now);
+            data.SetValue(nameof(EntityBase.Version), 1);
+            data.SetValue(nameof(EntityBase.AppId), User.AppId);
+            data.SetValue(nameof(EntityBase.CompNo), User.CompNo);
+        }
         return await InsertAsync(tableName, data);
     }
 }

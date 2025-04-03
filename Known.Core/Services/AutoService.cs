@@ -16,7 +16,8 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (string.IsNullOrWhiteSpace(tableName))
             return new PagingResult<Dictionary<string, object>>();
 
-        criteria.SetQuery(nameof(EntityBase.CompNo), QueryType.Equal, CurrentUser?.CompNo);
+        if (autoPage?.Type == AutoPageType.NewTable)
+            criteria.SetQuery(nameof(EntityBase.CompNo), QueryType.Equal, CurrentUser?.CompNo);
         var db = await database.GetDatabaseAsync(autoPage);
         return await db.QueryPageAsync(tableName, criteria);
     }
@@ -37,6 +38,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     {
         var database = Database;
         var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
+        var idField = autoPage?.IdField;
         var tableName = autoPage?.ToEntity()?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
@@ -50,10 +52,13 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         {
             foreach (var item in info.Data)
             {
-                var id = item.GetValue<string>(nameof(EntityBase.Id));
+                var id = item.GetValue<string>(idField);
+                if (string.IsNullOrWhiteSpace(id))
+                    continue;
+
                 await db.DeleteFlowAsync(id);
                 await db.DeleteFilesAsync(id, oldFiles);
-                await db.DeleteAsync(tableName, id);
+                await db.DeleteAsync(tableName, id, idField);
             }
         });
         if (result.IsValid)
@@ -65,6 +70,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     {
         var database = Database;
         var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
+        var idField = autoPage?.IdField;
         var entity = autoPage?.ToEntity();
         var tableName = entity?.Id;
         if (string.IsNullOrWhiteSpace(tableName))
@@ -78,7 +84,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var database1 = await database.GetDatabaseAsync(autoPage);
         return await database1.TransactionAsync(Language.Save, async db =>
         {
-            var id = model.GetValue<string>(nameof(EntityBase.Id));
+            var id = model.GetValue<string>(idField);
             if (string.IsNullOrWhiteSpace(id))
                 id = Utils.GetNextId();
             if (info.Files != null && info.Files.Count > 0)
@@ -91,8 +97,8 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
                     model[file.Key] = $"{id}_{bizType}";
                 }
             }
-            model.SetValue(nameof(EntityBase.Id), id);
-            await db.SaveAsync(tableName, model);
+            model.SetValue(idField, id);
+            await db.SaveAsync(tableName, model, idField, autoPage?.Type == AutoPageType.NewTable);
         }, model);
     }
 
