@@ -37,7 +37,16 @@ public class AutoPageInfo
     /// <summary>
     /// 取得或设置页面类型。
     /// </summary>
-    public AutoPageType Type { get; set; }
+    public string Type
+    {
+        get { return PageType.ToString(); }
+        set { PageType = Utils.ConvertTo<AutoPageType>(value); }
+    }
+
+    /// <summary>
+    /// 取得或设置页面类型。
+    /// </summary>
+    public AutoPageType PageType { get; set; }
 
     /// <summary>
     /// 取得或设置页面关联实体的数据库连接名。

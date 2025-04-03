@@ -110,4 +110,23 @@ public static class DictionaryExtension
         }
         return columns;
     }
+
+    /// <summary>
+    /// 替换数据占位符。
+    /// </summary>
+    /// <param name="data">数据字典。</param>
+    /// <param name="user">当前用户。</param>
+    public static void ReplaceDataPlaceholder(this Dictionary<string, object> data, UserInfo user)
+    {
+        foreach (var key in data.Keys)
+        {
+            var value = data[key];
+            if (DataPlaceholder.CurrentCompNo.Equals(value))
+                data[key] = user.CompNo;
+            if (DataPlaceholder.CurrentUser.Equals(value))
+                data[key] = user.UserName;
+            if (DataPlaceholder.CurrentTime.Equals(value))
+                data[key] = DateTime.Now;
+        }
+    }
 }

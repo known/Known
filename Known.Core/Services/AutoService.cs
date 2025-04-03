@@ -9,14 +9,17 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var pageId = criteria.GetParameter<string>(nameof(AutoInfo<object>.PageId));
         var pluginId = criteria.GetParameter<string>(nameof(AutoInfo<object>.PluginId));
         var autoPage = await database.GetAutoPageAsync(pageId, pluginId);
+        var idField = autoPage?.IdField;
         var tableName = criteria.GetParameter<string>("TableName");
         if (string.IsNullOrWhiteSpace(tableName))
             tableName = autoPage?.ToEntity()?.Id;
-
         if (string.IsNullOrWhiteSpace(tableName))
             return new PagingResult<Dictionary<string, object>>();
 
-        if (autoPage?.Type == AutoPageType.NewTable)
+        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
+            criteria.OrderBys = [idField];
+
+        if (autoPage?.PageType == AutoPageType.NewTable)
             criteria.SetQuery(nameof(EntityBase.CompNo), QueryType.Equal, CurrentUser?.CompNo);
         var db = await database.GetDatabaseAsync(autoPage);
         return await db.QueryPageAsync(tableName, criteria);
@@ -81,6 +84,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (!vr.IsValid)
             return vr;
 
+        model.ReplaceDataPlaceholder(CurrentUser);
         var database1 = await database.GetDatabaseAsync(autoPage);
         return await database1.TransactionAsync(Language.Save, async db =>
         {
@@ -98,7 +102,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
                 }
             }
             model.SetValue(idField, id);
-            await db.SaveAsync(tableName, model, idField, autoPage?.Type == AutoPageType.NewTable);
+            await db.SaveAsync(tableName, model, idField, autoPage?.PageType == AutoPageType.NewTable);
         }, model);
     }
 

@@ -74,3 +74,27 @@ public class RegexPattern
     /// </summary>
     public const string Url = "^(ht|f)tp(s?)\\:\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*(:(0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\\\+&%\\$#_]*)?$";
 }
+
+/// <summary>
+/// 数据占位符。
+/// </summary>
+[CodeInfo]
+public class DataPlaceholder
+{
+    private DataPlaceholder() { }
+
+    /// <summary>
+    /// 当前租户。
+    /// </summary>
+    public const string CurrentCompNo = "{CompNo}";
+
+    /// <summary>
+    /// 当前用户。
+    /// </summary>
+    public const string CurrentUser = "{UserName}";
+
+    /// <summary>
+    /// 当前时间。
+    /// </summary>
+    public const string CurrentTime = "{Now}";
+}
