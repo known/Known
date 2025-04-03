@@ -44,7 +44,7 @@ public static class ModelExtension
         var item = form?.Fields?.FirstOrDefault(f => f.Id == column.Id);
         if (item != null)
         {
-            column.Type = item.Type;
+            //column.Type = item.Type;
             column.Category = item.Category;
         }
         //if (column.Type == FieldType.Text)

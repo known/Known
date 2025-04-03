@@ -78,7 +78,11 @@ public enum FieldType
     /// <summary>
     /// 自定义。
     /// </summary>
-    Custom
+    Custom,
+    /// <summary>
+    /// 隐藏字段。
+    /// </summary>
+    Hidden
 }
 
 /// <summary>

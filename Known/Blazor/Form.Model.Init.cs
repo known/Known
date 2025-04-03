@@ -35,7 +35,7 @@ partial class FormModel<TItem>
             return;
 
         Rows.Clear();
-        var fields = columns.Where(c => c.IsVisible);
+        var fields = columns.Where(c => c.IsVisible && c.Type != FieldType.Hidden);
         var rowNos = fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
         {
