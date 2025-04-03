@@ -6,6 +6,20 @@
 public static class LanguageExtension
 {
     /// <summary>
+    /// 获取查询结果。
+    /// </summary>
+    /// <param name="infos">语言信息列表。</param>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns>查询结果。</returns>
+    public static PagingResult<LanguageInfo> ToQueryResult(this List<LanguageInfo> infos, PagingCriteria criteria)
+    {
+        var name = criteria.GetQueryValue(nameof(LanguageInfo.Name));
+        if (!string.IsNullOrWhiteSpace(name))
+            infos = infos.Where(b => b.Name.Contains(name)).ToList();
+        return infos.ToPagingResult(criteria);
+    }
+
+    /// <summary>
     /// 获取字段语言名称。
     /// </summary>
     /// <typeparam name="TItem">实体类型。</typeparam>

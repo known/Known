@@ -26,16 +26,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Table.OnQuery = Platform.QueryButtonsAsync;
 
         Table.Column(c => c.Icon).Template((b, r) => b.IconName(r.Icon, r.Icon));
-        Table.Column(c => c.Style).Template((b, r) =>
-        {
-            if (!string.IsNullOrEmpty(r.Style))
-            {
-                if (r.Style == "primary")
-                    b.Tag(r.Style, "blue-inverse");
-                else if (r.Style == "danger")
-                    b.Tag(r.Style, "red-inverse");
-            }
-        });
+        Table.Column(c => c.Style).Tag();
 
         Table.Toolbar.AddAction(nameof(New));
         Table.Toolbar.AddAction(nameof(DeleteM));

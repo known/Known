@@ -29,8 +29,11 @@ public partial class UIService(ModalService modal, DrawerService drawer, Message
                 return color;
         }
 
+        //Button
+        if (text == "primary") return "blue-inverse";
+        else if (text == "danger") return "red-inverse";
         //Module
-        if (text == "Menu") return "purple";
+        else if (text == "Menu") return "purple";
         else if (text == "Page") return "blue";
         else if (text == "Custom") return "green";
         else if (text == "Link") return "green";

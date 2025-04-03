@@ -31,12 +31,7 @@ partial class PlatformService
         var datas = AppData.Data.Languages ?? [];
         if (datas.Count == 0)
             datas.AddRange(Language.Items.Select(CreateLanguage));
-        if (criteria.HasQuery(nameof(LanguageInfo.Name)))
-        {
-            var name = criteria.GetQueryValue(nameof(LanguageInfo.Name));
-            datas = datas.Where(b => b.Name.Contains(name)).ToList();
-        }
-        var result = datas.ToPagingResult(criteria);
+        var result = datas.ToQueryResult(criteria);
         return Task.FromResult(result);
     }
 

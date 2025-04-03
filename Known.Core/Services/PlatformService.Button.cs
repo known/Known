@@ -5,12 +5,7 @@ partial class PlatformService
     public async Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {
         var datas = await GetButtonsAsync();
-        if (criteria.HasQuery(nameof(ButtonInfo.Name)))
-        {
-            var name = criteria.GetQueryValue(nameof(ButtonInfo.Name));
-            datas = datas.Where(b => b.Name.Contains(name)).ToList();
-        }
-        return datas.ToPagingResult(criteria);
+        return datas.ToQueryResult(criteria);
     }
 
     public async Task<List<ButtonInfo>> GetButtonsAsync(string position)

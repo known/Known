@@ -5,12 +5,7 @@ partial class PlatformService
     public async Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         var datas = await GetLanguagesAsync();
-        if (criteria.HasQuery(nameof(LanguageInfo.Name)))
-        {
-            var name = criteria.GetQueryValue(nameof(LanguageInfo.Name));
-            datas = datas.Where(b => b.Name.Contains(name)).ToList();
-        }
-        return datas.ToPagingResult(criteria);
+        return datas.ToQueryResult(criteria);
     }
 
     public async Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
