@@ -18,7 +18,7 @@ public class SysRoleModule
     /// 取得或设置模块ID。
     /// </summary>
     [Required, Key]
-    [MaxLength(250)]
+    [MaxLength(190)]
     [DisplayName("模块ID")]
     public string ModuleId { get; set; }
 }
