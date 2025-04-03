@@ -47,6 +47,8 @@
   "QueryType.EndWith": "EndWith",
   "QueryType.NotEndWith": "NotEndWith",
   "QueryType.Batch": "Batch(Comma division)",
+  "QueryType.In": "In(Comma division)",
+  "QueryType.NotIn": "NotIn(Comma division)",
 
   "Valid.Required": "{label} is required!",
   "Valid.MinLength": "{label} at least {length} characters!",

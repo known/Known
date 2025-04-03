@@ -47,6 +47,8 @@
   "QueryType.EndWith": "結尾於",
   "QueryType.NotEndWith": "不結尾於",
   "QueryType.Batch": "批量(逗號分割)",
+  "QueryType.In": "In(逗號分割)",
+  "QueryType.NotIn": "NotIn(逗號分割)",
 
   "Valid.Required": "{label}不能為空！",
   "Valid.MinLength": "{label}至少{length}個字元！",

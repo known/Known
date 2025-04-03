@@ -109,16 +109,19 @@ public class PagingCriteria
     /// <returns>查询条件信息。</returns>
     public QueryInfo SetQuery(string id, string value)
     {
-        var query = Query?.FirstOrDefault(q => q.Id == id);
-        if (query == null)
-        {
-            query = new QueryInfo(id, value);
-            AddQuery(query);
-        }
+        return SetQuery(id, QueryType.Contain, value);
+    }
 
-        query.Value = value;
-        query.ParamValue = value;
-        return query;
+    /// <summary>
+    /// 设置查询条件信息。
+    /// </summary>
+    /// <param name="id">字段属性ID。</param>
+    /// <param name="type">查询条件类型。</param>
+    /// <param name="values">查询条件值。</param>
+    /// <returns>查询条件信息。</returns>
+    public QueryInfo SetQuery(string id, QueryType type, List<string> values)
+    {
+        return SetQuery(id, type, string.Join(",", values));
     }
 
     /// <summary>

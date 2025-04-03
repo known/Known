@@ -158,7 +158,6 @@ class AdvancedSearchItem : BaseComponent
                 AddQueryType(types, QueryType.LessEqual);
                 AddQueryType(types, QueryType.GreatThan);
                 AddQueryType(types, QueryType.GreatEqual);
-                AddQueryType(types, QueryType.Batch);
                 break;
             case FieldType.Date:
             case FieldType.DateTime:
@@ -177,6 +176,8 @@ class AdvancedSearchItem : BaseComponent
                 AddQueryType(types, QueryType.EndWith);
                 AddQueryType(types, QueryType.NotEndWith);
                 AddQueryType(types, QueryType.Batch);
+                AddQueryType(types, QueryType.In);
+                AddQueryType(types, QueryType.NotIn);
                 break;
         }
         return types;

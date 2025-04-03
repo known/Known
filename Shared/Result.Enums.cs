@@ -72,7 +72,15 @@ public enum QueryType
     /// <summary>
     /// 批量(逗号分割)。
     /// </summary>
-    Batch
+    Batch,
+    /// <summary>
+    /// In(逗号分割)。
+    /// </summary>
+    In,
+    /// <summary>
+    /// NotIn(逗号分割)。
+    /// </summary>
+    NotIn
 }
 
 /// <summary>

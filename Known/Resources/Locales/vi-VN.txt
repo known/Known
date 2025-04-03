@@ -47,6 +47,8 @@
   "QueryType.EndWith": "Kết thúc với",
   "QueryType.NotEndWith": "Không kết thúc với",
   "QueryType.Batch": "Số lượng lớn (phân chia dấu phẩy)",
+  "QueryType.In": "In (phân chia dấu phẩy)",
+  "QueryType.NotIn": "NotIn (phân chia dấu phẩy)",
 
   "Valid.Required": "{label} không thể để trống！",
   "Valid.MinLength": "{label} ít nhất {length} ký tự！",

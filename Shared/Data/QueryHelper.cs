@@ -89,6 +89,12 @@ class QueryHelper
             case QueryType.Batch:
                 SetBatchQuery(ref sql, criteria, field, key);
                 break;
+            case QueryType.In:
+                SetBatchQuery(ref sql, criteria, field, key, "in");
+                break;
+            case QueryType.NotIn:
+                SetBatchQuery(ref sql, criteria, field, key, "not in");
+                break;
             default:
                 var operate = type.ToOperator();
                 sql += $" and {field}{operate}@{key}";
@@ -168,5 +174,16 @@ class QueryHelper
         }
         var where = string.Join(" or ", wheres);
         sql += $" and ({where})";
+    }
+
+    private static void SetBatchQuery(ref string sql, PagingCriteria criteria, string field, string key, string operate)
+    {
+        var query = criteria.Query.FirstOrDefault(q => q.Id == key);
+        var value = query.Value;
+        if (string.IsNullOrWhiteSpace(value))
+            return;
+
+        var values = value.Replace(",", "','");
+        sql += $" and {field} {operate} ('{values}')";
     }
 }
