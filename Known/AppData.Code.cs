@@ -40,6 +40,8 @@ public class CodeModelInfo
     /// </summary>
     public List<CodeFieldInfo> Fields { get; set; } = [];
 
+    internal virtual string TableName => $"{Prefix}{Code}";
+
     internal EntityInfo ToEntity()
     {
         var info = new EntityInfo

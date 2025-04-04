@@ -5,6 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{C7FBFD8E-8E5E-4F9D-9756-EB313FDDBCAA}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		README.md = README.md
 		Document\更新日志.md = Document\更新日志.md
 		Document\示例文档.md = Document\示例文档.md

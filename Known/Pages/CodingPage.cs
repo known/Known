@@ -1,5 +1,4 @@
-﻿
-namespace Known.Pages;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 代码生成开发插件页面组件类。
@@ -8,12 +7,16 @@ namespace Known.Pages;
 [DevPlugin("代码生成", "code", Sort = 98)]
 public class CodingPage : BaseTabPage
 {
+    private IAutoService AutoService;
     private ICodeService Service;
     private List<CodeModelInfo> Models = [];
     private CodeModelInfo Model = new();
+    private KListPanel listPanel;
     private string currentTab = "模型设置";
 
     [Inject] private ICodeGenerator Generator { get; set; }
+
+    private List<CodeInfo> ListData => [.. Models?.Select(m => new CodeInfo(m.Id, m.Name))];
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -25,6 +28,7 @@ public class CodingPage : BaseTabPage
         }
 
         await base.OnInitPageAsync();
+        AutoService = await CreateServiceAsync<IAutoService>();
         Service = await CreateServiceAsync<ICodeService>();
 
         Tab.Class = "kui-coding";
@@ -42,6 +46,7 @@ public class CodingPage : BaseTabPage
             currentTab = tab;
             StateChanged();
         };
+        Tab.Right = BuildTabRight;
     }
 
     /// <inheritdoc />
@@ -52,13 +57,25 @@ public class CodingPage : BaseTabPage
             Models = await Service.GetModelsAsync();
     }
 
+    private void BuildTabRight(RenderTreeBuilder builder)
+    {
+        if (currentTab == "模型设置")
+            return;
+
+        if (currentTab == "建表脚本")
+            builder.Button("执行", this.Callback<MouseEventArgs>(OnExecute));
+        else
+            builder.Button("保存", this.Callback<MouseEventArgs>(OnSaveCode));
+    }
+
     private void BuildModel(RenderTreeBuilder builder)
     {
         builder.Component<KListPanel>()
-               .Set(c => c.ListData, [.. Models.Select(m => new CodeInfo(m.Id, m.Name))])
+               .Set(c => c.ListData, ListData)
+               .Set(c => c.ListTemplate, this.BuildTree<CodeInfo>((b, c) => b.Text(c.Name)))
                .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.ChildContent, BuildModelForm)
-               .Build();
+               .Build(value => listPanel = value);
     }
 
     private void BuildModelForm(RenderTreeBuilder builder)
@@ -85,6 +102,27 @@ public class CodingPage : BaseTabPage
     private async Task OnSaveModelAsync(CodeModelInfo info)
     {
         var result = await Service.SaveModelAsync(info);
+        UI.Result(result, async () =>
+        {
+            Models = await Service.GetModelsAsync();
+            Model = Models.FirstOrDefault(m => m.Id == info.Id);
+            listPanel?.SetListData(ListData);
+        });
+    }
+
+    private async Task OnExecute(MouseEventArgs args)
+    {
+        var code = GenerateCode(currentTab);
+        var info = new AutoInfo<string> { PageId = Model.TableName, Data = code };
+        var result = await AutoService.CreateTableAsync(info);
+        UI.Result(result);
+    }
+
+    private async Task OnSaveCode(MouseEventArgs args)
+    {
+        var code = GenerateCode(currentTab);
+        var info = new AutoInfo<string> { PageId = Model.TableName, Data = code };
+        var result = await AutoService.SaveCodeAsync(info);
         UI.Result(result);
     }
 

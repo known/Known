@@ -30,6 +30,16 @@ public class KListPanel : BaseComponent
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// 设置列表数据源。
+    /// </summary>
+    /// <param name="data">列表数据源。</param>
+    public void SetListData(List<CodeInfo> data)
+    {
+        ListData = data;
+        StateChanged();
+    }
+
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {

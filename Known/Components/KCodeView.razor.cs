@@ -37,6 +37,14 @@ public partial class KCodeView
     }
 
     /// <inheritdoc />
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        if (originalCode != Code)
+            SetCode(Code);
+    }
+
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

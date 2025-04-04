@@ -38,11 +38,13 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
 {
     public Task<List<CodeModelInfo>> GetModelsAsync()
     {
-        return Task.FromResult(new List<CodeModelInfo>());
+        var infos = AppData.LoadCodeModels();
+        return Task.FromResult(infos);
     }
 
     public Task<Result> SaveModelAsync(CodeModelInfo info)
     {
+        AppData.SaveCodeModel(info);
         return Result.SuccessAsync("保存成功！");
     }
 }

@@ -83,6 +83,7 @@ public static partial class Extension
             return;
 
         AppData.KmdPath = Path.Combine(Config.App.ContentRoot, "AppData.kmd");
+        AppData.KcdPath = Path.Combine(Config.App.ContentRoot, "AppData.kcd");
         AppData.KdbPath = Path.Combine(Config.App.ContentRoot, "AppData.kdb");
         // 设置当前路径为程序根目录（适配Maui）
         //Environment.CurrentDirectory = AppContext.BaseDirectory;
