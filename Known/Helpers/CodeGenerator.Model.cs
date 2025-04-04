@@ -37,6 +37,10 @@ partial class CodeGenerator
                 sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length) && type == "string")
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
+            if (item.IsGrid)
+                sb.AppendLine("    [Column]");
+            if (item.IsForm)
+                sb.AppendLine("    [Form]");
             sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Id);
         }

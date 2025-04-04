@@ -101,16 +101,6 @@ public class CodeFieldInfo : FieldInfo
     /// </summary>
     public string Width { get; set; }
 
-    /// <summary>
-    /// 取得或设置字段是否主键。
-    /// </summary>
-    public bool IsGrid { get; set; }
-
-    /// <summary>
-    /// 取得或设置字段是否主键。
-    /// </summary>
-    public bool IsForm { get; set; }
-
     internal FormFieldInfo ToFormField()
     {
         return new FormFieldInfo

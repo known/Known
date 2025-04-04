@@ -24,12 +24,12 @@ class CodeClient(HttpClient http) : ClientBase(http), ICodeService
 {
     public Task<List<CodeModelInfo>> GetModelsAsync()
     {
-        return Http.GetAsync<List<CodeModelInfo>>("Code/GetModels");
+        return Http.GetAsync<List<CodeModelInfo>>("/Code/GetModels");
     }
 
     public Task<Result> SaveModelAsync(CodeModelInfo info)
     {
-        return Http.PostAsync("Code/SaveModel", info);
+        return Http.PostAsync("/Code/SaveModel", info);
     }
 }
 

@@ -46,6 +46,16 @@ public class FieldInfo
     }
 
     /// <summary>
+    /// 取得或设置字段是否是列表栏位。
+    /// </summary>
+    public bool IsGrid { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段是否是表单字段。
+    /// </summary>
+    public bool IsForm { get; set; }
+
+    /// <summary>
     /// 转换成字段信息。
     /// </summary>
     /// <returns></returns>
@@ -58,7 +68,9 @@ public class FieldInfo
             Type = Type,
             Length = Length,
             Required = Required,
-            IsKey = IsKey
+            IsKey = IsKey,
+            IsGrid = IsGrid,
+            IsForm = IsForm
         };
     }
 }
