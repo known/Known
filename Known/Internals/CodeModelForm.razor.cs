@@ -30,6 +30,13 @@ public partial class CodeModelForm
     /// </summary>
     [Parameter] public EventCallback<CodeModelInfo> OnModelSave { get; set; }
 
+    /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Model ??= CreateCodeMode();
+    }
+
     private Task OnPasteAsync()
     {
         return JSRuntime.PasteTextAsync(text =>
@@ -54,18 +61,7 @@ public partial class CodeModelForm
         });
     }
 
-    private void OnNew()
-    {
-        Model = new CodeModelInfo();
-        if (Default != null)
-        {
-            Model.Prefix = Default.Prefix;
-            Model.Namespace = Default.Namespace;
-        }
-        if (string.IsNullOrWhiteSpace(Model.Namespace))
-            Model.Namespace = Config.App.Assembly.FullName.Split(',')[0].Replace(".Web", "");
-    }
-
+    private void OnNew() => Model = CreateCodeMode();
     private void OnSave() => OnModelSave.InvokeAsync(Model);
     private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
     private void OnDelete(CodeFieldInfo row) => Model.Fields.Remove(row);
@@ -82,5 +78,18 @@ public partial class CodeModelForm
         var temp = Model.Fields[index1];
         Model.Fields[index1] = row;
         Model.Fields[index] = temp;
+    }
+
+    private CodeModelInfo CreateCodeMode()
+    {
+        var info = new CodeModelInfo();
+        if (Default != null)
+        {
+            info.Prefix = Default.Prefix;
+            info.Namespace = Default.Namespace;
+        }
+        if (string.IsNullOrWhiteSpace(info.Namespace))
+            info.Namespace = Config.App.Assembly.FullName.Split(',')[0].Replace(".Web", "");
+        return info;
     }
 }
