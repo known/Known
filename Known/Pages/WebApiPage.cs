@@ -9,10 +9,7 @@ namespace Known.Pages;
 [DevPlugin("WebApi", "pull-request", Sort = 99)]
 public class WebApiPage : BaseTablePage<ApiMethodInfo>
 {
-    /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         if (!CurrentUser.IsSystemAdmin())

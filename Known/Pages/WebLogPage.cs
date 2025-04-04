@@ -4,12 +4,18 @@
 /// 系统跟踪日志开发插件页面组件类。
 /// </summary>
 [Route("/dev/weblog")]
-[DevPlugin("跟踪日志", "exception", Sort = 98)]
+[DevPlugin("跟踪日志", "exception", Sort = 97)]
 public class WebLogPage : BaseTablePage<LogInfo>
 {
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
         await base.OnInitPageAsync();
 
         Table.Name = PageName;
