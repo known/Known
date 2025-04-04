@@ -4,10 +4,11 @@ partial class CodeGenerator
 {
     public string GetForm(FormInfo form, EntityInfo entity)
     {
+        var modelName = entity.ModelName ?? entity.Id;
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("@inherits BaseForm<{0}.Entities.{1}>", Config.App.Id, entity.Id);
+        sb.AppendLine("@inherits BaseForm<{0}>", modelName);
         sb.AppendLine("");
         sb.AppendLine("<AntForm Form=\"Model\">");
         var rowNos = form.Fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
@@ -55,38 +56,23 @@ partial class CodeGenerator
 
     private static string GetControlName(FieldType type)
     {
-        switch (type)
+        return type switch
         {
-            case FieldType.Text:
-                return "AntInput";
-            case FieldType.TextArea:
-                return "AntTextArea";
-            case FieldType.Date:
-                return "AntDatePicker";
-            case FieldType.Number:
-                return "AntNumber";
-            case FieldType.Switch:
-                return "AntSwitch";
-            case FieldType.CheckBox:
-                return "AntCheckBox";
-            case FieldType.CheckList:
-                return "AntCheckboxGroup";
-            case FieldType.RadioList:
-                return "AntRadioGroup";
-            case FieldType.Select:
-                return "AntSelect";
-            case FieldType.Password:
-                return "AntPassword";
-            case FieldType.File:
-                return "KUpload";
-            case FieldType.DateTime:
-                return "AntDateTimePicker";
-            case FieldType.AutoComplete:
-                return "AntAutoComplete";
-            case FieldType.Custom:
-                return "AntInput";
-            default:
-                return "AntInput";
-        }
+            FieldType.Text => nameof(AntInput),
+            FieldType.TextArea => nameof(AntTextArea),
+            FieldType.Date => nameof(AntDatePicker),
+            FieldType.Number => "AntNumber",
+            FieldType.Switch => nameof(AntSwitch),
+            FieldType.CheckBox => nameof(AntCheckBox),
+            FieldType.CheckList => nameof(AntCheckboxGroup),
+            FieldType.RadioList => nameof(AntRadioGroup),
+            FieldType.Select => nameof(AntSelect),
+            FieldType.Password => nameof(AntPassword),
+            FieldType.File => nameof(KUpload),
+            FieldType.DateTime => nameof(AntDateTimePicker),
+            FieldType.AutoComplete => nameof(AntAutoComplete),
+            FieldType.Custom => nameof(AntInput),
+            _ => nameof(AntInput),
+        };
     }
 }

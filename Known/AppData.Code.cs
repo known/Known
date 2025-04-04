@@ -31,6 +31,11 @@ public class CodeModelInfo
     public string Namespace { get; set; }
 
     /// <summary>
+    /// 取得或设置实体对应的页面URL。
+    /// </summary>
+    public string PageUrl { get; set; }
+
+    /// <summary>
     /// 取得或设置代码模型功能集合。
     /// </summary>
     public string[] Functions { get; set; }
@@ -40,7 +45,17 @@ public class CodeModelInfo
     /// </summary>
     public List<CodeFieldInfo> Fields { get; set; } = [];
 
-    internal virtual string TableName => $"{Prefix}{Code}";
+    internal virtual string ModelName => $"{Code}Info";
+    internal virtual string ModelPath => $"{Namespace}/Models/{ModelName}.cs";
+    internal virtual string EntityName => $"{Prefix}{Code}";
+    internal virtual string EntityPath => $"{Namespace}.Web/Entities/{EntityName}.cs";
+    internal virtual string PageName => $"{Code}List";
+    internal virtual string PagePath => $"{Namespace}/Pages/{PageName}.cs";
+    internal virtual string FormName => $"{Code}Form";
+    internal virtual string FormPath => $"{Namespace}/Pages/{FormName}.razor";
+    internal virtual string ServiceName => $"{Code}Service";
+    internal virtual string ServiceIPath => $"{Namespace}/Services/{ServiceName}.cs";
+    internal virtual string ServicePath => $"{Namespace}.Web/Services/{ServiceName}.cs";
 
     internal EntityInfo ToEntity()
     {
@@ -48,6 +63,13 @@ public class CodeModelInfo
         {
             Id = Code,
             Name = Name,
+            PageUrl = PageUrl,
+            Namespace = Namespace,
+            ModelName = ModelName,
+            EntityName = EntityName,
+            PageName = PageName,
+            FormName = FormName,
+            ServiceName = ServiceName,
             Fields = [.. Fields.Select(f => f.ToField())]
         };
         return info;
@@ -56,12 +78,15 @@ public class CodeModelInfo
     internal PageInfo ToPage()
     {
         var info = new PageInfo();
+        info.Tools = Functions?.Where(f => f != "Edit" && f != "Delete").ToList();
+        info.Actions = Functions?.Where(f => f == "Edit" || f == "Delete").ToList();
         return info;
     }
 
     internal FormInfo ToForm()
     {
         var info = new FormInfo();
+        info.Fields = [.. Fields.Where(f => f.IsForm).Select(f => f.ToFormField())];
         return info;
     }
 }
@@ -85,4 +110,17 @@ public class CodeFieldInfo : FieldInfo
     /// 取得或设置字段是否主键。
     /// </summary>
     public bool IsForm { get; set; }
+
+    internal FormFieldInfo ToFormField()
+    {
+        return new FormFieldInfo
+        {
+            Id = Id,
+            Name = Name,
+            Type = Type,
+            Length = Length,
+            Required = Required,
+            IsKey = IsKey
+        };
+    }
 }

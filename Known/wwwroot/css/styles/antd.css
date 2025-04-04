@@ -25,6 +25,7 @@
 .ant-dropdown-menu .anticon {margin-right:5px;}
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
+.ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 .ant-table-wrapper {padding:0 10px;}
 .ant-table .ant-tag {cursor:pointer;margin-right:0;line-height:unset;}
 .ant-table-thead > tr > th {font-weight:bold;}
@@ -54,7 +55,6 @@
 .kui-tab-form .ant-modal-body .kui-form, .kui-tab-form .ant-drawer-body .kui-form,
 .kui-tab-form .ant-modal-body .kui-small, .kui-tab-form .ant-drawer-body .kui-small {}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
-.kui-tab-form .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
 .kui-tab-form .ant-tabs-tabpane {padding:0 10px;}
 .kui-tab-form .ant-tabs-tabpane .kui-form, .kui-tab-form .ant-tabs-tabpane .kui-small {padding-right:10px;}
 .kui-form-tab .ant-tabs-content-holder {padding:0;}

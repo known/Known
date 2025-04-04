@@ -7,6 +7,15 @@
 [DevPlugin("代码生成", "code", Sort = 98)]
 public class CodingPage : BaseTabPage
 {
+    private const string TabModel = "模型设置";
+    private const string TabScript = "建表脚本";
+    private const string TabInfo = "信息类";
+    private const string TabEntity = "实体类";
+    private const string TabPage = "页面组件";
+    private const string TabForm = "表单组件";
+    private const string TabServiceI = "服务接口";
+    private const string TabService = "服务实现";
+
     private IAutoService AutoService;
     private ICodeService Service;
     private List<CodeModelInfo> Models = [];
@@ -32,14 +41,14 @@ public class CodingPage : BaseTabPage
         Service = await CreateServiceAsync<ICodeService>();
 
         Tab.Class = "kui-coding";
-        Tab.AddTab("模型设置", BuildModel);
-        Tab.AddTab("建表脚本", BuildCode);
-        Tab.AddTab("信息类", BuildCode);
-        Tab.AddTab("实体类", BuildCode);
-        Tab.AddTab("页面组件", BuildCode);
-        Tab.AddTab("表单组件", BuildCode);
-        Tab.AddTab("服务接口", BuildCode);
-        Tab.AddTab("服务实现", BuildCode);
+        Tab.AddTab(TabModel, BuildModel);
+        Tab.AddTab(TabScript, BuildCode);
+        Tab.AddTab(TabInfo, BuildCode);
+        Tab.AddTab(TabEntity, BuildCode);
+        Tab.AddTab(TabPage, BuildCode);
+        Tab.AddTab(TabForm, BuildCode);
+        Tab.AddTab(TabServiceI, BuildCode);
+        Tab.AddTab(TabService, BuildCode);
 
         Tab.OnChange = tab =>
         {
@@ -59,13 +68,20 @@ public class CodingPage : BaseTabPage
 
     private void BuildTabRight(RenderTreeBuilder builder)
     {
-        if (currentTab == "模型设置")
+        if (currentTab == TabModel)
             return;
 
-        if (currentTab == "建表脚本")
+        if (currentTab == TabScript)
+        {
             builder.Button("执行", this.Callback<MouseEventArgs>(OnExecute));
+        }
         else
+        {
+            var path = GetCodePath(currentTab);
+            var file = GetCodeFile(currentTab);
+            builder.Tooltip(path, b => b.Tag(file));
             builder.Button("保存", this.Callback<MouseEventArgs>(OnSaveCode));
+        }
     }
 
     private void BuildModel(RenderTreeBuilder builder)
@@ -113,15 +129,16 @@ public class CodingPage : BaseTabPage
     private async Task OnExecute(MouseEventArgs args)
     {
         var code = GenerateCode(currentTab);
-        var info = new AutoInfo<string> { PageId = Model.TableName, Data = code };
+        var info = new AutoInfo<string> { PageId = Model.EntityName, Data = code };
         var result = await AutoService.CreateTableAsync(info);
         UI.Result(result);
     }
 
     private async Task OnSaveCode(MouseEventArgs args)
     {
+        var path = GetCodePath(currentTab);
         var code = GenerateCode(currentTab);
-        var info = new AutoInfo<string> { PageId = Model.TableName, Data = code };
+        var info = new AutoInfo<string> { PageId = path, Data = code };
         var result = await AutoService.SaveCodeAsync(info);
         UI.Result(result);
     }
@@ -130,9 +147,36 @@ public class CodingPage : BaseTabPage
     {
         return name switch
         {
-            "建表脚本" => "sql",
-            "表单组件" => "html",
+            TabForm => "html",
             _ => "csharp"
+        };
+    }
+
+    private string GetCodePath(string name)
+    {
+        return name switch
+        {
+            TabInfo => Model.ModelPath,
+            TabEntity => Model.EntityPath,
+            TabPage => Model.PagePath,
+            TabForm => Model.FormPath,
+            TabServiceI => Model.ServiceIPath,
+            TabService => Model.ServicePath,
+            _ => ""
+        };
+    }
+
+    private string GetCodeFile(string name)
+    {
+        return name switch
+        {
+            TabInfo => $"{Model.ModelName}.cs",
+            TabEntity => $"{Model.EntityName}.cs",
+            TabPage => $"{Model.PageName}.cs",
+            TabForm => $"{Model.FormName}.razor",
+            TabServiceI => $"{Model.ServiceName}.cs",
+            TabService => $"{Model.ServiceName}.cs",
+            _ => ""
         };
     }
 
@@ -143,13 +187,13 @@ public class CodingPage : BaseTabPage
         var form = Model.ToForm();
         return name switch
         {
-            "建表脚本" => Generator.GetScript(Config.DatabaseType, entity),
-            "信息类" => Generator.GetModel(entity),
-            "实体类" => Generator.GetEntity(entity),
-            "页面组件" => Generator.GetPage(page, entity),
-            "表单组件" => Generator.GetForm(form, entity),
-            "服务接口" => Generator.GetIService(page, entity, true),
-            "服务实现" => Generator.GetService(page, entity),
+            TabScript => Generator.GetScript(Config.DatabaseType, entity),
+            TabInfo => Generator.GetModel(entity),
+            TabEntity => Generator.GetEntity(entity),
+            TabPage => Generator.GetPage(page, entity),
+            TabForm => Generator.GetForm(form, entity),
+            TabServiceI => Generator.GetIService(page, entity, true),
+            TabService => Generator.GetService(page, entity),
             _ => ""
         };
     }

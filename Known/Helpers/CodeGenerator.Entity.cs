@@ -13,14 +13,15 @@ partial class CodeGenerator
         if (entity.IsFlow)
             baseType = " : FlowEntity";
 
+        var entityName = entity.EntityName ?? entity.Id;
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Entities;", Config.App.Id);
+        sb.AppendLine("namespace {0}.Entities;", entity.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// {0}实体类。", entity.Name);
         sb.AppendLine("/// </summary>");
         sb.AppendLine("[DisplayName(\"{0}\")]", entity.Name);
-        sb.AppendLine("public partial class {0}{1}", entity.Id, baseType);
+        sb.AppendLine("public class {0}{1}", entityName, baseType);
         sb.AppendLine("{");
 
         var index = 0;

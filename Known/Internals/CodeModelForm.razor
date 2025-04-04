@@ -16,9 +16,12 @@
                 <AntInput @bind-Value="Model.Namespace" />
             </FieldItem>
         </div>
-        <div class="kui-row">
+        <div class="kui-row-28">
+            <FieldItem Label="URL">
+                <AntInput @bind-Value="Model.PageUrl" />
+            </FieldItem>
             <FieldItem Label="功能">
-                <AntCheckboxGroup @bind-Value="Model.Functions" Category="新增,编辑,删除,批量删除,导入,导出" />
+                <AntCheckboxGroup @bind-Value="Model.Functions" Codes="Functions" />
             </FieldItem>
         </div>
     </div>

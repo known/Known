@@ -5,6 +5,16 @@
 /// </summary>
 public partial class CodeModelForm
 {
+    private readonly List<CodeInfo> Functions =
+    [
+        new("New", "新增"),
+        new("Edit", "编辑"),
+        new("Delete", "删除"),
+        new("DeleteM", "批量删除"),
+        new("Import", "导入"),
+        new("Export", "导出")
+    ];
+
     /// <summary>
     /// 取得或设置代码生成模型信息。
     /// </summary>
@@ -32,6 +42,9 @@ public partial class CodeModelForm
                 if (items.Length > 2) info.Type = Utils.ConvertTo<FieldType>(items[2].Trim());
                 if (items.Length > 3) info.Length = items[3].Trim();
                 if (items.Length > 4) info.Required = Utils.ConvertTo<bool>(items[4].Trim());
+                if (items.Length > 5) info.Width = items[5].Trim();
+                if (items.Length > 6) info.IsGrid = Utils.ConvertTo<bool>(items[6].Trim());
+                if (items.Length > 7) info.IsForm = Utils.ConvertTo<bool>(items[7].Trim());
                 Model.Fields.Add(info);
             }
         });

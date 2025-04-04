@@ -34,4 +34,11 @@ public class EntityInfo
     /// 取得或设置实体字段信息列表。
     /// </summary>
     public List<FieldInfo> Fields { get; set; } = [];
+
+    internal string Namespace { get; set; } = Config.App.Id;
+    internal string ModelName { get; set; }
+    internal string EntityName { get; set; }
+    internal string PageName { get; set; }
+    internal string FormName { get; set; }
+    internal string ServiceName { get; set; }
 }

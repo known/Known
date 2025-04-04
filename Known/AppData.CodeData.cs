@@ -24,6 +24,7 @@ public partial class AppData
             model.Name = info.Name;
             model.Prefix = info.Prefix;
             model.Namespace = info.Namespace;
+            model.PageUrl = info.PageUrl;
             model.Functions = info.Functions;
             model.Fields = info.Fields;
         }

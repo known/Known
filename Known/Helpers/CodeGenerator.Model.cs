@@ -7,14 +7,15 @@ partial class CodeGenerator
         if (entity == null)
             return string.Empty;
 
+        var modelName = entity.ModelName ?? entity.Id;
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Models;", Config.App.Id);
+        sb.AppendLine("namespace {0}.Models;", entity.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// {0}信息类。", entity.Name);
         sb.AppendLine("/// </summary>");
         sb.AppendLine("[DisplayName(\"{0}\")]", entity.Name);
-        sb.AppendLine("public class {0}", entity.Id);
+        sb.AppendLine("public class {0}", modelName);
         sb.AppendLine("{");
 
         var index = 0;
