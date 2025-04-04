@@ -37,14 +37,13 @@ public partial class CodeModelForm
             {
                 var items = line.Contains('\t') ? line.Split('\t') : line.Split('|');
                 var info = new CodeFieldInfo();
-                if (items.Length > 0) info.Id = items[0].Trim();
-                if (items.Length > 1) info.Name = items[1].Trim();
+                if (items.Length > 0) info.Name = items[0].Trim();
+                if (items.Length > 1) info.Id = items[1].Trim();
                 if (items.Length > 2) info.Type = Utils.ConvertTo<FieldType>(items[2].Trim());
                 if (items.Length > 3) info.Length = items[3].Trim();
                 if (items.Length > 4) info.Required = Utils.ConvertTo<bool>(items[4].Trim());
-                if (items.Length > 5) info.Width = items[5].Trim();
-                if (items.Length > 6) info.IsGrid = Utils.ConvertTo<bool>(items[6].Trim());
-                if (items.Length > 7) info.IsForm = Utils.ConvertTo<bool>(items[7].Trim());
+                if (items.Length > 5) info.IsGrid = Utils.ConvertTo<bool>(items[6].Trim());
+                if (items.Length > 6) info.IsForm = Utils.ConvertTo<bool>(items[7].Trim());
                 Model.Fields.Add(info);
             }
         });

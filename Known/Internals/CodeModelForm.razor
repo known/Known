@@ -37,11 +37,11 @@
         </div>
     </div>
     <CodeFieldTable DataSource="Model.Fields" HidePagination AutoHeight>
-        <StringColumn Title="Id" Width="150" Fixed="ColumnFixPlacement.Left">
-            <AntInput @bind-Value="context.Id" />
-        </StringColumn>
         <StringColumn Title="名称" Width="150" Fixed="ColumnFixPlacement.Left">
             <AntInput @bind-Value="context.Name" />
+        </StringColumn>
+        <StringColumn Title="代码" Width="150" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Id" />
         </StringColumn>
         <StringColumn Title="类型" Width="150">
             <AntSelectCode @bind-Value="context.TypeName" Category="@nameof(FieldType)" />
@@ -51,9 +51,6 @@
         </StringColumn>
         <StringColumn Title="必填" Width="60">
             <AntSwitch @bind-Value="context.Required" />
-        </StringColumn>
-        <StringColumn Title="宽度" Width="100">
-            <AntInput @bind-Value="context.Width" />
         </StringColumn>
         <StringColumn Title="表格" Width="60">
             <AntSwitch @bind-Value="context.IsGrid" />
