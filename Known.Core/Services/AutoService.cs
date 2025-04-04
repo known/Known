@@ -3,6 +3,8 @@
 [WebApi, Service]
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {
+    private readonly string ClientPath = Config.App.ContentRoot?.Replace(".Web", "");
+
     public async Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
         var database = Database;
@@ -111,10 +113,9 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var info = new CodeConfigInfo();
         if (Config.IsDebug)
         {
-            var clientPath = Config.App.ContentRoot?.Replace(".Web", "");
             var serverPath = Config.App.ContentRoot;
-            info.EntityPath = CoreOption.Instance.Code?.EntityPath ?? clientPath;
-            info.PagePath = CoreOption.Instance.Code?.PagePath ?? clientPath;
+            info.EntityPath = CoreOption.Instance.Code?.EntityPath ?? ClientPath;
+            info.PagePath = CoreOption.Instance.Code?.PagePath ?? ClientPath;
             info.ServicePath = CoreOption.Instance.Code?.ServicePath ?? serverPath;
         }
         return Task.FromResult(info);
@@ -128,10 +129,17 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         if (string.IsNullOrWhiteSpace(info.PageId))
             return Result.Error("路径不能为空！");
 
-        if (File.Exists(info.PageId))
+        var path = info.PageId;
+        if (!path.StartsWith(ClientPath))
+        {
+            var dir = new DirectoryInfo(ClientPath);
+            path = Path.Combine(dir.Parent.FullName, path);
+        }
+
+        if (File.Exists(path))
             return Result.Error($"文件[{info.PageId}]已存在！");
 
-        await Utils.SaveFileAsync(info.PageId, info.Data);
+        await Utils.SaveFileAsync(path, info.Data);
         return Result.Success("保存成功！");
     }
 

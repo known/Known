@@ -63,7 +63,10 @@ public class CodingPage : BaseTabPage
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
+        {
             Models = await Service.GetModelsAsync();
+            Model = Models.FirstOrDefault();
+        }
     }
 
     private void BuildTabRight(RenderTreeBuilder builder)
@@ -97,6 +100,7 @@ public class CodingPage : BaseTabPage
     private void BuildModelForm(RenderTreeBuilder builder)
     {
         builder.Component<CodeModelForm>()
+               .Set(c => c.Default, Models.FirstOrDefault())
                .Set(c => c.Model, Model)
                .Set(c => c.OnModelSave, this.Callback<CodeModelInfo>(OnSaveModelAsync))
                .Build();

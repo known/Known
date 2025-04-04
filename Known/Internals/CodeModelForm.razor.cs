@@ -16,6 +16,11 @@ public partial class CodeModelForm
     ];
 
     /// <summary>
+    /// 取得或设置代码生成模型默认信息。
+    /// </summary>
+    [Parameter] public CodeModelInfo Default { get; set; }
+
+    /// <summary>
     /// 取得或设置代码生成模型信息。
     /// </summary>
     [Parameter] public CodeModelInfo Model { get; set; }
@@ -49,7 +54,18 @@ public partial class CodeModelForm
         });
     }
 
-    private void OnNew() => Model = new CodeModelInfo();
+    private void OnNew()
+    {
+        Model = new CodeModelInfo();
+        if (Default != null)
+        {
+            Model.Prefix = Default.Prefix;
+            Model.Namespace = Default.Namespace;
+        }
+        if (string.IsNullOrWhiteSpace(Model.Namespace))
+            Model.Namespace = Config.App.Assembly.FullName.Split(',')[0].Replace(".Web", "");
+    }
+
     private void OnSave() => OnModelSave.InvokeAsync(Model);
     private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
     private void OnDelete(CodeFieldInfo row) => Model.Fields.Remove(row);
