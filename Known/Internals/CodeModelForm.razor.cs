@@ -42,8 +42,8 @@ public partial class CodeModelForm
                 if (items.Length > 2) info.Type = Utils.ConvertTo<FieldType>(items[2].Trim());
                 if (items.Length > 3) info.Length = items[3].Trim();
                 if (items.Length > 4) info.Required = Utils.ConvertTo<bool>(items[4].Trim());
-                if (items.Length > 5) info.IsGrid = Utils.ConvertTo<bool>(items[6].Trim());
-                if (items.Length > 6) info.IsForm = Utils.ConvertTo<bool>(items[7].Trim());
+                if (items.Length > 5) info.IsGrid = Utils.ConvertTo<bool>(items[5].Trim());
+                if (items.Length > 6) info.IsForm = Utils.ConvertTo<bool>(items[6].Trim());
                 Model.Fields.Add(info);
             }
         });
