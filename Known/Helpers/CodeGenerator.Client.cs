@@ -4,12 +4,18 @@ partial class CodeGenerator
 {
     public string GetClient(PageInfo page, EntityInfo entity)
     {
-        var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
+        var pluralName = GetPluralName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("using {0}.Entities;", Config.App.Id);
         sb.AppendLine(" ");
         sb.AppendLine("namespace {0}.Services;", Config.App.Id);
+        AppendClient(sb, className, pluralName, page, entity);
+        return sb.ToString();
+    }
+
+    private static void AppendClient(StringBuilder sb, string className, string pluralName, PageInfo page, EntityInfo entity)
+    {
         sb.AppendLine(" ");
         sb.AppendLine("[Client]");
         sb.AppendLine("class {0}Client(HttpClient http) : ClientBase(http), I{0}Service", className);
@@ -68,6 +74,5 @@ partial class CodeGenerator
         }
 
         sb.AppendLine("}");
-        return sb.ToString();
     }
 }

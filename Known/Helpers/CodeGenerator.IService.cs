@@ -2,7 +2,7 @@
 
 partial class CodeGenerator
 {
-    public string GetIService(PageInfo page, EntityInfo entity)
+    public string GetIService(PageInfo page, EntityInfo entity, bool hasClient = false)
     {
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
@@ -43,6 +43,9 @@ partial class CodeGenerator
         if (HasSave(page))
             sb.AppendLine("    Task<Result> Save{0}Async({1} info);", className, entity.Id);
         sb.AppendLine("}");
+
+        if (hasClient)
+            AppendClient(sb, className, pluralName, page, entity);
         return sb.ToString();
     }
 

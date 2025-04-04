@@ -1,0 +1,67 @@
+﻿@inherits BaseComponent
+
+<div class="kui-coding-form">
+    <div class="kui-small">
+        <div class="kui-row">
+            <FieldItem Label="代码">
+                <AntInput @bind-Value="Model.Code" />
+            </FieldItem>
+            <FieldItem Label="名称">
+                <AntInput @bind-Value="Model.Name" />
+            </FieldItem>
+            <FieldItem Label="表前缀">
+                <AntInput @bind-Value="Model.Prefix" />
+            </FieldItem>
+            <FieldItem Label="命名空间">
+                <AntInput @bind-Value="Model.Namespace" />
+            </FieldItem>
+        </div>
+        <div class="kui-row">
+            <FieldItem Label="功能">
+                <AntCheckboxGroup @bind-Value="Model.Functions" Category="新增,编辑,删除,批量删除,导入,导出" />
+            </FieldItem>
+        </div>
+    </div>
+    <div class="kui-toolbar">
+        <KTitle Text="字段信息" />
+        <div class="ant-toolbar">
+            <KButton Type="ButtonType.Primary" Icon="plus" Name="新建模型" OnClick="OnNew" />
+            <KButton Type="ButtonType.Primary" Icon="save" Name="保存模型" OnClick="OnSave" />
+            <KButton Type="ButtonType.Primary" Icon="plus" Name="添加栏位" OnClick="OnAdd" />
+            <Tooltip Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。">
+                <KButton Type="ButtonType.Primary" Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" />
+            </Tooltip>
+        </div>
+    </div>
+    <CodeFieldTable DataSource="Model.Fields" HidePagination AutoHeight>
+        <StringColumn Title="Id" Width="150" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Id" />
+        </StringColumn>
+        <StringColumn Title="名称" Width="150" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Name" />
+        </StringColumn>
+        <StringColumn Title="类型" Width="150">
+            <AntSelectCode @bind-Value="context.TypeName" Category="@nameof(FieldType)" />
+        </StringColumn>
+        <StringColumn Title="长度" Width="100">
+            <AntInput @bind-Value="context.Length" />
+        </StringColumn>
+        <StringColumn Title="必填" Width="60">
+            <AntSwitch @bind-Value="context.Required" />
+        </StringColumn>
+        <StringColumn Title="宽度" Width="100">
+            <AntInput @bind-Value="context.Width" />
+        </StringColumn>
+        <StringColumn Title="表格" Width="60">
+            <AntSwitch @bind-Value="context.IsGrid" />
+        </StringColumn>
+        <StringColumn Title="表单" Width="60">
+            <AntSwitch @bind-Value="context.IsForm" />
+        </StringColumn>
+        <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="150" Fixed="ColumnFixPlacement.Right">
+            <KTag Text="上移" Color="blue-inverse" OnClick="()=>OnMoveUp(context)" />
+            <KTag Text="下移" Color="blue-inverse" OnClick="()=>OnMoveDown(context)" />
+            <KTag Text="删除" Color="red-inverse" OnClick="()=>OnDelete(context)" />
+        </ActionColumn>
+    </CodeFieldTable>
+</div>

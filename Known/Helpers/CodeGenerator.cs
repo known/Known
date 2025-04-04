@@ -14,6 +14,13 @@ public interface ICodeGenerator
     string GetScript(DatabaseType dbType, EntityInfo entity);
 
     /// <summary>
+    /// 获取模型信息类代码。
+    /// </summary>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>实体类代码。</returns>
+    string GetModel(EntityInfo entity);
+
+    /// <summary>
     /// 获取实体类代码。
     /// </summary>
     /// <param name="entity">实体模型对象。</param>
@@ -41,8 +48,9 @@ public interface ICodeGenerator
     /// </summary>
     /// <param name="page">页面模型对象。</param>
     /// <param name="entity">实体模型对象。</param>
+    /// <param name="hasClient">是否含有客户端类。</param>
     /// <returns>业务服务接口代码。</returns>
-    string GetIService(PageInfo page, EntityInfo entity);
+    string GetIService(PageInfo page, EntityInfo entity, bool hasClient = false);
 
     /// <summary>
     /// 获取客户端HTTP请求代码。

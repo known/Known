@@ -30,7 +30,10 @@
         else
         {
             <Empty>
-                <KButton Type="ButtonType.Primary" Name="添加数据" OnClick="OnAddClick" />
+                @if (OnAddClick.HasDelegate)
+                {
+                    <KButton Type="ButtonType.Primary" Name="添加数据" OnClick="OnAddClick" />
+                }
             </Empty>
         }
     </ul>
