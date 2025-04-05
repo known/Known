@@ -17,6 +17,10 @@ partial class CodeGenerator
         sb.AppendLine("[DisplayName(\"{0}\")]", entity.Name);
         sb.AppendLine("public class {0}", modelName);
         sb.AppendLine("{");
+        sb.AppendLine("    /// <summary>");
+        sb.AppendLine("    /// 取得或设置ID。");
+        sb.AppendLine("    /// </summary>");
+        sb.AppendLine("    public string Id { get; set; }");
 
         var index = 0;
         foreach (var item in entity.Fields)

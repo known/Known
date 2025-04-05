@@ -8,6 +8,11 @@ public class CoreConfig
     private CoreConfig() { }
 
     /// <summary>
+    /// 取得或设置模块是否存储数据库，默认true，如果使用纯代码模式，设置false。
+    /// </summary>
+    public static bool IsDbModule { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置自定义用户业务逻辑处理者实例。
     /// </summary>
     public static UserHandler UserHandler { get; set; }

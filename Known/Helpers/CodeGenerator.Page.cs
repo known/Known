@@ -32,22 +32,22 @@ partial class CodeGenerator
             {
                 if (item == "Import")
                 {
-                    import = "    public Task Import() => Table.ShowImportAsync();";
+                    import = "    [Action] public Task Import() => Table.ShowImportAsync();";
                     continue;
                 }
 
                 if (item == "Export")
                 {
-                    export = "    public Task Export() => Table.ExportDataAsync();";
+                    export = "    [Action] public Task Export() => Table.ExportDataAsync();";
                     continue;
                 }
 
                 if (item == "New")
-                    sb.AppendLine("    public void New() => Table.NewForm(Service.Save{0}Async, new {1}());", className, modelName);
+                    sb.AppendLine("    [Action] public void New() => Table.NewForm(Service.Save{0}Async, new {1}());", className, modelName);
                 else if (item == "DeleteM")
-                    sb.AppendLine("    public void DeleteM() => Table.DeleteM(Service.Delete{0}Async);", pluralName);
+                    sb.AppendLine("    [Action] public void DeleteM() => Table.DeleteM(Service.Delete{0}Async);", pluralName);
                 else
-                    sb.AppendLine("    public void {0}() => Table.SelectRows(Service.{0}{1}Async, Language[\"Button.{0}\"]);", item, pluralName);
+                    sb.AppendLine("    [Action] public void {0}() => Table.SelectRows(Service.{0}{1}Async, Language[\"Button.{0}\"]);", item, pluralName);
             }
         }
 
@@ -56,11 +56,11 @@ partial class CodeGenerator
             foreach (var item in page.Actions)
             {
                 if (item == "Edit")
-                    sb.AppendLine("    public void Edit({0} row) => Table.EditForm(Service.Save{1}Async, row);", modelName, className);
+                    sb.AppendLine("    [Action] public void Edit({0} row) => Table.EditForm(Service.Save{1}Async, row);", modelName, className);
                 else if (item == "Delete")
-                    sb.AppendLine("    public void Delete({0} row) => Table.Delete(Service.Delete{1}Async, row);", modelName, pluralName);
+                    sb.AppendLine("    [Action] public void Delete({0} row) => Table.Delete(Service.Delete{1}Async, row);", modelName, pluralName);
                 else
-                    sb.AppendLine("    public void {0}({1} row) => {{}};", item, modelName);
+                    sb.AppendLine("    [Action] public void {0}({1} row) => {{}};", item, modelName);
             }
         }
 
