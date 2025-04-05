@@ -169,4 +169,9 @@ public class FormAttribute() : Attribute
     /// 取得或设置文本域组件行数，默认3。
     /// </summary>
     public uint Rows { get; set; } = 3;
+
+    /// <summary>
+    /// 取得或设置计量单位。
+    /// </summary>
+    public string Unit { get; set; }
 }

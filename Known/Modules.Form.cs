@@ -99,6 +99,11 @@ public class FormFieldInfo : FieldInfo
     public uint Rows { get; set; } = 3;
 
     /// <summary>
+    /// 取得或设置计量单位。
+    /// </summary>
+    public string Unit { get; set; }
+
+    /// <summary>
     /// 取得或设置表单字段是否为只读。
     /// </summary>
     public bool ReadOnly { get; set; }

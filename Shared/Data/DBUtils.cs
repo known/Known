@@ -213,6 +213,8 @@ public sealed class DbUtils
                         value = GetNumberValue(value);
                     else if (!string.IsNullOrWhiteSpace(item.Category))
                         value = Cache.GetCodeName(item.Category, value?.ToString());
+                    if (!string.IsNullOrWhiteSpace(item.Unit))
+                        value = $"{value} {item.Unit}";
                 }
                 sheet.SetCellValue(rowIndex, index++, value, cellStyle);
             }

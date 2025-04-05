@@ -62,7 +62,8 @@ public static class LayoutExtension
                 Id = item.Id,
                 Name = item.Name,
                 Category = item.Category,
-                Type = item.Type
+                Type = item.Type,
+                Unit = item.Unit
             });
         }
         return columns;

@@ -66,6 +66,11 @@ public partial class ColumnInfo
     public uint Rows { get; set; } = 3;
 
     /// <summary>
+    /// 取得或设置计量单位。
+    /// </summary>
+    public string Unit { get; set; }
+
+    /// <summary>
     /// 取得或设置表单字段附件是否可多选。
     /// </summary>
     public bool MultiFile { get; set; }

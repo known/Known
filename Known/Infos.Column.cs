@@ -56,6 +56,7 @@ public partial class ColumnInfo
         Required = info.Required;
         Placeholder = info.Placeholder;
         Rows = info.Rows;
+        Unit = info.Unit;
         Category = info.Category;
     }
 }

@@ -39,6 +39,8 @@ class KField<TItem> : BaseComponent where TItem : class, new()
                 builder.AddMultipleAttributes(1, Model.InputAttributes);
                 builder.CloseComponent();
             }
+            if (!string.IsNullOrWhiteSpace(Model.Column.Unit))
+                builder.Div("kui-unit", Model.Column.Unit);
         }
     }
 }

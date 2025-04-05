@@ -46,6 +46,7 @@ public static class ModelExtension
         {
             //column.Type = item.Type;
             column.Category = item.Category;
+            column.Unit = item.Unit;
         }
         //if (column.Type == FieldType.Text)
         //{

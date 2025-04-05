@@ -21,6 +21,11 @@ public class ExportColumnInfo
     public string Category { get; set; }
 
     /// <summary>
+    /// 取得或设置计量单位。
+    /// </summary>
+    public string Unit { get; set; }
+
+    /// <summary>
     /// 取得或设置导出栏位字段类型。
     /// </summary>
     public FieldType Type { get; set; }

@@ -136,6 +136,7 @@ partial class TableModel<TItem>
             Placeholder = info.Placeholder,
             Row = info.Row,
             Column = info.Column,
+            Unit = info.Unit,
             Span = info.Span,
             Type = info.Type,
             CustomField = info.CustomField,
