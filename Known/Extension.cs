@@ -120,6 +120,7 @@ public static partial class Extension
         KScript.AddScript("_content/Known/js/libs/qrcode.js");
         KScript.AddScript("_content/Known/js/libs/prism.js");
         KScript.AddScript("_content/Known/js/web.js");
+        KScript.AddScript("_content/Known/js/serviceWorkerRegister.js");
     }
 
     private static void ConfigureUI()

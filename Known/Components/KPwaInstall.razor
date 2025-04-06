@@ -1,0 +1,26 @@
+﻿@inherits BaseComponent
+
+<div style="position:fixed;top:10px;right:10px;">
+    <div id="btnPwaInstall" class="ant-btn ant-btn-default" style="display:block;width:110px;" onclick="addToDesktop()">添加到主屏幕</div>
+    <div id="iosInstallGuide" style="display:none;">
+        <p>点击分享按钮 <KIcon Icon="share-alt" />，选择“添加到主屏幕”安装。</p>
+    </div>
+</div>
+
+<script>
+    const installButton = document.getElementById('btnPwaInstall');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    // 检测是否支持 PWA
+    if ('serviceWorker' in navigator && 'onbeforeinstallprompt' in window) {
+        if (isIOS || !('onbeforeinstallprompt' in window)) {
+            installButton.style.display = 'none';
+            document.getElementById('iosInstallGuide').style.display = 'block';
+        }
+    }
+    // 检测是否已安装
+    window.addEventListener('load', () => {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installButton.style.display = 'none';
+        }
+    });
+</script>
