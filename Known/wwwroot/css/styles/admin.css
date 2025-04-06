@@ -51,7 +51,7 @@
 @media screen and (max-width:768px) {
     .kui-system {margin:0;}
     .kui-user-form {margin:0;width:auto;}
-    .kui-user-form .kui-form-button {margin-left:0;}
+    .kui-user-form .kui-form-button {margin-left:10px;}
 }
 
 /*BaseData*/

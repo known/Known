@@ -6,7 +6,6 @@
 public class BaseLayout : BaseComponent
 {
     private AdminInfo Info { get; set; }
-    internal MenuInfo CurrentMenu => Context?.Current;
 
     [CascadingParameter] private RouteData RouteData { get; set; }
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
@@ -64,23 +63,6 @@ public class BaseLayout : BaseComponent
             if (!IsServerMode)
                 await InitAdminAsync();
         }
-    }
-
-    /// <summary>
-    /// 导航到指定菜单对应的页面。
-    /// </summary>
-    /// <param name="item">跳转的菜单对象。</param>
-    public void NavigateTo(MenuInfo item) => Context.NavigateTo(item);
-
-    /// <summary>
-    /// 返回到上一个页面。
-    /// </summary>
-    public void Back()
-    {
-        if (CurrentMenu == null || string.IsNullOrWhiteSpace(CurrentMenu.BackUrl))
-            return;
-
-        Navigation?.NavigateTo(CurrentMenu.BackUrl);
     }
 
     /// <summary>

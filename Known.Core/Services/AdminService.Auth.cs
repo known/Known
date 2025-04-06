@@ -6,7 +6,7 @@ partial class AdminService
     public async Task<Result> RegisterAsync(RegisterFormInfo info)
     {
         if (info.Password != info.Password1)
-            Result.Error(Language["Tip.PwdNotEqual"]);
+            return Result.Error(Language["Tip.PwdNotEqual"]);
 
         var database = Database;
         if (CoreConfig.OnRegistering != null)

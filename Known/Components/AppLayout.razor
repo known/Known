@@ -5,14 +5,14 @@
         @if (!IsHome)
         {
             <div class="kui-app-nav">
-                @if (!string.IsNullOrWhiteSpace(App?.CurrentMenu?.BackUrl))
+                @if (!string.IsNullOrWhiteSpace(Context.Current?.BackUrl))
                 {
-                    <span class="back" @onclick="e=>App?.Back()">
+                    <span class="back" @onclick="e=>Context.Back()">
                         <Icon Type="left" Theme="IconThemeType.Outline" />
                         <span>返回</span>
                     </span>
                 }
-                @App?.CurrentMenu?.Name
+                @Context.Current?.Name
             </div>
         }
         <div class="@PageClass">

@@ -7,6 +7,8 @@ namespace Known.Blazor;
 /// </summary>
 public class UIContext : Context
 {
+    private MenuInfo current;
+
     /// <summary>
     /// 取得当前上下文菜单信息。
     /// </summary>
@@ -120,7 +122,20 @@ public class UIContext : Context
                 return;
             }
         }
+
+        current = info;
         Navigation.NavigateTo(info.RouteUrl);
+    }
+
+    /// <summary>
+    /// 返回到上一个页面。
+    /// </summary>
+    public void Back()
+    {
+        if (Current == null || string.IsNullOrWhiteSpace(Current.BackUrl))
+            return;
+
+        Navigation?.NavigateTo(Current.BackUrl);
     }
 
     /// <summary>
@@ -149,6 +164,7 @@ public class UIContext : Context
 
         var menus = IsMobileApp ? Config.AppMenus : UserMenus;
         Current = GetCurrentMenu(menus, route);
+        Current ??= current;
     }
 
     private MenuInfo GetCurrentMenu(List<MenuInfo> menus, RouteData route)
