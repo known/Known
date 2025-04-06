@@ -41,4 +41,5 @@ public class EntityInfo
     internal string PageName { get; set; }
     internal string FormName { get; set; }
     internal string ServiceName { get; set; }
+    internal bool HasFile { get; set; }
 }

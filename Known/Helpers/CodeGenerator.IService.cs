@@ -40,7 +40,10 @@ partial class CodeGenerator
         }
 
         if (HasSave(page))
-            sb.AppendLine("    Task<Result> Save{0}Async({1} info);", className, modelName);
+        {
+            var modelClass = entity.HasFile ? $"UploadInfo<{modelName}>" : modelName;
+            sb.AppendLine("    Task<Result> Save{0}Async({1} info);", className, modelClass);
+        }
         sb.AppendLine("}");
 
         if (hasClient)

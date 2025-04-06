@@ -65,8 +65,9 @@ partial class CodeGenerator
 
         if (HasSave(page))
         {
+            var modelClass = entity.HasFile ? $"UploadInfo<{modelName}>" : modelName;
             sb.AppendLine(" ");
-            sb.AppendLine("    public Task<Result> Save{0}Async({1} info)", className, modelName);
+            sb.AppendLine("    public Task<Result> Save{0}Async({1} info)", className, modelClass);
             sb.AppendLine("    {");
             sb.AppendLine("        return Http.PostAsync(\"/{0}/Save{0}\", info);", className);
             sb.AppendLine("    }");

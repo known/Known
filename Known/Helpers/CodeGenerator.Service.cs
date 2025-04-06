@@ -27,13 +27,24 @@ partial class CodeGenerator
             sb.AppendLine("        if (infos == null || infos.Count == 0)");
             sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
             sb.AppendLine(" ");
-            sb.AppendLine("        return await Database.TransactionAsync(Language.Delete, async db =>");
+            sb.AppendLine("        var database = Database;");
+            if (entity.HasFile)
+                sb.AppendLine("        var oldFiles = new List<string>();");
+            sb.AppendLine("        var result = await database.TransactionAsync(Language.Delete, async db =>");
             sb.AppendLine("        {");
             sb.AppendLine("            foreach (var item in infos)");
             sb.AppendLine("            {");
+            if (entity.HasFile)
+                sb.AppendLine("                await db.DeleteFilesAsync(item.Id, oldFiles);");
             sb.AppendLine("                await db.DeleteAsync<{0}>(item.Id);", entityName);
             sb.AppendLine("            }");
             sb.AppendLine("        });");
+            if (entity.HasFile)
+            {
+                sb.AppendLine("        if (result.IsValid)");
+                sb.AppendLine("            AttachFile.DeleteFiles(oldFiles);");
+            }
+            sb.AppendLine("        return result;");
             sb.AppendLine("    }");
         }
 
@@ -50,7 +61,8 @@ partial class CodeGenerator
                 sb.AppendLine("        if (infos == null || infos.Count == 0)");
                 sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
                 sb.AppendLine(" ");
-                sb.AppendLine("        return await Database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
+                sb.AppendLine("        var database = Database;");
+                sb.AppendLine("        return await database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
                 sb.AppendLine("        {");
                 sb.AppendLine("        });");
                 sb.AppendLine("    }");
@@ -74,23 +86,35 @@ partial class CodeGenerator
 
         if (HasSave(page))
         {
+            var modelClass = entity.HasFile ? $"UploadInfo<{modelName}>" : modelName;
+            var model = entity.HasFile ? ".Model" : "";
             sb.AppendLine(" ");
-            sb.AppendLine("    public async Task<Result> Save{0}Async({1} info)", className, modelName);
+            sb.AppendLine("    public async Task<Result> Save{0}Async({1} info)", className, modelClass);
             sb.AppendLine("    {");
             sb.AppendLine("        var database = Database;");
-            sb.AppendLine("        var model = await database.QueryByIdAsync<{0}>(info.Id);", entityName);
+            sb.AppendLine("        var model = await database.QueryByIdAsync<{0}>(info{1}.Id);", entityName, model);
             sb.AppendLine("        model ??= new {0}();", entityName);
-            sb.AppendLine("        model.FillModel(info);");
+            sb.AppendLine("        model.FillModel(info{0});", model);
             sb.AppendLine(" ");
             sb.AppendLine("        var vr = model.Validate(Context);");
             sb.AppendLine("        if (!vr.IsValid)");
             sb.AppendLine("            return vr;");
             sb.AppendLine(" ");
+            if (entity.HasFile)
+            {
+                sb.AppendLine("        var bizType = \"{0}Files\";", className);
+                sb.AppendLine("        var bizFiles = info.Files.GetAttachFiles(CurrentUser, nameof({0}.Files), bizType);", modelName);
+            }
             sb.AppendLine("        return await database.TransactionAsync(Language.Save, async db =>");
             sb.AppendLine("        {");
+            if (entity.HasFile)
+            {
+                sb.AppendLine("            await db.AddFilesAsync(bizFiles, model.Id, bizType);");
+                sb.AppendLine("            model.Files = $\"{model.Id}_{bizType}\";");
+            }
             sb.AppendLine("            await db.SaveAsync(model);");
-            sb.AppendLine("            info.Id = model.Id;");
-            sb.AppendLine("        }, info);");
+            sb.AppendLine("            info{0}.Id = model.Id;", model);
+            sb.AppendLine("        }}, info{0});", model);
             sb.AppendLine("    }");
         }
 

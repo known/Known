@@ -1,57 +1,59 @@
 ﻿@inherits BaseComponent
 
-@if (IsDrag)
-{
-    <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
-        <div class="ant-upload" style="display:grid;">
-            @if (!ReadOnly)
-            {
-                <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
-            }
-            <div class="ant-upload-drag-container">
-                <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
-                <p class="ant-upload-text">单击或拖动文件到此区域进行上传</p>
-                <p class="ant-upload-hint">@HintText</p>
-            </div>
-        </div>
-    </div>
-}
-else if (IsButton)
-{
-    <div class="kui-upload">
-        @if (!ReadOnly)
-        {
-            <div class="kui-button">
-                <KIcon Icon="upload" />
-                <span>@Language.Upload</span>
-                @BuildInput
-            </div>
-            @BuildTemplate
-        }
-    </div>
-}
-else
-{
-    <div class="kui-upload">
-        @if (!ReadOnly)
-        {
-            @BuildInput
-            @BuildTemplate
-        }
-    </div>
-}
-<div class="kui-form-files">
-    @foreach (var item in sysFiles)
+<div class="kui-upload-field">
+    @if (IsDrag)
     {
-        var url = item.FileUrl;
-        <div>
-            @if (!ReadOnly)
-            {
-                <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language.Delete</span>
-            }
-            <KFileLink Item="item" />
+        <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
+            <div class="ant-upload" style="display:grid;">
+                @if (!ReadOnly)
+                {
+                    <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
+                }
+                <div class="ant-upload-drag-container">
+                    <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
+                    <p class="ant-upload-text">单击或拖动文件到此区域进行上传</p>
+                    <p class="ant-upload-hint">@HintText</p>
+                </div>
+            </div>
         </div>
     }
+    else if (IsButton)
+    {
+        <div class="kui-upload">
+            @if (!ReadOnly)
+            {
+                <div class="kui-button">
+                    <KIcon Icon="upload" />
+                    <span>@Language.Upload</span>
+                    @BuildInput
+                </div>
+                @BuildTemplate
+            }
+        </div>
+    }
+    else
+    {
+        <div class="kui-upload">
+            @if (!ReadOnly)
+            {
+                @BuildInput
+                @BuildTemplate
+            }
+        </div>
+    }
+    <div class="kui-form-files">
+        @foreach (var item in sysFiles)
+        {
+            var url = item.FileUrl;
+            <div>
+                @if (!ReadOnly)
+                {
+                    <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language.Delete</span>
+                }
+                <KFileLink Item="item" />
+            </div>
+        }
+    </div>
 </div>
 
 @code {

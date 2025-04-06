@@ -70,6 +70,7 @@ public class CodeModelInfo
             PageName = PageName,
             FormName = FormName,
             ServiceName = ServiceName,
+            HasFile = Fields.Any(f => f.Type == FieldType.File),
             Fields = [.. Fields.Select(f => f.ToField())]
         };
         return info;
