@@ -3,6 +3,57 @@
 partial class AdminService
 {
     [AllowAnonymous]
+    public async Task<Result> RegisterAsync(RegisterFormInfo info)
+    {
+        if (info.Password != info.Password1)
+            Result.Error(Language["Tip.PwdNotEqual"]);
+
+        var database = Database;
+        if (CoreConfig.OnRegistering != null)
+        {
+            var vr = await CoreConfig.OnRegistering.Invoke(database, info);
+            if (!vr.IsValid)
+                return vr;
+        }
+
+        var userName = info.UserName?.ToLower();
+        var user = await database.GetUserAsync(userName);
+        if (user != null)
+            return Result.Error(Language["Tip.UserNameExists"]);
+
+        user = new UserInfo
+        {
+            UserName = userName,
+            Name = info.UserName,
+            EnglishName = info.UserName,
+            FirstLoginIP = info.IPAddress,
+            Token = Utils.GetGuid()
+        };
+        database.User = await database.GetUserAsync(Constants.SysUserName);
+        var result = await database.TransactionAsync("注册", async db =>
+        {
+            var model = new SysUser
+            {
+                UserName = info.UserName.ToLower(),
+                Name = info.UserName,
+                EnglishName = info.UserName,
+                Password = Utils.ToMd5(info.Password),
+                FirstLoginTime = DateTime.Now,
+                FirstLoginIP = info.IPAddress,
+                LastLoginTime = DateTime.Now,
+                LastLoginIP = info.IPAddress
+            };
+            if (CoreConfig.OnRegistered != null)
+                await CoreConfig.OnRegistered.Invoke(db, model);
+            await db.SaveAsync(model);
+            await db.AddLogAsync(LogType.Register, user.UserName, $"IP：{user.LastLoginIP}");
+        }, user);
+        if (result.IsValid)
+            Cache.SetUser(user);
+        return result;
+    }
+
+    [AllowAnonymous]
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
         var database = Database;
@@ -10,9 +61,9 @@ partial class AdminService
         var password = Utils.ToMd5(info.Password);
         if (CoreConfig.OnLoging != null)
         {
-            var result = await CoreConfig.OnLoging.Invoke(database, info);
-            if (!result.IsValid)
-                return result;
+            var vr = await CoreConfig.OnLoging.Invoke(database, info);
+            if (!vr.IsValid)
+                return vr;
         }
 
         var user = await database.GetUserInfoAsync(userName, password);
@@ -31,18 +82,20 @@ partial class AdminService
         user.LastLoginIP = info.IPAddress;
         user.Token = Utils.GetGuid();
         user.Station = info.Station;
-        Cache.SetUser(user);
 
         var type = LogType.Login;
         if (info.IsMobile)
             type = LogType.AppLogin;
 
         database.User = user;
-        return await database.TransactionAsync(Language["Login"], async db =>
+        var result = await database.TransactionAsync(Language["Login"], async db =>
         {
             await db.SaveUserAsync(user);
             await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
+        if (result.IsValid)
+            Cache.SetUser(user);
+        return result;
     }
 
     public async Task<Result> SignOutAsync()

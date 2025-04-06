@@ -5,7 +5,6 @@
 /// </summary>
 public partial class LoginForm
 {
-    private LoginInfoForm form;
     private AntCaptcha captcha;
     private readonly CaptchaOption option = new() { SMSCount = 60 };
     private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
@@ -44,13 +43,13 @@ public partial class LoginForm
             option.SMSValidate = () =>
             {
                 if (string.IsNullOrWhiteSpace(Model.PhoneNo))
-                    return Known.Result.Error(Language.Required("PhoneNo"));
+                    return Result.Error(Language.Required("PhoneNo"));
                 if (string.IsNullOrWhiteSpace(Model.Captcha))
-                    return Known.Result.Error(Language.Required("Captcha"));
+                    return Result.Error(Language.Required("Captcha"));
                 if (!captcha.Validate(out string message))
-                    return Known.Result.Error(message);
+                    return Result.Error(message);
 
-                return Known.Result.Success("");
+                return Result.Success("");
             };
             option.SMSAction = async () =>
             {

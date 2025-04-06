@@ -3,6 +3,13 @@
 public partial interface IAdminService
 {
     /// <summary>
+    /// 异步注册用户。
+    /// </summary>
+    /// <param name="info"></param>
+    /// <returns></returns>
+    [AllowAnonymous] Task<Result> RegisterAsync(RegisterFormInfo info);
+
+    /// <summary>
     /// 异步用户登录。
     /// </summary>
     /// <param name="info">登录表单对象。</param>
@@ -59,6 +66,16 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    public async Task<Result> RegisterAsync(RegisterFormInfo info)
+    {
+        var model = new LoginFormInfo { UserName = info.UserName, Password = info.Password };
+        var result = await SignInAsync(model);
+        if (!result.IsValid)
+            return result;
+
+        return Result.Success("注册成功！", result.Data);
+    }
+
     public Task<Result> SignInAsync(LoginFormInfo info)
     {
         if (string.IsNullOrWhiteSpace(info.UserName))
@@ -123,6 +140,11 @@ partial class AdminService
 
 partial class AdminClient
 {
+    public Task<Result> RegisterAsync(RegisterFormInfo info)
+    {
+        return Http.PostAsync("/Admin/Register", info);
+    }
+
     public Task<Result> SignInAsync(LoginFormInfo info)
     {
         return Http.PostAsync("/Admin/SignIn", info);

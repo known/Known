@@ -11,8 +11,7 @@ public class SysUser : EntityBase
     /// </summary>
     public SysUser()
     {
-        Enabled = true;
-        Gender = "Female";
+        Gender = "Male";
     }
 
     /// <summary>
@@ -91,7 +90,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [DisplayName("状态")]
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// 取得或设置备注。

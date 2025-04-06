@@ -9,7 +9,12 @@ public class LoginPage : BaseComponent
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     /// <summary>
-    /// 登录表单信息。
+    /// 取得或设置注册表单信息。
+    /// </summary>
+    [SupplyParameterFromForm] public RegisterFormInfo Register { get; set; } = new();
+
+    /// <summary>
+    /// 取得或设置登录表单信息。
     /// </summary>
     [SupplyParameterFromForm] public LoginFormInfo Model { get; set; } = new();
 
@@ -46,6 +51,11 @@ public class LoginPage : BaseComponent
     }
 
     /// <summary>
+    /// 注册提交前调用的验证。
+    /// </summary>
+    protected virtual Task<bool> OnRegisteringAsync() => Task.FromResult(true);
+
+    /// <summary>
     /// 登录提交前调用的验证。
     /// </summary>
     protected virtual Task<bool> OnLoginingAsync() => Task.FromResult(true);
@@ -80,6 +90,20 @@ public class LoginPage : BaseComponent
     }
 
     /// <summary>
+    /// 注册按钮事件方法。
+    /// </summary>
+    /// <returns></returns>
+    protected async Task OnUserRegister()
+    {
+        if (!await OnRegisteringAsync())
+            return;
+
+        Register.IPAddress = Context.IPAddress;
+        var result = await Admin.RegisterAsync(Register);
+        await HandleResultAsync(result);
+    }
+
+    /// <summary>
     /// 登录按钮事件方法。
     /// </summary>
     /// <returns></returns>
@@ -90,19 +114,7 @@ public class LoginPage : BaseComponent
 
         Model.IPAddress = Context.IPAddress;
         var result = await Admin.SignInAsync(Model);
-        if (!result.IsValid)
-        {
-            UI.Error(result.Message);
-        }
-        else
-        {
-            var user = result.DataAs<UserInfo>();
-            if (user != null)
-            {
-                await SetCurrentUserAsync(user);
-                await OnLoginedAsync(user);
-            }
-        }
+        await HandleResultAsync(result);
     }
 
     /// <summary>
@@ -113,6 +125,22 @@ public class LoginPage : BaseComponent
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
         await AuthProvider?.SignInAsync(user);
+    }
+
+    private async Task HandleResultAsync(Result result)
+    {
+        if (!result.IsValid)
+        {
+            UI.Error(result.Message);
+            return;
+        }
+
+        var user = result.DataAs<UserInfo>();
+        if (user != null)
+        {
+            await SetCurrentUserAsync(user);
+            await OnLoginedAsync(user);
+        }
     }
 
     class LoginInfo

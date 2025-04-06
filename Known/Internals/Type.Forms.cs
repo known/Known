@@ -27,3 +27,19 @@ public class LoginInfoForm : Form<LoginFormInfo>
         ValidateMode = FormValidateMode.Rules;
     }
 }
+
+/// <summary>
+/// 注册表单组件类。
+/// </summary>
+public class RegisterInfoForm : Form<RegisterFormInfo>
+{
+    /// <summary>
+    /// 构造函数，创建一个注册表单组件类的实例。
+    /// </summary>
+    public RegisterInfoForm()
+    {
+        LabelCol = null;
+        ValidateOnChange = true;
+        ValidateMode = FormValidateMode.Rules;
+    }
+}

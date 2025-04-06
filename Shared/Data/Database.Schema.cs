@@ -47,10 +47,12 @@ public partial class Database
         var tables = await QueryListAsync<DbTableInfo>(sql);
         if (tables != null && tables.Count > 0 && isLoadSchema)
         {
+            var tasks = new List<Task>();
             foreach (var table in tables)
             {
-                table.Fields = await GetTableFieldsAsync(table.Id);
+                tasks.Add(Task.Run(async () => table.Fields = await GetTableFieldsAsync(table.Id)));
             }
+            await Task.WhenAll(tasks);
         }
         await CloseAsync();
         return tables;

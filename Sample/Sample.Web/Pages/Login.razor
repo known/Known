@@ -52,11 +52,14 @@
                     <TabPane Key="Phone" Tab="@Language?["Login.WithPhone"]">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
                     </TabPane>
-                    <TabPane Key="QRCode" Tab="@Language?["Login.WithQRCode"]">
+                    @* <TabPane Key="QRCode" Tab="@Language?["Login.WithQRCode"]">
                         <div style="text-align:center;">
                             <div style="margin-bottom:10px;">请使用手机浏览器扫码登录</div>
                             <KQRCode Option="qrCode" />
                         </div>
+                    </TabPane> *@
+                    <TabPane Key="Register" Tab="用户注册">
+                        <RegisterForm Model="Register" OnRegister="OnUserRegister" />
                     </TabPane>
                 </Tabs>
             </div>

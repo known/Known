@@ -118,6 +118,37 @@ public class LoginFormInfo
 }
 
 /// <summary>
+/// 注册表单信息类。
+/// </summary>
+public class RegisterFormInfo
+{
+    /// <summary>
+    /// 取得或设置用户名。
+    /// </summary>
+    public string UserName { get; set; }
+
+    /// <summary>
+    /// 取得或设置密码。
+    /// </summary>
+    public string Password { get; set; }
+
+    /// <summary>
+    /// 取得或设置确认密码。
+    /// </summary>
+    public string Password1 { get; set; }
+
+    /// <summary>
+    /// 取得或设置图片验证码。
+    /// </summary>
+    public string Captcha { get; set; }
+
+    /// <summary>
+    /// 取得或设置登录IP地址。
+    /// </summary>
+    public string IPAddress { get; set; }
+}
+
+/// <summary>
 /// 用户个性化设置表单信息类，用于记忆高级查询条件、栏位设置等。
 /// </summary>
 public class SettingFormInfo

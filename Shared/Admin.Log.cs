@@ -6,6 +6,10 @@
 public enum LogType
 {
     /// <summary>
+    /// 注册。
+    /// </summary>
+    Register,
+    /// <summary>
     /// 登录。
     /// </summary>
     Login,
