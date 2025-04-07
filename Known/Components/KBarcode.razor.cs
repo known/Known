@@ -9,11 +9,6 @@ public partial class KBarcode
     private string lastCode;
 
     /// <summary>
-    /// 取得或设置条形码组件样式。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
-
-    /// <summary>
     /// 取得或设置条形码组件条码值。
     /// </summary>
     [Parameter] public string Value { get; set; }

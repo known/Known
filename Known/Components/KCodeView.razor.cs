@@ -10,11 +10,6 @@ public partial class KCodeView
     private string originalCode;
 
     /// <summary>
-    /// 取得或设置样式类。
-    /// </summary>
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
     /// 取得或设置代码。
     /// </summary>
     [Parameter] public string Code { get; set; }

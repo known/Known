@@ -6,11 +6,6 @@
 public partial class KQRCode
 {
     /// <summary>
-    /// 取得或设置组件样式字符串。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
-
-    /// <summary>
     /// 取得或设置二维码配置对象，配置参考qrcode.js。。
     /// </summary>
     [Parameter] public object Option { get; set; }

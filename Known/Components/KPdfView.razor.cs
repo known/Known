@@ -6,11 +6,6 @@
 public partial class KPdfView
 {
     /// <summary>
-    /// 取得或设置PDF组件样式字符串。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
-
-    /// <summary>
     /// 取得或设置PDF组件选项，选项参考pdfobject.js。
     /// </summary>
     [Parameter] public object Option { get; set; }

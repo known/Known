@@ -30,16 +30,6 @@ public partial class KButton
     [Parameter] public ButtonType Type { get; set; }
 
     /// <summary>
-    /// 取得或设置按钮CSS类名。
-    /// </summary>
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
-    /// 取得或设置按钮样式。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
-
-    /// <summary>
     /// 取得或设置按钮提示信息。
     /// </summary>
     [Parameter] public string Title { get; set; }

@@ -18,16 +18,6 @@ public partial class DataItem
     [Parameter] public int Span { get; set; }
 
     /// <summary>
-    /// 取得或设置样式类。
-    /// </summary>
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
-    /// 取得或设置样式。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
-
-    /// <summary>
     /// 取得或设置标题。
     /// </summary>
     [Parameter] public string Label { get; set; }

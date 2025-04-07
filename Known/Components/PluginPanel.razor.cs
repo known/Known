@@ -9,11 +9,6 @@ public partial class PluginPanel
     private DropdownModel model;
 
     /// <summary>
-    /// 取得或设置插件样式类。
-    /// </summary>
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
     /// 取得或设置插件是否可以编辑，默认可编辑。
     /// </summary>
     [Parameter] public bool CanEdit { get; set; } = true;

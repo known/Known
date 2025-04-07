@@ -34,6 +34,16 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public string Name { get; set; }
 
     /// <summary>
+    /// 取得或设置组件样式类。
+    /// </summary>
+    [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// 取得或设置样式。
+    /// </summary>
+    [Parameter] public string Style { get; set; }
+
+    /// <summary>
     /// 取得或设置组件是否只读。
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
