@@ -42,6 +42,7 @@
 .kui-app-page .kui-app-search-result {padding:70px 20px 60px 20px;}
 .kui-app-page .kui-app-search-info {position:fixed;padding:10px;}
 .kui-app-page.tab .kui-app-search-info {bottom:50px;}
+.kui-app-page .kui-tags .ant-tag {margin-right:0;}
 
 .kui-app-rc2 {display:flex;justify-content:space-between;align-items:center;}
 
@@ -69,3 +70,7 @@
 /*Form*/
 .kui-app-form {padding:1rem 1rem 64px 1rem;}
 .kui-app-form-action {position:fixed;left:0;right:0;bottom:0;padding:1rem;background-color:#fff;}
+.kui-app-form-inline .ant-row {flex-flow:row nowrap;}
+.kui-app-form-inline .ant-form-item .ant-form-item-label {flex:0 0 100px;}
+.kui-app-form-inline .ant-form-item .ant-form-item-control {flex:0 0 calc(100% - 100px);}
+.kui-app-form-inline .ant-form-item .ant-form-item-control .anticon-plus-circle {font-size:1.2rem;}

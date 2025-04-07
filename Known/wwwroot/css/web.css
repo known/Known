@@ -5,8 +5,8 @@
 @import "styles/plugin.css";
 @import "styles/admin.css";
 @import "styles/home.css";
-@import "styles/app.css";
 @import "styles/antd.css";
+@import "styles/app.css";
 
 ::-webkit-scrollbar {width:8px;}
 ::-webkit-scrollbar-track {background:transparent;}

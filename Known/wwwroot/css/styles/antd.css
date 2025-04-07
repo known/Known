@@ -13,7 +13,6 @@
 .ant-radio-button-wrapper:last-child {border-radius:0 5px 5px 0;}
 .ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}
 .ant-badge-count {z-index:100;}
-.ant-btn {padding:4px 10px;}
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:2px;}
 .ant-drawer-close {margin-right:0;}
