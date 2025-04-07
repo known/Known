@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known是基于Blazor轻量级、跨平台、极易扩展的插件开发框架。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>3.2.8</Version>
+        <Version>3.2.8.1</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Framework, .NET, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
