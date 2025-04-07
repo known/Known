@@ -17,18 +17,11 @@ public class SysUserList : BaseTablePage<UserDataInfo>
     {
         await base.OnInitPageAsync();
 
-        orgs = await Admin.GetOrganizationsAsync();
-        if (HasOrg)
+        Tree = new TreeModel
         {
-            currentOrg = orgs.FirstOrDefault(o => o.ParentId == "0");
-            Tree = new TreeModel
-            {
-                ExpandRoot = true,
-                Data = orgs.ToMenuItems(),
-                OnNodeClick = OnNodeClickAsync,
-                SelectedKeys = [currentOrg.Id]
-            };
-        }
+            ExpandRoot = true,
+            OnNodeClick = OnNodeClickAsync
+        };
 
         Table = new TableModel<UserDataInfo>(this)
         {
@@ -38,6 +31,22 @@ public class SysUserList : BaseTablePage<UserDataInfo>
             OnQuery = OnQueryUsersAsync
         };
         Table.Column(c => c.Gender).Tag();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            orgs = await Admin.GetOrganizationsAsync();
+            if (HasOrg)
+            {
+                currentOrg = orgs.FirstOrDefault(o => o.ParentId == "0");
+                Tree.Data = orgs.ToMenuItems();
+                Tree.SelectedKeys = [currentOrg.Id];
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -56,13 +65,10 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         }
     }
 
-    /// <inheritdoc />
-    public override Task RefreshAsync() => Table.RefreshAsync();
-
     private Task<PagingResult<UserDataInfo>> OnQueryUsersAsync(PagingCriteria criteria)
     {
         if (currentOrg != null)
-            criteria.Parameters[nameof(UserInfo.OrgNo)] = currentOrg?.Id;
+            criteria.Parameters[nameof(UserInfo.OrgNo)] = currentOrg.Id;
         return Admin.QueryUserDatasAsync(criteria);
     }
 

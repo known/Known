@@ -10,14 +10,12 @@
 <script>
     const installButton = document.getElementById('btnPwaInstall');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    // 检测是否支持 PWA
     if ('serviceWorker' in navigator && 'onbeforeinstallprompt' in window) {
         if (isIOS || !('onbeforeinstallprompt' in window)) {
             installButton.style.display = 'none';
             document.getElementById('iosInstallGuide').style.display = 'block';
         }
     }
-    // 检测是否已安装
     window.addEventListener('load', () => {
         if (window.matchMedia('(display-mode: standalone)').matches) {
             installButton.style.display = 'none';
