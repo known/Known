@@ -40,4 +40,9 @@ public partial class AppMine
 
         Context.NavigateTo(item);
     }
+
+    private void OnExit(MouseEventArgs args)
+    {
+        App.Logout();
+    }
 }

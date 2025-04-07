@@ -23,12 +23,9 @@ public class BaseLayout : BaseComponent
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
-        if (!IsAdmin)
-            return;
-
         await base.OnInitAsync();
         Context.App = this;
-        if (IsServerMode)
+        if (IsAdmin && IsServerMode)
             await InitAdminAsync();
     }
 
