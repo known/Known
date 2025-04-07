@@ -64,3 +64,7 @@
 .kui-app .form-user .ant-row {flex-direction:row;}
 .kui-app .form-user .ant-form .ant-form-item .ant-form-item-label {flex:0 1 auto;width:25%;}
 .kui-app .form-user .ant-form .ant-form-item .ant-form-item-control {flex:0 1 auto;width:75%;}
+
+/*Form*/
+.kui-app-form {padding:1rem 1rem 64px 1rem;}
+.kui-app-form-action {position:fixed;left:0;right:0;bottom:0;padding:1rem;background-color:#fff;}

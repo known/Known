@@ -21,6 +21,7 @@ partial class CodeGenerator
         sb.AppendLine("    /// 取得或设置ID。");
         sb.AppendLine("    /// </summary>");
         sb.AppendLine("    public string Id { get; set; }");
+        sb.AppendLine(" ");
 
         var index = 0;
         foreach (var item in entity.Fields)
