@@ -7,8 +7,8 @@ namespace Known.Components;
 /// </summary>
 public class AppSearch<TItem> : BaseComponent where TItem : class, new()
 {
-    private PagingCriteria criteria = new();
-    private PagingResult<TItem> result = new PagingResult<TItem>();
+    private readonly PagingCriteria criteria = new();
+    private PagingResult<TItem> result = new();
     private string searchKey;
 
     /// <summary>
@@ -74,7 +74,11 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
+        {
             result = await OnQuery.Invoke(criteria);
+            if (!IsServerMode)
+                await StateChangedAsync();
+        }
     }
 
     private void BuildSearch(RenderTreeBuilder builder)
@@ -137,7 +141,13 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
         });
     }
 
-    private Task OnListItemClick(TItem item) => OnItemClick?.Invoke(item);
+    private Task OnListItemClick(TItem item)
+    {
+        if (OnItemClick == null)
+            return Task.CompletedTask;
+
+        return OnItemClick.Invoke(item);
+    }
 
     private async Task OnSearchAsync(string key)
     {

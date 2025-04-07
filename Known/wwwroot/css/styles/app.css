@@ -38,9 +38,10 @@
 .kui-app-search {left:0;right:0;z-index:101;}
 .kui-app-search-info {left:0;right:0;bottom:0;z-index:101;}
 .kui-app-search-result {padding:40px 0;}
-.kui-app .kui-app-search {position:fixed;top:40px;padding:20px;}
-.kui-app .kui-app-search-result {padding:60px 20px;}
-.kui-app .kui-app-search-info {position:fixed;padding:10px;}
+.kui-app-page .kui-app-search {position:fixed;top:40px;padding:20px;}
+.kui-app-page .kui-app-search-result {padding:70px 20px 60px 20px;}
+.kui-app-page .kui-app-search-info {position:fixed;padding:10px;}
+.kui-app-page.tab .kui-app-search-info {bottom:50px;}
 
 .kui-app-rc2 {display:flex;justify-content:space-between;align-items:center;}
 

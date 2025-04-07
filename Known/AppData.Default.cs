@@ -42,7 +42,7 @@ class AppDefaultData
     {
         foreach (var item in Config.Menus)
         {
-            if (!data.Modules.Exists(m => m.Id == item.Parent))
+            if (item.Parent != "0" && !data.Modules.Exists(m => m.Id == item.Parent))
                 continue;
 
             var info = data.Modules.FirstOrDefault(m => m.Id == item.Page.Name);
