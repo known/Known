@@ -10,6 +10,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     private readonly PagingCriteria criteria = new();
     private PagingResult<TItem> result = new();
     private string searchKey;
+    private bool isAdd;
 
     /// <summary>
     /// 取得或设置占位符。
@@ -37,7 +38,17 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public RenderFragment Search { get; set; }
 
     /// <summary>
-    /// 取得或设置子内容。
+    /// 取得或设置添加内容模板。
+    /// </summary>
+    [Parameter] public RenderFragment AddTemplate { get; set; }
+
+    /// <summary>
+    /// 取得或设置建议内容模板。
+    /// </summary>
+    [Parameter] public RenderFragment SuggestTemplate { get; set; }
+
+    /// <summary>
+    /// 取得或设置子内容模板。
     /// </summary>
     [Parameter] public RenderFragment<TItem> ChildContent { get; set; }
 
@@ -94,10 +105,21 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
                .Set(c => c.ClassicSearchIcon, true)
                .Set(c => c.OnSearch, this.Callback<string>(OnSearchAsync))
                .Build();
+
+        if (AddTemplate != null)
+        {
+            builder.Button("添加", this.Callback<MouseEventArgs>(e => isAdd = true));
+        }
     }
 
     private void BuildResult(RenderTreeBuilder builder)
     {
+        if (isAdd)
+            builder.Div("kui-app-search-add", () => builder.Fragment(AddTemplate));
+
+        if (SuggestTemplate != null)
+            builder.Div("kui-app-search-suggest", () => builder.Fragment(SuggestTemplate));
+
         if (result.TotalCount == 0)
         {
             builder.Component<Empty>().Set(c => c.Description, EmptyText).Build();

@@ -13,17 +13,17 @@ public static class HttpExtension
     /// <param name="http">HTTP客户端对象。</param>
     /// <param name="url">远程URL。</param>
     /// <returns>服务端数据。</returns>
-    public static Task<string> GetTextAsync(this HttpClient http, string url)
+    public static async Task<string> GetTextAsync(this HttpClient http, string url)
     {
         try
         {
             url = http.GetRequestUrl(url);
-            return http.GetStringAsync(url);
+            return await http.GetStringAsync(url);
         }
         catch (Exception ex)
         {
             HandleException(ex, url);
-            return Task.FromException<string>(ex);
+            return ex.Message;
         }
     }
 
@@ -133,7 +133,7 @@ public static class HttpExtension
         catch (Exception ex)
         {
             HandleException(ex, url, data);
-            return Task.FromException<Result>(ex);
+            return Result.ErrorAsync(ex.Message);
         }
     }
 
@@ -155,7 +155,7 @@ public static class HttpExtension
         catch (Exception ex)
         {
             HandleException(ex, url, criteria);
-            return Task.FromException<PagingResult<T>>(ex);
+            return Task.FromResult(new PagingResult<T>());
         }
     }
 
