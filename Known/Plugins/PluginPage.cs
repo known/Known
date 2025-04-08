@@ -2,6 +2,7 @@
 
 class PluginPage : BaseComponent, IAutoPage
 {
+    private ReloadContainer container = null;
     private List<ActionInfo> items = [];
 
     [Parameter] public string PageId { get; set; }
@@ -27,6 +28,7 @@ class PluginPage : BaseComponent, IAutoPage
 
     public Task InitializeAsync()
     {
+        container?.ReloadPage();
         return Task.CompletedTask;
     }
 
@@ -40,20 +42,9 @@ class PluginPage : BaseComponent, IAutoPage
     {
         if (Menu != null && Menu.Plugins != null && Menu.Plugins.Count > 0)
         {
-            builder.Cascading(this, b =>
-            {
-                if (Menu.Layout == null || Menu.Layout.Type == nameof(PageType.None))
-                {
-                    Menu.Plugins.ForEach(item => b.BuildPlugin(item));
-                }
-                else
-                {
-                    var className = Menu.Layout.Type == nameof(PageType.Column)
-                                  ? $"kui-row-{Menu.Layout.Spans}"
-                                  : Menu.Layout.Custom;
-                    b.Div(className, () => Menu.Plugins.ForEach(item => b.BuildPlugin(item)));
-                }
-            });
+            builder.Component<ReloadContainer>()
+                   .Set(c => c.ChildContent, BuildPageContent)
+                   .Build(value => container = value);
         }
 
         if (Context.IsEditMode)
@@ -61,6 +52,24 @@ class PluginPage : BaseComponent, IAutoPage
             BuildLayout(builder);
             BuildAction(builder);
         }
+    }
+
+    private void BuildPageContent(RenderTreeBuilder builder)
+    {
+        builder.Cascading(this, b =>
+        {
+            if (Menu.Layout == null || Menu.Layout.Type == nameof(PageType.None))
+            {
+                Menu.Plugins.ForEach(b.BuildPlugin);
+            }
+            else
+            {
+                var className = Menu.Layout.Type == nameof(PageType.Column)
+                              ? $"kui-row-{Menu.Layout.Spans}"
+                              : Menu.Layout.Custom;
+                b.Div(className, () => Menu.Plugins.ForEach(b.BuildPlugin));
+            }
+        });
     }
 
     private void BuildLayout(RenderTreeBuilder builder)
