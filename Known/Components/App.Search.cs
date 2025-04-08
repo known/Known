@@ -87,8 +87,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
         if (firstRender)
         {
             result = await OnQuery.Invoke(criteria);
-            if (!IsServerMode)
-                await StateChangedAsync();
+            await StateChangedAsync();
         }
     }
 

@@ -141,9 +141,12 @@ public class UIContext : Context
     /// <summary>
     /// 导航到首页。
     /// </summary>
-    public void GoHomePage()
+    /// <param name="returnUrl">登录返回地址。</param>
+    /// <param name="forceLoad">是否强制刷新。</param>
+    public void GoHomePage(string returnUrl = null, bool forceLoad = false)
     {
-        Navigation.GoHomePage(true);
+        var url = returnUrl ?? (IsMobileApp ? "/app" : "/");
+        Navigation.NavigateTo(url, forceLoad);
     }
 
     /// <summary>

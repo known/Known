@@ -39,7 +39,7 @@ public partial class KContext
         builder.Div().Child(() =>
         {
             builder.Button("重新加载", this.Callback<MouseEventArgs>(e => Value?.Refresh()));
-            builder.Button("返回首页", this.Callback<MouseEventArgs>(e => Value?.GoHomePage()));
+            builder.Button("返回首页", this.Callback<MouseEventArgs>(e => Value?.GoHomePage(null, true)));
         });
     }
 }

@@ -85,8 +85,7 @@ public class LoginPage : BaseComponent
             });
         }
 
-        var url = Context.IsMobileApp ? "/app" : (ReturnUrl ?? "/");
-        Navigation.NavigateTo(url);
+        Context.GoHomePage(ReturnUrl);
     }
 
     /// <summary>

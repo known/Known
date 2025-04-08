@@ -25,7 +25,7 @@ public class BaseLayout : BaseComponent
     {
         await base.OnInitAsync();
         Context.App = this;
-        if (IsAdmin && IsServerMode)
+        if (IsServerMode)
             await InitAdminAsync();
     }
 
