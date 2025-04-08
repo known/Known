@@ -47,6 +47,9 @@ partial class AdminService
                 await CoreConfig.OnRegistered.Invoke(db, model);
             await db.SaveAsync(model);
             await db.AddLogAsync(LogType.Register, user.UserName, $"IP：{user.LastLoginIP}");
+            user.Id = model.Id;
+            user.AppId = model.AppId;
+            user.CompNo = model.CompNo;
         }, user);
         if (result.IsValid)
             Cache.SetUser(user);

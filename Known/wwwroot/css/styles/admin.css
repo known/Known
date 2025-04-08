@@ -51,7 +51,11 @@
 @media screen and (max-width:768px) {
     .kui-system {margin:0;}
     .kui-user-form {margin:0;width:auto;}
-    .kui-user-form .kui-form-button {margin-left:10px;}
+    .kui-user-form .kui-form-button {margin-left:110px;}
+    .kui-user-form .ant-row {flex-flow:row nowrap;}
+    .kui-user-form .ant-form .ant-form-item .ant-form-item-label {flex:0 0 100px;}
+    .kui-user-form .ant-form .ant-form-item .ant-form-item-control {flex:0 0 calc(100% - 100px);}
+    .kui-user-form .ant-form .ant-form-item .ant-form-item-control .anticon-plus-circle {font-size:1.2rem;}
 }
 
 /*BaseData*/

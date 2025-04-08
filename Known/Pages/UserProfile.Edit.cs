@@ -61,6 +61,7 @@ public class UserEditForm : BaseEditForm<UserInfo>
     protected override void OnSuccess(Result result)
     {
         App?.SignInAsync(CurrentUser);
-        Navigation.Refresh(true);
+        if (!Context.IsMobile)
+            Navigation.Refresh(true);
     }
 }
