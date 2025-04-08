@@ -75,8 +75,7 @@ static class MenuExtension
                 param.Page.Columns = GetUserColumns(param.Page.Columns, moduleIds, module);
         }
 
-        module.Plugins = [];
-        module.Plugins.AddPlugin(param);
+        module.Plugins.AddPlugin(param, param.Id, param.Type);
     }
 
     private static List<string> GetUserButtons(List<string> buttons, List<string> moduleIds, ModuleInfo module)
