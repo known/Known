@@ -80,8 +80,10 @@ partial class AdminService
         }
         user.LastLoginTime = DateTime.Now;
         user.LastLoginIP = info.IPAddress;
-        user.Token = Utils.GetGuid();
         user.Station = info.Station;
+
+        var cacheUser = Cache.GetUser(userName);
+        user.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
 
         var type = LogType.Login;
         if (info.IsMobile)
