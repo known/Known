@@ -124,6 +124,9 @@ public sealed class Utils
     /// <returns></returns>
     public static bool CheckImage(string fileName)
     {
+        if (string.IsNullOrWhiteSpace(fileName))
+            return false;
+
         return fileName.EndsWith(".jpeg")
             || fileName.EndsWith(".jpg")
             || fileName.EndsWith(".png")
@@ -342,10 +345,10 @@ public sealed class Utils
         }
         catch (Exception ex)
         {
-            //Console.WriteLine("========================================================");
-            //Console.WriteLine($"TYPE：{typeof(T).FullName}");
-            //Console.WriteLine($"JSON：{json}");
-            //Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine("========================================================");
+            Console.WriteLine($"TYPE：{typeof(T).FullName}");
+            Console.WriteLine($"JSON：{json}");
+            Console.WriteLine("--------------------------------------------------------");
             Logger.Error(LogTarget.JSON, null, $"TYPE：{typeof(T).FullName}{Environment.NewLine}JSON：{json}{Environment.NewLine}{ex}");
             throw new Exception(ex.Message, ex);
         }

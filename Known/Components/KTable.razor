@@ -120,6 +120,8 @@
         @if (item.Type == FieldType.Switch) {
             var isChecked = Utils.ConvertTo<bool>(value);
             <Switch Disabled Value="isChecked" />
+        } else if (item.Type == FieldType.File) {
+            <KFileCell Value="@value?.ToString()" />
         } else {
             var text = GetColumnText(item, value);
             if (item.IsViewLink) {

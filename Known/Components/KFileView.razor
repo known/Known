@@ -1,0 +1,33 @@
+﻿@inherits BaseComponent
+
+<div class="kui-file-view">
+    <div class="items">
+        @if (Items == null || Items.Count == 0)
+        {
+            <Empty />
+        }
+        else
+        {
+            foreach (var item in Items)
+            {
+                var className = item.Id == current?.Id ? "kui-link active" : "kui-link";
+                <span class="@className" @onclick="e=>OnFileClick(item)">@item.Name</span>
+            }
+        }
+    </div>
+    <div class="view">
+        @if (Utils.CheckImage(current?.SourceName))
+        {
+            <img src="@current?.FileUrl?.OriginalUrl" />
+        }
+        else if (current?.SourceName.EndsWith(".pdf") == true)
+        {
+            var pdfId = $"pdfView-{current?.Id}";
+            <div id="@pdfId" style="width:100%;height:100%;" />
+        }
+        else
+        {
+            <Empty Description="@("不支持在线预览")" />
+        }
+    </div>
+</div>
