@@ -12,7 +12,7 @@ partial class CodeGenerator
         var keys = entity.IsEntity
                  ? [nameof(EntityBase.Id)]
                  : entity.Fields.Where(f => f.IsKey).Select(f => f.Id).ToList();
-        var tableName = entity.EntityName ?? entity.Id;
+        var tableName = Model.EntityName ?? entity.Id;
         var maxLength = columns.Count > 0 ? columns.Select(f => (f.Id ?? "").Length).Max() : 0;
         return dbType switch
         {

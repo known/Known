@@ -189,6 +189,7 @@ public class CodingPage : BaseTabPage
         var entity = Model.ToEntity();
         var page = Model.ToPage();
         var form = Model.ToForm();
+        Generator.Model = Model;
         return name switch
         {
             TabScript => Generator.GetScript(Config.DatabaseType, entity),

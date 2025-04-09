@@ -13,9 +13,9 @@ partial class CodeGenerator
         if (entity.IsFlow)
             baseType = " : FlowEntity";
 
-        var entityName = entity.EntityName ?? entity.Id;
+        var entityName = Model.EntityName ?? entity.Id;
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Entities;", entity.Namespace);
+        sb.AppendLine("namespace {0}.Entities;", Model.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// {0}实体类。", entity.Name);

@@ -6,6 +6,11 @@
 public interface ICodeGenerator
 {
     /// <summary>
+    /// 取得或设置代码配置模型。
+    /// </summary>
+    CodeModelInfo Model { get; set; }
+
+    /// <summary>
     /// 获取数据库建表脚本。
     /// </summary>
     /// <param name="dbType">数据库类型。</param>
@@ -80,6 +85,8 @@ public interface ICodeGenerator
 [Service(ServiceLifetime.Singleton)]
 partial class CodeGenerator : ICodeGenerator
 {
+    public CodeModelInfo Model { get; set; }
+
     public string GetRepository(PageInfo page, EntityInfo entity)
     {
         var sb = new StringBuilder();

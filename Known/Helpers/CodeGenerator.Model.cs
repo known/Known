@@ -7,9 +7,9 @@ partial class CodeGenerator
         if (entity == null)
             return string.Empty;
 
-        var modelName = entity.ModelName ?? entity.Id;
+        var modelName = Model.ModelName ?? entity.Id;
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Models;", entity.Namespace);
+        sb.AppendLine("namespace {0}.Models;", Model.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// {0}信息类。", entity.Name);

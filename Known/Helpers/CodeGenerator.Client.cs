@@ -7,14 +7,14 @@ partial class CodeGenerator
         var className = DataHelper.GetClassName(entity.Id);
         var pluralName = GetPluralName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Services;", entity.Namespace);
+        sb.AppendLine("namespace {0}.Services;", Model.Namespace);
         AppendClient(sb, className, pluralName, page, entity);
         return sb.ToString();
     }
 
-    private static void AppendClient(StringBuilder sb, string className, string pluralName, PageInfo page, EntityInfo entity)
+    private void AppendClient(StringBuilder sb, string className, string pluralName, PageInfo page, EntityInfo entity)
     {
-        var modelName = entity.ModelName ?? entity.Id;
+        var modelName = Model.ModelName ?? entity.Id;
         sb.AppendLine(" ");
         sb.AppendLine("[Client]");
         sb.AppendLine("class {0}Client(HttpClient http) : ClientBase(http), I{0}Service", className);
@@ -65,7 +65,7 @@ partial class CodeGenerator
 
         if (HasSave(page))
         {
-            var modelClass = entity.HasFile ? $"UploadInfo<{modelName}>" : modelName;
+            var modelClass = Model.HasFile ? $"UploadInfo<{modelName}>" : modelName;
             sb.AppendLine(" ");
             sb.AppendLine("    public Task<Result> Save{0}Async({1} info)", className, modelClass);
             sb.AppendLine("    {");

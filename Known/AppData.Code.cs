@@ -28,7 +28,7 @@ public class CodeModelInfo
     /// <summary>
     /// 取得或设置代码模型命名空间。
     /// </summary>
-    public string Namespace { get; set; }
+    public string Namespace { get; set; } = Config.App.Id;
 
     /// <summary>
     /// 取得或设置实体对应的页面URL。
@@ -45,38 +45,87 @@ public class CodeModelInfo
     /// </summary>
     public List<CodeFieldInfo> Fields { get; set; } = [];
 
-    internal virtual string ModelName => $"{Code}Info";
-    internal virtual string ModelPath => $"{Namespace}/Models/{ModelName}.cs";
-    internal virtual string EntityName => $"{Prefix}{Code}";
-    internal virtual string EntityPath => $"{Namespace}.Web/Entities/{EntityName}.cs";
-    internal virtual string PageName => $"{Code}List";
-    internal virtual string PagePath => $"{Namespace}/Pages/{PageName}.cs";
-    internal virtual string FormName => $"{Code}Form";
-    internal virtual string FormPath => $"{Namespace}/Pages/{FormName}.razor";
-    internal virtual string ServiceName => $"{Code}Service";
-    internal virtual string ServiceIPath => $"{Namespace}/Services/{ServiceName}.cs";
-    internal virtual string ServicePath => $"{Namespace}.Web/Services/{ServiceName}.cs";
+    /// <summary>
+    /// 取得模型类名称。
+    /// </summary>
+    [JsonIgnore] public string ModelName => $"{Code}Info";
 
-    internal EntityInfo ToEntity()
+    /// <summary>
+    /// 取得模型类路径。
+    /// </summary>
+    [JsonIgnore] public string ModelPath => $"{Namespace}/Models/{ModelName}.cs";
+
+    /// <summary>
+    /// 取得实体类名称。
+    /// </summary>
+    [JsonIgnore] public string EntityName => $"{Prefix}{Code}";
+
+    /// <summary>
+    /// 取得实体类路径。
+    /// </summary>
+    [JsonIgnore] public string EntityPath => $"{Namespace}.Web/Entities/{EntityName}.cs";
+
+    /// <summary>
+    /// 取得页面类名称。
+    /// </summary>
+    [JsonIgnore] public string PageName => $"{Code}List";
+
+    /// <summary>
+    /// 取得页面类路径。
+    /// </summary>
+    [JsonIgnore] public string PagePath => $"{Namespace}/Pages/{PageName}.cs";
+
+    /// <summary>
+    /// 取得表单类名称。
+    /// </summary>
+    [JsonIgnore] public string FormName => $"{Code}Form";
+
+    /// <summary>
+    /// 取得表单类路径。
+    /// </summary>
+    [JsonIgnore] public string FormPath => $"{Namespace}/Pages/{FormName}.razor";
+
+    /// <summary>
+    /// 取得服务类名称。
+    /// </summary>
+    [JsonIgnore] public string ServiceName => $"{Code}Service";
+
+    /// <summary>
+    /// 取得服务接口路径。
+    /// </summary>
+    [JsonIgnore] public string ServiceIPath => $"{Namespace}/Services/{ServiceName}.cs";
+
+    /// <summary>
+    /// 取得服务实现类路径。
+    /// </summary>
+    [JsonIgnore] public string ServicePath => $"{Namespace}.Web/Services/{ServiceName}.cs";
+
+    /// <summary>
+    /// 取得是否包含附件字段。
+    /// </summary>
+    [JsonIgnore] public bool HasFile => Fields.Any(f => f.Type == FieldType.File);
+
+    /// <summary>
+    /// 模型配置转实体配置信息。
+    /// </summary>
+    /// <returns></returns>
+    public EntityInfo ToEntity()
     {
         var info = new EntityInfo
         {
             Id = Code,
             Name = Name,
             PageUrl = PageUrl,
-            Namespace = Namespace,
-            ModelName = ModelName,
-            EntityName = EntityName,
-            PageName = PageName,
-            FormName = FormName,
-            ServiceName = ServiceName,
-            HasFile = Fields.Any(f => f.Type == FieldType.File),
             Fields = [.. Fields.Select(f => f.ToField())]
         };
         return info;
     }
 
-    internal PageInfo ToPage()
+    /// <summary>
+    /// 模型配置转页面配置信息。
+    /// </summary>
+    /// <returns></returns>
+    public PageInfo ToPage()
     {
         var info = new PageInfo();
         info.Tools = Functions?.Where(f => f != "Edit" && f != "Delete").ToList();
@@ -84,7 +133,11 @@ public class CodeModelInfo
         return info;
     }
 
-    internal FormInfo ToForm()
+    /// <summary>
+    /// 模型配置转表单配置信息。
+    /// </summary>
+    /// <returns></returns>
+    public FormInfo ToForm()
     {
         var info = new FormInfo();
         info.Fields = [.. Fields.Where(f => f.IsForm).Select(f => f.ToFormField())];

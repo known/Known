@@ -4,7 +4,7 @@ partial class CodeGenerator
 {
     public string GetForm(FormInfo form, EntityInfo entity)
     {
-        var modelName = entity.ModelName ?? entity.Id;
+        var modelName = Model.ModelName ?? entity.Id;
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();

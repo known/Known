@@ -4,11 +4,11 @@ partial class CodeGenerator
 {
     public string GetPage(PageInfo page, EntityInfo entity)
     {
-        var modelName = entity.ModelName ?? entity.Id;
+        var modelName = Model.ModelName ?? entity.Id;
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Pages;", entity.Namespace);
+        sb.AppendLine("namespace {0}.Pages;", Model.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("[Route(\"{0}\")]", entity.PageUrl);
         sb.AppendLine("[Menu(Constants.BaseData, \"{0}\", \"file\", 1)]", entity.Name);

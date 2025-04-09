@@ -4,12 +4,13 @@ partial class CodeGenerator
 {
     public string GetService(PageInfo page, EntityInfo entity)
     {
-        var modelName = entity.ModelName ?? entity.Id;
-        var entityName = entity.EntityName ?? entity.Id;
+        var hasFile = Model.HasFile;
+        var modelName = Model.ModelName ?? entity.Id;
+        var entityName = Model.EntityName ?? entity.Id;
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Services;", entity.Namespace);
+        sb.AppendLine("namespace {0}.Services;", Model.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("[WebApi, Service]");
         sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
@@ -28,18 +29,18 @@ partial class CodeGenerator
             sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
             sb.AppendLine(" ");
             sb.AppendLine("        var database = Database;");
-            if (entity.HasFile)
+            if (hasFile)
                 sb.AppendLine("        var oldFiles = new List<string>();");
             sb.AppendLine("        var result = await database.TransactionAsync(Language.Delete, async db =>");
             sb.AppendLine("        {");
             sb.AppendLine("            foreach (var item in infos)");
             sb.AppendLine("            {");
-            if (entity.HasFile)
+            if (hasFile)
                 sb.AppendLine("                await db.DeleteFilesAsync(item.Id, oldFiles);");
             sb.AppendLine("                await db.DeleteAsync<{0}>(item.Id);", entityName);
             sb.AppendLine("            }");
             sb.AppendLine("        });");
-            if (entity.HasFile)
+            if (hasFile)
             {
                 sb.AppendLine("        if (result.IsValid)");
                 sb.AppendLine("            AttachFile.DeleteFiles(oldFiles);");
@@ -86,8 +87,8 @@ partial class CodeGenerator
 
         if (HasSave(page))
         {
-            var modelClass = entity.HasFile ? $"UploadInfo<{modelName}>" : modelName;
-            var model = entity.HasFile ? ".Model" : "";
+            var modelClass = hasFile ? $"UploadInfo<{modelName}>" : modelName;
+            var model = hasFile ? ".Model" : "";
             sb.AppendLine(" ");
             sb.AppendLine("    public async Task<Result> Save{0}Async({1} info)", className, modelClass);
             sb.AppendLine("    {");
@@ -100,14 +101,14 @@ partial class CodeGenerator
             sb.AppendLine("        if (!vr.IsValid)");
             sb.AppendLine("            return vr;");
             sb.AppendLine(" ");
-            if (entity.HasFile)
+            if (hasFile)
             {
                 sb.AppendLine("        var bizType = \"{0}Files\";", className);
                 sb.AppendLine("        var bizFiles = info.Files.GetAttachFiles(CurrentUser, nameof({0}.Files), bizType);", modelName);
             }
             sb.AppendLine("        return await database.TransactionAsync(Language.Save, async db =>");
             sb.AppendLine("        {");
-            if (entity.HasFile)
+            if (hasFile)
             {
                 sb.AppendLine("            await db.AddFilesAsync(bizFiles, model.Id, bizType);");
                 sb.AppendLine("            model.Files = $\"{model.Id}_{bizType}\";");

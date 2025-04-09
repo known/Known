@@ -4,11 +4,11 @@ partial class CodeGenerator
 {
     public string GetIService(PageInfo page, EntityInfo entity, bool hasClient = false)
     {
-        var modelName = entity.ModelName ?? entity.Id;
+        var modelName = Model.ModelName ?? entity.Id;
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
-        sb.AppendLine("namespace {0}.Services;", entity.Namespace);
+        sb.AppendLine("namespace {0}.Services;", Model.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("public interface I{0}Service : IService", className);
         sb.AppendLine("{");
@@ -41,7 +41,7 @@ partial class CodeGenerator
 
         if (HasSave(page))
         {
-            var modelClass = entity.HasFile ? $"UploadInfo<{modelName}>" : modelName;
+            var modelClass = Model.HasFile ? $"UploadInfo<{modelName}>" : modelName;
             sb.AppendLine("    Task<Result> Save{0}Async({1} info);", className, modelClass);
         }
         sb.AppendLine("}");
