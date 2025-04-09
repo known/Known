@@ -78,6 +78,11 @@ partial class TableModel<TItem>
     public Action<RenderTreeBuilder, TItem> ExpandTemplate { get; set; }
 
     /// <summary>
+    /// 取得或设置表格行展开时回调，必须设置，否则展开按钮不显示。
+    /// </summary>
+    public EventCallback<RowData<TItem>> OnExpand { get; set; }
+
+    /// <summary>
     /// 取得表格栏位呈现模板字典。
     /// </summary>
     internal Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];

@@ -168,4 +168,15 @@ partial class KTable<TItem> : BaseComponent
             return this.BuildTree<RowData<TItem>>((b, d) => Model.ExpandTemplate(b, d.Data));
         }
     }
+
+    private EventCallback<RowData<TItem>> OnExpand
+    {
+        get
+        {
+            if (Model.OnExpand.HasDelegate)
+                return Model.OnExpand;
+
+            return this.Callback<RowData<TItem>>(e => { });
+        }
+    }
 }

@@ -5,7 +5,7 @@
     var scrollX = totalWidth.ToString();
 }
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" 
-          ExpandTemplate="ExpandTemplate" OnRow="OnRow" OnChange="OnChange"
+          ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
           Total="totalCount" DataSource="dataSource"
           PageIndex="Model.Criteria.PageIndex"
           PageSize="Model.Criteria.PageSize"
