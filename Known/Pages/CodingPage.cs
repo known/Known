@@ -65,7 +65,7 @@ public class CodingPage : BaseTabPage
         if (firstRender)
         {
             Models = await Service.GetModelsAsync();
-            Model = Models.FirstOrDefault();
+            Model = Models.FirstOrDefault() ?? new CodeModelInfo();
         }
     }
 
