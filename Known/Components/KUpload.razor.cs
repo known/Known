@@ -10,6 +10,8 @@ public partial class KUpload
 
     private bool IsMultiple => MultiFile || Directory;
 
+    [CascadingParameter] private IAntForm AntForm { get; set; }
+
     /// <summary>
     /// 取得或设置上传组件附件属性列表。
     /// </summary>
@@ -102,6 +104,14 @@ public partial class KUpload
     {
         Value = value;
         await RefreshAsync();
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        if (AntForm != null)
+            ReadOnly = AntForm.IsView;
+        base.OnInitialized();
     }
 
     /// <inheritdoc />

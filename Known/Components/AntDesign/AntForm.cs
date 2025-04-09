@@ -35,10 +35,17 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
         {
             Form.OnValidate = Validate;
             Form.OnLoadData = LoadDataAsync;
-            Model = Form.Data;
             Form.Initialize();
         }
         base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Form != null)
+            Model = Form.Data;
+        await base.OnParametersSetAsync();
     }
 
     /// <inheritdoc />

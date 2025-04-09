@@ -9,6 +9,11 @@ public class LoginPage : BaseComponent
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     /// <summary>
+    /// 取得是否记住密码。
+    /// </summary>
+    protected virtual bool IsRememberPassword { get; }
+
+    /// <summary>
     /// 取得或设置注册表单信息。
     /// </summary>
     [SupplyParameterFromForm] public RegisterFormInfo Register { get; set; } = new();
@@ -41,6 +46,8 @@ public class LoginPage : BaseComponent
             if (info != null)
             {
                 Model.UserName = info.UserName;
+                if (IsRememberPassword)
+                    Model.Password = info.Password;
                 Model.PhoneNo = info.PhoneNo;
                 Model.Remember = info.Remember;
                 Model.Station = info.Station;
@@ -75,14 +82,17 @@ public class LoginPage : BaseComponent
         }
         else
         {
-            await JS.SetLoginInfoAsync(new LoginInfo
+            var info = new LoginInfo
             {
                 UserName = Model.UserName,
                 PhoneNo = Model.PhoneNo,
                 Remember = Model.Remember,
                 Station = Model.Station,
                 TabKey = Model.TabKey
-            });
+            };
+            if (IsRememberPassword)
+                info.Password = Model.Password;
+            await JS.SetLoginInfoAsync(info);
         }
 
         Context.GoHomePage(ReturnUrl);
@@ -145,6 +155,7 @@ public class LoginPage : BaseComponent
     class LoginInfo
     {
         public string UserName { get; set; }
+        public string Password { get; set; }
         public string PhoneNo { get; set; }
         public bool Remember { get; set; }
         public string Station { get; set; }
