@@ -23,6 +23,11 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public string EmptyText { get; set; }
 
     /// <summary>
+    /// 取得或设置每页查询大小，默认10。
+    /// </summary>
+    [Parameter] public int PageSize { get; set; } = 10;
+
+    /// <summary>
     /// 取得或设置查询方法。
     /// </summary>
     [Parameter] public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
@@ -73,11 +78,10 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override void BuildRender(RenderTreeBuilder builder)
+    protected override async Task OnInitAsync()
     {
-        builder.Div("kui-app-search", () => BuildSearch(builder));
-        builder.Div("kui-app-search-result", () => BuildResult(builder));
-        builder.Div("kui-app-search-info", () => BuildInfo(builder));
+        await base.OnInitAsync();
+        criteria.PageSize = PageSize;
     }
 
     /// <inheritdoc />
@@ -89,6 +93,14 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
             result = await OnQuery.Invoke(criteria);
             await StateChangedAsync();
         }
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-app-search", () => BuildSearch(builder));
+        builder.Div("kui-app-search-result", () => BuildResult(builder));
+        builder.Div("kui-app-search-info", () => BuildInfo(builder));
     }
 
     private void BuildSearch(RenderTreeBuilder builder)

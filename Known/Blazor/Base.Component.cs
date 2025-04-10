@@ -96,7 +96,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     /// 取得组件是否是Server模式。
     /// </summary>
-    public bool IsServerMode => JSRuntime.GetType().ToString() == "Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime";
+    public bool IsServerMode => JSRuntime.IsServerMode();
 
     /// <summary>
     /// 取得上下文语言对象实例。
