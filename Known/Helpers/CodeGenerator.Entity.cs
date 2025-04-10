@@ -13,7 +13,10 @@ partial class CodeGenerator
         if (entity.IsFlow)
             baseType = " : FlowEntity";
 
-        var entityName = Model.EntityName ?? entity.Id;
+        var entityName = Model.EntityName;
+        if (string.IsNullOrWhiteSpace(entityName))
+            entityName = entity.Id;
+
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Entities;", Model.Namespace);
         sb.AppendLine(" ");

@@ -7,7 +7,10 @@ partial class CodeGenerator
         if (entity == null)
             return string.Empty;
 
-        var modelName = Model.ModelName ?? entity.Id;
+        var modelName = Model.ModelName;
+        if (string.IsNullOrWhiteSpace(modelName))
+            modelName = entity.Id;
+
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Models;", Model.Namespace);
         sb.AppendLine(" ");

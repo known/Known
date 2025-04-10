@@ -85,7 +85,16 @@ public interface ICodeGenerator
 [Service(ServiceLifetime.Singleton)]
 partial class CodeGenerator : ICodeGenerator
 {
-    public CodeModelInfo Model { get; set; }
+    private CodeModelInfo model;
+    public CodeModelInfo Model
+    {
+        get
+        {
+            model ??= new CodeModelInfo { Namespace = Config.App.Id };
+            return model;
+        }
+        set { model = value; }
+    }
 
     public string GetRepository(PageInfo page, EntityInfo entity)
     {

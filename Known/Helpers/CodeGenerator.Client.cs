@@ -14,7 +14,10 @@ partial class CodeGenerator
 
     private void AppendClient(StringBuilder sb, string className, string pluralName, PageInfo page, EntityInfo entity)
     {
-        var modelName = Model.ModelName ?? entity.Id;
+        var modelName = Model.ModelName;
+        if (string.IsNullOrWhiteSpace(modelName))
+            modelName = entity.Id;
+
         sb.AppendLine(" ");
         sb.AppendLine("[Client]");
         sb.AppendLine("class {0}Client(HttpClient http) : ClientBase(http), I{0}Service", className);
