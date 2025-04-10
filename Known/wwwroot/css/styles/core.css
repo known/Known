@@ -104,9 +104,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-button {margin-left:200px;}
 .kui-form-button button {margin-right:10px;}
 .kui-form-auth {width:400px;margin:0 auto;}
+.kui-form-unit {display:flex;gap:10px;align-items:center;}
 
 /*Capsule*/
-.kui-capsule {border-radius:5px;background-color:#5d5d5d;color:#fff;font-size:12px;}
+.kui-capsule {display:flex;border-radius:5px;background-color:#5d5d5d;color:#fff;font-size:12px;}
 .kui-capsule span {display:inline-block;padding:0 5px;height:20px;line-height:20px;}
 .kui-capsule-value {border-radius:0 5px 5px 0;}
 

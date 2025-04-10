@@ -202,6 +202,8 @@ public sealed class DbUtils
                           : TypeHelper.GetPropertyValue(data, item.Id);
                     if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
                         value = Utils.ConvertTo<bool>(value) ? "是" : "否";
+                    else if (item.Type == FieldType.File)
+                        value = string.Empty;
                     else if (item.Type == FieldType.Date)
                     {
                         value = Utils.ConvertTo<DateTime?>(value)?.Date;
@@ -213,7 +215,7 @@ public sealed class DbUtils
                         value = GetNumberValue(value);
                     else if (!string.IsNullOrWhiteSpace(item.Category))
                         value = Cache.GetCodeName(item.Category, value?.ToString());
-                    if (!string.IsNullOrWhiteSpace(item.Unit))
+                    if (value != null && !string.IsNullOrWhiteSpace(item.Unit))
                         value = $"{value} {item.Unit}";
                 }
                 sheet.SetCellValue(rowIndex, index++, value, cellStyle);

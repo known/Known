@@ -51,9 +51,15 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (Form == null)
+        {
+            base.BuildRenderTree(builder);
+            return;
+        }
+
         builder.Cascading<IAntForm>(this, b =>
         {
-            b.Div(Form?.ClassName, () =>
+            b.Div(Form.ClassName, () =>
             {
                 if (Form.Header != null)
                     b.Fragment(Form.Header);
@@ -64,8 +70,8 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
                 {
                     b.FormAction(() =>
                     {
-                        b.Button(Form?.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
-                        b.Button(Form?.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
+                        b.Button(Form.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
+                        b.Button(Form.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
                     });
                 }
             });

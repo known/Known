@@ -66,11 +66,14 @@ class DbProvider(Database db)
 
     public void SetCommand(CommandInfo info, PagingCriteria criteria, UserInfo user)
     {
-        if (string.IsNullOrWhiteSpace(info.CountSql))
-            info.CountSql = $"select count(*) {info.Text.Substring(info.Text.IndexOf("from"))}".Replace("@", Prefix);
-        if (string.IsNullOrWhiteSpace(info.StatSql))
-            info.StatSql = GetStatSql(info.Text, criteria).Replace("@", Prefix);
-        info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
+        if (!string.IsNullOrWhiteSpace(info.Text))
+        {
+            if (string.IsNullOrWhiteSpace(info.CountSql))
+                info.CountSql = $"select count(*) {info.Text.Substring(info.Text.IndexOf("from"))}".Replace("@", Prefix);
+            if (string.IsNullOrWhiteSpace(info.StatSql))
+                info.StatSql = GetStatSql(info.Text, criteria).Replace("@", Prefix);
+            info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
+        }
         info.Params = criteria.ToParameters(user);
     }
 

@@ -49,6 +49,9 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
+        if (string.IsNullOrWhiteSpace(sql))
+            return Task.FromResult(new PagingResult<T>());
+
         SetAutoQuery<T>(ref sql, criteria);
         var info = Provider?.GetCommand(sql, criteria, User);
         return QueryPageAsync(info, criteria, onExport);

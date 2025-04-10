@@ -106,9 +106,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
                .Build();
 
         if (AddTemplate != null)
-        {
             builder.Button("添加", this.Callback<MouseEventArgs>(e => isAdd = true));
-        }
     }
 
     private void BuildResult(RenderTreeBuilder builder)

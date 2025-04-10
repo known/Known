@@ -24,13 +24,15 @@ partial class TableModel<TItem>
 
     private bool ShowForm(FormModel<TItem> model)
     {
-        model.SmallLabel = Form?.SmallLabel == true;
-        model.Info ??= Form;
         model.Info ??= new FormInfo();
-
-        if (model.Info.Width == null)
-            model.Info.Width = Form?.Width;
-
+        if (Form != null)
+        {
+            model.SmallLabel = Form.SmallLabel;
+            model.Info.NoFooter = Form.NoFooter;
+            model.Info.ShowFooter = Form.ShowFooter;
+            if (model.Info.Width == null)
+                model.Info.Width = Form.Width;
+        }
         OnForm?.Invoke(model);
         return UI.ShowForm(model);
     }

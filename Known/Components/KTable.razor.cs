@@ -138,7 +138,7 @@ partial class KTable<TItem> : BaseComponent
             else
                 text = Cache.GetCodeName(item.Category, text);
         }
-        if (!string.IsNullOrWhiteSpace(item.Unit))
+        if (!string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(item.Unit))
             text += $" {item.Unit}";
         return text;
     }
