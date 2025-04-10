@@ -9,7 +9,10 @@
     border-bottom:1px solid #ccc;height:40px;line-height:40px;background-color:#1890ff;color:#fff;
 }
 .kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
-.kui-app-page {position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto;background-color:#fff;}
+.kui-app-page {
+    position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto;
+    background-color:var(--kui-bgcolor);color:var(--kui-color);
+}
 .kui-app-page.nav {top:40px;}
 .kui-app-page.tab {bottom:50px;}
 
@@ -82,7 +85,7 @@
 
 /*Form*/
 .kui-app-form {padding:1rem 1rem 64px 1rem;}
-.kui-app-form-action {position:fixed;left:0;right:0;bottom:0;padding:1rem;background-color:#fff;}
+.kui-app-form-action {position:fixed;left:0;right:0;bottom:0;padding:1rem;background-color:var(--kui-bgcolor);}
 .kui-app-form-inline .ant-row {flex-flow:row nowrap;}
 .kui-app-form-inline .ant-form-item .ant-form-item-label {flex:0 0 100px;}
 .kui-app-form-inline .ant-form-item .ant-form-item-control {flex:0 0 calc(100% - 100px);}

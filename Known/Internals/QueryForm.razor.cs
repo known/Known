@@ -6,7 +6,6 @@
 public partial class QueryForm
 {
     private bool _expand = false;
-    private QueryDataForm form;
     private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
 
     /// <summary>

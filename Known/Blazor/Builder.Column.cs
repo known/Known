@@ -8,15 +8,17 @@ public partial class ColumnBuilder<TItem> where TItem : class, new()
 {
     private readonly string id;
     private readonly ColumnInfo column;
+    private readonly ColumnInfo allColumn;
 
     /// <summary>
     /// 取得表格组件模型对象。
     /// </summary>
     public TableModel<TItem> Table { get; }
 
-    internal ColumnBuilder(ColumnInfo column, TableModel<TItem> table = null)
+    internal ColumnBuilder(ColumnInfo column, ColumnInfo allColumn = null, TableModel<TItem> table = null)
     {
         this.column = column;
+        this.allColumn = allColumn;
         Table = table;
 
         if (column != null)
@@ -43,7 +45,9 @@ public partial class ColumnBuilder<TItem> where TItem : class, new()
     public ColumnBuilder<TItem> Name(string name)
     {
         if (column != null)
-            column.Name = name;
+            column.DisplayName = name;
+        if (allColumn != null)
+            allColumn.DisplayName = name;
         return this;
     }
 

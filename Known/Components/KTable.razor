@@ -5,11 +5,11 @@
     var scrollX = totalWidth.ToString();
 }
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" 
-          ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
-          Total="totalCount" DataSource="dataSource"
-          PageIndex="Model.Criteria.PageIndex"
-          PageSize="Model.Criteria.PageSize"
-          @bind-SelectedRows="Model.SelectedRows">
+ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
+Total="totalCount" DataSource="dataSource"
+PageIndex="Model.Criteria.PageIndex"
+PageSize="Model.Criteria.PageSize"
+@bind-SelectedRows="Model.SelectedRows">
     <ColumnDefinitions>
         @if (Context.IsEditTable) {
             <Column TitleTemplate="ColumnTitle" TData="object" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />

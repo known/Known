@@ -10,7 +10,7 @@
             count = _expand ? count : showCount;
         var offset = _expand ? (3 - count % 4) * 6 : 0;
         <div class="kui-query-more">
-            <QueryDataForm @ref="form" Model="Model.QueryData">
+            <QueryDataForm Model="Model.QueryData">
                 <AntRow>
                     @for (var i = 0; i < count; i++)
                     {
@@ -42,7 +42,7 @@
     }
     else
     {
-        <QueryDataForm @ref="form" Model="Model.QueryData" Layout="@FormLayout.Inline">
+        <QueryDataForm Model="Model.QueryData" Layout="@FormLayout.Inline">
             @for (var i = 0; i < Model.QueryColumns.Count; i++)
             {
                 var item = Model.QueryColumns[i];

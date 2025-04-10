@@ -12,7 +12,8 @@ partial class TableModel<TItem>
     {
         var property = TypeHelper.Property(selector);
         var column = Columns?.FirstOrDefault(c => c.Id == property.Name);
-        return new ColumnBuilder<TItem>(column, this);
+        var allColumn = AllColumns?.FirstOrDefault(c => c.Id == property.Name);
+        return new ColumnBuilder<TItem>(column, allColumn, this);
     }
 
     /// <summary>
@@ -32,7 +33,7 @@ partial class TableModel<TItem>
         Columns.Add(column);
         if (isQuery)
             AddQueryColumn(column);
-        return new ColumnBuilder<TItem>(column, this);
+        return new ColumnBuilder<TItem>(column, column, this);
     }
 
     /// <summary>
