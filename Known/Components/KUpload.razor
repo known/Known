@@ -1,13 +1,11 @@
 ﻿@inherits BaseComponent
 
 <div class="kui-upload-field">
-    @if (IsDrag)
-    {
+    @if (IsDrag) {
         <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
             <div class="ant-upload" style="display:grid;">
-                @if (!ReadOnly)
-                {
-                    <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
+                @if (!ReadOnly) {
+                    <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" disabled="@(!Enabled)" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
                 }
                 <div class="ant-upload-drag-container">
                     <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
@@ -16,12 +14,9 @@
                 </div>
             </div>
         </div>
-    }
-    else if (IsButton)
-    {
+    } else if (IsButton) {
         <div class="kui-upload">
-            @if (!ReadOnly)
-            {
+            @if (!ReadOnly) {
                 <div class="kui-button">
                     <KIcon Icon="upload" />
                     <span>@Language.Upload</span>
@@ -30,24 +25,19 @@
                 @BuildTemplate
             }
         </div>
-    }
-    else
-    {
+    } else {
         <div class="kui-upload">
-            @if (!ReadOnly)
-            {
+            @if (!ReadOnly) {
                 @BuildInput
                 @BuildTemplate
             }
         </div>
     }
     <div class="kui-form-files">
-        @foreach (var item in sysFiles)
-        {
+        @foreach (var item in sysFiles) {
             var url = item.FileUrl;
             <div>
-                @if (!ReadOnly)
-                {
+                @if (!ReadOnly) {
                     <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language.Delete</span>
                 }
                 <KFileLink Item="item" />
@@ -58,7 +48,7 @@
 
 @code {
     private RenderFragment BuildInput => @<div>
-        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
+        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" disabled="@(!Enabled)" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
     </div>;
 
     private RenderFragment BuildTemplate => @<div class="template">

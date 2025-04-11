@@ -1,29 +1,19 @@
-:root {--kui-form-label-width:120px;}
-:root {--kui-bgcolor:#ffffff;--kui-color:#596172;--kui-border-color:#f0f0f0;}
-:root[data-theme=dark] {--kui-bgcolor:#141414;--kui-color:#d8d8d8;--kui-border-color:rgba(253, 253, 253, 0.12);}
+:root {
+    --kui-form-label-width:120px;
+    --kui-bgcolor:#ffffff;
+    --kui-color:#596172;
+    --kui-color-border:#f0f0f0;
+    --kui-color-hover:#cce4fa;
+}
+:root[data-theme=dark] {
+    --kui-bgcolor:#141414;
+    --kui-color:#d8d8d8;
+    --kui-color-border:rgba(253, 253, 253, 0.12);
+    --kui-color-hover:#cce4fa;
+}
 
 /*Common*/
-.kui-wrapper {position:absolute;top:0;bottom:0;left:0;right:0;background-color:var(--kui-bgcolor);}
-.kui-wrapper > .ant-spin {
-    position:absolute;top:0;bottom:0;left:0;right:0;z-index:9999;
-    display:flex;justify-content:center;align-items:center;flex-direction:column;
-}
-.kui-wrapper > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;overflow:auto;}
-.kui-wrapper > .ant-result pre {
-    text-align:left;border-left:5px solid #ed4014;padding:5px;background-color:var(--kui-border-color);border-radius:5px;
-}
-.kui-header, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
-    background-color:var(--kui-bgcolor);color:var(--kui-color);
-}
-.kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
-.kui-header {display:flex;justify-content:space-between;padding:0 10px;}
-.kui-header .left > div {margin-right:10px;}
-.kui-nav {display:flex;align-items:center;gap:10px;margin:0;padding-left:10px;}
-.kui-nav li {list-style:none;line-height:normal;padding:0 2px;}
-.kui-nav li.edit {background-color:#f18c63;color:#fff;padding:15px 2px;border-radius:2px;}
 .kui-link {color:#1890ff;cursor:pointer;}
-.kui-menu li {list-style:none;display:inline-block;margin-left:10px;}
-.kui-menu li a {color:var(--kui-color);}
 .kui-frame {border:none;width:100%;min-height:550px;}
 .kui-tips {color:#1890ff;margin-left:10px;}
 .kui-right {text-align:right;}
@@ -79,7 +69,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-sub-title {font-size:0.8rem;margin-left:10px;font-weight:normal;color:#1890ff;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid #f0f0f0;}
+.kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid var(--kui-color-border);}
 
 /*Table*/
 .kui-table.form-list {padding-top:10px;}
@@ -93,7 +83,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form, .kui-small {padding:10px 10px 0 0;}
 .kui-steps-content {
     margin-top:16px;padding:10px;background-color:var(--kui-bgcolor);
-    border:1px dashed var(--kui-border-color);
+    border:1px dashed var(--kui-color-border);
     border-radius:6px;min-height:200px;
 }
 .kui-form-content {padding:10px;}
@@ -118,7 +108,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-screen .action {position:absolute;top:0;right:0;z-index:1000;}
 
 /*GroupBox*/
-.kui-group-box {position:relative;border:1px dashed var(--kui-border-color);border-radius:6px;}
+.kui-group-box {position:relative;border:1px dashed var(--kui-color-border);border-radius:6px;}
 .kui-group-box .legend {position:absolute;top:-13px;left:20px;padding:0 10px;font-weight:bold;}
 .kui-group-box .body {padding:10px;}
 
@@ -127,7 +117,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-list-box-search {margin:10px;}
 .kui-list-box-body {position:absolute;left:0;right:0;top:0;bottom:0;padding:10px;overflow:auto;}
 .kui-list-box-body li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
-.kui-list-box-body li:hover {background-color:#f1f1f1;}
+.kui-list-box-body li:hover {background-color:var(--kui-color-hover);}
 .kui-list-box-body li.active {background-color:#bae7ff;color:#1890ff;border-left-color:#1890ff;}
 
 /*EditInput*/
@@ -162,7 +152,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-upload input {width:100%;}
 .kui-upload .template {width:60px;text-align:right;}
 .kui-upload .kui-button, .kui-upload-button {
-    border:1px solid var(--kui-border-color);border-radius:3px;padding:0 10px;margin-right:10px;
+    border:1px solid var(--kui-color-border);border-radius:3px;padding:0 10px;margin-right:10px;
     height:30px;line-height:30px;position:relative;
 }
 .kui-upload .kui-button input, 
@@ -209,21 +199,21 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-theme-color .item {width:20px;height:20px;border-radius:3px;cursor:pointer;color:#fff;text-align:center;}
 
 /*Logo*/
-.kui-header, .kui-layout .kui-logo {border-bottom:1px solid var(--kui-border-color);}
+.kui-header, .kui-layout .kui-logo {border-bottom:1px solid var(--kui-color-border);}
 .kui-menu-dark {background:#001529;color:rgba(255,255,255,0.65);border-bottom:none;}
 .kui-menu-dark .kui-logo, .kui-header .kui-logo {border-bottom:none;}
 
 /*Import*/
 .kui-import {display:grid;grid-template-rows:20px 50px auto;padding:10px;}
 .kui-import .item {display:flex;margin:8px 0;align-items:center;}
-.kui-import .item input {display:inline-block;border:1px solid var(--kui-border-color);}
+.kui-import .item input {display:inline-block;border:1px solid var(--kui-color-border);}
 .kui-import .item .async {margin-left:10px;}
 .kui-import .kui-link {margin-right:10px;}
 .kui-import .size {margin-left:10px;}
 .kui-import-message {padding:10px 0;}
 
 /*Code*/
-.kui-code {position:relative;margin:10px 0 0 0;border-left:3px solid var(--kui-border-color);}
+.kui-code {position:relative;margin:10px 0 0 0;border-left:3px solid var(--kui-color-border);}
 .kui-code .action {position:absolute;top:0;right:10px;font-size:16px;color:#1890ff;cursor:pointer;}
 .kui-code pre[class*=language-] {margin:0;padding:10px;overflow:auto;height:360px;}
 :root[data-theme=dark] :not(pre)>code[class*=language-], pre[class*=language-] {background-color:rgba(255,255,255,0.08);}

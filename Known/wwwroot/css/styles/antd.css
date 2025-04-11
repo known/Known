@@ -30,6 +30,8 @@
 .ant-table-thead > tr > th {font-weight:bold;}
 .ant-table-tbody > tr > td.kui-table-action > div > a {padding:0 5px;}
 .ant-table.ant-table-small .ant-table-tbody > tr > td {padding:2px 5px;}
+.ant-table-tbody > tr.ant-table-row:hover > td,
+.ant-table-tbody > tr > td.ant-table-cell-row-hover {background:var(--kui-color-hover);}
 .kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background-color:#dcf4ff;}
 .ant-table-pagination.ant-pagination {margin:5px 0 10px 0;}
 .ant-toolbar {display:flex;gap:3px;}

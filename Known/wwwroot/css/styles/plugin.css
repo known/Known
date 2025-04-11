@@ -28,7 +28,7 @@
 .kui-coding .kui-code pre[class*=language-] {height:100%;}
 .kui-coding .ant-tabs-content,
 .kui-coding .ant-tabs-tabpane {height:100%;overflow:hidden;}
-.kui-coding-form {border-left:1px solid var(--kui-border-color);}
+.kui-coding-form {border-left:1px solid var(--kui-color-border);}
 .kui-coding-form .ant-form-item {margin-bottom:10px;flex-wrap:unset;align-items:center;}
 .kui-coding-form .kui-small .ant-form-item-label {width:70px;}
 .kui-coding-form .kui-row-28 {grid-template-columns:25% 75%;}
