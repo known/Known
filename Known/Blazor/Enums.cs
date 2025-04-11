@@ -1,6 +1,21 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
+/// 呈现类型枚举。
+/// </summary>
+public enum RenderType
+{
+    /// <summary>
+    /// 自动模式。
+    /// </summary>
+    Auto,
+    /// <summary>
+    /// SSR模式。
+    /// </summary>
+    Server
+}
+
+/// <summary>
 /// 样式类型枚举。
 /// </summary>
 public enum StyleType

@@ -56,9 +56,7 @@
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}
-.kui-tab-form .ant-modal-body {padding:0;}
-.kui-tab-form .ant-modal-body .kui-form, .kui-tab-form .ant-drawer-body .kui-form,
-.kui-tab-form .ant-modal-body .kui-small, .kui-tab-form .ant-drawer-body .kui-small {}
+.kui-tab-form, .kui-form-tab {margin-top:-10px;}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
 .kui-tab-form .ant-tabs-tabpane {padding:0 10px;}
 .kui-tab-form .ant-tabs-tabpane .kui-form, .kui-tab-form .ant-tabs-tabpane .kui-small {padding-right:10px;}

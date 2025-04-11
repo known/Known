@@ -44,6 +44,13 @@ public static class LayoutExtension
             table.Criteria.ExportColumns = table.GetExportColumns();
             var result = await table.OnQuery?.Invoke(table.Criteria);
             table.Criteria.ExportMode = ExportMode.None;
+
+            if (result == null || result.ExportData == null || result.ExportData.Length == 0)
+            {
+                app.UI.Error("无数据可导出！");
+                return;
+            }
+
             var bytes = result.ExportData;
             await app.JS.DownloadFileAsync($"{name}.xlsx", bytes);
         });

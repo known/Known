@@ -8,6 +8,11 @@ public partial class Config
     public const string AutoBizIdPrefix = "AutoImport";
 
     /// <summary>
+    /// 取得或设置呈现类型，默认Server。
+    /// </summary>
+    public static RenderType RenderMode { get; set; } = RenderType.Server;
+
+    /// <summary>
     /// 取得或设置系统移动端菜单信息列表。
     /// </summary>
     public static List<MenuInfo> AppMenus { get; set; }

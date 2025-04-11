@@ -54,6 +54,21 @@ public class UIContext : Context
     /// </summary>
     public BaseLayout App { get; internal set; }
 
+    /// <summary>
+    /// 取得当前组件呈现模式。
+    /// </summary>
+    public IComponentRenderMode RenderMode
+    {
+        get
+        {
+            return Config.RenderMode switch
+            {
+                RenderType.Auto => new InteractiveAutoRenderMode(false),
+                _ => new InteractiveServerRenderMode(false),
+            };
+        }
+    }
+
     internal NavigationManager Navigation { get; set; }
     internal ReuseTabsService TabsService { get; set; }
 
