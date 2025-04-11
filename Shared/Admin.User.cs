@@ -123,10 +123,15 @@ public class UserDataInfo : UserInfo
     /// <summary>
     /// 取得或设置用户角色。
     /// </summary>
-    [MaxLength(500)]
     [Column]
     [DisplayName("角色")]
     public new string Role { get; set; }
+
+    /// <summary>
+    /// 取得或设置用户数据权限。
+    /// </summary>
+    [DisplayName("数据")]
+    public string Data { get; set; }
 
     /// <summary>
     /// 取得或设置用户关联的角色ID集合。
@@ -141,4 +146,17 @@ public class UserDataInfo : UserInfo
     /// </summary>
     public List<CodeInfo> Roles { get; set; }
     //public List<CodeInfo> Datas { get; set; }
+
+    /// <summary>
+    /// 获取数据权限对象。
+    /// </summary>
+    /// <typeparam name="T">数据权限类型。</typeparam>
+    /// <returns></returns>
+    public T GetDataPurview<T>() => Utils.FromJson<T>(Data);
+
+    /// <summary>
+    /// 设置数据权限对象。
+    /// </summary>
+    /// <param name="data">数据权限对象。</param>
+    public void SetDataPurview(object data) => Data = Utils.ToJson(data);
 }

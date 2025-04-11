@@ -134,7 +134,6 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置角色。
     /// </summary>
-    [MaxLength(500)]
     [DisplayName("角色")]
     public string Role { get; set; }
 

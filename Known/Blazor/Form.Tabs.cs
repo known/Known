@@ -17,6 +17,11 @@ public class ModuleFormTab : BaseComponent
 public class UserFormTab : BaseComponent
 {
     /// <summary>
+    /// 取得或设置是否查看。
+    /// </summary>
+    [Parameter] public bool IsView { get; set; }
+
+    /// <summary>
     /// 取得或设置用户信息。
     /// </summary>
     [Parameter] public UserDataInfo User { get; set; }

@@ -2,16 +2,18 @@
 .ant-layout-header {background:var(--kui-bgcolor);}
 .ant-btn, .ant-input, .ant-input-number, .ant-input-affix-wrapper,
 .ant-select:not(.ant-select-customize-input) .ant-select-selector, .ant-select-dropdown,
-.ant-tag, .ant-alert, .ant-message-notice-content, .ant-segmented,
+.ant-tag, .ant-alert, .ant-message-notice-content, .ant-segmented, .ant-transfer-list,
 .ant-picker, .ant-picker-panel-container, .ant-dropdown-menu, .ant-upload.ant-upload-drag,
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link {
     border-radius:5px;
 }
 .ant-btn-circle {border-radius:50%;}
+.ant-transfer-list-header {border-radius:5px 5px 0 0;}
 .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child .ant-input-search-button {border-radius:0 5px 5px 0;}
 .ant-radio-button-wrapper:first-child {border-radius:5px 0 0 5px;}
 .ant-radio-button-wrapper:last-child {border-radius:0 5px 5px 0;}
 .ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}
+
 .ant-badge-count {z-index:100;}
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:2px;}
@@ -35,6 +37,7 @@
 .kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background-color:#dcf4ff;}
 .ant-table-pagination.ant-pagination {margin:5px 0 10px 0;}
 .ant-toolbar {display:flex;gap:3px;}
+.ant-transfer-list-header-title {font-weight:bold;}
 
 .ant-modal {top:30px;}
 .ant-modal-body > .ant-steps {padding:10px;}

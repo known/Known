@@ -26,7 +26,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         Table = new TableModel<UserDataInfo>(this)
         {
             FormType = UIConfig.UserFormTabs.Count > 0 ? typeof(UserTabForm) : typeof(UserForm),
-            Form = new FormInfo { Width = 800, SmallLabel = true },
+            Form = new FormInfo { Width = 800, SmallLabel = true, ShowFooter = UIConfig.UserFormShowFooter },
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync
         };
@@ -187,6 +187,7 @@ class UserTabForm : BaseTabForm
         {
             if (item.Value.Parameters == null)
                 item.Value.Parameters = [];
+            item.Value.Parameters[nameof(UserFormTab.IsView)] = Model.IsView;
             item.Value.Parameters[nameof(UserFormTab.User)] = Model.Data;
             Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
         }
@@ -200,10 +201,12 @@ class UserForm : BaseForm<UserDataInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-
-        SaveClose = UIConfig.UserFormTabs.Count == 0;
-        ShowAction = UIConfig.UserFormTabs.Count > 0;
-        Model.Header = b => b.Alert(Language.GetString("Tip.UserDefaultPwd").Replace("{password}", defaultPassword));
+        if (!UIConfig.UserFormShowFooter)
+        {
+            SaveClose = UIConfig.UserFormTabs.Count == 0;
+            ShowAction = UIConfig.UserFormTabs.Count > 0;
+        }
+        //Model.Header = b => b.Alert();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
         Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
     }
@@ -217,6 +220,8 @@ class UserForm : BaseForm<UserDataInfo>
             defaultPassword = user.DefaultPassword;
             if (Model.IsNew)
                 Model.Data.Password = defaultPassword;
+            var pwdTips = Language.GetString("Tip.UserDefaultPwd").Replace("{password}", defaultPassword);
+            Model.Field(f => f.Password).Tooltip(pwdTips);
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;
         }
