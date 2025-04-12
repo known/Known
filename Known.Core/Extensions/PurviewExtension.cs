@@ -10,19 +10,18 @@ public static class PurviewExtension
     /// </summary>
     /// <typeparam name="T">数据权限类型。</typeparam>
     /// <param name="db">数据库对象。</param>
-    /// <param name="action"></param>
+    /// <param name="userId">用户ID。</param>
     /// <returns></returns>
-    public static async Task<bool> SetDataPurviewAsync<T>(this Database db, Action<T> action)
+    public static async Task<T> GetDataPurviewAsync<T>(this Database db, string userId)
     {
-        var user = await db.QueryByIdAsync<SysUser>(db.User.Id);
+        var user = await db.QueryByIdAsync<SysUser>(userId);
         if (user == null || string.IsNullOrWhiteSpace(user.Data))
-            return false;
+            return default;
 
         var info = Utils.FromJson<T>(user.Data);
         if (info == null)
-            return false;
+            return default;
 
-        action.Invoke(info);
-        return true;
+        return info;
     }
 }

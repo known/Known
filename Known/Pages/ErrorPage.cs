@@ -28,7 +28,7 @@ public class ErrorPage : BasePage
             if (error != null && error.Template != null)
                 error.Template?.Invoke(builder);
             else
-                builder.Button(Language["Button.BackHome"], this.Callback<MouseEventArgs>(e => Navigation.NavigateTo("/")));
+                builder.Button(Language["Button.BackHome"], this.Callback<MouseEventArgs>(e => Context.GoHomePage()));
         });
     }
 }

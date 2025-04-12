@@ -5,7 +5,7 @@
     {
         foreach (var item in MenuItems)
         {
-            if (!item.Visible)
+            if (!CheckItem(item))
                 continue;
 
             @RenderItem(item)

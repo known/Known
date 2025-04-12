@@ -65,6 +65,11 @@ public class MenuInfo
     public int Sort { get; set; }
 
     /// <summary>
+    /// 取得或设置菜单角色。
+    /// </summary>
+    public string Role { get; set; }
+
+    /// <summary>
     /// 取得或设置菜单返回URL，适用于APP移动端应用。
     /// </summary>
     public string BackUrl { get; set; }

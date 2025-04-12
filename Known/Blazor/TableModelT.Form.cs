@@ -30,6 +30,8 @@ partial class TableModel<TItem>
             model.SmallLabel = Form.SmallLabel;
             model.Info.NoFooter = Form.NoFooter;
             model.Info.ShowFooter = Form.ShowFooter;
+            model.Info.Maximizable = Form.Maximizable;
+            model.Info.DefaultMaximized = Form.DefaultMaximized;
             if (model.Info.Width == null)
                 model.Info.Width = Form.Width;
         }

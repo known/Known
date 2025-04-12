@@ -182,7 +182,25 @@ public class UserInfo
         if (string.IsNullOrWhiteSpace(Role))
             return false;
 
-        return Role.Contains(role);
+        return Role.Split(',').Contains(role);
+    }
+
+    /// <summary>
+    /// 判断用户是否在角色中。
+    /// </summary>
+    /// <param name="roles"></param>
+    /// <returns>返回是否在角色中。</returns>
+    public bool InRole(string[] roles)
+    {
+        if (roles == null || roles.Length == 0)
+            return true;
+
+        foreach (string role in roles)
+        {
+            if (HasRole(role))
+                return true;
+        }
+        return false;
     }
 
     /// <summary>

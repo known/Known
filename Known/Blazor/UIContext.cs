@@ -25,6 +25,11 @@ public class UIContext : Context
     public string Url { get; internal set; }
 
     /// <summary>
+    /// 取得首页URL。
+    /// </summary>
+    public string HomeUrl => IsMobileApp ? "/app" : "/";
+
+    /// <summary>
     /// 取得或设置当前主题。
     /// </summary>
     public string Theme { get; set; }
@@ -160,7 +165,7 @@ public class UIContext : Context
     /// <param name="forceLoad">是否强制刷新。</param>
     public void GoHomePage(string returnUrl = null, bool forceLoad = false)
     {
-        var url = returnUrl ?? (IsMobileApp ? "/app" : "/");
+        var url = returnUrl ?? HomeUrl;
         Navigation.NavigateTo(url, forceLoad);
     }
 

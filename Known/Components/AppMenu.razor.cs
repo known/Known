@@ -37,4 +37,16 @@ public partial class AppMenu
 
         Context.NavigateTo(item);
     }
+
+    private bool CheckItem(MenuInfo item)
+    {
+        if (!item.Visible)
+            return false;
+
+        if (string.IsNullOrWhiteSpace(item.Role))
+            return true;
+
+        var roles = item.Role.Split(',');
+        return CurrentUser.InRole(roles);
+    }
 }

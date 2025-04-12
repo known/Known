@@ -36,6 +36,11 @@ public class MenuAttribute(string parent, string name, string icon, int sort) : 
     public string Url { get; set; }
 
     /// <summary>
+    /// 取得或设置菜单角色。
+    /// </summary>
+    public string Role { get; set; }
+
+    /// <summary>
     /// 取得或设置菜单关联的组件类型。
     /// </summary>
     public Type Page { get; set; }

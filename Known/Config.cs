@@ -138,6 +138,7 @@ public partial class Config
                 Url = menu.Url,
                 Sort = menu.Sort,
                 Target = menu.Target,
+                Role = menu.Role,
                 Color = menu.Color,
                 BackUrl = menu.BackUrl,
                 PageType = item

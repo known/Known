@@ -161,12 +161,10 @@ public class BaseLayout : BaseComponent
 
     private void CheckUrlAuthentication()
     {
-        if (!IsAdmin)
-            return;
-
         if (!UIConfig.IgnoreRoutes.Contains(Context.Url) && !RouteData.PageType.IsAllowAnonymous())
         {
-            if (Context.Current == null)
+            var roles = Context.Current?.Role?.Split(',');
+            if (Context.Current == null || !CurrentUser.InRole(roles))
             {
                 Navigation.GoErrorPage("403");
                 return;
