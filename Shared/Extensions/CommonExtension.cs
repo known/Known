@@ -21,6 +21,22 @@ public static class CommonExtension
 
     #region Object
     /// <summary>
+    /// 获取对象指定类型的属性值。
+    /// </summary>
+    /// <typeparam name="T">属性值类型。</typeparam>
+    /// <param name="obj">对象。</param>
+    /// <param name="propertyName">属性名。</param>
+    /// <returns>属性值。</returns>
+    public static T Property<T>(this object obj, string propertyName)
+    {
+        var value = obj.Property(propertyName);
+        if (value == null)
+            return default;
+
+        return Utils.ConvertTo<T>(value);
+    }
+
+    /// <summary>
     /// 获取对象属性值。
     /// </summary>
     /// <param name="obj">对象。</param>

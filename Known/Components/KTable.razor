@@ -168,17 +168,25 @@ PageSize="Model.Criteria.PageSize"
             <SummaryCell />
         }
         @if (Model.SelectType != TableSelectType.None) {
-            <SummaryCell Class="kui-table-check" Align="ColumnAlign.Center">@Language["IsSum"]</SummaryCell>
+            <SummaryCell Class="kui-table-check" Align="ColumnAlign.Center"></SummaryCell>
         }
         @if (Model.Columns != null && Model.Columns.Count > 0) {
+            var isTitle = false;
             foreach (var item in Model.Columns) {
                 if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
                     continue;
 
+                if (!isTitle) {
+                    <SummaryCell>@Language["本页合计"]<br/><strong>@Language["查询总计"]</strong></SummaryCell>
+                    isTitle = true;
+                    continue;
+                }
+
                 if (item.IsSum) {
-                    object value = null;
-                    Model.Result?.Statis?.TryGetValue(item.Id, out value);
-                    <SummaryCell>@value</SummaryCell>
+                    var value = Model.Result?.GetPageSum(item.Id);
+                    object total = null;
+                    Model.Result?.Statis?.TryGetValue(item.Id, out total);
+                    <SummaryCell>@value<br/><strong>@total</strong></SummaryCell>
                 } else {
                     <SummaryCell />
                 }
