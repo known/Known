@@ -29,16 +29,17 @@ partial class AdminService
 
     public async Task<RoleInfo> GetRoleAsync(string roleId)
     {
-        var database = Database;
-        await database.OpenAsync();
-        var info = string.IsNullOrWhiteSpace(roleId)
+        RoleInfo info = null;
+        await Database.QueryActionAsync(async db =>
+        {
+            info = string.IsNullOrWhiteSpace(roleId)
                  ? new RoleInfo()
-                 : await database.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
-        info ??= new RoleInfo();
-        info.Modules = await DataHelper.GetModulesAsync(database);
-        var roleModules = await database.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
-        info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
-        await database.CloseAsync();
+                 : await db.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
+            info ??= new RoleInfo();
+            info.Modules = await DataHelper.GetModulesAsync(db);
+            var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
+            info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
+        });
         return info;
     }
 

@@ -193,6 +193,18 @@ public partial class Database
         return data;
     }
 
+    /// <summary>
+    /// 异步支持多个查询操作，开关一次数据库连接。
+    /// </summary>
+    /// <param name="action">多个查询操作委托。</param>
+    /// <returns></returns>
+    public async Task QueryActionAsync(Func<Database, Task> action)
+    {
+        await OpenAsync();
+        await action.Invoke(this);
+        await CloseAsync();
+    }
+
     internal async Task<T> QueryAsync<T>(CommandInfo info)
     {
         T obj = default;

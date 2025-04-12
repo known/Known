@@ -14,17 +14,18 @@ partial class AdminService
 
     public async Task<UserDataInfo> GetUserDataAsync(string id)
     {
-        var database = Database;
-        await database.OpenAsync();
-        var user = await database.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserDataInfo>();
-        user ??= new UserDataInfo { Password = Config.System?.UserDefaultPwd };
-        user.DefaultPassword = Config.System?.UserDefaultPwd;
-        var roles = await database.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
-        var userRoles = await database.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
-        var roleIds = userRoles?.Select(r => r.RoleId).ToList();
-        user.Roles = roles.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
-        user.RoleIds = roleIds.ToArray();
-        await database.CloseAsync();
+        UserDataInfo user = null;
+        await Database.QueryActionAsync(async db =>
+        {
+            user = await db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserDataInfo>();
+            user ??= new UserDataInfo { Password = Config.System?.UserDefaultPwd };
+            user.DefaultPassword = Config.System?.UserDefaultPwd;
+            var roles = await db.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
+            var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
+            var roleIds = userRoles?.Select(r => r.RoleId).ToList();
+            user.Roles = [.. roles.Select(r => new CodeInfo(r.Id, r.Name))];
+            user.RoleIds = [.. roleIds];
+        });
         return user;
     }
 

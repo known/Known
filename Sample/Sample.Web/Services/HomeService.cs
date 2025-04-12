@@ -12,18 +12,16 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
 {
     public async Task<HomeInfo> GetHomeAsync()
     {
+        var info = new HomeInfo();
         var user = CurrentUser;
         if (user == null)
-            return new HomeInfo();
+            return info;
 
-        var db = Database;
-        await db.OpenAsync();
-        var info = new HomeInfo
+        await Database.QueryActionAsync(async db =>
         {
-            VisitMenuIds = await db.GetVisitMenuIdsAsync(user.UserName, 12),
-            Statistics = await GetStatisticsInfoAsync(db)
-        };
-        await db.CloseAsync();
+            info.VisitMenuIds = await db.GetVisitMenuIdsAsync(user.UserName, 12);
+            info.Statistics = await GetStatisticsInfoAsync(db);
+        });
         return info;
     }
 

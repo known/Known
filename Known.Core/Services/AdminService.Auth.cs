@@ -119,26 +119,24 @@ partial class AdminService
 
     public async Task<AdminInfo> GetAdminAsync()
     {
+        var info = new AdminInfo();
         if (CurrentUser == null)
-            return new AdminInfo();
+            return info;
 
-        var db = Database;
-        await db.OpenAsync();
-        Config.System ??= await db.GetSystemAsync();
-        var info = new AdminInfo
+        info.Actions = AppData.GetActions();
+        await Database.QueryActionAsync(async db =>
         {
-            AppName = await db.GetUserSystemNameAsync(),
-            DatabaseType = db.DatabaseType,
-            UserMenus = await db.GetUserMenusAsync(),
-            UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting),
-            UserTableSettings = await db.GetUserTableSettingsAsync(),
-            Codes = await db.GetDictionariesAsync(),
-            Actions = AppData.GetActions()
-        };
+            Config.System ??= await db.GetSystemAsync();
+            info.AppName = await db.GetUserSystemNameAsync();
+            info.DatabaseType = db.DatabaseType;
+            info.UserMenus = await db.GetUserMenusAsync();
+            info.UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
+            info.UserTableSettings = await db.GetUserTableSettingsAsync();
+            info.Codes = await db.GetDictionariesAsync();
+            if (CoreConfig.OnAdmin != null)
+                await CoreConfig.OnAdmin.Invoke(db, info);
+        });
         info.UserSetting ??= CoreOption.Instance.UserSetting.Clone();
-        if (CoreConfig.OnAdmin != null)
-            await CoreConfig.OnAdmin.Invoke(db, info);
-        await db.CloseAsync();
         Cache.AttachCodes(info.Codes);
         return info;
     }
