@@ -32,10 +32,19 @@ partial class TableModel<TItem>
     /// </summary>
     public bool ShowIndex { get; set; }
 
+    private bool showPager;
     /// <summary>
     /// 取得或设置表格是否显示分页。
     /// </summary>
-    public bool ShowPager { get; set; }
+    public bool ShowPager
+    {
+        get => showPager;
+        set
+        {
+            showPager = value;
+            Criteria.IsPaging = value;
+        }
+    }
 
     /// <summary>
     /// 取得或设置表格分页每页大小。

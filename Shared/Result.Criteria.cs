@@ -69,6 +69,11 @@ public class PagingCriteria
     /// </summary>
     public Dictionary<string, string> Fields { get; set; }
 
+    /// <summary>
+    /// 取得或设置是否分页查询。
+    /// </summary>
+    public bool IsPaging { get; set; }
+
     internal Dictionary<string, object> CmdParams { get; set; }
 
     /// <summary>
@@ -91,13 +96,16 @@ public class PagingCriteria
     /// 获取查询字段值。
     /// </summary>
     /// <param name="id">查询字段ID。</param>
+    /// <param name="remove">是否移除条件。</param>
     /// <returns>查询字段值。</returns>
-    public string GetQueryValue(string id)
+    public string GetQueryValue(string id, bool remove = false)
     {
         var query = Query?.FirstOrDefault(q => q.Id == id);
         if (query == null)
             return string.Empty;
 
+        if (remove)
+            Query.Remove(query);
         return query.Value;
     }
 

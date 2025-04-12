@@ -24,11 +24,11 @@ PageSize="Model.Criteria.PageSize"
                 var columnId = Model.Columns[0].Id;
                 if (isDictionary) {
                     @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
-                        <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
+                        <span>@GetIndex(context)</span>
                     </DictionaryColumn>*@
                 } else {
                     <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
-                        <span>@(Model.Result.PageData.IndexOf(context) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize)</span>
+                        <span>@GetIndex(context)</span>
                     </Column>
                 }
             }

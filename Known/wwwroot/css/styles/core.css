@@ -19,6 +19,9 @@
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}
 .kui-flex {display:flex;}
+.kui-flex-row {display:flex;flex-direction:row;align-items:center;gap:10px;}
+.kui-flex-column {display:flex;flex-direction:column;align-items:center;gap:10px;}
+.kui-flex-space {display:flex;justify-content:space-between;align-items:center;gap:10px;}
 .kui-error {text-align:center;padding:20px;height:100%;}
 .kui-primary {color:#1890ff;}
 .kui-danger {color:#ed4014;}
@@ -98,9 +101,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-unit {display:flex;gap:10px;align-items:center;}
 
 /*Capsule*/
-.kui-capsule {display:flex;border-radius:5px;background-color:#5d5d5d;color:#fff;font-size:12px;}
+.kui-capsule {display:flex;border-radius:5px;background-color:#5d5d5d;color:#fff;font-size:12px;height:20px;}
 .kui-capsule span {display:inline-block;padding:0 5px;height:20px;line-height:20px;}
 .kui-capsule-value {border-radius:0 5px 5px 0;}
+.kui-row .kui-capsule {float:left;}
 
 /*FullScreen*/
 .kui-screen {position:relative;background-color:var(--kui-bgcolor);}

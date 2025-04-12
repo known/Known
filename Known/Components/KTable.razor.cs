@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using AntDesign.TableModels;
 
 namespace Known.Components;
 
@@ -53,7 +52,7 @@ partial class KTable<TItem> : BaseComponent
             {
                 //var sorts = query.SortModel.Where(s => !string.IsNullOrWhiteSpace(s.Sort));
                 var sorts = query.SortModel.Where(s => s.SortDirection != SortDirection.None);
-                Model.Criteria.OrderBys = sorts.Select(GetOrderBy).ToArray();
+                Model.Criteria.OrderBys = [.. sorts.Select(GetOrderBy)];
             }
             Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
             Model.SelectedRows = [];
@@ -85,6 +84,14 @@ partial class KTable<TItem> : BaseComponent
             attributes["ondblclick"] = this.Callback(async () => await Model.OnRowDoubleClick.Invoke(row.Data));
 
         return attributes;
+    }
+
+    private int GetIndex(TItem item)
+    {
+        if (!Model.ShowPager)
+            return Model.Result.PageData.IndexOf(item) + 1;
+
+        return Model.Result.PageData.IndexOf(item) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize;
     }
 
     private string GetOrderBy(ITableSortModel model)

@@ -3,7 +3,12 @@
 <FieldItem Label="@Label">
     @if (Data.ContainsKey(Item.Id))
     {
-        if (!string.IsNullOrWhiteSpace(Item.Category) || Item.Type == FieldType.Select)
+        if (Item.Type == FieldType.RadioList)
+        {
+            var codes = Cache.GetCodes(Item.Category).ToCodes();
+            <AntRadioGroup Category="@Item.Category" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" ButtonStyle="RadioButtonStyle.Solid" />
+        }
+        else if (!string.IsNullOrWhiteSpace(Item.Category) || Item.Type == FieldType.Select)
         {
             var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />

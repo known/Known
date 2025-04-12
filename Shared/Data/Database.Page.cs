@@ -69,6 +69,8 @@ public partial class Database
     {
         try
         {
+            if (!criteria.IsPaging)
+                criteria.PageIndex = -1;
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
                 criteria.PageIndex = -1;
 
@@ -100,11 +102,9 @@ public partial class Database
                     if (criteria.StatisticColumns != null && criteria.StatisticColumns.Count > 0)
                     {
                         cmd.CommandText = info.StatSql;
-                        using (var reader1 = cmd.ExecuteReader())
-                        {
-                            if (reader1 != null && reader1.Read())
-                                statis = DbUtils.GetDictionary(reader1);
-                        }
+                        using var reader1 = cmd.ExecuteReader();
+                        if (reader1 != null && reader1.Read())
+                            statis = DbUtils.GetDictionary(reader1);
                     }
                 }
             }

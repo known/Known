@@ -15,6 +15,8 @@ public class SysLogList : BaseTablePage<LogInfo>
 
         await base.OnInitPageAsync();
 
+        Table.ShowIndex = true;
+        Table.SelectType = TableSelectType.None;
         Table.OnQuery = Admin.QueryLogsAsync;
         Table.Column(c => c.Type).Tag();
         Table.Column(c => c.Target).Width(200);

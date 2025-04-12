@@ -59,6 +59,7 @@
 .ant-drawer-body .kui-app-search-info {
     bottom:10px;
 }
+.ant-list .ant-empty {margin-top:1rem;}
 
 .kui-app-rc2 {display:flex;justify-content:space-between;align-items:center;}
 
