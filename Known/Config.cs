@@ -15,7 +15,7 @@ public partial class Config
     /// <summary>
     /// 取得或设置系统移动端菜单信息列表。
     /// </summary>
-    public static List<MenuInfo> AppMenus { get; set; }
+    public static List<MenuInfo> AppMenus { get; set; } = [];
 
     /// <summary>
     /// 取得框架初始模块菜单信息列表。
@@ -68,6 +68,7 @@ public partial class Config
 
             var routes = GetRoutes(item);
             PluginConfig.AddPlugin(item, routes);
+            AddAppMenu(item, routes);
             AddMenu(item, routes);
             AddCodeInfo(item);
         }
@@ -121,6 +122,27 @@ public partial class Config
             }
         }
         return routes;
+    }
+
+    private static void AddAppMenu(Type item, IEnumerable<RouteAttribute> routes)
+    {
+        var menu = item.GetCustomAttribute<AppMenuAttribute>();
+        if (menu != null)
+        {
+            menu.Page = item;
+            menu.Url = routes?.FirstOrDefault()?.Template;
+            AppMenus.Add(new MenuInfo
+            {
+                Name = menu.Name,
+                Icon = menu.Icon,
+                Url = menu.Url,
+                Sort = menu.Sort,
+                Target = menu.Target,
+                Color = menu.Color,
+                BackUrl = menu.BackUrl,
+                PageType = item
+            });
+        }
     }
 
     private static void AddMenu(Type item, IEnumerable<RouteAttribute> routes)

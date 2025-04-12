@@ -42,6 +42,32 @@ public class MenuAttribute(string parent, string name, string icon, int sort) : 
 }
 
 /// <summary>
+/// 移动端菜单特性类，用于标识页面组件是否是移动端菜单。
+/// </summary>
+/// <param name="name">菜单名称。</param>
+/// <param name="icon">菜单图标。</param>
+/// <param name="sort">菜单排序。</param>
+/// <param name="target">菜单目标位置，Tab/Menu，默认Menu。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class AppMenuAttribute(string name, string icon, int sort, string target = "Menu") : MenuAttribute("", name, icon, sort)
+{
+    /// <summary>
+    /// 取得或设置菜单目标位置，Tab/Menu，默认Menu。
+    /// </summary>
+    public string Target { get; set; } = target;
+
+    /// <summary>
+    /// 取得或设置首页菜单图标背景颜色。
+    /// </summary>
+    public string Color { get; set; }
+
+    /// <summary>
+    /// 取得或设置返回页面URL。
+    /// </summary>
+    public string BackUrl { get; set; }
+}
+
+/// <summary>
 /// 动作特性类，用于标识方法是否需要角色权限控制。
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]

@@ -1,30 +1,38 @@
 ﻿@inherits BaseComponent
 
 <ul class="kui-app-menu">
-    @if (Items != null && Items.Count > 0)
+    @if (MenuItems != null && MenuItems.Count > 0)
     {
-        foreach (var item in Items)
+        foreach (var item in MenuItems)
         {
-            if (item.Target != "Menu" || !item.Visible)
+            if (!item.Visible)
                 continue;
 
-            <li @onclick="e=>OnItemClick(item)" style="width:@(Width)%">
-                @if (item.Badge > 0)
-                {
-                    <Badge Count="item.Badge">
-                        <div class="kui-app-menu-icon" style="background-color:@item.Color">
-                            <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
-                        </div>
-                    </Badge>
-                }
-                else
-                {
-                    <div class="kui-app-menu-icon" style="background-color:@item.Color">
-                        <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
-                    </div>
-                }
-                <div>@item.Name</div>
-            </li>
+            @RenderItem(item)
         }
     }
+    @if (ShowPending)
+    {
+        @RenderItem(new MenuInfo { Name = "功能待加", Icon = "plus", Color = "#4fa624" });
+    }
 </ul>
+
+@code {
+    RenderFragment RenderItem(MenuInfo item) => @<li @onclick="e=>OnItemClick(item)" style="@Width">
+        @if (item.Badge > 0)
+        {
+            <Badge Count="item.Badge">
+                <div class="kui-app-menu-icon" style="background-color:@item.Color">
+                    <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
+                </div>
+            </Badge>
+        }
+        else
+        {
+            <div class="kui-app-menu-icon" style="background-color:@item.Color">
+                <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
+            </div>
+        }
+        <div>@item.Name</div>
+    </li>;
+}

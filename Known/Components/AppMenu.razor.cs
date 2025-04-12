@@ -5,7 +5,8 @@
 /// </summary>
 public partial class AppMenu
 {
-    private double Width => 100 / Count;
+    private List<MenuInfo> MenuItems = [];
+    private string Width => $"width:{100 / Count}%";
 
     /// <summary>
     /// 取得或设置每行菜单数量大小，默认每行2个。
@@ -16,6 +17,18 @@ public partial class AppMenu
     /// 取得或设置菜单项目列表。
     /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否显示功能待加菜单。
+    /// </summary>
+    [Parameter] public bool ShowPending { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        MenuItems = Items?.Where(m => m.Target == "Menu").OrderBy(m => m.Sort).ToList();
+    }
 
     private void OnItemClick(MenuInfo item)
     {
