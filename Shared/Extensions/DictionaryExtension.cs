@@ -16,6 +16,21 @@ public static class DictionaryExtension
     }
 
     /// <summary>
+    /// 获取金额字符串。
+    /// </summary>
+    /// <param name="dic">字典对象。</param>
+    /// <param name="key">字典项目键。</param>
+    /// <returns>金额字符串。</returns>
+    public static string GetAmount(this IDictionary dic, string key)
+    {
+        var amount = dic?.GetValue<decimal>(key);
+        if (amount == null || amount == 0)
+            return "0";
+
+        return amount.ToString().TrimEnd('0').TrimEnd('.');
+    }
+
+    /// <summary>
     /// 获取字典项目值。
     /// </summary>
     /// <param name="dic">字典对象。</param>

@@ -5,7 +5,7 @@
     {
         foreach (var item in Items)
         {
-            if (!item.Visible)
+            if (!CheckItem(item))
                 continue;
 
             <li @onclick="e=>OnItemClick(item)" class="@(current == item.Id ? "active" : "")">

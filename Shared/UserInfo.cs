@@ -169,6 +169,9 @@ public class UserInfo
         if (string.IsNullOrWhiteSpace(Role))
             return false;
 
+        if (IsAdmin())
+            return true;
+
         return Role == role;
     }
 
@@ -181,6 +184,9 @@ public class UserInfo
     {
         if (string.IsNullOrWhiteSpace(Role))
             return false;
+
+        if (IsAdmin())
+            return true;
 
         return Role.Split(',').Contains(role);
     }
