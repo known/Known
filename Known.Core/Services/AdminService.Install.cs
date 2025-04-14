@@ -108,6 +108,7 @@ partial class AdminService
         user.Gender = "Male";
         user.Role = "Admin";
         user.Enabled = true;
+        CoreOption.Instance.OnNewUser?.Invoke(db, user);
         await db.SaveAsync(user);
     }
 
