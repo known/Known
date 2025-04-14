@@ -36,14 +36,27 @@ public static class FileExtension
     }
 
     /// <summary>
-    /// 异步添加系统附件信息。
+    /// 异步添加系统附件信息，该方法3.3.0版本之后已过时。
     /// </summary>
     /// <param name="db">数据库对象。</param>
     /// <param name="files">表单附件列表。</param>
     /// <param name="bizId">附件业务数据ID。</param>
     /// <param name="bizType">附件业务类型。</param>
     /// <returns>系统附件信息列表。</returns>
-    public static async Task<List<AttachInfo>> AddFilesAsync(this Database db, List<AttachFile> files, string bizId, string bizType)
+    public static Task<List<AttachInfo>> AddFilesAsync(this Database db, List<AttachFile> files, string bizId, string bizType)
+    {
+        return db.AddFilesAsync(files, bizId, key => { });
+    }
+
+    /// <summary>
+    /// 异步添加系统附件信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="files">表单附件列表。</param>
+    /// <param name="bizId">附件业务数据ID。</param>
+    /// <param name="action">附件业务类型。</param>
+    /// <returns>系统附件信息列表。</returns>
+    public static async Task<List<AttachInfo>> AddFilesAsync(this Database db, List<AttachFile> files, string bizId, Action<string> action = null)
     {
         if (files == null || files.Count == 0)
             return null;
@@ -51,9 +64,10 @@ public static class FileExtension
         var sysFiles = new List<AttachInfo>();
         foreach (var item in files)
         {
-            var file = await AddFileAsync(db, item, bizId, bizType, "");
+            var file = await AddFileAsync(db, item, bizId);
             sysFiles.Add(file);
         }
+        action?.Invoke($"{bizId}_{files[0].BizType}");
         return sysFiles;
     }
 
@@ -105,11 +119,11 @@ public static class FileExtension
         await db.DeleteFileAsync(item.Id);
     }
 
-    private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string bizType, string note)
+    private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string note = null)
     {
-        await attach.SaveAsync();
+        attach.FilePath = Path.Combine(db.User.CompNo, attach.FilePath);
         attach.BizId = bizId;
-        attach.BizType = bizType;
+        await attach.SaveAsync();
         var file = new SysFile
         {
             CompNo = db.User.CompNo,

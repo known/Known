@@ -8,29 +8,36 @@ public class AttachFile
     private readonly FileDataInfo file;
 
     /// <summary>
-    /// 构造函数，创建一个附件类的实例。
+    /// 构造函数，创建一个附件类的实例，该方法3.3.0版本之后已过时。
     /// </summary>
     /// <param name="file">上传的附件信息。</param>
     /// <param name="user">当前用户信息。</param>
     /// <param name="bizType">附件业务类型。</param>
     /// <param name="bizPath">附件业务存储路径。</param>
     public AttachFile(FileDataInfo file, UserInfo user, string bizType = null, string bizPath = null)
+        : this(file, bizType, bizPath) { }
+
+    /// <summary>
+    /// 构造函数，创建一个附件类的实例。
+    /// </summary>
+    /// <param name="file">上传的附件信息。</param>
+    /// <param name="bizType">附件业务类型。</param>
+    /// <param name="bizPath">附件业务存储路径。</param>
+    public AttachFile(FileDataInfo file, string bizType, string bizPath = null)
     {
         this.file = file;
         Size = file.Size;
-        var names = file.Name.Replace(@"\", "/").Split('/');
-        SourceName = names.Last();
-        var index = SourceName.LastIndexOf('.');
-        ExtName = SourceName.Substring(index);
+        SourceName = file.Name.Replace(@"\", "/").Split('/').Last();
+        ExtName = SourceName[SourceName.LastIndexOf('.')..];
         FileName = SourceName;
-        var filePath = GetFilePath(user.CompNo, bizType);
-        var fileId = Utils.GetNextId();
-        var fileName = $"{user.UserName}_{fileId}{ExtName}";
+        BizType = bizType ?? "Files";
+        var fileId = Utils.GetGuid();
+        var fileName = $"{fileId}{ExtName}";
         fileName = fileName.Replace(" ", "");
         if (string.IsNullOrEmpty(bizPath))
-            FilePath = Path.Combine(filePath, fileName);
+            FilePath = Path.Combine(BizType, fileName);
         else
-            FilePath = Path.Combine(filePath, bizPath, fileName);
+            FilePath = Path.Combine(BizType, bizPath, fileName);
     }
 
     internal bool IsWeb { get; set; }
@@ -117,17 +124,5 @@ public class AttachFile
     public static void DeleteFiles(List<string> filePaths)
     {
         filePaths.ForEach(DeleteFile);
-    }
-
-    private static string GetFilePath(string compNo, string type = null)
-    {
-        var filePath = compNo;
-
-        if (!string.IsNullOrEmpty(type))
-        {
-            filePath += $@"\{type}";
-        }
-
-        return filePath;
     }
 }

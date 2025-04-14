@@ -5,25 +5,32 @@
 /// </summary>
 public partial class KFileCell
 {
+    private List<AttachInfo> Files = [];
+    private bool HasFile => Files != null && Files.Count > 0;
+
     /// <summary>
     /// 取得或设置附件字段值。
     /// </summary>
     [Parameter] public string Value { get; set; }
 
-    private async Task OnShowFile()
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var files = await Admin.GetFilesAsync(Value);
-        if (files == null || files.Count == 0)
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender && !string.IsNullOrWhiteSpace(Value))
         {
-            UI.Info("暂无附件！");
-            return;
+            Files = await Admin.GetFilesAsync(Value);
+            await StateChangedAsync();
         }
+    }
 
+    private void OnShowFile()
+    {
         var model = new DialogModel
         {
             Title = "预览附件",
             Maximizable = true,
-            Content = b => b.Component<KFileView>().Set(c => c.Items, files).Build()
+            Content = b => b.Component<KFileView>().Set(c => c.Items, Files).Build()
         };
         UI.ShowDialog(model);
     }

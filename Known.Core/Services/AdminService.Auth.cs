@@ -160,7 +160,7 @@ partial class AdminService
         if (entity == null)
             return Result.Error(Language["Tip.NoUser"]);
 
-        var attach = new AttachFile(info.File, CurrentUser);
+        var attach = new AttachFile(info.File, "Avatars");
         attach.FilePath = @$"Avatars\{entity.Id}{attach.ExtName}";
         await attach.SaveAsync();
 

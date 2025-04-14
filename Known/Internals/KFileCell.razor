@@ -1,3 +1,6 @@
 ﻿@inherits BaseComponent
 
-<KIcon Icon="file" OnClick="this.Callback<MouseEventArgs>(e=>OnShowFile())" />
+@if (HasFile)
+{
+    <KIcon Icon="file" OnClick="this.Callback<MouseEventArgs>(e=>OnShowFile())" />
+}

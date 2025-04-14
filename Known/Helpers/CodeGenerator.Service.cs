@@ -108,17 +108,11 @@ partial class CodeGenerator
             sb.AppendLine("            return vr;");
             sb.AppendLine(" ");
             if (hasFile)
-            {
-                sb.AppendLine("        var bizType = \"{0}Files\";", className);
-                sb.AppendLine("        var bizFiles = info.Files.GetAttachFiles(CurrentUser, nameof({0}.Files), bizType);", modelName);
-            }
+                sb.AppendLine("        var bizFiles = info.Files.GetAttachFiles(nameof({0}.Files), \"{0}Files\");", modelName);
             sb.AppendLine("        return await database.TransactionAsync(Language.Save, async db =>");
             sb.AppendLine("        {");
             if (hasFile)
-            {
-                sb.AppendLine("            await db.AddFilesAsync(bizFiles, model.Id, bizType);");
-                sb.AppendLine("            model.Files = $\"{model.Id}_{bizType}\";");
-            }
+                sb.AppendLine("            await db.AddFilesAsync(bizFiles, model.Id, key => model.Files = key);");
             sb.AppendLine("            await db.SaveAsync(model);");
             sb.AppendLine("            info{0}.Id = model.Id;", model);
             sb.AppendLine("        }}, info{0});", model);

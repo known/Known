@@ -74,7 +74,7 @@ partial class AdminService
         var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
         var result = await database.TransactionAsync(Language.Upload, async db =>
         {
-            sysFiles = await db.AddFilesAsync(files, form.BizId, form.BizType);
+            sysFiles = await db.AddFilesAsync(files, form.BizId);
             if (form.BizType == ImportHelper.BizType)
             {
                 task = CreateTask(form);
