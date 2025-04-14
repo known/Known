@@ -203,7 +203,7 @@ public sealed class DbUtils
                     if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox)
                         value = Utils.ConvertTo<bool>(value) ? "是" : "否";
                     else if (item.Type == FieldType.File)
-                        value = string.Empty;
+                        value = criteria.FileBizIds?.Contains(value?.ToString()?.Split('_')[0]) == true ? "有" : "无";
                     else if (item.Type == FieldType.Date)
                     {
                         value = Utils.ConvertTo<DateTime?>(value)?.Date;

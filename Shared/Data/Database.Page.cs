@@ -113,7 +113,10 @@ public partial class Database
                 conn.Close();
 
             if (criteria.ExportMode != ExportMode.None)
+            {
+                criteria.FileBizIds = await ScalarsAsync<string>("select BizId from SysFile where CompNo=@CompNo", new { User.CompNo });
                 exportData = DbUtils.GetExportData(criteria, pageData, onExport);
+            }
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
                 pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
