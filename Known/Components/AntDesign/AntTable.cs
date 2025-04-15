@@ -73,7 +73,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
                .Set(c => c.Current, tuple.PageIndex)
                .Set(c => c.ShowTotal, showTotal)
                .Set(c => c.ShowSizeChanger, true)
-               .Set(c => c.ShowQuickJumper, true)
+               //.Set(c => c.ShowQuickJumper, true)
                .Set(c => c.OnChange, tuple.HandlePageChange)
                .Build();
     }

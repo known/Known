@@ -5,11 +5,9 @@
     var scrollX = totalWidth.ToString();
 }
 <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" 
-ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
-Total="totalCount" DataSource="dataSource"
-PageIndex="Model.Criteria.PageIndex"
-PageSize="Model.Criteria.PageSize"
-@bind-SelectedRows="Model.SelectedRows">
+          ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
+          Total="totalCount" DataSource="dataSource"
+          @bind-SelectedRows="Model.SelectedRows">
     <ColumnDefinitions>
         @if (Context.IsEditTable) {
             <Column TitleTemplate="ColumnTitle" TData="object" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />
@@ -44,9 +42,9 @@ PageSize="Model.Criteria.PageSize"
                     var data = context as Dictionary<string, object>;
                     var value = data?.GetValue(item.Id);
                     <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                    Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                    Align="@item.ToColumnAlign()">
+                                      Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                      Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                      Align="@item.ToColumnAlign()">
                         @if (template != null) {
                             @template(context)
                         } else {
@@ -57,9 +55,9 @@ PageSize="Model.Criteria.PageSize"
                     if (typeof(TItem).HasProperty(item.Id)) {
                         var value = TypeHelper.GetPropertyValue(context, item.Id);
                         <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                        Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                        Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                        Align="@item.ToColumnAlign()">
+                                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                Align="@item.ToColumnAlign()">
                             @if (template != null) {
                                 @template(context)
                             } else {
@@ -68,9 +66,9 @@ PageSize="Model.Criteria.PageSize"
                         </Column>
                     } else {
                         <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
-                        Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                        Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                        Align="@item.ToColumnAlign()">
+                                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                Align="@item.ToColumnAlign()">
                             @if (template != null) {
                                 @template(context)
                             } else {
