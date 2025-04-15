@@ -163,7 +163,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     {
         builder.Div("kui-app-rc2", () =>
         {
-            builder.Div("", Language["Page.Total"].Replace("{total}", $"{result.TotalCount}"));
+            builder.Div("", Language["共 {total} 条记录"].Replace("{total}", $"{result.TotalCount}"));
             builder.Component<AppPager>()
                    .Set(c => c.Criteria, criteria)
                    .Set(c => c.TotalCount, result.TotalCount)

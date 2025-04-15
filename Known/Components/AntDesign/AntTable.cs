@@ -52,6 +52,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
             Resizable = Model.Resizable;
             AutoHeight = Model.AutoHeight;
             RowKey = Model.RowKey;
+            PageSize = Model.Criteria.PageSize;
             HidePagination = !Model.ShowPager;
         }
         base.OnParametersSet();
@@ -73,7 +74,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
                .Set(c => c.Current, tuple.PageIndex)
                .Set(c => c.ShowTotal, showTotal)
                .Set(c => c.ShowSizeChanger, true)
-               //.Set(c => c.ShowQuickJumper, true)
+               .Set(c => c.ShowQuickJumper, false)
                .Set(c => c.OnChange, tuple.HandlePageChange)
                .Build();
     }

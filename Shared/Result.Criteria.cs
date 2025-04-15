@@ -72,7 +72,7 @@ public class PagingCriteria
     /// <summary>
     /// 取得或设置是否分页查询。
     /// </summary>
-    public bool IsPaging { get; set; }
+    public bool IsPaging { get; set; } = true;
 
     internal Dictionary<string, object> CmdParams { get; set; }
     internal List<string> FileBizIds { get; set; }
