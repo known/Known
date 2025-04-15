@@ -77,16 +77,17 @@ partial class TableModel<TItem>
         QueryData[column.Id] = new QueryInfo(id, type, value);
     }
 
-    internal void SetAutoColumns(List<TItem> dataSource)
+    internal bool SetAutoColumns(List<TItem> dataSource)
     {
-        if (Columns != null && Columns.Count > 0) return;
-        if (!IsDictionary) return;
-        if (dataSource == null || dataSource.Count == 0) return;
+        if (Columns != null && Columns.Count > 0) return false;
+        if (!IsDictionary) return false;
+        if (dataSource == null || dataSource.Count == 0) return false;
 
         var dic = dataSource as List<Dictionary<string, object>>;
         var columns = dic.FirstOrDefault().GetColumns();
         if (columns.Count > 0)
             Columns.AddRange(columns);
+        return true;
     }
 
     internal List<ColumnInfo> GetUserColumns()

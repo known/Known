@@ -54,13 +54,13 @@ partial class KTable<TItem> : BaseComponent
                 var sorts = query.SortModel.Where(s => s.SortDirection != SortDirection.None);
                 Model.Criteria.OrderBys = [.. sorts.Select(GetOrderBy)];
             }
-            Model.Criteria.StatisticColumns = Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id }).ToList();
+            Model.Criteria.StatisticColumns = [.. Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id })];
             Model.SelectedRows = [];
             Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
             totalCount = Model.Result.TotalCount;
             dataSource = Model.Result.PageData;
-            Model.SetAutoColumns(dataSource);
-            await StateChangedAsync();
+            if (Model.SetAutoColumns(dataSource))
+                await StateChangedAsync();
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
