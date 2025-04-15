@@ -177,7 +177,12 @@ PageSize="Model.Criteria.PageSize"
                     continue;
 
                 if (!isTitle) {
-                    <SummaryCell>@Language["本页合计"]<br/><strong>@Language["查询总计"]</strong></SummaryCell>
+                    <SummaryCell>
+                        @if (Model.ShowPager) {
+                            @Language["本页合计"]<br/>
+                        }
+                        <strong>@Language["查询总计"]</strong>
+                    </SummaryCell>
                     isTitle = true;
                     continue;
                 }
@@ -186,7 +191,12 @@ PageSize="Model.Criteria.PageSize"
                     var value = Model.Result?.GetPageSum(item.Id);
                     object total = null;
                     Model.Result?.Statis?.TryGetValue(item.Id, out total);
-                    <SummaryCell>@value<br/><strong>@total</strong></SummaryCell>
+                    <SummaryCell>
+                        @if (Model.ShowPager) {
+                            @value<br/>
+                        }
+                        <strong>@total</strong>
+                    </SummaryCell>
                 } else {
                     <SummaryCell />
                 }

@@ -30,12 +30,12 @@ public interface IAutoPage
 }
 
 /// <summary>
-/// 扩展Ant表单接口。
+/// 容器组件接口。
 /// </summary>
-public interface IAntForm
+public interface IComContainer
 {
     /// <summary>
-    /// 取得表单是否查看模式。
+    /// 取得或设置是否只读查看模式。
     /// </summary>
-    bool IsView { get; }
+    bool IsView { get; set; }
 }

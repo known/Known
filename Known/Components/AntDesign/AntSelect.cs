@@ -7,7 +7,7 @@ namespace Known.Components;
 /// </summary>
 public class AntSelect : Select<string, string>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <summary>
@@ -25,6 +25,7 @@ public class AntSelect : Select<string, string>
             Item.Type = typeof(string);
             Placeholder = Item.Language.GetString("PleaseSelect");
         }
+        AutoFocus = false;
         EnableVirtualization = true;
         EnableSearch = true;
         if (!string.IsNullOrWhiteSpace(Icon))
@@ -38,7 +39,7 @@ public class AntSelect : Select<string, string>
 /// </summary>
 public class AntSelectCode : Select<string, CodeInfo>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <summary>
@@ -53,6 +54,7 @@ public class AntSelectCode : Select<string, CodeInfo>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(string);
+        AutoFocus = false;
         ValueName = nameof(CodeInfo.Code);
         LabelName = nameof(CodeInfo.Name);
         EnableVirtualization = true;

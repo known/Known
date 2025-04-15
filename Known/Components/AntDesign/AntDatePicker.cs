@@ -8,7 +8,7 @@ namespace Known.Components;
 /// </summary>
 public class AntDatePicker : DatePicker<DateTime?>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />
@@ -18,6 +18,7 @@ public class AntDatePicker : DatePicker<DateTime?>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(DateTime?);
+        AutoFocus = false;
         base.OnInitialized();
     }
 }
@@ -33,14 +34,13 @@ public class AntDateTimePicker : DatePicker<DateTime?>
     public AntDateTimePicker()
     {
         var format = "yyyy-MM-dd HH:mm";
-        AutoFocus = true;
         ShowTime = true;
         Format = format;
         Mask = format;
         Placeholder = OneOf<string, string[]>.FromT0(format);
     }
 
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />
@@ -50,6 +50,7 @@ public class AntDateTimePicker : DatePicker<DateTime?>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(DateTime?);
+        AutoFocus = false;
         base.OnInitialized();
     }
 }

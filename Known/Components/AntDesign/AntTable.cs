@@ -6,7 +6,7 @@ namespace Known.Components;
 /// 扩展Ant表格组件类。
 /// </summary>
 /// <typeparam name="TItem">表格数据对象类型。</typeparam>
-public class AntTable<TItem> : Table<TItem> where TItem : class, new()
+public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, new()
 {
     /// <summary>
     /// 取得或设置系统上下文对象实例。
@@ -17,6 +17,11 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
     /// 取得或设置表格组件模型对象实例。
     /// </summary>
     [Parameter] public TableModel<TItem> Model { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否只读。
+    /// </summary>
+    [Parameter] public bool IsView { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -50,6 +55,12 @@ public class AntTable<TItem> : Table<TItem> where TItem : class, new()
             HidePagination = !Model.ShowPager;
         }
         base.OnParametersSet();
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Cascading<IComContainer>(this, base.BuildRenderTree);
     }
 
     private void BuildPagination(RenderTreeBuilder builder, (int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange) tuple)

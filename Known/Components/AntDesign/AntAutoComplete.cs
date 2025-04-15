@@ -7,7 +7,7 @@ namespace Known.Components;
 /// </summary>
 public class AntAutoComplete : AutoComplete<CodeInfo>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />

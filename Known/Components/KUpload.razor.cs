@@ -10,7 +10,7 @@ public partial class KUpload
 
     private bool IsMultiple => MultiFile || Directory;
 
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
 
     /// <summary>
     /// 取得或设置上传组件附件属性列表。

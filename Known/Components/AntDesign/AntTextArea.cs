@@ -7,7 +7,7 @@ namespace Known.Components;
 /// </summary>
 public class AntTextArea : TextArea
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />

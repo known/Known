@@ -6,7 +6,7 @@
 /// <typeparam name="TValue"></typeparam>
 public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />
@@ -25,7 +25,7 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
 /// </summary>
 public class AntInteger : AntDesign.InputNumber<int?>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />
@@ -44,7 +44,7 @@ public class AntInteger : AntDesign.InputNumber<int?>
 /// </summary>
 public class AntDecimal : AntDesign.InputNumber<decimal?>
 {
-    [CascadingParameter] private IAntForm AntForm { get; set; }
+    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <inheritdoc />

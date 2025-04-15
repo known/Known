@@ -6,12 +6,12 @@ namespace Known.Components;
 /// 扩展Ant表单组件类。
 /// </summary>
 /// <typeparam name="TItem">表单数据对象类型。</typeparam>
-public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
+public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, new()
 {
     /// <summary>
-    /// 取得表单是否查看模式。
+    /// 取得或设置是否查看模式。
     /// </summary>
-    public bool IsView => Form != null && Form.IsView;
+    public bool IsView { get; set; }
 
     /// <summary>
     /// 取得或设置是否显示【确定】和【取消】操作按钮。
@@ -41,11 +41,14 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (Form != null)
+        {
+            IsView = Form.IsView;
             Model = Form.Data;
-        await base.OnParametersSetAsync();
+        }
+        base.OnParametersSet();
     }
 
     /// <inheritdoc />
@@ -57,7 +60,7 @@ public class AntForm<TItem> : Form<TItem>, IAntForm where TItem : class, new()
             return;
         }
 
-        builder.Cascading<IAntForm>(this, b =>
+        builder.Cascading<IComContainer>(this, b =>
         {
             b.Div(Form.ClassName, () =>
             {

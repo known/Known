@@ -58,3 +58,24 @@ public class DateTimeColumn : Column<DateTime?>
         Align = ColumnAlign.Center;
     }
 }
+
+/// <summary>
+/// 表格列组件类。
+/// </summary>
+public class TableColumn : Column<string>
+{
+    [CascadingParameter] private IComContainer AntTable { get; set; }
+
+    /// <summary>
+    /// 取得或设置显示数据。
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        if (AntTable != null && AntTable.IsView)
+            ChildContent = b => b.Text(Value);
+        base.OnParametersSet();
+    }
+}
