@@ -52,7 +52,7 @@ public class TopNavbar : BaseComponent
 
                 if (CurrentUser?.IsSystemAdmin() == true)
                 {
-                    if (UIConfig.EnableEdit)
+                    if (UIConfig.EnableEdit && !Config.IsCodeMode)
                     {
                         var className = Context.IsEditMode ? "edit" : "";
                         b.Li().Class(className).Child(() => b.Component<NavEditMode>().Build());

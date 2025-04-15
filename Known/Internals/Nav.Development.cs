@@ -14,7 +14,9 @@ class NavDevelopment : BaseNav
         await base.OnInitAsync();
         var plugins = PluginConfig.DevPlugins;
         if (!UIConfig.EnableEdit)
-            plugins = plugins.Where(p => p.Type != typeof(LanguagePage) && p.Type != typeof(ButtonPage)).ToList();
+            plugins = [.. plugins.Where(p => p.Type != typeof(LanguagePage) && p.Type != typeof(ButtonPage))];
+        if (Config.IsCodeMode)
+            plugins = [.. plugins.Where(p => p.Type != typeof(ModulePage))];
         items = plugins.ToActions();
     }
 
