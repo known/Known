@@ -40,6 +40,11 @@ public partial class Config
     public static bool IsAdmin { get; set; }
 
     /// <summary>
+    /// 取得或设置是否启用Admin账号操作日志，默认启用。
+    /// </summary>
+    public static bool IsAdminLog { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置是否是调试模式。
     /// </summary>
     public static bool IsDebug { get; set; }

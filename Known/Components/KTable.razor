@@ -166,7 +166,10 @@
             <SummaryCell />
         }
         @if (Model.SelectType != TableSelectType.None) {
-            <SummaryCell Class="kui-table-check" Align="ColumnAlign.Center"></SummaryCell>
+            <SummaryCell />
+        }
+        @if (Model.ShowIndex) {
+            <SummaryCell />
         }
         @if (Model.Columns != null && Model.Columns.Count > 0) {
             var isTitle = false;

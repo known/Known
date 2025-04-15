@@ -42,6 +42,9 @@ public static class LogExtension
     /// <returns></returns>
     public static Task AddLogAsync(this Database db, LogType type, string target, string content)
     {
+        if (!Config.IsAdminLog && db.User.IsSystemAdmin() && type != LogType.Register)
+            return Task.CompletedTask;
+
         return db.SaveAsync(new SysLog
         {
             Type = type.ToString(),

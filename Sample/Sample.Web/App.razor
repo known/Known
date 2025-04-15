@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="loading"></div>
-    <Routes @rendermode="InteractiveMode" Context="Context" />
+    <Routes @rendermode="Context.RenderMode" Context="Context" />
     <KScript />
     <script src="_framework/blazor.web.js"></script>
 </body>
@@ -27,7 +27,7 @@
     [CascadingParameter] private HttpContext HttpContext { get; set; }
     //private InteractiveAutoRenderMode InteractiveMode => new(false);
     //private InteractiveServerRenderMode InteractiveMode => new(false);
-    private InteractiveServerRenderMode InteractiveMode => HttpContext.Request.Path.StartsWithSegments("/login1") ? null : new(false);
+    //private InteractiveServerRenderMode InteractiveMode => HttpContext.Request.Path.StartsWithSegments("/login1") ? null : new(false);
 
     protected override void OnInitialized()
     {

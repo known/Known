@@ -72,11 +72,11 @@ partial class FormModel<TItem>
     {
         UI.Result(result, async () =>
         {
-            var data = result.DataAs<TItem>();
+            Data = result.DataAs<TItem>();
             if (OnSaved != null)
-                OnSaved?.Invoke(data);
+                OnSaved?.Invoke(Data);
             else if (OnSavedAsync != null)
-                await OnSavedAsync.Invoke(data);
+                await OnSavedAsync.Invoke(Data);
 
             if (isClose && result.IsClose)
                 await CloseAsync();
