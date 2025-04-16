@@ -60,35 +60,63 @@ public class CodingPage : BasePage
     {
         builder.Component<KListPanel>()
                .Set(c => c.ListData, ListData)
-               .Set(c => c.ListTemplate, this.BuildTree<CodeInfo>((b, c) => b.Text(c.Name)))
+               .Set(c => c.ListTemplate, this.BuildTree<CodeInfo>(BuildListItem))
                .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.ChildContent, BuildModelForm)
                .Build(value => listPanel = value);
     }
 
+    private void BuildListItem(RenderTreeBuilder builder, CodeInfo item)
+    {
+        builder.Div().Class("kui-flex-space").Child(() =>
+        {
+            builder.Div("", item.Name);
+            if (item.IsActive)
+            {
+                builder.Dropdown(new DropdownModel
+                {
+                    Icon = "menu",
+                    Items = [new() { Icon = "delete", Name = "删除", OnClick = this.Callback<MouseEventArgs>(e=>OnDelete(item)) }]
+                });
+            }
+        });
+    }
+
     private void BuildModelForm(RenderTreeBuilder builder)
     {
         builder.Component<CodeModelForm>()
+               .Set(c => c.Service, Service)
                .Set(c => c.Default, Models.FirstOrDefault())
                .Set(c => c.Model, Model)
-               .Set(c => c.OnModelSave, this.Callback<CodeModelInfo>(OnSaveModelAsync))
+               .Set(c => c.OnSaved, OnModelSaved)
                .Build();
     }
 
-    private Task OnItemClickAsync(CodeInfo info)
+    private Task OnItemClickAsync(CodeInfo item)
     {
-        Model = Models.FirstOrDefault(m => m.Id == info.Code);
+        Model = Models.FirstOrDefault(m => m.Id == item.Code);
         return StateChangedAsync();
     }
 
-    private async Task OnSaveModelAsync(CodeModelInfo info)
+    private void OnModelSaved(CodeModelInfo info)
     {
-        var result = await Service.SaveModelAsync(info);
-        UI.Result(result, async () =>
+        if (!Models.Exists(m => m.Id == info.Id))
+            Models.Add(info);
+        Model = Models.FirstOrDefault(m => m.Id == info.Id) ?? new CodeModelInfo();
+        listPanel?.SetListBox(ListData, info.Id);
+    }
+
+    private void OnDelete(CodeInfo item)
+    {
+        UI.Confirm($"确定要删除【{item?.Name}】？", async () =>
         {
-            Models = await Service.GetModelsAsync();
-            Model = Models.FirstOrDefault(m => m.Id == info.Id);
-            listPanel?.SetListData(ListData);
+            var result = await Service.DeleteModelsAsync([item]);
+            UI.Result(result, () =>
+            {
+                Models.RemoveAll(m => m.Id == item.Code);
+                listPanel?.SetListBox(ListData, Model.Id);
+                return Task.CompletedTask;
+            });
         });
     }
 }

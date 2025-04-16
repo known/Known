@@ -15,7 +15,9 @@
 
             foreach (var item in items)
             {
-                <li class="@(item.Code == curItem ? "active" : "")" @onclick="e=>OnClick(item)">
+                item.IsActive = curItem == item.Code;
+
+                <li class="@(item.IsActive ? "active" : "")" @onclick="e=>OnClick(item)">
                     @if (ItemTemplate != null)
                     {
                         @ItemTemplate(item)

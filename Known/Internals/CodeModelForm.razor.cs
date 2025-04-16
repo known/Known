@@ -16,6 +16,11 @@ public partial class CodeModelForm
     ];
 
     /// <summary>
+    /// 取得或设置代码生成服务实例。
+    /// </summary>
+    [Parameter] public ICodeService Service { get; set; }
+
+    /// <summary>
     /// 取得或设置代码生成模型默认信息。
     /// </summary>
     [Parameter] public CodeModelInfo Default { get; set; }
@@ -26,9 +31,9 @@ public partial class CodeModelForm
     [Parameter] public CodeModelInfo Model { get; set; }
 
     /// <summary>
-    /// 取得或设置代码生成模型字段信息列表。
+    /// 取得或设置代码生成模型保存后委托。
     /// </summary>
-    [Parameter] public EventCallback<CodeModelInfo> OnModelSave { get; set; }
+    [Parameter] public Action<CodeModelInfo> OnSaved { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitAsync()
@@ -62,7 +67,24 @@ public partial class CodeModelForm
     }
 
     private void OnNew() => Model = CreateCodeMode();
-    private void OnSave() => OnModelSave.InvokeAsync(Model);
+
+    private async Task OnSave()
+    {
+        if (string.IsNullOrWhiteSpace(Model.Code) || string.IsNullOrWhiteSpace(Model.Name))
+        {
+            UI.Error("请输入代码和名称！");
+            return;
+        }
+
+        var result = await Service.SaveModelAsync(Model);
+        UI.Result(result, () =>
+        {
+            var info = result.DataAs<CodeModelInfo>();
+            OnSaved?.Invoke(info);
+            return Task.CompletedTask;
+        });
+    }
+
     private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
     private void OnDelete(CodeFieldInfo row) => Model.Fields.Remove(row);
     private void OnMoveUp(CodeFieldInfo row) => MoveRow(row, true);

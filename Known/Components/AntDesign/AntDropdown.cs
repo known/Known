@@ -129,7 +129,13 @@ public class AntDropdown : Dropdown
         builder.Component<MenuItem>()
                .Set(c => c.Key, item.Id)
                .Set(c => c.Disabled, !item.Enabled)
-               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => Model?.OnItemClick?.Invoke(item)))
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e =>
+               {
+                   if (Model?.OnItemClick != null)
+                       Model?.OnItemClick?.Invoke(item);
+                   else if (item.OnClick.HasDelegate)
+                       item.OnClick.InvokeAsync();
+               }))
                .Set(c => c.ChildContent, b => b.IconName(item.Icon, item.Name))
                .Build();
     }

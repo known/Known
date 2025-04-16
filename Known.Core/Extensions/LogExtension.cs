@@ -9,6 +9,24 @@ public static class LogExtension
     /// 异步添加操作日志。
     /// </summary>
     /// <param name="db">数据库对象。</param>
+    /// <param name="type">日志类型。</param>
+    /// <param name="target">操作对象。</param>
+    /// <param name="content">操作内容。</param>
+    /// <returns></returns>
+    public static Task AddLogAsync(this Database db, LogType type, string target, string content)
+    {
+        return db.AddLogAsync(new LogInfo
+        {
+            Type = type.ToString(),
+            Target = target,
+            Content = content
+        });
+    }
+
+    /// <summary>
+    /// 异步添加操作日志。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
     /// <param name="info">日志信息。</param>
     /// <returns></returns>
     public static async Task<Result> AddLogAsync(this Database db, LogInfo info)
@@ -23,6 +41,9 @@ public static class LogExtension
         //    info.Target = module?.Name;
         //}
 
+        if (!Config.IsAdminLog && db.User.IsSystemAdmin() && info.Type != nameof(LogType.Register))
+            return Result.Success("");
+
         await db.SaveAsync(new SysLog
         {
             Type = info.Type.ToString(),
@@ -30,26 +51,5 @@ public static class LogExtension
             Content = info.Content
         });
         return Result.Success("");
-    }
-
-    /// <summary>
-    /// 异步添加操作日志。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="type">日志类型。</param>
-    /// <param name="target">操作对象。</param>
-    /// <param name="content">操作内容。</param>
-    /// <returns></returns>
-    public static Task AddLogAsync(this Database db, LogType type, string target, string content)
-    {
-        if (!Config.IsAdminLog && db.User.IsSystemAdmin() && type != LogType.Register)
-            return Task.CompletedTask;
-
-        return db.SaveAsync(new SysLog
-        {
-            Type = type.ToString(),
-            Target = target,
-            Content = content
-        });
     }
 }

@@ -5,13 +5,25 @@ public partial class AppData
     // 代码生成模型文件路径
     internal static string KcdPath { get; set; }
 
-    internal static List<CodeModelInfo> LoadCodeModels()
+    /// <summary>
+    /// 加载代码生成配置信息列表。
+    /// </summary>
+    /// <returns></returns>
+    public static List<CodeModelInfo> LoadCodeModels()
     {
         if (!File.Exists(KcdPath))
             return [];
 
         var bytes = File.ReadAllBytes(KcdPath);
         return ParseData<List<CodeModelInfo>>(bytes);
+    }
+
+    internal static void DeleteCodeModels(List<CodeInfo> infos)
+    {
+        var models = LoadCodeModels();
+        var model = models.RemoveAll(m => infos.Exists(c => c.Code == m.Id));
+        var bytes = FormatData(models);
+        File.WriteAllBytes(KcdPath, bytes);
     }
 
     internal static void SaveCodeModel(CodeModelInfo info)

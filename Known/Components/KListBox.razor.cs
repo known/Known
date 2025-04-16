@@ -35,6 +35,20 @@ public partial class KListBox
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
 
+    /// <summary>
+    /// 设置列表数据。
+    /// </summary>
+    /// <param name="data">列表数据源。</param>
+    /// <param name="current">当前选中项目。</param>
+    public void SetListBox(List<CodeInfo> data, string current)
+    {
+        DataSource = data;
+        dataSource = DataSource;
+        curItem = current;
+        OnSearch("");
+        StateChanged();
+    }
+
     /// <inheritdoc />
     protected override async Task OnParameterAsync()
     {
@@ -54,7 +68,7 @@ public partial class KListBox
     {
         searchKey = key;
         if (!string.IsNullOrWhiteSpace(searchKey))
-            items = dataSource?.Where(c => c.Code.Contains(searchKey) || c.Name.Contains(searchKey)).ToList();
+            items = dataSource?.Where(c => c.Name.Contains(searchKey)).ToList();
         else
             items = dataSource;
     }

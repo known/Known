@@ -57,6 +57,7 @@
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-small .ant-form-item-label {width:85px;}
+.kui-small-row .ant-form-item {margin-bottom:10px;}
 .kui-tab-form, .kui-form-tab {margin-top:-10px;}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
 .kui-tab-form .ant-tabs-tabpane {padding:0 10px;}

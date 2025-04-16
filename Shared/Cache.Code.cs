@@ -54,6 +54,11 @@ public class CodeInfo
     public object Data { get; set; }
 
     /// <summary>
+    /// 取得或设置是否是活动项。
+    /// </summary>
+    public bool IsActive { get; set; }
+
+    /// <summary>
     /// 将关联的数据对象转换成泛型对象。
     /// </summary>
     /// <typeparam name="T">泛型对象类型。</typeparam>

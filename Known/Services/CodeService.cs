@@ -12,6 +12,13 @@ public interface ICodeService : IService
     Task<List<CodeModelInfo>> GetModelsAsync();
 
     /// <summary>
+    /// 异步删除数据。
+    /// </summary>
+    /// <param name="infos">删除对象列表。</param>
+    /// <returns>删除结果。</returns>
+    Task<Result> DeleteModelsAsync(List<CodeInfo> infos);
+
+    /// <summary>
     /// 异步保存代码模型信息。
     /// </summary>
     /// <param name="info">代码模型信息。</param>
@@ -27,13 +34,18 @@ class CodeClient(HttpClient http) : ClientBase(http), ICodeService
         return Http.GetAsync<List<CodeModelInfo>>("/Code/GetModels");
     }
 
+    public Task<Result> DeleteModelsAsync(List<CodeInfo> infos)
+    {
+        return Http.PostAsync("/Code/DeleteModels", infos);
+    }
+
     public Task<Result> SaveModelAsync(CodeModelInfo info)
     {
         return Http.PostAsync("/Code/SaveModel", info);
     }
 }
 
-[WebApi, Service]
+[Service]
 class CodeService(Context context) : ServiceBase(context), ICodeService
 {
     public Task<List<CodeModelInfo>> GetModelsAsync()
@@ -42,9 +54,15 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
         return Task.FromResult(infos);
     }
 
+    public Task<Result> DeleteModelsAsync(List<CodeInfo> infos)
+    {
+        AppData.DeleteCodeModels(infos);
+        return Result.SuccessAsync("删除成功！");
+    }
+
     public Task<Result> SaveModelAsync(CodeModelInfo info)
     {
         AppData.SaveCodeModel(info);
-        return Result.SuccessAsync("保存成功！");
+        return Result.SuccessAsync("保存成功！", info);
     }
 }

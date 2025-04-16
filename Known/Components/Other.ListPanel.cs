@@ -5,6 +5,8 @@
 /// </summary>
 public class KListPanel : BaseComponent
 {
+    private KListBox listBox;
+
     /// <summary>
     /// 取得或设置列表项呈现模板。
     /// </summary>
@@ -31,13 +33,13 @@ public class KListPanel : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// 设置列表数据源。
+    /// 设置列表数据。
     /// </summary>
     /// <param name="data">列表数据源。</param>
-    public void SetListData(List<CodeInfo> data)
+    /// <param name="current">当前选中项目。</param>
+    public void SetListBox(List<CodeInfo> data, string current)
     {
-        ListData = data;
-        StateChanged();
+        listBox?.SetListBox(data, current);
     }
 
     /// <inheritdoc />
@@ -58,7 +60,7 @@ public class KListPanel : BaseComponent
                .Set(c => c.ItemTemplate, ItemTemplate)
                .Set(c => c.OnItemClick, OnListClick)
                .Set(c => c.OnAddClick, OnAddClick)
-               .Build();
+               .Build(value => listBox = value);
     }
 
     private RenderFragment ItemTemplate(CodeInfo info)
