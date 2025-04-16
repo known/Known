@@ -75,7 +75,6 @@ public class PagingCriteria
     public bool IsPaging { get; set; } = true;
 
     internal Dictionary<string, object> CmdParams { get; set; }
-    internal List<string> FileBizIds { get; set; }
 
     /// <summary>
     /// 清空初始化查询条件对象。
