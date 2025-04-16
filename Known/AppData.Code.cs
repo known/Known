@@ -46,6 +46,21 @@ public class CodeModelInfo
     public List<CodeFieldInfo> Fields { get; set; } = [];
 
     /// <summary>
+    /// 取得或设置实体模型信息。
+    /// </summary>
+    [JsonIgnore] public EntityInfo Entity { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面模型信息。
+    /// </summary>
+    [JsonIgnore] public PageInfo Page { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单模型信息。
+    /// </summary>
+    [JsonIgnore] public FormInfo Form { get; set; }
+
+    /// <summary>
     /// 取得模型类名称。
     /// </summary>
     [JsonIgnore] public string ModelName => $"{Code}Info";
@@ -105,11 +120,14 @@ public class CodeModelInfo
     /// </summary>
     [JsonIgnore] public bool HasFile => Fields.Any(f => f.Type == FieldType.File);
 
-    /// <summary>
-    /// 模型配置转实体配置信息。
-    /// </summary>
-    /// <returns></returns>
-    public EntityInfo ToEntity()
+    internal void TransModels()
+    {
+        Entity = ToEntity();
+        Page = ToPage();
+        Form = ToForm();
+    }
+
+    private EntityInfo ToEntity()
     {
         var info = new EntityInfo
         {
@@ -121,11 +139,7 @@ public class CodeModelInfo
         return info;
     }
 
-    /// <summary>
-    /// 模型配置转页面配置信息。
-    /// </summary>
-    /// <returns></returns>
-    public PageInfo ToPage()
+    private PageInfo ToPage()
     {
         var info = new PageInfo();
         info.Tools = Functions?.Where(f => f != "Edit" && f != "Delete").ToList();
@@ -133,11 +147,7 @@ public class CodeModelInfo
         return info;
     }
 
-    /// <summary>
-    /// 模型配置转表单配置信息。
-    /// </summary>
-    /// <returns></returns>
-    public FormInfo ToForm()
+    private FormInfo ToForm()
     {
         var info = new FormInfo();
         info.Fields = [.. Fields.Where(f => f.IsForm).Select(f => f.ToFormField())];

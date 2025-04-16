@@ -7,6 +7,7 @@ public partial class KListBox
 {
     private string curItem;
     private string searchKey;
+    private List<CodeInfo> dataSource = [];
     private List<CodeInfo> items = [];
 
     /// <summary>
@@ -38,16 +39,24 @@ public partial class KListBox
     protected override async Task OnParameterAsync()
     {
         await base.OnParameterAsync();
-        items = DataSource;
+        dataSource = DataSource;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            items = dataSource;
     }
 
     private void OnSearch(string key)
     {
         searchKey = key;
-        items = DataSource;
         if (!string.IsNullOrWhiteSpace(searchKey))
-            items = items?.Where(c => c.Code.Contains(searchKey) || c.Name.Contains(searchKey)).ToList();
-        StateChanged();
+            items = dataSource?.Where(c => c.Code.Contains(searchKey) || c.Name.Contains(searchKey)).ToList();
+        else
+            items = dataSource;
     }
 
     private async Task OnClick(CodeInfo info)

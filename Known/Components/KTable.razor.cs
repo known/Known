@@ -59,8 +59,8 @@ partial class KTable<TItem> : BaseComponent
             Model.Result = await Model.OnQuery?.Invoke(Model.Criteria);
             totalCount = Model.Result.TotalCount;
             dataSource = Model.Result.PageData;
-            if (Model.SetAutoColumns(dataSource))
-                await StateChangedAsync();
+            Model.SetAutoColumns(dataSource);
+            await StateChangedAsync();//此处加状态刷新用于点击数据字典和树节点查询
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;

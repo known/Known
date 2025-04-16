@@ -45,6 +45,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
                 currentOrg = orgs.FirstOrDefault(o => o.ParentId == "0");
                 Tree.Data = orgs.ToMenuItems();
                 Tree.SelectedKeys = [currentOrg.Id];
+                await StateChangedAsync();
             }
         }
     }

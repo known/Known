@@ -52,6 +52,7 @@ public class CodingPage : BasePage
                .Set(c => c.Title, PageName)
                .Set(c => c.Model, Model)
                .Set(c => c.ModelTabs, tabs)
+               .Set(c => c.OnTabChange, tab => Model.TransModels())
                .Build();
     }
 

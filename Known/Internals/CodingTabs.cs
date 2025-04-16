@@ -34,6 +34,11 @@ public class CodingTabs : BaseComponent
     /// </summary>
     [Parameter] public Dictionary<string, RenderFragment> ModelTabs { get; set; }
 
+    /// <summary>
+    /// 取得或设置标签改变委托。
+    /// </summary>
+    [Parameter] public Action<string> OnTabChange { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
@@ -57,6 +62,7 @@ public class CodingTabs : BaseComponent
         Tab.OnChange = tab =>
         {
             currentTab = tab;
+            OnTabChange?.Invoke(tab);
             StateChanged();
         };
         if (!string.IsNullOrWhiteSpace(Title))
@@ -154,19 +160,16 @@ public class CodingTabs : BaseComponent
 
     private string GenerateCode(string name)
     {
-        var entity = Model.ToEntity();
-        var page = Model.ToPage();
-        var form = Model.ToForm();
         Generator.Model = Model;
         return name switch
         {
-            TabScript => Generator.GetScript(Config.DatabaseType, entity),
-            TabInfo => Generator.GetModel(entity),
-            TabEntity => Generator.GetEntity(entity),
-            TabPage => Generator.GetPage(page, entity),
-            TabForm => Generator.GetForm(form, entity),
-            TabServiceI => Generator.GetIService(page, entity, true),
-            TabService => Generator.GetService(page, entity),
+            TabScript => Generator.GetScript(Config.DatabaseType, Model.Entity),
+            TabInfo => Generator.GetModel(Model.Entity),
+            TabEntity => Generator.GetEntity(Model.Entity),
+            TabPage => Generator.GetPage(Model.Page, Model.Entity),
+            TabForm => Generator.GetForm(Model.Form, Model.Entity),
+            TabServiceI => Generator.GetIService(Model.Page, Model.Entity, true),
+            TabService => Generator.GetService(Model.Page, Model.Entity),
             _ => ""
         };
     }
