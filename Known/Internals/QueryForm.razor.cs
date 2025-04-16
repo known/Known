@@ -7,6 +7,7 @@ public partial class QueryForm
 {
     private bool _expand = false;
     private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
+    private const string TipReset = "重置为默认查询条件";
 
     /// <summary>
     /// 取得或设置表格模型。

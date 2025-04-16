@@ -9,6 +9,8 @@ public partial class KButton
 {
     private bool isLoad;
 
+    private RenderFragment TitleTemplate => b => b.Markup(Title);
+
     /// <summary>
     /// 取得或设置是否是块级按钮。
     /// </summary>

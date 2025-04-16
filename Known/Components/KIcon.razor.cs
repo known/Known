@@ -27,6 +27,8 @@ public partial class KIcon
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs>? OnClick { get; set; }
 
+    private RenderFragment TitleTemplate => b => b.Markup(Title);
+
     private RenderFragment RenderItem()
     {
         if (string.IsNullOrWhiteSpace(Name))

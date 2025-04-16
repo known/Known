@@ -27,7 +27,7 @@
                             {
                                 <KButton Name="@Language.AdvSearch" Type="@ButtonType.Primary" OnClick="ShowAdvSearch" />
                             }
-                            <KButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" />
+                            <KButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" Title="@TipReset" />
                             @if (Model.QueryColumns.Count > showCount)
                             {
                                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
@@ -55,7 +55,7 @@
                 {
                     <KButton Name="@Language.AdvSearch" Type="@ButtonType.Primary" OnClick="ShowAdvSearch" />
                 }
-                <KButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" />
+                <KButton Name="@Language.Reset" Icon="undo" Type="@ButtonType.Default" OnClick="OnReset" Title="@TipReset" />
             </div>
         </QueryDataForm>
     } 

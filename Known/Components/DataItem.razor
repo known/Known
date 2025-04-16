@@ -13,10 +13,27 @@
     }
     else
     {
-        <FormItem Label="@Label" LabelTemplate="LabelTemplate" Class="@ClassName" Style="@Style" Required="Required" Rules="Rules" Tooltip="@Tooltip">
+        <FormItem Label="@Label" LabelTemplate="FormItemLabel()" Class="@ClassName" Style="@Style" Required="Required" Rules="Rules" ToolTip="@Tooltip">
             <DataItemValue IsFixed Value="this">
                 @ChildContent
             </DataItemValue>
         </FormItem>
     }
 </AntCol>
+
+@code {
+    private RenderFragment FormItemLabel()
+    {
+        if (LabelTemplate != null)
+            return LabelTemplate;
+
+        if (string.IsNullOrWhiteSpace(Tooltip))
+            return null;
+
+        return @<label> @Label
+        @if (!string.IsNullOrWhiteSpace(Tooltip)){
+            <KIcon Icon="question-circle" Title="@Tooltip" />
+        }
+    </label>;
+    }
+}

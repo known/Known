@@ -2,7 +2,7 @@
 
 @if (!string.IsNullOrWhiteSpace(Title))
 {
-    <Tooltip Title="@Title">
+    <Tooltip TitleTemplate="TitleTemplate">
         @RenderBadgeButton()
     </Tooltip>
 }
