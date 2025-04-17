@@ -120,7 +120,8 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             {
                 if (!IsReadOnly)
                     attributes["ValueChanged"] = expression.ValueChanged;
-                //attributes["ValueExpression"] = expression.ValueExpression;
+                //该表达式用于AntDesign控件验证
+                attributes["ValueExpression"] = expression.ValueExpression;
             }
             return attributes;
         }

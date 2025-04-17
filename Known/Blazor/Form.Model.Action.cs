@@ -72,7 +72,8 @@ partial class FormModel<TItem>
     {
         UI.Result(result, async () =>
         {
-            Data = result.DataAs<TItem>();
+            // Data不能为空，否则控件表达式报错
+            Data = result.DataAs<TItem>() ?? new TItem();
             if (OnSaved != null)
                 OnSaved?.Invoke(Data);
             else if (OnSavedAsync != null)

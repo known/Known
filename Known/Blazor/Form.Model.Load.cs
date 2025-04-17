@@ -33,8 +33,7 @@ partial class FormModel<TItem>
 
         var data = GetDefaultData();
         data ??= await DefaultDataAction?.Invoke();
-        data ??= new TItem();
-        Data = data;
+        Data = data ?? new TItem();
     }
 
     internal void LoadDefaultData()
@@ -43,8 +42,7 @@ partial class FormModel<TItem>
             return;
 
         var data = GetDefaultData();
-        data ??= new TItem();
-        Data = data;
+        Data = data ?? new TItem();
     }
 
     private TItem GetDefaultData()

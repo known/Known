@@ -3,7 +3,7 @@
 class NavRenderMode : BaseNav
 {
     protected override string Title => "呈现模式";
-    protected override string Icon => "control";
+    protected override string Icon => IsServerMode ? "control" : "project";
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
