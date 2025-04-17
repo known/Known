@@ -61,7 +61,10 @@ public partial class KListBox
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
+        {
             items = dataSource;
+            await StateChangedAsync();
+        }
     }
 
     private void OnSearch(string key)

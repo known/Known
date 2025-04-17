@@ -66,6 +66,7 @@ public static class AppConfig
     private static void ConfigUI(this IServiceCollection services)
     {
         UIConfig.EnableEdit = true;
+        UIConfig.UserFormShowFooter = true;
         UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
     }
 }

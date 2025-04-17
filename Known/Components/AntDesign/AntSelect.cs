@@ -21,16 +21,24 @@ public class AntSelect : Select<string, string>
         if (AntForm != null)
             Disabled = AntForm.IsView;
         if (Item != null)
-        {
             Item.Type = typeof(string);
-            Placeholder = Item.Language.GetString("PleaseSelect");
-        }
         AutoFocus = false;
         EnableVirtualization = true;
         EnableSearch = true;
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        var emptyText = "";
+        if (Item != null)
+            emptyText = Item.Language.GetString("PleaseSelect");
+        if (string.IsNullOrEmpty(Placeholder))
+            Placeholder = emptyText;
         if (!string.IsNullOrWhiteSpace(Icon))
             PrefixIcon = b => b.Span().Style("padding:0 9px 0 7px;").Child(() => b.Icon(Icon));
-        base.OnInitialized();
+        base.OnParametersSet();
     }
 }
 
@@ -64,7 +72,7 @@ public class AntSelectCode : Select<string, CodeInfo>
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         var emptyText = "";
         if (Item != null)
@@ -73,6 +81,6 @@ public class AntSelectCode : Select<string, CodeInfo>
             Placeholder = emptyText;
         if (!string.IsNullOrWhiteSpace(Category))
             DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
-        await base.OnParametersSetAsync();
+        base.OnParametersSet();
     }
 }

@@ -114,11 +114,14 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
                 attributes["disabled"] = IsReadOnly;
             UI.AddInputAttributes(attributes, this);
 
-            var expression = InputExpression.Create(this);
             attributes["Value"] = Value;
-            if (!IsReadOnly)
-                attributes["ValueChanged"] = expression?.ValueChanged;
-            attributes["ValueExpression"] = expression?.ValueExpression;
+            var expression = InputExpression.Create(this);
+            if (expression != null)
+            {
+                if (!IsReadOnly)
+                    attributes["ValueChanged"] = expression.ValueChanged;
+                //attributes["ValueExpression"] = expression.ValueExpression;
+            }
             return attributes;
         }
     }
