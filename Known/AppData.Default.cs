@@ -98,6 +98,7 @@ class AppDefaultData
                         Id = item.Name,
                         Name = attr.Name,
                         Icon = attr.Icon,
+                        Title = attr.Title,
                         Style = "primary",
                         Position = hasParameter ? "Action" : "Toolbar"
                     };

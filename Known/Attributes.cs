@@ -79,12 +79,17 @@ public class AppMenuAttribute(string name, string icon, int sort, string target 
 public class ActionAttribute : Attribute
 {
     /// <summary>
-    /// 取得或设置操作图标。
+    /// 取得或设置操作按钮图标。
     /// </summary>
     public string Icon { get; set; }
 
     /// <summary>
-    /// 取得或设置操作名称。
+    /// 取得或设置操作按钮名称。
     /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作按钮提示信息。
+    /// </summary>
+    public string Title { get; set; }
 }

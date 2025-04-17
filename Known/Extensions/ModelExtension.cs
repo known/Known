@@ -11,7 +11,7 @@ public static class ModelExtension
         if (info == null || info.Tools == null || info.Tools.Count == 0)
             return [];
 
-        return info.Tools.Select(t => new ActionInfo(t)).ToList();
+        return [.. info.Tools.Select(t => new ActionInfo(t))];
     }
 
     internal static List<ActionInfo> GetActionItems(this PageInfo info)
@@ -19,7 +19,7 @@ public static class ModelExtension
         if (info == null || info.Actions == null || info.Actions.Count == 0)
             return [];
 
-        return info.Actions.Select(a => new ActionInfo(a)).ToList();
+        return [.. info.Actions.Select(a => new ActionInfo(a))];
     }
 
     internal static List<ColumnInfo> GetColumns<T>(this PageInfo info, FormInfo form)

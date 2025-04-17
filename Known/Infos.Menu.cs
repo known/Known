@@ -266,6 +266,7 @@ public class ActionInfo
             Name = context?.Language[$"Button.{info.Id}"] ?? info.Name;
             Icon = info.Icon;
             Style = info.Style;
+            Title = info.Title;
         }
     }
 
