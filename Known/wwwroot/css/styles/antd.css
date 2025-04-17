@@ -47,12 +47,16 @@
 .ant-modal-body, .ant-drawer-body {position:relative;padding:10px;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
 .ant-modal-body .nopadding {padding:0;}
-.ant-drawer-body {transform:rotate(360deg);}
-.ant-drawer-body .kui-form-action {position:fixed;left:10px;right:10px;bottom:10px;}
-
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 
 /*Form*/
+.kui-form-wrapper .ant-drawer-body {overflow:hidden;}
+.kui-form-wrapper .ant-drawer-body .kui-form-body,
+.kui-form-wrapper .ant-drawer-body .kui-form-action {position:absolute;left:0;right:0;}
+.kui-form-wrapper .ant-drawer-body .kui-form-body {top:0;bottom:53px;overflow:auto;}
+.kui-form-wrapper .ant-drawer-body .kui-form-action {
+    bottom:0;padding:10px;background-color:var(--kui-bgcolor);border-top:1px solid var(--kui-color-border);
+}
 .kui-inline .ant-form-item-control-input-content {display:flex;gap:5px;align-items:center;}
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}

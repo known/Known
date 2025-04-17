@@ -98,7 +98,8 @@ public partial class UIService
 
     private static string GetWrapperClass<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
-        return CssBuilder.Default(model.WrapClass)
+        return CssBuilder.Default("kui-form-wrapper")
+                         .AddClass(model.WrapClass)
                          .AddClass("kui-tab-form", model.IsTabForm)
                          .AddClass("kui-step-form", model.IsStepForm)
                          .BuildClass();
@@ -109,11 +110,14 @@ public partial class UIService
         model.EnableEdit = true;
         return b =>
         {
-            var parameters = new Dictionary<string, object> { { nameof(BaseForm<TItem>.Model), model } };
-            if (model.Type == null)
-                b.Form(model);
-            else
-                b.Component(model.Type, parameters);
+            b.Div("kui-form-body", () =>
+            {
+                var parameters = new Dictionary<string, object> { { nameof(BaseForm<TItem>.Model), model } };
+                if (model.Type == null)
+                    b.Form(model);
+                else
+                    b.Component(model.Type, parameters);
+            });
 
             if (isDrawer)
                 BuildDrawerFooter(b, model);
