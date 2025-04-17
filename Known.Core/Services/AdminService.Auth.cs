@@ -123,10 +123,11 @@ partial class AdminService
         if (CurrentUser == null)
             return info;
 
-        info.Actions = AppData.GetActions();
         await Database.QueryActionAsync(async db =>
         {
             Config.System ??= await db.GetSystemAsync();
+            var buttons = await db.GetButtonsAsync();
+            info.Actions = [.. buttons.Select(b => b.ToAction())];
             info.AppName = await db.GetUserSystemNameAsync();
             info.DatabaseType = db.DatabaseType;
             info.UserMenus = await db.GetUserMenusAsync();

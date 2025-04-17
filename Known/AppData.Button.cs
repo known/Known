@@ -47,7 +47,11 @@ public class ButtonInfo
     [DisplayName("位置")]
     public string[] Position { get; set; }
 
-    internal ActionInfo ToAction()
+    /// <summary>
+    /// 将按钮信息转成操作信息。
+    /// </summary>
+    /// <returns></returns>
+    public ActionInfo ToAction()
     {
         var info = new ActionInfo
         {
