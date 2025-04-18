@@ -54,6 +54,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
             RowKey = Model.RowKey;
             PageSize = Model.Criteria.PageSize;
             HidePagination = !Model.ShowPager;
+            DataSource = Model.DataSource;
         }
         base.OnParametersSet();
     }
