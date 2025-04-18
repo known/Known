@@ -40,7 +40,6 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         if (string.IsNullOrWhiteSpace(Table.Name))
             Table.Name = PageName;
         Table.DefaultQuery = DefaultQuery;
-        Table.Columns = Table.GetUserColumns();
     }
 
     /// <inheritdoc />

@@ -5,7 +5,12 @@
 
 <PageTitle>天气</PageTitle>
 
-<TabPage PageName="天气" Query="model">
+<div class="kui-row">
+    <PageTable Model="model1" />
+    <PageTable Model="model2" />
+</div>
+
+@* <TabPage PageName="天气" Query="model">
     <TabContent>
         <TabPane Key="Order" Tab="北京">
             <KTable Model="model" />
@@ -17,19 +22,31 @@
     <TabRight>
         <KToolbar Model="model.Toolbar" />
     </TabRight>
-</TabPage>
+</TabPage> *@
 
 @code {
     private TableModel<WeatherForecast> model;
+    private TableModel<WeatherForecast> model1;
+    private TableModel<WeatherForecast> model2;
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
-        model.ShowPager = true;
-        model.Name = "天气";
-        model.OnQuery = OnQueryWeatherForecastsAsync;
-        model.Toolbar.AddAction(nameof(New));
+        // model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
+        // model.ShowPager = true;
+        // model.Name = "天气";
+        // model.OnQuery = OnQueryWeatherForecastsAsync;
+        // model.Toolbar.AddAction(nameof(New));
+
+        model1 = new TableModel<WeatherForecast>(this, "Weather1", TableColumnMode.Property);
+        model1.ShowPager = true;
+        model1.Name = "天气1";
+        model1.OnQuery = OnQueryWeatherForecastsAsync;
+
+        model2 = new TableModel<WeatherForecast>(this, "Weather2", TableColumnMode.Property);
+        model2.ShowPager = true;
+        model2.Name = "天气2";
+        model2.OnQuery = OnQueryWeatherForecastsAsync;
     }
 
     public void New()

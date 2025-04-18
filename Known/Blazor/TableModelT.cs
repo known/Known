@@ -13,9 +13,16 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="page">表格关联的页面组件。</param>
     /// <param name="mode">根据数据类型自动生成表格列。</param>
-    public TableModel(BaseComponent page, TableColumnMode mode = TableColumnMode.None) : base(page)
+    public TableModel(BaseComponent page, TableColumnMode mode = TableColumnMode.None) : this(page, null, mode) { }
+
+    /// <summary>
+    /// 构造函数，创建一个泛型表格组件模型信息类的实例。
+    /// </summary>
+    /// <param name="page">表格关联的页面组件。</param>
+    /// <param name="id">表格关联的页面组件。</param>
+    /// <param name="mode">根据数据类型自动生成表格列。</param>
+    public TableModel(BaseComponent page, string id, TableColumnMode mode = TableColumnMode.None) : base(page, id)
     {
-        SettingId = $"UserTable_{Context.Current?.Id}";
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         Page = page;
@@ -33,9 +40,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     }
 
     /// <summary>
-    /// 取得或设置表格用户列设置ID。
+    /// 取得表格用户列设置ID。
     /// </summary>
-    public string SettingId { get; set; }
+    public string SettingId => $"UserTable_{Id}";
 
     /// <summary>
     /// 取得表格关联的页面组件。
@@ -126,16 +133,10 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
                 Initialize(info);
                 if (string.IsNullOrWhiteSpace(Name))
                     Name = Language.GetString(menu);
-                Columns = GetUserColumns();
             }
         }
-        else
-        {
-            Columns.Clear();
-            if (AllColumns != null && AllColumns.Count > 0)
-                Columns.AddRange(AllColumns);
-        }
 
+        Columns = GetUserColumns();
         SetQueryColumns();
         if (PageSize != null)
             Criteria.PageSize = PageSize.Value;

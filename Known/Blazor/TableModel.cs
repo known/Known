@@ -11,10 +11,17 @@ public class TableModel : BaseModel
     /// 构造函数，创建一个表格组件模型实例。
     /// </summary>
     /// <param name="page">表格关联的页面组件。</param>
-    public TableModel(BaseComponent page) : base(page)
+    /// <param name="id">表格关联的页面组件。</param>
+    public TableModel(BaseComponent page, string id = null) : base(page)
     {
+        Id = id ?? page?.Context?.Current?.Id;
         Toolbar = new ToolbarModel { Table = this };
     }
+
+    /// <summary>
+    /// 取得或设置表格ID。
+    /// </summary>
+    public string Id { get; set; }
 
     /// <summary>
     /// 取得或设置表格名称。
