@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attach.File.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attach.Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataPlaceholder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DbTableInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTableExtension.cs" />

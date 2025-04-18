@@ -136,12 +136,7 @@ public static class DictionaryExtension
         foreach (var key in data.Keys)
         {
             var value = data[key];
-            if (DataPlaceholder.CurrentCompNo.Equals(value))
-                data[key] = user.CompNo;
-            if (DataPlaceholder.CurrentUser.Equals(value))
-                data[key] = user.UserName;
-            if (DataPlaceholder.CurrentTime.Equals(value))
-                data[key] = DateTime.Now;
+            data[key] = DataPlaceholder.FormatValue(value?.ToString(), user);
         }
     }
 }
