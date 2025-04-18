@@ -174,3 +174,38 @@ public enum LinkTarget
     /// </summary>
     IFrame
 }
+
+/// <summary>
+/// 默认值类型枚举。
+/// </summary>
+public enum DefaultValueType
+{
+    /// <summary>
+    /// 固定值。
+    /// </summary>
+    [Description("固定值")] 
+    Fixed,
+    /// <summary>
+    /// 占位符。
+    /// </summary>
+    [Description("占位符")] 
+    Placeholder
+}
+
+/// <summary>
+/// 字典类别类型枚举。
+/// </summary>
+public enum DicCategoryType
+{
+    /// <summary>
+    /// 数据字典。
+    /// </summary>
+    [Description("数据字典")]
+    Dictionary,
+
+    /// <summary>
+    /// 自定义。
+    /// </summary>
+    [Description("自定义")]
+    Custom
+}

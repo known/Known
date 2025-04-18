@@ -97,4 +97,21 @@ public class DataPlaceholder
     /// 当前时间。
     /// </summary>
     public const string CurrentTime = "{Now}";
+
+    /// <summary>
+    /// 格式化占位符对象值。
+    /// </summary>
+    /// <param name="value">占位符。</param>
+    /// <param name="user">当前用户。</param>
+    /// <returns></returns>
+    public static object FormatValue(string value, UserInfo user)
+    {
+        if (value == CurrentCompNo)
+            return user?.CompNo;
+        else if (value == CurrentUser)
+            return user?.UserName;
+        else if (value == CurrentTime)
+            return DateTime.Now;
+        return null;
+    }
 }

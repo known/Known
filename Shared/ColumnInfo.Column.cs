@@ -33,6 +33,11 @@ public partial class ColumnInfo
     public bool IsQueryAll { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位查询条件默认值。
+    /// </summary>
+    public string QueryValue { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位固定列位置（left/right）。
     /// </summary>
     public string Fixed { get; set; }
@@ -56,4 +61,24 @@ public partial class ColumnInfo
     /// 取得或设置栏位默认显示位置。
     /// </summary>
     public int? Position { get; set; }
+
+    /// <summary>
+    /// 获取查询条件默认值。
+    /// </summary>
+    /// <param name="defaultValue">默认值对象。</param>
+    /// <param name="user">当前用户。</param>
+    /// <returns></returns>
+    public string GetDefaultValue(object defaultValue, UserInfo user)
+    {
+        if (defaultValue == null)
+            return DataPlaceholder.FormatValue(QueryValue, user)?.ToString();
+
+        if (defaultValue is Dictionary<string, object>)
+        {
+            (defaultValue as Dictionary<string, object>).TryGetValue(Id, out object value);
+            return value?.ToString();
+        }
+
+        return TypeHelper.GetPropertyValue<string>(defaultValue, Id);
+    }
 }

@@ -26,6 +26,11 @@ public partial class ColumnInfo
     public string Placeholder { get; set; }
 
     /// <summary>
+    /// 取得或设置字段默认值。
+    /// </summary>
+    public string FieldValue { get; set; }
+
+    /// <summary>
     /// 取得或设置表单字段行号，默认1。
     /// </summary>
     public int Row { get; set; } = 1;

@@ -150,6 +150,7 @@ class AppDefaultData
             IsViewLink = column.IsViewLink,
             IsQuery = column.IsQuery,
             IsQueryAll = column.IsQueryAll,
+            QueryValue = column.QueryValue,
             Type = item.GetFieldType(),
             Fixed = column.Fixed,
             Align = column.Align
@@ -171,6 +172,7 @@ class AppDefaultData
             CustomField = form.CustomField,
             ReadOnly = form.ReadOnly,
             Placeholder = form.Placeholder,
+            FieldValue = form.FieldValue,
             Rows = form.Rows,
             Unit = form.Unit
         });

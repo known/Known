@@ -98,6 +98,7 @@ public partial class ColumnInfo
         IsViewLink = attr.IsViewLink;
         IsQuery = attr.IsQuery;
         IsQueryAll = attr.IsQueryAll;
+        QueryValue = attr.QueryValue;
         if (attr.Type != FieldType.Text)
             Type = attr.Type;
         Category = attr.Category;
@@ -117,6 +118,7 @@ public partial class ColumnInfo
         IsForm = true;
         Row = attr.Row;
         Column = attr.Column;
+        FieldValue = attr.FieldValue;
         if (!string.IsNullOrWhiteSpace(attr.Type))
             Type = Utils.ConvertTo<FieldType>(attr.Type);
         if (Type == FieldType.Custom)

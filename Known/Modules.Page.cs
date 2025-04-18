@@ -99,12 +99,22 @@ public class PageColumnInfo
     public bool IsQueryAll { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位查询条件默认值类型（固定值,占位符）。
+    /// </summary>
+    public string QueryValueType { get; set; } = "固定值";
+
+    /// <summary>
+    /// 取得或设置栏位查询条件默认值。
+    /// </summary>
+    public string QueryValue { get; set; }
+
+    /// <summary>
     /// 取得或设置字段类型。
     /// </summary>
     public FieldType Type { get; set; }
 
     /// <summary>
-    /// 取得或设置表单字段数据字典类别类型（Dictionary/Custom）。
+    /// 取得或设置表单字段数据字典类别类型（Dictionary,Custom）。
     /// </summary>
     public string CategoryType { get; set; }
 

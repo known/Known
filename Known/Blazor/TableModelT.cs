@@ -15,6 +15,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="mode">根据数据类型自动生成表格列。</param>
     public TableModel(BaseComponent page, TableColumnMode mode = TableColumnMode.None) : base(page)
     {
+        SettingId = $"UserTable_{Context.Current?.Id}";
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         Page = page;
@@ -32,9 +33,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     }
 
     /// <summary>
-    /// 取得表格用户列设置ID。
+    /// 取得或设置表格用户列设置ID。
     /// </summary>
-    public string SettingId => $"UserTable_{Context.Current?.Id}";
+    public string SettingId { get; set; }
 
     /// <summary>
     /// 取得表格关联的页面组件。

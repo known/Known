@@ -23,6 +23,17 @@ public static class EnumExtension
     }
 
     /// <summary>
+    /// 判断字段类型是否是布尔类型。
+    /// </summary>
+    /// <param name="type">字段类型。</param>
+    /// <returns></returns>
+    public static bool IsBoolean(this FieldType type)
+    {
+        return type == FieldType.Switch ||
+               type == FieldType.CheckBox;
+    }
+
+    /// <summary>
     /// 判断字段类型是否是字典类型。
     /// </summary>
     /// <param name="type">字段类型。</param>

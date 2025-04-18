@@ -24,6 +24,7 @@ public partial class ColumnInfo
         IsViewLink = info.IsViewLink;
         IsQuery = info.IsQuery;
         IsQueryAll = info.IsQueryAll;
+        QueryValue = info.QueryValue;
         Type = info.Type;
         Category = info.Category;
         IsSum = info.IsSum;
@@ -55,6 +56,7 @@ public partial class ColumnInfo
         ReadOnly = info.ReadOnly;
         Required = info.Required;
         Placeholder = info.Placeholder;
+        FieldValue = info.FieldValue;
         Rows = info.Rows;
         Unit = info.Unit;
         Category = info.Category;

@@ -97,6 +97,11 @@ public class ColumnAttribute : Attribute
     public bool IsQueryAll { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位查询条件默认值。
+    /// </summary>
+    public string QueryValue { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位查询条件组件类型。
     /// </summary>
     public FieldType Type { get; set; }
@@ -164,6 +169,11 @@ public class FormAttribute() : Attribute
     /// 取得或设置字段控件占位符字符串。
     /// </summary>
     public string Placeholder { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段默认值。
+    /// </summary>
+    public string FieldValue { get; set; }
 
     /// <summary>
     /// 取得或设置文本域组件行数，默认3。

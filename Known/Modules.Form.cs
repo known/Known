@@ -94,6 +94,16 @@ public class FormFieldInfo : FieldInfo
     public string Placeholder { get; set; }
 
     /// <summary>
+    /// 取得或设置字段默认值类型（固定值,占位符）。
+    /// </summary>
+    public string FieldValueType { get; set; }
+
+    /// <summary>
+    /// 取得或设置字段默认值。
+    /// </summary>
+    public string FieldValue { get; set; }
+
+    /// <summary>
     /// 取得或设置文本域组件行数，默认3。
     /// </summary>
     public uint Rows { get; set; } = 3;
@@ -112,4 +122,17 @@ public class FormFieldInfo : FieldInfo
     /// 取得或设置表单字段附件是否可多选。
     /// </summary>
     public bool MultiFile { get; set; }
+
+    /// <summary>
+    /// 获取字段默认值。
+    /// </summary>
+    /// <param name="user">当前用户。</param>
+    /// <returns></returns>
+    public object GetDefaultValue(UserInfo user)
+    {
+        if (FieldValueType != nameof(DefaultValueType.Placeholder))
+            return FieldValue;
+
+        return DataPlaceholder.FormatValue(FieldValue, user);
+    }
 }

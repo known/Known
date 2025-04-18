@@ -166,16 +166,17 @@ public class TableModel : BaseModel
         if (QueryColumns == null || QueryColumns.Count == 0)
             return;
 
+        var user = CurrentUser;
         foreach (var item in QueryColumns)
         {
             if (string.IsNullOrWhiteSpace(item.Id))
                 continue;
 
             var info = new QueryInfo(item);
-            info.Value = TypeHelper.GetPropertyValue<string>(query, item.Id);
+            info.Value = item.GetDefaultValue(query, user);
             QueryData[item.Id] = info;
         }
 
-        Criteria.Query = QueryData.Select(d => d.Value).ToList();
+        Criteria.Query = [.. QueryData.Select(d => d.Value)];
     }
 }
