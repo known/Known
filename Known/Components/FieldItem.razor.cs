@@ -5,7 +5,7 @@
 /// </summary>
 public partial class FieldItem
 {
-    private string ClassName => CssBuilder.Default("ant-form-item ant-form-item-row ant-row").AddClass(Class).BuildClass();
+    private string ClassName => CssBuilder.Default("ant-form-item ant-form-item-row ant-row").AddClass(Class).AddClass("kui-inline", Inline).BuildClass();
     private string LabelClass => Required ? "ant-form-item-required" : "";
 
     /// <summary>
@@ -37,6 +37,11 @@ public partial class FieldItem
     /// 取得或设置是否必填。
     /// </summary>
     [Parameter] public bool Required { get; set; }
+
+    /// <summary>
+    /// 取得或设置多个元素是否一行内显示。
+    /// </summary>
+    [Parameter] public bool Inline { get; set; }
 
     /// <summary>
     /// 取得或设置子内容。

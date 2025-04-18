@@ -12,6 +12,9 @@ public partial class UIService
     /// <returns></returns>
     public async Task Toast(string text, StyleType style = StyleType.Success)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         var content = FormatMessage(text);
         switch (style)
         {
@@ -42,6 +45,9 @@ public partial class UIService
     /// <returns></returns>
     public async Task NoticeAsync(string title, string text, StyleType style = StyleType.Success)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         var config = new NotificationConfig
         {
             Message = title,
