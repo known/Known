@@ -44,6 +44,7 @@
                     <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
                                       Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                       Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                      ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                       Align="@item.ToColumnAlign()">
                         @if (template != null) {
                             @template(context)
@@ -57,6 +58,7 @@
                         <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
                                 Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                 Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                 Align="@item.ToColumnAlign()">
                             @if (template != null) {
                                 @template(context)
@@ -68,7 +70,7 @@
                         <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
                                 Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                 Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                Align="@item.ToColumnAlign()">
+                                Align="@item.ToColumnAlign()" ColSpan="1" RowSpan="1">
                             @if (template != null) {
                                 @template(context)
                             } else {

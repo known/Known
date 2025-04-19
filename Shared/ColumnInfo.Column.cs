@@ -3,6 +3,16 @@
 public partial class ColumnInfo
 {
     /// <summary>
+    /// 取得或设置栏位是否是合并行字段。
+    /// </summary>
+    public bool IsMergeRow { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是合并列字段。
+    /// </summary>
+    public bool IsMergeColumn { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位是否是汇总字段。
     /// </summary>
     public bool IsSum { get; set; }

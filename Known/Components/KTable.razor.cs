@@ -155,6 +155,29 @@ partial class KTable<TItem> : BaseComponent
         return style == "danger" ? "red-inverse" : "blue-inverse";
     }
 
+    //private readonly List<string> mergeRows = [];
+    private int GetRowSpan(ColumnInfo item, object value)
+    {
+        if (!item.IsMergeRow || dataSource == null || value == null)
+            return 1;
+
+        //if (mergeRows.Contains(item.Id))
+        //    return 0;
+
+        //mergeRows.Add(item.Id);
+        //var span = dataSource.Count(d => d.Property(item.Id)?.Equals(value) == true);
+        //return span;
+        return 1;
+    }
+
+    private int GetColSpan(ColumnInfo item, object value)
+    {
+        if (!item.IsMergeColumn || dataSource == null || value == null)
+            return 1;
+
+        return 1;
+    }
+
     private void OnAddColumn()
     {
         Plugin?.AddTableColumn();

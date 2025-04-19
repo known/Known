@@ -28,6 +28,28 @@ public partial class ColumnBuilder<TItem>
     }
 
     /// <summary>
+    /// 设置表格栏位为合并行字段。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> MergeRow()
+    {
+        if (column != null)
+            column.IsMergeRow = true;
+        return this;
+    }
+
+    /// <summary>
+    /// 设置表格栏位为合并列字段。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> MergeColumn()
+    {
+        if (column != null)
+            column.IsMergeColumn = true;
+        return this;
+    }
+
+    /// <summary>
     /// 设置表格栏位为汇总字段。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
