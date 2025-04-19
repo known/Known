@@ -17,6 +17,8 @@ class NavDevelopment : BaseNav
             plugins = [.. plugins.Where(p => p.Type != typeof(LanguagePage) && p.Type != typeof(ButtonPage))];
         if (!Config.App.IsLanguage)
             plugins = [.. plugins.Where(p => p.Type != typeof(LanguagePage))];
+        if (!Config.IsDebug)
+            plugins = [.. plugins.Where(p => p.Type != typeof(CodingPage))];
         if (Config.IsCodeMode)
             plugins = [.. plugins.Where(p => p.Type != typeof(ModulePage) && p.Type != typeof(ButtonPage))];
         items = plugins.ToActions();
