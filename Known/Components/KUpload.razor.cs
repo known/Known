@@ -64,6 +64,11 @@ public partial class KUpload
     [Parameter] public bool IsCompress { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置上传组件一次最大上传的文件数量，默认10。
+    /// </summary>
+    [Parameter] public int MaxFileCount { get; set; } = 10;
+
+    /// <summary>
     /// 取得或设置上传组件压缩图片大小，默认1920*1080。
     /// </summary>
     [Parameter] public Size CompressSize { get; set; } = new Size(1920, 1080);
@@ -127,7 +132,7 @@ public partial class KUpload
         var isChange = false;
         if (MultiFile || Directory)
         {
-            foreach (var item in e.GetMultipleFiles())
+            foreach (var item in e.GetMultipleFiles(MaxFileCount))
             {
                 isChange = await OnAddFileAsync(item);
             }

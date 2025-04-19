@@ -38,7 +38,6 @@ public static class AppConfig
             option.Name = AppName;
             option.Assembly = assembly;
             option.IsMobile = true;
-            //option.NextIdType = NextIdType.AutoInteger;
         });
         //services.AddKnownAdmin();
         services.AddModules();
