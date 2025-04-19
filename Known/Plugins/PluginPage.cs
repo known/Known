@@ -60,7 +60,7 @@ class PluginPage : BaseComponent, IAutoPage
         {
             if (Menu.Layout == null || Menu.Layout.Type == nameof(PageType.None))
             {
-                Menu.Plugins.ForEach(b.BuildPlugin);
+                Menu.Plugins?.ForEach(b.BuildPlugin);
             }
             else
             {

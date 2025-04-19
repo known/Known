@@ -88,6 +88,16 @@ public partial class KUpload
     /// </summary>
     [Parameter] public Func<AttachInfo, Task> OnDelete { get; set; }
 
+    /// <summary>
+    /// 清空文件列表。
+    /// </summary>
+    public void Clear()
+    {
+        files.Clear();
+        sysFiles.Clear();
+        StateChanged();
+    }
+
     /// <inheritdoc />
     public override async Task RefreshAsync()
     {

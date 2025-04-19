@@ -16,7 +16,7 @@
     <AntForm Form="model">
         <AntRow>
             <DataItem Span="8" Label="附件">
-                <KUpload MultiFile Accept=".jpg, .png, .doc" />
+                <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="OnFilesChanged" />
             </DataItem>
             <DataItem Span="8" Label="用户">
                 <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
@@ -32,6 +32,7 @@
         </AntRow>
         <div>@string.Join(",", value)</div>
         <div>@model.Data.Field</div>
+        <div>文件数量：@fileCount</div>
     </AntForm>
 </div>
 
@@ -40,6 +41,8 @@
     private string[] value = [];
     private FormModel<Test> model;
     private Test test = new();
+    private KUpload upload;
+    private int fileCount;
 
     protected override void OnInitialized()
     {
@@ -60,6 +63,13 @@
             Thread.Sleep(10000);
             return Task.CompletedTask;
         });
+    }
+
+    private Task OnFilesChanged(List<FileDataInfo> files)
+    {
+        fileCount = files.Count;
+        upload.Clear();
+        return Task.CompletedTask;
     }
 
     class Test
