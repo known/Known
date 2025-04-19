@@ -33,7 +33,7 @@ public class AntDateTimePicker : DatePicker<DateTime?>
     /// </summary>
     public AntDateTimePicker()
     {
-        var format = "yyyy-MM-dd HH:mm";
+        var format = Config.DateTimeFormat;
         ShowTime = true;
         Format = format;
         Mask = format;

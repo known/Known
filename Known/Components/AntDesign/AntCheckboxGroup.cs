@@ -20,6 +20,11 @@ public class AntCheckboxGroup : CheckboxGroup<string>
     /// </summary>
     [Parameter] public List<CodeInfo> Codes { get; set; }
 
+    /// <summary>
+    /// 取得或设置是否每个元素单独一行显示。
+    /// </summary>
+    [Parameter] public bool Block { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -35,10 +40,8 @@ public class AntCheckboxGroup : CheckboxGroup<string>
     {
         if (!string.IsNullOrWhiteSpace(Category))
             Codes = Cache.GetCodes(Category);
-        Options = Codes.ToCheckboxOptions(o =>
-        {
-            o.Checked = Value != null && Value.Contains(o.Value);
-        });
+        Options = Codes.ToCheckboxOptions(o => o.Checked = Value != null && Value.Contains(o.Value));
+        Class = CssBuilder.Default().AddClass("kui-block", Block).BuildClass();
         await base.OnParametersSetAsync();
     }
 }

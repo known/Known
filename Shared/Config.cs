@@ -70,9 +70,9 @@ public partial class Config
     public static string DateFormat { get; set; } = "yyyy-MM-dd";
 
     /// <summary>
-    /// 取得或设置日期时间格式，默认：yyyy-MM-dd HH:mm。
+    /// 取得或设置日期时间格式，默认：yyyy-MM-dd HH:mm:ss。
     /// </summary>
-    public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm";
+    public static string DateTimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss";
 
     /// <summary>
     /// 取得或设置当前系统数据库类型。

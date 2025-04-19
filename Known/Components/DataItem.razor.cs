@@ -7,7 +7,10 @@ namespace Known.Components;
 /// </summary>
 public partial class DataItem
 {
-    private string ClassName => CssBuilder.Default().AddClass("kui-inline", Inline).BuildClass();
+    private string ClassName => CssBuilder.Default()
+                                          .AddClass("kui-block", Block)
+                                          .AddClass("kui-inline", Inline)
+                                          .BuildClass();
 
     /// <summary>
     /// 取得或设置字段值类型，默认string。
@@ -43,6 +46,11 @@ public partial class DataItem
     /// 取得或设置是否必填。
     /// </summary>
     [Parameter] public bool Required { get; set; }
+
+    /// <summary>
+    /// 取得或设置多个元素是否每个元素单独一行显示。
+    /// </summary>
+    [Parameter] public bool Block { get; set; }
 
     /// <summary>
     /// 取得或设置多个元素是否一行内显示。

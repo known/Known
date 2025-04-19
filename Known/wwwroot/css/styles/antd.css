@@ -58,6 +58,9 @@
 .kui-form-wrapper .ant-drawer-body .kui-form-action {
     bottom:0;padding:10px;background-color:var(--kui-bgcolor);border-top:1px solid var(--kui-color-border);
 }
+.kui-block.ant-checkbox-group,
+.kui-block .ant-form-item-control,
+.kui-block .ant-form-item-control-input-content {display:flex;flex-direction:column;gap:5px;}
 .kui-inline .ant-form-item-control,
 .kui-inline .ant-form-item-control-input-content {display:flex;flex-direction:row;gap:5px;align-items:center;}
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
