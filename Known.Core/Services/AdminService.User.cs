@@ -34,6 +34,9 @@ partial class AdminService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        if (infos.Exists(d => d.UserName == CurrentUser.UserName))
+            return Result.Error("自己的账号不能删除！");
+
         var database = Database;
         var result = await UserHelper.OnDeletingAsync(database, [.. infos.Select(u=>(UserInfo)u)]);
         if (!result.IsValid)
