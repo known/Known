@@ -125,7 +125,9 @@
         } else {
             var text = GetColumnText(item, value);
             if (item.IsViewLink) {
-                <span class="kui-link" @onclick="e=>Model.ViewForm(context)">@text</span>
+                <span class="kui-link" @onclick="e=>OnViewForm(context)">@text</span>
+            } else if (item.LinkAction != null) {
+                <span class="kui-link" @onclick="e=>OnLinkAction(item, context)">@text</span>
             } else {
                 <span>@text</span>
             }

@@ -20,10 +20,18 @@ public partial class ColumnBuilder<TItem>
     /// 设置表格栏位为查看连接。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> ViewLink()
+    public ColumnBuilder<TItem> ViewLink(Action<TItem> action = null)
     {
-        if (column != null)
+        if (column == null)
+            return this;
+
+        if (action == null)
+        {
             column.IsViewLink = true;
+            return this;
+        }
+
+        column.LinkAction = item => action.Invoke((TItem)item);
         return this;
     }
 

@@ -13,6 +13,7 @@ partial class KTable<TItem> : BaseComponent
     private List<TItem> dataSource;
     private bool isQuering = false;
     private string ScrollY => Model.FixedHeight ?? "800px";
+    private bool shouldRender = true;
 
     /// <summary>
     /// 取得或设置表格数据模型。
@@ -28,6 +29,12 @@ partial class KTable<TItem> : BaseComponent
         base.OnInitialized();
     }
 
+    /// <inheritdoc />
+    protected override bool ShouldRender()
+    {
+        return shouldRender;
+    }
+
     private Task RefreshTableAsync(bool isQuery)
     {
         Model.Criteria.IsQuery = isQuery;
@@ -37,6 +44,7 @@ partial class KTable<TItem> : BaseComponent
 
     private async Task OnChange(QueryModel query)
     {
+        shouldRender = true;
         if (Model.OnQuery == null || isQuering)
             return;
 
@@ -84,6 +92,18 @@ partial class KTable<TItem> : BaseComponent
             attributes["ondblclick"] = this.Callback(async () => await Model.OnRowDoubleClick.Invoke(row.Data));
 
         return attributes;
+    }
+
+    private void OnViewForm(TItem row)
+    {
+        shouldRender = false;
+        Model.ViewForm(row);
+    }
+
+    private void OnLinkAction(ColumnInfo item, TItem row)
+    {
+        shouldRender = false;
+        item.LinkAction.Invoke(row);
     }
 
     private int GetIndex(TItem item)

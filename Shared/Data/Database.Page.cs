@@ -115,8 +115,8 @@ public partial class Database
             if (criteria.ExportMode != ExportMode.None)
                 exportData = DbUtils.GetExportData(criteria, pageData, onExport);
 
-            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0)
-                pageData = pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+            if (pageData.Count > criteria.PageSize && criteria.PageSize > 0 && criteria.PageIndex > 0)
+                pageData = [.. pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize)];
 
             watch.Watch("PagingResult");
             watch.WriteLog();
