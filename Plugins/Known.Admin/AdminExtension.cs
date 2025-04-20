@@ -14,9 +14,9 @@ public static class AdminExtension
         Config.IsAdmin = true;
 
         // 配置UI
-        UIConfig.TopNavType = typeof(KTopNavbar);
+        //UIConfig.TopNavType = typeof(KTopNavbar);
         UIConfig.ModulePageType = typeof(ModuleList);
-        UIConfig.EnableEdit = false;
+        //UIConfig.EnableEdit = false;
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");

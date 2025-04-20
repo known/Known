@@ -25,7 +25,7 @@
 </TabPage> *@
 
 @code {
-    private TableModel<WeatherForecast> model;
+    //private TableModel<WeatherForecast> model;
     private TableModel<WeatherForecast> model1;
     private TableModel<WeatherForecast> model2;
 
@@ -51,11 +51,11 @@
 
     public void New()
     {
-        model.NewForm(d =>
-        {
-            UI.Alert($"Summary={d.Summary}");
-            return Known.Result.SuccessAsync("");
-        });
+        // model.NewForm(d =>
+        // {
+        //     UI.Alert($"Summary={d.Summary}");
+        //     return Known.Result.SuccessAsync("");
+        // });
     }
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)

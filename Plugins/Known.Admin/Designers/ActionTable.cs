@@ -43,6 +43,7 @@ class ActionTable : BaseTable<ActionInfo>
         };
         model.OnOk = async () =>
         {
+            //TODO: 添加按钮后，导致上级Dialog无法关闭
             var items = actions.Where(a => values.Contains(a.Id)).ToList();
             var datas = Table.DataSource;
             datas?.AddRange(items);

@@ -38,7 +38,7 @@ class ModuleList : BaseTablePage<SysModule>
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 1200, Maximizable = true, ShowFooter = true },
-            RowKey = r => r.Id,
+            //RowKey = r => r.Id,
             ShowPager = false,
             SelectType = TableSelectType.Checkbox,
             OnQuery = OnQueryModulesAsync
@@ -61,6 +61,8 @@ class ModuleList : BaseTablePage<SysModule>
         Table.AddColumn(c => c.Enabled).Width(60).Align("center");
         Table.AddColumn(c => c.Note).Width(150);
 
+        Table.ActionCount = 4;
+        Table.ActionWidth = "200";
         Table.AddAction(nameof(Edit));
         Table.AddAction(nameof(Delete));
         Table.AddAction(nameof(MoveUp));

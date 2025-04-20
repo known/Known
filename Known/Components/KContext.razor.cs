@@ -33,9 +33,9 @@ public partial class KContext
 
     private void BuildExtra(RenderTreeBuilder builder, Exception ex)
     {
-#if DEBUG
-        builder.Pre().Child(ex.ToString());
-#endif
+        if (Config.IsDebug)
+            builder.Pre().Child(ex.ToString());
+
         builder.Div().Child(() =>
         {
             builder.Button("重新加载", this.Callback<MouseEventArgs>(e => Value?.Refresh()));
