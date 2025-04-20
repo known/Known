@@ -40,6 +40,7 @@
 
         model1 = new TableModel<WeatherForecast>(this, "Weather1", TableColumnMode.Property);
         model1.ShowPager = true;
+        model1.EnableSpin = true;
         model1.Name = "天气1";
         model1.OnQuery = OnQueryWeatherForecastsAsync;
 
