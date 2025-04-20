@@ -106,6 +106,13 @@ partial class KTable<TItem> : BaseComponent
         item.LinkAction.Invoke(row);
     }
 
+    private Task OnActionClick(ActionInfo item, TItem row)
+    {
+        shouldRender = false;
+        Model.OnAction?.Invoke(item, row);
+        return Task.CompletedTask;
+    }
+
     private int GetIndex(TItem item)
     {
         if (!Model.ShowPager)

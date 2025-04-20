@@ -147,20 +147,17 @@
             var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
             var mores = actions.Skip(Model.ActionCount - 1).ToList();
             foreach (var item in takes) {
-                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>OnActionClick(item, context)">@item.Name</Tag>
             }
             var model = new DropdownModel {
                 Text = Language["Button.More"],
                 Items = mores,
-                OnItemClick = e => {
-                    Model.OnAction?.Invoke(e, context);
-                    return Task.CompletedTask;
-                }
+                OnItemClick = e => OnActionClick(e, context)
             };
             <AntDropdown Context="Context" Model="model" />
         } else {
             foreach (var item in actions) {
-                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>Model.OnAction?.Invoke(item, context)">@item.Name</Tag>
+                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>OnActionClick(item, context)">@item.Name</Tag>
             }
         }
     </span>;

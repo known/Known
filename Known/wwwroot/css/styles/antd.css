@@ -37,8 +37,11 @@
 .ant-table-tbody > tr > td.ant-table-cell-row-hover {background:var(--kui-color-hover);}
 .kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background-color:#dcf4ff;}
 .ant-table-pagination.ant-pagination {margin:5px 0 10px 0;}
-.ant-toolbar {display:flex;gap:3px;}
 .ant-transfer-list-header-title {font-weight:bold;}
+.ant-toolbar {display:flex;gap:3px;}
+.ant-toolbar .ant-btn,
+.kui-query-btn .ant-btn,
+.kui-advanced-search .ant-btn {padding:0 10px;}
 
 .ant-modal {top:30px;}
 .ant-modal-body > .ant-steps {padding:10px;}
