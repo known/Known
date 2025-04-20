@@ -48,6 +48,7 @@ public static class AttachExtension
         foreach (var item in value)
         {
             var attach = item.ToAttachFile(form);
+            attach.BizType = $"{form.BizType}.{key}"; //支持一个表单多个附件字段
             attaches.Add(attach);
         }
         return attaches;

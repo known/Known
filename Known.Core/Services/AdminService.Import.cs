@@ -71,7 +71,7 @@ partial class AdminService
         var form = info.Model;
         var sysFiles = new List<AttachInfo>();
         var database = Database;
-        var files = info.Files.GetAttachFiles(CurrentUser, "Upload", form);
+        var files = info.Files.GetAttachFiles("Upload", form);
         var result = await database.TransactionAsync(Language.Upload, async db =>
         {
             sysFiles = await db.AddFilesAsync(files, form.BizId);

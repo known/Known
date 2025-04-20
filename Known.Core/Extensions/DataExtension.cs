@@ -33,6 +33,9 @@ public static class DataExtension
     public static async Task<AutoPageInfo> GetAutoPageAsync(this Database db, string moduleId, string pluginId)
     {
         var entity = await db.QueryByIdAsync<SysModule>(moduleId);
+        if (entity?.Target == nameof(ModuleType.Page)) // Admin插件无代码配置
+            return entity?.ToAutoPageInfo();
+
         var module = entity?.ToModuleInfo();
         if (module != null && module.Plugins != null && module.Plugins.Count > 0)
             return module.Plugins.GetPluginParameter<AutoPageInfo>(pluginId);

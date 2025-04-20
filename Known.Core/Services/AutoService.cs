@@ -97,8 +97,8 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             {
                 foreach (var file in info.Files)
                 {
-                    var files = info.Files.GetAttachFiles(CurrentUser, file.Key, tableName);
-                    await db.AddFilesAsync(files, id, key => model[file.Key] = $"{key}.{file.Key}");
+                    var files = info.Files.GetAttachFiles(file.Key, tableName);
+                    await db.AddFilesAsync(files, id, key => model[file.Key] = key);
                 }
             }
             model.SetValue(idField, id);

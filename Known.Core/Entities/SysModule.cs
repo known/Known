@@ -170,7 +170,7 @@ public class SysModule : EntityBase
         return plugins;
     }
 
-    private AutoPageInfo ToAutoPageInfo()
+    internal AutoPageInfo ToAutoPageInfo()
     {
         return new AutoPageInfo
         {
