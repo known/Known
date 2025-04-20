@@ -179,4 +179,22 @@ public class CodeFieldInfo : FieldInfo
             IsKey = IsKey
         };
     }
+
+    /// <summary>
+    /// 根据字段信息取得代码生成模型字段信息。
+    /// </summary>
+    /// <param name="info">字段信息。</param>
+    /// <returns></returns>
+    public static CodeFieldInfo FromField(FieldInfo info)
+    {
+        return new CodeFieldInfo
+        {
+            Id = info.Id,
+            Name = info.Name,
+            Type = info.Type,
+            Length = info.Length,
+            Required = info.Required,
+            IsKey = info.IsKey
+        };
+    }
 }

@@ -63,6 +63,26 @@ public partial class CodeModelForm
 
     private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
 
+    private void OnAddPlus()
+    {
+        if (UIConfig.OnFastAddField == null)
+        {
+            UI.Error("未配置 UIConfig.OnFastAddField 委托！");
+            return;
+        }
+
+        var selectedItems = Model.Fields.Select(d => d.Id).ToList();
+        UIConfig.OnFastAddField.Invoke(UI, selectedItems, items =>
+        {
+            var fields = items?.Select(CodeFieldInfo.FromField).ToList();
+            if (fields != null && fields.Count > 0)
+            {
+                Model.Fields.AddRange(fields);
+                StateChanged();
+            }
+        });
+    }
+
     private async Task OnAddTable()
     {
         var tables = await Service.GetDbTablesAsync();

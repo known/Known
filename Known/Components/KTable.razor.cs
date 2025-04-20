@@ -44,12 +44,12 @@ partial class KTable<TItem> : BaseComponent
 
     private async Task OnChange(QueryModel query)
     {
-        shouldRender = true;
         if (Model.OnQuery == null || isQuering)
             return;
 
         try
         {
+            shouldRender = true;
             isQuering = true;
             var watch = Stopwatcher.Start<TItem>();
             Model.Criteria.PageIndex = query.PageIndex;

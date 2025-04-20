@@ -13,15 +13,9 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
     {
         var baseFields = TypeHelper.GetBaseFields();
         var fields = await Database.GetTableFieldsAsync(tableName);
-        return fields?.Where(d => !baseFields.Exists(f => f.Id == d.Id)).Select(d => new CodeFieldInfo
-        {
-            Id = d.Id,
-            Name = d.Name,
-            Type = d.Type,
-            Length = d.Length,
-            Required = d.Required,
-            IsKey = d.IsKey
-        }).ToList();
+        return fields?.Where(d => !baseFields.Exists(f => f.Id == d.Id))
+                      .Select(CodeFieldInfo.FromField)
+                      .ToList();
     }
 
     public async Task<List<CodeModelInfo>> GetModelsAsync()
