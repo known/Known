@@ -74,7 +74,11 @@ public sealed class Utils
             return defaultValue;
 
         if (type.IsEnum)
-            return Enum.Parse(type, valueString, true);
+        {
+            if (Enum.IsDefined(type, valueString))
+                return Enum.Parse(type, valueString, true);
+            return defaultValue;
+        }
 
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             type = Nullable.GetUnderlyingType(type);

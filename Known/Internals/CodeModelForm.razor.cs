@@ -42,6 +42,54 @@ public partial class CodeModelForm
         Model ??= CreateCodeMode();
     }
 
+    private void OnNew() => Model = CreateCodeMode();
+
+    private async Task OnSave()
+    {
+        if (string.IsNullOrWhiteSpace(Model.Code) || string.IsNullOrWhiteSpace(Model.Name))
+        {
+            UI.Error("请输入代码和名称！");
+            return;
+        }
+
+        var result = await Service.SaveModelAsync(Model);
+        UI.Result(result, () =>
+        {
+            var info = result.DataAs<CodeModelInfo>();
+            OnSaved?.Invoke(info);
+            return Task.CompletedTask;
+        });
+    }
+
+    private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
+
+    private async Task OnAddTable()
+    {
+        var tables = await Service.GetDbTablesAsync();
+        var tableName = string.Empty;
+        var model = new DialogModel
+        {
+            Title = "导入表",
+            Content = b => b.Div().Style("padding:20px 30px 0 30px;").Child(() => b.Select("数据表", new InputModel<string>
+            {
+                Codes = tables,
+                ValueChanged = this.Callback<string>(v => tableName = v)
+            }))
+        };
+        model.OnOk = async () =>
+        {
+            if (string.IsNullOrWhiteSpace(tableName))
+            {
+                UI.Error("请选择数据表！");
+                return;
+            }
+
+            Model.Fields = await Service.GetDbFieldsAsync(tableName);
+            await model.CloseAsync();
+        };
+        UI.ShowDialog(model);
+    }
+
     private Task OnPasteAsync()
     {
         return JSRuntime.PasteTextAsync(text =>
@@ -66,26 +114,6 @@ public partial class CodeModelForm
         });
     }
 
-    private void OnNew() => Model = CreateCodeMode();
-
-    private async Task OnSave()
-    {
-        if (string.IsNullOrWhiteSpace(Model.Code) || string.IsNullOrWhiteSpace(Model.Name))
-        {
-            UI.Error("请输入代码和名称！");
-            return;
-        }
-
-        var result = await Service.SaveModelAsync(Model);
-        UI.Result(result, () =>
-        {
-            var info = result.DataAs<CodeModelInfo>();
-            OnSaved?.Invoke(info);
-            return Task.CompletedTask;
-        });
-    }
-
-    private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
     private void OnDelete(CodeFieldInfo row) => Model.Fields.Remove(row);
     private void OnMoveUp(CodeFieldInfo row) => MoveRow(row, true);
     private void OnMoveDown(CodeFieldInfo row) => MoveRow(row, false);
@@ -104,7 +132,7 @@ public partial class CodeModelForm
 
     private CodeModelInfo CreateCodeMode()
     {
-        var info = new CodeModelInfo();
+        var info = new CodeModelInfo { IsNew = true };
         if (Default != null)
         {
             info.Prefix = Default.Prefix;

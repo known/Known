@@ -6,6 +6,19 @@
 public interface ICodeService : IService
 {
     /// <summary>
+    /// 异步获取数据库表列表。
+    /// </summary>
+    /// <returns></returns>
+    Task<List<CodeInfo>> GetDbTablesAsync();
+
+    /// <summary>
+    /// 异步获取数据库表字段列表。
+    /// </summary>
+    /// <param name="tableName">数据库表。</param>
+    /// <returns></returns>
+    Task<List<CodeFieldInfo>> GetDbFieldsAsync(string tableName);
+
+    /// <summary>
     /// 异步获取代码模型列表。
     /// </summary>
     /// <returns></returns>
@@ -29,6 +42,16 @@ public interface ICodeService : IService
 [Client]
 class CodeClient(HttpClient http) : ClientBase(http), ICodeService
 {
+    public Task<List<CodeInfo>> GetDbTablesAsync()
+    {
+        return Http.GetAsync<List<CodeInfo>>("/Code/GetDbTables");
+    }
+
+    public Task<List<CodeFieldInfo>> GetDbFieldsAsync(string tableName)
+    {
+        return Http.GetAsync<List<CodeFieldInfo>>($"/Code/GetDbFields?tableName={tableName}");
+    }
+
     public Task<List<CodeModelInfo>> GetModelsAsync()
     {
         return Http.GetAsync<List<CodeModelInfo>>("/Code/GetModels");
@@ -48,6 +71,16 @@ class CodeClient(HttpClient http) : ClientBase(http), ICodeService
 [Service]
 class CodeService(Context context) : ServiceBase(context), ICodeService
 {
+    public Task<List<CodeInfo>> GetDbTablesAsync()
+    {
+        return Task.FromResult(new List<CodeInfo>());
+    }
+
+    public Task<List<CodeFieldInfo>> GetDbFieldsAsync(string tableName)
+    {
+        return Task.FromResult(new List<CodeFieldInfo>());
+    }
+
     public Task<List<CodeModelInfo>> GetModelsAsync()
     {
         var infos = AppData.LoadCodeModels();

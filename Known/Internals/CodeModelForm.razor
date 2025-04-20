@@ -34,8 +34,11 @@
             <KButton Type="ButtonType.Primary" Icon="plus" Name="新建模型" OnClick="OnNew" />
             <KButton Type="ButtonType.Primary" Icon="save" Name="保存模型" OnClick="OnSave" />
             <KButton Type="ButtonType.Primary" Icon="plus" Name="添加栏位" OnClick="OnAdd" />
+            <Tooltip Title="通过现有数据库表生成栏位。">
+                <KButton Type="ButtonType.Primary" Icon="import" Name="导入表" OnClick="OnAddTable" Enabled="Model.IsNew" />
+            </Tooltip>
             <Tooltip Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。">
-                <KButton Type="ButtonType.Primary" Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" />
+                <KButton Type="ButtonType.Primary" Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" Enabled="Model.IsNew" />
             </Tooltip>
         </div>
     </div>

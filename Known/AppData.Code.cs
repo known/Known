@@ -5,6 +5,8 @@
 /// </summary>
 public class CodeModelInfo
 {
+    internal bool IsNew { get; set; }
+
     /// <summary>
     /// 取得或设置代码模型ID。
     /// </summary>

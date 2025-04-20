@@ -27,9 +27,8 @@ public static class AppConfig
     {
         Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
-#if DEBUG
         Config.IsDebug = true;
-#endif
+
         // 添加前端
         var assembly = typeof(AppConfig).Assembly;
         services.AddKnown(option =>

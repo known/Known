@@ -65,6 +65,9 @@ public partial class Database
     /// <returns></returns>
     public async Task<List<FieldInfo>> GetTableFieldsAsync(string tableName)
     {
+        if (string.IsNullOrWhiteSpace(tableName))
+            return [];
+
         var fields = new List<FieldInfo>();
         var info = new CommandInfo() { Text = $"select * from {tableName} where 1=0" };
         using var reader = await ExecuteReaderAsync(info);
@@ -201,6 +204,8 @@ public partial class Database
             return FieldType.Number;
         else if (typeName?.Contains("text") == true)
             return FieldType.TextArea;
+        else if (id?.Contains("File") == true)
+            return FieldType.File;
         else
             return size > 500 ? FieldType.TextArea : FieldType.Text;
     }

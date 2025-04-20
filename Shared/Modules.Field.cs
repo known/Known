@@ -48,12 +48,12 @@ public class FieldInfo
     /// <summary>
     /// 取得或设置字段是否是列表栏位。
     /// </summary>
-    public bool IsGrid { get; set; }
+    public bool IsGrid { get; set; } = true;
 
     /// <summary>
     /// 取得或设置字段是否是表单字段。
     /// </summary>
-    public bool IsForm { get; set; }
+    public bool IsForm { get; set; } = true;
 
     /// <summary>
     /// 转换成字段信息。

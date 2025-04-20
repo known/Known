@@ -3,6 +3,27 @@
 [WebApi, Service]
 class CodeService(Context context) : ServiceBase(context), ICodeService
 {
+    public async Task<List<CodeInfo>> GetDbTablesAsync()
+    {
+        var tables = await Database.GetTableNamesAsync();
+        return tables?.Select(t => new CodeInfo(t, t)).ToList();
+    }
+
+    public async Task<List<CodeFieldInfo>> GetDbFieldsAsync(string tableName)
+    {
+        var baseFields = TypeHelper.GetBaseFields();
+        var fields = await Database.GetTableFieldsAsync(tableName);
+        return fields?.Where(d => !baseFields.Exists(f => f.Id == d.Id)).Select(d => new CodeFieldInfo
+        {
+            Id = d.Id,
+            Name = d.Name,
+            Type = d.Type,
+            Length = d.Length,
+            Required = d.Required,
+            IsKey = d.IsKey
+        }).ToList();
+    }
+
     public async Task<List<CodeModelInfo>> GetModelsAsync()
     {
         var infos = new List<CodeModelInfo>();
