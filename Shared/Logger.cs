@@ -190,4 +190,25 @@ public partial class Logger
     {
         Error(target, user, ex.ToString());
     }
+
+    private static readonly object fileLock = new();
+    /// <summary>
+    /// 写异常日志到文件。
+    /// </summary>
+    /// <param name="ex">异常信息。</param>
+    public static void Exception(Exception ex)
+    {
+        var info = new FileInfo($"./logs/error_{DateTime.Now:yyyyMMdd}.log");
+        if (!info.Directory.Exists)
+            info.Directory.Create();
+
+        lock (fileLock)
+        {
+            using var writer = new StreamWriter(info.FullName, true);
+            writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.Message}");
+            writer.WriteLine(ex.StackTrace);
+            writer.WriteLine();
+            writer.Flush();
+        }
+    }
 }

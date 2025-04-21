@@ -78,6 +78,12 @@ public static partial class Extension
         if (string.IsNullOrWhiteSpace(Config.App.ContentRoot))
             Config.App.ContentRoot = AppDomain.CurrentDomain.BaseDirectory;
 
+        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+        {
+            if (e.ExceptionObject is Exception ex)
+                Logger.Exception(ex);
+        };
+
         action?.Invoke(Config.App);
         if (Config.App.Type == AppType.WebApi)
             return;
