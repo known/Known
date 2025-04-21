@@ -45,7 +45,7 @@ public static class WeixinExtension
             {
                 if (isManualClose)
                 {
-                    Console.WriteLine("[WeixinQRCode] Scanning Manual Closed!");
+                    Logger.Information(LogTarget.FrontEnd, user, "[WeixinQRCode] Scanning Manual Closed!");
                     break;
                 }
 

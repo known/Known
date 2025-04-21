@@ -19,6 +19,12 @@ partial class AdminService
         return Logger.QueryLogsAsync(criteria);
     }
 
+    public Task<Result> AddWebLogAsync(LogInfo info)
+    {
+        Logger.Logs.Add(info);
+        return Result.SuccessAsync("添加成功！");
+    }
+
     public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)
     {
         return Logger.DeleteLogsAsync(infos);

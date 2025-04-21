@@ -61,6 +61,8 @@ public partial class CodeModelForm
         });
     }
 
+    //private void OnInsert() { }
+
     private void OnAdd() => Model.Fields.Add(new CodeFieldInfo());
 
     private void OnAddPlus()

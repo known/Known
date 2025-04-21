@@ -34,7 +34,7 @@ public enum LogLevel
 /// <summary>
 /// 日志操作类。
 /// </summary>
-public sealed class Logger
+public partial class Logger
 {
     private Logger() { }
 
@@ -71,7 +71,7 @@ public sealed class Logger
     /// <returns>查询结果。</returns>
     public static Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria)
     {
-        var logs = Logger.Logs;
+        var logs = Logs;
         var type = criteria.GetQueryValue(nameof(LogInfo.Type));
         if (!string.IsNullOrWhiteSpace(type))
             logs = logs.Where(l => l.Type == type).ToList();
@@ -180,12 +180,14 @@ public sealed class Logger
         WriteLog(LogLevel.Critical, target, user, content);
     }
 
-    private static void WriteLog(LogLevel type, LogTarget target, UserInfo user, string content)
+    /// <summary>
+    /// 添加异常日志。
+    /// </summary>
+    /// <param name="target">目标。</param>
+    /// <param name="user">创建人。</param>
+    /// <param name="ex">异常信息。</param>
+    public static void Exception(LogTarget target, UserInfo user, Exception ex)
     {
-        if (Level > type)
-            return;
-
-        var log = new LogInfo { Type = type.ToString(), Target = target.ToString(), CreateBy = user?.UserName, CreateTime = DateTime.Now, Content = content };
-        Logs.Add(log);
+        Error(target, user, ex.ToString());
     }
 }

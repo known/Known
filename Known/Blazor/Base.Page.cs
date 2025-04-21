@@ -40,10 +40,11 @@ public class BasePage : BaseComponent, IReuseTabsPage
     }
 
     /// <inheritdoc />
-    protected override Task OnInitAsync()
+    protected override async Task OnInitAsync()
     {
+        await base.OnInitAsync();
         Menu = Context.Current;
-        return OnInitPageAsync();
+        await OnInitPageAsync();
     }
 
     /// <inheritdoc />

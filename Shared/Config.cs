@@ -256,7 +256,6 @@ public partial class Config
     private static void AddApiMethod(Type type, string apiName)
     {
         ApiTypes.Add(type);
-        //Console.WriteLine($"api/{type.Name}");
         var xml = GetAssemblyXml(type.Assembly);
         var methods = type.GetMethods();
         foreach (var method in methods)

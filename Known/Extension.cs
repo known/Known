@@ -160,7 +160,6 @@ public static partial class Extension
 
     //    foreach (var type in Config.ApiTypes)
     //    {
-    //        //Console.WriteLine(type.Name);
     //        var interceptorType = option.InterceptorType.Invoke(type);
     //        if (interceptorType == null)
     //            continue;

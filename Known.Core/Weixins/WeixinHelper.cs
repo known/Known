@@ -51,9 +51,10 @@ public sealed class WeixinHelper
     /// <returns>系统用户姓名。</returns>
     public static async Task<string> SubscribeAsync(string openId, string userId)
     {
+        Database db = null;
         try
         {
-            var db = Database.Create();
+            db = Database.Create();
             var weixin = await GetWeixinByOpenIdAsync(db, openId);
             weixin ??= new SysWeixin();
             weixin.MPAppId = WeixinApi.AppId;
@@ -74,7 +75,7 @@ public sealed class WeixinHelper
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            Logger.Exception(LogTarget.BackEnd, db?.User, ex);
             return string.Empty;
         }
     }
@@ -87,9 +88,10 @@ public sealed class WeixinHelper
     /// <returns>系统用户姓名。</returns>
     public static async Task<string> UnsubscribeAsync(string openId, string userId)
     {
+        Database db = null;
         try
         {
-            var db = Database.Create();
+            db = Database.Create();
             var weixin = await GetWeixinByOpenIdAsync(db, openId);
             if (weixin == null)
                 return string.Empty;
@@ -101,7 +103,7 @@ public sealed class WeixinHelper
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            Logger.Exception(LogTarget.BackEnd, db?.User, ex);
             return string.Empty;
         }
     }

@@ -73,12 +73,11 @@ partial class KTable<TItem> : BaseComponent
             Model.Criteria.IsQuery = false;
             isQuering = false;
             watch.Write($"Changed {Model.Criteria.PageIndex}");
-            //Console.WriteLine($"{typeof(TItem)}-OnChange-{totalCount}");
         }
         catch (Exception ex)
         {
             isQuering = false;
-            App?.OnErrorAsync(ex);
+            await OnErrorAsync(ex);
         }
     }
 

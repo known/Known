@@ -210,7 +210,7 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
             }
             catch //(Exception ex)
             {
-                //Console.WriteLine($"{ex}");
+                //Logger.Exception(LogTarget.FrontEnd, user, ex);
             }
         }
         else if (model.Property != null)

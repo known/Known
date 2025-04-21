@@ -134,21 +134,14 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            await base.OnInitializedAsync();
-            UI.Language = Language;
-            Platform = await CreateServiceAsync<IPlatformService>();
-            Admin = await CreateServiceAsync<IAdminService>();
-            Context.UI = UI;
-            Context.Navigation = Navigation;
-            Context.TabsService = TabsService;
-            await OnInitAsync();
-        }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
-        }
+        await base.OnInitializedAsync();
+        UI.Language = Language;
+        Platform = await CreateServiceAsync<IPlatformService>();
+        Admin = await CreateServiceAsync<IAdminService>();
+        Context.UI = UI;
+        Context.Navigation = Navigation;
+        Context.TabsService = TabsService;
+        await OnInitAsync();
     }
 
     /// <summary>
@@ -157,15 +150,8 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <returns></returns>
     protected override async Task OnParametersSetAsync()
     {
-        try
-        {
-            await base.OnParametersSetAsync();
-            await OnParameterAsync();
-        }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
-        }
+        await base.OnParametersSetAsync();
+        await OnParameterAsync();
     }
 
     /// <summary>
@@ -251,7 +237,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <returns></returns>
     public async Task OnErrorAsync(Exception ex)
     {
-        Logger.Error(LogTarget.FrontEnd, CurrentUser, ex.ToString());
+        Logger.Exception(LogTarget.FrontEnd, CurrentUser, ex);
         var message = Config.IsDebug ? ex.ToString() : ex.Message;
         await UI.NoticeAsync(Language?["Title.Error"], message, StyleType.Error);
     }

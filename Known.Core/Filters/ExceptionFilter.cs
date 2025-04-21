@@ -8,7 +8,10 @@ class ExceptionFilter : IAsyncExceptionFilter
     {
         if (!context.ExceptionHandled)
         {
-            Console.WriteLine(context.Exception);
+            var request = context.HttpContext.Request;
+            request.Headers.TryGetValue(Constants.KeyToken, out var token);
+            var user = Cache.GetUserByToken(token);
+            Logger.Exception(LogTarget.BackEnd, user, context.Exception);
             var result = Result.Error(context.Exception.Message);
             context.Result = new JsonResult(result);
         }

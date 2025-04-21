@@ -62,13 +62,15 @@ public class ToolbarModel
     /// <param name="id">按钮ID。</param>
     /// <param name="name">按钮名称。</param>
     /// <param name="icon">按钮图标。</param>
-    public void AddAction(string id, string name, string icon)
+    /// <param name="title">按钮提示信息。</param>
+    public void AddAction(string id, string name, string icon, string title = "")
     {
         Items.Add(new ActionInfo
         {
             Id = id,
             Name = name,
-            Icon = icon
+            Icon = icon,
+            Title = title
         });
     }
 

@@ -13,16 +13,17 @@ partial class TableModel<TItem>
     /// <param name="action">操作方法委托。</param>
     public void SelectRow(Action<TItem> action)
     {
+        var message = Language?["请选择 1 条记录进行操作！"];
         if (SelectedRows == null)
         {
-            UI.Warning(Language?.SelectOne);
+            UI.Warning(message);
             return;
         }
 
         var rows = SelectedRows.ToList();
         if (rows.Count == 0 || rows.Count > 1)
         {
-            UI.Warning(Language?.SelectOne);
+            UI.Warning(message);
             return;
         }
 
@@ -58,18 +59,26 @@ partial class TableModel<TItem>
     /// 选择表格多行数据操作。
     /// </summary>
     /// <param name="action">操作方法委托。</param>
-    public void SelectRows(Action<List<TItem>> action)
+    public void SelectRows(Action<List<TItem>> action) => SelectRows(1, action);
+
+    /// <summary>
+    /// 选择表格多行数据操作。
+    /// </summary>
+    /// <param name="minCount">至少几条数据。</param>
+    /// <param name="action">操作方法委托。</param>
+    public void SelectRows(int minCount, Action<List<TItem>> action)
     {
+        var message = Language?["请至少选择 {count} 条记录进行操作！"]?.Replace("{count}", $"{minCount}");
         if (SelectedRows == null)
         {
-            UI.Warning(Language?.SelectOneAtLeast);
+            UI.Warning(message);
             return;
         }
 
         var rows = SelectedRows.ToList();
-        if (rows.Count == 0)
+        if (rows.Count < minCount)
         {
-            UI.Warning(Language?.SelectOneAtLeast);
+            UI.Warning(message);
             return;
         }
 
@@ -104,6 +113,6 @@ partial class TableModel<TItem>
     private string GetConfirmText(string buttonId)
     {
         var text = Language.GetText("Button", buttonId);
-        return Language?["Tip.ConfirmRecordName"]?.Replace("{text}", text);
+        return Language?["确定要{text}选中的记录？"]?.Replace("{text}", text);
     }
 }

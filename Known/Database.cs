@@ -40,13 +40,8 @@ public partial class Database
         if (!EnableLog)
             return;
 
-        var logger = loggerFactory.CreateLogger<Database>();
         if (info != null)
-        {
-            logger.Info(info);
             Logger.Information(LogTarget.BackEnd, User, info.ToString());
-        }
-        logger.Error(ex);
-        Logger.Error(LogTarget.BackEnd, User, ex.ToString());
+        Logger.Exception(LogTarget.BackEnd, User, ex);
     }
 }

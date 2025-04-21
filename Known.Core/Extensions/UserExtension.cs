@@ -243,7 +243,7 @@ public static class UserExtension
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Logger.Exception(LogTarget.BackEnd, db.User, ex);
             }
         });
     }

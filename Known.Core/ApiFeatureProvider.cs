@@ -9,7 +9,6 @@ class ApiFeatureProvider : ControllerFeatureProvider
         if (typeInfo.GetCustomAttribute<WebApiAttribute>() == null)
             return false;
 
-        //Console.WriteLine(typeInfo.FullName);
         return true;
     }
 }

@@ -138,7 +138,6 @@ class ApiConvention : IApplicationModelConvention
         if (!string.IsNullOrEmpty(actionName))
             route.Append($"/{actionName}");
 
-        //Console.WriteLine(route);
         return route.ToString();
     }
 

@@ -55,7 +55,7 @@ public class Stopwatcher
             return;
 
         watch.Stop();
-        Console.WriteLine($"{type.Name}：{label}={watch.ElapsedMilliseconds}ms");
+        WriteLog($"{type.Name}：{label}={watch.ElapsedMilliseconds}ms");
         watch.Restart();
     }
 
@@ -68,6 +68,11 @@ public class Stopwatcher
             return;
 
         var logs = string.Join("、", times.Select(t => $"{t.Key}={t.Value}ms"));
-        Console.WriteLine($"{type.Name}：{logs}");
+        WriteLog($"{type.Name}：{logs}");
+    }
+
+    private void WriteLog(string message)
+    {
+        Logger.Debug(LogTarget.Debug, null, message);
     }
 }

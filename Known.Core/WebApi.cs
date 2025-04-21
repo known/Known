@@ -5,11 +5,13 @@ class WebApi
 {
     internal static async Task Invoke(HttpContext ctx, ApiMethodInfo info)
     {
+        UserInfo user = null;
         try
         {
             var context = ctx.RequestServices.GetRequiredService<Context>();
             var token = ctx.Request.Headers[Constants.KeyToken].ToString();
-            context.CurrentUser = Cache.GetUserByToken(token);
+            user = Cache.GetUserByToken(token);
+            context.CurrentUser = user;
             if (context.CurrentUser == null && !info.MethodInfo.IsAllowAnonymous())
             {
                 await ctx.Response.WriteAsJsonAsync(Result.Error("用户登录已过期！"));
@@ -27,7 +29,7 @@ class WebApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            Logger.Exception(LogTarget.BackEnd, user, ex);
             await ctx.Response.WriteAsJsonAsync(Result.Error(ex.Message));
         }
     }

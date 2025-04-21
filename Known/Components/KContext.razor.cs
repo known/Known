@@ -19,7 +19,7 @@ public partial class KContext
 
     private RenderFragment<Exception> ErrorContent => ex => builder =>
     {
-        Logger.Error(LogTarget.FrontEnd, Value?.CurrentUser, ex.ToString());
+        Logger.Exception(LogTarget.FrontEnd, Value?.CurrentUser, ex);
         builder.Div("kui-wrapper", () =>
         {
             builder.Component<AntDesign.Result>()

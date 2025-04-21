@@ -63,7 +63,6 @@ public partial class JSService
     {
         try
         {
-            //Console.WriteLine(identifier + ":" + string.Join(",", args));
             var module = await moduleTask.Value;
             return await module.InvokeAsync<T>(identifier, args);
         }
@@ -77,7 +76,6 @@ public partial class JSService
     {
         try
         {
-            //Console.WriteLine(identifier + ":" + string.Join(",", args));
             var module = await moduleTask.Value;
             await module.InvokeVoidAsync(identifier, args);
         }

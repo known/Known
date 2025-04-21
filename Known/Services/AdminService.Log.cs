@@ -24,14 +24,21 @@ public partial interface IAdminService
     Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria);
 
     /// <summary>
-    /// 异步删除日志信息。
+    /// 异步添加Web日志。
+    /// </summary>
+    /// <param name="info"></param>
+    /// <returns></returns>
+    Task<Result> AddWebLogAsync(LogInfo info);
+
+    /// <summary>
+    /// 异步删除Web日志信息。
     /// </summary>
     /// <param name="infos">信息列表。</param>
     /// <returns>删除结果。</returns>
     Task<Result> DeleteWebLogsAsync(List<LogInfo> infos);
 
     /// <summary>
-    /// 异步清空日志信息。
+    /// 异步清空Web日志信息。
     /// </summary>
     /// <returns>清空结果。</returns>
     Task<Result> ClearWebLogsAsync();
@@ -56,6 +63,12 @@ partial class AdminService
     public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria)
     {
         return Logger.QueryLogsAsync(criteria);
+    }
+
+    public Task<Result> AddWebLogAsync(LogInfo info)
+    {
+        Logger.Logs.Add(info);
+        return Result.SuccessAsync("添加成功！");
     }
 
     public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)
@@ -86,13 +99,18 @@ partial class AdminClient
         return Http.QueryAsync<LogInfo>("/Admin/QueryWebLogs", criteria);
     }
 
+    public Task<Result> AddWebLogAsync(LogInfo info)
+    {
+        return Http.PostAsync("/Admin/AddWebLog", info);
+    }
+
     public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)
     {
-        return Http.PostAsync("/Admin/DeleteLogs", infos);
+        return Http.PostAsync("/Admin/DeleteWebLogs", infos);
     }
 
     public Task<Result> ClearWebLogsAsync()
     {
-        return Http.PostAsync("/Admin/ClearLogs");
+        return Http.PostAsync("/Admin/ClearWebLogs");
     }
 }

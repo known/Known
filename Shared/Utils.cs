@@ -349,11 +349,7 @@ public sealed class Utils
         }
         catch (Exception ex)
         {
-            Console.WriteLine("========================================================");
-            Console.WriteLine($"TYPE：{typeof(T).FullName}");
-            Console.WriteLine($"JSON：{json}");
-            Console.WriteLine("--------------------------------------------------------");
-            Logger.Error(LogTarget.JSON, null, $"TYPE：{typeof(T).FullName}{Environment.NewLine}JSON：{json}{Environment.NewLine}{ex}");
+            HandleJsonException(typeof(T), json, ex);
             throw new Exception(ex.Message, ex);
         }
     }
@@ -376,10 +372,20 @@ public sealed class Utils
         }
         catch (Exception ex)
         {
-            //Console.WriteLine($"{type.FullName}{Environment.NewLine}{json}{Environment.NewLine}{ex}");
-            Logger.Error(LogTarget.JSON, null, $"TYPE：{type.FullName}{Environment.NewLine}JSON：{json}{Environment.NewLine}{ex}");
+            HandleJsonException(type, json, ex);
             throw new Exception(ex.Message, ex);
         }
+    }
+
+    private static void HandleJsonException(Type type, string json, Exception ex)
+    {
+        var message = $@"
+========================================================
+TYPE：{type.FullName}
+JSON：{json}
+{ex}
+--------------------------------------------------------";
+        Logger.Error(LogTarget.JSON, null, message);
     }
 
     /// <summary>

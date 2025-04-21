@@ -30,7 +30,7 @@ class MigrateHelper
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            Logger.Exception(LogTarget.BackEnd, database.User, ex);
         }
     }
 

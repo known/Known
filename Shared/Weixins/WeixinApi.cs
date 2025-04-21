@@ -86,12 +86,12 @@ public static class WeixinApi
     //            force_refresh = true
     //        };
     //        var result = await http.PostDataAsync(url, data);
-    //        Console.WriteLine("AT=" + Utils.ToJson(result));
+    //        WriteInfo("AT=" + Utils.ToJson(result));
     //        return result.GetValue<string>("access_token");
     //    }
     //    catch (Exception ex)
     //    {
-    //        Console.WriteLine(ex.ToString());
+    //        WriteException(ex);
     //        return null;
     //    }
     //}
@@ -105,12 +105,12 @@ public static class WeixinApi
             using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appId}&secret={appSecret}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
-            Console.WriteLine("AT=" + Utils.ToJson(result));
+            WriteInfo("AT=" + Utils.ToJson(result));
             return result.GetValue<string>("access_token");
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -150,7 +150,7 @@ public static class WeixinApi
     {
         if (string.IsNullOrWhiteSpace(AccessToken))
         {
-            Console.WriteLine("AccessToken is null.");
+            WriteInfo("AccessToken is null.");
             return null;
         }
 
@@ -175,7 +175,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -222,7 +222,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -269,7 +269,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -297,7 +297,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -333,7 +333,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -362,7 +362,7 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            WriteException(ex);
             return null;
         }
     }
@@ -396,8 +396,8 @@ public static class WeixinApi
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
-            Console.WriteLine(Utils.ToJson(info));
+            WriteException(ex);
+            WriteInfo(Utils.ToJson(info));
             return Result.Error(ex.Message);
         }
     }
@@ -412,7 +412,17 @@ public static class WeixinApi
         var content = await response.Content.ReadAsStringAsync();
         var result = Utils.FromJson<Dictionary<string, object>>(content);
         if (result == null)
-            Console.WriteLine($"PostData={content}");
+            WriteInfo($"PostData={content}");
         return result;
+    }
+
+    private static void WriteInfo(string message)
+    {
+        Logger.Information(LogTarget.BackEnd, new UserInfo { UserName = "WeixinApi" }, message);
+    }
+
+    private static void WriteException(Exception ex)
+    {
+        Logger.Exception(LogTarget.BackEnd, new UserInfo { UserName = "WeixinApi" }, ex);
     }
 }

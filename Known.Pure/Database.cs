@@ -26,11 +26,7 @@ public partial class Database
             return;
 
         if (info != null)
-        {
-            Console.WriteLine(info.ToString());
             Logger.Information(LogTarget.BackEnd, User, info.ToString());
-        }
-        Console.WriteLine(ex);
-        Logger.Error(LogTarget.BackEnd, User, ex.ToString());
+        Logger.Exception(LogTarget.BackEnd, User, ex);
     }
 }

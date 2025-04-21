@@ -41,6 +41,10 @@ public enum LogType
 public enum LogTarget
 {
     /// <summary>
+    /// 调试。
+    /// </summary>
+    Debug,
+    /// <summary>
     /// JSON序列化。
     /// </summary>
     JSON,
