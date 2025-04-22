@@ -46,9 +46,22 @@ partial class CodeGenerator
             if (!string.IsNullOrWhiteSpace(item.Length) && type == "string")
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
             if (item.IsGrid)
-                sb.AppendLine("    [Column]");
+                sb.AppendLine("    [Column(Width = 100)]");
             if (item.IsForm)
-                sb.AppendLine("    [Form]");
+            {
+                if (item.Type == FieldType.File)
+                    sb.AppendLine("    [Form(Type = nameof(FieldType.File))]");
+                else if (item.Type == FieldType.Switch)
+                    sb.AppendLine("    [Form(Type = nameof(FieldType.Switch))]");
+                else if (item.Type == FieldType.Date)
+                    sb.AppendLine("    [Form(Type = nameof(FieldType.Date))]");
+                else if (item.Type == FieldType.DateTime)
+                    sb.AppendLine("    [Form(Type = nameof(FieldType.DateTime))]");
+                else if (item.Type == FieldType.TextArea)
+                    sb.AppendLine("    [Form(Type = nameof(FieldType.TextArea))]");
+                else
+                    sb.AppendLine("    [Form]");
+            }
             sb.AppendLine("    [DisplayName(\"{0}\")]", item.Name);
             sb.AppendLine("    public {0} {1} {{ get; set; }}", type, item.Id);
         }

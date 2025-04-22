@@ -37,6 +37,20 @@ public interface ICodeService : IService
     /// <param name="info">代码模型信息。</param>
     /// <returns></returns>
     Task<Result> SaveModelAsync(CodeModelInfo info);
+
+    /// <summary>
+    /// 异步保存代码。
+    /// </summary>
+    /// <param name="info">代码信息。</param>
+    /// <returns>创建结果。</returns>
+    Task<Result> SaveCodeAsync(AutoInfo<string> info);
+
+    /// <summary>
+    /// 异步创建数据库表。
+    /// </summary>
+    /// <param name="info">建表脚本对象。</param>
+    /// <returns>创建结果。</returns>
+    Task<Result> CreateTableAsync(AutoInfo<string> info);
 }
 
 [Client]
@@ -65,6 +79,16 @@ class CodeClient(HttpClient http) : ClientBase(http), ICodeService
     public Task<Result> SaveModelAsync(CodeModelInfo info)
     {
         return Http.PostAsync("/Code/SaveModel", info);
+    }
+
+    public Task<Result> SaveCodeAsync(AutoInfo<string> info)
+    {
+        return Http.PostAsync("/Code/SaveCode", info);
+    }
+
+    public Task<Result> CreateTableAsync(AutoInfo<string> info)
+    {
+        return Http.PostAsync("/Code/CreateTable", info);
     }
 }
 
@@ -97,5 +121,15 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
     {
         AppData.SaveCodeModel(info);
         return Result.SuccessAsync("保存成功！", info);
+    }
+
+    public Task<Result> SaveCodeAsync(AutoInfo<string> info)
+    {
+        return Result.SuccessAsync("保存成功！");
+    }
+
+    public Task<Result> CreateTableAsync(AutoInfo<string> info)
+    {
+        return Result.SuccessAsync("执行成功！");
     }
 }

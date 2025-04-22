@@ -12,7 +12,7 @@ partial class CodeGenerator
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("@inherits BaseForm<{0}>", modelName);
-        sb.AppendLine("");
+        sb.AppendLine(" ");
         sb.AppendLine("<AntForm Form=\"Model\">");
         var rowNos = form.Fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
@@ -40,6 +40,17 @@ partial class CodeGenerator
             }
         }
         sb.AppendLine("</AntForm>");
+        if (Model.HasFile)
+        {
+            sb.AppendLine(" ");
+            sb.AppendLine("@code {");
+            sb.AppendLine("    private Task OnFilesChanged(string id, List<FileDataInfo> files)");
+            sb.AppendLine("    {");
+            sb.AppendLine("        Model.Files[id] = files;");
+            sb.AppendLine("        return Task.CompletedTask;");
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+        }
         return sb.ToString();
     }
 
@@ -53,7 +64,7 @@ partial class CodeGenerator
         if (item.Type != FieldType.File)
             sb.AppendLine("            <{0} @bind-Value=\"@context.{1}\" />", control, item.Id);
         else
-            sb.AppendLine("            <KUpload Value=\"@context.{0}\" IsButton=\"!Model.Data.IsNew\" />", item.Id);
+            sb.AppendLine("            <KUpload Value=\"@context.{0}\" OnFilesChanged=\"files=>OnFilesChanged(\"{0}\", files)\" />", item.Id);
         sb.AppendLine("        </DataItem>");
     }
 
@@ -64,7 +75,7 @@ partial class CodeGenerator
             FieldType.Text => nameof(AntInput),
             FieldType.TextArea => nameof(AntTextArea),
             FieldType.Date => nameof(AntDatePicker),
-            FieldType.Number => "AntNumber",
+            FieldType.Number => nameof(AntDecimal),
             FieldType.Switch => nameof(AntSwitch),
             FieldType.CheckBox => nameof(AntCheckBox),
             FieldType.CheckList => nameof(AntCheckboxGroup),

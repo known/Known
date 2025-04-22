@@ -70,7 +70,7 @@ public class CodeModelInfo
     /// <summary>
     /// 取得模型类路径。
     /// </summary>
-    [JsonIgnore] public string ModelPath => $"{Namespace}/Models/{ModelName}.cs";
+    [JsonIgnore] public string ModelPath => $"Models/{ModelName}.cs";
 
     /// <summary>
     /// 取得实体类名称。
@@ -80,7 +80,7 @@ public class CodeModelInfo
     /// <summary>
     /// 取得实体类路径。
     /// </summary>
-    [JsonIgnore] public string EntityPath => $"{Namespace}.Web/Entities/{EntityName}.cs";
+    [JsonIgnore] public string EntityPath => $"Entities/{EntityName}.cs";
 
     /// <summary>
     /// 取得页面类名称。
@@ -90,7 +90,7 @@ public class CodeModelInfo
     /// <summary>
     /// 取得页面类路径。
     /// </summary>
-    [JsonIgnore] public string PagePath => $"{Namespace}/Pages/{PageName}.cs";
+    [JsonIgnore] public string PagePath => $"Pages/{PageName}.cs";
 
     /// <summary>
     /// 取得表单类名称。
@@ -100,7 +100,7 @@ public class CodeModelInfo
     /// <summary>
     /// 取得表单类路径。
     /// </summary>
-    [JsonIgnore] public string FormPath => $"{Namespace}/Pages/{FormName}.razor";
+    [JsonIgnore] public string FormPath => $"Pages/{FormName}.razor";
 
     /// <summary>
     /// 取得服务类名称。
@@ -110,12 +110,12 @@ public class CodeModelInfo
     /// <summary>
     /// 取得服务接口路径。
     /// </summary>
-    [JsonIgnore] public string ServiceIPath => $"{Namespace}/Services/{ServiceName}.cs";
+    [JsonIgnore] public string ServiceIPath => $"Services/{ServiceName}.cs";
 
     /// <summary>
     /// 取得服务实现类路径。
     /// </summary>
-    [JsonIgnore] public string ServicePath => $"{Namespace}.Web/Services/{ServiceName}.cs";
+    [JsonIgnore] public string ServicePath => $"Services/{ServiceName}.cs";
 
     /// <summary>
     /// 取得是否包含附件字段。

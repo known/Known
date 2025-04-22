@@ -76,4 +76,58 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
         await db.SaveAsync(model);
         return Result.Success("保存成功！", info);
     }
+
+    public async Task<Result> SaveCodeAsync(AutoInfo<string> info)
+    {
+        if (!Config.IsDebug)
+            return Result.Error("非开发环境，不能保存代码！");
+
+        if (string.IsNullOrWhiteSpace(info.PageId))
+            return Result.Error("路径不能为空！");
+
+        var path = GetCodePath(info.PluginId, info.PageId);
+        if (File.Exists(path))
+            return Result.Error($"文件[{info.PageId}]已存在！");
+
+        await Utils.SaveFileAsync(path, info.Data);
+        return Result.Success("保存成功！");
+    }
+
+    public async Task<Result> CreateTableAsync(AutoInfo<string> info)
+    {
+        var database = Database;
+        var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
+        var database1 = await database.GetDatabaseAsync(autoPage);
+        // autoPage为空时，为Admin插件创建表，表名取info.PageId
+        return await database1.CreateTableAsync(autoPage?.Script ?? info.PageId, info.Data);
+    }
+
+    private static string GetCodePath(string name, string path)
+    {
+        var projectPath = Config.App.ContentRoot?.Replace(".Web", "");
+        var code = CoreOption.Instance.Code ?? new CodeConfigInfo();
+        if (string.IsNullOrWhiteSpace(code.ModelPath))
+            code.ModelPath = projectPath;
+        if (string.IsNullOrWhiteSpace(code.PagePath))
+            code.PagePath = projectPath;
+        if (string.IsNullOrWhiteSpace(code.FormPath))
+            code.FormPath = projectPath;
+        if (string.IsNullOrWhiteSpace(code.ServiceIPath))
+            code.ServiceIPath = projectPath;
+        if (string.IsNullOrWhiteSpace(code.EntityPath))
+            code.EntityPath = Config.App.ContentRoot;
+        if (string.IsNullOrWhiteSpace(code.ServicePath))
+            code.ServicePath = Config.App.ContentRoot;
+
+        return name switch
+        {
+            CodeTab.Info => Path.Combine(code.ModelPath, path),
+            CodeTab.Entity => Path.Combine(code.EntityPath, path),
+            CodeTab.Page => Path.Combine(code.PagePath, path),
+            CodeTab.Form => Path.Combine(code.FormPath, path),
+            CodeTab.ServiceI => Path.Combine(code.ServiceIPath, path),
+            CodeTab.Service => Path.Combine(code.ServicePath, path),
+            _ => ""
+        };
+    }
 }

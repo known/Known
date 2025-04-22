@@ -23,6 +23,7 @@ partial class CodeGenerator
         sb.AppendLine("    {");
         sb.AppendLine("        await base.OnInitPageAsync();");
         sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
+        sb.AppendLine("        Table.FormType = typeof({0});", Model.FormName);
         sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");
         sb.AppendLine(" ");

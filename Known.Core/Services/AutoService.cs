@@ -3,8 +3,6 @@
 [WebApi, Service]
 class AutoService(Context context) : ServiceBase(context), IAutoService
 {
-    private readonly string ClientPath = Config.App.ContentRoot?.Replace(".Web", "");
-
     public async Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
     {
         var database = Database;
@@ -104,49 +102,5 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             model.SetValue(idField, id);
             await db.SaveAsync(tableName, model, idField, autoPage?.PageType == AutoPageType.NewTable);
         }, model);
-    }
-
-    public Task<CodeConfigInfo> GetCodeConfigAsync()
-    {
-        var info = new CodeConfigInfo();
-        if (Config.IsDebug)
-        {
-            var serverPath = Config.App.ContentRoot;
-            info.EntityPath = CoreOption.Instance.Code?.EntityPath ?? ClientPath;
-            info.PagePath = CoreOption.Instance.Code?.PagePath ?? ClientPath;
-            info.ServicePath = CoreOption.Instance.Code?.ServicePath ?? serverPath;
-        }
-        return Task.FromResult(info);
-    }
-
-    public async Task<Result> SaveCodeAsync(AutoInfo<string> info)
-    {
-        if (!Config.IsDebug)
-            return Result.Error("非开发环境，不能保存代码！");
-
-        if (string.IsNullOrWhiteSpace(info.PageId))
-            return Result.Error("路径不能为空！");
-
-        var path = info.PageId;
-        if (!path.StartsWith(ClientPath))
-        {
-            var dir = new DirectoryInfo(ClientPath);
-            path = Path.Combine(dir.Parent.FullName, path);
-        }
-
-        if (File.Exists(path))
-            return Result.Error($"文件[{info.PageId}]已存在！");
-
-        await Utils.SaveFileAsync(path, info.Data);
-        return Result.Success("保存成功！");
-    }
-
-    public async Task<Result> CreateTableAsync(AutoInfo<string> info)
-    {
-        var database = Database;
-        var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
-        var database1 = await database.GetDatabaseAsync(autoPage);
-        // autoPage为空时，为Admin插件创建表，表名取info.PageId
-        return await database1.CreateTableAsync(autoPage?.Script ?? info.PageId, info.Data);
     }
 }

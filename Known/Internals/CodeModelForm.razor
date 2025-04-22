@@ -5,7 +5,7 @@
 }
 <KHeadList Class="kui-coding-form" ListTitle="字段信息">
     <Head>
-        <div class="kui-small">
+        <KForm SmallLabel SmallRow>
             <KRow>
                 <FieldItem Label="代码" Required>
                     <AntInput @bind-Value="Model.Code" />
@@ -28,7 +28,7 @@
                     <AntCheckboxGroup @bind-Value="Model.Functions" Codes="Functions" />
                 </FieldItem>
             </KRow>
-        </div>
+        </KForm>
     </Head>
     <Toolbar>
         <KButton Type="ButtonType.Primary" Icon="plus" Name="新建模型" OnClick="OnNew" />

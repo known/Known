@@ -5,16 +5,8 @@
 /// </summary>
 public class CodingTabs : BaseComponent
 {
-    private const string TabScript = "建表脚本";
-    private const string TabInfo = "信息类";
-    private const string TabEntity = "实体类";
-    private const string TabPage = "页面组件";
-    private const string TabForm = "表单组件";
-    private const string TabServiceI = "服务接口";
-    private const string TabService = "服务实现";
-
     private readonly TabModel Tab = new();
-    private IAutoService Service;
+    private ICodeService Service;
     private string currentTab = "";
 
     [Inject] private ICodeGenerator Generator { get; set; }
@@ -43,7 +35,7 @@ public class CodingTabs : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Service = await CreateServiceAsync<IAutoService>();
+        Service = await CreateServiceAsync<ICodeService>();
 
         currentTab = ModelTabs.Keys.First();
         Tab.Class = Class;
@@ -51,13 +43,13 @@ public class CodingTabs : BaseComponent
         {
             Tab.AddTab(tab.Key, tab.Value);
         }
-        Tab.AddTab(TabScript, BuildCode);
-        Tab.AddTab(TabInfo, BuildCode);
-        Tab.AddTab(TabEntity, BuildCode);
-        Tab.AddTab(TabPage, BuildCode);
-        Tab.AddTab(TabForm, BuildCode);
-        Tab.AddTab(TabServiceI, BuildCode);
-        Tab.AddTab(TabService, BuildCode);
+        Tab.AddTab(CodeTab.Script, BuildCode);
+        Tab.AddTab(CodeTab.Info, BuildCode);
+        Tab.AddTab(CodeTab.Entity, BuildCode);
+        Tab.AddTab(CodeTab.Page, BuildCode);
+        Tab.AddTab(CodeTab.Form, BuildCode);
+        Tab.AddTab(CodeTab.ServiceI, BuildCode);
+        Tab.AddTab(CodeTab.Service, BuildCode);
 
         Tab.OnChange = tab =>
         {
@@ -84,7 +76,7 @@ public class CodingTabs : BaseComponent
         if (ModelTabs.ContainsKey(currentTab))
             return;
 
-        if (currentTab == TabScript)
+        if (currentTab == CodeTab.Script)
         {
             builder.Button("执行", this.Callback<MouseEventArgs>(OnExecute));
         }
@@ -116,7 +108,7 @@ public class CodingTabs : BaseComponent
     {
         var path = GetCodePath(currentTab);
         var code = GenerateCode(currentTab);
-        var info = new AutoInfo<string> { PageId = path, Data = code };
+        var info = new AutoInfo<string> { PageId = path, PluginId = currentTab, Data = code };
         var result = await Service.SaveCodeAsync(info);
         UI.Result(result);
     }
@@ -125,7 +117,7 @@ public class CodingTabs : BaseComponent
     {
         return name switch
         {
-            TabForm => "html",
+            CodeTab.Form => "html",
             _ => "csharp"
         };
     }
@@ -134,12 +126,12 @@ public class CodingTabs : BaseComponent
     {
         return name switch
         {
-            TabInfo => Model.ModelPath,
-            TabEntity => Model.EntityPath,
-            TabPage => Model.PagePath,
-            TabForm => Model.FormPath,
-            TabServiceI => Model.ServiceIPath,
-            TabService => Model.ServicePath,
+            CodeTab.Info => Model.ModelPath,
+            CodeTab.Entity => Model.EntityPath,
+            CodeTab.Page => Model.PagePath,
+            CodeTab.Form => Model.FormPath,
+            CodeTab.ServiceI => Model.ServiceIPath,
+            CodeTab.Service => Model.ServicePath,
             _ => ""
         };
     }
@@ -148,12 +140,12 @@ public class CodingTabs : BaseComponent
     {
         return name switch
         {
-            TabInfo => $"{Model.ModelName}.cs",
-            TabEntity => $"{Model.EntityName}.cs",
-            TabPage => $"{Model.PageName}.cs",
-            TabForm => $"{Model.FormName}.razor",
-            TabServiceI => $"{Model.ServiceName}.cs",
-            TabService => $"{Model.ServiceName}.cs",
+            CodeTab.Info => $"{Model.ModelName}.cs",
+            CodeTab.Entity => $"{Model.EntityName}.cs",
+            CodeTab.Page => $"{Model.PageName}.cs",
+            CodeTab.Form => $"{Model.FormName}.razor",
+            CodeTab.ServiceI => $"{Model.ServiceName}.cs",
+            CodeTab.Service => $"{Model.ServiceName}.cs",
             _ => ""
         };
     }
@@ -163,13 +155,13 @@ public class CodingTabs : BaseComponent
         Generator.Model = Model;
         return name switch
         {
-            TabScript => Generator.GetScript(Config.DatabaseType, Model.Entity),
-            TabInfo => Generator.GetModel(Model.Entity),
-            TabEntity => Generator.GetEntity(Model.Entity),
-            TabPage => Generator.GetPage(Model.Page, Model.Entity),
-            TabForm => Generator.GetForm(Model.Form, Model.Entity),
-            TabServiceI => Generator.GetIService(Model.Page, Model.Entity, true),
-            TabService => Generator.GetService(Model.Page, Model.Entity),
+            CodeTab.Script => Generator.GetScript(Config.DatabaseType, Model.Entity),
+            CodeTab.Info => Generator.GetModel(Model.Entity),
+            CodeTab.Entity => Generator.GetEntity(Model.Entity),
+            CodeTab.Page => Generator.GetPage(Model.Page, Model.Entity),
+            CodeTab.Form => Generator.GetForm(Model.Form, Model.Entity),
+            CodeTab.ServiceI => Generator.GetIService(Model.Page, Model.Entity, true),
+            CodeTab.Service => Generator.GetService(Model.Page, Model.Entity),
             _ => ""
         };
     }

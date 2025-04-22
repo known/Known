@@ -8,7 +8,7 @@ class EntityView : BaseView<EntityInfo>
     private string tableName;
     private string tableScript;
     private DatabaseType dbType;
-    private IAutoService Auto;
+    private ICodeService Service;
 
     internal override async Task SetModelAsync(EntityInfo model)
     {
@@ -20,7 +20,7 @@ class EntityView : BaseView<EntityInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Auto = await CreateServiceAsync<IAutoService>();
+        Service = await CreateServiceAsync<ICodeService>();
 
         dbType = Database.Create().DatabaseType;
         SetViewData(Model);
@@ -64,7 +64,7 @@ class EntityView : BaseView<EntityInfo>
         BuildAction(builder, Language["Designer.Execute"], async () =>
         {
             var info = new AutoInfo<string> { PageId = tableName, Data = tableScript };
-            var result = await Auto.CreateTableAsync(info);
+            var result = await Service.CreateTableAsync(info);
             UI.Result(result);
         }, "sql");
         BuildCode(builder, "script", "", $"{Model?.Id}.sql", script);

@@ -33,26 +33,6 @@ public interface IAutoService : IService
     /// <param name="info">保存表单对象。</param>
     /// <returns>保存结果。</returns>
     Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info);
-
-    /// <summary>
-    /// 异步获取代码配置信息。
-    /// </summary>
-    /// <returns>代码配置信息。</returns>
-    Task<CodeConfigInfo> GetCodeConfigAsync();
-
-    /// <summary>
-    /// 异步保存代码。
-    /// </summary>
-    /// <param name="info">代码信息。</param>
-    /// <returns>创建结果。</returns>
-    Task<Result> SaveCodeAsync(AutoInfo<string> info);
-
-    /// <summary>
-    /// 异步创建数据库表。
-    /// </summary>
-    /// <param name="info">建表脚本对象。</param>
-    /// <returns>创建结果。</returns>
-    Task<Result> CreateTableAsync(AutoInfo<string> info);
 }
 
 [Service]
@@ -86,21 +66,6 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
             info.Model[id] = Utils.GetNextId();
         return SaveModelAsync(info.PageId, info.Model);
     }
-
-    public Task<CodeConfigInfo> GetCodeConfigAsync()
-    {
-        return Task.FromResult(new CodeConfigInfo());
-    }
-
-    public Task<Result> SaveCodeAsync(AutoInfo<string> info)
-    {
-        return Result.SuccessAsync("保存成功！");
-    }
-
-    public Task<Result> CreateTableAsync(AutoInfo<string> info)
-    {
-        return Result.SuccessAsync("执行成功！");
-    }
 }
 
 [Client]
@@ -124,20 +89,5 @@ class AutoClient(HttpClient http) : ClientBase(http), IAutoService
     public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
     {
         return Http.PostAsync("/Auto/SaveModel", info);
-    }
-
-    public Task<CodeConfigInfo> GetCodeConfigAsync()
-    {
-        return Http.GetAsync<CodeConfigInfo>("/Auto/GetCodeConfig");
-    }
-
-    public Task<Result> SaveCodeAsync(AutoInfo<string> info)
-    {
-        return Http.PostAsync("/Auto/SaveCode", info);
-    }
-
-    public Task<Result> CreateTableAsync(AutoInfo<string> info)
-    {
-        return Http.PostAsync("/Auto/CreateTable", info);
     }
 }
