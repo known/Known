@@ -69,8 +69,9 @@
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
 .kui-form .ant-form-item-label .anticon {color:#f50;}
-.kui-small .ant-form-item-label {width:85px;}
-.kui-small-row .ant-form-item {margin-bottom:10px;}
+.kui-form.small-label .ant-form-item-label, .kui-small .ant-form-item-label {width:85px;}
+.kui-form.small-row .ant-form-item, .kui-small-row .ant-form-item {margin-bottom:10px;}
+.kui-form.readonly .ant-form-item {align-items:center;}
 .kui-tab-form, .kui-form-tab {margin-top:-10px;}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
 .kui-tab-form .ant-tabs-tabpane {padding:0 10px;}
