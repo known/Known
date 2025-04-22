@@ -25,8 +25,6 @@
 @code {
     [Inject] private UIContext Context { get; set; }
     [CascadingParameter] private HttpContext HttpContext { get; set; }
-    //private InteractiveAutoRenderMode InteractiveMode => new(false);
-    //private InteractiveServerRenderMode InteractiveMode => new(false);
     //private InteractiveServerRenderMode InteractiveMode => HttpContext.Request.Path.StartsWithSegments("/login1") ? null : new(false);
 
     protected override void OnInitialized()
