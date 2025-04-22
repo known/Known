@@ -7,6 +7,8 @@ public class CodingTabs : BaseComponent
 {
     private readonly TabModel Tab = new();
     private ICodeService Service;
+    private bool isAutoMode = Config.RenderMode == RenderType.Auto;
+    private string firstTab = "";
     private string currentTab = "";
 
     [Inject] private ICodeGenerator Generator { get; set; }
@@ -37,7 +39,8 @@ public class CodingTabs : BaseComponent
         await base.OnInitAsync();
         Service = await CreateServiceAsync<ICodeService>();
 
-        currentTab = ModelTabs.Keys.First();
+        firstTab = ModelTabs.Keys.First();
+        currentTab = firstTab;
         Tab.Class = Class;
         foreach (var tab in ModelTabs)
         {
@@ -65,6 +68,12 @@ public class CodingTabs : BaseComponent
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
+        foreach (var item in Tab.Items)
+        {
+            if (item.Id == CodeTab.Info || item.Id == CodeTab.ServiceI)
+                item.IsVisible = isAutoMode;
+        }
+
         if (!string.IsNullOrWhiteSpace(Title))
             builder.Div("kui-card", () => builder.Tabs(Tab));
         else
@@ -73,6 +82,16 @@ public class CodingTabs : BaseComponent
 
     private void BuildTabRight(RenderTreeBuilder builder)
     {
+        if (currentTab == firstTab)
+        {
+            builder.Component<AntSwitch>()
+                   .Set(c => c.Value, isAutoMode)
+                   .Set(c => c.ValueChanged, this.Callback<bool>(value => isAutoMode = value))
+                   .Set(c => c.CheckedChildren, "Auto模式")
+                   .Set(c => c.UnCheckedChildren, "Server模式")
+                   .Build();
+        }
+
         if (ModelTabs.ContainsKey(currentTab))
             return;
 
@@ -152,6 +171,7 @@ public class CodingTabs : BaseComponent
 
     private string GenerateCode(string name)
     {
+        Model.IsAutoMode = isAutoMode;
         Generator.Model = Model;
         return name switch
         {

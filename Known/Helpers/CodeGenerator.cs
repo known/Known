@@ -112,4 +112,12 @@ partial class CodeGenerator : ICodeGenerator
         sb.AppendLine("}");
         return sb.ToString();
     }
+
+    private string GetModelName(string entityId)
+    {
+        var modelName = Model.IsAutoMode ? Model.ModelName : Model.EntityName;
+        if (string.IsNullOrWhiteSpace(modelName))
+            modelName = entityId;
+        return modelName;
+    }
 }

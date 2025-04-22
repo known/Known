@@ -4,10 +4,7 @@ partial class CodeGenerator
 {
     public string GetForm(FormInfo form, EntityInfo entity)
     {
-        var modelName = Model.ModelName;
-        if (string.IsNullOrWhiteSpace(modelName))
-            modelName = entity.Id;
-
+        var modelName = GetModelName(entity.Id);
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
@@ -20,7 +17,7 @@ partial class CodeGenerator
             foreach (var item in form.Fields)
             {
                 sb.AppendLine("    <AntRow>");
-                AppendDataItem(sb, item, 24);
+                AppendDataItem(sb, item, 24, modelName);
                 sb.AppendLine("    </AntRow>");
             }
         }
@@ -34,7 +31,7 @@ partial class CodeGenerator
                 foreach (var item in fields)
                 {
                     var span = item.Span ?? colSpan;
-                    AppendDataItem(sb, item, span);
+                    AppendDataItem(sb, item, span, modelName);
                 }
                 sb.AppendLine("    </AntRow>");
             }
@@ -54,7 +51,7 @@ partial class CodeGenerator
         return sb.ToString();
     }
 
-    private static void AppendDataItem(StringBuilder sb, FormFieldInfo item, int span)
+    private static void AppendDataItem(StringBuilder sb, FormFieldInfo item, int span, string modelName)
     {
         var control = GetControlName(item.Type);
         if (item.Required)
@@ -64,7 +61,7 @@ partial class CodeGenerator
         if (item.Type != FieldType.File)
             sb.AppendLine("            <{0} @bind-Value=\"@context.{1}\" />", control, item.Id);
         else
-            sb.AppendLine("            <KUpload Value=\"@context.{0}\" OnFilesChanged=\"@(files=>OnFilesChanged(\"{0}\", files))\" />", item.Id);
+            sb.AppendLine("            <KUpload Value=\"@context.{0}\" OnFilesChanged=\"@(files=>OnFilesChanged(nameof({0}.{1}), files))\" />", modelName, item.Id);
         sb.AppendLine("        </DataItem>");
     }
 

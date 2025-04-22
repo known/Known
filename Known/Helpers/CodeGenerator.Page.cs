@@ -4,10 +4,7 @@ partial class CodeGenerator
 {
     public string GetPage(PageInfo page, EntityInfo entity)
     {
-        var modelName = Model.ModelName;
-        if (string.IsNullOrWhiteSpace(modelName))
-            modelName = entity.Id;
-
+        var modelName = GetModelName(entity.Id);
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
@@ -17,12 +14,16 @@ partial class CodeGenerator
         sb.AppendLine("[Menu(Constants.BaseData, \"{0}\", \"file\", 1)]", entity.Name);
         sb.AppendLine("public class {0}List : BaseTablePage<{1}>", className, modelName);
         sb.AppendLine("{");
-        sb.AppendLine("    private I{0}Service Service;", className);
+        if (Model.IsAutoMode)
+            sb.AppendLine("    private I{0}Service Service;", className);
+        else
+            sb.AppendLine("    private {0}Service Service => new {0}Service(Context);", className);
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        await base.OnInitPageAsync();");
-        sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
+        if (Model.IsAutoMode)
+            sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
         sb.AppendLine("        Table.FormType = typeof({0});", Model.FormName);
         sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");

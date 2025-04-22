@@ -4,10 +4,7 @@ partial class CodeGenerator
 {
     public string GetIService(PageInfo page, EntityInfo entity, bool hasClient = false)
     {
-        var modelName = Model.ModelName;
-        if (string.IsNullOrWhiteSpace(modelName))
-            modelName = entity.Id;
-
+        var modelName = GetModelName(entity.Id);
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();

@@ -48,6 +48,11 @@ public class CodeModelInfo
     public List<CodeFieldInfo> Fields { get; set; } = [];
 
     /// <summary>
+    /// 取得或设置是否是Auto模式。
+    /// </summary>
+    [JsonIgnore] public bool IsAutoMode { set; get; }
+
+    /// <summary>
     /// 取得或设置实体模型信息。
     /// </summary>
     [JsonIgnore] public EntityInfo Entity { get; set; }

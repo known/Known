@@ -92,11 +92,14 @@ public class AutoPageInfo
         if (!string.IsNullOrWhiteSpace(EntityData))
             return DataHelper.ToEntity(EntityData);
 
-        return new EntityInfo
+        var info = new EntityInfo { Id = Script, Name = Name };
+        foreach (var item in Form.Fields)
         {
-            Id = Script,
-            Name = Name,
-            Fields = [.. Form?.Fields?.Select(f => f.ToField())]
-        };
+            var field = item.ToField();
+            field.IsForm = true;
+            field.IsGrid = Page.Columns.Exists(d => d.Id == field.Id);
+            info.Fields.Add(field);
+        }
+        return info;
     }
 }

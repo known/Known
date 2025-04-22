@@ -5,25 +5,28 @@ partial class CodeGenerator
     public string GetService(PageInfo page, EntityInfo entity)
     {
         var hasFile = Model.HasFile;
-        var modelName = Model.ModelName;
-        if (string.IsNullOrWhiteSpace(modelName))
-            modelName = entity.Id;
-
         var entityName = Model.EntityName;
         if (string.IsNullOrWhiteSpace(entityName))
             entityName = entity.Id;
 
+        var modelName = GetModelName(entity.Id);
         var pluralName = GetPluralName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Services;", Model.Namespace);
         sb.AppendLine(" ");
         sb.AppendLine("[WebApi, Service]");
-        sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
+        if (Model.IsAutoMode)
+            sb.AppendLine("class {0}Service(Context context) : ServiceBase(context), I{0}Service", className);
+        else
+            sb.AppendLine("class {0}Service(Context context) : ServiceBase(context)", className);
         sb.AppendLine("{");
         sb.AppendLine("    public Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria)", modelName, pluralName);
         sb.AppendLine("    {");
-        sb.AppendLine("        return Database.Query<{0}>(criteria).ToPageAsync<{1}>();", entityName, modelName);
+        if (Model.IsAutoMode)
+            sb.AppendLine("        return Database.Query<{0}>(criteria).ToPageAsync<{1}>();", entityName, modelName);
+        else
+            sb.AppendLine("        return Database.QueryPageAsync<{0}>(criteria);", entityName);
         sb.AppendLine("    }");
 
         if (HasDelete(page))
@@ -69,7 +72,7 @@ partial class CodeGenerator
                 sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
                 sb.AppendLine(" ");
                 sb.AppendLine("        var database = Database;");
-                sb.AppendLine("        return await database.TransactionAsync(Language[\"Button.{0}\"], async db =>", item);
+                sb.AppendLine("        return await database.TransactionAsync(Language[\"{0}\"], async db =>", item);
                 sb.AppendLine("        {");
                 sb.AppendLine("        });");
                 sb.AppendLine("    }");
@@ -107,12 +110,17 @@ partial class CodeGenerator
             sb.AppendLine("        if (!vr.IsValid)");
             sb.AppendLine("            return vr;");
             sb.AppendLine(" ");
-            if (hasFile)
-                sb.AppendLine("        var bizFiles = info.Files.GetAttachFiles(nameof({0}.Files), \"{0}Files\");", modelName);
+            var fileFields = Model.Fields.Where(f => f.Type == FieldType.File).ToList() ?? [];
+            foreach (var item in fileFields)
+            {
+                sb.AppendLine("        var file{0} = info.Files?.GetAttachFiles(nameof({1}.{0}), \"{2}Files\");", item.Id, modelName, className);
+            }
             sb.AppendLine("        return await database.TransactionAsync(Language.Save, async db =>");
             sb.AppendLine("        {");
-            if (hasFile)
-                sb.AppendLine("            await db.AddFilesAsync(bizFiles, model.Id, key => model.Files = key);");
+            foreach (var item in fileFields)
+            {
+                sb.AppendLine("            await db.AddFilesAsync(file{0}, model.Id, key => model.{0} = key);", item.Id);
+            }
             sb.AppendLine("            await db.SaveAsync(model);");
             sb.AppendLine("            info{0}.Id = model.Id;", model);
             sb.AppendLine("        }}, info{0});", model);
