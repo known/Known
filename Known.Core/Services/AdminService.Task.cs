@@ -28,7 +28,8 @@ partial class AdminService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync(Language.Reset, async db =>
+        var bizTypes = new List<string>();
+        var result = await Database.TransactionAsync(Language.Reset, async db =>
         {
             foreach (var item in infos)
             {
@@ -37,8 +38,13 @@ partial class AdminService
                 {
                     task.Status = TaskJobStatus.Pending;
                     await db.SaveAsync(task);
+                    if (!bizTypes.Contains(task.Type))
+                        bizTypes.Add(item.Type);
                 }
             }
         });
+        if (result.IsValid)
+            bizTypes.ForEach(TaskHelper.NotifyRun);
+        return result;
     }
 }

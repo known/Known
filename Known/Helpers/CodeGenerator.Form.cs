@@ -64,7 +64,7 @@ partial class CodeGenerator
         if (item.Type != FieldType.File)
             sb.AppendLine("            <{0} @bind-Value=\"@context.{1}\" />", control, item.Id);
         else
-            sb.AppendLine("            <KUpload Value=\"@context.{0}\" OnFilesChanged=\"files=>OnFilesChanged(\"{0}\", files)\" />", item.Id);
+            sb.AppendLine("            <KUpload Value=\"@context.{0}\" OnFilesChanged=\"@(files=>OnFilesChanged(\"{0}\", files))\" />", item.Id);
         sb.AppendLine("        </DataItem>");
     }
 

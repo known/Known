@@ -16,7 +16,7 @@
     <AntForm Form="model">
         <AntRow>
             <DataItem Span="8" Label="附件">
-                <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="OnFilesChanged" />
+                <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="@(files=>OnFilesChanged("Files", files))" />
             </DataItem>
             <DataItem Span="8" Label="用户">
                 <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
@@ -65,7 +65,7 @@
         });
     }
 
-    private Task OnFilesChanged(List<FileDataInfo> files)
+    private Task OnFilesChanged(string id, List<FileDataInfo> files)
     {
         fileCount = files.Count;
         upload.Clear();
