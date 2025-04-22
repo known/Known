@@ -37,9 +37,10 @@ static class MenuExtension
             if (userModules.Exists(m => m.Id == item.Id))
                 continue;
 
-            AddParentModule(modules, userModules, item);
-            SetPluginPermission(item, moduleIds);
-            userModules.Add(item);
+            var module = item.Clone();
+            AddParentModule(modules, userModules, module);
+            SetPluginPermission(module, moduleIds);
+            userModules.Add(module);
         }
 
         return userModules.ToMenus();
