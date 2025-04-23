@@ -26,10 +26,26 @@ class KModalBody : BaseComponent
 
 class KModalFooter : BaseComponent
 {
+    [Parameter] public bool Closable { get; set; }
+    [Parameter] public RenderFragment Left { get; set; }
+    [Parameter] public List<ActionInfo> Actions { get; set; }
     [Parameter] public Func<Task> OnOk { get; set; }
+    [Parameter] public Func<Task> OnCancel { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.Button(Language?.OK, this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
+        builder.FormAction(() =>
+        {
+            if (Actions != null && Actions.Count > 0)
+            {
+                foreach (var action in Actions)
+                {
+                    builder.Button(action);
+                }
+            }
+            builder.Button("确定", this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
+            if (Closable)
+                builder.Button("取消", this.Callback<MouseEventArgs>(e => OnCancel?.Invoke()), "default");
+        }, Left);
     }
 }

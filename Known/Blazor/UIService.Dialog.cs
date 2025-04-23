@@ -23,33 +23,29 @@ public partial class UIService
             Content = model.Content
             //Content = b => b.Component<KModalBody>().Set(c => c.Content, model.Content).Build()
         };
-
-        if (model.OnOk != null)
-        {
-            if (option.Closable)
-            {
-                option.OkText = Language?.OK;
-                option.CancelText = Language?.Cancel;
-                option.OnOk = e => model.OnOk.Invoke();
-                option.OnCancel = e => model.CloseAsync();
-            }
-            else
-            {
-                option.Footer = BuildTree(b => b.Component<KModalFooter>().Set(c => c.OnOk, model.OnOk).Build());
-            }
-        }
-        else
-        {
-            option.Footer = null;
-        }
-
         if (model.Width != null)
             option.Width = model.Width.Value;
+
         if (model.Footer != null)
             option.Footer = model.Footer;
+        else if (model.OnOk != null)
+            option.Footer = BuildTree(b => BuildDialogFooter(b, model));
+        else
+            option.Footer = null;
 
         var dialog = modal.CreateModal(option);
         model.OnClose = dialog.CloseAsync;
         return true;
+    }
+
+    private static void BuildDialogFooter(RenderTreeBuilder builder, DialogModel model)
+    {
+        builder.Component<KModalFooter>()
+               .Set(c => c.Closable, model.Closable)
+               .Set(c => c.Left, model.FooterLeft)
+               .Set(c => c.Actions, model.Actions)
+               .Set(c => c.OnOk, model.OnOk)
+               .Set(c => c.OnCancel, () => model.CloseAsync())
+               .Build();
     }
 }

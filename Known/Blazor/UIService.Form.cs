@@ -141,21 +141,12 @@ public partial class UIService
 
     private static void BuildFormFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-        builder.FormAction(() =>
-        {
-            if (model.Actions != null && model.Actions.Count > 0)
-            {
-                foreach (var action in model.Actions)
-                {
-                    builder.Button(action);
-                }
-            }
-            if (model.Page != null)
-            {
-                var language = model.Language;
-                builder.Button(language?.OK, model.Page.Callback<MouseEventArgs>(e => model.SaveAsync()));
-                builder.Button(language?.Cancel, model.Page.Callback<MouseEventArgs>(e => model.CloseAsync()), "default");
-            }
-        }, model.FooterLeft);
+        builder.Component<KModalFooter>()
+               .Set(c => c.Closable, true)
+               .Set(c => c.Left, model.FooterLeft)
+               .Set(c => c.Actions, model.Actions)
+               .Set(c => c.OnOk, () => model.SaveAsync())
+               .Set(c => c.OnCancel, () => model.CloseAsync())
+               .Build();
     }
 }

@@ -71,6 +71,16 @@ public class DialogModel
     public RenderFragment Footer { get; set; }
 
     /// <summary>
+    /// 取得或设置表单对话框底部左侧自定义组件。
+    /// </summary>
+    public RenderFragment FooterLeft { get; set; }
+
+    /// <summary>
+    /// 取得表单操作按钮信息列表，用于扩展表单底部按钮。
+    /// </summary>
+    public List<ActionInfo> Actions { get; } = [];
+
+    /// <summary>
     /// 异步关闭对话框。
     /// </summary>
     /// <returns></returns>

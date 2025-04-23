@@ -127,6 +127,7 @@ public class TableModel : BaseModel
     public void ShowAdvancedSearch(BaseLayout app)
     {
         AdvancedSearch search = null;
+        var isAutoClose = true;
         var model = new DialogModel
         {
             Title = Language.AdvSearch,
@@ -136,12 +137,20 @@ public class TableModel : BaseModel
                             .Set(c => c.Columns, AllColumns)
                             .Build(value => search = value)
         };
+        model.FooterLeft = b => b.CheckBox(new InputModel<bool>
+        {
+            Label = "关闭高级搜索框",
+            Value = isAutoClose,
+            ValueChanged = Component.Callback<bool>(value => isAutoClose = value)
+        });
         model.OnOk = async () =>
         {
             await app.QueryDataAsync(async () =>
             {
                 Criteria.Query = await search?.SaveQueryAsync();
                 await RefreshAsync();
+                if (isAutoClose)
+                    await model.CloseAsync();
             });
         };
         UI.ShowDialog(model);
