@@ -80,7 +80,7 @@ public static partial class Extension
 
         TaskScheduler.UnobservedTaskException += (sender, e) =>
         {
-            Logger.Exception(e.Exception);
+            Logger.Exception(LogTarget.Task, new UserInfo { Name = sender.ToString() }, e.Exception);
             e.SetObserved(); // 标记为已处理
         };
         // 进程级，无法阻止程序退出

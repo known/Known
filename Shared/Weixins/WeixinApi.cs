@@ -418,11 +418,11 @@ public static class WeixinApi
 
     private static void WriteInfo(string message)
     {
-        Logger.Information(LogTarget.BackEnd, new UserInfo { UserName = "WeixinApi" }, message);
+        Logger.Information(LogTarget.BackEnd, new UserInfo { Name = "WeixinApi" }, message);
     }
 
     private static void WriteException(Exception ex)
     {
-        Logger.Exception(LogTarget.BackEnd, new UserInfo { UserName = "WeixinApi" }, ex);
+        Logger.Exception(LogTarget.BackEnd, new UserInfo { Name = "WeixinApi" }, ex);
     }
 }

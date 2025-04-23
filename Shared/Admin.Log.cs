@@ -45,6 +45,10 @@ public enum LogTarget
     /// </summary>
     Debug,
     /// <summary>
+    /// Task。
+    /// </summary>
+    Task,
+    /// <summary>
     /// JSON序列化。
     /// </summary>
     JSON,

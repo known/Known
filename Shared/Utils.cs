@@ -385,7 +385,7 @@ TYPE：{type.FullName}
 JSON：{json}
 {ex}
 --------------------------------------------------------";
-        Logger.Error(LogTarget.JSON, null, message);
+        Logger.Error(LogTarget.JSON, new UserInfo { Name = "JSON" }, message);
     }
 
     /// <summary>

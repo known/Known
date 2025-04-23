@@ -73,6 +73,6 @@ public class Stopwatcher
 
     private void WriteLog(string message)
     {
-        Logger.Debug(LogTarget.Debug, null, message);
+        Logger.Debug(LogTarget.Debug, new UserInfo { Name = nameof(Stopwatcher) }, message);
     }
 }

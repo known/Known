@@ -184,7 +184,7 @@ URL：{url}
 DAT：{Utils.ToJson(data)}
 {ex}
 --------------------------------------------------------";
-        Logger.Error(LogTarget.FrontEnd, null, message);
+        Logger.Error(LogTarget.FrontEnd, new UserInfo { Name = "HTTP" }, message);
         ClientOption.Instance.OnError?.Invoke(new ErrorInfo { Url = url, Data = data, Exception = ex });
     }
 }

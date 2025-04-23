@@ -7,7 +7,14 @@ public partial class Logger
         if (Level > type)
             return;
 
-        var log = new LogInfo { Type = type.ToString(), Target = target.ToString(), CreateBy = user?.UserName, CreateTime = DateTime.Now, Content = content };
+        var log = new LogInfo
+        {
+            Type = type.ToString(),
+            Target = target.ToString(),
+            CreateBy = user?.Name ?? user?.UserName,
+            CreateTime = DateTime.Now,
+            Content = content
+        };
         if (target == LogTarget.FrontEnd)
         {
             var scope = Config.ServiceProvider.CreateScope();
