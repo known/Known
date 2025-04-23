@@ -62,22 +62,19 @@ public sealed class Utils
     /// <returns></returns>
     public static object ConvertTo(Type type, object value, object defaultValue = null)
     {
-        if (value == null || value == DBNull.Value)
-            return defaultValue;
+        if (value == null || value == DBNull.Value) return defaultValue;
 
         var valueString = value.ToString();
-        if (type == typeof(string))
-            return valueString;
+        if (type == typeof(string)) return valueString;
 
         valueString = valueString.Trim();
-        if (valueString.Length == 0)
-            return defaultValue;
+        if (valueString.Length == 0) return defaultValue;
 
         if (type.IsEnum)
         {
-            if (Enum.IsDefined(type, valueString))
-                return Enum.Parse(type, valueString, true);
-            return defaultValue;
+            if (Enum.TryParse(type, valueString, true, out object enumValue)) return enumValue;
+            if (defaultValue != null && Enum.IsDefined(type, defaultValue)) return defaultValue;
+            return Enum.GetValues(type).GetValue(0);
         }
 
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
