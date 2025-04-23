@@ -47,7 +47,7 @@ partial class CodeGenerator
         sb.AppendLine("}");
 
         if (hasClient)
-            AppendClient(sb, className, pluralName, page, entity);
+            AppendClient(sb, modelName, className, pluralName, page);
         return sb.ToString();
     }
 

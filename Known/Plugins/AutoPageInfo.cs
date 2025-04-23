@@ -35,6 +35,16 @@ public class AutoPageInfo
     public string Name { get; set; }
 
     /// <summary>
+    /// 取得或设置代码模型表前缀。
+    /// </summary>
+    public string Prefix { get; set; }
+
+    /// <summary>
+    /// 取得或设置代码模型命名空间。
+    /// </summary>
+    public string Namespace { get; set; } = Config.App.Id;
+
+    /// <summary>
     /// 取得或设置页面类型。
     /// </summary>
     public string Type
@@ -92,7 +102,7 @@ public class AutoPageInfo
         if (!string.IsNullOrWhiteSpace(EntityData))
             return DataHelper.ToEntity(EntityData);
 
-        var info = new EntityInfo { Id = Script, Name = Name };
+        var info = new EntityInfo { Id = Id, Name = Name };
         foreach (var item in Form.Fields)
         {
             var field = item.ToField();

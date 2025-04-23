@@ -33,6 +33,15 @@ public class CodingTabs : BaseComponent
     /// </summary>
     [Parameter] public Action<string> OnTabChange { get; set; }
 
+    /// <summary>
+    /// 设置代码配置模型信息。
+    /// </summary>
+    /// <param name="model">代码配置模型信息。</param>
+    public void SetModel(CodeModelInfo model)
+    {
+        Model = model;
+    }
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {

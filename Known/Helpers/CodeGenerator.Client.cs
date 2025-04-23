@@ -4,17 +4,17 @@ partial class CodeGenerator
 {
     public string GetClient(PageInfo page, EntityInfo entity)
     {
+        var modelName = GetModelName(entity.Id);
         var className = DataHelper.GetClassName(entity.Id);
         var pluralName = GetPluralName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Services;", Model.Namespace);
-        AppendClient(sb, className, pluralName, page, entity);
+        AppendClient(sb, modelName, className, pluralName, page);
         return sb.ToString();
     }
 
-    private void AppendClient(StringBuilder sb, string className, string pluralName, PageInfo page, EntityInfo entity)
+    private void AppendClient(StringBuilder sb, string modelName, string className, string pluralName, PageInfo page)
     {
-        var modelName = GetModelName(entity.Id);
         sb.AppendLine(" ");
         sb.AppendLine("[Client]");
         sb.AppendLine("class {0}Client(HttpClient http) : ClientBase(http), I{0}Service", className);

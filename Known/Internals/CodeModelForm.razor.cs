@@ -14,6 +14,7 @@ public partial class CodeModelForm
         new("Import", "导入"),
         new("Export", "导出")
     ];
+    private bool EnableMore = false;
 
     /// <summary>
     /// 取得或设置代码生成服务实例。
@@ -134,6 +135,30 @@ public partial class CodeModelForm
                 Model.Fields.Add(info);
             }
         });
+    }
+
+    private void OnGridSetting(CodeFieldInfo row)
+    {
+        var form = new FormModel<CodeFieldInfo>(this)
+        {
+            Title = "更多表格属性设置",
+            Data = row,
+            Type = typeof(MoreGridSetting),
+            OnSave = data => Result.SuccessAsync("")
+        };
+        UI.ShowForm(form);
+    }
+
+    private void OnFormSetting(CodeFieldInfo row)
+    {
+        var form = new FormModel<CodeFieldInfo>(this)
+        {
+            Title = "更多表单属性设置",
+            Data = row,
+            Type = typeof(MoreFormSetting),
+            OnSave = data => Result.SuccessAsync("")
+        };
+        UI.ShowForm(form);
     }
 
     private void OnDelete(CodeFieldInfo row) => Model.Fields.Remove(row);

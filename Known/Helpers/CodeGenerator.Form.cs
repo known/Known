@@ -5,8 +5,6 @@ partial class CodeGenerator
     public string GetForm(FormInfo form, EntityInfo entity)
     {
         var modelName = GetModelName(entity.Id);
-        var pluralName = GetPluralName(entity.Id);
-        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("@inherits BaseForm<{0}>", modelName);
         sb.AppendLine(" ");

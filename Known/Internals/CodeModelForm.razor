@@ -52,7 +52,7 @@
                 <AntInput @bind-Value="context.Id" />
             </StringColumn>
             <StringColumn Title="类型" Width="150">
-                <AntSelectCode @bind-Value="context.TypeName" Category="@nameof(FieldType)" />
+                <FieldSelect @bind-Value="context.Type" />
             </StringColumn>
             <StringColumn Title="长度" Width="100">
                 <AntInput @bind-Value="context.Length" />
@@ -62,9 +62,15 @@
             </StringColumn>
             <StringColumn Title="表格" Width="60">
                 <AntSwitch @bind-Value="context.IsGrid" />
+                @if (context.IsGrid && EnableMore) {
+                    <KIcon Icon="more" Title="更多表格设置" OnClick="this.Callback<MouseEventArgs>(e=>OnGridSetting(context))" />
+                }
             </StringColumn>
             <StringColumn Title="表单" Width="60">
                 <AntSwitch @bind-Value="context.IsForm" />
+                @if (context.IsForm && EnableMore) {
+                    <KIcon Icon="more" Title="更多表单设置" OnClick="this.Callback<MouseEventArgs>(e=>OnFormSetting(context))" />
+                }
             </StringColumn>
             <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="150" Fixed="ColumnFixPlacement.Right">
                 <KTag Text="上移" Color="blue-inverse" OnClick="()=>OnMoveUp(context)" />
