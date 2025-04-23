@@ -148,6 +148,11 @@ public class AppInfo
     /// 取得系统WebApi配置信息。
     /// </summary>
     public WebApiOption WebApi { get; } = new WebApiOption();
+
+    /// <summary>
+    /// 取得或设置系统因未处理异常导致退出的委托，可用于发送报警。
+    /// </summary>
+    public Action<Exception> OnExit { get; set; }
 }
 
 /// <summary>

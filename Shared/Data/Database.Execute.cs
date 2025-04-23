@@ -268,7 +268,7 @@ public partial class Database
         {
             DbMonitor.OnOperate(info, false);
             HandException(info, ex);
-            throw new SystemException(ex.Message, ex);
+            return -1;
         }
     }
 }

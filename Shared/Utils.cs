@@ -350,7 +350,7 @@ public sealed class Utils
         catch (Exception ex)
         {
             HandleJsonException(typeof(T), json, ex);
-            throw new Exception(ex.Message, ex);
+            return default;
         }
     }
 
@@ -373,7 +373,7 @@ public sealed class Utils
         catch (Exception ex)
         {
             HandleJsonException(type, json, ex);
-            throw new Exception(ex.Message, ex);
+            return null;
         }
     }
 
