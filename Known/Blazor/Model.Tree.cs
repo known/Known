@@ -21,6 +21,11 @@ public class TreeModel
     public bool ExpandRoot { get; set; }
 
     /// <summary>
+    /// 取得或设置树组件默认展开节点的主键集合。
+    /// </summary>
+    public string[] DefaultExpandedKeys { get; set; }
+
+    /// <summary>
     /// 取得或设置树组件选中节点的主键集合。
     /// </summary>
     public string[] SelectedKeys { get; set; }

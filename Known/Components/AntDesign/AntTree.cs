@@ -42,8 +42,10 @@ public class AntTree : Tree<MenuInfo>
         DataSource = Model.Data;
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
-        if (Model.ExpandRoot && Model.Data != null && Model.Data.Count > 0)
-            DefaultExpandedKeys = [Model.Data[0].Id];
+        if (Model.DefaultExpandedKeys != null && Model.DefaultExpandedKeys.Length > 0)
+            DefaultExpandedKeys = Model.DefaultExpandedKeys;
+        else if (Model.ExpandRoot && Model.Data != null && Model.Data.Count > 0)
+            DefaultExpandedKeys = [.. Model.Data.Select(d => d.Id)];
         DefaultSelectedKeys = Model.SelectedKeys;
         DefaultCheckedKeys = Model.CheckedKeys;
         DisableCheckKeys = Model.DisableCheckKeys;
@@ -54,8 +56,10 @@ public class AntTree : Tree<MenuInfo>
         if (Model.OnModelChanged != null)
             Model = await Model.OnModelChanged.Invoke();
         DataSource = Model.Data;
-        if (Model.ExpandRoot && Model.Data != null && Model.Data.Count > 0)
-            DefaultExpandedKeys = [Model.Data[0].Id];
+        if (Model.DefaultExpandedKeys != null && Model.DefaultExpandedKeys.Length > 0)
+            DefaultExpandedKeys = Model.DefaultExpandedKeys;
+        else if (Model.ExpandRoot && Model.Data != null && Model.Data.Count > 0)
+            DefaultExpandedKeys = [.. Model.Data.Select(d => d.Id)];
         DefaultSelectedKeys = Model.SelectedKeys;
         DefaultCheckedKeys = Model.CheckedKeys;
         DisableCheckKeys = Model.DisableCheckKeys;
