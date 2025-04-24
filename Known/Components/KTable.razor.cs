@@ -49,7 +49,6 @@ partial class KTable<TItem> : BaseComponent
 
         try
         {
-            shouldRender = true;
             isQuering = true;
             var watch = Stopwatcher.Start<TItem>();
             Model.Criteria.PageIndex = query.PageIndex;
@@ -72,6 +71,7 @@ partial class KTable<TItem> : BaseComponent
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
+            shouldRender = true;
             watch.Write($"Changed {Model.Criteria.PageIndex}");
         }
         catch (Exception ex)

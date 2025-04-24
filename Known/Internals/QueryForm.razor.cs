@@ -21,7 +21,7 @@ public partial class QueryForm
 
     private async Task OnSearchAsync()
     {
-        Model.Criteria.Query = Model.QueryData.Select(d => d.Value).ToList();
+        Model.Criteria.Query = [.. Model.QueryData.Select(d => d.Value)];
         await Model.SearchAsync();
     }
 

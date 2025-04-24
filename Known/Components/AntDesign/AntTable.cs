@@ -52,6 +52,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
             Resizable = Model.Resizable;
             AutoHeight = Model.AutoHeight;
             RowKey = Model.RowKey;
+            PageIndex = Model.Criteria.PageIndex;
             PageSize = Model.Criteria.PageSize;
             HidePagination = !Model.ShowPager;
             DataSource = Model.DataSource;

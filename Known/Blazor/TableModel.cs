@@ -100,7 +100,11 @@ public class TableModel : BaseModel
     internal virtual Type DataType { get; }
     internal List<ColumnInfo> AllColumns { get; set; } = [];
 
-    internal Task SearchAsync()
+    /// <summary>
+    /// 搜索表格数据，默认显示第一页。
+    /// </summary>
+    /// <returns></returns>
+    public Task SearchAsync()
     {
         if (OnRefresh == null)
             return Task.CompletedTask;
