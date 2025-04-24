@@ -202,10 +202,20 @@ class DbProvider(Database db)
             var orderBys = new List<string>();
             foreach (var item in criteria.OrderBys)
             {
-                var fields = item.Split(' ');
-                var field = FormatName(fields[0]);
-                var sort = fields.Length > 1 ? $" {fields[1]}" : "";
-                orderBys.Add($"{field}{sort}");
+                if (string.IsNullOrWhiteSpace(item))
+                    continue;
+
+                if (item.Contains('('))
+                {
+                    orderBys.Add(item);
+                }
+                else
+                {
+                    var index = item.IndexOf(" desc", StringComparison.OrdinalIgnoreCase);
+                    var field = index > 0 ? FormatName(item[..index].Trim()) : item.Trim();
+                    var sort = index > 0 ? " desc" : "";
+                    orderBys.Add($"{field}{sort}");
+                }
             }
             order = string.Join(",", orderBys);
         }

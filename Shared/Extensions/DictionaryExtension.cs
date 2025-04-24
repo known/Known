@@ -38,10 +38,7 @@ public static class DictionaryExtension
     /// <returns>字典项目值。</returns>
     public static object GetValue(this IDictionary dic, string key)
     {
-        if (dic == null)
-            return null;
-
-        if (string.IsNullOrWhiteSpace(key))
+        if (dic == null || string.IsNullOrWhiteSpace(key))
             return null;
 
         if (dic.Contains(key))
@@ -96,6 +93,9 @@ public static class DictionaryExtension
     /// <param name="value">字段值。</param>
     public static void SetValue(this IDictionary dic, string id, object value)
     {
+        if (dic == null || string.IsNullOrWhiteSpace(id))
+            return;
+
         var key = id;
         if (dic.Contains(id.ToLower()))
             key = id.ToLower();

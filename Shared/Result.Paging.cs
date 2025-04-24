@@ -35,6 +35,11 @@ public class PagingResult<T>
     }
 
     /// <summary>
+    /// 取得或设置返回提示信息。
+    /// </summary>
+    public string Message { get; set; }
+
+    /// <summary>
     /// 取得或设置总记录数。
     /// </summary>
     public int TotalCount { get; set; }

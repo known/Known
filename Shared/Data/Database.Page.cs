@@ -125,7 +125,7 @@ public partial class Database
         catch (Exception ex)
         {
             HandException(info, ex);
-            return new PagingResult<T>();
+            return new PagingResult<T>() { Message = ex.Message };
         }
     }
 }
