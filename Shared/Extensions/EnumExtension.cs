@@ -63,48 +63,28 @@ public static class EnumExtension
     /// <returns>SQL操作符。</returns>
     public static string ToOperator(this QueryType type)
     {
-        switch (type)
+        return type switch
         {
-            case QueryType.Equal:
-                return "=";
-            case QueryType.NotEqual:
-                return "<>";
-            case QueryType.LessThan:
-                return "<";
-            case QueryType.LessEqual:
-                return "<=";
-            case QueryType.GreatThan:
-                return ">";
-            case QueryType.GreatEqual:
-                return ">=";
-            case QueryType.Contain:
-            case QueryType.StartWith:
-            case QueryType.EndWith:
-                return " like ";
-            case QueryType.NotContain:
-            case QueryType.NotStartWith:
-            case QueryType.NotEndWith:
-                return " not like ";
-            default:
-                return string.Empty;
-        }
+            QueryType.Equal => "=",
+            QueryType.NotEqual => "<>",
+            QueryType.LessThan => "<",
+            QueryType.LessEqual => "<=",
+            QueryType.GreatThan => ">",
+            QueryType.GreatEqual => ">=",
+            QueryType.Contain or QueryType.StartWith or QueryType.EndWith => " like ",
+            QueryType.NotContain or QueryType.NotStartWith or QueryType.NotEndWith => " not like ",
+            _ => string.Empty,
+        };
     }
 
     internal static string ToValueFormat(this QueryType type)
     {
-        switch (type)
+        return type switch
         {
-            case QueryType.Contain:
-            case QueryType.NotContain:
-                return "%{0}%";
-            case QueryType.StartWith:
-            case QueryType.NotStartWith:
-                return "{0}%";
-            case QueryType.EndWith:
-            case QueryType.NotEndWith:
-                return "%{0}";
-            default:
-                return string.Empty;
-        }
+            QueryType.Contain or QueryType.NotContain => "%{0}%",
+            QueryType.StartWith or QueryType.NotStartWith => "{0}%",
+            QueryType.EndWith or QueryType.NotEndWith => "%{0}",
+            _ => string.Empty,
+        };
     }
 }

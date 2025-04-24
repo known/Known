@@ -75,7 +75,6 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid var(--kui-color-border);}
 
 /*Table*/
-.kui-table.form-list {padding-top:10px;}
 .kui-table.form-list .kui-toolbar {border-bottom:none;}
 .kui-table .kui-title {padding-left:0;}
 .kui-table .setting {margin-left:5px;cursor:pointer;font-size:18px;}

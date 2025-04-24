@@ -89,6 +89,7 @@ public class PagingCriteria
         Query = [];
         OrderBys = [];
         Fields = [];
+        CmdParams = [];
         PageIndex = 1;
     }
 
