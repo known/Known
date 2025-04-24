@@ -105,13 +105,26 @@ public partial class ColumnBuilder<TItem>
     }
 
     /// <summary>
-    /// 设置表格栏位为排序字段。
+    /// 设置栏位文本超出宽度是否显示省略号，显示则文本不换行。
     /// </summary>
+    /// <param name="elipsis">是否显示省略号。</param>
     /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> Sort()
+    public ColumnBuilder<TItem> Ellipsis(bool elipsis)
     {
         if (column != null)
-            column.IsSort = true;
+            column.Ellipsis = elipsis;
+        return this;
+    }
+
+    /// <summary>
+    /// 设置表格栏位为排序字段。
+    /// </summary>
+    /// <param name="isSort">是否排序字段，默认是。</param>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Sort(bool isSort = true)
+    {
+        if (column != null)
+            column.IsSort = isSort;
         return this;
     }
 

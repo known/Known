@@ -102,6 +102,7 @@ public partial class ColumnInfo
         if (attr.Type != FieldType.Text)
             Type = attr.Type;
         Category = attr.Category;
+        Ellipsis = attr.Ellipsis;
         IsSum = attr.IsSum;
         IsSort = attr.IsSort;
         DefaultSort = attr.DefaultSort;

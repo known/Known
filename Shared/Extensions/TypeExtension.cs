@@ -111,7 +111,7 @@ public static class TypeExtension
     internal static int? GetColumnWidth(this PropertyInfo info)
     {
         var fieldType = info.GetFieldType();
-        if (fieldType == FieldType.Switch) return 60;
+        if (fieldType == FieldType.Switch) return 80;
         if (fieldType == FieldType.Number) return 100;
         if (fieldType == FieldType.Date) return 100;
         if (fieldType == FieldType.DateTime) return 140;
@@ -130,7 +130,7 @@ public static class TypeExtension
     public static int? GetColumnWidth(this Type type)
     {
         var fieldType = type.GetFieldType();
-        if (fieldType == FieldType.Switch) return 60;
+        if (fieldType == FieldType.Switch) return 80;
         if (fieldType == FieldType.Number) return 100;
         if (fieldType == FieldType.Date) return 100;
         if (fieldType == FieldType.DateTime) return 140;

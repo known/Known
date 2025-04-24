@@ -42,7 +42,7 @@
                     var data = context as Dictionary<string, object>;
                     var value = data?.GetValue(item.Id);
                     <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                      Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                      Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                       Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                                       ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                       Align="@item.ToColumnAlign()">
@@ -56,7 +56,7 @@
                     if (typeof(TItem).HasProperty(item.Id)) {
                         var value = TypeHelper.GetPropertyValue(context, item.Id);
                         <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                 Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                                 ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                 Align="@item.ToColumnAlign()">
@@ -68,7 +68,7 @@
                         </Column>
                     } else {
                         <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
-                                Ellipsis ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
                                 Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
                                 Align="@item.ToColumnAlign()" ColSpan="1" RowSpan="1">
                             @if (template != null) {
