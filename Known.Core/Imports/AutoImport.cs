@@ -9,8 +9,8 @@ class AutoImport(ImportContext context) : ImportBase(context)
         if (param == null)
             return Result.Error(Language.Required("EntityPlugin"));
 
-        var entity = param.ToEntity();
-        if (entity == null || string.IsNullOrWhiteSpace(entity.Id))
+        var tableName = param.Script;
+        if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("TableName"));
 
         var fields = param.Form?.Fields;
@@ -38,7 +38,7 @@ class AutoImport(ImportContext context) : ImportBase(context)
         {
             foreach (var item in models)
             {
-                await db.SaveAsync(entity.Id, item);
+                await db.SaveAsync(tableName, item);
             }
         });
     }

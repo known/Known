@@ -102,7 +102,7 @@ public class AutoPageInfo
         if (!string.IsNullOrWhiteSpace(EntityData))
             return DataHelper.ToEntity(EntityData);
 
-        var info = new EntityInfo { Id = Id, Name = Name };
+        var info = new EntityInfo { Id = Id, Name = Name, TableName = Script };
         foreach (var item in Form.Fields)
         {
             var field = item.ToField();

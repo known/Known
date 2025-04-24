@@ -21,6 +21,11 @@ public class EntityInfo
     public string PageUrl { get; set; }
 
     /// <summary>
+    /// 取得或设置数据库表名。
+    /// </summary>
+    public string TableName { get; set; }
+
+    /// <summary>
     /// 取得或设置是否继承实体基类，默认是。
     /// </summary>
     public bool IsEntity { get; set; } = true;

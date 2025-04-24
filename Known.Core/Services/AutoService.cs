@@ -12,7 +12,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var idField = autoPage?.IdField;
         var tableName = criteria.GetParameter<string>("TableName");
         if (string.IsNullOrWhiteSpace(tableName))
-            tableName = autoPage?.ToEntity()?.Id;
+            tableName = autoPage?.Script;
         if (string.IsNullOrWhiteSpace(tableName))
             return new PagingResult<Dictionary<string, object>>();
 
@@ -29,7 +29,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     {
         var database = Database;
         var autoPage = await database.GetAutoPageAsync(pageId, "");
-        var tableName = autoPage?.ToEntity()?.Id;
+        var tableName = autoPage?.Script;
         if (string.IsNullOrWhiteSpace(tableName))
             return [];
 
@@ -42,7 +42,7 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
         var database = Database;
         var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
         var idField = autoPage?.IdField;
-        var tableName = autoPage?.ToEntity()?.Id;
+        var tableName = autoPage?.Script;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
@@ -73,12 +73,12 @@ class AutoService(Context context) : ServiceBase(context), IAutoService
     {
         var database = Database;
         var autoPage = await database.GetAutoPageAsync(info.PageId, info.PluginId);
-        var idField = autoPage?.IdField;
-        var entity = autoPage?.ToEntity();
-        var tableName = entity?.Id;
+        var tableName = autoPage?.Script;
         if (string.IsNullOrWhiteSpace(tableName))
             return Result.Error(Language.Required("tableName"));
 
+        var idField = autoPage?.IdField;
+        var entity = autoPage?.ToEntity();
         var model = info.Model;
         var vr = DataHelper.Validate(Context, entity, model);
         if (!vr.IsValid)
