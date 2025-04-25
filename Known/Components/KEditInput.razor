@@ -3,13 +3,13 @@
 <div class="kui-edit-input">
     @if (isEdit)
     {
-        <AntInput @bind-Value="Value" />
-        <span class="kui-link" @onclick="e=>OnSaveClick()">@Language.OK</span>
-        <span class="kui-link" @onclick="e=>isEdit=false">@Language.Cancel</span>
+        <AntInput Value="@Value" ValueChanged="OnValueChanged" />
+        <span class="ant-menu-item-selected" @onclick="e=>OnSaveClick()">@Language.OK</span>
+        <span class="ant-menu-item-selected" @onclick="e=>isEdit=false">@Language.Cancel</span>
     }
     else
     {
         <span>@Value</span>
-        <span class="kui-link" @onclick="e=>isEdit=true">@Language.Edit</span>
+        <span class="ant-menu-item-selected" @onclick="e=>isEdit=true">@Language.Edit</span>
     }
 </div>

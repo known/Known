@@ -17,6 +17,11 @@ public partial class KEditInput
     /// </summary>
     [Parameter] public Func<string, Task> OnSave { get; set; }
 
+    private void OnValueChanged(string value)
+    {
+        Value = value;
+    }
+
     private void OnSaveClick()
     {
         OnSave?.Invoke(Value);
