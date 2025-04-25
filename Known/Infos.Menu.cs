@@ -331,6 +331,8 @@ public class ActionInfo
     [JsonIgnore]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
+    internal bool Danger => Style == "danger";
+
     /// <summary>
     /// 转换成按钮信息。
     /// </summary>

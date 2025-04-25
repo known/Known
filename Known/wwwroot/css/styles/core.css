@@ -38,7 +38,7 @@
 }
 pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-radius:3px;max-height:300px;overflow:auto;}
 .kui-icon {display:flex;align-items:center;gap:3px;cursor:pointer;}
-.kui-run-mode {position:absolute;top:5px;left:5px;width:auto;font-weight:bold;}
+.kui-run-mode {position:absolute;top:5px;left:5px;width:auto;font-weight:bold;border-radius:5px;padding:0 7px;font-size:12px;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
@@ -124,9 +124,9 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-list-box-body li.active {background-color:#bae7ff;color:#1890ff;border-left-color:#1890ff;}
 
 /*EditInput*/
-.kui-edit-input {display:flex;}
+.kui-edit-input {display:flex;align-items:center;}
 .kui-edit-input input {width:190px;}
-.kui-edit-input .kui-link {margin-left:10px;display:flex;align-items:center;}
+.kui-edit-input span {margin-left:10px;display:flex;align-items:center;}
 
 /*Pick*/
 .kui-picker {position:relative;}

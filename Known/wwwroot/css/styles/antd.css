@@ -14,6 +14,7 @@
 .ant-radio-button-wrapper:first-child {border-radius:5px 0 0 5px;}
 .ant-radio-button-wrapper:last-child {border-radius:0 5px 5px 0;}
 .ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}
+.ant-menu-item-selected {cursor:pointer;}
 
 .ant-badge-count {z-index:100;}
 .ant-btn > .anticon + span, 
@@ -42,6 +43,7 @@
 .ant-toolbar .ant-btn,
 .kui-query-btn .ant-btn,
 .kui-advanced-search .ant-btn {padding:0 10px;}
+td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 
 .ant-modal {top:30px;}
 .ant-modal-body > .ant-steps {padding:10px;}

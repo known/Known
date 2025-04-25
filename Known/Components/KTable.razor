@@ -125,9 +125,9 @@
         } else {
             var text = GetColumnText(item, value);
             if (item.IsViewLink) {
-                <span class="kui-link" @onclick="e=>OnViewForm(context)">@text</span>
+                <span class="ant-menu-item-selected" @onclick="e=>OnViewForm(context)">@text</span>
             } else if (item.LinkAction != null) {
-                <span class="kui-link" @onclick="e=>OnLinkAction(item, context)">@text</span>
+                <span class="ant-menu-item-selected" @onclick="e=>OnLinkAction(item, context)">@text</span>
             } else {
                 <span>@text</span>
             }
@@ -147,7 +147,7 @@
             var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
             var mores = actions.Skip(Model.ActionCount - 1).ToList();
             foreach (var item in takes) {
-                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>OnActionClick(item, context)">@item.Name</Tag>
+                <KButton Type="ButtonType.Primary" Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
             }
             var model = new DropdownModel {
                 Text = Language["Button.More"],
@@ -157,7 +157,7 @@
             <AntDropdown Context="Context" Model="model" />
         } else {
             foreach (var item in actions) {
-                <Tag Color="@GetActionColor(item.Style)" OnClick="e=>OnActionClick(item, context)">@item.Name</Tag>
+                <KButton Type="ButtonType.Primary" Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
             }
         }
     </span>;
