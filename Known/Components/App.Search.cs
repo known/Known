@@ -13,6 +13,16 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     private bool isAdd;
 
     /// <summary>
+    /// 取得或设置搜索关键字。
+    /// </summary>
+    [Parameter] public string Key { get; set; }
+
+    /// <summary>
+    /// 取得或设置搜索关键字。
+    /// </summary>
+    [Parameter] public EventCallback<string> KeyChanged { get; set; }
+
+    /// <summary>
     /// 取得或设置占位符。
     /// </summary>
     [Parameter] public string Placeholder { get; set; }
@@ -64,15 +74,15 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     /// <returns></returns>
     public async Task SearchAsync(string key)
     {
-        searchKey = key;
         criteria.Clear();
+        OnKeyChanged(key);
         await RefreshAsync();
     }
 
     /// <inheritdoc />
     public override async Task RefreshAsync()
     {
-        criteria.Parameters["Key"] = searchKey;
+        criteria.Parameters[nameof(Key)] = searchKey;
         result = await OnQuery.Invoke(criteria);
         await StateChangedAsync();
     }
@@ -81,6 +91,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        searchKey = Key;
         criteria.PageSize = PageSize;
     }
 
@@ -89,10 +100,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
-        {
-            result = await OnQuery.Invoke(criteria);
-            await StateChangedAsync();
-        }
+            await RefreshAsync();
     }
 
     /// <inheritdoc />
@@ -112,6 +120,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
         }
 
         builder.Component<Search>()
+               .Set(c => c.Value, searchKey)
                .Set(c => c.Placeholder, Placeholder)
                .Set(c => c.ClassicSearchIcon, true)
                .Set(c => c.OnSearch, this.Callback<string>(OnSearchAsync))
@@ -182,14 +191,21 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
 
     private async Task OnSearchAsync(string key)
     {
-        searchKey = key;
         criteria.PageIndex = 1;
+        OnKeyChanged(key);
         await RefreshAsync();
     }
 
     private async Task OnPageChangedAsync()
     {
-        result = await OnQuery.Invoke(criteria);
-        await StateChangedAsync();
+        await RefreshAsync();
+    }
+
+    private void OnKeyChanged(string key)
+    {
+        Key = key;
+        searchKey = key;
+        if (KeyChanged.HasDelegate)
+            KeyChanged.InvokeAsync(key);
     }
 }
