@@ -31,16 +31,16 @@
         </KForm>
     </Head>
     <Toolbar>
-        <KButton Type="ButtonType.Primary" Icon="plus" Name="新建模型" OnClick="OnNew" />
-        <KButton Type="ButtonType.Primary" Icon="save" Name="保存模型" OnClick="OnSave" />
-        @* <KButton Type="ButtonType.Primary" Icon="insert-row-above" Name="插入栏位" OnClick="OnInsert" /> *@
-        <KButton Type="ButtonType.Primary" Icon="plus" Name="添加栏位" OnClick="OnAdd" />
-        <KButton Type="ButtonType.Primary" Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
+        <KButton Icon="plus" Name="新建模型" OnClick="OnNew" />
+        <KButton Icon="save" Name="保存模型" OnClick="OnSave" />
+        @* <KButton Icon="insert-row-above" Name="插入栏位" OnClick="OnInsert" /> *@
+        <KButton Icon="plus" Name="添加栏位" OnClick="OnAdd" />
+        <KButton Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
         <Tooltip Title="通过现有数据库表生成栏位。">
-            <KButton Type="ButtonType.Primary" Icon="import" Name="导入表" OnClick="OnAddTable" />
+            <KButton Icon="import" Name="导入表" OnClick="OnAddTable" />
         </Tooltip>
         <Tooltip Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。">
-            <KButton Type="ButtonType.Primary" Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" />
+            <KButton Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" />
         </Tooltip>
     </Toolbar>
     <List>
@@ -73,9 +73,9 @@
                 }
             </StringColumn>
             <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="150" Fixed="ColumnFixPlacement.Right">
-                <KTag Text="上移" Color="blue-inverse" OnClick="()=>OnMoveUp(context)" />
-                <KTag Text="下移" Color="blue-inverse" OnClick="()=>OnMoveDown(context)" />
-                <KTag Text="删除" Color="red-inverse" OnClick="()=>OnDelete(context)" />
+                <KButton Name="上移" OnClick="e=>OnMoveUp(context)" />
+                <KButton Name="下移" OnClick="e=>OnMoveDown(context)" />
+                <KButton Name="删除" OnClick="e=>OnDelete(context)" Danger />
             </ActionColumn>
         </CodeFieldTable>
     </List>

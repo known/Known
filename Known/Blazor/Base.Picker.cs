@@ -83,8 +83,8 @@ public class BasePicker<TItem> : BaseComponent
             if (!ReadOnly)
             {
                 if (AllowClear)
-                    builder.Icon("fa fa-close kui-pick-clear", this.Callback<MouseEventArgs>(OnClear));
-                builder.Icon("fa fa-ellipsis-h kui-pick", this.Callback<MouseEventArgs>(ShowModal));
+                    builder.Icon("fa fa-close kui-pick-clear ant-btn-link", this.Callback<MouseEventArgs>(OnClear));
+                builder.Icon("fa fa-ellipsis-h kui-pick ant-btn-link", this.Callback<MouseEventArgs>(ShowModal));
             }
         });
     }

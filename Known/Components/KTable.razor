@@ -147,7 +147,7 @@
             var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
             var mores = actions.Skip(Model.ActionCount - 1).ToList();
             foreach (var item in takes) {
-                <KButton Type="ButtonType.Primary" Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
+                <KButton Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
             }
             var model = new DropdownModel {
                 Text = Language["Button.More"],
@@ -157,7 +157,7 @@
             <AntDropdown Context="Context" Model="model" />
         } else {
             foreach (var item in actions) {
-                <KButton Type="ButtonType.Primary" Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
+                <KButton Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
             }
         }
     </span>;

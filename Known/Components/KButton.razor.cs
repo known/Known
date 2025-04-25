@@ -27,9 +27,9 @@ public partial class KButton
     [Parameter] public string Icon { get; set; }
 
     /// <summary>
-    /// 取得或设置按钮类型（如：ButtonType.Primary）。
+    /// 取得或设置按钮类型（如：ButtonType.Primary），默认Primary。
     /// </summary>
-    [Parameter] public ButtonType Type { get; set; }
+    [Parameter] public ButtonType Type { get; set; } = ButtonType.Primary;
 
     /// <summary>
     /// 取得或设置按钮提示信息。

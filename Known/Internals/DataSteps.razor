@@ -6,8 +6,8 @@
         @foreach (var item in Model.Items)
         {
             <Step Title="@Language?.GetTitle(item.Title)"
-            Subtitle="@Language?.GetTitle(item.SubTitle)"
-            Description="@Language?.GetTitle(item.Description)" />
+                  Subtitle="@Language?.GetTitle(item.SubTitle)"
+                  Description="@Language?.GetTitle(item.Description)" />
         }
     </Steps>
 }
