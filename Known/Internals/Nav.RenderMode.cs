@@ -21,6 +21,12 @@ class NavRenderMode : BaseNav
 
     private async Task OnItemClickAsync(ActionInfo info)
     {
+        if (Config.RenderMode != RenderType.Auto && info.Id == "Auto")
+        {
+            UI.Error("当前程序不支持切换为自动模式。");
+            return;
+        }
+
         await Platform.SetRenderModeAsync(info.Id);
         Navigation.NavigateTo("/", true);
     }

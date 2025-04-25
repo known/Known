@@ -144,6 +144,7 @@ class AppDefaultData
             Required = item.IsRequired(),
             Category = item.Category(),
             Width = column.Width > 0 ? column.Width : item.GetColumnWidth(),
+            Ellipsis = column.Ellipsis,
             IsSum = column.IsSum,
             IsSort = column.IsSort,
             DefaultSort = column.DefaultSort,

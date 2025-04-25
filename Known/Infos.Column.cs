@@ -27,6 +27,7 @@ public partial class ColumnInfo
         QueryValue = info.QueryValue;
         Type = info.Type;
         Category = info.Category;
+        Ellipsis = info.Ellipsis;
         IsSum = info.IsSum;
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;

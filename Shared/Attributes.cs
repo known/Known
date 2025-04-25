@@ -67,14 +67,14 @@ public class ColumnAttribute : Attribute
     public string Field { get; set; }
 
     /// <summary>
-    /// 取得或设置栏位是否是汇总字段。
-    /// </summary>
-    public bool IsSum { get; set; }
-
-    /// <summary>
     /// 取得或设置栏位文本超出宽度是否显示省略号，显示则文本不换行。
     /// </summary>
     public bool Ellipsis { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位是否是汇总字段。
+    /// </summary>
+    public bool IsSum { get; set; }
 
     /// <summary>
     /// 取得或设置栏位是否是排序字段，默认排序。

@@ -17,7 +17,7 @@
             {
                 item.IsActive = curItem == item.Code;
 
-                <li class="@(item.IsActive ? "active" : "")" @onclick="e=>OnClick(item)">
+                <li class="@(item.IsActive ? "ant-dropdown-menu-item-selected" : "")" @onclick="e=>OnClick(item)">
                     @if (ItemTemplate != null)
                     {
                         @ItemTemplate(item)

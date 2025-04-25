@@ -120,6 +120,7 @@ partial class TableModel<TItem>
             Name = info.Name,
             Tooltip = info.Tooltip,
             IsVisible = info.IsVisible,
+            Ellipsis = info.Ellipsis,
             IsSum = info.IsSum,
             IsSort = info.IsSort,
             DefaultSort = info.DefaultSort,

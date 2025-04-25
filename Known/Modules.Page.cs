@@ -126,6 +126,11 @@ public class PageColumnInfo
     public string Category { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位文本超出宽度是否显示省略号，显示则文本不换行。
+    /// </summary>
+    public bool Ellipsis { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位是否是汇总字段。
     /// </summary>
     public bool IsSum { get; set; }

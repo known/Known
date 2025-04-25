@@ -25,7 +25,7 @@ public class DictionaryInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column]
+    [Column(Width = 120)]
     [DisplayName("类别")]
     public string Category { get; set; }
 
@@ -41,7 +41,7 @@ public class DictionaryInfo
     /// </summary>
     [Required]
     [MaxLength(100)]
-    [Column(IsQuery = true, IsViewLink = true)]
+    [Column(Width = 120, IsQuery = true, IsViewLink = true)]
     [Form]
     [DisplayName("代码")]
     public string Code { get; set; }
@@ -50,7 +50,7 @@ public class DictionaryInfo
     /// 取得或设置名称。
     /// </summary>
     [MaxLength(150)]
-    [Column(IsQuery = true)]
+    [Column(Width = 120, IsQuery = true)]
     [Form]
     [DisplayName("名称")]
     public string Name { get; set; }
@@ -59,7 +59,7 @@ public class DictionaryInfo
     /// 取得或设置顺序。
     /// </summary>
     [Required]
-    [Column]
+    [Column(Width = 80)]
     [Form]
     [DisplayName("顺序")]
     public int Sort { get; set; }
@@ -68,7 +68,7 @@ public class DictionaryInfo
     /// 取得或设置状态。
     /// </summary>
     [Required]
-    [Column]
+    [Column(Width = 80)]
     [Form(Type = nameof(FieldType.Switch))]
     [DisplayName("状态")]
     public bool Enabled { get; set; }

@@ -66,8 +66,12 @@ partial class KTable<TItem> : BaseComponent
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
 
             if (!string.IsNullOrWhiteSpace(Model.Result.Message))
+            {
                 UI.Error(Model.Result.Message);
+                return;
+            }
 
+            shouldRender = true;
             totalCount = Model.Result.TotalCount;
             dataSource = Model.Result.PageData;
             Model.SetAutoColumns(dataSource);
@@ -75,7 +79,6 @@ partial class KTable<TItem> : BaseComponent
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
-            shouldRender = true;
             watch.Write($"Changed {Model.Criteria.PageIndex}");
         }
         catch (Exception ex)
