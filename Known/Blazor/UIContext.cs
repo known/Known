@@ -1,33 +1,16 @@
-﻿using AntDesign;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 /// <summary>
 /// UI上下文信息类。
 /// </summary>
-public class UIContext : Context
+public partial class UIContext : Context
 {
-    private MenuInfo current;
-
-    /// <summary>
-    /// 取得当前上下文菜单信息。
-    /// </summary>
-    public MenuInfo Current { get; private set; }
+    internal bool IsEditTable => UIConfig.IsEditTable && IsEditMode;
 
     /// <summary>
     /// 取得或设置界面是否是编辑模式。
     /// </summary>
     public bool IsEditMode { get; set; }
-
-    /// <summary>
-    /// 取得当前菜单URL。
-    /// </summary>
-    public string Url { get; internal set; }
-
-    /// <summary>
-    /// 取得首页URL。
-    /// </summary>
-    public string HomeUrl => IsMobileApp ? "/app" : "/";
 
     /// <summary>
     /// 取得或设置当前主题。
@@ -74,11 +57,6 @@ public class UIContext : Context
         }
     }
 
-    internal NavigationManager Navigation { get; set; }
-    internal ReuseTabsService TabsService { get; set; }
-
-    internal bool IsEditTable => UIConfig.IsEditTable && IsEditMode;
-
     /// <summary>
     /// 根据菜单ID获取菜单信息列表。
     /// </summary>
@@ -123,83 +101,6 @@ public class UIContext : Context
     {
         CurrentUser = null;
         UserMenus = null;
-    }
-
-    /// <summary>
-    /// 导航到指定菜单页面。
-    /// </summary>
-    /// <param name="info">菜单信息。</param>
-    public void NavigateTo(MenuInfo info)
-    {
-        if (info == null || string.IsNullOrWhiteSpace(info.RouteUrl))
-            return;
-
-        if (UserSetting.MaxTabCount.HasValue)
-        {
-            if (TabsService.Pages.Count + 1 > UserSetting.MaxTabCount)
-            {
-                UI.Info("超过最大标签页数！");
-                return;
-            }
-        }
-
-        current = info;
-        Navigation.NavigateTo(info.RouteUrl);
-    }
-
-    /// <summary>
-    /// 返回到上一个页面。
-    /// </summary>
-    public void Back()
-    {
-        if (Current == null || string.IsNullOrWhiteSpace(Current.BackUrl))
-            return;
-
-        Navigation?.NavigateTo(Current.BackUrl);
-    }
-
-    /// <summary>
-    /// 导航到首页。
-    /// </summary>
-    /// <param name="returnUrl">登录返回地址。</param>
-    /// <param name="forceLoad">是否强制刷新。</param>
-    public void GoHomePage(string returnUrl = null, bool forceLoad = false)
-    {
-        var url = returnUrl ?? HomeUrl;
-        Navigation.NavigateTo(url, forceLoad);
-    }
-
-    /// <summary>
-    /// 刷新当前页面。
-    /// </summary>
-    public void Refresh()
-    {
-        Navigation.NavigateTo(Current?.RouteUrl, true);
-    }
-
-    internal void SetCurrentMenu(RouteData route)
-    {
-        if (Url == "/profile")
-        {
-            Current = new MenuInfo { Name = Language["Nav.Profile"], Icon = "user" };
-            return;
-        }
-
-        var menus = IsMobileApp ? Config.AppMenus : UserMenus;
-        Current = GetCurrentMenu(menus, route);
-        Current ??= current;
-    }
-
-    private MenuInfo GetCurrentMenu(List<MenuInfo> menus, RouteData route)
-    {
-        if (menus == null || menus.Count == 0)
-            return null;
-
-        var menu = menus.FirstOrDefault(m => m.Url == Url);
-        if (menu != null)
-            return menu;
-
-        return menus.FirstOrDefault(m => m.HasRoute(Url, route));
     }
 
     private bool IsInMenu(string pageId, string buttonId)

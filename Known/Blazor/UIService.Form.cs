@@ -91,6 +91,7 @@ public partial class UIService
 
         model.Context.NavigateTo(new MenuInfo
         {
+            Id = typeof(TItem).FullName,
             Name = model.GetFormTitle(),
             Url = route.Template
         });
