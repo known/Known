@@ -98,6 +98,11 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     public Type Type { get; set; }
 
     /// <summary>
+    /// 取得表单组件参数字典。
+    /// </summary>
+    public Dictionary<string, object> Parameters { get; } = [];
+
+    /// <summary>
     /// 取得或设置表单对话框头部自定义组件。
     /// </summary>
     public RenderFragment Header { get; set; }

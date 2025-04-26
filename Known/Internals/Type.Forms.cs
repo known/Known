@@ -43,3 +43,18 @@ public class RegisterInfoForm : Form<RegisterFormInfo>
         ValidateMode = FormValidateMode.Rules;
     }
 }
+
+/// <summary>
+/// 代码生产字段表单组件类。
+/// </summary>
+public class CodeFieldTypeForm : AntForm<CodeFieldInfo> { }
+
+/// <summary>
+/// 无代码表格字段表单组件类。
+/// </summary>
+public class PageColumnForm : AntForm<PageColumnInfo> { }
+
+/// <summary>
+/// 无代码表单字段表单组件类。
+/// </summary>
+public class FormFieldForm : AntForm<FormFieldInfo> { }

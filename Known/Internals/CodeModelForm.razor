@@ -36,12 +36,8 @@
         @* <KButton Icon="insert-row-above" Name="插入栏位" OnClick="OnInsert" /> *@
         <KButton Icon="plus" Name="添加栏位" OnClick="OnAdd" />
         <KButton Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
-        <Tooltip Title="通过现有数据库表生成栏位。">
-            <KButton Icon="import" Name="导入表" OnClick="OnAddTable" />
-        </Tooltip>
-        <Tooltip Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。">
-            <KButton Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" />
-        </Tooltip>
+        <KButton Icon="import" Name="导入表" OnClick="OnAddTable" Title="通过现有数据库表生成栏位。" />
+        <KButton Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。" />
     </Toolbar>
     <List>
         <CodeFieldTable DataSource="Model.Fields" HidePagination AutoHeight>
@@ -60,16 +56,16 @@
             <StringColumn Title="必填" Width="60">
                 <AntSwitch @bind-Value="context.Required" />
             </StringColumn>
-            <StringColumn Title="表格" Width="60">
+            <StringColumn Title="表格" Width="70">
                 <AntSwitch @bind-Value="context.IsGrid" />
-                @if (context.IsGrid && EnableMore) {
-                    <KIcon Icon="more" Title="更多表格设置" OnClick="this.Callback<MouseEventArgs>(e=>OnGridSetting(context))" />
+                @if (context.IsGrid) {
+                    <AntIcon Type="more" Title="更多表格设置" OnClick="e=>OnGridSetting(context)" />
                 }
             </StringColumn>
-            <StringColumn Title="表单" Width="60">
+            <StringColumn Title="表单" Width="70">
                 <AntSwitch @bind-Value="context.IsForm" />
-                @if (context.IsForm && EnableMore) {
-                    <KIcon Icon="more" Title="更多表单设置" OnClick="this.Callback<MouseEventArgs>(e=>OnFormSetting(context))" />
+                @if (context.IsForm) {
+                    <AntIcon Type="more" Title="更多表单设置" OnClick="e=>OnFormSetting(context)" />
                 }
             </StringColumn>
             <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="150" Fixed="ColumnFixPlacement.Right">

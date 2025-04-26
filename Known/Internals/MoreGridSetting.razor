@@ -1,5 +1,47 @@
-﻿<h3>MoreGridSetting</h3>
+﻿@inherits BaseForm<PageColumnInfo>
 
-@code {
-
-}
+<PageColumnForm Form="Model">
+    @if (context.Type.IsDictionary()) {
+        <AntRow>
+            <DataItem Span="24" Label="显示全部">
+                <AntSwitch @bind-Value="context.IsQueryAll" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="字典类型">
+                <AntRadioGroup @bind-Value="context.CategoryType" Category="@nameof(DicCategoryType)" ButtonStyle="RadioButtonStyle.Solid" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="字典类别">
+                @if (context.CategoryType == nameof(DicCategoryType.Custom)) {
+                    <AntInput @bind-Value="context.Category" />
+                } else {
+                    <AntSelectCode @bind-Value="context.Category" Category="@Constants.DicCategory" />
+                }
+            </DataItem>
+        </AntRow>
+    }
+    @if (IsDefaultValue) {
+        <AntRow>
+            <DataItem Span="24" Label="默认值类型">
+                <AntRadioGroup @bind-Value="context.QueryValueType" Category="@nameof(DefaultValueType)" ButtonStyle="RadioButtonStyle.Solid" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="默认值">
+                @if (context.QueryValueType == nameof(DefaultValueType.Placeholder)) {
+                    <AntSelectCode @bind-Value="context.QueryValue" DataSource="DataPlaceholder.Codes" />
+                } else {
+                    if (context.Type.IsDateTime()) {
+                        <AntRangePicker @bind-RangeValue="context.QueryValue" />
+                    } else if (context.Type.IsDictionary()) {
+                        <AntSelectCode @bind-Value="context.QueryValue" Category="@context.Category" />
+                    } else {
+                        <AntInput @bind-Value="context.QueryValue" />
+                    }
+                }
+            </DataItem>
+        </AntRow>
+    }
+</PageColumnForm>

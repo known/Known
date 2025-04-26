@@ -113,11 +113,16 @@ public partial class UIService
         {
             b.Div("kui-form-body", () =>
             {
-                var parameters = new Dictionary<string, object> { { nameof(BaseForm<TItem>.Model), model } };
                 if (model.Type == null)
+                {
                     b.Form(model);
+                }
                 else
+                {
+                    var parameters = model.Parameters ?? [];
+                    parameters[nameof(BaseForm<TItem>.Model)] = model;
                     b.Component(model.Type, parameters);
+                }
             });
 
             if (isDrawer)

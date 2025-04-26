@@ -2,7 +2,7 @@
 
 @if (!string.IsNullOrWhiteSpace(Title))
 {
-    <Tooltip TitleTemplate="TitleTemplate">
+    <Tooltip TitleTemplate="TitleTemplate(Title)">
         @RenderBadgeButton()
     </Tooltip>
 }
@@ -14,7 +14,7 @@ else
 @code {
     private RenderFragment RenderButton => @<Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
                                                     Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
-                                                    OnClick="OnButtonClickAsync">@Name</Button>;
+                                                    OnClick="OnButtonClickAsync">@Language[Name]</Button>;
 
     private RenderFragment RenderBadgeButton()
     {

@@ -9,8 +9,6 @@ public partial class KButton
 {
     private bool isLoad;
 
-    private RenderFragment TitleTemplate => b => b.Markup(Title);
-
     /// <summary>
     /// 取得或设置是否是块级按钮。
     /// </summary>
@@ -45,6 +43,14 @@ public partial class KButton
     /// 取得或设置按钮单击事件。
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    private RenderFragment TitleTemplate(string title)
+    {
+        if (title.Contains('<'))
+            return b => b.AddMarkupContent(0, title);
+
+        return b => b.Markup(Language[title]);
+    }
 
     private async Task OnButtonClickAsync(MouseEventArgs args)
     {

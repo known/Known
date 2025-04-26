@@ -1,5 +1,50 @@
-﻿<h3>MoreFormSetting</h3>
+﻿@inherits BaseForm<FormFieldInfo>
 
-@code {
-
-}
+<FormFieldForm Form="Model">
+    @if (context.Type.IsDictionary()) {
+        <AntRow>
+            <DataItem Span="24" Label="字典类型">
+                <AntRadioGroup @bind-Value="context.CategoryType" Category="@nameof(DicCategoryType)" ButtonStyle="RadioButtonStyle.Solid" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="字典类别">
+                @if (context.CategoryType == nameof(DicCategoryType.Custom)) {
+                    <AntInput @bind-Value="context.Category" />
+                } else {
+                    <AntSelectCode @bind-Value="context.Category" Category="@Constants.DicCategory" />
+                }
+            </DataItem>
+        </AntRow>
+    } else if (context.Type == FieldType.File) {
+        <AntRow>
+            <DataItem Span="24" Label="多文件">
+                <AntSwitch @bind-Value="context.MultiFile" />
+            </DataItem>
+        </AntRow>
+    } else if (context.Type == FieldType.Custom) {
+        <AntRow>
+            <DataItem Span="24" Label="自定义">
+                <AntSelectCode @bind-Value="context.CustomField" DataSource="CustomTypes" />
+            </DataItem>
+        </AntRow>
+    }
+    @if (context.Type != FieldType.File && IsDefaultValue) {
+        <AntRow>
+            <DataItem Span="24" Label="默认值类型">
+                <AntRadioGroup @bind-Value="context.FieldValueType" Category="@nameof(DefaultValueType)" ButtonStyle="RadioButtonStyle.Solid" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="默认值">
+                @if (context.FieldValueType == nameof(DefaultValueType.Placeholder)) {
+                    <AntSelectCode @bind-Value="context.FieldValue" DataSource="DataPlaceholder.Codes" />
+                } else if (context.Type.IsBoolean()) {
+                    <AntRadioGroup @bind-Value="context.FieldValue" Category="True,False" />
+                } else {
+                    <AntInput @bind-Value="context.FieldValue" />
+                }
+            </DataItem>
+        </AntRow>
+    }
+</FormFieldForm>

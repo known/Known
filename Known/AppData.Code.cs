@@ -168,13 +168,31 @@ public class CodeModelInfo
 public class CodeFieldInfo : FieldInfo
 {
     /// <summary>
-    /// 取得或设置列表栏位宽度。
+    /// 取得或设置列表栏位信息。
     /// </summary>
-    public string Width { get; set; }
+    public PageColumnInfo Column { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单栏位信息。
+    /// </summary>
+    public FormFieldInfo Field { get; set; }
+
+    internal PageColumnInfo ToPageColumn()
+    {
+        Column ??= new PageColumnInfo
+        {
+            Id = Id,
+            Name = Name,
+            Type = Type,
+            Length = Length,
+            Required = Required
+        };
+        return Column;
+    }
 
     internal FormFieldInfo ToFormField()
     {
-        return new FormFieldInfo
+        Field ??= new FormFieldInfo
         {
             Id = Id,
             Name = Name,
@@ -183,6 +201,7 @@ public class CodeFieldInfo : FieldInfo
             Required = Required,
             IsKey = IsKey
         };
+        return Field;
     }
 
     /// <summary>
