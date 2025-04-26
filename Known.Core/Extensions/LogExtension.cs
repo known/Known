@@ -47,7 +47,7 @@ public static class LogExtension
         await db.SaveAsync(new SysLog
         {
             Type = info.Type.ToString(),
-            Target = info.Target,
+            Target = info.Target ?? "",
             Content = info.Content
         });
         return Result.Success("");

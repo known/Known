@@ -57,6 +57,20 @@ public static class EnumExtension
     }
 
     /// <summary>
+    /// 根据字段类型获取表格栏位宽度。
+    /// </summary>
+    /// <param name="type">字段类型。</param>
+    /// <returns></returns>
+    public static int? GetColumnWidth(this FieldType type)
+    {
+        if (type == FieldType.Switch) return 80;
+        if (type == FieldType.Number) return 100;
+        if (type == FieldType.Date) return 100;
+        if (type == FieldType.DateTime) return 140;
+        return null;
+    }
+
+    /// <summary>
     /// 将查询类型转换成SQL操作符。
     /// </summary>
     /// <param name="type">查询类型</param>

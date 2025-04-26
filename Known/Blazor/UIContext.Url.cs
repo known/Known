@@ -81,12 +81,6 @@ public partial class UIContext
 
     internal void SetCurrentMenu(RouteData route)
     {
-        if (Url == "/profile")
-        {
-            Current = new MenuInfo { Name = Language["Nav.Profile"], Icon = "user" };
-            return;
-        }
-
         Current = NavMenus.FirstOrDefault(m => m.Url == Url);
         if (Current != null)
             return;
@@ -95,7 +89,6 @@ public partial class UIContext
         if (menus == null || menus.Count == 0)
             return;
 
-        menus = [.. menus.Where(m => !string.IsNullOrWhiteSpace(m.Url))];
         Current = GetCurrentMenu(menus, route);
     }
 
