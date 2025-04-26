@@ -36,7 +36,7 @@ public class ReloadContainer : Microsoft.AspNetCore.Components.IComponent
     /// <summary>
     /// 重新加载组件。
     /// </summary>
-    public void ReloadPage()
+    public void Reload()
     {
         renderHandle.Render(b => { });
         if (ChildContent != null)

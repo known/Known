@@ -28,7 +28,7 @@ class PluginPage : BaseComponent, IAutoPage
 
     public Task InitializeAsync()
     {
-        container?.ReloadPage();
+        container?.Reload();
         return Task.CompletedTask;
     }
 

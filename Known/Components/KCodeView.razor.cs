@@ -62,7 +62,7 @@ public partial class KCodeView
         originalCode = code;
         Code = code;
         shouldHighlight = true;
-        container?.ReloadPage();
+        container?.Reload();
     }
 
     private void OnCopy(MouseEventArgs args)

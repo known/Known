@@ -24,6 +24,6 @@ public partial class MainBody
         if (Context.UserSetting.MultiTab)
             Service.ReloadPage();
         else
-            reload?.ReloadPage();
+            reload?.Reload();
     }
 }

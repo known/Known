@@ -102,6 +102,7 @@ partial class TableModel<TItem>
                 var setting = settings?.FirstOrDefault(c => c.Id == item.Id);
                 if (setting != null)
                 {
+                    info.Fixed = setting.Fixed;
                     info.IsVisible = setting.IsVisible;
                     info.Width = setting.Width;
                     info.Sort = setting.Sort;

@@ -109,6 +109,11 @@ public class TableSettingInfo
     public string Id { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位固定位置(left/right)。
+    /// </summary>
+    public string Fixed { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位是否可见。
     /// </summary>
     public bool IsVisible { get; set; }

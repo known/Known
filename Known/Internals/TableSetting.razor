@@ -1,0 +1,71 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+<div class="setting">
+    <Dropdown Trigger="Triggers">
+        <ChildContent>
+            <KIcon Icon="setting" Title="@Language["列展示设置"]" />
+        </ChildContent>
+        <Overlay>
+            <div class="kui-card overlay kui-table-setting">
+                <div class="title">
+                    <AntCheckBox Label="@Language["列展示"]" Indeterminate="Indeterminate" Value="CheckAll" ValueChanged="CheckAllChangedAsync" />
+                    <KButton Type="ButtonType.Link" Name="重置" OnClick="OnReset" />
+                </div>
+                @if (HasFixedLeft) {
+                    @RenderFixedItem("固定在左侧", LeftColumns)
+                }
+                <div class="columns">
+                    @if (HasFixedLeft || HasFixedRight) {
+                        <div class="title">@Language["不固定"]</div>
+                        @foreach (var item in Columns) {
+                            item.Label = Language.GetFieldName<TItem>(item);
+                            @RenderItem(item)
+                        }
+                    } else {
+                        foreach (var item in Columns) {
+                            item.Label = Language.GetFieldName<TItem>(item);
+                            @RenderItem(item)
+                        }
+                    }
+                </div>
+                @if (HasFixedRight) {
+                    @RenderFixedItem("固定在右侧", RightColumns)
+                }
+            </div>
+        </Overlay>
+    </Dropdown>
+</div>
+
+@code {
+    RenderFragment RenderItem(ColumnInfo item) => @<div class="item" draggable="true" ondragover="event.preventDefault()" @ondrop="e=>OnDropAsync(e, item)" @ondragstart="e=>OnDragStart(e, item)">
+        <KIcon Icon="pause" />
+        <AntCheckBox Label="@item.Label" Value="item.IsVisible" ValueChanged="v=>OnVisibleChange(item,v)" />
+        <AntInteger Value="item.Width" ValueChanged="v=>OnWidthChange(item,v)" />
+        <div class="fixed">
+            <AntIcon IsTheme Type="vertical-align-top" Title="固定到左侧" OnClick="e=>OnFixedChange(item, 1)" />
+            <AntIcon IsTheme Type="vertical-align-bottom" Title="固定到右侧" OnClick="e=>OnFixedChange(item, 2)" />
+        </div>
+    </div>;
+
+    RenderFragment RenderFixedItem(string title, List<ColumnInfo> items) => @<div class="fixed">
+        <div class="title">@Language[title]</div>
+        <div class="items">
+            @foreach (var item in items) {
+                item.Label = Language.GetFieldName<TItem>(item);
+                <div class="item">
+                    <AntCheckBox Label="@item.Label" Value="item.IsVisible" ValueChanged="v=>OnVisibleChange(item,v)" />
+                    <AntInteger Value="item.Width" ValueChanged="v=>OnWidthChange(item,v)" />
+                    <div class="fixed">
+                        <AntIcon IsTheme Type="vertical-align-middle" Title="不固定" OnClick="e=>OnFixedChange(item, 0)" />
+                        @if (title == "固定在左侧") {
+                            <AntIcon IsTheme Type="vertical-align-bottom" Title="固定到右侧" OnClick="e=>OnFixedChange(item, 2)" />
+                        } else {
+                            <AntIcon IsTheme Type="vertical-align-top" Title="固定到左侧" OnClick="e=>OnFixedChange(item, 1)" />
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>;
+}

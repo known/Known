@@ -179,16 +179,23 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*Setting*/
 .kui-nav-setting, .kui-table-setting {max-height:500px;overflow:auto;}
-.kui-nav-setting .title, .kui-table-setting .title {font-weight:bold;margin:0 0 10px 30px;}
+.kui-nav-setting .title, .kui-table-setting .title {font-weight:bold;margin:0 0 10px 50px;}
 .kui-table-setting .title {display:flex;justify-content:space-between;align-items:center;}
+.kui-table-setting .title > .ant-btn-link {padding:4px;}
+.kui-table-setting > .title {margin-left:20px;}
+.kui-table-setting .ant-btn-link {font-weight:bold;}
+.kui-table-setting .anticon {cursor:pointer;font-size:16px;}
 .kui-table-setting .item {display:flex;align-items:center;margin-bottom:5px;}
-.kui-table-setting .item > .anticon {width:30px;cursor:move;color:var(--kui-color);}
-.kui-table-setting .item > .ant-checkbox-wrapper {width:150px;}
-.kui-table-setting .item > .ant-input-number {width:80px;}
+.kui-table-setting .item > .anticon-pause {width:50px;cursor:move;}
+.kui-table-setting .item > .ant-checkbox-wrapper {width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.kui-table-setting .fixed .item > .ant-checkbox-wrapper {margin-left:50px;}
+.kui-table-setting .item > .ant-input-number {width:70px;}
+.kui-table-setting .item > .fixed {margin-left:10px;visibility:hidden;}
+.kui-table-setting .item:hover > .fixed {visibility:visible;}
 
 .kui-nav-setting .item {display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
 .kui-nav-setting .item > .span {cursor:move;padding-right:10px;}
-.kui-nav-setting .item > .span > .anticon {width:30px;color:var(--kui-color);}
+.kui-nav-setting .item > .span > .anticon {width:30px;}
 .kui-nav-setting .item > .anticon-delete {width:30px;color:#ed4014;cursor:pointer;}
 .kui-nav-setting .item > .anticon-close {width:30px;cursor:pointer;}
 .kui-nav-setting > .anticon-plus {display:block;text-align:center;cursor:pointer;margin-top:10px;padding:5px;border:1px dashed #ccc;}

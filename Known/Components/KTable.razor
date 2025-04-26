@@ -4,95 +4,98 @@
     var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
     var scrollX = totalWidth.ToString();
 }
-<AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" 
-          ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
-          Total="totalCount" DataSource="dataSource" Loading="Model.EnableSpin && isQuering"
-          @bind-SelectedRows="Model.SelectedRows">
-    <ColumnDefinitions>
-        @if (Context.IsEditTable) {
-            <Column TitleTemplate="ColumnTitle" TData="object" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />
-        }
-        @if (Model.SelectType != TableSelectType.None) {
-            <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="ColumnFixPlacement.Left" />
-        }
-        @if (Model.Columns != null && Model.Columns.Count > 0) {
-            var isDictionary = Model.IsDictionary;
-            if (Model.ShowIndex) {
-                var titleIndex = Language?.GetString("Index");
-                var columnId = Model.Columns[0].Id;
-                if (isDictionary) {
-                    @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
-                        <span>@GetIndex(context)</span>
-                    </DictionaryColumn>*@
-                } else {
-                    <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
-                        <span>@GetIndex(context)</span>
-                    </Column>
-                }
+<ReloadContainer @ref="reload">
+    <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" 
+              ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
+              Total="totalCount" DataSource="dataSource" Loading="Model.EnableSpin && isQuering"
+              @bind-SelectedRows="Model.SelectedRows">
+        <ColumnDefinitions>
+            @if (Context.IsEditTable) {
+                <Column TitleTemplate="ColumnTitle" TData="object" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />
             }
-            foreach (var item in Model.Columns) {
-                if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
-                    continue;
+            @if (Model.SelectType != TableSelectType.None) {
+                <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="ColumnFixPlacement.Left" />
+            }
+            @if (Model.Columns != null && Model.Columns.Count > 0) {
+                var isDictionary = Model.IsDictionary;
+                if (Model.ShowIndex) {
+                    var titleIndex = Language?.GetString("Index");
+                    var columnId = Model.Columns[0].Id;
+                    if (isDictionary) {
+                        @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
+                            <span>@GetIndex(context)</span>
+                        </DictionaryColumn>*@
+                    } else {
+                        <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
+                            <span>@GetIndex(context)</span>
+                        </Column>
+                    }
+                }
+                var columns = GetColumns();
+                foreach (var item in columns) {
+                    if (string.IsNullOrWhiteSpace(item.Id))
+                        continue;
 
-                var title = Language?.GetFieldName<TItem>(item);
-                var width = item.Width > 0 ? item.Width.ToString() : "";
-                RenderFragment<TItem> template = null;
-                Model.Templates?.TryGetValue(item.Id, out template);
-                if (isDictionary) {
-                    var data = context as Dictionary<string, object>;
-                    var value = data?.GetValue(item.Id);
-                    <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                      Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                      Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                      ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                      Align="@item.ToColumnAlign()">
-                        @if (template != null) {
-                            @template(context)
-                        } else {
-                            @RenderCell(context, item, value)
-                        }
-                    </DictionaryColumn>
-                } else {
-                    if (typeof(TItem).HasProperty(item.Id)) {
-                        var value = TypeHelper.GetPropertyValue(context, item.Id);
-                        <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                Align="@item.ToColumnAlign()">
+                    var title = Language?.GetFieldName<TItem>(item);
+                    var width = item.Width > 0 ? item.Width.ToString() : "";
+                    RenderFragment<TItem> template = null;
+                    Model.Templates?.TryGetValue(item.Id, out template);
+                    if (isDictionary) {
+                        var data = context as Dictionary<string, object>;
+                        var value = data?.GetValue(item.Id);
+                        <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
+                                          Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                          Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                          ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
+                                          Align="@item.ToColumnAlign()">
                             @if (template != null) {
                                 @template(context)
                             } else {
                                 @RenderCell(context, item, value)
                             }
-                        </Column>
+                        </DictionaryColumn>
                     } else {
-                        <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
-                                Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                Align="@item.ToColumnAlign()" ColSpan="1" RowSpan="1">
-                            @if (template != null) {
-                                @template(context)
-                            } else {
-                                @RenderCell(context, item, item.Id)
-                            }
-                        </Column>
+                        if (typeof(TItem).HasProperty(item.Id)) {
+                            var value = TypeHelper.GetPropertyValue(context, item.Id);
+                            <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
+                                    Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                    ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
+                                    Align="@item.ToColumnAlign()">
+                                @if (template != null) {
+                                    @template(context)
+                                } else {
+                                    @RenderCell(context, item, value)
+                                }
+                            </Column>
+                        } else {
+                            <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
+                                    Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
+                                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                    Align="@item.ToColumnAlign()" ColSpan="1" RowSpan="1">
+                                @if (template != null) {
+                                    @template(context)
+                                } else {
+                                    @RenderCell(context, item, item.Id)
+                                }
+                            </Column>
+                        }
                     }
                 }
             }
-        }
-        @if (Model.HasAction) {
-            <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                @RenderAction(context)
-            </ActionColumn>
-        } else if (Context.IsEditTable) {
-            <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right" />
-        }
-        @if (Model.HasSum) {
-            @RenderSummary()
-        }
-    </ColumnDefinitions>
-</AntTable>
+            @if (Model.HasAction) {
+                <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                    @RenderAction(context)
+                </ActionColumn>
+            } else if (Context.IsEditTable) {
+                <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right" />
+            }
+            @if (Model.HasSum) {
+                @RenderSummary()
+            }
+        </ColumnDefinitions>
+    </AntTable>
+</ReloadContainer>
 
 @code {
     RenderFragment ActionTitle => @<span>
@@ -174,8 +177,9 @@
         }
         @if (Model.Columns != null && Model.Columns.Count > 0) {
             var isTitle = false;
-            foreach (var item in Model.Columns) {
-                if (!item.IsVisible || string.IsNullOrWhiteSpace(item.Id))
+            var columns = GetColumns();
+            foreach (var item in columns) {
+                if (string.IsNullOrWhiteSpace(item.Id))
                     continue;
 
                 if (!isTitle) {

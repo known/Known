@@ -8,6 +8,7 @@ namespace Known.Components;
 /// <typeparam name="TItem">表格行数据类型。</typeparam>
 partial class KTable<TItem>
 {
+    private ReloadContainer reload;
     private AntTable<TItem> table;
     private int totalCount;
     private List<TItem> dataSource;
@@ -26,6 +27,7 @@ partial class KTable<TItem>
         Model.OnStateChanged = StateChanged;
         Model.OnStateChangedTask = StateChangedAsync;
         Model.OnRefresh = RefreshTableAsync;
+        Model.OnReload = () => reload?.Reload();
         base.OnInitialized();
     }
 
@@ -117,6 +119,21 @@ partial class KTable<TItem>
         shouldRender = false;
         Model.OnAction?.Invoke(item, row);
         return Task.CompletedTask;
+    }
+
+    private List<ColumnInfo> GetColumns()
+    {
+        var columns = new List<ColumnInfo>();
+        var lefts = Model.Columns.Where(c => c.IsVisible && c.Fixed == "left").OrderBy(c => c.Sort).ToList();
+        if (lefts != null && lefts.Count > 0)
+            columns.AddRange(lefts);
+        var items = Model.Columns.Where(c => c.IsVisible && c.Fixed != "left" && c.Fixed != "right").OrderBy(c => c.Sort).ToList();
+        if (items != null && items.Count > 0)
+            columns.AddRange(items);
+        var rights = Model.Columns.Where(c => c.IsVisible && c.Fixed == "right").OrderBy(c => c.Sort).ToList();
+        if (rights != null && rights.Count > 0)
+            columns.AddRange(rights);
+        return columns;
     }
 
     private int GetIndex(TItem item)

@@ -18,7 +18,7 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
     {
         var result = await base.SaveSettingAsync(info);
         Model.Initialize(info);
-        container?.ReloadPage();
+        container?.Reload();
         return result;
     }
 
