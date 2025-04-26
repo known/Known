@@ -3,10 +3,10 @@
 namespace Known.Components;
 
 /// <summary>
-/// 表格组件。
+/// 表格组件类。
 /// </summary>
 /// <typeparam name="TItem">表格行数据类型。</typeparam>
-partial class KTable<TItem> : BaseComponent
+partial class KTable<TItem>
 {
     private AntTable<TItem> table;
     private int totalCount;

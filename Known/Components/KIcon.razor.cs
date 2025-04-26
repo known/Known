@@ -7,6 +7,8 @@ namespace Known.Components;
 /// </summary>
 public partial class KIcon
 {
+    private string IconClass => CssBuilder.Default(Icon).AddClass("ant-btn-link", IsTheme).BuildClass();
+
     /// <summary>
     /// 取得或设置图标。
     /// </summary>
@@ -21,6 +23,11 @@ public partial class KIcon
     /// 取得或设置图标提示标题。
     /// </summary>
     [Parameter] public string Title { get; set; }
+
+    /// <summary>
+    /// 取得或设置图标颜色是否跟随主题色。
+    /// </summary>
+    [Parameter] public bool IsTheme { get; set; }
 
     /// <summary>
     /// 取得或设置图标单击事件。
@@ -45,13 +52,13 @@ public partial class KIcon
     {
         if (Icon.StartsWith("fa"))
         {
-            builder.Span().Class(Icon).OnClick(OnClick).Close();
+            builder.Span().Class(IconClass).OnClick(OnClick).Close();
             return;
         }
 
         if (onClick != null)
-            builder.Component<Icon>().Set(c => c.Type, Icon).Set(c => c.OnClick, onClick.Value).Build();
+            builder.Component<Icon>().Set(c => c.Class, IconClass).Set(c => c.Type, Icon).Set(c => c.OnClick, onClick.Value).Build();
         else
-            builder.Component<Icon>().Set(c => c.Type, Icon).Build();
+            builder.Component<Icon>().Set(c => c.Class, IconClass).Set(c => c.Type, Icon).Build();
     }
 }

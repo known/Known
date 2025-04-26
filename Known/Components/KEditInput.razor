@@ -4,12 +4,12 @@
     @if (isEdit)
     {
         <AntInput Value="@Value" ValueChanged="OnValueChanged" />
-        <span class="ant-menu-item-selected" @onclick="e=>OnSaveClick()">@Language.OK</span>
-        <span class="ant-menu-item-selected" @onclick="e=>isEdit=false">@Language.Cancel</span>
+        <span class="ant-btn-link" @onclick="e=>OnSaveClick()">@Language.OK</span>
+        <span class="ant-btn-link" @onclick="e=>isEdit=false">@Language.Cancel</span>
     }
     else
     {
         <span>@Value</span>
-        <span class="ant-menu-item-selected" @onclick="e=>isEdit=true">@Language.Edit</span>
+        <span class="ant-btn-link" @onclick="e=>isEdit=true">@Language.Edit</span>
     }
 </div>
