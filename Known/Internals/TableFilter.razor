@@ -1,0 +1,6 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+<div class="kui-table-filter">
+    <QueryItem IsFilter Item="Item" Data="Table.QueryData" OnSearch="OnSearchAsync" />
+</div>

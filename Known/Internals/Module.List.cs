@@ -35,6 +35,7 @@ class ModuleList : BasePage<ModuleInfo>
             Form = new FormInfo { Width = 800, Maximizable = true, ShowFooter = true },
             //RowKey = r => r.Id,
             EnableEdit = false,
+            EnableFilter = false,
             ShowPager = false,
             SelectType = TableSelectType.Checkbox,
             OnQuery = OnQueryModulesAsync

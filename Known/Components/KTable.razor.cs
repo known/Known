@@ -144,6 +144,14 @@ partial class KTable<TItem>
         return Model.Result.PageData.IndexOf(item) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize;
     }
 
+    private bool GetSortable(ColumnInfo item)
+    {
+        if (!Model.EnableSort)
+            return false;
+
+        return item.IsSort;
+    }
+
     private string GetOrderBy(ITableSortModel model)
     {
         //descend  ascend
@@ -231,6 +239,20 @@ partial class KTable<TItem>
     private void OnAddAction()
     {
         Plugin?.AddTableAction();
+    }
+
+    private RenderFragment GetFilterTemplate(ColumnInfo item)
+    {
+        if (!Model.EnableFilter || !item.IsFilter)
+            return null;
+
+        if (item.FilterTemplate != null)
+            return item.FilterTemplate;
+
+        return b => b.Component<Internals.TableFilter<TItem>>()
+                     .Set(c => c.Table, Model)
+                     .Set(c => c.Item, item)
+                     .Build();
     }
 
     private RenderFragment<RowData<TItem>> ExpandTemplate

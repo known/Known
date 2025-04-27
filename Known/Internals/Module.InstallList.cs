@@ -10,6 +10,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
         Table.Name = "未安装模块";
         Table.AutoHeight = false;
         Table.EnableSort = false;
+        Table.EnableFilter = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = OnQueryModulesAsync;

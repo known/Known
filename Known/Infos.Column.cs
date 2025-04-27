@@ -13,6 +13,11 @@ public partial class ColumnInfo
     /// </summary>
     public RenderFragment Template { get; set; }
 
+    /// <summary>
+    /// 取得或设置表单字段过滤条件模板。
+    /// </summary>
+    public RenderFragment FilterTemplate { get; set; }
+
     internal ColumnInfo(PageColumnInfo info) => SetPageColumnInfo(info);
     private void SetPageColumnInfo(PageColumnInfo info)
     {

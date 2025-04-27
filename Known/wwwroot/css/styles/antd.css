@@ -4,6 +4,7 @@
 .ant-select:not(.ant-select-customize-input) .ant-select-selector, .ant-select-dropdown,
 .ant-tag, .ant-alert, .ant-message-notice-content, .ant-segmented, .ant-transfer-list,
 .ant-picker, .ant-picker-panel-container, .ant-dropdown-menu, .ant-upload.ant-upload-drag,
+.ant-table-filter-dropdown,
 .ant-pagination-item, .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link,
 .ant-pagination-options-quick-jumper input {
     border-radius:5px;

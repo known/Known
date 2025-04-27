@@ -44,10 +44,10 @@
                         var data = context as Dictionary<string, object>;
                         var value = data?.GetValue(item.Id);
                         <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                          Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                          Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                          Ellipsis="item.Ellipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                          ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                           ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                          Align="@item.ToColumnAlign()">
+                                          FilterDropdown="@GetFilterTemplate(item)">
                             @if (template != null) {
                                 @template(context)
                             } else {
@@ -58,10 +58,10 @@
                         if (typeof(TItem).HasProperty(item.Id)) {
                             var value = TypeHelper.GetPropertyValue(context, item.Id);
                             <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                    Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
+                                    Ellipsis="item.Ellipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                    ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                     ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                    Align="@item.ToColumnAlign()">
+                                    FilterDropdown="@GetFilterTemplate(item)">
                                 @if (template != null) {
                                     @template(context)
                                 } else {
@@ -70,9 +70,10 @@
                             </Column>
                         } else {
                             <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
-                                    Ellipsis="item.Ellipsis" ShowSorterTooltip="false" Fixed="@item.ToColumnFixPlacement()"
-                                    Sortable="item.IsSort" DefaultSortOrder="item.ToSortDirection()"
-                                    Align="@item.ToColumnAlign()" ColSpan="1" RowSpan="1">
+                                    Ellipsis="item.Ellipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                    ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
+                                    ColSpan="@GetRowSpan(item, item.Id)" RowSpan="@GetColSpan(item, item.Id)"
+                                    FilterDropdown="@GetFilterTemplate(item)">
                                 @if (template != null) {
                                     @template(context)
                                 } else {

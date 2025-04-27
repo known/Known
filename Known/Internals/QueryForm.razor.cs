@@ -19,6 +19,12 @@ public partial class QueryForm
     /// </summary>
     [Parameter] public bool AdvSearch { get; set; }
 
+    private async Task OnItemSearchAsync(List<QueryInfo> query)
+    {
+        Model.Criteria.Query = query;
+        await Model.SearchAsync();
+    }
+
     private async Task OnSearchAsync()
     {
         Model.Criteria.Query = [.. Model.QueryData.Select(d => d.Value)];

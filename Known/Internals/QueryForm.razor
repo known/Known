@@ -1,9 +1,7 @@
 ﻿@inherits BaseComponent
 
-@if (Model != null && Model.QueryColumns != null && Model.QueryColumns.Count > 0)
-{
-    if (Model.QueryColumns.Count > 3)
-    {
+@if (Model != null && Model.QueryColumns != null && Model.QueryColumns.Count > 0) {
+    if (Model.QueryColumns.Count > 3) {
         var showCount = 3;
         var count = Model.QueryColumns.Count;
         if (count > showCount)
@@ -12,24 +10,23 @@
         <div class="kui-query-more">
             <QueryDataForm Model="Model.QueryData">
                 <AntRow>
-                    @for (var i = 0; i < count; i++)
-                    {
+                    @for (var i = 0; i < count; i++) {
                         var item = Model.QueryColumns[i];
                         var itemName = Language.GetFieldName(item, Model.DataType);
                         <AntCol Span="6">
-                            <QueryItem Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
+                            <FieldItem Label="@itemName">
+                                <QueryItem Item="item" Data="context" OnSearch="OnItemSearchAsync" />
+                            </FieldItem>
                         </AntCol>
                     }
                     <AntCol Span="6" Offset="offset" Style="text-align:right;">
                         <div class="ant-form-item">
                             <KButton Name="@Language.Search" Icon="search" OnClick="OnSearchAsync" />
-                            @if (IsAdvSearch)
-                            {
+                            @if (IsAdvSearch) {
                                 <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
                             }
                             <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@TipReset" />
-                            @if (Model.QueryColumns.Count > showCount)
-                            {
+                            @if (Model.QueryColumns.Count > showCount) {
                                 <a style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
                                     <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language["Collapse"] : Language["Expand"])
                                 </a>
@@ -39,20 +36,18 @@
                 </AntRow>
             </QueryDataForm>
         </div>
-    }
-    else
-    {
+    } else {
         <QueryDataForm Model="Model.QueryData" Layout="@FormLayout.Inline">
-            @for (var i = 0; i < Model.QueryColumns.Count; i++)
-            {
+            @for (var i = 0; i < Model.QueryColumns.Count; i++) {
                 var item = Model.QueryColumns[i];
                 var itemName = Language.GetFieldName(item, Model.DataType);
-                <QueryItem IsInline Label="@itemName" Item="item" Data="context" OnSearch="OnSearchAsync" />
+                <FieldItem Label="@itemName">
+                    <QueryItem IsInline Item="item" Data="context" OnSearch="OnItemSearchAsync" />
+                </FieldItem>
             }
             <div class="kui-query-btn">
                 <KButton Name="@Language.Search" Icon="search" OnClick="OnSearchAsync" />
-                @if (IsAdvSearch)
-                {
+                @if (IsAdvSearch) {
                     <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
                 }
                 <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@TipReset" />

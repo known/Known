@@ -1,4 +1,6 @@
-﻿namespace Known.Internals;
+﻿using System.Threading.Tasks;
+
+namespace Known.Internals;
 
 /// <summary>
 /// 查询字段项目组件类。
@@ -9,9 +11,9 @@ public partial class QueryItem
     private string SelectStyle => IsInline ? "width:194px;" : "";
 
     /// <summary>
-    /// 取得或设置字段标题。
+    /// 取得或设置是否是列头过滤。
     /// </summary>
-    [Parameter] public string Label { get; set; }
+    [Parameter] public bool IsFilter { get; set; }
 
     /// <summary>
     /// 取得或设置是否在一行。
@@ -31,13 +33,17 @@ public partial class QueryItem
     /// <summary>
     /// 取得或设置搜索操作委托。
     /// </summary>
-    [Parameter] public Func<Task> OnSearch { get; set; }
+    [Parameter] public Func<List<QueryInfo>, Task> OnSearch { get; set; }
 
     /// <inheritdoc />
     protected override Task OnInitAsync()
     {
         if (Item.Property != null)
             itemType = Item.Property.PropertyType.ToString();
+
+        if (IsFilter && !Data.ContainsKey(Item.Id))
+            Data[Item.Id] = new QueryInfo(Item);
+
         return base.OnInitAsync();
     }
 
@@ -47,6 +53,12 @@ public partial class QueryItem
             return;
 
         Data[id].Value = value;
-        await OnSearch?.Invoke();
+        await SearchDataAsync();
+    }
+
+    private async Task SearchDataAsync()
+    {
+        var query = Data.Select(d => d.Value).ToList();
+        await OnSearch?.Invoke(query);
     }
 }
