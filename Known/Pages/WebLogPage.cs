@@ -20,15 +20,16 @@ public class WebLogPage : BaseTablePage<LogInfo>
 
         Table.Name = PageName;
         Table.EnableEdit = false;
+        Table.EnableSort = false;
         Table.ShowPager = true;
         Table.OnQuery = Admin.QueryWebLogsAsync;
         Table.Tips = $"该日志为内存日志，默认保留{Config.App.WebLogDays}天。";
 
         Table.Clear();
         Table.AddColumn(c => c.Type, true).Width(100).Category(nameof(LogLevel)).Tag();
-        Table.AddColumn(c => c.Target, true).Width(100).Category(nameof(LogTarget)).Tag();
+        Table.AddColumn(c => c.Target, true).Width(100).Filter(false).Category(nameof(LogTarget)).Tag();
         Table.AddColumn(c => c.CreateBy, true).Width(100);
-        Table.AddColumn(c => c.CreateTime).Width(140).Type(FieldType.DateTime);
+        Table.AddColumn(c => c.CreateTime).Width(140).Filter(false).Type(FieldType.DateTime);
         Table.AddColumn(c => c.Content, true);
 
         Table.Toolbar.AddAction(nameof(DeleteM));

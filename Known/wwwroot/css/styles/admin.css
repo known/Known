@@ -31,6 +31,8 @@
 }
 
 .kui-form-weblog {padding:10px;}
+.kui-form-weblog .ant-form-item {margin-bottom:10px;}
+.kui-form-weblog .ant-tag {max-width:124px;overflow:hidden;}
 
 /*UserProfile*/
 .kui-user-avatar {text-align:center;padding:20px 0;}

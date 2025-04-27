@@ -25,8 +25,8 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryButtonsAsync;
 
-        Table.Column(c => c.Icon).Template((b, r) => b.IconName(r.Icon, r.Icon));
-        Table.Column(c => c.Style).Tag();
+        Table.Column(c => c.Icon).Filter(false).Template((b, r) => b.IconName(r.Icon, r.Icon));
+        Table.Column(c => c.Style).Filter(false).Tag();
 
         Table.Toolbar.AddAction(nameof(New));
         Table.Toolbar.AddAction(nameof(DeleteM));

@@ -41,9 +41,9 @@ public class ButtonInfo
     /// <summary>
     /// 取得或设置操作位置，如：Toolbar，Action。
     /// </summary>
-    [Column]
+    [Column(IsQueryAll = true)]
     [Form(Type = nameof(FieldType.CheckList))]
-    [Category("Toolbar，Action")]
+    [Category("Toolbar,Action")]
     [DisplayName("位置")]
     public string[] Position { get; set; }
 

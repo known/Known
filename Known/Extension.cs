@@ -80,7 +80,9 @@ public static partial class Extension
 
         TaskScheduler.UnobservedTaskException += (sender, e) =>
         {
-            Logger.Exception(LogTarget.Task, new UserInfo { Name = sender.ToString() }, e.Exception);
+            var content = e.Exception.ToString();
+            if (!content.Contains("JSDisconnectedException"))
+                Logger.Error(LogTarget.Task, new UserInfo { Name = sender.ToString() }, content);
             e.SetObserved(); // 标记为已处理
         };
         // 进程级，无法阻止程序退出

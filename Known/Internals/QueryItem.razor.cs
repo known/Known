@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Known.Internals;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 查询字段项目组件类。
@@ -8,7 +6,8 @@ namespace Known.Internals;
 public partial class QueryItem
 {
     private string itemType = "String";
-    private string SelectStyle => IsInline ? "width:194px;" : "";
+    private string SelectStyle => IsInline ? "width:194px;" : (IsFilter ? "width:150px;" : "");
+    private string InputStyle => IsFilter ? "width:150px;" : "";
 
     /// <summary>
     /// 取得或设置是否是列头过滤。
