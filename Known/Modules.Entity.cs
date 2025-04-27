@@ -39,4 +39,9 @@ public class EntityInfo
     /// 取得或设置实体字段信息列表。
     /// </summary>
     public List<FieldInfo> Fields { get; set; } = [];
+
+    /// <summary>
+    /// 取得或设置实体字段代码生成配置信息列表。
+    /// </summary>
+    [JsonIgnore] public List<CodeFieldInfo> CodeFields { get; set; } = [];
 }

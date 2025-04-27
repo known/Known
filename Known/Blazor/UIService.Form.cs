@@ -45,6 +45,7 @@ public partial class UIService
             OkText = Language?.OK,
             CancelText = Language?.Cancel,
             WrapClassName = GetWrapperClass(model),
+            OnCancel = e => model.CloseAsync(),
             Content = GetFormContent(model)
         };
         if (model.Info?.Width != null)

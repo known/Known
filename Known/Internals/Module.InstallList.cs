@@ -9,6 +9,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
         await base.OnInitPageAsync();
         Table.Name = "未安装模块";
         Table.AutoHeight = false;
+        Table.EnableSort = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = OnQueryModulesAsync;
@@ -29,10 +30,14 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
 
     private async Task<PagingResult<ModuleInfo>> OnQueryModulesAsync(PagingCriteria criteria)
     {
-        var modules = AppData.Data.Modules.Where(m => Modules?.Exists(d => d.Url == m.Url) == false).ToList();
+        var modules = AppData.Data.Modules.Where(m => Modules?.Exists(d => d.Url == m.Url) == false)
+                                          .OrderBy(d => d.ParentId)
+                                          .ThenBy(d => d.Sort)
+                                          .ToList();
         var name = criteria.GetQueryValue(nameof(ModuleInfo.Name));
         if (!string.IsNullOrEmpty(name))
-            modules = modules.Where(m => m.Name.Contains(name)).ToList();
+            modules = [.. modules.Where(m => m.Name.Contains(name))];
+
         var result = modules.ToPagingResult(criteria);
         return await Task.FromResult(result);
     }

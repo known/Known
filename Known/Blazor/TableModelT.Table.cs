@@ -28,9 +28,14 @@ partial class TableModel<TItem>
     public bool AutoHeight { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置表格是否启动加载图标。
+    /// 取得或设置表格是否启用加载图标。
     /// </summary>
     public bool EnableSpin { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格是否启用排序，默认启用。
+    /// </summary>
+    public bool EnableSort { get; set; } = true;
 
     /// <summary>
     /// 取得或设置表格是否显示自动序号。
