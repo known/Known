@@ -71,6 +71,62 @@ public static class EnumExtension
     }
 
     /// <summary>
+    /// 根据字段类型获取查询类型列表。
+    /// </summary>
+    /// <param name="type">字段类型。</param>
+    /// <param name="language">语言实例。</param>
+    /// <returns></returns>
+    public static List<CodeInfo> GetQueryTypes(this FieldType type, Language language)
+    {
+        var types = new List<CodeInfo>();
+        switch (type)
+        {
+            case FieldType.Switch:
+            case FieldType.CheckBox:
+                AddQueryType(language, types, QueryType.Equal);
+                AddQueryType(language, types, QueryType.NotEqual);
+                break;
+            case FieldType.Number:
+                AddQueryType(language, types, QueryType.Equal);
+                AddQueryType(language, types, QueryType.NotEqual);
+                AddQueryType(language, types, QueryType.LessThan);
+                AddQueryType(language, types, QueryType.LessEqual);
+                AddQueryType(language, types, QueryType.GreatThan);
+                AddQueryType(language, types, QueryType.GreatEqual);
+                break;
+            case FieldType.Date:
+            case FieldType.DateTime:
+                AddQueryType(language, types, QueryType.Between);
+                AddQueryType(language, types, QueryType.BetweenNotEqual);
+                AddQueryType(language, types, QueryType.BetweenLessEqual);
+                AddQueryType(language, types, QueryType.BetweenGreatEqual);
+                break;
+            default:
+                AddQueryType(language, types, QueryType.Equal);
+                AddQueryType(language, types, QueryType.NotEqual);
+                AddQueryType(language, types, QueryType.Contain);
+                AddQueryType(language, types, QueryType.NotContain);
+                AddQueryType(language, types, QueryType.StartWith);
+                AddQueryType(language, types, QueryType.NotStartWith);
+                AddQueryType(language, types, QueryType.EndWith);
+                AddQueryType(language, types, QueryType.NotEndWith);
+                AddQueryType(language, types, QueryType.Batch);
+                AddQueryType(language, types, QueryType.In);
+                AddQueryType(language, types, QueryType.NotIn);
+                break;
+        }
+        return types;
+    }
+
+    private static void AddQueryType(Language language, List<CodeInfo> types, QueryType type)
+    {
+        var queryTypes = Cache.GetCodes<QueryType>();
+        var queryType = queryTypes.FirstOrDefault(t => t.Code == $"{type}");
+        queryType.Name = language[$"QueryType.{type}"];
+        types.Add(queryType);
+    }
+
+    /// <summary>
     /// 将查询类型转换成SQL操作符。
     /// </summary>
     /// <param name="type">查询类型</param>

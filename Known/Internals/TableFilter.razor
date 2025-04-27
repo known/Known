@@ -2,5 +2,11 @@
 @typeparam TItem where TItem : class, new()
 
 <div class="kui-table-filter">
+    @if (Table.QueryData.ContainsKey(Item.Id) && ShowFilterType(Item))
+    {
+        var types = Item.Type.GetQueryTypes(Language);
+        <AntSelectCode Style="width:100px;" DataSource="@types" Value="@Table.QueryData[Item.Id].Type.ToString()"
+                       ValueChanged="v=>Table.QueryData[Item.Id].Type=Utils.ConvertTo<QueryType>(v)" />
+    }
     <QueryItem IsFilter Item="Item" Data="Table.QueryData" OnSearch="OnSearchAsync" />
 </div>

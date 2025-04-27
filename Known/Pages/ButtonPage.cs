@@ -21,10 +21,13 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
         Table.EnableEdit = false;
+        Table.AdvSearch = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryButtonsAsync;
 
+        Table.Column(c => c.Id).FilterType(false);
+        Table.Column(c => c.Name).FilterType(false);
         Table.Column(c => c.Icon).Filter(false).Template((b, r) => b.IconName(r.Icon, r.Icon));
         Table.Column(c => c.Style).Filter(false).Tag();
 

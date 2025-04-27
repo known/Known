@@ -23,9 +23,9 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
         Table.EnableEdit = false;
         Table.ShowPager = true;
         Table.OnQuery = OnQueryApisAsync;
-        Table.AddColumn(c => c.HttpMethod).Width(90).Template(BuildMethod);
-        Table.AddColumn(c => c.Route, true).Width(250).Tag();
-        Table.AddColumn(c => c.Description);
+        Table.AddColumn(c => c.HttpMethod).Width(120).Template(BuildMethod);
+        Table.AddColumn(c => c.Route, true).Width(250).Tag().FilterType(false);
+        Table.AddColumn(c => c.Description).Filter(false);
         Table.AddAction(nameof(Test));
     }
 
@@ -57,14 +57,11 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
     private Task<PagingResult<ApiMethodInfo>> OnQueryApisAsync(PagingCriteria criteria)
     {
         var methods = Config.ApiMethods;
-        var cq = criteria.Query?.FirstOrDefault(q => q.Id == nameof(ApiMethodInfo.Route));
-        if (cq != null && !string.IsNullOrWhiteSpace(cq.Value))
-            methods = methods.Where(m => m.Route.Contains(cq.Value, StringComparison.OrdinalIgnoreCase)).ToList();
-
-        var pageData = methods.Skip((criteria.PageIndex - 1) * criteria.PageSize)
-                              .Take(criteria.PageSize)
-                              .ToList();
-        var result = new PagingResult<ApiMethodInfo>(methods.Count, pageData);
+        var method = criteria.GetQueryValue(nameof(ApiMethodInfo.HttpMethod));
+        if (!string.IsNullOrWhiteSpace(method))
+            methods = [.. methods.Where(m => m.HttpMethod.Method.Equals(method, StringComparison.OrdinalIgnoreCase))];
+        methods = [.. methods.Contains(m => m.Route, criteria)];
+        var result = methods.ToPagingResult(criteria);
         return Task.FromResult(result);
     }
 }

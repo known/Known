@@ -14,6 +14,16 @@ public partial class ColumnInfo
     public RenderFragment Template { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位是否是过滤字段，默认过滤。
+    /// </summary>
+    public bool IsFilter { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置栏位是否支持过滤字段查询类型，默认支持。
+    /// </summary>
+    public bool IsFilterType { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表单字段过滤条件模板。
     /// </summary>
     public RenderFragment FilterTemplate { get; set; }

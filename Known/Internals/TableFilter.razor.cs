@@ -16,6 +16,16 @@ public partial class TableFilter<TItem>
     /// </summary>
     [Parameter] public ColumnInfo Item { get; set; }
 
+    private static bool ShowFilterType(ColumnInfo item)
+    {
+        if (!item.IsFilterType) return false;
+        if (item.Type == FieldType.RadioList) return false;
+        if (item.Type == FieldType.Date || item.Type == FieldType.DateTime) return false;
+        if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox) return false;
+        if (!string.IsNullOrWhiteSpace(item.Category) || item.Type == FieldType.Select) return false;
+        return true;
+    }
+
     private async Task OnSearchAsync(List<QueryInfo> query)
     {
         Table.Criteria.Query = query;

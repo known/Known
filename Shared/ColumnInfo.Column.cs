@@ -23,11 +23,6 @@ public partial class ColumnInfo
     public bool IsSum { get; set; }
 
     /// <summary>
-    /// 取得或设置栏位是否是过滤字段，默认过滤。
-    /// </summary>
-    public bool IsFilter { get; set; } = true;
-
-    /// <summary>
     /// 取得或设置栏位是否是排序字段，默认排序。
     /// </summary>
     public bool IsSort { get; set; } = true;

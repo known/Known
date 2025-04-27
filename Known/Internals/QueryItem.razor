@@ -28,6 +28,6 @@
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         }
     } else {
-        <AntInput Style="@InputStyle" Value="@Data[Item.Id].Value" ValueChanged="v=>Data[Item.Id].Value=v" OnPressEnter="e=>SearchDataAsync()" />
+        <AntInput Style="@InputStyle" Value="@Data[Item.Id].Value" ValueChanged="v=>Data[Item.Id].Value=v" OnPressEnter="e=>SearchDataAsync()" Placeholder="@Language["按回车查询"]" />
     }
 }

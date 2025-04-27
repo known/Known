@@ -79,7 +79,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-table .kui-title {padding-left:0;}
 .kui-table .kui-toolbar .setting {margin-left:5px;cursor:pointer;font-size:18px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
-.kui-table-filter {padding:10px;}
+.kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
 .kui-table-filter label {display:block;}
 
 /*Form*/

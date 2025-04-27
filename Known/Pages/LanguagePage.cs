@@ -22,6 +22,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         Table.Name = PageName;
         Table.EnableEdit = false;
         Table.EnableFilter = false;
+        Table.AdvSearch = false;
         Table.ShowPager = true;
         Table.OnQuery = Platform.QueryLanguagesAsync;
 

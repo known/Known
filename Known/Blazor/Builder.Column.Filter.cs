@@ -13,4 +13,16 @@ public partial class ColumnBuilder<TItem>
             column.IsFilter = isFilter;
         return this;
     }
+
+    /// <summary>
+    /// 设置表格栏位列头是否显示过滤器查询类型。
+    /// </summary>
+    /// <param name="isFilterType">是否显示过滤器查询类型。</param>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> FilterType(bool isFilterType)
+    {
+        if (column != null)
+            column.IsFilterType = isFilterType;
+        return this;
+    }
 }

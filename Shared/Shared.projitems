@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataPlaceholder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DbTableInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTableExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />

@@ -111,6 +111,8 @@ public class ApiMethodInfo
     /// <summary>
     /// 取得或设置方法HTTP请求方式，默认方法名以Get开头的方法为GET请求，其他为POST请求。
     /// </summary>
+    [Column(IsQueryAll = true)]
+    [Category("GET,POST")]
     public HttpMethod HttpMethod { get; set; }
 
     /// <summary>

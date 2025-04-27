@@ -60,7 +60,6 @@ class AdvancedSearch : BaseComponent
 
 class AdvancedSearchItem : BaseComponent
 {
-    private readonly List<CodeInfo> QueryTypes = Cache.GetCodes<QueryType>();
     private ColumnInfo column;
 
     [Parameter] public List<ColumnInfo> Columns { get; set; }
@@ -90,7 +89,7 @@ class AdvancedSearchItem : BaseComponent
 
     private void BuildQueryType(RenderTreeBuilder builder, QueryInfo item)
     {
-        var types = GetQueryTypes();
+        var types = column?.Type.GetQueryTypes(Language);
         builder.Select(new InputModel<string>
         {
             Placeholder = Language["PleaseSelect"],
@@ -139,54 +138,5 @@ class AdvancedSearchItem : BaseComponent
                 });
                 break;
         }
-    }
-
-    private List<CodeInfo> GetQueryTypes()
-    {
-        var types = new List<CodeInfo>();
-        switch (column?.Type)
-        {
-            case FieldType.Switch:
-            case FieldType.CheckBox:
-                AddQueryType(types, QueryType.Equal);
-                AddQueryType(types, QueryType.NotEqual);
-                break;
-            case FieldType.Number:
-                AddQueryType(types, QueryType.Equal);
-                AddQueryType(types, QueryType.NotEqual);
-                AddQueryType(types, QueryType.LessThan);
-                AddQueryType(types, QueryType.LessEqual);
-                AddQueryType(types, QueryType.GreatThan);
-                AddQueryType(types, QueryType.GreatEqual);
-                break;
-            case FieldType.Date:
-            case FieldType.DateTime:
-                AddQueryType(types, QueryType.Between);
-                AddQueryType(types, QueryType.BetweenNotEqual);
-                AddQueryType(types, QueryType.BetweenLessEqual);
-                AddQueryType(types, QueryType.BetweenGreatEqual);
-                break;
-            default:
-                AddQueryType(types, QueryType.Equal);
-                AddQueryType(types, QueryType.NotEqual);
-                AddQueryType(types, QueryType.Contain);
-                AddQueryType(types, QueryType.NotContain);
-                AddQueryType(types, QueryType.StartWith);
-                AddQueryType(types, QueryType.NotStartWith);
-                AddQueryType(types, QueryType.EndWith);
-                AddQueryType(types, QueryType.NotEndWith);
-                AddQueryType(types, QueryType.Batch);
-                AddQueryType(types, QueryType.In);
-                AddQueryType(types, QueryType.NotIn);
-                break;
-        }
-        return types;
-    }
-
-    private void AddQueryType(List<CodeInfo> types, QueryType type)
-    {
-        var queryType = QueryTypes.FirstOrDefault(t => t.Code == $"{type}");
-        queryType.Name = Language[$"QueryType.{type}"];
-        types.Add(queryType);
     }
 }
