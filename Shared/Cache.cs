@@ -111,9 +111,16 @@ public sealed class Cache
     /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
     /// </summary>
     /// <param name="category">代码类别名。</param>
+    /// <returns>代码表列表。</returns>
+    public static List<CodeInfo> GetCodes(string category) => GetCodes(category, null);
+
+    /// <summary>
+    /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
+    /// </summary>
+    /// <param name="category">代码类别名。</param>
     /// <param name="nameFormat">代码名称显示格式，比如：{Code}-{Name}，默认只显示名称。</param>
     /// <returns>代码表列表。</returns>
-    public static List<CodeInfo> GetCodes(string category, string nameFormat = null)
+    public static List<CodeInfo> GetCodes(string category, string nameFormat)
     {
         var infos = new List<CodeInfo>();
         if (string.IsNullOrWhiteSpace(category))

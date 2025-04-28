@@ -33,7 +33,18 @@ public partial class ColumnBuilder<TItem>
     /// 设置表格栏位为查看连接。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>
-    public ColumnBuilder<TItem> ViewLink(Action<TItem> action = null)
+    public ColumnBuilder<TItem> ViewLink()
+    {
+        if (column != null)
+            column.IsViewLink = true;
+        return this;
+    }
+
+    /// <summary>
+    /// 设置表格栏位为查看连接。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> ViewLink(Action<TItem> action)
     {
         if (column == null)
             return this;

@@ -53,9 +53,17 @@ public interface ICodeGenerator
     /// </summary>
     /// <param name="page">页面模型对象。</param>
     /// <param name="entity">实体模型对象。</param>
+    /// <returns>业务服务接口代码。</returns>
+    string GetIService(PageInfo page, EntityInfo entity);
+
+    /// <summary>
+    /// 获取业务服务接口代码。
+    /// </summary>
+    /// <param name="page">页面模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
     /// <param name="hasClient">是否含有客户端类。</param>
     /// <returns>业务服务接口代码。</returns>
-    string GetIService(PageInfo page, EntityInfo entity, bool hasClient = false);
+    string GetIService(PageInfo page, EntityInfo entity, bool hasClient);
 
     /// <summary>
     /// 获取客户端HTTP请求代码。

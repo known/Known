@@ -2,7 +2,9 @@
 
 partial class CodeGenerator
 {
-    public string GetIService(PageInfo page, EntityInfo entity, bool hasClient = false)
+    public string GetIService(PageInfo page, EntityInfo entity) => GetIService(page, entity, false);
+
+    public string GetIService(PageInfo page, EntityInfo entity, bool hasClient)
     {
         var modelName = GetModelName(entity.Id);
         var pluralName = GetPluralName(entity.Id);

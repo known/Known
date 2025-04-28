@@ -99,6 +99,12 @@ public static partial class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
+        if (Config.IsAdmin)
+        {
+            UIConfig.TopNavType = null; // 移除Admin插件顶部导航
+            UIConfig.EnableEdit = true;
+        }
+
         AppData.KmdPath = Path.Combine(Config.App.ContentRoot, "AppData.kmd");
         AppData.KcdPath = Path.Combine(Config.App.ContentRoot, "AppData.kcd");
         AppData.KdbPath = Path.Combine(Config.App.ContentRoot, "AppData.kdb");
