@@ -27,7 +27,7 @@
                 <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
             </DataItem>
             <DataItem Span="8" Label="测试">
-                <AntSelectCode @bind-Value="context.Field" Category="Item1,Item2,Item3" />
+                <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
             </DataItem>
         </AntRow>
         <div>@string.Join(",", value)</div>

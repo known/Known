@@ -110,9 +110,10 @@ public sealed class Cache
     /// <summary>
     /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
     /// </summary>
-    /// <param name="category">代码类别名/</param>
+    /// <param name="category">代码类别名。</param>
+    /// <param name="nameFormat">代码名称显示格式，比如：{Code}-{Name}，默认只显示名称。</param>
     /// <returns>代码表列表。</returns>
-    public static List<CodeInfo> GetCodes(string category)
+    public static List<CodeInfo> GetCodes(string category, string nameFormat = null)
     {
         var infos = new List<CodeInfo>();
         if (string.IsNullOrWhiteSpace(category))
@@ -120,11 +121,15 @@ public sealed class Cache
 
         var codes = GetCodes().Where(c => c.Category == category).ToList();
         if (codes == null || codes.Count == 0)
-            codes = category.Split(',', ';', '，', '；').Select(d => new CodeInfo(d, d)).ToList();
+            codes = [.. category.Split(',', ';', '，', '；').Select(d => new CodeInfo(d, d))];
 
-        if (codes != null && codes.Count > 0)
-            infos.AddRange(codes);
-
+        foreach (var item in codes)
+        {
+            var code = new CodeInfo(item.Category, item.Code, item.Name);
+            if (code.Code != code.Name && !string.IsNullOrWhiteSpace(nameFormat))
+                code.Name = nameFormat.Replace("{Code}", item.Code).Replace("{Name}", item.Name);
+            infos.Add(code);
+        }
         return infos;
     }
 

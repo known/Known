@@ -55,6 +55,11 @@ public class AntSelectCode : Select<string, CodeInfo>
     /// </summary>
     [Parameter] public string Category { get; set; }
 
+    /// <summary>
+    /// 取得或设置选择框组件显示文本格式，比如：{Code}-{Name}，默认只显示名称。
+    /// </summary>
+    [Parameter] public string LabelFormat { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -80,7 +85,7 @@ public class AntSelectCode : Select<string, CodeInfo>
         if (string.IsNullOrEmpty(Placeholder))
             Placeholder = emptyText;
         if (!string.IsNullOrWhiteSpace(Category))
-            DataSource = Cache.GetCodes(Category).ToCodes(emptyText);
+            DataSource = Cache.GetCodes(Category, LabelFormat).ToCodes(emptyText);
         base.OnParametersSet();
     }
 }

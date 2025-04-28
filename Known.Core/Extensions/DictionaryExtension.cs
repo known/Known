@@ -8,9 +8,7 @@ static class DictionaryExtension
         var codes = entities.Where(d => d.Enabled).OrderBy(d => d.Category).ThenBy(d => d.Sort).Select(e =>
         {
             var code = e.Code;
-            var name = string.IsNullOrWhiteSpace(e.Name)
-                     ? e.Code
-                     : $"{e.Code}-{e.Name}";
+            var name = string.IsNullOrWhiteSpace(e.Name) ? e.Code : e.Name;
             return new CodeInfo(e.Category, code, name, e);
         }).ToList();
 
