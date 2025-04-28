@@ -195,6 +195,17 @@ public sealed class TypeHelper
         }
     }
 
+    private static readonly ConcurrentDictionary<string, System.Reflection.FieldInfo[]> typeFields = new();
+    /// <summary>
+    /// 获取内存缓存的类型字段集合。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <returns>字段集合。</returns>
+    public static System.Reflection.FieldInfo[] Fields(Type type)
+    {
+        return typeFields.GetOrAdd(type.FullName, type.GetFields());
+    }
+
     private static readonly ConcurrentDictionary<string, PropertyInfo[]> typeProperties = new();
     /// <summary>
     /// 获取内存缓存的类型属性集合。

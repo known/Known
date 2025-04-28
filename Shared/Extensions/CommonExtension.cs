@@ -55,15 +55,56 @@ public static class CommonExtension
     }
 
     /// <summary>
-    /// 采用JSON序列化方式克隆对象新实例。
+    /// 采用反射方式克隆对象的新实例。
     /// </summary>
     /// <typeparam name="T">对象类型。</typeparam>
     /// <param name="obj">原对象。</param>
     /// <returns>新对象。</returns>
     public static T Clone<T>(this T obj)
     {
-        var json = Utils.ToJson(obj);
-        return Utils.FromJson<T>(json);
+        if (obj == null)
+            return default;
+
+        var type = obj.GetType();
+        if (type.IsValueType || obj is string) // 如果是值类型或字符串，直接返回
+            return obj;
+
+        // 如果是 System.Reflection 类型，直接返回原对象
+        if (type.Namespace != null && type.Namespace.StartsWith("System.Reflection"))
+            return obj;
+
+        // 如果是集合类型，递归克隆每个元素
+        if (obj is IEnumerable enumerable)
+        {
+            var listType = typeof(List<>).MakeGenericType(type.GetGenericArguments());
+            var list = (IList)Activator.CreateInstance(listType);
+            foreach (var item in enumerable)
+            {
+                list.Add(item.Clone());
+            }
+            return (T)list;
+        }
+
+        // 创建新实例
+        var clone = Activator.CreateInstance(type);
+        foreach (var property in TypeHelper.Properties(type)) // 克隆属性
+        {
+            if (property.CanRead && property.CanWrite)
+            {
+                var value = property.GetValue(obj);
+                if (value != null)
+                    property.SetValue(clone, value.Clone());
+            }
+        }
+        
+        foreach (var field in TypeHelper.Fields(type)) // 克隆字段
+        {
+            var value = field.GetValue(obj);
+            if (value != null)
+                field.SetValue(clone, value.Clone());
+        }
+
+        return (T)clone;
     }
 
     /// <summary>
