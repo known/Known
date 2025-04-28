@@ -65,7 +65,7 @@ public class UserDataInfo : UserInfo
     [Required]
     [MaxLength(50)]
     [Category(nameof(GenderType))]
-    [Column]
+    [Column(Width = 80)]
     [Form(Row = 3, Column = 1, Type = nameof(FieldType.RadioList))]
     [DisplayName("性别")]
     public new string Gender { get; set; }
@@ -84,7 +84,7 @@ public class UserDataInfo : UserInfo
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Mobile, ErrorMessage = "移动电话格式不正确！")]
-    [Column]
+    [Column(Width = 120)]
     [Form(Row = 4, Column = 1)]
     [DisplayName("移动电话")]
     public new string Mobile { get; set; }
@@ -94,7 +94,7 @@ public class UserDataInfo : UserInfo
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Email, ErrorMessage = "电子邮件格式不正确！")]
-    [Column]
+    [Column(Width = 150)]
     [Form(Row = 4, Column = 2)]
     [DisplayName("电子邮件")]
     public new string Email { get; set; }
@@ -103,7 +103,7 @@ public class UserDataInfo : UserInfo
     /// 取得或设置状态。
     /// </summary>
     [Required]
-    [Column]
+    [Column(Width = 80)]
     [Form(Row = 5, Column = 1, Type = nameof(FieldType.Switch))]
     [DisplayName("状态")]
     public new bool Enabled { get; set; }

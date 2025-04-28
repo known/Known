@@ -3,6 +3,19 @@
 public partial class ColumnBuilder<TItem>
 {
     /// <summary>
+    /// 设置表格栏位是否支持查询条件。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> QueryField(bool isQueryField)
+    {
+        if (column != null)
+            column.IsQueryField = isQueryField;
+        if (allColumn != null)
+            allColumn.IsQueryField = isQueryField;
+        return this;
+    }
+
+    /// <summary>
     /// 设置表格栏位为查询字段。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>

@@ -21,7 +21,8 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         Table.Form = new FormInfo { SmallLabel = true };
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
-        Table.Column(c => c.Category).Template((b, r) => b.Text(r.CategoryName));
+        Table.Column(c => c.Category).QueryField(false).Template((b, r) => b.Text(r.CategoryName));
+        Table.Column(c => c.Sort).Filter(false);
     }
 
     /// <inheritdoc />

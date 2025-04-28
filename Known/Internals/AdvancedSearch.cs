@@ -77,7 +77,7 @@ class AdvancedSearchItem : BaseComponent
         builder.Select(new InputModel<string>
         {
             Placeholder = Language["PleaseSelect"],
-            Codes = Columns?.Select(f => new CodeInfo(f.Id, Language.GetFieldName(f))).ToList(),
+            Codes = Columns?.Where(f => f.IsQueryField).Select(f => new CodeInfo(f.Id, Language.GetFieldName(f))).ToList(),
             Value = item.Id,
             ValueChanged = this.Callback<string>(v =>
             {

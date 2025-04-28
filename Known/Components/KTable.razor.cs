@@ -243,7 +243,7 @@ partial class KTable<TItem>
 
     private RenderFragment GetFilterTemplate(ColumnInfo item)
     {
-        if (!Model.EnableFilter || !item.IsFilter)
+        if (!Model.EnableFilter || !item.IsQueryField || !item.IsFilter)
             return null;
 
         if (item.FilterTemplate != null)

@@ -10,7 +10,7 @@
         }
     } else if (!string.IsNullOrWhiteSpace(Item.Category) || Item.Type == FieldType.Select) {
         var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
-        if (IsFilter && codes.Count <= 5) {
+        if (IsFilter && codes.Count <= 10) {
             <AntRadioGroup Codes="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         } else {
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />

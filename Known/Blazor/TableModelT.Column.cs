@@ -98,7 +98,7 @@ partial class TableModel<TItem>
         {
             foreach (var item in AllColumns)
             {
-                var info = CreateColumn(item);
+                var info = item.Clone();
                 var setting = settings?.FirstOrDefault(c => c.Id == item.Id);
                 if (setting != null)
                 {
@@ -111,48 +111,5 @@ partial class TableModel<TItem>
             }
         }
         return [.. infos.OrderBy(c => c.Sort)];
-    }
-
-    private static ColumnInfo CreateColumn(ColumnInfo info)
-    {
-        return new ColumnInfo
-        {
-            Id = info.Id,
-            Name = info.Name,
-            Tooltip = info.Tooltip,
-            IsVisible = info.IsVisible,
-            Ellipsis = info.Ellipsis,
-            IsSum = info.IsSum,
-            IsSort = info.IsSort,
-            DefaultSort = info.DefaultSort,
-            IsViewLink = info.IsViewLink,
-            IsQuery = info.IsQuery,
-            IsQueryAll = info.IsQueryAll,
-            QueryValue = info.QueryValue,
-            Fixed = info.Fixed,
-            Width = info.Width,
-            Sort = info.Sort,
-            Align = info.Align,
-            Position = info.Position,
-            IsForm = info.IsForm,
-            DisplayName = info.DisplayName,
-            Label = info.Label,
-            Category = info.Category,
-            Placeholder = info.Placeholder,
-            FieldValue = info.FieldValue,
-            Row = info.Row,
-            Column = info.Column,
-            Unit = info.Unit,
-            Span = info.Span,
-            Type = info.Type,
-            CustomField = info.CustomField,
-            MultiFile = info.MultiFile,
-            Required = info.Required,
-            ReadOnly = info.ReadOnly,
-            Codes = info.Codes,
-            Template = info.Template,
-            Property = info.Property,
-            Note = info.Note
-        };
     }
 }

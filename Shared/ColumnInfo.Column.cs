@@ -53,6 +53,11 @@ public partial class ColumnInfo
     public bool IsQueryAll { get; set; }
 
     /// <summary>
+    /// 取得或设置是否是查询条件栏位，默认是。
+    /// </summary>
+    public bool IsQueryField { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置栏位查询条件默认值。
     /// </summary>
     public string QueryValue { get; set; }

@@ -21,7 +21,7 @@ public class AttachInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
+    [Column(IsQuery = true, Width = 120)]
     [DisplayName("一级分类")]
     public string Category1 { get; set; }
 
@@ -29,7 +29,7 @@ public class AttachInfo
     /// 取得或设置二级分类。
     /// </summary>
     [MaxLength(50)]
-    [Column]
+    [Column(Width = 120)]
     [DisplayName("二级分类")]
     public string Category2 { get; set; }
 
@@ -86,7 +86,7 @@ public class AttachInfo
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column]
+    [Column(Width = 300)]
     [DisplayName("备注")]
     public string Note { get; set; }
 
