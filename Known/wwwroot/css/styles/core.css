@@ -60,7 +60,6 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-query-btn {display:flex;gap:3px;}
 .kui-query-more .ant-row {gap:8px 0;}
 .kui-query .ant-form-item {margin:0;}
-.kui-query .ant-form-item-label {width:100px;text-align:left;}
 .kui-query .ant-form-item-control {margin-right:10px;}
 .kui-query .ant-picker-range input {width:98px;}
 .kui-query-more .ant-picker-range input {width:100%;}
@@ -80,7 +79,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-table .kui-toolbar .setting {margin-left:5px;cursor:pointer;font-size:18px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
-.kui-table-filter label {display:block;}
+.kui-table-filter label {display:flex;}
+.kui-table-filter input {width:100px;}
 
 /*Form*/
 .kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}

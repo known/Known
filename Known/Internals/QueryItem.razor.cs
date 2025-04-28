@@ -6,8 +6,8 @@
 public partial class QueryItem
 {
     private string itemType = "String";
-    private string SelectStyle => IsInline ? "width:194px;" : (IsFilter ? "width:150px;" : "");
-    private string InputStyle => IsFilter ? "width:150px;" : "";
+    private string SelectStyle => IsInline ? "width:194px;" : (IsFilter ? "width:100px;" : "");
+    private string InputStyle => IsFilter ? "width:100px;" : "";
 
     /// <summary>
     /// 取得或设置是否是列头过滤。
@@ -44,6 +44,17 @@ public partial class QueryItem
             Data[Item.Id] = new QueryInfo(Item);
 
         return base.OnInitAsync();
+    }
+
+    private async Task OnSelectChangedAsync(string id, string[] values)
+    {
+        var value = string.Join(",", values ?? []);
+        if (value == Data[id].Value)
+            return;
+
+        Data[id].Type = QueryType.In;
+        Data[id].Value = value;
+        await SearchDataAsync();
     }
 
     private async Task OnSelectChangedAsync(string id, string value)

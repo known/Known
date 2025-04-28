@@ -1,30 +1,44 @@
 ﻿@inherits BaseComponent
 
 @if (Data.ContainsKey(Item.Id)) {
-    if (Item.Type == FieldType.RadioList) {
+    if (Item.Type == FieldType.File) {
+        var codes = new List<CodeInfo>();
+        codes.Add(new CodeInfo("True", Language["有"]));
+        codes.Add(new CodeInfo("False", Language["无"]));
+        if (IsFilter) {
+            <AntCheckboxGroup Category="@Item.Category" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
+        } else {
+            codes.Insert(0, new CodeInfo("", Language["All"]));
+            <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
+        }
+    } else if (Item.Type == FieldType.RadioList) {
         var codes = Cache.GetCodes(Item.Category).ToCodes();
         if (IsFilter) {
-            <AntRadioGroup Category="@Item.Category" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
+            <AntCheckboxGroup Category="@Item.Category" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         } else {
             <AntRadioGroup Category="@Item.Category" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" ButtonStyle="RadioButtonStyle.Solid" />
         }
     } else if (!string.IsNullOrWhiteSpace(Item.Category) || Item.Type == FieldType.Select) {
-        var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
-        if (IsFilter && codes.Count <= 10) {
-            <AntRadioGroup Codes="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
+        if (IsFilter) {
+            var codes = Cache.GetCodes(Item.Category).ToCodes();
+            <AntCheckboxGroup Codes="codes" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         } else {
+            var codes = Cache.GetCodes(Item.Category).ToCodes(Item.IsQueryAll ? Language["All"] : "");
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         }
     } else if (itemType.Contains("DateTime") || Item.Type == FieldType.Date || Item.Type == FieldType.DateTime) {
         <AntRangePicker @bind-RangeValue="@Data[Item.Id].Value" />
+        @if (IsFilter) {
+            <KButton Name="确定" OnClick="SearchDataAsync" />
+        }
     } else if (itemType.Contains("Boolean") || Item.Type == FieldType.Switch || Item.Type == FieldType.CheckBox) {
         var codes = new List<CodeInfo>();
-        codes.Add(new CodeInfo("", Language["All"]));
         codes.Add(new CodeInfo("True", Language["Yes"]));
         codes.Add(new CodeInfo("False", Language["No"]));
         if (IsFilter) {
-            <AntRadioGroup Codes="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
+            <AntCheckboxGroup Codes="codes" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         } else {
+            codes.Insert(0, new CodeInfo("", Language["All"]));
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         }
     } else {

@@ -60,4 +60,5 @@ public class QueryInfo
 
     internal bool IsNew { get; set; }
     internal object ParamValue { get; set; }
+    internal string[] Values => Value?.Split(',');
 }

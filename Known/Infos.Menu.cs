@@ -208,6 +208,9 @@ public class MenuInfo
     /// <param name="menus">菜单列表。</param>
     public void AddChildren(List<MenuInfo> menus)
     {
+        if (menus == null || menus.Count == 0)
+            return;
+
         foreach (var menu in menus)
         {
             AddChild(menu);

@@ -38,8 +38,8 @@ class QueryHelper
         if (!criteria.HasQuery(key))
             return;
 
-        if (criteria.Fields.ContainsKey(key))
-            field = criteria.Fields[key];
+        if (criteria.Fields.TryGetValue(key, out string value))
+            field = value;
 
         //var fields = field.Split('.');
         //if (fields.Length > 1)
