@@ -6,7 +6,7 @@
         codes.Add(new CodeInfo("True", Language["有"]));
         codes.Add(new CodeInfo("False", Language["无"]));
         if (IsFilter) {
-            <AntCheckboxGroup Category="@Item.Category" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
+            <AntCheckboxGroup Codes="codes" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         } else {
             codes.Insert(0, new CodeInfo("", Language["All"]));
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />

@@ -36,6 +36,7 @@ public partial class QueryForm
     private void OnReset()
     {
         Model?.SetDefaultQuery();
+        Model?.Reload();
         StateChanged();
     }
 }

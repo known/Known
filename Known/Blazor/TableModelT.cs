@@ -79,7 +79,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
 
-    internal Action OnReload { get; set; }
     internal override string TableId => typeof(TItem).Name;
     internal override Type DataType => typeof(TItem);
     internal void Initialize() => Initialize(true);
@@ -154,14 +153,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar?.Items?.Clear();
         Actions?.Clear();
         Criteria?.Clear();
-    }
-
-    /// <summary>
-    /// 重新加载表格。
-    /// </summary>
-    public void Reload()
-    {
-        OnReload?.Invoke();
     }
 
     private static List<ColumnInfo> GetAttributeColumns(Type type)

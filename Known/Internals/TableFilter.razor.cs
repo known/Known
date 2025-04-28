@@ -19,6 +19,7 @@ public partial class TableFilter<TItem>
     private static bool ShowFilterType(ColumnInfo item)
     {
         if (!item.IsFilterType) return false;
+        if (item.Type == FieldType.File) return false;
         if (item.Type == FieldType.RadioList) return false;
         if (item.Type == FieldType.Date || item.Type == FieldType.DateTime) return false;
         if (item.Type == FieldType.Switch || item.Type == FieldType.CheckBox) return false;

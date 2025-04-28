@@ -82,11 +82,6 @@ public class TableModel : BaseModel
     public List<ColumnInfo> Columns { get; set; } = [];
 
     /// <summary>
-    /// 取得或设置表格刷新委托，创建抽象表格时赋值。
-    /// </summary>
-    internal Func<bool, Task> OnRefresh { get; set; }
-
-    /// <summary>
     /// 取得表格工具条配置模型对象。
     /// </summary>
     public ToolbarModel Toolbar { get; }
@@ -99,6 +94,16 @@ public class TableModel : BaseModel
     internal virtual string TableId { get; }
     internal virtual Type DataType { get; }
     internal List<ColumnInfo> AllColumns { get; set; } = [];
+    internal Action OnReload { get; set; }
+    internal Func<bool, Task> OnRefresh { get; set; }
+
+    /// <summary>
+    /// 重新加载表格。
+    /// </summary>
+    public void Reload()
+    {
+        OnReload?.Invoke();
+    }
 
     /// <summary>
     /// 搜索表格数据，默认显示第一页。
