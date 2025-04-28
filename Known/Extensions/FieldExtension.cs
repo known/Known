@@ -25,6 +25,7 @@ public static class FieldExtension
     public static void Search(this RenderTreeBuilder builder, InputModel<string> model)
     {
         builder.Component<Search>()
+               .Set(c => c.ReadOnly, model.ReadOnly)
                .Set(c => c.Disabled, model.Disabled)
                .Set(c => c.ClassicSearchIcon, true)
                .Set(c => c.Placeholder, model.Placeholder)
@@ -51,6 +52,7 @@ public static class FieldExtension
         builder.FieldItem(label, b =>
         {
             b.Component<Input<string>>()
+             .Set(c => c.ReadOnly, model.ReadOnly)
              .Set(c => c.Disabled, model.Disabled)
              .Set(c => c.Placeholder, model.Placeholder)
              .Set(c => c.Value, model.Value)
@@ -77,6 +79,7 @@ public static class FieldExtension
         builder.FieldItem(label, b =>
         {
             b.Component<TextArea>()
+             .Set(c => c.ReadOnly, model.ReadOnly)
              .Set(c => c.Disabled, model.Disabled)
              .Set(c => c.Placeholder, model.Placeholder)
              .Set(c => c.Rows, model.Rows)
@@ -104,6 +107,7 @@ public static class FieldExtension
         builder.FieldItem(label, b =>
         {
             b.Component<InputPassword>()
+             .Set(c => c.ReadOnly, model.ReadOnly)
              .Set(c => c.Disabled, model.Disabled)
              .Set(c => c.Placeholder, model.Placeholder)
              .Set(c => c.Value, model.Value)

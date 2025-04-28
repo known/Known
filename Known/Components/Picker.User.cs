@@ -32,11 +32,12 @@ public class UserPicker : TablePicker<UserInfo>, ICustomField
         Width = 800;
         AllowClear = true;
         ItemExpression = d => d.UserName == Value?.ToString();
+        Table.EnableFilter = false;
         Table.OnQuery = QueryUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);
-        Table.AddColumn(c => c.Phone).Width(100);
-        Table.AddColumn(c => c.Email).Width(100);
+        Table.AddColumn(c => c.Phone).Width(120);
+        Table.AddColumn(c => c.Email).Width(150);
         Table.AddColumn(c => c.Role);
     }
 

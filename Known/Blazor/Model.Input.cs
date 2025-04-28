@@ -7,6 +7,11 @@
 public class InputModel<TValue>
 {
     /// <summary>
+    /// 取得或设置输入组件是否只读。
+    /// </summary>
+    public bool ReadOnly { get; set; }
+
+    /// <summary>
     /// 取得或设置输入组件是否可用。
     /// </summary>
     public bool Disabled { get; set; }

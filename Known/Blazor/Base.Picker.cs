@@ -78,7 +78,7 @@ public class BasePicker<TItem> : BaseComponent
         builder.Div("kui-picker", () =>
         {
             BuildTextBox(builder);
-            builder.TextBox(new InputModel<string> { Value = Text ?? Value?.ToString(), Disabled = true });
+            builder.TextBox(new InputModel<string> { Value = Text ?? Value?.ToString(), ReadOnly = true });
 
             if (!ReadOnly)
             {
