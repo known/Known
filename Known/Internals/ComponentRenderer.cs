@@ -208,7 +208,7 @@ class ComServiceBuilder(IServiceProvider provider, IEnumerable<IServiceProvider>
 class ComServiceProvider(IServiceProvider provider, IEnumerable<IServiceScope> scopes) : IServiceProvider, IDisposable
 {
     private readonly IServiceProvider provider = provider;
-    private readonly IEnumerable<IServiceScope> scopes = new List<IServiceScope>(scopes);
+    private readonly IEnumerable<IServiceScope> scopes = [.. scopes];
 
     public object GetService(Type serviceType)
     {
@@ -232,7 +232,7 @@ class ComServiceProvider(IServiceProvider provider, IEnumerable<IServiceScope> s
 
 class ComServiceCollection : ServiceCollection, ICollection<IServiceProvider>, IEnumerable<IServiceProvider>, IList<IServiceProvider>
 {
-    private readonly IList<IServiceProvider> providers = new List<IServiceProvider>();
+    private readonly IList<IServiceProvider> providers = [];
 
     IServiceProvider IList<IServiceProvider>.this[int index]
     {
@@ -265,7 +265,7 @@ class ComServiceCollection : ServiceCollection, ICollection<IServiceProvider>, I
 class ComHtmlRenderer(IServiceProvider serviceProvider, ILoggerFactory loggerFactory) : Renderer(serviceProvider, loggerFactory)
 {
     private Exception unhandledException;
-    private TaskCompletionSource<object> nextRenderTcs = new TaskCompletionSource<object>();
+    private TaskCompletionSource<object> nextRenderTcs = new();
 
     public new ArrayRange<RenderTreeFrame> GetCurrentRenderTreeFrames(int componentId) => base.GetCurrentRenderTreeFrames(componentId);
     public int AttachTestRootComponent(ComContainerComponent testRootComponent) => AssignRootComponentId(testRootComponent);

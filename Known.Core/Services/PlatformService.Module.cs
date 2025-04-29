@@ -85,7 +85,7 @@ partial class PlatformService
         return await Database.TransactionAsync("安装", async db =>
         {
             var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
-            foreach (var item in infos)
+            foreach (var item in infos.OrderBy(d => d.Sort))
             {
                 var model = new SysModule();
                 model.FillModel(item);

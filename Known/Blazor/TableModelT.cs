@@ -31,7 +31,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar.OnItemClick = page.OnToolClick;
 
         if (mode == TableColumnMode.Property)
-            AllColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
+            AllColumns = [.. TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p))];
         else if (mode == TableColumnMode.Attribute)
             AllColumns = GetAttributeColumns(typeof(TItem));
 

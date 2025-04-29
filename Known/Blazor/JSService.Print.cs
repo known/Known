@@ -12,15 +12,22 @@ public partial class JSService
     /// <returns></returns>
     public async Task PrintAsync<T>(Action<IPrintRenderer<T>> action) where T : Microsoft.AspNetCore.Components.IComponent
     {
-        var services = new ServiceCollection();
-        services.AddScoped<IJSRuntime, PrintJSRuntime>();
-        services.AddScoped<JSService>();
-        //services.AddHttpContextAccessor();
-        var provider = services.BuildServiceProvider();
-        var component = new ComponentRenderer<T>().AddServiceProvider(provider);
-        action?.Invoke(component);
-        var content = component.Render();
-        await PrintAsync(content);
+        try
+        {
+            var services = new ServiceCollection();
+            services.AddScoped<IJSRuntime, PrintJSRuntime>();
+            services.AddScoped<JSService>();
+            //services.AddHttpContextAccessor();
+            var provider = services.BuildServiceProvider();
+            var component = new ComponentRenderer<T>().AddServiceProvider(provider);
+            action?.Invoke(component);
+            var content = component.Render();
+            await PrintAsync(content);
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(LogTarget.FrontEnd, new UserInfo { Name = "Print" }, ex);
+        }
     }
 
     /// <summary>

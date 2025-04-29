@@ -156,9 +156,9 @@ public class FormAttribute() : Attribute
     public int Column { get; set; } = 1;
 
     /// <summary>
-    /// 取得或设置字段组件类型，默认Text。
+    /// 取得或设置字段组件类型。
     /// </summary>
-    public string Type { get; set; } = FieldType.Text.ToString();
+    public string Type { get; set; }
 
     /// <summary>
     /// 取得或设置自定义字段组件类型名称。
