@@ -1,6 +1,6 @@
 ﻿@page "/demo"
 @inherits BasePage
-@attribute [Menu(AppConstant.Demo, "首页", "home", 1)]
+@attribute [Menu(AppConstant.Demo, "全屏首页", "home", 1)]
 
 <PageTitle>Home</PageTitle>
 
@@ -12,18 +12,19 @@
 
         <KPdfView @ref="pdf" Id="pdfViewer" Style="height:400px" Option="new { ForceIframe = true }" />
 
-        @if (Context.HasButton(nameof(New)))
-        {
-            <Button>新增</Button>
-        }
-        @if (Context.HasButton(nameof(Edit)))
-        {
-            <Button>编辑</Button>
-        }
-        @if (Context.HasButton(nameof(TestItem)))
-        {
-            <Button>TestItem</Button>
-        }
+        <div style="height:20px;"></div>
+
+        <KGroupBox Title="权限按钮">
+            @if (Context.HasButton(nameof(New))) {
+                <Button>新增</Button>
+            }
+            @if (Context.HasButton(nameof(Edit))) {
+                <Button>编辑</Button>
+            }
+            @if (Context.HasButton(nameof(TestItem))) {
+                <Button>TestItem</Button>
+            }
+        </KGroupBox>
     </KFullScreen>
 </div>
 

@@ -69,9 +69,9 @@ class WeatherForm : BaseForm<WeatherForecast>
 public class WeatherForecast
 {
     [Column(IsQuery = true)]
-    [Form]
+    [Form(Type = nameof(FieldType.Date))]
     [DisplayName("日期")]
-    public DateTime Date { get; set; }
+    public DateTime? Date { get; set; }
 
     [Column]
     [Form]
@@ -88,6 +88,6 @@ public class WeatherForecast
 
 public class WeatherInfo
 {
-    public DateTime Date1 { get; set; }
+    public DateTime? Date1 { get; set; }
     public string Summary1 { get; set; }
 }

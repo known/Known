@@ -38,7 +38,6 @@ public static class AppConfig
             option.Assembly = assembly;
             option.IsMobile = true;
         });
-        //services.AddKnownAdmin();
         services.AddModules();
         services.ConfigUI();
 
@@ -46,7 +45,6 @@ public static class AppConfig
         services.AddServices(assembly);
         services.AddTaskJobs();
         services.AddKnownCells();
-        //services.AddKnownAdminCore();
         services.AddKnownWeb(action);
     }
 

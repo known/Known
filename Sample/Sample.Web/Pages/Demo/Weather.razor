@@ -1,5 +1,4 @@
 ﻿@page "/demo/weather"
-@attribute [StreamRendering]
 @inherits BasePage
 @attribute [Menu(AppConstant.Demo, "天气", "cloud", 3)]
 
@@ -43,6 +42,7 @@
         model1.EnableSpin = true;
         model1.Name = "天气1";
         model1.OnQuery = OnQueryWeatherForecastsAsync;
+        model1.Toolbar.AddAction(nameof(New));
 
         model2 = new TableModel<WeatherForecast>(this, "Weather2", TableColumnMode.Property);
         model2.ShowPager = true;
@@ -52,11 +52,11 @@
 
     public void New()
     {
-        // model.NewForm(d =>
-        // {
-        //     UI.Alert($"Summary={d.Summary}");
-        //     return Known.Result.SuccessAsync("");
-        // });
+        model1.NewForm(d =>
+        {
+            UI.Alert($"Summary={d.Summary}");
+            return Known.Result.SuccessAsync("");
+        });
     }
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)

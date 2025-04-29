@@ -17,6 +17,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="9.0.40" />
         <ProjectReference Include="..\..\Known\Known.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
     </ItemGroup>
 
 </Project>
