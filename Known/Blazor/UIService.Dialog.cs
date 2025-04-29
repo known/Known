@@ -18,6 +18,7 @@ public partial class UIService
             Draggable = model.Draggable,
             Resizable = model.Resizable,
             WrapClassName = model.ClassName,
+            Style = model.Style,
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,
             OnCancel = e => model.CloseAsync(),

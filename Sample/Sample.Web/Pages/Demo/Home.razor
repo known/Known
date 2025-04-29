@@ -16,7 +16,7 @@
 
         <KGroupBox Title="权限按钮">
             @if (Context.HasButton(nameof(New))) {
-                <Button>新增</Button>
+                <Button OnClick="New">新增</Button>
             }
             @if (Context.HasButton(nameof(Edit))) {
                 <Button>编辑</Button>
@@ -38,7 +38,17 @@
             await pdf?.ShowAsync("/Files/5_新版报关委托书.pdf");
     }
 
-    [Action] public void New() { }
+    [Action]
+    public void New()
+    {
+        var model = new DialogModel
+        {
+            Title = "新增",
+            Style = "width:50vw"
+        };
+        UI.ShowDialog(model);
+    }
+
     [Action] public void Edit() { }
     [Action] public void TestItem() { }
 }

@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-       .AddInteractiveServerComponents();
+                .AddInteractiveServerComponents();
 builder.Services.AddApplication(option =>
 {
     Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
@@ -38,7 +38,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 app.UseApplication();
-app.MapStaticAssets();
+//app.MapStaticAssets();
 app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);

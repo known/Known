@@ -11,6 +11,11 @@ public class DialogModel
     public string ClassName { get; set; }
 
     /// <summary>
+    /// 取得或设置对话框CSS样式。
+    /// </summary>
+    public string Style { get; set; }
+
+    /// <summary>
     /// 取得或设置对话框标题。
     /// </summary>
     public string Title { get; set; }

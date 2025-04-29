@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Coravel" Version="6.0.2" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.2" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.13" />
         <!--
         <PackageReference Include="System.Data.OleDb" Version="9.0.2" />
         <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
