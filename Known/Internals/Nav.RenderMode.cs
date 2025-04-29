@@ -12,8 +12,8 @@ class NavRenderMode : BaseNav
             Icon = Icon,
             Items =
             [
-                new() { Id = "Auto", Name = "自动模式" },
-                new() { Id = "Server", Name = "SSR模式" }
+                new() { Id = "Auto", Icon = "project", Name = "自动模式" },
+                new() { Id = "Server", Icon = "control", Name = "SSR模式" }
             ],
             OnItemClick = OnItemClickAsync
         });

@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 /// <summary>
 /// 抽象组件基类。
@@ -16,7 +14,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         Id = Utils.GetNextId();
     }
 
-    [Inject] private ReuseTabsService TabsService { get; set; }
+    [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
     /// 取得或设置是否是静态组件。
@@ -59,6 +57,11 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     [Parameter] public bool Visible { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置注入的导航管理者实例。
+    /// </summary>
+    [Inject] public NavigationManager Navigation { get; set; }
+
+    /// <summary>
     /// 取得或设置JS运行时实例。
     /// </summary>
     [Inject] public IJSRuntime JSRuntime { get; set; }
@@ -77,16 +80,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// 取得或设置注入的插件服务实例。
     /// </summary>
     [Inject] public IPluginService Plugin { get; set; }
-
-    /// <summary>
-    /// 取得或设置注入的导航管理者实例。
-    /// </summary>
-    [Inject] public NavigationManager Navigation { get; set; }
-
-    /// <summary>
-    /// 取得或设置注入的依赖注入服务工厂实例。
-    /// </summary>
-    [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
     /// 取得或设置UI上下文对象级联值实例。
@@ -140,7 +133,6 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
         Admin = await CreateServiceAsync<IAdminService>();
         Context.UI = UI;
         Context.Navigation = Navigation;
-        Context.TabsService = TabsService;
         await OnInitAsync();
     }
 

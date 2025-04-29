@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using AntDesign;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// 基础模板组件类。
@@ -9,6 +11,7 @@ public class BaseLayout : BaseComponent
 
     [CascadingParameter] private RouteData RouteData { get; set; }
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
+    [Inject] private ReuseTabsService TabsService { get; set; }
 
     /// <summary>
     /// 取得或设置是否是管理后台模板。
@@ -25,6 +28,7 @@ public class BaseLayout : BaseComponent
     {
         await base.OnInitAsync();
         Context.App = this;
+        Context.TabsService = TabsService;
         if (IsServerMode)
             await InitAdminAsync();
     }
@@ -92,7 +96,7 @@ public class BaseLayout : BaseComponent
         {
             Context.SignOut();
             await SignInAsync(null);
-            Navigation?.GoLoginPage();
+            Navigation.GoLoginPage();
             Config.OnExit?.Invoke();
         }
     }

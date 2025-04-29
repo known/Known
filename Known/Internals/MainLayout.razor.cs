@@ -53,7 +53,7 @@ public partial class MainLayout
 
     private void OnLogoClick()
     {
-        Navigation.GoHomePage();
+        Context.GoHomePage();
     }
 
     private void OnSetting()

@@ -18,7 +18,7 @@ public class InstallPage : BaseForm<InstallInfo>
         Model.Data = await Admin.GetInstallAsync();
         if (Model.Data.IsInstalled)
         {
-            Navigation?.GoLoginPage();
+            Navigation.GoLoginPage();
             return;
         }
 
@@ -106,7 +106,7 @@ public class InstallPage : BaseForm<InstallInfo>
             var result = await Admin.SaveInstallAsync(Model.Data);
             UI.Result(result, () =>
             {
-                Navigation?.GoLoginPage();
+                Navigation.GoLoginPage();
                 return Task.CompletedTask;
             });
         }

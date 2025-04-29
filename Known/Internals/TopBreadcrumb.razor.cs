@@ -20,6 +20,6 @@ public partial class TopBreadcrumb
         if (OnHome.HasDelegate)
             OnHome.InvokeAsync();
         else
-            Navigation.GoHomePage();
+            Context.GoHomePage();
     }
 }
