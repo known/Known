@@ -2,10 +2,9 @@
 
 partial class PlatformService
 {
-    public async Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
+    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
-        var datas = await GetLanguagesAsync();
-        return datas.ToQueryResult(criteria);
+        return Database.Query<SysLanguage>(criteria).ToPageAsync<LanguageInfo>();
     }
 
     public async Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
@@ -13,59 +12,32 @@ partial class PlatformService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        var datas = await GetLanguagesAsync();
-        foreach (var info in infos)
+        var database = Database;
+        var result = await database.TransactionAsync(Language.Delete, async db =>
         {
-            var item = datas.FirstOrDefault(b => b.Id == info.Id);
-            if (item != null)
-                datas.Remove(item);
-        }
-        await SaveLanguagesAsync(datas);
-        return Result.Success(Language.DeleteSuccess);
+            foreach (var item in infos)
+            {
+                await db.DeleteAsync<SysLanguage>(item.Id);
+            }
+        });
+        return result;
     }
 
     public async Task<Result> SaveLanguageAsync(LanguageInfo info)
     {
-        var datas = await GetLanguagesAsync();
-        var item = datas.FirstOrDefault(b => b.Id == info.Id);
-        if (item == null)
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysLanguage>(info.Id);
+        model ??= new SysLanguage();
+        model.FillModel(info);
+
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        return await database.TransactionAsync(Language.Save, async db =>
         {
-            item = new LanguageInfo();
-            datas.Add(item);
-        }
-        item.Id = info.Id;
-        item.Name = info.Name;
-        item.Icon = info.Icon;
-        await SaveLanguagesAsync(datas);
-        return Result.Success(Language.SaveSuccess);
-    }
-
-    private LanguageInfo CreateLanguage(ActionInfo info)
-    {
-        return new LanguageInfo
-        {
-            Id = info.Id,
-            Name = info.Name,
-            Icon = info.Icon
-        };
-    }
-
-    private async Task<List<LanguageInfo>> GetLanguagesAsync()
-    {
-        var datas = await Database.GetConfigAsync<List<LanguageInfo>>(Constant.KeyLanguage, true);
-        datas ??= [];
-        foreach (var item in Language.Items)
-        {
-            if (datas.Exists(d => d.Id == item.Id))
-                continue;
-
-            datas.Add(CreateLanguage(item));
-        }
-        return datas;
-    }
-
-    private Task<Result> SaveLanguagesAsync(List<LanguageInfo> datas)
-    {
-        return Database.SaveConfigAsync(Constant.KeyLanguage, datas, true);
+            await db.SaveAsync(model);
+            info.Id = model.Id;
+        }, info);
     }
 }

@@ -29,8 +29,6 @@ partial class PlatformService
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         var datas = AppData.Data.Languages ?? [];
-        if (datas.Count == 0)
-            datas.AddRange(Language.Items.Select(CreateLanguage));
         var result = datas.ToQueryResult(criteria);
         return Task.FromResult(result);
     }
@@ -58,21 +56,8 @@ partial class PlatformService
             item = new LanguageInfo();
             AppData.Data.Languages.Add(item);
         }
-        item.Id = info.Id;
-        item.Name = info.Name;
-        item.Icon = info.Icon;
         AppData.SaveData();
         return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    private LanguageInfo CreateLanguage(ActionInfo info)
-    {
-        return new LanguageInfo
-        {
-            Id = info.Id,
-            Name = info.Name,
-            Icon = info.Icon
-        };
     }
 }
 

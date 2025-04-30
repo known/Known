@@ -76,7 +76,7 @@ public static class DataExtension
                 var sql = $"select count(*) from {tableName}";
                 var count = await db.ScalarAsync<int>(sql);
                 if (count > 0)
-                    return Result.Error(db.Context.Language["Tip.TableHasData"]);
+                    return Result.Error(CoreLanguage.TipTableHasData);
 
                 sql = $"drop table {tableName}";
                 await db.ExecuteAsync(sql);
@@ -86,7 +86,7 @@ public static class DataExtension
             }
 
             await db.ExecuteAsync(script);
-            return Result.Success(db.Context.Language["Tip.ExecuteSuccess"]);
+            return Result.Success(CoreLanguage.ExecuteSuccess);
         }
         catch (Exception ex)
         {

@@ -26,9 +26,16 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         Table.ShowPager = true;
         Table.OnQuery = Platform.QueryLanguagesAsync;
 
-        Table.Toolbar.AddAction(nameof(New));
+        Table.Toolbar.ShowCount = 6;
+        //Table.Toolbar.AddAction(nameof(New));
+        //Table.Toolbar.AddAction(nameof(DeleteM));
+        //Table.Toolbar.AddAction(nameof(Import));
+        Table.Toolbar.AddAction(nameof(Setting), Language.TipLanguageSetting);
+        Table.Toolbar.AddAction(nameof(Fetch), Language.TipLanguageFetch);
+        Table.Toolbar.AddAction(nameof(Export));
+
         Table.AddAction(nameof(Edit));
-        Table.AddAction(nameof(Delete));
+        //Table.AddAction(nameof(Delete));
     }
 
     /// <summary>
@@ -47,4 +54,43 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
     public void Delete(LanguageInfo row) => Table.Delete(Platform.DeleteLanguagesAsync, row);
+
+    /// <summary>
+    /// 批量删除数据。
+    /// </summary>
+    public void DeleteM() => Table.DeleteM(Platform.DeleteLanguagesAsync);
+
+    /// <summary>
+    /// 导入数据。
+    /// </summary>
+    /// <returns></returns>
+    public Task Import() => Table.ShowImportAsync();
+
+    /// <summary>
+    /// 导出数据。
+    /// </summary>
+    /// <returns></returns>
+    public Task Export() => Table.ExportDataAsync();
+
+    /// <summary>
+    /// 提取语言。
+    /// </summary>
+    public void Fetch()
+    {
+
+    }
+
+    /// <summary>
+    /// 设置语言。
+    /// </summary>
+    public void Setting()
+    {
+        var model = new DialogModel
+        {
+            Title = Language.SysLanguage,
+            Width = 600,
+            Content = b => b.Component<LanguageSetting>().Build()
+        };
+        UI.ShowDialog(model);
+    }
 }

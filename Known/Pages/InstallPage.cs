@@ -22,7 +22,7 @@ public class InstallPage : BaseForm<InstallInfo>
             return;
         }
 
-        //if (Model.Data.IsDatabase)
+        if (Model.Data.IsDatabase)
             Step.AddStep(Language.Database, BuildDatabase);
         Step.AddStep(Language.SystemInfo, BuildSystem);
         Step.AddStep(Language.AccountInfo, BuildAccount);

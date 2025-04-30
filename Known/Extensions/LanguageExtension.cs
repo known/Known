@@ -13,7 +13,7 @@ public static class LanguageExtension
     /// <returns>查询结果。</returns>
     public static PagingResult<LanguageInfo> ToQueryResult(this List<LanguageInfo> infos, PagingCriteria criteria)
     {
-        infos = [.. infos.Contains(m => m.Name, criteria)];
+        infos = [.. infos.Contains(m => m.Chinese, criteria)];
         return infos.ToPagingResult(criteria);
     }
 

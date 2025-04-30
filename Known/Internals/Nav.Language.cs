@@ -6,7 +6,7 @@
 [NavPlugin("多语言", "translation", Category = "组件", Sort = 4)]
 public class NavLanguage : BaseNav
 {
-    private ActionInfo current;
+    private LanguageSettingInfo current;
 
     /// <summary>
     /// 取得图标。
@@ -29,18 +29,19 @@ public class NavLanguage : BaseNav
     /// <param name="builder">呈现建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
+        var items = Language.Items.Where(l => l.Enabled).Select(l => new ActionInfo { Id = l.Id, Name = l.Name, Icon = l.Icon }).ToList();
         builder.Dropdown(new DropdownModel
         {
             Icon = Icon,
             Text = current?.Icon,
-            Items = Language.Items.Where(i => i.Visible).ToList(),
+            Items = items,
             OnItemClick = OnLanguageChangedAsync
         });
     }
 
     private async Task OnLanguageChangedAsync(ActionInfo info)
     {
-        current = info;
+        current = Language.Items.FirstOrDefault(l => l.Id == info.Id);
         Context.CurrentLanguage = current.Id;
         if (CurrentUser != null)
         {

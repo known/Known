@@ -7,12 +7,12 @@ public partial class CodeModelForm
 {
     private readonly List<CodeInfo> Functions =
     [
-        new("New", "新增"),
-        new("Edit", "编辑"),
-        new("Delete", "删除"),
-        new("DeleteM", "批量删除"),
-        new("Import", "导入"),
-        new("Export", "导出")
+        new("New", Language.New),
+        new("Edit", Language.Edit),
+        new("Delete", Language.Delete),
+        new("DeleteM", Language.DeleteM),
+        new("Import", Language.Import),
+        new("Export", Language.Export)
     ];
 
     /// <summary>

@@ -268,6 +268,9 @@ public partial class Language
     internal const string Module = "模块";
     internal const string Button = "按钮";
     internal const string Column = "栏位";
+    internal const string Icon = "图标";
+    internal const string Default = "默认";
+    internal const string Field = "字段";
     internal const string Template = "模板";
     internal const string Type = "类型";
     internal const string ParentMenu = "上级菜单";
@@ -368,6 +371,7 @@ public partial class Language
     /// </summary>
     public const string ImportFileNotExists = "导入文件不存在！";
 
+    internal const string SysLanguage = "系统语言";
     internal const string SysModule = "系统模块";
     internal const string TipNewModule = "点此安装新模块。";
     internal const string MigrateModule = "可将 AppData.kmd 和 Admin 插件配置数据迁移至新框架配置库。";

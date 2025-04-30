@@ -14,3 +14,8 @@ public class PageColumnTable : AntTable<PageColumnInfo> { }
 /// 无代码表单字段表格组件类。
 /// </summary>
 public class FormFieldTable : AntTable<FormFieldInfo> { }
+
+/// <summary>
+/// 多语言设置表格组件类。
+/// </summary>
+public class LanguageSettingTable : AntTable<LanguageSettingInfo> { }

@@ -2,31 +2,21 @@
 
 public partial class Language
 {
-    private static List<ActionInfo> items;
-
     /// <summary>
-    /// 取得多语言项目列表（简体中文/繁体中文/English/Việt Nam）。
+    /// 取得多语言项目列表（简体中文/繁体中文/English等）。
     /// </summary>
-    public static List<ActionInfo> Items
-    {
-        get
-        {
-            items ??= [
-                new ActionInfo { Id = "zh-CN", Name = "简体中文", Icon = "简" },
-                new ActionInfo { Id = "zh-TW", Name = "繁体中文", Icon = "繁" },
-                new ActionInfo { Id = "en-US", Name = "English", Icon = "EN" },
-                new ActionInfo { Id = "vi-VN", Name = "Việt Nam", Icon = "VN" }
-            ];
-            return items;
-        }
-    }
+    public static List<LanguageSettingInfo> Items { get; } = [];
+
+    internal const string TipFormRouteIsNull = "表单类型或路由不存在！";
+    internal const string TipLanguageFetch = "提取系统语言常量、模型信息类、实体类字段名称。";
+    internal const string TipLanguageSetting = "配置系统语言选项。";
 
     /// <summary>
     /// 根据语言标识获取语言项目。
     /// </summary>
     /// <param name="name">语言标识</param>
     /// <returns>语言项目对象。</returns>
-    public static ActionInfo GetLanguage(string name)
+    public static LanguageSettingInfo GetLanguage(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
             name = CultureInfo.CurrentCulture.Name;

@@ -76,7 +76,7 @@ public class CodingPage : BasePage
                 builder.Dropdown(new DropdownModel
                 {
                     Icon = "menu",
-                    Items = [new() { Icon = "delete", Name = "删除", OnClick = this.Callback<MouseEventArgs>(e=>OnDelete(item)) }]
+                    Items = [new() { Icon = "delete", Name = Language.Delete, OnClick = this.Callback<MouseEventArgs>(e=>OnDelete(item)) }]
                 });
             }
         });

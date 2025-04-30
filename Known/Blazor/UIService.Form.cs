@@ -86,7 +86,7 @@ public partial class UIService
         var route = model.Type?.GetCustomAttributes<RouteAttribute>()?.FirstOrDefault();
         if (route == null || string.IsNullOrWhiteSpace(route.Template))
         {
-            this.Error("表单类型或路由不存在！");
+            this.Error(Language.TipFormRouteIsNull);
             return;
         }
 

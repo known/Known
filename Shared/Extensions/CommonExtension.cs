@@ -55,6 +55,30 @@ public static class CommonExtension
     }
 
     /// <summary>
+    /// 将T2对象属性应用到T1对象上，T2继承T1。
+    /// </summary>
+    /// <typeparam name="T1">类型1。</typeparam>
+    /// <typeparam name="T2">类型2。</typeparam>
+    /// <param name="obj">对象1。</param>
+    /// <param name="other">对象2。</param>
+    public static void Apply<T1, T2>(this T1 obj, T2 other) where T2 : T1
+    {
+        if (obj == null || other == null)
+            return;
+
+        var type = typeof(T1);
+        foreach (var property in TypeHelper.Properties(type))
+        {
+            if (property.CanRead && property.CanWrite)
+            {
+                var value = property.GetValue(other);
+                if (value != null)
+                    property.SetValue(obj, value);
+            }
+        }
+    }
+
+    /// <summary>
     /// 采用反射方式克隆对象的新实例。
     /// </summary>
     /// <typeparam name="T">对象类型。</typeparam>
