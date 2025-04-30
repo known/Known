@@ -2,17 +2,17 @@
 
 <div class="kui-user-avatar">
     <img src="@user?.AvatarUrl" />
-    <div class="kui-upload-button">
+    <div class="kui-upload-button ant-btn-link">
         <Icon Type="edit" />
         <span>@Language[Language.Edit]</span>
         <InputFile OnChange="OnFileChangedAsync" />
     </div>
     <ul class="kui-user-info">
-        <li><Icon Type="user" /><span>@($"{user?.Name}({user?.UserName})")</span></li>
-        <li><Icon Type="phone" /><span>@user?.Phone</span></li>
-        <li><Icon Type="mobile" /><span>@user?.Mobile</span></li>
-        <li><Icon Type="inbox" /><span>@user?.Email</span></li>
-        <li><Icon Type="team" /><span>@user?.Role</span></li>
-        <li><Icon Type="comment" /><span>@user?.Note</span></li>
+        <li><KIcon IsTheme Icon="user" /><span>@($"{user?.Name}({user?.UserName})")</span></li>
+        <li><KIcon IsTheme Icon="phone" /><span>@user?.Phone</span></li>
+        <li><KIcon IsTheme Icon="mobile" /><span>@user?.Mobile</span></li>
+        <li><KIcon IsTheme Icon="inbox" /><span>@user?.Email</span></li>
+        <li><KIcon IsTheme Icon="team" /><span>@user?.Role</span></li>
+        <li><KIcon IsTheme Icon="comment" /><span>@user?.Note</span></li>
     </ul>
 </div>

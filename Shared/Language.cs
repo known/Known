@@ -455,14 +455,38 @@ public partial class Language
     internal const string CaptchaCountdown = "{SmsCount}秒后重新获取";
     internal const string CaptchaNotValid = "验证码不正确！";
 
-    internal const string WebSite = "官网";
-    internal const string Document = "文档";
-    internal const string KnownTitle = "Known是基于Blazor轻量级、跨平台、极易扩展的插件开发框架。";
-    internal const string KnownNote1 = "包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。";
-    internal const string KnownNote2 = "低代码、简洁、易扩展，让开发更简单、更快捷！";
-    internal const string KnownWebSite = "官网网站：";
-    internal const string KnownSource = "源码下载：";
-    internal const string KnownQQNo = "交流群号：";
+    /// <summary>
+    /// 官网。
+    /// </summary>
+    public const string WebSite = "官网";
+    /// <summary>
+    /// 文档。
+    /// </summary>
+    public const string Document = "文档";
+    /// <summary>
+    /// Known标题。
+    /// </summary>
+    public const string KnownTitle = "Known是基于Blazor轻量级、跨平台、极易扩展的插件开发框架。";
+    /// <summary>
+    /// Known说明1。
+    /// </summary>
+    public const string KnownNote1 = "包含模块、字典、组织、角色、用户、日志、消息、工作流、定时任务等功能。";
+    /// <summary>
+    /// Known说明2。
+    /// </summary>
+    public const string KnownNote2 = "低代码、简洁、易扩展，让开发更简单、更快捷！";
+    /// <summary>
+    /// 官网网站。
+    /// </summary>
+    public const string KnownWebSite = "官网网站：";
+    /// <summary>
+    /// 源码下载。
+    /// </summary>
+    public const string KnownSource = "源码下载：";
+    /// <summary>
+    /// 交流群号。
+    /// </summary>
+    public const string KnownQQNo = "交流群号：";
 
     internal const string Greeting0 = "您好！{name}，您貌似不在我们的时空中！";
     internal const string Greeting5 = "早安！{name}，开始您一天的工作吧！";
