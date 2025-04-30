@@ -45,6 +45,16 @@ public class BasePicker<TItem> : BaseComponent
     [Parameter] public string Text { get; set; }
 
     /// <summary>
+    /// 取得或设置选择器清空图标，默认 fa fa-close。
+    /// </summary>
+    [Parameter] public string IconClear { get; set; } = "fa fa-close";
+
+    /// <summary>
+    /// 取得或设置选择器选择图标，默认 fa fa-ellipsis-h。
+    /// </summary>
+    [Parameter] public string IconPick { get; set; } = "fa fa-ellipsis-h";
+
+    /// <summary>
     /// 取得或设置选择器组件字段值。
     /// </summary>
     [Parameter] public object Value { get; set; }
@@ -83,8 +93,8 @@ public class BasePicker<TItem> : BaseComponent
             if (!ReadOnly)
             {
                 if (AllowClear)
-                    builder.Icon("fa fa-close kui-pick-clear ant-btn-link", this.Callback<MouseEventArgs>(OnClear));
-                builder.Icon("fa fa-ellipsis-h kui-pick ant-btn-link", this.Callback<MouseEventArgs>(ShowModal));
+                    builder.Icon($"{IconClear} kui-pick-clear ant-btn-link", this.Callback<MouseEventArgs>(OnClear));
+                builder.Icon($"{IconPick} kui-pick ant-btn-link", this.Callback<MouseEventArgs>(ShowModal));
             }
         });
     }
