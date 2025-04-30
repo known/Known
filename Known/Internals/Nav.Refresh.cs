@@ -6,7 +6,7 @@
 public class NavRefresh : BaseNav
 {
     /// <inheritdoc />
-    protected override string Title => Language["Nav.RefreshPage"];
+    protected override string Title => Language.RefreshPage;
 
     /// <inheritdoc />
     protected override string Icon => "reload";

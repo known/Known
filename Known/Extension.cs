@@ -157,23 +157,23 @@ public static partial class Extension
             UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
         }
         UIConfig.Sizes = [
-            new ActionInfo { Id = "Default", Style = "size", Url = "_content/Known/css/size/default.css" },
-            new ActionInfo { Id = "Compact", Style = "size", Url = "_content/Known/css/size/compact.css" }
+            new ActionInfo { Id = "Default", Name = Language.SizeDefault, Style = "size", Url = "_content/Known/css/size/default.css" },
+            new ActionInfo { Id = "Compact", Name = Language.SizeCompact, Style = "size", Url = "_content/Known/css/size/compact.css" }
         ];
 
         var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         //模块管理
-        UIConfig.ModuleTabs.Set<SysModuleList>(1, "系统模块");
+        UIConfig.ModuleTabs.Set<SysModuleList>(1, Language.SysModule);
         //用户中心
         UIConfig.UserProfileType = typeof(UserProfileInfo);
-        UIConfig.UserTabs.Set<UserEditForm>(1, "MyProfile");
-        UIConfig.UserTabs.Set<PasswordEditForm>(2, "SecuritySetting");
+        UIConfig.UserTabs.Set<UserEditForm>(1, Language.MyProfile);
+        UIConfig.UserTabs.Set<PasswordEditForm>(2, Language.SecuritySetting);
         //企业信息
-        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, "BasicInfo");
+        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
         //关于系统
-        UIConfig.SystemTabs.Set<SysSystemInfo>(1, "SystemInfo");
-        UIConfig.SystemTabs.Set<SysSystemSetting>(2, "SystemSetting");
+        UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
+        UIConfig.SystemTabs.Set<SysSystemSetting>(2, Language.SystemSetting);
     }
 
     //private static void AddInterceptors(this IServiceCollection services, ClientOption option)

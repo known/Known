@@ -9,7 +9,7 @@ class Importer : BaseComponent
     private FileDataInfo file;
     private ImportFormInfo Model;
 
-    private string ErrorMessage => Language["Import.Error"];
+    private string ErrorMessage => Language[Language.ImportError];
 
     [Parameter] public ImportInfo Info { get; set; }
 
@@ -25,7 +25,7 @@ class Importer : BaseComponent
             id = $"{Config.AutoBizIdPrefix}_{Info.PageId}_{Info.PluginId}";
         Model = await Admin.GetImportAsync(id);
         Model.Name = Info.PageName;
-        Model.BizName = $"导入{Info.PageName}";
+        Model.BizName = Language[Language.ImportTitle].Replace("{name}", Info.PageName);
 
         isFinished = Model.IsFinished;
         error = Model.Error;
@@ -36,7 +36,7 @@ class Importer : BaseComponent
     {
         builder.Div("kui-import", () =>
         {
-            builder.Div("kui-primary", Language["Import.Tips"]);
+            builder.Div("ant-btn-link", Language[Language.ImportTips]);
             builder.Div("item", () =>
             {
                 BuildInputFile(builder);
@@ -47,7 +47,7 @@ class Importer : BaseComponent
                     builder.CheckBox(new InputModel<bool>
                     {
                         Disabled = !isFinished,
-                        Label = Language["Import.IsAsync"],
+                        Label = Language.ImportIsAsync,
                         Value = Model?.IsAsync == true,
                         ValueChanged = this.Callback<bool>(v => Model.IsAsync = v)
                     });
@@ -55,12 +55,12 @@ class Importer : BaseComponent
             });
             builder.Div(() =>
             {
-                builder.Link(Language["Import.Download"], this.Callback(OnDownloadTemplateAsync));
+                builder.Link(Language[Language.ImportDownload], this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
                     builder.Span().Class("kui-link kui-danger").OnClick(this.Callback(OnErrorMessage)).Markup(ErrorMessage);
                 builder.Span("size", fileInfo);
             });
-            var style = string.IsNullOrWhiteSpace(error) ? "kui-primary" : "kui-danger";
+            var style = string.IsNullOrWhiteSpace(error) ? "ant-btn-link" : "kui-danger";
             builder.Div($"kui-import-message {style}", message);
         });
     }
@@ -88,7 +88,7 @@ class Importer : BaseComponent
         if (e.File == null || e.File.Size == 0)
             return;
 
-        fileInfo = $"{Language["Import.Size"]}{e.File.Size / 1024}KB";
+        fileInfo = $"{Language[Language.ImportSize]}{e.File.Size / 1024}KB";
         file = await e.File.ReadFileAsync();
     }
 
@@ -96,11 +96,11 @@ class Importer : BaseComponent
     {
         if (file == null)
         {
-            UI.Error(Language["Import.SelectFile"]);
+            UI.Error(Language.ImportSelectFile);
             return;
         }
 
-        message = Language["Import.Importing"];
+        message = Language[Language.ImportImporting];
         isFinished = false;
 
         var info = new UploadInfo<ImportFormInfo>(Model);
@@ -109,7 +109,7 @@ class Importer : BaseComponent
         if (!result.IsValid)
         {
             error = result.Message;
-            message = Language["Import.TaskFailed"];
+            message = Language[Language.ImportTaskFailed];
             isFinished = true;
             await StateChangedAsync();
             return;
@@ -133,11 +133,11 @@ class Importer : BaseComponent
             var bytes = await Admin.GetImportRuleAsync(Model.BizId);
             if (bytes == null || bytes.Length == 0)
             {
-                UI.Error(Language["Import.FileNotExists"]);
+                UI.Error(Language.ImportFileNotExists);
                 return;
             }
 
-            await JS.DownloadFileAsync($"{Language["Import.Template"]}_{Model.Name}.xlsx", bytes);
+            await JS.DownloadFileAsync($"{Language[Language.ImportTemplate]}_{Model.Name}.xlsx", bytes);
         });
     }
 }

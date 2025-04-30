@@ -39,10 +39,10 @@ public partial class MainMenu
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        AddAction("Menu", "folder-add", "添加菜单", OnAddMenu);
-        AddAction("Page", "file-add", "添加页面", OnAddPage);
-        AddAction("Link", "link", "添加连接", OnAddLink);
-        AddAction("Manage", "menu", "菜单管理", OnManageMenu);
+        AddAction("Menu", "folder-add", Language.AddMenu, OnAddMenu);
+        AddAction("Page", "file-add", Language.AddPage, OnAddPage);
+        AddAction("Link", "link", Language.AddLink, OnAddLink);
+        AddAction("Manage", "menu", Language.MenuManage, OnManageMenu);
     }
 
     /// <summary>
@@ -72,19 +72,19 @@ public partial class MainMenu
 
     private void OnAddMenu(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加菜单", new MenuInfo { Type = nameof(MenuType.Menu) });
+        var model = GetMenuFormModel(Language.AddMenu, new MenuInfo { Type = nameof(MenuType.Menu) });
         UI.ShowForm(model);
     }
 
     private void OnAddPage(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加页面", new MenuInfo { Type = nameof(MenuType.Page) });
+        var model = GetMenuFormModel(Language.AddPage, new MenuInfo { Type = nameof(MenuType.Page) });
         UI.ShowForm(model);
     }
 
     private void OnAddLink(MouseEventArgs e)
     {
-        var model = GetMenuFormModel("添加连接", new MenuInfo { Type = nameof(MenuType.Link) });
+        var model = GetMenuFormModel(Language.AddLink, new MenuInfo { Type = nameof(MenuType.Link) });
         UI.ShowForm(model);
     }
 
@@ -93,7 +93,7 @@ public partial class MainMenu
         DialogModel model = null;
         model = new DialogModel
         {
-            Title = "菜单管理",
+            Title = Language.MenuManage,
             Width = 600,
             Content = b => b.Component<MenuTree>().Set(c => c.Parent, Parent).Build(),
             OnOk = () =>
@@ -123,11 +123,11 @@ public partial class MainMenu
         model.AddRow().AddColumn(c => c.ParentId, c =>
         {
             c.Required = true;
-            c.Name = "上级";
+            c.Name = Language.ParentMenu;
             c.Template = b =>
             {
                 b.Component<TreePicker>()
-                 .Set(c => c.Title, "选择上级菜单")
+                 .Set(c => c.Title, Language.SelectParentMenu)
                  .Set(c => c.Items, [Parent])
                  .Set(c => c.OnChanged, v =>
                  {

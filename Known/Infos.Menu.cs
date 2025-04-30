@@ -31,11 +31,15 @@ public class MenuInfo
     /// <summary>
     /// 取得或设置菜单名称。
     /// </summary>
+    [Required]
+    [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置菜单图标。
     /// </summary>
+    [Required]
+    [DisplayName("图标")]
     public string Icon { get; set; }
 
     /// <summary>
@@ -52,6 +56,7 @@ public class MenuInfo
     /// 取得或设置URL目标类型（None/Blank/IFrame）；
     /// 或者菜单目标类型（Menu/Page/Custom/IFrame）。
     /// </summary>
+    [DisplayName("目标")]
     public string Target { get; set; } = nameof(LinkTarget.None);
 
     /// <summary>
@@ -62,6 +67,8 @@ public class MenuInfo
     /// <summary>
     /// 取得或设置顺序。
     /// </summary>
+    [Required]
+    [DisplayName("顺序")]
     public int Sort { get; set; }
 
     /// <summary>
@@ -266,7 +273,7 @@ public class ActionInfo
         if (info != null)
         {
             Id = info.Id;
-            Name = context?.Language[$"Button.{info.Id}"] ?? info.Name;
+            Name = info.Name;
             Icon = info.Icon;
             Style = info.Style;
             Title = info.Title;

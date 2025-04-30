@@ -184,7 +184,7 @@ public static class UserExtension
     {
         var model = await db.QueryByIdAsync<SysUser>(info.Id);
         if (model == null)
-            return Result.Error(db.Context.Language["Tip.NoUser"]);
+            return Result.Error(CoreLanguage.TipNoUser);
 
         model.Name = info.Name;
         model.EnglishName = info.EnglishName;
@@ -206,7 +206,7 @@ public static class UserExtension
             return vr;
 
         await db.SaveAsync(model);
-        return Result.Success("保存成功！");
+        return Result.Success(Language.SaveSuccess);
     }
 
     internal static UserInfo ToUserInfo(this SysUser user)

@@ -76,7 +76,7 @@ public class TopNavbar : BaseComponent
         });
         builder.Li().Class("kui-delete").Draggable()
                .OnDrop(this.Callback<DragEventArgs>(e => OnDropAsync(e, null)))
-               .Child(() => builder.Icon("delete", "将导航按钮拖到此处删除"));
+               .Child(() => builder.Icon("delete", Language.TipNavDelete));
     }
 
     private void BuildTopNavbar(RenderTreeBuilder builder)

@@ -29,15 +29,15 @@ public partial class SpaceCard
     {
         var user = CurrentUser;
         var hour = DateTime.Now.Hour;
-        var greet = GetGreeting("Greeting0", user);
-        if (5 <= hour && hour < 9) greet = GetGreeting("Greeting5", user);
-        else if (9 <= hour && hour < 11) greet = GetGreeting("Greeting9", user);
-        else if (11 <= hour && hour < 13) greet = GetGreeting("Greeting11", user);
-        else if (13 <= hour && hour < 15) greet = GetGreeting("Greeting13", user);
-        else if (15 <= hour && hour < 18) greet = GetGreeting("Greeting15", user);
-        else if (18 <= hour && hour < 22) greet = GetGreeting("Greeting18", user);
-        else if (22 <= hour && hour < 23) greet = GetGreeting("Greeting22", user);
-        else if (23 <= hour || hour < 5) greet = GetGreeting("Greeting23", user);
+        var greet = GetGreeting(Language.Greeting0, user);
+        if (5 <= hour && hour < 9) greet = GetGreeting(Language.Greeting5, user);
+        else if (9 <= hour && hour < 11) greet = GetGreeting(Language.Greeting9, user);
+        else if (11 <= hour && hour < 13) greet = GetGreeting(Language.Greeting11, user);
+        else if (13 <= hour && hour < 15) greet = GetGreeting(Language.Greeting13, user);
+        else if (15 <= hour && hour < 18) greet = GetGreeting(Language.Greeting15, user);
+        else if (18 <= hour && hour < 22) greet = GetGreeting(Language.Greeting18, user);
+        else if (22 <= hour && hour < 23) greet = GetGreeting(Language.Greeting22, user);
+        else if (23 <= hour || hour < 5) greet = GetGreeting(Language.Greeting23, user);
         return greet;
     }
 

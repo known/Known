@@ -6,7 +6,7 @@ partial class TableModel<TItem>
     /// 批量删除表格数据。
     /// </summary>
     /// <param name="action">删除方法委托。</param>
-    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, "Delete");
+    public void DeleteM(Func<List<TItem>, Task<Result>> action) => SelectRows(action, Language.Delete);
 
     /// <summary>
     /// 删除表格一行数据。
@@ -15,7 +15,7 @@ partial class TableModel<TItem>
     /// <param name="row">删除行绑定的对象。</param>
     public void Delete(Func<TItem, Task<Result>> action, TItem row)
     {
-        UI.Confirm(Language?["Tip.ConfirmDeleteRecord"], async () =>
+        UI.Confirm(Language.TipConfirmDeleteRecord, async () =>
         {
             var result = await action?.Invoke(row);
             UI.Result(result, PageRefreshAsync);
@@ -29,7 +29,7 @@ partial class TableModel<TItem>
     /// <param name="row">删除行绑定的对象。</param>
     public void Delete(Func<List<TItem>, Task<Result>> action, TItem row)
     {
-        UI.Confirm(Language?["Tip.ConfirmDeleteRecord"], async () =>
+        UI.Confirm(Language.TipConfirmDeleteRecord, async () =>
         {
             var result = await action?.Invoke([row]);
             UI.Result(result, PageRefreshAsync);

@@ -6,7 +6,7 @@ class NavDevelopment : BaseNav
 
     [CascadingParameter] private TopNavbar Topbar { get; set; }
 
-    protected override string Title => Language["Nav.Development"];
+    protected override string Title => Language.Development;
     protected override string Icon => "appstore";
 
     protected override async Task OnInitAsync()

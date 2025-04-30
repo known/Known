@@ -45,7 +45,7 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         }
         info.LogDatas =
         [
-            new ChartDataInfo { Name = Language["Home.VisitCount"], Series = seriesLog }
+            new ChartDataInfo { Name = Language.HomeVisitCount, Series = seriesLog }
         ];
         return info;
     }

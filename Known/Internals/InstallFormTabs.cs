@@ -23,7 +23,7 @@ class FormDatabase : BaseForm<ConnectionInfo>
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         base.BuildForm(builder);
-        builder.Div("kui-right", () => builder.Button(Language["Test"], this.Callback<MouseEventArgs>(OnTestAsync)));
+        builder.Div("kui-right", () => builder.Button(Language.Test, this.Callback<MouseEventArgs>(OnTestAsync)));
     }
 
     private Task OnTestAsync(MouseEventArgs args)

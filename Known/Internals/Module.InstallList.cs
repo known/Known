@@ -7,7 +7,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table.Name = "未安装模块";
+        Table.Name = Language.NoInstallModule;
         Table.AutoHeight = false;
         Table.EnableSort = false;
         Table.EnableFilter = false;
@@ -53,7 +53,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
         ModuleInfo node = null;
         var model = new DialogModel
         {
-            Title = "安装到",
+            Title = Language.InstallTo,
             Content = builder =>
             {
                 builder.Tree(new TreeModel
@@ -72,7 +72,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
         {
             if (node == null)
             {
-                UI.Error(Language["Tip.SelectModule"]);
+                UI.Error(Language.TipSelectModule);
                 return;
             }
 

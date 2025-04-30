@@ -18,41 +18,49 @@ public class InstallInfo
     /// <summary>
     /// 取得或设置企业编码。
     /// </summary>
+    [DisplayName("企业编码")]
     public string CompNo { get; set; }
 
     /// <summary>
     /// 取得或设置企业名称。
     /// </summary>
+    [DisplayName("企业名称")]
     public string CompName { get; set; }
 
     /// <summary>
     /// 取得或设置系统名称。
     /// </summary>
+    [DisplayName("系统名称")]
     public string AppName { get; set; }
 
     /// <summary>
     /// 取得或设置产品ID。
     /// </summary>
+    [DisplayName("产品ID")]
     public string ProductId { get; set; }
 
     /// <summary>
     /// 取得或设置产品Key。
     /// </summary>
+    [DisplayName("产品Key")]
     public string ProductKey { get; set; }
 
     /// <summary>
     /// 取得或设置管理员用户名。
     /// </summary>
+    [DisplayName("管理员账号")]
     public string AdminName { get; set; }
 
     /// <summary>
     /// 取得或设置管理员密码。
     /// </summary>
+    [DisplayName("管理员密码")]
     public string AdminPassword { get; set; }
 
     /// <summary>
     /// 取得或设置管理员确认密码。
     /// </summary>
+    [DisplayName("确认密码")]
     public string Password1 { get; set; }
 
     /// <summary>
@@ -69,32 +77,44 @@ public class LoginFormInfo
     /// <summary>
     /// 取得或设置用户名。
     /// </summary>
-    [Required] public string UserName { get; set; }
+    [Required]
+    [DisplayName("用户名")]
+    public string UserName { get; set; }
 
     /// <summary>
     /// 取得或设置密码。
     /// </summary>
-    [Required] public string Password { get; set; }
+    [Required]
+    [DisplayName("密码")]
+    public string Password { get; set; }
 
     /// <summary>
     /// 取得或设置手机号，用于手机验证码登录。
     /// </summary>
-    [Required] public string PhoneNo { get; set; }
+    [Required]
+    [DisplayName("手机号")]
+    public string PhoneNo { get; set; }
 
     /// <summary>
     /// 取得或设置手机验证码。
     /// </summary>
-    [Required] public string PhoneCode { get; set; }
+    [Required]
+    [DisplayName("手机验证码")]
+    public string PhoneCode { get; set; }
 
     /// <summary>
     /// 取得或设置图片验证码。
     /// </summary>
-    [Required] public string Captcha { get; set; }
+    [Required]
+    [DisplayName("验证码")]
+    public string Captcha { get; set; }
 
     /// <summary>
     /// 取得或设置当前登录的站别，用于多站别系统。
     /// </summary>
-    [Required] public string Station { get; set; }
+    [Required]
+    [DisplayName("站别")]
+    public string Station { get; set; }
 
     /// <summary>
     /// 取得或设置是否记住用户名。
@@ -386,19 +406,25 @@ public class PwdFormInfo
     /// <summary>
     /// 取得或设置原始密码。
     /// </summary>
-    [Form(Type = "Password"), Required]
+    [Required]
+    [Form(Type = nameof(FieldType.Password))]
+    [DisplayName("原密码")]
     public string OldPwd { get; set; }
 
     /// <summary>
     /// 取得或设置新密码。
     /// </summary>
-    [Form(Type = "Password"), Required]
+    [Required]
+    [Form(Type = nameof(FieldType.Password))]
+    [DisplayName("新密码")]
     public string NewPwd { get; set; }
 
     /// <summary>
     /// 取得或设置确认新密码。
     /// </summary>
-    [Form(Type = "Password"), Required]
+    [Required]
+    [Form(Type = nameof(FieldType.Password))]
+    [DisplayName("确认密码")]
     public string NewPwd1 { get; set; }
 }
 
@@ -426,54 +452,65 @@ public class CompanyInfo
     /// <summary>
     /// 取得或设置企业编码。
     /// </summary>
-    [Form(Row = 1, Column = 1, ReadOnly = true), Required]
+    [Required]
+    [Form(Row = 1, Column = 1, ReadOnly = true)]
+    [DisplayName("企业编码")]
     public string Code { get; set; }
 
     /// <summary>
     /// 取得或设置企业名称。
     /// </summary>
-    [Form(Row = 1, Column = 2), Required]
+    [Required]
+    [Form(Row = 1, Column = 2)]
+    [DisplayName("企业名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置企业英文名。
     /// </summary>
     [Form(Row = 2, Column = 1)]
+    [DisplayName("英文名")]
     public string NameEn { get; set; }
 
     /// <summary>
     /// 取得或设置企业社会信用代码。
     /// </summary>
     [Form(Row = 2, Column = 2)]
+    [DisplayName("社会信用代码")]
     public string SccNo { get; set; }
 
     /// <summary>
     /// 取得或设置企业地址。
     /// </summary>
     [Form(Row = 3, Column = 1)]
+    [DisplayName("中文地址")]
     public string Address { get; set; }
 
     /// <summary>
     /// 取得或设置企业英文地址。
     /// </summary>
     [Form(Row = 4, Column = 1)]
+    [DisplayName("英文地址")]
     public string AddressEn { get; set; }
 
     /// <summary>
     /// 取得或设置企业联系人。
     /// </summary>
     [Form(Row = 5, Column = 1)]
+    [DisplayName("联系人")]
     public string Contact { get; set; }
 
     /// <summary>
     /// 取得或设置企业联系人电话。
     /// </summary>
     [Form(Row = 5, Column = 2)]
+    [DisplayName("联系电话")]
     public string Phone { get; set; }
 
     /// <summary>
     /// 取得或设置企业备注。
     /// </summary>
     [Form(Row = 6, Column = 1, Type = nameof(FieldType.TextArea))]
+    [DisplayName("备注")]
     public string Note { get; set; }
 }

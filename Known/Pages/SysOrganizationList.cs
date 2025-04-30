@@ -57,7 +57,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
     {
         if (current == null)
         {
-            UI.Error(Language["Tip.SelectParentOrganization"]);
+            UI.Error(Language.TipSelectParentOrganization);
             return;
         }
 

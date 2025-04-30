@@ -3,44 +3,44 @@
 <LoginInfoForm Name="formLogin" Class="@FormStyle" Model="Model" Method="HttpMethod.Post" OnFinish="OnFinish">
     @if (OnSendSMS != null)
     {
-        <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneNo")">
-            <AntInput Icon="phone" @bind-Value="@context.PhoneNo" Placeholder="@Language["PhoneNo"]" />
+        <FormItem Label="" Required Rules="@Context.RuleRequired(Language.PhoneNo)">
+            <AntInput Icon="phone" @bind-Value="@context.PhoneNo" Placeholder="@Language.PhoneNo" />
         </FormItem>
-        <FormItem Label="" Required Rules="@Context.RuleRequired("PhoneCode")">
-            <AntCaptcha Icon="lock" @bind-Value="@context.PhoneCode" Placeholder="@Language["PhoneCode"]" Option="option" />
+        <FormItem Label="" Required Rules="@Context.RuleRequired(Language.PhoneCode)">
+            <AntCaptcha Icon="lock" @bind-Value="@context.PhoneCode" Placeholder="@Language.PhoneCode" Option="option" />
         </FormItem>
-        <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-            <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]" />
+        <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Captcha)">
+            <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language.Captcha" />
         </FormItem>
         <FormItem>
-            <Checkbox @bind-Value="context.Remember">@Language["RememberPhone"]</Checkbox>
+            <Checkbox @bind-Value="context.Remember">@Language[Language.RememberPhone]</Checkbox>
         </FormItem>
     }
     else
     {
-        <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
-            <AntInput Icon="user" @bind-Value="@context.UserName" Placeholder="@Language["UserName"]" />
+        <FormItem Label="" Required Rules="@Context.RuleRequired(Language.UserName)">
+            <AntInput Icon="user" @bind-Value="@context.UserName" Placeholder="@Language.UserName" />
         </FormItem>
-        <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
-            <AntPassword Icon="lock" @bind-Value="@context.Password" Placeholder="@Language["Password"]" />
+        <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Password)">
+            <AntPassword Icon="lock" @bind-Value="@context.Password" Placeholder="@Language.Password" />
         </FormItem>
         @if (Stations != null && Stations.Count > 0)
         {
-            <FormItem Label="" Required Rules="@Context.RuleRequired("Station")">
-                <AntSelect Icon="control" @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language["Station"]" />
+            <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Station)">
+                <AntSelect Icon="control" @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language.Station" />
             </FormItem>
         }
         else if (IsCaptcha)
         {
-            <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-                <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language["Captcha"]" />
+            <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Captcha)">
+                <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language.Captcha" />
             </FormItem>
         }
         <FormItem>
-            <Checkbox @bind-Value="context.Remember">@Language["RememberUser"]</Checkbox>
+            <Checkbox @bind-Value="context.Remember">@Language[Language.RememberUser]</Checkbox>
         </FormItem>
     }
     <FormItem>
-        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>@Language["Login"]</Button>
+        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>@Language[Language.Login]</Button>
     </FormItem>
 </LoginInfoForm>

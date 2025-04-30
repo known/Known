@@ -4,9 +4,9 @@
     <Steps Class="@Model.Class" Current="Model.Current">
         @foreach (var item in Model.Items)
         {
-            <Step Title="@Language?.GetTitle(item.Title)"
-                  Subtitle="@Language?.GetTitle(item.SubTitle)"
-                  Description="@Language?.GetTitle(item.Description)" />
+            <Step Title="@Language[item.Title]"
+                  Subtitle="@Language[item.SubTitle]"
+                  Description="@Language[item.Description]" />
         }
     </Steps>
     <div class="kui-steps-content">
@@ -18,15 +18,15 @@
     <div class="kui-form-action">
         @if (Model.Current > 0)
         {
-            <KButton Name="@Language["Button.Previous"]" OnClick="OnPrevClickAsync" />
+            <KButton Name="@Language.Previous" OnClick="OnPrevClickAsync" />
         }
         @if (Model.Current < StepCount - 1)
         {
-            <KButton Name="@Language["Button.Next"]" OnClick="OnNextClickAsync" />
+            <KButton Name="@Language.Next" OnClick="OnNextClickAsync" />
         }
         @if (Model.Current == StepCount - 1 && !IsView)
         {
-            <KButton Name="@Language["Button.Finish"]" OnClick="OnCompleteAsync" />
+            <KButton Name="@Language.Finish" OnClick="OnCompleteAsync" />
         }
     </div>
 </div>

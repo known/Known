@@ -90,13 +90,13 @@ partial class AdminService
             Role = "管理员"
         };
         Cache.SetUser(user);
-        return Result.SuccessAsync(Language.Success(Language["Login"]), user);
+        return Result.SuccessAsync(Language.Success(Language.Login), user);
     }
 
     public Task<Result> SignOutAsync()
     {
         Cache.RemoveUser(CurrentUser);
-        return Result.SuccessAsync(Language["Tip.ExitSuccess"]);
+        return Result.SuccessAsync(Language.ExitSuccess);
     }
 
     public Task<AdminInfo> GetAdminAsync()

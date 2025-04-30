@@ -231,7 +231,7 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         Logger.Exception(LogTarget.FrontEnd, CurrentUser, ex);
         var message = Config.IsDebug ? ex.ToString() : ex.Message;
-        await UI.NoticeAsync(Language?["Title.Error"], message, StyleType.Error);
+        await UI.NoticeAsync(Language.Error, message, StyleType.Error);
     }
 
     /// <summary>
@@ -242,6 +242,19 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         await DisposeAsync(true);
         GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// 获取Tooltip提示信息模板。
+    /// </summary>
+    /// <param name="title">提示信息。</param>
+    /// <returns></returns>
+    protected RenderFragment TitleTemplate(string title)
+    {
+        if (title.Contains('<'))
+            return b => b.AddMarkupContent(0, title);
+
+        return b => b.Markup(Language[title]);
     }
 
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);

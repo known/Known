@@ -12,7 +12,7 @@ partial class FormModel<TItem>
     /// <summary>
     /// 取得表单是否是新增表单，当Action为New时。
     /// </summary>
-    public bool IsNew => Action == "New";
+    public bool IsNew => Action == Language.New;
 
     /// <summary>
     /// 取得或设置表单保存确认提示框信息。

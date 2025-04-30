@@ -61,7 +61,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         isAddCategory = true;
         var model = new DialogModel
         {
-            Title = Language.GetString("Button.AddCategory"),
+            Title = Language.AddCategory,
             Width = 800,
             Content = b => b.Component<CategoryGrid>()
                             .Set(c => c.OnRefresh, RefreshAsync)
@@ -131,7 +131,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     {
         if (category == null)
         {
-            UI.Error(Language["Tip.SelectCategory"]);
+            UI.Error(Language.TipSelectCategory);
             return;
         }
 

@@ -17,7 +17,7 @@ partial class TableModel<TItem>
         isShowEdit = true;
         var isShow = ShowForm(new FormModel<TItem>(this, IsAuto)
         {
-            Action = "Edit",
+            Action = Language.Edit,
             Data = row,
             OnSave = onSave
         });
@@ -38,7 +38,7 @@ partial class TableModel<TItem>
         isShowEdit = true;
         var isShow = ShowForm(new FormModel<TItem>(this, IsAuto)
         {
-            Action = "Edit",
+            Action = Language.Edit,
             Data = row,
             OnSaveFile = onSave
         });

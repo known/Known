@@ -10,7 +10,7 @@
 
             <li @onclick="e=>OnItemClick(item)" class="@(current == item.Id ? "active" : "")">
                 <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
-                <span>@item.Name</span>
+                <span>@Language.GetString(item)</span>
             </li>
         }
     }

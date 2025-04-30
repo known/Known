@@ -13,7 +13,7 @@
     }
     @if (ShowPending)
     {
-        @RenderItem(new MenuInfo { Name = "功能待加", Icon = "plus", Color = "#4fa624" });
+        @RenderItem(new MenuInfo { Name = Language.FuncPending, Icon = "plus", Color = "#4fa624" })
     }
 </ul>
 
@@ -33,6 +33,6 @@
                 <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
             </div>
         }
-        <div>@item.Name</div>
+        <div>@Language.GetString(item)</div>
     </li>;
 }

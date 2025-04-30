@@ -4,7 +4,7 @@
     @if (ShowSearch)
     {
         <div class="kui-list-box-search">
-            <Search Value="@searchKey" Placeholder="@Language["Tip.EnterKeyword"]" OnSearch="OnSearch" />
+            <Search Value="@searchKey" Placeholder="@Language[Language.TipEnterKeyword]" OnSearch="OnSearch" />
         </div>
     }
     <ul class="kui-list-box-body" style="@(ShowSearch ? $"top:32px" : "")">
@@ -24,7 +24,7 @@
                     }
                     else
                     {
-                        @item.Name
+                        @Language[item.Name]
                     }
                 </li>
             }
@@ -34,7 +34,7 @@
             <Empty>
                 @if (OnAddClick.HasDelegate)
                 {
-                    <KButton Name="添加数据" OnClick="OnAddClick" />
+                    <KButton Name="@Language.AddData" OnClick="OnAddClick" />
                 }
             </Empty>
         }

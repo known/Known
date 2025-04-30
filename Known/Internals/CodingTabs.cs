@@ -106,14 +106,14 @@ public class CodingTabs : BaseComponent
 
         if (currentTab == CodeTab.Script)
         {
-            builder.Button("执行", this.Callback<MouseEventArgs>(OnExecute));
+            builder.Button(Language.Execute, this.Callback<MouseEventArgs>(OnExecute));
         }
         else
         {
             var path = GetCodePath(currentTab);
             var file = GetCodeFile(currentTab);
             builder.Tooltip(path, b => b.Tag(file));
-            builder.Button("保存", this.Callback<MouseEventArgs>(OnSaveCode));
+            builder.Button(Language.Save, this.Callback<MouseEventArgs>(OnSaveCode));
         }
     }
 

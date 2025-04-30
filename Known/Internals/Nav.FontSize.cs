@@ -5,12 +5,6 @@ class NavFontSize : BaseNav
 {
     protected override string Icon => "font-size";
 
-    protected override async Task OnInitAsync()
-    {
-        await base.OnInitAsync();
-        UIConfig.Sizes.ForEach(s => s.Name = Language[$"Nav.Size{s.Id}"]);
-    }
-
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Dropdown(new DropdownModel

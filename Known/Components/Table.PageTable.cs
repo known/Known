@@ -66,7 +66,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
         if (Context.IsEditTable)
         {
             builder.Div().Class("kui-edit").Style("margin-left:10px;")
-                   .Child(() => builder.IconName("plus", "配置", this.Callback<MouseEventArgs>(e => OnConfig())));
+                   .Child(() => builder.IconName("plus", Language.Config, this.Callback<MouseEventArgs>(e => OnConfig())));
         }
     }
 

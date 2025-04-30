@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <SettingTypeForm Class="kui-setting-form" Model="Context.UserSetting" LabelColSpan="6" OnFinish="OnSave">
-    <Title Level="4">@Language["Set.ThemeSetting"]</Title>
+    <Title Level="4">@Language[Language.ThemeSetting]</Title>
     <div class="kui-theme-color">
         @foreach (var item in Colors)
         {
@@ -13,40 +13,40 @@
             </div>
         }
     </div>
-    <FormItem Label="@Language["Set.Menu"]">
+    <FormItem Label="@Language[Language.Menu]">
         <AntRadioGroup @bind-Value="context.MenuTheme" Codes="MenuThemes" OnChange="OnChange" />
     </FormItem>
     <Divider />
-    <Title Level="4">@Language["Set.LayoutSetting"]</Title>
-    <FormItem Label="@Language["Set.Layout"]">
+    <Title Level="4">@Language[Language.LayoutSetting]</Title>
+    <FormItem Label="@Language[Language.Layout]">
         <AntRadioGroup @bind-Value="context.LayoutMode" Codes="LayoutModes" OnChange="OnChange" />
     </FormItem>
-    <FormItem Label="@Language["Set.Tabs"]">
+    <FormItem Label="@Language[Language.Tabs]">
         <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
     </FormItem>
     @if (context.MultiTab)
     {
-        <FormItem Label="@Language["Set.TopTab"]">
+        <FormItem Label="@Language[Language.TopTab]">
             <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
         </FormItem>
-        <FormItem Label="@Language["Set.MaxTabCount"]">
+        <FormItem Label="@Language[Language.MaxTabCount]">
             <AntInteger @bind-Value="context.MaxTabCount" />
         </FormItem>
     }
     <Divider />
-    <Title Level="4">@Language["Set.PreferenceSetting"]</Title>
-    <FormItem Label="@Language["Set.Accordion"]">
+    <Title Level="4">@Language[Language.PreferenceSetting]</Title>
+    <FormItem Label="@Language[Language.Accordion]">
         <Switch @bind-Checked="context.Accordion" OnChange="OnChange" />
     </FormItem>
     <FormItem Label="表单">
         <AntRadioGroup @bind-Value="context.OpenType" Category="@nameof(FormOpenType)" />
     </FormItem>
-    <Title Level="4">@Language["Set.RegionalSetting"]</Title>
-    <FormItem Label="@Language["Set.Footer"]">
+    <Title Level="4">@Language[Language.RegionalSetting]</Title>
+    <FormItem Label="@Language[Language.Footer]">
         <Switch @bind-Checked="context.ShowFooter" OnChange="OnChange" />
     </FormItem>
     <FormItem WrapperColOffset="6" WrapperColSpan="16">
-        <Button Type="ButtonType.Primary" HtmlType="submit">@Language.Save</Button>
-        <Button OnClick="OnResetAsync">@Language.Reset</Button>
+        <Button Type="ButtonType.Primary" HtmlType="submit">@Language[Language.Save]</Button>
+        <Button OnClick="OnResetAsync">@Language[Language.Reset]</Button>
     </FormItem>
 </SettingTypeForm>

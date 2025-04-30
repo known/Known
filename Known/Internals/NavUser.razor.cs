@@ -16,8 +16,8 @@ public partial class NavUser
         await base.OnInitAsync();
         model.Items =
         [
-            new ActionInfo { Id = "profile", Name = Language["Nav.Profile"], Icon = "user", Url = "/profile" },
-            new ActionInfo { Id = "logout", Name = Language["Nav.Exit"], Icon = "poweroff" },
+            new ActionInfo { Id = "profile", Name = Language.Profile, Icon = "user", Url = "/profile" },
+            new ActionInfo { Id = "logout", Name = Language.Exit, Icon = "poweroff" },
         ];
         model.OnItemClick = OnItemClickAsync;
     }

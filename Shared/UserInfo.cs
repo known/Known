@@ -14,46 +14,55 @@ public class UserInfo
     /// <summary>
     /// 取得或设置用户登录名。
     /// </summary>
+    [DisplayName("用户名")]
     public string UserName { get; set; }
 
     /// <summary>
     /// 取得或设置用户姓名。
     /// </summary>
+    [DisplayName("姓名")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置用户英文名。
     /// </summary>
+    [DisplayName("英文名")]
     public string EnglishName { get; set; }
 
     /// <summary>
     /// 取得或设置用户性别。
     /// </summary>
+    [DisplayName("性别")]
     public string Gender { get; set; }
 
     /// <summary>
     /// 取得或设置用户固定电话。
     /// </summary>
+    [DisplayName("固定电话")]
     public string Phone { get; set; }
 
     /// <summary>
     /// 取得或设置用户移动电话。
     /// </summary>
+    [DisplayName("移动电话")]
     public string Mobile { get; set; }
 
     /// <summary>
     /// 取得或设置用户Email。
     /// </summary>
+    [DisplayName("电子邮箱")]
     public string Email { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
+    [DisplayName("状态")]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置用户备注信息。
     /// </summary>
+    [DisplayName("备注")]
     public string Note { get; set; }
 
     /// <summary>

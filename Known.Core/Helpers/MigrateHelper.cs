@@ -16,7 +16,7 @@ class MigrateHelper
 
             database.User ??= await database.GetUserAsync(Constants.SysUserName);
             await database.CreateTablesAsync();
-            await database.TransactionAsync("迁移", async db =>
+            await database.TransactionAsync(Language.Migrate, async db =>
             {
                 Console.WriteLine("AppData is Migrating...");
                 await MigrateLanguagesAsync(db);

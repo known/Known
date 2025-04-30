@@ -31,7 +31,7 @@ class ModuleList : BasePage<ModuleInfo>
         Table = new TableModel<ModuleInfo>(this)
         {
             FormType = typeof(ModuleForm),
-            FormTitle = row => $"{Language["Menu.SysModuleList"]} - {row.ParentName} > {row.Name}",
+            FormTitle = row => $"{Language[Language.SysModule]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 800, Maximizable = true, ShowFooter = true },
             //RowKey = r => r.Id,
             EnableEdit = false,
@@ -48,8 +48,8 @@ class ModuleList : BasePage<ModuleInfo>
         Table.Toolbar.AddAction(nameof(Move));
         Table.Toolbar.AddAction(nameof(Import));
         Table.Toolbar.AddAction(nameof(Export));
-        Table.Toolbar.AddAction(nameof(Install), "点此安装新模块。");
-        Table.Toolbar.AddAction(nameof(Migrate), "可将 AppData.kmd 和 Admin 插件配置数据迁移至新框架配置库。");
+        Table.Toolbar.AddAction(nameof(Install), Language.TipNewModule);
+        Table.Toolbar.AddAction(nameof(Migrate), Language.MigrateModule);
 
         Table.AddColumn(c => c.Name).Width(120).Template(BuildName);
         Table.AddColumn(c => c.Type).Width(80).Tag();
@@ -111,7 +111,7 @@ class ModuleList : BasePage<ModuleInfo>
     {
         if (current == null)
         {
-            UI.Error(Language["Tip.SelectParentModule"]);
+            UI.Error(Language.TipSelectParentModule);
             return;
         }
 
@@ -172,12 +172,12 @@ class ModuleList : BasePage<ModuleInfo>
         var form = new FormModel<FileFormInfo>(this)
         {
             Title = Language.GetImportTitle(PageName),
-            ConfirmText = Language["Tip.ImportModules"],
+            ConfirmText = Language.TipImportModules,
             Data = new FileFormInfo(),
             OnSaveFile = Platform.ImportModulesAsync,
             OnSaved = async d => await RefreshAsync()
         };
-        form.AddRow().AddColumn(Language["Import.File"], c => c.BizType, c => c.Type = FieldType.File);
+        form.AddRow().AddColumn(Language.ImportFile, c => c.BizType, c => c.Type = FieldType.File);
         UI.ShowForm(form);
     }
 
@@ -186,7 +186,7 @@ class ModuleList : BasePage<ModuleInfo>
     /// </summary>
     public Task Export()
     {
-        return App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>
+        return App?.ShowSpinAsync(Language.DataExporting, async () =>
         {
             var info = await Platform.ExportModulesAsync();
             await JS.DownloadFileAsync(info);
@@ -200,7 +200,7 @@ class ModuleList : BasePage<ModuleInfo>
     {
         var model = new DialogModel
         {
-            Title = "安装新模块",
+            Title = Language.InstallNewModule,
             Width = 800,
             Content = b => b.Component<ModuleInstallList>().Set(c => c.Modules, modules).Build()
         };
@@ -217,7 +217,7 @@ class ModuleList : BasePage<ModuleInfo>
     /// </summary>
     public void Migrate()
     {
-        UI.Confirm("确定迁移AppData或Admin插件配置数据？", async () =>
+        UI.Confirm(Language.ConfirmMigrate, async () =>
         {
             var result = await Platform.MigrateModulesAsync();
             UI.Result(result, RefreshAsync);
@@ -226,7 +226,7 @@ class ModuleList : BasePage<ModuleInfo>
 
     private void OnCopy(List<ModuleInfo> rows)
     {
-        ShowTreeModal(Language["Title.CopyTo"], node =>
+        ShowTreeModal(Language.CopyTo, node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.CopyModulesAsync(rows);
@@ -235,7 +235,7 @@ class ModuleList : BasePage<ModuleInfo>
 
     private void OnMove(List<ModuleInfo> rows)
     {
-        ShowTreeModal(Language["Title.MoveTo"], node =>
+        ShowTreeModal(Language.MoveTo, node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
             return Platform.MoveModulesAsync(rows);
@@ -291,7 +291,7 @@ class ModuleList : BasePage<ModuleInfo>
         {
             if (node == null)
             {
-                UI.Error(Language["Tip.SelectModule"]);
+                UI.Error(Language.TipSelectModule);
                 return;
             }
 

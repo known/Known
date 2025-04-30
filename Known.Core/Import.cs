@@ -219,7 +219,7 @@ public class ImportRow<TItem> : Dictionary<string, string>
     {
         var value = GetValue<T>(key);
         if (required && value == null)
-            vr.AddError(context.Language.GetString("Valid.FormatInvalid", key));
+            vr.AddError(context.Language[CoreLanguage.TipFormatInvalid].Replace("{label}", key));
 
         return value;
     }

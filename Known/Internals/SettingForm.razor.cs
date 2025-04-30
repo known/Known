@@ -16,14 +16,14 @@ public partial class SettingForm
         ["geekblue"] = "#2F54EB",
         ["purple"] = "#722ED1"
     };
-    private List<CodeInfo> MenuThemes => [
-        new CodeInfo("Dark", Language["Set.Dark"]),
-        new CodeInfo("Light", Language["Set.Light"])
+    private static List<CodeInfo> MenuThemes => [
+        new CodeInfo("Dark", Language.Dark),
+        new CodeInfo("Light", Language.Light)
     ];
-    private List<CodeInfo> LayoutModes => [
-        new CodeInfo("Vertical", Language["Set.Vertical"]),
-        new CodeInfo("Horizontal", Language["Set.Horizontal"]),
-        new CodeInfo("Float", Language["Set.Float"])
+    private static List<CodeInfo> LayoutModes => [
+        new CodeInfo("Vertical", Language.Vertical),
+        new CodeInfo("Horizontal", Language.Horizontal),
+        new CodeInfo("Float", Language.Float)
     ];
 
     /// <summary>

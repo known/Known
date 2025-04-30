@@ -3,7 +3,7 @@
 <AntCol Span="Span" Class="@Class">
     @if (NoForm)
     {
-        <FieldItem Label="@Label" LabelTemplate="LabelTemplate" Class="@ClassName" Style="@Style" Tooltip="@Tooltip">
+        <FieldItem Label="@LabelName" LabelTemplate="LabelTemplate" Class="@ClassName" Style="@Style" Tooltip="@Tooltip">
             <div class="ant-form-item-control-input">
                 <div class="ant-form-item-control-input-content">
                     @ChildContent
@@ -13,7 +13,7 @@
     }
     else
     {
-        <FormItem Label="@Label" LabelTemplate="FormItemLabel()" Class="@ClassName" Style="@Style" Required="Required" Rules="Rules">
+        <FormItem Label="@LabelName" LabelTemplate="FormItemLabel()" Class="@ClassName" Style="@Style" Required="Required" Rules="Rules">
             <DataItemValue IsFixed Value="this">
                 @ChildContent
             </DataItemValue>
@@ -30,7 +30,7 @@
         if (string.IsNullOrWhiteSpace(Tooltip))
             return null;
 
-        return @<label> @Label
+        return @<label> @LabelName
         @if (!string.IsNullOrWhiteSpace(Tooltip)){
             <KIcon Icon="question-circle" Title="@Tooltip" />
         }

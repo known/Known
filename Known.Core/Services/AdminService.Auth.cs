@@ -6,7 +6,7 @@ partial class AdminService
     public async Task<Result> RegisterAsync(RegisterFormInfo info)
     {
         if (info.Password != info.Password1)
-            return Result.Error(Language["Tip.PwdNotEqual"]);
+            return Result.Error(CoreLanguage.TipPwdNotEqual);
 
         var database = Database;
         if (CoreConfig.OnRegistering != null)
@@ -19,7 +19,7 @@ partial class AdminService
         var userName = info.UserName?.ToLower();
         var user = await database.GetUserAsync(userName);
         if (user != null)
-            return Result.Error(Language["Tip.UserNameExists"]);
+            return Result.Error(CoreLanguage.TipUserNameExists);
 
         user = new UserInfo
         {
@@ -30,7 +30,7 @@ partial class AdminService
             Token = Utils.GetGuid()
         };
         database.User = await database.GetUserAsync(Constants.SysUserName);
-        var result = await database.TransactionAsync("注册", async db =>
+        var result = await database.TransactionAsync(Language.Register, async db =>
         {
             var model = new SysUser
             {
@@ -71,10 +71,10 @@ partial class AdminService
 
         var user = await database.GetUserInfoAsync(userName, password);
         if (user == null)
-            return Result.Error(Language["Tip.LoginNoNamePwd"]);
+            return Result.Error(CoreLanguage.TipLoginNoNamePwd);
 
         if (!user.Enabled)
-            return Result.Error(Language["Tip.LoginDisabled"]);
+            return Result.Error(CoreLanguage.TipLoginDisabled);
 
         if (!user.FirstLoginTime.HasValue)
         {
@@ -93,7 +93,7 @@ partial class AdminService
             type = LogType.AppLogin;
 
         database.User = user;
-        var result = await database.TransactionAsync(Language["Login"], async db =>
+        var result = await database.TransactionAsync(Language.Login, async db =>
         {
             await db.SaveUserAsync(user);
             await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
@@ -114,7 +114,7 @@ partial class AdminService
             await db.AddLogAsync(LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
         }
 
-        return Result.Success(Language["Tip.ExitSuccess"]);
+        return Result.Success(Language.ExitSuccess);
     }
 
     public async Task<AdminInfo> GetAdminAsync()
@@ -159,7 +159,7 @@ partial class AdminService
         var database = Database;
         var entity = await database.QueryAsync<SysUser>(d => d.Id == info.UserId);
         if (entity == null)
-            return Result.Error(Language["Tip.NoUser"]);
+            return Result.Error(CoreLanguage.TipNoUser);
 
         var attach = new AttachFile(info.File, "Avatars");
         attach.FilePath = @$"Avatars\{entity.Id}{attach.ExtName}";
@@ -174,7 +174,7 @@ partial class AdminService
     public async Task<Result> UpdateUserAsync(UserInfo info)
     {
         if (info == null)
-            return Result.Error(Language["Tip.NoUser"]);
+            return Result.Error(CoreLanguage.TipNoUser);
 
         var result = await Database.SaveUserAsync(info);
         if (!result.IsValid)
@@ -187,17 +187,17 @@ partial class AdminService
     {
         var user = CurrentUser;
         if (user == null)
-            return Result.Error(Language["Tip.NoLogin"]);
+            return Result.Error(CoreLanguage.TipNoLogin);
 
         var errors = new List<string>();
         if (string.IsNullOrEmpty(info.OldPwd))
-            errors.Add(Language["Tip.CurPwdRequired"]);
+            errors.Add(Language[CoreLanguage.TipCurPwdRequired]);
         if (string.IsNullOrEmpty(info.NewPwd))
-            errors.Add(Language["Tip.NewPwdRequired"]);
+            errors.Add(Language[CoreLanguage.TipNewPwdRequired]);
         if (string.IsNullOrEmpty(info.NewPwd1))
-            errors.Add(Language["Tip.ConPwdRequired"]);
+            errors.Add(Language[CoreLanguage.TipConPwdRequired]);
         if (info.NewPwd != info.NewPwd1)
-            errors.Add(Language["Tip.PwdNotEqual"]);
+            errors.Add(Language[CoreLanguage.TipPwdNotEqual]);
 
         if (errors.Count > 0)
             return Result.Error(string.Join(Environment.NewLine, errors));
@@ -205,14 +205,14 @@ partial class AdminService
         var database = Database;
         var entity = await database.QueryByIdAsync<SysUser>(user.Id);
         if (entity == null)
-            return Result.Error(Language["Tip.NoUser"]);
+            return Result.Error(CoreLanguage.TipNoUser);
 
         var oldPwd = Utils.ToMd5(info.OldPwd);
         if (entity.Password != oldPwd)
-            return Result.Error(Language["Tip.CurPwdInvalid"]);
+            return Result.Error(CoreLanguage.TipCurPwdInvalid);
 
         entity.Password = Utils.ToMd5(info.NewPwd);
         await database.SaveAsync(entity);
-        return Result.Success(Language.Success(Language["Button.Update"]), entity.Id);
+        return Result.Success(Language.Success(Language.Update), entity.Id);
     }
 }

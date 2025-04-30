@@ -13,7 +13,7 @@ public static class LayoutExtension
     /// <returns></returns>
     public static Task DownloadAsync(this BaseLayout app, Func<Task> action)
     {
-        return app?.ShowSpinAsync("下载中...", action);
+        return app?.ShowSpinAsync(Language.Downloading, action);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public static class LayoutExtension
     /// <returns></returns>
     public static Task QueryDataAsync(this BaseLayout app, Func<Task> action)
     {
-        return app?.ShowSpinAsync(app?.Language["Tip.DataQuering"], action);
+        return app?.ShowSpinAsync(Language.DataQuering, action);
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public static class LayoutExtension
     /// <returns></returns>
     public static async Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode = ExportMode.Query) where TItem : class, new()
     {
-        await app?.ShowSpinAsync(app?.Language["Tip.DataExporting"], async () =>
+        await app?.ShowSpinAsync(Language.DataExporting, async () =>
         {
             table.Criteria.ExportMode = mode;
             table.Criteria.ExportColumns = table.GetExportColumns();
@@ -47,7 +47,7 @@ public static class LayoutExtension
 
             if (result == null || result.ExportData == null || result.ExportData.Length == 0)
             {
-                app.UI.Error("无数据可导出！");
+                app.UI.Error(Language.NoDataExport);
                 return;
             }
 

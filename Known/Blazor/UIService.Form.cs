@@ -42,8 +42,8 @@ public partial class UIService
             Maximizable = model.Info?.Maximizable == true,
             DefaultMaximized = model.Info?.DefaultMaximized == true,
             Title = model.GetFormTitle(),
-            OkText = Language?.OK,
-            CancelText = Language?.Cancel,
+            OkText = Language.OK,
+            CancelText = Language.Cancel,
             WrapClassName = GetWrapperClass(model),
             OnCancel = e => model.CloseAsync(),
             Content = GetFormContent(model)

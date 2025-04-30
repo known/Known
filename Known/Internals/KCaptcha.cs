@@ -16,7 +16,7 @@ class KCaptcha : BaseComponent
     private bool IsSMS => Option != null && Option.SMSCount > 0;
     private bool IsRemoteImage => Option != null && !string.IsNullOrWhiteSpace(Option.ImgUrl);
     private bool IsLocalImage => !IsSMS && !IsRemoteImage;
-    private string SmsText => Language["Captcha.Fetch"];
+    private string SmsText => Language[Language.CaptchaFetch];
 
     /// <summary>
     /// 构造函数，创建一个验证码组件类的实例。
@@ -44,7 +44,7 @@ class KCaptcha : BaseComponent
         message = string.Empty;
         if (!code.Equals(value, StringComparison.OrdinalIgnoreCase))
         {
-            message = Language["Captcha.NotValid"];
+            message = Language[Language.CaptchaNotValid];
             return false;
         }
         return true;
@@ -66,7 +66,7 @@ class KCaptcha : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        title = Language["Captcha.Refresh"];
+        title = Language[Language.CaptchaRefresh];
         smsText = SmsText;
         if (IsSMS)
         {
@@ -135,7 +135,7 @@ class KCaptcha : BaseComponent
         if (smsCount > 0)
         {
             smsCount--;
-            smsText = Language["Captcha.Countdown"].Replace("{smsCount}", $"{smsCount}");
+            smsText = Language[Language.CaptchaCountdown].Replace("{SmsCount}", $"{smsCount}");
         }
         else
         {

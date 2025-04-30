@@ -96,7 +96,7 @@ partial class PlatformService
     {
         var key = nameof(FileFormInfo.BizType);
         if (info == null || info.Files == null || !info.Files.ContainsKey(key))
-            return Result.Error(Language["Import.SelectFile"]);
+            return Result.Error(Language.ImportSelectFile);
 
         try
         {

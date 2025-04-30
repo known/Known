@@ -88,7 +88,7 @@ public class LogInfo
     [Required]
     [MaxLength(50)]
     [Column(IsQuery = true, Type = FieldType.Select)]
-    [DisplayName("操作类型")]
+    [DisplayName("类型")]
     public string Type { get; set; }
 
     /// <summary>
@@ -112,11 +112,13 @@ public class LogInfo
     /// </summary>
     [MaxLength(50)]
     [Column]
+    [DisplayName("创建人")]
     public string CreateBy { get; set; }
 
     /// <summary>
     /// 取得或设置实体创建时间。
     /// </summary>
     [Column(IsQuery = true)]
+    [DisplayName("创建时间")]
     public DateTime? CreateTime { get; set; }
 }

@@ -1,25 +1,27 @@
-﻿<AntContainer />
+﻿@inherits BaseComponent
+
+<AntContainer />
 @if (Config.IsDebug) {
     <div class="kui-run-mode ant-btn-primary">@ModeName</div>
 }
 <div id="components-reconnect-modal">
     <div class="mask"></div>
     @* <div class="show">
-        <div class="text">系统正在更新，请稍候...</div>
+        <div class="text">@Language[Language.TipSystemUpdating]</div>
     </div> *@
     <div class="failed">
-        <div class="text">系统连接失败，请确认网络，尝试重新连接！</div>
-        <a href="javascript:window.Blazor.reconnect()" class="ant-btn ant-btn-primary">重新连接</a>
+        <div class="text">@Language[Language.TipSystemDisconnect]</div>
+        <a href="javascript:window.Blazor.reconnect()" class="ant-btn ant-btn-primary">@Language[Language.ReConnect]</a>
     </div>
     <div class="rejected">
-        <div class="text">系统连接成功，请重新加载！</div>
-        <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">重新加载</a>
+        <div class="text">@Language[Language.TipSystemConnected]</div>
+        <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">@Language[Language.ReLoad]</a>
     </div>
 </div>
 <div id="blazor-error-ui">
     <div class="mask"></div>
     <div class="error">
-        <div class="text">抱歉，系统出错了，请重新加载！</div>
-        <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">重新加载</a>
+        <div class="text">@Language[Language.TipSystemError]</div>
+        <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">@Language[Language.ReLoad]</a>
     </div>
 </div>

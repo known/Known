@@ -13,7 +13,7 @@ public class NavToggle : BaseNav
     [Parameter] public EventCallback<bool> OnToggle { get; set; }
 
     /// <inheritdoc />
-    protected override string Title => collapsed ? Language["Nav.Expand"] : Language["Nav.Collapse"];
+    protected override string Title => collapsed ? Language.Expand : Language.Collapse;
 
     /// <inheritdoc />
     protected override string Icon => collapsed ? "menu-unfold" : "menu-fold";

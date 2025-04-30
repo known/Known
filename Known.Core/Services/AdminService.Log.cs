@@ -22,7 +22,7 @@ partial class AdminService
     public Task<Result> AddWebLogAsync(LogInfo info)
     {
         Logger.Logs.Add(info);
-        return Result.SuccessAsync("添加成功！");
+        return Result.SuccessAsync(Language.AddSuccess);
     }
 
     public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)

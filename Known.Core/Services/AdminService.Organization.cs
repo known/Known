@@ -18,7 +18,7 @@ partial class AdminService
         foreach (var item in infos)
         {
             if (await database.ExistsAsync<SysOrganization>(d => d.ParentId == item.Id))
-                return Result.Error(Language["Tip.OrgDeleteExistsChild"]);
+                return Result.Error(CoreLanguage.TipOrgDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -41,7 +41,7 @@ partial class AdminService
         if (vr.IsValid)
         {
             if (await database.ExistsAsync<SysOrganization>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Code == model.Code))
-                vr.AddError(Language["Tip.OrgCodeExists"]);
+                vr.AddError(Language[CoreLanguage.TipOrgCodeExists]);
         }
         if (!vr.IsValid)
             return vr;

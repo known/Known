@@ -1,4 +1,6 @@
-﻿<div class="kui-title">
+﻿@inherits BaseComponent
+
+<div class="kui-title">
     @if (ChildContent != null)
     {
         @ChildContent
@@ -7,11 +9,11 @@
     {
         if (!string.IsNullOrWhiteSpace(Text))
         {
-            <span>@Text</span>
+            <span>@Language[Text]</span>
         }
         if (!string.IsNullOrWhiteSpace(SubText))
         {
-            <span class="kui-sub-title">@SubText</span>
+            <span class="kui-sub-title">@Language[SubText]</span>
         }
     }
 </div>

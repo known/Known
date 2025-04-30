@@ -47,7 +47,7 @@ public class AttachInfo
     /// </summary>
     [MaxLength(50)]
     [Column]
-    [DisplayName("文件类型")]
+    [DisplayName("类型")]
     public string Type { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class AttachInfo
     /// </summary>
     [Required]
     [Column]
-    [DisplayName("文件大小")]
+    [DisplayName("大小")]
     public long Size { get; set; }
 
     /// <summary>

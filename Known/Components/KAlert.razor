@@ -1,5 +1,7 @@
-﻿<Alert ShowIcon="true" 
+﻿@inherits BaseComponent
+
+<Alert ShowIcon="true" 
        Style="margin-bottom:10px;" 
        Type="@GetAlertType()"
-       Message="@Text"
+       Message="@Language[Text]"
 />

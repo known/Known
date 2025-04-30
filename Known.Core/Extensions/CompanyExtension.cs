@@ -26,13 +26,12 @@ static class CompanyExtension
 
     internal static async Task<Result> SaveCompanyDataAsync(this Database db, string compNo, object model)
     {
-        var lang = db.Context.Language;
         var data = await db.QueryAsync<SysCompany>(d => d.Code == compNo);
         if (data == null)
-            return Result.Error(lang["Tip.CompanyNotExists"]);
+            return Result.Error(CoreLanguage.TipCompanyNotExists);
 
         data.SystemData = Utils.ToJson(model);
         await db.SaveAsync(data);
-        return Result.Success(lang.SaveSuccess);
+        return Result.Success(Language.SaveSuccess);
     }
 }

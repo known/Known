@@ -69,7 +69,7 @@ public class TaskInfo
     [Required]
     [MaxLength(50)]
     [Column]
-    [DisplayName("执行状态")]
+    [DisplayName("状态")]
     public string Status { get; set; }
 
     /// <summary>

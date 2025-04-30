@@ -7,7 +7,7 @@ partial class PlatformService
         var database = Database;
         var module = await database.QueryByIdAsync<SysModule>(info.Id);
         if (module == null)
-            return Result.Error("模块不存在！");
+            return Result.Error(CoreLanguage.TipModuleNotExists);
 
         return await database.TransactionAsync(Language.Delete, async db =>
         {

@@ -1,8 +1,10 @@
-﻿@if (!string.IsNullOrWhiteSpace(Icon))
+﻿@inherits BaseComponent
+
+@if (!string.IsNullOrWhiteSpace(Icon))
 {
     if (!string.IsNullOrWhiteSpace(Title))
     {
-        <Tooltip TitleTemplate="TitleTemplate">
+        <Tooltip TitleTemplate="TitleTemplate(Title)">
             @RenderItem()
         </Tooltip>
     }

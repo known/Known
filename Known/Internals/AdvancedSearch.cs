@@ -36,7 +36,7 @@ class AdvancedSearch : BaseComponent
     {
         builder.Div("kui-advanced-search", () =>
         {
-            builder.Button(new ActionInfo(Context, "New"), this.Callback<MouseEventArgs>(OnAdd));
+            builder.Button(new ActionInfo(Language.New), this.Callback<MouseEventArgs>(OnAdd));
             foreach (var item in Query)
             {
                 if (!item.IsNew && !Columns.Exists(c => c.Id == item.Id))
@@ -48,7 +48,7 @@ class AdvancedSearch : BaseComponent
                            .Set(c => c.Columns, Columns)
                            .Set(c => c.Item, item)
                            .Build();
-                    builder.Button(new ActionInfo(Context, "Delete"), this.Callback<MouseEventArgs>(e => OnDelete(item)));
+                    builder.Button(new ActionInfo(Language.Delete), this.Callback<MouseEventArgs>(e => OnDelete(item)));
                 });
             }
         });
@@ -76,7 +76,7 @@ class AdvancedSearchItem : BaseComponent
     {
         builder.Select(new InputModel<string>
         {
-            Placeholder = Language["PleaseSelect"],
+            Placeholder = Language.PleaseSelect,
             Codes = Columns?.Where(f => f.IsQueryField).Select(f => new CodeInfo(f.Id, Language.GetFieldName(f))).ToList(),
             Value = item.Id,
             ValueChanged = this.Callback<string>(v =>
@@ -92,7 +92,7 @@ class AdvancedSearchItem : BaseComponent
         var types = column?.Type.GetQueryTypes(Language);
         builder.Select(new InputModel<string>
         {
-            Placeholder = Language["PleaseSelect"],
+            Placeholder = Language.PleaseSelect,
             Codes = types,
             Value = $"{item.Type}",
             ValueChanged = this.Callback<string>(v =>

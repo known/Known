@@ -17,7 +17,7 @@ partial class TableModel<TItem>
         isShowNew = true;
         var model = new FormModel<TItem>(this, IsAuto)
         {
-            Action = "New",
+            Action = Language.New,
             DefaultData = row,
             OnSave = onSave
         };
@@ -40,7 +40,7 @@ partial class TableModel<TItem>
         isShowNew = true;
         var model = new FormModel<TItem>(this, IsAuto)
         {
-            Action = "New",
+            Action = Language.New,
             DefaultData = row,
             OnSaveFile = onSave
         };
@@ -63,7 +63,7 @@ partial class TableModel<TItem>
         isShowNew = true;
         var model = new FormModel<TItem>(this, IsAuto)
         {
-            Action = "New",
+            Action = Language.New,
             DefaultDataAction = row,
             OnSave = onSave
         };
@@ -86,7 +86,7 @@ partial class TableModel<TItem>
         isShowNew = true;
         var model = new FormModel<TItem>(this, IsAuto)
         {
-            Action = "New",
+            Action = Language.New,
             DefaultDataAction = row,
             OnSaveFile = onSave
         };

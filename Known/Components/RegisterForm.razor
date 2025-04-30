@@ -2,18 +2,18 @@
 
 <RegisterInfoForm Name="formRegister" Model="Model" Method="HttpMethod.Post" OnFinish="OnFinish">
     <FormItem Label="" Required Rules="@Context.RuleRequired("UserName")">
-        <AntInput Icon="user" @bind-Value="@context.UserName" Placeholder="用户名或手机号" />
+        <AntInput Icon="user" @bind-Value="@context.UserName" Placeholder="@Language.UserOrPhone" />
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
-        <AntPassword Icon="lock" @bind-Value="@context.Password" Placeholder="密码" />
+        <AntPassword Icon="lock" @bind-Value="@context.Password" Placeholder="@Language.Password" />
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Password")">
-        <AntPassword Icon="lock" @bind-Value="@context.Password1" Placeholder="确认密码" />
+        <AntPassword Icon="lock" @bind-Value="@context.Password1" Placeholder="@Language.Password1" />
     </FormItem>
     <FormItem Label="" Required Rules="@Context.RuleRequired("Captcha")">
-        <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="验证码" />
+        <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language.Captcha" />
     </FormItem>
     <FormItem>
-        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>注册并登录</Button>
+        <Button HtmlType="submit" Type="@ButtonType.Primary" Block>@Language[Language.RegisterLogin]</Button>
     </FormItem>
 </RegisterInfoForm>

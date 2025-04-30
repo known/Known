@@ -1,8 +1,10 @@
-﻿<div class="@ClassName" style="@Style">
+﻿@inherits BaseComponent
+
+<div class="@ClassName" style="@Style">
     @if (!string.IsNullOrWhiteSpace(Label))
     {
         <div class="ant-form-item-label">
-            <label class="@LabelClass">@Label</label>
+            <label class="@LabelClass">@Language[Label]</label>
             @if (!string.IsNullOrWhiteSpace(Tooltip))
             {
                 <KIcon Icon="question-circle" Title="@Tooltip" />

@@ -10,7 +10,7 @@ partial class AdminService
     public async Task<Result> DeleteFileAsync(AttachInfo info)
     {
         if (info == null || string.IsNullOrWhiteSpace(info.Path))
-            return Result.Error(Language["Tip.FileNotExists"]);
+            return Result.Error(CoreLanguage.TipFileNotExists);
 
         await Database.DeleteFileAsync(info.Id);
         AttachFile.DeleteFile(info.Path);

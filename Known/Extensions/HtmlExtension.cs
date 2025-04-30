@@ -154,7 +154,7 @@ public static class HtmlExtension
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        builder.Span().Class("kui-link").OnClick(onClick).Markup(text);
+        builder.Span().Class("ant-btn-link").OnClick(onClick).Markup(text);
     }
 
     /// <summary>

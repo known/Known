@@ -10,9 +10,9 @@ partial class AdminService
     private const string StepRestart = "Restart";
     private const string StepEnd = "End";
 
-    private string FlowNotCreated => Language["Tip.FlowNotCreate"];
-    private string UserNotExists(string user) => Language["Tip.UserNotExists"].Replace("{user}", user);
-    private string NotExecuteFlow(string user) => Language["Tip.NotExecuteFlow"].Replace("{user}", user);
+    private string FlowNotCreated => CoreLanguage.TipFlowNotCreate;
+    private string UserNotExists(string user) => Language[CoreLanguage.TipUserNotExists].Replace("{user}", user);
+    private string NotExecuteFlow(string user) => Language[CoreLanguage.TipNotExecuteFlow].Replace("{user}", user);
 
     public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
@@ -79,7 +79,7 @@ partial class AdminService
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, StepSubmit, next);
 
-                var noteText = Language["SubmitToUser"].Replace("{user}", flow.CurrBy);
+                var noteText = Language[CoreLanguage.SubmitToUser].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -96,7 +96,7 @@ partial class AdminService
     public async Task<Result> RevokeFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(Language["Tip.RevokeReason"]);
+            return Result.Error(CoreLanguage.TipRevokeReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
@@ -138,10 +138,10 @@ partial class AdminService
 
         var next = await database.GetUserInfoAsync(info.User);
         if (next == null)
-            return Result.Error(Language["Tip.NextUserNotExists"].Replace("{user}", info.User));
+            return Result.Error(Language[CoreLanguage.TipNextUserNotExists].Replace("{user}", info.User));
 
         var user = CurrentUser;
-        var name = Language["Button.Assign"];
+        var name = CoreLanguage.Assign;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -153,7 +153,7 @@ partial class AdminService
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, stepName, next);
 
-                var noteText = Language["AssignToUser"].Replace("{user}", flow.CurrBy);
+                var noteText = Language[CoreLanguage.AssignToUser].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -167,7 +167,7 @@ partial class AdminService
     {
         var isPass = info.BizStatus == FlowStatus.VerifyPass;
         if (!isPass && string.IsNullOrEmpty(info.Note))
-            return Result.Error(Language["Tip.ReturnReason"]);
+            return Result.Error(CoreLanguage.TipReturnReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
@@ -183,7 +183,7 @@ partial class AdminService
         }
 
         var user = CurrentUser;
-        var name = Language["Button.Verify"];
+        var name = CoreLanguage.Verify;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -210,15 +210,15 @@ partial class AdminService
                     {
                         flow.CurrBy = next.UserName;
                         await db.SaveAsync(flow);
-                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language["Pass"], info.Note);
+                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[CoreLanguage.Pass], info.Note);
                     }
                     else
                     {
                         flow.CurrBy = flow.ApplyBy;
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
-                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language["Pass"], info.Note);
-                        await db.AddFlowLogAsync(flow.BizId, StepEnd, Language["End"], "");
+                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[CoreLanguage.Pass], info.Note);
+                        await db.AddFlowLogAsync(flow.BizId, StepEnd, Language[CoreLanguage.End], "");
                     }
                 }
                 else
@@ -226,12 +226,12 @@ partial class AdminService
                     SetCurrToNextStep(flow);
                     SetPrevToCurrStep(flow);
 
-                    var noteText = Language["ReturnToUser"].Replace("{user}", flow.CurrBy);
+                    var noteText = Language[CoreLanguage.ReturnToUser].Replace("{user}", flow.CurrBy);
                     if (!string.IsNullOrEmpty(info.Note))
                         noteText += $"，{info.Note}";
 
                     await db.SaveAsync(flow);
-                    await db.AddFlowLogAsync(flow.BizId, StepVerify, Language["Fail"], noteText);
+                    await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[CoreLanguage.Fail], noteText);
                 }
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnVerifiedAsync(db, info);
@@ -242,14 +242,14 @@ partial class AdminService
     public async Task<Result> RepeatFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(Language["Tip.RestartReason"]);
+            return Result.Error(CoreLanguage.TipRestartReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var name = Language["Button.Restart"];
+        var name = CoreLanguage.Restart;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -274,14 +274,14 @@ partial class AdminService
     public async Task<Result> StopFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(Language["Tip.StopReason"]);
+            return Result.Error(CoreLanguage.TipStopReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var name = Language["Button.Stop"];
+        var name = CoreLanguage.Stop;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)

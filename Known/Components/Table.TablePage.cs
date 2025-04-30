@@ -36,7 +36,7 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
                 model = new DropdownModel { Icon = "menu", TriggerType = "Click", Overlay = BuildOverlay };
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
-                   .Set(c => c.Name, "低代码表格")
+                   .Set(c => c.Name, Language.LowCodeTable)
                    .Set(c => c.Dropdown, model)
                    .Set(c => c.Actions, actions)
                    .Set(c => c.ChildContent, BuildContent)
@@ -67,7 +67,7 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
         form.AddRow().AddColumn(c => c.ToolSize);
         builder.Overlay(() =>
         {
-            builder.FormTitle("表格设置");
+            builder.FormTitle(Language.TableSetting);
             builder.Form(form);
         });
     }

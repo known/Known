@@ -38,7 +38,7 @@ public sealed class ImportHelper
     {
         var path = Config.GetUploadPath(file.Path);
         if (!File.Exists(path))
-            return Result.Error(context.Language["Import.FileNotExists"]);
+            return Result.Error(Language.ImportFileNotExists);
 
         if (path.EndsWith(".txt"))
         {
@@ -104,7 +104,7 @@ public sealed class ImportHelper
         var errors = new Dictionary<int, string>();
         var lines = File.ReadAllLines(path);
         if (lines == null || lines.Length == 0)
-            return Result.Error(context.Language["Import.DataRequired"]);
+            return Result.Error(CoreLanguage.TipDataRequired);
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -132,12 +132,12 @@ public sealed class ImportHelper
     {
         var excel = ExcelFactory.Create(path);
         if (excel == null)
-            return Result.Error(context.Language["Import.ExcelFailed"]);
+            return Result.Error(CoreLanguage.TipExcelFailed);
 
         var errors = new Dictionary<int, string>();
         var lines = excel.SheetToDictionaries(0, 2);
         if (lines == null || lines.Count == 0)
-            return Result.Error(context.Language["Import.DataRequired"]);
+            return Result.Error(CoreLanguage.TipDataRequired);
 
         for (int i = 0; i < lines.Count; i++)
         {
@@ -156,13 +156,13 @@ public sealed class ImportHelper
     private static Result ReadResult(Context context, Dictionary<int, string> errors)
     {
         if (errors.Count == 0)
-            return Result.Success(context.Language["Import.ValidSuccess"]);
+            return Result.Success(CoreLanguage.TipValidSuccess);
 
         var error = string.Join(Environment.NewLine, errors.Select(e =>
         {
-            var rowNo = context.Language["Import.RowNo"].Replace("{key}", $"{e.Key}");
+            var rowNo = context.Language[CoreLanguage.TipRowNo].Replace("{key}", $"{e.Key}");
             return $"{rowNo}{e.Value}";
         }));
-        return Result.Error($"{context.Language["Import.ValidFailed"]}{Environment.NewLine}{error}");
+        return Result.Error($"{context.Language[CoreLanguage.TipValidFailed]}{Environment.NewLine}{error}");
     }
 }

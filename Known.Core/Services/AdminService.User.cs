@@ -35,7 +35,7 @@ partial class AdminService
             return Result.Error(Language.SelectOneAtLeast);
 
         if (infos.Exists(d => d.UserName == CurrentUser.UserName))
-            return Result.Error("自己的账号不能删除！");
+            return Result.Error(CoreLanguage.TipNotDeleteSelf);
 
         var database = Database;
         var result = await UserHelper.OnDeletingAsync(database, [.. infos.Select(u=>(UserInfo)u)]);
@@ -136,7 +136,7 @@ partial class AdminService
         var database = Database;
         var info = await database.GetSystemAsync();
         if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-            return Result.Error(Language["Tip.NoDefaultPwd"]);
+            return Result.Error(CoreLanguage.TipNoDefaultPwd);
 
         return await database.TransactionAsync(Language.Reset, async db =>
         {
@@ -171,7 +171,7 @@ partial class AdminService
         {
             model.UserName = model.UserName.ToLower();
             if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
-                vr.AddError(Language["Tip.UserNameExists"]);
+                vr.AddError(CoreLanguage.TipUserNameExists);
 
             var result = await UserHelper.OnSavingAsync(database, info);
             if (!result.IsValid)

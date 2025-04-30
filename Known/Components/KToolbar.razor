@@ -3,7 +3,7 @@
 @if (Context.IsEditTable && Model?.Table?.EnableEdit == true)
 {
     <div class="kui-edit" style="margin-right:10px;" @onclick="OnEditTool">
-        <KIcon Icon="edit" Title="编辑工具条按钮" />
+        <KIcon Icon="edit" Title="@Language[Language.EditToolbar]" />
     </div>
 }
 @if (Model != null && Model.HasItem)
@@ -17,7 +17,7 @@
                 var item = items[i];
                 @RenderButton(item)
             }
-            var more = GetDropdownModel(Language["Button.More"]);
+            var more = GetDropdownModel(Language.More);
             more.Items = items.Skip(Model.ShowCount - 1).ToList();
             <AntDropdown Context="Context" Model="more" />
         }

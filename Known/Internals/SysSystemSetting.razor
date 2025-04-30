@@ -2,12 +2,12 @@
 
 <TypeForm Class="kui-system" Model="Model" Style="margin-top:20px">
     <AntRow>
-        <DataItem Label="@Language[nameof(SystemInfo.UserDefaultPwd)]">
+        <DataItem Label="@Language[Language.UserDefaultPwd]">
             <KEditInput Value="@Model.UserDefaultPwd" OnSave="OnSaveDefaultPwdAsync" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[nameof(SystemInfo.IsLoginCaptcha)]">
+        <DataItem Label="@Language[Language.IsLoginCaptcha]">
             <Switch Value="@Model.IsLoginCaptcha" ValueChanged="OnLoginCaptchaChangedAsync" />
         </DataItem>
     </AntRow>

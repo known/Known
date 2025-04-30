@@ -15,7 +15,7 @@ public class IconPicker : BasePicker<string>, ICustomField
     {
         await base.OnInitAsync();
         AllowClear = true;
-        Title = Language["Title.SelectIcon"];
+        Title = Language.SelectIcon;
         foreach (var item in UIConfig.Icons)
         {
             tab.AddTab(item.Key, b => BuildContent(b, item.Key));
@@ -71,7 +71,7 @@ public class IconPicker : BasePicker<string>, ICustomField
     {
         var items = icons[key];
         if (!string.IsNullOrWhiteSpace(searchKey))
-            items = items.Where(i => i.Contains(searchKey)).ToList();
+            items = [.. items.Where(i => i.Contains(searchKey))];
 
         builder.Div("items", () =>
         {

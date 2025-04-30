@@ -85,7 +85,7 @@ public partial class UIService
     {
         var options = new ConfirmOptions
         {
-            Title = Language?.GetTitle("Prompt"),
+            Title = Language[Language.Prompt],
             Content = FormatMessage(text)
         };
         if (action != null)
@@ -103,7 +103,7 @@ public partial class UIService
     {
         var options = new ConfirmOptions
         {
-            Title = Language?.GetTitle("Question"),
+            Title = Language[Language.Question],
             Icon = b => b.Icon("question-circle"),
             Content = FormatMessage(text)
         };

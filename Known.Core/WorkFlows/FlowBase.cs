@@ -16,7 +16,7 @@ public abstract class FlowBase(Context context)
     internal static FlowBase Create(Context context, SysFlow flow)
     {
         if (!FlowTypes.ContainsKey(flow.FlowCode))
-            throw new SystemException(context.Language["Tip.NotRegisterFlow"]);
+            throw new SystemException(context.Language[CoreLanguage.TipNotRegisterFlow]);
 
         var type = FlowTypes[flow.FlowCode];
         var instance = Activator.CreateInstance(type, context) as FlowBase;

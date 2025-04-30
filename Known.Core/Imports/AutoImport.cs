@@ -7,15 +7,15 @@ class AutoImport(ImportContext context) : ImportBase(context)
         var database = Database;
         var param = await database.GetAutoPageAsync(ImportContext.PageId, ImportContext.PluginId);
         if (param == null)
-            return Result.Error(Language.Required("EntityPlugin"));
+            return Result.Error(Language.Required(CoreLanguage.EntityPlugin));
 
         var tableName = param.Script;
         if (string.IsNullOrWhiteSpace(tableName))
-            return Result.Error(Language.Required("TableName"));
+            return Result.Error(Language.Required(CoreLanguage.TableName));
 
         var fields = param.Form?.Fields;
         if (fields == null)
-            return Result.Error(Language.Required("Form.Fields"));
+            return Result.Error(Language.Required(CoreLanguage.Fields));
 
         var models = new List<Dictionary<string, object>>();
         var result = ImportHelper.ReadFile<Dictionary<string, object>>(Context, file, item =>

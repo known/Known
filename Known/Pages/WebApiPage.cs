@@ -35,7 +35,7 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
     public void Test(ApiMethodInfo row)
     {
         var model = new DialogModel();
-        model.Title = $"WebApi{Language["Test"]}";
+        model.Title = $"WebApi{Language[Language.Test]}";
         model.Width = 600;
         model.Content = b => b.Component<WebApiForm>().Set(c => c.Model, row).Build();
         UI.ShowDialog(model);
@@ -86,24 +86,24 @@ class WebApiForm : BaseComponent
                     WebApiPage.BuildMethod(builder, Model);
                     builder.Text($"/api{Model.Route}");
                 });
-                builder.Button(Language["Execute"], this.Callback<MouseEventArgs>(OnExexuteAsync));
+                builder.Button(Language.Execute, this.Callback<MouseEventArgs>(OnExexuteAsync));
             });
             builder.Div("kui-api-row", () =>
             {
-                builder.Div("kui-api-title", Language["RequestHeaders"]);
+                builder.Div("kui-api-title", Language[Language.RequestHeaders]);
                 BuildHeaders(builder);
             });
             if (Model.Parameters != null && Model.Parameters.Length > 0)
             {
                 builder.Div("kui-api-row", () =>
                 {
-                    builder.Div("kui-api-title", Language["RequestParameters"]);
+                    builder.Div("kui-api-title", Language[Language.RequestParameters]);
                     BuildParamters(builder);
                 });
             }
             builder.Div("kui-api-row", () =>
             {
-                builder.Div("kui-api-title", Language["ResponseResults"]);
+                builder.Div("kui-api-title", Language[Language.ResponseResults]);
                 BuildResult(builder);
             });
         });

@@ -130,7 +130,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         OrganizationInfo node = null;
         var model = new DialogModel
         {
-            Title = Language["Title.ChangeDepartment"],
+            Title = Language.ChangeDepartment,
             Content = builder =>
             {
                 builder.Tree(new TreeModel
@@ -149,7 +149,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         {
             if (node == null)
             {
-                UI.Error(Language["Tip.SelectChangeOrganization"]);
+                UI.Error(Language.TipSelectChangeOrganization);
                 return;
             }
 
@@ -183,7 +183,7 @@ class UserTabForm : BaseTabForm
     {
         await base.OnInitFormAsync();
 
-        Tab.AddTab("BasicInfo", b => b.Component<UserForm>().Set(c => c.Model, Model).Build());
+        Tab.AddTab(Language.BasicInfo, b => b.Component<UserForm>().Set(c => c.Model, Model).Build());
         foreach (var item in UIConfig.UserFormTabs.OrderBy(t => t.Value.Id))
         {
             if (item.Value.Parameters == null)
@@ -221,7 +221,7 @@ class UserForm : BaseForm<UserDataInfo>
             defaultPassword = user.DefaultPassword;
             if (Model.IsNew)
                 Model.Data.Password = defaultPassword;
-            var pwdTips = Language.GetString("Tip.UserDefaultPwd").Replace("{password}", defaultPassword);
+            var pwdTips = Language[Language.TipUserDefaultPwd].Replace("{password}", defaultPassword);
             Model.Field(f => f.Password).Tooltip(pwdTips);
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;

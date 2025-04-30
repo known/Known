@@ -33,7 +33,7 @@ public class KHeadList : BaseComponent
             builder.Fragment(Head);
             builder.Div("kui-toolbar", () =>
             {
-                builder.FormTitle(ListTitle);
+                builder.FormTitle(Language[ListTitle]);
                 builder.Div("ant-toolbar", () => builder.Fragment(Toolbar));
             });
             builder.Fragment(List);

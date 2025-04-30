@@ -67,7 +67,7 @@ public static class DataExtension
     public static async Task<Result> CreateTableAsync(this Database db, string tableName, string script)
     {
         if (string.IsNullOrWhiteSpace(tableName))
-            return Result.Error("实体表名不能为空！");
+            return Result.Error(CoreLanguage.TipTableRequired);
 
         try
         {

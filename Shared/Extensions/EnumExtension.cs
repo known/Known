@@ -19,7 +19,17 @@ public static class EnumExtension
 
         var field = type.GetField(name);
         var attr = field.GetCustomAttribute<DescriptionAttribute>();
-        return attr != null ? attr.Description : name;
+        if (attr != null)
+            return attr.Description;
+
+        var display = field.GetCustomAttribute<DisplayAttribute>();
+        if (display != null)
+            return display.Name;
+
+        var displayName = field.GetCustomAttribute<DisplayNameAttribute>();
+        if (displayName != null)
+            return displayName.DisplayName;
+        return name;
     }
 
     /// <summary>
@@ -122,7 +132,7 @@ public static class EnumExtension
     {
         var queryTypes = Cache.GetCodes<QueryType>();
         var queryType = queryTypes.FirstOrDefault(t => t.Code == $"{type}");
-        queryType.Name = language[$"QueryType.{type}"];
+        queryType.Name = type.GetDescription();
         types.Add(queryType);
     }
 

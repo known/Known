@@ -7,7 +7,7 @@ class NavLink : PluginBase<LinkInfo>
     {
         var model = new FormModel<LinkInfo>(Parent, true)
         {
-            Title = "添加连接",
+            Title = Language.AddLink,
             Data = new LinkInfo(),
             OnSave = d => onConfig?.Invoke(d)
         };

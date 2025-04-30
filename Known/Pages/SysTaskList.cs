@@ -31,7 +31,7 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     /// <summary>
     /// 批量重置后台任务。
     /// </summary>
-    [Action(Title = "重置任务执行状态为待执行")]
+    [Action(Title = Language.TipResetTaskStatus)]
     public void Reset() => Table.SelectRows(Admin.ResetTasksAsync);
 
     /// <summary>

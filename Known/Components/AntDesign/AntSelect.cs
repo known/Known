@@ -33,7 +33,7 @@ public class AntSelect : Select<string, string>
     {
         var emptyText = "";
         if (Item != null)
-            emptyText = Item.Language.GetString("PleaseSelect");
+            emptyText = Item.Language[Language.PleaseSelect];
         if (string.IsNullOrEmpty(Placeholder))
             Placeholder = emptyText;
         if (!string.IsNullOrWhiteSpace(Icon))
@@ -81,7 +81,7 @@ public class AntSelectCode : Select<string, CodeInfo>
     {
         var emptyText = "";
         if (Item != null)
-            emptyText = Item.Language.GetString("PleaseSelect");
+            emptyText = Item.Language[Language.PleaseSelect];
         if (string.IsNullOrEmpty(Placeholder))
             Placeholder = emptyText;
         if (!string.IsNullOrWhiteSpace(Category))

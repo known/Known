@@ -18,7 +18,7 @@ class AutoFormPage : BaseTabPage, IAutoPage
     {
         await base.OnInitPageAsync();
         Service = await AutoDataService.CreateServiceAsync(this);
-        Tab.AddTab("BasicInfo", BuildForm);
+        Tab.AddTab(Language.BasicInfo, BuildForm);
         await InitializeAsync();
     }
 

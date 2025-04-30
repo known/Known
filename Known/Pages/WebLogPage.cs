@@ -23,7 +23,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
         Table.EnableSort = false;
         Table.ShowPager = true;
         Table.OnQuery = Admin.QueryWebLogsAsync;
-        Table.Tips = $"该日志为内存日志，默认保留{Config.App.WebLogDays}天。";
+        Table.Tips = Language[Language.TipWebLogSaveDay].Replace("{LogDays}", $"{Config.App.WebLogDays}");
 
         Table.Clear();
         Table.AddColumn(c => c.Type, true).Width(100).Category(nameof(LogLevel)).Tag();
@@ -48,23 +48,23 @@ public class WebLogPage : BaseTablePage<LogInfo>
     public void View(LogInfo row)
     {
         var form = new FormModel<LogInfo>(this);
-        form.Title = "查看详情";
+        form.Title = Language.ViewDetail;
         form.Class = "kui-form-weblog";
         form.Info = new FormInfo { Width = 800 };
         form.Data = row;
         form.IsView = true;
-        form.AddRow().AddColumn("信息", b =>
+        form.AddRow().AddColumn(Language.Info, b =>
         {
             b.Tags(row.Type, row.Target, row.CreateBy, row.CreateTime?.ToString("yyyy-MM-dd HH:mm:ss"));
         });
-        form.AddRow().AddColumn("内容", b =>
+        form.AddRow().AddColumn(Language.Content, b =>
         {
             b.Div("kui-code", () =>
             {
-                b.Div("action", () => b.Icon("copy", "复制错误", this.Callback<MouseEventArgs>(e =>
+                b.Div("action", () => b.Icon("copy", Language.CopyError, this.Callback<MouseEventArgs>(e =>
                 {
                     JSRuntime.CopyTextAsync(row.Content);
-                    UI.Success("复制成功！");
+                    UI.Success(Language.Copy);
                 })));
                 b.Pre().Class("error").Child(row.Content);
             });
@@ -90,7 +90,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
     [Action]
     public void Clear()
     {
-        UI.Confirm("确定要清空所有日志？", async () =>
+        UI.Confirm(Language.TipConfirmClearLog, async () =>
         {
             await Admin.ClearWebLogsAsync();
             await Table.RefreshAsync();

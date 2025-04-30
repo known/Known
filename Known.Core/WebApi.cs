@@ -14,7 +14,7 @@ class WebApi
             context.CurrentUser = user;
             if (context.CurrentUser == null && !info.MethodInfo.IsAllowAnonymous())
             {
-                await ctx.Response.WriteAsJsonAsync(Result.Error("用户登录已过期！"));
+                await ctx.Response.WriteAsJsonAsync(Result.Error(CoreLanguage.TipLoginTimeout));
                 return;
             }
 

@@ -22,9 +22,9 @@ public partial class KTag
 
     private string GetText()
     {
-        var text = Language?.GetCode(Text);
+        var text = Language.GetCode(Text);
         if (string.IsNullOrWhiteSpace(text))
-            text = Text;
+            text = Language[Text];
         return text;
     }
 

@@ -2,7 +2,7 @@
 
 class NavRenderMode : BaseNav
 {
-    protected override string Title => "呈现模式";
+    protected override string Title => Language.RenderMode;
     protected override string Icon => IsServerMode ? "control" : "project";
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -12,8 +12,8 @@ class NavRenderMode : BaseNav
             Icon = Icon,
             Items =
             [
-                new() { Id = "Auto", Icon = "project", Name = "自动模式" },
-                new() { Id = "Server", Icon = "control", Name = "SSR模式" }
+                new() { Id = "Auto", Icon = "project", Name = Language.AutoMode },
+                new() { Id = "Server", Icon = "control", Name = Language.SSRMode }
             ],
             OnItemClick = OnItemClickAsync
         });
@@ -23,7 +23,7 @@ class NavRenderMode : BaseNav
     {
         if (Config.RenderMode != RenderType.Auto && info.Id == "Auto")
         {
-            UI.Error("当前程序不支持切换为自动模式。");
+            UI.Error(Language.NotSupportAutoMode);
             return;
         }
 

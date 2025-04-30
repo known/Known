@@ -43,9 +43,9 @@ class KModalFooter : BaseComponent
                     builder.Button(action);
                 }
             }
-            builder.Button("确定", this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
+            builder.Button(Language.OK, this.Callback<MouseEventArgs>(e => OnOk?.Invoke()));
             if (Closable)
-                builder.Button("取消", this.Callback<MouseEventArgs>(e => OnCancel?.Invoke()), "default");
+                builder.Button(Language.Cancel, this.Callback<MouseEventArgs>(e => OnCancel?.Invoke()), "default");
         }, Left);
     }
 }

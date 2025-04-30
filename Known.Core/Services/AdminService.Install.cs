@@ -35,7 +35,7 @@ partial class AdminService
         {
             var db = Database.Create(info.Name);
             await db.OpenAsync();
-            return Result.Success(Language["Tip.ConnectSuccess"]);
+            return Result.Success(CoreLanguage.ConnectSuccess);
         }
         catch (Exception ex)
         {
@@ -50,10 +50,10 @@ partial class AdminService
             return Result.Error("The system is installed.");
 
         if (info == null)
-            return Result.Error(Language["Tip.InstallRequired"]);
+            return Result.Error(CoreLanguage.TipInstallRequired);
 
         if (info.AdminPassword != info.Password1)
-            return Result.Error(Language["Tip.PwdNotEqual"]);
+            return Result.Error(CoreLanguage.TipPwdNotEqual);
 
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
@@ -61,7 +61,7 @@ partial class AdminService
         var database = GetDatabase(info);
         await database.InitializeTableAsync();
         await database.MigrateDataAsync();
-        var result = await database.TransactionAsync(Language["Install"], async db =>
+        var result = await database.TransactionAsync(Language.Install, async db =>
         {
             if (Config.OnInstallModules != null)
             {

@@ -19,7 +19,7 @@
             @if (Model.Columns != null && Model.Columns.Count > 0) {
                 var isDictionary = Model.IsDictionary;
                 if (Model.ShowIndex) {
-                    var titleIndex = Language?.GetString("Index");
+                    var titleIndex = Language[Language.Index];
                     var columnId = Model.Columns[0].Id;
                     if (isDictionary) {
                         @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
@@ -100,23 +100,23 @@
 
 @code {
     RenderFragment ActionTitle => @<span>
-        <span>@Language["Title.Action"]</span>
+        <span>@Language[Language.Action]</span>
         @if (Context.IsEditTable) {
-            <Tooltip Title="添加操作按钮" Class="kui-edit" Style="margin-left:10px;display:inline-block;">
+            <Tooltip Title="@Language[Language.AddAction]" Class="kui-edit" Style="margin-left:10px;display:inline-block;">
                 <KIcon Icon="plus" OnClick="this.Callback<MouseEventArgs>(e => OnAddAction())" />
             </Tooltip>
         }
     </span>;
 
-    RenderFragment ColumnTitle => @<Tooltip Title="添加表格列" Class="kui-edit">
+    RenderFragment ColumnTitle => @<Tooltip Title="@Language[Language.AddColumn]" Class="kui-edit">
         <KIcon Icon="plus" OnClick="this.Callback<MouseEventArgs>(e => OnAddColumn())" />
     </Tooltip>;
 
     RenderFragment DataTitle(ColumnInfo item, string title) => @<span>
         @if (!string.IsNullOrWhiteSpace(item.Tooltip)) {
-            <Tooltip Title="@item.Tooltip">@title</Tooltip>
+            <Tooltip Title="@item.Tooltip">@Language[title]</Tooltip>
         } else {
-            @title
+            @Language[title]
         }
     </span>;
 
@@ -145,7 +145,6 @@
                 actions = Model.Actions;
             Model.UpdateRowActions?.Invoke(context, actions);
             actions = actions?.Where(a => a.Visible).ToList();
-            actions?.ForEach(d => d.Name = Language.GetString(d));
         }
         @if (actions.Count > Model.ActionCount) {
             var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
@@ -154,7 +153,7 @@
                 <KButton Name="@item.Name" Danger="item.Danger" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
             }
             var model = new DropdownModel {
-                Text = Language["Button.More"],
+                Text = Language.More,
                 Items = mores,
                 OnItemClick = e => OnActionClick(e, context)
             };
@@ -186,9 +185,9 @@
                 if (!isTitle) {
                     <SummaryCell>
                         @if (Model.ShowPager) {
-                            @Language["本页合计"]<br/>
+                            @Language[Language.SumPage]<br/>
                         }
-                        <strong>@Language["查询总计"]</strong>
+                        <strong>@Language[Language.SumQuery]</strong>
                     </SummaryCell>
                     isTitle = true;
                     continue;

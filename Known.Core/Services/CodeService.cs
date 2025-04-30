@@ -74,23 +74,23 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
         model.Name = info.Name;
         model.Data = ZipHelper.ZipDataAsString(info);
         await db.SaveAsync(model);
-        return Result.Success("保存成功！", info);
+        return Result.Success(Language.SaveSuccess, info);
     }
 
     public async Task<Result> SaveCodeAsync(AutoInfo<string> info)
     {
         if (!Config.IsDebug)
-            return Result.Error("非开发环境，不能保存代码！");
+            return Result.Error(CoreLanguage.TipNotSaveWithoutDev);
 
         if (string.IsNullOrWhiteSpace(info.PageId))
-            return Result.Error("路径不能为空！");
+            return Result.Error(CoreLanguage.TipPathRequired);
 
         var path = GetCodePath(info.PluginId, info.PageId);
         if (File.Exists(path))
-            return Result.Error($"文件[{info.PageId}]已存在！");
+            return Result.Error(Language[CoreLanguage.TipFileExisted].Replace("{file}", info.PageId));
 
         await Utils.SaveFileAsync(path, info.Data);
-        return Result.Success("保存成功！");
+        return Result.Success(Language.SaveSuccess);
     }
 
     public async Task<Result> CreateTableAsync(AutoInfo<string> info)

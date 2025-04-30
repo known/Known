@@ -30,15 +30,9 @@ class MenuTree : BaseComponent
 
     internal static void AddMenuRow(FormModel<MenuInfo> model)
     {
-        model.AddRow().AddColumn(c => c.Name, c =>
-        {
-            c.Name = "名称";
-            c.Required = true;
-        });
+        model.AddRow().AddColumn(c => c.Name);
         model.AddRow().AddColumn(c => c.Icon, c =>
         {
-            c.Name = "图标";
-            c.Required = true;
             c.CustomField = nameof(IconPicker);
         });
 
@@ -50,7 +44,6 @@ class MenuTree : BaseComponent
         {
             model.AddRow().AddColumn(c => c.Target, c =>
             {
-                c.Name = "目标";
                 c.Type = FieldType.RadioList;
                 c.Category = nameof(LinkTarget);
             });
@@ -95,13 +88,9 @@ class MenuTree : BaseComponent
             Data = current,
             OnFieldChanged = async f => await SaveMenuAsync(current)
         };
-        model.AddRow().AddColumn("类型", b => BuildMenuType(b, current));
+        model.AddRow().AddColumn(Language.Type, b => BuildMenuType(b, current));
         AddMenuRow(model);
-        model.AddRow().AddColumn(c => c.Sort, c =>
-        {
-            c.Name = "排序";
-            c.Required = true;
-        });
+        model.AddRow().AddColumn(c => c.Sort);
         builder.Form(model);
     }
 
@@ -118,7 +107,7 @@ class MenuTree : BaseComponent
                 //    builder.Icon("arrow-down", "下移", this.Callback<MouseEventArgs>(e => MoveDownMenuAsync(item)));
                 //builder.Icon("drag", "移动到", this.Callback<MouseEventArgs>(e => MoveToMenu(item)));
                 builder.Span().Class("kui-danger")
-                       .Child(() => builder.Icon("delete", "删除", this.Callback<MouseEventArgs>(e => DeleteMenu(item))));
+                       .Child(() => builder.Icon("delete", Language.Delete, this.Callback<MouseEventArgs>(e => DeleteMenu(item))));
             });
         });
     }
@@ -182,11 +171,12 @@ class MenuTree : BaseComponent
     {
         if (item.Children != null && item.Children.Count > 0)
         {
-            UI.Error("存在子菜单，不能删除！");
+            UI.Error(Language.TipNotDeleteMenu);
             return;
         }
 
-        UI.Confirm($"确定要删除菜单[{item.Name}]？", async () =>
+        var text = Language[Language.TipConfirmDelete].Replace("{name}", item.Name);
+        UI.Confirm(text, async () =>
         {
             var result = await Platform.DeleteMenuAsync(item);
             UI.Result(result, () =>

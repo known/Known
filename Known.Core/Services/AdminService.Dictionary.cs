@@ -6,7 +6,7 @@ partial class AdminService
     {
         var codes = await Database.GetDictionariesAsync();
         Cache.AttachCodes(codes);
-        return Result.Success(Language["Tip.RefreshSuccess"], codes);
+        return Result.Success(CoreLanguage.RefreshSuccess, codes);
     }
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()
@@ -34,7 +34,7 @@ partial class AdminService
         foreach (var item in infos)
         {
             if (await database.ExistsAsync<SysDictionary>(d => d.Category == item.Code))
-                return Result.Error(Language["Tip.DicDeleteExistsChild"]);
+                return Result.Error(CoreLanguage.TipDicDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -60,7 +60,7 @@ partial class AdminService
 
         var exists = await database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
         if (exists)
-            return Result.Error(Language["Tip.DicCodeExists"]);
+            return Result.Error(CoreLanguage.TipDicCodeExists);
 
         await database.SaveAsync(model);
         await RefreshCacheAsync();

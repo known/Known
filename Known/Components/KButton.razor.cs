@@ -44,14 +44,6 @@ public partial class KButton
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    private RenderFragment TitleTemplate(string title)
-    {
-        if (title.Contains('<'))
-            return b => b.AddMarkupContent(0, title);
-
-        return b => b.Markup(Language[title]);
-    }
-
     private async Task OnButtonClickAsync(MouseEventArgs args)
     {
         if (isLoad || !OnClick.HasDelegate)

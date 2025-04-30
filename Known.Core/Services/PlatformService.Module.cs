@@ -14,10 +14,10 @@ partial class PlatformService
     {
         var topNav = await Database.GetConfigAsync(Constant.KeyTopNav);
         if (!string.IsNullOrWhiteSpace(topNav))
-            return Result.Error("已经迁移过，无需再次迁移！");
+            return Result.Error(CoreLanguage.TipModuleMigrated);
 
         await Database.MigrateDataAsync();
-        return Result.Success("迁移成功！");
+        return Result.Success(CoreLanguage.MigrateSuccess);
     }
 
     public async Task<FileDataInfo> ExportModulesAsync()
@@ -33,7 +33,7 @@ partial class PlatformService
     {
         var key = nameof(FileFormInfo.BizType);
         if (info == null || info.Files == null || !info.Files.ContainsKey(key))
-            return Result.Error(Language["Import.SelectFile"]);
+            return Result.Error(Language.ImportSelectFile);
 
         try
         {
@@ -64,7 +64,7 @@ partial class PlatformService
         foreach (var model in infos)
         {
             if (await database.ExistsAsync<SysModule>(d => d.ParentId == model.Id))
-                return Result.Error(Language["Tip.ModuleDeleteExistsChild"]);
+                return Result.Error(CoreLanguage.TipModuleDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -82,7 +82,7 @@ partial class PlatformService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        return await Database.TransactionAsync("安装", async db =>
+        return await Database.TransactionAsync(Language.Install, async db =>
         {
             var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
             foreach (var item in infos.OrderBy(d => d.Sort))

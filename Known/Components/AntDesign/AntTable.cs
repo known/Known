@@ -68,7 +68,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
 
     private void BuildPagination(RenderTreeBuilder builder, (int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange) tuple)
     {
-        Func<PaginationTotalContext, string> showTotal = ctx => Context?.Language["Page.Total"].Replace("{total}", $"{ctx.Total}");
+        Func<PaginationTotalContext, string> showTotal = ctx => Context?.Language[Language.PageTotal].Replace("{total}", $"{ctx.Total}");
         builder.Component<Pagination>()
                .Set(c => c.Class, tuple.PaginationClass)
                .Set(c => c.Total, tuple.Total)

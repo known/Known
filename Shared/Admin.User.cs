@@ -137,6 +137,7 @@ public class UserDataInfo : UserInfo
     /// 取得或设置用户关联的角色ID集合。
     /// </summary>
     [Category("Roles")]
+    [DisplayName("角色")]
     public string[] RoleIds { get; set; }
     // 取得或设置用户关联的数据权限ID集合。
     //public string[] DataIds { get; set; }

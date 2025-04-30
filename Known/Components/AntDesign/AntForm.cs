@@ -73,8 +73,8 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
                 {
                     b.FormAction(() =>
                     {
-                        b.Button(Form.Language?.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
-                        b.Button(Form.Language?.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
+                        b.Button(Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
+                        b.Button(Language.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
                     });
                 }
             });

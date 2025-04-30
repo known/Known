@@ -57,7 +57,7 @@ public static class ConfigExtension
     public static async Task<Result> SaveConfigAsync(this Database db, string key, string value)
     {
         if (string.IsNullOrWhiteSpace(key))
-            return Result.Error("配置键不能为空！");
+            return Result.Error(CoreLanguage.TipKeyRequired);
 
         var appId = Config.App.Id;
         var data = new Dictionary<string, object>
@@ -70,7 +70,7 @@ public static class ConfigExtension
             await db.UpdateAsync(nameof(SysConfig), "AppId,ConfigKey", data);
         else
             await db.InsertAsync(nameof(SysConfig), data);
-        return Result.Success("保存成功！");
+        return Result.Success(Language.SaveSuccess);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public static class ConfigExtension
     public static Task<Result> SaveConfigAsync<T>(this Database db, string key, T value, bool isGZip = false)
     {
         if (string.IsNullOrWhiteSpace(key))
-            return Result.ErrorAsync("配置键不能为空！");
+            return Result.ErrorAsync(CoreLanguage.TipKeyRequired);
 
         var text = isGZip ? ZipHelper.ZipDataAsString(value) : Utils.ToJson(value);
         return db.SaveConfigAsync(key, text);

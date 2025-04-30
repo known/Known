@@ -108,7 +108,7 @@ public class BaseLayout : BaseComponent
 
     internal void Logout()
     {
-        UI.Confirm(Language["Tip.Exits"], SignOutAsync);
+        UI.Confirm(Language.TipExits, SignOutAsync);
     }
 
     internal virtual void LoadMenus() { }

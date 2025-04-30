@@ -11,6 +11,7 @@ public partial class DataItem
                                           .AddClass("kui-block", Block)
                                           .AddClass("kui-inline", Inline)
                                           .BuildClass();
+    private string LabelName => Language[Label];
 
     /// <summary>
     /// 取得或设置字段值类型，默认string。

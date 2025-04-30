@@ -15,15 +15,15 @@ partial class AdminService
             switch (task.Status)
             {
                 case TaskJobStatus.Pending:
-                    info.Message = Language["Import.TaskPending"];
+                    info.Message = Language[CoreLanguage.ImportTaskPending];
                     info.IsFinished = false;
                     break;
                 case TaskJobStatus.Running:
-                    info.Message = Language["Import.TaskRunning"];
+                    info.Message = Language[CoreLanguage.ImportTaskRunning];
                     info.IsFinished = false;
                     break;
                 case TaskJobStatus.Failed:
-                    info.Message = Language["Import.TaskFailed"];
+                    info.Message = Language[Language.ImportTaskFailed];
                     info.Error = task.Note;
                     break;
                 case TaskJobStatus.Success:
@@ -90,7 +90,7 @@ partial class AdminService
             if (form.IsAsync)
             {
                 TaskHelper.NotifyRun(form.BizType);
-                result.Message += Language["Import.FileImporting"];
+                result.Message += Language[CoreLanguage.ImportFileImporting];
             }
             else if (task != null)
             {
@@ -116,7 +116,7 @@ partial class AdminService
     {
         var excel = ExcelFactory.Create();
         var sheet = excel.CreateSheet("Sheet1");
-        sheet.SetCellValue("A1", context.Language["Import.TemplateTips"], new StyleInfo { IsBorder = true });
+        sheet.SetCellValue("A1", context.Language[CoreLanguage.TipTemplateTips], new StyleInfo { IsBorder = true });
         if (fields != null && fields.Count > 0)
         {
             sheet.MergeCells(0, 0, 1, fields.Count);
@@ -140,7 +140,7 @@ partial class AdminService
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
             var codes = Cache.GetCodes(column.Category);
-            return context.Language["Import.TemplateFill"].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
+            return context.Language[CoreLanguage.TipTemplateFill].Replace("{text}", $"{string.Join(",", codes.Select(c => c.Code))}");
         }
 
         return column.Note;

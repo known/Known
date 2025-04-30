@@ -28,7 +28,7 @@ public class UserPicker : TablePicker<UserInfo>, ICustomField
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        Title = Language["Title.SelectUser"];
+        Title = Language.SelectUser;
         Width = 800;
         AllowClear = true;
         ItemExpression = d => d.UserName == Value?.ToString();

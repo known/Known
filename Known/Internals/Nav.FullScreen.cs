@@ -5,7 +5,7 @@ class NavFullScreen : BaseNav
 {
     private bool isFullScreen = false;
 
-    protected override string Title => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
+    protected override string Title => isFullScreen ? Language.ExitScreen : Language.FullScreen;
     protected override string Icon => isFullScreen ? "fullscreen-exit" : "fullscreen";
 
     protected override EventCallback<MouseEventArgs> OnClick => this.Callback<MouseEventArgs>(e => OnFullScreenAsync());

@@ -30,7 +30,7 @@ class ModuleForm : BaseTabForm
                  c.Type = FieldType.RadioList;
              });
 
-        Tab.AddTab("BasicInfo", b => b.Form(Model));
+        Tab.AddTab(Language.BasicInfo, b => b.Form(Model));
         foreach (var item in UIConfig.ModuleFormTabs.OrderBy(t => t.Value.Id))
         {
             if (item.Value.Parameters == null)
@@ -56,7 +56,7 @@ class ModuleForm : BaseTabForm
                      Model.Data.Target == ModuleType.IFrame.ToString();
         foreach (var item in Tab.Items)
         {
-            if (item.Id != "BasicInfo")
+            if (item.Id != Language.BasicInfo)
                 item.IsVisible = !isMenu;
         }
     }

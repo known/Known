@@ -22,10 +22,10 @@ public class InstallPage : BaseForm<InstallInfo>
             return;
         }
 
-        if (Model.Data.IsDatabase)
-            Step.AddStep("Database", BuildDatabase);
-        Step.AddStep("SystemInfo", BuildSystem);
-        Step.AddStep("AccountInfo", BuildAccount);
+        //if (Model.Data.IsDatabase)
+            Step.AddStep(Language.Database, BuildDatabase);
+        Step.AddStep(Language.SystemInfo, BuildSystem);
+        Step.AddStep(Language.AccountInfo, BuildAccount);
     }
 
     /// <inheritdoc />
@@ -38,7 +38,7 @@ public class InstallPage : BaseForm<InstallInfo>
                 builder.Div("kui-flex", () =>
                 {
                     builder.Div().Class("kui-logo").Close();
-                    builder.Div("kui-app-name", $"{Config.App.Name} - {Language["Install"]}");
+                    builder.Div("kui-app-name", $"{Language[Config.App.Name]} - {Language[Language.Install]}");
                 });
             });
             builder.Div("kui-install-body", () =>

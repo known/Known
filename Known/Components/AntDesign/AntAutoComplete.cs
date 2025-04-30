@@ -18,7 +18,7 @@ public class AntAutoComplete : AutoComplete<CodeInfo>
         if (Item != null)
         {
             Item.Type = typeof(string);
-            Placeholder = Item.Language.GetString("PleaseSelectInput");
+            Placeholder = Item.Language[Language.PleaseSelectInput];
         }
         AllowFilter = true;
         OptionFormat = item => item.Value.Name;
