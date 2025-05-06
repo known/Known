@@ -240,6 +240,7 @@ public partial class Language
     /// </summary>
     public const string Execute = "执行";
 
+    internal const string BackHome = "返回首页";
     internal const string Database = "数据库";
     internal const string BasicInfo = "基本信息";
     internal const string SystemInfo = "系统信息";

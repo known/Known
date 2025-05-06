@@ -15,7 +15,7 @@ public class ErrorPage : BasePage
     /// <inheritdoc />
     public override RenderFragment GetPageTitle()
     {
-        return GetPageTitle("close-circle", Language?["Title.Error"]);
+        return GetPageTitle("close-circle", Language.Error);
     }
 
     /// <inheritdoc />
@@ -28,7 +28,7 @@ public class ErrorPage : BasePage
             if (error != null && error.Template != null)
                 error.Template?.Invoke(builder);
             else
-                builder.Button(Language["Button.BackHome"], this.Callback<MouseEventArgs>(e => Context.GoHomePage()));
+                builder.Button(Language.BackHome, this.Callback<MouseEventArgs>(e => Context.GoHomePage()));
         });
     }
 }

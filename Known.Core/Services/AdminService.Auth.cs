@@ -162,7 +162,7 @@ partial class AdminService
             return Result.Error(CoreLanguage.TipNoUser);
 
         var attach = new AttachFile(info.File, "Avatars");
-        attach.FilePath = @$"Avatars\{entity.Id}{attach.ExtName}";
+        attach.FilePath = $"Avatars/{entity.Id}{attach.ExtName}";
         await attach.SaveAsync();
 
         var url = Config.GetFileUrl(attach.FilePath);

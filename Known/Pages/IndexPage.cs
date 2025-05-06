@@ -8,7 +8,7 @@ public class IndexPage : BasePage
     /// <inheritdoc />
     public override RenderFragment GetPageTitle()
     {
-        return GetPageTitle("home", "首页");
+        return GetPageTitle("home", Language.Home);
     }
 
     /// <inheritdoc />

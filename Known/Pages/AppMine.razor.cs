@@ -18,7 +18,7 @@ public partial class AppMine
         items.Add(new MenuInfo
         {
             Id = "Profile",
-            Name = Language.GetString("Title.MyProfile"),
+            Name = Language.MyProfile,
             Icon = "user",
             Url = "/profile/user",
             BackUrl = "/app/mine"
@@ -26,7 +26,7 @@ public partial class AppMine
         items.Add(new MenuInfo
         {
             Id = "Password",
-            Name = Language.GetString("Title.SecuritySetting"),
+            Name = Language.SecuritySetting,
             Icon = "lock",
             Url = "/profile/password",
             BackUrl = "/app/mine"

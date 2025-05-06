@@ -11,7 +11,7 @@
         <ListItem OnClick="()=>OnItemClick(context)">
             <div>
                 <Icon Type="@context.Icon" />
-                <span>@context.Name</span>
+                <span>@Language[context.Name]</span>
             </div>
             @if (!string.IsNullOrWhiteSpace(context.Url))
             {

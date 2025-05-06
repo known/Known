@@ -15,6 +15,7 @@ public class LanguageInfo
     /// 取得或设置简体中文。
     /// </summary>
     [MaxLength(200)]
+    [Column(IsQuery = true, IsViewLink = true)]
     [DisplayName("简体中文")]
     public string Chinese { get; set; }
 
