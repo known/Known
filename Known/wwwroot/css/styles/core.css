@@ -109,8 +109,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*FullScreen*/
 .kui-screen {position:relative;background-color:var(--kui-bgcolor);}
-.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;}
-.kui-screen .action {position:absolute;top:0;right:0;z-index:1000;}
+.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;}
+.kui-screen .action {position:absolute;top:0;right:0;z-index:1002;}
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-color-border);border-radius:6px;}

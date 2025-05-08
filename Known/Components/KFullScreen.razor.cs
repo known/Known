@@ -6,7 +6,7 @@
 public partial class KFullScreen
 {
     private bool isFullScreen = false;
-    private string Title => isFullScreen ? Language["Nav.ExitScreen"] : Language["Nav.FullScreen"];
+    private string Title => isFullScreen ? Language.ExitScreen : Language.FullScreen;
     private string Icon => isFullScreen ? "fullscreen-exit" : "fullscreen";
     private string ClassName => CssBuilder.Default("kui-screen")
                                           .AddClass("is-full", isFullScreen)
