@@ -15,15 +15,15 @@ public static class ButtonExtension
     /// <returns>查询结果。</returns>
     public static PagingResult<ButtonInfo> ToQueryResult(this List<ButtonInfo> infos, PagingCriteria criteria)
     {
-        //var query = criteria.Query.FirstOrDefault(q => q.Id == nameof(ButtonInfo.Id));
-        //if (query != null && !string.IsNullOrWhiteSpace(query.Value))
-        //{
-        //    if (query.Type == QueryType.NotIn)
-        //        infos = [.. infos.Where(b => !query.Value.Split(',').Contains(b.Id))];
-        //    else
-        //        infos = [.. infos.Where(b => b.Id.Contains(query.Value))];
-        //}
-        infos = [.. infos.Contains(m => m.Id, criteria)];
+        var query = criteria.Query.FirstOrDefault(q => q.Id == nameof(ButtonInfo.Id));
+        if (query != null && !string.IsNullOrWhiteSpace(query.Value))
+        {
+            if (query.Type == QueryType.NotIn)
+                infos = [.. infos.Where(b => !query.Value.Split(',').Contains(b.Id))];
+            else
+                infos = [.. infos.Where(b => b.Id.Contains(query.Value))];
+        }
+        //infos = [.. infos.Contains(m => m.Id, criteria)];
         infos = [.. infos.Contains(m => m.Name, criteria)];
         //infos = [.. infos.Contains(m => m.Position, criteria)];
         var position = criteria.GetQueryValue(nameof(ButtonInfo.Position));
