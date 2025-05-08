@@ -19,19 +19,19 @@ public partial class UIService
         switch (style)
         {
             case StyleType.Success:
-                await message.Success(content);
+                await message.SuccessAsync(content);
                 break;
             case StyleType.Info:
-                await message.Info(content);
+                await message.InfoAsync(content);
                 break;
             case StyleType.Warning:
-                await message.Warning(content);
+                await message.WarningAsync(content);
                 break;
             case StyleType.Error:
-                await message.Error(content);
+                await message.ErrorAsync(content);
                 break;
             default:
-                await message.Info(content);
+                await message.InfoAsync(content);
                 break;
         }
     }
