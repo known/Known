@@ -1,20 +1,29 @@
 ﻿@inherits BaseComponent
 
-@if (!string.IsNullOrWhiteSpace(Title))
+@if (!string.IsNullOrWhiteSpace(AuthId))
 {
-    <Tooltip TitleTemplate="TitleTemplate(Title)">
-        @RenderBadgeButton()
-    </Tooltip>
+    if (Context.HasButton(AuthId))
+    {
+        @RenderButtonComponent()
+    }
 }
 else
 {
-    @RenderBadgeButton()
+    @RenderButtonComponent()
 }
 
 @code {
     private RenderFragment RenderButton => @<Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
                                                     Block="Block" Danger="Danger" Disabled="!Enabled" Loading="isLoad"
                                                     OnClick="OnButtonClickAsync">@Language[Name]</Button>;
+
+    private RenderFragment RenderButtonComponent()
+    {
+        if (!string.IsNullOrWhiteSpace(Title))
+            return @<Tooltip TitleTemplate="TitleTemplate(Title)">@RenderBadgeButton()</Tooltip>;
+        else
+            return RenderBadgeButton();
+    }
 
     private RenderFragment RenderBadgeButton()
     {

@@ -89,7 +89,7 @@ public sealed partial class AppData
         if (TypeHelper.IsGenericSubclass(pageType, typeof(BaseTablePage<>), out var types))
             return AppDefaultData.CreateAutoPage(pageType, types[0]);
 
-        return null;
+        return AppDefaultData.CreateAutoPage(pageType);
     }
 
     #region AppData

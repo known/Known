@@ -42,8 +42,8 @@ class AppDefaultData
     {
         foreach (var item in Config.Menus)
         {
-            if (item.Parent != "0" && !data.Modules.Exists(m => m.Id == item.Parent))
-                continue;
+            //if (item.Parent != "0" && !data.Modules.Exists(m => m.Id == item.Parent))
+            //    continue;
 
             var info = data.Modules.FirstOrDefault(m => m.Id == item.Page.Name);
             if (info == null)
@@ -67,15 +67,17 @@ class AppDefaultData
         }
     }
 
-    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType)
+    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType = null)
     {
-        var info = new AutoPageInfo
-        {
-            Page = new PageInfo { Type = pageType.FullName, ShowPager = true, PageSize = Config.App.DefaultPageSize },
-            Form = new FormInfo()
-        };
+        var info = new AutoPageInfo();
+        info.Page.Type = pageType.FullName;
         SetMethods(info, pageType);
-        SetProperties(info, entityType);
+        if (entityType != null)
+        {
+            info.Page.ShowPager = true;
+            info.Page.PageSize = Config.App.DefaultPageSize;
+            SetProperties(info, entityType);
+        }
         return info;
     }
 

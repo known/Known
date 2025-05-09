@@ -10,6 +10,11 @@ public partial class KButton
     private bool isLoad;
 
     /// <summary>
+    /// 取得或设置角色按钮权限的ID。
+    /// </summary>
+    [Parameter] public string AuthId { get; set; }
+
+    /// <summary>
     /// 取得或设置是否是块级按钮。
     /// </summary>
     [Parameter] public bool Block { get; set; }

@@ -41,7 +41,7 @@ public sealed class DataHelper
 
     #region Module
     /// <summary>
-    /// 初始化模块数据。
+    /// 初始化模块数据，提取模块中的实体模型和流程模型数据。
     /// </summary>
     /// <param name="modules">系统模块列表。</param>
     public static void Initialize(List<ModuleInfo> modules)
@@ -94,12 +94,12 @@ public sealed class DataHelper
         var allModules = new List<ModuleInfo>();
         allModules.AddRange(modules);
         // 添加路由模块
-        var routes = GetRouteModules(modules.Select(m => m.Url).ToList());
+        var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
         if (routes != null && routes.Count > 0)
         {
             allModules.AddRange(routes);
         }
-        return allModules.Where(m => m.Enabled).OrderBy(m => m.Sort).ToList();
+        return [.. allModules.Where(m => m.Enabled).OrderBy(m => m.Sort)];
     }
 
     private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
@@ -117,6 +117,7 @@ public sealed class DataHelper
         {
             if (moduleUrls.Exists(m => m == item.Key) ||
                 UIConfig.IgnoreRoutes.Contains(item.Key) ||
+                item.Key.StartsWith("/dev") ||
                 item.Key == routeError || item.Key == routeAuto)
                 continue;
 
