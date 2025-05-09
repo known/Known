@@ -27,6 +27,11 @@ public partial class Config
     /// </summary>
     public static List<ActionInfo> Actions { get; set; } = [];
 
+    /// <summary>
+    /// 取得或设置获取Admin信息后附加操作委托。
+    /// </summary>
+    public static Action<AdminInfo> OnAdmin { get; set; }
+
     internal static void AddApp(Assembly assembly)
     {
         // 添加默认一级模块

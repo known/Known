@@ -19,12 +19,14 @@ public partial class KContext
 
     private RenderFragment<Exception> ErrorContent => ex => builder =>
     {
+        var status = ex.IsNotAuthorized() ? ResultStatus.Http403 : ResultStatus.Http500;
+        var title = status == ResultStatus.Http403 ? "403" : "500";
         Logger.Exception(LogTarget.FrontEnd, Value?.CurrentUser, ex);
         builder.Div("kui-wrapper", () =>
         {
             builder.Component<AntDesign.Result>()
-                   .Set(c => c.Status, ResultStatus.Http500)
-                   .Set(c => c.Title, "500")
+                   .Set(c => c.Status, status)
+                   .Set(c => c.Title, title)
                    .Set(c => c.SubTitle, ex.Message)
                    .Set(c => c.Extra, b => BuildExtra(b, ex))
                    .Build();
@@ -33,13 +35,13 @@ public partial class KContext
 
     private void BuildExtra(RenderTreeBuilder builder, Exception ex)
     {
-        if (Config.IsDebug)
+        if (Config.IsDebug && !ex.IsNotAuthorized())
             builder.Pre().Child(ex.ToString());
 
         builder.Div().Child(() =>
         {
-            builder.Button("重新加载", this.Callback<MouseEventArgs>(e => Value?.Refresh()));
-            builder.Button("返回首页", this.Callback<MouseEventArgs>(e => Value?.GoHomePage(null, true)));
+            builder.Button(Language.ReLoad, this.Callback<MouseEventArgs>(e => Value?.Refresh()));
+            builder.Button(Language.BackHome, this.Callback<MouseEventArgs>(e => Value?.GoHomePage(null, true)));
         });
     }
 }

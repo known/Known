@@ -5,6 +5,8 @@
 /// </summary>
 public static class CommonExtension
 {
+    internal static bool IsNotAuthorized(this Exception ex) => ex is UnauthorizedAccessException;
+
     #region String
     /// <summary>
     /// 追加一行格式化字符串。

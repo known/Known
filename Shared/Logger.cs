@@ -188,6 +188,9 @@ public partial class Logger
     /// <param name="ex">异常信息。</param>
     public static void Exception(LogTarget target, UserInfo user, Exception ex)
     {
+        if (ex.IsNotAuthorized())
+            return;
+
         Error(target, user, ex.ToString());
     }
 

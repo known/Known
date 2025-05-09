@@ -154,6 +154,7 @@ public class BaseLayout : BaseComponent
         if (!Context.IsMobileApp)
             SetUserMenus(Info.UserMenus);
         Cache.AttachCodes(Info.Codes);
+        Config.OnAdmin?.Invoke(Info);
     }
 
     private void SetUserMenus(List<MenuInfo> menus)
