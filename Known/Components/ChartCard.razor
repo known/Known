@@ -1,18 +1,21 @@
 ﻿@inherits BaseComponent
 
-<div class="ws-chart">
-    <div class="ant-card ant-card-bordered" style="height:100%;">
-        <div class="ant-card-head">
-            <div class="ant-card-head-wrapper">
-                <div class="ant-card-head-title">@Language[Title]</div>
+@if (Visible)
+{
+    <div class="ws-chart">
+        <div class="ant-card ant-card-bordered" style="height:100%;">
+            <div class="ant-card-head">
+                <div class="ant-card-head-wrapper">
+                    <div class="ant-card-head-title">@Language[Title]</div>
+                </div>
+            </div>
+            <div class="ant-card-body">
+                @if (!isLoad)
+                {
+                    <div class="kui-p10">Loading...</div>
+                }
+                <KChart @ref="chart" Id="@Id" />
             </div>
         </div>
-        <div class="ant-card-body">
-            @if (!isLoad)
-            {
-                <div class="kui-p10">Loading...</div>
-            }
-            <KChart @ref="chart" Id="@Id" />
-        </div>
     </div>
-</div>
+}

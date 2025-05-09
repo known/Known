@@ -43,6 +43,9 @@ public partial class KChart
     /// <returns></returns>
     public Task ShowLineAsync(string title, ChartDataInfo[] datas)
     {
+        if (!Visible)
+            return Task.CompletedTask;
+
         object xAxis = null;
         object series = null;
         if (datas != null && datas.Length > 0)
@@ -80,6 +83,9 @@ public partial class KChart
     /// <returns></returns>
     public Task ShowBarAsync(string title, ChartDataInfo[] datas)
     {
+        if (!Visible)
+            return Task.CompletedTask;
+
         object xAxis = null;
         object series = null;
         if (datas != null && datas.Length > 0)
@@ -116,6 +122,9 @@ public partial class KChart
     /// <returns></returns>
     public Task ShowPieAsync(string title, ChartDataInfo[] datas)
     {
+        if (!Visible)
+            return Task.CompletedTask;
+
         object series = null;
         if (datas != null && datas.Length > 0)
         {

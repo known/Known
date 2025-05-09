@@ -1,3 +1,6 @@
 ﻿@inherits BaseComponent
 
-<canvas id="@Id" style="@Style"></canvas>
+@if (Visible)
+{
+    <canvas id="@Id" style="@Style"></canvas>
+}

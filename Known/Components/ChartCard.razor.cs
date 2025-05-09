@@ -20,6 +20,9 @@ public partial class ChartCard
     /// <returns></returns>
     public async Task SetOptionAsync(ChartCardOption option)
     {
+        if (!Visible)
+            return;
+
         isLoad = true;
         await StateChangedAsync();
         var info = option?.Charts?.FirstOrDefault();

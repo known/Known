@@ -1,13 +1,14 @@
 ﻿@inherits BaseComponent
 
-@{
+@if (Visible)
+{
     var text = GetText();
-}
-@if (OnClick.HasDelegate)
-{
-    <Tag Color="@GetColor(text)" OnClick="OnClick">@text</Tag>
-}
-else
-{
-    <Tag Color="@GetColor(text)">@text</Tag>
+    if (OnClick.HasDelegate)
+    {
+        <Tag Color="@GetColor(text)" OnClick="OnClick">@text</Tag>
+    }
+    else
+    {
+        <Tag Color="@GetColor(text)">@text</Tag>
+    }
 }

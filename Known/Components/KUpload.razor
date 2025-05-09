@@ -1,50 +1,53 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-upload-field">
-    @if (IsDrag) {
-        <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
-            <div class="ant-upload" style="display:grid;">
-                @if (!ReadOnly) {
-                    <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" disabled="@(!Enabled)" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
-                }
-                <div class="ant-upload-drag-container">
-                    <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
-                    <p class="ant-upload-text">@Language[Language.DragFileUpload]</p>
-                    <p class="ant-upload-hint">@Language[HintText]</p>
+@if (Visible)
+{
+    <div class="kui-upload-field">
+        @if (IsDrag) {
+            <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
+                <div class="ant-upload" style="display:grid;">
+                    @if (!ReadOnly) {
+                        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" disabled="@(!Enabled)" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
+                    }
+                    <div class="ant-upload-drag-container">
+                        <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
+                        <p class="ant-upload-text">@Language[Language.DragFileUpload]</p>
+                        <p class="ant-upload-hint">@Language[HintText]</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    } else if (IsButton) {
-        <div class="kui-upload">
-            @if (!ReadOnly) {
-                <div class="kui-button">
-                    <KIcon Icon="upload" />
-                    <span>@Language[Language.Upload]</span>
-                    @BuildInput
-                </div>
-                @BuildTemplate
-            }
-        </div>
-    } else {
-        <div class="kui-upload">
-            @if (!ReadOnly) {
-                @BuildInput
-                @BuildTemplate
-            }
-        </div>
-    }
-    <div class="kui-form-files">
-        @foreach (var item in sysFiles) {
-            var url = item.FileUrl;
-            <div>
+        } else if (IsButton) {
+            <div class="kui-upload">
                 @if (!ReadOnly) {
-                    <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
+                    <div class="kui-button">
+                        <KIcon Icon="upload" />
+                        <span>@Language[Language.Upload]</span>
+                        @BuildInput
+                    </div>
+                    @BuildTemplate
                 }
-                <KFileLink Item="item" />
+            </div>
+        } else {
+            <div class="kui-upload">
+                @if (!ReadOnly) {
+                    @BuildInput
+                    @BuildTemplate
+                }
             </div>
         }
+        <div class="kui-form-files">
+            @foreach (var item in sysFiles) {
+                var url = item.FileUrl;
+                <div>
+                    @if (!ReadOnly) {
+                        <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
+                    }
+                    <KFileLink Item="item" />
+                </div>
+            }
+        </div>
     </div>
-</div>
+}
 
 @code {
     private RenderFragment BuildInput => @<div>

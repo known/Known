@@ -17,7 +17,7 @@ public partial class KPdfView
     /// <returns></returns>
     public async Task ShowAsync(Stream stream)
     {
-        if (stream == null)
+        if (stream == null || !Visible)
             return;
 
         await JS.ShowPdfAsync(Id, stream, Option);
@@ -30,7 +30,7 @@ public partial class KPdfView
     /// <returns></returns>
     public async Task ShowAsync(string pdfFile)
     {
-        if (string.IsNullOrWhiteSpace(pdfFile))
+        if (string.IsNullOrWhiteSpace(pdfFile) || !Visible)
             return;
 
         if (IsServerMode)

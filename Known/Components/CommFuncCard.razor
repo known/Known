@@ -1,24 +1,27 @@
 ﻿@inherits BaseComponent
 
-<div class="ws-func">
-    <Card Title="@Language[Language.HomeCommonFunc]" Style="height:100%;">
-        @if (Menus == null || Menus.Count == 0)
-        {
-            <Empty />
-        }
-        else
-        {
-            foreach (var item in Menus)
+@if (Visible)
+{
+    <div class="ws-func">
+        <Card Title="@Language[Language.HomeCommonFunc]" Style="height:100%;">
+            @if (Menus == null || Menus.Count == 0)
             {
-                var menu = Context.UserMenus?.FirstOrDefault(m => m.Name == item);
-                if (menu == null)
-                    continue;
-
-                <div class="ws-func-menu" @onclick="e=>Context.NavigateTo(menu)">
-                    <KIcon Icon="@menu.Icon" />
-                    <span class="name">@Language.GetString(menu)</span>
-                </div>
+                <Empty />
             }
-        }
-    </Card>
-</div>
+            else
+            {
+                foreach (var item in Menus)
+                {
+                    var menu = Context.UserMenus?.FirstOrDefault(m => m.Name == item);
+                    if (menu == null)
+                        continue;
+
+                    <div class="ws-func-menu" @onclick="e=>Context.NavigateTo(menu)">
+                        <KIcon Icon="@menu.Icon" />
+                        <span class="name">@Language.GetString(menu)</span>
+                    </div>
+                }
+            }
+        </Card>
+    </div>
+}

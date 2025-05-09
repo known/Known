@@ -1,25 +1,24 @@
 ﻿@inherits BaseComponent
 
-<AntCol Span="Span" Class="@Class">
-    @if (NoForm)
-    {
-        <FieldItem Label="@LabelName" LabelTemplate="LabelTemplate" Class="@ClassName" Style="@Style" Tooltip="@Tooltip">
-            <div class="ant-form-item-control-input">
-                <div class="ant-form-item-control-input-content">
-                    @ChildContent
+@if (Visible)
+{
+    <AntCol Span="Span" Class="@Class">
+        @if (NoForm)
+        {
+            <FieldItem Label="@LabelName" LabelTemplate="LabelTemplate" Class="@ClassName" Style="@Style" Tooltip="@Tooltip">
+                <div class="ant-form-item-control-input">
+                    <div class="ant-form-item-control-input-content">@ChildContent</div>
                 </div>
-            </div>
-        </FieldItem>
-    }
-    else
-    {
-        <FormItem Label="@LabelName" LabelTemplate="FormItemLabel()" Class="@ClassName" Style="@Style" Required="Required" Rules="Rules">
-            <DataItemValue IsFixed Value="this">
-                @ChildContent
-            </DataItemValue>
-        </FormItem>
-    }
-</AntCol>
+            </FieldItem>
+        }
+        else
+        {
+            <FormItem Label="@LabelName" LabelTemplate="FormItemLabel()" Class="@ClassName" Style="@Style" Required="Required" Rules="Rules">
+                <DataItemValue IsFixed Value="this">@ChildContent</DataItemValue>
+            </FormItem>
+        }
+    </AntCol>
+}
 
 @code {
     private RenderFragment FormItemLabel()
@@ -31,9 +30,9 @@
             return null;
 
         return @<label> @LabelName
-        @if (!string.IsNullOrWhiteSpace(Tooltip)){
-            <KIcon Icon="question-circle" Title="@Tooltip" />
-        }
-    </label>;
+            @if (!string.IsNullOrWhiteSpace(Tooltip)){
+                <KIcon Icon="question-circle" Title="@Tooltip" />
+            }
+        </label>;
     }
 }

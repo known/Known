@@ -1,19 +1,22 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-title">
-    @if (ChildContent != null)
-    {
-        @ChildContent
-    }
-    else
-    {
-        if (!string.IsNullOrWhiteSpace(Text))
+@if (Visible)
+{
+    <div class="kui-title">
+        @if (ChildContent != null)
         {
-            <span>@Language[Text]</span>
+            @ChildContent
         }
-        if (!string.IsNullOrWhiteSpace(SubText))
+        else
         {
-            <span class="kui-sub-title">@Language[SubText]</span>
+            if (!string.IsNullOrWhiteSpace(Text))
+            {
+                <span>@Language[Text]</span>
+            }
+            if (!string.IsNullOrWhiteSpace(SubText))
+            {
+                <span class="kui-sub-title">@Language[SubText]</span>
+            }
         }
-    }
-</div>
+    </div>
+}

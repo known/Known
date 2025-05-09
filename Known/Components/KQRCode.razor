@@ -1,3 +1,6 @@
 ﻿@inherits BaseComponent
 
-<div id="@Id" style="@Style"></div>
+@if (Visible)
+{
+    <div id="@Id" style="@Style"></div>
+}

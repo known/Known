@@ -1,35 +1,33 @@
 ﻿@inherits BaseComponent
 
-<div class="ws-space">
-    <div class="ws-welcome">
-        <img class="ws-avatar" src="@CurrentUser?.AvatarUrl" />
-        <div class="ws-info">
-            <span class="ws-name">@GetUserGreeting()</span>
-            <span class="ws-tips">@Language[Language.HomeToday].Replace("{date}", DateTime.Now.ToString("yyyy-MM-dd dddd"))</span>
+@if (Visible)
+{
+    <div class="ws-space">
+        <div class="ws-welcome">
+            <img class="ws-avatar" src="@CurrentUser?.AvatarUrl" />
+            <div class="ws-info">
+                <span class="ws-name">@GetUserGreeting()</span>
+                <span class="ws-tips">@Language[Language.HomeToday].Replace("{date}", DateTime.Now.ToString("yyyy-MM-dd dddd"))</span>
+            </div>
         </div>
-    </div>
-    @Right
-    @if (Counts != null && Counts.Count > 0)
-    {
-        <ul class="count">
-            @foreach (var item in Counts)
-            {
-                var type = item.Type;
-                if (string.IsNullOrWhiteSpace(type))
-                    type = Language[Language.HomeTotal];
+        @Right
+        @if (Counts != null && Counts.Count > 0) {
+            <ul class="count">
+                @foreach (var item in Counts) {
+                    var type = item.Type;
+                    if (string.IsNullOrWhiteSpace(type))
+                        type = Language[Language.HomeTotal];
 
-                <li>
-                    <span class="name">@item.Name<span class="month">@type</span></span>
-                    @if (!string.IsNullOrWhiteSpace(item.Url))
-                    {
-                        <a class="amount">@item.Count</a>
-                    }
-                    else
-                    {
-                        <span class="amount">@item.Count</span>
-                    }
-                </li>
-            }
-        </ul>
-    }
-</div>
+                    <li>
+                        <span class="name">@item.Name<span class="month">@type</span></span>
+                        @if (!string.IsNullOrWhiteSpace(item.Url)) {
+                            <a class="amount">@item.Count</a>
+                        } else {
+                            <span class="amount">@item.Count</span>
+                        }
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+}

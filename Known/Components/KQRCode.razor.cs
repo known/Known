@@ -20,7 +20,7 @@ public partial class KQRCode
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
+        if (firstRender && Visible)
             await JS.ShowQRCodeAsync(Id, Option);
     }
 }

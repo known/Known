@@ -1,7 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Alert ShowIcon="true" 
-       Style="margin-bottom:10px;" 
-       Type="@GetAlertType()"
-       Message="@Language[Text]"
-/>
+@if (Visible)
+{
+    <Alert ShowIcon="true" Style="margin-bottom:10px;" Type="@GetAlertType()" Message="@Language[Text]" />
+}

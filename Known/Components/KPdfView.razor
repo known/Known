@@ -1,3 +1,6 @@
 ﻿@inherits BaseComponent
 
-<div id="@Id" class="kui-pdf-view" style="@Style"></div>
+@if (Visible)
+{
+    <div id="@Id" class="kui-pdf-view" style="@Style"></div>
+}

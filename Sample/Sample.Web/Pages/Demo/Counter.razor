@@ -22,10 +22,15 @@
             </DataItem>
         </AntRow>
         <AntRow>
-            <DataItem Span="8" Label="测试">
+            <DataItem Span="24" Label="选项">
+                <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="8" Label="测试1">
                 <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
             </DataItem>
-            <DataItem Span="8" Label="测试">
+            <DataItem Span="8" Label="测试2" Visible="context.ShowField">
                 <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
             </DataItem>
         </AntRow>
@@ -73,6 +78,7 @@
 
     class Test
     {
+        public bool ShowField { get; set; }
         public string Field { get; set; }
         public string User { get; set; }
 

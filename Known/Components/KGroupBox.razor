@@ -1,6 +1,9 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-group-box">
-    <label class="legend">@Language[Title]</label>
-    <div class="body">@ChildContent</div>
-</div>
+@if (Visible)
+{
+    <div class="kui-group-box">
+        <label class="legend">@Language[Title]</label>
+        <div class="body">@ChildContent</div>
+    </div>
+}

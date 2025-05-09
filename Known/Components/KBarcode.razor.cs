@@ -28,7 +28,7 @@ public partial class KBarcode
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender || Value != lastCode)
+        if ((firstRender || Value != lastCode) && Visible)
         {
             lastCode = Value;
             await JS.ShowBarcodeAsync(Id, Value, Option);

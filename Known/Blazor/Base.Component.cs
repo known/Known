@@ -164,6 +164,9 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     /// <param name="builder">呈现树建造者。</param>
     protected override async void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (!Visible)
+            return;
+
         try
         {
             BuildRender(builder);

@@ -1,15 +1,18 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-edit-input">
-    @if (isEdit)
-    {
-        <AntInput Value="@Value" ValueChanged="OnValueChanged" />
-        <span class="ant-btn-link" @onclick="e=>OnSaveClick()">@Language[Language.OK]</span>
-        <span class="ant-btn-link" @onclick="e=>isEdit=false">@Language[Language.Cancel]</span>
-    }
-    else
-    {
-        <span>@Value</span>
-        <span class="ant-btn-link" @onclick="e=>isEdit=true">@Language[Language.Edit]</span>
-    }
-</div>
+@if (Visible)
+{
+    <div class="kui-edit-input">
+        @if (isEdit)
+        {
+            <AntInput Value="@Value" ValueChanged="OnValueChanged" />
+            <span class="ant-btn-link" @onclick="e=>OnSaveClick()">@Language[Language.OK]</span>
+            <span class="ant-btn-link" @onclick="e=>isEdit=false">@Language[Language.Cancel]</span>
+        }
+        else
+        {
+            <span>@Value</span>
+            <span class="ant-btn-link" @onclick="e=>isEdit=true">@Language[Language.Edit]</span>
+        }
+    </div>
+}
