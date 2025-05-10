@@ -39,3 +39,15 @@ public interface IComContainer
     /// </summary>
     bool IsView { get; set; }
 }
+
+/// <summary>
+/// 授权组件接口。
+/// </summary>
+public interface IAuthComponent
+{
+    /// <summary>
+    /// 验证组件是否已经授权。
+    /// </summary>
+    /// <returns></returns>
+    ActiveInfo ValidateAuth();
+}

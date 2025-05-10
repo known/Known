@@ -169,10 +169,10 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
 
         try
         {
-            if (!UIConfig.IsAuthComponent)
-                BuildAuthorize(builder);
-            else
-                BuildRender(builder);
+            builder.Component<AuthComponent>()
+                   .Set(c => c.Component, this)
+                   .Set(c => c.ChildContent, BuildRender)
+                   .Build();
         }
         catch (Exception ex)
         {
@@ -275,19 +275,5 @@ public abstract class BaseComponent : ComponentBase, IAsyncDisposable
     {
         IsDisposing = disposing;
         await OnDisposeAsync();
-    }
-
-    private void BuildAuthorize(RenderTreeBuilder builder)
-    {
-        builder.Component<SysActive>()
-               .Set(c => c.AuthStatus, UIConfig.AuthComponentStatus)
-               .Set(c => c.Data, new ActiveInfo())
-               .Set(c => c.OnCheck, result =>
-               {
-                   UIConfig.IsAuth = result.IsValid;
-                   UIConfig.AuthStatus = result.Message;
-                   StateChanged();
-               })
-               .Build();
     }
 }

@@ -49,4 +49,9 @@ public class CoreConfig
     /// 取得或设置迁移系统配置数据委托。
     /// </summary>
     public static Func<Database, Task> OnMigrateAppData { get; set; }
+
+    /// <summary>
+    /// 取得激活授权组件的验证委托列表。
+    /// </summary>
+    public static List<Func<ActiveInfo, Result>> Actives { get; } = [];
 }

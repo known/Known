@@ -1,10 +1,30 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 系统激活类型枚举。
+/// </summary>
+public enum ActiveType
+{
+    /// <summary>
+    /// 系统。
+    /// </summary>
+    System,
+    /// <summary>
+    /// 组件。
+    /// </summary>
+    Component
+}
+
+/// <summary>
 /// 系统激活信息类。
 /// </summary>
 public class ActiveInfo
 {
+    /// <summary>
+    /// 取得或设置激活类型，默认系统。
+    /// </summary>
+    public ActiveType Type { get; set; }
+
     /// <summary>
     /// 取得或设置产品ID。
     /// </summary>
@@ -16,6 +36,16 @@ public class ActiveInfo
     /// </summary>
     [DisplayName("产品Key")]
     public string ProductKey { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作是否成功。
+    /// </summary>
+    public bool IsValid { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作成功或失败提示消息。
+    /// </summary>
+    public string Message { get; set; }
 }
 
 /// <summary>

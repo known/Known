@@ -10,9 +10,6 @@ public class UIConfig
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
 
-    internal static bool IsAuthComponent { get; set; } = true;
-    internal static string AuthComponentStatus { get; set; }
-
     /// <summary>
     /// 取得或设置是否启用编辑模式，临时使用。
     /// </summary>
