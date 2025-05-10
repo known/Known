@@ -199,7 +199,8 @@ public partial class Logger
     /// 写异常日志到文件。
     /// </summary>
     /// <param name="ex">异常信息。</param>
-    public static void Exception(Exception ex)
+    /// <param name="isStack">是否记录异常堆栈信息。</param>
+    public static void Exception(Exception ex, bool isStack = true)
     {
         var info = new FileInfo($"./logs/error_{DateTime.Now:yyyyMMdd}.log");
         if (!info.Directory.Exists)
@@ -209,7 +210,8 @@ public partial class Logger
         {
             using var writer = new StreamWriter(info.FullName, true);
             writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.Message}");
-            writer.WriteLine(ex.StackTrace);
+            if (isStack)
+                writer.WriteLine(ex.StackTrace);
             writer.WriteLine();
             writer.Flush();
         }

@@ -17,14 +17,14 @@
     <div class="login-head">
         <div class="login-logo">
             <a class="kui-logo" href="@Config.SiteUrl" target="_blank"></a>
-            <div class="kui-app-name">@AppConfig.AppName</div>
+            <div class="kui-app-name">@Language[AppConfig.AppName]</div>
         </div>
         <ul class="kui-menu">
             <li class="pro">
                 <a href="https://pro.known.org.cn" target="_blank">@Language["专业版"]</a>
                 <sub>New</sub>
             </li>
-            <li><a href="@Config.SiteUrl/doc" target="_blank">@Language["文档"]</a></li>
+            <li><a href="@Config.SiteUrl/doc" target="_blank">@Language[Language.Document]</a></li>
             @if (Config.App.IsLanguage)
             {
                 <li style="text-align:center;"><NavLanguage /></li>
@@ -38,32 +38,32 @@
     <div class="login-body">
         <div class="login-left">
             <ul>
-                <li>@Language["开源"]</li>
-                <li>@Language["低代码"]</li>
-                <li>@Language["现代UI"]</li>
+                <li>@Language[Language.OpenSource]</li>
+                <li>@Language[Language.LowCode]</li>
+                <li>@Language[Language.ModernUI]</li>
             </ul>
             <img src="img/login.png" />
         </div>
         <div class="login-form">
             <div class="login-form-body">
                 <Tabs Animated>
-                    <TabPane Key="Account" Tab="@Language["用户名登录"]">
+                    <TabPane Key="Account" Tab="@Language[Language.LoginWithAccount]">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
                     </TabPane>
                     @if (Context.IsMobile)
                     {
-                        <TabPane Key="Register" Tab="@Language["用户注册"]">
+                        <TabPane Key="Register" Tab="@Language[Language.UserRegister]">
                             <RegisterForm Model="Register" OnRegister="OnUserRegister" />
                         </TabPane>
                     }
                     else
                     {
-                        <TabPane Key="Phone" Tab="@Language["手机号登录"]">
+                        <TabPane Key="Phone" Tab="@Language[Language.LoginWithPhone]">
                             <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
                         </TabPane>
-                        <TabPane Key="QRCode" Tab="@Language["扫码登录"]">
+                        <TabPane Key="QRCode" Tab="@Language[Language.LoginWithQRCode]">
                             <div style="text-align:center;">
-                                <div style="margin-bottom:10px;">@Language["请使用手机浏览器扫码登录"]</div>
+                                <div style="margin-bottom:10px;">@Language[Language.ScanCodeWithMobile]</div>
                                 <KQRCode Option="QrCode" />
                             </div>
                         </TabPane>

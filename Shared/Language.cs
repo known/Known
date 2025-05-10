@@ -444,6 +444,26 @@ public partial class Language
     internal const string Content = "内容";
     internal const string CopyError = "复制错误";
 
+    /// <summary>
+    /// 用户注册。
+    /// </summary>
+    public const string UserRegister = "用户注册";
+    /// <summary>
+    /// 用户名登录。
+    /// </summary>
+    public const string LoginWithAccount = "用户名登录";
+    /// <summary>
+    /// 手机号登录。
+    /// </summary>
+    public const string LoginWithPhone = "手机号登录";
+    /// <summary>
+    /// 扫码登录。
+    /// </summary>
+    public const string LoginWithQRCode = "扫码登录";
+    /// <summary>
+    /// 请使用手机浏览器扫码登录。
+    /// </summary>
+    public const string ScanCodeWithMobile = "请使用手机浏览器扫码登录";
     internal const string PhoneNo = "手机号";
     internal const string PhoneCode = "手机验证码";
     internal const string Captcha = "验证码";
@@ -528,6 +548,18 @@ public partial class Language
     public const string HomeVisitTitle = "{month}月系统访问量统计";
     internal const string HomeDate = "日期";
     internal const string HomeCount = "数量";
+    /// <summary>
+    /// 开源。
+    /// </summary>
+    public const string OpenSource = "开源";
+    /// <summary>
+    /// 低代码。
+    /// </summary>
+    public const string LowCode = "低代码";
+    /// <summary>
+    /// 现代UI。
+    /// </summary>
+    public const string ModernUI = "现代UI";
 
     /// <summary>
     /// 根据ID获取语言。
