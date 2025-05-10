@@ -39,7 +39,7 @@ public class AdminInfo
     /// <summary>
     /// 取得或设置系统相关配置信息。
     /// </summary>
-    public Dictionary<string, string> Settings { get; set; }
+    public Dictionary<string, object> Settings { get; set; } = [];
 
     /// <summary>
     /// 取得或设置用户设置信息。

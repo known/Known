@@ -120,16 +120,6 @@ public partial class Config
     public static IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
-    /// 取得或设置系统是否授权，默认true。
-    /// </summary>
-    public static bool IsAuth { get; set; } = true;
-
-    /// <summary>
-    /// 取得或设置系统授权状态提示信息。
-    /// </summary>
-    public static string AuthStatus { get; set; }
-
-    /// <summary>
     /// 取得系统启动时间。
     /// </summary>
     public static DateTime StartTime { get; internal set; }

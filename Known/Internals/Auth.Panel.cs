@@ -1,22 +1,26 @@
 ﻿namespace Known.Internals;
 
-/// <summary>
-/// 授权验证面板组件类。
-/// </summary>
 class AuthPanel : BaseComponent
 {
-    /// <summary>
-    /// 取得或设置组件子内容模板。
-    /// </summary>
+    private readonly SystemInfo Data = new();
+
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    /// <summary>
-    /// 呈现授权组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            var info = await Admin.GetProductAsync();
+            Data.ProductId = info?.ProductId;
+            Data.ProductKey = info?.ProductKey;
+            await StateChangedAsync();
+        }
+    }
+
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!Config.IsAuth)
+        if (!UIConfig.IsAuth)
             BuildAuthorize(builder);
         else
             ChildContent?.Invoke(builder);
@@ -25,11 +29,17 @@ class AuthPanel : BaseComponent
     private void BuildAuthorize(RenderTreeBuilder builder)
     {
         builder.Component<SysActive>()
-               .Set(c => c.OnCheck, isCheck =>
-               {
-                   Config.IsAuth = isCheck;
-                   StateChanged();
-               })
+               .Set(c => c.AuthStatus, UIConfig.AuthStatus)
+               .Set(c => c.Data, Data)
+               .Set(c => c.OnCheck, OnAuthCheck)
                .Build();
+    }
+
+    private async Task OnAuthCheck(SystemInfo info)
+    {
+        var result = await Admin.SaveProductKeyAsync(info);
+        UIConfig.IsAuth = result.IsValid;
+        UIConfig.AuthStatus = result.Message;
+        await StateChangedAsync();
     }
 }

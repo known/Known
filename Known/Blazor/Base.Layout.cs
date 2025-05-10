@@ -155,6 +155,11 @@ public class BaseLayout : BaseComponent
             SetUserMenus(Info.UserMenus);
         Cache.AttachCodes(Info.Codes);
         Config.OnAdmin?.Invoke(Info);
+        if (Info.Settings != null)
+        {
+            UIConfig.IsAuth = Info.Settings.GetValue<bool>(nameof(UIConfig.IsAuth));
+            UIConfig.AuthStatus = Info.Settings.GetValue<string>(nameof(UIConfig.AuthStatus));
+        }
     }
 
     private void SetUserMenus(List<MenuInfo> menus)

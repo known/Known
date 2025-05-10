@@ -113,8 +113,8 @@ public class CoreOption
             return Result.Success("");
 
         var result = CheckSystem.Invoke(info);
-        Config.IsAuth = result.IsValid;
-        Config.AuthStatus = result.Message;
+        CoreConfig.IsAuth = result.IsValid;
+        CoreConfig.AuthStatus = result.Message;
         return result;
     }
 

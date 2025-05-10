@@ -123,6 +123,8 @@ partial class AdminService
         if (CurrentUser == null)
             return info;
 
+        info.Settings[nameof(CoreConfig.IsAuth)] = CoreConfig.IsAuth;
+        info.Settings[nameof(CoreConfig.AuthStatus)] = CoreConfig.AuthStatus;
         await Database.QueryActionAsync(async db =>
         {
             Config.System ??= await db.GetSystemAsync();

@@ -7,6 +7,9 @@ public class CoreConfig
 {
     private CoreConfig() { }
 
+    internal static bool IsAuth { get; set; } = true;
+    internal static string AuthStatus { get; set; }
+
     /// <summary>
     /// 取得或设置自定义用户业务逻辑处理者实例。
     /// </summary>
