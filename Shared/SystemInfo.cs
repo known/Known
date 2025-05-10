@@ -1,6 +1,24 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 系统激活信息类。
+/// </summary>
+public class ActiveInfo
+{
+    /// <summary>
+    /// 取得或设置产品ID。
+    /// </summary>
+    [DisplayName("产品ID")]
+    public string ProductId { get; set; }
+
+    /// <summary>
+    /// 取得或设置产品Key。
+    /// </summary>
+    [DisplayName("产品Key")]
+    public string ProductKey { get; set; }
+}
+
+/// <summary>
 /// 系统信息类。
 /// </summary>
 public class SystemInfo
@@ -23,13 +41,11 @@ public class SystemInfo
     /// <summary>
     /// 取得或设置产品ID。
     /// </summary>
-    [DisplayName("产品ID")]
     public string ProductId { get; set; }
 
     /// <summary>
     /// 取得或设置产品Key。
     /// </summary>
-    [DisplayName("产品Key")]
     public string ProductKey { get; set; }
 
     /// <summary>

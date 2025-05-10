@@ -29,5 +29,12 @@ public class SysSystem : BaseTabPage
         return Admin.SaveSystemAsync(info);
     }
 
-    internal Task<Result> SaveKeyAsync(SystemInfo info) => Admin.SaveProductKeyAsync(info);
+    internal Task<Result> SaveKeyAsync(SystemInfo info)
+    {
+        return Admin.SaveProductKeyAsync(new ActiveInfo
+        {
+            ProductId = info.ProductId,
+            ProductKey = info.ProductKey
+        });
+    }
 }

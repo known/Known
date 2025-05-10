@@ -2,16 +2,16 @@
 
 class SysActive : BaseComponent
 {
-    private FormModel<SystemInfo> model;
+    private FormModel<ActiveInfo> model;
 
     [Parameter] public string AuthStatus { get; set; }
-    [Parameter] public SystemInfo Data { get; set; }
-    [Parameter] public Func<SystemInfo, Task> OnCheck { get; set; }
+    [Parameter] public ActiveInfo Data { get; set; }
+    [Parameter] public Action<Result> OnCheck { get; set; }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        model = new FormModel<SystemInfo>(this) { Data = Data };
+        model = new FormModel<ActiveInfo>(this) { Data = Data };
         model.AddRow().AddColumn(c => c.ProductId, c => c.ReadOnly = true);
         model.AddRow().AddColumn(c => c.ProductKey, c => c.Required = true);
     }
@@ -37,6 +37,7 @@ class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        await OnCheck.Invoke(model.Data);
+        var result = await Admin.SaveProductKeyAsync(model.Data);
+        OnCheck?.Invoke(result);
     }
 }

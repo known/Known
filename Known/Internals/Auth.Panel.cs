@@ -2,7 +2,7 @@
 
 class AuthPanel : BaseComponent
 {
-    private readonly SystemInfo Data = new();
+    private readonly ActiveInfo Data = new();
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -31,15 +31,12 @@ class AuthPanel : BaseComponent
         builder.Component<SysActive>()
                .Set(c => c.AuthStatus, UIConfig.AuthStatus)
                .Set(c => c.Data, Data)
-               .Set(c => c.OnCheck, OnAuthCheck)
+               .Set(c => c.OnCheck, result =>
+               {
+                   UIConfig.IsAuth = result.IsValid;
+                   UIConfig.AuthStatus = result.Message;
+                   StateChanged();
+               })
                .Build();
-    }
-
-    private async Task OnAuthCheck(SystemInfo info)
-    {
-        var result = await Admin.SaveProductKeyAsync(info);
-        UIConfig.IsAuth = result.IsValid;
-        UIConfig.AuthStatus = result.Message;
-        await StateChangedAsync();
     }
 }

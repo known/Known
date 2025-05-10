@@ -50,14 +50,14 @@ partial class AdminService
         return Result.Success(Language.SaveSuccess);
     }
 
-    public async Task<Result> SaveProductKeyAsync(SystemInfo info)
+    public async Task<Result> SaveProductKeyAsync(ActiveInfo info)
     {
         var db = Database;
         var sys = await db.GetSystemAsync();
         sys.ProductId = info.ProductId;
         sys.ProductKey = info.ProductKey;
         await db.SaveSystemAsync(sys);
-        Config.System = info;
+        Config.System = sys;
         return CoreOption.Instance.CheckSystemInfo(sys);
     }
 }

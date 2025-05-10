@@ -30,9 +30,9 @@ public partial interface IAdminService
     /// <summary>
     /// 异步保存产品Key。
     /// </summary>
-    /// <param name="info">系统信息。</param>
+    /// <param name="info">系统激活信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveProductKeyAsync(SystemInfo info);
+    Task<Result> SaveProductKeyAsync(ActiveInfo info);
 }
 
 partial class AdminService
@@ -58,7 +58,7 @@ partial class AdminService
         return Result.SuccessAsync(Language.SaveSuccess);
     }
 
-    public Task<Result> SaveProductKeyAsync(SystemInfo info)
+    public Task<Result> SaveProductKeyAsync(ActiveInfo info)
     {
         return Result.SuccessAsync(Language.SaveSuccess);
     }
@@ -96,7 +96,7 @@ partial class AdminClient
         return Http.PostAsync("/Admin/SaveSystem", info);
     }
 
-    public Task<Result> SaveProductKeyAsync(SystemInfo info)
+    public Task<Result> SaveProductKeyAsync(ActiveInfo info)
     {
         return Http.PostAsync("/Admin/SaveProductKey", info);
     }
