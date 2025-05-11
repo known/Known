@@ -2,7 +2,7 @@
 
 class AuthPanel : BaseComponent
 {
-    private readonly ActiveInfo Data = new();
+    private readonly ActiveInfo Info = new();
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
@@ -12,8 +12,8 @@ class AuthPanel : BaseComponent
         if (firstRender)
         {
             var info = await Admin.GetProductAsync();
-            Data.ProductId = info?.ProductId;
-            Data.ProductKey = info?.ProductKey;
+            Info.ProductId = info?.ProductId;
+            Info.ProductKey = info?.ProductKey;
             await StateChangedAsync();
         }
     }
@@ -30,8 +30,8 @@ class AuthPanel : BaseComponent
     {
         builder.Component<SysActive>()
                .Set(c => c.AuthStatus, UIConfig.AuthStatus)
-               .Set(c => c.Data, Data)
-               .Set(c => c.OnCheck, result =>
+               .Set(c => c.Data, Info)
+               .Set(c => c.OnActive, result =>
                {
                    UIConfig.IsAuth = result.IsValid;
                    UIConfig.AuthStatus = result.Message;

@@ -50,7 +50,7 @@ public class AuthComponent : ComponentBase
         builder.Component<SysActive>()
                .Set(c => c.AuthStatus, info.Message)
                .Set(c => c.Data, info)
-               .Set(c => c.OnCheck, result =>
+               .Set(c => c.OnActive, result =>
                {
                    info.IsValid = result.IsValid;
                    info.Message = result.Message;

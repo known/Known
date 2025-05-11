@@ -1,13 +1,33 @@
 ﻿namespace Known.Internals;
 
-class SysActive : BaseComponent
+/// <summary>
+/// 系统激活组件类。
+/// </summary>
+public class SysActive : BaseComponent
 {
     private FormModel<ActiveInfo> model;
 
+    /// <summary>
+    /// 取得或设置授权状态。
+    /// </summary>
     [Parameter] public string AuthStatus { get; set; }
-    [Parameter] public ActiveInfo Data { get; set; }
-    [Parameter] public Action<Result> OnCheck { get; set; }
 
+    /// <summary>
+    /// 取得或设置激活信息。
+    /// </summary>
+    [Parameter] public ActiveInfo Data { get; set; }
+
+    /// <summary>
+    /// 取得或设置授权事件委托。
+    /// </summary>
+    [Parameter] public Func<ActiveInfo, Task<Result>> OnAuth { get; set; }
+
+    /// <summary>
+    /// 取得或设置激活事件委托。
+    /// </summary>
+    [Parameter] public Action<Result> OnActive { get; set; }
+
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -16,6 +36,7 @@ class SysActive : BaseComponent
         model.AddRow().AddColumn(c => c.ProductKey, c => c.Required = true);
     }
 
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div("kui-card", () =>
@@ -37,7 +58,9 @@ class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = await Admin.SaveProductKeyAsync(model.Data);
-        OnCheck?.Invoke(result);
+        var result = OnAuth != null
+                   ? await OnAuth.Invoke(model.Data)
+                   : await Admin.SaveProductKeyAsync(model.Data);
+        OnActive?.Invoke(result);
     }
 }
