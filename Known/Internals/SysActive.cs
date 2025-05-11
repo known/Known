@@ -18,11 +18,6 @@ public class SysActive : BaseComponent
     [Parameter] public ActiveInfo Data { get; set; }
 
     /// <summary>
-    /// 取得或设置授权事件委托。
-    /// </summary>
-    [Parameter] public Func<ActiveInfo, Task<Result>> OnAuth { get; set; }
-
-    /// <summary>
     /// 取得或设置激活事件委托。
     /// </summary>
     [Parameter] public Action<Result> OnActive { get; set; }
@@ -58,9 +53,7 @@ public class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = OnAuth != null
-                   ? await OnAuth.Invoke(model.Data)
-                   : await Admin.SaveProductKeyAsync(model.Data);
+        var result = await Admin.SaveProductKeyAsync(model.Data);
         OnActive?.Invoke(result);
     }
 }

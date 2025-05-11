@@ -55,12 +55,19 @@ partial class AdminService
         if (info.Type == ActiveType.System)
         {
             var db = Database;
-            var sys = await db.GetSystemAsync();
-            sys.ProductId = info.ProductId;
-            sys.ProductKey = info.ProductKey;
-            await db.SaveSystemAsync(sys);
-            Config.System = sys;
-            return CoreOption.Instance.CheckSystemInfo(sys);
+            if (CoreConfig.OnActiveSystem != null)
+            {
+                return await CoreConfig.OnActiveSystem.Invoke(db, info);
+            }
+            else
+            {
+                var sys = await db.GetSystemAsync();
+                sys.ProductId = info.ProductId;
+                sys.ProductKey = info.ProductKey;
+                await db.SaveSystemAsync(sys);
+                Config.System = sys;
+                return CoreOption.Instance.CheckSystemInfo(sys);
+            }
         }
 
         foreach (var item in CoreConfig.Actives)
