@@ -13,7 +13,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
         Table.EnableFilter = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = OnQueryModulesAsync;
+        Table.OnQuery = Platform.QueryModulesAsync;
 
         Table.AddColumn(c => c.Name, true).Width(120).Template(BuildName);
         Table.AddColumn(c => c.Type).Width(80).Tag();
@@ -28,20 +28,6 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
 
     public void Install() => Table.SelectRows(ShowInstallTree);
     public void Install(ModuleInfo row) => ShowInstallTree([row]);
-
-    private async Task<PagingResult<ModuleInfo>> OnQueryModulesAsync(PagingCriteria criteria)
-    {
-        var modules = AppData.Data.Modules.Where(m => Modules?.Exists(d => d.Url == m.Url) == false)
-                                          .OrderBy(d => d.ParentId)
-                                          .ThenBy(d => d.Sort)
-                                          .ToList();
-        var name = criteria.GetQueryValue(nameof(ModuleInfo.Name));
-        if (!string.IsNullOrEmpty(name))
-            modules = [.. modules.Where(m => m.Name.Contains(name))];
-
-        var result = modules.ToPagingResult(criteria);
-        return await Task.FromResult(result);
-    }
 
     private void BuildName(RenderTreeBuilder builder, ModuleInfo row)
     {

@@ -3,6 +3,13 @@
 public partial interface IPlatformService
 {
     /// <summary>
+    /// 异步分页查询系统模块列表。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria);
+
+    /// <summary>
     /// 异步获取系统模块列表。
     /// </summary>
     /// <returns>系统模块列表。</returns>
@@ -72,6 +79,18 @@ public partial interface IPlatformService
 
 partial class PlatformService
 {
+    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
+    {
+        var modules = AppData.Data.Modules.OrderBy(d => d.ParentId)
+                                          .ThenBy(d => d.Sort)
+                                          .ToList();
+        var name = criteria.GetQueryValue(nameof(ModuleInfo.Name));
+        if (!string.IsNullOrEmpty(name))
+            modules = [.. modules.Where(m => m.Name.Contains(name))];
+        var result = modules.ToPagingResult(criteria);
+        return Task.FromResult(result);
+    }
+
     public Task<List<ModuleInfo>> GetModulesAsync()
     {
         var infos = AppData.Data.Modules.OrderBy(m => m.Sort).ToList();
@@ -240,6 +259,11 @@ partial class PlatformService
 
 partial class PlatformClient
 {
+    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
+    {
+        return Http.QueryAsync<ModuleInfo>("/Platform/QueryModules", criteria);
+    }
+
     public Task<List<ModuleInfo>> GetModulesAsync()
     {
         return Http.GetAsync<List<ModuleInfo>>("/Platform/GetModules");
