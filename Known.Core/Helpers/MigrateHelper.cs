@@ -36,14 +36,13 @@ class MigrateHelper
 
     private static async Task MigrateLanguagesAsync(Database db)
     {
-        var datas = AppData.Data.Languages;
+        var datas = Language.Datas;
         if (datas == null || datas.Count == 0)
             return;
 
-        if (await db.ExistsConfigAsync(Constant.KeyLanguage))
-            return;
-
-        await db.SaveConfigAsync(Constant.KeyLanguage, datas, true);
+        var items = datas.Select(Utils.MapTo<SysLanguage>).ToList();
+        await db.DeleteAllAsync<SysLanguage>();
+        await db.InsertListAsync(items);
     }
 
     private static async Task MigrateButtonsAsync(Database db)

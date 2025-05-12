@@ -3,24 +3,17 @@
 public partial interface IPlatformService
 {
     /// <summary>
-    /// 异步获取语言设置信息列表。
-    /// </summary>
-    /// <returns>语言设置信息列表。</returns>
-    Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync();
-
-    /// <summary>
-    /// 异步保存语言设置信息列表。
-    /// </summary>
-    /// <param name="infos">语言设置信息列表。</param>
-    /// <returns>保存结果。</returns>
-    Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos);
-
-    /// <summary>
     /// 异步分页查询语言信息列表。
     /// </summary>
     /// <param name="criteria">查询条件。</param>
     /// <returns>分页结果。</returns>
     Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步提取多语言信息。
+    /// </summary>
+    /// <returns>提取结果。</returns>
+    Task<Result> FetchLanguagesAsync();
 
     /// <summary>
     /// 异步删除语言信息列表。
@@ -35,26 +28,27 @@ public partial interface IPlatformService
     /// <param name="info">语言信息。</param>
     /// <returns>保存结果。</returns>
     Task<Result> SaveLanguageAsync(LanguageInfo info);
+
+    /// <summary>
+    /// 异步保存语言设置信息列表。
+    /// </summary>
+    /// <param name="infos">语言设置信息列表。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos);
 }
 
 partial class PlatformService
 {
-    public Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync()
-    {
-        var infos = Language.GetDefaultSettings();
-        return Task.FromResult(infos);
-    }
-
-    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
-    {
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         var datas = AppData.Data.Languages ?? [];
         var result = datas.ToQueryResult(criteria);
         return Task.FromResult(result);
+    }
+
+    public Task<Result> FetchLanguagesAsync()
+    {
+        return Result.SuccessAsync(Language.FetchSuccess);
     }
 
     public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
@@ -83,23 +77,23 @@ partial class PlatformService
         AppData.SaveData();
         return Result.SuccessAsync(Language.SaveSuccess);
     }
+
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
+    {
+        return Result.SuccessAsync(Language.SaveSuccess);
+    }
 }
 
 partial class PlatformClient
 {
-    public Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync()
-    {
-        return Http.GetAsync<List<LanguageSettingInfo>>("/Platform/GetLanguageSettings");
-    }
-
-    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
-    {
-        return Http.PostAsync("/Platform/SaveLanguageSettings", infos);
-    }
-
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         return Http.QueryAsync<LanguageInfo>("/Platform/QueryLanguages", criteria);
+    }
+
+    public Task<Result> FetchLanguagesAsync()
+    {
+        return Http.PostAsync("/Platform/FetchLanguages");
     }
 
     public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
@@ -110,5 +104,10 @@ partial class PlatformClient
     public Task<Result> SaveLanguageAsync(LanguageInfo info)
     {
         return Http.PostAsync("/Platform/SaveLanguage", info);
+    }
+
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
+    {
+        return Http.PostAsync("/Platform/SaveLanguageSettings", infos);
     }
 }

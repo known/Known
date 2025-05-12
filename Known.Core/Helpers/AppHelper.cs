@@ -2,6 +2,23 @@
 
 class AppHelper
 {
+    internal static void LoadLanguages()
+    {
+        Task.Run(async () =>
+        {
+            var db = Database.Create();
+            var infos = await db.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
+            if (infos == null || infos.Count == 0)
+                infos = Language.GetDefaultSettings();
+            Language.Settings = infos;
+
+            var datas = await db.Query<SysLanguage>().ToListAsync<LanguageInfo>();
+            if (datas == null || datas.Count == 0)
+                datas = Language.GetDefaultLanguages();
+            Language.Datas = datas;
+        });
+    }
+
     internal static void LoadConnections()
     {
         var path = GetConnectionPath();

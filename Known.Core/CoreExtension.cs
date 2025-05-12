@@ -110,6 +110,7 @@ public static class CoreExtension
         app.MapControllers();
         app.MapRazorPages();
         Config.ServiceProvider = app.Services;
+        AppHelper.LoadLanguages();
     }
 
     private static void AddDynamicWebApi(this IMvcBuilder builder)

@@ -211,6 +211,16 @@ public partial class Language
     /// </summary>
     public const string AddSuccess = "添加成功！";
 
+    /// <summary>
+    /// 提取。
+    /// </summary>
+    public const string Fetch = "提取";
+
+    /// <summary>
+    /// 提取成功。
+    /// </summary>
+    public const string FetchSuccess = "提取成功！";
+
     internal const string Clear = "清空";
     internal const string View = "查看";
     internal const string Previous = "上一步";
@@ -394,7 +404,7 @@ public partial class Language
     internal const string Collapse = "折叠";
     internal const string EditMode = "编辑模式";
     internal const string HomePage = "系统首页";
-    internal const string Setting = "系统设置";
+    internal const string Setting = "设置";
     internal const string FullScreen = "全屏显示";
     internal const string ExitScreen = "退出全屏";
     internal const string RefreshPage = "刷新页面";
@@ -434,7 +444,6 @@ public partial class Language
     internal const string Vertical = "纵向";
     internal const string Horizontal = "横向";
     internal const string Float = "浮动";
-    internal const string Config = "配置";
     internal const string LowCodeTable = "低代码表格";
     internal const string TableSetting = "表格设置";
     internal const string TipNavDelete = "将导航按钮拖到此处删除";

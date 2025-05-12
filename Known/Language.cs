@@ -3,13 +3,41 @@
 public partial class Language
 {
     /// <summary>
-    /// 取得多语言项目列表（简体中文/繁体中文/English等）。
+    /// 取得或设置多语言项目列表（简体中文/繁体中文/English等）。
     /// </summary>
-    public static List<LanguageSettingInfo> Items { get; } = [];
+    public static List<LanguageSettingInfo> Settings { get; set; } = [];
+
+    /// <summary>
+    /// 取得或设置多语言数据列表。
+    /// </summary>
+    public static List<LanguageInfo> Datas { get; set; } = [];
 
     internal const string TipFormRouteIsNull = "表单类型或路由不存在！";
     internal const string TipLanguageFetch = "提取系统语言常量、模型信息类、实体类字段名称。";
     internal const string TipLanguageSetting = "配置系统语言选项。";
+    internal const string TipLanguageFetchConfirm = "确定要提取语言信息吗？";
+
+    internal static void Initialize(Assembly assembly)
+    {
+        foreach (var item in Settings)
+        {
+            var content = Utils.GetResource(assembly, $"Locales.{item.Id}");
+            if (string.IsNullOrWhiteSpace(content))
+                continue;
+
+            if (!caches.ContainsKey(item.Id))
+                caches[item.Id] = [];
+
+            var langs = Utils.FromJson<Dictionary<string, object>>(content);
+            if (langs != null && langs.Count > 0)
+            {
+                foreach (var lang in langs)
+                {
+                    caches[item.Id][lang.Key] = lang.Value;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// 根据语言标识获取语言项目。
@@ -21,8 +49,8 @@ public partial class Language
         if (string.IsNullOrWhiteSpace(name))
             name = CultureInfo.CurrentCulture.Name;
 
-        var info = Items?.FirstOrDefault(l => l.Id == name);
-        info ??= Items?.FirstOrDefault();
+        var info = Settings?.FirstOrDefault(l => l.Id == name);
+        info ??= Settings?.FirstOrDefault();
         return info;
     }
 
@@ -53,26 +81,24 @@ public partial class Language
         return infos;
     }
 
-    internal static void Initialize(Assembly assembly)
+    /// <summary>
+    /// 获取默认多语言信息列表。
+    /// </summary>
+    /// <returns>多语言信息列表。</returns>
+    public static List<LanguageInfo> GetDefaultLanguages()
     {
-        foreach (var item in Items)
+        var infos = new List<LanguageInfo>();
+        foreach (var assembly in Config.Assemblies)
         {
-            var content = Utils.GetResource(assembly, $"Locales.{item.Id}");
-            if (string.IsNullOrWhiteSpace(content))
-                continue;
-
-            if (!caches.ContainsKey(item.Id))
-                caches[item.Id] = [];
-
-            var langs = Utils.FromJson<Dictionary<string, object>>(content);
-            if (langs != null && langs.Count > 0)
+            foreach (var item in assembly.GetTypes())
             {
-                foreach (var lang in langs)
-                {
-                    caches[item.Id][lang.Key] = lang.Value;
-                }
+                if (item.IsAssignableTo(typeof(EntityBase)) || item.Name.EndsWith("Info"))
+                    infos.AddAttribute(item);
+                else if (item.Name.Contains(nameof(Language)))
+                    infos.AddConstant(item);
             }
         }
+        return infos;
     }
 
     /// <summary>

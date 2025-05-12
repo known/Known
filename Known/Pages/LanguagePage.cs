@@ -7,7 +7,7 @@
 [DevPlugin("语言管理", "global", Sort = 2)]
 public class LanguagePage : BaseTablePage<LanguageInfo>
 {
-    private List<LanguageSettingInfo> Infos = [];
+    private readonly List<LanguageSettingInfo> Infos = Language.Settings;
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -19,7 +19,6 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         }
 
         await base.OnInitPageAsync();
-        Infos = await Platform.GetLanguageSettingsAsync();
 
         Table = new TableModel<LanguageInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
@@ -35,7 +34,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
                 continue;
 
             var property = TypeHelper.Property<LanguageInfo>(info.Id);
-            Table.AddColumn(property);
+            Table.AddColumn(property).Name(info.Name);
         }
 
         Table.Toolbar.ShowCount = 6;
@@ -47,7 +46,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         Table.Toolbar.AddAction(nameof(Export));
 
         Table.AddAction(nameof(Edit));
-        //Table.AddAction(nameof(Delete));
+        Table.AddAction(nameof(Delete));
     }
 
     /// <summary>
@@ -89,7 +88,15 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     /// </summary>
     public void Fetch()
     {
-
+        UI.Confirm(Language.TipLanguageFetchConfirm, async () =>
+        {
+            var result = await Platform.FetchLanguagesAsync();
+            UI.Result(result, () =>
+            {
+                Language.Datas = result.DataAs<List<LanguageInfo>>();
+                return RefreshAsync();
+            });
+        });
     }
 
     /// <summary>

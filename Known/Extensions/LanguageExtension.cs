@@ -46,4 +46,39 @@ public static class LanguageExtension
 
         return language?.GetString(column, type);
     }
+
+    internal static void AddAttribute(this List<LanguageInfo> infos, Type type)
+    {
+        var properties = TypeHelper.Properties(type);
+        foreach (var property in properties)
+        {
+            var name = property.DisplayName();
+            if (string.IsNullOrWhiteSpace(name))
+                continue;
+
+            if (infos.Exists(l => l.Chinese == name))
+                continue;
+
+            infos.Add(new LanguageInfo { Chinese = name });
+        }
+    }
+
+    internal static void AddConstant(this List<LanguageInfo> infos, Type type)
+    {
+        var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        foreach (var field in fields)
+        {
+            if (field.IsLiteral && !field.IsInitOnly)
+            {
+                var name = field.GetValue(null)?.ToString();
+                if (string.IsNullOrWhiteSpace(name))
+                    continue;
+
+                if (infos.Exists(l => l.Chinese == name))
+                    continue;
+
+                infos.Add(new LanguageInfo { Chinese = name });
+            }
+        }
+    }
 }

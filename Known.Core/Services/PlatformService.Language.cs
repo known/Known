@@ -2,21 +2,27 @@
 
 partial class PlatformService
 {
-    public async Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync()
-    {
-        var infos = await Database.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
-        infos ??= Language.GetDefaultSettings();
-        return infos;
-    }
-
-    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
-    {
-        return Database.SaveConfigAsync(Constant.KeyLanguage, infos, true);
-    }
-
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         return Database.Query<SysLanguage>(criteria).ToPageAsync<LanguageInfo>();
+    }
+
+    public async Task<Result> FetchLanguagesAsync()
+    {
+        var database = Database;
+        var models = await database.Query<SysLanguage>().ToListAsync<LanguageInfo>();
+        var datas = new List<SysLanguage>();
+        var items = Language.GetDefaultLanguages();
+        foreach (var item in items)
+        {
+            if (models.Exists(m => m.Chinese == item.Chinese))
+                continue;
+
+            models.Add(item);
+            datas.Add(new SysLanguage { Chinese = item.Chinese });
+        }
+        await database.InsertListAsync(datas);
+        return Result.Success(Language.FetchSuccess, models);
     }
 
     public async Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
@@ -24,14 +30,23 @@ partial class PlatformService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        var database = Database;
-        var result = await database.TransactionAsync(Language.Delete, async db =>
+        var result = await Database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in infos)
             {
                 await db.DeleteAsync<SysLanguage>(item.Id);
             }
         });
+        if (result.IsValid)
+        {
+            foreach (var item in infos)
+            {
+                var info = Language.Datas.FirstOrDefault(m => m.Chinese == item.Chinese);
+                if (info != null)
+                    Language.Datas.Remove(info);
+            }
+            result.Data = Language.Datas;
+        }
         return result;
     }
 
@@ -51,5 +66,11 @@ partial class PlatformService
             await db.SaveAsync(model);
             info.Id = model.Id;
         }, info);
+    }
+
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
+    {
+        Language.Settings = infos;
+        return Database.SaveConfigAsync(Constant.KeyLanguage, infos, true);
     }
 }

@@ -29,7 +29,7 @@ public class NavLanguage : BaseNav
     /// <param name="builder">呈现建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        var items = Language.Items.Where(l => l.Enabled).Select(l => new ActionInfo { Id = l.Id, Name = l.Name, Icon = l.Icon }).ToList();
+        var items = Language.Settings.Where(l => l.Enabled).Select(l => new ActionInfo { Id = l.Id, Name = l.Name, Icon = l.Icon }).ToList();
         builder.Dropdown(new DropdownModel
         {
             Icon = Icon,
@@ -41,7 +41,7 @@ public class NavLanguage : BaseNav
 
     private async Task OnLanguageChangedAsync(ActionInfo info)
     {
-        current = Language.Items.FirstOrDefault(l => l.Id == info.Id);
+        current = Language.Settings.FirstOrDefault(l => l.Id == info.Id);
         Context.CurrentLanguage = current.Id;
         if (CurrentUser != null)
         {

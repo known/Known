@@ -54,7 +54,7 @@ public partial class KLayout
     {
         UI.ShowDrawer(new DrawerModel
         {
-            Title = Language.Setting,
+            Title = Language.SystemSetting,
             Width = "340",
             Content = b => b.Component<SettingForm>()
                             .Set(c => c.OnSave, OnSaveSetting)
