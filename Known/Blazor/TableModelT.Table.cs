@@ -28,6 +28,11 @@ partial class TableModel<TItem>
     public bool AutoHeight { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置表格是否显示单元格边框。
+    /// </summary>
+    public bool Bordered { get; set; }
+
+    /// <summary>
     /// 取得或设置表格是否启用加载图标。
     /// </summary>
     public bool EnableSpin { get; set; }

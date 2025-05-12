@@ -1,9 +1,37 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
+/// 模板组件基类。
+/// </summary>
+public class LayoutBase : LayoutComponentBase
+{
+    internal bool IsLoaded { get; set; } = true;
+    internal IAdminService Admin { get; set; }
+
+    [CascadingParameter] internal UIContext Context { get; set; }
+    [Inject] internal IServiceScopeFactory Factory { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Admin = await Factory.CreateAsync<IAdminService>(Context);
+
+        IsLoaded = false;
+        var info = await Admin.GetInitialAsync();
+        if (info != null)
+        {
+            Language.Settings = info.LanguageSettings;
+            Language.Datas = info.Languages;
+        }
+        IsLoaded = true;
+    }
+}
+
+/// <summary>
 /// 空模板组件类。
 /// </summary>
-public class EmptyLayout : LayoutComponentBase
+public class EmptyLayout : LayoutBase
 {
     /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
@@ -15,21 +43,16 @@ public class EmptyLayout : LayoutComponentBase
 /// <summary>
 /// 管理后台模板页类。
 /// </summary>
-public class AdminLayout : LayoutComponentBase
+public class AdminLayout : LayoutBase
 {
-    [CascadingParameter] private UIContext Context { get; set; }
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
-    [Inject] private IServiceScopeFactory Factory { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
     [Inject] private JSService JS { get; set; }
-    private IAdminService Admin { get; set; }
-    private bool IsLoaded { get; set; } = true;
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Admin = await Factory.CreateAsync<IAdminService>(Context);
 
         IsLoaded = false;
         if (!Config.IsInstalled)
@@ -49,7 +72,6 @@ public class AdminLayout : LayoutComponentBase
             Navigation?.GoLoginPage();
             return;
         }
-
         IsLoaded = true;
     }
 

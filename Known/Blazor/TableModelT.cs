@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using AntDesign;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// 泛型表格组件模型信息类。
@@ -78,6 +80,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 取得或设置树形表格子节点表达式。
     /// </summary>
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
+
+    /// <summary>
+    /// 取得或设置初始化表格其他属性参数委托。
+    /// </summary>
+    public Action<Table<TItem>> OnInitial { get; set; }
 
     internal override string TableId => typeof(TItem).Name;
     internal override Type DataType => typeof(TItem);

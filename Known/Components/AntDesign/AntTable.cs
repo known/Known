@@ -50,12 +50,14 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
             if (Model.IsStriped)
                 Class = "kui-striped";
             Resizable = Model.Resizable;
+            Bordered = Model.Bordered;
             AutoHeight = Model.AutoHeight;
             RowKey = Model.RowKey;
             PageIndex = Model.Criteria.PageIndex;
             PageSize = Model.Criteria.PageSize;
             HidePagination = !Model.ShowPager;
             DataSource = Model.DataSource;
+            Model.OnInitial?.Invoke(this);
         }
         base.OnParametersSet();
     }

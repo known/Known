@@ -42,13 +42,13 @@ public class NavLanguage : BaseNav
     private async Task OnLanguageChangedAsync(ActionInfo info)
     {
         current = Language.Settings.FirstOrDefault(l => l.Id == info.Id);
-        Context.CurrentLanguage = current.Id;
+        Context.CurrentLanguage = current.Code;
         if (CurrentUser != null)
         {
-            Context.UserSetting.Language = current.Id;
+            Context.UserSetting.Language = current.Code;
             await Admin.SaveUserSettingAsync(Context.UserSetting);
         }
-        await JS.SetCurrentLanguageAsync(current.Id);
+        await JS.SetCurrentLanguageAsync(current.Code);
         Navigation.Refresh();
     }
 }

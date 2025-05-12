@@ -3,6 +3,17 @@
 partial class AdminService
 {
     [AllowAnonymous]
+    public Task<InitialInfo> GetInitialAsync()
+    {
+        var info = new InitialInfo
+        {
+            LanguageSettings = Language.Settings,
+            Languages = Language.Datas
+        };
+        return Task.FromResult(info);
+    }
+
+    [AllowAnonymous]
     public async Task<InstallInfo> GetInstallAsync()
     {
         if (Config.System != null)

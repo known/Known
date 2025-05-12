@@ -33,7 +33,7 @@ public class LanguageInfo
     /// </summary>
     [MaxLength(200)]
     [Language("en-US", "EN", false, true)]
-    [DisplayName("英文")]
+    [DisplayName("English")]
     public string English { get; set; }
 
     /// <summary>

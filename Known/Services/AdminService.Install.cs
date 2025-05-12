@@ -3,6 +3,12 @@
 public partial interface IAdminService
 {
     /// <summary>
+    /// 异步获取系统初始数据信息，语言等。
+    /// </summary>
+    /// <returns>系统初始数据信息。</returns>
+    [AllowAnonymous] Task<InitialInfo> GetInitialAsync();
+
+    /// <summary>
     /// 异步获取系统安装信息。
     /// </summary>
     /// <returns>系统安装信息。</returns>
@@ -25,6 +31,16 @@ public partial interface IAdminService
 
 partial class AdminService
 {
+    public Task<InitialInfo> GetInitialAsync()
+    {
+        var info = new InitialInfo
+        {
+            LanguageSettings = Language.Settings,
+            Languages = Language.Datas
+        };
+        return Task.FromResult(info);
+    }
+
     public Task<InstallInfo> GetInstallAsync()
     {
         return Task.FromResult(new InstallInfo());
@@ -43,6 +59,11 @@ partial class AdminService
 
 partial class AdminClient
 {
+    public Task<InitialInfo> GetInitialAsync()
+    {
+        return Http.GetAsync<InitialInfo>("/Admin/GetInitial");
+    }
+
     public Task<InstallInfo> GetInstallAsync()
     {
         return Http.GetAsync<InstallInfo>("/Admin/GetInstall");
