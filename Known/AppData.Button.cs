@@ -34,7 +34,7 @@ public class ButtonInfo
     /// </summary>
     [Column(Width = 100)]
     [Form(Type = nameof(FieldType.RadioList))]
-    [Category("primary，danger")]
+    [Category("default,primary,dashed,link,text,danger")]
     [DisplayName("样式")]
     public string Style { get; set; }
 

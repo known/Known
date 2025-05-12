@@ -106,6 +106,6 @@ public static class ButtonExtension
 
     internal static bool GetButtonDanger(string style)
     {
-        return style == "danger";
+        return style == "Danger" || style == "danger";
     }
 }
