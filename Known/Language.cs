@@ -26,6 +26,33 @@ public partial class Language
         return info;
     }
 
+    /// <summary>
+    /// 获取默认语言设置信息列表。
+    /// </summary>
+    /// <returns>语言设置信息列表。</returns>
+    public static List<LanguageSettingInfo> GetDefaultSettings()
+    {
+        var infos = new List<LanguageSettingInfo>();
+        var properties = TypeHelper.Properties<LanguageInfo>();
+        foreach (var item in properties)
+        {
+            var attr = item.GetCustomAttribute<LanguageAttribute>();
+            if (attr == null)
+                continue;
+
+            infos.Add(new LanguageSettingInfo
+            {
+                Id = item.Name,
+                Code = attr.Code,
+                Name = item.DisplayName(),
+                Icon = attr.Icon,
+                Default = attr.Default,
+                Enabled = attr.Enabled
+            });
+        }
+        return infos;
+    }
+
     internal static void Initialize(Assembly assembly)
     {
         foreach (var item in Items)

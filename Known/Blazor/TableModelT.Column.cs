@@ -26,14 +26,34 @@ partial class TableModel<TItem>
     public ColumnBuilder<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, bool isQuery = false)
     {
         var property = TypeHelper.Property(selector);
-        var column = new ColumnInfo(property) { IsQuery = isQuery };
-        if (property.DeclaringType != typeof(TItem))
-            column.Id = $"{property.DeclaringType.Name}.{property.Name}";
-        AllColumns.Add(column);
-        Columns.Add(column);
-        if (isQuery)
-            AddQueryColumn(column);
-        return new ColumnBuilder<TItem>(column, column, this);
+        return AddColumn(property, isQuery);
+    }
+
+    /// <summary>
+    /// 添加一个表格栏位。
+    /// </summary>
+    /// <param name="property">栏位属性。</param>
+    /// <param name="isQuery">是否是查询字段。</param>
+    /// <returns>栏位建造者对象。</returns>
+    public ColumnBuilder<TItem> AddColumn(PropertyInfo property, bool isQuery = false)
+    {
+        if (AllColumns.Exists(c => c.Id == property.Name))
+        {
+            var column = Columns.FirstOrDefault(c => c.Id == property.Name);
+            var allColumn = AllColumns.FirstOrDefault(c => c.Id == property.Name);
+            return new ColumnBuilder<TItem>(column, allColumn, this);
+        }
+        else
+        {
+            var column = new ColumnInfo(property) { IsQuery = isQuery };
+            if (property.DeclaringType != typeof(TItem))
+                column.Id = $"{property.DeclaringType.Name}.{property.Name}";
+            AllColumns.Add(column);
+            Columns.Add(column);
+            if (isQuery)
+                AddQueryColumn(column);
+            return new ColumnBuilder<TItem>(column, column, this);
+        }
     }
 
     /// <summary>

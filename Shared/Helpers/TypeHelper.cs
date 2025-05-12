@@ -187,7 +187,7 @@ public sealed class TypeHelper
         if (model == null || string.IsNullOrWhiteSpace(name))
             return;
 
-        var property = Property(typeof(T), name);
+        var property = Property<T>(name);
         if (property != null && property.CanWrite)
         {
             var value1 = Utils.ConvertTo(property.PropertyType, value);
@@ -225,6 +225,14 @@ public sealed class TypeHelper
     }
 
     private static readonly ConcurrentDictionary<string, PropertyInfo> properties = new();
+    /// <summary>
+    /// 获取内存缓存的类型属性。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <param name="name">属性名。</param>
+    /// <returns>属性信息。</returns>
+    public static PropertyInfo Property<T>(string name) => Property(typeof(T), name);
+
     /// <summary>
     /// 获取内存缓存的类型属性。
     /// </summary>

@@ -1,20 +1,19 @@
 ﻿@inherits BaseComponent
 
-<LanguageSettingTable DataSource="Language.Items" HidePagination>
-    <StringColumn Title="Id">
-        <AntInput @bind-Value="@context.Id" />
+<LanguageSettingTable DataSource="DataSource" HidePagination>
+    <StringColumn Title="代码">
+        <AntInput @bind-Value="@context.Code" />
     </StringColumn>
     <StringColumn Title="名称">
         <AntInput @bind-Value="@context.Name" />
     </StringColumn>
     <StringColumn Title="@Language.Icon">
-        <IconPicker Value="@context.Icon" Text="@context.Icon" ValueChanged="value=>context.Icon=value?.ToString()" />
+        <AntInput @bind-Value="@context.Icon" />
     </StringColumn>
     <StringColumn Title="@Language.Default">
-        <AntSwitch @bind-Value="@context.Default" />
+        <AntSwitch @bind-Value="@context.Default" OnChange="v=>OnDefaultChange(context, v)" />
     </StringColumn>
     <StringColumn Title="@Language.Enable">
         <AntSwitch @bind-Value="@context.Enabled" />
     </StringColumn>
-    <StringColumn Title="@Language.Field">@context.Code</StringColumn>
 </LanguageSettingTable>

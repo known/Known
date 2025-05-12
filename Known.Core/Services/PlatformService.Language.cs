@@ -2,6 +2,18 @@
 
 partial class PlatformService
 {
+    public async Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync()
+    {
+        var infos = await Database.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
+        infos ??= Language.GetDefaultSettings();
+        return infos;
+    }
+
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
+    {
+        return Database.SaveConfigAsync(Constant.KeyLanguage, infos, true);
+    }
+
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         return Database.Query<SysLanguage>(criteria).ToPageAsync<LanguageInfo>();

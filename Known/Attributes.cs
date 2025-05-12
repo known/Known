@@ -93,3 +93,12 @@ public class ActionAttribute : Attribute
     /// </summary>
     public string Title { get; set; }
 }
+
+[AttributeUsage(AttributeTargets.Property)]
+class LanguageAttribute(string code, string icon, bool isDefault = false, bool enabled = false) : Attribute
+{
+    public string Code { get; } = code;
+    public string Icon { get; } = icon;
+    public bool Default { get; } = isDefault;
+    public bool Enabled { get; } = enabled;
+}

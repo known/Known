@@ -7,6 +7,8 @@
 [DevPlugin("语言管理", "global", Sort = 2)]
 public class LanguagePage : BaseTablePage<LanguageInfo>
 {
+    private List<LanguageSettingInfo> Infos = [];
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -17,6 +19,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         }
 
         await base.OnInitPageAsync();
+        Infos = await Platform.GetLanguageSettingsAsync();
 
         Table = new TableModel<LanguageInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
@@ -25,6 +28,15 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         Table.AdvSearch = false;
         Table.ShowPager = true;
         Table.OnQuery = Platform.QueryLanguagesAsync;
+
+        foreach (var info in Infos)
+        {
+            if (!info.Enabled)
+                continue;
+
+            var property = TypeHelper.Property<LanguageInfo>(info.Id);
+            Table.AddColumn(property);
+        }
 
         Table.Toolbar.ShowCount = 6;
         //Table.Toolbar.AddAction(nameof(New));
@@ -89,7 +101,13 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         {
             Title = Language.SysLanguage,
             Width = 600,
-            Content = b => b.Component<LanguageSetting>().Build()
+            Content = b => b.Component<LanguageSetting>().Set(c => c.DataSource, Infos).Build()
+        };
+        model.OnOk = async () =>
+        {
+            await Platform.SaveLanguageSettingsAsync(Infos);
+            await model.CloseAsync();
+            App.ReloadPage();
         };
         UI.ShowDialog(model);
     }

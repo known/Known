@@ -3,6 +3,19 @@
 public partial interface IPlatformService
 {
     /// <summary>
+    /// 异步获取语言设置信息列表。
+    /// </summary>
+    /// <returns>语言设置信息列表。</returns>
+    Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync();
+
+    /// <summary>
+    /// 异步保存语言设置信息列表。
+    /// </summary>
+    /// <param name="infos">语言设置信息列表。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos);
+
+    /// <summary>
     /// 异步分页查询语言信息列表。
     /// </summary>
     /// <param name="criteria">查询条件。</param>
@@ -26,6 +39,17 @@ public partial interface IPlatformService
 
 partial class PlatformService
 {
+    public Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync()
+    {
+        var infos = Language.GetDefaultSettings();
+        return Task.FromResult(infos);
+    }
+
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
+    {
+        return Result.SuccessAsync(Language.SaveSuccess);
+    }
+
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         var datas = AppData.Data.Languages ?? [];
@@ -63,6 +87,16 @@ partial class PlatformService
 
 partial class PlatformClient
 {
+    public Task<List<LanguageSettingInfo>> GetLanguageSettingsAsync()
+    {
+        return Http.GetAsync<List<LanguageSettingInfo>>("/Platform/GetLanguageSettings");
+    }
+
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)
+    {
+        return Http.PostAsync("/Platform/SaveLanguageSettings", infos);
+    }
+
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {
         return Http.QueryAsync<LanguageInfo>("/Platform/QueryLanguages", criteria);
