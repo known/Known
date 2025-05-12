@@ -18,7 +18,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
         IsDictionary = typeof(TItem).IsDictionary();
         Page = page;
         if (isAuto)
-            columns = [.. TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).Where(c => c.IsForm)];
+            columns = [.. TypeHelper.Properties<TItem>().Select(p => new ColumnInfo(p)).Where(c => c.IsForm)];
     }
 
     internal FormModel(TableModel<TItem> table, bool isAuto = false) : this(table.Page, isAuto)

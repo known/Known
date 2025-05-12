@@ -27,7 +27,7 @@ public static class ModelExtension
         if (info == null || info.Columns == null || info.Columns.Count == 0)
             return [];
 
-        var properties = TypeHelper.Properties(typeof(T));
+        var properties = TypeHelper.Properties<T>();
         return info.Columns.OrderBy(t => t.Position).Select(c =>
         {
             var column = new ColumnInfo(c);

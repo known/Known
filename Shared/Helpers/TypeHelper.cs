@@ -210,6 +210,13 @@ public sealed class TypeHelper
     /// <summary>
     /// 获取内存缓存的类型属性集合。
     /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <returns>属性集合。</returns>
+    public static PropertyInfo[] Properties<T>() => Properties(typeof(T));
+
+    /// <summary>
+    /// 获取内存缓存的类型属性集合。
+    /// </summary>
     /// <param name="type">类型。</param>
     /// <returns>属性集合。</returns>
     public static PropertyInfo[] Properties(Type type)

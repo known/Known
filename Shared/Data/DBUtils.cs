@@ -77,7 +77,7 @@ public sealed class DbUtils
             return Utils.MapTo<Dictionary<string, object>>(value);
 
         var dic = new Dictionary<string, object>();
-        var properties = TypeHelper.Properties(typeof(T));
+        var properties = TypeHelper.Properties<T>();
         foreach (var item in properties)
         {
             if (item.CanRead && !item.GetMethod.IsVirtual)
@@ -97,7 +97,7 @@ public sealed class DbUtils
     public static Dictionary<string, object> ToDictionary<T>()
     {
         var dic = new Dictionary<string, object>();
-        var properties = TypeHelper.Properties(typeof(T));
+        var properties = TypeHelper.Properties<T>();
         foreach (var item in properties)
         {
             if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
@@ -142,7 +142,7 @@ public sealed class DbUtils
     private static object ConvertTo<T>(Dictionary<string, object> dic)
     {
         var obj = Activator.CreateInstance<T>();
-        var properties = TypeHelper.Properties(typeof(T));
+        var properties = TypeHelper.Properties<T>();
         foreach (var item in dic)
         {
             var property = properties.FirstOrDefault(p => p.Name.Equals(item.Key, StringComparison.CurrentCultureIgnoreCase));

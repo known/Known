@@ -63,8 +63,8 @@ partial class FormModel<TItem>
         else
         {
             var data = Activator.CreateInstance<TItem>();
-            var baseProperties = TypeHelper.Properties(typeof(EntityBase));
-            var properties = TypeHelper.Properties(typeof(TItem));
+            var baseProperties = TypeHelper.Properties<EntityBase>();
+            var properties = TypeHelper.Properties<TItem>();
             foreach (var item in properties)
             {
                 if (!item.CanWrite || baseProperties.Any(p => p.Name == item.Name))

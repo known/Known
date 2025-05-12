@@ -87,7 +87,7 @@ partial class FormModel<TItem>
         }
         else
         {
-            var allColumns = TypeHelper.Properties(typeof(TItem)).Select(p => new ColumnInfo(p)).ToList();
+            var allColumns = TypeHelper.Properties<TItem>().Select(p => new ColumnInfo(p)).ToList();
             foreach (var column in allColumns)
             {
                 var info = form?.Fields?.FirstOrDefault(p => p.Id == column.Id);
