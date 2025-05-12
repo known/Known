@@ -136,9 +136,9 @@ public class PageColumnInfo
     public bool IsSum { get; set; }
 
     /// <summary>
-    /// 取得或设置栏位是否是排序字段。
+    /// 取得或设置栏位是否是排序字段，默认排序。
     /// </summary>
-    public bool IsSort { get; set; }
+    public bool IsSort { get; set; } = true;
 
     /// <summary>
     /// 取得或设置栏位默认排序方法（升序/降序）。

@@ -93,25 +93,6 @@ public static class ModuleExtension
         }
     }
 
-    private static MenuInfo CreateMenu(ModuleInfo info)
-    {
-        return new MenuInfo
-        {
-            Data = info,
-            Id = info.Id,
-            Name = info.Name,
-            Icon = info.Icon,
-            ParentId = info.ParentId,
-            Type = info.Type,
-            Target = info.Target,
-            Url = info.Url,
-            Sort = info.Sort,
-            Enabled = info.Enabled,
-            Layout = info.Layout,
-            Plugins = info.Plugins
-        };
-    }
-
     internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
     {
         MenuInfo current = null;
@@ -137,7 +118,7 @@ public static class ModuleExtension
         {
             //item.ParentName = Config.App.Name;
             //var menu = item.ToMenuInfo();
-            var menu = CreateMenu(item);
+            var menu = CreateMenu(item, !showRoot);
             if (current != null && current.Id == menu.Id)
                 current = menu;
 
@@ -145,14 +126,14 @@ public static class ModuleExtension
                 root.Children.Add(menu);
             else
                 menus.Add(menu);
-            AddChildren(models, menu, ref current);
+            AddChildren(models, menu, ref current, !showRoot);
         }
 
         current ??= menus[0];
         return menus;
     }
 
-    private static void AddChildren(List<ModuleInfo> models, MenuInfo menu, ref MenuInfo current)
+    private static void AddChildren(List<ModuleInfo> models, MenuInfo menu, ref MenuInfo current, bool showUrl)
     {
         var items = models.Where(m => m.ParentId == menu.Id).ToList();
         if (items == null || items.Count == 0)
@@ -162,13 +143,40 @@ public static class ModuleExtension
         {
             //item.ParentName = menu.Name;
             //var sub = item.ToMenuInfo();
-            var sub = CreateMenu(item);
+            var sub = CreateMenu(item, showUrl);
             sub.Parent = menu;
             if (current != null && current.Id == sub.Id)
                 current = sub;
 
             menu.Children.Add(sub);
-            AddChildren(models, sub, ref current);
+            AddChildren(models, sub, ref current, showUrl);
         }
+    }
+
+    private static MenuInfo CreateMenu(ModuleInfo info, bool showUrl = false)
+    {
+        return new MenuInfo
+        {
+            Data = info,
+            Id = info.Id,
+            Name = GetMenuName(info, showUrl),
+            Icon = info.Icon,
+            ParentId = info.ParentId,
+            Type = info.Type,
+            Target = info.Target,
+            Url = info.Url,
+            Sort = info.Sort,
+            Enabled = info.Enabled,
+            Layout = info.Layout,
+            Plugins = info.Plugins
+        };
+    }
+
+    private static string GetMenuName(ModuleInfo info, bool showUrl)
+    {
+        if (info.Target != Constants.Route || string.IsNullOrWhiteSpace(info.Url) || !showUrl)
+            return info.Name;
+
+        return $"{info.Name}({info.Url})";
     }
 }

@@ -171,14 +171,12 @@ public class BaseLayout : BaseComponent
 
     private void CheckUrlAuthentication()
     {
-        if (!UIConfig.IgnoreRoutes.Contains(Context.Url) && !RouteData.PageType.IsAllowAnonymous())
-        {
-            var roles = Context.Current?.Role?.Split(',');
-            if (Context.Current == null || !CurrentUser.InRole(roles))
-            {
-                Navigation.GoErrorPage("403");
-                return;
-            }
-        }
+        if (Context.Url == "/") return;
+        if (UIConfig.IgnoreRoutes.Contains(Context.Url)) return;
+        if (RouteData.PageType.IsAllowAnonymous()) return;
+
+        var roles = Context.Current?.Role?.Split(',');
+        if (Context.Current == null || !CurrentUser.InRole(roles))
+            Navigation.GoErrorPage("403");
     }
 }

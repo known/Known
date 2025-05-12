@@ -128,7 +128,7 @@ public class UIConfig
     /// <summary>
     /// 取得忽略URL鉴权的路由列表。
     /// </summary>
-    public static List<string> IgnoreRoutes { get; } = ["/"];
+    public static List<string> IgnoreRoutes { get; } = [];
 
     /// <summary>
     /// 取得或设置页面标签颜色委托。

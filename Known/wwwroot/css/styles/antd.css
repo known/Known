@@ -16,6 +16,7 @@
 .ant-radio-button-wrapper:last-child {border-radius:0 5px 5px 0;}
 .ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}
 .ant-menu-item-selected {cursor:pointer;}
+.ant-tree .ant-tree-node-content-wrapper {display:flex;}
 
 .ant-badge-count {z-index:100;}
 .ant-btn > .anticon + span, 
