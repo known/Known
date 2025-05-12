@@ -10,6 +10,12 @@ public class CoreConfig
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
 
+    internal static void Load(AdminInfo info)
+    {
+        info.Settings[nameof(IsAuth)] = IsAuth;
+        info.Settings[nameof(AuthStatus)] = AuthStatus;
+    }
+
     /// <summary>
     /// 取得或设置自定义用户业务逻辑处理者实例。
     /// </summary>

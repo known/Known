@@ -62,7 +62,10 @@ public class BaseLayout : BaseComponent
             await JS.SetUserSettingAsync(setting);
 
             if (!IsServerMode)
+            {
                 await InitAdminAsync();
+                App.ReloadPage();
+            }
         }
     }
 
@@ -155,11 +158,7 @@ public class BaseLayout : BaseComponent
             SetUserMenus(Info.UserMenus);
         Cache.AttachCodes(Info.Codes);
         Config.OnAdmin?.Invoke(Info);
-        if (Info.Settings != null)
-        {
-            UIConfig.IsAuth = Info.Settings.GetValue<bool>(nameof(UIConfig.IsAuth));
-            UIConfig.AuthStatus = Info.Settings.GetValue<string>(nameof(UIConfig.AuthStatus));
-        }
+        UIConfig.Load(Info);
     }
 
     private void SetUserMenus(List<MenuInfo> menus)
