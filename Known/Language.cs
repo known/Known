@@ -73,14 +73,7 @@ public partial class Language
     /// </summary>
     /// <param name="info">菜单信息对象。</param>
     /// <returns>菜单语言。</returns>
-    public string GetString(MenuInfo info) => GetText("Menu", info?.Code, info?.Name);
-
-    /// <summary>
-    /// 获取操作按钮语言。
-    /// </summary>
-    /// <param name="info">操作按钮对象。</param>
-    /// <returns>操作按钮语言。</returns>
-    public string GetString(ActionInfo info) => GetText("Button", info?.Id, info?.Name);
+    public string GetString(MenuInfo info) => this[info?.Name];
 
     /// <summary>
     /// 获取字段语言。
@@ -89,12 +82,4 @@ public partial class Language
     /// <param name="type">数据类型。</param>
     /// <returns>字段语言。</returns>
     public string GetString(ColumnInfo info, Type type = null) => GetText(type?.Name, info?.Id, info?.Name);
-
-    /// <summary>
-    /// 获取指定类型的字段语言。
-    /// </summary>
-    /// <typeparam name="T">数据类型。</typeparam>
-    /// <param name="info">字段信息对象。</param>
-    /// <returns>字段语言。</returns>
-    public string GetString<T>(ColumnInfo info) => GetText(typeof(T).Name, info?.Id, info?.Name);
 }

@@ -34,16 +34,15 @@
 @code {
     private RenderFragment RenderButton(ActionInfo item)
     {
-        var itemName = Language.GetString(item);
         if (item.Children != null && item.Children.Count > 0)
         {
-            var model = GetDropdownModel(itemName);
+            var model = GetDropdownModel(item.Name);
             model.Items = item.Children;
             return @<AntDropdown Context="Context" Model="model" />;
         }
         else
         {
-            return @<KButton Name="@itemName" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Icon="@item.Icon" Title="@item.Title" Badge="item.Badge" OnClick="e=>Model.OnItemClick?.Invoke(item)" />;
+            return @<KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Icon="@item.Icon" Title="@item.Title" Badge="item.Badge" OnClick="e=>Model.OnItemClick?.Invoke(item)" />;
         }
     }
 }

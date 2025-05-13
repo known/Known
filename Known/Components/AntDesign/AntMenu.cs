@@ -114,8 +114,7 @@ public class AntMenu : Menu
 
     private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
     {
-        var itemName = Context?.Language?.GetString(item);
-        builder.IconName(item.Icon, itemName);
+        builder.IconName(item.Icon, item.Name);
     }
 
     private void OnMenuItemClick(MenuInfo item)
