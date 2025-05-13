@@ -2,16 +2,6 @@
 
 public partial class Language
 {
-    /// <summary>
-    /// 取得或设置多语言项目列表（简体中文/繁体中文/English等）。
-    /// </summary>
-    public static List<LanguageSettingInfo> Settings { get; set; } = [];
-
-    /// <summary>
-    /// 取得或设置多语言数据列表。
-    /// </summary>
-    public static List<LanguageInfo> Datas { get; set; } = [];
-
     internal const string TipFormRouteIsNull = "表单类型或路由不存在！";
     internal const string TipLanguageFetch = "提取系统语言常量、模型信息类、实体类字段名称。";
     internal const string TipLanguageSetting = "配置系统语言选项。";
@@ -37,48 +27,6 @@ public partial class Language
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// 根据语言标识获取语言项目。
-    /// </summary>
-    /// <param name="name">语言标识</param>
-    /// <returns>语言项目对象。</returns>
-    public static LanguageSettingInfo GetLanguage(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            name = CultureInfo.CurrentCulture.Name;
-
-        var info = Settings?.FirstOrDefault(l => l.Id == name);
-        info ??= Settings?.FirstOrDefault();
-        return info;
-    }
-
-    /// <summary>
-    /// 获取默认语言设置信息列表。
-    /// </summary>
-    /// <returns>语言设置信息列表。</returns>
-    public static List<LanguageSettingInfo> GetDefaultSettings()
-    {
-        var infos = new List<LanguageSettingInfo>();
-        var properties = TypeHelper.Properties<LanguageInfo>();
-        foreach (var item in properties)
-        {
-            var attr = item.GetCustomAttribute<LanguageAttribute>();
-            if (attr == null)
-                continue;
-
-            infos.Add(new LanguageSettingInfo
-            {
-                Id = item.Name,
-                Code = attr.Code,
-                Name = item.DisplayName(),
-                Icon = attr.Icon,
-                Default = attr.Default,
-                Enabled = attr.Enabled
-            });
-        }
-        return infos;
     }
 
     /// <summary>

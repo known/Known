@@ -18,6 +18,16 @@ public partial class Language
     internal string Name { get; }
 
     /// <summary>
+    /// 取得或设置多语言项目列表（简体中文/繁体中文/English等）。
+    /// </summary>
+    public static List<LanguageSettingInfo> Settings { get; set; } = [];
+
+    /// <summary>
+    /// 取得或设置多语言数据列表。
+    /// </summary>
+    public static List<LanguageInfo> Datas { get; set; } = [];
+
+    /// <summary>
     /// 根据ID取得当前语言字符串。
     /// </summary>
     /// <param name="id">语言标识ID。</param>
@@ -576,6 +586,48 @@ public partial class Language
     public const string ModernUI = "现代UI";
 
     /// <summary>
+    /// 根据语言标识获取语言项目。
+    /// </summary>
+    /// <param name="name">语言标识</param>
+    /// <returns>语言项目对象。</returns>
+    public static LanguageSettingInfo GetLanguage(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            name = CultureInfo.CurrentCulture.Name;
+
+        var info = Settings?.FirstOrDefault(l => l.Code == name);
+        info ??= Settings?.FirstOrDefault();
+        return info;
+    }
+
+    /// <summary>
+    /// 获取默认语言设置信息列表。
+    /// </summary>
+    /// <returns>语言设置信息列表。</returns>
+    public static List<LanguageSettingInfo> GetDefaultSettings()
+    {
+        var infos = new List<LanguageSettingInfo>();
+        var properties = TypeHelper.Properties<LanguageInfo>();
+        foreach (var item in properties)
+        {
+            var attr = item.GetCustomAttribute<LanguageAttribute>();
+            if (attr == null)
+                continue;
+
+            infos.Add(new LanguageSettingInfo
+            {
+                Id = item.Name,
+                Code = attr.Code,
+                Name = item.DisplayName(),
+                Icon = attr.Icon,
+                Default = attr.Default,
+                Enabled = attr.Enabled
+            });
+        }
+        return infos;
+    }
+
+    /// <summary>
     /// 根据ID获取语言。
     /// </summary>
     /// <param name="id">ID。</param>
@@ -584,6 +636,16 @@ public partial class Language
     {
         if (string.IsNullOrEmpty(id))
             return "";
+
+        var data = Datas.FirstOrDefault(d => d.Chinese == id);
+        if (data != null)
+        {
+            foreach (var item in Settings)
+            {
+                if (item.Code == Name)
+                    return TypeHelper.GetPropertyValue<string>(data, item.Id);
+            }
+        }
 
         if (!caches.TryGetValue(Name, out Dictionary<string, object> langs))
             return "";

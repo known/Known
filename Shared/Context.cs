@@ -6,20 +6,14 @@
 public class Context
 {
     private Language language;
-    private string currentLanguage;
+    private string currentLanguage = CultureInfo.CurrentCulture.Name;
 
     /// <summary>
     /// 构造函数，创建一个系统上下文类的实例。
     /// </summary>
-    public Context() { }
-
-    /// <summary>
-    /// 构造函数，创建一个系统上下文类的实例。
-    /// </summary>
-    /// <param name="cultureName">本地化名称。</param>
-    public Context(string cultureName)
+    public Context()
     {
-        language = new Language(cultureName);
+        language = new Language(currentLanguage);
     }
 
     /// <summary>

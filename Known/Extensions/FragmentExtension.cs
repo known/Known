@@ -151,18 +151,6 @@ public static class FragmentExtension
     /// <param name="onClick">图标单击事件。</param>
     public static void IconName(this RenderTreeBuilder builder, string icon, string name, EventCallback<MouseEventArgs>? onClick = null)
     {
-        if (onClick != null)
-            builder.Span().OnClick(onClick).Child(() => BuildIconName(builder, icon, name));
-        else
-            BuildIconName(builder, icon, name);
-    }
-
-    private static void BuildIconName(RenderTreeBuilder builder, string icon, string name)
-    {
-        if (!string.IsNullOrWhiteSpace(icon))
-        {
-            builder.Component<KIcon>().Set(c => c.Icon, icon).Build();
-        }
-        builder.Span(name);
+        builder.Component<KIcon>().Set(c => c.Icon, icon).Set(c => c.Name, name).Set(c => c.OnClick, onClick).Build();
     }
 }

@@ -1,5 +1,14 @@
 ﻿namespace Known;
 
+[AttributeUsage(AttributeTargets.Property)]
+class LanguageAttribute(string code, string icon, bool isDefault = false, bool enabled = false) : Attribute
+{
+    public string Code { get; } = code;
+    public string Icon { get; } = icon;
+    public bool Default { get; } = isDefault;
+    public bool Enabled { get; } = enabled;
+}
+
 /// <summary>
 /// WebApi特性类，用于标识服务类是否自动生成WebApi。
 /// </summary>

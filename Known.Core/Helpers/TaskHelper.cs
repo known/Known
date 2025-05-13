@@ -45,7 +45,7 @@ public sealed class TaskHelper
 
         RunStates[bizType] = true;
         var db = Database.Create();
-        db.Context = new Context(CultureInfo.CurrentCulture.Name);
+        db.Context = new Context();
 
         db.EnableLog = false;
         var task = await GetPendingTaskAsync(db, bizType);

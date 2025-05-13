@@ -10,6 +10,7 @@ public class LayoutBase : LayoutComponentBase
 
     [CascadingParameter] internal UIContext Context { get; set; }
     [Inject] internal IServiceScopeFactory Factory { get; set; }
+    [Inject] internal JSService JS { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
@@ -27,6 +28,27 @@ public class LayoutBase : LayoutComponentBase
             UIConfig.Load(info);
         }
         IsLoaded = true;
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            if (Config.App.IsLanguage)
+            {
+                var language = await JS.GetCurrentLanguageAsync();
+                if (string.IsNullOrWhiteSpace(language))
+                    language = Context.UserSetting.Language;
+                Context.CurrentLanguage = language;
+            }
+
+            var setting = Context.UserSetting;
+            if (string.IsNullOrWhiteSpace(setting.Size))
+                setting.Size = Config.App.DefaultSize;
+            await JS.SetUserSettingAsync(setting);
+        }
     }
 }
 
@@ -49,7 +71,6 @@ public class AdminLayout : LayoutBase
 {
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
     [Inject] private NavigationManager Navigation { get; set; }
-    [Inject] private JSService JS { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
