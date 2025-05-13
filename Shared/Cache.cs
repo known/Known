@@ -111,16 +111,18 @@ public sealed class Cache
     /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
     /// </summary>
     /// <param name="category">代码类别名。</param>
+    /// <param name="language">多语言实例。</param>
     /// <returns>代码表列表。</returns>
-    public static List<CodeInfo> GetCodes(string category) => GetCodes(category, null);
+    public static List<CodeInfo> GetCodes(string category, Language language = null) => GetCodes(category, null, language);
 
     /// <summary>
     /// 根据代码类别名获取代码表列表，或由可数项目转换成代码表（用逗号分割，如：项目1,项目2）。
     /// </summary>
     /// <param name="category">代码类别名。</param>
     /// <param name="nameFormat">代码名称显示格式，比如：{Code}-{Name}，默认只显示名称。</param>
+    /// <param name="language">多语言实例。</param>
     /// <returns>代码表列表。</returns>
-    public static List<CodeInfo> GetCodes(string category, string nameFormat)
+    public static List<CodeInfo> GetCodes(string category, string nameFormat, Language language = null)
     {
         var infos = new List<CodeInfo>();
         if (string.IsNullOrWhiteSpace(category))
@@ -132,9 +134,12 @@ public sealed class Cache
 
         foreach (var item in codes)
         {
+            var name = language != null ? language[item.Name] : item.Name;
             var code = new CodeInfo(item.Category, item.Code, item.Name);
             if (code.Code != code.Name && !string.IsNullOrWhiteSpace(nameFormat))
-                code.Name = nameFormat.Replace("{Code}", item.Code).Replace("{Name}", item.Name);
+                code.Name = nameFormat.Replace("{Code}", item.Code).Replace("{Name}", name);
+            else
+                code.Name = name;
             infos.Add(code);
         }
         return infos;

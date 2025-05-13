@@ -3,7 +3,7 @@
 public partial class Language
 {
     internal const string TipFormRouteIsNull = "表单类型或路由不存在！";
-    internal const string TipLanguageFetch = "提取系统语言常量、模型信息类、实体类字段名称。";
+    internal const string TipLanguageFetch = "提取系统语言常量、枚举、信息类、实体类字段名称。";
     internal const string TipLanguageSetting = "配置系统语言选项。";
     internal const string TipLanguageFetchConfirm = "确定要提取语言信息吗？";
     internal const string TipLanguageSettingConfirm = "确定要重置语言设置吗？";
@@ -53,7 +53,9 @@ public partial class Language
         {
             foreach (var item in assembly.GetTypes())
             {
-                if (item.IsAssignableTo(typeof(EntityBase)) || item.Name.EndsWith("Info"))
+                if(item.IsEnum)
+                    infos.AddEnum(item);
+                else if (item.IsAssignableTo(typeof(EntityBase)) || item.Name.EndsWith("Info"))
                     infos.AddAttribute(item);
                 else if (item.Name.Contains(nameof(Language)))
                     infos.AddConstant(item);

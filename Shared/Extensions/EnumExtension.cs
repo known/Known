@@ -132,7 +132,7 @@ public static class EnumExtension
     {
         var queryTypes = Cache.GetCodes<QueryType>();
         var queryType = queryTypes.FirstOrDefault(t => t.Code == $"{type}");
-        queryType.Name = type.GetDescription();
+        queryType.Name = language[type.GetDescription()];
         types.Add(queryType);
     }
 

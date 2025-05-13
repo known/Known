@@ -85,7 +85,7 @@ public class AntSelectCode : Select<string, CodeInfo>
         if (string.IsNullOrEmpty(Placeholder))
             Placeholder = emptyText;
         if (!string.IsNullOrWhiteSpace(Category))
-            DataSource = Cache.GetCodes(Category, LabelFormat).ToCodes(emptyText);
+            DataSource = Cache.GetCodes(Category, LabelFormat, Item?.Language).ToCodes(emptyText);
         base.OnParametersSet();
     }
 }

@@ -113,10 +113,11 @@ public partial class UIService
         return true;
     }
 
-    private static RenderFragment FormatMessage(string text)
+    private RenderFragment FormatMessage(string text)
     {
         if (!string.IsNullOrWhiteSpace(text))
         {
+            text = Language[text];
             text = text.Trim([.. Environment.NewLine]);
             if (text.Contains(Environment.NewLine))
             {

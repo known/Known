@@ -39,7 +39,7 @@ public class AntCheckboxGroup : CheckboxGroup<string>
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(Category))
-            Codes = Cache.GetCodes(Category);
+            Codes = Cache.GetCodes(Category, Item?.Language);
         Options = Codes.ToCheckboxOptions(o => o.Checked = Value != null && Value.Contains(o.Value));
         Class = CssBuilder.Default().AddClass("kui-block", Block).BuildClass();
         await base.OnParametersSetAsync();

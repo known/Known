@@ -431,6 +431,7 @@ public partial class Language
     internal const string TipConfirmDelete = "确定要删除{name}？";
     internal const string TipConfirmDeleteRecord = "确定要删除该记录？";
     internal const string TipConfirmRecordName = "确定要{text}选中的记录？";
+    internal const string TipSelectOneAtLeast = "请至少选择{count}条记录进行操作！";
     internal const string TipNotDeleteMenu = "存在子菜单，不能删除！";
     internal const string TipSelectCategory = "请选择类别！";
     internal const string TipSelectModule = "请选择模块！";
@@ -483,6 +484,7 @@ public partial class Language
     internal const string DataExporting = "数据导出中...";
     internal const string DataQuering = "数据查询中...";
     internal const string NoDataExport = "无数据可导出！";
+    internal const string QueryByEnter = "按回车查询";
 
     /// <summary>
     /// 请选择导入文件。

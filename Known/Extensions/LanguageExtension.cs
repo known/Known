@@ -58,6 +58,20 @@ public static class LanguageExtension
         infos.Add(new LanguageInfo { Chinese = name });
     }
 
+    internal static void AddEnum(this List<LanguageInfo> infos, Type type)
+    {
+        var values = Enum.GetValues(type);
+        foreach (Enum item in values)
+        {
+            var code = Enum.GetName(type, item);
+            var name = item.GetDescription();
+            if (code == name)
+                continue;
+
+            infos.Add(name);
+        }
+    }
+
     internal static void AddAttribute(this List<LanguageInfo> infos, Type type)
     {
         var properties = TypeHelper.Properties(type);
