@@ -10,10 +10,14 @@ public class CoreConfig
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
 
-    internal static void Load(AdminInfo info)
+    internal static void Load(InitialInfo info)
     {
         info.Settings[nameof(IsAuth)] = IsAuth;
         info.Settings[nameof(AuthStatus)] = AuthStatus;
+    }
+
+    internal static void Load(AdminInfo info)
+    {
     }
 
     /// <summary>
@@ -35,6 +39,11 @@ public class CoreConfig
     /// 取得或设置用户登录前验证逻辑委托。
     /// </summary>
     public static Func<Database, LoginFormInfo, Task<Result>> OnLoging { get; set; }
+
+    /// <summary>
+    /// 取得或设置获取初始化信息后附加操作委托。
+    /// </summary>
+    public static Func<Database, InitialInfo, Task> OnInitial { get; set; }
 
     /// <summary>
     /// 取得或设置获取Admin信息后附加操作委托。

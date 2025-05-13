@@ -23,6 +23,8 @@ public class LayoutBase : LayoutComponentBase
         {
             Language.Settings = info.LanguageSettings;
             Language.Datas = info.Languages;
+            Config.OnInitial?.Invoke(info);
+            UIConfig.Load(info);
         }
         IsLoaded = true;
     }

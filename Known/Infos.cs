@@ -14,4 +14,9 @@ public class InitialInfo
     /// 取得或设置多语言数据列表。
     /// </summary>
     public List<LanguageInfo> Languages { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统相关配置信息。
+    /// </summary>
+    public Dictionary<string, object> Settings { get; set; } = [];
 }

@@ -3,14 +3,17 @@
 partial class AdminService
 {
     [AllowAnonymous]
-    public Task<InitialInfo> GetInitialAsync()
+    public async Task<InitialInfo> GetInitialAsync()
     {
         var info = new InitialInfo
         {
             LanguageSettings = Language.Settings,
             Languages = Language.Datas
         };
-        return Task.FromResult(info);
+        CoreConfig.Load(info);
+        if (CoreConfig.OnInitial != null)
+            await CoreConfig.OnInitial.Invoke(Database, info);
+        return info;
     }
 
     [AllowAnonymous]

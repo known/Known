@@ -10,6 +10,10 @@ public enum ActiveType
     /// </summary>
     System,
     /// <summary>
+    /// 版本。
+    /// </summary>
+    Version,
+    /// <summary>
     /// 组件。
     /// </summary>
     Component

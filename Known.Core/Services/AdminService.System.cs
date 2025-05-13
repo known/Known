@@ -52,21 +52,21 @@ partial class AdminService
 
     public async Task<Result> SaveProductKeyAsync(ActiveInfo info)
     {
+        var db = Database;
         if (info.Type == ActiveType.System)
         {
-            var db = Database;
+            var sys = await db.GetSystemAsync();
+            sys.ProductId = info.ProductId;
+            sys.ProductKey = info.ProductKey;
+            await db.SaveSystemAsync(sys);
+            Config.System = sys;
+            return CoreOption.Instance.CheckSystemInfo(sys);
+        }
+        else if (info.Type == ActiveType.Version)
+        {
             if (CoreConfig.OnActiveSystem != null)
             {
                 return await CoreConfig.OnActiveSystem.Invoke(db, info);
-            }
-            else
-            {
-                var sys = await db.GetSystemAsync();
-                sys.ProductId = info.ProductId;
-                sys.ProductKey = info.ProductKey;
-                await db.SaveSystemAsync(sys);
-                Config.System = sys;
-                return CoreOption.Instance.CheckSystemInfo(sys);
             }
         }
 

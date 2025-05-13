@@ -64,7 +64,7 @@ public class BaseLayout : BaseComponent
             if (!IsServerMode)
             {
                 await InitAdminAsync();
-                App.ReloadPage();
+                //App.ReloadPage();
             }
         }
     }
