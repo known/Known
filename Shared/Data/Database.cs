@@ -168,7 +168,7 @@ public partial class Database : IDisposable
     /// <param name="info">命令信息对象。</param>
     /// <returns>数据库操作命令。</returns>
     /// <exception cref="ArgumentException">有事务，则连接不能为空</exception>
-    protected virtual DbCommand GetDbCommandAsync(CommandInfo info)
+    protected virtual IDbCommand GetDbCommandAsync(CommandInfo info)
     {
         info.IsClose = false;
         var cmd = conn.CreateCommand();
@@ -234,7 +234,7 @@ public partial class Database : IDisposable
         conn.ConnectionString = ConnectionString;
     }
 
-    private Task<DbCommand> PrepareCommandAsync(CommandInfo info)
+    private Task<IDbCommand> PrepareCommandAsync(CommandInfo info)
     {
         DbMonitor.OnSql(info);
         var cmd = GetDbCommandAsync(info);

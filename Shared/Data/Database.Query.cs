@@ -250,7 +250,7 @@ public partial class Database
         return lists;
     }
 
-    private async Task<DbDataReader> ExecuteReaderAsync(CommandInfo info)
+    private async Task<IDataReader> ExecuteReaderAsync(CommandInfo info)
     {
         try
         {

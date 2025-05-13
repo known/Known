@@ -21,7 +21,7 @@ public partial class Database
     /// <param name="id">ID。</param>
     /// <param name="idField">ID字段名。</param>
     /// <returns></returns>
-    public virtual Task<Dictionary<string,object>> QueryByIdAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
+    public virtual Task<Dictionary<string, object>> QueryByIdAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
     {
         var sql = $"select * from {FormatName(tableName)} where {FormatName(idField)}=@id";
         var info = new CommandInfo(Provider, null, tableName, sql, new { id });
@@ -33,9 +33,20 @@ public partial class Database
     /// </summary>
     /// <param name="tableName">数据库表名。</param>
     /// <param name="id">ID字段值。</param>
+    /// <returns>是否存在。</returns>
+    public virtual Task<bool> ExistsAsync(string tableName, string id)
+    {
+        return ExistsAsync(tableName, id, nameof(EntityBase.Id));
+    }
+
+    /// <summary>
+    /// 异步判断表中是否存在ID。
+    /// </summary>
+    /// <param name="tableName">数据库表名。</param>
+    /// <param name="id">ID字段值。</param>
     /// <param name="idField">ID字段名。</param>
     /// <returns>是否存在。</returns>
-    public virtual async Task<bool> ExistsAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
+    public virtual async Task<bool> ExistsAsync(string tableName, string id, string idField)
     {
         var sql = $"select count(*) from {FormatName(tableName)} where {FormatName(idField)}=@id";
         var info = new CommandInfo(Provider, null, tableName, sql, new { id });
@@ -48,9 +59,20 @@ public partial class Database
     /// </summary>
     /// <param name="tableName">数据库表名。</param>
     /// <param name="id">ID字段值。</param>
+    /// <returns>影响的行数。</returns>
+    public virtual Task<int> DeleteAsync(string tableName, string id)
+    {
+        return DeleteAsync(tableName, id, nameof(EntityBase.Id));
+    }
+
+    /// <summary>
+    /// 异步删除数据。
+    /// </summary>
+    /// <param name="tableName">数据库表名。</param>
+    /// <param name="id">ID字段值。</param>
     /// <param name="idField">ID字段名。</param>
     /// <returns>影响的行数。</returns>
-    public virtual async Task<int> DeleteAsync(string tableName, string id, string idField = nameof(EntityBase.Id))
+    public virtual async Task<int> DeleteAsync(string tableName, string id, string idField)
     {
         if (string.IsNullOrEmpty(id))
             return 0;
