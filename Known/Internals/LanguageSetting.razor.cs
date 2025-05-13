@@ -10,6 +10,12 @@ public partial class LanguageSetting
     /// </summary>
     [Parameter] public List<LanguageSettingInfo> DataSource { get; set; }
 
+    internal void Reset()
+    {
+        DataSource = Language.GetDefaultSettings();
+        StateChanged();
+    }
+
     private void OnDefaultChange(LanguageSettingInfo item, bool isDefault)
     {
         foreach (var setting in DataSource)

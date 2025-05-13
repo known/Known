@@ -150,6 +150,11 @@ public partial class Language
     public const string ImportSuccess = "导入成功！";
 
     /// <summary>
+    /// 导入失败。
+    /// </summary>
+    public const string ImportFailed = "导入失败！";
+
+    /// <summary>
     /// 导出。
     /// </summary>
     public const string Export = "导出";
@@ -236,19 +241,70 @@ public partial class Language
     /// </summary>
     public const string FetchSuccess = "提取成功！";
 
-    internal const string Clear = "清空";
-    internal const string View = "查看";
-    internal const string Previous = "上一步";
-    internal const string Next = "下一步";
-    internal const string Finish = "完成";
-    internal const string More = "更多";
-    internal const string DeleteM = "批量删除";
-    internal const string Print = "打印";
-    internal const string Move = "移动";
-    internal const string MoveUp = "上移";
-    internal const string MoveDown = "下移";
-    internal const string Restore = "恢复";
-    internal const string Test = "测试";
+    /// <summary>
+    /// 清空。
+    /// </summary>
+    public const string Clear = "清空";
+
+    /// <summary>
+    /// 查看。
+    /// </summary>
+    public const string View = "查看";
+
+    /// <summary>
+    /// 上一步。
+    /// </summary>
+    public const string Previous = "上一步";
+
+    /// <summary>
+    /// 下一步。
+    /// </summary>
+    public const string Next = "下一步";
+
+    /// <summary>
+    /// 完成。
+    /// </summary>
+    public const string Finish = "完成";
+
+    /// <summary>
+    /// 更多。
+    /// </summary>
+    public const string More = "更多";
+
+    /// <summary>
+    /// 批量删除。
+    /// </summary>
+    public const string DeleteM = "批量删除";
+
+    /// <summary>
+    /// 打印。
+    /// </summary>
+    public const string Print = "打印";
+
+    /// <summary>
+    /// 移动。
+    /// </summary>
+    public const string Move = "移动";
+
+    /// <summary>
+    /// 上移。
+    /// </summary>
+    public const string MoveUp = "上移";
+
+    /// <summary>
+    /// 下移。
+    /// </summary>
+    public const string MoveDown = "下移";
+
+    /// <summary>
+    /// 恢复。
+    /// </summary>
+    public const string Restore = "恢复";
+
+    /// <summary>
+    /// 测试。
+    /// </summary>
+    public const string Test = "测试";
 
     /// <summary>
     /// 安装。
@@ -265,20 +321,71 @@ public partial class Language
     /// </summary>
     public const string Execute = "执行";
 
-    internal const string BackHome = "返回首页";
-    internal const string Database = "数据库";
-    internal const string BasicInfo = "基本信息";
-    internal const string SystemInfo = "系统信息";
-    internal const string AccountInfo = "账号信息";
-    internal const string FuncPending = "功能待加";
-    internal const string CopyCode = "复制代码";
-    internal const string DownloadCode = "下载代码";
+    /// <summary>
+    /// 返回首页。
+    /// </summary>
+    public const string BackHome = "返回首页";
 
-    internal const string Prompt = "提示";
-    internal const string Question = "询问";
-    internal const string Error = "错误";
-    internal const string Warning = "警告";
-    internal const string Action = "操作";
+    /// <summary>
+    /// 数据库。
+    /// </summary>
+    public const string Database = "数据库";
+
+    /// <summary>
+    /// 基本信息。
+    /// </summary>
+    public const string BasicInfo = "基本信息";
+
+    /// <summary>
+    /// 系统信息。
+    /// </summary>
+    public const string SystemInfo = "系统信息";
+
+    /// <summary>
+    /// 账号信息。
+    /// </summary>
+    public const string AccountInfo = "账号信息";
+
+    /// <summary>
+    /// 功能待加。
+    /// </summary>
+    public const string FuncPending = "功能待加";
+
+    /// <summary>
+    /// 复制代码。
+    /// </summary>
+    public const string CopyCode = "复制代码";
+
+    /// <summary>
+    /// 下载代码。
+    /// </summary>
+    public const string DownloadCode = "下载代码";
+
+    /// <summary>
+    /// 提示。
+    /// </summary>
+    public const string Prompt = "提示";
+
+    /// <summary>
+    /// 询问。
+    /// </summary>
+    public const string Question = "询问";
+
+    /// <summary>
+    /// 错误。
+    /// </summary>
+    public const string Error = "错误";
+
+    /// <summary>
+    /// 警告。
+    /// </summary>
+    public const string Warning = "警告";
+
+    /// <summary>
+    /// 操作。
+    /// </summary>
+    public const string Action = "操作";
+
     internal const string SelectIcon = "选择图标";
     internal const string SelectUser = "选择用户";
     internal const string SystemSetting = "系统设置";
@@ -343,11 +450,6 @@ public partial class Language
     internal const string ImportIsAsync = "异步导入";
     internal const string ImportDownload = "模板下载";
     internal const string ImportError = "错误信息";
-
-    /// <summary>
-    /// 导入失败。
-    /// </summary>
-    public const string ImportTaskFailed = "导入失败！";
 
     internal const string TipEnterKeyword = "输入关键字";
     internal const string TipNotPreview = "不支持在线预览";
@@ -551,35 +653,45 @@ public partial class Language
     /// 访问量。
     /// </summary>
     public const string HomeVisitCount = "访问量";
+
     internal const string HomeToday = "今天是：{date}";
     internal const string HomeTotal = "总";
+
     /// <summary>
     /// 用户数量。
     /// </summary>
     public const string HomeUserCount = "用户数量";
+
     /// <summary>
     /// 日志数量。
     /// </summary>
     public const string HomeLogCount = "日志数量";
+
     /// <summary>
     /// 日志统计。
     /// </summary>
     public const string HomeLogStatistic = "日志统计";
+
     internal const string HomeCommonFunc = "常用功能";
+
     /// <summary>
     /// 月系统访问量统计。
     /// </summary>
     public const string HomeVisitTitle = "{month}月系统访问量统计";
+
     internal const string HomeDate = "日期";
     internal const string HomeCount = "数量";
+
     /// <summary>
     /// 开源。
     /// </summary>
     public const string OpenSource = "开源";
+
     /// <summary>
     /// 低代码。
     /// </summary>
     public const string LowCode = "低代码";
+
     /// <summary>
     /// 现代UI。
     /// </summary>

@@ -2,6 +2,11 @@
 
 static class PlatformExtension
 {
+    internal static Task<List<LanguageInfo>> GetLanguagesAsync(this Database db)
+    {
+        return db.Query<SysLanguage>().ToListAsync<LanguageInfo>();
+    }
+
     internal static async Task<List<ButtonInfo>> GetButtonsAsync(this Database db)
     {
         var datas = await db.GetConfigAsync<List<ButtonInfo>>(Constant.KeyButton, true);

@@ -12,19 +12,19 @@ partial class PlatformService
     public async Task<Result> FetchLanguagesAsync()
     {
         var database = Database;
-        var models = await database.Query<SysLanguage>().ToListAsync<LanguageInfo>();
+        Language.Datas = await database.GetLanguagesAsync();
         var datas = new List<SysLanguage>();
         var items = Language.GetDefaultLanguages();
         foreach (var item in items)
         {
-            if (models.Exists(m => m.Chinese == item.Chinese))
+            if (Language.Datas.Exists(m => m.Chinese == item.Chinese))
                 continue;
 
-            models.Add(item);
+            Language.Datas.Add(item);
             datas.Add(new SysLanguage { Chinese = item.Chinese });
         }
         await database.InsertListAsync(datas);
-        return Result.Success(Language.FetchSuccess, models);
+        return Result.Success(Language.FetchSuccess, Language.Datas);
     }
 
     public async Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
@@ -63,7 +63,8 @@ partial class PlatformService
         using var excel = ExcelFactory.Create(stream);
         var lines = excel.SheetToDictionaries(0);
 
-        return await Database.TransactionAsync(Language.Import, async db =>
+        var database = Database;
+        var result = await database.TransactionAsync(Language.Import, async db =>
         {
             foreach (var line in lines)
             {
@@ -79,6 +80,9 @@ partial class PlatformService
                 await db.SaveAsync(model);
             }
         });
+        if (result.IsValid)
+            Language.Datas = await database.GetLanguagesAsync();
+        return result;
     }
 
     public async Task<Result> SaveLanguageAsync(LanguageInfo info)
@@ -92,11 +96,14 @@ partial class PlatformService
         if (!vr.IsValid)
             return vr;
 
-        return await database.TransactionAsync(Language.Save, async db =>
+        var result = await database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
             info.Id = model.Id;
         }, info);
+        if (result.IsValid)
+            Language.Datas = await database.GetLanguagesAsync();
+        return result;
     }
 
     public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos)

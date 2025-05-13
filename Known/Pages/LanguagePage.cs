@@ -117,12 +117,14 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     /// </summary>
     public void Setting()
     {
+        LanguageSetting table = null;
         var model = new DialogModel
         {
             Title = Language.SysLanguage,
             Width = 600,
-            Content = b => b.Component<LanguageSetting>().Set(c => c.DataSource, Infos).Build()
+            Content = b => b.Component<LanguageSetting>().Set(c => c.DataSource, Infos).Build(value => table = value)
         };
+        model.AddAction(Language.Reset, this.Callback<MouseEventArgs>(e=> table?.Reset()));
         model.OnOk = async () =>
         {
             await Platform.SaveLanguageSettingsAsync(Infos);

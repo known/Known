@@ -23,7 +23,7 @@ partial class AdminService
                     info.IsFinished = false;
                     break;
                 case TaskJobStatus.Failed:
-                    info.Message = Language[Language.ImportTaskFailed];
+                    info.Message = Language[Language.ImportFailed];
                     info.Error = task.Note;
                     break;
                 case TaskJobStatus.Success:

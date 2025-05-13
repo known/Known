@@ -25,10 +25,9 @@
         } *@
         if (Current.Id != "Index" && Current.Name != "Home")
         {
-            var menuName = Language.GetString(Current);
             <BreadcrumbItem>
                 @* <Icon Type="@Current.Icon" /> *@
-                <span>@menuName</span>
+                <span>@Language[Current.Name]</span>
             </BreadcrumbItem>
         }
     }

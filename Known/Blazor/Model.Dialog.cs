@@ -86,6 +86,16 @@ public class DialogModel
     public List<ActionInfo> Actions { get; } = [];
 
     /// <summary>
+    /// 添加操作列按钮。
+    /// </summary>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="onClick">点击事件委托。</param>
+    public void AddAction(string idOrName, EventCallback<MouseEventArgs> onClick)
+    {
+        Actions?.Add(new ActionInfo(idOrName) { OnClick = onClick });
+    }
+
+    /// <summary>
     /// 异步关闭对话框。
     /// </summary>
     /// <returns></returns>

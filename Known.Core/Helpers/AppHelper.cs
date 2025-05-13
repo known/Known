@@ -12,7 +12,7 @@ class AppHelper
                 infos = Language.GetDefaultSettings();
             Language.Settings = infos;
 
-            var datas = await db.Query<SysLanguage>().ToListAsync<LanguageInfo>();
+            var datas = await db.GetLanguagesAsync();
             if (datas == null || datas.Count == 0)
                 datas = Language.GetDefaultLanguages();
             Language.Datas = datas;

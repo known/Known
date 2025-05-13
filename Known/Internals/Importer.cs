@@ -109,7 +109,7 @@ class Importer : BaseComponent
         if (!result.IsValid)
         {
             error = result.Message;
-            message = Language[Language.ImportTaskFailed];
+            message = Language[Language.ImportFailed];
             isFinished = true;
             await StateChangedAsync();
             return;
