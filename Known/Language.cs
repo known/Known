@@ -49,11 +49,15 @@ public partial class Language
         {
             infos.Add(item.Name);
         }
+        foreach (var item in PluginConfig.Plugins)
+        {
+            infos.Add(item.Attribute?.Name);
+        }
         foreach (var assembly in Config.Assemblies)
         {
             foreach (var item in assembly.GetTypes())
             {
-                if(item.IsEnum)
+                if (item.IsEnum)
                     infos.AddEnum(item);
                 else if (item.IsAssignableTo(typeof(EntityBase)) || item.Name.EndsWith("Info"))
                     infos.AddAttribute(item);

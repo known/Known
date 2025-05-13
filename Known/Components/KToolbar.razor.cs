@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Components;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 工具条组件类。
@@ -25,16 +23,6 @@ public partial class KToolbar
     private void OnEditTool()
     {
         Plugin?.EditToolbar(this);
-    }
-
-    private static ButtonType GetButtonType(string style)
-    {
-        return ButtonExtension.GetButtonType(style);
-    }
-
-    private static bool GetButtonDanger(string style)
-    {
-        return ButtonExtension.GetButtonDanger(style);
     }
 
     private DropdownModel GetDropdownModel(string textButton)

@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using AntDesign;
+
+namespace Known;
 
 /// <summary>
 /// 菜单信息类。
@@ -341,8 +343,6 @@ public class ActionInfo
     [JsonIgnore]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    internal bool Danger => Style == "danger";
-
     /// <summary>
     /// 转换成按钮信息。
     /// </summary>
@@ -357,5 +357,15 @@ public class ActionInfo
             Style = Style,
             Position = Position?.Split(',')
         };
+    }
+
+    internal ButtonType ToType()
+    {
+        return ButtonExtension.GetButtonType(Style);
+    }
+
+    internal bool IsDanger()
+    {
+        return ButtonExtension.GetButtonDanger(Style);
     }
 }

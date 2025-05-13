@@ -43,7 +43,7 @@
         }
         else
         {
-            return @<KButton Name="@itemName" Enabled="item.Enabled" Type="GetButtonType(item.Style)" Danger="GetButtonDanger(item.Style)" Icon="@item.Icon" Title="@item.Title" Badge="item.Badge" OnClick="e=>Model.OnItemClick?.Invoke(item)" />;
+            return @<KButton Name="@itemName" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Icon="@item.Icon" Title="@item.Title" Badge="item.Badge" OnClick="e=>Model.OnItemClick?.Invoke(item)" />;
         }
     }
 }

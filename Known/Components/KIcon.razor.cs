@@ -41,6 +41,9 @@ public partial class KIcon
 
     private void RenderIcon(RenderTreeBuilder builder, EventCallback<MouseEventArgs>? onClick = null)
     {
+        if (string.IsNullOrWhiteSpace(Icon))
+            return;
+
         var className = CssBuilder.Default(Icon.StartsWith("fa") ? Icon : "").AddClass("ant-btn-link", IsTheme).BuildClass();
         if (Icon.StartsWith("fa"))
         {
