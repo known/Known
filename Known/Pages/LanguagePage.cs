@@ -22,10 +22,12 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
 
         Table = new TableModel<LanguageInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
+        Table.FormType = typeof(LanguageForm);
         Table.EnableEdit = false;
         Table.EnableFilter = false;
         Table.AdvSearch = false;
         Table.ShowPager = true;
+        Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Platform.QueryLanguagesAsync;
 
         foreach (var info in Infos)
@@ -38,11 +40,11 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         }
 
         Table.Toolbar.ShowCount = 6;
-        //Table.Toolbar.AddAction(nameof(New));
-        //Table.Toolbar.AddAction(nameof(DeleteM));
-        //Table.Toolbar.AddAction(nameof(Import));
         Table.Toolbar.AddAction(nameof(Setting), Language.TipLanguageSetting);
         Table.Toolbar.AddAction(nameof(Fetch), Language.TipLanguageFetch);
+        Table.Toolbar.AddAction(nameof(New));
+        Table.Toolbar.AddAction(nameof(DeleteM));
+        Table.Toolbar.AddAction(nameof(Import));
         Table.Toolbar.AddAction(nameof(Export));
 
         Table.AddAction(nameof(Edit));
@@ -75,7 +77,18 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     /// 导入数据。
     /// </summary>
     /// <returns></returns>
-    public Task Import() => Table.ShowImportAsync();
+    public void Import()
+    {
+        var form = new FormModel<FileFormInfo>(this)
+        {
+            Title = Language.GetImportTitle(PageName),
+            Data = new FileFormInfo(),
+            OnSaveFile = Platform.ImportLanguagesAsync,
+            OnSaved = async d => await RefreshAsync()
+        };
+        form.AddRow().AddColumn(Language.ImportFile, c => c.BizType, c => c.Type = FieldType.File);
+        UI.ShowForm(form);
+    }
 
     /// <summary>
     /// 导出数据。
@@ -117,5 +130,22 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
             App.ReloadPage();
         };
         UI.ShowDialog(model);
+    }
+}
+
+class LanguageForm : BaseForm<LanguageInfo>
+{
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+
+        foreach (var info in Language.Settings)
+        {
+            if (!info.Enabled)
+                continue;
+
+            var property = TypeHelper.Property<LanguageInfo>(info.Id);
+            Model.AddRow().AddColumn(property, c => c.Label = info.Name);
+        }
     }
 }

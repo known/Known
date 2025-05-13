@@ -122,7 +122,7 @@ partial class PlatformService
             var file = info.Files[key][0];
             AppData.Data.Modules = await ZipHelper.UnZipDataAsync<List<ModuleInfo>>(file.Bytes);
             AppData.SaveData();
-            return Result.Success(Language.Success(Language.Import));
+            return Result.Success(Language.ImportSuccess);
         }
         catch (Exception ex)
         {

@@ -88,6 +88,18 @@ public partial class Language
     public static List<LanguageInfo> GetDefaultLanguages()
     {
         var infos = new List<LanguageInfo>();
+        foreach (var item in Config.Modules)
+        {
+            infos.Add(item.Name);
+        }
+        foreach (var item in Config.Menus)
+        {
+            infos.Add(item.Name);
+        }
+        foreach (var item in Config.AppMenus)
+        {
+            infos.Add(item.Name);
+        }
         foreach (var assembly in Config.Assemblies)
         {
             foreach (var item in assembly.GetTypes())

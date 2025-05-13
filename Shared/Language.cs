@@ -135,6 +135,11 @@ public partial class Language
     public const string Import = "导入";
 
     /// <summary>
+    /// 导入成功。
+    /// </summary>
+    public const string ImportSuccess = "导入成功！";
+
+    /// <summary>
     /// 导出。
     /// </summary>
     public const string Export = "导出";

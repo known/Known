@@ -61,7 +61,7 @@ partial class PlatformService
                     await db.InsertListAsync(modules);
                 });
             }
-            return Result.Success(Language.Success(Language.Import));
+            return Result.Success(Language.ImportSuccess);
         }
         catch (Exception ex)
         {

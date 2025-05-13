@@ -67,7 +67,7 @@ public static class LayoutExtension
             columns.Add(new ExportColumnInfo
             {
                 Id = item.Id,
-                Name = item.Name,
+                Name = item.DisplayName,
                 Category = item.Category,
                 Type = item.Type,
                 Unit = item.Unit

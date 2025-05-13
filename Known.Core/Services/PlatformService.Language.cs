@@ -1,4 +1,6 @@
-﻿namespace Known.Services;
+﻿using Known.Cells;
+
+namespace Known.Services;
 
 partial class PlatformService
 {
@@ -48,6 +50,35 @@ partial class PlatformService
             result.Data = Language.Datas;
         }
         return result;
+    }
+
+    public async Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info)
+    {
+        var key = nameof(FileFormInfo.BizType);
+        if (info == null || info.Files == null || !info.Files.ContainsKey(key))
+            return Result.Error(Language.ImportSelectFile);
+
+        var file = info.Files[key][0];
+        using var stream = new MemoryStream(file.Bytes);
+        using var excel = ExcelFactory.Create(stream);
+        var lines = excel.SheetToDictionaries(0);
+
+        return await Database.TransactionAsync(Language.Import, async db =>
+        {
+            foreach (var line in lines)
+            {
+                var model = await db.QueryAsync<SysLanguage>(d => d.Chinese == line.GetValue<string>("简体中文"));
+                if (model == null)
+                    continue;
+
+                foreach (var item in Language.Settings)
+                {
+                    if (line.TryGetValue(item.Name, out string value))
+                        TypeHelper.SetPropertyValue(model, item.Id, value);
+                }
+                await db.SaveAsync(model);
+            }
+        });
     }
 
     public async Task<Result> SaveLanguageAsync(LanguageInfo info)

@@ -47,19 +47,24 @@ public static class LanguageExtension
         return language?.GetString(column, type);
     }
 
+    internal static void Add(this List<LanguageInfo> infos, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return;
+
+        if (infos.Exists(l => l.Chinese == name))
+            return;
+
+        infos.Add(new LanguageInfo { Chinese = name });
+    }
+
     internal static void AddAttribute(this List<LanguageInfo> infos, Type type)
     {
         var properties = TypeHelper.Properties(type);
         foreach (var property in properties)
         {
             var name = property.DisplayName();
-            if (string.IsNullOrWhiteSpace(name))
-                continue;
-
-            if (infos.Exists(l => l.Chinese == name))
-                continue;
-
-            infos.Add(new LanguageInfo { Chinese = name });
+            infos.Add(name);
         }
     }
 
@@ -71,13 +76,7 @@ public static class LanguageExtension
             if (field.IsLiteral && !field.IsInitOnly)
             {
                 var name = field.GetValue(null)?.ToString();
-                if (string.IsNullOrWhiteSpace(name))
-                    continue;
-
-                if (infos.Exists(l => l.Chinese == name))
-                    continue;
-
-                infos.Add(new LanguageInfo { Chinese = name });
+                infos.Add(name);
             }
         }
     }

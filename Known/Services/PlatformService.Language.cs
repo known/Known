@@ -23,6 +23,13 @@ public partial interface IPlatformService
     Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos);
 
     /// <summary>
+    /// 异步导入语言信息数据。
+    /// </summary>
+    /// <param name="info">导入文件。</param>
+    /// <returns>导入结果。</returns>
+    Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info);
+
+    /// <summary>
     /// 异步保存语言信息列表。
     /// </summary>
     /// <param name="info">语言信息。</param>
@@ -66,6 +73,11 @@ partial class PlatformService
         return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
+    public Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info)
+    {
+        return Result.SuccessAsync(Language.ImportSuccess);
+    }
+
     public Task<Result> SaveLanguageAsync(LanguageInfo info)
     {
         var item = AppData.Data.Languages.FirstOrDefault(b => b.Id == info.Id);
@@ -99,6 +111,11 @@ partial class PlatformClient
     public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
     {
         return Http.PostAsync("/Platform/DeleteLanguages", infos);
+    }
+
+    public Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info)
+    {
+        return Http.PostAsync("/Platform/ImportLanguages", info);
     }
 
     public Task<Result> SaveLanguageAsync(LanguageInfo info)
