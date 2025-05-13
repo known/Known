@@ -22,6 +22,8 @@ public partial class CoreLanguage
     internal const string ExecuteSuccess = "执行成功！";
     internal const string MigrateSuccess = "迁移成功！";
 
+    internal const string TipAdminNoMigrate = "Admin插件不支持迁移！";
+    internal const string TipSystemNotInstall = "系统未安装！";
     internal const string TipCompanyNotExists = "企业不存在！";
     internal const string TipOrgDeleteExistsChild = "存在子组织架构，不能删除！";
     internal const string TipOrgCodeExists = "组织编码已存在！";

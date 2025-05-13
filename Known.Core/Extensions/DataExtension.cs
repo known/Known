@@ -105,7 +105,7 @@ public static class DataExtension
         }
     }
 
-    internal static Task MigrateDataAsync(this Database db)
+    internal static Task<Result> MigrateDataAsync(this Database db)
     {
         return MigrateHelper.MigrateDataAsync(db);
     }

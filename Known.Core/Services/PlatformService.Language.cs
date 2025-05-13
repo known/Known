@@ -11,19 +11,7 @@ partial class PlatformService
 
     public async Task<Result> FetchLanguagesAsync()
     {
-        var database = Database;
-        Language.Datas = await database.GetLanguagesAsync();
-        var datas = new List<SysLanguage>();
-        var items = Language.GetDefaultLanguages();
-        foreach (var item in items)
-        {
-            if (Language.Datas.Exists(m => m.Chinese == item.Chinese))
-                continue;
-
-            Language.Datas.Add(item);
-            datas.Add(new SysLanguage { Chinese = item.Chinese });
-        }
-        await database.InsertListAsync(datas);
+        await MigrateHelper.MigrateLanguagesAsync(Database);
         return Result.Success(Language.FetchSuccess, Language.Datas);
     }
 

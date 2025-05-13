@@ -30,8 +30,7 @@ partial class PlatformService
         if (!string.IsNullOrWhiteSpace(topNav))
             return Result.Error(CoreLanguage.TipModuleMigrated);
 
-        await Database.MigrateDataAsync();
-        return Result.Success(CoreLanguage.MigrateSuccess);
+        return await Database.MigrateDataAsync();
     }
 
     public async Task<FileDataInfo> ExportModulesAsync()

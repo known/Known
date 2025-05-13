@@ -2,21 +2,21 @@
 
 class MigrateHelper
 {
-    internal static async Task MigrateDataAsync(Database database)
+    internal static async Task<Result> MigrateDataAsync(Database database)
     {
         try
         {
             if (Config.IsAdmin)
-                return;
+                return Result.Error(CoreLanguage.TipAdminNoMigrate);
 
             database.EnableLog = false;
             var exists = await database.ExistsAsync<SysConfig>(true);
             if (!exists) //未安装，则安装时初始化
-                return;
+                return Result.Error(CoreLanguage.TipSystemNotInstall);
 
             database.User ??= await database.GetUserAsync(Constants.SysUserName);
             await database.CreateTablesAsync();
-            await database.TransactionAsync(Language.Migrate, async db =>
+            return await database.TransactionAsync(Language.Migrate, async db =>
             {
                 Console.WriteLine("AppData is Migrating...");
                 await MigrateLanguagesAsync(db);
@@ -31,18 +31,24 @@ class MigrateHelper
         catch (Exception ex)
         {
             Logger.Exception(LogTarget.BackEnd, database.User, ex);
+            return Result.Error(ex.Message);
         }
     }
 
-    private static async Task MigrateLanguagesAsync(Database db)
+    internal static async Task MigrateLanguagesAsync(Database db)
     {
-        var datas = Language.Datas;
-        if (datas == null || datas.Count == 0)
-            return;
+        Language.Datas = await db.GetLanguagesAsync();
+        var datas = new List<SysLanguage>();
+        var items = Language.GetDefaultLanguages();
+        foreach (var item in items)
+        {
+            if (Language.Datas.Exists(m => m.Chinese == item.Chinese))
+                continue;
 
-        var items = datas.Select(Utils.MapTo<SysLanguage>).ToList();
-        await db.DeleteAllAsync<SysLanguage>();
-        await db.InsertListAsync(items);
+            Language.Datas.Add(item);
+            datas.Add(new SysLanguage { Chinese = item.Chinese });
+        }
+        await db.InsertListAsync(datas);
     }
 
     private static async Task MigrateButtonsAsync(Database db)
