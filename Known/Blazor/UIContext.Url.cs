@@ -85,6 +85,13 @@ public partial class UIContext
         if (Current != null)
             return;
 
+        var dev = PluginConfig.DevPlugins.FirstOrDefault(m => m.Url == Url);
+        if (dev != null)
+        {
+            Current = dev.ToMenu();
+            return;
+        }
+
         var menus = IsMobileApp ? Config.AppMenus : UserMenus;
         if (menus == null || menus.Count == 0)
             return;

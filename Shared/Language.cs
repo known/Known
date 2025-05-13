@@ -50,6 +50,11 @@ public partial class Language
     public const string Home = "首页";
 
     /// <summary>
+    /// 系统。
+    /// </summary>
+    public const string System = "系统";
+
+    /// <summary>
     /// 选择一条数据。
     /// </summary>
     public const string SelectOne = "请选择一条记录进行操作！";

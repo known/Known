@@ -36,7 +36,8 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
                 continue;
 
             var property = TypeHelper.Property<LanguageInfo>(info.Id);
-            Table.AddColumn(property).Name(info.Name);
+            if (property != null)
+                Table.AddColumn(property).Name(info.Name);
         }
 
         Table.Toolbar.ShowCount = 6;

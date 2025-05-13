@@ -47,6 +47,17 @@ public class PluginMenuInfo
     internal bool IsNav => Attribute is NavPluginAttribute;
     internal bool IsPage => Attribute is PagePluginAttribute;
 
+    internal MenuInfo ToMenu()
+    {
+        return new MenuInfo
+        {
+            Id = Id,
+            Name = Attribute.Name,
+            Icon = Attribute.Icon ?? "file",
+            Url = Url
+        };
+    }
+
     internal ActionInfo ToAction()
     {
         return new ActionInfo
