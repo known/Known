@@ -17,6 +17,8 @@
 .ant-checkbox-inner, .ant-tree-checkbox-inner {border-radius:4px;}
 .ant-menu-item-selected {cursor:pointer;}
 .ant-tree .ant-tree-node-content-wrapper {display:flex;}
+.ant-dropdown-menu-item .ant-dropdown-menu-submenu-expand-icon, 
+.ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-expand-icon {top:4px;}
 
 .ant-badge-count {z-index:100;}
 .ant-btn > .anticon + span, 

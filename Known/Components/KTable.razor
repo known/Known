@@ -11,7 +11,7 @@
               @bind-SelectedRows="Model.SelectedRows">
         <ColumnDefinitions>
             @if (Context.IsEditTable) {
-                <Column TitleTemplate="ColumnTitle" TData="object" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />
+                <TableColumn TitleTemplate="ColumnTitle" Width="40" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left" />
             }
             @if (Model.SelectType != TableSelectType.None) {
                 <Selection Type="@GetSelectionType(Model.SelectType)" Align="ColumnAlign.Center" Width="40" Fixed="ColumnFixPlacement.Left" />
@@ -19,16 +19,15 @@
             @if (Model.Columns != null && Model.Columns.Count > 0) {
                 var isDictionary = Model.IsDictionary;
                 if (Model.ShowIndex) {
-                    var titleIndex = Language[Language.Index];
                     var columnId = Model.Columns[0].Id;
                     if (isDictionary) {
-                        @*<DictionaryColumn Title="@titleIndex" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
+                        @*<DictionaryColumn Title="@Language.Index" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                             <span>@GetIndex(context)</span>
                         </DictionaryColumn>*@
                     } else {
-                        <Column Title="@titleIndex" TData="object" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
+                        <TableColumn Title="@Language.Index" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                             <span>@GetIndex(context)</span>
-                        </Column>
+                        </TableColumn>
                     }
                 }
                 var columns = GetColumns();

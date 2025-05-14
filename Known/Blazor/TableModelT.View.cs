@@ -20,7 +20,7 @@ partial class TableModel<TItem>
         {
             ViewType = type,
             IsView = true,
-            Action = $"{type}",
+            Action = type.GetDescription(),
             Data = row
         });
         if (isShow)

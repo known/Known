@@ -106,14 +106,17 @@ public enum FormViewType
     /// <summary>
     /// 查看详情。
     /// </summary>
+    [Description("查看")]
     View,
     /// <summary>
     /// 提交工作流。
     /// </summary>
+    [Description("提交")]
     Submit,
     /// <summary>
     /// 审核工作流。
     /// </summary>
+    [Description("审核")]
     Verify
 }
 
