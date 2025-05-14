@@ -5,7 +5,7 @@
     <div class="kui-upload-button ant-btn-link">
         <Icon Type="edit" />
         <span>@Language[Language.Edit]</span>
-        <InputFile OnChange="OnFileChangedAsync" />
+        <InputFile accept=".jpeg,.jpg,.png" OnChange="OnFileChangedAsync" />
     </div>
     <ul class="kui-user-info">
         <li><KIcon IsTheme Icon="user" /><span>@($"{user?.Name}({user?.UserName})")</span></li>
