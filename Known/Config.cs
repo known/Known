@@ -24,7 +24,7 @@ public partial class Config
     /// <summary>
     /// 取得或设置当前呈现类型，默认Server。
     /// </summary>
-    public static RenderType CurrentMode { get; set; }
+    public static RenderType CurrentMode { get; set; } = RenderType.Server;
 
     /// <summary>
     /// 取得或设置系统移动端菜单信息列表。

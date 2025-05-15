@@ -22,7 +22,7 @@ class MigrateHelper
                 await MigrateLanguagesAsync(db);
                 await MigrateButtonsAsync(db);
                 await MigrateTopNavsAsync(db);
-                await MigrateModulesAsync(db);
+                //await MigrateModulesAsync(db);
                 if (CoreConfig.OnMigrateAppData != null)
                     await CoreConfig.OnMigrateAppData.Invoke(db);
                 Console.WriteLine("AppData is Migrated.");
@@ -83,31 +83,31 @@ class MigrateHelper
         await db.SaveConfigAsync(Constant.KeyTopNav, datas, true);
     }
 
-    private static async Task MigrateModulesAsync(Database db)
-    {
-        var modules = await db.QueryListAsync<SysModule>();
-        foreach (var module in modules)
-        {
-            if (string.IsNullOrWhiteSpace(module.Type))
-            {
-                module.Type = module.Target == nameof(ModuleType.Menu)
-                            ? nameof(MenuType.Menu)
-                            : (module.Target == nameof(ModuleType.Custom) ? nameof(MenuType.Link) : nameof(MenuType.Page));
-                module.Target = module.Target == nameof(ModuleType.IFrame) ? nameof(LinkTarget.IFrame) : nameof(LinkTarget.None);
-            }
-            if (string.IsNullOrWhiteSpace(module.PluginData))
-            {
-                var plugins = module.ToPlugins();
-                module.PluginData = plugins?.ZipDataString();
-            }
-        }
+    //private static async Task MigrateModulesAsync(Database db)
+    //{
+    //    var modules = await db.QueryListAsync<SysModule>();
+    //    foreach (var module in modules)
+    //    {
+    //        if (string.IsNullOrWhiteSpace(module.Type))
+    //        {
+    //            module.Type = module.Target == nameof(ModuleType.Menu)
+    //                        ? nameof(MenuType.Menu)
+    //                        : (module.Target == nameof(ModuleType.Custom) ? nameof(MenuType.Link) : nameof(MenuType.Page));
+    //            module.Target = module.Target == nameof(ModuleType.IFrame) ? nameof(LinkTarget.IFrame) : nameof(LinkTarget.None);
+    //        }
+    //        if (string.IsNullOrWhiteSpace(module.PluginData))
+    //        {
+    //            var plugins = module.ToPlugins();
+    //            module.PluginData = plugins?.ZipDataString();
+    //        }
+    //    }
 
-        var items = AppData.Data.Modules;
-        if (items != null && items.Count > 0)
-            AddModules(db, modules, items, "0");
-        await db.DeleteAllAsync<SysModule>();
-        await db.InsertAsync(modules);
-    }
+    //    var items = AppData.Data.Modules;
+    //    if (items != null && items.Count > 0)
+    //        AddModules(db, modules, items, "0");
+    //    await db.DeleteAllAsync<SysModule>();
+    //    await db.InsertAsync(modules);
+    //}
 
     private static void AddModules(Database db, List<SysModule> modules, List<ModuleInfo> allItems, string parentId)
     {
