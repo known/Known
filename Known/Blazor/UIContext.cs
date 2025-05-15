@@ -49,7 +49,7 @@ public partial class UIContext : Context
     {
         get
         {
-            return Config.RenderMode switch
+            return Config.CurrentMode switch
             {
                 RenderType.Auto => new InteractiveAutoRenderMode(false),
                 _ => new InteractiveServerRenderMode(false),

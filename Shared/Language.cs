@@ -391,6 +391,11 @@ public partial class Language
     /// </summary>
     public const string Action = "操作";
 
+    /// <summary>
+    /// 设置成功。
+    /// </summary>
+    public const string SetSuccess = "设置成功！";
+
     internal const string SelectIcon = "选择图标";
     internal const string SelectUser = "选择用户";
     internal const string SystemSetting = "系统设置";

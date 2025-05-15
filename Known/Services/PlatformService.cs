@@ -10,23 +10,23 @@ public partial interface IPlatformService : IService
     /// </summary>
     /// <param name="mode">呈现模式。</param>
     /// <returns></returns>
-    Task SetRenderModeAsync(string mode);
+    Task<Result> SetRenderModeAsync(string mode);
 }
 
 [Service]
 partial class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
-    public Task SetRenderModeAsync(string mode)
+    public Task<Result> SetRenderModeAsync(string mode)
     {
-        Config.RenderMode = Utils.ConvertTo<RenderType>(mode);
-        return Task.CompletedTask;
+        Config.CurrentMode = Utils.ConvertTo<RenderType>(mode);
+        return Result.SuccessAsync(Language.SetSuccess, Config.CurrentMode);
     }
 }
 
 [Client]
 partial class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
 {
-    public Task SetRenderModeAsync(string mode)
+    public Task<Result> SetRenderModeAsync(string mode)
     {
         return Http.PostAsync($"/Platform/SetRenderMode?mode={mode}");
     }

@@ -3,9 +3,9 @@
 [WebApi, Service]
 partial class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
-    public Task SetRenderModeAsync(string mode)
+    public Task<Result> SetRenderModeAsync(string mode)
     {
-        Config.RenderMode = Utils.ConvertTo<RenderType>(mode);
-        return Task.CompletedTask;
+        Config.CurrentMode = Utils.ConvertTo<RenderType>(mode);
+        return Result.SuccessAsync(Language.SetSuccess, Config.CurrentMode);
     }
 }

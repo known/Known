@@ -7,10 +7,24 @@ public partial class Config
     /// </summary>
     public const string AutoBizIdPrefix = "AutoImport";
 
+    private static RenderType renderMode = RenderType.Server;
     /// <summary>
     /// 取得或设置呈现类型，默认Server。
     /// </summary>
-    public static RenderType RenderMode { get; set; } = RenderType.Server;
+    public static RenderType RenderMode
+    {
+        get { return renderMode; }
+        set
+        {
+            renderMode = value;
+            CurrentMode = value;
+        }
+    }
+
+    /// <summary>
+    /// 取得或设置当前呈现类型，默认Server。
+    /// </summary>
+    public static RenderType CurrentMode { get; set; }
 
     /// <summary>
     /// 取得或设置系统移动端菜单信息列表。

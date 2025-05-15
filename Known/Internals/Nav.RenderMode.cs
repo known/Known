@@ -27,7 +27,11 @@ class NavRenderMode : BaseNav
             return;
         }
 
-        await Platform.SetRenderModeAsync(info.Id);
-        Navigation.NavigateTo("/", true);
+        var result = await Platform.SetRenderModeAsync(info.Id);
+        UI.Result(result, () =>
+        {
+            Navigation.NavigateTo("/", true);
+            return Task.CompletedTask;
+        });
     }
 }
