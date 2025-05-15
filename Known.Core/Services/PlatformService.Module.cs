@@ -18,10 +18,11 @@ partial class PlatformService
 
     public async Task<List<ModuleInfo>> GetModulesAsync()
     {
-        var modules = await Database.QueryListAsync<SysModule>();
-        var lists = modules.OrderBy(m => m.Sort).Select(m => m.ToModuleInfo()).ToList();
-        DataHelper.Initialize(lists);
-        return lists;
+        var dbModules = await Database.QueryListAsync<SysModule>();
+        var modules = dbModules.Select(m => m.ToModuleInfo()).ToList();
+        modules = modules.Add(AppData.Data.Modules);
+        DataHelper.Initialize(modules);
+        return modules;
     }
 
     public async Task<Result> MigrateModulesAsync()

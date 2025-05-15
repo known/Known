@@ -77,9 +77,9 @@ public sealed class DataHelper
     /// <returns></returns>
     public static async Task<List<ModuleInfo>> GetModulesAsync(Database db = null)
     {
-        var modules = Config.OnInitialModules != null
-                    ? await Config.OnInitialModules.Invoke(db)
-                    : AppData.Data.Modules ?? [];
+        var modules = Config.OnInitialModules != null ? await Config.OnInitialModules.Invoke(db) : [];
+        modules ??= [];
+        modules.Add(AppData.Data.Modules);
         return GetModules(modules);
     }
 
@@ -92,6 +92,9 @@ public sealed class DataHelper
     {
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
         var allModules = new List<ModuleInfo>();
+        if (modules == null || modules.Count == 0)
+            return allModules;
+
         allModules.AddRange(modules);
         // 添加路由模块
         var routes = GetRouteModules([.. modules.Select(m => m.Url)]);

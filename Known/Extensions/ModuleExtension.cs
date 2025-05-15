@@ -6,6 +6,26 @@
 public static class ModuleExtension
 {
     /// <summary>
+    /// 添加代码配置的模块列表。
+    /// </summary>
+    /// <param name="modules">模块信息列表。</param>
+    /// <param name="lists">要添加的信息列表。</param>
+    /// <returns></returns>
+    public static List<ModuleInfo> Add(this List<ModuleInfo> modules, List<ModuleInfo> lists)
+    {
+        if (lists == null || lists.Count == 0)
+            return modules;
+
+        foreach (var module in lists)
+        {
+            if (module.Type == nameof(MenuType.Menu) || !modules.Exists(m => m.Url == module.Url))
+                modules.Add(module);
+        }
+        modules = [.. modules.OrderBy(m => m.Sort)];
+        return modules;
+    }
+
+    /// <summary>
     /// 添加一个模块信息。
     /// </summary>
     /// <param name="modules">模块列表。</param>

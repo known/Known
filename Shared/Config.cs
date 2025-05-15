@@ -30,11 +30,6 @@ public partial class Config
     public static bool IsClient { get; internal set; }
 
     /// <summary>
-    /// 取得或设置是否纯代码开发模式，默认false，如果设置true，将不显示开发中心模块管理以及编辑模式，模块菜单通过页面特性配置。
-    /// </summary>
-    public static bool IsCodeMode { get; set; }
-
-    /// <summary>
     /// 取得或设置是否是Admin插件。
     /// </summary>
     public static bool IsAdmin { get; set; }
