@@ -1,0 +1,15 @@
+[
+  {
+    "outputFileName": "wwwroot/css/web.min.css",
+    "inputFiles": [
+      "Static/styles/core.css",
+      "Static/styles/layout.css",
+      "Static/styles/plugin.css",
+      "Static/styles/admin.css",
+      "Static/styles/home.css",
+      "Static/styles/antd.css",
+      "Static/styles/app.css",
+      "Static/web.css"
+    ]
+  }
+]

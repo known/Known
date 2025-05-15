@@ -43,5 +43,6 @@
     </ItemGroup>
 
     <Import Project="..\Shared\Shared.projitems" Label="Shared" />
+    <Import Project="..\Library\Minifier\BuildBundlerMinifier.targets" Condition="Exists('..\Library\Minifier\BuildBundlerMinifier.targets')" />
 
 </Project>
