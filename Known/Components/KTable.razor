@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 @typeparam TItem where TItem : class, new()
 @{
-    var totalWidth = Model.Columns.Select(c => c.Width > 0 ? c.Width : 100).Sum();
+    var totalWidth = Model.Columns.Where(c => c.IsVisible).Select(c => c.Width > 0 ? c.Width : 100).Sum();
     var scrollX = totalWidth.ToString();
 }
 <ReloadContainer @ref="reload">
