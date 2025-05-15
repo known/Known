@@ -79,7 +79,10 @@ public sealed class DataHelper
     {
         var modules = Config.OnInitialModules != null ? await Config.OnInitialModules.Invoke(db) : [];
         modules ??= [];
-        modules.Add(AppData.Data.Modules);
+        if (!Config.IsDbMode)
+            modules.Add(AppData.Data.Modules);
+        if (modules.Count == 0)
+            modules = AppData.Data.Modules;
         return GetModules(modules);
     }
 
