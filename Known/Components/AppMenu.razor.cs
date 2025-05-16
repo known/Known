@@ -23,6 +23,11 @@ public partial class AppMenu
     /// </summary>
     [Parameter] public bool ShowPending { get; set; }
 
+    /// <summary>
+    /// 取得或设置菜单按钮点击事件委托。
+    /// </summary>
+    [Parameter] public Action<MenuInfo> OnClick { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
@@ -32,10 +37,10 @@ public partial class AppMenu
 
     private void OnItemClick(MenuInfo item)
     {
-        if (string.IsNullOrWhiteSpace(item.Url))
-            return;
-
-        Context.NavigateTo(item);
+        if (OnClick != null)
+            OnClick.Invoke(item);
+        else
+            Context.NavigateTo(item);
     }
 
     private bool CheckItem(MenuInfo item)
