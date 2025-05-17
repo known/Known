@@ -81,7 +81,7 @@ public partial class UIContext
 
     internal void SetCurrentMenu(RouteData route)
     {
-        Current = NavMenus.FirstOrDefault(m => m.Url == Url);
+        Current = NavMenus.FirstOrDefault(m => m.HasUrl(Url));
         if (Current != null)
             return;
 

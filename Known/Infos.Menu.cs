@@ -177,15 +177,6 @@ public class MenuInfo
         }
     }
 
-    /// <summary>
-    /// 获取菜单的字符串表示。
-    /// </summary>
-    /// <returns></returns>
-    public override string ToString()
-    {
-        return $"{Name}({RouteUrl})";
-    }
-
     private AutoPageInfo tablePage;
     internal AutoPageInfo TablePage
     {
@@ -199,6 +190,15 @@ public class MenuInfo
             }
             return tablePage;
         }
+    }
+
+    /// <summary>
+    /// 获取菜单的字符串表示。
+    /// </summary>
+    /// <returns></returns>
+    public override string ToString()
+    {
+        return $"{Name}({RouteUrl})";
     }
 
     /// <summary>
@@ -232,6 +232,15 @@ public class MenuInfo
             return Id == route.PageType.FullName || PageType == route.PageType;
 
         return RouteUrl == url;
+    }
+
+    internal bool HasUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(Url) || string.IsNullOrWhiteSpace(url))
+            return false;
+
+        var route = Url.Split('?')[0];
+        return url.StartsWith(route);
     }
 
     private static string GetPageUrl(string url)
