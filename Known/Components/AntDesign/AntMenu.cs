@@ -19,6 +19,11 @@ public class AntMenu : Menu
     /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }
 
+    /// <summary>
+    /// 取得或设置单击菜单项事件委托。
+    /// </summary>
+    [Parameter] public Func<MenuInfo, Task> OnItemClick { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -119,6 +124,9 @@ public class AntMenu : Menu
 
     private void OnMenuItemClick(MenuInfo item)
     {
-        Context.NavigateTo(item);
+        if (OnItemClick != null)
+            OnItemClick.Invoke(item);
+        else
+            Context.NavigateTo(item);
     }
 }

@@ -8,7 +8,7 @@
             if (!CheckItem(item))
                 continue;
 
-            <li @onclick="e=>OnItemClick(item)" class="@(current == item.Id ? "active" : "")">
+            <li @onclick="e=>OnItemClick(item)" class="@(current == item.Id ? "ant-btn-link" : "")">
                 <Icon Type="@item.Icon" Theme="IconThemeType.Outline" />
                 <span>@Language.GetString(item)</span>
             </li>

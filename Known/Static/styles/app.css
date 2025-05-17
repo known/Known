@@ -6,7 +6,7 @@
 
 .kui-app-nav {
     position:fixed;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
-    border-bottom:1px solid #ccc;height:40px;line-height:40px;background-color:#1890ff;color:#fff;
+    border-bottom:1px solid #ccc;height:40px;line-height:40px;
 }
 .kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
 .kui-app-page {
@@ -23,7 +23,6 @@
 }
 .kui-app-tab li {cursor:pointer;display:flex;flex-direction:column;text-align:center;padding-top:5px;}
 .kui-app-tab .anticon {font-size:18px;}
-.kui-app-tab .active {color:#1890ff;}
 
 .kui-app-menu {list-style:none;margin:0;padding:0;}
 .kui-app-menu li {display:inline-block;text-align:center;cursor:pointer;margin-bottom:20px;}

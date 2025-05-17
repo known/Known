@@ -4,7 +4,7 @@
     <div class="kui-app">
         @if (!IsHome)
         {
-            <div class="kui-app-nav">
+            <div class="kui-app-nav ant-btn-primary">
                 @if (!string.IsNullOrWhiteSpace(Context.Current?.BackUrl))
                 {
                     <span class="back" @onclick="e=>Context.Back()">
