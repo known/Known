@@ -76,6 +76,13 @@ public partial class Language
     public string GetString(MenuInfo info) => this[info?.Name];
 
     /// <summary>
+    /// 获取操作按钮语言。
+    /// </summary>
+    /// <param name="info">操作按钮对象。</param>
+    /// <returns>操作按钮语言。</returns>
+    public string GetString(ActionInfo info) => this[info?.Name];
+
+    /// <summary>
     /// 获取字段语言。
     /// </summary>
     /// <param name="info">字段信息对象。</param>

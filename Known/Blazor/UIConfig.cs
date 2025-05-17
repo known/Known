@@ -10,6 +10,15 @@ public class UIConfig
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
 
+    internal static void Set(InitialInfo info)
+    {
+        if (info.Settings != null)
+        {
+            info.Settings[nameof(IsAuth)] = IsAuth;
+            info.Settings[nameof(AuthStatus)] = AuthStatus;
+        }
+    }
+
     internal static void Load(InitialInfo info)
     {
         if (info.Settings != null)

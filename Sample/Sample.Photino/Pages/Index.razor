@@ -1,12 +1,12 @@
 ﻿@page "/"
 @inherits BasePage
-@attribute [ReuseTabsPage(Title = "首页", Pin = true, Closable = false)]
+@attribute [ReuseTabsPage(Title = Language.Home, Pin = true, Closable = false)]
 
 <AntRow><AntCol Span="24"><KnownCard /></AntCol></AntRow>
 <AntRow><AntCol Span="24"><SpaceCard @ref="space" /></AntCol></AntRow>
 <AntRow Gutter="10">
     <AntCol Span="14">
-        <ChartCard @ref="chart" Title="@Language?["Home.LogStatistic"]" />
+        <ChartCard @ref="chart" Title="@Language.HomeLogStatistic" />
     </AntCol>
     <AntCol Span="10">
         <CommFuncCard @ref="func" />
@@ -21,7 +21,7 @@
 
     public override RenderFragment GetPageTitle()
     {
-        return GetPageTitle("home", "首页");
+        return GetPageTitle("home", Language.Home);
     }
 
     protected override async Task OnInitPageAsync()
@@ -37,15 +37,15 @@
         {
             var info = await Service.GetHomeAsync();
             var counts = new List<StatisticCountInfo>();
-            counts.Add(new StatisticCountInfo { Name = Language["Home.UserCount"], Count = info?.Statistics?.UserCount });
-            counts.Add(new StatisticCountInfo { Name = Language["Home.LogCount"], Count = info?.Statistics?.LogCount });
+            counts.Add(new StatisticCountInfo { Name = Language.HomeUserCount, Count = info?.Statistics?.UserCount });
+            counts.Add(new StatisticCountInfo { Name = Language.HomeLogCount, Count = info?.Statistics?.LogCount });
             space?.SetCounts(counts);
 
-            var option = new ChartCardOption { Id = "Order", Title = Language["Home.LogStatistic"] };
+            var option = new ChartCardOption { Id = "Order", Title = Language.HomeLogStatistic };
             option.Charts.Add(new CardChartInfo
             {
                 Type = "Bar",
-                Title = Language["Home.VisitTitle"].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
+                Title = Language[Language.HomeVisitTitle].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
                 Datas = info?.Statistics?.LogDatas
             });
             await chart?.SetOptionAsync(option);

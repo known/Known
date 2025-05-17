@@ -6,10 +6,10 @@
     <div class="login-head">
         <div class="login-logo">
             <a class="kui-logo" href="@Config.SiteUrl" target="_blank"></a>
-            <div class="kui-app-name">@AppConfig.AppName</div>
+            <div class="kui-app-name">@Language[AppConfig.AppName]</div>
         </div>
         <ul class="kui-menu">
-            <li><a href="@Config.SiteUrl/doc" target="_blank">文档</a></li>
+            <li><a href="@Config.SiteUrl/doc" target="_blank">@Language[Language.Document]</a></li>
             @if (Config.App.IsLanguage)
             {
                 <li style="text-align:center;"><NavLanguage /></li>
@@ -23,19 +23,19 @@
     <div class="login-body">
         <div class="login-left">
             <ul>
-                <li>@Language["OpenSource"]</li>
-                <li>@Language["LowCode"]</li>
-                <li>@Language["ModernUI"]</li>
+                <li>@Language[Language.OpenSource]</li>
+                <li>@Language[Language.LowCode]</li>
+                <li>@Language[Language.ModernUI]</li>
             </ul>
             <img src="img/login.png" />
         </div>
         <div class="login-form">
             <div class="login-form-body">
                 <Tabs Animated>
-                    <TabPane Key="Account" Tab="@Language?["Login.WithAccount"]">
+                    <TabPane Key="Account" Tab="@Language[Language.LoginWithAccount]">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
                     </TabPane>
-                    <TabPane Key="Phone" Tab="@Language?["Login.WithPhone"]">
+                    <TabPane Key="Phone" Tab="@Language[Language.LoginWithPhone]">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
                     </TabPane>
                 </Tabs>

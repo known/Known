@@ -38,6 +38,7 @@ partial class AdminService
             LanguageSettings = Language.Settings,
             Languages = Language.Datas
         };
+        UIConfig.Set(info);
         return Task.FromResult(info);
     }
 

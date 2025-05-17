@@ -1,4 +1,0 @@
-﻿{
-  "WeatherForecast.Date":"日期",
-  "WeatherForecast.Summary":"摘要"
-}
