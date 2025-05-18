@@ -7,7 +7,7 @@
         <Authors>KnownChen</Authors>
         <Description>KnownPure是一个轻量级、跨平台、极易扩展的.NET类库。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>3.3.5</Version>
+        <Version>3.3.6</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Framework, .NET</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
