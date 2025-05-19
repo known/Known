@@ -148,7 +148,7 @@ export class KBlazor {
         KBlazor.setLocalStorage('Known_Theme', theme);
         var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
         if (theme == 'dark')
-            KBlazor.insertStyleSheet('Known/css/web.css', darkUrl);
+            KBlazor.insertStyleSheet('/Known/css/theme/', darkUrl);
         else
             KBlazor.removeStyleSheet(darkUrl);
         return theme;
@@ -257,7 +257,10 @@ export class KBlazor {
         createCaptcha(canvas, code);
     }
     //Chart
-    static showChart(id, option) { Highcharts.chart(id, option); }
+    static showChart(id, option) {
+        //console.log(option);
+        Highcharts.chart(id, option);
+    }
     static showBarcode(id, value, option) { JsBarcode('#' + id, value, option); }
     static showQRCode(id, option) { $('#' + id).qrcode(option); }
     static highlight(code, language) {

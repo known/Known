@@ -5,6 +5,13 @@
 /// </summary>
 public partial class KChart
 {
+    private string ClassName => CssBuilder.Default("chart").AddClass(Class).BuildClass();
+
+    /// <summary>
+    /// 取得或设置图表类型。
+    /// </summary>
+    [Parameter] public string Type { get; set; }
+
     /// <summary>
     /// 取得或设置图表宽度。
     /// </summary>
@@ -101,7 +108,7 @@ public partial class KChart
         var option = new
         {
             credits = new { enabled = false },
-            chart = new { type = "column", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
+            chart = new { type = Type ?? "column", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
             title = new { text = title },
             xAxis,
             yAxis = YAxis ?? new { },
