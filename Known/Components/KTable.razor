@@ -128,9 +128,9 @@
         } else {
             var text = GetColumnText(item, value);
             if (item.IsViewLink) {
-                <span class="ant-menu-item-selected" @onclick="e=>OnViewForm(context)">@text</span>
+                <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
             } else if (item.LinkAction != null) {
-                <span class="ant-menu-item-selected" @onclick="e=>OnLinkAction(item, context)">@text</span>
+                <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
             } else {
                 <span>@text</span>
             }

@@ -23,7 +23,10 @@ public class KFileLink : BaseComponent
     {
         if (Config.App.Type != AppType.Web)
         {
-            builder.Span("ant-menu-item-selected", Item.Name, this.Callback<MouseEventArgs>(e => OnDownloadFileAsync(Item)));
+            builder.Component<KLink>()
+                   .Set(c => c.Name, Item.Name)
+                   .Set(c => c.OnClick, this.Callback<MouseEventArgs>(e => OnDownloadFileAsync(Item)))
+                   .Build();
             return;
         }
 
