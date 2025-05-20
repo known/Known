@@ -15,7 +15,7 @@ public partial class JSService
     /// <param name="jsRuntime">JS运行时对象。</param>
     public JSService(IJSRuntime jsRuntime)
     {
-        var path = "./_content/Known/js/script.js?v=250221";
+        var path = "./_content/Known/js/script.js?v=250520";
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", path).AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());

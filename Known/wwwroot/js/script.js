@@ -1,6 +1,7 @@
 ﻿import "./libs/jquery.js";
 import "./libs/pdfobject.js";
 import "./libs/highcharts.js";
+import "./libs/highcharts-more.js";
 import "./libs/barcode.js";
 import "./libs/qrcode.js";
 import "./libs/prism.js";

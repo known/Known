@@ -43,6 +43,16 @@ public partial class KChart
     [Parameter] public object PlotOptions { get; set; }
 
     /// <summary>
+    /// 异步显示图表。
+    /// </summary>
+    /// <param name="option"></param>
+    /// <returns></returns>
+    public Task ShowAsync(object option)
+    {
+        return JS.ShowChartAsync(Id, option);
+    }
+
+    /// <summary>
     /// 异步显示折线图。
     /// </summary>
     /// <param name="title">折线图标题。</param>
@@ -79,7 +89,7 @@ public partial class KChart
             series
         };
 
-        return JS.ShowChartAsync(Id, option);
+        return ShowAsync(option);
     }
 
     /// <summary>
@@ -118,7 +128,7 @@ public partial class KChart
             series
         };
 
-        return JS.ShowChartAsync(Id, option);
+        return ShowAsync(option);
     }
 
     /// <summary>
@@ -153,6 +163,6 @@ public partial class KChart
             series
         };
 
-        return JS.ShowChartAsync(Id, option);
+        return ShowAsync(option);
     }
 }
