@@ -6,6 +6,42 @@
 public static class MenuExtension
 {
     /// <summary>
+    /// 移除一个页面菜单。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="menus">菜单信息列表。</param>
+    public static void Remove<T>(this List<MenuAttribute> menus) where T : BaseComponent
+    {
+        if (menus == null || menus.Count == 0)
+            return;
+
+        var item = menus.FirstOrDefault(m => m.Page == typeof(T));
+        if (item != null)
+            menus.Remove(item);
+    }
+
+    /// <summary>
+    /// 修改页面菜单的上级ID。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="menus">菜单信息列表。</param>
+    /// <param name="parentId">上级菜单ID。</param>
+    /// <param name="sort">顺序。</param>
+    public static void ChangeParent<T>(this List<MenuAttribute> menus, string parentId, int sort)
+    {
+        if (menus == null || menus.Count == 0)
+            return;
+
+        var item = menus.FirstOrDefault(m => m.Page == typeof(T));
+        if (item != null)
+        {
+            menus.Where(m => m.Parent == parentId && m.Sort >= sort).ToList().ForEach(m => ++m.Sort);
+            item.Parent = parentId;
+            item.Sort = sort;
+        }
+    }
+
+    /// <summary>
     /// 获取系统菜单根节点。
     /// </summary>
     /// <param name="app">系统信息。</param>

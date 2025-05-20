@@ -74,6 +74,37 @@ public static class ModuleExtension
     }
 
     /// <summary>
+    /// 移除一个模块信息。
+    /// </summary>
+    /// <param name="modules">模块列表。</param>
+    /// <param name="id">模块ID。</param>
+    public static void Remove(this List<ModuleInfo> modules, string id)
+    {
+        if (modules == null || modules.Count == 0)
+            return;
+
+        var item = modules.FirstOrDefault(m => m.Id == id);
+        if (item != null)
+            modules.Remove(item);
+    }
+
+    /// <summary>
+    /// 改变模块信息的上级ID。
+    /// </summary>
+    /// <param name="modules">模块列表。</param>
+    /// <param name="id">模块ID。</param>
+    /// <param name="parentId">上级模块ID。</param>
+    public static void ChangeParent(this List<ModuleInfo> modules, string id, string parentId)
+    {
+        if (modules == null || modules.Count == 0)
+            return;
+
+        var item = modules.FirstOrDefault(m => m.Id == id);
+        if (item != null)
+            item.ParentId = parentId;
+    }
+
+    /// <summary>
     /// 将模块信息列表转成菜单信息列表。
     /// </summary>
     /// <param name="modules">模块信息列表。</param>
