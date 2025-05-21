@@ -5,7 +5,7 @@
 <PageTitle>Home</PageTitle>
 
 <div class="kui-card" style="padding:10px">
-    <KFullScreen>
+    <KFullScreen OnFullScreen="OnFullScreen">
         <h1 style="font-size:2rem;font-weight:bold">Hello, world!</h1>
 
         Welcome to your new app.
@@ -46,4 +46,9 @@
 
     [Action] public void Edit() { }
     [Action] public void TestItem() { }
+
+    private Task OnFullScreen()
+    {
+        return UI.NoticeAsync("全屏", "全屏打开");
+    }
 }

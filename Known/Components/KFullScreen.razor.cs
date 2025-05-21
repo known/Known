@@ -13,6 +13,11 @@ public partial class KFullScreen
                                           .BuildClass();
 
     /// <summary>
+    /// 取得或设置全屏后的委托。
+    /// </summary>
+    [Parameter] public Func<Task> OnFullScreen { get; set; }
+
+    /// <summary>
     /// 取得或设置子內容组件。
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -24,5 +29,7 @@ public partial class KFullScreen
             await JS.OpenFullScreenAsync();
         else
             await JS.CloseFullScreenAsync();
+        if (OnFullScreen != null)
+            await OnFullScreen.Invoke();
     }
 }
