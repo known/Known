@@ -12,6 +12,7 @@ public class SysFileList : BaseTablePage<AttachInfo>
     {
         await base.OnInitPageAsync();
         Table.OnQuery = Admin.QueryFilesAsync;
+        Table.ActionWidth = "70";
         Table.Column(c => c.Name).Template(BuildFileName);
         Table.Column(c => c.Size).Template(BuildFileSize);
     }

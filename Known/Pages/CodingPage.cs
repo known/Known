@@ -108,7 +108,8 @@ public class CodingPage : BasePage
 
     private void OnDelete(CodeInfo item)
     {
-        UI.Confirm($"确定要删除【{item?.Name}】？", async () =>
+        var text = Language[Language.TipConfirmDelete].Replace("{name}", $"【{item?.Name}】");
+        UI.Confirm(text, async () =>
         {
             var result = await Service.DeleteModelsAsync([item]);
             UI.Result(result, () =>

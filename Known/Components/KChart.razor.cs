@@ -23,6 +23,11 @@ public partial class KChart
     [Parameter] public int? Height { get; set; }
 
     /// <summary>
+    /// 取得或设置图表X轴对象。
+    /// </summary>
+    [Parameter] public object XAxis { get; set; }
+
+    /// <summary>
     /// 取得或设置图表Y轴对象。
     /// </summary>
     [Parameter] public object YAxis { get; set; }
@@ -63,11 +68,9 @@ public partial class KChart
         if (!Visible)
             return Task.CompletedTask;
 
-        object xAxis = null;
         object series = null;
         if (datas != null && datas.Length > 0)
         {
-            xAxis = new { categories = datas[0].Series.Keys.ToArray() };
             series = datas.Select(d => new
             {
                 name = d.Name,
@@ -81,7 +84,7 @@ public partial class KChart
             credits = new { enabled = false },
             chart = new { width = Width, height = Height },
             title = new { text = title },
-            xAxis,
+            xAxis = XAxis ?? new { categories = datas[0].Series.Keys.ToArray() },
             yAxis = YAxis ?? new { },
             legend = Legend ?? new { },
             tooltip = Tooltip ?? new { },
@@ -103,11 +106,9 @@ public partial class KChart
         if (!Visible)
             return Task.CompletedTask;
 
-        object xAxis = null;
         object series = null;
         if (datas != null && datas.Length > 0)
         {
-            xAxis = new { categories = datas[0].Series.Keys.ToArray() };
             series = datas.Select(d => new
             {
                 name = d.Name,
@@ -120,7 +121,7 @@ public partial class KChart
             credits = new { enabled = false },
             chart = new { type = Type ?? "column", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
             title = new { text = title },
-            xAxis,
+            xAxis = XAxis ?? new { categories = datas[0].Series.Keys.ToArray() },
             yAxis = YAxis ?? new { },
             legend = Legend ?? new { },
             tooltip = Tooltip ?? new { },

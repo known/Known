@@ -143,6 +143,11 @@ public class UIConfig
     public static Func<MenuInfo, PageColumnInfo, object> OnMockData { get; set; }
 
     /// <summary>
+    /// 取得或设置任务设置委托。
+    /// </summary>
+    public static Action<UIService> OnTaskSetting { get; set; }
+
+    /// <summary>
     /// 取得或设置快速添加字段表单委托。
     /// </summary>
     public static Action<UIService, List<string>, Action<List<FieldInfo>>> OnFastAddField { get; set; }

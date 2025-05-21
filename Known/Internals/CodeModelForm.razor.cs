@@ -48,7 +48,7 @@ public partial class CodeModelForm
     {
         if (string.IsNullOrWhiteSpace(Model.Code) || string.IsNullOrWhiteSpace(Model.Name))
         {
-            UI.Error("请输入代码和名称！");
+            UI.Error(Language.TipCodeAndNameRequired);
             return;
         }
 
@@ -69,7 +69,7 @@ public partial class CodeModelForm
     {
         if (UIConfig.OnFastAddField == null)
         {
-            UI.Error("未配置 UIConfig.OnFastAddField 委托！");
+            UI.Error(Language.TipNoConfigOnFastAddField);
             return;
         }
 
@@ -91,8 +91,8 @@ public partial class CodeModelForm
         var tableName = string.Empty;
         var model = new DialogModel
         {
-            Title = "导入表",
-            Content = b => b.Div().Style("padding:20px 30px 0 30px;").Child(() => b.Select("数据表", new InputModel<string>
+            Title = Language.ImportTable,
+            Content = b => b.Div().Style("padding:20px 30px 0 30px;").Child(() => b.Select(Language.DataTable, new InputModel<string>
             {
                 Codes = tables,
                 ValueChanged = this.Callback<string>(v => tableName = v)
@@ -102,7 +102,7 @@ public partial class CodeModelForm
         {
             if (string.IsNullOrWhiteSpace(tableName))
             {
-                UI.Error("请选择数据表！");
+                UI.Error(Language.TipSelectDataTable);
                 return;
             }
 
@@ -140,7 +140,7 @@ public partial class CodeModelForm
     {
         var form = new FormModel<PageColumnInfo>(this)
         {
-            Title = "更多表格属性设置",
+            Title = Language.MoreTableSetting,
             Data = row.ToPageColumn(),
             Type = typeof(MoreGridSetting),
             OnSave = data => Result.SuccessAsync("")
@@ -152,7 +152,7 @@ public partial class CodeModelForm
     {
         var form = new FormModel<FormFieldInfo>(this)
         {
-            Title = "更多表单属性设置",
+            Title = Language.MoreFormSetting,
             Data = row.ToFormField(),
             Type = typeof(MoreFormSetting),
             OnSave = data => Result.SuccessAsync("")

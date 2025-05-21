@@ -82,9 +82,9 @@ partial class TableModel<TItem>
     public string FixedHeight { get; set; }
 
     /// <summary>
-    /// 取得或设置表格操作列宽度，默认140。
+    /// 取得或设置表格操作列宽度，默认120。
     /// </summary>
-    public string ActionWidth { get; set; } = "140";
+    public string ActionWidth { get; set; } = "120";
 
     /// <summary>
     /// 取得或设置表格操作列显示按钮最大数量，默认2。

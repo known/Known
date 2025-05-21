@@ -12,9 +12,25 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     {
         await base.OnInitPageAsync();
         Table.OnQuery = Admin.QueryTasksAsync;
+        Table.ActionWidth = "70";
         Table.Column(c => c.Status).Tag();
         Table.Column(c => c.BeginTime).Type(FieldType.DateTime);
         Table.Column(c => c.EndTime).Type(FieldType.DateTime);
+    }
+
+    /// <summary>
+    /// 设置后台任务。
+    /// </summary>
+    [Action]
+    public void Setting()
+    {
+        if (UIConfig.OnTaskSetting == null)
+        {
+            UI.Error(Language.TipNoConfigOnTaskSetting);
+            return;
+        }
+
+        UIConfig.OnTaskSetting.Invoke(UI);
     }
 
     /// <summary>

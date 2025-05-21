@@ -7,6 +7,16 @@ public partial class Language
     internal const string TipLanguageSetting = "配置系统语言选项。";
     internal const string TipLanguageFetchConfirm = "确定要提取语言信息吗？";
     internal const string TipLanguageSettingConfirm = "确定要重置语言设置吗？";
+    internal const string TipCodeAndNameRequired = "请输入代码和名称！";
+    internal const string TipNoConfigOnFastAddField = "未配置 UIConfig.OnFastAddField 委托！";
+    internal const string TipNoConfigOnTaskSetting = "未配置 UIConfig.OnTaskSetting 委托！";
+    internal const string TipSelectDataTable = "请选择数据表！";
+
+    internal const string MoreTableSetting = "更多表格属性设置";
+    internal const string MoreFormSetting = "更多表单属性设置";
+
+    internal const string ImportTable = "导入表";
+    internal const string DataTable = "数据表";
 
     internal static void Initialize(Assembly assembly)
     {
