@@ -4,13 +4,13 @@
     @if (Context.UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
     {
         <Layout Class="@LayoutClass">
-            <Header Class="@HeaderClass">
+            <div class="@HeaderClass">
                 <div class="left">
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Parent="root" />
                 </div>
                 <TopNavbar OnSetting="OnSetting" />
-            </Header>
+            </div>
             <Content>
                 <MainBody @ref="body" ChildContent="ChildContent" />
             </Content>
@@ -39,7 +39,7 @@
                 </Sider>
             }
             <Layout>
-                <Header Class="kui-header">
+                <div class="kui-header">
                     <div class="left">
                         @if (Context.UserSetting.LayoutMode != LayoutMode.Float.ToString())
                         {
@@ -49,7 +49,7 @@
                         <TopBreadcrumb Current="Context.Current" />
                     </div>
                     <TopNavbar OnSetting="OnSetting" />
-                </Header>
+                </div>
                 <Content>
                     <MainBody @ref="body" ChildContent="ChildContent" />
                 </Content>

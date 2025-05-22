@@ -1,5 +1,4 @@
 /*AntDesign*/
-.ant-layout-header {background:var(--kui-bgcolor);}
 .ant-btn, .ant-input, .ant-input-number, .ant-input-affix-wrapper,
 .ant-select:not(.ant-select-customize-input) .ant-select-selector, .ant-select-dropdown,
 .ant-tag, .ant-alert, .ant-message-notice-content, .ant-segmented, .ant-transfer-list,
@@ -30,6 +29,7 @@
 .ant-menu-vertical, 
 .ant-menu-vertical-left {border-right:none;}
 .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa + span {opacity:0;}
+.ant-menu-horizontal {border-bottom:none;}
 .ant-dropdown-menu .anticon {margin-right:5px;}
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}

@@ -8,7 +8,7 @@
 .kui-wrapper > .ant-result pre {
     text-align:left;border-left:5px solid #ed4014;padding:5px;background-color:var(--kui-color-border);border-radius:5px;
 }
-.kui-header, .kui-scroll, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
+.kui-header, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
@@ -16,13 +16,13 @@
 .kui-layout {position:absolute;top:0;left:0;right:0;bottom:0;}
 .kui-header {
     padding:0 10px;height:54px;line-height:54px;
-    display:flex;justify-content:space-between;
-    color:var(--kui-color);z-index:1000;
+    display:flex;justify-content:space-between;z-index:1000;
 }
 .kui-layout > .kui-header {padding-left:0;}
 .kui-header .left {display:flex;align-items:center;}
 .kui-header .left .trigger {font-size:18px;margin-top:2.5px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
 .kui-header .left .trigger:hover {color:#1890ff;}
+.kui-header.kui-menu-dark {background-color:#001529;}
 .Compact .kui-header .left .trigger {font-size:14px;margin-top:0;}
 .kui-header .left > div {margin-right:10px;}
 .kui-header .anticon {cursor:pointer;}
