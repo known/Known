@@ -166,12 +166,11 @@ public static class HtmlExtension
     /// <param name="isDownload">是否下载。</param>
     public static void OpenFile(this RenderTreeBuilder builder, string text, FileUrlInfo url, bool isDownload = false)
     {
-        builder.OpenElement(0, "a");
-        builder.AddAttribute(1, "href", url.OriginalUrl);
-        builder.AddAttribute(2, "target", "_blank");
-        if (isDownload)
-            builder.AddAttribute(3, "download", url.FileName);
-        builder.AddContent(4, text);
-        builder.CloseElement();
+        builder.Component<KAnchor>()
+               .Set(c => c.Name, text)
+               .Set(c => c.Href, url.OriginalUrl)
+               .Set(c => c.Download, isDownload ? url.FileName : "")
+               .Set(c => c.Target, "_blank")
+               .Build();
     }
 }

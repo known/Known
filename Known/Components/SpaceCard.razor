@@ -21,9 +21,9 @@
                     <li>
                         <span class="name">@item.Name<span class="month">@type</span></span>
                         @if (!string.IsNullOrWhiteSpace(item.Url)) {
-                            <a class="amount">@item.Count</a>
+                            <KAnchor Class="amount" Href="@item.Url">@item.Count</KAnchor>
                         } else {
-                            <span class="amount">@item.Count</span>
+                            <KLink Class="amount">@item.Count</KLink>
                         }
                     </li>
                 }

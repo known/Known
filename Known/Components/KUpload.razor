@@ -56,7 +56,7 @@
 
     private RenderFragment BuildTemplate => @<div class="template">
         @if (!string.IsNullOrWhiteSpace(TemplateUrl)) {
-            <a href="@TemplateUrl" download>@Language[Language.Template]</a>
+            <KAnchor Href="@TemplateUrl" Download="">@Language[Language.Template]</KAnchor>
         }
     </div>;
 }

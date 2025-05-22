@@ -17,8 +17,8 @@
                         continue;
 
                     <div class="ws-func-menu" @onclick="e=>Context.NavigateTo(menu)">
-                        <KIcon Icon="@menu.Icon" />
-                        <span class="name">@Language.GetString(menu)</span>
+                        <KIcon Icon="@menu.Icon" IsTheme />
+                        <KLink Class="name">@Language.GetString(menu)</KLink>
                     </div>
                 }
             }

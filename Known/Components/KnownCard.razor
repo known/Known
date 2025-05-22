@@ -14,9 +14,9 @@
                 <img src="@knownImgUrl" />
             </div>
             <div class="known-url">
-                @Language[Language.KnownWebSite]<a href="@Config.SiteUrl" target="_blank">@Language[Language.WebSite]</a>
-                <a href="@Config.SiteUrl/doc" target="_blank">@Language[Language.Document]</a>
-                <a href="@Config.SiteUrl/article/auth-coop" target="_blank">@Language[Language.Authorize]</a><br />
+                @Language[Language.KnownWebSite]<KAnchor Href="@Config.SiteUrl" Target="_blank">@Language[Language.WebSite]</KAnchor>
+                <KAnchor Href="@($"{Config.SiteUrl}/doc")" Target="_blank">@Language[Language.Document]</KAnchor>
+                <KAnchor Href="@($"{Config.SiteUrl}/article/auth-coop")" Target="_blank">@Language[Language.Authorize]</KAnchor><br />
                 @Language[Language.KnownSource]<a href="@Config.GiteeUrl" target="_blank"><img src="@Config.GiteeUrl/badge/star.svg?theme=dark" alt="star"></a><a href="@Config.GithubUrl" target="_blank"><img src="https://img.shields.io/github/stars/known/known?color=%231890FF" alt="stars"></a><br />
                 @Language[Language.KnownQQNo]<img src="https://img.shields.io/badge/QQ-865982686-blue" alt="865982686" />
             </div>

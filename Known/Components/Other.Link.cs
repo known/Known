@@ -18,12 +18,13 @@ public class KLink : BaseComponent
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Span().Class("ant-btn-link").OnClick(OnClick).Child(() =>
+        var className = CssBuilder.Default("ant-btn-link").AddClass(Class).BuildClass();
+        builder.Span().Class(className).Style(Style).OnClick(OnClick).Child(() =>
         {
             if (ChildContent != null)
-                builder.AddContent(0, ChildContent);
+                builder.Fragment(ChildContent);
             else
-                builder.AddContent(0, Name);
+                builder.Text(Name);
         });
     }
 }

@@ -25,7 +25,7 @@
 .ws-chart .ant-card-body {padding:5px;}
 .ws-chart .chart {height:330px;}
 
-.ws-func-menu {display:inline-block;width:90px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;color:#4188c8;}
+.ws-func-menu {display:inline-block;width:90px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;}
 .ws-func-menu:hover {color:#1c66b9;}
 .ws-func-menu .anticon {display:block;font-size:2.2rem;margin:8px auto;}
 .ws-func-menu .anticon .icon {width:2.2rem;height:2.2rem;}
