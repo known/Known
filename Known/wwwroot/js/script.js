@@ -1,10 +1,5 @@
-﻿import "./libs/jquery.js";
-import "./libs/pdfobject.js";
-import "./libs/highcharts.js";
+﻿import "./libs/highcharts.js";
 import "./libs/highcharts-more.js";
-import "./libs/barcode.js";
-import "./libs/qrcode.js";
-import "./libs/prism.js";
 
 function findLink(match) {
     var items = document.getElementsByTagName('link');
@@ -149,7 +144,7 @@ export class KBlazor {
         KBlazor.setLocalStorage('Known_Theme', theme);
         var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
         if (theme == 'dark')
-            KBlazor.insertStyleSheet('/Known/css/theme/', darkUrl);
+            KBlazor.insertStyleSheet('/Known/css/size/', darkUrl);
         else
             KBlazor.removeStyleSheet(darkUrl);
         return theme;

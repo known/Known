@@ -140,7 +140,6 @@ public static partial class Extension
         KScript.AddScript("_content/AntDesign/js/ant-design-blazor.js");
         KScript.AddScript("_content/Known/js/libs/jquery.js");
         KScript.AddScript("_content/Known/js/libs/pdfobject.js");
-        //KScript.AddScript("_content/Known/js/libs/highcharts.js");
         KScript.AddScript("_content/Known/js/libs/barcode.js");
         KScript.AddScript("_content/Known/js/libs/qrcode.js");
         KScript.AddScript("_content/Known/js/libs/prism.js");
