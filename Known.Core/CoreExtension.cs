@@ -181,10 +181,6 @@ public static class CoreExtension
         DbConfig.Models.Add<SysConfig>(x => new { x.AppId, x.ConfigKey });
         DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
         DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
-
-        // 注入后台任务
-        TaskHelper.OnPendingTask = GetPendingTaskAsync;
-        TaskHelper.OnSaveTask = SaveTaskAsync;
     }
 
     private static async Task<List<ModuleInfo>> OnInitialModules(Database db)
@@ -200,23 +196,6 @@ public static class CoreExtension
             DataHelper.Initialize(modules);
         }
         return modules;
-    }
-
-    private static async Task<TaskInfo> GetPendingTaskAsync(Database db, string type)
-    {
-        var info = await db.Query<SysTask>().Where(d => d.Status == TaskJobStatus.Pending && d.Type == type)
-                           .OrderBy(d => d.CreateTime).FirstAsync<TaskInfo>();
-        if (info != null)
-        {
-            db.User = await db.GetUserAsync(info.CreateBy);
-            info.File = await db.Query<SysFile>().Where(d => d.Id == info.Target).FirstAsync<AttachInfo>();
-        }
-        return info;
-    }
-
-    private static Task SaveTaskAsync(Database db, TaskInfo info)
-    {
-        return db.SaveTaskAsync(info);
     }
 
     //private static void UseKnownWebApi(this IEndpointRouteBuilder app)

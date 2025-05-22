@@ -20,14 +20,14 @@ public class TaskInfo
     public string Id { get; set; }
 
     /// <summary>
-    /// 取得或设置创建时间。
-    /// </summary>
-    public DateTime CreateTime { get; set; }
-
-    /// <summary>
     /// 取得或设置任务创建人。
     /// </summary>
     public string CreateBy { get; set; }
+
+    /// <summary>
+    /// 取得或设置创建时间。
+    /// </summary>
+    public DateTime CreateTime { get; set; }
 
     /// <summary>
     /// 取得或设置业务ID。

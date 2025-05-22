@@ -11,16 +11,6 @@ public sealed class TaskHelper
     private TaskHelper() { }
 
     /// <summary>
-    /// 取得或设置获取等待执行的后台任务委托。
-    /// </summary>
-    public static Func<Database, string, Task<TaskInfo>> OnPendingTask { get; set; }
-
-    /// <summary>
-    /// 取得或设置保存后台任务状态委托。
-    /// </summary>
-    public static Func<Database, TaskInfo, Task> OnSaveTask { get; set; }
-
-    /// <summary>
     /// 通知运行指定业务类型的后台任务。
     /// </summary>
     /// <param name="bizType">业务类型。</param>
@@ -65,10 +55,14 @@ public sealed class TaskHelper
     {
         try
         {
-            if (OnPendingTask == null)
-                return null;
-
-            return await OnPendingTask.Invoke(db, bizType);
+            var info = await db.Query<SysTask>().Where(d => d.Status == TaskJobStatus.Pending && d.Type == bizType)
+                               .OrderBy(d => d.CreateTime).FirstAsync<TaskInfo>();
+            if (info != null)
+            {
+                db.User = await db.GetUserAsync(info.CreateBy);
+                info.File = await db.Query<SysFile>().Where(d => d.Id == info.Target).FirstAsync<AttachInfo>();
+            }
+            return info;
         }
         catch
         {
@@ -82,20 +76,20 @@ public sealed class TaskHelper
         {
             task.BeginTime = DateTime.Now;
             task.Status = TaskJobStatus.Running;
-            await OnSaveTask?.Invoke(db, task);
+            await db.SaveTaskAsync(task);
 
             var result = await action.Invoke(db, task);
             task.EndTime = DateTime.Now;
             task.Status = result.IsValid ? TaskJobStatus.Success : TaskJobStatus.Failed;
             task.Note = result.Message;
-            await OnSaveTask?.Invoke(db, task);
+            await db.SaveTaskAsync(task);
             return result;
         }
         catch (Exception ex)
         {
             task.Status = TaskJobStatus.Failed;
             task.Note = ex.ToString();
-            await OnSaveTask?.Invoke(db, task);
+            await db.SaveTaskAsync(task);
             return Result.Error(ex.Message);
         }
     }

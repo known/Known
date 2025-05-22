@@ -18,6 +18,14 @@ public partial class Language
     internal const string ImportTable = "导入表";
     internal const string DataTable = "数据表";
 
+    internal const string TableColumnSetting = "列展示设置";
+    internal const string TableColumnShow = "列展示";
+    internal const string NotFixed = "不固定";
+    internal const string FixLeft = "固定在左侧";
+    internal const string FixRight = "固定在右侧";
+    internal const string FixToLeft = "固定到左侧";
+    internal const string FixToRight = "固定到右侧";
+
     internal static void Initialize(Assembly assembly)
     {
         foreach (var item in Settings)
