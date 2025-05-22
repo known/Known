@@ -51,7 +51,7 @@ partial class CodeGenerator
 
     private static void AppendDataItem(StringBuilder sb, FormFieldInfo item, int span, string modelName)
     {
-        var control = GetControlName(item.Type);
+        var control = GetControlName(item);
         if (item.Required)
             sb.AppendLine("        <DataItem Span=\"{0}\" Label=\"{1}\" Required>", span, item.Name);
         else
@@ -63,14 +63,14 @@ partial class CodeGenerator
         sb.AppendLine("        </DataItem>");
     }
 
-    private static string GetControlName(FieldType type)
+    private static string GetControlName(FormFieldInfo item)
     {
-        return type switch
+        return item.Type switch
         {
             FieldType.Text => nameof(AntInput),
             FieldType.TextArea => nameof(AntTextArea),
             FieldType.Date => nameof(AntDatePicker),
-            FieldType.Number => nameof(AntDecimal),
+            FieldType.Number => string.IsNullOrWhiteSpace(item.Length) ? nameof(AntInteger) : nameof(AntDecimal),
             FieldType.Switch => nameof(AntSwitch),
             FieldType.CheckBox => nameof(AntCheckBox),
             FieldType.CheckList => nameof(AntCheckboxGroup),

@@ -57,6 +57,18 @@ partial class TableModel<TItem>
     }
 
     /// <summary>
+    /// 添加所有特性栏位。
+    /// </summary>
+    public void AddAttributeColumns()
+    {
+        AllColumns = GetAttributeColumns(typeof(TItem));
+        Columns.Clear();
+        if (AllColumns != null && AllColumns.Count > 0)
+            Columns.AddRange(AllColumns);
+        SetQueryColumns();
+    }
+
+    /// <summary>
     /// 添加额外查询条件字段。
     /// </summary>
     /// <param name="selector">栏位属性选择表达式。</param>
