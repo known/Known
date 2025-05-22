@@ -10,7 +10,7 @@
 
         Welcome to your new app.
 
-        <KPdfView @ref="pdf" Id="pdfViewer" Style="height:400px" Option="new { ForceIframe = true }" />
+        <KPdfView Id="pdfView" Path="/Files/5_新版报关委托书.pdf" Style="height:400px" Option="new { ForceIframe = true }" />
 
         <div style="height:20px;"></div>
 
@@ -24,15 +24,6 @@
 </div>
 
 @code {
-    private KPdfView pdf;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            await pdf?.ShowAsync("/Files/5_新版报关委托书.pdf");
-    }
-
     [Action]
     public void New()
     {

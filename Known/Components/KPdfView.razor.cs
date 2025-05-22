@@ -6,9 +6,22 @@
 public partial class KPdfView
 {
     /// <summary>
+    /// 取得或设置PDF文件路径。
+    /// </summary>
+    [Parameter] public string Path { get; set; }
+
+    /// <summary>
     /// 取得或设置PDF组件选项，选项参考pdfobject.js。
     /// </summary>
     [Parameter] public object Option { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            await ShowAsync(Path);
+    }
 
     /// <summary>
     /// 异步显示PDF文件。
@@ -17,7 +30,7 @@ public partial class KPdfView
     /// <returns></returns>
     public async Task ShowAsync(Stream stream)
     {
-        if (stream == null || !Visible)
+        if (stream == null || string.IsNullOrWhiteSpace(Id) || !Visible)
             return;
 
         await JS.ShowPdfAsync(Id, stream, Option);
@@ -30,7 +43,7 @@ public partial class KPdfView
     /// <returns></returns>
     public async Task ShowAsync(string pdfFile)
     {
-        if (string.IsNullOrWhiteSpace(pdfFile) || !Visible)
+        if (string.IsNullOrWhiteSpace(pdfFile) || string.IsNullOrWhiteSpace(Id) || !Visible)
             return;
 
         if (IsServerMode)
