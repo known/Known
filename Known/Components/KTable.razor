@@ -194,8 +194,8 @@
 
                 if (item.IsSum) {
                     var value = Model.Result?.GetPageSum(item.Id);
-                    object total = null;
-                    Model.Result?.Statis?.TryGetValue(item.Id, out total);
+                    var statis = Model.Result?.Statis?.First(s => s.Key.Equals(item.Id, StringComparison.OrdinalIgnoreCase));
+                    var total = statis?.Value;
                     <SummaryCell>
                         @if (Model.ShowPager) {
                             @value<br/>
