@@ -100,7 +100,7 @@ public partial class Config
     public static VersionInfo Version { get; private set; }
 
     /// <summary>
-    /// 取得系统程序集列表。
+    /// 取得系统前端程序集列表。
     /// </summary>
     public static List<Assembly> Assemblies { get; } = [];
 
@@ -108,6 +108,11 @@ public partial class Config
     /// 取得框架自动解析服务接口生成的WebApi类型列表。
     /// </summary>
     public static List<Type> ApiTypes { get; } = [];
+
+    /// <summary>
+    /// 取得框架后台任务类型列表。
+    /// </summary>
+    public static List<Type> TaskTypes { get; } = [];
 
     /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi方法信息列表。

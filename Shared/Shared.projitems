@@ -101,7 +101,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)QueryInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Stopwatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SystemInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TaskInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Task.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\QRCodeOption.cs" />
