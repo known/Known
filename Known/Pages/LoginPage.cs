@@ -71,31 +71,10 @@ public class LoginPage : BasePage
     /// 登录提交成功后调用。
     /// </summary>
     /// <param name="user">登录用户信息。</param>
-    protected virtual async Task OnLoginedAsync(UserInfo user)
+    protected virtual Task OnLoginedAsync(UserInfo user)
     {
-        if (IsStatic)
-            return;
-
-        if (!Model.Remember)
-        {
-            await JS.SetLoginInfoAsync(null);
-        }
-        else
-        {
-            var info = new LoginInfo
-            {
-                UserName = Model.UserName,
-                PhoneNo = Model.PhoneNo,
-                Remember = Model.Remember,
-                Station = Model.Station,
-                TabKey = Model.TabKey
-            };
-            if (IsRememberPassword)
-                info.Password = Model.Password;
-            await JS.SetLoginInfoAsync(info);
-        }
-
         Context.GoHomePage(ReturnUrl);
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -147,6 +126,27 @@ public class LoginPage : BasePage
         var user = result.DataAs<UserInfo>();
         if (user != null)
         {
+            if (!IsStatic)
+            {
+                if (!Model.Remember)
+                {
+                    await JS.SetLoginInfoAsync(null);
+                }
+                else
+                {
+                    var info = new LoginInfo
+                    {
+                        UserName = Model.UserName,
+                        PhoneNo = Model.PhoneNo,
+                        Remember = Model.Remember,
+                        Station = Model.Station,
+                        TabKey = Model.TabKey
+                    };
+                    if (IsRememberPassword)
+                        info.Password = Model.Password;
+                    await JS.SetLoginInfoAsync(info);
+                }
+            }
             await SetCurrentUserAsync(user);
             await OnLoginedAsync(user);
         }
