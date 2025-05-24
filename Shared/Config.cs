@@ -110,11 +110,6 @@ public partial class Config
     public static List<Type> ApiTypes { get; } = [];
 
     /// <summary>
-    /// 取得框架后台任务类型列表。
-    /// </summary>
-    public static List<Type> TaskTypes { get; } = [];
-
-    /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
     /// </summary>
     public static List<ApiMethodInfo> ApiMethods { get; } = [];

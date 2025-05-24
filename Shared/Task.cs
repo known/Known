@@ -1,14 +1,6 @@
 ﻿namespace Known;
 
 /// <summary>
-/// 系统后台任务基类。
-/// </summary>
-public class TaskBase
-{
-
-}
-
-/// <summary>
 /// 系统后台任务信息类。
 /// </summary>
 [DisplayName("后台任务")]

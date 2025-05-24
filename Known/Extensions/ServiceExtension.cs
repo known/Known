@@ -48,9 +48,6 @@ public static class ServiceExtension
             if (item.IsAssignableTo(typeof(EntityBase)))
                 DbConfig.Models.Add(item);
 
-            if (item.IsAssignableTo(typeof(TaskBase)))
-                Config.TaskTypes.Add(item);
-
             var attr = item.GetCustomAttribute<ServiceAttribute>();
             if (attr == null)
                 continue;
