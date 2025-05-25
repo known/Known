@@ -169,7 +169,8 @@ public static class MenuExtension
             Layout = info.Layout,
             Plugins = info.Plugins,
             Color = info.Color,
-            PageType = info.PageType
+            PageType = info.PageType,
+            Data = info.Data
         };
     }
 

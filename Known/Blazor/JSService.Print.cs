@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 public partial class JSService
 {
@@ -15,7 +13,6 @@ public partial class JSService
         try
         {
             var services = new ServiceCollection();
-            services.AddScoped<IJSRuntime, PrintJSRuntime>();
             services.AddScoped<JSService>();
             //services.AddHttpContextAccessor();
             var provider = services.BuildServiceProvider();
@@ -38,18 +35,5 @@ public partial class JSService
     public Task PrintAsync(string content)
     {
         return InvokeVoidAsync("KBlazor.printContent", content);
-    }
-}
-
-class PrintJSRuntime : IJSRuntime
-{
-    public ValueTask<TValue> InvokeAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] TValue>(string identifier, object[] args)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask<TValue> InvokeAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] TValue>(string identifier, CancellationToken cancellationToken, object[] args)
-    {
-        throw new NotImplementedException();
     }
 }
