@@ -83,6 +83,12 @@ public sealed class Utils
         if (type == typeof(bool) || type == typeof(bool?))
             valueString = ",是,1,Y,YES,TRUE,".Contains(valueString.ToUpper()) ? "True" : "False";
 
+        if (type == typeof(TimeOnly) || type == typeof(TimeOnly?))
+        {
+            if (TimeOnly.TryParse(valueString, out var time)) return time;
+            return defaultValue;
+        }
+
         try
         {
             return Convert.ChangeType(valueString, type);

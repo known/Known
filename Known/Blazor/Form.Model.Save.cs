@@ -97,18 +97,26 @@ partial class FormModel<TItem>
     private async Task OnSaveDataAsync(bool isClose, bool isContinue)
     {
         var result = Result.Error("No save action.");
-        if (OnSaveFile != null)
+        try
         {
-            var info = new UploadInfo<TItem>(Data);
-            foreach (var file in Files)
+            if (OnSaveFile != null)
             {
-                info.Files[file.Key] = file.Value;
+                var info = new UploadInfo<TItem>(Data);
+                foreach (var file in Files)
+                {
+                    info.Files[file.Key] = file.Value;
+                }
+                result = await OnSaveFile.Invoke(info);
             }
-            result = await OnSaveFile.Invoke(info);
+            else if (OnSave != null)
+            {
+                result = await OnSave.Invoke(Data);
+            }
         }
-        else if (OnSave != null)
+        catch (Exception ex)
         {
-            result = await OnSave.Invoke(Data);
+            Logger.Exception(LogTarget.FrontEnd, Context.CurrentUser, ex);
+            result = Result.Error(ex.Message);
         }
         HandleResult(result, isClose, isContinue);
     }

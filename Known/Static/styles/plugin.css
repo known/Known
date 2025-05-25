@@ -25,7 +25,7 @@
     position:absolute;top:0;left:10px;right:10px;bottom:10px;
     background-color:#f8f8f8;border-left-color:#1890ff;border-radius:3px;
 }
-.kui-coding .kui-code pre[class*=language-] {height:100%;}
+.kui-coding .kui-code pre[class*=language-] {height:100%;max-height:unset;}
 .kui-coding .ant-tabs-content,
 .kui-coding .ant-tabs-tabpane {height:100%;overflow:hidden;}
 .kui-coding-form {border-left:1px solid var(--kui-color-border);}
