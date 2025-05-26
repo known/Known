@@ -11,7 +11,7 @@ class NavLink : PluginBase<LinkInfo>
             Data = new LinkInfo(),
             OnSave = d => onConfig?.Invoke(d)
         };
-        Parent.UI.ShowForm(model);
+        Parent?.UI?.ShowForm(model);
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -36,7 +36,7 @@ class NavLink : PluginBase<LinkInfo>
             builder.Component<KIcon>()
                    .Set(c => c.Title, Parameter.Title)
                    .Set(c => c.Icon, Parameter.Icon)
-                   .Set(c => c.OnClick, Parent.Callback<MouseEventArgs>(e => OnClick(Parameter)))
+                   .Set(c => c.OnClick, Parent?.Callback<MouseEventArgs>(e => OnClick(Parameter)))
                    .Build();
         }
     }
@@ -51,6 +51,6 @@ class NavLink : PluginBase<LinkInfo>
         };
         if (param.Target == LinkTarget.IFrame.ToString())
             menu.Target = ModuleType.IFrame.ToString();
-        Parent.Context.NavigateTo(menu);
+        Parent?.Context?.NavigateTo(menu);
     }
 }

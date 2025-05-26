@@ -13,6 +13,9 @@ public static class CallbackExtension
     /// <returns>事件回调。</returns>
     public static EventCallback Callback(this ComponentBase component, Func<Task> callback)
     {
+        if (component == null)
+            return EventCallback.Empty;
+
         return EventCallback.Factory.Create(component, callback);
     }
 
@@ -25,6 +28,9 @@ public static class CallbackExtension
     /// <returns>事件回调。</returns>
     public static EventCallback<T> Callback<T>(this ComponentBase component, Func<T, Task> callback)
     {
+        if (component == null)
+            return EventCallback<T>.Empty;
+
         return EventCallback.Factory.Create(component, callback);
     }
 
@@ -36,6 +42,9 @@ public static class CallbackExtension
     /// <returns>事件回调。</returns>
     public static EventCallback Callback(this ComponentBase component, Action callback)
     {
+        if (component == null)
+            return EventCallback.Empty;
+
         return EventCallback.Factory.Create(component, callback);
     }
 
@@ -48,6 +57,9 @@ public static class CallbackExtension
     /// <returns>事件回调。</returns>
     public static EventCallback<T> Callback<T>(this ComponentBase component, Action<T> callback)
     {
+        if (component == null)
+            return EventCallback<T>.Empty;
+
         return EventCallback.Factory.Create(component, callback);
     }
 }
