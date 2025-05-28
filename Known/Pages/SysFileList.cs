@@ -35,8 +35,7 @@ public class SysFileList : BaseTablePage<AttachInfo>
 
     private void BuildFileName(RenderTreeBuilder builder, AttachInfo row)
     {
-        var info = Utils.MapTo<AttachInfo>(row);
-        builder.FileLink(info);
+        builder.FileLink(row);
     }
 
     private void BuildFileSize(RenderTreeBuilder builder, AttachInfo row)

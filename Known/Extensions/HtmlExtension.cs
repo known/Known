@@ -163,13 +163,12 @@ public static class HtmlExtension
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">链接文本。</param>
     /// <param name="url">链接URL。</param>
-    /// <param name="isDownload">是否下载。</param>
-    public static void OpenFile(this RenderTreeBuilder builder, string text, FileUrlInfo url, bool isDownload = false)
+    public static void OpenFile(this RenderTreeBuilder builder, string text, FileUrlInfo url)
     {
         builder.Component<KAnchor>()
                .Set(c => c.Name, text)
                .Set(c => c.Href, url.OriginalUrl)
-               .Set(c => c.Download, isDownload ? url.FileName : "")
+               .Set(c => c.Download, url.FileName)
                .Set(c => c.Target, "_blank")
                .Build();
     }
