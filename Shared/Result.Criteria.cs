@@ -74,6 +74,11 @@ public class PagingCriteria
     /// </summary>
     public bool IsPaging { get; set; } = true;
 
+    /// <summary>
+    /// 取得或设置查询数据项回调函数。
+    /// </summary>
+    public Action<object> OnDataItem { get; set; }
+
     internal Dictionary<string, object> CmdParams { get; set; }
 
     /// <summary>
