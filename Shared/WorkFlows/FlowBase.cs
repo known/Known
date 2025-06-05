@@ -6,22 +6,10 @@
 /// <param name="context">上下文对象。</param>
 public abstract class FlowBase(Context context)
 {
-    internal static Dictionary<string, Type> FlowTypes { get; } = [];
-
     /// <summary>
     /// 取得上下文对象。
     /// </summary>
     public Context Context { get; } = context;
-
-    internal static FlowBase Create(Context context, SysFlow flow)
-    {
-        if (!FlowTypes.ContainsKey(flow.FlowCode))
-            throw new SystemException(context.Language[CoreLanguage.TipNotRegisterFlow]);
-
-        var type = FlowTypes[flow.FlowCode];
-        var instance = Activator.CreateInstance(type, context) as FlowBase;
-        return instance;
-    }
 
     /// <summary>
     /// 流程表单提交前，异步调用虚方法。

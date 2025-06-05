@@ -2,11 +2,6 @@
 
 public partial class Config
 {
-    /// <summary>
-    /// 自动无代码导入ID前缀。
-    /// </summary>
-    public const string AutoBizIdPrefix = "AutoImport";
-
     private static RenderType renderMode = RenderType.Server;
     /// <summary>
     /// 取得或设置呈现类型，默认Server。

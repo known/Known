@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinConfigInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Snowflake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />

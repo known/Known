@@ -167,7 +167,6 @@ public static class CoreExtension
     {
         var assembly = typeof(CoreOption).Assembly;
         Config.AddModule(assembly);
-        CoreOption.Instance.AddAssembly(assembly);
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
         if (!Config.IsAdmin)

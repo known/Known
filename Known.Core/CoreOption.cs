@@ -122,19 +122,7 @@ public class CoreOption
     /// 添加后端程序集，自动识别导入和工作流类。
     /// </summary>
     /// <param name="assembly">应用程序集。</param>
-    public void AddAssembly(Assembly assembly)
-    {
-        if (assembly == null)
-            return;
-
-        foreach (var item in assembly.GetTypes())
-        {
-            if (item.IsAssignableTo(typeof(ImportBase)))
-                ImportHelper.ImportTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(FlowBase)))
-                FlowBase.FlowTypes[item.Name] = item;
-        }
-    }
+    public void AddAssembly(Assembly assembly) { }
 
     /// <summary>
     /// 添加附加数据字典代码表委托。

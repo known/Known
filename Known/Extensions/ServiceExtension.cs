@@ -47,6 +47,10 @@ public static class ServiceExtension
         {
             if (item.IsAssignableTo(typeof(EntityBase)))
                 DbConfig.Models.Add(item);
+            else if (item.IsAssignableTo(typeof(ImportBase)))
+                Config.ImportTypes[item.Name] = item;
+            else if (item.IsAssignableTo(typeof(FlowBase)))
+                Config.FlowTypes[item.Name] = item;
 
             var attr = item.GetCustomAttribute<ServiceAttribute>();
             if (attr == null)

@@ -25,6 +25,11 @@ public partial class Config
     public const string GithubUrl = "https://github.com/known/Known";
 
     /// <summary>
+    /// 自动无代码导入ID前缀。
+    /// </summary>
+    public const string AutoBizIdPrefix = "AutoImport";
+
+    /// <summary>
     /// 取得是否是客户端。
     /// </summary>
     public static bool IsClient { get; internal set; }
@@ -143,6 +148,16 @@ public partial class Config
     /// 取得或设置系统登录时，初始化系统模块数据方法委托。
     /// </summary>
     public static Func<Database, Task<List<ModuleInfo>>> OnInitialModules { get; set; }
+
+    /// <summary>
+    /// 取得后端导入类字典。
+    /// </summary>
+    public static Dictionary<string, Type> ImportTypes { get; } = [];
+
+    /// <summary>
+    /// 取得后端工作流类字典。
+    /// </summary>
+    public static Dictionary<string, Type> FlowTypes { get; } = [];
 
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];

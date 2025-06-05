@@ -69,8 +69,10 @@ public partial class KChart
             return Task.CompletedTask;
 
         object series = null;
+        string[] categories = [];
         if (datas != null && datas.Length > 0)
         {
+            categories = datas[0].Series.Keys.ToArray();
             series = datas.Select(d => new
             {
                 name = d.Name,
@@ -84,7 +86,7 @@ public partial class KChart
             credits = new { enabled = false },
             chart = new { width = Width, height = Height },
             title = new { text = title },
-            xAxis = XAxis ?? new { categories = datas[0].Series.Keys.ToArray() },
+            xAxis = XAxis ?? new { categories },
             yAxis = YAxis ?? new { },
             legend = Legend ?? new { },
             tooltip = Tooltip ?? new { },
@@ -107,8 +109,10 @@ public partial class KChart
             return Task.CompletedTask;
 
         object series = null;
+        string[] categories = [];
         if (datas != null && datas.Length > 0)
         {
+            categories = datas[0].Series.Keys.ToArray();
             series = datas.Select(d => new
             {
                 name = d.Name,
@@ -121,7 +125,7 @@ public partial class KChart
             credits = new { enabled = false },
             chart = new { type = Type ?? "column", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
             title = new { text = title },
-            xAxis = XAxis ?? new { categories = datas[0].Series.Keys.ToArray() },
+            xAxis = XAxis ?? new { categories },
             yAxis = YAxis ?? new { },
             legend = Legend ?? new { },
             tooltip = Tooltip ?? new { },

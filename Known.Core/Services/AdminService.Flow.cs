@@ -71,7 +71,7 @@ partial class AdminService
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = FlowBase.Create(Context, flow);
+                var biz = FlowHelper.Create(Context, flow);
                 var result = await biz.OnCommitingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -114,7 +114,7 @@ partial class AdminService
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = FlowBase.Create(Context, flow);
+                var biz = FlowHelper.Create(Context, flow);
                 var result = await biz.OnRevokingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -193,7 +193,7 @@ partial class AdminService
 
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = FlowBase.Create(Context, flow);
+                var biz = FlowHelper.Create(Context, flow);
                 var result = await biz.OnVerifingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -256,7 +256,7 @@ partial class AdminService
             {
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = FlowBase.Create(Context, flow);
+                var biz = FlowHelper.Create(Context, flow);
                 var result = await biz.OnRepeatingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
@@ -288,7 +288,7 @@ partial class AdminService
             {
                 info.BizId = flow.BizId;
                 info.FlowStatus = flow.FlowStatus;
-                var biz = FlowBase.Create(Context, flow);
+                var biz = FlowHelper.Create(Context, flow);
                 var result = await biz.OnStoppingAsync(db, info);
                 if (!result.IsValid)
                     throw new SystemException(result.Message);
