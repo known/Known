@@ -14,6 +14,7 @@ public partial class UIService
         {
             Title = model.Title,
             MaskClosable = false,
+            DestroyOnClose = true,
             Closable = model.Closable,
             Draggable = model.Draggable,
             Resizable = model.Resizable,

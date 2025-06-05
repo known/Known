@@ -37,6 +37,7 @@ public partial class UIService
         var option = new ModalOptions
         {
             MaskClosable = false,
+            DestroyOnClose = true,
             Draggable = model.Draggable,
             Resizable = model.Resizable,
             Maximizable = model.Info?.Maximizable == true,
