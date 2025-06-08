@@ -20,11 +20,19 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
         });
-        services.AddKnownAdmin();
         services.AddModules();
         services.AddServices(assembly);
-        services.AddKnownCore();
-        services.AddKnownAdminCore();
+        services.AddKnownWin(option =>
+        {
+            option.App.WebRoot = AppContext.BaseDirectory;
+            option.App.ContentRoot = AppContext.BaseDirectory;
+            option.Database = db =>
+            {
+                db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(@"Data Source=.\Sample.db");
+                //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
+                //db.OperateMonitors.Add(info => Console.WriteLine(info.ToString()));
+            };
+        });
     }
 
     private static void AddModules(this IServiceCollection services)
