@@ -62,7 +62,8 @@ public static class ModuleExtension
             Icon = icon,
             ParentId = parentId,
             Sort = sort,
-            Url = url
+            Url = url,
+            IsCode = true
         };
         if (!string.IsNullOrWhiteSpace(url))
         {

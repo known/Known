@@ -129,13 +129,31 @@ class ModuleList : BasePage<ModuleInfo>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(ModuleInfo row) => Table.EditForm(Platform.SaveModuleAsync, row);
+    public void Edit(ModuleInfo row)
+    {
+        if (row.IsCode)
+        {
+            UI.Error(Language.TipCodeModuleNotOperate);
+            return;
+        }
+
+        Table.EditForm(Platform.SaveModuleAsync, row);
+    }
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(ModuleInfo row) => Table.Delete(Platform.DeleteModulesAsync, row);
+    public void Delete(ModuleInfo row)
+    {
+        if (row.IsCode)
+        {
+            UI.Error(Language.TipCodeModuleNotOperate);
+            return;
+        }
+
+        Table.Delete(Platform.DeleteModulesAsync, row);
+    }
 
     /// <summary>
     /// 批量删除多条数据。
@@ -244,6 +262,12 @@ class ModuleList : BasePage<ModuleInfo>
 
     private async Task OnMoveAsync(ModuleInfo row, bool isMoveUp)
     {
+        if (row.IsCode)
+        {
+            UI.Error(Language.TipCodeModuleNotOperate);
+            return;
+        }
+
         row.IsMoveUp = isMoveUp;
         var result = await Platform.MoveModuleAsync(row);
         UI.Result(result, RefreshAsync);

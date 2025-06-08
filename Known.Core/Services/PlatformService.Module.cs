@@ -74,6 +74,9 @@ partial class PlatformService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        if (infos.Any(d => d.IsCode))
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
         var database = Database;
         foreach (var model in infos)
         {
@@ -140,6 +143,9 @@ partial class PlatformService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
+        if (infos.Any(d => d.IsCode))
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
@@ -160,6 +166,9 @@ partial class PlatformService
     {
         if (info == null)
             return Result.Error(Language.SelectOne);
+
+        if (info.IsCode)
+            return Result.Error(Language.TipCodeModuleNotOperate);
 
         return await Database.TransactionAsync(Language.Save, async db =>
         {
@@ -182,6 +191,9 @@ partial class PlatformService
 
     public async Task<Result> SaveModuleAsync(ModuleInfo info)
     {
+        if (info.IsCode)
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
         var database = Database;
         var model = await database.QueryByIdAsync<SysModule>(info.Id);
         model ??= new SysModule();

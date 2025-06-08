@@ -63,6 +63,11 @@ public partial class ModuleInfo
     public bool Enabled { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置是否是代码生成的模块。
+    /// </summary>
+    public bool IsCode { get; set; }
+
+    /// <summary>
     /// 取得或设置是否移动模块。
     /// </summary>
     [JsonIgnore]

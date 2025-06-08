@@ -57,7 +57,8 @@ class AppDefaultData
                     ParentId = item.Parent,
                     Sort = item.Sort,
                     Url = item.Url,
-                    Target = nameof(LinkTarget.None)
+                    Target = nameof(LinkTarget.None),
+                    IsCode = true
                 };
                 data.Modules.Add(info);
             }
