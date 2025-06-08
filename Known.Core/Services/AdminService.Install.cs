@@ -5,6 +5,10 @@ partial class AdminService
     [AllowAnonymous]
     public async Task<InitialInfo> GetInitialAsync()
     {
+        var database = Database;
+        if (Language.Settings == null || Language.Settings.Count == 0)
+            await AppHelper.LoadLanguagesAsync(database);
+
         var info = new InitialInfo
         {
             LanguageSettings = Language.Settings,
@@ -12,7 +16,7 @@ partial class AdminService
         };
         CoreConfig.Load(info);
         if (CoreConfig.OnInitial != null)
-            await CoreConfig.OnInitial.Invoke(Database, info);
+            await CoreConfig.OnInitial.Invoke(database, info);
         return info;
     }
 

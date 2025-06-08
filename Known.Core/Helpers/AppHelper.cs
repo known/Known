@@ -7,16 +7,21 @@ class AppHelper
         Task.Run(async () =>
         {
             var db = Database.Create();
-            var infos = await db.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
-            if (infos == null || infos.Count == 0)
-                infos = Language.GetDefaultSettings();
-            Language.Settings = infos;
-
-            var datas = await db.GetLanguagesAsync();
-            if (datas == null || datas.Count == 0)
-                datas = Language.GetDefaultLanguages();
-            Language.Datas = datas;
+            await LoadLanguagesAsync(db);
         });
+    }
+
+    internal static async Task LoadLanguagesAsync(Database db)
+    {
+        var infos = await db.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
+        if (infos == null || infos.Count == 0)
+            infos = Language.GetDefaultSettings();
+        Language.Settings = infos;
+
+        var datas = await db.GetLanguagesAsync();
+        if (datas == null || datas.Count == 0)
+            datas = Language.GetDefaultLanguages();
+        Language.Datas = datas;
     }
 
     internal static void LoadConnections()

@@ -128,7 +128,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         model.AddAction(Language.Reset, this.Callback<MouseEventArgs>(e=> table?.Reset()));
         model.OnOk = async () =>
         {
-            await Platform.SaveLanguageSettingsAsync(Infos);
+            await Platform.SaveLanguageSettingsAsync(table.DataSource);
             await model.CloseAsync();
             App.ReloadPage();
         };

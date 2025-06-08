@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-@if (Visible)
+@if (Visible && Config.App.Type == AppType.Web)
 {
     <div style="position:fixed;top:10px;right:10px;">
         <div id="btnPwaInstall" class="ant-btn ant-btn-default" style="display:block;width:110px;" onclick="addToDesktop()">@Language[Language.AddDesktop]</div>
