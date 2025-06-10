@@ -122,7 +122,7 @@ public class SysModule : EntityBase
 
     internal ModuleInfo ToModuleInfo()
     {
-        return new ModuleInfo
+        var info = new ModuleInfo
         {
             Id = Id,
             ParentId = ParentId,
@@ -133,9 +133,13 @@ public class SysModule : EntityBase
             Url = Url,
             Sort = Sort,
             Enabled = Enabled,
-            Layout = Utils.FromJson<LayoutInfo>(LayoutData),
-            Plugins = ZipHelper.UnZipDataFromString<List<PluginInfo>>(PluginData)
+            Layout = Utils.FromJson<LayoutInfo>(LayoutData)
         };
+        if (!string.IsNullOrWhiteSpace(PluginData))
+            info.Plugins = ZipHelper.UnZipDataFromString<List<PluginInfo>>(PluginData);
+        else
+            info.Plugins = ToPlugins();
+        return info;
     }
 
     internal static SysModule Load(UserInfo user, ModuleInfo info)

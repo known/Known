@@ -152,6 +152,7 @@ public partial class Config
             menu.Url = routes?.FirstOrDefault()?.Template;
             AppMenus.Add(new MenuInfo
             {
+                Id = item.Name,
                 Name = menu.Name,
                 Icon = menu.Icon,
                 Url = menu.Url,
