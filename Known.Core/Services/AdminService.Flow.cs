@@ -2,13 +2,13 @@
 
 partial class AdminService
 {
-    private const string StepSubmit = "Submit";
-    private const string StepRevoke = "Revoke";
-    private const string StepVerify = "Verify";
-    private const string StepAssign = "Assign";
-    private const string StepStopped = "Stopped";
-    private const string StepRestart = "Restart";
-    private const string StepEnd = "End";
+    private const string StepSubmit = CoreLanguage.FlowSubmit;
+    private const string StepRevoke = CoreLanguage.FlowRevoke;
+    private const string StepVerify = CoreLanguage.FlowVerify;
+    private const string StepAssign = CoreLanguage.FlowAssign;
+    private const string StepStopped = CoreLanguage.FlowStopped;
+    private const string StepRestart = CoreLanguage.FlowRestart;
+    private const string StepEnd = CoreLanguage.FlowEnd;
 
     private string FlowNotCreated => CoreLanguage.TipFlowNotCreate;
     private string UserNotExists(string user) => Language[CoreLanguage.TipUserNotExists].Replace("{user}", user);

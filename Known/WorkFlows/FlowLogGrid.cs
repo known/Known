@@ -20,10 +20,10 @@ public class FlowLogGrid : BaseTable<FlowLogInfo>
         Table.ShowPager = true;
         Table.FixedHeight = "450px";
         Table.OnQuery = QueryFlowLogsAsync;
-        Table.AddColumn(c => c.StepName).Width(100).Tag();
+        Table.AddColumn(c => c.StepName).Width(110).Tag();
         Table.AddColumn(c => c.ExecuteBy).Width(100);
         Table.AddColumn(c => c.ExecuteTime).Width(180).DefaultAscend();
-        Table.AddColumn(c => c.Result).Width(100).Tag();
+        Table.AddColumn(c => c.Result).Width(110).Tag();
         Table.AddColumn(c => c.Note);
     }
 

@@ -37,23 +37,19 @@ partial class TableModel<TItem>
     /// <returns>栏位建造者对象。</returns>
     public ColumnBuilder<TItem> AddColumn(PropertyInfo property, bool isQuery = false)
     {
-        if (AllColumns.Exists(c => c.Id == property.Name))
+        var column = new ColumnInfo(property) { IsQuery = isQuery };
+        if (property.DeclaringType != typeof(TItem))
+            column.Id = $"{property.DeclaringType.Name}.{property.Name}";
+        var allColumn = AllColumns.FirstOrDefault(c => c.Id == property.Name);
+        if (allColumn == null)
         {
-            var column = Columns.FirstOrDefault(c => c.Id == property.Name);
-            var allColumn = AllColumns.FirstOrDefault(c => c.Id == property.Name);
-            return new ColumnBuilder<TItem>(column, allColumn, this);
+            allColumn = column.Clone();
+            AllColumns.Add(allColumn);
         }
-        else
-        {
-            var column = new ColumnInfo(property) { IsQuery = isQuery };
-            if (property.DeclaringType != typeof(TItem))
-                column.Id = $"{property.DeclaringType.Name}.{property.Name}";
-            AllColumns.Add(column);
-            Columns.Add(column);
-            if (isQuery)
-                AddQueryColumn(column);
-            return new ColumnBuilder<TItem>(column, column, this);
-        }
+        Columns.Add(column);
+        if (isQuery)
+            AddQueryColumn(column);
+        return new ColumnBuilder<TItem>(column, allColumn, this);
     }
 
     /// <summary>

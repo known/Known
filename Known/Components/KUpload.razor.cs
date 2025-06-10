@@ -184,7 +184,7 @@ public partial class KUpload
             return;
         }
 
-        var message = Language["Tip.ConfirmDelete"].Replace("{name}", item.Name);
+        var message = Language[Language.TipConfirmDelete].Replace("{name}", item.Name);
         UI.Confirm(message, async () =>
         {
             if (OnDelete != null)

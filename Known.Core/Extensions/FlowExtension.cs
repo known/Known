@@ -5,7 +5,7 @@
 /// </summary>
 public static class FlowExtension
 {
-    private const string StepCreate = "Create";
+    private const string StepCreate = CoreLanguage.FlowCreate;
 
     /// <summary>
     /// 异步创建系统工作流。
@@ -31,7 +31,7 @@ public static class FlowExtension
             CurrBy = db.User.UserName
         };
         await db.SaveAsync(flow);
-        await db.AddFlowLogAsync(info.BizId, stepName, "Start", info.BizName);
+        await db.AddFlowLogAsync(info.BizId, stepName, CoreLanguage.Start, info.BizName);
     }
 
     /// <summary>
