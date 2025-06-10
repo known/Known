@@ -29,7 +29,7 @@ public static class ServiceExtension
     {
         await using var scope = factory.CreateAsyncScope();
         var service = scope.ServiceProvider.GetRequiredService<T>();
-        service.Context = context;
+        SetServiceContext(service, context);
         return service;
     }
 
@@ -106,5 +106,48 @@ public static class ServiceExtension
             default:
                 break;
         }
+    }
+
+    private static readonly ConcurrentDictionary<Type, List<PropertyInfo>> ServiceProperties = new();
+    private static readonly ConcurrentDictionary<Type, List<System.Reflection.FieldInfo>> ServiceFields = new();
+    private static void SetServiceContext(IService service, Context context)
+    {
+        if (service == null)
+            return;
+
+        service.Context = context;
+        var type = service.GetType();
+
+        var properties = ServiceProperties.GetOrAdd(type, t => t.GetServiceProperties());
+        foreach (var prop in properties)
+        {
+            if (prop.GetValue(service) is IService subService && subService.Context != context)
+            {
+                SetServiceContext(subService, context);
+            }
+        }
+
+        var fields = ServiceFields.GetOrAdd(type, t => t.GetServiceFields());
+        foreach (var field in fields)
+        {
+            if (field.GetValue(service) is IService subService && subService.Context != context)
+            {
+                SetServiceContext(subService, context);
+            }
+        }
+    }
+
+    private static List<PropertyInfo> GetServiceProperties(this Type type)
+    {
+        return type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                   .Where(p => typeof(IService).IsAssignableFrom(p.PropertyType) && p.CanRead)
+                   .ToList();
+    }
+
+    private static List<System.Reflection.FieldInfo> GetServiceFields(this Type type)
+    {
+        return type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                   .Where(f => typeof(IService).IsAssignableFrom(f.FieldType))
+                   .ToList();
     }
 }

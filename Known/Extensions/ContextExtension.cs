@@ -35,7 +35,7 @@ public static class ContextExtension
                    : type.GetMethod(info.Id, paramTypes);
         if (method == null)
         {
-            var message = context.Language["Tip.NoMethod"].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
+            var message = context.Language[Language.TipNoMethod].Replace("{method}", $"{info.Name}[{type.Name}.{info.Id}]");
             context.UI.Error(message);
             return;
         }
