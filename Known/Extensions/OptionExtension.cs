@@ -41,6 +41,14 @@ static class OptionExtension
         }).ToArray();
     }
 
+    internal static bool ToEllipsis(this ColumnInfo info)
+    {
+        if (UIConfig.IsEllipsisTable)
+            return true;
+
+        return info.Ellipsis;
+    }
+
     internal static SortDirection ToSortDirection(this ColumnInfo info)
     {
         if (string.IsNullOrWhiteSpace(info.DefaultSort))

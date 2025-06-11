@@ -43,6 +43,11 @@ public class UIConfig
     public static bool IsEditTable { get; set; }
 
     /// <summary>
+    /// 取得或设置表格全局栏位文本超出宽度是否显示省略号，显示则文本不换行，默认不显示。
+    /// </summary>
+    public static bool IsEllipsisTable { get; set; }
+
+    /// <summary>
     /// 取得或设置用户表单是否显示底部按钮。
     /// </summary>
     public static bool UserFormShowFooter { get; set; }

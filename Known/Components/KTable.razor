@@ -43,7 +43,7 @@
                         var data = context as Dictionary<string, object>;
                         var value = data?.GetValue(item.Id);
                         <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                          Ellipsis="item.Ellipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                          Ellipsis="item.ToEllipsis()" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
                                           ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                           ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                           FilterDropdown="@GetFilterTemplate(item)">
@@ -57,7 +57,7 @@
                         if (typeof(TItem).HasProperty(item.Id)) {
                             var value = TypeHelper.GetPropertyValue(context, item.Id);
                             <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                    Ellipsis="item.Ellipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                    Ellipsis="item.ToEllipsis()" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
                                     ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                     ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                     FilterDropdown="@GetFilterTemplate(item)">
@@ -69,7 +69,7 @@
                             </Column>
                         } else {
                             <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
-                                    Ellipsis="item.Ellipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                    Ellipsis="item.ToEllipsis()" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
                                     ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                     ColSpan="@GetRowSpan(item, item.Id)" RowSpan="@GetColSpan(item, item.Id)"
                                     FilterDropdown="@GetFilterTemplate(item)">

@@ -3,7 +3,7 @@
 public partial class ColumnInfo
 {
     /// <summary>
-    /// 取得或设置栏位文本超出宽度是否显示省略号，显示则文本不换行。
+    /// 取得或设置栏位文本超出宽度是否显示省略号，显示则文本不换行，默认不显示。
     /// </summary>
     public bool Ellipsis { get; set; }
 
