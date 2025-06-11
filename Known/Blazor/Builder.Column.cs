@@ -76,6 +76,8 @@ public partial class ColumnBuilder<TItem> where TItem : class, new()
             column.Category = category;
             column.IsQueryAll = isAll;
         }
+        if (allColumn != null)
+            allColumn.Category = category;
         return this;
     }
 }

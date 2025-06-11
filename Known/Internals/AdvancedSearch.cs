@@ -65,6 +65,12 @@ class AdvancedSearchItem : BaseComponent
     [Parameter] public List<ColumnInfo> Columns { get; set; }
     [Parameter] public QueryInfo Item { get; set; }
 
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        column = Columns?.FirstOrDefault(f => f.Id == Item.Id);
+    }
+
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Div(() => BuildQueryField(builder, Item));

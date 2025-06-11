@@ -23,6 +23,8 @@ public partial class ColumnBuilder<TItem>
     {
         if (column != null)
             column.Type = type;
+        if (allColumn != null)
+            allColumn.Type = type;
         return this;
     }
 

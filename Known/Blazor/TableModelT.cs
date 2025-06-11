@@ -154,6 +154,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     public void Clear()
     {
+        AllColumns?.Clear();
         Columns?.Clear();
         QueryColumns?.Clear();
         QueryData?.Clear();
