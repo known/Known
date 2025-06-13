@@ -5,7 +5,8 @@
 /// </summary>
 public sealed class WeixinHelper
 {
-    private const string BizType = "WeixinTemplate";
+    internal const string BizType = "WeixinTemplate";
+
     private WeixinHelper() { }
 
     /// <summary>

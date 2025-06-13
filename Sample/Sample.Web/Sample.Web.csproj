@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Coravel" Version="6.0.2" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.13" />
         <!--
         <PackageReference Include="System.Data.OleDb" Version="9.0.2" />

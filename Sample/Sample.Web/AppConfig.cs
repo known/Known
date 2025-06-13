@@ -43,7 +43,6 @@ public static class AppConfig
 
         // 添加后端
         services.AddServices(assembly);
-        services.AddTaskJobs();
         services.AddKnownCells();
         services.AddKnownWeb(action);
     }
@@ -51,7 +50,6 @@ public static class AppConfig
     public static void UseApplication(this WebApplication app)
     {
         app.UseKnown();
-        app.UseTaskJobs();
     }
 
     private static void AddModules(this IServiceCollection services)

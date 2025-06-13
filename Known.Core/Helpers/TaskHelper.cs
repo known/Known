@@ -17,6 +17,10 @@ public sealed class TaskHelper
     public static void NotifyRun(string bizType)
     {
         RunSwitches[bizType] = true;
+        if (bizType == ImportHelper.BizType)
+            Task.Run(ImportHelper.ExecuteAsync);
+        else if (bizType == WeixinHelper.BizType)
+            Task.Run(WeixinHelper.ExecuteAsync);
     }
 
     /// <summary>
