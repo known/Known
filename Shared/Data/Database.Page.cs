@@ -94,7 +94,7 @@ public partial class Database
                     while (reader.Read())
                     {
                         var obj = DbUtils.ConvertTo<T>(reader);
-                        criteria.OnDataItem?.Invoke(obj);
+                        criteria.OnDataItem?.Invoke(this, obj);
                         pageData.Add((T)obj);
                     }
                 }

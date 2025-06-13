@@ -20,10 +20,8 @@ public class BaseEntity
 
     internal bool IsChanged(string propertyName, object value)
     {
-        if (Original == null || !Original.ContainsKey(propertyName))
+        if (Original == null || !Original.TryGetValue(propertyName, out object orgValue))
             return true;
-
-        var orgValue = Original[propertyName];
         if (orgValue == null)
             return true;
 
