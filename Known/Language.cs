@@ -22,6 +22,7 @@ public partial class Language
     internal const string ImportTable = "导入表";
     internal const string DataTable = "数据表";
 
+    internal const string CloseAdvSearchForm = "关闭高级搜索框";
     internal const string TableColumnSetting = "列展示设置";
     internal const string TableColumnShow = "列展示";
     internal const string NotFixed = "不固定";

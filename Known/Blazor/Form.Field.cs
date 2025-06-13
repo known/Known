@@ -76,10 +76,10 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
     /// </summary>
     /// <param name="emptyText">空值占位符提示，默认请选择。</param>
     /// <returns>代码表列表。</returns>
-    public List<CodeInfo> GetCodes(string emptyText = "Please select")
+    public List<CodeInfo> GetCodes(string emptyText = Language.PleaseSelect)
     {
         if (!string.IsNullOrWhiteSpace(emptyText))
-            emptyText = Language?["PleaseSelect"];
+            emptyText = Language?[Language.PleaseSelect];
 
         var codes = Form.GetCodes(Column);
         if (codes != null)

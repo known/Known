@@ -25,7 +25,7 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         return info;
     }
 
-    private async Task<StatisticsInfo> GetStatisticsInfoAsync(Database db)
+    private static async Task<StatisticsInfo> GetStatisticsInfoAsync(Database db)
     {
         var info = new StatisticsInfo
         {

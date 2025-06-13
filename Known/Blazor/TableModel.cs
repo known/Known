@@ -148,7 +148,7 @@ public class TableModel : BaseModel
         };
         model.FooterLeft = b => b.CheckBox(new InputModel<bool>
         {
-            Label = "关闭高级搜索框",
+            Label = Language.CloseAdvSearchForm,
             Value = isAutoClose,
             ValueChanged = Component.Callback<bool>(value => isAutoClose = value)
         });

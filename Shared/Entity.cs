@@ -135,21 +135,25 @@ public class EntityBase : EntityBase<string>
     /// <summary>
     /// 取得或设置实体创建人。
     /// </summary>
+    [DisplayName("创建人")]
     public string CreateBy { get; set; }
 
     /// <summary>
     /// 取得或设置实体创建时间。
     /// </summary>
+    [DisplayName("创建时间")]
     public DateTime CreateTime { get; set; }
 
     /// <summary>
     /// 取得或设置实体最近一次修改人。
     /// </summary>
+    [DisplayName("修改人")]
     public string ModifyBy { get; set; }
 
     /// <summary>
     /// 取得或设置实体最近一次修改时间。
     /// </summary>
+    [DisplayName("修改时间")]
     public DateTime? ModifyTime { get; set; }
 
     /// <summary>
