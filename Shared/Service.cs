@@ -96,12 +96,12 @@ public abstract class ImportBase(ImportContext context)
     /// <summary>
     /// 取得系统上下文对象实例。
     /// </summary>
-    public Context Context { get; } = context.Context;
+    public Context Context => ImportContext.Context;
 
     /// <summary>
     /// 取得上下文数据库对象实例。
     /// </summary>
-    public Database Database { get; } = context.Database;
+    public Database Database => ImportContext.Database;
 
     /// <summary>
     /// 取得上下文语言对象实例。

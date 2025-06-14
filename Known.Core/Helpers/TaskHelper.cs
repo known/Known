@@ -64,6 +64,7 @@ public sealed class TaskHelper
             if (info != null)
             {
                 db.User = await db.GetUserAsync(info.CreateBy);
+                db.Context.CurrentUser = db.User;
                 info.File = await db.Query<SysFile>().Where(d => d.Id == info.Target).FirstAsync<AttachInfo>();
             }
             return info;

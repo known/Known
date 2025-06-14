@@ -19,7 +19,7 @@ public sealed class ImportHelper
     /// 异步执行数据导入定时任务。
     /// </summary>
     /// <returns></returns>
-    public static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
+    internal static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
 
     /// <summary>
     /// 读取导入文件并处理导入逻辑。
@@ -92,9 +92,10 @@ public sealed class ImportHelper
             return null;
 
         var scope = Config.ServiceProvider.CreateScope();
-        if (scope.ServiceProvider.GetService(type) is ImportBase import)
+        if (scope.ServiceProvider.GetRequiredService(type) is ImportBase import)
         {
             import.ImportContext = context;
+            import.SetServiceContext(context.Context);
             return import;
         }
 

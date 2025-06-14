@@ -34,6 +34,36 @@ public static class ServiceExtension
     }
 
     /// <summary>
+    /// 设置注入对象构造函数参数为IService的对象上下文属性。
+    /// </summary>
+    /// <param name="service">服务或导入对象。</param>
+    /// <param name="context">系统上下文对象。</param>
+    public static void SetServiceContext(this object service, Context context)
+    {
+        if (service == null)
+            return;
+
+        var type = service.GetType();
+        var properties = ServiceProperties.GetOrAdd(type, t => t.GetServiceProperties());
+        foreach (var prop in properties)
+        {
+            if (prop.GetValue(service) is IService subService && subService.Context != context)
+            {
+                SetServiceContext(subService, context);
+            }
+        }
+
+        var fields = ServiceFields.GetOrAdd(type, t => t.GetServiceFields());
+        foreach (var field in fields)
+        {
+            if (field.GetValue(service) is IService subService && subService.Context != context)
+            {
+                SetServiceContext(subService, context);
+            }
+        }
+    }
+
+    /// <summary>
     /// 添加注入程序集中 Service 特性的服务类、继承 EntityBase 类的实体类、并自动创建新数据库表。
     /// </summary>
     /// <param name="services">服务集合。</param>
@@ -45,12 +75,20 @@ public static class ServiceExtension
 
         foreach (var item in assembly.GetTypes())
         {
-            if (item.IsAssignableTo(typeof(EntityBase)))
+            if (!item.IsAbstract && item.IsAssignableTo(typeof(EntityBase)) && item.Name != nameof(EntityBase))
+            {
                 DbConfig.Models.Add(item);
-            else if (item.IsAssignableTo(typeof(ImportBase)))
+            }
+            else if (!item.IsAbstract && item.IsAssignableTo(typeof(ImportBase)) && item.Name != nameof(ImportBase))
+            {
                 Config.ImportTypes[item.Name] = item;
-            else if (item.IsAssignableTo(typeof(FlowBase)))
+                services.AddScoped(item);
+            }
+            else if (!item.IsAbstract && item.IsAssignableTo(typeof(FlowBase)) && item.Name != nameof(FlowBase))
+            {
                 Config.FlowTypes[item.Name] = item;
+                services.AddScoped(item);
+            }
 
             var attr = item.GetCustomAttribute<ServiceAttribute>();
             if (attr == null)
@@ -116,25 +154,7 @@ public static class ServiceExtension
             return;
 
         service.Context = context;
-        var type = service.GetType();
-
-        var properties = ServiceProperties.GetOrAdd(type, t => t.GetServiceProperties());
-        foreach (var prop in properties)
-        {
-            if (prop.GetValue(service) is IService subService && subService.Context != context)
-            {
-                SetServiceContext(subService, context);
-            }
-        }
-
-        var fields = ServiceFields.GetOrAdd(type, t => t.GetServiceFields());
-        foreach (var field in fields)
-        {
-            if (field.GetValue(service) is IService subService && subService.Context != context)
-            {
-                SetServiceContext(subService, context);
-            }
-        }
+        service.SetServiceContext(context);
     }
 
     private static List<PropertyInfo> GetServiceProperties(this Type type)

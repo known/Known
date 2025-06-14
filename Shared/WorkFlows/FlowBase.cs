@@ -7,9 +7,9 @@
 public abstract class FlowBase(Context context)
 {
     /// <summary>
-    /// 取得上下文对象。
+    /// 取得或设置上下文对象。
     /// </summary>
-    public Context Context { get; } = context;
+    public Context Context { get; set; } = context;
 
     /// <summary>
     /// 流程表单提交前，异步调用虚方法。

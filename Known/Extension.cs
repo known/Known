@@ -26,6 +26,7 @@ public static partial class Extension
 
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();
+        services.AddScoped<ImportContext>();
         services.AddServices(assembly);
         if (Config.App.IsClient)
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
