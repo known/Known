@@ -28,6 +28,7 @@ Cancel           | 取消     | close        |
 Restore          | 恢复     | rollback     | primary    | Toolbar,Action
 Authorize        | 授权     | safety       | primary    | Toolbar,Action
 Test             | 测试     | experiment   | primary    | Toolbar,Action
+Log              | 日志     | code         | primary    | Toolbar,Action
 
 Submit           | 提交     | send         | primary    | Action
 Revoke           | 撤回     | undo         | primary    | Action

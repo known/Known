@@ -66,10 +66,19 @@ partial class TableModel<TItem>
         }
     }
 
+    private int? pageSize;
     /// <summary>
     /// 取得或设置表格分页每页大小。
     /// </summary>
-    public int? PageSize { get; set; }
+    public int? PageSize
+    {
+        get => pageSize;
+        set
+        {
+            pageSize = value;
+            Criteria.PageSize = value ?? Config.App.DefaultPageSize;
+        }
+    }
 
     /// <summary>
     /// 取得或设置表格选择列选择框类型。
