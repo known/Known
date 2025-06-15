@@ -175,7 +175,7 @@ public static partial class Extension
         UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
         //关于系统
         UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
-        UIConfig.SystemTabs.Set<SysSystemSetting>(2, Language.SystemSetting);
+        UIConfig.SystemTabs.Set<SysSecuritySetting>(2, Language.SecuritySetting);
     }
 
     //private static void AddInterceptors(this IServiceCollection services, ClientOption option)

@@ -1,9 +1,9 @@
 ﻿namespace Known.Internals;
 
 /// <summary>
-/// 系统设置页面标签组件类。
+/// 系统安全设置页面标签组件类。
 /// </summary>
-public partial class SysSystemSetting
+public partial class SysSecuritySetting
 {
     private SystemInfo Model = new();
     [CascadingParameter] private SysSystem Parent { get; set; }
