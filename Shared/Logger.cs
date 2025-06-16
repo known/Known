@@ -95,13 +95,13 @@ public partial class Logger
     public static Task<Result> DeleteLogsAsync(List<LogInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync("请至少选择一条记录！");
+            return Result.ErrorAsync(Language.SelectOneAtLeast);
 
         foreach (var info in infos)
         {
-            Logs.Remove(info);
+            Logs.RemoveAll(d => d.Id == info.Id);
         }
-        return Result.SuccessAsync("删除成功！");
+        return Result.SuccessAsync(Language.DeleteSuccess);
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ public partial class Logger
     public static Task<Result> ClearLogsAsync()
     {
         Logs.Clear();
-        return Result.SuccessAsync("清空成功！");
+        return Result.SuccessAsync(Language.ClearSuccess);
     }
 
     /// <summary>

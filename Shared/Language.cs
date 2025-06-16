@@ -252,6 +252,11 @@ public partial class Language
     public const string Clear = "清空";
 
     /// <summary>
+    /// 清空成功。
+    /// </summary>
+    public const string ClearSuccess = "清空成功！";
+
+    /// <summary>
     /// 查看。
     /// </summary>
     public const string View = "查看";

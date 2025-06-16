@@ -22,6 +22,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
         Table.EnableEdit = false;
         Table.EnableSort = false;
         Table.ShowPager = true;
+        Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Admin.QueryWebLogsAsync;
         Table.Tips = Language[Language.TipWebLogSaveDay].Replace("{LogDays}", $"{Config.App.WebLogDays}");
 
