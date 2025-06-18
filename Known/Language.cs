@@ -11,11 +11,13 @@ public partial class Language
     internal const string TipNoConfigOnFastAddField = "未配置 UIConfig.OnFastAddField 委托！";
     internal const string TipNoConfigOnTaskSetting = "未配置 UIConfig.OnTaskSetting 委托！";
     internal const string TipSelectDataTable = "请选择数据表！";
+    internal const string TipMenuNotExists = "菜单不存在！";
     /// <summary>
     /// 不能操作代码配置的模块。
     /// </summary>
     public const string TipCodeModuleNotOperate = "不能操作代码配置的模块！";
 
+    internal const string OverMaxTabCount = "超过最大标签页数！";
     internal const string MoreTableSetting = "更多表格属性设置";
     internal const string MoreFormSetting = "更多表单属性设置";
 

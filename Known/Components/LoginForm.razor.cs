@@ -66,7 +66,7 @@ public partial class LoginForm
         {
             if (!captcha.Validate(out string message))
             {
-                await UI.Toast(message, StyleType.Error);
+                UI.Error(message);
                 return;
             }
         }

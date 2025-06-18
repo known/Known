@@ -10,30 +10,20 @@ public partial class UIService
     /// <param name="text">提示消息文本。</param>
     /// <param name="style">提示样式，默认Success。</param>
     /// <returns></returns>
-    public async Task Toast(string text, StyleType style = StyleType.Success)
+    internal Task ToastAsync(string text, StyleType style = StyleType.Success)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return;
+            return Task.CompletedTask;
 
         var content = FormatMessage(text);
-        switch (style)
+        return style switch
         {
-            case StyleType.Success:
-                await message.SuccessAsync(content);
-                break;
-            case StyleType.Info:
-                await message.InfoAsync(content);
-                break;
-            case StyleType.Warning:
-                await message.WarningAsync(content);
-                break;
-            case StyleType.Error:
-                await message.ErrorAsync(content);
-                break;
-            default:
-                await message.InfoAsync(content);
-                break;
-        }
+            StyleType.Success => message.SuccessAsync(content),
+            StyleType.Info => message.InfoAsync(content),
+            StyleType.Warning => message.WarningAsync(content),
+            StyleType.Error => message.ErrorAsync(content),
+            _ => message.InfoAsync(content),
+        };
     }
 
     /// <summary>
@@ -43,10 +33,10 @@ public partial class UIService
     /// <param name="text">提示消息文本。</param>
     /// <param name="style">提示样式，默认Success。</param>
     /// <returns></returns>
-    public async Task NoticeAsync(string title, string text, StyleType style = StyleType.Success)
+    public Task NoticeAsync(string title, string text, StyleType style = StyleType.Success)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return;
+            return Task.CompletedTask;
 
         var config = new NotificationConfig
         {
@@ -55,25 +45,16 @@ public partial class UIService
             Description = FormatMessage(text),
             Placement = NotificationPlacement.BottomRight
         };
-        switch (style)
+        if (style == StyleType.Error)
+            config.Duration = 1000;
+        return style switch
         {
-            case StyleType.Success:
-                await notice.Success(config);
-                break;
-            case StyleType.Info:
-                await notice.Info(config);
-                break;
-            case StyleType.Warning:
-                await notice.Warning(config);
-                break;
-            case StyleType.Error:
-                config.Duration = 1000;
-                await notice.Error(config);
-                break;
-            default:
-                await notice.Info(config);
-                break;
-        }
+            StyleType.Success => notice.Success(config),
+            StyleType.Info => notice.Info(config),
+            StyleType.Warning => notice.Warning(config),
+            StyleType.Error => notice.Error(config),
+            _ => notice.Info(config),
+        };
     }
 
     /// <summary>

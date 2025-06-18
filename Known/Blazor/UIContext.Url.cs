@@ -40,7 +40,7 @@ public partial class UIContext
         {
             if (TabsService.Pages.Count + 1 > UserSetting.MaxTabCount)
             {
-                UI.Info("超过最大标签页数！");
+                UI.Info(Language.OverMaxTabCount);
                 return;
             }
         }

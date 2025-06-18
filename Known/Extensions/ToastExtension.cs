@@ -10,9 +10,9 @@ public static class ToastExtension
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">提示文本。</param>
-    public static async void Success(this UIService service, string message)
+    public static void Success(this UIService service, string message)
     {
-        await service.SuccessAsync(message);
+        service.SuccessAsync(message);
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ public static class ToastExtension
     /// <returns></returns>
     public static Task SuccessAsync(this UIService service, string message)
     {
-        return service.Toast(message, StyleType.Success);
+        return service.ToastAsync(message, StyleType.Success);
     }
 
     /// <summary>
@@ -31,9 +31,9 @@ public static class ToastExtension
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">提示文本。</param>
-    public static async void Info(this UIService service, string message)
+    public static void Info(this UIService service, string message)
     {
-        await service.InfoAsync(message);
+        service.InfoAsync(message);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public static class ToastExtension
     /// <returns></returns>
     public static Task InfoAsync(this UIService service, string message)
     {
-        return service.Toast(message, StyleType.Info);
+        return service.ToastAsync(message, StyleType.Info);
     }
 
     /// <summary>
@@ -52,9 +52,9 @@ public static class ToastExtension
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">警告文本。</param>
-    public static async void Warning(this UIService service, string message)
+    public static void Warning(this UIService service, string message)
     {
-        await service.WarningAsync(message);
+        service.WarningAsync(message);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public static class ToastExtension
     /// <returns></returns>
     public static Task WarningAsync(this UIService service, string message)
     {
-        return service.Toast(message, StyleType.Warning);
+        return service.ToastAsync(message, StyleType.Warning);
     }
 
     /// <summary>
@@ -73,9 +73,9 @@ public static class ToastExtension
     /// </summary>
     /// <param name="service">UI服务。</param>
     /// <param name="message">错误文本。</param>
-    public static async void Error(this UIService service, string message)
+    public static void Error(this UIService service, string message)
     {
-        await service.ErrorAsync(message);
+        service.ErrorAsync(message);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public static class ToastExtension
     /// <returns></returns>
     public static Task ErrorAsync(this UIService service, string message)
     {
-        return service.Toast(message, StyleType.Error);
+        return service.ToastAsync(message, StyleType.Error);
     }
 
     /// <summary>
@@ -95,9 +95,9 @@ public static class ToastExtension
     /// <param name="service">UI服务。</param>
     /// <param name="result">后端操作结果。</param>
     /// <param name="onSuccess">后端操作成功回调委托。</param>
-    public static async void Result(this UIService service, Result result, Func<Task> onSuccess = null)
+    public static void Result(this UIService service, Result result, Func<Task> onSuccess = null)
     {
-        await service.ResultAsync(result, onSuccess);
+        service.ResultAsync(result, onSuccess);
     }
 
     /// <summary>
@@ -107,16 +107,15 @@ public static class ToastExtension
     /// <param name="result">后端操作结果。</param>
     /// <param name="onSuccess">后端操作成功回调委托。</param>
     /// <returns></returns>
-    public static async Task ResultAsync(this UIService service, Result result, Func<Task> onSuccess = null)
+    public static Task ResultAsync(this UIService service, Result result, Func<Task> onSuccess = null)
     {
         if (!result.IsValid)
         {
-            await service.ErrorAsync(result.Message);
-            return;
+            service.ErrorAsync(result.Message);
+            return Task.CompletedTask;
         }
 
-        if (onSuccess != null)
-            await onSuccess.Invoke();
-        await service.Toast(result.Message);
+        onSuccess?.Invoke();
+        return service.ToastAsync(result.Message);
     }
 }

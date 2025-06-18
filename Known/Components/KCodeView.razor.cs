@@ -68,7 +68,7 @@ public partial class KCodeView
     private void OnCopy(MouseEventArgs args)
     {
         JSRuntime.CopyTextAsync(Code);
-        UI.Success("复制成功！");
+        UI.Success(Language.CopySuccess);
     }
 
     private Task OnDownload(MouseEventArgs args)

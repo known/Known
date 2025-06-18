@@ -17,14 +17,14 @@ public partial class RegisterForm
     /// </summary>
     [Parameter] public Func<Task> OnRegister { get; set; }
 
-    private async Task OnFinish(EditContext context)
+    private Task OnFinish(EditContext context)
     {
         if (!captcha.Validate(out string message))
         {
-            await UI.Toast(message, StyleType.Error);
-            return;
+            UI.Error(message);
+            return Task.CompletedTask;
         }
 
-        await OnRegister?.Invoke();
+        return OnRegister?.Invoke();
     }
 }

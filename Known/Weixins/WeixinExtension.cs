@@ -39,7 +39,7 @@ public static class WeixinExtension
         };
         model.OnClosed = () => isManualClose = true;
         page.UI.ShowDialog(model);
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             while (true)
             {
@@ -52,8 +52,8 @@ public static class WeixinExtension
                 var weixin = await page.Admin.GetWeixinByUserIdAsync(user.Id);
                 if (weixin != null)
                 {
-                    await model.CloseAsync();
-                    await page.UI.Toast("关注成功！");
+                    _ = model.CloseAsync();
+                    page.UI.Success("关注成功！");
                     break;
                 }
                 Thread.Sleep(1000);

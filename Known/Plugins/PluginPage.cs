@@ -166,7 +166,7 @@ class PluginPage : BaseComponent, IAutoPage
     {
         if (Menu == null)
         {
-            UI.Error("菜单不存在！");
+            UI.Error(Language.TipMenuNotExists);
             return;
         }
 
