@@ -73,16 +73,17 @@ public class WeatherForecast
     [DisplayName("日期")]
     public DateTime? Date { get; set; }
 
-    [Column]
+    [Column(Width = 150)]
     [Form]
     public int TemperatureC { get; set; }
 
-    [Column]
+    [Column(Type = FieldType.File)]
     [Form]
     public string Summary { get; set; }
 
-    [Column]
+    [Column(Width = 150)]
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+
     public WeatherInfo Info { get; set; }
 }
 

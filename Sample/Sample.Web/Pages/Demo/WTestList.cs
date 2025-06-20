@@ -17,10 +17,10 @@ public class WTestList : BaseTablePage<WeatherForecast>
         Table.ShowPager = true;
         Table.OnQuery = OnQueryWeatherForecastsAsync;
 
-        Table.AddColumn(c => c.Date, true);
-        Table.AddColumn(c => c.TemperatureC);
-        Table.AddColumn(c => c.Summary);
-        Table.AddColumn(c => c.Info.Summary1).Template((b, r) => b.Text(r.Info.Summary1));
+        //Table.AddColumn(c => c.Date, true);
+        //Table.AddColumn(c => c.TemperatureC);
+        //Table.AddColumn(c => c.Summary);
+        //Table.AddColumn(c => c.Info.Summary1).Template((b, r) => b.Text(r.Info.Summary1));
 
         Table.ExpandTemplate = (b, r) => b.Text(r.Summary);
 

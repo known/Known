@@ -139,6 +139,9 @@ class AppDefaultData
 
     private static void SetPageColumns(AutoPageInfo info, PropertyInfo item, ColumnAttribute column)
     {
+        var type = column.Type;
+        if (type == FieldType.Text)
+            type = item.GetFieldType();
         info.Page.Columns.Add(new PageColumnInfo
         {
             Id = item.Name,
@@ -146,7 +149,7 @@ class AppDefaultData
             Length = item.GetFieldLength(),
             Required = item.IsRequired(),
             Category = item.Category(),
-            Width = column.Width > 0 ? column.Width : item.GetColumnWidth(),
+            Width = column.Width > 0 ? column.Width : item.GetColumnWidth(type),
             Ellipsis = column.Ellipsis,
             IsSum = column.IsSum,
             IsSort = column.IsSort,
@@ -155,7 +158,7 @@ class AppDefaultData
             IsQuery = column.IsQuery,
             IsQueryAll = column.IsQueryAll,
             QueryValue = column.QueryValue,
-            Type = item.GetFieldType(),
+            Type = type,
             Fixed = column.Fixed,
             Align = column.Align
         });
@@ -163,6 +166,11 @@ class AppDefaultData
 
     private static void SetFormFields(AutoPageInfo info, PropertyInfo item, FormAttribute form)
     {
+        var type = FieldType.Text;
+        if (!string.IsNullOrWhiteSpace(form.Type))
+            type = Utils.ConvertTo<FieldType>(form.Type);
+        if (type == FieldType.Text)
+            type = item.PropertyType.GetFieldType();
         info.Form.Fields.Add(new FormFieldInfo
         {
             Id = item.Name,
@@ -172,7 +180,7 @@ class AppDefaultData
             Required = item.IsRequired(),
             Row = form.Row,
             Column = form.Column,
-            Type = item.GetFieldType(),
+            Type = type,
             CustomField = form.CustomField,
             ReadOnly = form.ReadOnly,
             Placeholder = form.Placeholder,
