@@ -44,6 +44,21 @@ public partial class CodeModelForm
 
     private void OnNew() => Model = CreateCodeMode();
 
+    private void OnSelect()
+    {
+        if (UIConfig.OnSelectModel == null)
+        {
+            UI.Error(Language.TipNoConfigOnSelectModel);
+            return;
+        }
+
+        UIConfig.OnSelectModel.Invoke(UI, model =>
+        {
+            Model = model;
+            StateChanged();
+        });
+    }
+
     private async Task OnSave()
     {
         if (string.IsNullOrWhiteSpace(Model.Code) || string.IsNullOrWhiteSpace(Model.Name))

@@ -8,6 +8,7 @@ public partial class Language
     internal const string TipLanguageFetchConfirm = "确定要提取语言信息吗？";
     internal const string TipLanguageSettingConfirm = "确定要重置语言设置吗？";
     internal const string TipCodeAndNameRequired = "请输入代码和名称！";
+    internal const string TipNoConfigOnSelectModel = "未配置 UIConfig.OnSelectModel 委托！";
     internal const string TipNoConfigOnFastAddField = "未配置 UIConfig.OnFastAddField 委托！";
     internal const string TipNoConfigOnTaskSetting = "未配置 UIConfig.OnTaskSetting 委托！";
     internal const string TipSelectDataTable = "请选择数据表！";

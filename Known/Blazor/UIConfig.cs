@@ -153,6 +153,11 @@ public class UIConfig
     public static Action<UIService> OnTaskSetting { get; set; }
 
     /// <summary>
+    /// 取得或设置选择模型字段表单委托。
+    /// </summary>
+    public static Action<UIService, Action<CodeModelInfo>> OnSelectModel { get; set; }
+
+    /// <summary>
     /// 取得或设置快速添加字段表单委托。
     /// </summary>
     public static Action<UIService, List<string>, Action<List<FieldInfo>>> OnFastAddField { get; set; }
