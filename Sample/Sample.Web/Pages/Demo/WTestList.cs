@@ -1,8 +1,14 @@
 ﻿namespace Sample.Web.Pages.Demo;
 
+public class BizTablePage<TItem> : BaseTablePage<TItem> where TItem : class, new()
+{
+    [Action] public Task Import() => Table.ShowImportAsync();
+    [Action] public Task Export() => Table.ExportDataAsync();
+}
+
 [Route("/wtests")]
 [Menu(AppConstant.Demo, "天气测试", "cloud", 4)]
-public class WTestList : BaseTablePage<WeatherForecast>
+public class WTestList : BizTablePage<WeatherForecast>
 {
     protected override Task OnParameterAsync()
     {
@@ -33,6 +39,8 @@ public class WTestList : BaseTablePage<WeatherForecast>
         };
     }
 
+    [Action] public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
+
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
     {
         await Task.Delay(500);
@@ -47,5 +55,10 @@ public class WTestList : BaseTablePage<WeatherForecast>
             Info = new WeatherInfo { Date1 = startDate, Summary1 = "Item.Summary" }
         }).ToList();
         return new PagingResult<WeatherForecast>(100, forecasts);
+    }
+
+    private Task<Result> SaveDataAsync(WeatherForecast row)
+    {
+        return Result.SuccessAsync("保存成功！");
     }
 }

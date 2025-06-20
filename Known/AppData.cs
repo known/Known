@@ -86,8 +86,11 @@ public sealed partial class AppData
     /// <returns>插件配置信息。</returns>
     public static AutoPageInfo CreateAutoPage(Type pageType)
     {
-        if (TypeHelper.IsGenericSubclass(pageType, typeof(BaseTablePage<>), out var types))
-            return AppDefaultData.CreateAutoPage(pageType, types[0]);
+        if (pageType.BaseType.IsGenericType)
+        {
+            var arguments = pageType.BaseType.GetGenericArguments();
+            return AppDefaultData.CreateAutoPage(pageType, arguments[0]);
+        }
 
         return AppDefaultData.CreateAutoPage(pageType);
     }
