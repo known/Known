@@ -80,12 +80,13 @@ public static class CoreExtension
             app.UseResponseCompression();
 
         var provider = new FileExtensionContentTypeProvider();
+        provider.Mappings[".glb"] = "model/gltf-binary";
         foreach (var item in CoreOption.Instance.ContentTypes)
         {
             provider.Mappings[item.Key] = item.Value;
         }
 
-        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
         var webFiles = Config.GetUploadPath(true);
         app.UseStaticFiles(new StaticFileOptions
         {
