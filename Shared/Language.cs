@@ -437,7 +437,10 @@ public partial class Language
     internal const string ActionTitle = "{action}{title}";
     internal const string ImportTitle = "导入{name}";
     internal const string PageTotal = "共 {total} 条记录";
-    internal const string TipExits = "确定要退出系统？";
+    /// <summary>
+    /// 确定要退出系统。
+    /// </summary>
+    public const string TipExits = "确定要退出系统？";
     internal const string TipPage404 = "页面不存在！";
     internal const string TipNoMethod = "{method}方法不存在！";
     internal const string TipXXSuccess = "{action}成功！";

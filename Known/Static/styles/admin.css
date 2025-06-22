@@ -39,7 +39,7 @@
 .kui-user-avatar img {display:block;width:100px;height:100px;margin:0 auto;}
 .kui-user-info {padding:20px;}
 .kui-user-info li {list-style:none;text-align:justify;margin-bottom:10px;}
-.kui-user-info li span {font-size:0.9rem;}
+.kui-user-info li .anticon {font-size:16px;margin-right:5px;}
 .kui-user-avatar .kui-upload-button {border:none;}
 
 /*Seeting*/

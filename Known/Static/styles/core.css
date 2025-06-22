@@ -29,7 +29,7 @@
 .kui-bg-danger:hover, .kui-bg-danger:hover > td {background-color: #ffa39e !important;}
 .kui-p10 {padding:10px;}
 .kui-app-name {
-    font-weight:bold;margin-top:0.9rem;margin-bottom:0.9rem;text-align:center;line-height:1.8rem;font-size:1.3rem;
+    font-weight:bold;text-align:center;margin-top:18px;margin-bottom:18px;line-height:22px;font-size:20px;
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
 .kui-body > .kui-card {height:100%;}
@@ -67,8 +67,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
 
 /*Toolbar*/
-.kui-title {font-size:1rem;font-weight:bold;}
-.kui-sub-title {font-size:0.8rem;margin-left:10px;font-weight:normal;}
+.kui-title {font-size:16px;font-weight:bold;}
+.kui-sub-title {font-size:14px;margin-left:10px;font-weight:normal;}
 .kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
 .kui-toolbar > div {display:flex;align-items:center;}
 .kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid var(--kui-color-border);}
@@ -83,7 +83,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-column-setting {margin-left:5px;cursor:pointer;font-size:18px;}
 
 /*Form*/
-.kui-caption {font-weight:bold;font-size:1rem;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
+.kui-caption {font-weight:bold;font-size:16px;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
 .kui-form, .kui-small {padding:10px 10px 0 0;}
 .kui-steps-content {
     margin-top:16px;padding:10px;background-color:var(--kui-bgcolor);
@@ -142,9 +142,9 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-icon-picker {position:relative;height:300px;margin:10px;}
 .kui-icon-picker .search {position:absolute;top:0;left:0;right:0;}
 .kui-icon-picker .items {position:absolute;top:35px;left:0;bottom:0;right:0;overflow:auto;}
-.kui-icon-picker .item {display:inline-block;font-size:2rem;width:80px;text-align:center;margin:2px;}
+.kui-icon-picker .item {display:inline-block;font-size:32px;width:80px;text-align:center;margin:2px;}
 .kui-icon-picker .item.active {font-weight:bold;color:#1890ff;}
-.kui-icon-picker .item .name {display:block;font-size:1rem;height:1rem;line-height:1rem;overflow:hidden;}
+.kui-icon-picker .item .name {display:block;font-size:14px;height:14px;line-height:14px;overflow:hidden;}
 
 :root[data-theme=dark] .kui-toolbar {border-bottom:1px solid #303030;}
 :root[data-theme=dark] .kui-list-box li:hover, 
@@ -236,7 +236,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-api-label {display:flex;}
 .kui-api-label span {display:inline-block;}
 .kui-api-label label {display:inline-block;width:100px;}
-.kui-api-name {font-size:1rem;font-weight:bold;margin-bottom:10px;}
+.kui-api-name {font-size:16px;font-weight:bold;margin-bottom:10px;}
 .kui-api-title {font-weight:bold;margin-bottom:5px;}
 .kui-api-route {display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .kui-api-result {border-left:5px solid #1890ff;padding:10px;background-color:#f1f1f1;border-radius:3px;max-height:200px;overflow:auto;}
