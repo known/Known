@@ -27,6 +27,7 @@ partial class TableModel<TItem>
         model.Info ??= new FormInfo();
         if (Form != null)
         {
+            model.WrapClass = Form.WrapClass;
             model.SmallLabel = Form.SmallLabel;
             model.Info.NoFooter = Form.NoFooter;
             model.Info.ShowFooter = Form.ShowFooter;

@@ -77,7 +77,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-form.small-label .ant-form-item-label, .kui-small .ant-form-item-label {width:85px;}
 .kui-form.small-row .ant-form-item, .kui-small-row .ant-form-item {margin-bottom:10px;}
 .kui-form.readonly .ant-form-item {align-items:center;}
-.kui-tab-form, .kui-form-tab {margin-top:-10px;}
+.kui-tab-form .ant-modal-body, .kui-tab-form .ant-drawer-body {padding-top:0;}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
 .kui-tab-form .ant-tabs-tabpane {padding:10px 0;}
 .kui-tab-form .ant-tabs-tabpane .kui-form, .kui-tab-form .ant-tabs-tabpane .kui-small {padding-right:10px;}

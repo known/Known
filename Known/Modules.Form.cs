@@ -16,6 +16,11 @@ public class FormInfo
     public int? Width { get; set; }
 
     /// <summary>
+    /// 取得或设置表单对话框CSS类名。
+    /// </summary>
+    public string WrapClass { get; set; }
+
+    /// <summary>
     /// 取得或设置表单是否窄宽标题。
     /// </summary>
     public bool SmallLabel { get; set; }
