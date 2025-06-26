@@ -5,7 +5,7 @@
 /// </summary>
 public class LayoutBase : LayoutComponentBase
 {
-    internal bool IsLoaded { get; private set; } = true;
+    internal bool IsLoaded { get; private set; }
     internal IAdminService Admin { get; set; }
 
     [CascadingParameter] internal UIContext Context { get; set; }
@@ -40,15 +40,14 @@ public class LayoutBase : LayoutComponentBase
             return;
         }
 
-        await OnInitAsync();
-        IsLoaded = true;
+        IsLoaded = await OnInitAsync();
     }
 
     /// <summary>
     /// 异步初始化模板组件。
     /// </summary>
     /// <returns></returns>
-    protected virtual Task OnInitAsync() => Task.CompletedTask;
+    protected virtual Task<bool> OnInitAsync() => Task.FromResult(true);
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -95,15 +94,16 @@ public class AuthLayout : LayoutBase
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitAsync()
+    protected override async Task<bool> OnInitAsync()
     {
         await base.OnInitAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         if (Context.CurrentUser == null)
         {
             Navigation?.GoLoginPage();
-            return;
+            return false;
         }
+        return true;
     }
 
     /// <inheritdoc />
