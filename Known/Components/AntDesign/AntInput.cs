@@ -15,6 +15,11 @@ public class AntInput : Input<string>
     /// </summary>
     [Parameter] public string Icon { get; set; }
 
+    /// <summary>
+    /// 取得或设置回车键按下时的回调函数。
+    /// </summary>
+    [Parameter] public EventCallback<string> OnEnter { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -24,6 +29,16 @@ public class AntInput : Input<string>
             Item.Type = typeof(string);
         if (!string.IsNullOrWhiteSpace(Icon))
             Prefix = b => b.Icon(Icon);
+        if (OnEnter.HasDelegate)
+        {
+            OnKeyUp = this.Callback<KeyboardEventArgs>(e =>
+            {
+                if (e.Key == "Enter")
+                {
+                    OnEnter.InvokeAsync(Value);
+                }
+            });
+        }
         base.OnInitialized();
     }
 }
