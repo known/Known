@@ -1,6 +1,6 @@
 ﻿namespace Known.Internals;
 
-[NavPlugin("连接", "link")]
+[NavPlugin(Language.NavLink, "link")]
 class NavLink : PluginBase<LinkInfo>
 {
     public override void Config(Func<object, Task<Result>> onConfig)

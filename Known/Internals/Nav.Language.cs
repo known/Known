@@ -3,7 +3,7 @@
 /// <summary>
 /// 多语言下拉框组件类。
 /// </summary>
-[NavPlugin("多语言", "translation", Category = "组件", Sort = 4)]
+[NavPlugin(Language.NavLanguage, "translation", Category = Language.Component, Sort = 4)]
 public class NavLanguage : BaseNav
 {
     private LanguageSettingInfo current;

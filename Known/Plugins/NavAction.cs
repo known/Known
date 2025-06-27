@@ -27,7 +27,7 @@ class NavAction : BaseComponent
             Icon = "plus",
             Items = items,
             TriggerType = "Click",
-            Tooltip = "添加导航",
+            Tooltip = Language.AddNavbar,
             OnItemClick = OnNavbarClickAsync
         };
         builder.Component<AntDropdown>()

@@ -5,7 +5,7 @@ namespace Known.Internals;
 /// <summary>
 /// 自定义Ant主题组件类。
 /// </summary>
-[NavPlugin("主题", "retweet", Category = "组件", Sort = 5)]
+[NavPlugin(Language.NavTheme, "retweet", Category = Language.Component, Sort = 5)]
 public class NavTheme : BaseNav
 {
     /// <summary>

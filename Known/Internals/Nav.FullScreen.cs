@@ -1,6 +1,6 @@
 ﻿namespace Known.Internals;
 
-[NavPlugin("全屏", "fullscreen", Category = "组件", Sort = 2)]
+[NavPlugin(Language.NavFullScreen, "fullscreen", Category = Language.Component, Sort = 2)]
 class NavFullScreen : BaseNav
 {
     private bool isFullScreen = false;

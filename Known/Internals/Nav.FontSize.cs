@@ -1,6 +1,6 @@
 ﻿namespace Known.Internals;
 
-[NavPlugin("字体大小", "font-size", Category = "组件", Sort = 3)]
+[NavPlugin(Language.NavFontSize, "font-size", Category = Language.Component, Sort = 3)]
 class NavFontSize : BaseNav
 {
     protected override string Icon => "font-size";

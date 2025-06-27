@@ -34,6 +34,14 @@ public partial class Language
     internal const string FixToLeft = "固定到左侧";
     internal const string FixToRight = "固定到右侧";
 
+    internal const string AddNavbar = "添加导航";
+    internal const string Component = "组件";
+    internal const string NavFontSize = "字体大小";
+    internal const string NavLanguage = "多语言";
+    internal const string NavTheme = "主题";
+    internal const string NavFullScreen = "全屏";
+    internal const string NavLink = "连接";
+
     internal static void Initialize(Assembly assembly)
     {
         foreach (var item in Settings)
