@@ -71,4 +71,12 @@ public partial class QueryItem
         var query = Data.Select(d => d.Value).ToList();
         await OnSearch?.Invoke(query);
     }
+
+    private async Task OnInputEnter(KeyboardEventArgs args)
+    {
+        if (args.Key != "Enter")
+            return;
+
+        await SearchDataAsync();
+    }
 }
