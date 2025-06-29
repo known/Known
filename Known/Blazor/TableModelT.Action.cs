@@ -39,6 +39,13 @@ partial class TableModel<TItem>
     public void AddAction(string idOrName) => Actions?.Add(new ActionInfo(idOrName));
 
     /// <summary>
+    /// 添加操作列按钮。
+    /// </summary>
+    /// <param name="id">按钮ID。</param>
+    /// <param name="name">按钮名称。</param>
+    public void AddAction(string id, string name) => Actions?.Add(new ActionInfo { Id = id, Name = name });
+
+    /// <summary>
     /// 异步操作表格行数据。
     /// </summary>
     /// <param name="action">操作方法委托。</param>

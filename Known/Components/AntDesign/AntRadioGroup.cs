@@ -41,7 +41,13 @@ public class AntRadioGroup : RadioGroup<string>
         if (!string.IsNullOrWhiteSpace(Category))
             Codes = Cache.GetCodes(Category);
         Options = Codes.ToRadioOptions();
-        Class = CssBuilder.Default().AddClass("kui-block", Block).BuildClass();
+        if (Block)
+        {
+            if (string.IsNullOrWhiteSpace(Class))
+                Class = "kui-block";
+            else
+                Class += " kui-block";
+        }
         await base.OnParametersSetAsync();
         //Fixed单选按钮组切换不刷新问题
         //OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
