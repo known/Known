@@ -38,5 +38,28 @@ public class CoreUtils
     /// </summary>
     /// <returns></returns>
     public static bool HasNetwork() => Ping("www.baidu.com");
+
+    /// <summary>
+    /// 获取本机的MAC地址。
+    /// </summary>
+    /// <returns></returns>
+    public static string GetMacAddress()
+    {
+        var nics = NetworkInterface.GetAllNetworkInterfaces();
+        foreach (var adapter in nics)
+        {
+            // 过滤掉回环、隧道等类型，只取物理网卡
+            if (adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
+                adapter.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+            {
+                var address = adapter.GetPhysicalAddress();
+                if (address != null && address.GetAddressBytes().Length == 6)
+                {
+                    return string.Join(":", address.GetAddressBytes().Select(b => b.ToString("X2")));
+                }
+            }
+        }
+        return string.Empty;
+    }
     #endregion
 }
