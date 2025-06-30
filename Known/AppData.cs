@@ -92,6 +92,12 @@ public sealed partial class AppData
             return AppDefaultData.CreateAutoPage(pageType, arguments[0]);
         }
 
+        if (pageType.BaseType.BaseType.IsGenericType)
+        {
+            var arguments = pageType.BaseType.BaseType.GetGenericArguments();
+            return AppDefaultData.CreateAutoPage(pageType, arguments[0]);
+        }
+
         return AppDefaultData.CreateAutoPage(pageType);
     }
 
