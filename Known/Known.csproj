@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known是基于Blazor轻量级、跨平台、极易扩展的插件开发框架。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>3.3.9.1</Version>
+        <Version>3.3.9</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Framework, .NET, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -20,7 +20,7 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <PackageReference Include="AntDesign" Version="1.4.1" />
+        <PackageReference Include="AntDesign" Version="1.4.2" />
         <!--
         <ProjectReference Include="..\..\..\Codes\Blazor\AntDesignBlazor\components\AntDesign.csproj" />
         -->
