@@ -5,6 +5,7 @@
 /// </summary>
 public class LayoutBase : LayoutComponentBase
 {
+    internal bool IsInstall { get; private set; }
     internal bool IsLoaded { get; private set; }
     internal IAdminService Admin { get; set; }
 
@@ -19,6 +20,7 @@ public class LayoutBase : LayoutComponentBase
         await base.OnInitializedAsync();
         Admin = await Factory.CreateAsync<IAdminService>(Context);
 
+        IsInstall = false;
         IsLoaded = false;
         var info = await Admin.GetInitialAsync();
         if (info != null)
@@ -36,10 +38,12 @@ public class LayoutBase : LayoutComponentBase
         }
         if (!Config.IsInstalled)
         {
+            IsInstall = true;
             Navigation?.GoInstallPage();
             return;
         }
 
+        IsInstall = true;
         IsLoaded = await OnInitAsync();
     }
 
@@ -79,7 +83,7 @@ public class EmptyLayout : LayoutBase
     /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (!IsLoaded)
+        if (!IsInstall)
             return;
 
         builder.Div("kui-wrapper", () => builder.Fragment(Body));
