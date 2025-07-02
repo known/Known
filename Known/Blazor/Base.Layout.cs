@@ -138,8 +138,7 @@ public class BaseLayout : BaseComponent
     {
         Info = await Admin.GetAdminAsync();
         Config.DatabaseType = Info.DatabaseType;
-        if (!IsServerMode)
-            Config.Actions = Info.Actions ?? [];
+        Config.Actions = Info.Actions ?? [];
         Context.UserSetting = Info.UserSetting ?? new();
         Context.UserTableSettings = Info.UserTableSettings ?? [];
         if (!Context.IsMobileApp)
