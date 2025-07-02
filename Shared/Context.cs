@@ -77,7 +77,7 @@ public class Context
     /// <summary>
     /// 取得上下文参数字典。
     /// </summary>
-    public Dictionary<string, object> Paramter { get; } = [];
+    public Dictionary<string, object> Parameter { get; } = [];
 
     /// <summary>
     /// 根据Key获取上下文参数。
@@ -87,7 +87,7 @@ public class Context
     /// <returns>参数对象。</returns>
     public T GetParameter<T>(string key)
     {
-        if (!Paramter.TryGetValue(key, out var value))
+        if (!Parameter.TryGetValue(key, out var value))
             return default;
 
         return (T)value;

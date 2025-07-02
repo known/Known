@@ -1,6 +1,9 @@
 ﻿namespace Known.Extensions;
 
-static class SettingExtension
+/// <summary>
+/// 用户设置数据扩展类。
+/// </summary>
+public static class SettingExtension
 {
     internal static Task<List<SettingInfo>> GetUserSettingsAsync(this Database db, string bizTypePrefix)
     {
@@ -16,7 +19,14 @@ static class SettingExtension
                  .FirstAsync<SettingInfo>();
     }
 
-    internal static async Task<T> GetUserSettingAsync<T>(this Database db, string bizType)
+    /// <summary>
+    /// 异步获取用户设置信息。
+    /// </summary>
+    /// <typeparam name="T">设置信息类型。</typeparam>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizType">设置业务类型。</param>
+    /// <returns></returns>
+    public static async Task<T> GetUserSettingAsync<T>(this Database db, string bizType)
     {
         var setting = await db.GetUserSettingAsync(bizType);
         if (setting == null)
@@ -39,7 +49,13 @@ static class SettingExtension
         return dics;
     }
 
-    internal static async Task SaveSettingAsync(this Database db, SettingInfo info)
+    /// <summary>
+    /// 异步保存设置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">设置信息。</param>
+    /// <returns></returns>
+    public static async Task SaveSettingAsync(this Database db, SettingInfo info)
     {
         var model = await db.QueryByIdAsync<SysSetting>(info.Id);
         model ??= new SysSetting();

@@ -95,6 +95,8 @@ partial class AdminService
         database.User = user;
         var result = await database.TransactionAsync(Language.Login, async db =>
         {
+            if (CoreConfig.OnLoged != null)
+                await CoreConfig.OnLoged.Invoke(db, user);
             await db.SaveUserAsync(user);
             await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);

@@ -41,6 +41,11 @@ public class CoreConfig
     public static Func<Database, LoginFormInfo, Task<Result>> OnLoging { get; set; }
 
     /// <summary>
+    /// 取得或设置用户登录后逻辑委托。
+    /// </summary>
+    public static Func<Database, UserInfo, Task> OnLoged { get; set; }
+
+    /// <summary>
     /// 取得或设置获取初始化信息后附加操作委托。
     /// </summary>
     public static Func<Database, InitialInfo, Task> OnInitial { get; set; }
