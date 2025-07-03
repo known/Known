@@ -2,7 +2,10 @@
 
 partial class FormModel<TItem>
 {
-    internal string Action { get; set; }
+    /// <summary>
+    /// 取得或设置表单操作类型。
+    /// </summary>
+    public string Action { get; set; }
 
     /// <summary>
     /// 取得表单操作按钮信息列表，用于扩展表单底部按钮。

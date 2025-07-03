@@ -73,9 +73,20 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
                 {
                     b.FormAction(() =>
                     {
+                        if (Form.FooterRight != null)
+                            b.Fragment(Form.FooterRight);
+
+                        if (Form.Actions != null && Form.Actions.Count > 0)
+                        {
+                            foreach (var action in Form.Actions)
+                            {
+                                builder.Button(action);
+                            }
+                        }
+
                         b.Button(Language.OK, this.Callback<MouseEventArgs>(OnSaveAsync));
                         b.Button(Language.Cancel, this.Callback<MouseEventArgs>(OnCloseAsync), "default");
-                    });
+                    }, Form.FooterLeft);
                 }
             });
         });

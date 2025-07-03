@@ -28,6 +28,7 @@ class KModalFooter : BaseComponent
 {
     [Parameter] public bool Closable { get; set; }
     [Parameter] public RenderFragment Left { get; set; }
+    [Parameter] public RenderFragment Right { get; set; }
     [Parameter] public List<ActionInfo> Actions { get; set; }
     [Parameter] public Func<Task> OnOk { get; set; }
     [Parameter] public Func<Task> OnCancel { get; set; }
@@ -36,6 +37,9 @@ class KModalFooter : BaseComponent
     {
         builder.FormAction(() =>
         {
+            if (Right != null)
+                builder.Fragment(Right);
+
             if (Actions != null && Actions.Count > 0)
             {
                 foreach (var action in Actions)

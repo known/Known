@@ -195,6 +195,11 @@ public partial class Language
     public const string Revoke = "撤回";
 
     /// <summary>
+    /// 审核。
+    /// </summary>
+    public const string Verify = "审核";
+
+    /// <summary>
     /// 授权。
     /// </summary>
     public string Authorize = "授权";

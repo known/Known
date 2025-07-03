@@ -152,6 +152,7 @@ public partial class UIService
         builder.Component<KModalFooter>()
                .Set(c => c.Closable, true)
                .Set(c => c.Left, model.FooterLeft)
+               .Set(c => c.Right, model.FooterRight)
                .Set(c => c.Actions, model.Actions)
                .Set(c => c.OnOk, () => model.SaveAsync())
                .Set(c => c.OnCancel, () => model.CloseAsync())

@@ -118,6 +118,11 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     public RenderFragment FooterLeft { get; set; }
 
     /// <summary>
+    /// 取得或设置表单对话框底部右侧按钮左侧自定义组件。
+    /// </summary>
+    public RenderFragment FooterRight { get; set; }
+
+    /// <summary>
     /// 取得表单附件字段附件数据信息字典。
     /// </summary>
     public Dictionary<string, List<FileDataInfo>> Files { get; } = [];
