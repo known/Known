@@ -25,6 +25,18 @@ public partial class UIContext
     public MenuInfo Current { get; private set; }
 
     /// <summary>
+    /// 导航到指定类型的页面。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    public void NavigateTo<T>()
+    {
+        var id = typeof(T).Name;
+        var info = UserMenus?.FirstOrDefault(m => m.Id == id);
+        info ??= Config.AppMenus.FirstOrDefault(m => m.Id == id);
+        NavigateTo(info);
+    }
+
+    /// <summary>
     /// 导航到指定菜单页面。
     /// </summary>
     /// <param name="info">菜单信息。</param>
