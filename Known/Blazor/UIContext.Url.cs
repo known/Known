@@ -48,7 +48,7 @@ public partial class UIContext
         if (string.IsNullOrWhiteSpace(info.Id))
             throw new ArgumentNullException(nameof(info.Id));
 
-        if (UserSetting.MaxTabCount.HasValue)
+        if (UserSetting.MaxTabCount.HasValue && !IsMobileApp)
         {
             if (TabsService.Pages.Count + 1 > UserSetting.MaxTabCount)
             {
