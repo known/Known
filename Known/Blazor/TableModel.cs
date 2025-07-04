@@ -29,6 +29,11 @@ public class TableModel : BaseModel
     public string Name { get; set; }
 
     /// <summary>
+    /// 取得或设置表格是否显示名称，默认显示。
+    /// </summary>
+    public bool ShowName { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格提示信息。
     /// </summary>
     public string Tips { get; set; }

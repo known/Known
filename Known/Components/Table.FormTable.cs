@@ -27,7 +27,8 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
                 {
                     builder.Div(() =>
                     {
-                        builder.FormTitle(Model.Name);
+                        if (Model.ShowName)
+                            builder.FormTitle(Model.Name);
                         if (Model.QueryColumns.Count > 0)
                             builder.Query(Model);
                     });

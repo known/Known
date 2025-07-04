@@ -62,7 +62,7 @@ class AutoTablePage : BaseTablePage<Dictionary<string, object>>, IAutoPage
 
     private void InitTable()
     {
-        Table.Initialize();
+        Table.Initialize(true);
         Table.OnQuery = Service.QueryModelsAsync;
         Table.Criteria.Clear();
         Table.SetQueryColumns();

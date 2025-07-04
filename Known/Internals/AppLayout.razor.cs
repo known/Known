@@ -5,6 +5,7 @@
 /// </summary>
 public partial class AppLayout
 {
+    private ReloadContainer reload;
     private List<MenuInfo> TabItems = [];
     private bool IsHome => Context.Url == "/app";
     private bool IsTab => Context.Current?.Target == "Tab";
@@ -23,5 +24,10 @@ public partial class AppLayout
     {
         await base.OnInitAsync();
         TabItems = Config.AppMenus?.Where(m => m.Target == "Tab").OrderBy(m => m.Sort).ToList();
+    }
+
+    private void OnReloadPage()
+    {
+        reload?.Reload();
     }
 }

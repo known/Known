@@ -88,7 +88,15 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
 
     internal override string TableId => typeof(TItem).Name;
     internal override Type DataType => typeof(TItem);
-    internal void Initialize() => Initialize(true);
+
+    /// <summary>
+    /// 初始化表格插件。
+    /// </summary>
+    public void Initialize()
+    {
+        var info = AppData.CreateAutoPage(Page.GetType());
+        Initialize(info);
+    }
 
     /// <summary>
     /// 初始化页面表格模型配置。
@@ -128,7 +136,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 初始化表格栏位、权限、查询条件。
     /// </summary>
     /// <param name="isPage">是否是表格页面。</param>
-    protected virtual void Initialize(bool isPage)
+    public virtual void Initialize(bool isPage)
     {
         if (isPage)
         {

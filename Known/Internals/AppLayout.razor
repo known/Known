@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<KLayout>
+<KLayout OnReloadPage="OnReloadPage">
     <div class="kui-app">
         @if (!IsHome)
         {
@@ -16,7 +16,9 @@
             </div>
         }
         <div class="@PageClass">
-            @ChildContent
+            <ReloadContainer @ref="reload">
+                @ChildContent
+            </ReloadContainer>
         </div>
         @if (IsTab)
         {
