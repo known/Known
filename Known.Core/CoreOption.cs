@@ -53,6 +53,11 @@ public class CoreOption
     public bool IsAddWebApi { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置超级管理员用户密码。
+    /// </summary>
+    public string SuperPassword { get; set; }
+
+    /// <summary>
     /// 取得或设置保存新用户时委托。
     /// </summary>
     public Action<Database, SysUser> OnNewUser { get; set; }

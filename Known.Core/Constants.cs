@@ -7,6 +7,7 @@ class Constant
     /// </summary>
     public const string KeyAuth = "Known-Auth";
 
+    internal const string SuperAdmin = "SuperAdmin";
     internal const string UserSetting = "UserSetting";
 
     /// <summary>

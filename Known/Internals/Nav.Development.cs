@@ -12,7 +12,7 @@ class NavDevelopment : BaseNav
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        var plugins = PluginConfig.DevPlugins;
+        var plugins = PluginConfig.DevPlugins.GetAuthPlugins(CurrentUser);
         if (!UIConfig.EnableEdit)
             plugins = [.. plugins.Where(p => p.Type != typeof(LanguagePage) && p.Type != typeof(ButtonPage))];
         if (!Config.App.IsLanguage)

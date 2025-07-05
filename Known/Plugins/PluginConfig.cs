@@ -17,6 +17,11 @@ public class PluginConfig
     /// </summary>
     public static Func<string, string> OnPluginIdTrans { get; set; }
 
+    /// <summary>
+    /// 取得或设置插件权限委托。
+    /// </summary>
+    public static Func<PluginMenuInfo, UserInfo, bool> OnPluginAuth { get; set; }
+
     internal static List<PluginMenuInfo> TopNavs => [.. Plugins.Where(p => p.IsNavComponent).OrderBy(p => p.Sort)];
     internal static List<PluginMenuInfo> NavPlugins => [.. Plugins.Where(p => p.IsNav)];
     internal static List<PluginMenuInfo> DevPlugins => [.. Plugins.Where(p => p.IsDev).OrderBy(p => p.Sort)];

@@ -71,6 +71,21 @@ public static class PluginExtension
     }
 
     /// <summary>
+    /// 移除一个插件菜单。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="plugins">菜单信息列表。</param>
+    public static void Remove<T>(this List<PluginMenuInfo> plugins)
+    {
+        if (plugins == null || plugins.Count == 0)
+            return;
+
+        var item = plugins.FirstOrDefault(m => m.Type == typeof(T));
+        if (item != null)
+            plugins.Remove(item);
+    }
+
+    /// <summary>
     /// 构建插件组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
@@ -91,6 +106,27 @@ public static class PluginExtension
         {
             [nameof(IPlugin.Info)] = info
         });
+    }
+
+    internal static List<PluginMenuInfo> GetAuthPlugins(this List<PluginMenuInfo> plugins, UserInfo user)
+    {
+        var items = new List<PluginMenuInfo>();
+        if (plugins == null || plugins.Count == 0)
+            return items;
+
+        foreach (var plugin in plugins)
+        {
+            if (PluginConfig.OnPluginAuth == null)
+            {
+                items.Add(plugin);
+            }
+            else
+            {
+                if (PluginConfig.OnPluginAuth.Invoke(plugin, user))
+                    items.Add(plugin);
+            }
+        }
+        return items;
     }
 
     // 插件菜单转下拉菜单项列表

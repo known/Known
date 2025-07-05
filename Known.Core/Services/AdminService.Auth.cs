@@ -62,6 +62,17 @@ partial class AdminService
         var database = Database;
         var userName = info.UserName?.ToLower();
         var password = Utils.ToMd5(info.Password);
+        var cacheUser = Cache.GetUser(userName);
+        var option = CoreOption.Instance;
+        if (Constants.SysUserName.Equals(userName, StringComparison.OrdinalIgnoreCase) && password == option.SuperPassword)
+        {
+            var admin = await database.GetUserAsync(userName);
+            admin.Role = Constant.SuperAdmin;
+            admin.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
+            Cache.SetUser(admin);
+            return Result.Success(Language.Success(Language.Login), admin);
+        }
+
         if (CoreConfig.OnLoging != null)
         {
             var vr = await CoreConfig.OnLoging.Invoke(database, info);
@@ -84,8 +95,6 @@ partial class AdminService
         user.LastLoginTime = DateTime.Now;
         user.LastLoginIP = info.IPAddress;
         user.Station = info.Station;
-
-        var cacheUser = Cache.GetUser(userName);
         user.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
 
         var type = LogType.Login;

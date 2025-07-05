@@ -40,6 +40,7 @@ public class Constants
     internal const string CompNo = "puman";
     internal const string CompName = "普漫科技";
     internal const string Route = "Route";
+    internal const string SuperAdmin = "SuperAdmin";
 }
 
 /// <summary>
