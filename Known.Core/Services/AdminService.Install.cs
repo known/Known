@@ -105,7 +105,7 @@ partial class AdminService
             CompNo = info.CompNo,
             CompName = info.CompName,
             AppName = info.AppName,
-            ProductId = info.ProductId,
+            ProductId = CoreOption.Instance.ProductId,
             ProductKey = info.ProductKey,
             UserDefaultPwd = "888888"
         };
@@ -165,7 +165,7 @@ partial class AdminService
             {
                 IsInstalled = sys != null,
                 AppName = Config.App.Name,
-                ProductId = sys?.ProductId,
+                ProductId = CoreOption.Instance.ProductId,
                 ProductKey = sys?.ProductKey,
                 AdminName = Constants.SysUserName
             };

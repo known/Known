@@ -117,6 +117,7 @@ public class CoreOption
         if (CheckSystem == null)
             return Result.Success("");
 
+        info.ProductId = Instance.ProductId;
         var result = CheckSystem.Invoke(info);
         CoreConfig.IsAuth = result.IsValid;
         CoreConfig.AuthStatus = result.Message;
