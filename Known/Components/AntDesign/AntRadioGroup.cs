@@ -7,8 +7,12 @@ namespace Known.Components;
 /// </summary>
 public class AntRadioGroup : RadioGroup<string>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
     /// 取得或设置列表组件关联的数据字典类别名或可数项目（用逗号分割，如：男,女）。

@@ -8,6 +8,13 @@ namespace Known.Components;
 /// <typeparam name="TItem">表单数据对象类型。</typeparam>
 public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, new()
 {
+    [Inject] private IServiceScopeFactory Factory { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统上下文对象实例。
+    /// </summary>
+    [Parameter] public UIContext Context { get; set; }
+
     /// <summary>
     /// 取得或设置是否查看模式。
     /// </summary>
@@ -22,6 +29,17 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
     /// 取得或设置表单组件模型对象实例。
     /// </summary>
     [Parameter] public FormModel<TItem> Form { get; set; }
+
+    /// <summary>
+    /// 创建依赖注入的后端服务接口实例。
+    /// </summary>
+    /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
+    /// <returns></returns>
+    public Task<T> CreateServiceAsync<T>() where T : IService
+    {
+        var context = Form?.Context ?? Context;
+        return Factory.CreateAsync<T>(context);
+    }
 
     /// <inheritdoc />
     protected override void OnInitialized()

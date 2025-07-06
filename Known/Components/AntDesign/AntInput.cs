@@ -7,8 +7,12 @@ namespace Known.Components;
 /// </summary>
 public class AntInput : Input<string>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
     /// 取得或设置前缀图标。

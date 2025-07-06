@@ -7,8 +7,12 @@ namespace Known.Components;
 /// </summary>
 public class AntTimePicker : TimePicker<TimeOnly?>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()

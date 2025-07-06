@@ -7,8 +7,12 @@ namespace Known.Components;
 /// </summary>
 public class AntSelect : Select<string, string>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
     /// 取得或设置前缀图标。
@@ -47,8 +51,12 @@ public class AntSelect : Select<string, string>
 /// </summary>
 public class AntSelectCode : Select<string, CodeInfo>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
     /// 取得或设置选择框组件关联的数据字典类别名或可数项目（用逗号分割，如：项目1,项目2）。

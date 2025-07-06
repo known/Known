@@ -8,8 +8,12 @@ namespace Known.Components;
 /// </summary>
 public class AntDatePicker : DatePicker<DateTime?>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -40,8 +44,12 @@ public class AntDateTimePicker : DatePicker<DateTime?>
         Placeholder = OneOf<string, string[]>.FromT0(format);
     }
 
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()

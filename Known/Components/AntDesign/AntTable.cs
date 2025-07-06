@@ -8,10 +8,12 @@ namespace Known.Components;
 /// <typeparam name="TItem">表格数据对象类型。</typeparam>
 public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, new()
 {
+    [Inject] private IServiceScopeFactory Factory { get; set; }
+
     /// <summary>
     /// 取得或设置系统上下文对象实例。
     /// </summary>
-    [Parameter] public Context Context { get; set; }
+    [Parameter] public UIContext Context { get; set; }
 
     /// <summary>
     /// 取得或设置表格组件模型对象实例。
@@ -22,6 +24,17 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
     /// 取得或设置是否只读。
     /// </summary>
     [Parameter] public bool IsView { get; set; }
+
+    /// <summary>
+    /// 创建依赖注入的后端服务接口实例。
+    /// </summary>
+    /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
+    /// <returns></returns>
+    public Task<T> CreateServiceAsync<T>() where T : IService
+    {
+        var context = Model?.Context ?? Context;
+        return Factory.CreateAsync<T>(context);
+    }
 
     /// <inheritdoc />
     protected override void OnInitialized()

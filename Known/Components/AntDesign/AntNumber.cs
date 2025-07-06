@@ -6,8 +6,12 @@
 /// <typeparam name="TValue"></typeparam>
 public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -25,8 +29,12 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
 /// </summary>
 public class AntInteger : AntDesign.InputNumber<int?>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -44,8 +52,12 @@ public class AntInteger : AntDesign.InputNumber<int?>
 /// </summary>
 public class AntDecimal : AntDesign.InputNumber<decimal?>
 {
-    [CascadingParameter] private IComContainer AntForm { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
