@@ -15,7 +15,10 @@ partial class CodeGenerator
         sb.AppendLine("public interface I{0}Service : IService", className);
         sb.AppendLine("{");
         sb.AppendLine("    Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria);", modelName, pluralName);
-
+        
+        if (HasSave(page))
+            sb.AppendLine("    Task<{0}> Get{1}Async(string id);", modelName, className);
+        
         if (HasDelete(page))
             sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> infos);", pluralName, modelName);
 

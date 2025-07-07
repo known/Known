@@ -5,6 +5,7 @@ partial class CodeGenerator
     public string GetForm(FormInfo form, EntityInfo entity)
     {
         var modelName = GetModelName(entity.Id);
+        var className = DataHelper.GetClassName(entity.Id);
         var sb = new StringBuilder();
         sb.AppendLine("@inherits BaseForm<{0}>", modelName);
         sb.AppendLine(" ");
@@ -35,17 +36,34 @@ partial class CodeGenerator
             }
         }
         sb.AppendLine("</AntForm>");
+        sb.AppendLine(" ");
+        sb.AppendLine("@code {");
+        sb.AppendLine("    private I{0}Service Service;", className);
+        sb.AppendLine(" ");
+        sb.AppendLine("    protected override async Task OnInitFormAsync()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        await base.OnInitFormAsync();");
+        sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
+        sb.AppendLine("    }");
+        sb.AppendLine(" ");
+        sb.AppendLine("    protected override async Task OnAfterRenderAsync(bool firstRender)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        await base.OnAfterRenderAsync(firstRender);");
+        sb.AppendLine("        if (firstRender)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            Model.Data = await Service.Get{0}Async(Model.Data.Id);", className);
+        sb.AppendLine("            StateChanged();");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
         if (Model.HasFile)
         {
-            sb.AppendLine(" ");
-            sb.AppendLine("@code {");
             sb.AppendLine("    private Task OnFilesChanged(string id, List<FileDataInfo> files)");
             sb.AppendLine("    {");
             sb.AppendLine("        Model.Files[id] = files;");
             sb.AppendLine("        return Task.CompletedTask;");
             sb.AppendLine("    }");
-            sb.AppendLine("}");
         }
+        sb.AppendLine("}");
         return sb.ToString();
     }
 

@@ -29,6 +29,15 @@ partial class CodeGenerator
             sb.AppendLine("        return Database.QueryPageAsync<{0}>(criteria);", entityName);
         sb.AppendLine("    }");
 
+        if (HasSave(page))
+        {
+            sb.AppendLine(" ");
+            sb.AppendLine("    public async Task<{0}> Get{1}Async(string id)", modelName, className);
+            sb.AppendLine("    {");
+            sb.AppendLine("        return Database.Query<{0}>().Where(d => d.Id == id).FirstAsync<{1}>();", entityName, modelName);
+            sb.AppendLine("    }");
+        }
+
         if (HasDelete(page))
         {
             sb.AppendLine(" ");

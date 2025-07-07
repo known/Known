@@ -24,6 +24,15 @@ partial class CodeGenerator
         sb.AppendLine("        return Http.QueryAsync<{0}>(\"/{1}/Query{2}\", criteria);", modelName, className, pluralName);
         sb.AppendLine("    }");
 
+        if (HasSave(page))
+        {
+            sb.AppendLine(" ");
+            sb.AppendLine("    public Task<{0}> Get{1}Async(string id)", modelName, className);
+            sb.AppendLine("    {");
+            sb.AppendLine("        return Http.GetAsync<{1}>($\"/{0}/Get{2}?id={{id}}\");", className, modelName, className);
+            sb.AppendLine("    }");
+        }
+
         if (HasDelete(page))
         {
             sb.AppendLine(" ");
