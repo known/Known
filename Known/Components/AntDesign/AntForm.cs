@@ -31,6 +31,11 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
     [Parameter] public FormModel<TItem> Form { get; set; }
 
     /// <summary>
+    /// 取得或设置表体内容模板。
+    /// </summary>
+    [Parameter] public RenderFragment ListContent { get; set; }
+
+    /// <summary>
     /// 创建依赖注入的后端服务接口实例。
     /// </summary>
     /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
@@ -86,6 +91,9 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
                     b.Fragment(Form.Header);
 
                 base.BuildRenderTree(b);
+
+                if (ListContent != null)
+                    b.Div("kui-form-list", () => b.Fragment(ListContent));
 
                 if (ShowAction && !Form.IsView)
                 {

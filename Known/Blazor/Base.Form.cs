@@ -165,6 +165,56 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
 }
 
 /// <summary>
+/// 表头表体表单基类。
+/// </summary>
+/// <typeparam name="THead">表头数据类型。</typeparam>
+/// <typeparam name="TList">表体数据类型。</typeparam>
+public class BaseHeadListForm<THead, TList> : BaseForm<THead> 
+    where THead : class, new()
+    where TList : class, new()
+{
+    /// <summary>
+    /// 取得表体数据列表。
+    /// </summary>
+    protected List<TList> ListItems { get; } = [];
+
+    /// <summary>
+    /// 添加表体数据。
+    /// </summary>
+    protected void OnAdd() => ListItems.Add(new TList());
+
+    /// <summary>
+    /// 删除表体数据。
+    /// </summary>
+    /// <param name="row">表体数据。</param>
+    protected void OnDelete(TList row) => ListItems.Remove(row);
+
+    /// <summary>
+    /// 上移表体数据。
+    /// </summary>
+    /// <param name="row">表体数据。</param>
+    protected void OnMoveUp(TList row) => MoveRow(row, true);
+
+    /// <summary>
+    /// 下移表体数据。
+    /// </summary>
+    /// <param name="row">表体数据。</param>
+    protected void OnMoveDown(TList row) => MoveRow(row, false);
+
+    private void MoveRow(TList row, bool isMoveUp)
+    {
+        var index = ListItems.IndexOf(row);
+        var index1 = isMoveUp ? index - 1 : index + 1;
+        if (index1 < 0 || index1 > ListItems.Count - 1)
+            return;
+
+        var temp = ListItems[index1];
+        ListItems[index1] = row;
+        ListItems[index] = temp;
+    }
+}
+
+/// <summary>
 /// 标签页表单基类，继承表单基类。
 /// </summary>
 public class BaseTabForm : BaseForm

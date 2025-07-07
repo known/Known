@@ -100,6 +100,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-button button {margin-right:10px;}
 .kui-form-auth {width:400px;margin:0 auto;}
 .kui-form-unit {display:flex;gap:10px;align-items:center;}
+.kui-form-list {padding-bottom:10px;}
+.kui-form-list > div {padding:0 10px 10px 10px;}
 .kui-unit {display:inline-block;margin-left:10px;}
 
 /*Capsule*/
