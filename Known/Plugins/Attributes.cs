@@ -27,6 +27,11 @@ public class PluginAttribute(string name, string icon) : Attribute
     /// 取得或设置排序。
     /// </summary>
     public int Sort {  get; set; }
+
+    /// <summary>
+    /// 取得或设置插件角色。
+    /// </summary>
+    public string Role { get; set; }
 }
 
 /// <summary>

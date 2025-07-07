@@ -11,6 +11,7 @@ public class PluginMenuInfo
         Type = type;
         Attribute = attribute;
         Sort = attribute.Sort;
+        Role = attribute.Role;
     }
 
     /// <summary>
@@ -37,6 +38,11 @@ public class PluginMenuInfo
     /// 取得或设置排序。
     /// </summary>
     public int Sort { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件角色。
+    /// </summary>
+    public string Role { get; set; }
 
     /// <summary>
     /// 取得是否是导航组件。

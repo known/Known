@@ -116,15 +116,9 @@ public static class PluginExtension
 
         foreach (var plugin in plugins)
         {
-            if (PluginConfig.OnPluginAuth == null)
-            {
+            if (string.IsNullOrWhiteSpace(plugin.Role) ||
+                user.Role?.Split(',').Contains(plugin.Role) == true)
                 items.Add(plugin);
-            }
-            else
-            {
-                if (PluginConfig.OnPluginAuth.Invoke(plugin, user))
-                    items.Add(plugin);
-            }
         }
         return items;
     }

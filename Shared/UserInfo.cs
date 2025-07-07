@@ -154,19 +154,25 @@ public class UserInfo
     /// 获取用户是否是系统或租户管理员。
     /// </summary>
     /// <returns></returns>
-    public bool IsAdmin() => IsSystemAdmin() || IsTenantAdmin();
+    public bool IsAdmin() => IsSuperAdmin() || IsSystemAdmin() || IsTenantAdmin();
 
     /// <summary>
-    /// 获取用户是否是租户管理员。
+    /// 获取用户是否是超级管理员。
     /// </summary>
     /// <returns></returns>
-    public bool IsTenantAdmin() => CompNo == UserName;
+    public bool IsSuperAdmin() => Role == Constants.SuperAdmin;
 
     /// <summary>
     /// 获取用户是否是系统超级管理员。
     /// </summary>
     /// <returns></returns>
     public bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
+
+    /// <summary>
+    /// 获取用户是否是租户管理员。
+    /// </summary>
+    /// <returns></returns>
+    public bool IsTenantAdmin() => CompNo == UserName;
 
     /// <summary>
     /// 判断用户是否是该角色。
