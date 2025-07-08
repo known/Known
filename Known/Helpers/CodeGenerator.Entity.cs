@@ -40,7 +40,7 @@ partial class CodeGenerator
                 sb.AppendLine(" ");
 
             var type = GetCSharpType(item);
-            if (!item.Required && type != "string")
+            if (type != "bool" && type != "string")
                 type += "?";
 
             sb.AppendLine("    /// <summary>");
