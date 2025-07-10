@@ -136,13 +136,13 @@ public class TableColumn : Column<string>
     /// <summary>
     /// 取得或设置显示数据。
     /// </summary>
-    [Parameter] public string Value { get; set; }
+    [Parameter] public object Value { get; set; }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         if (AntTable != null && AntTable.IsView)
-            ChildContent = b => b.Text(Value);
+            ChildContent = b => b.Text(Value?.ToString());
         Title = UIContext.Language[Title];
         base.OnParametersSet();
     }
