@@ -1,0 +1,75 @@
+﻿@inherits BaseHeadListForm<DictionaryInfo, CodeName>
+
+<DictionaryTypeForm Form="Model">
+    <ChildContent>
+        <AntRow>
+            <DataItem Span="12" Label="代码" Required>
+                <AntInput @bind-Value="context.Code" />
+            </DataItem>
+            <DataItem Span="12" Label="名称">
+                <AntInput @bind-Value="context.Name" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="12" Label="顺序" Required>
+                <AntInteger @bind-Value="context.Sort" />
+            </DataItem>
+            <DataItem Span="12" Label="状态" Required>
+                <AntSwitch @bind-Value="context.Enabled" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="备注">
+                <AntTextArea @bind-Value="context.Note" />
+            </DataItem>
+        </AntRow>
+        @if (context.DicType == DictionaryType.Text)
+        {
+            <AntRow>
+                <DataItem Span="24" Label="扩展">
+                    <AntTextArea @bind-Value="context.Extension" />
+                </DataItem>
+            </AntRow>
+        }
+        else if (context.DicType == DictionaryType.Image)
+        {
+            <AntRow>
+                <DataItem Span="24" Label="图片">
+                    <KUpload Value="@context.Extension" OnFilesChanged="OnFilesChanged" />
+                </DataItem>
+            </AntRow>
+        }
+    </ChildContent>
+    <ListContent>
+        @if (Model.Data.DicType == DictionaryType.Child)
+        {
+            <KFlexSpace>
+                <KTitle Text="子字典明细" />
+                @if (!Model.IsView)
+                {
+                    <div>
+                        <KButton Icon="plus" Name="添加" OnClick="OnAdd" />
+                        <KButton Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" Title="复制Excel中如下列表字段顺序的表格文本，点击粘贴按钮即可。" />
+                    </div>
+                }
+            </KFlexSpace>
+            <CodeNameTable DataSource="ListItems" IsView="Model.IsView" HidePagination ScrollY="200px">
+                <StringColumn Title="序号" Width="50">@(ListItems.IndexOf(context) + 1)</StringColumn>
+                <TableColumn Title="代码" Width="120" Value="@context.Code">
+                    <AntInput @bind-Value="context.Code" />
+                </TableColumn>
+                <TableColumn Title="名称" Value="@context.Name">
+                    <AntInput @bind-Value="context.Name" />
+                </TableColumn>
+                @if (!Model.IsView)
+                {
+                    <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="180" Fixed="ColumnFixPlacement.Right">
+                        <KButton Name="上移" OnClick="e => OnMoveUp(context)" />
+                        <KButton Name="下移" OnClick="e => OnMoveDown(context)" />
+                        <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+                    </ActionColumn>
+                }
+            </CodeNameTable>
+        }
+    </ListContent>
+</DictionaryTypeForm>

@@ -61,7 +61,7 @@ public class EntityBase<TKey> : BaseEntity
         var modelProperties = TypeHelper.Properties(model.GetType()).ToList();
         foreach (var item in properties)
         {
-            if (baseFields.Exists(d => d.Id == item.Name) || item.Name == nameof(IsNew))
+            if (baseFields.Exists(d => d.Id == item.Name && d.Id != nameof(EntityBase.Extension)) || item.Name == nameof(IsNew))
                 continue;
 
             var modelProperty = modelProperties.FirstOrDefault(p => p.Name == item.Name);

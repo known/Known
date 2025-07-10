@@ -1,6 +1,29 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 字典类型枚举。
+/// </summary>
+public enum DictionaryType
+{
+    /// <summary>
+    /// 默认。
+    /// </summary>
+    None,
+    /// <summary>
+    /// 包含子字典。
+    /// </summary>
+    Child,
+    /// <summary>
+    /// 包含扩展文本。
+    /// </summary>
+    Text,
+    /// <summary>
+    /// 包含扩展图片。
+    /// </summary>
+    Image
+}
+
+/// <summary>
 /// 数据字典信息类。
 /// </summary>
 [DisplayName("数据字典")]
@@ -19,6 +42,11 @@ public class DictionaryInfo
     /// 取得或设置实体ID。
     /// </summary>
     public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置扩展数据。
+    /// </summary>
+    public string Extension { get; set; }
 
     /// <summary>
     /// 取得或设置类别。
@@ -62,7 +90,7 @@ public class DictionaryInfo
     [Column(Width = 80)]
     [Form]
     [DisplayName("顺序")]
-    public int Sort { get; set; }
+    public int? Sort { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
@@ -86,4 +114,9 @@ public class DictionaryInfo
     /// </summary>
     [DisplayName("子字典")]
     public string Child { get; set; }
+
+    /// <summary>
+    /// 取得或设置字典类型。
+    /// </summary>
+    public DictionaryType DicType { get; set; }
 }

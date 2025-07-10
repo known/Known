@@ -69,6 +69,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-block.ant-checkbox-group,
 .kui-block .ant-form-item-control,
 .kui-block .ant-form-item-control-input-content {display:flex;flex-direction:column;gap:5px;}
+.kui-block .ant-checkbox-wrapper + .ant-checkbox-wrapper {margin-left:0;}
 .kui-inline > .ant-form-item-control,
 .kui-inline .ant-form-item-control-input-content {display:flex;flex-direction:row;gap:5px;align-items:center;}
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}

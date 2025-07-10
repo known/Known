@@ -68,6 +68,9 @@ public class KListPanel : BaseComponent
         if (ListTemplate != null)
             return b => b.Fragment(ListTemplate, info);
 
+        if (string.IsNullOrWhiteSpace(info.Name))
+            return b => b.Text(info.Code);
+
         return b => b.Text($"{info.Name}({info.Code})");
     }
 }

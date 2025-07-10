@@ -27,7 +27,7 @@ public partial interface IAdminService
     /// </summary>
     /// <param name="info">数据字典对象。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveDictionaryAsync(DictionaryInfo info);
+    Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info);
 }
 
 partial class AdminService
@@ -60,9 +60,9 @@ partial class AdminService
         return DeleteModelsAsync(KeyDictionary, infos);
     }
 
-    public Task<Result> SaveDictionaryAsync(DictionaryInfo info)
+    public Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info)
     {
-        return SaveModelAsync(KeyDictionary, info);
+        return SaveModelAsync(KeyDictionary, info.Model);
     }
 }
 
@@ -83,7 +83,7 @@ partial class AdminClient
         return Http.PostAsync("/Admin/DeleteDictionaries", infos);
     }
 
-    public Task<Result> SaveDictionaryAsync(DictionaryInfo info)
+    public Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info)
     {
         return Http.PostAsync("/Admin/SaveDictionary", info);
     }

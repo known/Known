@@ -15,14 +15,29 @@ partial class AdminService
                                        .Where(d => d.Enabled && d.Category == Constants.DicCategory)
                                        .OrderBy(d => d.Sort)
                                        .ToListAsync();
-        return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name)).ToList();
+        return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name, c.CategoryName)).ToList();
     }
 
-    public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
+    public async Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
     {
+        List<SysDictionary> categories = [];
+        PagingResult<DictionaryInfo> result = null;
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [nameof(DictionaryInfo.Sort)];
-        return Database.Query<SysDictionary>(criteria).ToPageAsync<DictionaryInfo>();
+        await Database.QueryActionAsync(async db =>
+        {
+            categories = await db.QueryListAsync<SysDictionary>(d => d.Category == Constants.DicCategory);
+            result = await db.Query<SysDictionary>(criteria).ToPageAsync<DictionaryInfo>();
+        });
+        if (result.TotalCount > 0)
+        {
+            foreach (var item in result.PageData)
+            {
+                var category = categories?.FirstOrDefault(d => d.Code == item.Category);
+                item.DicType = Utils.ConvertTo<DictionaryType>(category?.CategoryName);
+            }
+        }
+        return result;
     }
 
     public async Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos)
@@ -47,12 +62,12 @@ partial class AdminService
         });
     }
 
-    public async Task<Result> SaveDictionaryAsync(DictionaryInfo info)
+    public async Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info)
     {
         var database = Database;
-        var model = await database.QueryByIdAsync<SysDictionary>(info.Id);
+        var model = await database.QueryByIdAsync<SysDictionary>(info.Model.Id);
         model ??= new SysDictionary();
-        model.FillModel(info);
+        model.FillModel(info.Model);
 
         var vr = model.Validate(Context);
         if (!vr.IsValid)
@@ -62,9 +77,15 @@ partial class AdminService
         if (exists)
             return Result.Error(CoreLanguage.TipDicCodeExists);
 
-        await database.SaveAsync(model);
-        await RefreshCacheAsync();
-        info.Id = model.Id;
-        return Result.Success(Language.SaveSuccess, info);
+        var fileFiles = info.Files?.GetAttachFiles(nameof(DictionaryInfo.Extension), "DictionaryFiles");
+        var result = await database.TransactionAsync(Language.Save, async db =>
+        {
+            await db.AddFilesAsync(fileFiles, model.Id, key => model.Extension = key);
+            await db.SaveAsync(model);
+            info.Model.Id = model.Id;
+        }, info.Model);
+        if (result.IsValid)
+            await RefreshCacheAsync();
+        return result;
     }
 }

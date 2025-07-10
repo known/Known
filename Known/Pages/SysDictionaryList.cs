@@ -18,7 +18,8 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         await base.OnInitPageAsync();
 
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
-        Table.Form = new FormInfo { SmallLabel = true };
+        Table.Form = new FormInfo { Width = 600, SmallLabel = true };
+        Table.FormType = typeof(DictionaryForm);
         Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
         Table.Column(c => c.Category).QueryField(false).Template((b, r) => b.Text(r.CategoryName));
@@ -73,7 +74,25 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    [Action] public void New() => NewForm(category, total);
+    [Action]
+    public void New()
+    {
+        if (category == null)
+        {
+            UI.Error(Language.TipSelectCategory);
+            return;
+        }
+
+        isAddCategory = false;
+        var row = new DictionaryInfo
+        {
+            Category = category.Code,
+            CategoryName = category.Name ?? category.Code,
+            Sort = total + 1,
+            DicType = Utils.ConvertTo<DictionaryType>(category.Data)
+        };
+        Table.NewForm(Admin.SaveDictionaryAsync, row);
+    }
 
     /// <summary>
     /// 批量删除多条数据。
@@ -126,23 +145,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         listTable?.SetListBox(categories, category?.Code);
         await OnItemClickAsync(category);
     }
-
-    private void NewForm(CodeInfo info, int sort)
-    {
-        if (category == null)
-        {
-            UI.Error(Language.TipSelectCategory);
-            return;
-        }
-
-        isAddCategory = false;
-        Table.NewForm(Admin.SaveDictionaryAsync, new DictionaryInfo
-        {
-            Category = info?.Code,
-            CategoryName = info?.Name,
-            Sort = sort + 1
-        });
-    }
 }
 
 class CategoryGrid : BaseTable<DictionaryInfo>
@@ -164,10 +166,12 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         Table.AutoHeight = false;
         Table.ShowPager = true;
         Table.OnQuery = QueryDictionariesAsync;
-        Table.Form = new FormInfo { Width = 500, OpenType = FormOpenType.Modal };
+        Table.Form = new FormInfo { Width = 600, SmallLabel = true, OpenType = FormOpenType.Modal };
+        Table.FormType = typeof(CategoryForm);
         Table.Toolbar.AddAction(nameof(New));
         Table.AddColumn(c => c.Code, true).Width(100);
         Table.AddColumn(c => c.Name, true).Width(100);
+        Table.AddColumn(c => c.CategoryName).Width(100).Name(Language.Type).Tag();
         Table.AddColumn(c => c.Sort).Width(80);
         Table.AddColumn(c => c.Enabled).Width(80);
         Table.AddColumn(c => c.Note).Width(200);
@@ -180,7 +184,7 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         Table.NewForm(Admin.SaveDictionaryAsync, new DictionaryInfo
         {
             Category = category.Code,
-            CategoryName = category.Name,
+            CategoryName = nameof(DictionaryType.None),
             Sort = total + 1
         });
     }
@@ -197,5 +201,23 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         var result = await Admin.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
+    }
+}
+
+class CategoryForm : BaseForm<DictionaryInfo>
+{
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+        Model.Rows.Clear();
+        Model.AddRow().AddColumn(c => c.Code).AddColumn(c => c.Name);
+        Model.AddRow().AddColumn(c => c.CategoryName, c =>
+        {
+            c.Type = FieldType.RadioList;
+            c.DisplayName = Language.Type;
+            c.Category = nameof(DictionaryType);
+        });
+        Model.AddRow().AddColumn(c => c.Sort).AddColumn(c => c.Enabled);
+        Model.AddRow().AddColumn(c => c.Note);
     }
 }
