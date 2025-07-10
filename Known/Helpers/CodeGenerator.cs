@@ -118,7 +118,7 @@ partial class CodeGenerator : ICodeGenerator
         sb.AppendLine("        return db.QueryPageAsync<{0}>(sql, criteria);", entity.Id);
         sb.AppendLine("    }");
         sb.AppendLine("}");
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 
     private string GetModelName(string entityId)

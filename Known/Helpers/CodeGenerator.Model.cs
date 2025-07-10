@@ -27,6 +27,6 @@ partial class CodeGenerator
         sb.AppendLine(" ");
         AppendFields(sb, entity, true);
         sb.AppendLine("}");
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 }

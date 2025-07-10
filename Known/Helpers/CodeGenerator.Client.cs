@@ -10,7 +10,7 @@ partial class CodeGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace {0}.Services;", Model.Namespace);
         AppendClient(sb, modelName, className, pluralName, page);
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 
     private void AppendClient(StringBuilder sb, string modelName, string className, string pluralName, PageInfo page)

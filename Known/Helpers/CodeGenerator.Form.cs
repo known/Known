@@ -64,7 +64,7 @@ partial class CodeGenerator
             sb.AppendLine("    }");
         }
         sb.AppendLine("}");
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 
     private static void AppendDataItem(StringBuilder sb, FormFieldInfo item, int span, string modelName)

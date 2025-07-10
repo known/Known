@@ -28,7 +28,7 @@ partial class CodeGenerator
         sb.AppendLine("{");
         AppendFields(sb, entity, !Model.IsAutoMode);
         sb.AppendLine("}");
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 
     private static void AppendFields(StringBuilder sb, EntityInfo entity, bool addPage)

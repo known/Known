@@ -53,7 +53,7 @@ partial class CodeGenerator
 
         if (hasClient)
             AppendClient(sb, modelName, className, pluralName, page);
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 
     private static bool HasSave(PageInfo page)

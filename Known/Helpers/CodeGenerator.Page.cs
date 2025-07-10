@@ -75,7 +75,7 @@ partial class CodeGenerator
             sb.AppendLine(export);
 
         sb.AppendLine("}");
-        return sb.ToString();
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 
     private static string GetPluralName(string name)
