@@ -1,11 +1,8 @@
 ﻿@inherits BaseComponent
 @typeparam TItem where TItem : class, new()
-@{
-    var totalWidth = Model.Columns.Where(c => c.IsVisible).Select(c => c.Width > 0 ? c.Width : 100).Sum();
-    var scrollX = totalWidth.ToString();
-}
+
 <ReloadContainer @ref="reload">
-    <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@scrollX" ScrollY="@ScrollY" 
+    <AntTable @ref="table" TItem="TItem" Context="Context" Model="Model" ScrollX="@Model.TotalWidth" ScrollY="@ScrollY" 
               ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
               Total="totalCount" DataSource="dataSource" Loading="Model.EnableSpin && isQuering"
               @bind-SelectedRows="Model.SelectedRows">

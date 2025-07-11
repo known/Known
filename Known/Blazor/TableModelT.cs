@@ -29,13 +29,16 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         AdvSearch = true;
         Page = page;
         IsDictionary = typeof(TItem).IsDictionary();
-        OnAction = page.OnActionClick;
-        Toolbar.OnItemClick = page.OnToolClick;
-
         if (mode == TableColumnMode.Property)
             AllColumns = [.. TypeHelper.Properties<TItem>().Select(p => new ColumnInfo(p))];
         else if (mode == TableColumnMode.Attribute)
             AllColumns = GetAttributeColumns(typeof(TItem));
+
+        if (page != null)
+        {
+            OnAction = page.OnActionClick;
+            Toolbar.OnItemClick = page.OnToolClick;
+        }
 
         var isPage = !IsAuto && page is BasePage;
         Initialize(isPage);

@@ -14,7 +14,7 @@ public class KFlexRow : BaseComponent
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         var className = CssBuilder.Default("kui-flex-row").AddClass(Class).BuildClass();
-        builder.Div(className, () => builder.Fragment(ChildContent));
+        builder.Div().Class(className).Style(Style).Child(() => builder.Fragment(ChildContent));
     }
 }
 
@@ -32,7 +32,7 @@ public class KFlexColumn : BaseComponent
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         var className = CssBuilder.Default("kui-flex-column").AddClass(Class).BuildClass();
-        builder.Div(className, () => builder.Fragment(ChildContent));
+        builder.Div().Class(className).Style(Style).Child(() => builder.Fragment(ChildContent));
     }
 }
 
@@ -50,6 +50,6 @@ public class KFlexSpace : BaseComponent
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         var className = CssBuilder.Default("kui-flex-space").AddClass(Class).BuildClass();
-        builder.Div(className, () => builder.Fragment(ChildContent));
+        builder.Div().Class(className).Style(Style).Child(() => builder.Fragment(ChildContent));
     }
 }

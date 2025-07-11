@@ -22,6 +22,6 @@ public class KRow : BaseComponent
         if (!string.IsNullOrWhiteSpace(Size))
             css += $"-{Size}";
         var className = CssBuilder.Default(css).AddClass(Class).BuildClass();
-        builder.Div(className, () => builder.Fragment(ChildContent));
+        builder.Div().Class(className).Style(Style).Child(() => builder.Fragment(ChildContent));
     }
 }

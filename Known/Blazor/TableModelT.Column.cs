@@ -3,6 +3,18 @@
 partial class TableModel<TItem>
 {
     /// <summary>
+    /// 取得表格所有列宽之和。
+    /// </summary>
+    public string TotalWidth
+    {
+        get
+        {
+            var totalWidth = Columns.Where(c => c.IsVisible).Select(c => c.Width ?? 100).Sum();
+            return totalWidth.ToString();
+        }
+    }
+
+    /// <summary>
     /// 获取表格栏位建造者对象。
     /// </summary>
     /// <typeparam name="TValue">栏位属性类型。</typeparam>
@@ -120,7 +132,8 @@ partial class TableModel<TItem>
 
     internal List<ColumnInfo> GetUserColumns()
     {
-        Context.UserTableSettings.TryGetValue(SettingId, out List<TableSettingInfo> settings);
+        List<TableSettingInfo> settings = null;
+        Context?.UserTableSettings?.TryGetValue(SettingId, out settings);
         var infos = new List<ColumnInfo>();
         if (AllColumns != null && AllColumns.Count > 0)
         {

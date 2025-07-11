@@ -30,6 +30,6 @@ public class KForm : BaseComponent
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div(ClassName, () => builder.Fragment(ChildContent));
+        builder.Div().Class(ClassName).Style(Style).Child(() => builder.Fragment(ChildContent));
     }
 }

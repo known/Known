@@ -57,12 +57,12 @@ public partial class ServiceBase(Context context) : IService
     /// <summary>
     /// 取得当前用户信息。
     /// </summary>
-    public UserInfo CurrentUser => Context.CurrentUser;
+    public UserInfo CurrentUser => Context?.CurrentUser;
 
     /// <summary>
     /// 取得当前语言对象。
     /// </summary>
-    public Language Language => Context.Language;
+    public Language Language => Context?.Language;
 
     /// <summary>
     /// 取得数据库访问实例。
