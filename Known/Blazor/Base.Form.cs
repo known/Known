@@ -174,6 +174,11 @@ public class BaseHeadListForm<THead, TList> : BaseForm<THead>
     where TList : class, new()
 {
     /// <summary>
+    /// 取得默认表体数据对象。
+    /// </summary>
+    protected virtual TList DefaultList { get; }
+
+    /// <summary>
     /// 取得表体数据列表。
     /// </summary>
     protected List<TList> ListItems { get; } = [];
@@ -181,7 +186,7 @@ public class BaseHeadListForm<THead, TList> : BaseForm<THead>
     /// <summary>
     /// 添加表体数据。
     /// </summary>
-    protected void OnAdd() => ListItems.Add(new TList());
+    protected void OnAdd() => ListItems.Add(DefaultList ?? new TList());
 
     /// <summary>
     /// 删除表体数据。
