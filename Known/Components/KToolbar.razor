@@ -3,7 +3,7 @@
 @if (Context.IsEditTable && Model?.Table?.EnableEdit == true)
 {
     <div class="kui-edit" style="margin-right:10px;" @onclick="OnEditTool">
-        <KIcon Icon="edit" Title="@Language[Language.EditToolbar]" />
+        <KIcon Icon="edit" Title="@Language.EditToolbar" />
     </div>
 }
 @if (Model != null && Model.HasItem)

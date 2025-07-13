@@ -15,6 +15,11 @@ public class AntRadioGroup : RadioGroup<string>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置列表组件关联的数据字典类别名或可数项目（用逗号分割，如：男,女）。
     /// </summary>
     [Parameter] public string Category { get; set; }
@@ -44,7 +49,7 @@ public class AntRadioGroup : RadioGroup<string>
     {
         if (!string.IsNullOrWhiteSpace(Category))
             Codes = Cache.GetCodes(Category);
-        Options = Codes.ToRadioOptions();
+        Options = Codes.ToRadioOptions(Context?.Language);
         if (Block)
         {
             if (string.IsNullOrWhiteSpace(Class))

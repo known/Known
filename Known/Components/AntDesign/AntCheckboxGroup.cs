@@ -15,6 +15,11 @@ public class AntCheckboxGroup : CheckboxGroup<string>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置列表组件关联的数据字典类别名或可数项目（用逗号分割，如：项目1,项目2）。
     /// </summary>
     [Parameter] public string Category { get; set; }
@@ -43,8 +48,8 @@ public class AntCheckboxGroup : CheckboxGroup<string>
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrWhiteSpace(Category))
-            Codes = Cache.GetCodes(Category, Item?.Language);
-        Options = Codes.ToCheckboxOptions(o => o.Checked = Value != null && Value.Contains(o.Value));
+            Codes = Cache.GetCodes(Category);
+        Options = Codes.ToCheckboxOptions(Context?.Language, o => o.Checked = Value != null && Value.Contains(o.Value));
         Class = CssBuilder.Default().AddClass("kui-block", Block).BuildClass();
         await base.OnParametersSetAsync();
     }

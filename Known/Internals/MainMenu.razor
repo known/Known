@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <PluginPanel CanEdit="CanEdit" Actions="actions">
-    <AntMenu @ref="menu" Context="Context" Mode="Mode" Items="Parent?.Children"
+    <AntMenu @ref="menu" Mode="Mode" Items="Parent?.Children"
              Accordion="Context.UserSetting.Accordion"
              Theme="Context.UserSetting.ToMenuTheme()" />
 </PluginPanel>

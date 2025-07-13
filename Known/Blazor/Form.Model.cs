@@ -157,7 +157,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     public string GetFormTitle()
     {
         if (!string.IsNullOrWhiteSpace(Title))
-            return Title;
+            return Language?[Title];
 
         var title = Table?.Name;
         if (Table?.FormTitle != null)

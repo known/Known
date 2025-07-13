@@ -20,22 +20,22 @@ static class OptionExtension
         return MenuTheme.Dark;
     }
 
-    internal static RadioOption<string>[] ToRadioOptions(this List<CodeInfo> codes)
+    internal static RadioOption<string>[] ToRadioOptions(this List<CodeInfo> codes, Language language)
     {
         if (codes == null || codes.Count == 0)
             return null;
 
-        return codes.Select(a => new RadioOption<string> { Label = a.Name, Value = a.Code }).ToArray();
+        return codes.Select(a => new RadioOption<string> { Label = language[a.Name], Value = a.Code }).ToArray();
     }
 
-    internal static CheckboxOption<string>[] ToCheckboxOptions(this List<CodeInfo> codes, Action<CheckboxOption<string>> action = null)
+    internal static CheckboxOption<string>[] ToCheckboxOptions(this List<CodeInfo> codes, Language language, Action<CheckboxOption<string>> action = null)
     {
         if (codes == null || codes.Count == 0)
             return null;
 
         return codes.Select(a =>
         {
-            var option = new CheckboxOption<string> { Label = a.Name, Value = a.Code };
+            var option = new CheckboxOption<string> { Label = language[a.Name], Value = a.Code };
             action?.Invoke(option);
             return option;
         }).ToArray();

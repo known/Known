@@ -32,7 +32,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
 
         foreach (var info in Infos)
         {
-            if (!info.Enabled)
+            if (!info.Enabled || Table.AllColumns.Exists(d => d.Id == info.Id))
                 continue;
 
             var property = TypeHelper.Property<LanguageInfo>(info.Id);

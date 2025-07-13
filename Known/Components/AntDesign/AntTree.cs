@@ -8,6 +8,11 @@ namespace Known.Components;
 public class AntTree : Tree<MenuInfo>
 {
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置树组件模型对象实例。
     /// </summary>
 	[Parameter] public TreeModel Model { get; set; }
@@ -21,7 +26,7 @@ public class AntTree : Tree<MenuInfo>
         CheckOnClickNode = false;
         //DisabledExpression = x => !x.DataItem.Enabled || Model.IsView;
         KeyExpression = x => x.DataItem.Id;
-        TitleExpression = x => x.DataItem.Name;
+        TitleExpression = x => Context?.Language[x.DataItem.Name];
         IconExpression = x => x.DataItem.Icon;
         ChildrenExpression = x => x.DataItem.Children;
         IsLeafExpression = x => x.DataItem.Children?.Count == 0;

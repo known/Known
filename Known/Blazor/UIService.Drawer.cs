@@ -13,7 +13,7 @@ public partial class UIService
     {
         var option = new DrawerOptions
         {
-            Title = model.Title,
+            Title = Language?[model.Title],
             Width = model.Width,
             Closable = true,
             WrapClassName = model.ClassName,

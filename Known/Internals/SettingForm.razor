@@ -38,7 +38,7 @@
     <FormItem Label="@Language[Language.Accordion]">
         <Switch @bind-Checked="context.Accordion" OnChange="OnChange" />
     </FormItem>
-    <FormItem Label="表单">
+    <FormItem Label="@Language["表单"]">
         <AntRadioGroup @bind-Value="context.OpenType" Category="@nameof(FormOpenType)" />
     </FormItem>
     <Title Level="4">@Language[Language.RegionalSetting]</Title>

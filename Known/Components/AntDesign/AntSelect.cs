@@ -15,6 +15,11 @@ public class AntSelect : Select<string, string>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置前缀图标。
     /// </summary>
     [Parameter] public string Icon { get; set; }
@@ -57,6 +62,11 @@ public class AntSelectCode : Select<string, CodeInfo>
     /// 取得或设置表单容器对象。
     /// </summary>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
+
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
 
     /// <summary>
     /// 取得或设置选择框组件关联的数据字典类别名或可数项目（用逗号分割，如：项目1,项目2）。

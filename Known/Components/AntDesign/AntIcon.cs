@@ -8,6 +8,11 @@ namespace Known.Components;
 public class AntIcon : Icon
 {
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置图标提示标题。
     /// </summary>
     [Parameter] public string Title { get; set; }

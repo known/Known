@@ -10,9 +10,9 @@ public class AntMenu : Menu
     private bool isLoading = true;
 
     /// <summary>
-    /// 取得或设置系统上下文。
+    /// 取得或设置UI上下文对象级联值实例。
     /// </summary>
-    [Parameter] public UIContext Context { get; set; }
+    [CascadingParameter] public UIContext Context { get; set; }
 
     /// <summary>
     /// 取得或设置菜单数据列表。

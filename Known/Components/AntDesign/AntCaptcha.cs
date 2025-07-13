@@ -18,6 +18,11 @@ public class AntCaptcha : Input<string>
     }
 
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置前缀图标。
     /// </summary>
     [Parameter] public string Icon { get; set; }

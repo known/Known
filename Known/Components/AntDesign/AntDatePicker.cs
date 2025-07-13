@@ -15,6 +15,11 @@ public class AntDatePicker : DatePicker<DateTime?>
     /// </summary>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
 
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -50,6 +55,11 @@ public class AntDateTimePicker : DatePicker<DateTime?>
     /// 取得或设置表单容器对象。
     /// </summary>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
+
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()

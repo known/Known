@@ -15,6 +15,11 @@ public class AntDropdown : Dropdown
     [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置下拉框设置模型。
     /// </summary>
     [Parameter] public DropdownModel Model { get; set; }

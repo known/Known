@@ -15,6 +15,11 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     [CascadingParameter] protected IComContainer AntForm { get; set; }
 
     /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
     /// 取得或设置日期范围组件字段绑定值。
     /// </summary>
     [Parameter] public string RangeValue { get; set; }

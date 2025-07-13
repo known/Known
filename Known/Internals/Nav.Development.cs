@@ -14,7 +14,7 @@ class NavDevelopment : BaseNav
         await base.OnInitAsync();
         var plugins = PluginConfig.DevPlugins.GetAuthPlugins(CurrentUser);
         if (!UIConfig.EnableEdit)
-            plugins = [.. plugins.Where(p => p.Type != typeof(LanguagePage) && p.Type != typeof(ButtonPage))];
+            plugins = [.. plugins.Where(p => p.Type != typeof(ButtonPage))];
         if (!Config.App.IsLanguage)
             plugins = [.. plugins.Where(p => p.Type != typeof(LanguagePage))];
         if (!Config.IsDebug)

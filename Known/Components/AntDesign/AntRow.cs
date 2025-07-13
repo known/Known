@@ -3,22 +3,12 @@
 /// <summary>
 /// 自定义Ant行组件类。
 /// </summary>
-public class AntRow : ComponentBase
+public class AntRow : BaseComponent
 {
     /// <summary>
     /// 取得或设置行内的列之间的排水沟宽度。
     /// </summary>
     [Parameter] public int Gutter { get; set; }
-
-    /// <summary>
-    /// 取得或设置行的CSS类名。
-    /// </summary>
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
-    /// 取得或设置行的样式字符串。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
 
     /// <summary>
     /// 取得或设置行的子内容。

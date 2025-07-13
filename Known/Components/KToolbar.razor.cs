@@ -29,7 +29,7 @@ public partial class KToolbar
     {
         return new DropdownModel
         {
-            TextButton = textButton,
+            TextButton = Language[textButton],
             OnItemClick = e=>
             {
                 Model.OnItemClick?.Invoke(e);

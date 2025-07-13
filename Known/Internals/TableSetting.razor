@@ -9,7 +9,7 @@
         <Overlay>
             <div class="kui-card overlay kui-table-setting">
                 <div class="title">
-                    <AntCheckBox Label="@Language.TableColumnShow" Indeterminate="Indeterminate" Value="CheckAll" ValueChanged="CheckAllChangedAsync" />
+                    <AntCheckBox Label="@Language[Language.TableColumnShow]" Indeterminate="Indeterminate" Value="CheckAll" ValueChanged="CheckAllChangedAsync" />
                     <KButton Type="ButtonType.Link" Name="@Language.Reset" OnClick="OnReset" />
                 </div>
                 @if (HasFixedLeft) {
@@ -40,11 +40,11 @@
 @code {
     RenderFragment RenderItem(ColumnInfo item) => @<div class="item" draggable="true" ondragover="event.preventDefault()" @ondrop="e=>OnDropAsync(e, item)" @ondragstart="e=>OnDragStart(e, item)">
         <KIcon Icon="pause" />
-        <AntCheckBox Label="@item.Label" Value="item.IsVisible" ValueChanged="v=>OnVisibleChange(item,v)" />
+        <AntCheckBox Label="@Language[item.Label]" Value="item.IsVisible" ValueChanged="v=>OnVisibleChange(item,v)" />
         <AntInteger Value="item.Width" ValueChanged="v=>OnWidthChange(item,v)" />
         <div class="fixed">
-            <AntIcon IsTheme Type="vertical-align-top" Title="@Language.FixToLeft" OnClick="e=>OnFixedChange(item, 1)" />
-            <AntIcon IsTheme Type="vertical-align-bottom" Title="@Language.FixToRight" OnClick="e=>OnFixedChange(item, 2)" />
+            <AntIcon IsTheme Type="vertical-align-top" Title="@Language[Language.FixToLeft]" OnClick="e=>OnFixedChange(item, 1)" />
+            <AntIcon IsTheme Type="vertical-align-bottom" Title="@Language[Language.FixToRight]" OnClick="e=>OnFixedChange(item, 2)" />
         </div>
     </div>;
 
@@ -54,14 +54,14 @@
             @foreach (var item in items) {
                 item.Label = Language.GetFieldName<TItem>(item);
                 <div class="item">
-                    <AntCheckBox Label="@item.Label" Value="item.IsVisible" ValueChanged="v=>OnVisibleChange(item,v)" />
+                    <AntCheckBox Label="@Language[item.Label]" Value="item.IsVisible" ValueChanged="v=>OnVisibleChange(item,v)" />
                     <AntInteger Value="item.Width" ValueChanged="v=>OnWidthChange(item,v)" />
                     <div class="fixed">
-                        <AntIcon IsTheme Type="vertical-align-middle" Title="@Language.NotFixed" OnClick="e=>OnFixedChange(item, 0)" />
+                        <AntIcon IsTheme Type="vertical-align-middle" Title="@Language[Language.NotFixed]" OnClick="e=>OnFixedChange(item, 0)" />
                         @if (title == Language.FixLeft) {
-                            <AntIcon IsTheme Type="vertical-align-bottom" Title="@Language.FixToRight" OnClick="e=>OnFixedChange(item, 2)" />
+                            <AntIcon IsTheme Type="vertical-align-bottom" Title="@Language[Language.FixToRight]" OnClick="e=>OnFixedChange(item, 2)" />
                         } else {
-                            <AntIcon IsTheme Type="vertical-align-top" Title="@Language.FixToLeft" OnClick="e=>OnFixedChange(item, 1)" />
+                            <AntIcon IsTheme Type="vertical-align-top" Title="@Language[Language.FixToLeft]" OnClick="e=>OnFixedChange(item, 1)" />
                         }
                     </div>
                 </div>

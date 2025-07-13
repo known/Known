@@ -11,9 +11,9 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
     [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
-    /// 取得或设置系统上下文对象实例。
+    /// 取得或设置UI上下文对象级联值实例。
     /// </summary>
-    [Parameter] public UIContext Context { get; set; }
+    [CascadingParameter] public UIContext Context { get; set; }
 
     /// <summary>
     /// 取得或设置表格组件模型对象实例。

@@ -11,14 +11,14 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
     [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
-    /// 取得或设置系统上下文对象实例。
-    /// </summary>
-    [Parameter] public UIContext Context { get; set; }
-
-    /// <summary>
     /// 取得或设置是否查看模式。
     /// </summary>
     public bool IsView { get; set; }
+
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
 
     /// <summary>
     /// 取得或设置是否显示【确定】和【取消】操作按钮。

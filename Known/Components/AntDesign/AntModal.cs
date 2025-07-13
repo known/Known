@@ -7,6 +7,11 @@ namespace Known.Components;
 /// </summary>
 public class AntModal : Modal
 {
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

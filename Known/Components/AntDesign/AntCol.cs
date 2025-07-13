@@ -3,7 +3,7 @@
 /// <summary>
 /// 自定义Ant列组件类。
 /// </summary>
-public class AntCol : ComponentBase
+public class AntCol : BaseComponent
 {
     [CascadingParameter] private AntRow Row { get; set; }
 
@@ -16,16 +16,6 @@ public class AntCol : ComponentBase
     /// 取得或设置列的补偿宽度。
     /// </summary>
     [Parameter] public int Offset { get; set; }
-
-    /// <summary>
-    /// 取得或设置列的CSS类名。
-    /// </summary>
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
-    /// 取得或设置列的样式字符串。
-    /// </summary>
-    [Parameter] public string Style { get; set; }
 
     /// <summary>
     /// 取得或设置列的子内容。
