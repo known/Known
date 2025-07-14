@@ -47,7 +47,7 @@ class Importer : BaseComponent
                     builder.CheckBox(new InputModel<bool>
                     {
                         Disabled = !isFinished,
-                        Label = Language.ImportIsAsync,
+                        Label = Language[Language.ImportIsAsync],
                         Value = Model?.IsAsync == true,
                         ValueChanged = this.Callback<bool>(v => Model.IsAsync = v)
                     });
@@ -61,7 +61,7 @@ class Importer : BaseComponent
                 builder.Span("size", fileInfo);
             });
             var style = string.IsNullOrWhiteSpace(error) ? "ant-btn-link" : "kui-danger";
-            builder.Div($"kui-import-message {style}", message);
+            builder.Div($"kui-import-message {style}", Language[message]);
         });
     }
 

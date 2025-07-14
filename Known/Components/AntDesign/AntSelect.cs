@@ -107,3 +107,37 @@ public class AntSelectCode : Select<string, CodeInfo>
         base.OnParametersSet();
     }
 }
+
+/// <summary>
+/// 扩展Ant枚举选择框组件类。
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public class AntSelectEnum<T> : EnumSelect<T>
+{
+    [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
+
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override string GetLabel(T item)
+    {
+        var label = base.GetLabel(item);
+        return Context?.Language[label];
+    }
+}

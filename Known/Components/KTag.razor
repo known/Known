@@ -2,13 +2,12 @@
 
 @if (Visible)
 {
-    var text = GetText();
     if (OnClick.HasDelegate)
     {
-        <Tag Color="@GetColor(text)" OnClick="OnClick">@text</Tag>
+        <Tag Color="@GetColor(Text)" OnClick="OnClick">@Language[Text]</Tag>
     }
     else
     {
-        <Tag Color="@GetColor(text)">@text</Tag>
+        <Tag Color="@GetColor(Text)">@Language[Text]</Tag>
     }
 }

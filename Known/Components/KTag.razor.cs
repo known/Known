@@ -20,14 +20,6 @@ public partial class KTag
     /// </summary>
     [Parameter] public EventCallback OnClick { get; set; }
 
-    private string GetText()
-    {
-        var text = Language.GetCode(Text);
-        if (string.IsNullOrWhiteSpace(text))
-            text = Language[Text];
-        return text;
-    }
-
     private string GetColor(string text)
     {
         if (!string.IsNullOrWhiteSpace(Color))

@@ -26,7 +26,7 @@ public partial class KLayout
         if (action == null)
             return;
 
-        await JS.ShowSpinAsync(text);
+        await JS.ShowSpinAsync(Language[text]);
         await Task.Run(async () =>
         {
             try

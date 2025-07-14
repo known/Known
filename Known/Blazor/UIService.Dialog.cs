@@ -12,7 +12,7 @@ public partial class UIService
     {
         var option = new ModalOptions
         {
-            Title = model.Title,
+            Title = Language?[model.Title],
             MaskClosable = false,
             DestroyOnClose = true,
             Closable = model.Closable,
