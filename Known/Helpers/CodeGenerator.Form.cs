@@ -57,6 +57,7 @@ partial class CodeGenerator
         sb.AppendLine("    }");
         if (Model.HasFile)
         {
+            sb.AppendLine(" ");
             sb.AppendLine("    private Task OnFilesChanged(string id, List<FileDataInfo> files)");
             sb.AppendLine("    {");
             sb.AppendLine("        Model.Files[id] = files;");

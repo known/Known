@@ -17,9 +17,9 @@ public partial class Logger
         };
         if (target == LogTarget.FrontEnd)
         {
-            var scope = Config.ServiceProvider.CreateScope();
-            var service = scope.ServiceProvider.GetRequiredService<IAdminService>();
-            service.AddWebLogAsync(log);
+            var scope = Config.ServiceProvider?.CreateScope();
+            var service = scope?.ServiceProvider?.GetRequiredService<IAdminService>();
+            service?.AddWebLogAsync(log);
         }
         else
         {

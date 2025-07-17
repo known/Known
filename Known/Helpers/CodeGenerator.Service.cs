@@ -32,7 +32,7 @@ partial class CodeGenerator
         if (HasSave(page))
         {
             sb.AppendLine(" ");
-            sb.AppendLine("    public async Task<{0}> Get{1}Async(string id)", modelName, className);
+            sb.AppendLine("    public Task<{0}> Get{1}Async(string id)", modelName, className);
             sb.AppendLine("    {");
             sb.AppendLine("        return Database.Query<{0}>().Where(d => d.Id == id).FirstAsync<{1}>();", entityName, modelName);
             sb.AppendLine("    }");
