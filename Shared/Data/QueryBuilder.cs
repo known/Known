@@ -216,7 +216,8 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
     private string GetColumnName(Expression<Func<T, object>> selector)
     {
         var pi = TypeHelper.Property(selector);
-        return provider.FormatName(pi.Name);
+        var field = pi.GetFieldName();
+        return provider.FormatName(field);
     }
 
     private CommandInfo GetCountCommand()

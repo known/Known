@@ -79,6 +79,7 @@ public class PagingCriteria
     /// </summary>
     public Action<Database, object> OnDataItem { get; set; }
 
+    internal Type EntityType { get; set; }
     internal Dictionary<string, object> CmdParams { get; set; }
 
     /// <summary>

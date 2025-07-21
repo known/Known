@@ -178,7 +178,18 @@ public static class TypeExtension
 
     internal static string GetFieldName(this MemberInfo info)
     {
-        return info?.GetCustomAttribute<ColumnAttribute>()?.Field ?? info?.Name;
+        var attr = info?.GetCustomAttribute<ColumnAttribute>();
+        return attr?.Field ?? info?.Name;
+    }
+
+    internal static string GetFieldName(this Type entityType, string propertyName)
+    {
+        if (string.IsNullOrWhiteSpace(propertyName))
+            return string.Empty;
+
+        var properties = TypeHelper.Properties(entityType);
+        var property = properties?.FirstOrDefault(p => p.Name.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
+        return property?.GetFieldName();
     }
     #endregion
 }

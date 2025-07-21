@@ -10,7 +10,7 @@ public partial class Database
     /// <param name="criteria">查询条件对象。</param>
     public void SetAutoQuery<T>(ref string sql, PagingCriteria criteria)
     {
-        QueryHelper.SetAutoQuery<T>(this, ref sql, criteria);
+        QueryHelper.SetAutoQuery(this, ref sql, typeof(T), criteria);
     }
 
     /// <summary>
@@ -21,6 +21,7 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual QueryPageBuilder Query<T>(PagingCriteria criteria) where T : class, new()
     {
+        criteria.EntityType = typeof(T);
         var sb = Provider?.Sql.SelectAll().From<T>();
         if (typeof(T).IsAssignableFrom(typeof(EntityBase)))
             sb?.Where(nameof(EntityBase.CompNo));
@@ -52,7 +53,8 @@ public partial class Database
         if (string.IsNullOrWhiteSpace(sql))
             return Task.FromResult(new PagingResult<T>());
 
-        SetAutoQuery<T>(ref sql, criteria);
+        var entityType = criteria.EntityType ?? typeof(T);
+        QueryHelper.SetAutoQuery(this, ref sql, entityType, criteria);
         var info = Provider?.GetCommand(sql, criteria, User);
         return QueryPageAsync(info, criteria, onExport);
     }

@@ -209,12 +209,15 @@ class DbProvider(Database db)
                 {
                     orderBys.Add(item);
                 }
+                else if (item.Contains("desc"))
+                {
+                    var orderBy = GetOrderBy(criteria, item, "desc");
+                    orderBys.Add(orderBy);
+                }
                 else
                 {
-                    var index = item.IndexOf(" desc", StringComparison.OrdinalIgnoreCase);
-                    var field = index > 0 ? FormatName(item[..index].Trim()) : item.Trim();
-                    var sort = index > 0 ? " desc" : "";
-                    orderBys.Add($"{field}{sort}");
+                    var orderBy = GetOrderBy(criteria, item, "asc");
+                    orderBys.Add(orderBy);
                 }
             }
             order = string.Join(",", orderBys);
@@ -227,6 +230,15 @@ class DbProvider(Database db)
             return $"{text} order by {order}";
 
         return GetPageSql(text, order, criteria);
+    }
+
+    private string GetOrderBy(PagingCriteria criteria, string item, string sort)
+    {
+        var index = item.IndexOf(sort, StringComparison.OrdinalIgnoreCase);
+        var field = index > 0 ? item[..index].Trim() : item.Trim();
+        if (criteria.EntityType != null)
+            field = criteria.EntityType.GetFieldName(field);
+        return $"{FormatName(field)} {sort}";
     }
 
     private string GetStatSql(string text, PagingCriteria criteria)

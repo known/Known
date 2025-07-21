@@ -2,7 +2,7 @@
 
 class QueryHelper
 {
-    internal static void SetAutoQuery<T>(Database db, ref string sql, PagingCriteria criteria)
+    internal static void SetAutoQuery(Database db, ref string sql, Type entityType, PagingCriteria criteria)
     {
         var querys = new List<QueryInfo>();
         foreach (var item in criteria.Query)
@@ -18,19 +18,18 @@ class QueryHelper
         foreach (var item in querys)
         {
             if (!sql.Contains($"@{item.Id}"))
-                SetQuery<T>(db, ref sql, criteria, item.Type, item.Id);
+                SetQuery(db, ref sql, entityType, criteria, item.Type, item.Id);
             var format = item.Type.ToValueFormat();
             if (!string.IsNullOrWhiteSpace(format))
                 item.ParamValue = string.Format(format, item.Value);
         }
     }
 
-    private static void SetQuery<T>(Database db, ref string sql, PagingCriteria criteria, QueryType type, string key, string field = null)
+    private static void SetQuery(Database db, ref string sql, Type entityType, PagingCriteria criteria, QueryType type, string key, string field = null)
     {
         if (criteria.ExportMode == ExportMode.All)
             return;
 
-        field ??= key;
         var keys = key.Split('.');
         if (keys.Length > 1)
             key = keys[1];
@@ -38,14 +37,13 @@ class QueryHelper
         if (!criteria.HasQuery(key))
             return;
 
+        if (string.IsNullOrWhiteSpace(field))
+            field = entityType?.GetFieldName(key);
+        if (string.IsNullOrWhiteSpace(field))
+            field = key;
         if (criteria.Fields.TryGetValue(key, out string value))
             field = value;
 
-        //var fields = field.Split('.');
-        //if (fields.Length > 1)
-        //    field = builder.GetColumnName(fields[0], fields[1]);
-        //else
-        //    field = builder.GetColumnName<T>(field);
         if (!sql.Contains("where", StringComparison.OrdinalIgnoreCase))
             sql += " where 1=1";
 

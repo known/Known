@@ -52,7 +52,7 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
         //为true时，AutoComplete无法选中
         //为false时，AntSelect无法选中
         //此问题解决，需要将DataItemValue设为IsFixed
-        ValidateOnChange = true;
+        //ValidateOnChange = true;
         ValidateMode = FormValidateMode.Rules;
         if (Form != null)
         {
