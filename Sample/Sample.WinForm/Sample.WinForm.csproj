@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.0.*" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.*" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.*" />
         <ProjectReference Include="..\..\Known\Known.csproj" />
         <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
     </ItemGroup>

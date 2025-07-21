@@ -329,6 +329,7 @@ public sealed class Utils
     private static readonly JsonSerializerOptions dsOptions = new()
     {
         PropertyNameCaseInsensitive = true,
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
         NumberHandling = JsonNumberHandling.AllowReadingFromString
     };
 

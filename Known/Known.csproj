@@ -20,7 +20,7 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
-        <PackageReference Include="AntDesign" Version="1.4.*" />
+        <PackageReference Include="AntDesign" Version="1.*" />
         <!--
         <ProjectReference Include="..\..\..\Codes\Blazor\AntDesignBlazor\components\AntDesign.csproj" />
         -->
