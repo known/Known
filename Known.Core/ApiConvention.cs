@@ -156,9 +156,15 @@ class ApiConvention : IApplicationModelConvention
             return "DELETE";
 
         var actionName = model.ActionName;
-        if (actionName.StartsWith("Get"))
-            return "GET";
+        if (!actionName.StartsWith("Get"))
+            return "POST";
 
-        return "POST";
+        //如果Get开头方法参数类型是Class，则返回POST，否则内存暴涨
+        foreach (var item in model.Parameters)
+        {
+            if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
+                return "POST";
+        }
+        return "GET";
     }
 }

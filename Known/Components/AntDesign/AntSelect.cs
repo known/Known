@@ -52,6 +52,39 @@ public class AntSelect : Select<string, string>
 }
 
 /// <summary>
+/// 扩展Ant数据表选择框组件类。
+/// </summary>
+/// <typeparam name="TItem">数据项类型。</typeparam>
+public class AntSelectItem<TItem> : Select<string, TItem> where TItem : class
+{
+    [CascadingParameter] private DataItem Item { get; set; }
+
+    /// <summary>
+    /// 取得或设置表单容器对象。
+    /// </summary>
+    [CascadingParameter] protected IComContainer AntForm { get; set; }
+
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        if (AntForm != null)
+            Disabled = AntForm.IsView;
+        if (Item != null)
+            Item.Type = typeof(string);
+        AutoFocus = false;
+        EnableVirtualization = true;
+        EnableSearch = true;
+        AllowClear = true;
+        base.OnInitialized();
+    }
+}
+
+/// <summary>
 /// 扩展Ant代码表选择框组件类。
 /// </summary>
 public class AntSelectCode : Select<string, CodeInfo>
@@ -114,8 +147,6 @@ public class AntSelectCode : Select<string, CodeInfo>
 /// <typeparam name="T"></typeparam>
 public class AntSelectEnum<T> : EnumSelect<T>
 {
-    [CascadingParameter] private DataItem Item { get; set; }
-
     /// <summary>
     /// 取得或设置表单容器对象。
     /// </summary>

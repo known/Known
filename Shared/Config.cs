@@ -282,10 +282,15 @@ public partial class Config
 
     private static HttpMethod GetHttpMethod(MethodInfo method)
     {
-        if (method.Name.StartsWith("Get"))
-            return HttpMethod.Get;
+        if (!method.Name.StartsWith("Get"))
+            return HttpMethod.Post;
 
-        return HttpMethod.Post;
+        foreach (var item in method.GetParameters())
+        {
+            if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
+                return HttpMethod.Post;
+        }
+        return HttpMethod.Get;
     }
 
     private static void AddCodeInfo(Type item)

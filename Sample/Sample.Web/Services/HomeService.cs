@@ -4,12 +4,18 @@ namespace Sample.Web.Services;
 
 public interface IHomeService : IService
 {
+    Task<PagingResult<HomeInfo>> GetHomesAsync(PagingCriteria criteria);
     Task<HomeInfo> GetHomeAsync();
 }
 
 [WebApi, Service]
 class HomeService(Context context) : ServiceBase(context), IHomeService
 {
+    public Task<PagingResult<HomeInfo>> GetHomesAsync(PagingCriteria criteria)
+    {
+        return Task.FromResult(new PagingResult<HomeInfo>());
+    }
+
     public async Task<HomeInfo> GetHomeAsync()
     {
         var info = new HomeInfo();
