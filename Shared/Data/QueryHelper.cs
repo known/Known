@@ -2,7 +2,7 @@
 
 class QueryHelper
 {
-    internal static void SetAutoQuery(Database db, ref string sql, Type entityType, PagingCriteria criteria)
+    internal static void SetAutoQuery(Database db, ref string sql, PagingCriteria criteria)
     {
         var querys = new List<QueryInfo>();
         foreach (var item in criteria.Query)
@@ -18,14 +18,14 @@ class QueryHelper
         foreach (var item in querys)
         {
             if (!sql.Contains($"@{item.Id}"))
-                SetQuery(db, ref sql, entityType, criteria, item.Type, item.Id);
+                SetQuery(db, ref sql, criteria, item.Type, item.Id);
             var format = item.Type.ToValueFormat();
             if (!string.IsNullOrWhiteSpace(format))
                 item.ParamValue = string.Format(format, item.Value);
         }
     }
 
-    private static void SetQuery(Database db, ref string sql, Type entityType, PagingCriteria criteria, QueryType type, string key, string field = null)
+    private static void SetQuery(Database db, ref string sql, PagingCriteria criteria, QueryType type, string key, string field = null)
     {
         if (criteria.ExportMode == ExportMode.All)
             return;
@@ -38,11 +38,7 @@ class QueryHelper
             return;
 
         if (string.IsNullOrWhiteSpace(field))
-            field = entityType?.GetFieldName(key);
-        if (string.IsNullOrWhiteSpace(field))
-            field = key;
-        if (criteria.Fields.TryGetValue(key, out string value))
-            field = value;
+            field = criteria.GetFieldName(key);
 
         if (!sql.Contains("where", StringComparison.OrdinalIgnoreCase))
             sql += " where 1=1";

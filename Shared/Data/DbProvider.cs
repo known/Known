@@ -236,8 +236,7 @@ class DbProvider(Database db)
     {
         var index = item.IndexOf(sort, StringComparison.OrdinalIgnoreCase);
         var field = index > 0 ? item[..index].Trim() : item.Trim();
-        if (criteria.EntityType != null)
-            field = criteria.EntityType.GetFieldName(field);
+        field = criteria.GetFieldName(field);
         return $"{FormatName(field)} {sort}";
     }
 

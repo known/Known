@@ -55,6 +55,26 @@ public static class QueryExtension
         return source;
     }
 
+    internal static string GetFieldName(this PagingCriteria criteria, string key)
+    {
+        var field = criteria.EntityType?.GetFieldName(key);
+        if (string.IsNullOrWhiteSpace(field))
+            field = key;
+        if (criteria.Fields.TryGetValue(key, out string value))
+            field = value;
+        return field;
+    }
+
+    private static string GetFieldName(this Type entityType, string propertyName)
+    {
+        if (string.IsNullOrWhiteSpace(propertyName))
+            return string.Empty;
+
+        var properties = TypeHelper.Properties(entityType);
+        var property = properties?.FirstOrDefault(p => p.Name.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
+        return property?.GetFieldName();
+    }
+
     private static string GetPropertyName<T, TProperty>(Expression<Func<T, TProperty>> selector)
     {
         if (selector.Body is MemberExpression memberExpression)

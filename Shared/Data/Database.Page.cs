@@ -10,7 +10,9 @@ public partial class Database
     /// <param name="criteria">查询条件对象。</param>
     public void SetAutoQuery<T>(ref string sql, PagingCriteria criteria)
     {
-        QueryHelper.SetAutoQuery(this, ref sql, typeof(T), criteria);
+        if (criteria.EntityType == null)
+            criteria.EntityType = typeof(T);
+        QueryHelper.SetAutoQuery(this, ref sql, criteria);
     }
 
     /// <summary>
@@ -53,8 +55,8 @@ public partial class Database
         if (string.IsNullOrWhiteSpace(sql))
             return Task.FromResult(new PagingResult<T>());
 
-        var entityType = criteria.EntityType ?? typeof(T);
-        QueryHelper.SetAutoQuery(this, ref sql, entityType, criteria);
+        criteria.EntityType = typeof(T);
+        QueryHelper.SetAutoQuery(this, ref sql, criteria);
         var info = Provider?.GetCommand(sql, criteria, User);
         return QueryPageAsync(info, criteria, onExport);
     }
