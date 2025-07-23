@@ -342,6 +342,11 @@ public class ActionInfo
     public bool Visible { get; set; }
 
     /// <summary>
+    /// 取得或设置操作按钮所属选项卡集合。
+    /// </summary>
+    public string[] Tabs { get; set; }
+
+    /// <summary>
     /// 取得或设置子操作列表。
     /// </summary>
     public List<ActionInfo> Children { get; } = [];

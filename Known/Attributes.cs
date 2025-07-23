@@ -92,4 +92,9 @@ public class ActionAttribute : Attribute
     /// 取得或设置操作按钮提示信息。
     /// </summary>
     public string Title { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作按钮所属选项卡集合。
+    /// </summary>
+    public string[] Tabs { get; set; }
 }

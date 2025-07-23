@@ -102,6 +102,7 @@ class AppDefaultData
                         Name = attr.Name,
                         Icon = attr.Icon,
                         Title = attr.Title,
+                        Tabs = attr.Tabs,
                         Style = "primary",
                         Position = hasParameter ? "Action" : "Toolbar"
                     };

@@ -5,6 +5,37 @@
 /// </summary>
 public static class ModelExtension
 {
+    #region ActionInfo
+    internal static void SetAction(this List<ActionInfo> actions, MethodInfo[] methods)
+    {
+        foreach (var item in actions)
+        {
+            var method = methods?.FirstOrDefault(m => m.Name == item.Id);
+            var attr = method?.GetCustomAttribute<ActionAttribute>();
+            if (attr != null)
+            {
+                if (!string.IsNullOrWhiteSpace(attr.Icon))
+                    item.Icon = attr.Icon;
+                if (!string.IsNullOrWhiteSpace(attr.Name))
+                    item.Name = attr.Name;
+                item.Title = attr.Title;
+                item.Tabs = attr.Tabs;
+            }
+        }
+    }
+
+    internal static void TabChange(this List<ActionInfo> actions, string tab)
+    {
+        foreach (var item in actions)
+        {
+            if (item.Tabs == null || item.Tabs.Length == 0)
+                continue;
+
+            item.Visible = item.Tabs.Contains(tab);
+        }
+    }
+    #endregion
+
     #region PageInfo
     internal static List<ActionInfo> GetToolItems(this PageInfo info)
     {

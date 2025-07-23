@@ -67,4 +67,15 @@ partial class TableModel<TItem>
             UI.Result(result, PageRefreshAsync);
         }
     }
+
+    /// <summary>
+    /// 根据选项卡名称更改工具条和操作列按钮的显示状态。
+    /// </summary>
+    /// <param name="tab">选项卡名称。</param>
+    public void ChangeAction(string tab)
+    {
+        Toolbar.Items.TabChange(tab);
+        Toolbar.Refresh();
+        Actions.TabChange(tab);
+    }
 }

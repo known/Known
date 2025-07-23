@@ -78,22 +78,4 @@ public class ToolbarModel
     /// 刷新工具条。
     /// </summary>
     public void Refresh() => OnRefresh?.Invoke();
-
-    internal void SetAction(BaseComponent page)
-    {
-        var methods = page.GetType().GetMethods();
-        foreach (var item in Items)
-        {
-            var method = methods?.FirstOrDefault(m => m.Name == item.Id);
-            var attr = method?.GetCustomAttribute<ActionAttribute>();
-            if (attr != null)
-            {
-                if (!string.IsNullOrWhiteSpace(attr.Icon))
-                    item.Icon = attr.Icon;
-                if (!string.IsNullOrWhiteSpace(attr.Name))
-                    item.Name = attr.Name;
-                item.Title = attr.Title;
-            }
-        }
-    }
 }

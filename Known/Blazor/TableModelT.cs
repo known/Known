@@ -122,9 +122,13 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         if (info?.Page?.ActionSize != null)
             ActionCount = info.Page.ActionSize.Value;
 
+        var methods = Page.GetType().GetMethods();
         Toolbar.Items = info?.Page?.GetToolItems() ?? [];
-        Toolbar.SetAction(Page);
+        Toolbar.Items.SetAction(methods);
+
         Actions = info?.Page?.GetActionItems() ?? [];
+        Actions.SetAction(methods);
+
         AllColumns = info?.Page?.GetColumns<TItem>(info.Form) ?? [];
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
 
