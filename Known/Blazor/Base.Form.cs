@@ -198,25 +198,13 @@ public class BaseHeadListForm<THead, TList> : BaseForm<THead>
     /// 上移表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnMoveUp(TList row) => MoveRow(row, true);
+    protected void OnMoveUp(TList row) => ListItems.MoveRow(row, true);
 
     /// <summary>
     /// 下移表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnMoveDown(TList row) => MoveRow(row, false);
-
-    private void MoveRow(TList row, bool isMoveUp)
-    {
-        var index = ListItems.IndexOf(row);
-        var index1 = isMoveUp ? index - 1 : index + 1;
-        if (index1 < 0 || index1 > ListItems.Count - 1)
-            return;
-
-        var temp = ListItems[index1];
-        ListItems[index1] = row;
-        ListItems[index] = temp;
-    }
+    protected void OnMoveDown(TList row) => ListItems.MoveRow(row, false);
 }
 
 /// <summary>

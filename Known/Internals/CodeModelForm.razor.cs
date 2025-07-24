@@ -176,20 +176,8 @@ public partial class CodeModelForm
     }
 
     private void OnDelete(CodeFieldInfo row) => Model.Fields.Remove(row);
-    private void OnMoveUp(CodeFieldInfo row) => MoveRow(row, true);
-    private void OnMoveDown(CodeFieldInfo row) => MoveRow(row, false);
-
-    private void MoveRow(CodeFieldInfo row, bool isMoveUp)
-    {
-        var index = Model.Fields.IndexOf(row);
-        var index1 = isMoveUp ? index - 1 : index + 1;
-        if (index1 < 0 || index1 > Model.Fields.Count - 1)
-            return;
-
-        var temp = Model.Fields[index1];
-        Model.Fields[index1] = row;
-        Model.Fields[index] = temp;
-    }
+    private void OnMoveUp(CodeFieldInfo row) => Model.Fields.MoveRow(row, true);
+    private void OnMoveDown(CodeFieldInfo row) => Model.Fields.MoveRow(row, false);
 
     private CodeModelInfo CreateCodeMode()
     {

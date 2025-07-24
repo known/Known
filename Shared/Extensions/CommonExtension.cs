@@ -195,6 +195,25 @@ public static class CommonExtension
 
     #region List
     /// <summary>
+    /// 移动列表中的行。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="lists">数据列表。</param>
+    /// <param name="row">数据项。</param>
+    /// <param name="isMoveUp">是否上移。</param>
+    public static void MoveRow<T>(this List<T> lists, T row, bool isMoveUp)
+    {
+        var index = lists.IndexOf(row);
+        var index1 = isMoveUp ? index - 1 : index + 1;
+        if (index1 < 0 || index1 > lists.Count - 1)
+            return;
+
+        var temp = lists[index1];
+        lists[index1] = row;
+        lists[index] = temp;
+    }
+
+    /// <summary>
     /// 获取列表分页结果。
     /// </summary>
     /// <typeparam name="T">数据类型。</typeparam>
