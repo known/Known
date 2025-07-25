@@ -2,7 +2,7 @@
 @typeparam TItem where TItem : class, new()
 
 <ReloadContainer @ref="reload">
-    <AntTable @ref="table" TItem="TItem" Model="Model" ScrollX="@Model.TotalWidth" ScrollY="@ScrollY" 
+    <AntTable @ref="table" TItem="TItem" Model="Model" ScrollX="@ScrollX" ScrollY="@ScrollY"
               ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
               Total="totalCount" DataSource="dataSource" Loading="Model.EnableSpin && isQuering"
               @bind-SelectedRows="Model.SelectedRows">

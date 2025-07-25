@@ -7,6 +7,7 @@ namespace Known.Components;
 /// </summary>
 public class AntDropdown : Dropdown
 {
+    [Inject] private IServiceScopeFactory Factory { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
 
     /// <summary>
@@ -24,6 +25,16 @@ public class AntDropdown : Dropdown
     /// </summary>
     [Parameter] public DropdownModel Model { get; set; }
 
+    /// <summary>
+    /// 取得或设置下拉框的选中值。
+    /// </summary>
+    [Parameter] public string Value { get; set; }
+
+    /// <summary>
+    /// 取得或设置下拉框的选中值改变事件。
+    /// </summary>
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -35,12 +46,21 @@ public class AntDropdown : Dropdown
     }
 
     /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await OnInitializeAsync();
+        await base.OnInitializedAsync();
+    }
+
+    /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
         Class = Model?.Class;
 
-        if (!string.IsNullOrWhiteSpace(Model?.Icon))
+        if (Model?.ChildContent != null)
+            ChildContent = Model.ChildContent;
+        else if (!string.IsNullOrWhiteSpace(Model?.Icon))
             ChildContent = BuildIcon;
         else if (!string.IsNullOrWhiteSpace(Model?.Text))
             ChildContent = BuildText;
@@ -57,6 +77,30 @@ public class AntDropdown : Dropdown
         else if (Model?.Items != null && Model?.Items.Count > 0)
             Overlay = BuildOverlay;
     }
+
+    /// <summary>
+    /// 异步初始化组件。
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task OnInitializeAsync() => Task.CompletedTask;
+
+    /// <summary>
+    /// 选中值改变事件。
+    /// </summary>
+    /// <param name="value">选中值。</param>
+    protected virtual void OnValueChanged(string value)
+    {
+        Value = value;
+        if (ValueChanged.HasDelegate)
+            ValueChanged.InvokeAsync(Value);
+    }
+
+    /// <summary>
+    /// 创建依赖注入的后端服务接口实例。
+    /// </summary>
+    /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
+    /// <returns></returns>
+    public Task<T> CreateServiceAsync<T>() where T : IService => Factory.CreateAsync<T>(Context);
 
     private void BuildIcon(RenderTreeBuilder builder)
     {
@@ -161,5 +205,114 @@ public class AntDropdown : Dropdown
             return [AntDesign.Trigger.Focus];
 
         return [AntDesign.Trigger.None];
+    }
+}
+
+/// <summary>
+/// 扩展Ant表格选择框组件类。
+/// </summary>
+/// <typeparam name="TItem">数据项类型。</typeparam>
+public class AntDropdownTable<TItem> : AntDropdown where TItem : class, new()
+{
+    /// <summary>
+    /// 取得表格模型。
+    /// </summary>
+    protected TableModel<TItem> Table { get; private set; }
+
+    /// <summary>
+    /// 取得或设置输入组件文本占位符。
+    /// </summary>
+    public string Placeholder { get; set; } = Language.PleaseSelectInput;
+
+    /// <inheritdoc />
+    protected override async Task OnInitializeAsync()
+    {
+        await base.OnInitializeAsync();
+
+        Table = new TableModel<TItem>(null);
+        Table.AdvSearch = false;
+        Table.AutoHeight = false;
+        Table.ShowSetting = false;
+        Table.IsScroll = false;
+
+        Model = new DropdownModel
+        {
+            TriggerType = "Click",
+            ChildContent = BuildContent,
+            Overlay = BuildOverlay
+        };
+    }
+
+    private void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.TextBox(new InputModel<string>
+        {
+            Value = Value,
+            ValueChanged = ValueChanged,
+            Placeholder = Placeholder
+        });
+    }
+
+    private void BuildOverlay(RenderTreeBuilder builder)
+    {
+        var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
+        builder.Div().Class(className).Style(Style).Child(() => builder.FormTable(Table));
+    }
+}
+
+/// <summary>
+/// 扩展Ant树选择框组件类。
+/// </summary>
+public class AntDropdownTree : AntDropdown
+{
+    private TreeModel model;
+
+    /// <summary>
+    /// 取得或设置输入组件文本占位符。
+    /// </summary>
+    public string Placeholder { get; set; } = Language.PleaseSelectInput;
+
+    /// <summary>
+    /// 取得或设置未转换树节点的数据列表。
+    /// </summary>
+    [Parameter] public List<MenuInfo> Items { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializeAsync()
+    {
+        await base.OnInitializeAsync();
+
+        model = new TreeModel();
+        model.SelectedKeys = [Value];
+        model.OnNodeClick = n =>
+        {
+            OnValueChanged(n.Name ?? n.Code);
+            return Task.CompletedTask;
+        };
+        model.Data = Items.ToMenuItems();
+
+        Model = new DropdownModel
+        {
+            TriggerType = "Click",
+            ChildContent = BuildContent,
+            Overlay = BuildOverlay
+        };
+    }
+
+    private void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.TextBox(new InputModel<string>
+        {
+            Value = Value,
+            ValueChanged = ValueChanged,
+            Placeholder = Placeholder
+        });
+    }
+
+    private void BuildOverlay(RenderTreeBuilder builder)
+    {
+        var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
+        var style = CssBuilder.Default().Add("min-width", "200px").AddStyle(Style).BuildStyle();
+        builder.Div().Class(className).Style(style).Child(() => builder.Tree(model));
     }
 }

@@ -18,6 +18,11 @@ partial class TableModel<TItem>
     public bool IsStriped { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置表格行列是否支持滚动，默认支持。
+    /// </summary>
+    public bool IsScroll { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格列是否可调整列宽度大小，默认可调整。
     /// </summary>
     public bool Resizable { get; set; } = true;

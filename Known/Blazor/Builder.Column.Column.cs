@@ -35,14 +35,25 @@ public partial class ColumnBuilder<TItem>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> ViewLink()
     {
+        return ViewLink(true);
+    }
+
+    /// <summary>
+    /// 设置表格栏位为查看连接。
+    /// </summary>
+    /// <param name="isViewLink">是否显示查看连接。</param>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> ViewLink(bool isViewLink)
+    {
         if (column != null)
-            column.IsViewLink = true;
+            column.IsViewLink = isViewLink;
         return this;
     }
 
     /// <summary>
     /// 设置表格栏位为查看连接。
     /// </summary>
+    /// <param name="action">查看连接委托。</param>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> ViewLink(Action<TItem> action)
     {

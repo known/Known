@@ -13,8 +13,10 @@ partial class KTable<TItem>
     private int totalCount;
     private List<TItem> dataSource;
     private bool isQuering = false;
-    private string ScrollY => Model.FixedHeight ?? "800px";
     private bool shouldRender = true;
+
+    private string ScrollX => Model.IsScroll ? Model.TotalWidth : null;
+    private string ScrollY => Model.IsScroll ? (Model.FixedHeight ?? "800px") : null;
 
     /// <summary>
     /// 取得或设置表格数据模型。

@@ -51,6 +51,11 @@ public class DropdownModel
     public Func<ActionInfo, Task> OnItemClick { get; set; }
 
     /// <summary>
+    /// 取得或设置显示内容模板。
+    /// </summary>
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
     /// 取得或设置下拉框内容模板。
     /// </summary>
     public RenderFragment Overlay { get; set; }
