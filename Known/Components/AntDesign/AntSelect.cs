@@ -34,6 +34,7 @@ public class AntSelect : Select<string, string>
         AutoFocus = false;
         EnableVirtualization = true;
         EnableSearch = true;
+        OnInitialize();
         base.OnInitialized();
     }
 
@@ -49,6 +50,8 @@ public class AntSelect : Select<string, string>
             PrefixIcon = b => b.Span().Style("padding:0 9px 0 7px;").Child(() => b.Icon(Icon));
         base.OnParametersSet();
     }
+
+    internal virtual void OnInitialize() { }
 }
 
 /// <summary>
@@ -147,6 +150,8 @@ public class AntSelectCode : Select<string, CodeInfo>
 /// <typeparam name="T"></typeparam>
 public class AntSelectEnum<T> : EnumSelect<T>
 {
+    [CascadingParameter] private DataItem Item { get; set; }
+
     /// <summary>
     /// 取得或设置表单容器对象。
     /// </summary>
@@ -162,6 +167,8 @@ public class AntSelectEnum<T> : EnumSelect<T>
     {
         if (AntForm != null)
             Disabled = AntForm.IsView;
+        if (Item != null)
+            Item.Type = typeof(string);
         base.OnInitialized();
     }
 
@@ -170,5 +177,37 @@ public class AntSelectEnum<T> : EnumSelect<T>
     {
         var label = base.GetLabel(item);
         return Context?.Language[label];
+    }
+}
+
+/// <summary>
+/// 扩展Ant表格选择框组件类。
+/// </summary>
+public class AntSelectTable : AntSelect
+{
+    internal override void OnInitialize()
+    {
+        base.OnInitialize();
+    }
+}
+
+/// <summary>
+/// 扩展Ant树选择框组件类。
+/// </summary>
+public class AntSelectTree : AntSelect
+{
+    /// <summary>
+    /// 取得或设置未转换树节点的数据列表。
+    /// </summary>
+    [Parameter] public List<MenuInfo> Items { get; set; }
+
+    internal override void OnInitialize()
+    {
+        DropdownRender = BuildDropdownRender;
+    }
+
+    private RenderFragment BuildDropdownRender(RenderFragment value)
+    {
+        return b => b.Fragment(value);
     }
 }

@@ -13,6 +13,11 @@ public partial class KFullScreen
                                           .BuildClass();
 
     /// <summary>
+    /// 取得或设置是否显示图表名称。
+    /// </summary>
+    [Parameter] public bool ShowIconName { get; set; }
+
+    /// <summary>
     /// 取得或设置全屏后的委托。
     /// </summary>
     [Parameter] public Func<Task> OnFullScreen { get; set; }

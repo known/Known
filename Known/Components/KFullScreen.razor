@@ -1,13 +1,16 @@
 ﻿@inherits BaseComponent
 
 <div class="@ClassName">
-    @if (!isFullScreen)
-    {
-        <div class="action ant-btn-link">
-            <Tooltip Title="@Language[Title]">
-                <Icon Type="@Icon" OnClick="OnFullScreenAsync" />
-            </Tooltip>
-        </div>
-    }
+    <div class="action ant-btn-link">
+        <Tooltip Title="@Language[Title]">
+            <div class="button" @onclick="OnFullScreenAsync">
+                <Icon Type="@Icon" />
+                @if (ShowIconName)
+                {
+                    <span style="margin-left:5px;">@Title</span>
+                }
+            </div>
+        </Tooltip>
+    </div>
     @ChildContent
 </div>

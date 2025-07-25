@@ -112,8 +112,11 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*FullScreen*/
 .kui-screen {position:relative;background-color:var(--kui-bgcolor);}
-.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;}
 .kui-screen .action {position:absolute;top:0;right:0;z-index:1002;}
+.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;}
+.kui-screen.is-full .action {top:10px;right:10px;}
+.kui-screen.is-full .action .button {opacity:0;transition:opacity 8s ease;}
+.kui-screen.is-full .action:hover .button {opacity:1;transition:opacity 0s;}
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-color-border);border-radius:6px;}
