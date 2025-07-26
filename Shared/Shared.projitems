@@ -98,7 +98,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Result.Paging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\CacheService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\EncryptService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Stopwatcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SystemInfo.cs" />

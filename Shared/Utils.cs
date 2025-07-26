@@ -250,6 +250,55 @@ public sealed class Utils
         }
         return sb.ToString();
     }
+
+    /// <summary>
+    /// 加密一个字符串。
+    /// </summary>
+    /// <param name="plainText">原字符串。</param>
+    /// <param name="password">密码。</param>
+    /// <returns>加密字符串。</returns>
+    public static string Encrypt(string plainText, string password = null)
+    {
+        if (string.IsNullOrWhiteSpace(plainText))
+            return string.Empty;
+
+        var buffer = Encoding.UTF8.GetBytes(plainText);
+        var pwd = GetPassword(password);
+        if (pwd <= 0)
+            return Convert.ToBase64String(buffer);
+
+        var bytes = buffer.Select(b => (byte)(b + pwd)).ToArray();
+        return Convert.ToBase64String(bytes);
+    }
+
+    /// <summary>
+    /// 解密一个字符串。
+    /// </summary>
+    /// <param name="cipherText">加密字符串。</param>
+    /// <param name="password">密码。</param>
+    /// <returns>原字符串。</returns>
+    public static string Decrypt(string cipherText, string password = null)
+    {
+        if (string.IsNullOrWhiteSpace(cipherText))
+            return string.Empty;
+
+        var buffer = Convert.FromBase64String(cipherText);
+        var pwd = GetPassword(password);
+        if (pwd <= 0)
+            return Encoding.UTF8.GetString(buffer);
+
+        var bytes = buffer.Select(b => (byte)(b - pwd)).ToArray();
+        return Encoding.UTF8.GetString(bytes);
+    }
+
+    private static int GetPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+            return 0;
+
+        var bytes = Encoding.UTF8.GetBytes(password);
+        return bytes.Sum(b => b);
+    }
     #endregion
 
     #region Serialize
