@@ -72,14 +72,19 @@ public static class FileExtension
     }
 
     /// <summary>
-    /// 异步删除系统附件实体。
+    /// 异步删除一条系统附件数据。
     /// </summary>
     /// <param name="db">数据库对象。</param>
     /// <param name="id">附件ID。</param>
+    /// <param name="oldFiles">要物理删除的附件路径列表。</param>
     /// <returns></returns>
-    public static Task DeleteFileAsync(this Database db, string id)
+    public static async Task DeleteFileAsync(this Database db, string id, List<string> oldFiles)
     {
-        return db.DeleteAsync<SysFile>(id);
+        var item = await db.QueryByIdAsync<SysFile>(id);
+        if (item == null)
+            return;
+
+        await db.DeleteFileAsync(item, oldFiles);
     }
 
     /// <summary>
@@ -116,7 +121,7 @@ public static class FileExtension
         if (!string.IsNullOrWhiteSpace(item.ThumbPath))
             oldFiles.Add(item.ThumbPath);
 
-        await db.DeleteFileAsync(item.Id);
+        await db.DeleteAsync<SysFile>(item.Id);
     }
 
     private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string note = null)

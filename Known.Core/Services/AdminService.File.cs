@@ -12,8 +12,9 @@ partial class AdminService
         if (info == null || string.IsNullOrWhiteSpace(info.Path))
             return Result.Error(CoreLanguage.TipFileNotExists);
 
-        await Database.DeleteFileAsync(info.Id);
-        AttachFile.DeleteFile(info.Path);
+        var oldFiles = new List<string>();
+        await Database.DeleteFileAsync(info.Id, oldFiles);
+        AttachFile.DeleteFiles(oldFiles);
         return Result.Success(Language.DeleteSuccess);
     }
 
