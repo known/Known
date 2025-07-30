@@ -39,6 +39,12 @@ public class ButtonInfo
     public string Style { get; set; }
 
     /// <summary>
+    /// 取得或设置操作按钮分组。
+    /// </summary>
+    [DisplayName("分组")]
+    public string Group { get; set; }
+
+    /// <summary>
     /// 取得或设置操作位置，如：Toolbar，Action。
     /// </summary>
     [Column(IsQueryAll = true)]
@@ -58,7 +64,8 @@ public class ButtonInfo
             Id = Id,
             Name = Name,
             Icon = Icon,
-            Style = Style
+            Style = Style,
+            Group = Group
         };
         if (Position != null && Position.Length > 0)
             info.Position = string.Join(",", Position);

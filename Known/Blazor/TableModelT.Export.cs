@@ -20,6 +20,14 @@ partial class TableModel<TItem>
     /// <returns></returns>
     public Task ExportDataAsync(string name, ExportMode mode = ExportMode.Query)
     {
-        return Page?.App?.ExportDataAsync(this, name, mode);
+        if (mode != ExportMode.Select)
+            return Page?.App?.ExportDataAsync(this, name, mode);
+
+        SelectRows(async rows =>
+        {
+            Criteria.Parameters[nameof(ExportMode.Select)] = rows;
+            await Page?.App?.ExportDataAsync(this, name, mode);
+        });
+        return Task.CompletedTask;
     }
 }

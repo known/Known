@@ -52,7 +52,7 @@ public partial class Database
     /// <returns>分页查询结果。</returns>
     public virtual Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Func<T, ExportColumnInfo, object> onExport = null) where T : class, new()
     {
-        return QueryPageAsync<T>(sql, criteria, typeof(T), onExport);
+        return QueryPageAsync(sql, criteria, typeof(T), onExport);
     }
 
     /// <summary>
@@ -87,6 +87,13 @@ public partial class Database
     {
         try
         {
+            if (criteria.ExportMode == ExportMode.Select)
+            {
+                var rows = criteria.GetParameter<List<T>>(nameof(ExportMode.Select));
+                var data = DbUtils.GetExportData(criteria, rows, onExport);
+                return new PagingResult<T>() { ExportData = data };
+            }
+
             if (!criteria.IsPaging)
                 criteria.PageIndex = -1;
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)

@@ -112,6 +112,10 @@ public enum ExportMode
     /// </summary>
     None,
     /// <summary>
+    /// 导出勾选数据。
+    /// </summary>
+    Select,
+    /// <summary>
     /// 导出当前页数据。
     /// </summary>
     Page,

@@ -28,11 +28,9 @@ public class WeatherList : BaseTablePage<WeatherForecast>
             UI.Info(t);
             await RefreshAsync();
         };
-
-        Table.Toolbar.AddAction(nameof(New));
     }
 
-    public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
+    [Action] public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
     {

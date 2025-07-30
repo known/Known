@@ -30,7 +30,7 @@ partial class CodeGenerator
         sb.AppendLine(" ");
 
         var import = string.Empty;
-        var export = string.Empty;
+        var exports = new List<string>();
         if (page.Tools != null && page.Tools.Count > 0)
         {
             foreach (var item in page.Tools)
@@ -43,7 +43,31 @@ partial class CodeGenerator
 
                 if (item == "Export")
                 {
-                    export = "    [Action] public Task Export() => Table.ExportDataAsync();";
+                    exports.Add("    [Action] public Task Export() => Table.ExportDataAsync();");
+                    continue;
+                }
+
+                if (item == "ExportSelect")
+                {
+                    exports.Add("    [Action(Group = \"Export\")] public Task ExportSelect() => Table.ExportDataAsync(ExportMode.Select);");
+                    continue;
+                }
+
+                if (item == "ExportPage")
+                {
+                    exports.Add("    [Action(Group = \"Export\")] public Task ExportPage() => Table.ExportDataAsync(ExportMode.Page);");
+                    continue;
+                }
+
+                if (item == "ExportQuery")
+                {
+                    exports.Add("    [Action(Group = \"Export\")] public Task ExportQuery() => Table.ExportDataAsync(ExportMode.Query);");
+                    continue;
+                }
+
+                if (item == "ExportAll")
+                {
+                    exports.Add("    [Action(Group = \"Export\")] public Task ExportAll() => Table.ExportDataAsync(ExportMode.All);");
                     continue;
                 }
 
@@ -71,8 +95,10 @@ partial class CodeGenerator
 
         if (!string.IsNullOrEmpty(import))
             sb.AppendLine(import);
-        if (!string.IsNullOrEmpty(export))
-            sb.AppendLine(export);
+        foreach (var item in exports)
+        {
+            sb.AppendLine(item);
+        }
 
         sb.AppendLine("}");
         return sb.ToString().TrimEnd([.. Environment.NewLine]);
