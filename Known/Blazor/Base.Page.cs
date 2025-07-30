@@ -48,6 +48,13 @@ public class BasePage : BaseComponent, IReuseTabsPage
     }
 
     /// <inheritdoc />
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        Menu = Context.Current;
+    }
+
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
 
     /// <inheritdoc />

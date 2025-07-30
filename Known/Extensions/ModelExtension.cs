@@ -19,6 +19,7 @@ public static class ModelExtension
                 if (!string.IsNullOrWhiteSpace(attr.Name))
                     item.Name = attr.Name;
                 item.Title = attr.Title;
+                item.Group = attr.Group;
                 item.Tabs = attr.Tabs;
             }
         }

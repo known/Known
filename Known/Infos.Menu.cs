@@ -322,6 +322,11 @@ public class ActionInfo
     public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置操作按钮分组。
+    /// </summary>
+    public string Group { get; set; }
+
+    /// <summary>
     /// 取得或设置操作位置，如：Toolbar，Action。
     /// </summary>
     public string Position { get; set; }

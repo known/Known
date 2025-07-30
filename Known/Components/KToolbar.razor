@@ -8,7 +8,7 @@
 }
 @if (Model != null && Model.HasItem)
 {
-    var items = Model.Items.Where(i => i.Visible).ToList();
+    var items = Model.GetToolbarItems();
     <div class="ant-toolbar">
         @if (items.Count > Model.ShowCount)
         {
@@ -36,7 +36,7 @@
     {
         if (item.Children != null && item.Children.Count > 0)
         {
-            var model = GetDropdownModel(item.Name);
+            var model = GetDropdownModel(item);
             model.Items = item.Children;
             return @<AntDropdown Context="Context" Model="model" />;
         }
