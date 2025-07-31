@@ -127,7 +127,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
                .Build();
 
         if (AddTemplate != null)
-            builder.Button("添加", this.Callback<MouseEventArgs>(e => isAdd = true));
+            builder.Button(Language.Add, this.Callback<MouseEventArgs>(e => isAdd = true));
     }
 
     private void BuildResult(RenderTreeBuilder builder)
@@ -172,7 +172,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     {
         builder.Div("kui-app-rc2", () =>
         {
-            builder.Div("", Language["共 {total} 条记录"].Replace("{total}", $"{result.TotalCount}"));
+            builder.Div("", Language[Language.PageTotal].Replace("{total}", $"{result.TotalCount}"));
             builder.Component<AppPager>()
                    .Set(c => c.Criteria, criteria)
                    .Set(c => c.TotalCount, result.TotalCount)

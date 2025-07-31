@@ -16,6 +16,11 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     /// </summary>
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
+    /// <summary>
+    /// 取得表格数据列表。
+    /// </summary>
+    public List<TItem> DataSource => Table.DataSource;
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
@@ -61,21 +66,21 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     /// <param name="row">行对象。</param>
     protected void DeleteRow(TItem row)
     {
-        if (Table.DataSource == null || Table.DataSource.Count == 0)
+        if (DataSource == null || DataSource.Count == 0)
             return;
 
-        Table.DataSource.Remove(row);
+        DataSource.Remove(row);
         StateChanged();
     }
 
     private async Task MoveRowAsync(TItem item, bool isMoveUp, Func<TItem, Task<Result>> action = null, Action<TItem, TItem> success = null)
     {
-        if (Table.DataSource == null || Table.DataSource.Count == 0)
+        if (DataSource == null || DataSource.Count == 0)
             return;
 
-        var index = Table.DataSource.IndexOf(item);
+        var index = DataSource.IndexOf(item);
         var index1 = isMoveUp ? index - 1 : index + 1;
-        if (index1 < 0 || index1 > Table.DataSource.Count - 1)
+        if (index1 < 0 || index1 > DataSource.Count - 1)
             return;
 
         if (action != null)
@@ -92,12 +97,12 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
 
     private void OnMoveRow(TItem item, Action<TItem, TItem> success, int index, int index1)
     {
-        if (Table.DataSource == null || Table.DataSource.Count == 0)
+        if (DataSource == null || DataSource.Count == 0)
             return;
 
-        var temp = Table.DataSource[index1];
-        Table.DataSource[index1] = item;
-        Table.DataSource[index] = temp;
+        var temp = DataSource[index1];
+        DataSource[index1] = item;
+        DataSource[index] = temp;
         success?.Invoke(item, temp);
         StateChanged();
     }

@@ -224,6 +224,16 @@ public class AntDropdownTable<TItem> : AntDropdown where TItem : class, new()
     /// </summary>
     public string Placeholder { get; set; } = Language.PleaseSelectInput;
 
+    /// <summary>
+    /// 取得组件显示取值委托。
+    /// </summary>
+    protected virtual Func<TItem, string> OnValue { get; }
+
+    /// <summary>
+    /// 取得或设置选中行改变事件委托。
+    /// </summary>
+    [Parameter] public EventCallback<TItem> OnChange { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitializeAsync()
     {
@@ -234,6 +244,8 @@ public class AntDropdownTable<TItem> : AntDropdown where TItem : class, new()
         Table.AutoHeight = false;
         Table.ShowSetting = false;
         Table.IsScroll = false;
+        Table.ShowPager = true;
+        Table.OnRowClick = OnRowClick;
 
         Model = new DropdownModel
         {
@@ -257,6 +269,14 @@ public class AntDropdownTable<TItem> : AntDropdown where TItem : class, new()
     {
         var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
         builder.Div().Class(className).Style(Style).Child(() => builder.FormTable(Table));
+    }
+
+    private Task OnRowClick(TItem item)
+    {
+        OnValueChanged(OnValue?.Invoke(item));
+        if (OnChange.HasDelegate)
+            OnChange.InvokeAsync(item);
+        return Task.CompletedTask;
     }
 }
 
