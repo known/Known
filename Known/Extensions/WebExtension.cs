@@ -89,11 +89,11 @@ public static class WebExtension
     {
         using var stream = new MemoryStream();
         await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(stream);
-        var bytes = stream.GetBuffer();
+        var bytes = stream.ToArray();
         return new FileDataInfo
         {
             Name = file.Name,
-            Size = file.Size,
+            Size = bytes.Length,
             Bytes = bytes
         };
     }

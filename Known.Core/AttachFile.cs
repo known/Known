@@ -7,7 +7,7 @@ public class AttachFile
 {
     private readonly FileDataInfo file;
 
-    
+
     /// <summary>
     /// 构造函数，创建一个附件类的实例。
     /// </summary>
@@ -119,11 +119,14 @@ public class AttachFile
     public async Task SaveAsync(string filePath)
     {
         var info = new FileInfo(filePath);
-        if (!info.Directory.Exists)
-            info.Directory.Create();
+        info.Directory?.Create();
 
-        if (file.Bytes != null)
-            await File.WriteAllBytesAsync(filePath, file.Bytes);
+        if (file.Bytes != null && file.Bytes.Length > 0)
+        {
+            //await File.WriteAllBytesAsync(filePath, file.Bytes);
+            await using var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            await fs.WriteAsync(file.Bytes.AsMemory(0, file.Bytes.Length));
+        }
     }
 
     /// <summary>
