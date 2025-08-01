@@ -15,8 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Role.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LanguageInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attach.File.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Attach.Info.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AttachInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataPlaceholder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DbTableInfo.cs" />
@@ -90,7 +89,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TypeHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ZipHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Language.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules.Field.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FieldInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Result.Criteria.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Result.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Result.Enums.cs" />

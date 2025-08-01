@@ -7,15 +7,19 @@ public class AttachFile
 {
     private readonly FileDataInfo file;
 
+    
     /// <summary>
-    /// 构造函数，创建一个附件类的实例，该方法3.3.0版本之后已过时。
+    /// 构造函数，创建一个附件类的实例。
     /// </summary>
     /// <param name="file">上传的附件信息。</param>
-    /// <param name="user">当前用户信息。</param>
-    /// <param name="bizType">附件业务类型。</param>
-    /// <param name="bizPath">附件业务存储路径。</param>
-    public AttachFile(FileDataInfo file, UserInfo user, string bizType = null, string bizPath = null)
-        : this(file, bizType, bizPath) { }
+    public AttachFile(FileDataInfo file)
+    {
+        this.file = file;
+        Size = file.Size;
+        SourceName = file.Name.Replace(@"\", "/").Split('/').Last();
+        ExtName = SourceName[SourceName.LastIndexOf('.')..];
+        FileName = SourceName;
+    }
 
     /// <summary>
     /// 构造函数，创建一个附件类的实例。
@@ -23,13 +27,8 @@ public class AttachFile
     /// <param name="file">上传的附件信息。</param>
     /// <param name="bizType">附件业务类型。</param>
     /// <param name="bizPath">附件业务存储路径。</param>
-    public AttachFile(FileDataInfo file, string bizType, string bizPath = null)
+    public AttachFile(FileDataInfo file, string bizType, string bizPath = null) : this(file)
     {
-        this.file = file;
-        Size = file.Size;
-        SourceName = file.Name.Replace(@"\", "/").Split('/').Last();
-        ExtName = SourceName[SourceName.LastIndexOf('.')..];
-        FileName = SourceName;
         BizType = bizType ?? "Files";
         var fileId = Utils.GetGuid();
         var fileName = $"{fileId}{ExtName}";
@@ -39,6 +38,16 @@ public class AttachFile
         else
             FilePath = Path.Combine(BizType, bizPath, fileName);
     }
+
+    /// <summary>
+    /// 构造函数，创建一个附件类的实例，该方法3.3.0版本之后已过时。
+    /// </summary>
+    /// <param name="file">上传的附件信息。</param>
+    /// <param name="user">当前用户信息。</param>
+    /// <param name="bizType">附件业务类型。</param>
+    /// <param name="bizPath">附件业务存储路径。</param>
+    public AttachFile(FileDataInfo file, UserInfo user, string bizType = null, string bizPath = null)
+        : this(file, bizType, bizPath) { }
 
     internal bool IsWeb { get; set; }
 
@@ -96,9 +105,19 @@ public class AttachFile
     /// 异步保存附件。
     /// </summary>
     /// <returns></returns>
-    public async Task SaveAsync()
+    public Task SaveAsync()
     {
         var filePath = Config.GetUploadPath(FilePath, IsWeb);
+        return SaveAsync(filePath);
+    }
+
+    /// <summary>
+    /// 异步保存附件。
+    /// </summary>
+    /// <param name="filePath">文件路径。</param>
+    /// <returns></returns>
+    public async Task SaveAsync(string filePath)
+    {
         var info = new FileInfo(filePath);
         if (!info.Directory.Exists)
             info.Directory.Create();

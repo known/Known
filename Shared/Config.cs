@@ -201,6 +201,32 @@ public partial class Config
     /// <summary>
     /// 获取上传文件夹路径。
     /// </summary>
+    /// <param name="paths">文件夹名称集合。</param>
+    /// <returns>文件夹物理路径。</returns>
+    public static string GetUploadDirectory(params string[] paths)
+    {
+        var uploadPath = App.UploadPath;
+        if (string.IsNullOrEmpty(uploadPath))
+        {
+            uploadPath = Path.Combine(App.ContentRoot, "..\\UploadFiles");
+            uploadPath = Path.GetFullPath(uploadPath);
+        }
+
+        if (paths != null && paths.Length > 0)
+        {
+            var path = Path.Combine(paths);
+            uploadPath = Path.Combine(uploadPath, path);
+        }
+
+        if (!Directory.Exists(uploadPath))
+            Directory.CreateDirectory(uploadPath);
+
+        return uploadPath;
+    }
+
+    /// <summary>
+    /// 获取上传文件夹路径。
+    /// </summary>
     /// <param name="isWeb">是否是wwwroot文件。</param>
     /// <returns>文件夹物理路径。</returns>
     public static string GetUploadPath(bool isWeb = false)
@@ -215,17 +241,7 @@ public partial class Config
             return filePath;
         }
 
-        var uploadPath = App.UploadPath;
-        if (string.IsNullOrEmpty(uploadPath))
-        {
-            uploadPath = Path.Combine(App.ContentRoot, "..\\UploadFiles");
-            uploadPath = Path.GetFullPath(uploadPath);
-        }
-
-        if (!Directory.Exists(uploadPath))
-            Directory.CreateDirectory(uploadPath);
-
-        return uploadPath;
+        return GetUploadDirectory();
     }
 
     /// <summary>
