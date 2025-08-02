@@ -111,7 +111,8 @@ public static class CoreExtension
         app.MapControllers();
         app.MapRazorPages();
         Config.ServiceProvider = app.Services;
-        AppHelper.LoadLanguages();
+        if (CoreOption.Instance.Database != null)
+            AppHelper.LoadLanguages();
     }
 
     private static void AddDynamicWebApi(this IMvcBuilder builder)

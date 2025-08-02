@@ -11,6 +11,8 @@ public class SysFileList : BaseTablePage<AttachInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Table.AdvSearch = UIConfig.IsAdvAdmin;
+        Table.EnableFilter = UIConfig.IsAdvAdmin;
         Table.OnQuery = Admin.QueryFilesAsync;
         Table.ActionWidth = "70";
         Table.Column(c => c.Name).Template(BuildFileName);

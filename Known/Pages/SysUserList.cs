@@ -30,6 +30,8 @@ public class SysUserList : BaseTablePage<UserDataInfo>
             RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync
         };
+        Table.AdvSearch = UIConfig.IsAdvAdmin;
+        Table.EnableFilter = UIConfig.IsAdvAdmin;
         Table.Column(c => c.Gender).Tag();
     }
 

@@ -11,6 +11,8 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Table.AdvSearch = UIConfig.IsAdvAdmin;
+        Table.EnableFilter = UIConfig.IsAdvAdmin;
         Table.OnQuery = Admin.QueryTasksAsync;
         Table.ActionWidth = "70";
         Table.Column(c => c.Status).Tag();

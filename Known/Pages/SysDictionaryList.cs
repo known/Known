@@ -17,6 +17,8 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     {
         await base.OnInitPageAsync();
 
+        Table.AdvSearch = UIConfig.IsAdvAdmin;
+        Table.EnableFilter = UIConfig.IsAdvAdmin;
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.Form = new FormInfo { Width = 600, SmallLabel = true };
         Table.FormType = typeof(DictionaryForm);
