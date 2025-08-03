@@ -49,6 +49,17 @@ public class ToolbarModel
     /// 添加一个操作按钮。
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="group">按钮分组。</param>
+    /// <param name="title">按钮提示信息。</param>
+    public void AddAction(string idOrName, string group, string title = "")
+    {
+        Items.Add(new ActionInfo(idOrName) { Group = group, Title = title });
+    }
+
+    /// <summary>
+    /// 添加一个操作按钮。
+    /// </summary>
+    /// <param name="idOrName">按钮ID或名称。</param>
     /// <param name="badge">徽章数量。</param>
     /// <param name="title">按钮提示信息。</param>
     public void AddAction(string idOrName, int badge, string title = "")
