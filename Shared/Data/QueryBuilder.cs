@@ -92,6 +92,14 @@ public interface IQueryBuilder<T> where T : class, new()
     Task<TItem> FirstAsync<TItem>();
 
     /// <summary>
+    /// 异步查询建造者构建的单条数据。
+    /// </summary>
+    /// <typeparam name="TItem">泛型类型。</typeparam>
+    /// <param name="predicate">条件表达式。</param>
+    /// <returns>单条数据。</returns>
+    Task<TItem> FirstAsync<TItem>(Expression<Func<T, bool>> predicate);
+
+    /// <summary>
     /// 异步查询建造者构建的多条数据。
     /// </summary>
     /// <returns>多条数据。</returns>
@@ -103,6 +111,14 @@ public interface IQueryBuilder<T> where T : class, new()
     /// <typeparam name="TItem">泛型类型。</typeparam>
     /// <returns>多条数据。</returns>
     Task<List<TItem>> ToListAsync<TItem>();
+
+    /// <summary>
+    /// 异步查询建造者构建的多条数据。
+    /// </summary>
+    /// <typeparam name="TItem">泛型类型。</typeparam>
+    /// <param name="predicate">条件表达式。</param>
+    /// <returns>多条数据。</returns>
+    Task<List<TItem>> ToListAsync<TItem>(Expression<Func<T, bool>> predicate);
 }
 
 class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
@@ -194,10 +210,24 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
         return db.QueryAsync<TItem>(info);
     }
 
+    public Task<TItem> FirstAsync<TItem>(Expression<Func<T, bool>> predicate)
+    {
+        Where(predicate);
+        var info = GetSelectCommand(true);
+        return db.QueryAsync<TItem>(info);
+    }
+
     public Task<List<T>> ToListAsync() => ToListAsync<T>();
 
     public Task<List<TItem>> ToListAsync<TItem>()
     {
+        var info = GetSelectCommand();
+        return db.QueryListAsync<TItem>(info);
+    }
+
+    public Task<List<TItem>> ToListAsync<TItem>(Expression<Func<T, bool>> predicate)
+    {
+        Where(predicate);
         var info = GetSelectCommand();
         return db.QueryListAsync<TItem>(info);
     }
