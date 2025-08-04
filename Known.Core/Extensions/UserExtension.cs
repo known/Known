@@ -17,7 +17,7 @@ public static class UserExtension
             return Task.FromResult(default(UserInfo));
 
         userName = userName.ToLower();
-        return db.Query<SysUser>().Where(d => d.UserName == userName).FirstAsync<UserInfo>();
+        return db.Query<SysUser>().FirstAsync<UserInfo>(d => d.UserName == userName);
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public static class UserExtension
         if (string.IsNullOrWhiteSpace(id))
             return Task.FromResult(default(UserInfo));
 
-        return db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserInfo>();
+        return db.Query<SysUser>().FirstAsync<UserInfo>(d => d.Id == id);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public static class UserExtension
         if (string.IsNullOrWhiteSpace(name))
             return Task.FromResult(default(UserInfo));
 
-        return db.Query<SysUser>().Where(d => d.Name == name).FirstAsync<UserInfo>();
+        return db.Query<SysUser>().FirstAsync<UserInfo>(d => d.Name == name);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public static class UserExtension
     /// <returns>用户列表。</returns>
     public static Task<List<UserInfo>> GetUsersByRoleAsync(this Database db, string roleName)
     {
-        return db.Query<SysUser>().Where(d => d.Role.Contains(roleName)).ToListAsync<UserInfo>();
+        return db.Query<SysUser>().ToListAsync<UserInfo>(d => d.Role.Contains(roleName));
     }
 
     /// <summary>

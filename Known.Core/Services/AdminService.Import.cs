@@ -89,7 +89,8 @@ partial class AdminService
         {
             if (form.IsAsync)
             {
-                TaskHelper.NotifyRun(form.BizType);
+                task.File = sysFiles.First();
+                TaskHelper.NotifyRun(task);
                 result.Message += Language[CoreLanguage.ImportFileImporting];
             }
             else if (task != null)

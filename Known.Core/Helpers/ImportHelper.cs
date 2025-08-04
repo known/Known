@@ -15,11 +15,7 @@ public sealed class ImportHelper
 
     private ImportHelper() { }
 
-    /// <summary>
-    /// 异步执行数据导入定时任务。
-    /// </summary>
-    /// <returns></returns>
-    internal static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
+    internal static Task ExecuteAsync(TaskInfo task) => TaskHelper.RunAsync(task, ExecuteAsync);
 
     /// <summary>
     /// 读取导入文件并处理导入逻辑。

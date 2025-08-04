@@ -26,7 +26,7 @@ public static class WeixinExtension
     {
         var task = WeixinHelper.CreateTask(info);
         await db.CreateTaskAsync(task);
-        TaskHelper.NotifyRun(task.Type);
+        TaskHelper.NotifyRun(task);
         return Result.Success("Task saved！");
     }
 }

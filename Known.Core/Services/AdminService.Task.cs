@@ -29,7 +29,8 @@ partial class AdminService
             return Result.Error(Language.SelectOneAtLeast);
 
         var bizTypes = new List<string>();
-        var result = await Database.TransactionAsync(Language.Reset, async db =>
+        var tasks = new List<Task>();
+        await Database.QueryActionAsync(async db =>
         {
             foreach (var item in infos)
             {
@@ -38,13 +39,11 @@ partial class AdminService
                 {
                     task.Status = TaskJobStatus.Pending;
                     await db.SaveAsync(task);
-                    if (!bizTypes.Contains(task.Type))
-                        bizTypes.Add(item.Type);
                 }
+                item.File = await db.Query<SysFile>().FirstAsync<AttachInfo>(d => d.Id == item.Target);
+                TaskHelper.NotifyRun(item);
             }
         });
-        if (result.IsValid)
-            bizTypes.ForEach(TaskHelper.NotifyRun);
-        return result;
+        return Result.Success(Language.Success(Language.Reset));
     }
 }

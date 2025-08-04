@@ -9,11 +9,7 @@ public sealed class WeixinHelper
 
     private WeixinHelper() { }
 
-    /// <summary>
-    /// 异步执行微信模板消息发送定时任务。
-    /// </summary>
-    /// <returns></returns>
-    internal static Task ExecuteAsync() => TaskHelper.RunAsync(BizType, ExecuteAsync);
+    internal static Task ExecuteAsync(TaskInfo task) => TaskHelper.RunAsync(task, ExecuteAsync);
 
     /// <summary>
     /// 异步网页授权操作。
