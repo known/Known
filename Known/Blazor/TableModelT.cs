@@ -15,7 +15,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     /// <param name="page">表格关联的页面组件。</param>
     /// <param name="mode">根据数据类型自动生成表格列。</param>
-    public TableModel(BaseComponent page, TableColumnMode mode = TableColumnMode.None) : this(page, null, mode) { }
+    public TableModel(IBaseComponent page, TableColumnMode mode = TableColumnMode.None) : this(page, null, mode) { }
 
     /// <summary>
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
@@ -23,7 +23,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="page">表格关联的页面组件。</param>
     /// <param name="id">表格关联的页面组件。</param>
     /// <param name="mode">根据数据类型自动生成表格列。</param>
-    public TableModel(BaseComponent page, string id, TableColumnMode mode = TableColumnMode.None) : base(page, id)
+    public TableModel(IBaseComponent page, string id, TableColumnMode mode = TableColumnMode.None) : base(page, id)
     {
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
@@ -36,8 +36,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
 
         if (page != null)
         {
-            OnAction = page.OnActionClick;
-            Toolbar.OnItemClick = page.OnToolClick;
+            OnAction = (info, item) => Context.OnAction(page, info, [item]);
+            Toolbar.OnItemClick = info => Context.OnAction(page, info, null);
         }
 
         var isPage = !IsAuto && page is BasePage;
@@ -52,7 +52,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 取得表格关联的页面组件。
     /// </summary>
-    public BaseComponent Page { get; }
+    public IBaseComponent Page { get; }
 
     /// <summary>
     /// 取得或设置表格关联的页面。

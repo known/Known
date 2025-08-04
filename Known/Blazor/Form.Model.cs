@@ -13,7 +13,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// </summary>
     /// <param name="page">表单关联的页面组件。</param>
     /// <param name="isAuto">是否根据表单数据类型自动生成布局，默认否。</param>
-    public FormModel(BaseComponent page, bool isAuto = false) : base(page)
+    public FormModel(IBaseComponent page, bool isAuto = false) : base(page)
     {
         IsDictionary = typeof(TItem).IsDictionary();
         Page = page;
@@ -40,7 +40,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <summary>
     /// 取得表单关联的页面组件。
     /// </summary>
-    public BaseComponent Page { get; }
+    public IBaseComponent Page { get; }
 
     /// <summary>
     /// 取得或设置表单标题。

@@ -5,6 +5,7 @@ namespace Known.Blazor;
 /// <summary>
 /// Web页面基类，继承组件基类。
 /// </summary>
+[StreamRendering]
 public class BasePage : BaseComponent, IReuseTabsPage
 {
     /// <summary>

@@ -28,8 +28,8 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         Table = new TableModel<TItem>(this);
         Table.AdvSearch = false;
         Table.AutoHeight = false;
-        Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.ShowSetting = false;
+        Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
     }
 

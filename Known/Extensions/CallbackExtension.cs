@@ -11,7 +11,7 @@ public static class CallbackExtension
     /// <param name="component">组件对象。</param>
     /// <param name="callback">回调异步委托。</param>
     /// <returns>事件回调。</returns>
-    public static EventCallback Callback(this ComponentBase component, Func<Task> callback)
+    public static EventCallback Callback(this Microsoft.AspNetCore.Components.IComponent component, Func<Task> callback)
     {
         if (component == null)
             return EventCallback.Empty;
@@ -26,7 +26,7 @@ public static class CallbackExtension
     /// <param name="component">组件对象。</param>
     /// <param name="callback">回调异步委托。</param>
     /// <returns>事件回调。</returns>
-    public static EventCallback<T> Callback<T>(this ComponentBase component, Func<T, Task> callback)
+    public static EventCallback<T> Callback<T>(this Microsoft.AspNetCore.Components.IComponent component, Func<T, Task> callback)
     {
         if (component == null)
             return EventCallback<T>.Empty;
@@ -40,7 +40,7 @@ public static class CallbackExtension
     /// <param name="component">组件对象。</param>
     /// <param name="callback">回调委托。</param>
     /// <returns>事件回调。</returns>
-    public static EventCallback Callback(this ComponentBase component, Action callback)
+    public static EventCallback Callback(this Microsoft.AspNetCore.Components.IComponent component, Action callback)
     {
         if (component == null)
             return EventCallback.Empty;
@@ -55,7 +55,7 @@ public static class CallbackExtension
     /// <param name="component">组件对象。</param>
     /// <param name="callback">回调委托。</param>
     /// <returns>事件回调。</returns>
-    public static EventCallback<T> Callback<T>(this ComponentBase component, Action<T> callback)
+    public static EventCallback<T> Callback<T>(this Microsoft.AspNetCore.Components.IComponent component, Action<T> callback)
     {
         if (component == null)
             return EventCallback<T>.Empty;

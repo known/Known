@@ -3,8 +3,7 @@
 /// <summary>
 /// 抽象组件基类。
 /// </summary>
-[StreamRendering]
-public abstract class BaseComponent : ComponentBase, IAsyncDisposable
+public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDisposable
 {
     /// <summary>
     /// 构造函数，创建一个组件实例，默认组件ID。

@@ -60,7 +60,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         builder.Div("kui-flow", () => builder.GroupBox(title, () => builder.Form(flow)));
     }
 
-    private Task OnAssignAsync(MouseEventArgs args) => Model.Page.AssignFlowAsync(Model.Data);
+    private Task OnAssignAsync(MouseEventArgs args) => Task.CompletedTask;//Model.Page.AssignFlowAsync(Model.Data);
 
     private async Task OnSaveAsync(MouseEventArgs args)
     {

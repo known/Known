@@ -212,7 +212,7 @@ public class AntDropdown : Dropdown
 /// 扩展Ant表格选择框组件类。
 /// </summary>
 /// <typeparam name="TItem">数据项类型。</typeparam>
-public class AntDropdownTable<TItem> : AntDropdown where TItem : class, new()
+public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem : class, new()
 {
     /// <summary>
     /// 取得表格模型。
@@ -230,22 +230,35 @@ public class AntDropdownTable<TItem> : AntDropdown where TItem : class, new()
     protected virtual Func<TItem, string> OnValue { get; }
 
     /// <summary>
+    /// 取得或设置注入的UI服务实例。
+    /// </summary>
+    [Inject] public UIService UI { get; set; }
+
+    /// <summary>
     /// 取得或设置选中行改变事件委托。
     /// </summary>
     [Parameter] public EventCallback<TItem> OnChange { get; set; }
+
+    /// <summary>
+    /// 异步刷新组件。
+    /// </summary>
+    /// <returns></returns>
+    public Task RefreshAsync() => Table.RefreshAsync();
 
     /// <inheritdoc />
     protected override async Task OnInitializeAsync()
     {
         await base.OnInitializeAsync();
 
-        Table = new TableModel<TItem>(null);
+        Table = new TableModel<TItem>(this);
         Table.AdvSearch = false;
         Table.AutoHeight = false;
         Table.ShowSetting = false;
         Table.IsScroll = false;
         Table.ShowPager = true;
         Table.OnRowClick = OnRowClick;
+        Table.OnAction = (info, item) => Context.OnAction(this, info, [item]);
+        Table.Toolbar.OnItemClick = info => Context.OnAction(this, info, null);
 
         Model = new DropdownModel
         {

@@ -12,7 +12,7 @@ public class TableModel : BaseModel
     /// </summary>
     /// <param name="page">表格关联的页面组件。</param>
     /// <param name="id">表格关联的页面组件。</param>
-    public TableModel(BaseComponent page, string id = null) : base(page)
+    public TableModel(IBaseComponent page, string id = null) : base(page)
     {
         Id = id ?? page?.Context?.Current?.Id;
         Toolbar = new ToolbarModel { Table = this };
