@@ -4,13 +4,13 @@
     @if (OnSendSMS != null)
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired(Language.PhoneNo)">
-            <AntInput Icon="phone" @bind-Value="@context.PhoneNo" Placeholder="@Language.PhoneNo" />
+            <AntInput Icon="phone" @bind-Value="@context.PhoneNo" Placeholder="@Language[Language.PhoneNo]" />
         </FormItem>
         <FormItem Label="" Required Rules="@Context.RuleRequired(Language.PhoneCode)">
-            <AntCaptcha Icon="lock" @bind-Value="@context.PhoneCode" Placeholder="@Language.PhoneCode" Option="option" />
+            <AntCaptcha Icon="lock" @bind-Value="@context.PhoneCode" Placeholder="@Language[Language.PhoneCode]" Option="option" />
         </FormItem>
         <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Captcha)">
-            <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language.Captcha" />
+            <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language[Language.Captcha]" />
         </FormItem>
         <FormItem>
             <Checkbox @bind-Value="context.Remember">@Language[Language.RememberPhone]</Checkbox>
@@ -19,21 +19,21 @@
     else
     {
         <FormItem Label="" Required Rules="@Context.RuleRequired(Language.UserName)">
-            <AntInput Icon="user" @bind-Value="@context.UserName" Placeholder="@Language.UserName" />
+            <AntInput Icon="user" @bind-Value="@context.UserName" Placeholder="@Language[Language.UserName]" />
         </FormItem>
         <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Password)">
-            <AntPassword Icon="lock" @bind-Value="@context.Password" Placeholder="@Language.Password" />
+            <AntPassword Icon="lock" @bind-Value="@context.Password" Placeholder="@Language[Language.Password]" />
         </FormItem>
         @if (Stations != null && Stations.Count > 0)
         {
             <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Station)">
-                <AntSelect Icon="control" @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language.Station" />
+                <AntSelect Icon="control" @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language[Language.Station]" />
             </FormItem>
         }
         else if (IsCaptcha)
         {
             <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Captcha)">
-                <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language.Captcha" />
+                <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language[Language.Captcha]" />
             </FormItem>
         }
         <FormItem>
