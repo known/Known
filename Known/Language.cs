@@ -2,6 +2,8 @@
 
 public partial class Language
 {
+    internal const string TipAIEntry = "有问题，问小K。";
+
     internal const string TipFormRouteIsNull = "表单类型或路由不存在！";
     internal const string TipLanguageFetch = "提取系统语言常量、枚举、信息类、实体类字段名称。";
     internal const string TipLanguageSetting = "配置系统语言选项。";

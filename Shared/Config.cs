@@ -60,6 +60,11 @@ public partial class Config
     public static bool IsInstalled { get; set; }
 
     /// <summary>
+    /// 取得或设置是否弃用AI模式，右下角显示AI图标按钮。
+    /// </summary>
+    public static bool IsAIMode { get; set; }
+
+    /// <summary>
     /// 取得或设置模块是否是数据库存储模式，默认否，代码和数据混合模式。
     /// </summary>
     public static bool IsDbMode { get; set; }

@@ -28,6 +28,7 @@ public static class AppConfig
         Console.WriteLine(AppName);
         Config.AppMenus = AppMenus;
         Config.IsDebug = true;
+        Config.IsAIMode = true;
 
         // 添加前端
         var assembly = typeof(AppConfig).Assembly;

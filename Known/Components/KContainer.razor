@@ -4,6 +4,13 @@
 @if (Config.IsDebug) {
     <div class="kui-run-mode ant-btn-primary" style="display:none;">@ModeName</div>
 }
+@if (Config.IsAIMode) {
+    <div class="kui-ai-entry">
+        <Tooltip Title="@Language[Language.TipAIEntry]">
+            <img src="_content/Known/img/favicon.png" />
+        </Tooltip>
+    </div>
+}
 <div id="components-reconnect-modal">
     <div class="mask"></div>
     @* <div class="show">

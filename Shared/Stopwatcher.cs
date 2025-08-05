@@ -55,7 +55,7 @@ public class Stopwatcher
             return;
 
         watch.Stop();
-        WriteLog($"{type.Name}：{label}={watch.ElapsedMilliseconds}ms");
+        Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {type.Name}：{label}={watch.ElapsedMilliseconds}ms");
         watch.Restart();
     }
 
@@ -68,11 +68,6 @@ public class Stopwatcher
             return;
 
         var logs = string.Join("、", times.Select(t => $"{t.Key}={t.Value}ms"));
-        WriteLog($"{type.Name}：{logs}");
-    }
-
-    private void WriteLog(string message)
-    {
-        Logger.Debug(LogTarget.Debug, new UserInfo { Name = nameof(Stopwatcher) }, message);
+        Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {type.Name}：{logs}");
     }
 }
