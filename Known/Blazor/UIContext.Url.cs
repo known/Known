@@ -116,8 +116,18 @@ public partial class UIContext
         if (menus == null || menus.Count == 0 || string.IsNullOrWhiteSpace(Url))
             return null;
 
-        var index = Url.IndexOf('?');
-        var url = index > 0 ? Url[..index] : Url;
+        var url = Url;
+        var index = url.IndexOf('?');
+        if (index > 0)
+            url = url[..index];
+        if (route != null && route.RouteValues.Any())
+        {
+            foreach (var item in route.RouteValues)
+            {
+                if (item.Value != null)
+                    url = url.Replace($"{item.Value}", "").TrimEnd('/');
+            }
+        }
         var menu = menus.FirstOrDefault(m => m.Url == url);
         if (menu != null)
             return menu;
@@ -127,11 +137,14 @@ public partial class UIContext
 
     private void SetNavMenu(MenuInfo info)
     {
-        if (UserMenus?.Exists(m => m.Id == info.Id) == true)
-            return;
+        if (string.IsNullOrWhiteSpace(info.BackUrl))
+        {
+            if (UserMenus?.Exists(m => m.Id == info.Id) == true)
+                return;
 
-        if (Config.AppMenus?.Exists(m => m.Id == info.Id) == true)
-            return;
+            if (Config.AppMenus?.Exists(m => m.Id == info.Id) == true)
+                return;
+        }
 
         var item = NavMenus.FirstOrDefault(m => m.Id == info.Id);
         if (item != null)
