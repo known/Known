@@ -58,10 +58,11 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 /*Query*/
 .kui-query {margin-bottom:10px;padding:10px;}
 .kui-query-btn {display:flex;gap:3px;}
-.kui-query-more .ant-row {gap:8px 0;}
 .kui-query .ant-form-item {margin:0;}
 .kui-query .ant-form-item-control {margin-right:10px;}
 .kui-query .ant-picker-range input {width:98px;}
+.kui-query-more .ant-row {gap:8px 0;}
+.kui-query-more.expand .ant-form-item-label > label {width:80px;}
 .kui-query-more .ant-picker-range input {width:100%;}
 .kui-advanced-search {padding:10px;}
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}

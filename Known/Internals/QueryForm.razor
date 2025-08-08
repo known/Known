@@ -7,7 +7,8 @@
         if (count > showCount)
             count = _expand ? count : showCount;
         var offset = _expand ? (3 - count % 4) * 6 : 0;
-        <div class="kui-query-more">
+        var moreClass = CssBuilder.Default("kui-query-more").AddClass("expand", _expand).BuildClass();
+        <div class="@moreClass">
             <QueryDataForm Model="Model.QueryData">
                 <AntRow>
                     @for (var i = 0; i < count; i++) {
