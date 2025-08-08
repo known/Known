@@ -46,7 +46,7 @@ public class UserDataInfo : UserInfo
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column]
+    [Column(IsQuery = true)]
     [Form(Row = 2, Column = 1)]
     [DisplayName("姓名")]
     public new string Name { get; set; }

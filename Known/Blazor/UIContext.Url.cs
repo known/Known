@@ -120,7 +120,7 @@ public partial class UIContext
         var index = url.IndexOf('?');
         if (index > 0)
             url = url[..index];
-        if (route != null && route.RouteValues.Any())
+        if (route != null && route.RouteValues.Any() && route.PageType != typeof(AutoPage))
         {
             foreach (var item in route.RouteValues)
             {
@@ -128,7 +128,7 @@ public partial class UIContext
                     url = url.Replace($"{item.Value}", "").TrimEnd('/');
             }
         }
-        var menu = menus.FirstOrDefault(m => m.Url == url);
+        var menu = menus.FirstOrDefault(m => m.Url == url || m.RouteUrl == url);
         if (menu != null)
             return menu;
 

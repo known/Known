@@ -171,8 +171,8 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         Table.Form = new FormInfo { Width = 600, SmallLabel = true, OpenType = FormOpenType.Modal };
         Table.FormType = typeof(CategoryForm);
         Table.Toolbar.AddAction(nameof(New));
-        Table.AddColumn(c => c.Code, true).Width(100);
-        Table.AddColumn(c => c.Name, true).Width(100);
+        Table.AddColumn(c => c.Code, true).Width(120);
+        Table.AddColumn(c => c.Name, true).Width(150);
         Table.AddColumn(c => c.CategoryName).Width(100).Name(Language.Type).Tag();
         Table.AddColumn(c => c.Sort).Width(80);
         Table.AddColumn(c => c.Enabled).Width(80);

@@ -140,7 +140,12 @@ public partial class UIService
 
         if (model.Footer != null)
         {
-            builder.Fragment(model.Footer);
+            builder.FormAction(() =>
+            {
+                if (model.FooterRight != null)
+                    builder.Fragment(model.FooterRight);
+                builder.Fragment(model.Footer);
+            }, model.FooterLeft);
             return;
         }
 

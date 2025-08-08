@@ -78,7 +78,7 @@ public class DictionaryInfo
     /// 取得或设置名称。
     /// </summary>
     [MaxLength(150)]
-    [Column(Width = 120, IsQuery = true)]
+    [Column(Width = 150, IsQuery = true)]
     [Form]
     [DisplayName("名称")]
     public string Name { get; set; }
