@@ -34,6 +34,8 @@ partial class TableModel<TItem>
             model.Info.Maximizable = Form.Maximizable;
             model.Info.DefaultMaximized = Form.DefaultMaximized;
             model.Info.Width = Form.Width;
+            if (Form.OpenType != FormOpenType.None)
+                model.Info.OpenType = Form.OpenType;
         }
         OnForm?.Invoke(model);
         return UI.ShowForm(model);
