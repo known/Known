@@ -81,7 +81,9 @@ public static class ServiceExtension
             }
             else if (!item.IsAbstract && item.IsAssignableTo(typeof(ImportBase)) && item.Name != nameof(ImportBase))
             {
-                Config.ImportTypes[item.Name] = item;
+                var import = item.GetCustomAttribute<ImportAttribute>();
+                var key = import != null ? import.Type.Name : item.Name.Replace("Import", "");
+                Config.ImportTypes[key] = item;
                 services.AddScoped(item);
             }
             else if (!item.IsAbstract && item.IsAssignableTo(typeof(FlowBase)) && item.Name != nameof(FlowBase))

@@ -71,17 +71,12 @@ public sealed class ZipHelper
             return null;
 
         var bytes = Encoding.UTF8.GetBytes(data);
-        using (var stream = new MemoryStream())
-        using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
+        using var stream = new MemoryStream();
+        using (var gzip = new GZipStream(stream, CompressionMode.Compress, leaveOpen: true))
         {
             gzip.Write(bytes, 0, bytes.Length);
-            gzip.Flush();
-            stream.Position = 0;
-
-            var buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
         }
+        return stream.ToArray();
     }
 
     /// <summary>
@@ -95,17 +90,12 @@ public sealed class ZipHelper
             return null;
 
         var bytes = Encoding.UTF8.GetBytes(data);
-        using (var stream = new MemoryStream())
+        using var stream = new MemoryStream();
         using (var gzip = new GZipStream(stream, CompressionMode.Compress, true))
         {
             await gzip.WriteAsync(bytes, 0, bytes.Length);
-            await gzip.FlushAsync();
-            stream.Position = 0;
-
-            var buffer = new byte[stream.Length];
-            stream.Read(buffer, 0, buffer.Length);
-            return buffer;
         }
+        return stream.ToArray();
     }
 
     /// <summary>

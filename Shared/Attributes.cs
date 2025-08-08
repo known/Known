@@ -10,6 +10,19 @@ class LanguageAttribute(string code, string icon, bool isDefault = false, bool e
 }
 
 /// <summary>
+/// 导入特性类，用于标识导入类。
+/// </summary>
+/// <param name="type">导入关联的数据类型。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class ImportAttribute(Type type) : Attribute
+{
+    /// <summary>
+    /// 取得导入类关联的数据类型，通常是列表和表单页面的数据类型。
+    /// </summary>
+    public Type Type { get; } = type;
+}
+
+/// <summary>
 /// WebApi特性类，用于标识服务类是否自动生成WebApi。
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]

@@ -18,7 +18,7 @@ class Importer : BaseComponent
         await base.OnInitAsync();
 
         var type = Info.EntityType;
-        var id = $"{type.Name}Import";
+        var id = type.Name;
         if (!string.IsNullOrWhiteSpace(Info.Param))
             id += $"_{Info.Param}";
         if (Info.IsDictionary)

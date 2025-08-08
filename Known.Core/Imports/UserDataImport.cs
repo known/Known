@@ -1,6 +1,7 @@
 ﻿namespace Known.Imports;
 
-class UserDataInfoImport(ImportContext context) : ImportBase<SysUser>(context)
+[Import(typeof(UserDataInfo))]
+class UserDataImport(ImportContext context) : ImportBase<SysUser>(context)
 {
     public override void InitColumns()
     {
