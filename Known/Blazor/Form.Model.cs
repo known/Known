@@ -21,7 +21,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
             columns = [.. TypeHelper.Properties<TItem>().Select(p => new ColumnInfo(p)).Where(c => c.IsForm)];
     }
 
-    internal FormModel(TableModel<TItem> table, bool isAuto = false) : this(table.Page, isAuto)
+    internal FormModel(TableModel table, bool isAuto = false) : this(table.Page, isAuto)
     {
         Table = table;
         Type = table.FormType ?? Config.FormTypes.GetValueOrDefault($"{typeof(TItem).Name}Form");
@@ -35,7 +35,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     }
 
     internal bool IsDictionary { get; }
-    internal TableModel<TItem> Table { get; }
+    internal TableModel Table { get; }
 
     /// <summary>
     /// 取得表单关联的页面组件。
@@ -160,8 +160,6 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
             return Language?[Title];
 
         var title = Table?.Name;
-        if (Table?.FormTitle != null)
-            title = Table.FormTitle.Invoke(Data);
         return Language?.GetFormTitle(Action, title);
     }
 

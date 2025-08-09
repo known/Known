@@ -73,7 +73,7 @@ public partial class UIService
             Title = model.GetFormTitle(),
             Width = model.Info?.Width?.ToString() ?? "400px",
             Closable = true,
-            MaskClosable = false,
+            MaskClosable = true,
             Placement = DrawerPlacement.Right,
             WrapClassName = GetWrapperClass(model),
             Content = GetFormContent(model, true)

@@ -38,11 +38,6 @@ partial class TableModel<TItem>
     public Func<PagingCriteria, Task<PagingResult<TItem>>> OnQuery { get; set; }
 
     /// <summary>
-    /// 取得或设置表格刷新后调用的委托。
-    /// </summary>
-    public Action OnRefreshed { get; set; }
-
-    /// <summary>
     /// 取得或设置查询出结果后调用的委托。
     /// </summary>
     public Action OnResult { get; set; }
@@ -64,15 +59,5 @@ partial class TableModel<TItem>
             return Task.CompletedTask;
 
         return OnRefreshStatis.Invoke(Result);
-    }
-
-    internal async Task PageRefreshAsync()
-    {
-        if (Page != null)
-            await Page.RefreshAsync();
-        else
-            await RefreshAsync();
-
-        OnRefreshed?.Invoke();
     }
 }

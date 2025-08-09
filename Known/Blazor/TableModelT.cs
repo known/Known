@@ -27,7 +27,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     {
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
-        Page = page;
         IsDictionary = typeof(TItem).IsDictionary();
         if (mode == TableColumnMode.Property)
             AllColumns = [.. TypeHelper.Properties<TItem>().Select(p => new ColumnInfo(p))];
@@ -50,19 +49,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public string SettingId => $"UserTable_{Id}";
 
     /// <summary>
-    /// 取得表格关联的页面组件。
-    /// </summary>
-    public IBaseComponent Page { get; }
-
-    /// <summary>
     /// 取得或设置表格关联的页面。
     /// </summary>
     public BaseTablePage TablePage { get; set; }
-
-    /// <summary>
-    /// 取得或设置表格配置信息。
-    /// </summary>
-    public AutoPageInfo Info { get; set; }
 
     /// <summary>
     /// 取得表格数据是否是字典类型。

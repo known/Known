@@ -16,6 +16,13 @@ public interface IBaseComponent : Microsoft.AspNetCore.Components.IComponent
     UIService UI { get; set; }
 
     /// <summary>
+    /// 创建依赖注入的后端服务接口实例。
+    /// </summary>
+    /// <typeparam name="T">继承 IService 的服务接口。</typeparam>
+    /// <returns></returns>
+    Task<T> CreateServiceAsync<T>() where T : IService;
+
+    /// <summary>
     /// 异步刷新组件。
     /// </summary>
     /// <returns></returns>

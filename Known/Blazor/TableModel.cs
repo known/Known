@@ -14,6 +14,7 @@ public class TableModel : BaseModel
     /// <param name="id">表格关联的页面组件。</param>
     public TableModel(IBaseComponent page, string id = null) : base(page)
     {
+        Page = page;
         Id = id ?? page?.Context?.Current?.Id;
         Toolbar = new ToolbarModel { Table = this };
     }
@@ -52,6 +53,16 @@ public class TableModel : BaseModel
     /// 取得或设置是否启用在线编辑，默认启用。
     /// </summary>
     public bool EnableEdit { get; set; } = true;
+
+    /// <summary>
+    /// 取得表格关联的页面组件。
+    /// </summary>
+    public IBaseComponent Page { get; }
+
+    /// <summary>
+    /// 取得或设置表格配置信息。
+    /// </summary>
+    public AutoPageInfo Info { get; set; }
 
     /// <summary>
     /// 取得或设置表格默认查询条件匿名对象，对象属性名应与查询实体对应。
@@ -96,11 +107,31 @@ public class TableModel : BaseModel
     /// </summary>
     public bool HasToolbar => Toolbar != null && Toolbar.HasItem;
 
+    /// <summary>
+    /// 取得或设置表格关联的自定义表单组件类型。
+    /// </summary>
+    public Type FormType { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格刷新后调用的委托。
+    /// </summary>
+    public Action OnRefreshed { get; set; }
+
     internal virtual string TableId { get; }
     internal virtual Type DataType { get; }
     internal List<ColumnInfo> AllColumns { get; set; } = [];
     internal Action OnReload { get; set; }
     internal Func<bool, Task> OnRefresh { get; set; }
+
+    internal async Task PageRefreshAsync()
+    {
+        if (Page != null)
+            await Page.RefreshAsync();
+        else
+            await RefreshAsync();
+
+        OnRefreshed?.Invoke();
+    }
 
     /// <summary>
     /// 重新加载表格。

@@ -8,11 +8,6 @@ partial class TableModel<TItem>
     public FormInfo Form { get; set; }
 
     /// <summary>
-    /// 取得或设置表格关联的自定义表单组件类型。
-    /// </summary>
-    public Type FormType { get; set; }
-
-    /// <summary>
     /// 取得或设置表格关联的表单标题委托。
     /// </summary>
     public Func<TItem, string> FormTitle { get; set; }
@@ -23,6 +18,21 @@ partial class TableModel<TItem>
     public Action<FormModel<TItem>> OnForm { get; set; }
 
     private bool ShowForm(FormModel<TItem> model)
+    {
+        if (FormTitle != null)
+            model.Title = FormTitle.Invoke(model.Data);
+        SetFormModel(model);
+        OnForm?.Invoke(model);
+        return UI.ShowForm(model);
+    }
+
+    private bool ShowForm<T>(FormModel<T> model) where T : class, new()
+    {
+        SetFormModel(model);
+        return UI.ShowForm(model);
+    }
+
+    private void SetFormModel<T>(FormModel<T> model) where T : class, new()
     {
         model.Info ??= new FormInfo();
         if (Form != null)
@@ -37,7 +47,5 @@ partial class TableModel<TItem>
             if (Form.OpenType != FormOpenType.None)
                 model.Info.OpenType = Form.OpenType;
         }
-        OnForm?.Invoke(model);
-        return UI.ShowForm(model);
     }
 }

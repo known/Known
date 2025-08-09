@@ -34,7 +34,7 @@ partial class CodeGenerator
             sb.AppendLine(" ");
             sb.AppendLine("    public async Task<{0}> Get{1}Async(string id)", modelName, className);
             sb.AppendLine("    {");
-            sb.AppendLine("        var info = await  Database.Query<{0}>().Where(d => d.Id == id).FirstAsync<{1}>();", entityName, modelName);
+            sb.AppendLine("        var info = await  Database.Query<{0}>().FirstAsync<{1}>(d => d.Id == id);", entityName, modelName);
             sb.AppendLine("        info ??= new {0}();", modelName);
             sb.AppendLine("        return info;");
             sb.AppendLine("    }");
