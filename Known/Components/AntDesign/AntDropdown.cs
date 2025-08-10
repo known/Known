@@ -270,13 +270,14 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
 
     private void BuildContent(RenderTreeBuilder builder)
     {
-        builder.TextBox(new InputModel<string>
-        {
-            Value = Value,
-            ValueChanged = ValueChanged,
-            Placeholder = Placeholder,
-            Disabled = AntForm?.IsView == true
-        });
+        builder.Component<AntInput>()
+               .Set(c => c.AllowClear, true)
+               .Set(c => c.ReadOnly, true)
+               .Set(c => c.Value, Value)
+               .Set(c => c.ValueChanged, ValueChanged)
+               .Set(c => c.Placeholder, Placeholder)
+               .Set(c => c.Disabled, AntForm?.IsView == true)
+               .Build();
     }
 
     private void BuildOverlay(RenderTreeBuilder builder)
@@ -290,6 +291,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         OnValueChanged(OnValue?.Invoke(item));
         if (OnChange.HasDelegate)
             OnChange.InvokeAsync(item);
+        Close();
         return Task.CompletedTask;
     }
 }
@@ -321,6 +323,7 @@ public class AntDropdownTree : AntDropdown
         model.OnNodeClick = n =>
         {
             OnValueChanged(n.Name ?? n.Code);
+            Close();
             return Task.CompletedTask;
         };
         model.Data = Items.ToMenuItems();
@@ -335,13 +338,14 @@ public class AntDropdownTree : AntDropdown
 
     private void BuildContent(RenderTreeBuilder builder)
     {
-        builder.TextBox(new InputModel<string>
-        {
-            Value = Value,
-            ValueChanged = ValueChanged,
-            Placeholder = Placeholder,
-            Disabled = AntForm?.IsView == true
-        });
+        builder.Component<AntInput>()
+               .Set(c => c.AllowClear, true)
+               .Set(c => c.ReadOnly, true)
+               .Set(c => c.Value, Value)
+               .Set(c => c.ValueChanged, ValueChanged)
+               .Set(c => c.Placeholder, Placeholder)
+               .Set(c => c.Disabled, AntForm?.IsView == true)
+               .Build();
     }
 
     private void BuildOverlay(RenderTreeBuilder builder)

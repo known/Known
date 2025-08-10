@@ -6,28 +6,33 @@
         <KIcon Icon="edit" Title="@Language.EditToolbar" />
     </div>
 }
-@if (Model != null && Model.HasItem)
+@if (Model != null)
 {
     var items = Model.GetToolbarItems();
     <div class="ant-toolbar">
-        @if (items.Count > Model.ShowCount)
+        @Model.Left
+        @if (Model.HasItem)
         {
-            for (int i = 0; i < Model.ShowCount - 1; i++)
+            if (items.Count > Model.ShowCount)
             {
-                var item = items[i];
-                @RenderButton(item)
+                for (int i = 0; i < Model.ShowCount - 1; i++)
+                {
+                    var item = items[i];
+                    @RenderButton(item)
+                }
+                var more = GetDropdownModel(Language.More);
+                more.Items = items.Skip(Model.ShowCount - 1).ToList();
+                <AntDropdown Context="Context" Model="more" />
             }
-            var more = GetDropdownModel(Language.More);
-            more.Items = items.Skip(Model.ShowCount - 1).ToList();
-            <AntDropdown Context="Context" Model="more" />
-        }
-        else
-        {
-            foreach (var item in items)
+            else
             {
-                @RenderButton(item)
+                foreach (var item in items)
+                {
+                    @RenderButton(item)
+                }
             }
         }
+        @Model.Right
     </div>
 }
 

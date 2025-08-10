@@ -21,7 +21,7 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
         {
             if (!string.IsNullOrWhiteSpace(Model.Name) ||
                  Model.QueryColumns.Count > 0 ||
-                 Model.ShowToolbar && Model.Toolbar.HasItem)
+                 Model.ShowToolbar)
             {
                 builder.Toolbar(() =>
                 {
@@ -32,7 +32,7 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
                         if (Model.QueryColumns.Count > 0)
                             builder.Query(Model);
                     });
-                    if (Model.ShowToolbar && Model.Toolbar.HasItem)
+                    if (Model.ShowToolbar)
                         builder.Toolbar(Model.Toolbar);
                 });
             }

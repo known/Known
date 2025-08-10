@@ -26,6 +26,16 @@ public class ToolbarModel
     public Action<ActionInfo> OnItemClick { get; set; }
 
     /// <summary>
+    /// 取得或设置工具条左侧模板。
+    /// </summary>
+    public RenderFragment Left { get; set; }
+
+    /// <summary>
+    /// 取得或设置工具条右侧模板。
+    /// </summary>
+    public RenderFragment Right { get; set; }
+
+    /// <summary>
     /// 取得或设置工具条刷新委托。
     /// </summary>
     internal Action OnRefresh { get; set; }
