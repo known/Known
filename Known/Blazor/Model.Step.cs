@@ -11,9 +11,9 @@ public class StepModel
     public string Class { get; set; }
 
     /// <summary>
-    /// 取得或设置步骤方向（横向/竖向）。
+    /// 取得或设置步骤方向是否垂直，否则水平。
     /// </summary>
-    public string Direction { get; set; }
+    public bool IsVertical { get; set; }
 
     /// <summary>
     /// 取得或设置步骤当前位置。

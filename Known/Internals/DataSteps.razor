@@ -2,7 +2,7 @@
 
 @if (Model != null && Model.Items != null && Model.Items.Count > 0)
 {
-    <Steps Class="@Model.Class" Current="Model.Current">
+    <Steps Class="@Model.Class" Current="Model.Current" Direction="Direction">
         @foreach (var item in Model.Items)
         {
             <Step Title="@Language?.GetTitle(item.Title)"

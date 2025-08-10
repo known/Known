@@ -274,7 +274,8 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         {
             Value = Value,
             ValueChanged = ValueChanged,
-            Placeholder = Placeholder
+            Placeholder = Placeholder,
+            Disabled = AntForm?.IsView == true
         });
     }
 
@@ -338,7 +339,8 @@ public class AntDropdownTree : AntDropdown
         {
             Value = Value,
             ValueChanged = ValueChanged,
-            Placeholder = Placeholder
+            Placeholder = Placeholder,
+            Disabled = AntForm?.IsView == true
         });
     }
 

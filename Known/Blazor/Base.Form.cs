@@ -186,25 +186,46 @@ public class BaseHeadListForm<THead, TList> : BaseForm<THead>
     /// <summary>
     /// 添加表体数据。
     /// </summary>
-    protected void OnAdd() => ListItems.Add(DefaultList ?? new TList());
+    protected void OnAdd()
+    {
+        ListItems.Add(DefaultList ?? new TList());
+        OnRowChanged();
+    }
 
     /// <summary>
     /// 删除表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnDelete(TList row) => ListItems.Remove(row);
+    protected void OnDelete(TList row)
+    {
+        ListItems.Remove(row);
+        OnRowChanged();
+    }
 
     /// <summary>
     /// 上移表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnMoveUp(TList row) => ListItems.MoveRow(row, true);
+    protected void OnMoveUp(TList row)
+    {
+        ListItems.MoveRow(row, true);
+        OnRowChanged();
+    }
 
     /// <summary>
     /// 下移表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnMoveDown(TList row) => ListItems.MoveRow(row, false);
+    protected void OnMoveDown(TList row)
+    {
+        ListItems.MoveRow(row, false);
+        OnRowChanged();
+    }
+
+    /// <summary>
+    /// 数据行新增、删除、移动改变事件。
+    /// </summary>
+    protected virtual void OnRowChanged() { }
 }
 
 /// <summary>
