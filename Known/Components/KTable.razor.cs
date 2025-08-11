@@ -140,10 +140,11 @@ partial class KTable<TItem>
 
     private int GetIndex(TItem item)
     {
+        var seqNo = Model.Result.PageData.IndexOf(item) + 1;
         if (!Model.ShowPager)
-            return Model.Result.PageData.IndexOf(item) + 1;
+            return seqNo;
 
-        return Model.Result.PageData.IndexOf(item) + 1 + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize;
+        return seqNo + (Model.Criteria.PageIndex - 1) * Model.Criteria.PageSize;
     }
 
     private bool GetSortable(ColumnInfo item)

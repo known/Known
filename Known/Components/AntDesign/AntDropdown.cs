@@ -277,6 +277,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
                .Set(c => c.ValueChanged, ValueChanged)
                .Set(c => c.Placeholder, Placeholder)
                .Set(c => c.Disabled, AntForm?.IsView == true)
+               .Set(c => c.OnClear, this.Callback(OnClear))
                .Build();
     }
 
@@ -292,6 +293,14 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         if (OnChange.HasDelegate)
             OnChange.InvokeAsync(item);
         Close();
+        return Task.CompletedTask;
+    }
+
+    private Task OnClear()
+    {
+        OnValueChanged("");
+        if (OnChange.HasDelegate)
+            OnChange.InvokeAsync(null);
         return Task.CompletedTask;
     }
 }
@@ -313,6 +322,11 @@ public class AntDropdownTree : AntDropdown
     /// </summary>
     [Parameter] public List<MenuInfo> Items { get; set; }
 
+    /// <summary>
+    /// 取得或设置选中行改变事件委托。
+    /// </summary>
+    [Parameter] public EventCallback<MenuInfo> OnChange { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitializeAsync()
     {
@@ -323,6 +337,8 @@ public class AntDropdownTree : AntDropdown
         model.OnNodeClick = n =>
         {
             OnValueChanged(n.Name ?? n.Code);
+            if (OnChange.HasDelegate)
+                OnChange.InvokeAsync(n);
             Close();
             return Task.CompletedTask;
         };
@@ -345,6 +361,7 @@ public class AntDropdownTree : AntDropdown
                .Set(c => c.ValueChanged, ValueChanged)
                .Set(c => c.Placeholder, Placeholder)
                .Set(c => c.Disabled, AntForm?.IsView == true)
+               .Set(c => c.OnClear, this.Callback(OnClear))
                .Build();
     }
 
@@ -353,5 +370,13 @@ public class AntDropdownTree : AntDropdown
         var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
         var style = CssBuilder.Default().Add("min-width", "200px").AddStyle(Style).BuildStyle();
         builder.Div().Class(className).Style(style).Child(() => builder.Tree(model));
+    }
+
+    private Task OnClear()
+    {
+        OnValueChanged("");
+        if (OnChange.HasDelegate)
+            OnChange.InvokeAsync(null);
+        return Task.CompletedTask;
     }
 }
