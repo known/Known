@@ -95,7 +95,7 @@ public static class FormExtension
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     /// <param name="model">表格组件模型对象。</param>
-    internal static void Query(this RenderTreeBuilder builder, TableModel model)
+    public static void Query(this RenderTreeBuilder builder, TableModel model)
     {
         builder.Component<QueryForm>().Set(c => c.Model, model).Build();
     }

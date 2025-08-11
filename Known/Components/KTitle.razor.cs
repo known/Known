@@ -5,6 +5,8 @@
 /// </summary>
 public partial class KTitle
 {
+    private string ClassName => CssBuilder.Default("kui-title").AddClass(Class).BuildClass();
+
     /// <summary>
     /// 取得或设置组件标题文本。
     /// </summary>
