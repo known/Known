@@ -43,6 +43,8 @@
         model1.Name = "天气1";
         model1.OnQuery = OnQueryWeatherForecastsAsync;
         model1.Toolbar.AddAction(nameof(New));
+        model1.Toolbar.AddAction(nameof(Test1), "", "user", "");
+        model1.AddIconAction(nameof(Test2), "user");
 
         model2 = new TableModel<WeatherForecast>(this, "Weather2", TableColumnMode.Property);
         model2.ShowPager = true;
@@ -58,6 +60,9 @@
             return Known.Result.SuccessAsync("");
         });
     }
+
+    public void Test1() => UI.Alert("Test");
+    public void Test2(WeatherForecast row) => UI.Alert(row.Summary);
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
     {

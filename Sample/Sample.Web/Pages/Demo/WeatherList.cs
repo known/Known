@@ -27,7 +27,7 @@ public class WeatherList : BaseTablePage<WeatherForecast>
         {
             UI.Info(t);
             await RefreshAsync();
-        };
+        }; 
     }
 
     [Action] public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
@@ -66,7 +66,7 @@ class WeatherForm : BaseForm<WeatherForecast>
 
 public class WeatherForecast
 {
-    [Column(IsQuery = true)]
+    [Column(Width = 120, IsQuery = true)]
     [Form(Type = nameof(FieldType.Date))]
     [DisplayName("日期")]
     public DateTime? Date { get; set; }
@@ -75,7 +75,7 @@ public class WeatherForecast
     [Form]
     public int TemperatureC { get; set; }
 
-    [Column(Type = FieldType.File)]
+    [Column(Width = 120, Type = FieldType.File)]
     [Form]
     public string Summary { get; set; }
 

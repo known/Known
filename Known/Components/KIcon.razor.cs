@@ -44,6 +44,12 @@ public partial class KIcon
         if (string.IsNullOrWhiteSpace(Icon))
             return;
 
+        if (Utils.CheckImage(Icon))
+        {
+            builder.Image().Src(Icon).Close();
+            return;
+        }
+
         var className = CssBuilder.Default(Icon.StartsWith("fa") ? Icon : "").AddClass("ant-btn-link", IsTheme).BuildClass();
         if (Icon.StartsWith("fa"))
         {

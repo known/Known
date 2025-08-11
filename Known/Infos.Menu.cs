@@ -267,14 +267,11 @@ public class ActionInfo
         Children = [];
     }
 
-    internal ActionInfo(string idOrName) : this(null, idOrName) { }
-
     /// <summary>
     /// 构造函数，创建一个操作信息类的实例。
     /// </summary>
-    /// <param name="context">系统上下文对象。</param>
     /// <param name="idOrName">操作按钮ID或名称。</param>
-    public ActionInfo(Context context, string idOrName) : this()
+    public ActionInfo(string idOrName) : this()
     {
         Id = idOrName;
         Name = idOrName;

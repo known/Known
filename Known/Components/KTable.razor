@@ -146,7 +146,13 @@
             var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
             var mores = actions.Skip(Model.ActionCount - 1).ToList();
             foreach (var item in takes) {
-                <KButton Name="@item.Name" Type="item.ToType()" Danger="item.IsDanger()" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
+                if (!string.IsNullOrWhiteSpace(item.Name)) {
+                    <KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
+                    <KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />
+                } else {
+                    <KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                }
             }
             var model = new DropdownModel {
                 Text = Language.More,
@@ -156,7 +162,13 @@
             <AntDropdown Context="Context" Model="model" />
         } else {
             foreach (var item in actions) {
-                <KButton Name="@item.Name" Type="item.ToType()" Danger="item.IsDanger()" OnClick="this.Callback<MouseEventArgs>(e=>OnActionClick(item, context))" />
+                if (!string.IsNullOrWhiteSpace(item.Name)) {
+                    <KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
+                    <KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />
+                } else {
+                    <KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                }
             }
         }
     </span>;
