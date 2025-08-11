@@ -19,23 +19,18 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
 
         builder.Div("kui-table form-list", () =>
         {
-            if (!string.IsNullOrWhiteSpace(Model.Name) ||
-                 Model.QueryColumns.Count > 0 ||
-                 Model.ShowToolbar)
+            builder.Toolbar(() =>
             {
-                builder.Toolbar(() =>
+                builder.Div(() =>
                 {
-                    builder.Div(() =>
-                    {
-                        if (Model.ShowName)
-                            builder.FormTitle(Model.Name);
-                        if (Model.QueryColumns.Count > 0)
-                            builder.Query(Model);
-                    });
-                    if (Model.ShowToolbar)
-                        builder.Toolbar(Model.Toolbar);
+                    if (Model.ShowName)
+                        builder.FormTitle(Model.Name);
+                    if (Model.QueryColumns.Count > 0)
+                        builder.Query(Model);
                 });
-            }
+                if (Model.ShowToolbar)
+                    builder.Toolbar(Model.Toolbar);
+            });
             builder.Table(Model);
         });
     }

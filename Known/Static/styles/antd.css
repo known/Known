@@ -44,10 +44,6 @@
 .kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background-color:#dcf4ff;}
 .ant-table-pagination.ant-pagination {margin:5px 0 10px 0;}
 .ant-transfer-list-header-title {font-weight:bold;}
-.ant-toolbar {display:flex;gap:3px;}
-.ant-toolbar .ant-btn,
-.kui-query-btn .ant-btn,
-.kui-advanced-search .ant-btn {padding:0 10px;}
 td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 
 .ant-modal {top:30px;}

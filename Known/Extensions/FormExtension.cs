@@ -69,6 +69,9 @@ public static class FormExtension
     /// <param name="subText">表单子标题。</param>
     public static void FormTitle(this RenderTreeBuilder builder, string text, string subText = null)
     {
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
         builder.Component<KTitle>().Set(c => c.Text, text).Set(c => c.SubText, subText).Build();
     }
 

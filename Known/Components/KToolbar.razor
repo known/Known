@@ -6,7 +6,7 @@
         <KIcon Icon="edit" Title="@Language.EditToolbar" />
     </div>
 }
-@if (Model != null)
+@if (Model != null && (Model.Left != null || Model.Right != null || Model.HasItem))
 {
     var items = Model.GetToolbarItems();
     <div class="ant-toolbar">

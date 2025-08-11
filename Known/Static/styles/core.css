@@ -66,18 +66,23 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-query-more .ant-picker-range input {width:100%;}
 .kui-advanced-search {padding:10px;}
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
+.kui-advanced-search .ant-btn, .kui-query-btn .ant-btn {padding:0 10px;}
 
 /*Toolbar*/
+.ant-toolbar {display:flex;gap:3px;}
+.ant-toolbar .ant-btn {padding:0 10px;}
 .kui-title {font-size:16px;font-weight:bold;}
 .kui-sub-title {font-size:14px;margin-left:10px;font-weight:normal;}
-.kui-toolbar {display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;}
+.kui-toolbar {display:flex;justify-content:space-between;align-items:center;}
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-toolbar {margin-bottom:5px;padding:5px 10px;border-bottom:1px solid var(--kui-color-border);}
+.kui-toolbar {margin-bottom:5px;border-bottom:1px solid var(--kui-color-border);}
 .kui-toolbar-more {display:flex;flex-direction:row;align-items:center;gap:5px;}
+.kui-toolbar .kui-title {padding:5px 10px;}
+.kui-toolbar .ant-toolbar {padding:5px 0;}
+.kui-toolbar .kui-column-setting {margin-right:10px;}
 
 /*Table*/
 .kui-table.form-list .kui-toolbar {border-bottom:none;}
-.kui-table .kui-title {padding-left:0;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
 .kui-table-filter label {display:flex;}
