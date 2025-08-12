@@ -17,6 +17,11 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
     public IEnumerable<TItem> SelectedRows => Table.SelectedRows;
 
     /// <summary>
+    /// 取得表格数据总记录输。
+    /// </summary>
+    public int TotalCount => Table.Result.TotalCount;
+
+    /// <summary>
     /// 取得表格数据列表。
     /// </summary>
     public List<TItem> DataSource => Table.DataSource;

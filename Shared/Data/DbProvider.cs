@@ -72,6 +72,8 @@ class DbProvider(Database db)
                 info.CountSql = $"select count(*) from ({info.Text}) t".Replace("@", Prefix);
             if (string.IsNullOrWhiteSpace(info.StatSql))
                 info.StatSql = GetStatSql(info.Text, criteria).Replace("@", Prefix);
+            //if (string.IsNullOrWhiteSpace(info.IdSql))
+            //    info.IdSql = GetIdSql(info.Text, criteria).Replace("@", Prefix);
             info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
         }
         info.Params = criteria.ToParameters(user);
@@ -196,6 +198,15 @@ class DbProvider(Database db)
 
     private string GetPageSql(string text, PagingCriteria criteria)
     {
+        var order = GetOrderBy(criteria);
+        if (criteria.PageIndex <= 0)
+            return $"{text} order by {order}";
+
+        return GetPageSql(text, order, criteria);
+    }
+
+    private string GetOrderBy(PagingCriteria criteria)
+    {
         var order = string.Empty;
         if (criteria.OrderBys != null && criteria.OrderBys.Length > 0)
         {
@@ -226,10 +237,7 @@ class DbProvider(Database db)
         if (string.IsNullOrWhiteSpace(order))
             order = $"{CreateTimeName} desc";
 
-        if (criteria.PageIndex <= 0)
-            return $"{text} order by {order}";
-
-        return GetPageSql(text, order, criteria);
+        return order;
     }
 
     private string GetOrderBy(PagingCriteria criteria, string item, string sort)
@@ -251,5 +259,11 @@ class DbProvider(Database db)
         });
         var columns = string.Join(",", statisColumns);
         return $"select {columns} from ({text}) t";
+    }
+
+    private string GetIdSql(string text, PagingCriteria criteria)
+    {
+        var order = GetOrderBy(criteria);
+        return $"select Id from ({text} order by {order}) t";
     }
 }

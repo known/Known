@@ -61,6 +61,11 @@ public class CommandInfo
     public string StatSql { get; set; }
 
     /// <summary>
+    /// 取得或设置该SQL的Id语句。
+    /// </summary>
+    public string IdSql { get; set; }
+
+    /// <summary>
     /// 取得或设置该SQL关联的参数字典。
     /// </summary>
     public Dictionary<string, object> Params { get; set; }

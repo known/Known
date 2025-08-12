@@ -24,9 +24,6 @@ public partial class Database
             catch (Exception ex)
             {
                 await db.RollbackTransAsync();
-                if (ex is SystemException)
-                    return Result.Error(ex.Message);
-
                 HandException(null, ex);
                 return Result.Error(ex.Message);
             }

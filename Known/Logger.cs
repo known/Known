@@ -4,9 +4,6 @@ public partial class Logger
 {
     private static void WriteLog(LogLevel type, LogTarget target, UserInfo user, string content)
     {
-        if (Level > type)
-            return;
-
         var log = new LogInfo
         {
             Type = type.ToString(),
