@@ -62,6 +62,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-form-wrapper .ant-drawer-body .kui-form-action {
     position:absolute;left:0;right:0;bottom:0;padding:10px;background-color:var(--kui-bgcolor);border-top:1px solid var(--kui-color-border);
 }
+.kui-view-form .ant-drawer-body .kui-form-body {bottom:10px;}
 .kui-block.ant-checkbox-group,
 .kui-block .ant-form-item-control,
 .kui-block .ant-form-item-control-input-content {display:flex;flex-direction:column;gap:5px;}

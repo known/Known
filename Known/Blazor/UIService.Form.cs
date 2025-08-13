@@ -103,6 +103,7 @@ public partial class UIService
     {
         return CssBuilder.Default("kui-form-wrapper")
                          .AddClass(model.WrapClass)
+                         .AddClass("kui-view-form", model.IsView)
                          .AddClass("kui-tab-form", model.IsTabForm)
                          .AddClass("kui-step-form", model.IsStepForm)
                          .BuildClass();
