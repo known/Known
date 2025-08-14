@@ -7,13 +7,29 @@ public class LayoutBase : LayoutComponentBase
 {
     internal bool IsInstall { get; private set; }
     internal bool IsLoaded { get; set; }
-    internal IAdminService Admin { get; set; }
 
-    [CascadingParameter] internal UIContext Context { get; set; }
     [Inject] internal IServiceScopeFactory Factory { get; set; }
     [Inject] internal JSService JS { get; set; }
-    [Inject] internal UIService UI { get; set; }
-    [Inject] internal NavigationManager Navigation { get; set; }
+
+    /// <summary>
+    /// 取得或设置注入的UI服务实例。
+    /// </summary>
+    [Inject] public UIService UI { get; set; }
+
+    /// <summary>
+    /// 取得或设置注入的导航管理者实例。
+    /// </summary>
+    [Inject] public NavigationManager Navigation { get; set; }
+
+    /// <summary>
+    /// 取得或设置UI上下文对象级联值实例。
+    /// </summary>
+    [CascadingParameter] public UIContext Context { get; set; }
+
+    /// <summary>
+    /// 取得框架管理后台数据服务接口实例。
+    /// </summary>
+    public IAdminService Admin { get; private set; }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
