@@ -6,12 +6,13 @@
 public class LayoutBase : LayoutComponentBase
 {
     internal bool IsInstall { get; private set; }
-    internal bool IsLoaded { get; private set; }
+    internal bool IsLoaded { get; set; }
     internal IAdminService Admin { get; set; }
 
     [CascadingParameter] internal UIContext Context { get; set; }
     [Inject] internal IServiceScopeFactory Factory { get; set; }
     [Inject] internal JSService JS { get; set; }
+    [Inject] internal UIService UI { get; set; }
     [Inject] internal NavigationManager Navigation { get; set; }
 
     /// <inheritdoc />
@@ -19,7 +20,8 @@ public class LayoutBase : LayoutComponentBase
     {
         await base.OnInitializedAsync();
         Admin = await Factory.CreateAsync<IAdminService>(Context);
-
+        Context.UI = UI;
+        Context.Navigation = Navigation;
         IsInstall = false;
         IsLoaded = false;
         var info = await Admin.GetInitialAsync();
@@ -95,6 +97,7 @@ public class EmptyLayout : LayoutBase
 /// </summary>
 public class AuthLayout : LayoutBase
 {
+    private bool isLayout;
     [Inject] private IAuthStateProvider AuthProvider { get; set; }
 
     /// <inheritdoc />
@@ -107,16 +110,20 @@ public class AuthLayout : LayoutBase
             Navigation?.GoLoginPage();
             return false;
         }
+        if (UIConfig.OnInitLayout != null)
+        {
+            var isInit = UIConfig.OnInitLayout.Invoke(Context);
+            isLayout = true;
+            return isInit;
+        }
         return true;
     }
 
     /// <inheritdoc />
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        if (!IsLoaded)
-            return;
-
-        builder.Div("kui-wrapper", () => builder.Fragment(Body));
+        if (IsLoaded || isLayout)
+            builder.Div("kui-wrapper", () => builder.Fragment(Body));
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()

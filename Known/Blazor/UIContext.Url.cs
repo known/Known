@@ -58,7 +58,17 @@ public partial class UIContext
         }
 
         SetNavMenu(info);
-        Navigation.NavigateTo(info.RouteUrl);
+        NavigateTo(info.RouteUrl);
+    }
+
+    /// <summary>
+    /// 导航到指定地址页面。
+    /// </summary>
+    /// <param name="url">导航页面地址。</param>
+    /// <param name="forceLoad">是否强制刷新。</param>
+    public void NavigateTo(string url, bool forceLoad = false)
+    {
+        Navigation.NavigateTo(url, forceLoad);
     }
 
     /// <summary>
@@ -69,7 +79,7 @@ public partial class UIContext
         if (Current == null || string.IsNullOrWhiteSpace(Current.BackUrl))
             return;
 
-        Navigation?.NavigateTo(Current.BackUrl);
+        NavigateTo(Current.BackUrl);
     }
 
     /// <summary>
@@ -80,7 +90,7 @@ public partial class UIContext
     public void GoHomePage(string returnUrl = null, bool forceLoad = false)
     {
         var url = returnUrl ?? HomeUrl;
-        Navigation.NavigateTo(url, forceLoad);
+        NavigateTo(url, forceLoad);
     }
 
     /// <summary>
@@ -88,7 +98,7 @@ public partial class UIContext
     /// </summary>
     public void Refresh()
     {
-        Navigation.NavigateTo(Current?.RouteUrl, true);
+        NavigateTo(Current?.RouteUrl, true);
     }
 
     internal void SetCurrentMenu(RouteData route)

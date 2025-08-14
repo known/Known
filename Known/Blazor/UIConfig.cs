@@ -153,6 +153,11 @@ public class UIConfig
     public static Func<MenuInfo, PageColumnInfo, object> OnMockData { get; set; }
 
     /// <summary>
+    /// 取得或设置模板页初始化委托。
+    /// </summary>
+    public static Func<UIContext, bool> OnInitLayout { get; set; }
+
+    /// <summary>
     /// 取得或设置任务设置委托。
     /// </summary>
     public static Action<UIService> OnTaskSetting { get; set; }

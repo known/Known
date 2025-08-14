@@ -8,13 +8,16 @@ public partial class JSService
 {
     private readonly Lazy<Task<IJSObjectReference>> moduleTask;
     private readonly Lazy<Task<IJSObjectReference>> appTask;
+    private readonly UIService ui;
 
     /// <summary>
     /// 构造函数，创建一个JS服务类的实例。
     /// </summary>
+    /// <param name="ui">UI服务对象。</param>
     /// <param name="jsRuntime">JS运行时对象。</param>
-    public JSService(IJSRuntime jsRuntime)
+    public JSService(UIService ui, IJSRuntime jsRuntime)
     {
+        this.ui = ui;
         var path = "./_content/Known/js/script.js?v=250522";
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", path).AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))

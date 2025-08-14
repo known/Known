@@ -13,8 +13,7 @@ public partial class JSService
         try
         {
             var services = new ServiceCollection();
-            services.AddScoped<JSService>();
-            //services.AddHttpContextAccessor();
+            //services.AddScoped<JSService>();
             var provider = services.BuildServiceProvider();
             var component = new ComponentRenderer<T>().AddServiceProvider(provider);
             action?.Invoke(component);
@@ -23,6 +22,7 @@ public partial class JSService
         }
         catch (Exception ex)
         {
+            ui.Error(ex.Message);
             Logger.Exception(LogTarget.FrontEnd, new UserInfo { Name = "Print" }, ex);
         }
     }
