@@ -96,7 +96,13 @@ partial class KTable<TItem>
     {
         var attributes = new Dictionary<string, object>();
         if (Model.OnRowClick != null)
-            attributes["onclick"] = this.Callback(async () => await Model.OnRowClick.Invoke(row.Data));
+        {
+            attributes["onclick"] = this.Callback(async () =>
+            {
+                Model.SelectedRows = [row.Data];
+                await Model.OnRowClick.Invoke(row.Data);
+            });
+        }
 
         if (Model.OnRowDoubleClick != null)
             attributes["ondblclick"] = this.Callback(async () => await Model.OnRowDoubleClick.Invoke(row.Data));
