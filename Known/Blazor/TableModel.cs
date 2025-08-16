@@ -35,6 +35,11 @@ public class TableModel : BaseModel
     public bool ShowName { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置组件样式类。
+    /// </summary>
+    public string Class { get; set; }
+
+    /// <summary>
     /// 取得或设置表格提示信息。
     /// </summary>
     public string Tips { get; set; }

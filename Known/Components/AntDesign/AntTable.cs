@@ -60,8 +60,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
     {
         if (Model != null)
         {
-            if (Model.IsStriped)
-                Class = "kui-striped";
+            Class = CssBuilder.Default(Model.Class).AddClass("kui-striped", Model.IsStriped).BuildClass();
             Resizable = Model.Resizable;
             Bordered = Model.Bordered;
             AutoHeight = Model.AutoHeight;
