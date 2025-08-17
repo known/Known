@@ -24,7 +24,7 @@ public static class WeixinExtension
     /// <returns>发送结果。</returns>
     public static async Task<Result> SendTemplateMessageAsync(this Database db, WeixinTemplateInfo info)
     {
-        var task = WeixinHelper.CreateTask(info);
+        var task = WeixinTask.CreateTask(info);
         await db.CreateTaskAsync(task);
         TaskHelper.NotifyRun(task);
         return Result.Success("Task saved！");

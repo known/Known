@@ -15,8 +15,6 @@ public sealed class ImportHelper
 
     private ImportHelper() { }
 
-    internal static Task ExecuteAsync(TaskInfo task) => TaskHelper.RunAsync(task, ExecuteAsync);
-
     /// <summary>
     /// 读取导入文件并处理导入逻辑。
     /// </summary>

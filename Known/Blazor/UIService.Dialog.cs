@@ -31,7 +31,7 @@ public partial class UIService
 
         if (model.Footer != null)
             option.Footer = model.Footer;
-        else if (model.OnOk != null)
+        else if (model.OnOk != null || model.ShowCancel)
             option.Footer = BuildTree(b => BuildDialogFooter(b, model));
         else
             option.Footer = null;
@@ -48,7 +48,7 @@ public partial class UIService
                .Set(c => c.Left, model.FooterLeft)
                .Set(c => c.Actions, model.Actions)
                .Set(c => c.OnOk, model.OnOk)
-               .Set(c => c.OnCancel, () => model.CloseAsync())
+               .Set(c => c.OnCancel, model.CloseAsync)
                .Build();
     }
 }

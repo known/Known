@@ -155,6 +155,11 @@ public partial class Config
     public static Func<Database, Task<List<ModuleInfo>>> OnInitialModules { get; set; }
 
     /// <summary>
+    /// 取得后端任务类字典。
+    /// </summary>
+    public static Dictionary<string, Type> TaskTypes { get; } = [];
+
+    /// <summary>
     /// 取得后端导入类字典。
     /// </summary>
     public static Dictionary<string, Type> ImportTypes { get; } = [];

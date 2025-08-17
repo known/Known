@@ -75,7 +75,12 @@ public static class ServiceExtension
 
         foreach (var item in assembly.GetTypes())
         {
-            if (!item.IsAbstract && item.IsAssignableTo(typeof(EntityBase)) && item.Name != nameof(EntityBase))
+            var task = item.GetCustomAttribute<TaskAttribute>();
+            if (task != null)
+            {
+                Config.TaskTypes[task.BizType] = item;
+            }
+            else if (!item.IsAbstract && item.IsAssignableTo(typeof(EntityBase)) && item.Name != nameof(EntityBase))
             {
                 DbConfig.Models.Add(item);
             }

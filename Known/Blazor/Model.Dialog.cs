@@ -46,6 +46,11 @@ public class DialogModel
     public bool DefaultMaximized { get; set; }
 
     /// <summary>
+    /// 取得或设置对话框是否显示取消按钮。
+    /// </summary>
+    public bool ShowCancel { get; set; }
+
+    /// <summary>
     /// 取得或设置对话框宽度。
     /// </summary>
     public double? Width { get; set; }

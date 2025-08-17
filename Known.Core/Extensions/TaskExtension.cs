@@ -1,6 +1,9 @@
 ﻿namespace Known.Extensions;
 
-static class TaskExtension
+/// <summary>
+/// 后台任务扩展类。
+/// </summary>
+public static class TaskExtension
 {
     internal static Task<TaskInfo> GetTaskAsync(this Database db, string bizId)
     {
@@ -8,7 +11,13 @@ static class TaskExtension
                  .OrderByDescending(d => d.CreateTime).FirstAsync<TaskInfo>();
     }
 
-    internal static async Task CreateTaskAsync(this Database db, TaskInfo info)
+    /// <summary>
+    /// 异步创建一个后台任务。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">任务信息。</param>
+    /// <returns></returns>
+    public static async Task CreateTaskAsync(this Database db, TaskInfo info)
     {
         var task = new SysTask();
         if (!string.IsNullOrWhiteSpace(info.Id))

@@ -10,6 +10,19 @@ class LanguageAttribute(string code, string icon, bool isDefault = false, bool e
 }
 
 /// <summary>
+/// 任务特性类，用于标识任务类。
+/// </summary>
+/// <param name="bizType">任务关联的业务类型。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class TaskAttribute(string bizType) : Attribute
+{
+    /// <summary>
+    /// 取得任务类关联的Task表的业务类型(BizType)。
+    /// </summary>
+    public string BizType { get; } = bizType;
+}
+
+/// <summary>
 /// 导入特性类，用于标识导入类。
 /// </summary>
 /// <param name="type">导入关联的数据类型。</param>

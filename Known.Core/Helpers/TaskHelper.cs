@@ -18,11 +18,13 @@ public sealed class TaskHelper
 
     internal static Task RunAsync(TaskInfo task)
     {
-        if (task.Type == ImportHelper.BizType)
-            return ImportHelper.ExecuteAsync(task);
-        else if (task.Type == WeixinHelper.BizType)
-            return WeixinHelper.ExecuteAsync(task);
-        return Task.CompletedTask;
+        if (!Config.TaskTypes.TryGetValue(task.Type, out Type type))
+            return Task.CompletedTask;
+
+        if (Activator.CreateInstance(type) is not TaskBase handler)
+            throw new InvalidOperationException("The TaskHandler is not register.");
+
+        return RunAsync(task, handler.ExecuteAsync);
     }
 
     internal static async Task RunAsync(TaskInfo task, Func<Database, TaskInfo, Task<Result>> action)
@@ -32,7 +34,7 @@ public sealed class TaskHelper
         {
             var user = await db.GetUserAsync(task.CreateBy);
             db.Context = new Context { CurrentUser = user };
-            
+
             task.BeginTime = DateTime.Now;
             task.Status = TaskJobStatus.Running;
             await db.SaveTaskAsync(task);

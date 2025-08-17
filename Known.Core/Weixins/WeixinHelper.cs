@@ -5,11 +5,7 @@
 /// </summary>
 public sealed class WeixinHelper
 {
-    internal const string BizType = "WeixinTemplate";
-
     private WeixinHelper() { }
-
-    internal static Task ExecuteAsync(TaskInfo task) => TaskHelper.RunAsync(task, ExecuteAsync);
 
     /// <summary>
     /// 异步网页授权操作。
@@ -105,29 +101,8 @@ public sealed class WeixinHelper
         }
     }
 
-    internal static TaskInfo CreateTask(WeixinTemplateInfo info)
-    {
-        return new TaskInfo
-        {
-            BizId = info.BizId,
-            Type = BizType,
-            Name = info.BizName,
-            Target = Utils.ToJson(info.Template),
-            Status = TaskJobStatus.Pending
-        };
-    }
-
     private static Task<SysWeixin> GetWeixinByOpenIdAsync(Database db, string openId)
     {
         return db.QueryAsync<SysWeixin>(d => d.OpenId == openId);
-    }
-
-    private static async Task<Result> ExecuteAsync(Database db, TaskInfo task)
-    {
-        var info = Utils.FromJson<TemplateInfo>(task.Target);
-        if (info == null)
-            return Result.Error("The template is null.");
-
-        return await WeixinApi.SendTemplateMessageAsync(info);
     }
 }
