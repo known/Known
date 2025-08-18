@@ -112,7 +112,17 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             };
             if (Column.Type != FieldType.Date && Column.Type != FieldType.DateTime)
                 attributes["disabled"] = IsReadOnly;
+            else
+                attributes[nameof(AntDatePicker.Disabled)] = IsReadOnly;
             UI.AddInputAttributes(attributes, this);
+
+            if (Column.Attributes.Count > 0)
+            {
+                foreach (var attr in Column.Attributes)
+                {
+                    attributes[attr.Key] = attr.Value;
+                }
+            }
 
             attributes["Value"] = Value;
             var expression = InputExpression.Create(this);

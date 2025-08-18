@@ -94,6 +94,11 @@ public class ActionAttribute : Attribute
     public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置操作按钮是否可见，默认可见。
+    /// </summary>
+    public bool Visible { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置操作按钮分组。
     /// </summary>
     public string Group { get; set; }

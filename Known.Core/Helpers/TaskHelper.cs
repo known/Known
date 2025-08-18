@@ -34,6 +34,7 @@ public sealed class TaskHelper
         {
             var user = await db.GetUserAsync(task.CreateBy);
             db.Context = new Context { CurrentUser = user };
+            db.User = user;
 
             task.BeginTime = DateTime.Now;
             task.Status = TaskJobStatus.Running;

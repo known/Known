@@ -99,4 +99,9 @@ public partial class ColumnInfo
     /// 取得或设置表单字段代码表列表。
     /// </summary>
     public List<CodeInfo> Codes { get; set; }
+
+    /// <summary>
+    /// 取得字段其他属性字典。
+    /// </summary>
+    public Dictionary<string, object> Attributes { get; } = [];
 }
