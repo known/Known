@@ -5,6 +5,11 @@ partial class TableModel<TItem>
     private bool isShowView = false;
 
     /// <summary>
+    /// 取得或设置表格左下角内容模板。
+    /// </summary>
+    public RenderFragment BottomLeft { get; set; }
+
+    /// <summary>
     /// 显示查看表单对话框。
     /// </summary>
     /// <param name="row">查看行绑定的对象。</param>

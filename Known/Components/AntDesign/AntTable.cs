@@ -82,6 +82,22 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
 
     private void BuildPagination(RenderTreeBuilder builder, (int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange) tuple)
     {
+        if (Model.BottomLeft != null)
+        {
+            builder.Div("kui-flex-space", () =>
+            {
+                builder.Fragment(Model.BottomLeft);
+                BuildPager(builder, tuple);
+            });
+        }
+        else
+        {
+            BuildPager(builder, tuple);
+        }
+    }
+
+    private void BuildPager(RenderTreeBuilder builder, (int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange) tuple)
+    {
         Func<PaginationTotalContext, string> showTotal = ctx => Context?.Language[Language.PageTotal].Replace("{total}", $"{ctx.Total}");
         builder.Component<Pagination>()
                .Set(c => c.Class, tuple.PaginationClass)
