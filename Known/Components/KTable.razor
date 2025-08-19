@@ -191,7 +191,7 @@
                     continue;
 
                 if (!isTitle) {
-                    <SummaryCell>
+                    <SummaryCell Align="@item.ToColumnAlign()">
                         @if (Model.ShowPager) {
                             @Language[Language.SumPage]<br/>
                         }
@@ -205,7 +205,7 @@
                     var value = Model.Result?.GetPageSum(item.Id);
                     var statis = Model.Result?.Statis?.First(s => s.Key.Equals(item.Id, StringComparison.OrdinalIgnoreCase));
                     var total = statis?.Value;
-                    <SummaryCell>
+                    <SummaryCell Align="@item.ToColumnAlign()">
                         @if (Model.ShowPager) {
                             @value<br/>
                         }
