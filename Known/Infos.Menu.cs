@@ -239,8 +239,12 @@ public class MenuInfo
         if (string.IsNullOrWhiteSpace(Url) || string.IsNullOrWhiteSpace(url))
             return false;
 
-        var route = url.Split('?')[0];
-        return Url == route;
+        if (Url == url)
+            return true;
+
+        var route1 = Url.Split('?')[0];
+        var route2 = url.Split('?')[0];
+        return route1 == route2;
     }
 
     private static string GetPageUrl(string url)
