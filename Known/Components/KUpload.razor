@@ -2,7 +2,7 @@
 
 @if (Visible)
 {
-    <div class="kui-upload-field">
+    <div @ref="container" class="kui-upload-field" @onpaste="OnPasteFileAsync">
         @if (IsDrag) {
             <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
                 <div class="ant-upload" style="display:grid;">
@@ -43,6 +43,7 @@
                         <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
                     }
                     <KFileLink Item="item" />
+                    <KIcon Icon="file" Title="@Language.PreviewFile" OnClick="this.Callback<MouseEventArgs>(e => OnShowFile(item))" />
                 </div>
             }
         </div>

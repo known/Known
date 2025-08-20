@@ -5,6 +5,8 @@
 /// </summary>
 public partial class KUpload
 {
+    private ElementReference container;
+    private DotNetObjectReference<KUpload> dotNetObjRef;
     private List<AttachInfo> sysFiles = [];
     private readonly List<FileDataInfo> files = [];
 
@@ -121,6 +123,27 @@ public partial class KUpload
         await RefreshAsync();
     }
 
+    /// <summary>
+    /// JS调用粘贴图片。
+    /// </summary>
+    /// <param name="base64Image">图片数据。</param>
+    /// <returns></returns>
+    [JSInvokable]
+    public async Task ReceivePastedImage(string base64Image)
+    {
+        // 将 base64 字符串转换为字节数组
+        var imageData = Convert.FromBase64String(base64Image);
+        var fileName = $"screenshot-{DateTime.Now:yyyyMMdd-HHmmss}.png";
+        var file = new BrowserFile(imageData, fileName, "image/png");
+        var isChange = await OnAddFileAsync(file, false);
+        if (isChange)
+        {
+            await StateChangedAsync();
+            if (OnFilesChanged != null)
+                await OnFilesChanged.Invoke(files);
+        }
+    }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -134,7 +157,23 @@ public partial class KUpload
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
+        {
+            dotNetObjRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("KBlazor_SetupPasteListener", container, dotNetObjRef);
             await RefreshAsync();
+        }
+    }
+
+    /// <inheritdoc />
+    protected override Task OnDisposeAsync()
+    {
+        dotNetObjRef?.Dispose();
+        return base.OnDisposeAsync();
+    }
+
+    private async Task OnPasteFileAsync()
+    {
+        await JS.InvokeVoidAsync("KBlazor_CheckClipboardPermission");
     }
 
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)
@@ -144,12 +183,12 @@ public partial class KUpload
         {
             foreach (var item in e.GetMultipleFiles(MaxFileCount))
             {
-                isChange = await OnAddFileAsync(item);
+                isChange = await OnAddFileAsync(item, IsCompress);
             }
         }
         else
         {
-            isChange = await OnAddFileAsync(e.File);
+            isChange = await OnAddFileAsync(e.File, IsCompress);
         }
 
         if (isChange)
@@ -160,12 +199,12 @@ public partial class KUpload
         }
     }
 
-    private async Task<bool> OnAddFileAsync(IBrowserFile item)
+    private async Task<bool> OnAddFileAsync(IBrowserFile item, bool isCompress)
     {
         if (files.Exists(f => f.Name == item.Name))
             return false;
 
-        var file = await item.CreateFileAsync(IsCompress, CompressSize);
+        var file = await item.CreateFileAsync(isCompress, CompressSize);
         files.Add(file);
         sysFiles ??= [];
         sysFiles.Add(new AttachInfo { Id = "", Name = item.Name });
@@ -194,5 +233,16 @@ public partial class KUpload
             sysFiles?.Remove(item);
             await StateChangedAsync();
         });
+    }
+
+    private void OnShowFile(AttachInfo item)
+    {
+        var model = new DialogModel
+        {
+            Title = Language.PreviewFile,
+            Maximizable = true,
+            Content = b => b.Component<KFileView>().Set(c => c.Items, [item]).Build()
+        };
+        UI.ShowDialog(model);
     }
 }

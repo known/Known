@@ -17,7 +17,7 @@ public partial class KFileCell
         var files = await Admin.GetFilesAsync(Value);
         var model = new DialogModel
         {
-            Title = "预览附件",
+            Title = Language.PreviewFile,
             Maximizable = true,
             Content = b => b.Component<KFileView>().Set(c => c.Items, files).Build()
         };
