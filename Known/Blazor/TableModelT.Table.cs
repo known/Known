@@ -57,9 +57,9 @@ partial class TableModel<TItem>
     /// </summary>
     public bool ShowIndex { get; set; }
 
-    private bool showPager;
+    private bool showPager = true;
     /// <summary>
-    /// 取得或设置表格是否显示分页。
+    /// 取得或设置表格是否显示分页，默认分页。
     /// </summary>
     public bool ShowPager
     {
@@ -71,7 +71,7 @@ partial class TableModel<TItem>
         }
     }
 
-    private int? pageSize;
+    private int? pageSize = Config.App.DefaultPageSize;
     /// <summary>
     /// 取得或设置表格分页每页大小。
     /// </summary>
