@@ -25,7 +25,7 @@ public partial class Database
     {
         criteria.EntityType = typeof(T);
         var sb = Provider?.Sql.SelectAll().From<T>();
-        if (typeof(T).IsAssignableFrom(typeof(EntityBase)))
+        if (typeof(T).IsAssignableTo(typeof(EntityBase)))
             sb?.Where(nameof(EntityBase.CompNo));
         return new QueryPageBuilder(this) { Sql = sb?.ToSqlString(), Criteria = criteria };
     }
