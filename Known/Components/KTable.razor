@@ -47,7 +47,21 @@
                             @if (template != null) {
                                 @template(context)
                             } else {
-                                @RenderCell(context, item, value)
+                                @if (item.Type == FieldType.Switch) {
+                                    var isChecked = Utils.ConvertTo<bool>(value);
+                                    <Switch Disabled Value="isChecked" />
+                                } else if (item.Type == FieldType.File) {
+                                    <KFileCell Value="@value?.ToString()" />
+                                } else {
+                                    var text = GetColumnText(item, value);
+                                    if (item.IsViewLink) {
+                                        <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
+                                    } else if (item.LinkAction != null) {
+                                        <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
+                                    } else {
+                                        <span>@text</span>
+                                    }
+                                }
                             }
                         </DictionaryColumn>
                     } else {
@@ -61,7 +75,21 @@
                                 @if (template != null) {
                                     @template(context)
                                 } else {
-                                    @RenderCell(context, item, value)
+                                    @if (item.Type == FieldType.Switch) {
+                                        var isChecked = Utils.ConvertTo<bool>(value);
+                                        <Switch Disabled Value="isChecked" />
+                                    } else if (item.Type == FieldType.File) {
+                                        <KFileCell Value="@value?.ToString()" />
+                                    } else {
+                                        var text = GetColumnText(item, value);
+                                        if (item.IsViewLink) {
+                                            <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
+                                        } else if (item.LinkAction != null) {
+                                            <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
+                                        } else {
+                                            <span>@text</span>
+                                        }
+                                    }
                                 }
                             </Column>
                         } else {
@@ -70,25 +98,99 @@
                                     ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                     ColSpan="@GetRowSpan(item, item.Id)" RowSpan="@GetColSpan(item, item.Id)"
                                     FilterDropdown="@GetFilterTemplate(item)">
-                                @if (template != null) {
-                                    @template(context)
-                                } else {
-                                    @RenderCell(context, item, item.Id)
-                                }
+                                <span>@item.Id</span>
                             </Column>
                         }
                     }
                 }
             }
             @if (Model.HasAction) {
+                var actions = Model.RowActions?.Invoke(context);
+                if (actions == null)
+                    actions = Model.Actions;
+                Model.UpdateRowActions?.Invoke(context, actions);
+                actions = actions?.Where(a => a.Visible).ToList();
                 <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                    @RenderAction(context)
+                    @if (actions.Count > Model.ActionCount) {
+                        var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
+                        var mores = actions.Skip(Model.ActionCount - 1).ToList();
+                        foreach (var item in takes) {
+                            if (!string.IsNullOrWhiteSpace(item.Name)) {
+                                <KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                            } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
+                                <KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />
+                            } else {
+                                <KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                            }
+                        }
+                        var model = new DropdownModel {
+                            Text = Language.More, Items = mores,
+                            OnItemClick = e => OnActionClick(e, context)
+                        };
+                        <AntDropdown Context="Context" Model="model" />
+                    } else {
+                        foreach (var item in actions) {
+                            if (!string.IsNullOrWhiteSpace(item.Name)) {
+                                <KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                            } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
+                                <KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />
+                            } else {
+                                <KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
+                            }
+                        }
+                    }
                 </ActionColumn>
             } else if (Context.IsEditTable) {
                 <ActionColumn TitleTemplate="ActionTitle" Width="@Model.ActionWidth" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right" />
             }
             @if (Model.HasSum) {
-                @RenderSummary()
+                <SummaryRow>
+                    @if (Context.IsEditTable) {
+                        <SummaryCell />
+                    }
+                    @if (Model.SelectType != TableSelectType.None) {
+                        <SummaryCell />
+                    }
+                    @if (Model.ShowIndex) {
+                        <SummaryCell />
+                    }
+                    @if (Model.Columns != null && Model.Columns.Count > 0) {
+                        var isTitle = false;
+                        var columns = GetColumns();
+                        foreach (var item in columns) {
+                            if (string.IsNullOrWhiteSpace(item.Id))
+                                continue;
+
+                            if (!isTitle) {
+                                <SummaryCell Align="@item.ToColumnAlign()">
+                                    @if (Model.ShowPager) {
+                                        @Language[Language.SumPage]<br/>
+                                    }
+                                    <strong>@Language[Language.SumQuery]</strong>
+                                </SummaryCell>
+                                isTitle = true;
+                                continue;
+                            }
+
+                            if (item.IsSum) {
+                                var value = Model.Result?.GetPageSum(item.Id);
+                                var statis = Model.Result?.Statis?.First(s => s.Key.Equals(item.Id, StringComparison.OrdinalIgnoreCase));
+                                var total = statis?.Value;
+                                <SummaryCell Align="@item.ToColumnAlign()">
+                                    @if (Model.ShowPager) {
+                                        @value<br/>
+                                    }
+                                    <strong>@total</strong>
+                                </SummaryCell>
+                            } else {
+                                <SummaryCell />
+                            }
+                        }
+                    }
+                    @if (Model.HasAction) {
+                        <SummaryCell />
+                    }
+                </SummaryRow>
             }
         </ColumnDefinitions>
     </AntTable>
@@ -115,109 +217,4 @@
             @Language[title]
         }
     </span>;
-
-    RenderFragment RenderCell(TItem context, ColumnInfo item, object value) => @<span>
-        @if (item.Type == FieldType.Switch) {
-            var isChecked = Utils.ConvertTo<bool>(value);
-            <Switch Disabled Value="isChecked" />
-        } else if (item.Type == FieldType.File) {
-            <KFileCell Value="@value?.ToString()" />
-        } else {
-            var text = GetColumnText(item, value);
-            if (item.IsViewLink) {
-                <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
-            } else if (item.LinkAction != null) {
-                <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
-            } else {
-                <span>@text</span>
-            }
-        }
-    </span>;
-
-    RenderFragment RenderAction(TItem context) => @<span>
-        @{
-            var actions = Model.RowActions?.Invoke(context);
-            if (actions == null)
-                actions = Model.Actions;
-            Model.UpdateRowActions?.Invoke(context, actions);
-            actions = actions?.Where(a => a.Visible).ToList();
-        }
-        @if (actions.Count > Model.ActionCount) {
-            var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
-            var mores = actions.Skip(Model.ActionCount - 1).ToList();
-            foreach (var item in takes) {
-                if (!string.IsNullOrWhiteSpace(item.Name)) {
-                    <KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
-                } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
-                    <KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />
-                } else {
-                    <KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
-                }
-            }
-            var model = new DropdownModel {
-                Text = Language.More,
-                Items = mores,
-                OnItemClick = e => OnActionClick(e, context)
-            };
-            <AntDropdown Context="Context" Model="model" />
-        } else {
-            foreach (var item in actions) {
-                if (!string.IsNullOrWhiteSpace(item.Name)) {
-                    <KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
-                } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
-                    <KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />
-                } else {
-                    <KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />
-                }
-            }
-        }
-    </span>;
-
-    RenderFragment RenderSummary() => @<SummaryRow>
-        @if (Context.IsEditTable) {
-            <SummaryCell />
-        }
-        @if (Model.SelectType != TableSelectType.None) {
-            <SummaryCell />
-        }
-        @if (Model.ShowIndex) {
-            <SummaryCell />
-        }
-        @if (Model.Columns != null && Model.Columns.Count > 0) {
-            var isTitle = false;
-            var columns = GetColumns();
-            foreach (var item in columns) {
-                if (string.IsNullOrWhiteSpace(item.Id))
-                    continue;
-
-                if (!isTitle) {
-                    <SummaryCell Align="@item.ToColumnAlign()">
-                        @if (Model.ShowPager) {
-                            @Language[Language.SumPage]<br/>
-                        }
-                        <strong>@Language[Language.SumQuery]</strong>
-                    </SummaryCell>
-                    isTitle = true;
-                    continue;
-                }
-
-                if (item.IsSum) {
-                    var value = Model.Result?.GetPageSum(item.Id);
-                    var statis = Model.Result?.Statis?.First(s => s.Key.Equals(item.Id, StringComparison.OrdinalIgnoreCase));
-                    var total = statis?.Value;
-                    <SummaryCell Align="@item.ToColumnAlign()">
-                        @if (Model.ShowPager) {
-                            @value<br/>
-                        }
-                        <strong>@total</strong>
-                    </SummaryCell>
-                } else {
-                    <SummaryCell />
-                }
-            }
-        }
-        @if (Model.HasAction) {
-            <SummaryCell />
-        }
-    </SummaryRow>;
 }

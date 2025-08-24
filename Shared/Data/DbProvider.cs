@@ -68,6 +68,8 @@ class DbProvider(Database db)
     {
         if (!string.IsNullOrWhiteSpace(info.Text))
         {
+            if (DbConfig.OnCountSql != null)
+                info.CountSql = DbConfig.OnCountSql.Invoke(info.Text).Replace("@", Prefix);
             if (string.IsNullOrWhiteSpace(info.CountSql))
                 info.CountSql = $"select count(*) from ({info.Text}) t".Replace("@", Prefix);
             if (string.IsNullOrWhiteSpace(info.StatSql))

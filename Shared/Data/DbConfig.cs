@@ -10,6 +10,11 @@ public sealed class DbConfig
     internal static Dictionary<Type, Type> TableNames { get; } = [];
 
     /// <summary>
+    /// 取得或设置格式化分页Count查询语句委托。
+    /// </summary>
+    public static Func<string, string> OnCountSql { get; set; }
+
+    /// <summary>
     /// 取得数据模型配置信息列表，适用于EFCore配置模型。
     /// </summary>
     public static List<DbModelInfo> Models { get; } = [];
