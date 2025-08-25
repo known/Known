@@ -43,7 +43,9 @@
                         <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
                     }
                     <KFileLink Item="item" />
-                    <KIcon Icon="file" Title="@Language.PreviewFile" OnClick="this.Callback<MouseEventArgs>(e => OnShowFile(item))" />
+                    @if (!string.IsNullOrWhiteSpace(item.Id)) {
+                        <KIcon Icon="file" Title="@Language.PreviewFile" OnClick="this.Callback<MouseEventArgs>(e => OnShowFile(item))" />
+                    }
                 </div>
             }
         </div>

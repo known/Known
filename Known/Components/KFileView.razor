@@ -27,7 +27,18 @@
         }
         else
         {
-            <Empty Description="@Language[Language.TipNotPreview]" />
+            <Empty>
+                <DescriptionTemplate>
+                    <span>@Language[Language.TipNotPreview]</span>
+                </DescriptionTemplate>
+                <ChildContent>
+                    @if (Config.App.Type != AppType.Web) {
+                        <KButton Type="ButtonType.Primary" Name="@Language.Download" OnClick="OnDownload" />
+                    } else {
+                        <a class="ant-btn ant-btn-primary" href="@current?.FileUrl?.OriginalUrl" download="@current?.FileUrl?.FileName" target="_blank">@Language[Language.Download]</a>
+                    }
+                </ChildContent>
+            </Empty>
         }
     </div>
 </div>

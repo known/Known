@@ -184,7 +184,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-files > div > span {margin-right:5px;width:40px;}
 .kui-form-files > div > a {overflow:hidden;}
 
-.kui-file-view {min-height:300px;}
+.kui-file-view {min-height:500px;}
 .kui-file-view > .items, .kui-file-view > .view {position:absolute;top:10px;bottom:10px;}
 .kui-file-view > .items {left:10px;width:100px;overflow:auto;display:flex;flex-direction:column;gap:10px;}
 .kui-file-view > .items .active {font-weight:bold;}

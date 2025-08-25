@@ -41,4 +41,9 @@ public partial class KFileView
         if (item.SourceName.EndsWith(".pdf"))
             showPdf = true;
     }
+
+    private Task OnDownload(MouseEventArgs args)
+    {
+        return App?.DownloadAsync(JS, current);
+    }
 }

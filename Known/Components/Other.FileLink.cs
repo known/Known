@@ -37,14 +37,6 @@ public class KFileLink : BaseComponent
 
     private Task OnDownloadFileAsync(AttachInfo item)
     {
-        return App?.DownloadAsync(async () =>
-        {
-            var path = Config.GetUploadPath(item.Path);
-            if (!File.Exists(path))
-                return;
-
-            var bytes = await File.ReadAllBytesAsync(path);
-            await JS.DownloadFileAsync(item.SourceName, bytes);
-        });
+        return App?.DownloadAsync(JS, item);
     }
 }

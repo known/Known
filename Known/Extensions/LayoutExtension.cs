@@ -17,6 +17,26 @@ public static class LayoutExtension
     }
 
     /// <summary>
+    /// 异步下载文件，显示Loading提示。
+    /// </summary>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="js">JS服务实例。</param>
+    /// <param name="info">附件信息。</param>
+    /// <returns></returns>
+    public static Task DownloadAsync(this BaseLayout app, JSService js, AttachInfo info)
+    {
+        return app?.DownloadAsync(async () =>
+        {
+            var path = Config.GetUploadPath(info.Path);
+            if (!File.Exists(path))
+                return;
+
+            var bytes = await File.ReadAllBytesAsync(path);
+            await js.DownloadFileAsync(info.SourceName, bytes);
+        });
+    }
+
+    /// <summary>
     /// 异步查询数据，显示Loading提示。
     /// </summary>
     /// <param name="app">模板基类实例。</param>
