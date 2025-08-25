@@ -8,10 +8,12 @@ namespace Known.Blazor;
 [StreamRendering]
 public class BasePage : BaseComponent, IReuseTabsPage
 {
+    private bool isLogged = false;
+
     /// <summary>
     /// 取得当前页面菜单信息。
     /// </summary>
-    public MenuInfo Menu { get; private set; }
+    public MenuInfo Menu => Context.Current;
 
     /// <summary>
     /// 取得页面模块名称。
@@ -27,32 +29,13 @@ public class BasePage : BaseComponent, IReuseTabsPage
         return GetPageTitle(Menu?.Icon, PageName);
     }
 
-    /// <summary>
-    /// 异步保存表格模型配置信息。
-    /// </summary>
-    /// <param name="info">表格模型配置信息。</param>
-    /// <returns></returns>
-    public virtual Task<Result> SaveSettingAsync(AutoPageInfo info)
-    {
-        if (Menu.Plugins == null)
-            Menu.Plugins = [];
-        Menu.Plugins.AddPlugin(info);
-        return Platform.SaveMenuAsync(Menu);
-    }
-
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
+        Context.RunTimes.AddTime("BasePage.Initing");
         await base.OnInitAsync();
-        Menu = Context.Current;
         await OnInitPageAsync();
-    }
-
-    /// <inheritdoc />
-    protected override async Task OnParameterAsync()
-    {
-        await base.OnParameterAsync();
-        Menu = Context.Current;
+        Context.RunTimes.AddTime("BasePage.Inited");
     }
 
     /// <inheritdoc />
@@ -61,10 +44,10 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <inheritdoc />
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender && !isLogged && Context.Current != null && !Config.IsClient)
         {
-            if (Context.Current != null && !Config.IsClient)
-                Admin.AddPageLogAsync(Context);
+            isLogged = true;
+            Admin.AddPageLogAsync(Context);
         }
         return base.OnAfterRenderAsync(firstRender);
     }

@@ -224,7 +224,6 @@ public sealed class TypeHelper
         return typeProperties.GetOrAdd(type.FullName, type.GetProperties());
     }
 
-    private static readonly ConcurrentDictionary<string, PropertyInfo> properties = new();
     /// <summary>
     /// 获取内存缓存的类型属性。
     /// </summary>
@@ -241,8 +240,7 @@ public sealed class TypeHelper
     /// <returns>属性信息。</returns>
     public static PropertyInfo Property(Type type, string name)
     {
-        var key = $"{type.FullName}.{name}";
-        return properties.GetOrAdd(key, type.GetProperty(name));
+        return Properties(type).FirstOrDefault(p => p.Name == name);
     }
 
     /// <summary>
@@ -259,17 +257,17 @@ public sealed class TypeHelper
         if (selector is null)
             throw new ArgumentNullException(nameof(selector));
 
-        if (selector.Body is not MemberExpression expression || expression.Member is not PropertyInfo propInfoCandidate)
+        if (selector.Body is not MemberExpression expression || expression.Member is not PropertyInfo property)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 
         var type = typeof(T);
-        var propertyInfo = propInfoCandidate.DeclaringType != type
-                         ? propInfoCandidate.DeclaringType.GetProperty(propInfoCandidate.Name, propInfoCandidate.PropertyType)
-                         : propInfoCandidate;
-        if (propertyInfo is null)
+        if (property.DeclaringType != type)
+            property = Property(property.DeclaringType, property.Name);//, property.PropertyType);
+
+        if (property is null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 
-        return propertyInfo;
+        return property;
     }
 
     /// <summary>
@@ -289,18 +287,18 @@ public sealed class TypeHelper
         if (expression == null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 
-        var propInfoCandidate = expression.Member as PropertyInfo;
-        if (propInfoCandidate == null)
+        var property = expression.Member as PropertyInfo;
+        if (property == null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 
         var type = typeof(T);
-        var propertyInfo = propInfoCandidate.DeclaringType != type
-                         ? propInfoCandidate.DeclaringType.GetProperty(propInfoCandidate.Name)
-                         : propInfoCandidate;
-        if (propertyInfo is null)
+        if (property.DeclaringType != type)
+            property = Property(property.DeclaringType, property.Name);
+
+        if (property is null)
             throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
 
-        return propertyInfo;
+        return property;
     }
 
     private static MemberExpression GetMemberExpression<T>(Expression<Func<T, object>> selector)

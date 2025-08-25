@@ -3,7 +3,26 @@
 /// <summary>
 /// 页面表格组件类。
 /// </summary>
-public class BaseTablePage : BasePage { }
+public class BaseTablePage : BaseComponent
+{
+    /// <summary>
+    /// 取得当前页面菜单信息。
+    /// </summary>
+    public MenuInfo Menu => Context.Current;
+
+    /// <summary>
+    /// 异步保存表格模型配置信息。
+    /// </summary>
+    /// <param name="info">表格模型配置信息。</param>
+    /// <returns></returns>
+    public virtual Task<Result> SaveSettingAsync(AutoPageInfo info)
+    {
+        if (Menu.Plugins == null)
+            Menu.Plugins = [];
+        Menu.Plugins.AddPlugin(info);
+        return Platform.SaveMenuAsync(Menu);
+    }
+}
 
 /// <summary>
 /// 表格Web页面组件基类。

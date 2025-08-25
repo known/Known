@@ -139,4 +139,15 @@ public static class DictionaryExtension
             data[key] = DataPlaceholder.FormatValue(value?.ToString(), user);
         }
     }
+
+    /// <summary>
+    /// 添加页面生命周期运行时间。
+    /// </summary>
+    /// <param name="times">时间集合。</param>
+    /// <param name="stepKey">运行步骤。</param>
+    public static void AddTime(this Dictionary<string, DateTime> times, string stepKey)
+    {
+        times[stepKey] = DateTime.Now;
+        //Console.WriteLine($"{times[stepKey]:yyyy-MM-dd HH:mm:ss} {stepKey}");
+    }
 }

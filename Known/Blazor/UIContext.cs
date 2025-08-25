@@ -18,6 +18,11 @@ public partial class UIContext : Context
     public string Theme { get; set; }
 
     /// <summary>
+    /// 取得当前页面会话生命周期运行时间。
+    /// </summary>
+    public Dictionary<string, DateTime> RunTimes { get; } = [];
+
+    /// <summary>
     /// 取得或设置当前用户设置用户系统设置信息对象。
     /// </summary>
     public UserSettingInfo UserSetting { get; set; } = new();
