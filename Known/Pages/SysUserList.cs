@@ -8,6 +8,7 @@
 public class SysUserList : BaseTablePage<UserDataInfo>
 {
     private List<OrganizationInfo> orgs;
+    private MenuInfo current;
     private OrganizationInfo currentOrg;
     private TreeModel Tree;
     private bool HasOrg => orgs != null && orgs.Count > 1;
@@ -44,10 +45,9 @@ public class SysUserList : BaseTablePage<UserDataInfo>
             orgs = await Admin.GetOrganizationsAsync();
             if (HasOrg)
             {
-                currentOrg = orgs.FirstOrDefault(o => o.ParentId == "0");
-                Tree.Data = orgs.ToMenuItems();
-                Tree.SelectedKeys = [currentOrg.Id];
-                await StateChangedAsync();
+                Tree.Data = orgs.ToMenuItems(ref current);
+                Tree.SelectedKeys = [current.Id];
+                await OnNodeClickAsync(current);
             }
         }
     }
@@ -168,8 +168,10 @@ public class SysUserList : BaseTablePage<UserDataInfo>
 
     private async Task OnNodeClickAsync(MenuInfo item)
     {
+        current = item;
         currentOrg = item.Data as OrganizationInfo;
         await Table.RefreshAsync();
+        await StateChangedAsync();
     }
 }
 

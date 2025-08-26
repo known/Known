@@ -25,6 +25,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="mode">根据数据类型自动生成表格列。</param>
     public TableModel(IBaseComponent page, string id, TableColumnMode mode = TableColumnMode.None) : base(page, id)
     {
+        Tab = new TabModel { OnRefresh = page.StateChanged };
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         IsDictionary = typeof(TItem).IsDictionary();
@@ -66,7 +67,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <summary>
     /// 取得表格标签配置对象。
     /// </summary>
-    public TabModel Tab { get; } = new TabModel { IsFillHeight = true };
+    public TabModel Tab { get; private set; }
 
     /// <summary>
     /// 取得或设置树形表格子节点表达式。

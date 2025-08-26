@@ -79,7 +79,6 @@ partial class KTable<TItem>
             totalCount = Model.Result.TotalCount;
             dataSource = Model.Result.PageData;
             Model.SetAutoColumns(dataSource);
-            await StateChangedAsync();//此处加状态刷新用于点击数据字典和树节点查询
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
@@ -88,7 +87,7 @@ partial class KTable<TItem>
         catch (Exception ex)
         {
             isQuering = false;
-            await OnErrorAsync(ex);
+            _ = OnErrorAsync(ex);
         }
     }
 

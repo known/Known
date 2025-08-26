@@ -27,4 +27,15 @@ public interface IBaseComponent : Microsoft.AspNetCore.Components.IComponent
     /// </summary>
     /// <returns></returns>
     Task RefreshAsync();
+
+    /// <summary>
+    /// 通知组件状态改变，重新呈现组件。
+    /// </summary>
+    void StateChanged();
+
+    /// <summary>
+    /// 异步通知组件状态改变，重新呈现组件。
+    /// </summary>
+    /// <returns></returns>
+    Task StateChangedAsync();
 }

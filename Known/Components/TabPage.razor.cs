@@ -36,7 +36,7 @@ public partial class TabPage
     /// <summary>
     /// 取得或设置标签改变事件委托。
     /// </summary>
-    [Parameter] public Func<string, Task> OnChange { get; set; }
+    [Parameter] public EventCallback<string> OnChange { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -45,8 +45,8 @@ public partial class TabPage
         if (current != activeKey)
         {
             current = activeKey;
-            if (OnChange != null)
-                await OnChange.Invoke(current);
+            if (OnChange.HasDelegate)
+                await OnChange.InvokeAsync(current);
         }
     }
 }

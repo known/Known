@@ -5,8 +5,6 @@
 /// </summary>
 public partial class DataTabs
 {
-    private string current;
-
     /// <summary>
     /// 取得或设置标签配置模型。
     /// </summary>
@@ -24,21 +22,9 @@ public partial class DataTabs
         Model.OnStateChanged = StateChanged;
     }
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private void OnTabChanged(string tab)
     {
-        try
-        {
-            await base.OnAfterRenderAsync(firstRender);
-            if (current != Model.Current)
-            {
-                Model.Current = current;
-                Model.Change();
-            }
-        }
-        catch (Exception ex)
-        {
-            await OnErrorAsync(ex);
-        }
+        Model.Current = tab;
+        Model.Change();
     }
 }

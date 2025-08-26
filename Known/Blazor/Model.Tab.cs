@@ -6,11 +6,6 @@
 public class TabModel
 {
     /// <summary>
-    /// 取得或设置是否执行自动填充高度脚本。
-    /// </summary>
-    public bool IsFillHeight { get; set; }
-
-    /// <summary>
     /// 取得或设置步骤CSS类名。
     /// </summary>
     public string Class { get; set; }
@@ -87,12 +82,15 @@ public class TabModel
     public void AddTab(string id, string title, RenderFragment content) => Items.Add(new ItemModel(id, title) { Content = content });
 
     /// <summary>
-    /// 标签切换事件。
-    /// </summary>
-    internal void Change() => OnChange?.Invoke(Current);
-
-    /// <summary>
     /// 改变组件状态。
     /// </summary>
     public void StateChanged() => OnStateChanged?.Invoke();
+
+    internal Action OnRefresh { get; set; }
+
+    internal void Change()
+    {
+        OnChange?.Invoke(Current);
+        OnRefresh?.Invoke();
+    }
 }

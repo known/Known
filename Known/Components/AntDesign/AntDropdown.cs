@@ -245,6 +245,17 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
     /// <returns></returns>
     public Task RefreshAsync() => Table.RefreshAsync();
 
+    /// <summary>
+    /// 通知组件状态改变，重新呈现组件。
+    /// </summary>
+    public void StateChanged() => StateHasChanged();
+
+    /// <summary>
+    /// 异步通知组件状态改变，重新呈现组件。
+    /// </summary>
+    /// <returns></returns>
+    public Task StateChangedAsync() => InvokeAsync(StateHasChanged);
+
     /// <inheritdoc />
     protected override async Task OnInitializeAsync()
     {

@@ -109,13 +109,17 @@ public class BaseTabPage : BasePage
     /// <summary>
     /// 取得标签Web页面组件模型实例。
     /// </summary>
-    protected TabModel Tab { get; } = new TabModel { IsFillHeight = true };
+    protected TabModel Tab { get; private set; }
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Tab.Left = b => b.FormTitle(PageName);
+        Tab = new TabModel
+        {
+            OnRefresh = StateChanged,
+            Left = b => b.FormTitle(PageName)
+        };
     }
 
     /// <inheritdoc />

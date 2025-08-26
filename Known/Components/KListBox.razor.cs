@@ -63,7 +63,7 @@ public partial class KListBox
         if (firstRender)
         {
             items = dataSource;
-            await StateChangedAsync();
+            await OnClick(items?.FirstOrDefault());
         }
     }
 

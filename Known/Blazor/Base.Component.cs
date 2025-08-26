@@ -126,7 +126,6 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
         UI.Language = Language;
         Platform = await CreateServiceAsync<IPlatformService>();
         Admin = await CreateServiceAsync<IAdminService>();
@@ -139,10 +138,9 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// 异步设置组件参数，以及全局异常处理；子组件不要覆写该方法，应覆写 OnParameterAsync。
     /// </summary>
     /// <returns></returns>
-    protected override async Task OnParametersSetAsync()
+    protected override Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync();
-        await OnParameterAsync();
+        return OnParameterAsync();
     }
 
     /// <summary>
@@ -161,7 +159,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// 呈现组件内容，以及全局异常处理；子组件不要覆写该方法，应覆写 BuildRender。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected override async void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (!Visible)
             return;
@@ -175,7 +173,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
         }
         catch (Exception ex)
         {
-            await OnErrorAsync(ex);
+            OnErrorAsync(ex);
         }
     }
 
@@ -232,11 +230,11 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// </summary>
     /// <param name="ex">异常信息。</param>
     /// <returns></returns>
-    public async Task OnErrorAsync(Exception ex)
+    public Task OnErrorAsync(Exception ex)
     {
         Logger.Exception(LogTarget.FrontEnd, CurrentUser, ex);
         var message = Config.IsDebug ? ex.ToString() : ex.Message;
-        await UI.NoticeAsync(Language.Error, message, StyleType.Error);
+        return UI.NoticeAsync(Language.Error, message, StyleType.Error);
     }
 
     /// <summary>

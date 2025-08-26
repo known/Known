@@ -85,6 +85,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
     {
         current = item;
         await Table.RefreshAsync();
+        await StateChangedAsync();
     }
 
     private async Task<TreeModel> OnTreeModelChangedAsync()
@@ -94,7 +95,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
         {
             Tree.Data = datas.ToMenuItems(ref current);
             Tree.SelectedKeys = [current.Id];
-            await Table.RefreshAsync();
+            await OnNodeClickAsync(current);
         }
         return Tree;
     }
