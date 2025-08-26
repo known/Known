@@ -36,7 +36,7 @@ public class CodingPage : BasePage
         {
             Models = await Service.GetModelsAsync();
             Model = Models.FirstOrDefault() ?? new CodeModelInfo();
-            await StateChangedAsync();
+            listPanel?.SetListBox(ListData, Model.Id);
         }
     }
 

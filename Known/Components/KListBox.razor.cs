@@ -46,7 +46,11 @@ public partial class KListBox
         dataSource = DataSource;
         curItem = current;
         OnSearch("");
-        StateChanged();
+        if (OnItemClick.HasDelegate)
+        {
+            var info = dataSource?.FirstOrDefault(d => d.Code == current);
+            OnItemClick.InvokeAsync(info);
+        }
     }
 
     /// <inheritdoc />
@@ -78,7 +82,7 @@ public partial class KListBox
 
     private async Task OnClick(CodeInfo info)
     {
-        if (!Enabled)
+        if (!Enabled || info == null)
             return;
 
         curItem = info.Code;

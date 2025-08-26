@@ -8,6 +8,7 @@
 public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 {
     private KListTable<DictionaryInfo> listTable;
+    private List<CodeInfo> ListData = [];
     private CodeInfo category;
     private bool isAddCategory;
     private int total;
@@ -40,6 +41,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KListTable<DictionaryInfo>>()
+               .Set(c => c.ListData, ListData)
                .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.OnAddClick, this.Callback<MouseEventArgs>(e => AddCategory()))
                .Set(c => c.Table, Table)
@@ -142,10 +144,9 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 
     private async Task LoadCategoriesAsync()
     {
-        var categories = await Admin.GetCategoriesAsync();
-        category = categories?.FirstOrDefault();
-        listTable?.SetListBox(categories, category?.Code);
-        await OnItemClickAsync(category);
+        ListData = await Admin.GetCategoriesAsync();
+        category = ListData?.FirstOrDefault();
+        listTable?.SetListBox(ListData, category?.Code);
     }
 }
 
