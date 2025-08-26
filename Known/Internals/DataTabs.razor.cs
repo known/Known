@@ -22,9 +22,5 @@ public partial class DataTabs
         Model.OnStateChanged = StateChanged;
     }
 
-    private void OnTabChanged(string tab)
-    {
-        Model.Current = tab;
-        Model.Change();
-    }
+    private Task OnTabChanged(string tab) => Model.ChangeAsync(tab);
 }

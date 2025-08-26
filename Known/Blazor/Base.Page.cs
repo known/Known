@@ -117,7 +117,7 @@ public class BaseTabPage : BasePage
         await base.OnInitPageAsync();
         Tab = new TabModel
         {
-            OnRefresh = StateChanged,
+            OnRefreshAsync = StateChangedAsync,
             Left = b => b.FormTitle(PageName)
         };
     }

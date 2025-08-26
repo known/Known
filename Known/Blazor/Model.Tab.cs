@@ -36,6 +36,11 @@ public class TabModel
     public Action<string> OnChange { get; set; }
 
     /// <summary>
+    /// 取得或设置标签改变异步委托方法。
+    /// </summary>
+    public Func<string, Task> OnChangeAsync { get; set; }
+
+    /// <summary>
     /// 取得或设置组件状态改变方法委托。
     /// </summary>
     internal Action OnStateChanged { get; set; }
@@ -86,11 +91,15 @@ public class TabModel
     /// </summary>
     public void StateChanged() => OnStateChanged?.Invoke();
 
-    internal Action OnRefresh { get; set; }
+    internal Func<Task> OnRefreshAsync { get; set; }
 
-    internal void Change()
+    internal async Task ChangeAsync(string tab)
     {
-        OnChange?.Invoke(Current);
-        OnRefresh?.Invoke();
+        Current = tab;
+        OnChange?.Invoke(tab);
+        if (OnChangeAsync != null)
+            await OnChangeAsync(tab);
+        if (OnRefreshAsync != null)
+            await OnRefreshAsync();
     }
 }
