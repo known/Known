@@ -21,13 +21,13 @@ public partial class KLayout
     [Parameter] public Action OnReloadPage { get; set; }
 
     /// <inheritdoc />
-    public override async Task ShowSpinAsync(string text, Func<Task> action)
+    public override Task ShowSpinAsync(string text, Func<Task> action)
     {
         if (action == null)
-            return;
+            return Task.CompletedTask;
 
-        await JS.ShowSpinAsync(Language[text]);
-        await Task.Run(async () =>
+        JS.ShowSpinAsync(Language[text]);
+        return Task.Run(async () =>
         {
             try
             {
@@ -35,9 +35,12 @@ public partial class KLayout
             }
             catch (Exception ex)
             {
-                await OnErrorAsync(ex);
+                _ = OnErrorAsync(ex);
             }
-            await JS.HideSpinAsync();
+            finally
+            {
+                _ = JS.HideSpinAsync();
+            }
         });
     }
 
