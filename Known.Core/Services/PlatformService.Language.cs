@@ -76,7 +76,7 @@ partial class PlatformService
     public async Task<Result> SaveLanguageAsync(LanguageInfo info)
     {
         var database = Database;
-        var model = await database.QueryByIdAsync<SysLanguage>(info.Id);
+        var model = await database.QueryAsync<SysLanguage>(d => d.Chinese == info.Chinese);
         model ??= new SysLanguage();
         model.FillModel(info);
 

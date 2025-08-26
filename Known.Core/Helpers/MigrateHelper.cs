@@ -38,7 +38,6 @@ class MigrateHelper
     internal static async Task MigrateLanguagesAsync(Database db)
     {
         Language.Datas = await db.GetLanguagesAsync();
-        var datas = new List<SysLanguage>();
         var items = Language.GetDefaultLanguages();
         foreach (var item in items)
         {
@@ -46,9 +45,8 @@ class MigrateHelper
                 continue;
 
             Language.Datas.Add(item);
-            datas.Add(new SysLanguage { Chinese = item.Chinese });
+            await db.SaveAsync(new SysLanguage { Chinese = item.Chinese });
         }
-        await db.InsertListAsync(datas);
     }
 
     private static async Task MigrateButtonsAsync(Database db)
