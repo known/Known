@@ -39,11 +39,12 @@ partial class KTable<TItem>
         return shouldRender;
     }
 
-    private Task RefreshTableAsync(bool isQuery)
+    private async Task RefreshTableAsync(bool isQuery)
     {
         Model.Criteria.IsQuery = isQuery;
         var query = table?.GetQueryModel();
-        return OnChange(query);
+        await OnChange(query);
+        await StateChangedAsync();
     }
 
     private async Task OnChange(QueryModel query)

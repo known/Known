@@ -25,7 +25,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// <param name="mode">根据数据类型自动生成表格列。</param>
     public TableModel(IBaseComponent page, string id, TableColumnMode mode = TableColumnMode.None) : base(page, id)
     {
-        Tab = new TabModel { OnRefreshAsync = StateChangeAsync };
+        Tab = new TabModel();
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         IsDictionary = typeof(TItem).IsDictionary();

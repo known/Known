@@ -91,15 +91,11 @@ public class TabModel
     /// </summary>
     public void StateChanged() => OnStateChanged?.Invoke();
 
-    internal Func<Task> OnRefreshAsync { get; set; }
-
     internal async Task ChangeAsync(string tab)
     {
         Current = tab;
         OnChange?.Invoke(tab);
         if (OnChangeAsync != null)
             await OnChangeAsync(tab);
-        if (OnRefreshAsync != null)
-            await OnRefreshAsync();
     }
 }
