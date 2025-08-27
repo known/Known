@@ -289,6 +289,12 @@ public partial class Config
         ApiTypes.Add(type);
         var xml = GetAssemblyXml(type.Assembly);
         var methods = type.GetMethods();
+        var doc = new XmlDocument();
+        if (string.IsNullOrWhiteSpace(xml)==false)
+        {
+            doc.LoadXml(xml);
+        }
+        
         foreach (var method in methods)
         {
             if (method.IsPublic && method.DeclaringType?.Name == type.Name)
@@ -297,7 +303,7 @@ public partial class Config
                 var name = method.Name.Replace("Async", "");
                 info.Id = $"{type.Name}.{method.Name}";
                 info.Route = $"/{apiName}/{name}";
-                info.Description = GetMethodSummary(xml, method);
+                info.Description = GetMethodSummary(doc, method);
                 info.HttpMethod = GetHttpMethod(method);
                 info.MethodInfo = method;
                 info.Parameters = method.GetParameters();
@@ -336,14 +342,12 @@ public partial class Config
         return Utils.ReadFile(path);
     }
 
-    private static string GetMethodSummary(string xml, MethodInfo info)
+    private static string GetMethodSummary(XmlDocument doc, MethodInfo info)
     {
-        if (string.IsNullOrWhiteSpace(xml))
+        if (doc == null)
             return string.Empty;
 
         var name = $"{info.DeclaringType.FullName}.{info.Name}";
-        var doc = new XmlDocument();
-        doc.LoadXml(xml);
         var node = doc.SelectSingleNode($"/doc/members/member[@name[starts-with(., 'M:{name}')]]/summary");
         if (node == null)
             return string.Empty;
