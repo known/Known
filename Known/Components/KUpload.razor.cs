@@ -237,12 +237,6 @@ public partial class KUpload
 
     private void OnShowFile(AttachInfo item)
     {
-        var model = new DialogModel
-        {
-            Title = Language.PreviewFile,
-            Maximizable = true,
-            Content = b => b.Component<KFileView>().Set(c => c.Items, [item]).Build()
-        };
-        UI.ShowDialog(model);
+        UI.PreviewFile([item]);
     }
 }

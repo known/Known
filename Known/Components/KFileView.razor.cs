@@ -26,7 +26,8 @@ public partial class KFileView
         {
             if (!string.IsNullOrWhiteSpace(Value))
                 Items = await Admin.GetFilesAsync(Value);
-            current = Items?.FirstOrDefault();
+            var item = Items?.FirstOrDefault();
+            OnFileClick(item);
         }
         if (showPdf)
         {
@@ -38,7 +39,7 @@ public partial class KFileView
     private void OnFileClick(AttachInfo item)
     {
         current = item;
-        if (item.SourceName.EndsWith(".pdf"))
+        if (item?.SourceName?.EndsWith(".pdf") == true)
             showPdf = true;
     }
 

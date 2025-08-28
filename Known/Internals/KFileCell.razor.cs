@@ -15,13 +15,6 @@ public partial class KFileCell
     private async Task OnShowFile()
     {
         var files = await Admin.GetFilesAsync(Value);
-        var model = new DialogModel
-        {
-            Title = Language.PreviewFile,
-            Width = 800,
-            Maximizable = true,
-            Content = b => b.Component<KFileView>().Set(c => c.Items, files).Build()
-        };
-        UI.ShowDialog(model);
+        UI.PreviewFile(files);
     }
 }
