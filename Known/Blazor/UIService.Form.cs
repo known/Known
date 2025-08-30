@@ -5,7 +5,7 @@ namespace Known.Blazor;
 public partial class UIService
 {
     /// <summary>
-    /// 弹出表单组件对话框。
+    /// 根据当前用户配置显示表单组件（模态框、抽屉、URL）。
     /// </summary>
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="model">表单组件模型对象。</param>
@@ -17,22 +17,27 @@ public partial class UIService
         switch (openType)
         {
             case FormOpenType.Modal:
-                ShowModalForm(model);
+                ShowModal(model);
                 break;
             case FormOpenType.Drawer:
-                ShowDrawerForm(model);
+                _ = ShowDrawerAsync(model);
                 break;
             case FormOpenType.Url:
                 ShowUrlForm(model);
                 break;
             default:
-                ShowModalForm(model);
+                ShowModal(model);
                 break;
         }
         return true;
     }
 
-    private void ShowModalForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    /// <summary>
+    /// 显示表单组件对话框。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="model">表单组件模型对象。</param>
+    public void ShowModal<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var option = new ModalOptions
         {
@@ -66,7 +71,13 @@ public partial class UIService
         model.OnClose = dialog.CloseAsync;
     }
 
-    private async void ShowDrawerForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    /// <summary>
+    /// 显示表单组件抽屉。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="model">表单组件模型对象。</param>
+    /// <returns></returns>
+    public async Task ShowDrawerAsync<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var option = new DrawerOptions
         {
@@ -82,7 +93,12 @@ public partial class UIService
         model.OnClose = obj.CloseAsync;
     }
 
-    private void ShowUrlForm<TItem>(FormModel<TItem> model) where TItem : class, new()
+    /// <summary>
+    /// 显示URL表单组件。
+    /// </summary>
+    /// <typeparam name="TItem">表单数据类型。</typeparam>
+    /// <param name="model">表单组件模型对象。</param>
+    public void ShowUrlForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var route = model.Type?.GetCustomAttributes<RouteAttribute>()?.FirstOrDefault();
         if (route == null || string.IsNullOrWhiteSpace(route.Template))
