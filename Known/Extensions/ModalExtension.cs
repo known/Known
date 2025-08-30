@@ -1,8 +1,16 @@
 ﻿namespace Known.Extensions;
 
-static class ModalExtension
+/// <summary>
+/// 模态对话框扩展类。
+/// </summary>
+public static class ModalExtension
 {
-    internal static void PreviewFile(this UIService service, List<AttachInfo> files)
+    /// <summary>
+    /// 预览附件。
+    /// </summary>
+    /// <param name="service">UI服务。</param>
+    /// <param name="files">附件列表。</param>
+    public static void PreviewFile(this UIService service, List<AttachInfo> files)
     {
         var model = new DialogModel
         {

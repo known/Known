@@ -17,38 +17,41 @@
                 </div>
             </div>
         } else if (IsButton) {
-            <div class="kui-upload">
-                @if (!ReadOnly) {
+            if (!ReadOnly) {
+                <div class="kui-upload">
                     <div class="kui-button">
                         <KIcon Icon="upload" />
                         <span>@Language[Language.Upload]</span>
                         @BuildInput
                     </div>
                     @BuildTemplate
-                }
-            </div>
+                </div>
+            }
         } else {
-            <div class="kui-upload">
-                @if (!ReadOnly) {
+            if (!ReadOnly) {
+                <div class="kui-upload">
                     @BuildInput
                     @BuildTemplate
+                </div>
+            }
+        }
+        @if (sysFiles != null && sysFiles.Count > 0)
+        {
+            <div class="kui-form-files">
+                @foreach (var item in sysFiles) {
+                    var url = item.FileUrl;
+                    <div>
+                        @if (!ReadOnly && IsDelete) {
+                            <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
+                        }
+                        <KFileLink Item="item" />
+                        @if (!string.IsNullOrWhiteSpace(item.Id)) {
+                            <KIcon Icon="file" Title="@Language.PreviewFile" OnClick="this.Callback<MouseEventArgs>(e => OnShowFile(item))" />
+                        }
+                    </div>
                 }
             </div>
         }
-        <div class="kui-form-files">
-            @foreach (var item in sysFiles) {
-                var url = item.FileUrl;
-                <div>
-                    @if (!ReadOnly) {
-                        <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
-                    }
-                    <KFileLink Item="item" />
-                    @if (!string.IsNullOrWhiteSpace(item.Id)) {
-                        <KIcon Icon="file" Title="@Language.PreviewFile" OnClick="this.Callback<MouseEventArgs>(e => OnShowFile(item))" />
-                    }
-                </div>
-            }
-        </div>
     </div>
 }
 

@@ -31,6 +31,11 @@ public partial class KUpload
     [Parameter] public bool IsButton { get; set; }
 
     /// <summary>
+    /// 取得或设置是否显示删除按钮，默认显示。
+    /// </summary>
+    [Parameter] public bool IsDelete { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置上传组件关联字段值。
     /// </summary>
     [Parameter] public string Value { get; set; }
