@@ -19,6 +19,17 @@ public static class HtmlExtension
     /// 呈现一个label元素。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
+    /// <param name="className">div的CSS类名。</param>
+    /// <param name="text">label的文本，支持html字符串。</param>
+    public static void Label(this RenderTreeBuilder builder, string className, string text)
+    {
+        builder.Label().Class(className).Child(() => builder.Markup(text));
+    }
+
+    /// <summary>
+    /// 呈现一个label元素。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
     /// <param name="child">label的子元素委托。</param>
     public static void Label(this RenderTreeBuilder builder, Action child)
     {

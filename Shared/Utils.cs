@@ -142,6 +142,23 @@ public sealed class Utils
     }
 
     /// <summary>
+    /// 获取指定格式字符串的日期时间类型。
+    /// </summary>
+    /// <param name="time">日期时间字符串。</param>
+    /// <param name="format">日期时间格式字符串，例如：yyyy-MM-dd HH:mm:ss。</param>
+    /// <returns></returns>
+    public static DateTime? GetDateTime(string time, string format)
+    {
+        if (string.IsNullOrWhiteSpace(time) || time.StartsWith("0000-00-00"))
+            return null;
+
+        if (DateTime.TryParseExact(time, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
+            return result;
+
+        return null;
+    }
+
+    /// <summary>
     /// 根据前缀和最大编号获取一个新的最大编号，适用于表单自动编号。
     /// </summary>
     /// <param name="prefix">编号前缀字符串。</param>

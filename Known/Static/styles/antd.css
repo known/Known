@@ -85,6 +85,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-role .ant-checkbox-group {display:flex;flex-direction:column;padding:5px;}
 .kui-form-setting .ant-form-item-label {text-align:left;}
 .kui-form-setting .ant-radio-group {display:flex;}
+.ant-form-item-label > label.kui-primary {color:#1890ff;}
+.ant-form-item-label > label.kui-danger {color:#ed4014;}
 
 :root[data-theme=dark] .ant-layout-sider, :root[data-theme=dark] .kui-menu-dark {
     color:var(--kui-color);background-color:var(--kui-bgcolor);

@@ -28,6 +28,8 @@ public partial class KFileView
                 Items = await Admin.GetFilesAsync(Value);
             var item = Items?.FirstOrDefault();
             OnFileClick(item);
+            if (showPdf)
+                StateChanged();
         }
         if (showPdf)
         {
