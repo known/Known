@@ -19,10 +19,11 @@ public partial class KContext
 
     private RenderFragment<Exception> ErrorContent => ex => builder =>
     {
+        var className = CssBuilder.Default("kui-wrapper").AddClass("kui-app", Value?.IsMobileApp == true).BuildClass();
         var status = ex.IsNotAuthorized() ? ResultStatus.Http403 : ResultStatus.Http500;
         var title = status == ResultStatus.Http403 ? "403" : "500";
         Logger.Exception(LogTarget.FrontEnd, Value?.CurrentUser, ex);
-        builder.Div("kui-wrapper", () =>
+        builder.Div(className, () =>
         {
             builder.Component<AntDesign.Result>()
                    .Set(c => c.Status, status)

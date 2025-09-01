@@ -32,6 +32,13 @@ public class LayoutBase : LayoutComponentBase
     /// </summary>
     public IAdminService Admin { get; private set; }
 
+    /// <summary>
+    /// 模板外套CSS样式类。
+    /// </summary>
+    protected string WrapperClass => CssBuilder.Default("kui-wrapper")
+                                               .AddClass("kui-app", Context.IsMobileApp)
+                                               .BuildClass();
+
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
@@ -111,7 +118,7 @@ public class EmptyLayout : LayoutBase
         if (!IsInstall)
             return;
 
-        builder.Div("kui-wrapper", () => builder.Fragment(Body));
+        builder.Div(WrapperClass, () => builder.Fragment(Body));
     }
 }
 
@@ -148,7 +155,7 @@ public class AuthLayout : LayoutBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (IsLoaded || isLayout)
-            builder.Div("kui-wrapper", () => builder.Fragment(Body));
+            builder.Div(WrapperClass, () => builder.Fragment(Body));
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()
@@ -187,7 +194,7 @@ public class AdminLayout : AuthLayout
         if (!IsLoaded)
             return;
 
-        builder.Div("kui-wrapper", () =>
+        builder.Div(WrapperClass, () =>
         {
             if (Context.IsMobileApp)
             {
