@@ -6,6 +6,11 @@
 public class ModuleFormTab : BaseComponent
 {
     /// <summary>
+    /// 取得或设置是否查看。
+    /// </summary>
+    [Parameter] public bool IsView { get; set; }
+
+    /// <summary>
     /// 取得或设置模块信息。
     /// </summary>
     [Parameter] public ModuleInfo Module { get; set; }

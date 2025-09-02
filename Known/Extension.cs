@@ -169,6 +169,7 @@ public static partial class Extension
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         //模块管理
         UIConfig.ModuleTabs.Set<SysModuleList>(1, Language.SysModule);
+        UIConfig.ModuleFormTabs.Set<ModuleDesigner>(2, Language.ModuleDesigner);
         //用户中心
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs.Set<UserEditForm>(1, Language.MyProfile);

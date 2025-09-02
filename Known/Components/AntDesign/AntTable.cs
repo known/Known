@@ -82,7 +82,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
 
     private void BuildPagination(RenderTreeBuilder builder, (int PageSize, int PageIndex, int Total, string PaginationClass, EventCallback<PaginationEventArgs> HandlePageChange) tuple)
     {
-        if (Model.BottomLeft != null)
+        if (Model != null && Model.BottomLeft != null)
         {
             builder.Div("kui-flex-space", () =>
             {

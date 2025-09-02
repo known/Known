@@ -35,6 +35,7 @@ class ModuleForm : BaseTabForm
         {
             if (item.Value.Parameters == null)
                 item.Value.Parameters = [];
+            item.Value.Parameters[nameof(ModuleFormTab.IsView)] = Model.IsView;
             item.Value.Parameters[nameof(ModuleFormTab.Module)] = Model.Data;
             Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
         }
@@ -43,7 +44,7 @@ class ModuleForm : BaseTabForm
 
     private void OnFieldChanged(string field)
     {
-        if (field == nameof(ModuleInfo.Target))
+        if (field == nameof(ModuleInfo.Type))
         {
             SetTabVisible();
             Tab.StateChanged();
@@ -52,7 +53,8 @@ class ModuleForm : BaseTabForm
 
     private void SetTabVisible()
     {
-        var isMenu = Model.Data.Target == ModuleType.Menu.ToString() ||
+        var isMenu = Model.Data.Type == MenuType.Menu.ToString() ||
+                     Model.Data.Type == MenuType.Link.ToString() ||
                      Model.Data.Target == ModuleType.IFrame.ToString();
         foreach (var item in Tab.Items)
         {

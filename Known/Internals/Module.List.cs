@@ -33,7 +33,6 @@ class ModuleList : BasePage<ModuleInfo>
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language[Language.SysModule]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 800, Maximizable = true, ShowFooter = true },
-            //RowKey = r => r.Id,
             EnableEdit = false,
             EnableFilter = false,
             ShowPager = false,

@@ -531,6 +531,7 @@ public partial class Language
 
     internal const string SysLanguage = "系统语言";
     internal const string SysModule = "系统模块";
+    internal const string ModuleDesigner = "模块设计";
     internal const string TipNewModule = "点此安装新模块。";
     internal const string MigrateModule = "可将 AppData.kmd 和 Admin 插件配置数据迁移至新框架配置库。";
     internal const string NoInstallModule = "未安装模块";
