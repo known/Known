@@ -7,7 +7,7 @@
             <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
                 <div class="ant-upload" style="display:grid;">
                     @if (!ReadOnly) {
-                        <InputFile multiple="@IsMultiple" webkitdirectory="@Directory" accept="@Accept" disabled="@(!Enabled)" OnChange="OnInputFileChangedAsync" @attributes="InputAttributes" />
+                        @BuildInput
                     }
                     <div class="ant-upload-drag-container">
                         <p class="ant-upload-drag-icon"><Icon Type="inbox" /></p>
