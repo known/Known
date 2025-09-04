@@ -126,7 +126,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        UI.Language = Language;
+        UI.Context = Context;
         Platform = await CreateServiceAsync<IPlatformService>();
         Admin = await CreateServiceAsync<IAdminService>();
         Context.UI = UI;

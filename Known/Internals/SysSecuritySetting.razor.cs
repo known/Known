@@ -26,4 +26,10 @@ public partial class SysSecuritySetting
         Model.IsLoginCaptcha = value;
         await Parent.SaveSystemAsync(Model);
     }
+
+    private async Task OnWatermarkChangedAsync(bool value)
+    {
+        Model.IsWatermark = value;
+        await Parent.SaveSystemAsync(Model);
+    }
 }

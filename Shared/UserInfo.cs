@@ -151,6 +151,11 @@ public class UserInfo
     public string Department { get; set; }
 
     /// <summary>
+    /// 取得或设置用户水印文字。
+    /// </summary>
+    public string Watermark { get; set; }
+
+    /// <summary>
     /// 获取用户是否是系统或租户管理员。
     /// </summary>
     /// <returns></returns>

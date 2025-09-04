@@ -91,6 +91,11 @@ public class SystemInfo
     /// 取得或设置系统登录是否验证图片验证码。
     /// </summary>
     public bool IsLoginCaptcha { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统是否启用水印。
+    /// </summary>
+    public bool IsWatermark { get; set; }
 }
 
 /// <summary>

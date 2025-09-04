@@ -23,7 +23,7 @@ public partial class UIService
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,
             OnCancel = e => model.CloseAsync(),
-            Content = model.Content,
+            Content = b => b.BuildBody(Context, model.Content),
             //Content = b => b.Component<KModalBody>().Set(c => c.Content, model.Content).Build()
         };
         if (model.Width != null)

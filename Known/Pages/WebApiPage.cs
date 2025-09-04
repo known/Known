@@ -34,10 +34,12 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
     /// </summary>
     public void Test(ApiMethodInfo row)
     {
-        var model = new DialogModel();
-        model.Title = $"WebApi{Language[Language.Test]}";
-        model.Width = 600;
-        model.Content = b => b.Component<WebApiForm>().Set(c => c.Model, row).Build();
+        var model = new DialogModel
+        {
+            Title = $"WebApi{Language[Language.Test]}",
+            Width = 600,
+            Content = b => b.Component<WebApiForm>().Set(c => c.Model, row).Build()
+        };
         UI.ShowDialog(model);
     }
 

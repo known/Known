@@ -13,11 +13,7 @@
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
 
-.kui-layout {position:absolute;top:0;left:0;right:0;bottom:0;}
-.kui-header {
-    padding:0 10px;height:54px;line-height:54px;
-    display:flex;justify-content:space-between;z-index:1000;
-}
+.kui-header {padding:0 10px;height:54px;line-height:54px;display:flex;justify-content:space-between;}
 .kui-layout > .kui-header {padding-left:0;}
 .kui-header .left {display:flex;align-items:center;}
 .kui-header .left .trigger {font-size:18px;margin-top:2.5px;padding-right:10px;cursor:pointer;transition:color 0.3s;}

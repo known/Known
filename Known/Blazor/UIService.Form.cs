@@ -128,7 +128,7 @@ public partial class UIService
     private static RenderFragment GetFormContent<TItem>(FormModel<TItem> model, bool isDrawer = false) where TItem : class, new()
     {
         model.EnableEdit = true;
-        return b =>
+        return builder => builder.BuildBody(model.Context, b =>
         {
             b.Div("kui-form-body", () =>
             {
@@ -143,10 +143,9 @@ public partial class UIService
                     b.Component(model.Type, parameters);
                 }
             });
-
             if (isDrawer)
                 BuildDrawerFooter(b, model);
-        };
+        });
         //return b => b.Component<KModalBody>().Set(c => c.Content, content).Build();
     }
 

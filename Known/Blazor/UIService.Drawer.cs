@@ -19,8 +19,13 @@ public partial class UIService
             WrapClassName = model.ClassName,
             Placement = DrawerPlacement.Right,
             MaskClosable = true,
-            Content = model.Content
+            Content = GetDrawerContent(model)
         };
         drawer.CreateAsync(option);
+    }
+
+    private RenderFragment GetDrawerContent(DrawerModel model)
+    {
+        return b => b.BuildBody(Context, model.Content);
     }
 }

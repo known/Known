@@ -563,6 +563,7 @@ public partial class Language
     internal const string Development = "开发中心";
     internal const string UserDefaultPwd = "默认密码";
     internal const string IsLoginCaptcha = "启用登录验证码";
+    internal const string IsWatermark = "启用水印";
     internal const string CompName = "企业名称";
     internal const string AppName = "系统名称";
     internal const string AppVersion = "系统版本";

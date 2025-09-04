@@ -3,7 +3,7 @@ html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helv
 .login, .login-form-body, .known, .ws-space {background-color:var(--kui-bgcolor);color:var(--kui-color);}
 .known, .ws-space, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
 .kui-logo {
-    background:url(../img/logo1.png) no-repeat 5px;width:200px;height:50px;
+    background:url(../img/logo1.png) no-repeat 5px;height:50px;
     position:initial;margin:0;padding:0;margin-top:4px;
 }
 :root[data-theme=dark] .kui-logo, .kui-menu-dark .kui-logo {background:url(../img/logo.png) no-repeat 5px;}

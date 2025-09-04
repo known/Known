@@ -11,4 +11,9 @@
             <Switch Value="@Model.IsLoginCaptcha" ValueChanged="OnLoginCaptchaChangedAsync" />
         </DataItem>
     </AntRow>
+    <AntRow>
+        <DataItem Label="@Language[Language.IsWatermark]">
+            <Switch Value="@Model.IsWatermark" ValueChanged="OnWatermarkChangedAsync" />
+        </DataItem>
+    </AntRow>
 </TypeForm>

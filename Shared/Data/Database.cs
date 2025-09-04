@@ -46,9 +46,9 @@ public partial class Database : IDisposable
     }
 
     /// <summary>
-    /// 取得数据库连接名称。
+    /// 取得或设置数据库连接名称。
     /// </summary>
-    public string ConnectionName { get; private set; }
+    public string ConnectionName { get; set; }
 
     /// <summary>
     /// 取得或设置数据库类型。

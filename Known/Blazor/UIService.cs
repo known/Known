@@ -13,9 +13,14 @@ namespace Known.Blazor;
 public partial class UIService(ModalService modal, DrawerService drawer, MessageService message, INotificationService notice)
 {
     /// <summary>
-    /// 取得或设置语言实例。
+    /// 取得或设置UI上下文。
     /// </summary>
-    public Language Language { get; set; }
+    public UIContext Context { get; set; }
+
+    /// <summary>
+    /// 取得上下文语言对象实例。
+    /// </summary>
+    public Language Language => Context?.Language;
 
     internal static string GetTagColor(string text)
     {

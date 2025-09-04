@@ -38,6 +38,7 @@ public partial class LoginForm
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        IsCaptcha = Config.System?.IsLoginCaptcha == true;
         if (OnSendSMS != null)
         {
             option.SMSValidate = () =>

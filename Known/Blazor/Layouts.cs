@@ -155,7 +155,7 @@ public class AuthLayout : LayoutBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (IsLoaded || isLayout)
-            builder.Div(WrapperClass, () => builder.Fragment(Body));
+            builder.Div(WrapperClass, () => builder.BuildBody(Context, Body));
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()
@@ -194,20 +194,22 @@ public class AdminLayout : AuthLayout
         if (!IsLoaded)
             return;
 
-        builder.Div(WrapperClass, () =>
+        builder.Div(WrapperClass, () => builder.BuildBody(Context, BuildContent));
+    }
+
+    private void BuildContent(RenderTreeBuilder builder)
+    {
+        if (Context.IsMobileApp)
         {
-            if (Context.IsMobileApp)
-            {
-                builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
-            }
+            builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
+        }
+        else
+        {
+            if (UIConfig.AdminBody != null)
+                UIConfig.AdminBody.Invoke(builder, BuildBody);
             else
-            {
-                if (UIConfig.AdminBody != null)
-                    UIConfig.AdminBody.Invoke(builder, BuildBody);
-                else
-                    builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
-            }
-        });
+                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
+        }
     }
 
     private void BuildBody(RenderTreeBuilder builder)

@@ -23,6 +23,7 @@
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:0;}
 .ant-btn-link {cursor:pointer;}
+.ant-drawer-body > div {height:100%;}
 .ant-drawer-close {margin-right:0;}
 .ant-layout-sider-children .ant-menu.ant-menu-inline-collapsed {width:60px;}
 .ant-menu-inline, 
@@ -50,7 +51,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body > .ant-steps {padding:10px;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
-.ant-modal-body, .ant-drawer-body {position:relative;padding:10px;}
+.ant-modal-body, .ant-drawer-body {position:relative;padding:0 10px;}
+.ant-modal-body .ant-form {padding-top:10px;}
 .ant-modal-body .kui-form-body {height:100%;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
 .ant-modal-body .nopadding {padding:0;}
@@ -78,7 +80,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
 .kui-tab-form .ant-tabs-tabpane .kui-form, .kui-tab-form .ant-tabs-tabpane .kui-small {padding-right:10px;}
 .kui-form-tab .ant-tabs-content-holder {padding:0;}
-.kui-form-body .ant-tabs {margin-top:-10px;}
+.kui-form-body .ant-tabs {margin-top:0;}
 .kui-form-body .ant-tabs-tabpane {padding:10px 0;}
 .kui-system .ant-form-item-label {width:150px;}
 .kui-development > .ant-tabs-nav {margin:0;}
