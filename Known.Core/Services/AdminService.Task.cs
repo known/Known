@@ -28,8 +28,6 @@ partial class AdminService
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
-        var bizTypes = new List<string>();
-        var tasks = new List<Task>();
         await Database.QueryActionAsync(async db =>
         {
             foreach (var item in infos)

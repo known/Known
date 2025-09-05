@@ -10,7 +10,16 @@ public class LayoutBase : LayoutComponentBase
     internal bool IsLoaded { get; set; }
 
     [Inject] internal IServiceScopeFactory Factory { get; set; }
-    [Inject] internal JSService JS { get; set; }
+
+    /// <summary>
+    /// 取得或设置注入的实时通讯连接实例。
+    /// </summary>
+    [Inject] public IConnection Connection { get; set; }
+
+    /// <summary>
+    /// 取得或设置注入的JS服务实例。
+    /// </summary>
+    [Inject] public JSService JS { get; set; }
 
     /// <summary>
     /// 取得或设置注入的UI服务实例。
@@ -184,6 +193,10 @@ public class AdminLayout : AuthLayout
             isRender = true;
             if (Context.CurrentUser == null)
                 await JS.InitFilesAsync();
+            await Connection?.StartAsync<NotifyInfo>(Constants.NotifyHubUrl, Constants.NotifyLayout, info =>
+            {
+                UI.NoticeAsync(info.Title, info.Message, info.Type);
+            });
             Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
     }

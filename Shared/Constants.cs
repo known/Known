@@ -42,6 +42,16 @@ public class Constants
     /// </summary>
     public const string System = "System";
 
+    /// <summary>
+    /// 系统通知Hub地址。
+    /// </summary>
+    public const string NotifyHubUrl = "/notifyHub";
+
+    /// <summary>
+    /// 通知到模板页。
+    /// </summary>
+    public const string NotifyLayout = "NotifyLayout";
+
     internal const string CompNo = "puman";
     internal const string CompName = "普漫科技";
     internal const string Route = "Route";

@@ -32,6 +32,11 @@ public static partial class Extension
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         else
             services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        if (Config.App.Type == AppType.Desktop)
+            services.AddSingleton<IConnection, Connection>();
+        else
+            services.AddScoped<IConnection, WebConnection>();
+        services.AddScoped<INotifyService, NotifyService>();
         services.AddScoped<IPluginService, PluginService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 

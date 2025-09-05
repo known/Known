@@ -1,5 +1,6 @@
 ﻿using Known.Auths;
 using Known.Filters;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
@@ -45,6 +46,7 @@ public static class CoreExtension
             services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownCore();
         services.AddKnownServices();
+        services.AddScoped<INotifyService, WebNotifyService>();
 
         if (CoreOption.Instance.IsCompression)
             services.AddResponseCompression();
@@ -110,6 +112,10 @@ public static class CoreExtension
         app.UseAntiforgery();
         app.MapControllers();
         app.MapRazorPages();
+        app.MapHub<NotifyHub>(Constants.NotifyHubUrl, options =>
+        {
+            options.Transports = HttpTransportType.WebSockets | HttpTransportType.LongPolling;
+        });
         Config.ServiceProvider = app.Services;
         if (CoreOption.Instance.Database != null)
             AppHelper.LoadLanguages();

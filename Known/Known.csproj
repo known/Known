@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <SupportedPlatform Include="browser" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.*" />
         <PackageReference Include="AntDesign" Version="1.*" />
         <!--
         <ProjectReference Include="..\..\..\Codes\Blazor\AntDesignBlazor\components\AntDesign.csproj" />
