@@ -13,7 +13,12 @@ class WebConnection(NavigationManager navigation) : IConnection
         if (connection == null)
         {
             var url = navigation.ToAbsoluteUri(hubUrl);
-            connection = new HubConnectionBuilder().WithUrl(url).Build();
+            var handler1 = new HttpClientHandler();//忽略证书验证
+            handler1.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            connection = new HubConnectionBuilder().WithUrl(url, option =>
+            {
+                option.HttpMessageHandlerFactory = _ => handler1;
+            }).Build();
         }
         connection.On(method, (string message) =>
         {

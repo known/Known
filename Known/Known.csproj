@@ -29,7 +29,7 @@
 
     <ItemGroup>
         <EmbeddedResource Include="Resources\actions.txt" />
-        <EmbeddedResource Include="Resources\IconFA.txt" />
+        <EmbeddedResource Include="Resources\IconFA.yml" />
     </ItemGroup>
 
     <ItemGroup>

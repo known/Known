@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 框架配置扩展类。
@@ -158,13 +156,8 @@ public static partial class Extension
     private static void ConfigureUI()
     {
         UIConfig.EnableEdit = true;
-        UIConfig.Icons["AntDesign"] = typeof(IconType.Outline).GetProperties().Select(x => (string)x.GetValue(null)).Where(x => x is not null).ToList();
-        var content = Utils.GetResource(typeof(Extension).Assembly, "IconFA");
-        if (!string.IsNullOrWhiteSpace(content))
-        {
-            var lines = content.Split([.. Environment.NewLine]);
-            UIConfig.Icons["FontAwesome"] = lines.Where(l => !string.IsNullOrWhiteSpace(l)).Select(l => $"fa fa-{l}").ToList();
-        }
+        IconHelper.LoadAntIcon();
+        IconHelper.LoadFAIcon();
         UIConfig.Sizes = [
             new ActionInfo { Id = "Default", Name = Language.SizeDefault, Style = "size", Url = "_content/Known/css/size/default.css" },
             new ActionInfo { Id = "Compact", Name = Language.SizeCompact, Style = "size", Url = "_content/Known/css/size/compact.css" }

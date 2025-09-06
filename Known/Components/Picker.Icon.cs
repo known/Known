@@ -7,7 +7,9 @@ public class IconPicker : BasePicker<string>, ICustomField
 {
     private const string KeyCustom = "Custom";
     private readonly TabModel tab = new();
-    private Dictionary<string, List<string>> icons = [];
+    private Dictionary<string, List<IconMetaInfo>> iconMetas = [];
+    private IconMetaInfo icon;
+    private string faType = "Solid";
     private string searchKey;
 
     /// <inheritdoc />
@@ -21,7 +23,8 @@ public class IconPicker : BasePicker<string>, ICustomField
             tab.AddTab(item.Key, b => BuildContent(b, item.Key));
         }
         tab.AddTab(KeyCustom, b => BuildContent(b, KeyCustom));
-        icons = UIConfig.Icons;
+        tab.OnChange = t => icon = null;
+        iconMetas = UIConfig.Icons;
     }
 
     /// <inheritdoc />
@@ -59,55 +62,120 @@ public class IconPicker : BasePicker<string>, ICustomField
                     })
                 });
             }
+            else if (key == "FontAwesome")
+            {
+                BuildFAIconList(builder, key);
+            }
             else
             {
-                BuildSearch(builder);
                 BuildIconList(builder, key);
             }
         });
     }
 
+    private void BuildFAIconList(RenderTreeBuilder builder, string key)
+    {
+        builder.Div("kui-flex-space", () =>
+        {
+            BuildIconType(builder, "Solid,Routine,Line,Brand", faType, value => faType = value);
+            BuildSearch(builder);
+        });
+
+        var items = iconMetas[key];
+        icon ??= items.FirstOrDefault();
+        var icons = icon.Icons;
+        if (!string.IsNullOrWhiteSpace(searchKey))
+            icons = [.. icons.Where(i => i.Contains(searchKey))];
+
+        var fa = faType switch
+        {
+            "Solid" => "fas",
+            "Routine" => "far",
+            "Line" => "fal",
+            "Brand" => "fab",
+            _ => "fas",
+        };
+        builder.Div("font-awesome", () =>
+        {
+            builder.Div("category", () =>
+            {
+                foreach (var item in items)
+                {
+                    item.IsActive = icon.Type == item.Type;
+                    var className = "item";
+                    if (item.IsActive)
+                        className += " active";
+                    builder.Div().Class(className)
+                           .OnClick(this.Callback(() => icon = items.FirstOrDefault(d => d.Type == item.Type)))
+                           .Child(() => builder.Span(item.Type));
+                }
+            });
+            builder.Div("items", () =>
+            {
+                foreach (var item in icons)
+                {
+                    var value = $"{fa} fa-{item}";
+                    BuildIconItem(builder, value, item);
+                }
+            });
+        });
+    }
+
     private void BuildIconList(RenderTreeBuilder builder, string key)
     {
-        var items = icons[key];
+        var items = iconMetas[key];
+        icon ??= items.FirstOrDefault();
+        builder.Div("kui-flex-space", () =>
+        {
+            var category = string.Join(",", items.Select(c => c.Type));
+            BuildIconType(builder, category, icon.Type, value => icon = items.FirstOrDefault(d => d.Type == value));
+            BuildSearch(builder);
+        });
+        var icons = icon.Icons;
         if (!string.IsNullOrWhiteSpace(searchKey))
-            items = [.. items.Where(i => i.Contains(searchKey))];
+            icons = [.. icons.Where(i => i.Contains(searchKey))];
 
         builder.Div("items", () =>
         {
-            foreach (var item in items)
+            foreach (var item in icons)
             {
-                var className = "item";
-                if (SelectedItems.Contains(item))
-                    className += " active";
-                builder.Div().Class(className)
-                       .OnClick(this.Callback(() => OnSelectItem(item)))
-                       .Child(() =>
-                       {
-                           //if (key == "FontAwesome")
-                           //    builder.Span(item.Icon, "");
-                           //else
-                           builder.Icon(item);
-                           builder.Span("name", item);
-                       });
+                var value = $"{icon.Type},{item}";
+                BuildIconItem(builder, value, item);
             }
         });
     }
 
+    private void BuildIconItem(RenderTreeBuilder builder, string value, string name)
+    {
+        var className = "item";
+        if (SelectedItems.Contains(value))
+            className += " active";
+        builder.Div().Class(className)
+               .OnClick(this.Callback(() => OnSelectItem(value)))
+               .Child(() =>
+               {
+                   builder.Icon(value);
+                   builder.Span("name", name);
+               });
+    }
+
+    private void BuildIconType(RenderTreeBuilder builder, string category, string value, Action<string> onChange)
+    {
+        builder.Component<AntRadioGroup>()
+               .Set(c => c.Category, category)
+               .Set(c => c.ButtonStyle, AntDesign.RadioButtonStyle.Solid)
+               .Set(c => c.Value, value)
+               .Set(c => c.OnChange, this.Callback(onChange))
+               .Build();
+    }
+
     private void BuildSearch(RenderTreeBuilder builder)
     {
-        builder.Div("search", () =>
+        builder.Search(new InputModel<string>
         {
-            builder.Search(new InputModel<string>
-            {
-                Placeholder = "Search",
-                Value = searchKey,
-                ValueChanged = this.Callback<string>(value =>
-                {
-                    searchKey = value;
-                    StateChanged();
-                })
-            });
+            Placeholder = "Search",
+            Value = searchKey,
+            ValueChanged = this.Callback<string>(value => searchKey = value)
         });
     }
 

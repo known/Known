@@ -80,7 +80,7 @@ public class UIConfig
     /// <summary>
     /// 取得或设置系统图标字典。
     /// </summary>
-    public static Dictionary<string, List<string>> Icons { get; set; } = [];
+    public static Dictionary<string, List<IconMetaInfo>> Icons { get; set; } = [];
 
     /// <summary>
     /// 取得错误页面配置字典。
@@ -181,6 +181,29 @@ public class UIConfig
     /// 取得或设置页面标签颜色委托。
     /// </summary>
     public static Func<string, string> TagColor { get; set; }
+}
+
+/// <summary>
+/// 图标元数据信息类。
+/// </summary>
+public class IconMetaInfo
+{
+    /// <summary>
+    /// 取得或设置名称。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置类型。
+    /// </summary>
+    public string Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置图标列表。
+    /// </summary>
+    public List<string> Icons { get; set; } = [];
+
+    internal bool IsActive { get; set; }
 }
 
 /// <summary>

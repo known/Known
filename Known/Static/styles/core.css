@@ -152,11 +152,19 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-pick-icon {position:absolute;top:5px;left:5px;z-index:101;}
 .kui-pick-icon + input {padding-left:20px;}
 .kui-icon-picker {position:relative;height:300px;margin:10px;}
-.kui-icon-picker .search {position:absolute;top:0;left:0;right:0;}
+.kui-icon-picker .ant-input-search {width:200px;}
 .kui-icon-picker .items {position:absolute;top:35px;left:0;bottom:0;right:0;overflow:auto;}
 .kui-icon-picker .item {display:inline-block;font-size:32px;width:80px;text-align:center;margin:2px;}
 .kui-icon-picker .item.active {font-weight:bold;color:#1890ff;}
 .kui-icon-picker .item .name {display:block;font-size:14px;height:14px;line-height:14px;overflow:hidden;}
+.kui-icon-picker .font-awesome .category {
+    position:absolute;top:35px;left:0;bottom:0;width:100px;overflow:auto;
+}
+.kui-icon-picker .font-awesome .category > .item {
+    width:120px;height:20px;line-height:20px;font-size:14px;text-align:left;cursor:pointer;overflow:hidden;
+}
+.kui-icon-picker .font-awesome .category > .item.active {font-weight:bold;color:#1890ff;}
+.kui-icon-picker .font-awesome .items {left:120px;}
 
 :root[data-theme=dark] .kui-toolbar {border-bottom:1px solid #303030;}
 :root[data-theme=dark] .kui-list-box li:hover, 
