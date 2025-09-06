@@ -6,19 +6,17 @@
 
 .kui-app-nav {
     position:fixed;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
-    border-bottom:1px solid #ccc;box-shadow:0 -5px 20px rgba(0, 0, 0, 0.1);height:40px;line-height:40px;
-    background-color:var(--kui-bgcolor);color:var(--kui-color);
+    border-bottom:1px solid #ccc;box-shadow:0 -5px 20px rgba(0, 0, 0, 0.1);height:45px;line-height:45px;
 }
 .kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
-.kui-app-page {}
-.kui-app-page.nav {padding-top:40px;}
+.kui-app-page {height:100%;overflow:auto;}
+.kui-app-page.nav {padding-top:45px;}
 .kui-app-page.tab {padding-bottom:50px;}
 
 .kui-app-tab {
     position:fixed;left:0;right:0;bottom:0;height:50px;margin:0;padding:0;
     display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));list-style:none;
     border-top:1px solid #ccc;box-shadow:0 -5px 20px rgba(0, 0, 0, 0.1);
-    background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-app-tab li {cursor:pointer;display:flex;flex-direction:column;text-align:center;padding-top:5px;}
 .kui-app-tab .anticon {font-size:18px;}
@@ -32,7 +30,7 @@
 .kui-app-row > label, .kui-app-row > span {padding-top:5px;}
 .kui-app-row > label {padding-right:10px;}
 
-.kui-app-fixed > .ant-tabs-nav {position:fixed;top:40px;left:0;right:0;z-index:101;background-color:var(--kui-bgcolor);}
+.kui-app-fixed > .ant-tabs-nav {position:fixed;top:40px;left:0;right:0;z-index:101;}
 .kui-app-fixed > .ant-tabs-content-holder {padding-top:60px;}
 
 .kui-app-search, .kui-app-search-info {position:absolute;}
@@ -41,8 +39,8 @@
 .kui-app-search-result {padding:40px 0;}
 .kui-app-search-add {padding-bottom:10px;}
 .kui-app-search-suggest {padding-bottom:10px;}
-.kui-app-page .kui-app-search {position:fixed;top:40px;padding:20px;}
-.kui-app-page .kui-app-search-result {padding:70px 20px 60px 20px;}
+.kui-app-page .kui-app-search {position:fixed;top:45px;padding:20px;}
+.kui-app-page .kui-app-search-result {padding:60px 20px 60px 20px;}
 .kui-app-page .kui-app-search-info {position:fixed;padding:10px;}
 .kui-app-page.tab .kui-app-search-info {bottom:50px;}
 .kui-app-page .kui-tags .ant-tag {margin-right:0;}

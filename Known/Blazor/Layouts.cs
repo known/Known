@@ -190,10 +190,10 @@ public class AdminLayout : AuthLayout
             isRender = true;
             if (Context.CurrentUser == null)
                 await JS.InitFilesAsync();
-            await Connection?.StartAsync<NotifyInfo>(Constants.NotifyHubUrl, Constants.NotifyLayout, info =>
-            {
-                UI.NoticeAsync(info.Title, info.Message, info.Type);
-            });
+            //await Connection?.StartAsync<NotifyInfo>(Constants.NotifyHubUrl, Constants.NotifyLayout, info =>
+            //{
+            //    UI.NoticeAsync(info.Title, info.Message, info.Type);
+            //});
             Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
     }
