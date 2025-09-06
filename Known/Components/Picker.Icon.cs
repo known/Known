@@ -77,7 +77,7 @@ public class IconPicker : BasePicker<string>, ICustomField
     {
         builder.Div("kui-flex-space", () =>
         {
-            BuildIconType(builder, "Solid,Routine,Line,Brand", faType, value => faType = value);
+            BuildIconType(builder, "Solid,Regular,Light,Brand", faType, value => faType = value);
             BuildSearch(builder);
         });
 
@@ -90,8 +90,8 @@ public class IconPicker : BasePicker<string>, ICustomField
         var fa = faType switch
         {
             "Solid" => "fas",
-            "Routine" => "far",
-            "Line" => "fal",
+            "Regular" => "far",
+            "Light" => "fal",
             "Brand" => "fab",
             _ => "fas",
         };

@@ -70,7 +70,7 @@ class IconHelper
             // 处理 icons 列表项
             if (inIconsList && line.Trim().StartsWith("-"))
             {
-                var iconName = line.Trim().Substring(1).Trim();
+                var iconName = line.Trim().Substring(1).Trim().Trim('"', '\'');
                 info.Icons.Add(iconName);
             }
         }
