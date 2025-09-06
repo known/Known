@@ -64,15 +64,12 @@ public class LayoutBase : LayoutComponentBase
         {
             Language.Settings = info.LanguageSettings;
             Language.Datas = info.Languages;
+            Config.IsInstalled = info.IsInstalled;
+            Config.System = info.System;
             Config.OnInitial?.Invoke(info);
             UIConfig.Load(info);
         }
 
-        if (!Config.IsInstalled)
-        {
-            var isInstall = await Admin.GetIsInstallAsync(); //检查是否需要安装
-            Config.IsInstalled = !isInstall;
-        }
         if (!Config.IsInstalled)
         {
             IsInstall = true;
@@ -193,10 +190,10 @@ public class AdminLayout : AuthLayout
             isRender = true;
             if (Context.CurrentUser == null)
                 await JS.InitFilesAsync();
-            await Connection?.StartAsync<NotifyInfo>(Constants.NotifyHubUrl, Constants.NotifyLayout, info =>
-            {
-                UI.NoticeAsync(info.Title, info.Message, info.Type);
-            });
+            //await Connection?.StartAsync<NotifyInfo>(Constants.NotifyHubUrl, Constants.NotifyLayout, info =>
+            //{
+            //    UI.NoticeAsync(info.Title, info.Message, info.Type);
+            //});
             Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
     }

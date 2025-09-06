@@ -49,6 +49,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 
 .ant-modal {top:30px;}
 .ant-modal-body > .ant-steps {padding:10px;}
+.ant-modal-body > .ant-table-wrapper {padding:10px 0;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
 .ant-modal-body, .ant-drawer-body {position:relative;padding:0 10px;}

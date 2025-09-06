@@ -1,22 +1,24 @@
 /*---App---*/
 .kui-app {
-    position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;
+    position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 
 .kui-app-nav {
     position:fixed;top:0;left:0;right:0;padding:0 1rem;font-weight:bold;font-size:1rem;text-align:center;
     border-bottom:1px solid #ccc;box-shadow:0 -5px 20px rgba(0, 0, 0, 0.1);height:40px;line-height:40px;
+    background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
-.kui-app-page {position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto;}
-.kui-app-page.nav {top:40px;}
-.kui-app-page.tab {bottom:50px;}
+.kui-app-page {}
+.kui-app-page.nav {padding-top:40px;}
+.kui-app-page.tab {padding-bottom:50px;}
 
 .kui-app-tab {
     position:fixed;left:0;right:0;bottom:0;height:50px;margin:0;padding:0;
     display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));list-style:none;
     border-top:1px solid #ccc;box-shadow:0 -5px 20px rgba(0, 0, 0, 0.1);
+    background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-app-tab li {cursor:pointer;display:flex;flex-direction:column;text-align:center;padding-top:5px;}
 .kui-app-tab .anticon {font-size:18px;}

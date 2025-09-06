@@ -6,6 +6,16 @@
 public class InitialInfo
 {
     /// <summary>
+    /// 取得或设置系统是否已经安装。
+    /// </summary>
+    public bool IsInstalled { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统信息。
+    /// </summary>
+    public SystemInfo System { get; set; }
+
+    /// <summary>
     /// 取得或设置多语言项目列表。
     /// </summary>
     public List<LanguageSettingInfo> LanguageSettings { get; set; }

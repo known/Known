@@ -11,10 +11,16 @@ public class Context
     /// <summary>
     /// 构造函数，创建一个系统上下文类的实例。
     /// </summary>
-    public Context()
+    public Context()//IServiceProvider provider)
     {
+        //Provider = provider;
         language = new Language(currentLanguage);
     }
+
+    /// <summary>
+    /// 取得服务提供者。
+    /// </summary>
+    public IServiceProvider Provider { get; }
 
     /// <summary>
     /// 取得或设置上下文当前用户信息实例。
@@ -78,6 +84,19 @@ public class Context
     /// 取得上下文参数字典。
     /// </summary>
     public Dictionary<string, object> Parameter { get; } = [];
+
+    /// <summary>
+    /// 获取注入的对象实例。
+    /// </summary>
+    /// <typeparam name="T">对象类型。</typeparam>
+    /// <returns></returns>
+    public T GetService<T>()
+    {
+        if (Provider == null)
+            return default;
+
+        return Provider.GetRequiredService<T>();
+    }
 
     /// <summary>
     /// 根据Key获取上下文参数。

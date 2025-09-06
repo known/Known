@@ -3,12 +3,6 @@
 public partial interface IAdminService
 {
     /// <summary>
-    /// 异步判断系统是否需要安装。
-    /// </summary>
-    /// <returns></returns>
-    [AllowAnonymous] Task<bool> GetIsInstallAsync();
-
-    /// <summary>
     /// 异步获取系统配置数据。
     /// </summary>
     /// <param name="key">配置数据键。</param>
@@ -25,11 +19,6 @@ public partial interface IAdminService
 
 partial class AdminService
 {
-    public Task<bool> GetIsInstallAsync()
-    {
-        return Task.FromResult(false);
-    }
-
     public Task<string> GetConfigAsync(string key)
     {
         if (string.IsNullOrWhiteSpace(key))
@@ -49,11 +38,6 @@ partial class AdminService
 
 partial class AdminClient
 {
-    public Task<bool> GetIsInstallAsync()
-    {
-        return Http.GetAsync<bool>("/Admin/GetIsInstall");
-    }
-
     public Task<string> GetConfigAsync(string key)
     {
         return Http.GetTextAsync($"/Admin/GetConfig?key={key}");

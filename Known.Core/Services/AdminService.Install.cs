@@ -9,11 +9,20 @@ partial class AdminService
         if (Language.Settings == null || Language.Settings.Count == 0)
             await AppHelper.LoadLanguagesAsync(database);
 
+        Config.System ??= await database.GetSystemAsync();
         var info = new InitialInfo
         {
+            IsInstalled = Config.System != null,
+            System = Config.System,
             LanguageSettings = Language.Settings,
             Languages = Language.Datas
         };
+        if (info.System != null)
+        {
+            info.System.ProductId = "";
+            info.System.ProductKey = "";
+            info.System.UserDefaultPwd = "";
+        }
         CoreConfig.Load(info);
         if (CoreConfig.OnInitial != null)
             await CoreConfig.OnInitial.Invoke(database, info);
