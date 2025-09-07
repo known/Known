@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/organizations")]
 //[Menu(Constants.BaseData, "组织架构", "partition", 3)]
-[PagePlugin("组织架构", "partition", PagePluginType.Module, Sort = 3)]
+[PagePlugin("组织架构", "partition", PagePluginType.Module, Language.BaseData, Sort = 3)]
 public class SysOrganizationList : BaseTablePage<OrganizationInfo>
 {
     private MenuInfo current;

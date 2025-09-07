@@ -132,10 +132,25 @@ class PluginPage : BaseComponent, IAutoPage
         {
             var type = Utils.ConvertTo<PagePluginType>(item.Code);
             var info = new ActionInfo { Id = item.Code, Name = item.Name, Icon = GetPluginIcon(type) };
-            var menus = plugins.Where(p => p.Attribute.Category == info.Id).OrderBy(p => p.Sort).ToList();
-            if (menus != null && menus.Count > 0)
+            var itemMenus = plugins.Where(p => p.Attribute.Category == info.Id).OrderBy(p => p.Sort).ToList();
+            var parents = itemMenus.Where(p => !string.IsNullOrWhiteSpace(p.Attribute.Parent))
+                                   .Select(p => p.Attribute.Parent).Distinct().ToList();
+            if (parents.Count > 0)
             {
-                foreach (var menu in menus)
+                foreach (var parent in parents)
+                {
+                    var infoParent = new ActionInfo { Id = parent, Name = parent, Icon = "folder" };
+                    var menus = itemMenus.Where(p => p.Attribute.Parent == parent).OrderBy(p => p.Sort).ToList();
+                    foreach (var menu in menus)
+                    {
+                        infoParent.Children.Add(menu.ToAction());
+                    }
+                    info.Children.Add(infoParent);
+                }
+            }
+            else
+            {
+                foreach (var menu in itemMenus)
                 {
                     info.Children.Add(menu.ToAction());
                 }

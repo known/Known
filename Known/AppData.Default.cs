@@ -27,11 +27,11 @@ class AppDefaultData
     internal static void LoadModule(AppDataInfo data)
     {
         // 添加默认一级模块
-        data.Modules.AddItem("0", Constants.BaseData, "基础数据", "database", 1);
+        data.Modules.AddItem("0", Constants.BaseData, Language.BaseData, "database", 1);
         data.Modules.AddItem<CompanyForm>(Constants.BaseData, 1);
         data.Modules.AddItem<SysDictionaryList>(Constants.BaseData, 2);
         data.Modules.AddItem<SysOrganizationList>(Constants.BaseData, 3);
-        data.Modules.AddItem("0", Constants.System, "系统管理", "setting", 99);
+        data.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
         data.Modules.AddItem<SysSystem>(Constants.System, 1);
         data.Modules.AddItem<SysRoleList>(Constants.System, 2);
         data.Modules.AddItem<SysUserList>(Constants.System, 3);

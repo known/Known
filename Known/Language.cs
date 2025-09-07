@@ -2,6 +2,8 @@
 
 public partial class Language
 {
+    internal const string BaseData = "基础数据";
+    internal const string SystemManage = "系统管理";
     internal const string TipAIEntry = "有问题，问小K。";
 
     internal const string TipFormRouteIsNull = "表单类型或路由不存在！";

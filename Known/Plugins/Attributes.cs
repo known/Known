@@ -32,6 +32,11 @@ public class PluginAttribute(string name, string icon) : Attribute
     /// 取得或设置插件角色。
     /// </summary>
     public string Role { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件上级。
+    /// </summary>
+    public string Parent { get; set; }
 }
 
 /// <summary>
@@ -63,6 +68,18 @@ public class PagePluginAttribute : PluginAttribute
     {
         Type = type;
         Category = type.ToString();
+    }
+
+    /// <summary>
+    /// 构造函数，创建一个页面插件特性类实例。
+    /// </summary>
+    /// <param name="name">插件名称。</param>
+    /// <param name="icon">插件菜单图标。</param>
+    /// <param name="type">页面类型。</param>
+    /// <param name="parent">上级分类。</param>
+    public PagePluginAttribute(string name, string icon, PagePluginType type, string parent) : this(name, icon, type)
+    {
+        Parent = parent;
     }
 
     /// <summary>

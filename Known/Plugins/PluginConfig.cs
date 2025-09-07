@@ -32,19 +32,18 @@ public class PluginConfig
     internal static void AddPlugin(Type item, IEnumerable<RouteAttribute> routes)
     {
         var plugin = item.GetCustomAttribute<PluginAttribute>();
-        if (plugin != null)
-        {
-            if (plugin.Name == Language.NavFontSize && !Config.App.IsSize)
-                return;
-            if (plugin.Name == Language.NavLanguage && !Config.App.IsLanguage)
-                return;
-            if (plugin.Name == Language.NavTheme && !Config.App.IsTheme)
-                return;
+        if (plugin == null)
+            return;
+        if (plugin.Name == Language.NavFontSize && !Config.App.IsSize)
+            return;
+        if (plugin.Name == Language.NavLanguage && !Config.App.IsLanguage)
+            return;
+        if (plugin.Name == Language.NavTheme && !Config.App.IsTheme)
+            return;
 
-            Plugins.Add(new PluginMenuInfo(item, plugin)
-            {
-                Url = routes?.FirstOrDefault()?.Template
-            });
-        }
+        Plugins.Add(new PluginMenuInfo(item, plugin)
+        {
+            Url = routes?.FirstOrDefault()?.Template
+        });
     }
 }
