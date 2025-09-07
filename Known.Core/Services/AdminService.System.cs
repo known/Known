@@ -46,7 +46,7 @@ partial class AdminService
         {
             await database.SaveSystemAsync(info);
         }
-        Config.System = info;
+        CoreConfig.System = info;
         return Result.Success(Language.SaveSuccess);
     }
 
@@ -59,7 +59,7 @@ partial class AdminService
             sys.ProductId = info.ProductId;
             sys.ProductKey = info.ProductKey;
             await db.SaveSystemAsync(sys);
-            Config.System = sys;
+            CoreConfig.System = sys;
             return CoreOption.Instance.CheckSystemInfo(sys);
         }
         else if (info.Type == ActiveType.Version)

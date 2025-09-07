@@ -119,6 +119,11 @@ public class MenuInfo
     public bool CanEdit { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置是否是代码生成的模块。
+    /// </summary>
+    public bool IsCode { get; set; }
+
+    /// <summary>
     /// 取得或设置布局信息。
     /// </summary>
     public LayoutInfo Layout { get; set; }

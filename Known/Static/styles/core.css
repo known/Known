@@ -18,6 +18,7 @@
 .kui-tips {color:#1890ff;margin-left:10px;}
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}
+.kui-bold {font-weight:bold;}
 .kui-flex {display:flex;}
 .kui-flex-row {display:flex;flex-direction:row;align-items:center;gap:10px;}
 .kui-flex-column {display:flex;flex-direction:column;align-items:center;gap:10px;}

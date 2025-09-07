@@ -21,6 +21,11 @@ public class CoreConfig
     }
 
     /// <summary>
+    /// 取得或设置系统信息。
+    /// </summary>
+    public static SystemInfo System { get; set; }
+
+    /// <summary>
     /// 取得或设置自定义用户业务逻辑处理者实例。
     /// </summary>
     public static UserHandler UserHandler { get; set; }

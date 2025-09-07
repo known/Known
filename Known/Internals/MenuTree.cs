@@ -106,8 +106,8 @@ class MenuTree : BaseComponent
                 //if (item.Parent.Children.IndexOf(item) < item.Parent.Children.Count - 1)
                 //    builder.Icon("arrow-down", "下移", this.Callback<MouseEventArgs>(e => MoveDownMenuAsync(item)));
                 //builder.Icon("drag", "移动到", this.Callback<MouseEventArgs>(e => MoveToMenu(item)));
-                builder.Span().Class("kui-danger")
-                       .Child(() => builder.Icon("delete", Language.Delete, this.Callback<MouseEventArgs>(e => DeleteMenu(item))));
+                if (!item.IsCode)
+                    builder.Span().Class("kui-danger").Child(() => builder.Icon("delete", Language.Delete, this.Callback<MouseEventArgs>(e => DeleteMenu(item))));
             });
         });
     }

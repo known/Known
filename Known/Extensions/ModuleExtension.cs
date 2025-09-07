@@ -219,6 +219,7 @@ public static class ModuleExtension
             Url = info.Url,
             Sort = info.Sort,
             Enabled = info.Enabled,
+            IsCode = info.IsCode,
             Layout = info.Layout,
             Plugins = info.Plugins
         };

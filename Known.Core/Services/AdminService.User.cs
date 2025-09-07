@@ -18,8 +18,8 @@ partial class AdminService
         await Database.QueryActionAsync(async db =>
         {
             user = await db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserDataInfo>();
-            user ??= new UserDataInfo { Password = Config.System?.UserDefaultPwd };
-            user.DefaultPassword = Config.System?.UserDefaultPwd;
+            user ??= new UserDataInfo { Password = CoreConfig.System?.UserDefaultPwd };
+            user.DefaultPassword = CoreConfig.System?.UserDefaultPwd;
             var roles = await db.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
             var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
             var roleIds = userRoles?.Select(r => r.RoleId).ToList();

@@ -137,7 +137,7 @@ partial class AdminService
         CoreConfig.Load(info);
         await Database.QueryActionAsync(async db =>
         {
-            Config.System ??= await db.GetSystemAsync();
+            CoreConfig.System ??= await db.GetSystemAsync();
             var buttons = await db.GetButtonsAsync();
             info.Actions = [.. buttons.Select(b => b.ToAction())];
             info.AppName = await db.GetUserSystemNameAsync();

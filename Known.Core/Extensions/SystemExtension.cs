@@ -29,7 +29,7 @@ public static class SystemExtension
     internal static async Task<SystemInfo> GetUserSystemAsync(this Database db)
     {
         if (!Config.App.IsPlatform)
-            return Config.System;
+            return CoreConfig.System;
 
         var data = await db.GetCompanyDataAsync(db.User.CompNo);
         if (!string.IsNullOrWhiteSpace(data))

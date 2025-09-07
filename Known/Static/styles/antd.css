@@ -32,6 +32,7 @@
 .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title .fa + span {opacity:0;}
 .ant-menu-horizontal {border-bottom:none;}
 .ant-dropdown-menu .anticon {margin-right:5px;}
+.ant-menu .kui-icon > .icon-name {margin-left:10px;}
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}

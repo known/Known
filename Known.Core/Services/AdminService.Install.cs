@@ -9,19 +9,23 @@ partial class AdminService
         if (Language.Settings == null || Language.Settings.Count == 0)
             await AppHelper.LoadLanguagesAsync(database);
 
-        Config.System ??= await database.GetSystemAsync();
+        CoreConfig.System ??= await database.GetSystemAsync();
         var info = new InitialInfo
         {
-            IsInstalled = Config.System != null,
-            System = Config.System,
+            IsInstalled = CoreConfig.System != null,
             LanguageSettings = Language.Settings,
             Languages = Language.Datas
         };
-        if (info.System != null)
+        if (CoreConfig.System != null)
         {
-            info.System.ProductId = "";
-            info.System.ProductKey = "";
-            info.System.UserDefaultPwd = "";
+            info.System = new SystemInfo
+            {
+                CompNo = CoreConfig.System.CompNo,
+                CompName = CoreConfig.System.CompName,
+                AppName = CoreConfig.System.AppName,
+                IsLoginCaptcha = CoreConfig.System.IsLoginCaptcha,
+                IsWatermark = CoreConfig.System.IsWatermark
+            };
         }
         CoreConfig.Load(info);
         if (CoreConfig.OnInitial != null)
@@ -32,7 +36,7 @@ partial class AdminService
     [AllowAnonymous]
     public async Task<InstallInfo> GetInstallAsync()
     {
-        if (Config.System != null)
+        if (CoreConfig.System != null)
             return new InstallInfo();
 
         var info = await GetInstallDataAysnc(false);
@@ -55,7 +59,7 @@ partial class AdminService
     [AllowAnonymous]
     public async Task<Result> TestConnectionAsync(Data.ConnectionInfo info)
     {
-        if (Config.System != null)
+        if (CoreConfig.System != null)
             return Result.Error("The system is installed.");
 
         try
@@ -73,7 +77,7 @@ partial class AdminService
     [AllowAnonymous]
     public async Task<Result> SaveInstallAsync(InstallInfo info)
     {
-        if (Config.System != null)
+        if (CoreConfig.System != null)
             return Result.Error("The system is installed.");
 
         if (info == null)

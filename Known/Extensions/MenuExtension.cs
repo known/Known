@@ -165,6 +165,7 @@ public static class MenuExtension
             Visible = info.Visible,
             Enabled = info.Enabled,
             CanEdit = info.CanEdit,
+            IsCode = info.IsCode,
             Badge = info.Badge,
             Layout = info.Layout,
             Plugins = info.Plugins,

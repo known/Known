@@ -42,7 +42,7 @@ public partial class MainMenu
         AddAction("Menu", "folder-add", Language.AddMenu, OnAddMenu);
         AddAction("Page", "file-add", Language.AddPage, OnAddPage);
         AddAction("Link", "link", Language.AddLink, OnAddLink);
-        AddAction("Manage", "menu", Language.MenuManage, OnManageMenu);
+        //AddAction("Manage", "menu", Language.MenuManage, OnManageMenu);
     }
 
     /// <summary>
@@ -88,23 +88,23 @@ public partial class MainMenu
         UI.ShowForm(model);
     }
 
-    private void OnManageMenu(MouseEventArgs e)
-    {
-        DialogModel model = null;
-        model = new DialogModel
-        {
-            Title = Language.MenuManage,
-            Width = 600,
-            Content = b => b.Component<MenuTree>().Set(c => c.Parent, Parent).Build(),
-            OnOk = () =>
-            {
-                menu?.SetItems(Parent.Children);
-                OnManaged?.Invoke(Parent);
-                return model.CloseAsync();
-            }
-        };
-        UI.ShowDialog(model);
-    }
+    //private void OnManageMenu(MouseEventArgs e)
+    //{
+    //    DialogModel model = null;
+    //    model = new DialogModel
+    //    {
+    //        Title = Language.MenuManage,
+    //        Width = 600,
+    //        Content = b => b.Component<MenuTree>().Set(c => c.Parent, Parent).Build(),
+    //        OnOk = () =>
+    //        {
+    //            menu?.SetItems(Parent.Children);
+    //            OnManaged?.Invoke(Parent);
+    //            return model.CloseAsync();
+    //        }
+    //    };
+    //    UI.ShowDialog(model);
+    //}
 
     private FormModel<MenuInfo> GetMenuFormModel(string title, MenuInfo data)
     {
