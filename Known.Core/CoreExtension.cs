@@ -21,6 +21,7 @@ public static class CoreExtension
         AppHelper.LoadConnections();
         action?.Invoke(CoreOption.Instance);
 
+        CoreOption.Instance.App.Type = AppType.Desktop;
         if (CoreOption.Instance.Database != null)
             services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownCore();
