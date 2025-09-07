@@ -49,41 +49,41 @@ static class PropertyExtension
         if (typeName.Contains("System.Int32"))
         {
             if (!int.TryParse(valueString, out int i))
-                errors.Add(language.GetString("Valid.MustInteger", label));
+                errors.Add(language.GetString(Language.ValidMustInteger, label));
             if (minLength != null && i < minLength.Value)
-                errors.Add(language.GetString("Valid.MustMinLength", label, minLength));
+                errors.Add(language.GetString(Language.ValidMustMinLength, label, minLength));
             if (maxLength != null && i > maxLength.Value)
-                errors.Add(language.GetString("Valid.MustMaxLength", label, maxLength));
+                errors.Add(language.GetString(Language.ValidMustMaxLength, label, maxLength));
         }
         else if (typeName.Contains("System.Decimal"))
         {
             if (!decimal.TryParse(valueString, out decimal d))
-                errors.Add(language.GetString("Valid.MustNumber", label));
+                errors.Add(language.GetString(Language.ValidMustNumber, label));
             if (minLength != null && d < minLength.Value)
-                errors.Add(language.GetString("Valid.MustMinLength", label, minLength));
+                errors.Add(language.GetString(Language.ValidMustMinLength, label, minLength));
             if (maxLength != null && d > maxLength.Value)
-                errors.Add(language.GetString("Valid.MustMaxLength", label, maxLength));
+                errors.Add(language.GetString(Language.ValidMustMaxLength, label, maxLength));
         }
         else if (typeName.Contains("System.DateTime"))
         {
             //if (string.IsNullOrEmpty(DateFormat))
             //{
             //    if (!DateTime.TryParse(valueString, out _))
-            //        errors.Add(language.GetString("Valid.MustDateTime", label));
+            //        errors.Add(language.GetString(Language.ValidMustDateTime, label));
             //}
             //else
             //{
             //    if (!DateTime.TryParseExact(valueString, DateFormat, null, DateTimeStyles.None, out _))
-            //        errors.Add(language.GetString("Valid.MustDateFormat", label, DateFormat));
+            //        errors.Add(language.GetString(Language.ValidMustDateFormat, label, DateFormat));
             //}
         }
         else
         {
             var length = GetByteLength(valueString);
             if (minLength != null && length < minLength.Value)
-                errors.Add($"{label}至少{minLength}个字符！");
+                errors.Add(language.GetString(Language.ValidMinLength, label, minLength));
             if (maxLength != null && length > maxLength.Value)
-                errors.Add($"{label}不能超过{maxLength}个字符！");
+                errors.Add(language.GetString(Language.ValidMaxLength, label, maxLength));
         }
 
         var regex = property?.GetCustomAttribute<RegularExpressionAttribute>();

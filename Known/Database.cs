@@ -25,7 +25,6 @@ public partial class Database
             database.SetDatabase(info);
         else
             database.SetDatabase(ConnectionName, DatabaseType, ConnectionString);
-        database.Context = Context;
         database.User = User;
         return database;
     }

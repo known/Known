@@ -19,7 +19,7 @@ public partial class Database
                 await db.BeginTransAsync();
                 await action.Invoke(db);
                 await db.CommitTransAsync();
-                return Result.Success(Context?.Language.Success(name), data);
+                return Result.Success($"{name}成功！", data);
             }
             catch (Exception ex)
             {

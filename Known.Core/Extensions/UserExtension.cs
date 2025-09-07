@@ -180,7 +180,7 @@ public static class UserExtension
         }
     }
 
-    internal static async Task<Result> SaveUserAsync(this Database db, UserInfo info)
+    internal static async Task<Result> SaveUserAsync(this Database db, Context context, UserInfo info)
     {
         var model = await db.QueryByIdAsync<SysUser>(info.Id);
         if (model == null)
@@ -201,7 +201,7 @@ public static class UserExtension
         model.LastLoginTime = info.LastLoginTime;
         model.LastLoginIP = info.LastLoginIP;
 
-        var vr = model.Validate(db.Context);
+        var vr = model.Validate(context);
         if (!vr.IsValid)
             return vr;
 

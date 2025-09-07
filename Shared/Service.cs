@@ -76,7 +76,6 @@ public partial class ServiceBase(Context context) : IService
 
             var db = Database.Create();
             db.User = CurrentUser;
-            db.Context = Context;
             return db;
         }
     }
@@ -129,12 +128,13 @@ public abstract class ImportBase(ImportContext context)
 /// <summary>
 /// 数据导入上下文类。
 /// </summary>
-public class ImportContext
+/// <param name="context">系统上下文对象。</param>
+public class ImportContext(Context context)
 {
     /// <summary>
-    /// 取得或设置系统上下文对象实例。
+    /// 取得系统上下文对象实例。
     /// </summary>
-    public Context Context { get; set; }
+    public Context Context { get; } = context;
 
     /// <summary>
     /// 取得或设置数据库访问实例。

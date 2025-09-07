@@ -6,6 +6,11 @@
 public class TaskBase
 {
     /// <summary>
+    /// 取得或设置系统上下文。
+    /// </summary>
+    public Context Context { get; set; }
+
+    /// <summary>
     /// 异步执行后台任务。
     /// </summary>
     /// <param name="db">数据库对象。</param>

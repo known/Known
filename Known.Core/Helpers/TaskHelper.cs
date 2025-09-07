@@ -11,12 +11,13 @@ public sealed class TaskHelper
     /// 通知运行指定业务类型的后台任务。
     /// </summary>
     /// <param name="task">业务类型。</param>
-    public static void NotifyRun(TaskInfo task)
+    /// <param name="context">系统上下文。</param>
+    public static void NotifyRun(TaskInfo task, Context context = null)
     {
-        Task.Run(() => RunAsync(task));
+        Task.Run(() => RunAsync(task, context));
     }
 
-    internal static Task RunAsync(TaskInfo task)
+    private static Task RunAsync(TaskInfo task, Context context)
     {
         if (!Config.TaskTypes.TryGetValue(task.Type, out Type type))
             return Task.CompletedTask;
@@ -24,16 +25,16 @@ public sealed class TaskHelper
         if (Activator.CreateInstance(type) is not TaskBase handler)
             throw new InvalidOperationException("The TaskHandler is not register.");
 
+        handler.Context = context;
         return RunAsync(task, handler.ExecuteAsync);
     }
 
-    internal static async Task RunAsync(TaskInfo task, Func<Database, TaskInfo, Task<Result>> action)
+    private static async Task RunAsync(TaskInfo task, Func<Database, TaskInfo, Task<Result>> action)
     {
         var db = Database.Create();
         try
         {
             var user = await db.GetUserAsync(task.CreateBy);
-            db.Context = new Context { CurrentUser = user };
             db.User = user;
 
             task.BeginTime = DateTime.Now;

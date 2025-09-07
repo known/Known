@@ -44,22 +44,22 @@ partial class AdminService
             var pageId = bizIds.Length > 1 ? bizIds[1] : "";
             var pluginId = bizIds.Length > 2 ? bizIds[2] : "";
             var param = await db.GetAutoPageAsync(pageId, pluginId);
-            data = GetImportRule(db.Context, param?.Form?.Fields);
+            data = GetImportRule(Context, param?.Form?.Fields);
         }
         else
         {
-            var columns = ImportHelper.GetImportColumns(db.Context, bizId);
+            var columns = ImportHelper.GetImportColumns(Context, bizId);
             if (columns != null && columns.Count > 0)
             {
                 //TODO：导入实体类型限定的栏位多语言
                 var fields = columns.Select(c => new FormFieldInfo
                 {
                     Id = c.Id,
-                    Name = db.Context.Language.GetString(c),
+                    Name = Context.Language.GetString(c),
                     Required = c.Required,
-                    Length = GetImportRuleNote(db.Context, c)
+                    Length = GetImportRuleNote(Context, c)
                 }).ToList();
-                data = GetImportRule(db.Context, fields);
+                data = GetImportRule(Context, fields);
             }
         }
         return data;
@@ -78,6 +78,8 @@ partial class AdminService
             if (form.BizType == ImportHelper.BizType)
             {
                 task = CreateTask(form);
+                task.CreateBy = db.UserName;
+                task.CreateTime = DateTime.Now;
                 task.Target = sysFiles[0].Id;
                 task.File = sysFiles[0];
                 if (form.IsAsync)
@@ -90,12 +92,12 @@ partial class AdminService
             if (form.IsAsync)
             {
                 task.File = sysFiles.First();
-                TaskHelper.NotifyRun(task);
+                TaskHelper.NotifyRun(task, Context);
                 result.Message += Language[CoreLanguage.ImportFileImporting];
             }
             else if (task != null)
             {
-                result = await ImportHelper.ExecuteAsync(database, task);
+                result = await ImportHelper.ExecuteAsync(Context, database, task);
             }
         }
         return result;

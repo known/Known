@@ -10,7 +10,6 @@ public partial class Database
     {
         var database = new Database();
         database.SetDatabase(ConnectionName);
-        database.Context = Context;
         database.User = User;
         return database;
     }

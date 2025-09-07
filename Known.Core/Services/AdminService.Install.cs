@@ -191,7 +191,6 @@ partial class AdminService
     private Database GetDatabase(InstallInfo info)
     {
         var db = Database.Create();
-        db.Context = Context;
         db.User = new UserInfo
         {
             AppId = Config.App.Id,

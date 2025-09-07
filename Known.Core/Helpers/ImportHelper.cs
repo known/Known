@@ -48,7 +48,7 @@ public sealed class ImportHelper
     /// <returns>导入栏位信息列表。</returns>
     public static List<ColumnInfo> GetImportColumns(Context context, string bizId)
     {
-        var import = CreateImport(new ImportContext { Context = context, BizId = bizId });
+        var import = CreateImport(context, bizId);
         if (import == null)
             return [];
 
@@ -59,37 +59,33 @@ public sealed class ImportHelper
     /// <summary>
     /// 异步执行后台任务。
     /// </summary>
+    /// <param name="context">系统上下文。</param>
     /// <param name="db">数据库对象。</param>
     /// <param name="task">后台任务。</param>
     /// <returns>执行结果。</returns>
-    public static Task<Result> ExecuteAsync(Database db, TaskInfo task)
+    internal static Task<Result> ExecuteAsync(Context context, Database db, TaskInfo task)
     {
-        var context = new ImportContext
-        {
-            Database = db,
-            Context = db.Context,
-            BizId = task.BizId
-        };
-        var import = CreateImport(context);
+        var import = CreateImport(context, task.BizId, db);
         if (import == null)
             return Result.ErrorAsync("The import method is not registered and cannot be executed!");
 
         return import.ExecuteAsync(task.File);
     }
 
-    private static ImportBase CreateImport(ImportContext context)
+    private static ImportBase CreateImport(Context context, string bizId, Database db = null)
     {
-        if (context.IsDictionary)
-            return new AutoImport(context);
+        var impContext = new ImportContext(context) { BizId = bizId, Database = db };
+        if (impContext.IsDictionary)
+            return new AutoImport(impContext);
 
-        if (!Config.ImportTypes.TryGetValue(context.BizId, out Type type))
+        if (!Config.ImportTypes.TryGetValue(impContext.BizId, out Type type))
             return null;
 
         var scope = Config.ServiceProvider.CreateScope();
         if (scope.ServiceProvider.GetRequiredService(type) is ImportBase import)
         {
-            import.ImportContext = context;
-            import.SetServiceContext(context.Context);
+            import.ImportContext = impContext;
+            import.SetServiceContext(impContext.Context);
             return import;
         }
 

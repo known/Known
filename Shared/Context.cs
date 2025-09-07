@@ -11,16 +11,16 @@ public class Context
     /// <summary>
     /// 构造函数，创建一个系统上下文类的实例。
     /// </summary>
-    public Context()//IServiceProvider provider)
+    public Context(IServiceProvider provider)
     {
-        //Provider = provider;
+        Provider = provider;
         language = new Language(currentLanguage);
     }
 
     /// <summary>
     /// 取得服务提供者。
     /// </summary>
-    public IServiceProvider Provider { get; }
+    [JsonIgnore] public IServiceProvider Provider { get; }
 
     /// <summary>
     /// 取得或设置上下文当前用户信息实例。
@@ -40,12 +40,12 @@ public class Context
     /// <summary>
     /// 取得或设置上下文请求对象，用于静态组件与后端交互。
     /// </summary>
-    public IRequest Request { get; set; }
+    [JsonIgnore] public IRequest Request { get; set; }
 
     /// <summary>
     /// 取得或设置上下文响应对象，用于静态组件与后端交互。
     /// </summary>
-    public IResponse Response { get; set; }
+    [JsonIgnore] public IResponse Response { get; set; }
 
     /// <summary>
     /// 取得当前是否启用移动端APP页面。

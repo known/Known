@@ -28,22 +28,32 @@ public partial class Database : IDisposable
         return database;
     }
 
-    /// <summary>
-    /// 初始化数据库访问实例。
-    /// </summary>
-    public Database() { }
+    ///// <summary>
+    ///// 初始化数据库访问实例。
+    ///// </summary>
+    //public Database() { }
+
+    ///// <summary>
+    ///// 初始化数据库访问实例。
+    ///// </summary>
+    ///// <param name="databaseType">数据库类型。</param>
+    ///// <param name="connectionString">连接字符串。</param>
+    //public Database(DatabaseType databaseType, string connectionString = null)
+    //{
+    //    DatabaseType = databaseType;
+    //    ConnectionString = connectionString;
+    //    provider = DbProvider.Create(this);
+    //}
 
     /// <summary>
-    /// 初始化数据库访问实例。
+    /// 取得或设置当前操作用户信息。
     /// </summary>
-    /// <param name="databaseType">数据库类型。</param>
-    /// <param name="connectionString">连接字符串。</param>
-    public Database(DatabaseType databaseType, string connectionString = null)
-    {
-        DatabaseType = databaseType;
-        ConnectionString = connectionString;
-        provider = DbProvider.Create(this);
-    }
+    public UserInfo User { get; set; }
+
+    /// <summary>
+    /// 取得当前操作用户账号。
+    /// </summary>
+    public string UserName => User?.UserName;
 
     /// <summary>
     /// 取得或设置数据库连接名称。
@@ -59,21 +69,6 @@ public partial class Database : IDisposable
     /// 取得或设置数据库连接字符串。
     /// </summary>
     public string ConnectionString { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统上下文对象。
-    /// </summary>
-    public Context Context { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前操作用户信息。
-    /// </summary>
-    public UserInfo User { get; set; }
-
-    /// <summary>
-    /// 取得当前操作用户账号。
-    /// </summary>
-    public string UserName => User?.UserName;
 
     /// <summary>
     /// 取得数据库上下文对象，适用于EFCore。

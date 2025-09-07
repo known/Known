@@ -106,7 +106,7 @@ partial class AdminService
         {
             if (CoreConfig.OnLoged != null)
                 await CoreConfig.OnLoged.Invoke(db, user);
-            await db.SaveUserAsync(user);
+            await db.SaveUserAsync(Context, user);
             await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
         }, user);
         if (result.IsValid)
@@ -188,7 +188,7 @@ partial class AdminService
         if (info == null)
             return Result.Error(CoreLanguage.TipNoUser);
 
-        var result = await Database.SaveUserAsync(info);
+        var result = await Database.SaveUserAsync(Context, info);
         if (!result.IsValid)
             return result;
 

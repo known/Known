@@ -39,7 +39,7 @@ partial class AdminService
                     await db.SaveAsync(task);
                 }
                 item.File = await db.Query<SysFile>().FirstAsync<AttachInfo>(d => d.Id == item.Target);
-                TaskHelper.NotifyRun(item);
+                TaskHelper.NotifyRun(item, Context);
             }
         });
         return Result.Success(Language.Success(Language.Reset));

@@ -3,7 +3,7 @@
 /// <summary>
 /// UI上下文信息类。
 /// </summary>
-public partial class UIContext : Context
+public partial class UIContext(IServiceProvider provider) : Context(provider)
 {
     internal bool IsEditTable => UIConfig.IsEditTable && IsEditMode;
 
@@ -40,12 +40,12 @@ public partial class UIContext : Context
     /// <summary>
     /// 取得UI服务实例。
     /// </summary>
-    public UIService UI { get; internal set; }
+    [JsonIgnore] public UIService UI { get; internal set; }
 
     /// <summary>
     /// 取得基础模板实例。
     /// </summary>
-    public BaseLayout App { get; internal set; }
+    [JsonIgnore] public BaseLayout App { get; internal set; }
 
     /// <summary>
     /// 取得当前组件呈现模式。
