@@ -4,7 +4,8 @@
 /// 角色管理模块页面组件类。
 /// </summary>
 [Route("/sys/roles")]
-[Menu(Constants.System, "角色管理", "team", 2)]
+//[Menu(Constants.System, "角色管理", "team", 2)]
+[PagePlugin("角色管理", "team", PagePluginType.Module, Sort = 5)]
 public class SysRoleList : BaseTablePage<RoleInfo>
 {
     /// <inheritdoc />

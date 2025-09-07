@@ -46,7 +46,7 @@ public class AttachInfo
     /// 取得或设置文件类型。
     /// </summary>
     [MaxLength(50)]
-    [Column]
+    [Column(Width = 150)]
     [DisplayName("类型")]
     public string Type { get; set; }
 

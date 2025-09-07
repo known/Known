@@ -4,7 +4,8 @@
 /// 企业信息页面组件类。
 /// </summary>
 [Route("/bds/company")]
-[Menu(Constants.BaseData, "企业信息", "idcard", 1)]
+//[Menu(Constants.BaseData, "企业信息", "idcard", 1)]
+[PagePlugin("企业信息", "idcard", PagePluginType.Module, Sort = 1)]
 public class CompanyForm : BaseTabPage
 {
     /// <inheritdoc />

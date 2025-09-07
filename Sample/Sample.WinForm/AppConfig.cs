@@ -19,6 +19,7 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.Assembly = assembly;
+            info.IsModule = true;
         });
         services.AddModules();
         services.AddServices(assembly);
@@ -37,6 +38,6 @@ public static class AppConfig
 
     private static void AddModules(this IServiceCollection services)
     {
-        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
+        Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
     }
 }

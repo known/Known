@@ -28,17 +28,21 @@ public static class ModuleExtension
     /// <summary>
     /// 添加一个模块信息。
     /// </summary>
+    /// <typeparam name="T">模块页面类型。</typeparam>
     /// <param name="modules">模块列表。</param>
-    /// <param name="id">ID。</param>
-    /// <param name="name">名称。</param>
-    /// <param name="icon">图标。</param>
     /// <param name="parentId">上级ID。</param>
     /// <param name="sort">排序。</param>
-    /// <param name="url">URL。</param>
-    /// <returns>菜单信息。</returns>
-    public static ModuleInfo Add(this List<ModuleInfo> modules, string id, string name, string icon, string parentId, int sort, string url = null)
+    /// <returns></returns>
+    public static ModuleInfo AddItem<T>(this List<ModuleInfo> modules, string parentId, int sort)
     {
-        return AddItem(modules, parentId, id, name, icon, sort, url);
+        var type = typeof(T);
+        var route = type.GetCustomAttribute<RouteAttribute>();
+        var plugin = type.GetCustomAttribute<PagePluginAttribute>();
+        var info = modules.AddItem(parentId, type.FullName, plugin?.Name, plugin?.Icon, sort, route?.Template);
+        var table = AppData.CreateAutoPage(type);
+        if (table != null)
+            info.Plugins.AddPlugin(table);
+        return info;
     }
 
     /// <summary>

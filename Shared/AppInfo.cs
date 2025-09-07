@@ -90,9 +90,9 @@ public class AppInfo
     public bool IsTheme { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置系统是否启用内置模块，默认启用。
+    /// 取得或设置系统是否启用内置模块。
     /// </summary>
-    public bool IsModule { get; set; } = true;
+    public bool IsModule { get; set; }
 
     /// <summary>
     /// 取得或设置ID生成器类型。

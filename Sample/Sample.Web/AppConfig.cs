@@ -31,12 +31,12 @@ public static class AppConfig
 
         // 添加前端
         var assembly = typeof(AppConfig).Assembly;
-        services.AddKnown(option =>
+        services.AddKnown(info =>
         {
-            option.Id = AppId;
-            option.Name = AppName;
-            option.Assembly = assembly;
-            option.IsMobile = true;
+            info.Id = AppId;
+            info.Name = AppName;
+            info.Assembly = assembly;
+            info.IsMobile = true;
         });
         services.AddModules();
         services.ConfigUI();
@@ -54,7 +54,7 @@ public static class AppConfig
 
     private static void AddModules(this IServiceCollection services)
     {
-        Config.Modules.Add(AppConstant.Demo, "示例页面", "block", "0", 2);
+        Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
     }
 
     private static void ConfigUI(this IServiceCollection services)

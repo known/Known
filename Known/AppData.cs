@@ -149,6 +149,11 @@ public sealed partial class AppData
                   : FormatData(Data);
         File.WriteAllBytes(KmdPath, bytes);
     }
+
+    internal static void LoadModules()
+    {
+        AppDefaultData.LoadModule(Data);
+    }
     #endregion
 
     #region Private

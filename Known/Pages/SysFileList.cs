@@ -4,7 +4,8 @@
 /// 系统附件模块页面组件类。
 /// </summary>
 [Route("/sys/files")]
-[Menu(Constants.System, "系统附件", "file", 5)]
+//[Menu(Constants.System, "系统附件", "file", 5)]
+[PagePlugin("系统附件", "file", PagePluginType.Module, Sort = 8)]
 public class SysFileList : BaseTablePage<AttachInfo>
 {
     /// <inheritdoc />

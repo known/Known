@@ -48,16 +48,17 @@ public partial class Config
 
     internal static void AddApp(Assembly assembly)
     {
-        // 添加默认一级模块
-        if (App.IsModule)
-        {
-            Modules.AddItem("0", Constants.BaseData, "基础数据", "database", 1);
-            Modules.AddItem("0", Constants.System, "系统管理", "setting", 99);
-        }
-
         Version = new VersionInfo(App.Assembly);
         InitAssembly(App.Assembly);
         AddModule(assembly);
+    }
+
+    internal static void AddModules()
+    {
+        if (!App.IsModule)
+            return;
+
+        AppData.LoadModules();
     }
 
     private static void InitAssembly(Assembly assembly)

@@ -2,12 +2,42 @@
 
 class AppDefaultData
 {
+    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType = null)
+    {
+        var info = new AutoPageInfo();
+        info.Page.Type = pageType.FullName;
+        SetMethods(info, pageType);
+        if (entityType != null)
+        {
+            info.Page.ShowPager = true;
+            info.Page.PageSize = Config.App.DefaultPageSize;
+            SetProperties(info, entityType);
+        }
+        return info;
+    }
+
     internal static void Load(AppDataInfo data)
     {
         if (data.TopNavs.Count == 0)
             data.TopNavs = LoadTopNavs();
         LoadModules(data);
         LoadMenus(data);
+    }
+
+    internal static void LoadModule(AppDataInfo data)
+    {
+        // 添加默认一级模块
+        data.Modules.AddItem("0", Constants.BaseData, "基础数据", "database", 1);
+        data.Modules.AddItem<CompanyForm>(Constants.BaseData, 1);
+        data.Modules.AddItem<SysDictionaryList>(Constants.BaseData, 2);
+        data.Modules.AddItem<SysOrganizationList>(Constants.BaseData, 3);
+        data.Modules.AddItem("0", Constants.System, "系统管理", "setting", 99);
+        data.Modules.AddItem<SysSystem>(Constants.System, 1);
+        data.Modules.AddItem<SysRoleList>(Constants.System, 2);
+        data.Modules.AddItem<SysUserList>(Constants.System, 3);
+        data.Modules.AddItem<SysTaskList>(Constants.System, 4);
+        data.Modules.AddItem<SysFileList>(Constants.System, 5);
+        data.Modules.AddItem<SysLogList>(Constants.System, 6);
     }
 
     // 加载顶部导航
@@ -45,41 +75,32 @@ class AppDefaultData
             //if (item.Parent != "0" && !data.Modules.Exists(m => m.Id == item.Parent))
             //    continue;
 
-            var info = data.Modules.FirstOrDefault(m => m.Id == item.Page.Name);
-            if (info == null)
-            {
-                info = new ModuleInfo
-                {
-                    Id = item.Page.Name,
-                    Type = nameof(MenuType.Link),
-                    Name = item.Name,
-                    Icon = item.Icon,
-                    ParentId = item.Parent,
-                    Sort = item.Sort,
-                    Url = item.Url,
-                    Target = nameof(LinkTarget.None),
-                    IsCode = true
-                };
-                data.Modules.Add(info);
-            }
-            var table = AppData.CreateAutoPage(item.Page);
-            if (table != null)
-                info.Plugins.AddPlugin(table);
+            AddModule(data, item);
         }
     }
 
-    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType = null)
+    private static void AddModule(AppDataInfo data, MenuAttribute item)
     {
-        var info = new AutoPageInfo();
-        info.Page.Type = pageType.FullName;
-        SetMethods(info, pageType);
-        if (entityType != null)
+        var info = data.Modules.FirstOrDefault(m => m.Id == item.Page.FullName);
+        if (info == null)
         {
-            info.Page.ShowPager = true;
-            info.Page.PageSize = Config.App.DefaultPageSize;
-            SetProperties(info, entityType);
+            info = new ModuleInfo
+            {
+                Id = item.Page.FullName,
+                Type = nameof(MenuType.Link),
+                Name = item.Name,
+                Icon = item.Icon,
+                ParentId = item.Parent,
+                Sort = item.Sort,
+                Url = item.Url,
+                Target = nameof(LinkTarget.None),
+                IsCode = true
+            };
+            data.Modules.Add(info);
         }
-        return info;
+        var table = AppData.CreateAutoPage(item.Page);
+        if (table != null)
+            info.Plugins.AddPlugin(table);
     }
 
     private static void SetMethods(AutoPageInfo info, Type pageType)

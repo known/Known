@@ -51,9 +51,25 @@ public class NavPluginAttribute(string name, string icon) : PluginAttribute(name
 /// <summary>
 /// 页面插件特性类，用于标识组件是否是页面区块插件。
 /// </summary>
-/// <param name="name">插件名称。</param>
-/// <param name="icon">插件菜单图标。</param>
-public class PagePluginAttribute(string name, string icon) : PluginAttribute(name, icon) { }
+public class PagePluginAttribute : PluginAttribute
+{
+    /// <summary>
+    /// 构造函数，创建一个页面插件特性类实例。
+    /// </summary>
+    /// <param name="name">插件名称。</param>
+    /// <param name="icon">插件菜单图标。</param>
+    /// <param name="type">页面类型。</param>
+    public PagePluginAttribute(string name, string icon, PagePluginType type) : base(name, icon)
+    {
+        Type = type;
+        Category = type.ToString();
+    }
+
+    /// <summary>
+    /// 取得页面插件类型。
+    /// </summary>
+    public PagePluginType Type { get; }
+}
 
 /// <summary>
 /// 页面区块插件类型枚举。
