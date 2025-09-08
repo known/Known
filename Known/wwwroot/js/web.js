@@ -1,4 +1,54 @@
-﻿window.KUtils = {
+﻿function KScanner(videoId, invoker) {
+    var deviceId;
+    let reader = new ZXing.BrowserMultiFormatReader();
+    reader.getVideoInputDevices().then(devices => deviceId = devices[0].deviceId);
+
+    const vibrate = () => {
+        if ('vibrate' in window.navigator) {
+            window.navigator.vibrate([200, 100, 200]);
+            const handler = window.setTimeout(function () {
+                window.clearTimeout(handler);
+                window.navigator.vibrate([]);
+            }, 1000);
+        }
+    }
+
+    this.start = function () {
+        try {
+            reader.decodeFromVideoDevice(deviceId, videoId, (res, err) => {
+                if (res) vibrate();
+                var text = res ? res.text : '';
+                var error = err && !(err instanceof ZXing.NotFoundException) ? err : '';
+                if (text.length || error.length) {
+                    invoker.invokeMethodAsync('OnScanned', text, error);
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    this.stop = function () {
+        reader.reset();
+        invoker.invokeMethodAsync('OnScanStop');
+    }
+}
+
+window.KUtils = {
+    scanner: null,
+    scanStart: function (videoId, invoker) {
+        this.scanner = new KScanner(videoId, invoker);
+        this.scanner.start();
+    },
+    scanStop: function () {
+        this.scanner.stop();
+    },
+    scrollToBottom: function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.scrollTop = el.scrollHeight;
+        }
+    },
     highlight: function (code, lang) {
         return Prism.highlight(code, Prism.languages[lang], lang);
     }

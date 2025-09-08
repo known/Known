@@ -31,3 +31,39 @@ public partial class Logger
         }
     }
 }
+
+/// <summary>
+/// 控制台日志类型枚举。
+/// </summary>
+public enum ConsoleLogType
+{
+    /// <summary>
+    /// 信息。
+    /// </summary>
+    Info,
+    /// <summary>
+    /// 错误。
+    /// </summary>
+    Error
+}
+
+/// <summary>
+/// 控制台日志信息类。
+/// </summary>
+public class ConsoleLogInfo
+{
+    /// <summary>
+    /// 取得或设置业务ID。
+    /// </summary>
+    public string BizId { get; set; }
+
+    /// <summary>
+    /// 取得或设置日志类型。
+    /// </summary>
+    public ConsoleLogType Type { get; set; }
+
+    /// <summary>
+    /// 取得或设置日志内容。
+    /// </summary>
+    public string Content { get; set; }
+}
