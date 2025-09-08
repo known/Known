@@ -168,13 +168,10 @@ public sealed class DataHelper
             Enabled = true
         };
         SetRouteInfo(info, item.Value);
-        var actions = new List<string>();
-        var methods = item.Value.GetMethods();
-        foreach (var method in methods)
-        {
-            if (method.GetCustomAttribute<ActionAttribute>() != null)
-                actions.Add(method.Name);
-        }
+        var actions = item.Value.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
+                                .Where(m => m.IsDefined(typeof(ActionAttribute), false))
+                                .Select(m => m.Name)
+                                .ToList();
         if (actions.Count > 0)
             info.Plugins.AddPlugin(new AutoPageInfo { Page = new PageInfo { Tools = [.. actions] } });
         return info;

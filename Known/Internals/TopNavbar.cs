@@ -58,7 +58,7 @@ public class TopNavbar : BaseComponent
                         b.Li().Class(className).Child(() => b.Component<NavEditMode>().Build());
                     }
                     b.Li(() => b.Component<NavDevelopment>().Build());
-                    if (Config.App.Type == AppType.Web)
+                    if (Config.App.Type == AppType.Web && Config.RenderMode == RenderType.Auto)
                         b.Li(() => b.Component<NavRenderMode>().Build());
                 }
                 b.Li(() => b.Component<NavSetting>().Build());

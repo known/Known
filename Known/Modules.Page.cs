@@ -21,10 +21,10 @@ public class PageInfo
     public bool ShowAdvSearch { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置表格页面是否显示分页。
+    /// 取得或设置表格页面是否显示分页，默认显示。
     /// </summary>
     [DisplayName("分页")]
-    public bool ShowPager { get; set; }
+    public bool ShowPager { get; set; } = true;
 
     /// <summary>
     /// 取得或设置表格页面是否显示列设置，默认显示。

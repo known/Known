@@ -44,7 +44,10 @@ public class TreePicker : BasePicker<MenuInfo>
     }
 
     /// <inheritdoc />
-    protected override void BuildContent(RenderTreeBuilder builder) => builder.Tree(Model);
+    protected override void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.Div().Style("padding:10px 0;").Child(() => builder.Tree(Model));
+    }
 
     /// <inheritdoc />
     protected override void OnValueChanged(List<MenuInfo> items)

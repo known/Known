@@ -131,6 +131,9 @@ class PluginPage : BaseComponent, IAutoPage
         foreach (var item in types)
         {
             var type = Utils.ConvertTo<PagePluginType>(item.Code);
+            if (type == PagePluginType.Module)
+                continue;
+
             var info = new ActionInfo { Id = item.Code, Name = item.Name, Icon = GetPluginIcon(type) };
             var itemMenus = plugins.Where(p => p.Attribute.Category == info.Id).OrderBy(p => p.Sort).ToList();
             var parents = itemMenus.Where(p => !string.IsNullOrWhiteSpace(p.Attribute.Parent))
@@ -146,6 +149,11 @@ class PluginPage : BaseComponent, IAutoPage
                         infoParent.Children.Add(menu.ToAction());
                     }
                     info.Children.Add(infoParent);
+                }
+                var empties = itemMenus.Where(p => string.IsNullOrWhiteSpace(p.Attribute.Parent)).ToList();
+                foreach (var menu in empties)
+                {
+                    info.Children.Add(menu.ToAction());
                 }
             }
             else
@@ -187,11 +195,7 @@ class PluginPage : BaseComponent, IAutoPage
 
         // 向当前页面添加插件实例
         Menu.Plugins ??= [];
-        Menu.Plugins.Add(new PluginInfo
-        {
-            Id = Utils.GetNextId(),
-            Type = info.Id
-        });
+        Menu.Plugins.Add(new PluginInfo { Id = Utils.GetNextId(), Type = info.Id });
         await Platform.SaveMenuAsync(Menu);
         await StateChangedAsync();
     }

@@ -6,26 +6,6 @@
 public static class ModelExtension
 {
     #region ActionInfo
-    internal static void SetAction(this List<ActionInfo> actions, MethodInfo[] methods)
-    {
-        foreach (var item in actions)
-        {
-            var method = methods?.FirstOrDefault(m => m.Name == item.Id);
-            var attr = method?.GetCustomAttribute<ActionAttribute>();
-            if (attr != null)
-            {
-                if (!string.IsNullOrWhiteSpace(attr.Icon))
-                    item.Icon = attr.Icon;
-                if (!string.IsNullOrWhiteSpace(attr.Name))
-                    item.Name = attr.Name;
-                item.Title = attr.Title;
-                item.Visible = attr.Visible;
-                item.Group = attr.Group;
-                item.Tabs = attr.Tabs;
-            }
-        }
-    }
-
     internal static void TabChange(this List<ActionInfo> actions, string tab)
     {
         foreach (var item in actions)
@@ -39,20 +19,47 @@ public static class ModelExtension
     #endregion
 
     #region PageInfo
-    internal static List<ActionInfo> GetToolItems(this PageInfo info)
+    internal static List<ActionInfo> GetToolItems(this PageInfo info, Type pageType)
     {
         if (info == null || info.Tools == null || info.Tools.Count == 0)
             return [];
 
-        return [.. info.Tools.Select(t => new ActionInfo(t))];
+        var items = info.Tools.Select(t => new ActionInfo(t)).ToList();
+        foreach (var item in items)
+        {
+            SetAction(item, pageType);
+        }
+        return items;
     }
 
-    internal static List<ActionInfo> GetActionItems(this PageInfo info)
+    internal static List<ActionInfo> GetActionItems(this PageInfo info, Type pageType)
     {
         if (info == null || info.Actions == null || info.Actions.Count == 0)
             return [];
 
-        return [.. info.Actions.Select(a => new ActionInfo(a))];
+        var items = info.Actions.Select(a => new ActionInfo(a)).ToList();
+        foreach (var item in items)
+        {
+            SetAction(item, pageType);
+        }
+        return items;
+    }
+
+    private static void SetAction(ActionInfo item, Type pageType)
+    {
+        var method = pageType.GetMethod(item.Id);
+        var attr = method?.GetCustomAttribute<ActionAttribute>();
+        if (attr != null)
+        {
+            if (!string.IsNullOrWhiteSpace(attr.Icon))
+                item.Icon = attr.Icon;
+            if (!string.IsNullOrWhiteSpace(attr.Name))
+                item.Name = attr.Name;
+            item.Title = attr.Title;
+            item.Visible = attr.Visible;
+            item.Group = attr.Group;
+            item.Tabs = attr.Tabs;
+        }
     }
 
     internal static List<ColumnInfo> GetColumns<T>(this PageInfo info, FormInfo form)

@@ -31,7 +31,7 @@ public static class ContextExtension
         var type = sender.GetType();
         var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
         var method = paramTypes == null
-                   ? GetMethod(type, info.Id)
+                   ? type.GetMethod(info.Id, Type.EmptyTypes)
                    : type.GetMethod(info.Id, paramTypes);
         if (method == null)
         {
@@ -48,11 +48,5 @@ public static class ContextExtension
             Logger.Exception(LogTarget.FrontEnd, context.CurrentUser, ex);
             context.UI.Error(ex.Message);
         }
-    }
-
-    private static MethodInfo GetMethod(Type type, string name)
-    {
-        var methods = type.GetMethods();
-        return methods.Where(m => m.Name == name && m.GetParameters()?.Length == 0).FirstOrDefault();
     }
 }
