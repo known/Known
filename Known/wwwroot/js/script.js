@@ -76,7 +76,7 @@ function createCaptcha(canvas, code) {
     }
 }
 
-export function KBlazor_SetupPasteListener(element, dotNetObjRef) {
+export function KBlazor_SetupPasteListener(invoker, element) {
     element.addEventListener('paste', async (event) => {
         const clipboardItems = event.clipboardData.items;
         for (const item of clipboardItems) {
@@ -87,7 +87,7 @@ export function KBlazor_SetupPasteListener(element, dotNetObjRef) {
                 const reader = new FileReader();
                 reader.onload = function () {
                     const base64Data = reader.result.split(',')[1]; // 移除 data URL 前缀
-                    dotNetObjRef.invokeMethodAsync('ReceivePastedImage', base64Data);
+                    invoker.invokeMethodAsync('ReceivePastedImage', base64Data);
                 };
                 reader.readAsDataURL(blob);
                 break;

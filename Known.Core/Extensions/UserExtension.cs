@@ -237,7 +237,8 @@ public static class UserExtension
                     var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
                     var roleIds = userRoles?.Select(d => d.RoleId).ToArray();
                     var roles = await db.QueryListByIdAsync<SysRole>(roleIds);
-                    user.Role = string.Join(",", roles?.Select(r => r.Name).ToArray());
+                    if (roles != null && roles.Count > 0)
+                        user.Role = string.Join(",", [.. roles.Select(r => r.Name)]);
                     await db.SaveAsync(user);
                 }
             }

@@ -508,10 +508,11 @@ public partial class Language
     internal const string SSRMode = "SSR模式";
     internal const string NotSupportAutoMode = "当前程序不支持切换为自动模式。";
 
-    internal const string Downloading = "下载中...";
+    internal const string Downloading = "数据下载中...";
+    internal const string NoDataDownload = "无数据可下载！";
     internal const string DataExporting = "数据导出中...";
-    internal const string DataQuering = "数据查询中...";
     internal const string NoDataExport = "无数据可导出！";
+    internal const string DataQuering = "数据查询中...";
     internal const string QueryByEnter = "按回车查询";
 
     /// <summary>

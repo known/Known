@@ -37,6 +37,6 @@ public class KFileLink : BaseComponent
 
     private Task OnDownloadFileAsync(AttachInfo item)
     {
-        return App?.DownloadAsync(JS, item);
+        return App?.DownloadAsync(item);
     }
 }

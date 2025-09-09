@@ -23,7 +23,6 @@
 .ant-btn > .anticon + span, 
 .ant-btn > span + .anticon {margin-left:0;}
 .ant-btn-link {cursor:pointer;}
-.ant-drawer-body > div {height:100%;}
 .ant-drawer-close {margin-right:0;}
 .ant-layout-sider-children .ant-menu.ant-menu-inline-collapsed {width:60px;}
 .ant-menu-inline, 

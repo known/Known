@@ -21,7 +21,7 @@ class Scanner : BaseComponent
         if (firstRender && Visible)
         {
             var invoker = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("KUtils.scanStart", cameraId, invoker);
+            await JSRuntime.InvokeVoidAsync("KUtils.scanStart", invoker, cameraId);
         }
     }
 

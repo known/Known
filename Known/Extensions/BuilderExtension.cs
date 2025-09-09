@@ -58,7 +58,7 @@ public static class BuilderExtension
     internal static void BuildBody(this RenderTreeBuilder builder, Context context, RenderFragment body)
     {
         if (Config.System?.IsWatermark == true && context != null)
-            builder.Watermark(context.CurrentUser, body);
+            builder.Div("kui-watermark", () => builder.Watermark(context.CurrentUser, body));
         else
             builder.Fragment(body);
     }

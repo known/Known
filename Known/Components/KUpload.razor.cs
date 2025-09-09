@@ -6,7 +6,7 @@
 public partial class KUpload
 {
     private ElementReference container;
-    private DotNetObjectReference<KUpload> dotNetObjRef;
+    private DotNetObjectReference<KUpload> invoker;
     private List<AttachInfo> sysFiles = [];
     private readonly List<FileDataInfo> files = [];
 
@@ -138,7 +138,7 @@ public partial class KUpload
     {
         // 将 base64 字符串转换为字节数组
         var imageData = Convert.FromBase64String(base64Image);
-        var fileName = $"screenshot-{DateTime.Now:yyyyMMdd-HHmmss}.png";
+        var fileName = $"screenshot-{DateTime.Now:yyyyMMddHHmmss}.png";
         var file = new BrowserFile(imageData, fileName, "image/png");
         var isChange = await OnAddFileAsync(file, false);
         if (isChange)
@@ -163,8 +163,8 @@ public partial class KUpload
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            dotNetObjRef = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("KBlazor_SetupPasteListener", container, dotNetObjRef);
+            invoker = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("KBlazor_SetupPasteListener", invoker, container);
             await RefreshAsync();
         }
     }
@@ -172,7 +172,7 @@ public partial class KUpload
     /// <inheritdoc />
     protected override Task OnDisposeAsync()
     {
-        dotNetObjRef?.Dispose();
+        invoker?.Dispose();
         return base.OnDisposeAsync();
     }
 

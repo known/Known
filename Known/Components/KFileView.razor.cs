@@ -47,6 +47,6 @@ public partial class KFileView
 
     private Task OnDownload(MouseEventArgs args)
     {
-        return App?.DownloadAsync(JS, current);
+        return App?.DownloadAsync(current);
     }
 }

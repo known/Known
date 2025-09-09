@@ -17,22 +17,41 @@ public static class LayoutExtension
     }
 
     /// <summary>
+    /// 异步下载文件。
+    /// </summary>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="action">下载文件委托</param>
+    /// <returns></returns>
+    public static Task DownloadFileAsync(this BaseLayout app, Func<Task<FileDataInfo>> action)
+    {
+        return app.ShowSpinAsync(Language.Downloading, async () =>
+        {
+            var info = await action.Invoke();
+            if (info == null || info.Bytes == null || info.Bytes.Length == 0)
+            {
+                app.UI.Error(Language.NoDataDownload);
+                return;
+            }
+            await app.JS.DownloadFileAsync(info);
+        });
+    }
+
+    /// <summary>
     /// 异步下载文件，显示Loading提示。
     /// </summary>
     /// <param name="app">模板基类实例。</param>
-    /// <param name="js">JS服务实例。</param>
     /// <param name="info">附件信息。</param>
     /// <returns></returns>
-    public static Task DownloadAsync(this BaseLayout app, JSService js, AttachInfo info)
+    public static Task DownloadAsync(this BaseLayout app, AttachInfo info)
     {
-        return app?.DownloadAsync(async () =>
+        return app.DownloadAsync(async () =>
         {
             var path = Config.GetUploadPath(info.Path);
             if (!File.Exists(path))
                 return;
 
             var bytes = await File.ReadAllBytesAsync(path);
-            await js.DownloadFileAsync(info.SourceName, bytes);
+            await app.JS.DownloadFileAsync(info.SourceName, bytes);
         });
     }
 
@@ -48,6 +67,26 @@ public static class LayoutExtension
     }
 
     /// <summary>
+    /// 异步导出文件。
+    /// </summary>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="action">导出文件委托</param>
+    /// <returns></returns>
+    public static Task ExportFileAsync(this BaseLayout app, Func<Task<FileDataInfo>> action)
+    {
+        return app.ShowSpinAsync(Language.DataExporting, async () =>
+        {
+            var info = await action.Invoke();
+            if (info == null || info.Bytes == null || info.Bytes.Length == 0)
+            {
+                app.UI.Error(Language.NoDataExport);
+                return;
+            }
+            await app.JS.DownloadFileAsync(info);
+        });
+    }
+
+    /// <summary>
     /// 异步导出表格数据，默认按查询结果导出。
     /// </summary>
     /// <typeparam name="TItem">导出数据类型。</typeparam>
@@ -56,9 +95,9 @@ public static class LayoutExtension
     /// <param name="name">导出文件名。</param>
     /// <param name="mode">导出模式（单页，查询结果，全部）。</param>
     /// <returns></returns>
-    public static async Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode = ExportMode.Query) where TItem : class, new()
+    public static Task ExportDataAsync<TItem>(this BaseLayout app, TableModel<TItem> table, string name, ExportMode mode = ExportMode.Query) where TItem : class, new()
     {
-        await app?.ShowSpinAsync(Language.DataExporting, async () =>
+        return app?.ShowSpinAsync(Language.DataExporting, async () =>
         {
             table.Criteria.ExportMode = mode;
             table.Criteria.ExportColumns = table.GetExportColumns();
