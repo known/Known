@@ -18,7 +18,7 @@ public partial class JSService
     public JSService(UIService ui, IJSRuntime jsRuntime)
     {
         this.ui = ui;
-        var path = "./_content/Known/js/script.js?v=250820";
+        var path = "./_content/Known/js/script.js?v=250909";
         moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", path).AsTask());
         if (!string.IsNullOrWhiteSpace(Config.App.JsPath))
             appTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", Config.App.JsPath).AsTask());

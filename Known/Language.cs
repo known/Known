@@ -46,6 +46,9 @@ public partial class Language
     internal const string NavFullScreen = "全屏";
     internal const string NavLink = "连接";
 
+    internal const string BluetoothNotSupport = "蓝牙不支持";
+    internal const string BluetoothScanning = "蓝牙设备扫描中...";
+
     internal static void Initialize(Assembly assembly)
     {
         foreach (var item in Settings)

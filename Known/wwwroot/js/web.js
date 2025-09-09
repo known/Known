@@ -1,7 +1,10 @@
 ﻿function KScanner(invoker, videoId) {
     var deviceId;
     let reader = new ZXing.BrowserMultiFormatReader();
-    reader.getVideoInputDevices().then(devices => deviceId = devices[0].deviceId);
+    reader.getVideoInputDevices().then(devices => deviceId = devices[0].deviceId).catch(error => {
+        console.log(error);
+        invoker.invokeMethodAsync('OnError', error.toString());
+    });
 
     const vibrate = () => {
         if ('vibrate' in window.navigator) {
@@ -25,6 +28,7 @@
             });
         } catch (error) {
             console.log(error);
+            invoker.invokeMethodAsync('OnError', error);
         }
     }
 

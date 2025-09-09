@@ -1,8 +1,11 @@
-﻿namespace Known.Internals;
+﻿using AntDesign;
+
+namespace Known.Internals;
 
 class Scanner : BaseComponent
 {
     private readonly string cameraId = "kuiCamera";
+    private string errorMessage = string.Empty;
 
     [Parameter] public Func<string, string, Task> OnScan { get; set; }
     [Parameter] public Func<Task> OnStop { get; set; }
@@ -12,7 +15,19 @@ class Scanner : BaseComponent
         if (!Visible)
             return;
 
-        builder.Element("video").Id(cameraId).Close();
+        if (string.IsNullOrWhiteSpace(errorMessage))
+        {
+            builder.Element("video").Id(cameraId).Close();
+            return;
+        }
+
+        builder.Component<Alert>()
+               .Set(c => c.Type, AlertType.Error)
+               .Set(c => c.Style, "height:100%;padding-top:40px;")
+               .Set(c => c.ShowIcon, true)
+               .Set(c => c.Message, Language[Language.Error])
+               .Set(c => c.Description, errorMessage)
+               .Build();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -44,5 +59,12 @@ class Scanner : BaseComponent
         Visible = false;
         if (OnStop != null)
             await OnStop.Invoke();
+    }
+
+    [JSInvokable]
+    public void OnError(string error)
+    {
+        errorMessage = error;
+        StateChanged();
     }
 }

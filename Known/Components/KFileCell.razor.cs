@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 附件单元格组件类。
