@@ -13,6 +13,10 @@ class AppHelper
 
     internal static async Task LoadLanguagesAsync(Database db)
     {
+        var isExist = await db.ExistsAsync<SysConfig>();
+        if (!isExist)
+            return;
+
         var infos = await db.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
         if (infos == null || infos.Count == 0)
             infos = Language.GetDefaultSettings();
