@@ -121,6 +121,13 @@ class AdvancedSearchItem : BaseComponent
                     ValueChanged = this.Callback<bool>(v => item.Value = v.ToString())
                 });
                 break;
+            case FieldType.Integer:
+                builder.Number(new InputModel<int>
+                {
+                    Value = Utils.ConvertTo<int>(item.Value),
+                    ValueChanged = this.Callback<int>(v => item.Value = v.ToString())
+                });
+                break;
             case FieldType.Number:
                 builder.Number(new InputModel<decimal>
                 {

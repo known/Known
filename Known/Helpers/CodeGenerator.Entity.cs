@@ -80,8 +80,10 @@ partial class CodeGenerator
             return "bool";
         else if (item.Type == FieldType.Date || item.Type == FieldType.DateTime)
             return "DateTime";
+        else if (item.Type == FieldType.Integer)
+            return "int";
         else if (item.Type == FieldType.Number)
-            return string.IsNullOrWhiteSpace(item.Length) ? "int" : "decimal";
+            return "decimal";
 
         return "string";
     }

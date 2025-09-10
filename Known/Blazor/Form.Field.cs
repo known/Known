@@ -152,6 +152,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         return column.Type switch
         {
             FieldType.Date or FieldType.DateTime => Utils.ConvertTo<DateTime?>(value),
+            FieldType.Integer => Utils.ConvertTo<int?>(value),
             FieldType.Number => Utils.ConvertTo<decimal?>(value),
             FieldType.Switch or FieldType.CheckBox => Utils.ConvertTo<bool>(value),
             _ => value?.ToString(),
@@ -163,6 +164,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
         return column.Type switch
         {
             FieldType.Date or FieldType.DateTime => typeof(DateTime?),
+            FieldType.Integer => typeof(int?),
             FieldType.Number => typeof(decimal?),
             FieldType.Switch or FieldType.CheckBox => typeof(bool),
             FieldType.CheckList => typeof(string[]),
@@ -211,6 +213,7 @@ record InputExpression(LambdaExpression ValueExpression, object ValueChanged)
                 access = model.Column.Type switch
                 {
                     FieldType.Date or FieldType.DateTime => Expression.Property(Expression.Constant(model), nameof(model.ValueAsDateTime)),
+                    FieldType.Integer => Expression.Property(Expression.Constant(model), nameof(model.ValueAsInt)),
                     FieldType.Number => Expression.Property(Expression.Constant(model), nameof(model.ValueAsDecimal)),
                     FieldType.Switch or FieldType.CheckBox => Expression.Property(Expression.Constant(model), nameof(model.ValueAsBool)),
                     //case FieldType.CheckList: //return typeof(string[]);

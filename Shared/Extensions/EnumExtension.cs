@@ -74,6 +74,7 @@ public static class EnumExtension
     public static int? GetColumnWidth(this FieldType type)
     {
         if (type == FieldType.Switch) return 80;
+        if (type == FieldType.Integer) return 100;
         if (type == FieldType.Number) return 100;
         if (type == FieldType.Date) return 100;
         if (type == FieldType.DateTime) return 140;
@@ -96,6 +97,7 @@ public static class EnumExtension
                 AddQueryType(language, types, QueryType.Equal);
                 AddQueryType(language, types, QueryType.NotEqual);
                 break;
+            case FieldType.Integer:
             case FieldType.Number:
                 AddQueryType(language, types, QueryType.Equal);
                 AddQueryType(language, types, QueryType.NotEqual);

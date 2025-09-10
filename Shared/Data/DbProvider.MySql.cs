@@ -55,8 +55,10 @@ WHERE TABLE_SCHEMA='{dbName}' AND TABLE_TYPE='BASE TABLE'";
         //    type = "int";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "varchar(50)";
+        else if (item.Type == FieldType.Integer)
+            type = "int";
         else if (item.Type == FieldType.Number)
-            type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
+            type = "decimal(18,5)";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "text" : $"varchar({item.Length})";
 

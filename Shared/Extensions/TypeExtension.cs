@@ -108,7 +108,7 @@ public static class TypeExtension
     internal static string GetFieldLength(this PropertyInfo info, FieldType type)
     {
         if (type == FieldType.Switch) return "50";
-        if (type == FieldType.Number) return "18,2";
+        if (type == FieldType.Number) return "18,5";
         return info.MaxLength()?.ToString();
     }
 
@@ -161,8 +161,10 @@ public static class TypeExtension
             return FieldType.Switch;
 
         if (type == typeof(short) || type == typeof(int) || type == typeof(long) ||
-            type == typeof(short?) || type == typeof(int?) || type == typeof(long?) ||
-            type == typeof(float) || type == typeof(double) || type == typeof(decimal) ||
+            type == typeof(short?) || type == typeof(int?) || type == typeof(long?))
+            return FieldType.Integer;
+
+        if (type == typeof(float) || type == typeof(double) || type == typeof(decimal) ||
             type == typeof(float?) || type == typeof(double?) || type == typeof(decimal?))
             return FieldType.Number;
 

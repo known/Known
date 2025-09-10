@@ -14,6 +14,10 @@ public static class SystemExtension
     {
         try
         {
+            var isExist = await db.ExistsAsync<SysConfig>();
+            if (!isExist)
+                return null;
+
             var json = await db.GetConfigAsync(Constant.KeySystem);
             var info = Utils.FromJson<SystemInfo>(json);
             if (info != null)

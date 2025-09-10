@@ -201,6 +201,8 @@ public partial class Database
         else if (type?.Contains("Date") == true || typeName?.Contains("date") == true || id?.EndsWith("Date") == true)
             return FieldType.Date;
         else if (type?.Contains("Int32") == true || type?.Contains("Int64") == true)
+            return FieldType.Integer;
+        else if (type?.Contains("Decimal") == true)
             return FieldType.Number;
         else if (typeName?.Contains("text") == true)
             return FieldType.TextArea;

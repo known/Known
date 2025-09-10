@@ -58,8 +58,10 @@ class SQLiteProvider(Database db) : DbProvider(db)
         //    type = "int";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "varchar(50)";
+        else if (item.Type == FieldType.Integer)
+            type = "int";
         else if (item.Type == FieldType.Number)
-            type = string.IsNullOrWhiteSpace(item.Length) ? "int" : $"decimal({item.Length})";
+            type = "decimal(18,5)";
         else
         {
             if (string.IsNullOrWhiteSpace(item.Length))

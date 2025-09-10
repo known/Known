@@ -94,14 +94,23 @@ public static class DataExtension
         }
     }
 
-    internal static async Task InitializeTableAsync(this Database db)
+    internal static async Task<Result> InitializeTableAsync(this Database db)
     {
-        var exists = await db.ExistsAsync<SysConfig>();
-        if (!exists)
+        try
         {
-            Console.WriteLine("Table is initializing...");
-            await db.CreateTablesAsync();
-            Console.WriteLine("Table is initialized.");
+            var exists = await db.ExistsAsync<SysConfig>();
+            if (!exists)
+            {
+                Console.WriteLine("Table is initializing...");
+                await db.CreateTablesAsync();
+                Console.WriteLine("Table is initialized.");
+            }
+            return Result.Success("Initialize successful!");
+        }
+        catch (Exception ex)
+        {
+            Logger.Exception(ex);
+            return Result.Error(ex.Message);
         }
     }
 

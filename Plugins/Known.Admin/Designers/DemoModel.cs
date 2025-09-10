@@ -84,8 +84,10 @@ class DemoModel : TableModel<Dictionary<string, object>>
                 case FieldType.Date:
                 case FieldType.DateTime:
                     return DateTime.Now;
-                case FieldType.Number:
+                case FieldType.Integer:
                     return index;
+                case FieldType.Number:
+                    return index * 0.1M;
                 case FieldType.Switch:
                 case FieldType.CheckBox:
                     return true;

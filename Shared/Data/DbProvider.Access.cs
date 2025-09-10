@@ -83,8 +83,10 @@ class AccessProvider(Database db) : DbProvider(db)
         //    type = "Long";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "VarChar(50)";
+        else if (item.Type == FieldType.Integer)
+            type = "Long";
         else if (item.Type == FieldType.Number)
-            type = string.IsNullOrWhiteSpace(item.Length) ? "Long" : $"decimal({item.Length})";
+            type = "decimal(18,5)";
         else
         {
             if (string.IsNullOrWhiteSpace(item.Length))

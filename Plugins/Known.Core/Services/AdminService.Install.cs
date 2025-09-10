@@ -89,10 +89,17 @@ partial class AdminService
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
         AppHelper.SetConnections(info);
+
         var database = GetDatabase(info);
-        await database.InitializeTableAsync();
-        await database.MigrateDataAsync();
-        var result = await database.TransactionAsync(Language.Install, async db =>
+        var result = await database.InitializeTableAsync();
+        if (!result.IsValid)
+            return result;
+
+        result = await database.MigrateDataAsync();
+        if (!result.IsValid)
+            return result;
+
+        result = await database.TransactionAsync(Language.Install, async db =>
         {
             if (Config.OnInstallModules != null)
             {

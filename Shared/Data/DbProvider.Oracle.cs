@@ -59,8 +59,10 @@ select view_name as Id, view_name as Name from user_views";
         //    type = "number(8)";
         else if (item.Type == FieldType.CheckBox || item.Type == FieldType.Switch)
             type = "number(8)";
+        else if (item.Type == FieldType.Integer)
+            type = "number(8)";
         else if (item.Type == FieldType.Number)
-            type = string.IsNullOrWhiteSpace(item.Length) ? "number(8)" : $"number({item.Length})";
+            type = "number(18,5)";
         else
             type = string.IsNullOrWhiteSpace(item.Length) ? "varchar2(4000)" : $"varchar2({item.Length})";
 

@@ -40,7 +40,11 @@ public partial class Database
             return;
 
         if (info != null)
-            Logger.Information(LogTarget.BackEnd, User, info.ToString());
+        {
+            var message = info.ToString();
+            Logger.Information(LogTarget.BackEnd, User, message);
+            Console.WriteLine(message);
+        }
         Logger.Exception(LogTarget.BackEnd, User, ex);
     }
 }

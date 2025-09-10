@@ -82,7 +82,11 @@ public enum FieldType
     /// <summary>
     /// 隐藏字段。
     /// </summary>
-    Hidden
+    Hidden,
+    /// <summary>
+    /// 整型。
+    /// </summary>
+    Integer
 }
 
 /// <summary>

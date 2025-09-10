@@ -211,6 +211,8 @@ public sealed class DbUtils
                     }
                     else if (item.Type == FieldType.DateTime)
                         cellStyle.Custom = Config.DateTimeFormat;
+                    else if (item.Type == FieldType.Integer)
+                        value = GetIntegerValue(value);
                     else if (item.Type == FieldType.Number)
                         value = GetNumberValue(value);
                     else if (!string.IsNullOrWhiteSpace(item.Category))
@@ -224,6 +226,14 @@ public sealed class DbUtils
 
         var stream = excel.SaveToStream();
         return stream.ToArray();
+    }
+
+    private static object GetIntegerValue(object value)
+    {
+        if (int.TryParse(value?.ToString(), out var number))
+            return number;
+
+        return value;
     }
 
     private static object GetNumberValue(object value)

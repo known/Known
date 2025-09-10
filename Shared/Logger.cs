@@ -166,6 +166,7 @@ public partial class Logger
     /// <param name="content">日志内容。</param>
     public static void Error(LogTarget target, UserInfo user, string content)
     {
+        Console.WriteLine(content);
         WriteLog(LogLevel.Error, target, user, content);
     }
 
