@@ -152,6 +152,9 @@ public class CodingTabs : BaseComponent
 
     private string GetCodePath(string name)
     {
+        if (Model == null)
+            return string.Empty;
+
         return name switch
         {
             CodeTab.Info => Model.ModelPath,
@@ -166,6 +169,9 @@ public class CodingTabs : BaseComponent
 
     private string GetCodeFile(string name)
     {
+        if (Model == null)
+            return string.Empty;
+
         return name switch
         {
             CodeTab.Info => $"{Model.ModelName}.cs",
@@ -180,6 +186,9 @@ public class CodingTabs : BaseComponent
 
     private string GenerateCode(string name)
     {
+        if (Model == null)
+            return string.Empty;
+
         Model.IsAutoMode = isAutoMode;
         Generator.Model = Model;
         return name switch

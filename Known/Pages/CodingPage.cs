@@ -52,7 +52,7 @@ public class CodingPage : BasePage
                .Set(c => c.Title, PageName)
                .Set(c => c.Model, Model)
                .Set(c => c.ModelTabs, tabs)
-               .Set(c => c.OnTabChange, tab => Model.TransModels())
+               .Set(c => c.OnTabChange, tab => Model?.TransModels())
                .Build();
     }
 
@@ -95,6 +95,7 @@ public class CodingPage : BasePage
     private Task OnItemClickAsync(CodeInfo item)
     {
         Model = Models.FirstOrDefault(m => m.Id == item.Code);
+        Model ??= new CodeModelInfo();
         return StateChangedAsync();
     }
 
@@ -102,7 +103,8 @@ public class CodingPage : BasePage
     {
         if (!Models.Exists(m => m.Id == info.Id))
             Models.Add(info);
-        Model = Models.FirstOrDefault(m => m.Id == info.Id) ?? new CodeModelInfo();
+        Model = Models.FirstOrDefault(m => m.Id == info.Id);
+        Model ??= new CodeModelInfo();
         listPanel?.SetListBox(ListData, info.Id);
     }
 

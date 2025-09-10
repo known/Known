@@ -105,7 +105,7 @@ public sealed partial class AppData
     /// <summary>
     /// 加载默认菜单配置数据。
     /// </summary>
-    public static void LoadAppData()
+    internal static void LoadAppData()
     {
         if (!File.Exists(KmdPath))
         {
