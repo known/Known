@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Components;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 工具条组件类。
@@ -36,21 +34,8 @@ public partial class KToolbar
     {
         return new DropdownModel
         {
-            ChildContent = b =>
-            {
-                b.Component<Button>()
-                 .Set(c => c.Type, item.ToType())
-                 .Set(c => c.ChildContent, b =>
-                 {
-                     b.Div("kui-toolbar-more", () =>
-                     {
-                         b.IconName(item.Icon, item.Name);
-                         b.Icon("down");
-                     });
-                 })
-                 .Build();
-            },
-            OnItemClick = e=>
+            ChildContent = b => b.ButtonMore(item, true),
+            OnItemClick = e =>
             {
                 Model.OnItemClick?.Invoke(e);
                 return Task.CompletedTask;

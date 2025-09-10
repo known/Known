@@ -8,7 +8,7 @@
 }
 @if (Model != null && (Model.Left != null || Model.Right != null || Model.HasItem))
 {
-    var items = Model.GetToolbarItems();
+    var items = Model.Items.GetGroupItems();
     <div class="ant-toolbar">
         @Model.Left
         @if (Model.HasItem)

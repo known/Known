@@ -86,6 +86,24 @@ public static class ButtonExtension
                .Build();
     }
 
+    internal static void ButtonMore(this RenderTreeBuilder builder, ActionInfo item, bool showIcon = false)
+    {
+        builder.Component<Button>()
+               .Set(c => c.Type, item.ToType())
+               .Set(c => c.ChildContent, b =>
+               {
+                   b.Div("kui-more", () =>
+                   {
+                       if (showIcon)
+                           b.IconName(item.Icon, item.Name);
+                       else
+                           b.Span(item.Name);
+                       b.Icon("down");
+                   });
+               })
+               .Build();
+    }
+
     internal static ButtonType GetButtonType(string style)
     {
         return style switch

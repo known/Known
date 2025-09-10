@@ -3,7 +3,11 @@
 public class BizTablePage<TItem> : BaseTablePage<TItem> where TItem : class, new()
 {
     [Action] public Task Import() => Table.ShowImportAsync();
-    [Action] public Task Export() => Table.ExportDataAsync();
+    //[Action] public Task Export() => Table.ExportDataAsync();
+    [Action(Group = "Export")] public void ExportSelect() { }
+    [Action(Group = "Export")] public void ExportPage() { }
+    [Action(Group = "Export")] public void ExportQuery() { }
+    [Action(Group = "Export")] public void ExportAll() { }
 }
 
 [Route("/wtests")]
@@ -29,6 +33,7 @@ public class WTestList : BizTablePage<WeatherForecast>
         //Table.AddColumn(c => c.Info.Summary1).Template((b, r) => b.Text(r.Info.Summary1));
 
         Table.ExpandTemplate = (b, r) => b.Text(r.Summary);
+        Table.ActionCount = 4;
 
         Table.Tab.AddTab("北京");
         Table.Tab.AddTab("上海");
@@ -40,6 +45,12 @@ public class WTestList : BizTablePage<WeatherForecast>
     }
 
     [Action] public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
+    [Action] public void Edit(WeatherForecast row) => Table.EditForm(SaveDataAsync, row);
+    [Action] public void Delete(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
+    [Action(Group = "Test", Name = "测试1")] public void Test1(WeatherForecast row) => UI.Alert($"{row.Summary}-Test1");
+    [Action(Group = "Test", Name = "测试2")] public void Test2(WeatherForecast row) => UI.Alert($"{row.Summary}-Test2");
+    [Action] public void MoveUp(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
+    [Action] public void MoveDown(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
     {

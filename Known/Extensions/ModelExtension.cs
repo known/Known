@@ -16,6 +16,29 @@ public static class ModelExtension
             item.Visible = item.Tabs.Contains(tab);
         }
     }
+
+    internal static List<ActionInfo> GetGroupItems(this List<ActionInfo> actions)
+    {
+        var infos = new List<ActionInfo>();
+        var items = actions.Where(i => i.Visible).ToList();
+        foreach (var item in items)
+        {
+            if (string.IsNullOrWhiteSpace(item.Group))
+            {
+                infos.Add(item);
+                continue;
+            }
+
+            var group = infos.FirstOrDefault(d => d.Id == item.Group);
+            if (group == null)
+            {
+                group = new ActionInfo(item.Group);
+                infos.Add(group);
+            }
+            group.Children.Add(item);
+        }
+        return infos;
+    }
     #endregion
 
     #region PageInfo
