@@ -19,11 +19,7 @@
         <AssemblyOriginatorKeyFile>..\Known.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
-    <ItemGroup Condition="$(TargetFramework) == 'net8.0'">
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
-    </ItemGroup>
-
-    <ItemGroup Condition="$(TargetFramework) == 'net9.0'">
+    <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
     </ItemGroup>
 

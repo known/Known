@@ -16,20 +16,21 @@
         <RepositoryUrl>https://gitee.com/known/Known</RepositoryUrl>
         <SignAssembly>True</SignAssembly>
         <DelaySign>True</DelaySign>
-        <AssemblyOriginatorKeyFile>..\Known.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>..\..\Known.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <ProjectReference Include="..\Known\Known.csproj" />
+        <ProjectReference Include="..\..\Known\Known.csproj" />
+        <ProjectReference Include="..\Known.Cells\Known.Cells.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\icon.png">
+        <None Include="..\..\icon.png">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
-        <None Include="..\LICENSE">
+        <None Include="..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>

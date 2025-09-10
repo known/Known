@@ -15,8 +15,7 @@
         <PackageReference Include="Npgsql" Version="9.*" />
         <PackageReference Include="DM.DmProvider" Version="8.*" />
         -->
-        <ProjectReference Include="..\..\Plugins\Known.Cells\Known.Cells.csproj" />
-        <ProjectReference Include="..\..\Known.Core\Known.Core.csproj" />
+        <ProjectReference Include="..\..\Plugins\Known.Core\Known.Core.csproj" />
     </ItemGroup>
 
 </Project>
