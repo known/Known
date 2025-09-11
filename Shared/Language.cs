@@ -520,6 +520,7 @@ public partial class Language
     /// </summary>
     public const string ImportSelectFile = "请选择导入文件！";
 
+    internal const string Loading = "加载中...";
     internal const string ImportImporting = "正在导入中...";
     internal const string ImportFile = "导入文件";
     internal const string ImportTemplate = "导入模板";

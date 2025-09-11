@@ -9,6 +9,7 @@ public partial class KUpload
     private DotNetObjectReference<KUpload> invoker;
     private List<AttachInfo> sysFiles = [];
     private readonly List<FileDataInfo> files = [];
+    private bool isAdding;
 
     private bool IsMultiple => MultiFile || Directory;
 
@@ -188,6 +189,7 @@ public partial class KUpload
 
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)
     {
+        isAdding = true;
         var isChange = false;
         if (MultiFile || Directory)
         {
@@ -200,7 +202,7 @@ public partial class KUpload
         {
             isChange = await OnAddFileAsync(e.File, IsCompress);
         }
-
+        isAdding = false;
         if (isChange)
         {
             await StateChangedAsync();

@@ -35,8 +35,10 @@
                 </div>
             }
         }
-        @if (sysFiles != null && sysFiles.Count > 0)
-        {
+        @if (isAdding) {
+            <div class="ant-btn-link">@Language[Language.Loading]</div>
+        }
+        @if (sysFiles != null && sysFiles.Count > 0) {
             <div class="kui-form-files">
                 @foreach (var item in sysFiles) {
                     var url = item.FileUrl;

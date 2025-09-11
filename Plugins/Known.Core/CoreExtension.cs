@@ -1,6 +1,7 @@
 ﻿using Known.Auths;
 using Known.Filters;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
@@ -51,6 +52,7 @@ public static class CoreExtension
 
         if (CoreOption.Instance.IsCompression)
             services.AddResponseCompression();
+
         services.AddHttpContextAccessor();
         var builder = services.AddControllers(option =>
         {
@@ -65,6 +67,12 @@ public static class CoreExtension
             //option.JsonSerializerOptions.PropertyNamingPolicy = null;
             CoreOption.Instance.Json?.Invoke(option);
         });
+        services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
+            options.ValueLengthLimit = 100 * 1024 * 1024;
+        });
+
         if (CoreOption.Instance.IsAddWebApi)
             builder.AddDynamicWebApi();
 
