@@ -24,7 +24,8 @@ partial class AdminService
                 CompName = CoreConfig.System.CompName,
                 AppName = CoreConfig.System.AppName,
                 IsLoginCaptcha = CoreConfig.System.IsLoginCaptcha,
-                IsWatermark = CoreConfig.System.IsWatermark
+                IsWatermark = CoreConfig.System.IsWatermark,
+                MaxFileSize = CoreConfig.System.MaxFileSize
             };
         }
         CoreConfig.Load(info);

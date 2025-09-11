@@ -63,13 +63,14 @@ public static class WebExtension
     /// 异步创建浏览器上传的附件，如果是图片，则压缩高清图后再上传。
     /// </summary>
     /// <param name="file">浏览器附件对象。</param>
+    /// <param name="maxSize">允许上传附件大小。</param>
     /// <param name="isCompress">是否压缩图片。</param>
     /// <param name="size">压缩图片大小。</param>
     /// <returns>附件数据对象。</returns>
-    public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file, bool isCompress = true, Size? size = null)
+    public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file, int? maxSize = null, bool isCompress = true, Size? size = null)
     {
         if (!Utils.CheckImage(file.Name) || !isCompress)
-            return await file.ReadFileAsync();
+            return await file.ReadFileAsync(maxSize);
 
         if (size == null)
             size = new Size(1920, 1080);
@@ -84,18 +85,28 @@ public static class WebExtension
     /// 异步读取浏览器上传的附件。
     /// </summary>
     /// <param name="file">浏览器附件对象。</param>
+    /// <param name="maxSize">允许上传附件大小。</param>
     /// <returns>附件数据对象。</returns>
-    public static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file)
+    public static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file, int? maxSize = null)
     {
-        using var stream = new MemoryStream();
-        await file.OpenReadStream(Config.App.UploadMaxSize).CopyToAsync(stream);
-        var bytes = stream.ToArray();
-        return new FileDataInfo
+        var maxFileSize = maxSize ?? Config.System.MaxFileSize ?? Config.App.UploadMaxSize;
+        try
         {
-            Name = file.Name,
-            Size = bytes.Length,
-            Bytes = bytes
-        };
+            var maxAllowedSize = maxFileSize * 1024 * 1024;
+            using var stream = new MemoryStream();
+            await file.OpenReadStream(maxAllowedSize).CopyToAsync(stream);
+            var bytes = stream.ToArray();
+            return new FileDataInfo
+            {
+                Name = file.Name,
+                Size = bytes.Length,
+                Bytes = bytes
+            };
+        }
+        catch
+        {
+            return new FileDataInfo { MaxSize = maxFileSize };
+        }
     }
     #endregion
 

@@ -16,4 +16,9 @@
             <Switch Value="@Model.IsWatermark" ValueChanged="OnWatermarkChangedAsync" />
         </DataItem>
     </AntRow>
+    <AntRow>
+        <DataItem Label="@Language[Language.MaxFileSize]">
+            <AntInteger Value="@Model.MaxFileSize" ValueChanged="OnMaxFileSizeChangedAsync" /> M
+        </DataItem>
+    </AntRow>
 </TypeForm>

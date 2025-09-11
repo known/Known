@@ -104,6 +104,8 @@ public class FileDataInfo
     /// 取得或设置附件内容字节数组。
     /// </summary>
     public byte[] Bytes { get; set; }
+
+    internal int? MaxSize { get; set; }
 }
 
 /// <summary>

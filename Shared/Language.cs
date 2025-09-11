@@ -524,6 +524,7 @@ public partial class Language
     internal const string ImportFile = "导入文件";
     internal const string ImportTemplate = "导入模板";
     internal const string ImportSize = "大小：";
+    internal const string TipUploadMaxSize = "附件允许最大上传{size}M。";
     
     /// <summary>
     /// 导入文件不存在。
@@ -564,6 +565,7 @@ public partial class Language
     internal const string UserDefaultPwd = "默认密码";
     internal const string IsLoginCaptcha = "启用登录验证码";
     internal const string IsWatermark = "启用水印";
+    internal const string MaxFileSize = "允许附件大小";
     internal const string CompName = "企业名称";
     internal const string AppName = "系统名称";
     internal const string AppVersion = "系统版本";

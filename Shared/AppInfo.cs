@@ -117,7 +117,7 @@ public class AppInfo
     /// <summary>
     /// 取得或设置系统附件上传最大长度，默认50M。
     /// </summary>
-    public long UploadMaxSize { get; set; } = 1024 * 1024 * 50;
+    public int UploadMaxSize { get; set; } = 50;
 
     /// <summary>
     /// 取得或设置系统默认字体大小，默认为Default。

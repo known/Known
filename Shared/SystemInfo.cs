@@ -96,6 +96,11 @@ public class SystemInfo
     /// 取得或设置系统是否启用水印。
     /// </summary>
     public bool IsWatermark { get; set; }
+
+    /// <summary>
+    /// 取得或设置允许附件大小，单位M。
+    /// </summary>
+    public int? MaxFileSize { get; set; }
 }
 
 /// <summary>

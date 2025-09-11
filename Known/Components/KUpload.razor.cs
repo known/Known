@@ -71,9 +71,14 @@ public partial class KUpload
     [Parameter] public bool IsCompress { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置上传组件允许最大上传的文件大小，单位M。
+    /// </summary>
+    [Parameter] public int? MaxSize { get; set; }
+
+    /// <summary>
     /// 取得或设置上传组件一次最大上传的文件数量，默认10。
     /// </summary>
-    [Parameter] public int MaxFileCount { get; set; } = 10;
+    [Parameter] public int MaxCount { get; set; } = 10;
 
     /// <summary>
     /// 取得或设置上传组件压缩图片大小，默认1920*1080。
@@ -186,7 +191,7 @@ public partial class KUpload
         var isChange = false;
         if (MultiFile || Directory)
         {
-            foreach (var item in e.GetMultipleFiles(MaxFileCount))
+            foreach (var item in e.GetMultipleFiles(MaxCount))
             {
                 isChange = await OnAddFileAsync(item, IsCompress);
             }
@@ -209,7 +214,13 @@ public partial class KUpload
         if (files.Exists(f => f.Name == item.Name))
             return false;
 
-        var file = await item.CreateFileAsync(isCompress, CompressSize);
+        var file = await item.CreateFileAsync(MaxSize, isCompress, CompressSize);
+        if (file.MaxSize != null)
+        {
+            UI.Error(Language[Language.TipUploadMaxSize].Replace("{size}", $"{file.MaxSize}"));
+            return false;
+        }
+
         files.Add(file);
         sysFiles ??= [];
         sysFiles.Add(new AttachInfo { Id = "", Name = item.Name });
