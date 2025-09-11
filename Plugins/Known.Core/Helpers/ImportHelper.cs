@@ -78,7 +78,7 @@ public sealed class ImportHelper
         if (impContext.IsDictionary)
             return new AutoImport(impContext);
 
-        if (!Config.ImportTypes.TryGetValue(impContext.BizId, out Type type))
+        if (!Config.ImportTypes.TryGetValue(impContext.BizType, out Type type))
             return null;
 
         var scope = Config.ServiceProvider.CreateScope();

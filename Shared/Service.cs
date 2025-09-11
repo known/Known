@@ -152,6 +152,11 @@ public class ImportContext(Context context)
     public bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith(Config.AutoBizIdPrefix);
 
     /// <summary>
+    /// 取得业务类型。
+    /// </summary>
+    public string BizType => GetBizIdValue(0);
+
+    /// <summary>
     /// 取得业务参数。
     /// </summary>
     public string BizParam => GetBizIdValue(1);

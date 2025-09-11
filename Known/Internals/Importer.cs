@@ -53,7 +53,7 @@ class Importer : BaseComponent
                     });
                 });
             });
-            builder.Div(() =>
+            builder.Div("kui-flex-row", () =>
             {
                 builder.Link(Language[Language.ImportDownload], this.Callback(OnDownloadTemplateAsync));
                 if (!string.IsNullOrWhiteSpace(error))
@@ -70,7 +70,12 @@ class Importer : BaseComponent
         UI.ShowDialog(new DialogModel
         {
             Title = ErrorMessage,
-            Content = builder => builder.Markup(error)
+            Content = builder => builder.Div("kui-p10", () =>
+            {
+                builder.Component<KCodeView>()
+                       .Set(c => c.Code, error)
+                       .Build();
+            })
         });
     }
 

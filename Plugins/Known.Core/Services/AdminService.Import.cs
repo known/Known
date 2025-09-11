@@ -36,7 +36,7 @@ partial class AdminService
 
     public async Task<byte[]> GetImportRuleAsync(string bizId)
     {
-        byte[] data = null;
+        byte[] data = [];
         var db = Database;
         if (bizId.StartsWith(Config.AutoBizIdPrefix))
         {
