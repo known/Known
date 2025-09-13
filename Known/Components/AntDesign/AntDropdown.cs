@@ -262,10 +262,11 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         await base.OnInitializeAsync();
 
         Table = new TableModel<TItem>(this);
+        Table.FixedHeight = "200px";
         Table.AdvSearch = false;
         Table.AutoHeight = false;
+        //Table.IsScroll = false;
         Table.ShowSetting = false;
-        Table.IsScroll = false;
         Table.ShowPager = true;
         Table.OnRowClick = OnRowClick;
         Table.OnAction = (info, item) => Context.OnAction(this, info, [item]);
@@ -294,8 +295,12 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
 
     private void BuildOverlay(RenderTreeBuilder builder)
     {
+        var width = Table.Columns.Sum(c => c.Width ?? 100) + 60;
+        if (width > 800) width = 800;
+        if (width < 500) width = 500;
         var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
-        builder.Div().Class(className).Style(Style).Child(() => builder.FormTable(Table));
+        var style = CssBuilder.Default().AddStyle(Style).Add("width", $"{width}px").BuildStyle();
+        builder.Div().Class(className).Style(style).Child(() => builder.FormTable(Table));
     }
 
     private Task OnRowClick(TItem item)
