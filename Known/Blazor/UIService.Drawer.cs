@@ -11,12 +11,13 @@ public partial class UIService
     /// <returns></returns>
     public void ShowDrawer(DrawerModel model)
     {
+        var className = CssBuilder.Default("kui-drawer").AddClass(model.ClassName).BuildClass();
         var option = new DrawerOptions
         {
             Title = Language?[model.Title],
             Width = model.Width,
             Closable = true,
-            WrapClassName = model.ClassName,
+            WrapClassName = className,
             Placement = DrawerPlacement.Right,
             MaskClosable = true,
             Content = GetDrawerContent(model)

@@ -169,7 +169,7 @@ public class BaseEditForm<TItem> : BaseForm<TItem> where TItem : class, new()
 /// </summary>
 /// <typeparam name="THead">表头数据类型。</typeparam>
 /// <typeparam name="TList">表体数据类型。</typeparam>
-public class BaseHeadListForm<THead, TList> : BaseForm<THead> 
+public class BaseForm<THead, TList> : BaseForm<THead> 
     where THead : class, new()
     where TList : class, new()
 {

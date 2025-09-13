@@ -50,7 +50,7 @@ public partial class UIService
             Title = model.GetFormTitle(),
             OkText = Language.OK,
             CancelText = Language.Cancel,
-            WrapClassName = GetWrapperClass(model),
+            WrapClassName = GetWrapperClass("kui-modal", model, model.IsView),
             OnCancel = e => model.CloseAsync(),
             Content = GetFormContent(model)
         };
@@ -79,6 +79,7 @@ public partial class UIService
     /// <returns></returns>
     public async Task ShowDrawerAsync<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
+        var isNoFooter = CheckNoDrawerFooter(model);
         var option = new DrawerOptions
         {
             Title = model.GetFormTitle(),
@@ -86,7 +87,7 @@ public partial class UIService
             Closable = true,
             MaskClosable = model.IsView,
             Placement = DrawerPlacement.Right,
-            WrapClassName = GetWrapperClass(model),
+            WrapClassName = GetWrapperClass("kui-drawer", model, isNoFooter),
             Content = GetFormContent(model, true)
         };
         var obj = await drawer.CreateAsync(option);
@@ -115,11 +116,12 @@ public partial class UIService
         });
     }
 
-    private static string GetWrapperClass<TItem>(FormModel<TItem> model) where TItem : class, new()
+    private static string GetWrapperClass<TItem>(string className, FormModel<TItem> model, bool isNoFooter) where TItem : class, new()
     {
         return CssBuilder.Default("kui-form-wrapper")
+                         .AddClass(className)
                          .AddClass(model.WrapClass)
-                         .AddClass("kui-view-form", model.IsView)
+                         .AddClass("kui-view-form", isNoFooter)
                          .AddClass("kui-tab-form", model.IsTabForm)
                          .AddClass("kui-step-form", model.IsStepForm)
                          .BuildClass();
@@ -130,29 +132,40 @@ public partial class UIService
         model.EnableEdit = true;
         return builder => builder.BuildBody(model.Context, b =>
         {
-            b.Div("kui-form-body", () =>
+            if (!isDrawer)
             {
-                if (model.Type == null)
-                {
-                    b.Form(model);
-                }
-                else
-                {
-                    var parameters = model.Parameters ?? [];
-                    parameters[nameof(BaseForm<TItem>.Model)] = model;
-                    b.Component(model.Type, parameters);
-                }
-            });
-            if (isDrawer)
+                BuildFormBody(b, model);
+            }
+            else
+            {
+                b.Cascading(new DrawerForm(), b1 => BuildFormBody(b1, model));
                 BuildDrawerFooter(b, model);
+            }
         });
         //return b => b.Component<KModalBody>().Set(c => c.Content, content).Build();
     }
 
+    private static void BuildFormBody<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
+    {
+        builder.Div("kui-form-body", () =>
+        {
+            if (model.Type == null)
+            {
+                builder.Form(model);
+            }
+            else
+            {
+                var parameters = model.Parameters ?? [];
+                parameters[nameof(BaseForm<TItem>.Model)] = model;
+                builder.Component(model.Type, parameters);
+            }
+        });
+    }
+
     private static void BuildDrawerFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-        if (model.IsView) return;
-        if (model.IsNoFooter && !model.Info.ShowFooter) return;
+        if (CheckNoDrawerFooter(model))
+            return;
 
         if (model.Footer != null)
         {
@@ -166,6 +179,17 @@ public partial class UIService
         }
 
         BuildFormFooter(builder, model);
+    }
+
+    private static bool CheckNoDrawerFooter<TItem>(FormModel<TItem> model) where TItem : class, new()
+    {
+        if (model.IsView)
+            return true;
+
+        if (model.IsNoFooter && !model.Info.ShowFooter)
+            return true;
+
+        return false;
     }
 
     private static void BuildFormFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()

@@ -60,12 +60,17 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 
 /*Form*/
-.kui-form-wrapper .ant-drawer-body {overflow:hidden;}
-.kui-form-wrapper .ant-drawer-body .kui-form-body {position:absolute;left:10px;right:10px;top:0;bottom:53px;overflow:auto;}
-.kui-form-wrapper .ant-drawer-body .kui-form-action {
+.kui-drawer {overflow:hidden;}
+.kui-drawer .kui-form-body {position:absolute;left:10px;right:10px;top:0;bottom:53px;overflow:auto;}
+.kui-drawer .kui-watermark .kui-form-body {left:0;right:0;}
+.kui-drawer .kui-form-action {
     position:absolute;left:0;right:0;bottom:0;padding:10px;background-color:var(--kui-bgcolor);border-top:1px solid var(--kui-color-border);
 }
-.kui-view-form .ant-drawer-body .kui-form-body {bottom:10px;}
+.kui-drawer .kui-form-body .ant-tabs,
+.kui-drawer .kui-form-body .ant-tabs .ant-tabs-content,
+.kui-drawer .kui-form-body .ant-tabs .ant-tabs-content .ant-tabs-tabpane,
+.kui-drawer .kui-form-body .ant-tabs .ant-tabs-content .ant-tabs-tabpane .kui-form {height:100%;}
+.kui-view-form .ant-drawer-body .kui-form-body {bottom:0;}
 .kui-block.ant-checkbox-group,
 .kui-block .ant-form-item-control,
 .kui-block .ant-form-item-control-input-content {display:flex;flex-direction:column;gap:5px;}

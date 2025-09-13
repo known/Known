@@ -10,6 +10,7 @@ public partial class UIService
     /// <param name="model">对话框组件模型对象。</param>
     public bool ShowDialog(DialogModel model)
     {
+        var className = CssBuilder.Default("kui-modal").AddClass(model.ClassName).BuildClass();
         var option = new ModalOptions
         {
             Title = Language?[model.Title],
@@ -18,7 +19,7 @@ public partial class UIService
             Closable = model.Closable,
             Draggable = model.Draggable,
             Resizable = model.Resizable,
-            WrapClassName = model.ClassName,
+            WrapClassName = className,
             Style = model.Style,
             Maximizable = model.Maximizable,
             DefaultMaximized = model.DefaultMaximized,

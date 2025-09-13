@@ -5,6 +5,8 @@
 /// </summary>
 public class FlowLogGrid : BaseTable<FlowLogInfo>
 {
+    [CascadingParameter] private DrawerForm Drawer { get; set; }
+
     /// <summary>
     /// 取得或设置业务数据ID。
     /// </summary>
@@ -18,7 +20,10 @@ public class FlowLogGrid : BaseTable<FlowLogInfo>
     {
         await base.OnInitAsync();
         Table.ShowPager = true;
-        Table.FixedHeight = "450px";
+        if (Drawer != null)
+            Table.AutoHeight = true;
+        else
+            Table.FixedHeight = "450px";
         Table.OnQuery = QueryFlowLogsAsync;
         Table.AddColumn(c => c.StepName).Width(110).Tag();
         Table.AddColumn(c => c.ExecuteBy).Width(100);
