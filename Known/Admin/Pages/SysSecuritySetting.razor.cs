@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 系统安全设置页面标签组件类。

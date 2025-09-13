@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 数据字典表单组件类。

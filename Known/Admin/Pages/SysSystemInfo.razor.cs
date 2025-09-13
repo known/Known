@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Pages;
 
 /// <summary>
 /// 系统信息页面标签组件类。

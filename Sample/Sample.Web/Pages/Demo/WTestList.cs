@@ -11,7 +11,7 @@ public class BizTablePage<TItem> : BaseTablePage<TItem> where TItem : class, new
 }
 
 [Route("/wtests")]
-[Menu(AppConstant.Demo, "天气测试", "cloud", 4)]
+//[Menu(AppConstant.Demo, "天气测试", "cloud", 4)]
 public class WTestList : BizTablePage<WeatherForecast>
 {
     protected override Task OnParameterAsync()
