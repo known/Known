@@ -1,4 +1,4 @@
-﻿namespace Sample.Web.Pages.Demo;
+﻿namespace Sample.Pages.Demo;
 
 public class BizTablePage<TItem> : BaseTablePage<TItem> where TItem : class, new()
 {

@@ -1,5 +1,6 @@
 ﻿@page "/demo/counter"
-@attribute [Menu(AppConstant.Demo, "计数器", "plus-circle", 2)]
+@inherits BasePage
+@* @attribute [Menu(AppConstant.Demo, "计数器", "plus-circle", 2)] *@
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,13 +10,85 @@
     <p role="status">Current count: @currentCount</p>
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
+    <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
+
+    <AntForm Form="model">
+        <AntRow>
+            <DataItem Span="8" Label="附件">
+                <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="@(files=>OnFilesChanged("Files", files))" />
+            </DataItem>
+            <DataItem Span="8" Label="用户">
+                <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="8" Label="选项">
+                <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
+            </DataItem>
+            <DataItem Span="8" Label="蓝牙">
+                <KBluetooth />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="8" Label="测试1">
+                <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
+            </DataItem>
+            <DataItem Span="8" Label="测试2" Visible="context.ShowField">
+                <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
+            </DataItem>
+        </AntRow>
+        <div>@string.Join(",", value)</div>
+        <div>@model.Data.Field</div>
+        <div>文件数量：@fileCount</div>
+    </AntForm>
 </div>
 
 @code {
     private int currentCount = 0;
+    private string[] value = [];
+    private FormModel<Test> model;
+    private Test test = new();
+    private KUpload upload;
+    private int fileCount;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        model = new FormModel<Test>(this);
+        model.Data = new Test();
+    }
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void OnLoad()
+    {
+        App?.ShowSpinAsync("耗时操作中...", () =>
+        {
+            Thread.Sleep(10000);
+            return Task.CompletedTask;
+        });
+    }
+
+    private Task OnFilesChanged(string id, List<FileDataInfo> files)
+    {
+        fileCount = files.Count;
+        upload.Clear();
+        return Task.CompletedTask;
+    }
+
+    class Test
+    {
+        public bool ShowField { get; set; }
+        public string Field { get; set; }
+        public string User { get; set; }
+
+        public string[] Fields
+        {
+            get { return Field?.Split(','); }
+            set { Field = string.Join(',', value); }
+        }
     }
 }

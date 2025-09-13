@@ -1,8 +1,8 @@
-﻿using Sample.Web.Tests;
+﻿using Known;
 
-namespace Sample.Web;
+namespace Sample;
 
-public static class AppConfig
+public static class AppServer
 {
     //private static readonly List<MenuInfo> AppMenus =
     //[
@@ -19,48 +19,17 @@ public static class AppConfig
     //    new MenuInfo { Id = "Add", Name = "功能待加", Icon = "plus", Target = "Menu", Color = "#4fa624" }
     //];
 
-    public static string AppId => "KIMS";
-    public static string AppName => "Known信息管理系统";
-
-    public static void AddApplication(this IServiceCollection services, Action<CoreOption> action)
+    // 添加系统 Web 后端。
+    internal static void AddApplicationWeb(this IServiceCollection services, Action<CoreOption> action)
     {
-        Console.WriteLine(AppName);
-        //Config.AppMenus = AppMenus;
-        Config.IsDebug = true;
-        Config.IsAIMode = true;
-
-        // 添加前端
-        var assembly = typeof(AppConfig).Assembly;
-        services.AddKnown(info =>
-        {
-            info.Id = AppId;
-            info.Name = AppName;
-            info.Assembly = assembly;
-            info.IsModule = true; //是否启用内置模块
-            info.IsMobile = true;//是否启用移动端
-        });
-        services.AddModules();
-        services.ConfigUI();
-
-        // 添加后端
-        services.AddServices(assembly);
-        services.AddKnownCells();
+        //var assembly = typeof(AppServer).Assembly;
+        //services.AddServices(assembly);
+        //services.AddKnownCells();
         services.AddKnownWeb(action);
     }
 
-    public static void UseApplication(this WebApplication app)
+    internal static void UseApplication(this WebApplication app)
     {
         app.UseKnown();
-    }
-
-    private static void AddModules(this IServiceCollection services)
-    {
-        //Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
-    }
-
-    private static void ConfigUI(this IServiceCollection services)
-    {
-        UIConfig.UserFormShowFooter = true;
-        UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
     }
 }

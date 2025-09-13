@@ -1,14 +1,29 @@
-﻿@page "/login"
+﻿@using Known.Internals
+@page "/login"
 @layout EmptyLayout
 @inherits LoginPage
 
+<style>
+    .pro {position:relative;}
+    .pro sub {
+        position:absolute;top:-10px;right:-20px;font-size:12px;
+        height:18px;line-height:18px;text-align:center;padding:0 2px;
+        background:#f00;color:#fff;border-radius:5px;
+    }
+</style>
+
 <div class="login">
+    <KPwaInstall />
     <div class="login-head">
         <div class="login-logo">
             <a class="kui-logo" href="@Config.SiteUrl" target="_blank"></a>
             <div class="kui-app-name">@Language[AppConfig.AppName]</div>
         </div>
         <ul class="kui-menu">
+            <li class="pro">
+                <a href="https://pro.known.org.cn" target="_blank">@Language["专业版"]</a>
+                <sub>New</sub>
+            </li>
             <li><a href="@Config.SiteUrl/doc" target="_blank">@Language[Language.Document]</a></li>
             @if (Config.App.IsLanguage)
             {
@@ -35,9 +50,24 @@
                     <TabPane Key="Account" Tab="@Language[Language.LoginWithAccount]">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
                     </TabPane>
-                    <TabPane Key="Phone" Tab="@Language[Language.LoginWithPhone]">
-                        <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
-                    </TabPane>
+                    @if (Context.IsMobile)
+                    {
+                        <TabPane Key="Register" Tab="@Language[Language.UserRegister]">
+                            <RegisterForm Model="Register" OnRegister="OnUserRegister" />
+                        </TabPane>
+                    }
+                    else
+                    {
+                        <TabPane Key="Phone" Tab="@Language[Language.LoginWithPhone]">
+                            <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
+                        </TabPane>
+                        <TabPane Key="QRCode" Tab="@Language[Language.LoginWithQRCode]">
+                            <div style="text-align:center;">
+                                <div style="margin-bottom:10px;">@Language[Language.ScanCodeWithMobile]</div>
+                                <KQRCode Option="QrCode" />
+                            </div>
+                        </TabPane>
+                    }
                 </Tabs>
             </div>
         </div>
@@ -46,7 +76,8 @@
 </div>
 
 @code {
-    private bool IsCaptcha => false;
+    private bool IsCaptcha => Config.System?.IsLoginCaptcha == true;
+    private object QrCode => new { Text = Config.HostUrl, Width = 200, Height = 200 };
 
     protected override Task OnInitAsync()
     {

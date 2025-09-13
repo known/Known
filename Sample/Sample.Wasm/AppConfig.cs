@@ -1,4 +1,6 @@
-﻿namespace Sample.Wasm;
+﻿using Sample.Tests;
+
+namespace Sample;
 
 public static class AppConfig
 {
@@ -12,8 +14,11 @@ public static class AppConfig
         Config.IsDevelopment = true;
         Config.IsDebug = true;
 #endif
+        Config.RenderMode = RenderType.Auto;
 
         var assembly = typeof(AppConfig).Assembly;
+        Config.AddModule(assembly);
+
         services.AddKnown(info =>
         {
             info.Id = AppId;
@@ -21,13 +26,27 @@ public static class AppConfig
             info.Assembly = assembly;
             info.IsModule = true;
         });
-        services.AddModules();
         services.AddServices(assembly);
-        services.AddKnownCore();
+        services.AddModules();
+        services.ConfigUI();
+    }
+
+    // 添加客户端
+    internal static void AddApplicationClient(this IServiceCollection services, Action<ClientOption> action)
+    {
+        var assembly = typeof(AppConfig).Assembly;
+        services.AddKnownClient(action);
+        services.AddClients(assembly);
     }
 
     private static void AddModules(this IServiceCollection services)
     {
         Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
+    }
+
+    private static void ConfigUI(this IServiceCollection services)
+    {
+        UIConfig.UserFormShowFooter = true;
+        UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
     }
 }

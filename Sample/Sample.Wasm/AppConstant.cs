@@ -1,4 +1,4 @@
-﻿namespace Sample.Wasm;
+﻿namespace Sample;
 
 class AppConstant
 {

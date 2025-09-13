@@ -1,11 +1,14 @@
-using Sample.Web;
+using Known;
+using Sample;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents();
-builder.Services.AddApplication(option =>
+                .AddInteractiveServerComponents()
+                .AddInteractiveWebAssemblyComponents();
+builder.Services.AddApplication();
+builder.Services.AddApplicationWeb(option =>
 {
     Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
     option.App.WebRoot = builder.Environment.WebRootPath;
@@ -41,5 +44,6 @@ app.UseApplication();
 //app.MapStaticAssets();
 app.MapRazorComponents<App>()
    .AddInteractiveServerRenderMode()
+   .AddInteractiveWebAssemblyRenderMode()
    .AddAdditionalAssemblies([.. Config.Assemblies]);
 app.Run();

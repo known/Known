@@ -1,4 +1,4 @@
-﻿namespace Sample.Wasm.Models;
+﻿namespace Sample.Models;
 
 public class HomeInfo
 {
