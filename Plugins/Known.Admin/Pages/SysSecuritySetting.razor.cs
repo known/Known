@@ -1,14 +1,10 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 系统安全设置页面标签组件类。
-/// </summary>
 public partial class SysSecuritySetting
 {
     private SystemInfo Model = new();
     [CascadingParameter] private SysSystem Parent { get; set; }
 
-    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();

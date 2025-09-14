@@ -1,8 +1,5 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 关于系统页面组件类。
-/// </summary>
 [Route("/sys/info")]
 //[Menu(Constants.System, "关于系统", "info-circle", 1)]
 [PagePlugin("关于系统", "info-circle", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 4)]
@@ -12,7 +9,6 @@ public class SysSystem : BaseTabPage
 
     internal SystemDataInfo Model { get; set; } = new SystemDataInfo();
 
-    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -24,7 +20,6 @@ public class SysSystem : BaseTabPage
         }
     }
 
-    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
     internal Task<SystemDataInfo> GetSystemDataAsync() => Service.GetSystemDataAsync();

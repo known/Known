@@ -1,6 +1,33 @@
 ﻿namespace Known.Services;
 
-partial class AdminService
+public interface ITaskService : IService
+{
+    Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria);
+    Task<Result> DeleteTasksAsync(List<TaskInfo> infos);
+    Task<Result> ResetTasksAsync(List<TaskInfo> infos);
+}
+
+[Client]
+class TaskClient(HttpClient http) : ClientBase(http), ITaskService
+{
+    public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria)
+    {
+        return Http.QueryAsync<TaskInfo>("/Task/QueryTasks", criteria);
+    }
+
+    public Task<Result> DeleteTasksAsync(List<TaskInfo> infos)
+    {
+        return Http.PostAsync("/Task/DeleteTasks", infos);
+    }
+
+    public Task<Result> ResetTasksAsync(List<TaskInfo> infos)
+    {
+        return Http.PostAsync("/Task/ResetTasks", infos);
+    }
+}
+
+[WebApi, Service]
+class TaskService(Context context) : ServiceBase(context), ITaskService
 {
     public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria)
     {

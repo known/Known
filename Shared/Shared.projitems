@@ -15,8 +15,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Role.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\AttachExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ConfigExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\LogExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FileExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LanguageInfo.cs" />

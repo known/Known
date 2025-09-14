@@ -14,6 +14,10 @@ public static class AdminExtension
         Config.OnInitialModules = OnInitialModules;
         Config.OnCodeTable = db => db.GetDictionariesAsync();
         Config.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
+        //DataAction.OnGetUser = (db, name) => db.Query<SysUser>().FirstAsync<UserInfo>(d => d.UserName == name);
+        DataAction.OnGetTask = (db, bizId) => db.GetSysTaskAsync(bizId);
+        DataAction.OnCreateTask = (db, info) => db.CreateSysTaskAsync(info);
+        DataAction.OnSaveTask = (db, info) => db.SaveSysTaskAsync(info);
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);

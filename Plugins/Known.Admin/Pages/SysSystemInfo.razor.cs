@@ -1,14 +1,10 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 系统信息页面标签组件类。
-/// </summary>
 public partial class SysSystemInfo
 {
     private SystemDataInfo Model = new();
     [CascadingParameter] private SysSystem Parent { get; set; }
 
-    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
