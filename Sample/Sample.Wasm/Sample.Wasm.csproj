@@ -10,7 +10,10 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.*" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.*" PrivateAssets="all" />
-        <ProjectReference Include="..\..\Known\Known.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Plugins\Known.Admin\Known.Admin.csproj" />
     </ItemGroup>
 
     <ItemGroup>

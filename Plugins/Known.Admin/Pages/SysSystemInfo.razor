@@ -1,39 +1,38 @@
-﻿@namespace Known.Pages
-@inherits BaseComponent
+﻿@inherits BaseComponent
 
 <TypeForm Class="kui-system" Model="Model" Style="margin-top:20px">
     <AntRow>
-        <DataItem Label="@Language[Language.CompName]">
+        <DataItem Label="企业名称">
             @($"{Model.System?.CompNo}-{Model.System?.CompName}")
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.AppName]">
+        <DataItem Label="系统名称">
             <KEditInput Value="@Model.System?.AppName" OnSave="OnSaveAppNameAsync" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.AppVersion]">@Model.Version?.AppVersion</DataItem>
+        <DataItem Label="系统版本">@Model.Version?.AppVersion</DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.SoftVersion]">@Model.Version?.SoftVersion</DataItem>
+        <DataItem Label="软件版本">@Model.Version?.SoftVersion</DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.BuildTime]">
+        <DataItem Label="构建时间">
             @($"{Model.Version?.BuildTime:yyyy-MM-dd HH:mm:ss}")
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.FrameVersion]">@Model.Version?.FrameVersion</DataItem>
+        <DataItem Label="框架版本">@Model.Version?.FrameVersion</DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.RunTime]">@($"{Model.RunTime} H")</DataItem>
+        <DataItem Label="运行时长">@($"{Model.RunTime} H")</DataItem>
     </AntRow>
     @if (!Config.App.IsPlatform && !string.IsNullOrWhiteSpace(Model.System?.ProductId))
     {
         <AntRow>
-            <DataItem Label="@Language[Language.ProductId]">@Model.System?.ProductId</DataItem>
-            <DataItem Label="@Language[Language.ProductKey]">
+            <DataItem Label="产品ID">@Model.System?.ProductId</DataItem>
+            <DataItem Label="产品密钥">
                 <KEditInput Value="@Model.System?.ProductKey" OnSave="OnSaveProductKeyAsync" />
             </DataItem>
         </AntRow>
@@ -41,13 +40,13 @@
     @if (!string.IsNullOrWhiteSpace(UIConfig.Copyright))
     {
         <AntRow>
-        <DataItem Label="@Language[Language.Copyright]">@UIConfig.Copyright</DataItem>
+            <DataItem Label="版权信息">@UIConfig.Copyright</DataItem>
         </AntRow>
     }
     @if (!string.IsNullOrWhiteSpace(UIConfig.SoftTerms))
     {
         <AntRow>
-            <DataItem Label="@Language[Language.SoftTerms]">@UIConfig.SoftTerms</DataItem>
+            <DataItem Label="软件许可">@UIConfig.SoftTerms</DataItem>
         </AntRow>
     }
 </TypeForm>

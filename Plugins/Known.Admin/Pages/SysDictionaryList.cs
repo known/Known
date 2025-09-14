@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/dictionaries")]
 //[Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
-[PagePlugin("数据字典", "unordered-list", PagePluginType.Module, Language.BaseData, Sort = 2)]
+[PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
 public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 {
     private KListTable<DictionaryInfo> listTable;
@@ -67,7 +67,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         isAddCategory = true;
         var model = new DialogModel
         {
-            Title = Language.AddCategory,
+            Title = AdminLanguage.AddCategory,
             Width = 800,
             Content = b => b.Component<CategoryGrid>()
                             .Set(c => c.OnRefresh, RefreshAsync)
@@ -84,7 +84,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     {
         if (category == null)
         {
-            UI.Error(Language.TipSelectCategory);
+            UI.Error(AdminLanguage.TipSelectCategory);
             return;
         }
 

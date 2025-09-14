@@ -24,8 +24,8 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.Assembly = assembly;
-            info.IsModule = true;
         });
+        services.AddKnownAdmin();
         services.AddServices(assembly);
         services.AddModules();
         services.ConfigUI();
@@ -36,6 +36,7 @@ public static class AppConfig
     {
         var assembly = typeof(AppConfig).Assembly;
         services.AddKnownClient(action);
+        services.AddKnownAdminClient();
         services.AddClients(assembly);
     }
 

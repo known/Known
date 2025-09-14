@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/users")]
 //[Menu(Constants.System, "用户管理", "user", 3)]
-[PagePlugin("用户管理", "user", PagePluginType.Module, Language.SystemManage, Sort = 6)]
+[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
 public class SysUserList : BaseTablePage<UserDataInfo>
 {
     private List<OrganizationInfo> orgs;
@@ -133,7 +133,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         OrganizationInfo node = null;
         var model = new DialogModel
         {
-            Title = Language.ChangeDepartment,
+            Title = AdminLanguage.ChangeDepartment,
             Content = builder =>
             {
                 builder.Tree(new TreeModel
@@ -152,7 +152,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         {
             if (node == null)
             {
-                UI.Error(Language.TipSelectChangeOrganization);
+                UI.Error(AdminLanguage.TipSelectChangeOrganization);
                 return;
             }
 
@@ -226,7 +226,7 @@ class UserForm : BaseForm<UserDataInfo>
             defaultPassword = user.DefaultPassword;
             if (Model.IsNew)
                 Model.Data.Password = defaultPassword;
-            var pwdTips = Language[Language.TipUserDefaultPwd].Replace("{password}", defaultPassword);
+            var pwdTips = Language[AdminLanguage.TipUserDefaultPwd].Replace("{password}", defaultPassword);
             Model.Field(f => f.Password).Tooltip(pwdTips);
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;

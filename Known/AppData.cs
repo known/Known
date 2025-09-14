@@ -105,7 +105,7 @@ public sealed partial class AppData
     /// <summary>
     /// 加载默认菜单配置数据。
     /// </summary>
-    internal static void LoadAppData()
+    public static void LoadAppData()
     {
         if (!File.Exists(KmdPath))
         {
@@ -148,11 +148,6 @@ public sealed partial class AppData
                   ? OnFormatData(Data)
                   : FormatData(Data);
         File.WriteAllBytes(KmdPath, bytes);
-    }
-
-    internal static void LoadModules()
-    {
-        AppDefaultData.LoadModule(Data);
     }
     #endregion
 

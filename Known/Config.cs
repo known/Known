@@ -53,14 +53,6 @@ public partial class Config
         AddModule(assembly);
     }
 
-    internal static void AddModules()
-    {
-        if (!App.IsModule)
-            return;
-
-        AppData.LoadModules();
-    }
-
     private static void InitAssembly(Assembly assembly)
     {
         if (assembly == null)

@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/roles")]
 //[Menu(Constants.System, "角色管理", "team", 2)]
-[PagePlugin("角色管理", "team", PagePluginType.Module, Language.SystemManage, Sort = 5)]
+[PagePlugin("角色管理", "team", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 5)]
 public class SysRoleList : BaseTablePage<RoleInfo>
 {
     /// <inheritdoc />
@@ -84,17 +84,17 @@ class RoleForm : BaseForm<RoleInfo>
             builder.Div("kui-role-form", () => base.BuildForm(builder));
             builder.Div("kui-role-module", () =>
             {
-                builder.Div("kui-bold", Language[Language.Module]);
+                builder.Div("kui-bold", Language[AdminLanguage.Module]);
                 builder.Tree(tree);
             });
             builder.Div("kui-role-button", () =>
             {
-                builder.Div("kui-bold", Language[Language.Button]);
+                builder.Div("kui-bold", Language[AdminLanguage.Button]);
                 builder.CheckList(btnModel);
             });
             builder.Div("kui-role-column", () =>
             {
-                builder.Div("kui-bold", Language[Language.Column]);
+                builder.Div("kui-bold", Language[AdminLanguage.Column]);
                 builder.CheckList(colModel);
             });
         });

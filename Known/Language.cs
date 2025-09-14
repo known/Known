@@ -2,8 +2,6 @@
 
 public partial class Language
 {
-    internal const string BaseData = "基础数据";
-    internal const string SystemManage = "系统管理";
     internal const string TipAIEntry = "有问题，问小K。";
 
     internal const string TipFormRouteIsNull = "表单类型或路由不存在！";
@@ -14,7 +12,6 @@ public partial class Language
     internal const string TipCodeAndNameRequired = "请输入代码和名称！";
     internal const string TipNoConfigOnSelectModel = "未配置 UIConfig.OnSelectModel 委托！";
     internal const string TipNoConfigOnFastAddField = "未配置 UIConfig.OnFastAddField 委托！";
-    internal const string TipNoConfigOnTaskSetting = "未配置 UIConfig.OnTaskSetting 委托！";
     internal const string TipSelectDataTable = "请选择数据表！";
     internal const string TipMenuNotExists = "菜单不存在！";
     /// <summary>

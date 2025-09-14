@@ -172,13 +172,6 @@ public static partial class Extension
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs.Set<UserEditForm>(1, Language.MyProfile);
         UIConfig.UserTabs.Set<PasswordEditForm>(2, Language.SecuritySetting);
-        //企业信息
-        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
-        //关于系统
-        UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
-        UIConfig.SystemTabs.Set<SysSecuritySetting>(2, Language.SecuritySetting);
-        //内置模块
-        Config.AddModules();
     }
 
     //private static void AddInterceptors(this IServiceCollection services, ClientOption option)

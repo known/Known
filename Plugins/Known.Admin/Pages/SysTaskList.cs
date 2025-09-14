@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/tasks")]
 //[Menu(Constants.System, "后台任务", "control", 4)]
-[PagePlugin("后台任务", "control", PagePluginType.Module, Language.SystemManage, Sort = 7)]
+[PagePlugin("后台任务", "control", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 7)]
 public class SysTaskList : BaseTablePage<TaskInfo>
 {
     /// <inheritdoc />
@@ -29,7 +29,7 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     {
         if (UIConfig.OnTaskSetting == null)
         {
-            UI.Error(Language.TipNoConfigOnTaskSetting);
+            UI.Error(AdminLanguage.TipNoConfigOnTaskSetting);
             return;
         }
 
@@ -50,7 +50,7 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     /// <summary>
     /// 批量重置后台任务。
     /// </summary>
-    [Action(Title = Language.TipResetTaskStatus)]
+    [Action(Title = AdminLanguage.TipResetTaskStatus)]
     public void Reset() => Table.SelectRows(Admin.ResetTasksAsync);
 
     /// <summary>

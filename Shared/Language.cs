@@ -414,8 +414,10 @@ public partial class Language
     internal const string SelectIcon = "选择图标";
     internal const string SelectUser = "选择用户";
     internal const string SystemSetting = "系统设置";
-    internal const string SecuritySetting = "安全设置";
-    internal const string ChangeDepartment = "更换部门";
+    /// <summary>
+    /// 安全设置。
+    /// </summary>
+    public const string SecuritySetting = "安全设置";
     internal const string FlowAction = "{action}流程";
     internal const string FlowLog = "流程记录";
     internal const string TodoList = "待办事项";
@@ -423,14 +425,14 @@ public partial class Language
     internal const string MyProfile = "我的信息";
     internal const string CopyTo = "复制到";
     internal const string MoveTo = "移动到";
-    internal const string Module = "模块";
-    internal const string Button = "按钮";
-    internal const string Column = "栏位";
     internal const string Icon = "图标";
     internal const string Default = "默认";
     internal const string Field = "字段";
     internal const string Template = "模板";
-    internal const string Type = "类型";
+    /// <summary>
+    /// 类型。
+    /// </summary>
+    public const string Type = "类型";
     internal const string ParentMenu = "上级菜单";
     internal const string SelectParentMenu = "选择上级菜单";
 
@@ -461,14 +463,9 @@ public partial class Language
     internal const string TipConfirmRecordName = "确定要{text}选中的记录？";
     internal const string TipSelectOneAtLeast = "请至少选择{count}条记录进行操作！";
     internal const string TipNotDeleteMenu = "存在子菜单，不能删除！";
-    internal const string TipSelectCategory = "请选择类别！";
     internal const string TipSelectModule = "请选择模块！";
     internal const string TipSelectParentModule = "请先选择上级模块！";
-    internal const string TipSelectParentOrganization = "请先选择上级组织！";
-    internal const string TipSelectChangeOrganization = "请选择更换的部门！";
     internal const string TipImportModules = "确定要导入替换系统模块？";
-    internal const string TipResetTaskStatus = "重置任务执行状态为待执行";
-    internal const string TipUserDefaultPwd = "用户默认密码为：{password}。";
     internal const string TipWebLogSaveDay = "该日志为内存日志，默认保留{LogDays}天。";
     internal const string TipConfirmClearLog = "确定要清空所有日志？";
     internal const string RequestHeaders = "请求头";
@@ -495,7 +492,6 @@ public partial class Language
     internal const string AddColumn = "添加表格列";
     internal const string AddData = "添加数据";
     internal const string AddLink = "添加连接";
-    internal const string AddCategory = "添加类别";
     internal const string AddDesktop = "添加到主屏幕";
     internal const string ClickShareButton = "点击分享按钮";
     internal const string SelectInstallDesktop = "，选择“添加到主屏幕”安装。";
@@ -563,22 +559,6 @@ public partial class Language
     internal const string SizeCompact = "紧凑";
     internal const string Profile = "个人中心";
     internal const string Development = "开发中心";
-    internal const string UserDefaultPwd = "默认密码";
-    internal const string IsLoginCaptcha = "启用登录验证码";
-    internal const string IsWatermark = "启用水印";
-    internal const string MaxFileSize = "允许附件大小";
-    internal const string CompName = "企业名称";
-    internal const string AppName = "系统名称";
-    internal const string AppVersion = "系统版本";
-    internal const string SoftVersion = "软件版本";
-    internal const string FrameVersion = "框架版本";
-    internal const string BuildTime = "构建时间";
-    internal const string RunTime = "运行时长";
-    internal const string Copyright = "版权信息";
-    internal const string SoftTerms = "软件许可";
-    internal const string ConnectionString = "连接字符串";
-    internal const string ProductId = "产品ID";
-    internal const string ProductKey = "产品密钥";
 
     internal const string ThemeSetting = "主题设置";
     internal const string Menu = "菜单";
@@ -889,7 +869,7 @@ public partial class Language
     /// <returns>导入表单的标题语言。</returns>
     public string GetImportTitle(string name) => this[ImportTitle].Replace("{name}", name);
 
-    internal string GetText(string prefix, string code, string name = null)
+    public string GetText(string prefix, string code, string name = null)
     {
         var text = GetString($"{prefix}.{code}");
         if (string.IsNullOrWhiteSpace(text))

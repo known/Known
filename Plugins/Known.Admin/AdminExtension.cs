@@ -11,12 +11,32 @@ public static class AdminExtension
     /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
+        var assembly = typeof(AdminExtension).Assembly;
+        Config.AddModule(assembly);
         Config.IsAdmin = true;
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);
         UIConfig.ModulePageType = typeof(ModuleList);
         //UIConfig.EnableEdit = false;
+        //企业信息
+        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
+        //关于系统
+        UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
+        UIConfig.SystemTabs.Set<SysSecuritySetting>(2, Language.SecuritySetting);
+        //内置模块
+        // 添加默认一级模块
+        AppData.Data.Modules.AddItem("0", Constants.BaseData, AdminLanguage.BaseData, "database", 1);
+        AppData.Data.Modules.AddItem<CompanyForm>(Constants.BaseData, 1);
+        AppData.Data.Modules.AddItem<SysDictionaryList>(Constants.BaseData, 2);
+        AppData.Data.Modules.AddItem<SysOrganizationList>(Constants.BaseData, 3);
+        AppData.Data.Modules.AddItem("0", Constants.System, AdminLanguage.SystemManage, "setting", 99);
+        AppData.Data.Modules.AddItem<SysSystem>(Constants.System, 1);
+        AppData.Data.Modules.AddItem<SysRoleList>(Constants.System, 2);
+        AppData.Data.Modules.AddItem<SysUserList>(Constants.System, 3);
+        AppData.Data.Modules.AddItem<SysTaskList>(Constants.System, 4);
+        AppData.Data.Modules.AddItem<SysFileList>(Constants.System, 5);
+        AppData.Data.Modules.AddItem<SysLogList>(Constants.System, 6);
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
@@ -30,7 +50,6 @@ public static class AdminExtension
     {
         var assembly = typeof(AdminExtension).Assembly;
         services.AddClients(assembly);
-        Config.AddModule(assembly);
     }
 
     /// <summary>
@@ -45,7 +64,6 @@ public static class AdminExtension
 
         var assembly = typeof(AdminExtension).Assembly;
         services.AddServices(assembly);
-        Config.AddModule(assembly);
         Config.OnInstallModules = OnInstallModules;
         Config.OnInitialModules = OnInitialModules;
     }

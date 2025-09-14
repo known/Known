@@ -28,15 +28,15 @@
 ├─Known             -> 框架核心类库，定义统一的对象模型、接口、组件和扩展，内置权限、微信、工作流。
 ├─Known.Pure        -> 无Blazor功能的纯净版Known类库。
 ├─Plugins           -> 插件项目
-| ├─Known.Core      -> 基于Asp.Net Core的服务端类库。
-| ├─Known.Admin     -> 简易无代码设计器插件。
+| ├─Known.Core      -> 基于Asp.Net Core的服务端插件。
 | ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件。
+| ├─Known.Admin     -> 简易后台管理插件。
 ├─Sample            -> 示例项目
-  ├─Sample.Maui     -> 框架MAUI示例。
-  ├─Sample.Photino  -> 框架Photino.NET示例。
   ├─Sample.Wasm     -> 框架WebAssembly示例。
   ├─Sample.Web      -> 框架WebApp示例。
   ├─Sample.WinForm  -> 框架WinForm示例。
+  ├─Sample.Maui     -> 框架MAUI示例。
+  ├─Sample.Photino  -> 框架Photino.NET示例。
 ```
 
 ### 项目链接

@@ -1,4 +1,5 @@
-﻿global using System.ComponentModel.DataAnnotations;
+﻿global using System.ComponentModel;
+global using System.ComponentModel.DataAnnotations;
 global using System.Data;
 global using Known.Blazor;
 global using Known.Components;
@@ -7,6 +8,7 @@ global using Known.Designers;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Internals;
+global using Known.Pages;
 global using Known.Plugins;
 global using Known.Services;
 global using Known.WorkFlows;

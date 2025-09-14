@@ -1,24 +1,23 @@
-﻿@namespace Known.Pages
-@inherits BaseComponent
+﻿@inherits BaseComponent
 
 <TypeForm Class="kui-system" Model="Model" Style="margin-top:20px">
     <AntRow>
-        <DataItem Label="@Language[Language.UserDefaultPwd]">
+        <DataItem Label="默认密码">
             <KEditInput Value="@Model.UserDefaultPwd" OnSave="OnSaveDefaultPwdAsync" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.IsLoginCaptcha]">
+        <DataItem Label="启用登录验证码">
             <Switch Value="@Model.IsLoginCaptcha" ValueChanged="OnLoginCaptchaChangedAsync" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.IsWatermark]">
+        <DataItem Label="启用水印">
             <Switch Value="@Model.IsWatermark" ValueChanged="OnWatermarkChangedAsync" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="@Language[Language.MaxFileSize]">
+        <DataItem Label="允许附件大小">
             <AntInteger Value="@Model.MaxFileSize" ValueChanged="OnMaxFileSizeChangedAsync" /> M
         </DataItem>
     </AntRow>

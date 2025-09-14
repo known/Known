@@ -149,7 +149,7 @@ public static class ModuleExtension
         }
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
+    public static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
     {
         MenuInfo current = null;
         return models.ToMenuItems(ref current, showRoot);
