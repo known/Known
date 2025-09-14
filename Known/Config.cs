@@ -46,6 +46,8 @@ public partial class Config
     /// </summary>
     public static Action<AdminInfo> OnAdmin { get; set; }
 
+    public static Func<Database, InstallInfo, SystemInfo, Task> OnInstall { get; set; }
+
     internal static void AddApp(Assembly assembly)
     {
         Version = new VersionInfo(App.Assembly);

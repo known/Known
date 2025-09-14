@@ -194,7 +194,6 @@ public static class CoreExtension
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
         // 添加模型
-        DbConfig.Models.Add<SysConfig>(x => new { x.AppId, x.ConfigKey });
         DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
         DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
     }

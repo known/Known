@@ -123,15 +123,10 @@ public class UIConfig
     public static Dictionary<string, ComponentInfo> UserFormTabs { get; } = [];
 
     /// <summary>
-    /// 取得企业信息页面自定义标签字典。
-    /// </summary>
-    public static Dictionary<string, ComponentInfo> CompanyTabs { get; } = [];
-
-    /// <summary>
     /// 取得关于系统页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, ComponentInfo> SystemTabs { get; } = [];
-
+    
     /// <summary>
     /// 取得或设置管理模板内容委托。
     /// </summary>

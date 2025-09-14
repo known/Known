@@ -27,29 +27,6 @@ partial class AdminService
         return info;
     }
 
-    public async Task<SystemDataInfo> GetSystemDataAsync()
-    {
-        var info = await Database.GetSystemAsync();
-        return new SystemDataInfo { System = info };
-    }
-
-    public async Task<Result> SaveSystemAsync(SystemInfo info)
-    {
-        var database = Database;
-        if (Config.App.IsPlatform)
-        {
-            var result = await database.SaveCompanyDataAsync(CurrentUser.CompNo, info);
-            if (!result.IsValid)
-                return result;
-        }
-        else
-        {
-            await database.SaveSystemAsync(info);
-        }
-        CoreConfig.System = info;
-        return Result.Success(Language.SaveSuccess);
-    }
-
     public async Task<Result> SaveProductKeyAsync(ActiveInfo info)
     {
         var db = Database;

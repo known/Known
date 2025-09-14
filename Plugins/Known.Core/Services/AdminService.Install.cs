@@ -112,7 +112,8 @@ partial class AdminService
             await db.SaveSystemAsync(sys);
             await SaveUserAsync(db, info);
             await SaveOrganizationAsync(db, info);
-            await SaveCompanyAsync(db, info, sys);
+            if (Config.OnInstall != null)
+                await Config.OnInstall.Invoke(db, info, sys);
         });
         if (result.IsValid)
             result.Data = await GetInstallDataAysnc(true);
@@ -161,18 +162,6 @@ partial class AdminService
         org.Code = info.CompNo;
         org.Name = info.CompName;
         await db.SaveAsync(org);
-    }
-
-    private static async Task SaveCompanyAsync(Database db, InstallInfo info, SystemInfo sys)
-    {
-        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
-        company ??= new SysCompany();
-        company.AppId = Config.App.Id;
-        company.CompNo = info.CompNo;
-        company.Code = info.CompNo;
-        company.Name = info.CompName;
-        company.SystemData = Utils.ToJson(sys);
-        await db.SaveAsync(company);
     }
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)

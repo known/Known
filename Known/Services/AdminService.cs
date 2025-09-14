@@ -7,13 +7,13 @@ public partial interface IAdminService : IService
 {
 }
 
+[Client]
+partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
+{
+}
+
 [Service]
 partial class AdminService(Context context) : ServiceBase(context), IAdminService
 {
     private static readonly Dictionary<string, string> Configs = [];
-}
-
-[Client]
-partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
-{
 }

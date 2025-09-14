@@ -24,7 +24,6 @@ public partial class CoreLanguage
 
     internal const string TipAdminNoMigrate = "Admin插件不支持迁移！";
     internal const string TipSystemNotInstall = "系统未安装！";
-    internal const string TipCompanyNotExists = "企业不存在！";
     internal const string TipOrgDeleteExistsChild = "存在子组织架构，不能删除！";
     internal const string TipOrgCodeExists = "组织编码已存在！";
     internal const string TipDicCodeExists = "数据字典编码已存在！";
@@ -34,7 +33,6 @@ public partial class CoreLanguage
     internal const string TipModuleDeleteExistsChild = "存在子模块，不能删除！";
     internal const string TipInstallRequired = "安装信息不能为空！";
     internal const string TipNotNetwork = "电脑未联网！";
-    internal const string TipKeyRequired = "配置键不能为空！";
     internal const string TipTableRequired = "实体表名不能为空！";
     internal const string TipDataRequired = "导入数据不能为空！";
     internal const string TipExcelFailed = "Excel创建失败！";

@@ -5,46 +5,25 @@
 /// </summary>
 public static class SystemExtension
 {
-    /// <summary>
-    /// 异步获取系统信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <returns></returns>
-    public static async Task<SystemInfo> GetSystemAsync(this Database db)
+    internal static Task<SystemInfo> GetUserSystemAsync(this Database db)
     {
-        try
-        {
-            var isExist = await db.ExistsAsync<SysConfig>();
-            if (!isExist)
-                return null;
+        //if (!Config.App.IsPlatform)
+        //    return CoreConfig.System;
 
-            var json = await db.GetConfigAsync(Constant.KeySystem);
-            var info = Utils.FromJson<SystemInfo>(json);
-            if (info != null)
-                CoreOption.Instance.CheckSystemInfo(info);
-            return info;
-        }
-        catch
-        {
-            return null;//系统未安装，返回null
-        }
-    }
+        //var data = await db.GetCompanyDataAsync(db.User.CompNo);
+        //if (!string.IsNullOrWhiteSpace(data))
+        //    return Utils.FromJson<SystemInfo>(data);
 
-    internal static async Task<SystemInfo> GetUserSystemAsync(this Database db)
-    {
-        if (!Config.App.IsPlatform)
-            return CoreConfig.System;
-
-        var data = await db.GetCompanyDataAsync(db.User.CompNo);
-        if (!string.IsNullOrWhiteSpace(data))
-            return Utils.FromJson<SystemInfo>(data);
-
-        return new SystemInfo
-        {
-            CompNo = db.User.CompNo,
-            CompName = db.User.CompName,
-            AppName = Config.App.Name
-        };
+        //return new SystemInfo
+        //{
+        //    CompNo = db.User.CompNo,
+        //    CompName = db.User.CompName,
+        //    AppName = Config.App.Name
+        //};
+        var info = !Config.App.IsPlatform
+                 ? CoreConfig.System
+                 : new SystemInfo { CompNo = db.User.CompNo, CompName = db.User.CompName, AppName = Config.App.Name };
+        return Task.FromResult(info);
     }
 
     internal static async Task<string> GetUserSystemNameAsync(this Database db)
@@ -54,10 +33,5 @@ public static class SystemExtension
         if (string.IsNullOrWhiteSpace(appName))
             appName = Config.App.Name;
         return appName;
-    }
-
-    internal static Task<Result> SaveSystemAsync(this Database db, SystemInfo info)
-    {
-        return db.SaveConfigAsync(Constant.KeySystem, info);
     }
 }

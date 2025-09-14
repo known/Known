@@ -13,7 +13,7 @@ public class CompanyForm : BaseTabPage
     {
         await base.OnInitPageAsync();
 
-        foreach (var item in UIConfig.CompanyTabs.OrderBy(t => t.Value.Id))
+        foreach (var item in AdminConfig.CompanyTabs.OrderBy(t => t.Value.Id))
         {
             Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
         }
@@ -22,16 +22,20 @@ public class CompanyForm : BaseTabPage
 
 class CompanyBaseInfo : BaseEditForm<CompanyInfo>
 {
+    private ICompanyService Service;
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        var json = await Admin.GetCompanyAsync();
+        Service = await CreateServiceAsync<ICompanyService>();
+
+        var json = await Service.GetCompanyAsync();
         var data = Utils.FromJson<CompanyInfo>(json) ?? new CompanyInfo();
         Model = new FormModel<CompanyInfo>(this, true) { IsView = true, Data = data };
     }
 
     protected override Task<Result> OnSaveAsync(CompanyInfo model)
     {
-        return Admin.SaveCompanyAsync(model);
+        return Service.SaveCompanyAsync(model);
     }
 }

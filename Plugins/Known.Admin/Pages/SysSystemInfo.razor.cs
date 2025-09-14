@@ -13,7 +13,7 @@ public partial class SysSystemInfo
     {
         await base.OnInitAsync();
         // 首个Tab组件初始化Model
-        Parent.Model = await Admin.GetSystemDataAsync();
+        Parent.Model = await Parent.GetSystemDataAsync();
         Model = Parent.Model;
     }
 

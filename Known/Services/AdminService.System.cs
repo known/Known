@@ -15,19 +15,6 @@ public partial interface IAdminService
     Task<SystemInfo> GetProductAsync();
 
     /// <summary>
-    /// 异步获取系统数据信息。
-    /// </summary>
-    /// <returns>系统数据信息。</returns>
-    Task<SystemDataInfo> GetSystemDataAsync();
-
-    /// <summary>
-    /// 异步保存系统信息。
-    /// </summary>
-    /// <param name="info">系统信息。</param>
-    /// <returns>保存结果。</returns>
-    Task<Result> SaveSystemAsync(SystemInfo info);
-
-    /// <summary>
     /// 异步保存产品Key。
     /// </summary>
     /// <param name="info">系统激活信息。</param>
@@ -45,17 +32,6 @@ partial class AdminService
     public Task<SystemInfo> GetProductAsync()
     {
         return Task.FromResult(GetSystem());
-    }
-
-    public Task<SystemDataInfo> GetSystemDataAsync()
-    {
-        var info = new SystemDataInfo { System = GetSystem() };
-        return Task.FromResult(info);
-    }
-
-    public Task<Result> SaveSystemAsync(SystemInfo info)
-    {
-        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     public Task<Result> SaveProductKeyAsync(ActiveInfo info)
@@ -84,16 +60,6 @@ partial class AdminClient
     public Task<SystemInfo> GetProductAsync()
     {
         return Http.GetAsync<SystemInfo>("/Admin/GetProduct");
-    }
-
-    public Task<SystemDataInfo> GetSystemDataAsync()
-    {
-        return Http.GetAsync<SystemDataInfo>("/Admin/GetSystemData");
-    }
-
-    public Task<Result> SaveSystemAsync(SystemInfo info)
-    {
-        return Http.PostAsync("/Admin/SaveSystem", info);
     }
 
     public Task<Result> SaveProductKeyAsync(ActiveInfo info)

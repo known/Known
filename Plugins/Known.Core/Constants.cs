@@ -10,10 +10,6 @@ class Constant
     internal const string SuperAdmin = "SuperAdmin";
     internal const string UserSetting = "UserSetting";
 
-    /// <summary>
-    /// 系统信息配置键。
-    /// </summary>
-    internal const string KeySystem = "SystemInfo";
     internal const string KeyLanguage = "AppLanguageData";
     internal const string KeyButton = "AppButtonData";
     internal const string KeyTopNav = "AppTopNavData";

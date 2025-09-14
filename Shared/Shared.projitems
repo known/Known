@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Organization.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Role.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ConfigExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LanguageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config.cs" />
@@ -23,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTableExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinConfigInfo.cs" />

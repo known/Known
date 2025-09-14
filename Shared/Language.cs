@@ -462,6 +462,7 @@ public partial class Language
     internal const string TipConfirmDeleteRecord = "确定要删除该记录？";
     internal const string TipConfirmRecordName = "确定要{text}选中的记录？";
     internal const string TipSelectOneAtLeast = "请至少选择{count}条记录进行操作！";
+    internal const string TipKeyRequired = "配置键不能为空！";
     internal const string TipNotDeleteMenu = "存在子菜单，不能删除！";
     internal const string TipSelectModule = "请选择模块！";
     internal const string TipSelectParentModule = "请先选择上级模块！";

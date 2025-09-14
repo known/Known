@@ -1,6 +1,40 @@
 ﻿namespace Known.Services;
 
-partial class AdminService
+/// <summary>
+/// 公司服务接口。
+/// </summary>
+public interface ICompanyService : IService
+{
+    /// <summary>
+    /// 异步获取租户企业信息JSON。
+    /// </summary>
+    /// <returns>企业信息JSON。</returns>
+    Task<string> GetCompanyAsync();
+
+    /// <summary>
+    /// 异步保存租户企业信息。
+    /// </summary>
+    /// <param name="model">企业信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveCompanyAsync(object model);
+}
+
+[Client]
+class CompanyClient(HttpClient http) : ClientBase(http), ICompanyService
+{
+    public Task<string> GetCompanyAsync()
+    {
+        return Http.GetTextAsync("/Company/GetCompany");
+    }
+
+    public Task<Result> SaveCompanyAsync(object model)
+    {
+        return Http.PostAsync("/Company/SaveCompany", model);
+    }
+}
+
+[WebApi, Service]
+class CompanyService(Context context) : ServiceBase(context), ICompanyService
 {
     private const string KeyCompany = "CompanyInfo";
 

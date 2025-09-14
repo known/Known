@@ -13,14 +13,19 @@ public static class AdminExtension
     {
         var assembly = typeof(AdminExtension).Assembly;
         Config.AddModule(assembly);
-        Config.IsAdmin = true;
+        AppData.Enabled = false;
+
+        services.AddServices(assembly);
+        Config.OnInstall = AdminHelper.Install;
+        Config.OnInstallModules = OnInstallModules;
+        Config.OnInitialModules = OnInitialModules;
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);
-        UIConfig.ModulePageType = typeof(ModuleList);
+        //UIConfig.ModulePageType = typeof(ModuleList);
         //UIConfig.EnableEdit = false;
         //企业信息
-        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
+        AdminConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
         //关于系统
         UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
         UIConfig.SystemTabs.Set<SysSecuritySetting>(2, Language.SecuritySetting);
@@ -50,22 +55,6 @@ public static class AdminExtension
     {
         var assembly = typeof(AdminExtension).Assembly;
         services.AddClients(assembly);
-    }
-
-    /// <summary>
-    /// 添加Known框架后台管理模块后端。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    /// <param name="action">配置选项委托。</param>
-    public static void AddKnownAdminCore(this IServiceCollection services, Action<AdminOption> action = null)
-    {
-        action?.Invoke(AdminOption.Instance);
-        AppData.Enabled = false;
-
-        var assembly = typeof(AdminExtension).Assembly;
-        services.AddServices(assembly);
-        Config.OnInstallModules = OnInstallModules;
-        Config.OnInitialModules = OnInitialModules;
     }
 
     private static async Task OnInstallModules(Database db)

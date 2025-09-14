@@ -8,12 +8,15 @@
 [PagePlugin("关于系统", "info-circle", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 4)]
 public class SysSystem : BaseTabPage
 {
+    private ISystemService Service;
+
     internal SystemDataInfo Model { get; set; } = new SystemDataInfo();
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<ISystemService>();
 
         foreach (var item in UIConfig.SystemTabs.OrderBy(t => t.Value.Id))
         {
@@ -24,10 +27,12 @@ public class SysSystem : BaseTabPage
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder) => builder.Cascading(this, base.BuildPage);
 
+    internal Task<SystemDataInfo> GetSystemDataAsync() => Service.GetSystemDataAsync();
+
     internal Task<Result> SaveSystemAsync(SystemInfo info)
     {
         Config.System = info;
-        return Admin.SaveSystemAsync(info);
+        return Service.SaveSystemAsync(info);
     }
 
     internal Task<Result> SaveKeyAsync(SystemInfo info)

@@ -28,7 +28,7 @@ static class CompanyExtension
     {
         var data = await db.QueryAsync<SysCompany>(d => d.Code == compNo);
         if (data == null)
-            return Result.Error(CoreLanguage.TipCompanyNotExists);
+            return Result.Error(AdminLanguage.TipCompanyNotExists);
 
         data.SystemData = Utils.ToJson(model);
         await db.SaveAsync(data);

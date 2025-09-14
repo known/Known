@@ -5,7 +5,10 @@
 /// </summary>
 public sealed class DbConfig
 {
-    private DbConfig() { }
+    static DbConfig()
+    {
+        Models.Add<SysConfig>(x => new { x.AppId, x.ConfigKey });
+    }
 
     internal static Dictionary<Type, Type> TableNames { get; } = [];
 

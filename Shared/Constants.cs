@@ -52,6 +52,11 @@ public class Constants
     /// </summary>
     public const string NotifyLayout = "NotifyLayout";
 
+    /// <summary>
+    /// 系统信息配置键。
+    /// </summary>
+    public const string KeySystem = "SystemInfo";
+
     internal const string CompNo = "puman";
     internal const string CompName = "普漫科技";
     internal const string Route = "Route";
