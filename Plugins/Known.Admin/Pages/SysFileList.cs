@@ -8,13 +8,17 @@
 [PagePlugin("系统附件", "file", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 8)]
 public class SysFileList : BaseTablePage<AttachInfo>
 {
+    private IFileService Service;
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IFileService>();
+
         Table.AdvSearch = UIConfig.IsAdvAdmin;
         Table.EnableFilter = UIConfig.IsAdvAdmin;
-        Table.OnQuery = Admin.QueryFilesAsync;
+        Table.OnQuery = Service.QueryFilesAsync;
         Table.ActionWidth = "70";
         Table.Column(c => c.Name).Template(BuildFileName);
         Table.Column(c => c.Size).Template(BuildFileSize);
@@ -24,12 +28,12 @@ public class SysFileList : BaseTablePage<AttachInfo>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(AttachInfo row) => Table.Delete(Admin.DeleteFilesAsync, row);
+    [Action] public void Delete(AttachInfo row) => Table.Delete(Service.DeleteFilesAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteFilesAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteFilesAsync);
 
     /// <summary>
     /// 导出表格数据。
