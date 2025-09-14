@@ -1,6 +1,39 @@
 ﻿namespace Known.Services;
 
-partial class AdminService
+public interface IRoleService : IService
+{
+    Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria);
+    Task<RoleInfo> GetRoleAsync(string roleId);
+    Task<Result> DeleteRolesAsync(List<RoleInfo> infos);
+    Task<Result> SaveRoleAsync(RoleInfo info);
+}
+
+[Client]
+class RoleClient(HttpClient http) : ClientBase(http), IRoleService
+{
+    public Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria)
+    {
+        return Http.QueryAsync<RoleInfo>("/Role/QueryRoles", criteria);
+    }
+
+    public Task<RoleInfo> GetRoleAsync(string roleId)
+    {
+        return Http.GetAsync<RoleInfo>($"/Role/GetRole?roleId={roleId}");
+    }
+
+    public Task<Result> DeleteRolesAsync(List<RoleInfo> infos)
+    {
+        return Http.PostAsync("/Role/DeleteRoles", infos);
+    }
+
+    public Task<Result> SaveRoleAsync(RoleInfo info)
+    {
+        return Http.PostAsync("/Role/SaveRole", info);
+    }
+}
+
+[WebApi, Service]
+class RoleService(Context context) : ServiceBase(context), IRoleService
 {
     public Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria)
     {

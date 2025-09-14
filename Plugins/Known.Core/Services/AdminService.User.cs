@@ -20,11 +20,11 @@ partial class AdminService
             user = await db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserDataInfo>();
             user ??= new UserDataInfo { Password = CoreConfig.System?.UserDefaultPwd };
             user.DefaultPassword = CoreConfig.System?.UserDefaultPwd;
-            var roles = await db.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
-            var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
-            var roleIds = userRoles?.Select(r => r.RoleId).ToList();
-            user.Roles = [.. roles.Select(r => new CodeInfo(r.Id, r.Name))];
-            user.RoleIds = [.. roleIds];
+            //var roles = await db.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
+            //var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
+            //var roleIds = userRoles?.Select(r => r.RoleId).ToList();
+            //user.Roles = [.. roles.Select(r => new CodeInfo(r.Id, r.Name))];
+            //user.RoleIds = [.. roleIds];
         });
         return user;
     }
@@ -47,7 +47,7 @@ partial class AdminService
             foreach (var item in infos)
             {
                 await db.DeleteAsync<SysUser>(item.Id);
-                await db.DeleteAsync<SysUserRole>(d => d.UserId == item.Id);
+                //await db.DeleteAsync<SysUserRole>(d => d.UserId == item.Id);
                 await UserHelper.OnDeletedAsync(db, item);
             }
         });
@@ -186,16 +186,16 @@ partial class AdminService
             if (model.IsNew)
                 CoreOption.Instance.OnNewUser?.Invoke(db, model);
             model.Role = string.Empty;
-            await db.DeleteAsync<SysUserRole>(d => d.UserId == model.Id);
-            var roles = await db.QueryListByIdAsync<SysRole>(info.RoleIds);
-            if (roles != null && roles.Count > 0)
-            {
-                model.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
-                foreach (var item in roles)
-                {
-                    await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = item.Id });
-                }
-            }
+            //await db.DeleteAsync<SysUserRole>(d => d.UserId == model.Id);
+            //var roles = await db.QueryListByIdAsync<SysRole>(info.RoleIds);
+            //if (roles != null && roles.Count > 0)
+            //{
+            //    model.Role = string.Join(",", roles.Select(r => r.Name).ToArray());
+            //    foreach (var item in roles)
+            //    {
+            //        await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = item.Id });
+            //    }
+            //}
             await db.SaveAsync(model);
             await UserHelper.OnSavedAsync(db, model);
             info.Id = model.Id;

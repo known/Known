@@ -1,51 +1,34 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 角色管理模块页面组件类。
-/// </summary>
 [Route("/sys/roles")]
 //[Menu(Constants.System, "角色管理", "team", 2)]
 [PagePlugin("角色管理", "team", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 5)]
 public class SysRoleList : BaseTablePage<RoleInfo>
 {
-    /// <inheritdoc />
+    private IRoleService Service;
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IRoleService>();
 
         Table.AdvSearch = UIConfig.IsAdvAdmin;
         Table.EnableFilter = UIConfig.IsAdvAdmin;
         Table.FormType = typeof(RoleForm);
         Table.Form = new FormInfo { Width = 1000, SmallLabel = true };
-        Table.OnQuery = Admin.QueryRolesAsync;
+        Table.OnQuery = Service.QueryRolesAsync;
         Table.RowKey = r => r.Id;
     }
 
-    /// <summary>
-    /// 弹出新增表单对话框。
-    /// </summary>
-    [Action] public void New() => Table.NewForm(Admin.SaveRoleAsync, new RoleInfo());
-
-    /// <summary>
-    /// 弹出编辑表单对话框。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(RoleInfo row) => Table.EditForm(Admin.SaveRoleAsync, row);
-
-    /// <summary>
-    /// 删除一条数据。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(RoleInfo row) => Table.Delete(Admin.DeleteRolesAsync, row);
-
-    /// <summary>
-    /// 批量删除多条数据。
-    /// </summary>
-    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteRolesAsync);
+    [Action] public void New() => Table.NewForm(Service.SaveRoleAsync, new RoleInfo());
+    [Action] public void Edit(RoleInfo row) => Table.EditForm(Service.SaveRoleAsync, row);
+    [Action] public void Delete(RoleInfo row) => Table.Delete(Service.DeleteRolesAsync, row);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteRolesAsync);
 }
 
 class RoleForm : BaseForm<RoleInfo>
 {
+    private IRoleService Service;
     private TreeModel tree;
     private MenuInfo current;
     private readonly InputModel<string[]> btnModel = new();
@@ -55,6 +38,8 @@ class RoleForm : BaseForm<RoleInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Service = await CreateServiceAsync<IRoleService>();
+
         Model.SmallLabel = true;
 
         tree = new TreeModel
@@ -114,7 +99,7 @@ class RoleForm : BaseForm<RoleInfo>
 
     private async Task<TreeModel> OnTreeModelChangedAsync()
     {
-        var model = await Admin.GetRoleAsync(Model.Data.Id);
+        var model = await Service.GetRoleAsync(Model.Data.Id);
         Model.Data.MenuIds = model.MenuIds;
         if (Model.IsView)
             tree.DisableCheckKeys = [.. model.Modules.Select(m => m.Id)];

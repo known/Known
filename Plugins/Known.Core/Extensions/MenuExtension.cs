@@ -22,9 +22,10 @@ static class MenuExtension
             return modules.ToMenus();
 
         // 如果是角色用户，根据用户角色模块ID列表返回菜单
-        var moduleIds = CoreConfig.OnRoleModule != null
-                      ? await CoreConfig.OnRoleModule.Invoke(db, user.Id)
-                      : await db.GetRoleModuleIdsAsync(user.Id);
+        var moduleIds = await Config.OnRoleModule?.Invoke(db, user.Id);
+        if (moduleIds == null || moduleIds.Count == 0)
+            return [];
+
         var userModules = new List<ModuleInfo>();
         foreach (var item in modules)
         {

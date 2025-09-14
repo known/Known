@@ -197,10 +197,6 @@ public static class CoreExtension
         // 添加服务
         services.AddServices(assembly);
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
-
-        // 添加模型
-        DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
-        DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
     }
 
     private static async Task<List<ModuleInfo>> OnInitialModules(Database db)

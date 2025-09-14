@@ -46,6 +46,11 @@ public partial class Config
     /// </summary>
     public static Action<AdminInfo> OnAdmin { get; set; }
 
+    /// <summary>
+    /// 取得或设置获取用户角色模块ID列表委托。
+    /// </summary>
+    public static Func<Database, string, Task<List<string>>> OnRoleModule { get; set; }
+
     public static Func<Database, InstallInfo, SystemInfo, Task> OnInstall { get; set; }
     public static Func<Database, Task<List<CodeInfo>>> OnCodeTable { get; set; }
     public static Func<ImportContext, ImportBase> OnAutoImport { get; set; }

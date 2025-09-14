@@ -84,8 +84,8 @@ partial class AdminService
     {
         var info = AppData.GetBizData<List<UserDataInfo>>(KeyUser)?.FirstOrDefault(d => d.Id == id);
         info ??= new UserDataInfo();
-        var roles = AppData.GetBizData<List<RoleInfo>>(KeyRole);
-        info.Roles = roles?.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
+        //var roles = AppData.GetBizData<List<RoleInfo>>(KeyRole);
+        //info.Roles = roles?.Select(r => new CodeInfo(r.Id, r.Name)).ToList();
         return Task.FromResult(info);
     }
 

@@ -13,6 +13,7 @@ public static class AdminExtension
         Config.OnInstallModules = OnInstallModules;
         Config.OnInitialModules = OnInitialModules;
         Config.OnCodeTable = db => db.GetDictionariesAsync();
+        Config.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);
@@ -39,6 +40,10 @@ public static class AdminExtension
 
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
+
+        // 添加模型
+        DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
+        DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
     }
 
     public static void AddKnownAdminClient(this IServiceCollection services)

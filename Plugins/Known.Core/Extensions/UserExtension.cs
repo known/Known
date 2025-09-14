@@ -93,9 +93,9 @@ public static class UserExtension
                 model.Password = Utils.ToMd5(info?.UserDefaultPwd);
             }
             await db.SaveAsync(model);
-            var role = await db.QueryAsync<SysRole>(d => d.CompNo == model.CompNo && d.Name == model.Role);
-            if (role != null)
-                await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
+            //var role = await db.QueryAsync<SysRole>(d => d.CompNo == model.CompNo && d.Name == model.Role);
+            //if (role != null)
+            //    await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
         }
         else
         {
@@ -220,32 +220,5 @@ public static class UserExtension
             avatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
         info.AvatarUrl = avatarUrl;
         return info;
-    }
-
-    internal static void UpdateUserRoleName(this Database db)
-    {
-        Task.Run(async () =>
-        {
-            try
-            {
-                var users = await db.QueryListAsync<SysUser>();
-                foreach (var user in users)
-                {
-                    if (user.UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase))
-                        continue;
-
-                    var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
-                    var roleIds = userRoles?.Select(d => d.RoleId).ToArray();
-                    var roles = await db.QueryListByIdAsync<SysRole>(roleIds);
-                    if (roles != null && roles.Count > 0)
-                        user.Role = string.Join(",", [.. roles.Select(r => r.Name)]);
-                    await db.SaveAsync(user);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Exception(LogTarget.BackEnd, db.User, ex);
-            }
-        });
     }
 }
