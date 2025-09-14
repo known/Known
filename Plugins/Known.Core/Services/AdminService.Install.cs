@@ -9,25 +9,26 @@ partial class AdminService
         if (Language.Settings == null || Language.Settings.Count == 0)
             await AppHelper.LoadLanguagesAsync(database);
 
-        CoreConfig.System ??= await database.GetSystemAsync();
+        var sys = await database.GetSystemAsync();
         var info = new InitialInfo
         {
-            IsInstalled = CoreConfig.System != null,
+            IsInstalled = sys != null,
             LanguageSettings = Language.Settings,
             Languages = Language.Datas
         };
-        if (CoreConfig.System != null)
+        if (sys != null)
         {
             info.System = new SystemInfo
             {
-                CompNo = CoreConfig.System.CompNo,
-                CompName = CoreConfig.System.CompName,
-                AppName = CoreConfig.System.AppName,
-                IsLoginCaptcha = CoreConfig.System.IsLoginCaptcha,
-                IsWatermark = CoreConfig.System.IsWatermark,
-                MaxFileSize = CoreConfig.System.MaxFileSize
+                CompNo = sys.CompNo,
+                CompName = sys.CompName,
+                AppName = sys.AppName,
+                IsLoginCaptcha = sys.IsLoginCaptcha,
+                IsWatermark = sys.IsWatermark,
+                MaxFileSize = sys.MaxFileSize
             };
         }
+        CoreConfig.System = sys;
         CoreConfig.Load(info);
         if (CoreConfig.OnInitial != null)
             await CoreConfig.OnInitial.Invoke(database, info);

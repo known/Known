@@ -13,6 +13,7 @@ html, body {font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helv
 .login {position:absolute;left:0;right:0;top:0;bottom:0;overflow:auto;}
 .login-head {display:flex;justify-content:space-between;padding:20px 200px;font-size:1.2rem;}
 .login-logo {display:flex;}
+.login-logo .kui-logo {width:180px;}
 .login-head ul {margin:0;padding:0;padding-top:13px;}
 .login-body {
     background:linear-gradient(135deg, #6da0f5, #c0e9fc);height:500px;padding:0 200px;display:grid;grid-template-columns:auto 430px;

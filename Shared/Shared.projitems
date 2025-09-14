@@ -9,10 +9,7 @@
     <Import_RootNamespace>Known</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Admin.Dictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Log.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Admin.Organization.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Admin.Role.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\AttachExtension.cs" />
