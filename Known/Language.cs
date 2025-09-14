@@ -18,6 +18,11 @@ public partial class Language
     /// 不能操作代码配置的模块。
     /// </summary>
     public const string TipCodeModuleNotOperate = "不能操作代码配置的模块！";
+    internal const string TipDataRequired = "导入数据不能为空！";
+    internal const string TipExcelFailed = "Excel创建失败！";
+    internal const string TipValidSuccess = "校验成功！";
+    internal const string TipValidFailed = "校验失败！";
+    internal const string TipRowNo = "第{key}行：";
 
     internal const string OverMaxTabCount = "超过最大标签页数！";
     internal const string MoreTableSetting = "更多表格属性设置";
@@ -25,7 +30,7 @@ public partial class Language
 
     internal const string ImportTable = "导入表";
     internal const string DataTable = "数据表";
-
+    
     internal const string CloseAdvSearchForm = "关闭高级搜索框";
     internal const string TableColumnSetting = "列展示设置";
     internal const string TableColumnShow = "列展示";
@@ -43,8 +48,6 @@ public partial class Language
     internal const string NavFullScreen = "全屏";
     internal const string NavLink = "连接";
 
-    internal const string BluetoothNotSupport = "蓝牙不支持";
-    internal const string BluetoothScanning = "蓝牙设备扫描中...";
 
     internal static void Initialize(Assembly assembly)
     {

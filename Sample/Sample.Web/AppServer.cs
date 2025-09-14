@@ -24,7 +24,6 @@ public static class AppServer
     {
         //var assembly = typeof(AppServer).Assembly;
         //services.AddServices(assembly);
-        //services.AddKnownCells();
         services.AddKnownWeb(action);
     }
 

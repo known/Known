@@ -1,5 +1,7 @@
 ﻿using Known.Auths;
+using Known.Cells;
 using Known.Filters;
+using Known.Imports;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -48,6 +50,7 @@ public static class CoreExtension
             services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownCore();
         services.AddKnownServices();
+        services.AddKnownCells();
         services.AddScoped<INotifyService, WebNotifyService>();
 
         if (CoreOption.Instance.IsCompression)
@@ -188,6 +191,8 @@ public static class CoreExtension
         Logger.Initialize(Config.App.WebLogDays);
         if (!Config.IsAdmin)
             Config.OnInitialModules = OnInitialModules;
+
+        Config.OnAutoImport = context => new AutoImport(context);
 
         // 添加服务
         services.AddServices(assembly);

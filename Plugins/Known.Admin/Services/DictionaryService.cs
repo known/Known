@@ -1,12 +1,70 @@
 ﻿namespace Known.Services;
 
-partial class AdminService
+/// <summary>
+/// 数据字典服务接口。
+/// </summary>
+public interface IDictionaryService : IService
+{
+    /// <summary>
+    /// 异步分页查询数据字典。
+    /// </summary>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步获取数据字典类别列表。
+    /// </summary>
+    /// <returns>数据字典类别列表。</returns>
+    Task<List<CodeInfo>> GetCategoriesAsync();
+
+    /// <summary>
+    /// 异步删除数据字典。
+    /// </summary>
+    /// <param name="infos">数据字典列表。</param>
+    /// <returns>删除结果。</returns>
+    Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos);
+
+    /// <summary>
+    /// 异步保存数据字典。
+    /// </summary>
+    /// <param name="info">数据字典对象。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info);
+}
+
+[Client]
+class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
+{
+    public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
+    {
+        return Http.QueryAsync<DictionaryInfo>("/Dictionary/QueryDictionaries", criteria);
+    }
+
+    public Task<List<CodeInfo>> GetCategoriesAsync()
+    {
+        return Http.GetAsync<List<CodeInfo>>("/Dictionary/GetCategories");
+    }
+
+    public Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos)
+    {
+        return Http.PostAsync("/Dictionary/DeleteDictionaries", infos);
+    }
+
+    public Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info)
+    {
+        return Http.PostAsync("/Dictionary/SaveDictionary", info);
+    }
+}
+
+[WebApi, Service]
+class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
 {
     public async Task<Result> RefreshCacheAsync()
     {
         var codes = await Database.GetDictionariesAsync();
         Cache.AttachCodes(codes);
-        return Result.Success(CoreLanguage.RefreshSuccess, codes);
+        return Result.Success(AdminLanguage.RefreshSuccess, codes);
     }
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()
@@ -49,7 +107,7 @@ partial class AdminService
         foreach (var item in infos)
         {
             if (await database.ExistsAsync<SysDictionary>(d => d.Category == item.Code))
-                return Result.Error(CoreLanguage.TipDicDeleteExistsChild);
+                return Result.Error(AdminLanguage.TipDicDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -75,7 +133,7 @@ partial class AdminService
 
         var exists = await database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
         if (exists)
-            return Result.Error(CoreLanguage.TipDicCodeExists);
+            return Result.Error(AdminLanguage.TipDicCodeExists);
 
         var fileFiles = info.Files?.GetAttachFiles(nameof(DictionaryInfo.Extension), "DictionaryFiles");
         var result = await database.TransactionAsync(Language.Save, async db =>

@@ -8,6 +8,7 @@
 [PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
 public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 {
+    private IDictionaryService Service;
     private KListTable<DictionaryInfo> listTable;
     private List<CodeInfo> ListData = [];
     private CodeInfo category;
@@ -18,6 +19,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IDictionaryService>();
 
         Table.AdvSearch = UIConfig.IsAdvAdmin;
         Table.EnableFilter = UIConfig.IsAdvAdmin;
@@ -96,13 +98,13 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
             Sort = total + 1,
             DicType = Utils.ConvertTo<DictionaryType>(category.Data)
         };
-        Table.NewForm(Admin.SaveDictionaryAsync, row);
+        Table.NewForm(Service.SaveDictionaryAsync, row);
     }
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteDictionariesAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
 
     /// <summary>
     /// 弹出编辑表单对话框。
@@ -112,14 +114,14 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     public void Edit(DictionaryInfo row)
     {
         isAddCategory = false;
-        Table.EditForm(Admin.SaveDictionaryAsync, row);
+        Table.EditForm(Service.SaveDictionaryAsync, row);
     }
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(DictionaryInfo row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
+    [Action] public void Delete(DictionaryInfo row) => Table.Delete(Service.DeleteDictionariesAsync, row);
 
     /// <summary>
     /// 弹出数据导入对话框。
@@ -138,14 +140,14 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
             return default;
 
         criteria.SetQuery(nameof(DictionaryInfo.Category), QueryType.Equal, category?.Code);
-        var result = await Admin.QueryDictionariesAsync(criteria);
+        var result = await Service.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
     }
 
     private async Task LoadCategoriesAsync()
     {
-        ListData = await Admin.GetCategoriesAsync();
+        ListData = await Service.GetCategoriesAsync();
         category = ListData?.FirstOrDefault();
         listTable?.SetListBox(ListData, category?.Code);
     }
@@ -153,6 +155,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 
 class CategoryGrid : BaseTable<DictionaryInfo>
 {
+    private IDictionaryService Service;
     private readonly CodeInfo category = new(Constants.DicCategory, Constants.DicCategory, Constants.DicCategory, null);
     private int total;
 
@@ -167,6 +170,8 @@ class CategoryGrid : BaseTable<DictionaryInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IDictionaryService>();
+
         Table.AutoHeight = false;
         Table.ShowPager = true;
         Table.OnQuery = QueryDictionariesAsync;
@@ -185,7 +190,7 @@ class CategoryGrid : BaseTable<DictionaryInfo>
 
     public void New()
     {
-        Table.NewForm(Admin.SaveDictionaryAsync, new DictionaryInfo
+        Table.NewForm(Service.SaveDictionaryAsync, new DictionaryInfo
         {
             Category = category.Code,
             CategoryName = nameof(DictionaryType.None),
@@ -193,8 +198,8 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         });
     }
 
-    public void Edit(DictionaryInfo row) => Table.EditForm(Admin.SaveDictionaryAsync, row);
-    public void Delete(DictionaryInfo row) => Table.Delete(Admin.DeleteDictionariesAsync, row);
+    public void Edit(DictionaryInfo row) => Table.EditForm(Service.SaveDictionaryAsync, row);
+    public void Delete(DictionaryInfo row) => Table.Delete(Service.DeleteDictionariesAsync, row);
 
     private async Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
     {
@@ -202,7 +207,7 @@ class CategoryGrid : BaseTable<DictionaryInfo>
             return default;
 
         criteria.SetQuery(nameof(DictionaryInfo.Category), QueryType.Equal, category?.Code);
-        var result = await Admin.QueryDictionariesAsync(criteria);
+        var result = await Service.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
     }

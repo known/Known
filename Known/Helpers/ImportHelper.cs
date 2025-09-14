@@ -1,7 +1,4 @@
-﻿using Known.Cells;
-using Known.Imports;
-
-namespace Known.Helpers;
+﻿namespace Known.Helpers;
 
 /// <summary>
 /// 数据导入帮助者类。
@@ -63,7 +60,7 @@ public sealed class ImportHelper
     /// <param name="db">数据库对象。</param>
     /// <param name="task">后台任务。</param>
     /// <returns>执行结果。</returns>
-    internal static Task<Result> ExecuteAsync(Context context, Database db, TaskInfo task)
+    public static Task<Result> ExecuteAsync(Context context, Database db, TaskInfo task)
     {
         var import = CreateImport(context, task.BizId, db);
         if (import == null)
@@ -76,7 +73,7 @@ public sealed class ImportHelper
     {
         var impContext = new ImportContext(context) { BizId = bizId, Database = db };
         if (impContext.IsDictionary)
-            return new AutoImport(impContext);
+            return Config.OnAutoImport?.Invoke(impContext);
 
         if (!Config.ImportTypes.TryGetValue(impContext.BizType, out Type type))
             return null;
@@ -97,7 +94,7 @@ public sealed class ImportHelper
         var errors = new Dictionary<int, string>();
         var lines = File.ReadAllLines(path);
         if (lines == null || lines.Length == 0)
-            return Result.Error(CoreLanguage.TipDataRequired);
+            return Result.Error(Language.TipDataRequired);
 
         for (int i = 0; i < lines.Length; i++)
         {
@@ -125,12 +122,12 @@ public sealed class ImportHelper
     {
         var excel = ExcelFactory.Create(path);
         if (excel == null)
-            return Result.Error(CoreLanguage.TipExcelFailed);
+            return Result.Error(Language.TipExcelFailed);
 
         var errors = new Dictionary<int, string>();
         var lines = excel.SheetToDictionaries(0, 2);
         if (lines == null || lines.Count == 0)
-            return Result.Error(CoreLanguage.TipDataRequired);
+            return Result.Error(Language.TipDataRequired);
 
         for (int i = 0; i < lines.Count; i++)
         {
@@ -149,13 +146,13 @@ public sealed class ImportHelper
     private static Result ReadResult(Context context, Dictionary<int, string> errors)
     {
         if (errors.Count == 0)
-            return Result.Success(CoreLanguage.TipValidSuccess);
+            return Result.Success(Language.TipValidSuccess);
 
         var error = string.Join(Environment.NewLine, errors.Select(e =>
         {
-            var rowNo = context.Language[CoreLanguage.TipRowNo].Replace("{key}", $"{e.Key}");
+            var rowNo = context.Language[Language.TipRowNo].Replace("{key}", $"{e.Key}");
             return $"{rowNo}{e.Value}";
         }));
-        return Result.Error($"{context.Language[CoreLanguage.TipValidFailed]}{Environment.NewLine}{error}");
+        return Result.Error($"{context.Language[Language.TipValidFailed]}{Environment.NewLine}{error}");
     }
 }

@@ -19,6 +19,7 @@ public static class AdminExtension
         Config.OnInstall = AdminHelper.Install;
         Config.OnInstallModules = OnInstallModules;
         Config.OnInitialModules = OnInitialModules;
+        Config.OnCodeTable = db => db.GetDictionariesAsync();
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);

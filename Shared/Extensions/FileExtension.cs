@@ -106,7 +106,7 @@ public static class FileExtension
         }
     }
 
-    internal static async Task DeleteFileAsync(this Database db, SysFile item, List<string> oldFiles)
+    public static async Task DeleteFileAsync(this Database db, SysFile item, List<string> oldFiles)
     {
         oldFiles.Add(item.Path);
         if (!string.IsNullOrWhiteSpace(item.ThumbPath))
@@ -115,7 +115,7 @@ public static class FileExtension
         await db.DeleteAsync(item);
     }
 
-    internal static async Task DeleteFileAsync(this Database db, AttachInfo item, List<string> oldFiles)
+    public static async Task DeleteFileAsync(this Database db, AttachInfo item, List<string> oldFiles)
     {
         oldFiles.Add(item.Path);
         if (!string.IsNullOrWhiteSpace(item.ThumbPath))

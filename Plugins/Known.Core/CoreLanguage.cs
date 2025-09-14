@@ -18,7 +18,6 @@ public partial class CoreLanguage
     internal const string TableName = "数据表名";
     internal const string Fields = "字段列表";
     internal const string ConnectSuccess = "连接成功！";
-    internal const string RefreshSuccess = "刷新成功！";
     internal const string ExecuteSuccess = "执行成功！";
     internal const string MigrateSuccess = "迁移成功！";
 
@@ -26,23 +25,15 @@ public partial class CoreLanguage
     internal const string TipSystemNotInstall = "系统未安装！";
     internal const string TipOrgDeleteExistsChild = "存在子组织架构，不能删除！";
     internal const string TipOrgCodeExists = "组织编码已存在！";
-    internal const string TipDicCodeExists = "数据字典编码已存在！";
-    internal const string TipDicDeleteExistsChild = "存在数据字典，不能删除！";
     internal const string TipFileNotExists = "文件不存在！";
     internal const string TipModuleNotExists = "模块不存在！";
     internal const string TipModuleDeleteExistsChild = "存在子模块，不能删除！";
     internal const string TipInstallRequired = "安装信息不能为空！";
     internal const string TipNotNetwork = "电脑未联网！";
     internal const string TipTableRequired = "实体表名不能为空！";
-    internal const string TipDataRequired = "导入数据不能为空！";
-    internal const string TipExcelFailed = "Excel创建失败！";
-    internal const string TipValidSuccess = "校验成功！";
-    internal const string TipValidFailed = "校验失败！";
-    internal const string TipRowNo = "第{key}行：";
     internal const string TipTemplateTips = "提示：红色栏位为必填栏位！";
     internal const string TipTemplateFill = "填写：{text}";
-    internal const string TipFormatInvalid = "{label}格式不正确！";
-
+    
     internal const string TipLoginTimeout = "用户登录已过期！";
     internal const string TipNoLogin = "用户未登录！";
     internal const string TipNoUser = "用户不存在！";

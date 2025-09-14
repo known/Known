@@ -47,6 +47,8 @@ public partial class Config
     public static Action<AdminInfo> OnAdmin { get; set; }
 
     public static Func<Database, InstallInfo, SystemInfo, Task> OnInstall { get; set; }
+    public static Func<Database, Task<List<CodeInfo>>> OnCodeTable { get; set; }
+    public static Func<ImportContext, ImportBase> OnAutoImport { get; set; }
 
     internal static void AddApp(Assembly assembly)
     {

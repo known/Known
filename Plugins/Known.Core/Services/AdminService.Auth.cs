@@ -145,7 +145,8 @@ partial class AdminService
             info.UserMenus = await db.GetUserMenusAsync();
             info.UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
             info.UserTableSettings = await db.GetUserTableSettingsAsync();
-            info.Codes = await db.GetDictionariesAsync();
+            if (Config.OnCodeTable != null)
+                info.Codes = await Config.OnCodeTable.Invoke(db);
             if (CoreConfig.OnAdmin != null)
                 await CoreConfig.OnAdmin.Invoke(db, info);
         });

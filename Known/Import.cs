@@ -1,6 +1,107 @@
-﻿using System.Linq.Expressions;
+﻿namespace Known;
 
-namespace Known;
+/// <summary>
+/// 数据导入基类。
+/// </summary>
+/// <param name="context">导入上下文对象实例。</param>
+public abstract class ImportBase(ImportContext context)
+{
+    /// <summary>
+    /// 取得导入上下文对象实例。
+    /// </summary>
+    public ImportContext ImportContext { get; set; } = context;
+
+    /// <summary>
+    /// 取得系统上下文对象实例。
+    /// </summary>
+    public Context Context => ImportContext.Context;
+
+    /// <summary>
+    /// 取得上下文数据库对象实例。
+    /// </summary>
+    public Database Database => ImportContext.Database;
+
+    /// <summary>
+    /// 取得上下文语言对象实例。
+    /// </summary>
+    public Language Language => Context?.Language;
+
+    /// <summary>
+    /// 取得导入栏位信息列表。
+    /// </summary>
+    public List<ColumnInfo> Columns { get; } = [];
+
+    /// <summary>
+    /// 初始化导入栏位虚方法。
+    /// </summary>
+    public virtual void InitColumns() { }
+
+    /// <summary>
+    /// 异步执行导入数据虚方法。
+    /// </summary>
+    /// <param name="file">导入文件对象。</param>
+    /// <returns>导入结果。</returns>
+    public virtual Task<Result> ExecuteAsync(AttachInfo file) => Result.SuccessAsync("");
+}
+
+/// <summary>
+/// 数据导入上下文类。
+/// </summary>
+/// <param name="context">系统上下文对象。</param>
+public class ImportContext(Context context)
+{
+    /// <summary>
+    /// 取得系统上下文对象实例。
+    /// </summary>
+    public Context Context { get; } = context;
+
+    /// <summary>
+    /// 取得或设置数据库访问实例。
+    /// </summary>
+    public Database Database { get; set; }
+
+    /// <summary>
+    /// 取得或设置业务ID。
+    /// </summary>
+    public string BizId { get; set; }
+
+    /// <summary>
+    /// 取得是否是字典类型。
+    /// </summary>
+    public bool IsDictionary => !string.IsNullOrWhiteSpace(BizId) && BizId.StartsWith(Config.AutoBizIdPrefix);
+
+    /// <summary>
+    /// 取得业务类型。
+    /// </summary>
+    public string BizType => GetBizIdValue(0);
+
+    /// <summary>
+    /// 取得业务参数。
+    /// </summary>
+    public string BizParam => GetBizIdValue(1);
+
+    /// <summary>
+    /// 取得页面ID。
+    /// </summary>
+    public string PageId => GetBizIdValue(1);
+
+    /// <summary>
+    /// 取得插件ID。
+    /// </summary>
+    public string PluginId => GetBizIdValue(2);
+
+    private string GetBizIdValue(int index)
+    {
+        if (string.IsNullOrWhiteSpace(BizId))
+            return string.Empty;
+
+        var bizIds = BizId.Split('_');
+        if (bizIds.Length > index)
+            return bizIds[index];
+
+        return string.Empty;
+    }
+}
 
 /// <summary>
 /// 数据导入泛型基类。
@@ -148,7 +249,7 @@ public class ImportRow<TItem> : Dictionary<string, string>
     {
         var value = GetValue<T>(key);
         if (required && value == null)
-            vr.AddError(context.Language[CoreLanguage.TipFormatInvalid].Replace("{label}", key));
+            vr.AddError(context.Language[Language.TipFormatInvalid].Replace("{label}", key));
 
         return value;
     }

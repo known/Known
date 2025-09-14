@@ -16,7 +16,6 @@ public static partial class Extension
         action?.Invoke(Config.App);
 
         services.AddScoped<Context>();
-        services.AddScoped<ImportContext>();
     }
 
     /// <summary>

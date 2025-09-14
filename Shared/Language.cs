@@ -477,6 +477,7 @@ public partial class Language
     internal const string ImportIsAsync = "异步导入";
     internal const string ImportDownload = "模板下载";
     internal const string ImportError = "错误信息";
+    internal const string TipFormatInvalid = "{label}格式不正确！";
 
     internal const string TipEnterKeyword = "输入关键字";
     internal const string TipNotPreview = "不支持在线预览";
