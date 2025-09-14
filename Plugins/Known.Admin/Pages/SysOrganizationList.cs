@@ -1,20 +1,18 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 组织架构模块页面组件类。
-/// </summary>
 [Route("/sys/organizations")]
 //[Menu(Constants.BaseData, "组织架构", "partition", 3)]
 [PagePlugin("组织架构", "partition", PagePluginType.Module, AdminLanguage.BaseData, Sort = 3)]
 public class SysOrganizationList : BaseTablePage<OrganizationInfo>
 {
+    private IOrganizationService Service;
     private MenuInfo current;
     private TreeModel Tree;
 
-    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IOrganizationService>();
 
         Tree = new TreeModel
         {
@@ -34,7 +32,6 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
         };
     }
 
-    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KTreeTable<OrganizationInfo>>()
@@ -43,16 +40,12 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
                .Build();
     }
 
-    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         await Tree.RefreshAsync();
         await Table.RefreshAsync();
     }
 
-    /// <summary>
-    /// 弹出新增表单对话框。
-    /// </summary>
     [Action]
     public void New()
     {
@@ -62,25 +55,12 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
             return;
         }
 
-        Table.NewForm(Admin.SaveOrganizationAsync, new OrganizationInfo { ParentId = current?.Id, ParentName = current?.Name });
+        Table.NewForm(Service.SaveOrganizationAsync, new OrganizationInfo { ParentId = current?.Id, ParentName = current?.Name });
     }
 
-    /// <summary>
-    /// 弹出编辑表单对话框。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Edit(OrganizationInfo row) => Table.EditForm(Admin.SaveOrganizationAsync, row);
-
-    /// <summary>
-    /// 删除一条数据。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(OrganizationInfo row) => Table.Delete(Admin.DeleteOrganizationsAsync, row);
-
-    /// <summary>
-    /// 批量删除多条数据。
-    /// </summary>
-    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteOrganizationsAsync);
+    [Action] public void Edit(OrganizationInfo row) => Table.EditForm(Service.SaveOrganizationAsync, row);
+    [Action] public void Delete(OrganizationInfo row) => Table.Delete(Service.DeleteOrganizationsAsync, row);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteOrganizationsAsync);
 
     private async Task OnNodeClickAsync(MenuInfo item)
     {
@@ -91,7 +71,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
 
     private async Task<TreeModel> OnTreeModelChangedAsync()
     {
-        var datas = await Admin.GetOrganizationsAsync();
+        var datas = await Service.GetOrganizationsAsync();
         if (datas != null && datas.Count > 0)
         {
             Tree.Data = datas.ToMenuItems(ref current);

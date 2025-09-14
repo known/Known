@@ -1,6 +1,33 @@
 ﻿namespace Known.Services;
 
-partial class AdminService
+public interface IOrganizationService : IService
+{
+    Task<List<OrganizationInfo>> GetOrganizationsAsync();
+    Task<Result> DeleteOrganizationsAsync(List<OrganizationInfo> infos);
+    Task<Result> SaveOrganizationAsync(OrganizationInfo info);
+}
+
+[Client]
+class OrganizationClient(HttpClient http) : ClientBase(http), IOrganizationService
+{
+    public Task<List<OrganizationInfo>> GetOrganizationsAsync()
+    {
+        return Http.GetAsync<List<OrganizationInfo>>("/Organization/GetOrganizations");
+    }
+
+    public Task<Result> DeleteOrganizationsAsync(List<OrganizationInfo> infos)
+    {
+        return Http.PostAsync("/Organization/DeleteOrganizations", infos);
+    }
+
+    public Task<Result> SaveOrganizationAsync(OrganizationInfo info)
+    {
+        return Http.PostAsync("/Organization/SaveOrganization", info);
+    }
+}
+
+[WebApi, Service]
+class OrganizationService(Context context) : ServiceBase(context), IOrganizationService
 {
     public Task<List<OrganizationInfo>> GetOrganizationsAsync()
     {
@@ -18,7 +45,7 @@ partial class AdminService
         foreach (var item in infos)
         {
             if (await database.ExistsAsync<SysOrganization>(d => d.ParentId == item.Id))
-                return Result.Error(CoreLanguage.TipOrgDeleteExistsChild);
+                return Result.Error(AdminLanguage.TipOrgDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -41,7 +68,7 @@ partial class AdminService
         if (vr.IsValid)
         {
             if (await database.ExistsAsync<SysOrganization>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Code == model.Code))
-                vr.AddError(Language[CoreLanguage.TipOrgCodeExists]);
+                vr.AddError(Language[AdminLanguage.TipOrgCodeExists]);
         }
         if (!vr.IsValid)
             return vr;

@@ -23,8 +23,6 @@ public partial class CoreLanguage
 
     internal const string TipAdminNoMigrate = "Admin插件不支持迁移！";
     internal const string TipSystemNotInstall = "系统未安装！";
-    internal const string TipOrgDeleteExistsChild = "存在子组织架构，不能删除！";
-    internal const string TipOrgCodeExists = "组织编码已存在！";
     internal const string TipFileNotExists = "文件不存在！";
     internal const string TipModuleNotExists = "模块不存在！";
     internal const string TipModuleDeleteExistsChild = "存在子模块，不能删除！";

@@ -213,10 +213,10 @@ where a.CompNo=@CompNo and a.UserName<>'admin'";
         var orgNo = criteria.GetParameter<string>(orgNoId);
         if (!string.IsNullOrWhiteSpace(orgNo))
         {
-            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
-            if (org != null && org.Code != db.User?.CompNo)
-                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
-            else
+            //var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            //if (org != null && org.Code != db.User?.CompNo)
+            //    criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            //else
                 criteria.RemoveQuery(orgNoId);
         }
         criteria.Fields[nameof(UserDataInfo.Name)] = "a.Name";

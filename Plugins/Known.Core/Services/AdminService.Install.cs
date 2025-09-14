@@ -111,7 +111,6 @@ partial class AdminService
             var sys = CreateSystemInfo(info);
             await db.SaveSystemAsync(sys);
             await SaveUserAsync(db, info);
-            await SaveOrganizationAsync(db, info);
             if (Config.OnInstall != null)
                 await Config.OnInstall.Invoke(db, info, sys);
         });
@@ -150,18 +149,6 @@ partial class AdminService
         user.Enabled = true;
         CoreOption.Instance.OnNewUser?.Invoke(db, user);
         await db.SaveAsync(user);
-    }
-
-    private static async Task SaveOrganizationAsync(Database db, InstallInfo info)
-    {
-        var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == info.CompNo && d.Code == info.CompNo);
-        org ??= new SysOrganization();
-        org.AppId = Config.App.Id;
-        org.CompNo = info.CompNo;
-        org.ParentId = "0";
-        org.Code = info.CompNo;
-        org.Name = info.CompName;
-        await db.SaveAsync(org);
     }
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
