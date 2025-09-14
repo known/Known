@@ -1,8 +1,5 @@
 ﻿namespace Known.Internals;
 
-/// <summary>
-/// 系统模块管理页面组件类。
-/// </summary>
 class ModuleList : BaseTablePage<SysModule>
 {
     private IModuleService Service;
@@ -11,10 +8,6 @@ class ModuleList : BaseTablePage<SysModule>
     private int total;
     private TreeModel Tree;
 
-    /// <summary>
-    /// 异步初始化页面。
-    /// </summary>
-    /// <returns></returns>
     protected override async Task OnInitPageAsync()
     {
         if (!CurrentUser.IsSystemAdmin())
@@ -69,7 +62,6 @@ class ModuleList : BaseTablePage<SysModule>
         Table.AddAction(nameof(MoveDown));
     }
 
-    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KTreeTable<SysModule>>()
@@ -78,10 +70,6 @@ class ModuleList : BaseTablePage<SysModule>
                .Build();
     }
 
-    /// <summary>
-    /// 异步刷新页面。
-    /// </summary>
-    /// <returns></returns>
     public override async Task RefreshAsync()
     {
         await Tree.RefreshAsync();
@@ -101,9 +89,6 @@ class ModuleList : BaseTablePage<SysModule>
         return Task.FromResult(result);
     }
 
-    /// <summary>
-    /// 弹出新增表单对话框。
-    /// </summary>
     public void New()
     {
         if (current == null)
@@ -115,48 +100,14 @@ class ModuleList : BaseTablePage<SysModule>
         Table.NewForm(Service.SaveModuleAsync, new SysModule { ParentId = current?.Id, ParentName = current?.Name, Sort = total + 1 });
     }
 
-    /// <summary>
-    /// 弹出编辑表单对话框。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     public void Edit(SysModule row) => Table.EditForm(Service.SaveModuleAsync, row);
-
-    /// <summary>
-    /// 删除一条数据。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     public void Delete(SysModule row) => Table.Delete(Service.DeleteModulesAsync, row);
-
-    /// <summary>
-    /// 批量删除多条数据。
-    /// </summary>
     public void DeleteM() => Table.DeleteM(Service.DeleteModulesAsync);
-
-    /// <summary>
-    /// 复制多个模块到另一个模块下面。
-    /// </summary>
     public void Copy() => Table.SelectRows(OnCopy);
-
-    /// <summary>
-    /// 移动多个模块到另一个模块下面。
-    /// </summary>
     public void Move() => Table.SelectRows(OnMove);
-
-    /// <summary>
-    /// 上移一个模块。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     public Task MoveUp(SysModule row) => OnMoveAsync(row, true);
-
-    /// <summary>
-    /// 下移一个模块。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     public Task MoveDown(SysModule row) => OnMoveAsync(row, false);
 
-    /// <summary>
-    /// 导入模块数据。
-    /// </summary>
     public void Import()
     {
         var form = new FormModel<FileFormInfo>(this)
@@ -171,9 +122,6 @@ class ModuleList : BaseTablePage<SysModule>
         UI.ShowForm(form);
     }
 
-    /// <summary>
-    /// 导出模块数据。
-    /// </summary>
     public Task Export()
     {
         return App?.ShowSpinAsync(Language["Tip.DataExporting"], async () =>

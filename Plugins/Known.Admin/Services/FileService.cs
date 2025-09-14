@@ -1,22 +1,8 @@
 ﻿namespace Known.Services;
 
-/// <summary>
-/// 附件服务接口。
-/// </summary>
 public interface IFileService : IService
 {
-    /// <summary>
-    /// 异步分页查询系统附件。
-    /// </summary>
-    /// <param name="criteria">查询条件对象。</param>
-    /// <returns>分页结果。</returns>
     Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria);
-
-    /// <summary>
-    /// 异步删除多条系统附件。
-    /// </summary>
-    /// <param name="infos">系统附件列表。</param>
-    /// <returns>删除结果。</returns>
     Task<Result> DeleteFilesAsync(List<AttachInfo> infos);
 }
 

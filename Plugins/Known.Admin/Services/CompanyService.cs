@@ -1,21 +1,8 @@
 ﻿namespace Known.Services;
 
-/// <summary>
-/// 公司服务接口。
-/// </summary>
 public interface ICompanyService : IService
 {
-    /// <summary>
-    /// 异步获取租户企业信息JSON。
-    /// </summary>
-    /// <returns>企业信息JSON。</returns>
     Task<string> GetCompanyAsync();
-
-    /// <summary>
-    /// 异步保存租户企业信息。
-    /// </summary>
-    /// <param name="model">企业信息。</param>
-    /// <returns>保存结果。</returns>
     Task<Result> SaveCompanyAsync(object model);
 }
 

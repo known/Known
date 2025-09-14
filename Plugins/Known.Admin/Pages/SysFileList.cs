@@ -1,8 +1,5 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 系统附件模块页面组件类。
-/// </summary>
 [Route("/sys/files")]
 //[Menu(Constants.System, "系统附件", "file", 5)]
 [PagePlugin("系统附件", "file", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 8)]
@@ -10,7 +7,6 @@ public class SysFileList : BaseTablePage<AttachInfo>
 {
     private IFileService Service;
 
-    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -24,20 +20,8 @@ public class SysFileList : BaseTablePage<AttachInfo>
         Table.Column(c => c.Size).Template(BuildFileSize);
     }
 
-    /// <summary>
-    /// 删除一条数据。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     [Action] public void Delete(AttachInfo row) => Table.Delete(Service.DeleteFilesAsync, row);
-
-    /// <summary>
-    /// 批量删除多条数据。
-    /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteFilesAsync);
-
-    /// <summary>
-    /// 导出表格数据。
-    /// </summary>
     [Action] public Task Export() => Table.ExportDataAsync();
 
     private void BuildFileName(RenderTreeBuilder builder, AttachInfo row)

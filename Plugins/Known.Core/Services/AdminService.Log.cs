@@ -7,13 +7,6 @@ partial class AdminService
         return Database.AddLogAsync(info);
     }
 
-    public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria)
-    {
-        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(LogInfo.CreateTime)} desc"];
-        return Database.Query<SysLog>(criteria).ToPageAsync<LogInfo>();
-    }
-
     public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria)
     {
         return Logger.QueryLogsAsync(criteria);

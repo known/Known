@@ -1,14 +1,7 @@
 ﻿namespace Known;
 
-/// <summary>
-/// 依赖注入扩展类。
-/// </summary>
 public static class AdminExtension
 {
-    /// <summary>
-    /// 添加Known框架后台管理模块。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
     public static void AddKnownAdmin(this IServiceCollection services)
     {
         var assembly = typeof(AdminExtension).Assembly;
@@ -48,10 +41,6 @@ public static class AdminExtension
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
     }
 
-    /// <summary>
-    /// 添加Known框架后台管理模块前端。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
     public static void AddKnownAdminClient(this IServiceCollection services)
     {
         var assembly = typeof(AdminExtension).Assembly;

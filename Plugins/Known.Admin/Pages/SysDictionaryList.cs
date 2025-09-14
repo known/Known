@@ -1,8 +1,5 @@
 ﻿namespace Known.Pages;
 
-/// <summary>
-/// 数据字典模块页面组件类。
-/// </summary>
 [Route("/sys/dictionaries")]
 //[Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
 [PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
@@ -15,7 +12,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     private bool isAddCategory;
     private int total;
 
-    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -32,7 +28,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         Table.Column(c => c.Sort).Filter(false);
     }
 
-    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -40,7 +35,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
             await LoadCategoriesAsync();
     }
 
-    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KListTable<DictionaryInfo>>()
@@ -51,7 +45,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
                .Build(value => listTable = value);
     }
 
-    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         if (isAddCategory)
@@ -60,9 +53,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
             await base.RefreshAsync();
     }
 
-    /// <summary>
-    /// 弹出添加类别对话框。
-    /// </summary>
     [Action]
     public void AddCategory()
     {
@@ -78,9 +68,6 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         UI.ShowDialog(model);
     }
 
-    /// <summary>
-    /// 弹出新增表单对话框。
-    /// </summary>
     [Action]
     public void New()
     {
@@ -101,15 +88,8 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         Table.NewForm(Service.SaveDictionaryAsync, row);
     }
 
-    /// <summary>
-    /// 批量删除多条数据。
-    /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
 
-    /// <summary>
-    /// 弹出编辑表单对话框。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     [Action]
     public void Edit(DictionaryInfo row)
     {
@@ -117,15 +97,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         Table.EditForm(Service.SaveDictionaryAsync, row);
     }
 
-    /// <summary>
-    /// 删除一条数据。
-    /// </summary>
-    /// <param name="row">表格行绑定的对象。</param>
     [Action] public void Delete(DictionaryInfo row) => Table.Delete(Service.DeleteDictionariesAsync, row);
-
-    /// <summary>
-    /// 弹出数据导入对话框。
-    /// </summary>
     [Action] public Task Import() => Table.ShowImportAsync();
 
     private Task OnItemClickAsync(CodeInfo info)
