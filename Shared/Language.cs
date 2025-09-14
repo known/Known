@@ -453,6 +453,8 @@ public partial class Language
     /// 确定要退出系统。
     /// </summary>
     public const string TipExits = "确定要退出系统？";
+    public const string TipNoUser = "用户不存在！";
+    public const string TipUserNameExists = "用户名已存在，请使用其他字符创建用户！";
     internal const string TipPage404 = "页面不存在！";
     internal const string TipNoMethod = "{method}方法不存在！";
     internal const string TipXXSuccess = "{action}成功！";

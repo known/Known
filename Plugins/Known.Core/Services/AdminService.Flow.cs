@@ -56,7 +56,7 @@ partial class AdminService
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await database.GetUserInfoAsync(info.User);
+        var next = await database.GetUserAsync(info.User);
         if (next == null)
             return Result.Error(UserNotExists(info.User));
 
@@ -136,7 +136,7 @@ partial class AdminService
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var next = await database.GetUserInfoAsync(info.User);
+        var next = await database.GetUserAsync(info.User);
         if (next == null)
             return Result.Error(Language[CoreLanguage.TipNextUserNotExists].Replace("{user}", info.User));
 
@@ -177,7 +177,7 @@ partial class AdminService
         UserInfo next = null;
         if (isPass && !string.IsNullOrWhiteSpace(info.User))
         {
-            next = await database.GetUserInfoAsync(info.User);
+            next = await database.GetUserAsync(info.User);
             if (next == null)
                 return Result.Error(UserNotExists(info.User));
         }

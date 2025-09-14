@@ -110,7 +110,6 @@ partial class AdminService
             }
             var sys = CreateSystemInfo(info);
             await db.SaveSystemAsync(sys);
-            await SaveUserAsync(db, info);
             if (Config.OnInstall != null)
                 await Config.OnInstall.Invoke(db, info, sys);
         });
@@ -130,25 +129,6 @@ partial class AdminService
             ProductKey = info.ProductKey,
             UserDefaultPwd = "888888"
         };
-    }
-
-    private static async Task SaveUserAsync(Database db, InstallInfo info)
-    {
-        var userName = info.AdminName.ToLower();
-        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
-        user ??= new SysUser();
-        user.AppId = Config.App.Id;
-        user.CompNo = info.CompNo;
-        user.OrgNo = info.CompNo;
-        user.UserName = userName;
-        user.Password = Utils.ToMd5(info.AdminPassword);
-        user.Name = info.AdminName;
-        user.EnglishName = info.AdminName;
-        user.Gender = "Male";
-        user.Role = "Admin";
-        user.Enabled = true;
-        CoreOption.Instance.OnNewUser?.Invoke(db, user);
-        await db.SaveAsync(user);
     }
 
     private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
@@ -176,7 +156,7 @@ partial class AdminService
         }
     }
 
-    private Database GetDatabase(InstallInfo info)
+    private static Database GetDatabase(InstallInfo info)
     {
         var db = Database.Create();
         db.User = new UserInfo

@@ -404,6 +404,11 @@ public class SystemDataInfo
 public class PwdFormInfo
 {
     /// <summary>
+    /// 取得或设置用户ID。
+    /// </summary>
+    public string UserId { get; set; }
+
+    /// <summary>
     /// 取得或设置原始密码。
     /// </summary>
     [Required]

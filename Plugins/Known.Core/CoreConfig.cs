@@ -26,11 +26,6 @@ public class CoreConfig
     public static SystemInfo System { get; set; }
 
     /// <summary>
-    /// 取得或设置自定义用户业务逻辑处理者实例。
-    /// </summary>
-    public static UserHandler UserHandler { get; set; }
-
-    /// <summary>
     /// 取得或设置用户注册前验证逻辑委托。
     /// </summary>
     public static Func<Database, RegisterFormInfo, Task<Result>> OnRegistering { get; set; }
@@ -38,7 +33,7 @@ public class CoreConfig
     /// <summary>
     /// 取得或设置用户注册后逻辑委托。
     /// </summary>
-    public static Func<Database, SysUser, Task> OnRegistered { get; set; }
+    public static Func<Database, UserInfo, Task> OnRegistered { get; set; }
 
     /// <summary>
     /// 取得或设置用户登录前验证逻辑委托。

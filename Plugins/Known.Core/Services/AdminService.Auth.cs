@@ -19,7 +19,7 @@ partial class AdminService
         var userName = info.UserName?.ToLower();
         var user = await database.GetUserAsync(userName);
         if (user != null)
-            return Result.Error(CoreLanguage.TipUserNameExists);
+            return Result.Error(Language.TipUserNameExists);
 
         user = new UserInfo
         {
@@ -32,7 +32,7 @@ partial class AdminService
         database.User = await database.GetUserAsync(Constants.SysUserName);
         var result = await database.TransactionAsync(Language.Register, async db =>
         {
-            var model = new SysUser
+            var model = new UserDataInfo
             {
                 UserName = info.UserName.ToLower(),
                 Name = info.UserName,
@@ -45,7 +45,7 @@ partial class AdminService
             };
             if (CoreConfig.OnRegistered != null)
                 await CoreConfig.OnRegistered.Invoke(db, model);
-            await db.SaveAsync(model);
+            await db.AddUserAsync(model);
             await db.AddLogAsync(LogType.Register, user.UserName, $"IP：{user.LastLoginIP}");
             user.Id = model.Id;
             user.AppId = model.AppId;
@@ -80,7 +80,7 @@ partial class AdminService
                 return vr;
         }
 
-        var user = await database.GetUserInfoAsync(userName, password);
+        var user = await database.GetUserAsync(userName, password);
         if (user == null)
             return Result.Error(CoreLanguage.TipLoginNoNamePwd);
 
@@ -140,7 +140,7 @@ partial class AdminService
             CoreConfig.System ??= await db.GetSystemAsync();
             var buttons = await db.GetButtonsAsync();
             info.Actions = [.. buttons.Select(b => b.ToAction())];
-            info.AppName = await db.GetUserSystemNameAsync();
+            info.AppName = CurrentUser.AppName; //await db.GetUserSystemNameAsync();
             info.DatabaseType = db.DatabaseType;
             info.UserMenus = await db.GetUserMenusAsync();
             info.UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
@@ -155,39 +155,25 @@ partial class AdminService
         return info;
     }
 
-    public async Task<UserInfo> GetUserAsync(string userName)
+    public Task<UserInfo> GetUserAsync(string userName)
     {
-        var user = await Database.QueryAsync<SysUser>(d => d.UserName == userName);
-        return await Database.GetUserInfoAsync(user);
+        return Database.GetUserAsync(userName);
     }
 
-    public async Task<UserInfo> GetUserByIdAsync(string userId)
+    public Task<UserInfo> GetUserByIdAsync(string userId)
     {
-        var user = await Database.QueryAsync<SysUser>(d => d.Id == userId);
-        return await Database.GetUserInfoAsync(user);
+        return Database.GetUserByIdAsync(userId);
     }
 
-    public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
-        var database = Database;
-        var entity = await database.QueryAsync<SysUser>(d => d.Id == info.UserId);
-        if (entity == null)
-            return Result.Error(CoreLanguage.TipNoUser);
-
-        var attach = new AttachFile(info.File, "Avatars");
-        attach.FilePath = $"Avatars/{entity.Id}{attach.ExtName}";
-        await attach.SaveAsync();
-
-        var url = Config.GetFileUrl(attach.FilePath);
-        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
-        await database.SaveAsync(entity);
-        return Result.Success(Language.SaveSuccess, url);
+        return Database.UpdateAvatarAsync(info);
     }
 
     public async Task<Result> UpdateUserAsync(UserInfo info)
     {
         if (info == null)
-            return Result.Error(CoreLanguage.TipNoUser);
+            return Result.Error(Language.TipNoUser);
 
         var result = await Database.SaveUserAsync(Context, info);
         if (!result.IsValid)
@@ -215,17 +201,7 @@ partial class AdminService
         if (errors.Count > 0)
             return Result.Error(string.Join(Environment.NewLine, errors));
 
-        var database = Database;
-        var entity = await database.QueryByIdAsync<SysUser>(user.Id);
-        if (entity == null)
-            return Result.Error(CoreLanguage.TipNoUser);
-
-        var oldPwd = Utils.ToMd5(info.OldPwd);
-        if (entity.Password != oldPwd)
-            return Result.Error(CoreLanguage.TipCurPwdInvalid);
-
-        entity.Password = Utils.ToMd5(info.NewPwd);
-        await database.SaveAsync(entity);
-        return Result.Success(Language.Success(Language.Update), entity.Id);
+        info.UserId = user.Id;
+        return await Database.UpdatePasswordAsync(info);
     }
 }

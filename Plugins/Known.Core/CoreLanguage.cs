@@ -34,19 +34,14 @@ public partial class CoreLanguage
     
     internal const string TipLoginTimeout = "用户登录已过期！";
     internal const string TipNoLogin = "用户未登录！";
-    internal const string TipNoUser = "用户不存在！";
     internal const string TipLoginNoNamePwd = "用户名或密码不正确！";
     internal const string TipLoginDisabled = "用户已禁用！";
-    internal const string TipUserNameExists = "用户名已存在，请使用其他字符创建用户！";
     internal const string TipPathRequired = "路径不能为空！";
     internal const string TipCurPwdRequired = "当前密码不能为空！";
     internal const string TipNewPwdRequired = "新密码不能为空！";
     internal const string TipConPwdRequired = "确认新密码不能为空！";
     internal const string TipPwdNotEqual = "两次密码输入不一致！";
-    internal const string TipCurPwdInvalid = "当前密码不正确！";
-    internal const string TipNoDefaultPwd = "用户默认密码未配置！";
     internal const string TipUserDefaultPwd = "用户默认密码为：{password}。";
-    internal const string TipNotDeleteSelf = "自己的账号不能删除！";
     internal const string TipNotSaveWithoutDev = "非开发环境，不能保存代码！";
     internal const string TipFileExisted = "文件[{file}]已存在！";
     internal const string TipModuleMigrated = "已经迁移过，无需再次迁移！";

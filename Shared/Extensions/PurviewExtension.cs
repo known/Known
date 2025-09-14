@@ -6,6 +6,11 @@
 public static class PurviewExtension
 {
     /// <summary>
+    /// 取得或设置根据用户ID获取用户信息的异步委托。
+    /// </summary>
+    public static Func<Database, string, Task<string>> OnGetUserData { get; set; } = (db, id) => Task.FromResult("");
+
+    /// <summary>
     /// 异步设置数据权限。
     /// </summary>
     /// <typeparam name="T">数据权限类型。</typeparam>
@@ -14,11 +19,11 @@ public static class PurviewExtension
     /// <returns></returns>
     public static async Task<T> GetDataPurviewAsync<T>(this Database db, string userId)
     {
-        var user = await db.QueryByIdAsync<SysUser>(userId);
-        if (user == null || string.IsNullOrWhiteSpace(user.Data))
+        var data = await OnGetUserData.Invoke(db, userId);
+        if (string.IsNullOrWhiteSpace(data))
             return default;
 
-        var info = Utils.FromJson<T>(user.Data);
+        var info = Utils.FromJson<T>(data);
         if (info == null)
             return default;
 

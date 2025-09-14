@@ -58,11 +58,6 @@ public class CoreOption
     public string SuperPassword { get; set; }
 
     /// <summary>
-    /// 取得或设置保存新用户时委托。
-    /// </summary>
-    public Action<Database, SysUser> OnNewUser { get; set; }
-
-    /// <summary>
     /// 取得或设置MVC配置选项委托。
     /// </summary>
     public Action<MvcOptions> Mvc { get; set; }

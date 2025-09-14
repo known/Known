@@ -1,6 +1,6 @@
 ﻿namespace Known.Extensions;
 
-static class TaskExtension
+static class SysTaskExtension
 {
     internal static Task<TaskInfo> GetSysTaskAsync(this Database db, string bizId)
     {

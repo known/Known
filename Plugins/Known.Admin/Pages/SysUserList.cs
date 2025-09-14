@@ -6,6 +6,7 @@
 public class SysUserList : BaseTablePage<UserDataInfo>
 {
     private IOrganizationService Organize;
+    private IUserService Service;
     private List<OrganizationInfo> orgs;
     private MenuInfo current;
     private OrganizationInfo currentOrg;
@@ -16,6 +17,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
     {
         await base.OnInitPageAsync();
         Organize = await CreateServiceAsync<IOrganizationService>();
+        Service = await CreateServiceAsync<IUserService>();
 
         Tree = new TreeModel
         {
@@ -69,17 +71,17 @@ public class SysUserList : BaseTablePage<UserDataInfo>
     {
         if (currentOrg != null)
             criteria.Parameters[nameof(UserInfo.OrgNo)] = currentOrg.Id;
-        return Admin.QueryUserDatasAsync(criteria);
+        return Service.QueryUserDatasAsync(criteria);
     }
 
-    [Action] public void New() => Table.NewForm(Admin.SaveUserAsync, new UserDataInfo { OrgNo = currentOrg?.Id });
-    [Action] public void Edit(UserDataInfo row) => Table.EditForm(Admin.SaveUserAsync, row);
-    [Action] public void Delete(UserDataInfo row) => Table.Delete(Admin.DeleteUsersAsync, row);
-    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteUsersAsync);
-    [Action] public void ResetPassword() => Table.SelectRows(Admin.SetUserPwdsAsync, Language.Reset);
+    [Action] public void New() => Table.NewForm(Service.SaveUserAsync, new UserDataInfo { OrgNo = currentOrg?.Id });
+    [Action] public void Edit(UserDataInfo row) => Table.EditForm(Service.SaveUserAsync, row);
+    [Action] public void Delete(UserDataInfo row) => Table.Delete(Service.DeleteUsersAsync, row);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteUsersAsync);
+    [Action] public void ResetPassword() => Table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
     [Action] public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
-    [Action] public void Enable() => Table.SelectRows(Admin.EnableUsersAsync, Language.Enable);
-    [Action] public void Disable() => Table.SelectRows(Admin.DisableUsersAsync, Language.Disable);
+    [Action] public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
+    [Action] public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
     [Action] public Task Import() => Table.ShowImportAsync();
     [Action] public Task Export() => Table.ExportDataAsync();
 
@@ -112,7 +114,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
             }
 
             rows.ForEach(m => m.OrgNo = node.Id);
-            var result = await Admin.ChangeDepartmentAsync(rows);
+            var result = await Service.ChangeDepartmentAsync(rows);
             UI.Result(result, async () =>
             {
                 await model.CloseAsync();
@@ -153,11 +155,14 @@ class UserTabForm : BaseTabForm
 
 class UserForm : BaseForm<UserDataInfo>
 {
+    private IUserService Service;
     private string defaultPassword;
 
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Service = await CreateServiceAsync<IUserService>();
+        
         if (!UIConfig.UserFormShowFooter)
         {
             SaveClose = UIConfig.UserFormTabs.Count == 0;
@@ -173,7 +178,7 @@ class UserForm : BaseForm<UserDataInfo>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var user = await Admin.GetUserDataAsync(Model.Data.Id);
+            var user = await Service.GetUserDataAsync(Model.Data.Id);
             defaultPassword = user.DefaultPassword;
             if (Model.IsNew)
                 Model.Data.Password = defaultPassword;
