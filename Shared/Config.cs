@@ -155,6 +155,11 @@ public partial class Config
     public static Func<Database, Task<List<ModuleInfo>>> OnInitialModules { get; set; }
 
     /// <summary>
+    /// 取得或设置保存新用户时委托。
+    /// </summary>
+    public static Action<Database, SysUser> OnNewUser { get; set; }
+
+    /// <summary>
     /// 取得后端任务类字典。
     /// </summary>
     public static Dictionary<string, Type> TaskTypes { get; } = [];

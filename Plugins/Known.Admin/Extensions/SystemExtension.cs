@@ -5,19 +5,20 @@
 /// </summary>
 public static class SystemExtension
 {
-    internal static async Task<SystemInfo> GetUserSystemAsync(this Database db)
+    internal static async Task<SystemInfo> GetUserSystemAsync(this Database db, UserInfo info = null)
     {
         if (!Config.App.IsPlatform)
             return Config.System;
 
-        var data = await db.GetCompanyDataAsync(db.User.CompNo);
+        var user = info ?? db.User;
+        var data = await db.GetCompanyDataAsync(user.CompNo);
         if (!string.IsNullOrWhiteSpace(data))
             return Utils.FromJson<SystemInfo>(data);
 
         return new SystemInfo
         {
-            CompNo = db.User.CompNo,
-            CompName = db.User.CompName,
+            CompNo = user.CompNo,
+            CompName = user.CompName,
             AppName = Config.App.Name
         };
     }

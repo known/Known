@@ -6,7 +6,6 @@ public class AdminOption
     internal List<Action<List<SysModule>>> Modules { get; } = [];
 
     public CodeConfigInfo Code { get; set; }
-    public Action<Database, SysUser> OnNewUser { get; set; }
 
     public void AddModules(Action<List<SysModule>> action)
     {

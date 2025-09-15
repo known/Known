@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysLog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SysUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinConfigInfo.cs" />

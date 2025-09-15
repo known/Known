@@ -14,21 +14,12 @@ public static class AdminExtension
         Config.OnInitialModules = OnInitialModules;
         Config.OnCodeTable = db => db.GetDictionariesAsync();
         Config.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
-        UserExtension.OnGetUser = (db, name) => db.GetSysUserAsync(name);
-        UserExtension.OnGetUserByPwd = (db, name, pwd) => db.GetSysUserAsync(name, pwd);
-        UserExtension.OnGetUserById = (db, id) => db.GetSysUserByIdAsync(id);
-        UserExtension.OnGetUsersByRole = (db, role) => db.GetSysUsersByRoleAsync(role);
-        UserExtension.OnAddUser = (db, info) => db.AddSysUserAsync(info);
-        UserExtension.OnSaveUser = (db, context, info) => db.SaveSysUserAsync(context, info);
         UserExtension.OnSyncUser = (db, info) => db.SyncSysUserAsync(info);
-        UserExtension.OnUpdateAvatar = (db, info) => db.UpdateUserAvatarAsync(info);
-        UserExtension.OnUpdatePassword = (db, info) => db.UpdateUserPasswordAsync(info);
-
+        UserExtension.OnUserSystem = (db, user) => db.GetUserSystemAsync(user);
+        UserExtension.OnUserOrgName = (db, user) => db.GetUserOrgNameAsync(user);
         TaskExtension.OnGetTask = (db, bizId) => db.GetSysTaskAsync(bizId);
         TaskExtension.OnCreateTask = (db, info) => db.CreateSysTaskAsync(info);
         TaskExtension.OnSaveTask = (db, info) => db.SaveSysTaskAsync(info);
-
-        PurviewExtension.OnGetUserData = (db, id) => db.GetUserDataAsync(id);
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);

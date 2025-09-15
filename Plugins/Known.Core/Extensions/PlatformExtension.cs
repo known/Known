@@ -20,4 +20,23 @@ static class PlatformExtension
         }
         return datas;
     }
+
+    internal static async Task SaveUserAsync(this Database db, InstallInfo info)
+    {
+        var userName = info.AdminName.ToLower();
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
+        user ??= new SysUser();
+        user.AppId = Config.App.Id;
+        user.CompNo = info.CompNo;
+        user.OrgNo = info.CompNo;
+        user.UserName = userName;
+        user.Password = Utils.ToMd5(info.AdminPassword);
+        user.Name = info.AdminName;
+        user.EnglishName = info.AdminName;
+        user.Gender = "Male";
+        user.Role = "Admin";
+        user.Enabled = true;
+        Config.OnNewUser?.Invoke(db, user);
+        await db.SaveAsync(user);
+    }
 }

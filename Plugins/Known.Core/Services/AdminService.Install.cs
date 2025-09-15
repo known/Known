@@ -111,6 +111,7 @@ partial class AdminService
             }
             var sys = CreateSystemInfo(info);
             await db.SaveSystemAsync(sys);
+            await db.SaveUserAsync(info);
             if (Config.OnInstall != null)
                 await Config.OnInstall.Invoke(db, info, sys);
         });
