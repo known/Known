@@ -1,19 +1,7 @@
 ﻿namespace Known;
 
-/// <summary>
-/// 语言常量类。
-/// </summary>
-public partial class CoreLanguage
+class CoreLanguage
 {
-    internal const string Assign = "分配";
-    internal const string Verify = "审核";
-    internal const string Pass = "通过";
-    internal const string Fail = "退回";
-    internal const string Start = "开始";
-    internal const string End = "结束";
-    internal const string Restart = "重启";
-    internal const string Stop = "停止";
-
     internal const string EntityPlugin = "实体插件";
     internal const string TableName = "数据表名";
     internal const string Fields = "字段列表";
@@ -55,6 +43,14 @@ public partial class CoreLanguage
     internal const string ImportTaskPending = "导入任务等待中...";
     internal const string ImportTaskRunning = "导入任务执行中...";
 
+    internal const string Assign = "分配";
+    internal const string Verify = "审核";
+    internal const string Pass = "通过";
+    internal const string Fail = "退回";
+    internal const string End = "结束";
+    internal const string Restart = "重启";
+    internal const string Stop = "停止";
+
     internal const string TipNotRegisterFlow = "流程未注册！";
     internal const string TipFlowNotCreate = "流程未创建，无法执行！";
     internal const string TipFlowDeleteSave = "只能删除暂存状态的记录！";
@@ -69,7 +65,6 @@ public partial class CoreLanguage
     internal const string FlowOpen = "开启";
     internal const string FlowOver = "结束";
     internal const string FlowStop = "终止";
-    internal const string FlowCreate = "创建流程";
     internal const string FlowSubmit = "提交流程";
     internal const string FlowRevoke = "撤回流程";
     internal const string FlowVerify = "审核流程";

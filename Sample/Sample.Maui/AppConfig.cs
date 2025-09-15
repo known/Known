@@ -19,7 +19,6 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.Assembly = assembly;
-            info.IsModule = true;
         });
         services.AddModules();
         services.AddServices(assembly);

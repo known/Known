@@ -1,4 +1,4 @@
-﻿namespace Known.WorkFlows;
+﻿namespace Known.Helpers;
 
 class FlowHelper
 {

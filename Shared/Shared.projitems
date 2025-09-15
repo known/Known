@@ -34,7 +34,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinConfigInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowLanguage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowBizInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Snowflake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
@@ -119,5 +121,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowLogInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowStepInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\SysFlow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\SysFlowLog.cs" />
   </ItemGroup>
 </Project>
