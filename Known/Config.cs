@@ -61,11 +61,6 @@ public partial class Config
     /// </summary>
     public static Func<Database, Task<List<CodeInfo>>> OnCodeTable { get; set; }
 
-    /// <summary>
-    /// 取得或设置自动导入数据委托。
-    /// </summary>
-    public static Func<ImportContext, ImportBase> OnAutoImport { get; set; }
-
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];

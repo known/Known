@@ -3,6 +3,10 @@
 public partial class ColumnInfo
 {
     internal bool IsForm { get; set; }
+
+    /// <summary>
+    /// 取得或设置栏位显示名称。
+    /// </summary>
     public string DisplayName { get; set; }
 
     /// <summary>

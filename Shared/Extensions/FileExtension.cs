@@ -106,6 +106,13 @@ public static class FileExtension
         }
     }
 
+    /// <summary>
+    /// 异步删除系统附件表数据。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="item">附件对象。</param>
+    /// <param name="oldFiles">要物理删除的附件路径列表。</param>
+    /// <returns></returns>
     public static async Task DeleteFileAsync(this Database db, SysFile item, List<string> oldFiles)
     {
         oldFiles.Add(item.Path);
@@ -115,6 +122,13 @@ public static class FileExtension
         await db.DeleteAsync(item);
     }
 
+    /// <summary>
+    /// 异步删除系统附件表数据。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="item">附件信息。</param>
+    /// <param name="oldFiles">要物理删除的附件路径列表。</param>
+    /// <returns></returns>
     public static async Task DeleteFileAsync(this Database db, AttachInfo item, List<string> oldFiles)
     {
         oldFiles.Add(item.Path);

@@ -18,11 +18,7 @@ public partial class Language
     /// 不能操作代码配置的模块。
     /// </summary>
     public const string TipCodeModuleNotOperate = "不能操作代码配置的模块！";
-    internal const string TipDataRequired = "导入数据不能为空！";
-    internal const string TipExcelFailed = "Excel创建失败！";
-    internal const string TipValidSuccess = "校验成功！";
-    internal const string TipValidFailed = "校验失败！";
-    internal const string TipRowNo = "第{key}行：";
+    
 
     internal const string OverMaxTabCount = "超过最大标签页数！";
     internal const string MoreTableSetting = "更多表格属性设置";
@@ -99,12 +95,4 @@ public partial class Language
     /// <param name="info">操作按钮对象。</param>
     /// <returns>操作按钮语言。</returns>
     public string GetString(ActionInfo info) => this[info?.Name];
-
-    /// <summary>
-    /// 获取字段语言。
-    /// </summary>
-    /// <param name="info">字段信息对象。</param>
-    /// <param name="type">数据类型。</param>
-    /// <returns>字段语言。</returns>
-    public string GetString(ColumnInfo info, Type type = null) => GetText(type?.Name, info?.Id, info?.Name);
 }

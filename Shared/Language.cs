@@ -453,7 +453,13 @@ public partial class Language
     /// 确定要退出系统。
     /// </summary>
     public const string TipExits = "确定要退出系统？";
+    /// <summary>
+    /// 用户不存在！
+    /// </summary>
     public const string TipNoUser = "用户不存在！";
+    /// <summary>
+    /// 用户名已存在，请使用其他字符创建用户！
+    /// </summary>
     public const string TipUserNameExists = "用户名已存在，请使用其他字符创建用户！";
     internal const string TipCurPwdInvalid = "当前密码不正确！";
     internal const string TipPage404 = "页面不存在！";
@@ -527,7 +533,12 @@ public partial class Language
     internal const string ImportTemplate = "导入模板";
     internal const string ImportSize = "大小：";
     internal const string TipUploadMaxSize = "附件允许最大上传{size}M。";
-    
+    internal const string TipDataRequired = "导入数据不能为空！";
+    internal const string TipExcelFailed = "Excel创建失败！";
+    internal const string TipValidSuccess = "校验成功！";
+    internal const string TipValidFailed = "校验失败！";
+    internal const string TipRowNo = "第{key}行：";
+
     /// <summary>
     /// 导入文件不存在。
     /// </summary>
@@ -760,6 +771,42 @@ public partial class Language
     }
 
     /// <summary>
+    /// 获取字段语言名称。
+    /// </summary>
+    /// <typeparam name="TItem">实体类型。</typeparam>
+    /// <param name="column">栏位信息。</param>
+    /// <returns></returns>
+    public string GetFieldName<TItem>(ColumnInfo column)
+    {
+        return GetFieldName(column, typeof(TItem));
+    }
+
+    /// <summary>
+    /// 获取字段语言名称。
+    /// </summary>
+    /// <param name="column">栏位信息。</param>
+    /// <param name="type">实体类型。</param>
+    /// <returns></returns>
+    public string GetFieldName(ColumnInfo column, Type type = null)
+    {
+        if (!string.IsNullOrEmpty(column.Label))
+            return column.Label;
+
+        if (!string.IsNullOrEmpty(column.DisplayName))
+            return column.DisplayName;
+
+        return GetString(column, type);
+    }
+
+    /// <summary>
+    /// 获取字段语言。
+    /// </summary>
+    /// <param name="info">字段信息对象。</param>
+    /// <param name="type">数据类型。</param>
+    /// <returns>字段语言。</returns>
+    public string GetString(ColumnInfo info, Type type = null) => GetText(type?.Name, info?.Id, info?.Name);
+
+    /// <summary>
     /// 根据ID获取语言。
     /// </summary>
     /// <param name="id">ID。</param>
@@ -874,6 +921,13 @@ public partial class Language
     /// <returns>导入表单的标题语言。</returns>
     public string GetImportTitle(string name) => this[ImportTitle].Replace("{name}", name);
 
+    /// <summary>
+    /// 获取多语言文本。
+    /// </summary>
+    /// <param name="prefix">ID前缀。</param>
+    /// <param name="code">代码。</param>
+    /// <param name="name">名称。</param>
+    /// <returns></returns>
     public string GetText(string prefix, string code, string name = null)
     {
         var text = GetString($"{prefix}.{code}");

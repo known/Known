@@ -127,3 +127,34 @@ public class TaskJobStatus
     /// </summary>
     public const string Failed = "Failed";
 }
+
+/// <summary>
+/// 后台任务基类。
+/// </summary>
+public class TaskBase
+{
+    /// <summary>
+    /// 取得或设置系统上下文。
+    /// </summary>
+    public Context Context { get; set; }
+
+    /// <summary>
+    /// 异步执行后台任务。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="task">后台任务。</param>
+    /// <returns>执行结果。</returns>
+    public virtual Task<Result> ExecuteAsync(Database db, TaskInfo task)
+    {
+        return Result.SuccessAsync("");
+    }
+}
+
+[Task(ImportHelper.BizType)]
+class ImportTask : TaskBase
+{
+    public override Task<Result> ExecuteAsync(Database db, TaskInfo task)
+    {
+        return ImportHelper.ExecuteAsync(Context, db, task);
+    }
+}

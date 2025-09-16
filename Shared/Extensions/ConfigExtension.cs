@@ -81,6 +81,12 @@ public static class ConfigExtension
         }
     }
 
+    /// <summary>
+    /// 异步保存系统信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">系统信息。</param>
+    /// <returns></returns>
     public static Task<Result> SaveSystemAsync(this Database db, SystemInfo info)
     {
         return db.SaveConfigAsync(Constants.KeySystem, info);
