@@ -50,7 +50,6 @@ public static class CoreExtension
             services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownCore();
         services.AddKnownServices();
-        services.AddKnownCells();
         services.AddScoped<INotifyService, WebNotifyService>();
 
         if (CoreOption.Instance.IsCompression)
@@ -195,6 +194,7 @@ public static class CoreExtension
         Config.OnAutoImport = context => new AutoImport(context);
 
         // 添加服务
+        services.AddKnownCells();
         services.AddServices(assembly);
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
     }

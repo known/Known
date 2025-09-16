@@ -48,29 +48,6 @@ public partial class Language
     internal const string NavFullScreen = "全屏";
     internal const string NavLink = "连接";
 
-
-    internal static void Initialize(Assembly assembly)
-    {
-        foreach (var item in Settings)
-        {
-            var content = Utils.GetResource(assembly, $"Locales.{item.Id}");
-            if (string.IsNullOrWhiteSpace(content))
-                continue;
-
-            if (!caches.ContainsKey(item.Id))
-                caches[item.Id] = [];
-
-            var langs = Utils.FromJson<Dictionary<string, object>>(content);
-            if (langs != null && langs.Count > 0)
-            {
-                foreach (var lang in langs)
-                {
-                    caches[item.Id][lang.Key] = lang.Value;
-                }
-            }
-        }
-    }
-
     /// <summary>
     /// 获取默认多语言信息列表。
     /// </summary>

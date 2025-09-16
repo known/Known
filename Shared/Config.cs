@@ -5,8 +5,6 @@
 /// </summary>
 public partial class Config
 {
-    private static readonly List<string> InitAssemblies = [];
-
     private Config() { }
 
     /// <summary>
@@ -174,26 +172,6 @@ public partial class Config
     /// </summary>
     public static Dictionary<string, Type> FlowTypes { get; } = [];
 
-    // 取得路由页面类型，用于权限控制。
-    internal static Dictionary<string, Type> RouteTypes { get; } = [];
-    internal static Dictionary<string, Type> FormTypes { get; } = [];
-
-    /// <summary>
-    /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。
-    /// </summary>
-    /// <param name="assembly">模块程序集。</param>
-    public static void AddModule(Assembly assembly)
-    {
-        if (assembly == null)
-            return;
-
-        if (Assemblies.Exists(a => a.FullName == assembly.FullName))
-            return;
-
-        Assemblies.Add(assembly);
-        InitAssembly(assembly);
-    }
-
     /// <summary>
     /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。
     /// </summary>
@@ -287,76 +265,5 @@ public partial class Config
 
         var path = filePath.Replace("\\", "/");
         return isWeb ? $"Files/{path}" : $"UploadFiles/{path}";
-    }
-
-    private static void AddApiMethod(Type type, string apiName)
-    {
-        ApiTypes.Add(type);
-        var xml = GetAssemblyXml(type.Assembly);
-        var methods = type.GetMethods();
-        var doc = new XmlDocument();
-        if (string.IsNullOrWhiteSpace(xml)==false)
-        {
-            doc.LoadXml(xml);
-        }
-        
-        foreach (var method in methods)
-        {
-            if (method.IsPublic && method.DeclaringType?.Name == type.Name)
-            {
-                var info = new ApiMethodInfo();
-                var name = method.Name.Replace("Async", "");
-                info.Id = $"{type.Name}.{method.Name}";
-                info.Route = $"/{apiName}/{name}";
-                info.Description = GetMethodSummary(doc, method);
-                info.HttpMethod = GetHttpMethod(method);
-                info.MethodInfo = method;
-                info.Parameters = method.GetParameters();
-                ApiMethods.Add(info);
-            }
-        }
-    }
-
-    private static HttpMethod GetHttpMethod(MethodInfo method)
-    {
-        if (!method.Name.StartsWith("Get"))
-            return HttpMethod.Post;
-
-        foreach (var item in method.GetParameters())
-        {
-            if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
-                return HttpMethod.Post;
-        }
-        return HttpMethod.Get;
-    }
-
-    private static void AddCodeInfo(Type item)
-    {
-        var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
-        if (codeInfo != null)
-            Cache.AttachCodes(item);
-    }
-
-    private static string GetAssemblyXml(Assembly assembly)
-    {
-        if (IsClient)
-            return string.Empty;
-
-        var fileName = assembly.ManifestModule.Name.Replace(".dll", ".xml");
-        var path = Path.Combine(AppContext.BaseDirectory, fileName);
-        return Utils.ReadFile(path);
-    }
-
-    private static string GetMethodSummary(XmlDocument doc, MethodInfo info)
-    {
-        if (doc == null)
-            return string.Empty;
-
-        var name = $"{info.DeclaringType.FullName}.{info.Name}";
-        var node = doc.SelectSingleNode($"/doc/members/member[@name[starts-with(., 'M:{name}')]]/summary");
-        if (node == null)
-            return string.Empty;
-
-        return node.InnerText?.Trim('\n').Trim();
     }
 }

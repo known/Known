@@ -28,23 +28,6 @@ public partial class Database : IDisposable
         return database;
     }
 
-    ///// <summary>
-    ///// 初始化数据库访问实例。
-    ///// </summary>
-    //public Database() { }
-
-    ///// <summary>
-    ///// 初始化数据库访问实例。
-    ///// </summary>
-    ///// <param name="databaseType">数据库类型。</param>
-    ///// <param name="connectionString">连接字符串。</param>
-    //public Database(DatabaseType databaseType, string connectionString = null)
-    //{
-    //    DatabaseType = databaseType;
-    //    ConnectionString = connectionString;
-    //    provider = DbProvider.Create(this);
-    //}
-
     /// <summary>
     /// 取得或设置当前操作用户信息。
     /// </summary>
@@ -158,6 +141,22 @@ public partial class Database : IDisposable
     protected virtual void CheckEntity<T>(T entity) where T : EntityBase, new() { }
 
     /// <summary>
+    /// 创建一个事务数据库访问实例。
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Database CreateDatabase()
+    {
+        var database = new Database();
+        var info = DatabaseOption.Instance.GetDatabase(ConnectionName);
+        if (info != null)
+            database.SetDatabase(info);
+        else
+            database.SetDatabase(ConnectionName, DatabaseType, ConnectionString);
+        database.User = User;
+        return database;
+    }
+
+    /// <summary>
     /// 获取数据库操作命令。
     /// </summary>
     /// <param name="info">命令信息对象。</param>
@@ -185,6 +184,25 @@ public partial class Database : IDisposable
         }
 
         return cmd;
+    }
+
+    /// <summary>
+    /// 处理操作异常。
+    /// </summary>
+    /// <param name="info">命令信息。</param>
+    /// <param name="ex">异常对象。</param>
+    protected virtual void HandException(CommandInfo info, Exception ex)
+    {
+        if (!EnableLog)
+            return;
+
+        if (info != null)
+        {
+            var message = info.ToString();
+            Logger.Information(LogTarget.BackEnd, User, message);
+            Console.WriteLine(message);
+        }
+        Logger.Exception(LogTarget.BackEnd, User, ex);
     }
 
     /// <summary>

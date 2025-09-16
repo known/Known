@@ -51,139 +51,45 @@ public partial class Config
     /// </summary>
     public static Func<Database, string, Task<List<string>>> OnRoleModule { get; set; }
 
+    /// <summary>
+    /// 取得或设置系统安装后附加操作委托。
+    /// </summary>
     public static Func<Database, InstallInfo, SystemInfo, Task> OnInstall { get; set; }
+
+    /// <summary>
+    /// 取得或设置获取代码表信息列表委托。
+    /// </summary>
     public static Func<Database, Task<List<CodeInfo>>> OnCodeTable { get; set; }
+
+    /// <summary>
+    /// 取得或设置自动导入数据委托。
+    /// </summary>
     public static Func<ImportContext, ImportBase> OnAutoImport { get; set; }
 
-    internal static void AddApp(Assembly assembly)
-    {
-        Version = new VersionInfo(App.Assembly);
-        InitAssembly(App.Assembly);
-        AddModule(assembly);
-    }
+    // 取得路由页面类型，用于权限控制。
+    internal static Dictionary<string, Type> RouteTypes { get; } = [];
+    internal static Dictionary<string, Type> FormTypes { get; } = [];
 
-    private static void InitAssembly(Assembly assembly)
+    /// <summary>
+    /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。
+    /// </summary>
+    /// <param name="assembly">模块程序集。</param>
+    public static void AddModule(Assembly assembly)
     {
         if (assembly == null)
             return;
 
-        if (InitAssemblies.Contains(assembly.FullName))
+        if (Assemblies.Exists(a => a.FullName == assembly.FullName))
             return;
 
-        InitAssemblies.Add(assembly.FullName);
-        AddActions(assembly);
-        Language.Initialize(assembly);
-
-        foreach (var item in assembly.GetTypes())
-        {
-            if (TypeHelper.IsGenericSubclass(item, typeof(EntityTablePage<>), out var arguments))
-                AddApiMethod(typeof(IEntityService<>).MakeGenericType(arguments), item.Name);
-            else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
-                AddApiMethod(item, item.Name[1..].Replace("Service", ""));
-            else if (item.IsAssignableTo(typeof(ICustomField)))
-                AddFieldType(item);
-            else if (item.IsAssignableTo(typeof(BaseForm)))
-                FormTypes[item.Name] = item;
-            else if (item.IsEnum)
-                Cache.AttachEnumCodes(item);
-
-            var routes = GetRoutes(item);
-            PluginConfig.AddPlugin(item, routes);
-            AddAppMenu(item, routes);
-            AddMenu(item, routes);
-            AddCodeInfo(item);
-        }
+        Assemblies.Add(assembly);
+        InitHelper.Load(assembly);
     }
 
-    private static void AddActions(Assembly assembly)
+    internal static void AddApp(Assembly assembly)
     {
-        var content = Utils.GetResource(assembly, "actions");
-        if (string.IsNullOrWhiteSpace(content))
-            return;
-
-        var lines = content.Split([.. Environment.NewLine]);
-        if (lines == null || lines.Length == 0)
-            return;
-
-        foreach (var item in lines)
-        {
-            if (string.IsNullOrWhiteSpace(item) || item.StartsWith("按钮编码"))
-                continue;
-
-            var values = item.Split('|');
-            if (values.Length < 2)
-                continue;
-
-            var id = values[0].Trim();
-            var info = Actions.FirstOrDefault(i => i.Id == id);
-            if (info == null)
-            {
-                info = new ActionInfo { Id = id };
-                Actions.Add(info);
-            }
-            if (values.Length > 1)
-                info.Name = values[1].Trim();
-            if (values.Length > 2)
-                info.Icon = values[2].Trim();
-            if (values.Length > 3)
-                info.Style = values[3].Trim();
-            if (values.Length > 4)
-                info.Position = values[4].Trim();
-        }
-    }
-
-    private static IEnumerable<RouteAttribute> GetRoutes(Type item)
-    {
-        var routes = item.GetCustomAttributes<RouteAttribute>();
-        if (routes != null && routes.Any())
-        {
-            foreach (var route in routes)
-            {
-                RouteTypes[route.Template] = item;
-            }
-        }
-        return routes;
-    }
-
-    private static void AddAppMenu(Type item, IEnumerable<RouteAttribute> routes)
-    {
-        var menu = item.GetCustomAttribute<AppMenuAttribute>();
-        if (menu != null)
-        {
-            menu.Page = item;
-            menu.Url = routes?.FirstOrDefault()?.Template;
-            AppMenus.Add(new MenuInfo
-            {
-                Id = item.Name,
-                Name = menu.Name,
-                Icon = menu.Icon,
-                Url = menu.Url,
-                Sort = menu.Sort,
-                Target = menu.Target,
-                Role = menu.Role,
-                Color = menu.Color,
-                BackUrl = menu.BackUrl,
-                PageType = item
-            });
-        }
-    }
-
-    private static void AddMenu(Type item, IEnumerable<RouteAttribute> routes)
-    {
-        var menu = item.GetCustomAttribute<MenuAttribute>();
-        if (menu != null)
-        {
-            menu.Page = item;
-            menu.Url = routes?.FirstOrDefault()?.Template;
-            Menus.Add(menu);
-        }
-    }
-
-    private static void AddFieldType(Type item)
-    {
-        if (item.Name == nameof(ICustomField) || item.Name == nameof(CustomField))
-            return;
-
-        FieldTypes[item.Name] = item;
+        Version = new VersionInfo(App.Assembly);
+        InitHelper.Load(App.Assembly);
+        AddModule(assembly);
     }
 }

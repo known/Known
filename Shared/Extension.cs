@@ -15,4 +15,31 @@ public static partial class Extension
         action?.Invoke(DatabaseOption.Instance);
         services.AddScoped<Database>();
     }
+
+    private static void AddKnownInnerCore(this IServiceCollection services, Action<AppInfo> action = null)
+    {
+        if (string.IsNullOrWhiteSpace(Config.App.WebRoot))
+            Config.App.WebRoot = AppDomain.CurrentDomain.BaseDirectory;
+        if (string.IsNullOrWhiteSpace(Config.App.ContentRoot))
+            Config.App.ContentRoot = AppDomain.CurrentDomain.BaseDirectory;
+
+        TaskScheduler.UnobservedTaskException += (sender, e) =>
+        {
+            var content = e.Exception.ToString();
+            if (!content.Contains("JSDisconnectedException"))
+                Logger.Error(LogTarget.Task, new UserInfo { Name = sender.ToString() }, content);
+            e.SetObserved(); // 标记为已处理
+        };
+        // 进程级，无法阻止程序退出
+        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+        {
+            if (e.ExceptionObject is Exception ex)
+            {
+                Logger.Exception(ex);
+                Config.App.OnExit?.Invoke(ex);
+            }
+        };
+
+        action?.Invoke(Config.App);
+    }
 }
