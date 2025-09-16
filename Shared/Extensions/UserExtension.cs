@@ -66,6 +66,21 @@ public static class UserExtension
     }
 
     /// <summary>
+    /// 异步根据用户姓名获取用户信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="name">用户姓名。</param>
+    /// <returns>用户信息。</returns>
+    public static async Task<UserInfo> GetUserByNameAsync(this Database db, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return default;
+
+        var user = await db.QueryAsync<SysUser>(d => d.Name == name);
+        return await db.ToUserInfo(user);
+    }
+
+    /// <summary>
     /// 异步获取角色用户列表。
     /// </summary>
     /// <param name="db">数据库对象。</param>

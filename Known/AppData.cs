@@ -86,13 +86,13 @@ public sealed partial class AppData
     /// <returns>插件配置信息。</returns>
     public static AutoPageInfo CreateAutoPage(Type pageType)
     {
-        if (pageType.BaseType.IsGenericType)
+        if (pageType?.BaseType?.IsGenericType == true)
         {
             var arguments = pageType.BaseType.GetGenericArguments();
             return AppDefaultData.CreateAutoPage(pageType, arguments[0]);
         }
 
-        if (pageType.BaseType.BaseType.IsGenericType)
+        if (pageType?.BaseType?.BaseType?.IsGenericType == true)
         {
             var arguments = pageType.BaseType.BaseType.GetGenericArguments();
             return AppDefaultData.CreateAutoPage(pageType, arguments[0]);

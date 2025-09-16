@@ -2,7 +2,7 @@
 
 class BaseDesigner<TModel> : BaseComponent
 {
-    [Parameter] public SysModule Module { get; set; }
+    [Parameter] public SysModule1 Module { get; set; }
     [Parameter] public TModel Model { get; set; }
     [Parameter] public Action<TModel> OnChanged { get; set; }
 }

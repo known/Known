@@ -70,19 +70,23 @@ public static class ModelExtension
 
     private static void SetAction(ActionInfo item, Type pageType)
     {
-        var method = pageType.GetMethod(item.Id);
-        var attr = method?.GetCustomAttribute<ActionAttribute>();
-        if (attr != null)
+        try
         {
-            if (!string.IsNullOrWhiteSpace(attr.Icon))
-                item.Icon = attr.Icon;
-            if (!string.IsNullOrWhiteSpace(attr.Name))
-                item.Name = attr.Name;
-            item.Title = attr.Title;
-            item.Visible = attr.Visible;
-            item.Group = attr.Group;
-            item.Tabs = attr.Tabs;
+            var method = pageType.GetMethod(item.Id);
+            var attr = method?.GetCustomAttribute<ActionAttribute>();
+            if (attr != null)
+            {
+                if (!string.IsNullOrWhiteSpace(attr.Icon))
+                    item.Icon = attr.Icon;
+                if (!string.IsNullOrWhiteSpace(attr.Name))
+                    item.Name = attr.Name;
+                item.Title = attr.Title;
+                item.Visible = attr.Visible;
+                item.Group = attr.Group;
+                item.Tabs = attr.Tabs;
+            }
         }
+        catch { }
     }
 
     internal static List<ColumnInfo> GetColumns<T>(this PageInfo info, FormInfo form)

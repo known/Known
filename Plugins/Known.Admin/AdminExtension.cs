@@ -10,8 +10,8 @@ public static class AdminExtension
 
         services.AddServices(assembly);
         Config.OnInstall = AdminHelper.Install;
-        Config.OnInstallModules = OnInstallModules;
-        Config.OnInitialModules = OnInitialModules;
+        //Config.OnInstallModules = OnInstallModules;
+        //Config.OnInitialModules = OnInitialModules;
         Config.OnCodeTable = db => db.GetDictionariesAsync();
         Config.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
         UserExtension.OnSyncUser = (db, info) => db.SyncSysUserAsync(info);
@@ -61,8 +61,8 @@ public static class AdminExtension
     private static async Task OnInstallModules(Database db)
     {
         AppData.LoadAppData();
-        var modules = AppData.Data.Modules?.Select(m => SysModule.Load(db.User, m)).OrderBy(m => m.ParentId).ThenBy(m => m.Sort).ToList();
-        await db.DeleteAllAsync<SysModule>();
+        var modules = AppData.Data.Modules?.Select(m => SysModule1.Load(db.User, m)).OrderBy(m => m.ParentId).ThenBy(m => m.Sort).ToList();
+        await db.DeleteAllAsync<SysModule1>();
         foreach (var item in modules)
         {
             var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
@@ -74,7 +74,7 @@ public static class AdminExtension
     private static async Task<List<ModuleInfo>> OnInitialModules(Database db)
     {
         var modules = new List<ModuleInfo>();
-        var items = await db.QueryListAsync<SysModule>();
+        var items = await db.QueryListAsync<SysModule1>();
         if (items != null && items.Count > 0)
         {
             foreach (var item in items.OrderBy(m => m.Sort))

@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统模块实体类。
 /// </summary>
-public class SysModule : EntityBase
+public class SysModule1 : EntityBase
 {
     /// <summary>
     /// 取得或设置上级。
@@ -125,10 +125,10 @@ public class SysModule : EntityBase
     internal virtual List<string> Actions { get; set; }
     internal virtual List<PageColumnInfo> Columns { get; set; }
 
-    internal static SysModule Load(UserInfo user, ModuleInfo info)
+    internal static SysModule1 Load(UserInfo user, ModuleInfo info)
     {
         var plugin = info.Plugins?.GetPluginParameter<AutoPageInfo>();
-        var model = new SysModule
+        var model = new SysModule1
         {
             AppId = user.AppId,
             CompNo = user.CompNo,

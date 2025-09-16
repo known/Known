@@ -2,7 +2,7 @@
 
 class ModuleForm : BaseTabForm
 {
-    [Parameter] public FormModel<SysModule> Model { get; set; }
+    [Parameter] public FormModel<SysModule1> Model { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
@@ -42,7 +42,7 @@ class ModuleForm : BaseTabForm
 
     private void BuildDataForm(RenderTreeBuilder builder) => builder.Form(Model);
 
-    private static void BuildModuleModel(RenderTreeBuilder builder, SysModule model)
+    private static void BuildModuleModel(RenderTreeBuilder builder, SysModule1 model)
     {
         builder.Component<EntityDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -52,7 +52,7 @@ class ModuleForm : BaseTabForm
                .Build();
     }
 
-    private static void BuildModuleFlow(RenderTreeBuilder builder, SysModule model)
+    private static void BuildModuleFlow(RenderTreeBuilder builder, SysModule1 model)
     {
         builder.Component<FlowDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -62,7 +62,7 @@ class ModuleForm : BaseTabForm
                .Build();
     }
 
-    private static void BuildModulePage(RenderTreeBuilder builder, SysModule model)
+    private static void BuildModulePage(RenderTreeBuilder builder, SysModule1 model)
     {
         model.Entity.PageUrl = model.Url;
         builder.Component<PageDesigner>()
@@ -73,7 +73,7 @@ class ModuleForm : BaseTabForm
                .Build();
     }
 
-    private static void BuildModuleForm(RenderTreeBuilder builder, SysModule model)
+    private static void BuildModuleForm(RenderTreeBuilder builder, SysModule1 model)
     {
         builder.Component<FormDesigner>()
                .Set(c => c.ReadOnly, model.IsView)
@@ -86,7 +86,7 @@ class ModuleForm : BaseTabForm
 
     private void OnFieldChanged(string field)
     {
-        if (field == nameof(SysModule.Target))
+        if (field == nameof(SysModule1.Target))
         {
             SetTabVisible();
             Tab.StateChanged();

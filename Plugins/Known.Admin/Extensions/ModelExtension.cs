@@ -43,20 +43,20 @@ static class ModelExtension
     #endregion
 
     #region Module
-    internal static void RemoveModule(this List<SysModule> modules, string code)
+    internal static void RemoveModule(this List<SysModule1> modules, string code)
     {
         var module = modules.FirstOrDefault(m => m.Code == code);
         if (module != null)
             modules.Remove(module);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule1> models, bool showRoot = true)
     {
         MenuInfo current = null;
         return models.ToMenuItems(ref current, showRoot);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, ref MenuInfo current, bool showRoot = true)
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule1> models, ref MenuInfo current, bool showRoot = true)
     {
         MenuInfo root = null;
         var menus = new List<MenuInfo>();
@@ -89,7 +89,7 @@ static class ModelExtension
         return menus;
     }
 
-    private static void AddChildren(List<SysModule> models, MenuInfo menu, ref MenuInfo current)
+    private static void AddChildren(List<SysModule1> models, MenuInfo menu, ref MenuInfo current)
     {
         var items = models.Where(m => m.ParentId == menu.Id).ToList();
         if (items == null || items.Count == 0)
