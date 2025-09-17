@@ -13,7 +13,7 @@ partial class AdminService
             return Result.Error(CoreLanguage.TipFileNotExists);
 
         var oldFiles = new List<string>();
-        await Database.DeleteFileAsync(info.Id, oldFiles);
+        await Database.DeleteFileAsync(info, oldFiles);
         AttachFile.DeleteFiles(oldFiles);
         return Result.Success(Language.DeleteSuccess);
     }

@@ -102,6 +102,11 @@ public class AttachFile
     public string Category2 { get; set; }
 
     /// <summary>
+    /// 取得或设置备注。
+    /// </summary>
+    public string Note { get; set; }
+
+    /// <summary>
     /// 异步保存附件。
     /// </summary>
     /// <returns></returns>

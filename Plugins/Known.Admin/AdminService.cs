@@ -2,6 +2,55 @@
 
 class AdminService : IAdminPService
 {
+    #region File
+    public Task<List<AttachInfo>> GetAttachesAsync(Database db, string[] bizIds)
+    {
+        return db.Query<SysFile>().ToListAsync<AttachInfo>(d => bizIds.Contains(d.BizId));
+    }
+
+    public Task<List<AttachInfo>> GetAttachesAsync(Database db, string bizId)
+    {
+        return db.Query<SysFile>().ToListAsync<AttachInfo>(d => d.BizId == bizId);
+    }
+
+    public Task<List<AttachInfo>> GetAttachesAsync(Database db, string bizId, string bizType)
+    {
+        return db.Query<SysFile>().ToListAsync<AttachInfo>(d => d.BizId == bizId && d.Type == bizType);
+    }
+
+    public Task<AttachInfo> GetAttachAsync(Database db, string id)
+    {
+        return db.Query<SysFile>().FirstAsync<AttachInfo>(d => d.Id == id);
+    }
+
+    public Task DeleteFileAsync(Database db, string id)
+    {
+        return db.DeleteAsync<SysFile>(id);
+    }
+
+    public async Task<AttachInfo> AddFileAsync(Database db, AttachFile info)
+    {
+        var file = new SysFile
+        {
+            CompNo = db.User.CompNo,
+            AppId = db.User.AppId,
+            Category1 = info.Category1 ?? "File",
+            Category2 = info.Category2,
+            Type = info.BizType,
+            BizId = info.BizId,
+            Name = info.SourceName,
+            Path = info.FilePath,
+            Size = info.Size,
+            SourceName = info.SourceName,
+            ExtName = info.ExtName,
+            ThumbPath = info.ThumbPath,
+            Note = info.Note
+        };
+        await db.SaveAsync(file);
+        return Utils.MapTo<AttachInfo>(file);
+    }
+    #endregion
+
     #region Task
     public Task<TaskInfo> GetTaskAsync(Database db, string bizId)
     {

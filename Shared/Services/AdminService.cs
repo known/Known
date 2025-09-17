@@ -5,6 +5,57 @@
 /// </summary>
 public interface IAdminPService
 {
+    #region File
+    /// <summary>
+    /// 异步获取系统附件信息列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizIds">业务ID集合。</param>
+    /// <returns></returns>
+    Task<List<AttachInfo>> GetAttachesAsync(Database db, string[] bizIds);
+
+    /// <summary>
+    /// 异步获取系统附件信息列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizId">业务ID。</param>
+    /// <returns></returns>
+    Task<List<AttachInfo>> GetAttachesAsync(Database db, string bizId);
+
+    /// <summary>
+    /// 异步获取系统附件信息列表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizId">业务ID。</param>
+    /// <param name="bizType">业务类型。</param>
+    /// <returns></returns>
+    Task<List<AttachInfo>> GetAttachesAsync(Database db, string bizId, string bizType);
+
+    /// <summary>
+    /// 异步获取系统附件信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="id">附件ID。</param>
+    /// <returns></returns>
+    Task<AttachInfo> GetAttachAsync(Database db, string id);
+
+    /// <summary>
+    /// 异步删除一条系统附件数据。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="id">附件ID。</param>
+    /// <returns></returns>
+    Task DeleteFileAsync(Database db, string id);
+
+    /// <summary>
+    /// 异步添加附件信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">附件信息。</param>
+    /// <returns></returns>
+    Task<AttachInfo> AddFileAsync(Database db, AttachFile info);
+    #endregion
+
     #region Task
     /// <summary>
     /// 异步根据业务ID获取任务信息。

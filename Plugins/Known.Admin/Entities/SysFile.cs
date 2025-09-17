@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 系统文件实体类。

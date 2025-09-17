@@ -10,6 +10,15 @@ public static class AdminExtension
     /// </summary>
     public static IAdminPService Service { get; set; }
 
+    #region File
+    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string[] bizIds) => Service?.GetAttachesAsync(db, bizIds);
+    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string bizId) => Service?.GetAttachesAsync(db, bizId);
+    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string bizId, string bizType) => Service?.GetAttachesAsync(db, bizId, bizType);
+    internal static Task<AttachInfo> GetAttachAsync(this Database db, string id) => Service?.GetAttachAsync(db, id);
+    internal static Task DeleteFileAsync(this Database db, string id) => Service?.DeleteFileAsync(db, id);
+    internal static Task<AttachInfo> AddFileAsync(this Database db, AttachFile info) => Service?.AddFileAsync(db, info);
+    #endregion
+
     #region Task
     /// <summary>
     /// 异步根据业务ID获取任务信息。

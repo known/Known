@@ -20,17 +20,17 @@ public static class FileExtension
         var bizIds = bizId.Split(';');
         if (bizIds.Length > 1)
         {
-            files = await db.Query<SysFile>().Where(d => bizIds.Contains(d.BizId)).ToListAsync<AttachInfo>();
+            files = await db.GetAttachesAsync(bizIds);
         }
         else if (!bizId.Contains('_'))
         {
-            files = await db.Query<SysFile>().Where(d => d.BizId == bizId).ToListAsync<AttachInfo>();
+            files = await db.GetAttachesAsync(bizId);
         }
         else
         {
             var bizId1 = bizId.Substring(0, bizId.IndexOf('_'));
             var bizType = bizId.Substring(bizId.IndexOf('_') + 1);
-            files = await db.Query<SysFile>().Where(d => d.BizId == bizId1 && d.Type == bizType).ToListAsync<AttachInfo>();
+            files = await db.GetAttachesAsync(bizId1, bizType);
         }
         return files?.OrderBy(d => d.CreateTime).ToList();
     }
@@ -80,7 +80,7 @@ public static class FileExtension
     /// <returns></returns>
     public static async Task DeleteFileAsync(this Database db, string id, List<string> oldFiles)
     {
-        var item = await db.QueryByIdAsync<SysFile>(id);
+        var item = await db.GetAttachAsync(id);
         if (item == null)
             return;
 
@@ -96,7 +96,7 @@ public static class FileExtension
     /// <returns></returns>
     public static async Task DeleteFilesAsync(this Database db, string bizId, List<string> oldFiles)
     {
-        var files = await db.QueryListAsync<SysFile>(d => d.BizId == bizId);
+        var files = await db.GetAttachesAsync(bizId);
         if (files == null || files.Count == 0)
             return;
 
@@ -104,22 +104,6 @@ public static class FileExtension
         {
             await db.DeleteFileAsync(item, oldFiles);
         }
-    }
-
-    /// <summary>
-    /// 异步删除系统附件表数据。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="item">附件对象。</param>
-    /// <param name="oldFiles">要物理删除的附件路径列表。</param>
-    /// <returns></returns>
-    public static async Task DeleteFileAsync(this Database db, SysFile item, List<string> oldFiles)
-    {
-        oldFiles.Add(item.Path);
-        if (!string.IsNullOrWhiteSpace(item.ThumbPath))
-            oldFiles.Add(item.ThumbPath);
-
-        await db.DeleteAsync(item);
     }
 
     /// <summary>
@@ -135,31 +119,15 @@ public static class FileExtension
         if (!string.IsNullOrWhiteSpace(item.ThumbPath))
             oldFiles.Add(item.ThumbPath);
 
-        await db.DeleteAsync<SysFile>(item.Id);
+        await db.DeleteFileAsync(item.Id);
     }
 
     private static async Task<AttachInfo> AddFileAsync(Database db, AttachFile attach, string bizId, string note = null)
     {
         attach.FilePath = Path.Combine(db.User.CompNo, attach.FilePath);
         attach.BizId = bizId;
+        attach.Note = note;
         await attach.SaveAsync();
-        var file = new SysFile
-        {
-            CompNo = db.User.CompNo,
-            AppId = db.User.AppId,
-            Category1 = attach.Category1 ?? "File",
-            Category2 = attach.Category2,
-            Type = attach.BizType,
-            BizId = attach.BizId,
-            Name = attach.SourceName,
-            Path = attach.FilePath,
-            Size = attach.Size,
-            SourceName = attach.SourceName,
-            ExtName = attach.ExtName,
-            ThumbPath = attach.ThumbPath,
-            Note = note
-        };
-        await db.SaveAsync(file);
-        return Utils.MapTo<AttachInfo>(file);
+        return await db.AddFileAsync(attach);
     }
 }

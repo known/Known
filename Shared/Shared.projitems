@@ -35,7 +35,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />
