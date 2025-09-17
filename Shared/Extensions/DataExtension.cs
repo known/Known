@@ -1,9 +1,9 @@
 ﻿namespace Known.Extensions;
 
 /// <summary>
-/// 数据权限扩展类。
+/// 数据访问扩展类。
 /// </summary>
-public static class PurviewExtension
+public static class DataExtension
 {
     /// <summary>
     /// 异步设置数据权限。
@@ -23,5 +23,18 @@ public static class PurviewExtension
             return default;
 
         return info;
+    }
+
+    /// <summary>
+    /// 异步添加操作日志。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="type">日志类型。</param>
+    /// <param name="target">操作对象。</param>
+    /// <param name="content">操作内容。</param>
+    /// <returns></returns>
+    public static Task AddLogAsync(this Database db, LogType type, string target, string content)
+    {
+        return db.AddLogAsync(new LogInfo { Type = type.ToString(), Target = target, Content = content });
     }
 }

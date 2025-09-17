@@ -1,10 +1,10 @@
 ﻿namespace Known;
 
-public static class AdminExtension
+public static class AdmExtension
 {
     public static void AddKnownAdmin(this IServiceCollection services)
     {
-        var assembly = typeof(AdminExtension).Assembly;
+        var assembly = typeof(AdmExtension).Assembly;
         Config.AddModule(assembly);
         AppData.Enabled = false;
 
@@ -14,12 +14,10 @@ public static class AdminExtension
         //Config.OnInitialModules = OnInitialModules;
         Config.OnCodeTable = db => db.GetDictionariesAsync();
         Config.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
+        AdminExtension.Service = new AdminService();
         UserExtension.OnSyncUser = (db, info) => db.SyncSysUserAsync(info);
         UserExtension.OnUserSystem = (db, user) => db.GetUserSystemAsync(user);
         UserExtension.OnUserOrgName = (db, user) => db.GetUserOrgNameAsync(user);
-        TaskExtension.OnGetTask = (db, bizId) => db.GetSysTaskAsync(bizId);
-        TaskExtension.OnCreateTask = (db, info) => db.CreateSysTaskAsync(info);
-        TaskExtension.OnSaveTask = (db, info) => db.SaveSysTaskAsync(info);
 
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);

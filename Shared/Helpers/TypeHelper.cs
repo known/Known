@@ -221,7 +221,7 @@ public sealed class TypeHelper
     /// <returns>属性集合。</returns>
     public static PropertyInfo[] Properties(Type type)
     {
-        return typeProperties.GetOrAdd(type.FullName, type.GetProperties());
+        return typeProperties.GetOrAdd(type.FullName, GetProperties(type));
     }
 
     /// <summary>
@@ -301,16 +301,6 @@ public sealed class TypeHelper
         return property;
     }
 
-    private static MemberExpression GetMemberExpression<T>(Expression<Func<T, object>> selector)
-    {
-        var member = selector.Body as MemberExpression;
-        if (member != null)
-            return member;
-
-        var unary = selector.Body as UnaryExpression;
-        return unary != null ? unary.Operand as MemberExpression : null;
-    }
-
     /// <summary>
     /// 创建一个动态类型。
     /// </summary>
@@ -386,5 +376,33 @@ public sealed class TypeHelper
 
         genericArguments = null;
         return false;
+    }
+
+    private static MemberExpression GetMemberExpression<T>(Expression<Func<T, object>> selector)
+    {
+        var member = selector.Body as MemberExpression;
+        if (member != null)
+            return member;
+
+        var unary = selector.Body as UnaryExpression;
+        return unary != null ? unary.Operand as MemberExpression : null;
+    }
+
+    private static PropertyInfo[] GetProperties(Type type)
+    {
+        var properties = type.GetProperties();
+        return [.. properties.OrderBy(p => GetInheritanceDepth(p.DeclaringType))];
+    }
+
+    private static int GetInheritanceDepth(Type type)
+    {
+        int depth = 0;
+        Type current = type;
+        while (current != null && current != typeof(object))
+        {
+            depth++;
+            current = current.BaseType;
+        }
+        return depth;
     }
 }

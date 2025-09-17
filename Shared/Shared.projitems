@@ -16,10 +16,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ConfigExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\LanguageExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\PurviewExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ServiceExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TaskExtension.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\LogExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\AdminExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FileExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\UserExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ImportHelper.cs" />
@@ -34,9 +33,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTableExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />

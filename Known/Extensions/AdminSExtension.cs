@@ -1,6 +1,6 @@
 ﻿namespace Known.Extensions;
 
-static class AdminExtension
+static class AdminSExtension
 {
     internal static Task<Result> AddPageLogAsync(this IAdminService service, UIContext context)
     {
