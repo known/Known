@@ -101,7 +101,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public void Initialize(AutoPageInfo info)
     {
         Info = info;
-        if (info.Page != null)
+        if (info != null && info.Page != null)
             info.Page.UseCodeConfig = UseCodeConfig;
         //FixedWidth = info.Page.FixedWidth;
         //FixedHeight = info.Page.FixedHeight;
