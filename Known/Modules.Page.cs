@@ -66,6 +66,8 @@ public class PageInfo
     /// 取得或设置页面表格栏位信息列表。
     /// </summary>
     public List<PageColumnInfo> Columns { get; set; } = [];
+
+    internal bool UseCodeConfig { get; set; } = true;
 }
 
 /// <summary>

@@ -48,6 +48,9 @@ public static class ModelExtension
             return [];
 
         var items = info.Tools.Select(t => new ActionInfo(t)).ToList();
+        if (!info.UseCodeConfig)
+            return items;
+
         foreach (var item in items)
         {
             SetAction(item, pageType);
@@ -61,6 +64,9 @@ public static class ModelExtension
             return [];
 
         var items = info.Actions.Select(a => new ActionInfo(a)).ToList();
+        if (!info.UseCodeConfig)
+            return items;
+
         foreach (var item in items)
         {
             SetAction(item, pageType);
@@ -93,6 +99,16 @@ public static class ModelExtension
     {
         if (info == null || info.Columns == null || info.Columns.Count == 0)
             return [];
+
+        if (!info.UseCodeConfig)
+        {
+            return info.Columns.OrderBy(t => t.Position).Select(c =>
+            {
+                var column = new ColumnInfo(c);
+                SetColumn(column, form);
+                return column;
+            }).ToList();
+        }
 
         var properties = TypeHelper.Properties<T>();
         return info.Columns.OrderBy(t => t.Position).Select(c =>

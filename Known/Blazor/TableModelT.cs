@@ -91,6 +91,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Initialize(info);
     }
 
+    // 是否使用代码配置
+    public bool UseCodeConfig { get; set; } = true;
+
     /// <summary>
     /// 初始化页面表格模型配置。
     /// </summary>
@@ -98,6 +101,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public void Initialize(AutoPageInfo info)
     {
         Info = info;
+        if (info.Page != null)
+            info.Page.UseCodeConfig = UseCodeConfig;
         //FixedWidth = info.Page.FixedWidth;
         //FixedHeight = info.Page.FixedHeight;
         Name = info?.Name ?? info?.Page?.Name;
