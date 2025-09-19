@@ -27,11 +27,7 @@ public partial class KToolbar
 
     private DropdownModel GetDropdownModel(string name)
     {
-        return GetDropdownModel(new ActionInfo { Name = name });
-    }
-
-    private DropdownModel GetDropdownModel(ActionInfo item)
-    {
+        var item = new ActionInfo { Name = name };
         return new DropdownModel
         {
             ChildContent = b => b.ButtonMore(item, true),

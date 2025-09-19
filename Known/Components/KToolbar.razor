@@ -18,7 +18,7 @@
                 for (int i = 0; i < Model.ShowCount - 1; i++)
                 {
                     var item = items[i];
-                    @RenderButton(item)
+                    <KAction ShowIcon Item="item" OnItemClick="Model.OnItemClick" />
                 }
                 var more = GetDropdownModel(Language.More);
                 more.Items = items.Skip(Model.ShowCount - 1).ToList();
@@ -28,26 +28,10 @@
             {
                 foreach (var item in items)
                 {
-                    @RenderButton(item)
+                    <KAction ShowIcon Item="item" OnItemClick="Model.OnItemClick" />
                 }
             }
         }
         @Model.Right
     </div>
-}
-
-@code {
-    private RenderFragment RenderButton(ActionInfo item)
-    {
-        if (item.Children != null && item.Children.Count > 0)
-        {
-            var model = GetDropdownModel(item);
-            model.Items = item.Children;
-            return @<AntDropdown Context="Context" Model="model" />;
-        }
-        else
-        {
-            return @<KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Icon="@item.Icon" Title="@item.Title" Badge="item.Badge" OnClick="e=>Model.OnItemClick?.Invoke(item)" />;
-        }
-    }
 }

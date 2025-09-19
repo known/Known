@@ -122,6 +122,11 @@ public class TableModel : BaseModel
     /// </summary>
     public Action OnRefreshed { get; set; }
 
+    /// <summary>
+    /// 取得或设置表格额外查询操作按钮。
+    /// </summary>
+    public List<ActionInfo> QueryActions { get; set; } = [];
+
     internal virtual string TableId { get; }
     internal virtual Type DataType { get; }
     internal List<ColumnInfo> AllColumns { get; set; } = [];

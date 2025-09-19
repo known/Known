@@ -6,6 +6,60 @@
 public static class ModelExtension
 {
     #region ActionInfo
+    /// <summary>
+    /// 添加一个操作按钮。
+    /// </summary>
+    /// <param name="items">操作列表。</param>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="title">按钮提示信息。</param>
+    public static void Add(this List<ActionInfo> items, string idOrName, string title = "")
+    {
+        items.Add(new ActionInfo(idOrName) { Title = title });
+    }
+
+    /// <summary>
+    /// 添加一个操作按钮。
+    /// </summary>
+    /// <param name="items">操作列表。</param>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="group">按钮分组。</param>
+    /// <param name="title">按钮提示信息。</param>
+    public static void Add(this List<ActionInfo> items, string idOrName, string group, string title = "")
+    {
+        items.Add(new ActionInfo(idOrName) { Group = group, Title = title });
+    }
+
+    /// <summary>
+    /// 添加一个操作按钮。
+    /// </summary>
+    /// <param name="items">操作列表。</param>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    /// <param name="badge">徽章数量。</param>
+    /// <param name="title">按钮提示信息。</param>
+    public static void Add(this List<ActionInfo> items, string idOrName, int badge, string title = "")
+    {
+        items.Add(new ActionInfo(idOrName) { Badge = badge, Title = title });
+    }
+
+    /// <summary>
+    /// 添加一个操作按钮。
+    /// </summary>
+    /// <param name="items">操作列表。</param>
+    /// <param name="id">按钮ID。</param>
+    /// <param name="name">按钮名称。</param>
+    /// <param name="icon">按钮图标。</param>
+    /// <param name="title">按钮提示信息。</param>
+    public static void Add(this List<ActionInfo> items, string id, string name, string icon, string title = "")
+    {
+        items.Add(new ActionInfo
+        {
+            Id = id,
+            Name = name,
+            Icon = icon,
+            Title = title
+        });
+    }
+
     internal static void TabChange(this List<ActionInfo> actions, string tab)
     {
         foreach (var item in actions)

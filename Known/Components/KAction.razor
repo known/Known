@@ -1,0 +1,29 @@
+﻿@inherits BaseComponent
+
+@if (Item.Children != null && Item.Children.Count > 0)
+{
+    var model = GetDropdownModel();
+    <AntDropdown Context="Context" Model="model" />
+}
+else if (!string.IsNullOrWhiteSpace(Item.Name))
+{
+    <KButton Name="@Item.Name" Enabled="Item.Enabled" Type="Item.ToType()" Danger="Item.IsDanger()" 
+             Icon="@Icon" Title="@Item.Title" Badge="Item.Badge" OnClick="OnClick" />
+}
+else if (!string.IsNullOrWhiteSpace(Item.Icon))
+{
+    if (ShowIcon)
+    {
+        <KButton Enabled="Item.Enabled" Type="Item.ToType()" Danger="Item.IsDanger()"
+                 Icon="@Item.Icon" Title="@Item.Title" Badge="Item.Badge" OnClick="OnClick" />
+    }
+    else
+    {
+        <KIcon Icon="@Item.Icon" Enabled="Item.Enabled" Title="@Item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnClick())" />
+    }
+}
+else
+{
+    <KButton Name="@Item.Id" Enabled="Item.Enabled" Type="Item.ToType()" Danger="Item.IsDanger()" 
+             Icon="@Icon" Title="@Item.Title" Badge="Item.Badge" OnClick="OnClick" />
+}

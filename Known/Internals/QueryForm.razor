@@ -27,6 +27,9 @@
                                 <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
                             }
                             <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@Language.TipReset" />
+                            @foreach (var item in Model.QueryActions) {
+                                <KAction ShowIcon Item="item" OnItemClick="Model.Toolbar.OnItemClick" />
+                            }
                             @if (Model.QueryColumns.Count > showCount) {
                                 <a class="ant-btn-link" style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
                                     <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language[Language.Collapse] : Language[Language.Expand])
@@ -52,6 +55,9 @@
                     <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
                 }
                 <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@Language.TipReset" />
+                @foreach (var item in Model.QueryActions) {
+                    <KAction ShowIcon Item="item" OnItemClick="Model.Toolbar.OnItemClick" />
+                }
             </div>
         </QueryDataForm>
     } 

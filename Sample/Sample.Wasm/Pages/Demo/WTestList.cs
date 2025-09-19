@@ -4,14 +4,14 @@ public class BizTablePage<TItem> : BaseTablePage<TItem> where TItem : class, new
 {
     [Action] public Task Import() => Table.ShowImportAsync();
     //[Action] public Task Export() => Table.ExportDataAsync();
-    [Action(Group = "Export")] public void ExportSelect() { }
-    [Action(Group = "Export")] public void ExportPage() { }
-    [Action(Group = "Export")] public void ExportQuery() { }
-    [Action(Group = "Export")] public void ExportAll() { }
+    [Action(Group = "Export")] public Task ExportSelect() => Table.ExportDataAsync(ExportMode.Select);
+    [Action(Group = "Export")] public Task ExportPage() => Table.ExportDataAsync(ExportMode.Page);
+    [Action(Group = "Export")] public Task ExportQuery() => Table.ExportDataAsync(ExportMode.Query);
+    [Action(Group = "Export")] public Task ExportAll() => Table.ExportDataAsync(ExportMode.All);
 }
 
 [Route("/wtests")]
-//[Menu(AppConstant.Demo, "天气测试", "cloud", 4)]
+[Menu(AppConstant.Demo, "天气测试", "cloud", 4)]
 public class WTestList : BizTablePage<WeatherForecast>
 {
     protected override Task OnParameterAsync()
@@ -32,6 +32,9 @@ public class WTestList : BizTablePage<WeatherForecast>
         //Table.AddColumn(c => c.Summary);
         //Table.AddColumn(c => c.Info.Summary1).Template((b, r) => b.Text(r.Info.Summary1));
 
+        Table.QueryActions.Add(nameof(New));
+        Table.QueryActions.Add(nameof(Export));
+
         Table.ExpandTemplate = (b, r) => b.Text(r.Summary);
         Table.ActionCount = 4;
 
@@ -51,6 +54,8 @@ public class WTestList : BizTablePage<WeatherForecast>
     [Action(Group = "Test", Name = "测试2")] public void Test2(WeatherForecast row) => UI.Alert($"{row.Summary}-Test2");
     [Action] public void MoveUp(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
     [Action] public void MoveDown(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
+
+    public void Export() => UI.Alert("测试查询导出！");
 
     private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
     {

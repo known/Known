@@ -50,10 +50,7 @@ public class ToolbarModel
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>
     /// <param name="title">按钮提示信息。</param>
-    public void AddAction(string idOrName, string title = "")
-    {
-        Items.Add(new ActionInfo(idOrName) { Title = title });
-    }
+    public void AddAction(string idOrName, string title = "") => Items.Add(idOrName, title);
 
     /// <summary>
     /// 添加一个操作按钮。
@@ -61,10 +58,7 @@ public class ToolbarModel
     /// <param name="idOrName">按钮ID或名称。</param>
     /// <param name="group">按钮分组。</param>
     /// <param name="title">按钮提示信息。</param>
-    public void AddAction(string idOrName, string group, string title = "")
-    {
-        Items.Add(new ActionInfo(idOrName) { Group = group, Title = title });
-    }
+    public void AddAction(string idOrName, string group, string title = "") => Items.Add(idOrName, group, title);
 
     /// <summary>
     /// 添加一个操作按钮。
@@ -72,10 +66,7 @@ public class ToolbarModel
     /// <param name="idOrName">按钮ID或名称。</param>
     /// <param name="badge">徽章数量。</param>
     /// <param name="title">按钮提示信息。</param>
-    public void AddAction(string idOrName, int badge, string title = "")
-    {
-        Items.Add(new ActionInfo(idOrName) { Badge = badge, Title = title });
-    }
+    public void AddAction(string idOrName, int badge, string title = "") => Items.Add(idOrName, badge, title);
 
     /// <summary>
     /// 添加一个操作按钮。
@@ -84,16 +75,7 @@ public class ToolbarModel
     /// <param name="name">按钮名称。</param>
     /// <param name="icon">按钮图标。</param>
     /// <param name="title">按钮提示信息。</param>
-    public void AddAction(string id, string name, string icon, string title = "")
-    {
-        Items.Add(new ActionInfo
-        {
-            Id = id,
-            Name = name,
-            Icon = icon,
-            Title = title
-        });
-    }
+    public void AddAction(string id, string name, string icon, string title = "") => Items.Add(id, name, icon, title);
 
     /// <summary>
     /// 刷新工具条。

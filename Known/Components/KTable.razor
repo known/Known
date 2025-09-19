@@ -115,7 +115,7 @@
                         var takes = actions.Skip(0).Take(Model.ActionCount - 1).ToList();
                         var mores = actions.Skip(Model.ActionCount - 1).ToList();
                         foreach (var item in takes) {
-                            @RenderButton(item, context)
+                            <KAction Item="item" OnItemClick="e => OnActionClick(e, context)" />
                         }
                         var model = new DropdownModel {
                             Text = Language.More, Items = mores,
@@ -124,7 +124,7 @@
                         <AntDropdown Context="Context" Model="model" />
                     } else {
                         foreach (var item in actions) {
-                            @RenderButton(item, context)
+                            <KAction Item="item" OnItemClick="e => OnActionClick(e, context)" />
                         }
                     }
                 </ActionColumn>
@@ -205,22 +205,4 @@
             @Language[title]
         }
     </span>;
-
-    private RenderFragment RenderButton(ActionInfo item, TItem context)
-    {
-        if (item.Children != null && item.Children.Count > 0) {
-            var model = new DropdownModel {
-                ChildContent = b => b.ButtonMore(item),
-                Items = item.Children,
-                OnItemClick = e => OnActionClick(e, context)
-            };
-            return @<AntDropdown Context="Context" Model="model" />;
-        } else if (!string.IsNullOrWhiteSpace(item.Name)) {
-            return @<KButton Name="@item.Name" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />;
-        } else if (!string.IsNullOrWhiteSpace(item.Icon)) {
-            return @<KIcon Icon="@item.Icon" Enabled="item.Enabled" Title="@item.Title" IsTheme OnClick="this.Callback<MouseEventArgs>(e => OnActionClick(item, context))" />;
-        } else {
-            return @<KButton Name="@item.Id" Enabled="item.Enabled" Type="item.ToType()" Danger="item.IsDanger()" Title="@item.Title" Badge="item.Badge" OnClick="e => OnActionClick(item, context)" />;
-        }
-    }
 }
