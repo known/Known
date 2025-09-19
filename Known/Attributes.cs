@@ -94,6 +94,11 @@ public class ActionAttribute : Attribute
     public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置操作样式，如：primary，danger，default，dashed，link，text等。
+    /// </summary>
+    public string Style { get; set; }
+
+    /// <summary>
     /// 取得或设置操作按钮是否可见，默认可见。
     /// </summary>
     public bool Visible { get; set; } = true;

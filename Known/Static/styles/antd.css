@@ -36,6 +36,7 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
+.ant-tabs-tabpane .kui-query {margin-bottom:0;}
 .ant-table-wrapper {padding:0 10px;}
 .ant-table .ant-tag {cursor:pointer;margin-right:0;line-height:unset;}
 .ant-table-thead > tr > th {font-weight:bold;}
