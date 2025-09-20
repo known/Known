@@ -17,11 +17,8 @@ public class IndexPage : BasePage
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            //var isChangePwd = await Admin.
-            //UI.Alert("欢迎使用 Known！", () =>
-            //{
-
-            //});
+            if (Config.System.IsChangePwd)
+                ShowUpdatePassword();
         }
     }
 
@@ -31,5 +28,19 @@ public class IndexPage : BasePage
         var menu = Context.Current;
         menu ??= new MenuInfo { Id = "Index", Url = "/", Plugins = [] };
         builder.Component<PluginPage>().Set(c => c.Menu, menu).Build();
+    }
+
+    private void ShowUpdatePassword()
+    {
+        var model = new DialogModel
+        {
+            Title = "修改密码",
+            Width = 400,
+            //Content = b => b.Component<UpdatePasswordForm>().Build(),
+            Closable = false,
+            Footer = null
+        };
+        model.OnClose = model.CloseAsync;
+        UI.ShowDialog(model);
     }
 }

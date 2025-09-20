@@ -6,7 +6,14 @@ public partial interface IAdminService
     /// 异步获取系统信息。
     /// </summary>
     /// <returns>系统信息。</returns>
-    [AllowAnonymous] Task<SystemInfo> GetSystemAsync();
+    Task<SystemInfo> GetSystemAsync();
+
+    /// <summary>
+    /// 异步保存系统信息。
+    /// </summary>
+    /// <param name="info">系统信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveSystemAsync(SystemInfo info);
 
     /// <summary>
     /// 异步获取产品信息。
@@ -27,6 +34,11 @@ partial class AdminService
     public Task<SystemInfo> GetSystemAsync()
     {
         return Task.FromResult(GetSystem());
+    }
+
+    public Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        return Result.SuccessAsync(Language.SaveSuccess);
     }
 
     public Task<SystemInfo> GetProductAsync()
@@ -55,6 +67,11 @@ partial class AdminClient
     public Task<SystemInfo> GetSystemAsync()
     {
         return Http.GetAsync<SystemInfo>("/Admin/GetSystem");
+    }
+
+    public Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        return Http.PostAsync("/Admin/SaveSystem", info);
     }
 
     public Task<SystemInfo> GetProductAsync()

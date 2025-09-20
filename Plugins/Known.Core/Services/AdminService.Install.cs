@@ -18,15 +18,10 @@ partial class AdminService
         };
         if (sys != null)
         {
-            info.System = new SystemInfo
-            {
-                CompNo = sys.CompNo,
-                CompName = sys.CompName,
-                AppName = sys.AppName,
-                IsLoginCaptcha = sys.IsLoginCaptcha,
-                IsWatermark = sys.IsWatermark,
-                MaxFileSize = sys.MaxFileSize
-            };
+            info.System = sys.Clone();
+            info.System.ProductId = null;
+            info.System.ProductKey = null;
+            info.System.UserDefaultPwd = null;
         }
         CoreConfig.System = sys;
         CoreConfig.Load(info);

@@ -2,15 +2,23 @@
 
 public partial class SysSystemInfo
 {
+    private ISystemService Service;
     private SystemDataInfo Model = new();
-    [CascadingParameter] private SysSystem Parent { get; set; }
 
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        // 首个Tab组件初始化Model
-        Parent.Model = await Parent.GetSystemDataAsync();
-        Model = Parent.Model;
+        Service = await CreateServiceAsync<ISystemService>();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Model = await Service.GetSystemDataAsync();
+            StateChanged();
+        }
     }
 
     private async Task OnSaveAppNameAsync(string value)
@@ -19,7 +27,7 @@ public partial class SysSystemInfo
             return;
 
         Model.System.AppName = value;
-        var result = await Parent.SaveSystemAsync(Model.System);
+        var result = await Service.SaveSystemAsync(Model.System);
         if (result.IsValid)
         {
             CurrentUser.AppName = value;
@@ -33,7 +41,11 @@ public partial class SysSystemInfo
             return;
 
         Model.System.ProductKey = value;
-        await Parent.SaveKeyAsync(Model.System);
+        await Admin.SaveProductKeyAsync(new ActiveInfo
+        {
+            ProductId = Model.System.ProductId,
+            ProductKey = Model.System.ProductKey
+        });
         await StateChangedAsync();
     }
 }

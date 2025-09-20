@@ -14,7 +14,7 @@ public static class AdmExtension
         AdminConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
         //关于系统
         UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
-        UIConfig.SystemTabs.Set<SysSecuritySetting>(2, Language.SecuritySetting);
+        UIConfig.SystemTabs.Set<SecuritySetting>(2, Language.SecuritySetting);
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
     }

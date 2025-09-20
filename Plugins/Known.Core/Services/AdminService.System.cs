@@ -2,18 +2,16 @@
 
 partial class AdminService
 {
-    public async Task<SystemInfo> GetSystemAsync()
+    public Task<SystemInfo> GetSystemAsync()
     {
-        var database = Database;
-        database.EnableLog = false;
-        var info = await database.GetSystemAsync();
-        if (info != null)
-        {
-            info.ProductId = CoreOption.Instance.ProductId;
-            info.ProductKey = null;
-            info.UserDefaultPwd = null;
-        }
-        return info;
+        return Database.GetSystemAsync();
+    }
+
+    public async Task<Result> SaveSystemAsync(SystemInfo info)
+    {
+        await Database.SaveSystemAsync(info);
+        Config.System = info;
+        return Result.Success(Language.SaveSuccess);
     }
 
     public async Task<SystemInfo> GetProductAsync()
