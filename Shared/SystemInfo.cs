@@ -93,6 +93,31 @@ public class SystemInfo
     public bool IsLoginCaptcha { get; set; }
 
     /// <summary>
+    /// 取得或设置是否启用账号单一客户端登录。
+    /// </summary>
+    public bool IsLoginOne { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否启用账号单一客户端登录。
+    /// </summary>
+    public string TipLoginOne { get; set; } = "您的账号在其他电脑登录，您已被迫退出。";
+
+    /// <summary>
+    /// 取得或设置是否启用默认密码修改提醒。
+    /// </summary>
+    public bool IsChangePwd { get; set; }
+
+    /// <summary>
+    /// 取得或设置默认密码修改提醒提示内容。
+    /// </summary>
+    public string TipChangePwd { get; set; } = "您当前使用默认密码登录，为了安全，请及时修改。";
+
+    /// <summary>
+    /// 取得或设置密码复杂度，默认None不限制，包含None、Low、Middle、High四种复杂度。
+    /// </summary>
+    public string PwdComplexity { get; set; } = nameof(PasswordComplexity.None);
+
+    /// <summary>
     /// 取得或设置系统是否启用水印。
     /// </summary>
     public bool IsWatermark { get; set; }

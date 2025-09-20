@@ -12,6 +12,20 @@ public class IndexPage : BasePage
     }
 
     /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            //var isChangePwd = await Admin.
+            //UI.Alert("欢迎使用 Known！", () =>
+            //{
+
+            //});
+        }
+    }
+
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         var menu = Context.Current;

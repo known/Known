@@ -3,22 +3,48 @@
 <TypeForm Class="kui-system" Model="Model" Style="margin-top:20px">
     <AntRow>
         <DataItem Label="默认密码">
-            <KEditInput Value="@Model.UserDefaultPwd" OnSave="OnSaveDefaultPwdAsync" />
+            <AntInput @bind-Value="@Model.UserDefaultPwd" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="启用登录验证码">
-            <Switch Value="@Model.IsLoginCaptcha" ValueChanged="OnLoginCaptchaChangedAsync" />
+        <DataItem Label="登录验证码">
+            <AntSwitch @bind-Value="@Model.IsLoginCaptcha" ShowTexts="启用,禁用" />
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="启用水印">
-            <Switch Value="@Model.IsWatermark" ValueChanged="OnWatermarkChangedAsync" />
+        <DataItem Label="账号单一客户端" Inline>
+            <AntSwitch @bind-Value="@Model.IsLoginOne" ShowTexts="启用,禁用" Style="width:56px" />
+            @if (Model.IsLoginOne)
+            {
+                <AntInput @bind-Value="@Model.TipLoginOne" Placeholder="账号单一客户端登录退出提示内容" Style="width:350px" />
+            }
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Label="默认密码修改提醒" Inline>
+            <AntSwitch @bind-Value="@Model.IsChangePwd" ShowTexts="启用,禁用" Style="width:56px" />
+            @if (Model.IsChangePwd)
+            {
+                <AntInput @bind-Value="@Model.TipChangePwd" Placeholder="默认密码修改提醒提示内容" Style="width:350px" />
+			}
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Label="密码复杂度">
+            <AntSelectCode @bind-Value="@Model.PwdComplexity" Category="@nameof(PasswordComplexity)" Style="width:320px" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Label="账号水印">
+            <AntSwitch @bind-Value="@Model.IsWatermark" ShowTexts="启用,禁用" />
         </DataItem>
     </AntRow>
     <AntRow>
         <DataItem Label="允许附件大小">
-            <AntInteger Value="@Model.MaxFileSize" ValueChanged="OnMaxFileSizeChangedAsync" /> M
+            <AntInteger @bind-Value="@Model.MaxFileSize" /> M
         </DataItem>
     </AntRow>
+    <div class="kui-form-button">
+        <KButton Type="ButtonType.Primary" Name="保存" OnClick="OnSaveModel" />
+    </div>
 </TypeForm>

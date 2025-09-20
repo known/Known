@@ -213,3 +213,30 @@ public enum DicCategoryType
     [Description("自定义")]
     Custom
 }
+
+/// <summary>
+/// 密码复杂度枚举。
+/// </summary>
+public enum PasswordComplexity
+{
+    /// <summary>
+    /// 不限制。
+    /// </summary>
+    [Description("不限制")]
+    None,
+    /// <summary>
+    /// 低（至少6位）。
+    /// </summary>
+    [Description("低（至少6位）")]
+    Low,
+    /// <summary>
+    /// 中（至少6位，包含字母和数字）。
+    /// </summary>
+    [Description("中（至少6位，包含字母和数字）")]
+    Middle,
+    /// <summary>
+    /// 高（至少6位，包含字母、数字和特殊字符）。
+    /// </summary>
+    [Description("高（至少6位，包含字母、数字和特殊字符）")]
+    High
+}
