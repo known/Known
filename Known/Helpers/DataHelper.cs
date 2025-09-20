@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Helpers;
+﻿namespace Known.Helpers;
 
 /// <summary>
 /// 数据帮助者类。
@@ -79,10 +77,10 @@ public sealed class DataHelper
     {
         var modules = Config.OnInitialModules != null ? await Config.OnInitialModules.Invoke(db) : [];
         modules ??= [];
-        if (!Config.IsDbMode)
-            modules.Add(AppData.Data.Modules);
-        if (modules.Count == 0)
-            modules = AppData.Data.Modules;
+        //if (!Config.IsDbMode)
+        //    modules.Add(AppData.Data.Modules);
+        //if (modules.Count == 0)
+        //    modules = AppData.Data.Modules;
         return GetModules(modules);
     }
 
@@ -95,112 +93,104 @@ public sealed class DataHelper
     {
         // 定义新列表，在新列表中添加路由模块，不污染原模块列表
         var allModules = new List<ModuleInfo>();
-        if (modules == null || modules.Count == 0)
-            return allModules;
-
-        allModules.AddRange(modules);
-        // 添加路由模块
-        var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
-        if (routes != null && routes.Count > 0)
-        {
-            allModules.AddRange(routes);
-        }
+        if (modules != null && modules.Count > 0)
+            allModules.AddRange(modules);
+        RouteHelper.AddTo(allModules);
+        RoleHelper.AddTo(allModules);
+        //var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
+        //if (routes != null && routes.Count > 0)
+        //    allModules.AddRange(routes);
         return [.. allModules.Where(m => m.Enabled).OrderBy(m => m.Sort)];
     }
 
-    private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
-    {
-        var routes = Config.RouteTypes;
-        if (routes.Count == 0)
-            return null;
+    //private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
+    //{
+    //    var routes = Config.RouteTypes;
+    //    if (routes.Count == 0)
+    //        return null;
 
-        var infos = new List<ModuleInfo>();
-        var routeError = typeof(ErrorPage).RouteTemplate();
-        var routeAuto = typeof(AutoPage).RouteTemplate();
-        var target = Constants.Route;
-        var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "Route", Target = target, Icon = "share-alt", Sort = 999 };
-        foreach (var item in routes.OrderBy(r => r.Key))
-        {
-            if (moduleUrls.Exists(m => m == item.Key) ||
-                UIConfig.IgnoreRoutes.Contains(item.Key) ||
-                item.Key.StartsWith("/dev") ||
-                item.Key == routeError || item.Key == routeAuto)
-                continue;
+    //    var infos = new List<ModuleInfo>();
+    //    var routeError = typeof(ErrorPage).RouteTemplate();
+    //    var routeAuto = typeof(AutoPage).RouteTemplate();
+    //    var target = Constants.Route;
+    //    var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Sort = 999 };
+    //    foreach (var item in routes.OrderBy(r => r.Key))
+    //    {
+    //        if (moduleUrls.Exists(m => m == item.Key) ||
+    //            UIConfig.IgnoreRoutes.Contains(item.Key) ||
+    //            item.Key.StartsWith("/dev") ||
+    //            item.Key == routeError || item.Key == routeAuto)
+    //            continue;
 
-            var parentId = route.Id;
-            var index = item.Key.TrimStart('/').IndexOf('/');
-            if (index > 0)
-            {
-                var key = item.Key.Substring(0, index + 1);
-                var id = $"sub_{key}";
-                var sub = infos.FirstOrDefault(m => m.Id == id);
-                if (sub == null)
-                {
-                    sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder" };
-                    infos.Add(sub);
-                }
-                parentId = sub.Id;
-            }
+    //        var parentId = route.Id;
+    //        var index = item.Key.TrimStart('/').IndexOf('/');
+    //        if (index > 0)
+    //        {
+    //            var key = item.Key.Substring(0, index + 1);
+    //            var id = $"sub_{key}";
+    //            var sub = infos.FirstOrDefault(m => m.Id == id);
+    //            if (sub == null)
+    //            {
+    //                sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder" };
+    //                infos.Add(sub);
+    //            }
+    //            parentId = sub.Id;
+    //        }
 
-            var module = GetModule(item, parentId);
-            infos.Add(module);
-        }
+    //        var module = GetModule(item, parentId);
+    //        infos.Add(module);
+    //    }
 
-        var modules = new List<ModuleInfo>();
-        if (infos.Count > 0)
-        {
-            modules.Add(route);
-            modules.AddRange(infos);
-        }
-        return modules;
-    }
+    //    var modules = new List<ModuleInfo>();
+    //    if (infos.Count > 0)
+    //    {
+    //        modules.Add(route);
+    //        modules.AddRange(infos);
+    //    }
+    //    return modules;
+    //}
 
-    private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
-    {
-        var info = new ModuleInfo
-        {
-            Id = item.Value.FullName,
-            ParentId = parentId,
-            Name = item.Value.Name,
-            Url = item.Key,
-            Target = Constants.Route,
-            Icon = "file",
-            Enabled = true
-        };
-        SetRouteInfo(info, item.Value);
-        var actions = item.Value.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
-                                .Where(m => m.IsDefined(typeof(ActionAttribute), false))
-                                .Select(m => m.Name)
-                                .ToList();
-        if (actions.Count > 0)
-            info.Plugins.AddPlugin(new AutoPageInfo { Page = new PageInfo { Tools = [.. actions] } });
-        return info;
-    }
+    //private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
+    //{
+    //    var info = new ModuleInfo
+    //    {
+    //        Id = item.Value.FullName,
+    //        ParentId = parentId,
+    //        Name = item.Value.Name,
+    //        Url = item.Key,
+    //        Target = Constants.Route,
+    //        Icon = "file",
+    //        Enabled = true
+    //    };
+    //    SetRouteInfo(info, item.Value);
+    //    info.AddActions(item.Value);
+    //    return info;
+    //}
 
-    private static void SetRouteInfo(ModuleInfo info, Type type)
-    {
-        var tab = type.GetCustomAttribute<ReuseTabsPageAttribute>();
-        if (tab != null)
-        {
-            info.Name = tab.Title;
-            return;
-        }
+    //private static void SetRouteInfo(ModuleInfo info, Type type)
+    //{
+    //    var tab = type.GetCustomAttribute<ReuseTabsPageAttribute>();
+    //    if (tab != null)
+    //    {
+    //        info.Name = tab.Title;
+    //        return;
+    //    }
 
-        var plugin = type.GetCustomAttribute<PluginAttribute>();
-        if (plugin != null)
-        {
-            info.Name = plugin.Name;
-            info.Icon = plugin.Icon;
-            return;
-        }
+    //    var plugin = type.GetCustomAttribute<PluginAttribute>();
+    //    if (plugin != null)
+    //    {
+    //        info.Name = plugin.Name;
+    //        info.Icon = plugin.Icon;
+    //        return;
+    //    }
 
-        var menu = type.GetCustomAttribute<MenuAttribute>();
-        if (menu != null)
-        {
-            info.Name = menu.Name;
-            info.Icon = menu.Icon;
-        }
-    }
+    //    var menu = type.GetCustomAttribute<MenuAttribute>();
+    //    if (menu != null)
+    //    {
+    //        info.Name = menu.Name;
+    //        info.Icon = menu.Icon;
+    //    }
+    //}
     #endregion
 
     #region Entity

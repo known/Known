@@ -90,35 +90,35 @@ class AppDefaultData
     private static void SetMethods(AutoPageInfo info, Type pageType)
     {
         var actions = AppData.GetActions();
-        var methods = pageType.GetMethods();
+        var methods = pageType.GetMethods().Select(m => new {
+            Method = m,
+            Attr = m.GetCustomAttribute<ActionAttribute>()
+        }).Where(x => x.Attr != null).ToList();
         foreach (var item in methods)
         {
-            var attr = item.GetCustomAttribute<ActionAttribute>();
-            if (attr != null)
+            var method = item.Method;
+            var attr = item.Attr;
+            var hasParameter = method.GetParameters().Length > 0;
+            var action = actions?.FirstOrDefault(b => b.Id == method.Name);
+            if (action == null)// 将代码定义的按钮添加到按钮列表中
             {
-                var hasParameter = item.GetParameters().Length > 0;
-                var action = actions?.FirstOrDefault(b => b.Id == item.Name);
-                if (action == null)
+                action = new ActionInfo
                 {
-                    // 将代码定义的按钮添加到按钮列表中
-                    action = new ActionInfo
-                    {
-                        Id = item.Name,
-                        Name = attr.Name,
-                        Icon = attr.Icon,
-                        Title = attr.Title,
-                        Tabs = attr.Tabs,
-                        Style = "primary",
-                        Position = hasParameter ? "Action" : "Toolbar"
-                    };
-                    Config.Actions.Add(action);
-                }
-
-                if (!hasParameter)
-                    info.Page.Tools.Add(item.Name);
-                else
-                    info.Page.Actions.Add(item.Name);
+                    Id = method.Name,
+                    Name = attr.Name,
+                    Icon = attr.Icon,
+                    Title = attr.Title,
+                    Tabs = attr.Tabs,
+                    Style = attr.Style ?? "primary",
+                    Position = hasParameter ? "Action" : "Toolbar"
+                };
+                Config.Actions.Add(action);
             }
+
+            if (!hasParameter)
+                info.Page.Tools.Add(method.Name);
+            else
+                info.Page.Actions.Add(method.Name);
         }
     }
 

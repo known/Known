@@ -73,6 +73,19 @@ public class AppMenuAttribute(string name, string icon, int sort, string target 
 }
 
 /// <summary>
+/// 角色特性类，用于标识组件类需要在角色管理中配置按钮权限。
+/// </summary>
+/// <param name="name">组件名称。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class RoleAttribute(string name) : Attribute
+{
+    /// <summary>
+    /// 取得角色组件名称。
+    /// </summary>
+    public string Name { get; } = name;
+}
+
+/// <summary>
 /// 动作特性类，用于标识方法是否需要角色权限控制。
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]

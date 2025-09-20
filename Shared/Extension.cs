@@ -41,5 +41,6 @@ public static partial class Extension
         };
 
         action?.Invoke(Config.App);
+        services.AddScoped<ImportContext>();
     }
 }

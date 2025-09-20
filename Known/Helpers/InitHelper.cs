@@ -1,42 +1,99 @@
 ﻿namespace Known.Helpers;
 
-class InitHelper
+static class InitHelper
 {
-    private static readonly List<string> InitAssemblies = [];
+    private static readonly Dictionary<string, InitInfo> Inits = [];
+    private record InitInfo(Assembly Assembly, Type[] Types);
 
-    internal static void Load(Assembly assembly)
+    internal static void Add(Assembly assembly)
     {
         if (assembly == null)
             return;
 
-        if (InitAssemblies.Contains(assembly.FullName))
+        if (Inits.ContainsKey(assembly.FullName))
             return;
 
-        InitAssemblies.Add(assembly.FullName);
+        var types = assembly.GetTypes();
+        Inits[assembly.FullName] = new InitInfo(assembly, types);
+
         AddActions(assembly);
 
-        var xml = GetAssemblyXml(assembly);
-        var doc = new XmlDocument();
-        if (!string.IsNullOrWhiteSpace(xml))
-            doc.LoadXml(xml);
-        foreach (var item in assembly.GetTypes())
+        foreach (var type in types)
         {
-            if (TypeHelper.IsGenericSubclass(item, typeof(EntityTablePage<>), out var arguments))
-                AddApiMethod(doc, typeof(IEntityService<>).MakeGenericType(arguments), item.Name);
-            else if (item.IsInterface && !item.IsGenericTypeDefinition && item.IsAssignableTo(typeof(IService)) && item.Name != nameof(IService))
-                AddApiMethod(doc, item, item.Name[1..].Replace("Service", ""));
-            else if (item.IsAssignableTo(typeof(ICustomField)))
-                AddFieldType(item);
-            else if (item.IsAssignableTo(typeof(BaseForm)))
-                Config.FormTypes[item.Name] = item;
-            else if (item.IsEnum)
-                Cache.AttachEnumCodes(item);
+            if (type.IsAssignableTo(typeof(ICustomField)) && type.Name != nameof(ICustomField) && type.Name != nameof(CustomField))
+                Config.FieldTypes[type.Name] = type;
+            else if (type.IsAssignableTo(typeof(BaseForm)))
+                Config.FormTypes[type.Name] = type;
+            else if (type.IsEnum)
+                Cache.AttachEnumCodes(type);
+        }
+    }
 
-            var routes = GetRoutes(item);
-            PluginConfig.AddPlugin(item, routes);
-            AddAppMenu(item, routes);
-            AddMenu(item, routes);
-            AddCodeInfo(item);
+    internal static void LoadClients(this IServiceCollection services)
+    {
+        foreach (var item in Inits.Values)
+        {
+            foreach (var type in item.Types)
+            {
+                var attr = type.GetCustomAttribute<ClientAttribute>();
+                if (attr == null)
+                    continue;
+
+                services.AddServices(attr.Lifetime, type);
+            }
+        }
+    }
+
+    internal static void LoadAssemblies(this IServiceCollection services)
+    {
+        foreach (var item in Inits.Values)
+        {
+            var xml = GetAssemblyXml(item.Assembly);
+            var doc = new XmlDocument();
+            if (!string.IsNullOrWhiteSpace(xml))
+                doc.LoadXml(xml);
+
+            foreach (var type in item.Types)
+            {
+                if (type.IsAbstract)
+                    continue;
+
+                var attributes = type.GetCustomAttributes(false);
+                var task = attributes.OfType<TaskAttribute>().FirstOrDefault();
+                var code = attributes.OfType<CodeInfoAttribute>().FirstOrDefault();
+                var import = attributes.OfType<ImportAttribute>().FirstOrDefault();
+                var service = attributes.OfType<ServiceAttribute>().FirstOrDefault();
+
+                if (type.IsInterface && !type.IsGenericTypeDefinition && type.IsAssignableTo(typeof(IService)) && type.Name != nameof(IService))
+                    AddApiMethod(doc, type, type.Name[1..].Replace("Service", ""));
+                else if (TypeHelper.IsGenericSubclass(type, typeof(EntityTablePage<>), out var arguments))
+                    AddApiMethod(doc, typeof(IEntityService<>).MakeGenericType(arguments), type.Name);
+                else if (service != null)
+                    services.AddServices(service.Lifetime, type);
+                else if (type.IsAssignableTo(typeof(EntityBase)) && type.Name != nameof(EntityBase))
+                    DbConfig.Models.Add(type);
+                else if (code != null)
+                    Cache.AttachCodes(type);
+                else if (task != null)
+                    Config.TaskTypes[task.BizType] = type;
+                else if (type.IsAssignableTo(typeof(ImportBase)) && type.Name != nameof(ImportBase))
+                {
+                    var key = import != null ? import.Type.Name : type.Name.Replace("Import", "");
+                    Config.ImportTypes[key] = type;
+                    services.AddScoped(type);
+                }
+                else if (type.IsAssignableTo(typeof(FlowBase)) && type.Name != nameof(FlowBase))
+                {
+                    Config.FlowTypes[type.Name] = type;
+                    services.AddScoped(type);
+                }
+
+                var routes = RouteHelper.GetRoutes(type);
+                PluginConfig.AddPlugin(type, routes);
+                AddAppMenu(type, routes);
+                //AddMenu(type, routes);
+                RoleHelper.AddRole(type);
+            }
         }
     }
 
@@ -66,14 +123,10 @@ class InitHelper
                 info = new ActionInfo { Id = id };
                 Config.Actions.Add(info);
             }
-            if (values.Length > 1)
-                info.Name = values[1].Trim();
-            if (values.Length > 2)
-                info.Icon = values[2].Trim();
-            if (values.Length > 3)
-                info.Style = values[3].Trim();
-            if (values.Length > 4)
-                info.Position = values[4].Trim();
+            if (values.Length > 1) info.Name = values[1].Trim();
+            if (values.Length > 2) info.Icon = values[2].Trim();
+            if (values.Length > 3) info.Style = values[3].Trim();
+            if (values.Length > 4) info.Position = values[4].Trim();
         }
     }
 
@@ -85,19 +138,6 @@ class InitHelper
         var fileName = assembly.ManifestModule.Name.Replace(".dll", ".xml");
         var path = Path.Combine(AppContext.BaseDirectory, fileName);
         return Utils.ReadFile(path);
-    }
-
-    private static IEnumerable<RouteAttribute> GetRoutes(Type item)
-    {
-        var routes = item.GetCustomAttributes<RouteAttribute>();
-        if (routes != null && routes.Any())
-        {
-            foreach (var route in routes)
-            {
-                Config.RouteTypes[route.Template] = item;
-            }
-        }
-        return routes;
     }
 
     private static HttpMethod GetHttpMethod(MethodInfo method)
@@ -150,49 +190,34 @@ class InitHelper
     private static void AddAppMenu(Type item, IEnumerable<RouteAttribute> routes)
     {
         var menu = item.GetCustomAttribute<AppMenuAttribute>();
-        if (menu != null)
+        if (menu == null)
+            return;
+
+        menu.Page = item;
+        menu.Url = routes?.FirstOrDefault()?.Template;
+        Config.AppMenus.Add(new MenuInfo
         {
-            menu.Page = item;
-            menu.Url = routes?.FirstOrDefault()?.Template;
-            Config.AppMenus.Add(new MenuInfo
-            {
-                Id = item.Name,
-                Name = menu.Name,
-                Icon = menu.Icon,
-                Url = menu.Url,
-                Sort = menu.Sort,
-                Target = menu.Target,
-                Role = menu.Role,
-                Color = menu.Color,
-                BackUrl = menu.BackUrl,
-                PageType = item
-            });
-        }
+            Id = item.Name,
+            Name = menu.Name,
+            Icon = menu.Icon,
+            Url = menu.Url,
+            Sort = menu.Sort,
+            Target = menu.Target,
+            Role = menu.Role,
+            Color = menu.Color,
+            BackUrl = menu.BackUrl,
+            PageType = item
+        });
     }
 
     private static void AddMenu(Type item, IEnumerable<RouteAttribute> routes)
     {
         var menu = item.GetCustomAttribute<MenuAttribute>();
-        if (menu != null)
-        {
-            menu.Page = item;
-            menu.Url = routes?.FirstOrDefault()?.Template;
-            Config.Menus.Add(menu);
-        }
-    }
-
-    private static void AddFieldType(Type item)
-    {
-        if (item.Name == nameof(ICustomField) || item.Name == nameof(CustomField))
+        if (menu == null)
             return;
 
-        Config.FieldTypes[item.Name] = item;
-    }
-
-    private static void AddCodeInfo(Type item)
-    {
-        var codeInfo = item.GetCustomAttribute<CodeInfoAttribute>();
-        if (codeInfo != null)
-            Cache.AttachCodes(item);
+        menu.Page = item;
+        menu.Url = routes?.FirstOrDefault()?.Template;
+        Config.Menus.Add(menu);
     }
 }

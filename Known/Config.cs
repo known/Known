@@ -78,13 +78,13 @@ public partial class Config
             return;
 
         Assemblies.Add(assembly);
-        InitHelper.Load(assembly);
+        InitHelper.Add(assembly);
     }
 
     internal static void AddApp(Assembly assembly)
     {
         Version = new VersionInfo(App.Assembly);
-        InitHelper.Load(App.Assembly);
         AddModule(assembly);
+        AddModule(App.Assembly);
     }
 }

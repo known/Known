@@ -40,6 +40,22 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         return Database.Query<SysRole>(criteria).ToPageAsync<RoleInfo>();
     }
 
+    public async Task<RoleInfo> GetRoleAsync(string roleId)
+    {
+        RoleInfo info = null;
+        await Database.QueryActionAsync(async db =>
+        {
+            info = string.IsNullOrWhiteSpace(roleId)
+                 ? new RoleInfo()
+                 : await db.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
+            info ??= new RoleInfo();
+            info.Modules = await DataHelper.GetModulesAsync(db);
+            var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
+            info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
+        });
+        return info;
+    }
+
     public async Task<Result> DeleteRolesAsync(List<RoleInfo> infos)
     {
         if (infos == null || infos.Count == 0)
@@ -58,22 +74,6 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         if (result.IsValid)
             database.UpdateUserRoleName();
         return result;
-    }
-
-    public async Task<RoleInfo> GetRoleAsync(string roleId)
-    {
-        RoleInfo info = null;
-        await Database.QueryActionAsync(async db =>
-        {
-            info = string.IsNullOrWhiteSpace(roleId)
-                 ? new RoleInfo()
-                 : await db.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
-            info ??= new RoleInfo();
-            info.Modules = await DataHelper.GetModulesAsync(db);
-            var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
-            info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
-        });
-        return info;
     }
 
     public async Task<Result> SaveRoleAsync(RoleInfo info)

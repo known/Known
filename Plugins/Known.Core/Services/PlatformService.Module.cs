@@ -20,8 +20,8 @@ partial class PlatformService
     {
         var dbModules = await Database.QueryListAsync<SysModule>();
         var modules = dbModules.Select(m => m.ToModuleInfo()).ToList();
-        modules = modules.Add(AppData.Data.Modules);
-        DataHelper.Initialize(modules);
+        //modules = modules.Add(AppData.Data.Modules);
+        //DataHelper.Initialize(modules);
         return modules;
     }
 

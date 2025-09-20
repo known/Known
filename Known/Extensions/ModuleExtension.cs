@@ -149,6 +149,12 @@ public static class ModuleExtension
         }
     }
 
+    /// <summary>
+    /// 将模块信息列表转成树结构菜单信息列表。
+    /// </summary>
+    /// <param name="models">模块信息列表。</param>
+    /// <param name="showRoot">是否显示根节点。</param>
+    /// <returns></returns>
     public static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
     {
         MenuInfo current = null;

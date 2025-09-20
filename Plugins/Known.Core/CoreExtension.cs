@@ -27,7 +27,6 @@ public static class CoreExtension
         CoreOption.Instance.App.Type = AppType.Desktop;
         if (CoreOption.Instance.Database != null)
             services.AddKnownData(CoreOption.Instance.Database);
-        services.AddKnownCore();
         services.AddKnownServices();
 
         services.AddHttpContextAccessor();
@@ -48,7 +47,6 @@ public static class CoreExtension
 
         if (CoreOption.Instance.Database != null)
             services.AddKnownData(CoreOption.Instance.Database);
-        services.AddKnownCore();
         services.AddKnownServices();
         services.AddScoped<INotifyService, WebNotifyService>();
 
@@ -186,17 +184,16 @@ public static class CoreExtension
     {
         var assembly = typeof(CoreOption).Assembly;
         Config.AddModule(assembly);
+        Config.OnAutoImport = context => new AutoImport(context);
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
         if (!Config.IsAdmin)
             Config.OnInitialModules = OnInitialModules;
 
-        Config.OnAutoImport = context => new AutoImport(context);
-
         // 添加服务
-        services.AddKnownCells();
-        services.AddServices(assembly);
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+        services.AddKnownCells();
+        services.AddKnownCore();
     }
 
     private static async Task<List<ModuleInfo>> OnInitialModules(Database db)

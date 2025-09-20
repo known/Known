@@ -68,85 +68,39 @@ public static class ServiceExtension
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="assembly">程序集。</param>
-    public static void AddServices(this IServiceCollection services, Assembly assembly)
-    {
-        if (assembly == null)
-            return;
-
-        foreach (var item in assembly.GetTypes())
-        {
-            var task = item.GetCustomAttribute<TaskAttribute>();
-            if (task != null)
-            {
-                Config.TaskTypes[task.BizType] = item;
-            }
-            else if (!item.IsAbstract && item.IsAssignableTo(typeof(EntityBase)) && item.Name != nameof(EntityBase))
-            {
-                DbConfig.Models.Add(item);
-            }
-            else if (!item.IsAbstract && item.IsAssignableTo(typeof(ImportBase)) && item.Name != nameof(ImportBase))
-            {
-                var import = item.GetCustomAttribute<ImportAttribute>();
-                var key = import != null ? import.Type.Name : item.Name.Replace("Import", "");
-                Config.ImportTypes[key] = item;
-                services.AddScoped(item);
-            }
-            else if (!item.IsAbstract && item.IsAssignableTo(typeof(FlowBase)) && item.Name != nameof(FlowBase))
-            {
-                Config.FlowTypes[item.Name] = item;
-                services.AddScoped(item);
-            }
-
-            var attr = item.GetCustomAttribute<ServiceAttribute>();
-            if (attr == null)
-                continue;
-
-            services.AddServices(attr.Lifetime, item);
-        }
-    }
+    [Obsolete("该方法已无用处，可以删除。")]
+    public static void AddServices(this IServiceCollection services, Assembly assembly) { }
 
     /// <summary>
     /// 添加注入程序集中 Client 特性的客户端类。
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="assembly">程序集。</param>
-    public static void AddClients(this IServiceCollection services, Assembly assembly)
+    [Obsolete("该方法已无用处，可以删除。")]
+    public static void AddClients(this IServiceCollection services, Assembly assembly) { }
+
+    internal static void AddServices(this IServiceCollection services, ServiceLifetime lifetime, Type type)
     {
-        if (assembly == null)
-            return;
-
-        foreach (var item in assembly.GetTypes())
-        {
-            var attr = item.GetCustomAttribute<ClientAttribute>();
-            if (attr == null)
-                continue;
-
-            services.AddServices(attr.Lifetime, item);
-        }
-    }
-
-    private static void AddServices(this IServiceCollection services, ServiceLifetime lifetime, Type item)
-    {
-        var interfaces = item.GetInterfaces().Where(s => s.Name != nameof(IService)).ToList();
+        var interfaces = type.GetInterfaces().Where(s => s.Name != nameof(IService)).ToList();
         switch (lifetime)
         {
             case ServiceLifetime.Scoped:
                 if (interfaces == null || interfaces.Count == 0)
-                    services.AddScoped(item);
+                    services.AddScoped(type);
                 else
-                    services.AddScoped(interfaces[0], item);
+                    services.AddScoped(interfaces[0], type);
                 break;
             case ServiceLifetime.Singleton:
                 if (interfaces == null || interfaces.Count == 0)
-                    services.AddSingleton(item);
+                    services.AddSingleton(type);
                 else
-                    services.AddSingleton(interfaces[0], item);
+                    services.AddSingleton(interfaces[0], type);
                 break;
             case ServiceLifetime.Transient:
                 if (interfaces == null || interfaces.Count == 0)
-                    services.AddTransient(item);
+                    services.AddTransient(type);
                 else
-                    services.AddTransient(interfaces[0], item);
+                    services.AddTransient(interfaces[0], type);
                 break;
             default:
                 break;

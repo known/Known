@@ -17,8 +17,6 @@ public static class AppConfig
         Config.RenderMode = RenderType.Auto;
 
         var assembly = typeof(AppConfig).Assembly;
-        Config.AddModule(assembly);
-
         services.AddKnown(info =>
         {
             info.Id = AppId;
@@ -26,7 +24,6 @@ public static class AppConfig
             info.Assembly = assembly;
         });
         services.AddKnownAdmin();
-        services.AddServices(assembly);
         services.AddModules();
         services.ConfigUI();
     }
@@ -34,15 +31,13 @@ public static class AppConfig
     // 添加客户端
     internal static void AddApplicationClient(this IServiceCollection services, Action<ClientOption> action)
     {
-        var assembly = typeof(AppConfig).Assembly;
-        services.AddKnownClient(action);
         services.AddKnownAdminClient();
-        services.AddClients(assembly);
+        services.AddKnownClient(action);
     }
 
     private static void AddModules(this IServiceCollection services)
     {
-        Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
+        //Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
     }
 
     private static void ConfigUI(this IServiceCollection services)

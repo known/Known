@@ -24,8 +24,9 @@ public static partial class Extension
 
         services.AddScoped<Context>();
         services.AddScoped<UIContext>();
-        services.AddScoped<ImportContext>();
-        services.AddServices(assembly);
+        services.AddScoped<JSService>();
+        services.AddScoped<UIService>();
+
         if (Config.App.IsClient)
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         else
@@ -54,8 +55,8 @@ public static partial class Extension
         action?.Invoke(ClientOption.Instance);
 
         services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
-        services.AddClients(typeof(Extension).Assembly);
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
+        services.LoadClients();
 
         var option = ClientOption.Instance;
         if (!string.IsNullOrWhiteSpace(option.BaseAddress))
@@ -86,9 +87,10 @@ public static partial class Extension
         AppData.KdbPath = Path.Combine(Config.App.ContentRoot, "AppData.kdb");
         // 设置当前路径为程序根目录（适配Maui）
         //Environment.CurrentDirectory = AppContext.BaseDirectory;
-        AppData.LoadAppData();
+        //AppData.LoadAppData();
         AppData.LoadBizData();
         LoadBuildTime(Config.Version);
+        services.LoadAssemblies();
     }
 
     /// <summary>
