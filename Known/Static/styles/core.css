@@ -110,6 +110,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-list {padding-bottom:10px;}
 .kui-form-list > div {padding:0 10px 10px 10px;}
 .kui-unit {display:inline-block;margin-left:10px;}
+.kui-form-pwd {padding:10px 20px 20px 20px;}
+.kui-form-pwd .ant-alert {margin-left:0;}
+.kui-form-pwd .kui-form {margin-top:10px;}
+.kui-form-pwd .kui-form-button {margin-left:120px;margin-top:10px;}
 
 /*Console*/
 .kui-console {height:300px;overflow-y:auto;background-color:#000;padding:5px;}
@@ -156,6 +160,18 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-edit-input {display:flex;align-items:center;}
 .kui-edit-input input {width:190px;}
 .kui-edit-input span {margin-left:10px;display:flex;align-items:center;}
+
+/*Strength*/
+.kui-strength {margin-top:12px;}
+.kui-strength-bar {height:10px;border-radius:5px;background:#f0f0f0;overflow:hidden;margin-bottom:6px;}
+.kui-strength-inner {height:100%;width:0;transition:all 0.3s ease;color:#fff;}
+.kui-strength-text {font-size:12px;text-align:right;color:#999;}
+.weak .kui-strength-inner {background:#ff4d4f;width:33.33%;}
+.weak .kui-strength-text {color:#ff4d4f;}
+.medium .kui-strength-inner {background:#faad14;width:66.66%;}
+.medium .kui-strength-text {color:#faad14;}
+.strong .kui-strength-inner {background:#52c41a;width:100%;}
+.strong .kui-strength-text {color:#52c41a;}
 
 /*Pick*/
 .kui-picker {position:relative;}

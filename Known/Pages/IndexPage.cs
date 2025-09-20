@@ -35,9 +35,14 @@ public class IndexPage : BasePage
         var model = new DialogModel
         {
             Title = "修改密码",
-            Width = 400,
-            //Content = b => b.Component<UpdatePasswordForm>().Build(),
-            Closable = false,
+            Width = 450,
+            Content = b => b.Div("kui-form-pwd", () =>
+            {
+                b.Component<PasswordForm>()
+                 .Set(c => c.TipText, Config.System.TipChangePwd)
+                 .Build();
+            }),
+            //Closable = false,
             Footer = null
         };
         model.OnClose = model.CloseAsync;

@@ -4,37 +4,50 @@
 /// 用户修改密码表单组件类。
 /// </summary>
 [Route("/profile/password")]
-public class PasswordEditForm : BaseForm<PwdFormInfo>
+public class PasswordEditForm : BaseComponent
 {
     /// <inheritdoc />
-    protected override async Task OnInitFormAsync()
-    {
-        await base.OnInitFormAsync();
-        Model = new FormModel<PwdFormInfo>(this, true) { Data = new PwdFormInfo() };
-    }
-
-    /// <inheritdoc />
-    protected override void BuildForm(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.FormPage(() =>
         {
             builder.Div("kui-user-form", () =>
             {
-                base.BuildForm(builder);
-                builder.FormButton(() =>
-                {
-                    builder.Button(Language.ConfirmUpdate, this.Callback<MouseEventArgs>(OnSaveAsync));
-                });
+                builder.Component<PasswordForm>().Build();
             });
         });
     }
 
-    private async Task OnSaveAsync(MouseEventArgs arg)
-    {
-        if (!Model.Validate())
-            return;
+    ///// <inheritdoc />
+    //protected override async Task OnInitFormAsync()
+    //{
+    //    await base.OnInitFormAsync();
+    //    Model = new FormModel<PwdFormInfo>(this, true) { Data = new PwdFormInfo() };
+    //}
 
-        var result = await Admin.UpdatePasswordAsync(Model.Data);
-        UI.Result(result);
-    }
+    ///// <inheritdoc />
+    //protected override void BuildForm(RenderTreeBuilder builder)
+    //{
+    //    builder.FormPage(() =>
+    //    {
+    //        builder.Div("kui-user-form", () =>
+    //        {
+    //            
+    //            //base.BuildForm(builder);
+    //            //builder.FormButton(() =>
+    //            //{
+    //            //    builder.Button(Language.ConfirmUpdate, this.Callback<MouseEventArgs>(OnSaveAsync));
+    //            //});
+    //        });
+    //    });
+    //}
+
+    //private async Task OnSaveAsync(MouseEventArgs arg)
+    //{
+    //    if (!Model.Validate())
+    //        return;
+
+    //    var result = await Admin.UpdatePasswordAsync(Model.Data);
+    //    UI.Result(result);
+    //}
 }
