@@ -3,7 +3,7 @@
 class RoleHelper
 {
     private const string RoleId = "Role";
-    private static List<ModuleInfo> Roles { get; } = [];
+    private static List<MenuInfo> Roles { get; } = [];
 
     internal static void AddRole(Type item)
     {
@@ -14,16 +14,16 @@ class RoleHelper
         var target = Constants.Route;
         if (!Roles.Exists(d => d.Id == RoleId))
         {
-            var route = new ModuleInfo { Id = RoleId, ParentId = "0", Name = "组件", Icon = "block", Target = target, Sort = 998 };
+            var route = new MenuInfo { Id = RoleId, ParentId = "0", Name = "组件", Icon = "block", Target = target, Sort = 998 };
             Roles.Add(route);
         }
 
-        var info = new ModuleInfo { Id = item.FullName, Name = role.Name, ParentId = RoleId, Target = target };
+        var info = new MenuInfo { Id = item.FullName, Name = role.Name, ParentId = RoleId, Target = target };
         AddActions(info, item);
         Roles.Add(info);
     }
 
-    internal static void AddTo(List<ModuleInfo> modules)
+    internal static void AddTo(List<MenuInfo> modules)
     {
         if (Roles.Count == 0)
             return;
@@ -33,13 +33,13 @@ class RoleHelper
             modules.AddRange(items);
     }
 
-    private static void AddActions(ModuleInfo info, Type type)
+    private static void AddActions(MenuInfo info, Type type)
     {
         var actions = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
                           .Where(m => m.IsDefined(typeof(ActionAttribute), false))
-                          .Select(m => m.Name)
+                          .Select(m => new ActionInfo(m.Name))
                           .ToList();
         if (actions.Count > 0)
-            info.Plugins.AddPlugin(new AutoPageInfo { Page = new PageInfo { Tools = [.. actions] } });
+            info.Plugins.AddPlugin(new AutoPageInfo { Page = new PageInfo { Tools = actions } });
     }
 }

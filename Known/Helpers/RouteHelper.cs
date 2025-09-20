@@ -5,7 +5,7 @@ namespace Known.Helpers;
 class RouteHelper
 {
     private const string RouteId = "Route";
-    private static List<ModuleInfo> Routes { get; } = [];
+    private static List<MenuInfo> Routes { get; } = [];
 
     internal static IEnumerable<RouteAttribute> GetRoutes(Type type)
     {
@@ -16,18 +16,18 @@ class RouteHelper
         var target = Constants.Route;
         if (!Routes.Exists(d => d.Id == RouteId))
         {
-            var route = new ModuleInfo { Id = RouteId, ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Sort = 999 };
+            var route = new MenuInfo { Id = RouteId, ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Sort = 999 };
             Routes.Add(route);
         }
 
         if (routes.Count > 1)
         {
-            var sub = new ModuleInfo { Id = type.FullName, Name = type.Name, ParentId = RouteId, Target = target };
+            var sub = new MenuInfo { Id = type.FullName, Name = type.Name, ParentId = RouteId, Target = target };
             Routes.Add(sub);
             foreach (var route in routes)
             {
                 Config.RouteTypes[route.Template] = type;
-                var info = new ModuleInfo { Id = $"{type.FullName}_{route.Template}", ParentId = sub.Id, Target = target, Url = route.Template };
+                var info = new MenuInfo { Id = $"{type.FullName}_{route.Template}", ParentId = sub.Id, Target = target, Url = route.Template };
                 SetRouteInfo(info, type);
                 var table = AppData.CreateAutoPage(type);
                 if (table != null)
@@ -38,7 +38,7 @@ class RouteHelper
         else
         {
             Config.RouteTypes[routes[0].Template] = type;
-            var info = new ModuleInfo { Id = type.FullName, ParentId = RouteId, Target = target, Url = routes[0].Template };
+            var info = new MenuInfo { Id = type.FullName, ParentId = RouteId, Target = target, Url = routes[0].Template };
             SetRouteInfo(info, type);
             var table = AppData.CreateAutoPage(type);
             if (table != null)
@@ -48,7 +48,7 @@ class RouteHelper
         return routes;
     }
 
-    internal static void AddTo(List<ModuleInfo> modules)
+    internal static void AddTo(List<MenuInfo> modules)
     {
         if (Routes.Count == 0)
             return;
@@ -68,7 +68,7 @@ class RouteHelper
             modules.AddRange(items);
     }
 
-    private static void SetRouteInfo(ModuleInfo info, Type type)
+    private static void SetRouteInfo(MenuInfo info, Type type)
     {
         info.Name = type.Name;
         var tab = type.GetCustomAttribute<ReuseTabsPageAttribute>();
@@ -94,7 +94,6 @@ class RouteHelper
             info.Icon = menu.Icon;
             info.ParentId = menu.Parent;
             info.Sort = menu.Sort;
-            info.Url = menu.Url;
             info.Target = nameof(LinkTarget.None);
             info.IsCode = true;
         }

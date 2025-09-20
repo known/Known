@@ -149,8 +149,8 @@ public class CodeModelInfo
     private PageInfo ToPage()
     {
         var info = new PageInfo();
-        info.Tools = Functions?.Where(f => f != "Edit" && f != "Delete").ToList();
-        info.Actions = Functions?.Where(f => f == "Edit" || f == "Delete").ToList();
+        info.Tools = Functions?.Where(f => f != "Edit" && f != "Delete").Select(d => new ActionInfo(d)).ToList();
+        info.Actions = Functions?.Where(f => f == "Edit" || f == "Delete").Select(d => new ActionInfo(d)).ToList();
         return info;
     }
 

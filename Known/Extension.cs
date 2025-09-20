@@ -90,7 +90,7 @@ public static partial class Extension
         //AppData.LoadAppData();
         AppData.LoadBizData();
         LoadBuildTime(Config.Version);
-        services.LoadAssemblies();
+        services.LoadServers();
     }
 
     /// <summary>

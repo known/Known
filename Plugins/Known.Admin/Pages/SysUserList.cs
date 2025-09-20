@@ -1,8 +1,8 @@
 ﻿namespace Known.Pages;
 
 [Route("/sys/users")]
-//[Menu(Constants.System, "用户管理", "user", 3)]
-[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
+[Menu(Constants.System, "用户管理", "user", 3)]
+//[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
 public class SysUserList : BaseTablePage<UserDataInfo>
 {
     private IOrganizationService Organize;

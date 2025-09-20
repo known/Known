@@ -73,17 +73,17 @@ partial class CodeGenerator
         {
             foreach (var item in page.Tools)
             {
-                if (item == "New" || item == "DeleteM" || item == "Import" || item == "Export")
+                if (item.Id == "New" || item.Id == "DeleteM" || item.Id == "Import" || item.Id == "Export")
                     continue;
 
                 sb.AppendLine(" ");
-                sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> infos)", item, pluralName, modelName);
+                sb.AppendLine("    public async Task<Result> {0}{1}Async(List<{2}> infos)", item.Id, pluralName, modelName);
                 sb.AppendLine("    {");
                 sb.AppendLine("        if (infos == null || infos.Count == 0)");
                 sb.AppendLine("            return Result.Error(Language.SelectOneAtLeast);");
                 sb.AppendLine(" ");
                 sb.AppendLine("        var database = Database;");
-                sb.AppendLine("        return await database.TransactionAsync(Language[\"{0}\"], async db =>", item);
+                sb.AppendLine("        return await database.TransactionAsync(Language[\"{0}\"], async db =>", item.Id);
                 sb.AppendLine("        {");
                 sb.AppendLine("        });");
                 sb.AppendLine("    }");
@@ -94,11 +94,11 @@ partial class CodeGenerator
         {
             foreach (var item in page.Actions)
             {
-                if (item == "Edit" || item == "Delete")
+                if (item.Id == "Edit" || item.Id == "Delete")
                     continue;
 
                 sb.AppendLine(" ");
-                sb.AppendLine("    public async Task<Result> {0}{1}Async({2} info)", item, className, modelName);
+                sb.AppendLine("    public async Task<Result> {0}{1}Async({2} info)", item.Id, className, modelName);
                 sb.AppendLine("    {");
                 sb.AppendLine("        throw new NotImplementedException();");
                 sb.AppendLine("    }");

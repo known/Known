@@ -46,13 +46,13 @@ partial class CodeGenerator
         {
             foreach (var item in page.Tools)
             {
-                if (item == "New" || item == "DeleteM" || item == "Import" || item == "Export")
+                if (item.Id == "New" || item.Id == "DeleteM" || item.Id == "Import" || item.Id == "Export")
                     continue;
 
                 sb.AppendLine(" ");
-                sb.AppendLine("    public Task<Result> {0}{1}Async(List<{2}> infos)", item, pluralName, modelName);
+                sb.AppendLine("    public Task<Result> {0}{1}Async(List<{2}> infos)", item.Id, pluralName, modelName);
                 sb.AppendLine("    {");
-                sb.AppendLine("        return Http.PostAsync(\"/{0}/{1}{2}\", infos);", className, item, pluralName);
+                sb.AppendLine("        return Http.PostAsync(\"/{0}/{1}{2}\", infos);", className, item.Id, pluralName);
                 sb.AppendLine("    }");
             }
         }
@@ -61,13 +61,13 @@ partial class CodeGenerator
         {
             foreach (var item in page.Actions)
             {
-                if (item == "Edit" || item == "Delete")
+                if (item.Id == "Edit" || item.Id == "Delete")
                     continue;
 
                 sb.AppendLine(" ");
-                sb.AppendLine("    public Task<Result> {0}{1}Async({2} info)", item, className, modelName);
+                sb.AppendLine("    public Task<Result> {0}{1}Async({2} info)", item.Id, className, modelName);
                 sb.AppendLine("    {");
-                sb.AppendLine("        return Http.PostAsync(\"/{0}/{1}{0}\", info);", className, item);
+                sb.AppendLine("        return Http.PostAsync(\"/{0}/{1}{0}\", info);", className, item.Id);
                 sb.AppendLine("    }");
             }
         }

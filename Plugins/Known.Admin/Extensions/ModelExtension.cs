@@ -25,20 +25,16 @@ static class ModelExtension
         return codes;
     }
 
-    private static CodeInfo GetAction(MenuInfo menu, Language language, string id)
+    private static CodeInfo GetAction(MenuInfo menu, Language language, ActionInfo info)
     {
-        var code = $"b_{menu.Id}_{id}";
-        var button = Config.Actions.FirstOrDefault(b => b.Id == id);
-        var name = button != null ? button.Name : id;
-        name = language.GetText("Button", id, name);
-        return new CodeInfo(code, name);
+        var code = $"b_{menu.Id}_{info.Id}";
+        return new CodeInfo(code, language[info.Name]);
     }
 
     private static CodeInfo GetColumn(MenuInfo menu, Language language, PageColumnInfo info)
     {
         var code = $"c_{menu.Id}_{info.Id}";
-        var name = language.GetText("", info.Id, info.Name);
-        return new CodeInfo(code, name);
+        return new CodeInfo(code, language[info.Name]);
     }
     #endregion
 

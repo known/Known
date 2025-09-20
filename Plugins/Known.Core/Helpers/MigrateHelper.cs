@@ -38,7 +38,7 @@ class MigrateHelper
     internal static async Task MigrateLanguagesAsync(Database db)
     {
         Language.Datas = await db.GetLanguagesAsync();
-        var items = Language.GetDefaultLanguages();
+        var items = Language.DefaultDatas;
         foreach (var item in items)
         {
             if (Language.Datas.Exists(m => m.Chinese == item.Chinese))

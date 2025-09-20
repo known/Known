@@ -21,7 +21,6 @@ public static class AppConfig
             info.Assembly = assembly;
         });
         services.AddModules();
-        services.AddServices(assembly);
         services.AddKnownWin(option =>
         {
             option.App.WebRoot = AppContext.BaseDirectory;

@@ -16,18 +16,18 @@ static class MenuExtension
         if (user == null)
             return [];
 
-        var modules = await DataHelper.GetModulesAsync(db);
+        var menus = await DataHelper.GetMenusAsync(db);
         // 如果是管理员，返回所有菜单
         if (user.IsAdmin())
-            return modules.ToMenus();
+            return menus;
 
         // 如果是角色用户，根据用户角色模块ID列表返回菜单
         var moduleIds = await Config.OnRoleModule?.Invoke(db, user.Id);
         if (moduleIds == null || moduleIds.Count == 0)
             return [];
 
-        var userModules = new List<ModuleInfo>();
-        foreach (var item in modules)
+        var userMenus = new List<MenuInfo>();
+        foreach (var item in menus)
         {
             if (!item.Enabled)
                 continue;
@@ -35,79 +35,79 @@ static class MenuExtension
             if (!moduleIds.Contains(item.Id))
                 continue;
 
-            if (userModules.Exists(m => m.Id == item.Id))
+            if (userMenus.Exists(m => m.Id == item.Id))
                 continue;
 
-            var module = item.Clone();
-            AddParentModule(modules, userModules, module);
-            SetPluginPermission(module, moduleIds);
-            userModules.Add(module);
+            var menu = item.Clone();
+            AddParentModule(menus, userMenus, menu);
+            SetPluginPermission(menu, moduleIds);
+            userMenus.Add(menu);
         }
 
-        return userModules.ToMenus();
+        return userMenus;
     }
 
-    private static void AddParentModule(List<ModuleInfo> allModules, List<ModuleInfo> userModules, ModuleInfo item)
+    private static void AddParentModule(List<MenuInfo> allMenus, List<MenuInfo> userMenus, MenuInfo info)
     {
         // 如果父模块不存在，则添加父模块
-        if (!userModules.Exists(m => m.Id == item.ParentId))
+        if (!userMenus.Exists(m => m.Id == info.ParentId))
         {
-            var parent = allModules.FirstOrDefault(m => m.Id == item.ParentId);
+            var parent = allMenus.FirstOrDefault(m => m.Id == info.ParentId);
             if (parent != null)
             {
-                userModules.Add(parent);
-                AddParentModule(allModules, userModules, parent);
+                userMenus.Add(parent);
+                AddParentModule(allMenus, userMenus, parent);
             }
         }
     }
 
-    private static void SetPluginPermission(ModuleInfo module, List<string> moduleIds)
+    private static void SetPluginPermission(MenuInfo info, List<string> moduleIds)
     {
-        var param = module?.Plugins?.GetPluginParameter<AutoPageInfo>();
+        var param = info?.Plugins?.GetPluginParameter<AutoPageInfo>();
         if (param == null)
             return;
 
         if (param.Page != null)
         {
             if (param.Page.Tools != null)
-                param.Page.Tools = GetUserButtons(param.Page.Tools, moduleIds, module);
+                param.Page.Tools = GetUserButtons(param.Page.Tools, moduleIds, info);
             if (param.Page.Actions != null)
-                param.Page.Actions = GetUserActions(param.Page.Actions, moduleIds, module);
+                param.Page.Actions = GetUserActions(param.Page.Actions, moduleIds, info);
             if (param.Page.Columns != null)
-                param.Page.Columns = GetUserColumns(param.Page.Columns, moduleIds, module);
+                param.Page.Columns = GetUserColumns(param.Page.Columns, moduleIds, info);
         }
 
-        module.Plugins.AddPlugin(param, param.Id, param.Type);
+        info.Plugins.AddPlugin(param, param.Id, param.Type);
     }
 
-    private static List<string> GetUserButtons(List<string> buttons, List<string> moduleIds, ModuleInfo module)
+    private static List<ActionInfo> GetUserButtons(List<ActionInfo> buttons, List<string> moduleIds, MenuInfo info)
     {
-        var datas = new List<string>();
+        var datas = new List<ActionInfo>();
         foreach (var item in buttons)
         {
-            if (moduleIds.Contains($"b_{module.Id}_{item}"))
+            if (moduleIds.Contains($"b_{info.Id}_{item.Id}"))
                 datas.Add(item);
         }
         return datas;
     }
 
-    private static List<string> GetUserActions(List<string> actions, List<string> moduleIds, ModuleInfo module)
+    private static List<ActionInfo> GetUserActions(List<ActionInfo> actions, List<string> moduleIds, MenuInfo info)
     {
-        var datas = new List<string>();
+        var datas = new List<ActionInfo>();
         foreach (var item in actions)
         {
-            if (moduleIds.Contains($"b_{module.Id}_{item}"))
+            if (moduleIds.Contains($"b_{info.Id}_{item.Id}"))
                 datas.Add(item);
         }
         return datas;
     }
 
-    private static List<PageColumnInfo> GetUserColumns(List<PageColumnInfo> columns, List<string> moduleIds, ModuleInfo module)
+    private static List<PageColumnInfo> GetUserColumns(List<PageColumnInfo> columns, List<string> moduleIds, MenuInfo info)
     {
         var datas = new List<PageColumnInfo>();
         foreach (var item in columns)
         {
-            if (moduleIds.Contains($"c_{module.Id}_{item.Id}"))
+            if (moduleIds.Contains($"c_{info.Id}_{item.Id}"))
                 datas.Add(item);
         }
         return datas;

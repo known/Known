@@ -24,7 +24,7 @@ class AppHelper
 
         var datas = await db.GetLanguagesAsync();
         if (datas == null || datas.Count == 0)
-            datas = Language.GetDefaultLanguages();
+            datas = Language.DefaultDatas;
         Language.Datas = datas;
     }
 

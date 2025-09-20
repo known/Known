@@ -101,11 +101,10 @@ partial class AdminService
 
     public Task<AdminInfo> GetAdminAsync()
     {
-        var modules = DataHelper.GetModules(AppData.Data.Modules);
         var info = new AdminInfo
         {
             AppName = Config.App.Name,
-            UserMenus = modules.ToMenus(),
+            UserMenus = DataHelper.GetMenus(null),
             Actions = Config.Actions
         };
         return Task.FromResult(info);

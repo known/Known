@@ -28,6 +28,11 @@ public partial class Language
     public static List<LanguageInfo> Datas { get; set; } = [];
 
     /// <summary>
+    /// 取得默认多语言数据列表。
+    /// </summary>
+    public static List<LanguageInfo> DefaultDatas { get; } = [];
+
+    /// <summary>
     /// 根据ID取得当前语言字符串。
     /// </summary>
     /// <param name="id">语言标识ID。</param>
@@ -769,6 +774,20 @@ public partial class Language
         }
         return infos;
     }
+
+    /// <summary>
+    /// 获取菜单语言。
+    /// </summary>
+    /// <param name="info">菜单信息对象。</param>
+    /// <returns>菜单语言。</returns>
+    public string GetString(MenuInfo info) => this[info?.Name];
+
+    /// <summary>
+    /// 获取操作按钮语言。
+    /// </summary>
+    /// <param name="info">操作按钮对象。</param>
+    /// <returns>操作按钮语言。</returns>
+    public string GetString(ActionInfo info) => this[info?.Name];
 
     /// <summary>
     /// 获取字段语言名称。

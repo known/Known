@@ -1,8 +1,8 @@
 ﻿namespace Known.Pages;
 
 [Route("/sys/roles")]
-//[Menu(Constants.System, "角色管理", "team", 2)]
-[PagePlugin("角色管理", "team", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 5)]
+[Menu(Constants.System, "角色管理", "team", 2)]
+//[PagePlugin("角色管理", "team", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 5)]
 public class SysRoleList : BaseTablePage<RoleInfo>
 {
     private IRoleService Service;
@@ -102,8 +102,8 @@ class RoleForm : BaseForm<RoleInfo>
         var model = await Service.GetRoleAsync(Model.Data.Id);
         Model.Data.MenuIds = model.MenuIds;
         if (Model.IsView)
-            tree.DisableCheckKeys = [.. model.Modules.Select(m => m.Id)];
-        tree.Data = model.Modules?.ToMenuItems(false);
+            tree.DisableCheckKeys = [.. model.Menus.Select(m => m.Id)];
+        tree.Data = model.Menus?.ToMenuItems(false);
         tree.CheckedKeys = [.. Model.Data.MenuIds];
         return tree;
     }

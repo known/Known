@@ -171,8 +171,8 @@ public class SysModule1 : EntityBase
 
     internal MenuInfo ToMenuInfo()
     {
-        Buttons = Page?.Tools?.ToList();
-        Actions = Page?.Actions?.ToList();
+        //Buttons = Page?.Tools?.ToList();
+        //Actions = Page?.Actions?.ToList();
         Columns = Page?.Columns;
         var info = new MenuInfo
         {

@@ -18,8 +18,8 @@ partial class PlatformService
 
     public async Task<List<ModuleInfo>> GetModulesAsync()
     {
-        var dbModules = await Database.QueryListAsync<SysModule>();
-        var modules = dbModules.Select(m => m.ToModuleInfo()).ToList();
+        var modules = await Database.Query<SysModule>().ToListAsync<ModuleInfo>();
+        //var modules = dbModules.Select(m => m.ToMenuInfo()).ToList();
         //modules = modules.Add(AppData.Data.Modules);
         //DataHelper.Initialize(modules);
         return modules;

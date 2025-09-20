@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\QueryExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DataTableExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\EnumExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MenuInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysUser.cs" />

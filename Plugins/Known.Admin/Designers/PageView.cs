@@ -151,20 +151,20 @@ class PageView : BaseView<PageInfo>
 
     private void OnToolbar(MouseEventArgs args)
     {
-        ShowActions("Toolbar", Model.Tools, value =>
-        {
-            Model.Tools = value;
-            OnPropertyChanged();
-        });
+        //ShowActions("Toolbar", Model.Tools, value =>
+        //{
+        //    Model.Tools = value;
+        //    OnPropertyChanged();
+        //});
     }
 
     private void OnAction(MouseEventArgs args)
     {
-        ShowActions("Action", Model.Actions, value =>
-        {
-            Model.Actions = value;
-            OnPropertyChanged();
-        });
+        //ShowActions("Action", Model.Actions, value =>
+        //{
+        //    Model.Actions = value;
+        //    OnPropertyChanged();
+        //});
     }
 
     private void ShowActions(string type, List<string> value, Action<List<string>> onChange)

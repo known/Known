@@ -44,55 +44,41 @@ public partial class Language
     internal const string NavFullScreen = "全屏";
     internal const string NavLink = "连接";
 
-    /// <summary>
-    /// 获取默认多语言信息列表。
-    /// </summary>
-    /// <returns>多语言信息列表。</returns>
-    public static List<LanguageInfo> GetDefaultLanguages()
-    {
-        var infos = new List<LanguageInfo>();
-        foreach (var item in Config.Modules)
-        {
-            infos.Add(item.Name);
-        }
-        foreach (var item in Config.Menus)
-        {
-            infos.Add(item.Name);
-        }
-        foreach (var item in Config.AppMenus)
-        {
-            infos.Add(item.Name);
-        }
-        foreach (var item in PluginConfig.Plugins)
-        {
-            infos.Add(item.Attribute?.Name);
-        }
-        foreach (var assembly in Config.Assemblies)
-        {
-            foreach (var item in assembly.GetTypes())
-            {
-                if (item.IsEnum)
-                    infos.AddEnum(item);
-                else if (item.IsAssignableTo(typeof(EntityBase)) || item.Name.EndsWith("Info"))
-                    infos.AddAttribute(item);
-                else if (item.Name.Contains(nameof(Language)))
-                    infos.AddConstant(item);
-            }
-        }
-        return infos;
-    }
-
-    /// <summary>
-    /// 获取菜单语言。
-    /// </summary>
-    /// <param name="info">菜单信息对象。</param>
-    /// <returns>菜单语言。</returns>
-    public string GetString(MenuInfo info) => this[info?.Name];
-
-    /// <summary>
-    /// 获取操作按钮语言。
-    /// </summary>
-    /// <param name="info">操作按钮对象。</param>
-    /// <returns>操作按钮语言。</returns>
-    public string GetString(ActionInfo info) => this[info?.Name];
+    ///// <summary>
+    ///// 获取默认多语言信息列表。
+    ///// </summary>
+    ///// <returns>多语言信息列表。</returns>
+    //public static List<LanguageInfo> GetDefaultLanguages()
+    //{
+    //    var infos = new List<LanguageInfo>();
+    //    foreach (var item in Config.Modules)
+    //    {
+    //        infos.Add(item.Name);
+    //    }
+    //    foreach (var item in Config.Menus)
+    //    {
+    //        infos.Add(item.Name);
+    //    }
+    //    foreach (var item in Config.AppMenus)
+    //    {
+    //        infos.Add(item.Name);
+    //    }
+    //    foreach (var item in PluginConfig.Plugins)
+    //    {
+    //        infos.Add(item.Attribute?.Name);
+    //    }
+    //    foreach (var assembly in Config.Assemblies)
+    //    {
+    //        foreach (var item in assembly.GetTypes())
+    //        {
+    //            if (item.IsEnum)
+    //                infos.AddEnum(item);
+    //            else if (item.IsAssignableTo(typeof(EntityBase)) || item.Name.EndsWith("Info"))
+    //                infos.AddAttribute(item);
+    //            else if (item.Name.Contains(nameof(Language)))
+    //                infos.AddConstant(item);
+    //        }
+    //    }
+    //    return infos;
+    //}
 }

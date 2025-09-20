@@ -1,8 +1,8 @@
 ﻿namespace Known.Pages;
 
 [Route("/sys/organizations")]
-//[Menu(Constants.BaseData, "组织架构", "partition", 3)]
-[PagePlugin("组织架构", "partition", PagePluginType.Module, AdminLanguage.BaseData, Sort = 3)]
+[Menu(Constants.BaseData, "组织架构", "partition", 3)]
+//[PagePlugin("组织架构", "partition", PagePluginType.Module, AdminLanguage.BaseData, Sort = 3)]
 public class SysOrganizationList : BaseTablePage<OrganizationInfo>
 {
     private IOrganizationService Service;

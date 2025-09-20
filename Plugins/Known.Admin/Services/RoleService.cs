@@ -49,7 +49,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
                  ? new RoleInfo()
                  : await db.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
             info ??= new RoleInfo();
-            info.Modules = await DataHelper.GetModulesAsync(db);
+            info.Menus = await DataHelper.GetMenusAsync(db);
             var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
             info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
         });

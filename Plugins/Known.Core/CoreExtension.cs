@@ -185,10 +185,9 @@ public static class CoreExtension
         var assembly = typeof(CoreOption).Assembly;
         Config.AddModule(assembly);
         Config.OnAutoImport = context => new AutoImport(context);
+        Config.OnInitialMenus = OnInitialMenus;
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
-        if (!Config.IsAdmin)
-            Config.OnInitialModules = OnInitialModules;
 
         // 添加服务
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
@@ -196,17 +195,17 @@ public static class CoreExtension
         services.AddKnownCore();
     }
 
-    private static async Task<List<ModuleInfo>> OnInitialModules(Database db)
+    private static async Task<List<MenuInfo>> OnInitialMenus(Database db)
     {
-        var modules = new List<ModuleInfo>();
+        var modules = new List<MenuInfo>();
         var items = await db.QueryListAsync<SysModule>();
         if (items != null && items.Count > 0)
         {
             foreach (var item in items.OrderBy(m => m.Sort))
             {
-                modules.Add(item.ToModuleInfo());
+                modules.Add(item.ToMenuInfo());
             }
-            DataHelper.Initialize(modules);
+            //DataHelper.Initialize(modules);
         }
         return modules;
     }

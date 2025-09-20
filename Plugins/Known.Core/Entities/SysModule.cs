@@ -120,9 +120,9 @@ public class SysModule : EntityBase
     [DisplayName("表单设置")]
     public string FormData { get; set; }
 
-    internal ModuleInfo ToModuleInfo()
+    internal MenuInfo ToMenuInfo()
     {
-        var info = new ModuleInfo
+        var info = new MenuInfo
         {
             Id = Id,
             ParentId = ParentId,

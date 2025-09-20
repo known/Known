@@ -1,8 +1,8 @@
 ﻿namespace Known.Pages;
 
 [Route("/sys/dictionaries")]
-//[Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
-[PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
+[Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
+//[PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
 public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 {
     private IDictionaryService Service;

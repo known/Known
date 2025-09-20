@@ -48,9 +48,9 @@ public class RoleInfo
     public string Note { get; set; }
 
     /// <summary>
-    /// 取得或设置角色关联的模块列表。
+    /// 取得或设置角色关联的菜单列表。
     /// </summary>
-    public List<ModuleInfo> Modules { get; set; } = [];
+    public List<MenuInfo> Menus { get; set; } = [];
 
     /// <summary>
     /// 取得或设置角色关联的菜单ID列表。

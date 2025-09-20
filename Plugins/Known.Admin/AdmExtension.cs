@@ -38,17 +38,8 @@ public static class AdmExtension
 
         //内置模块
         // 添加默认一级模块
-        //Config.Modules.AddItem("0", Constants.BaseData, AdminLanguage.BaseData, "database", 1);
-        //AppData.Data.Modules.AddItem<CompanyForm>(Constants.BaseData, 1);
-        //AppData.Data.Modules.AddItem<SysDictionaryList>(Constants.BaseData, 2);
-        //AppData.Data.Modules.AddItem<SysOrganizationList>(Constants.BaseData, 3);
-        //Config.Modules.AddItem("0", Constants.System, AdminLanguage.SystemManage, "setting", 99);
-        //AppData.Data.Modules.AddItem<SysSystem>(Constants.System, 1);
-        //AppData.Data.Modules.AddItem<SysRoleList>(Constants.System, 2);
-        //AppData.Data.Modules.AddItem<SysUserList>(Constants.System, 3);
-        //AppData.Data.Modules.AddItem<SysTaskList>(Constants.System, 4);
-        //AppData.Data.Modules.AddItem<SysFileList>(Constants.System, 5);
-        //AppData.Data.Modules.AddItem<SysLogList>(Constants.System, 6);
+        Config.Modules.AddItem("0", Constants.BaseData, AdminLanguage.BaseData, "database", 1);
+        Config.Modules.AddItem("0", Constants.System, AdminLanguage.SystemManage, "setting", 99);
 
         // 添加模型
         DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });

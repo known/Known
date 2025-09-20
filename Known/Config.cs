@@ -27,16 +27,6 @@ public partial class Config
     public static List<MenuInfo> AppMenus { get; set; } = [];
 
     /// <summary>
-    /// 取得框架初始模块菜单信息列表。
-    /// </summary>
-    public static List<MenuAttribute> Menus { get; } = [];
-
-    /// <summary>
-    /// 取得或设置操作按钮信息列表。
-    /// </summary>
-    public static List<ActionInfo> Actions { get; set; } = [];
-
-    /// <summary>
     /// 取得或设置获取初始化信息后附加操作委托。
     /// </summary>
     public static Action<InitialInfo> OnInitial { get; set; }
@@ -69,7 +59,8 @@ public partial class Config
     /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。
     /// </summary>
     /// <param name="assembly">模块程序集。</param>
-    public static void AddModule(Assembly assembly)
+    /// <param name="isAdditional">是否路由附加程序集，默认是。</param>
+    public static void AddModule(Assembly assembly, bool isAdditional = true)
     {
         if (assembly == null)
             return;
@@ -77,7 +68,8 @@ public partial class Config
         if (Assemblies.Exists(a => a.FullName == assembly.FullName))
             return;
 
-        Assemblies.Add(assembly);
+        if (isAdditional)
+            Assemblies.Add(assembly);
         InitHelper.Add(assembly);
     }
 

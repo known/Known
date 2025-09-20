@@ -140,7 +140,12 @@ public partial class Config
     /// <summary>
     /// 取得框架初始模块信息列表。
     /// </summary>
-    public static List<ModuleInfo> Modules { get; } = [];
+    public static List<MenuInfo> Modules { get; } = [];
+
+    /// <summary>
+    /// 取得或设置操作按钮信息列表。
+    /// </summary>
+    public static List<ActionInfo> Actions { get; set; } = [];
 
     /// <summary>
     /// 取得或设置系统安装时，初始化系统模块数据方法委托。
@@ -150,7 +155,7 @@ public partial class Config
     /// <summary>
     /// 取得或设置系统登录时，初始化系统模块数据方法委托。
     /// </summary>
-    public static Func<Database, Task<List<ModuleInfo>>> OnInitialModules { get; set; }
+    public static Func<Database, Task<List<MenuInfo>>> OnInitialMenus { get; set; }
 
     /// <summary>
     /// 取得或设置自动导入数据委托。

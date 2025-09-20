@@ -35,48 +35,48 @@ partial class CodeGenerator
         {
             foreach (var item in page.Tools)
             {
-                if (item == "Import")
+                if (item.Id == "Import")
                 {
                     import = "    [Action] public Task Import() => Table.ShowImportAsync();";
                     continue;
                 }
 
-                if (item == "Export")
+                if (item.Id == "Export")
                 {
                     exports.Add("    [Action] public Task Export() => Table.ExportDataAsync();");
                     continue;
                 }
 
-                if (item == "ExportSelect")
+                if (item.Id == "ExportSelect")
                 {
                     exports.Add("    [Action(Group = \"Export\")] public Task ExportSelect() => Table.ExportDataAsync(ExportMode.Select);");
                     continue;
                 }
 
-                if (item == "ExportPage")
+                if (item.Id == "ExportPage")
                 {
                     exports.Add("    [Action(Group = \"Export\")] public Task ExportPage() => Table.ExportDataAsync(ExportMode.Page);");
                     continue;
                 }
 
-                if (item == "ExportQuery")
+                if (item.Id == "ExportQuery")
                 {
                     exports.Add("    [Action(Group = \"Export\")] public Task ExportQuery() => Table.ExportDataAsync(ExportMode.Query);");
                     continue;
                 }
 
-                if (item == "ExportAll")
+                if (item.Id == "ExportAll")
                 {
                     exports.Add("    [Action(Group = \"Export\")] public Task ExportAll() => Table.ExportDataAsync(ExportMode.All);");
                     continue;
                 }
 
-                if (item == "New")
+                if (item.Id == "New")
                     sb.AppendLine("    [Action] public void New() => Table.NewForm(Service.Save{0}Async, new {1}());", className, modelName);
-                else if (item == "DeleteM")
+                else if (item.Id == "DeleteM")
                     sb.AppendLine("    [Action] public void DeleteM() => Table.DeleteM(Service.Delete{0}Async);", pluralName);
                 else
-                    sb.AppendLine("    [Action] public void {0}() => Table.SelectRows(Service.{0}{1}Async, Language[\"Button.{0}\"]);", item, pluralName);
+                    sb.AppendLine("    [Action] public void {0}() => Table.SelectRows(Service.{0}{1}Async, Language[\"Button.{0}\"]);", item.Id, pluralName);
             }
         }
 
@@ -84,12 +84,12 @@ partial class CodeGenerator
         {
             foreach (var item in page.Actions)
             {
-                if (item == "Edit")
+                if (item.Id == "Edit")
                     sb.AppendLine("    [Action] public void Edit({0} row) => Table.EditForm(Service.Save{1}Async, row);", modelName, className);
-                else if (item == "Delete")
+                else if (item.Id == "Delete")
                     sb.AppendLine("    [Action] public void Delete({0} row) => Table.Delete(Service.Delete{1}Async, row);", modelName, pluralName);
                 else
-                    sb.AppendLine("    [Action] public void {0}({1} row) => {{}};", item, modelName);
+                    sb.AppendLine("    [Action] public void {0}({1} row) => {{}};", item.Id, modelName);
             }
         }
 

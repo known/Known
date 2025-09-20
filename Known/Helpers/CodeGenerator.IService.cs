@@ -15,10 +15,10 @@ partial class CodeGenerator
         sb.AppendLine("public interface I{0}Service : IService", className);
         sb.AppendLine("{");
         sb.AppendLine("    Task<PagingResult<{0}>> Query{1}Async(PagingCriteria criteria);", modelName, pluralName);
-        
+
         if (HasSave(page))
             sb.AppendLine("    Task<{0}> Get{1}Async(string id);", modelName, className);
-        
+
         if (HasDelete(page))
             sb.AppendLine("    Task<Result> Delete{0}Async(List<{1}> infos);", pluralName, modelName);
 
@@ -26,10 +26,10 @@ partial class CodeGenerator
         {
             foreach (var item in page.Tools)
             {
-                if (item == "New" || item == "DeleteM" || item == "Import" || item == "Export")
+                if (item.Id == "New" || item.Id == "DeleteM" || item.Id == "Import" || item.Id == "Export")
                     continue;
 
-                sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> infos);", item, pluralName, modelName);
+                sb.AppendLine("    Task<Result> {0}{1}Async(List<{2}> infos);", item.Id, pluralName, modelName);
             }
         }
 
@@ -37,10 +37,10 @@ partial class CodeGenerator
         {
             foreach (var item in page.Actions)
             {
-                if (item == "Edit" || item == "Delete")
+                if (item.Id == "Edit" || item.Id == "Delete")
                     continue;
 
-                sb.AppendLine("    Task<Result> {0}{1}Async({2} info);", item, className, modelName);
+                sb.AppendLine("    Task<Result> {0}{1}Async({2} info);", item.Id, className, modelName);
             }
         }
 
@@ -58,11 +58,11 @@ partial class CodeGenerator
 
     private static bool HasSave(PageInfo page)
     {
-        return page.Tools?.Contains("New") == true || page.Actions?.Contains("Edit") == true;
+        return page.Tools?.Exists(d => d.Id == "New") == true || page.Actions?.Exists(d => d.Id == "Edit") == true;
     }
 
     private static bool HasDelete(PageInfo page)
     {
-        return page.Tools?.Contains("DeleteM") == true || page.Actions?.Contains("Delete") == true;
+        return page.Tools?.Exists(d => d.Id == "DeleteM") == true || page.Actions?.Exists(d => d.Id == "Delete") == true;
     }
 }

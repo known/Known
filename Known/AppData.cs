@@ -69,13 +69,9 @@ public sealed partial class AppData
     public static List<ActionInfo> GetActions()
     {
         var datas = Data.Buttons?.Select(b => b.ToAction()).ToList() ?? [];
-        foreach (var item in Config.Actions)
-        {
-            if (datas.Exists(d => d.Id == item.Id))
-                continue;
-
-            datas.Add(item);
-        }
+        var items = Config.Actions.Where(d => !datas.Exists(m => m.Id == d.Id)).ToList();
+        if (items != null && items.Count > 0)
+            datas.AddRange(items);
         return datas;
     }
 
@@ -102,39 +98,39 @@ public sealed partial class AppData
     }
 
     #region AppData
-    /// <summary>
-    /// 加载默认菜单配置数据。
-    /// </summary>
-    public static void LoadAppData()
-    {
-        if (!File.Exists(KmdPath))
-        {
-            AppDefaultData.Load(Data);
-            return;
-        }
+    ///// <summary>
+    ///// 加载默认菜单配置数据。
+    ///// </summary>
+    //public static void LoadAppData()
+    //{
+    //    if (!File.Exists(KmdPath))
+    //    {
+    //        AppDefaultData.Load(Data);
+    //        return;
+    //    }
 
-        var bytes = File.ReadAllBytes(KmdPath);
-        if (OnParseData != null)
-            Data = OnParseData(bytes);
-        else
-            Data = ParseData<AppDataInfo>(bytes);
+    //    var bytes = File.ReadAllBytes(KmdPath);
+    //    if (OnParseData != null)
+    //        Data = OnParseData(bytes);
+    //    else
+    //        Data = ParseData<AppDataInfo>(bytes);
 
-        // 加载新增菜单页面
-        AppDefaultData.Load(Data);
-    }
+    //    // 加载新增菜单页面
+    //    AppDefaultData.Load(Data);
+    //}
 
-    /// <summary>
-    /// 恢复配置数据。
-    /// </summary>
-    /// <param name="kmdPath">配置文件路径。</param>
-    public static void Restore(string kmdPath)
-    {
-        if (!Enabled)
-            return;
+    ///// <summary>
+    ///// 恢复配置数据。
+    ///// </summary>
+    ///// <param name="kmdPath">配置文件路径。</param>
+    //public static void Restore(string kmdPath)
+    //{
+    //    if (!Enabled)
+    //        return;
 
-        Utils.CopyFile(kmdPath, KmdPath);
-        LoadAppData();
-    }
+    //    Utils.CopyFile(kmdPath, KmdPath);
+    //    LoadAppData();
+    //}
 
     /// <summary>
     /// 保存配置数据。

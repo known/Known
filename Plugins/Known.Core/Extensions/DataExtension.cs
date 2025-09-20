@@ -18,7 +18,7 @@ public static class DataExtension
         if (entity?.Target == nameof(ModuleType.Page)) // Admin插件无代码配置
             return entity?.ToAutoPageInfo();
 
-        var module = entity?.ToModuleInfo();
+        var module = entity?.ToMenuInfo();
         if (module != null && module.Plugins != null && module.Plugins.Count > 0)
             return module.Plugins.GetPluginParameter<AutoPageInfo>(pluginId);
 

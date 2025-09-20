@@ -70,37 +70,33 @@ public sealed class DataHelper
     }
 
     /// <summary>
-    /// 获取所有模块信息列表。
+    /// 获取所有菜单信息列表。
     /// </summary>
     /// <returns></returns>
-    public static async Task<List<ModuleInfo>> GetModulesAsync(Database db = null)
+    public static async Task<List<MenuInfo>> GetMenusAsync(Database db = null)
     {
-        var modules = Config.OnInitialModules != null ? await Config.OnInitialModules.Invoke(db) : [];
-        modules ??= [];
-        //if (!Config.IsDbMode)
-        //    modules.Add(AppData.Data.Modules);
-        //if (modules.Count == 0)
-        //    modules = AppData.Data.Modules;
-        return GetModules(modules);
+        var menus = Config.OnInitialMenus != null ? await Config.OnInitialMenus.Invoke(db) : [];
+        menus ??= [];
+        return GetMenus(menus);
     }
 
-    /// <summary>
-    /// 获取所有新模块信息实例列表。
-    /// </summary>
-    /// <param name="modules">原模块信息列表。</param>
-    /// <returns>新模块信息列表。</returns>
-    public static List<ModuleInfo> GetModules(List<ModuleInfo> modules)
+    internal static List<MenuInfo> GetMenus(List<MenuInfo> menus)
     {
-        // 定义新列表，在新列表中添加路由模块，不污染原模块列表
-        var allModules = new List<ModuleInfo>();
-        if (modules != null && modules.Count > 0)
-            allModules.AddRange(modules);
-        RouteHelper.AddTo(allModules);
-        RoleHelper.AddTo(allModules);
+        // 定义新列表，在新列表中添加路由，不污染原列表
+        var allMenus = new List<MenuInfo>();
+        if (menus != null && menus.Count > 0)
+            allMenus.AddRange(menus);
+        foreach (var item in Config.Modules)
+        {
+            if (!allMenus.Exists(m => m.Name == item.Name && m.ParentId == item.ParentId))
+                allMenus.Add(item);
+        }
+        RouteHelper.AddTo(allMenus);
+        RoleHelper.AddTo(allMenus);
         //var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
         //if (routes != null && routes.Count > 0)
         //    allModules.AddRange(routes);
-        return [.. allModules.Where(m => m.Enabled).OrderBy(m => m.Sort)];
+        return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.Sort)];
     }
 
     //private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)

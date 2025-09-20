@@ -1,8 +1,8 @@
 ﻿namespace Known.Pages;
 
 [Route("/sys/files")]
-//[Menu(Constants.System, "系统附件", "file", 5)]
-[PagePlugin("系统附件", "file", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 8)]
+[Menu(Constants.System, "系统附件", "file", 5)]
+//[PagePlugin("系统附件", "file", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 8)]
 public class SysFileList : BaseTablePage<AttachInfo>
 {
     private IFileService Service;
