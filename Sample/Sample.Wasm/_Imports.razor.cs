@@ -5,3 +5,4 @@ global using Known.Data;
 global using Known.Entities;
 global using Known.Extensions;
 global using Microsoft.AspNetCore.Components;
+global using Sample.Models;

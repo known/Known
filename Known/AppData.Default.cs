@@ -99,7 +99,7 @@ class AppDefaultData
             var attr = item.Attr;
             var hasParameter = method.GetParameters().Length > 0;
             var action = Config.Actions.FirstOrDefault(b => b.Id == method.Name);
-            if (action == null)// 将代码定义的按钮添加到按钮列表中
+            if (action == null)
             {
                 action = new ActionInfo
                 {

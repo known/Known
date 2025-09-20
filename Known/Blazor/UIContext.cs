@@ -87,7 +87,23 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     /// </summary>
     /// <param name="buttonId">按钮ID。</param>
     /// <returns>是否有权限。</returns>
-    public bool HasButton(string buttonId)
+    public bool HasButton(string buttonId) => HasButton(Current?.Id, buttonId);
+
+    /// <summary>
+    /// 判断当前用户是否有按钮权限。
+    /// </summary>
+    /// <typeparam name="T">组件类型。</typeparam>
+    /// <param name="buttonId">按钮ID。</param>
+    /// <returns>是否有权限。</returns>
+    public bool HasButton<T>(string buttonId) => HasButton(typeof(T).FullName, buttonId);
+
+    /// <summary>
+    /// 判断当前用户是否有按钮权限。
+    /// </summary>
+    /// <param name="menuId">菜单ID。</param>
+    /// <param name="buttonId">按钮ID。</param>
+    /// <returns>是否有权限。</returns>
+    public bool HasButton(string menuId, string buttonId)
     {
         var user = CurrentUser;
         if (user == null)
@@ -96,7 +112,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
         if (user.IsAdmin())
             return true;
 
-        return IsInMenu(Current?.Id, buttonId);
+        return IsInMenu(menuId, buttonId);
     }
 
     /// <summary>
@@ -114,15 +130,15 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
         if (menu == null)
             return false;
 
-        var param = menu.GetAutoPageParameter();
-        if (param == null || param.Page == null)
+        var page = menu.TablePage?.Page;//.GetAutoPageParameter();
+        if (page == null)
             return false;
 
         var hasButton = false;
-        if (param.Page.Tools != null && param.Page.Tools.Count > 0)
-            hasButton = param.Page.Tools.Exists(d => d.Id == buttonId);
-        if (!hasButton && param.Page.Actions != null && param.Page.Actions.Count > 0)
-            hasButton = param.Page.Actions.Exists(d => d.Id == buttonId);
+        if (page.Tools != null && page.Tools.Count > 0)
+            hasButton = page.Tools.Exists(d => d.Id == buttonId);
+        if (!hasButton && page.Actions != null && page.Actions.Count > 0)
+            hasButton = page.Actions.Exists(d => d.Id == buttonId);
         return hasButton;
     }
 }

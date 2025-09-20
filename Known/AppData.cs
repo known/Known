@@ -35,21 +35,12 @@ public sealed partial class AppData
     /// </summary>
     public static Func<PluginInfo, AutoPageInfo> OnAutoPage { get; set; }
 
-    /// <summary>
-    /// 根据ID获取模块信息。
-    /// </summary>
-    /// <param name="id">模块ID。</param>
-    /// <returns>模块信息。</returns>
     internal static ModuleInfo GetModule(string id)
     {
         return Data.Modules?.FirstOrDefault(m => m.Id == id);
     }
 
-    /// <summary>
-    /// 获取系统所有按钮信息列表。
-    /// </summary>
-    /// <returns></returns>
-    public static List<ButtonInfo> GetButtons()
+    internal static List<ButtonInfo> GetButtons()
     {
         var datas = Data.Buttons ?? [];
         foreach (var item in Config.Actions)
@@ -62,18 +53,18 @@ public sealed partial class AppData
         return datas;
     }
 
-    /// <summary>
-    /// 获取系统所有操作信息列表。
-    /// </summary>
-    /// <returns></returns>
-    public static List<ActionInfo> GetActions()
-    {
-        var datas = Data.Buttons?.Select(b => b.ToAction()).ToList() ?? [];
-        var items = Config.Actions.Where(d => !datas.Exists(m => m.Id == d.Id)).ToList();
-        if (items != null && items.Count > 0)
-            datas.AddRange(items);
-        return datas;
-    }
+    ///// <summary>
+    ///// 获取系统所有操作信息列表。
+    ///// </summary>
+    ///// <returns></returns>
+    //public static List<ActionInfo> GetActions()
+    //{
+    //    var datas = Data.Buttons?.Select(b => b.ToAction()).ToList() ?? [];
+    //    var items = Config.Actions.Where(d => !datas.Exists(m => m.Id == d.Id)).ToList();
+    //    if (items != null && items.Count > 0)
+    //        datas.AddRange(items);
+    //    return datas;
+    //}
 
     /// <summary>
     /// 创建自动页面插件配置信息。
@@ -132,10 +123,7 @@ public sealed partial class AppData
     //    LoadAppData();
     //}
 
-    /// <summary>
-    /// 保存配置数据。
-    /// </summary>
-    public static void SaveData()
+    internal static void SaveData()
     {
         if (!Enabled)
             return;

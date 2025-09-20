@@ -146,8 +146,7 @@ public partial class ActionInfo
         Id = idOrName;
         Name = idOrName;
 
-        var infos = Config.Actions;
-        var info = infos?.FirstOrDefault(a => a.Id == idOrName || a.Name == idOrName);
+        var info = Config.Actions?.FirstOrDefault(a => a.Id == idOrName || a.Name == idOrName);
         if (info != null)
         {
             Id = info.Id;
@@ -155,6 +154,9 @@ public partial class ActionInfo
             Icon = info.Icon;
             Style = info.Style;
             Title = info.Title;
+            Group = info.Group;
+            Visible = info.Visible;
+            Tabs = info.Tabs;
         }
     }
 
@@ -221,5 +223,6 @@ public partial class ActionInfo
     /// <summary>
     /// 取得或设置子操作列表。
     /// </summary>
+    [JsonIgnore]
     public List<ActionInfo> Children { get; } = [];
 }

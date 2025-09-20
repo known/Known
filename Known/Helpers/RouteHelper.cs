@@ -16,7 +16,7 @@ class RouteHelper
         var target = Constants.Route;
         if (!Routes.Exists(d => d.Id == RouteId))
         {
-            var route = new MenuInfo { Id = RouteId, ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Sort = 999 };
+            var route = new MenuInfo { Id = RouteId, ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Url = "", Sort = 999 };
             Routes.Add(route);
         }
 
@@ -71,6 +71,8 @@ class RouteHelper
     private static void SetRouteInfo(MenuInfo info, Type type)
     {
         info.Name = type.Name;
+        info.Icon ??= "file";
+
         var tab = type.GetCustomAttribute<ReuseTabsPageAttribute>();
         if (tab != null)
         {

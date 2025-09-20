@@ -21,6 +21,19 @@ static class PlatformExtension
         return datas;
     }
 
+    internal static async Task<List<ActionInfo>> GetActionsAsync(this Database db)
+    {
+        var actions = Config.Actions;
+        var datas = await db.GetConfigAsync<List<ButtonInfo>>(Constant.KeyButton, true);
+        if (datas != null && datas.Count > 0)
+        {
+            var items = datas.Where(d => !actions.Exists(a => a.Id == d.Id)).Select(d => d.ToAction()).ToList();
+            if (items != null && items.Count > 0)
+                actions.AddRange(items);
+        }
+        return actions;
+    }
+
     internal static async Task SaveUserAsync(this Database db, InstallInfo info)
     {
         var userName = info.AdminName.ToLower();

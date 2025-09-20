@@ -54,11 +54,18 @@
 
     public void New()
     {
-        model1.NewForm(d =>
+        // model1.NewForm(d =>
+        // {
+        //     UI.Alert($"Summary={d.Summary}");
+        //     return Known.Result.SuccessAsync("");
+        // });
+        var model = new DialogModel
         {
-            UI.Alert($"Summary={d.Summary}");
-            return Known.Result.SuccessAsync("");
-        });
+            Title = "天气测试",
+            Width = 800,
+            Content = b => b.Component<TestRole>().Build()
+        };
+        UI.ShowDialog(model);
     }
 
     public void Test1() => UI.Alert("Test");

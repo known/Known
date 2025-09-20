@@ -94,7 +94,7 @@ public static class MenuExtension
     /// <param name="menus">菜单信息列表。</param>
     /// <param name="showRoot">是否显示根节点。</param>
     /// <returns>树形菜单列表。</returns>
-    public static List<MenuInfo> ToMenuItems(this List<MenuInfo> menus, bool showRoot = false)
+    public static List<MenuInfo> ToMenuItems(this IEnumerable<MenuInfo> menus, bool showRoot = false)
     {
         MenuInfo root = null;
         var items = new List<MenuInfo>();
@@ -103,15 +103,12 @@ public static class MenuExtension
             root = Config.App.GetRootMenu();
             items.Add(root);
         }
-        if (menus == null || menus.Count == 0)
+        if (menus == null || !menus.Any())
             return items;
 
-        var tops = menus.Where(m => m.ParentId == "0" && m.Target != Constants.Route).OrderBy(m => m.Sort).ToList();
+        var tops = menus.Where(m => m.ParentId == "0").OrderBy(m => m.Sort).ToList();
         foreach (var item in tops)
         {
-            if (item.Target == Constants.Route)
-                continue;
-
             var menu = CreateMenu(item);
             if (showRoot)
                 root.AddChild(menu);
@@ -134,7 +131,7 @@ public static class MenuExtension
         }
     }
 
-    private static void AddChildren(List<MenuInfo> menus, MenuInfo menu)
+    private static void AddChildren(IEnumerable<MenuInfo> menus, MenuInfo menu)
     {
         var items = menus.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Sort).ToList();
         if (items == null || items.Count == 0)

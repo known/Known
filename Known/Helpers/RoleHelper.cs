@@ -5,9 +5,9 @@ class RoleHelper
     private const string RoleId = "Role";
     private static List<MenuInfo> Roles { get; } = [];
 
-    internal static void AddRole(Type item)
+    internal static void AddRole(Type type)
     {
-        var role = item.GetCustomAttribute<RoleAttribute>();
+        var role = type.GetCustomAttribute<RoleAttribute>();
         if (role == null)
             return;
 
@@ -18,8 +18,10 @@ class RoleHelper
             Roles.Add(route);
         }
 
-        var info = new MenuInfo { Id = item.FullName, Name = role.Name, ParentId = RoleId, Target = target };
-        AddActions(info, item);
+        var info = new MenuInfo { Id = type.FullName, Name = role.Name, Icon = "file", ParentId = RoleId, Target = target };
+        var table = AppData.CreateAutoPage(type);
+        if (table != null)
+            info.Plugins.AddPlugin(table);
         Roles.Add(info);
     }
 
@@ -31,15 +33,5 @@ class RoleHelper
         var items = Roles.Where(d => !modules.Exists(m => m.Id == d.Id)).ToList();
         if (items != null && items.Count > 0)
             modules.AddRange(items);
-    }
-
-    private static void AddActions(MenuInfo info, Type type)
-    {
-        var actions = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
-                          .Where(m => m.IsDefined(typeof(ActionAttribute), false))
-                          .Select(m => new ActionInfo(m.Name))
-                          .ToList();
-        if (actions.Count > 0)
-            info.Plugins.AddPlugin(new AutoPageInfo { Page = new PageInfo { Tools = actions } });
     }
 }

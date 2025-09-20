@@ -151,7 +151,7 @@ public class BaseLayout : BaseComponent
     private void SetUserMenus(List<MenuInfo> menus)
     {
         Context.UserMenus = menus;
-        UserMenus = menus?.ToMenuItems();
+        UserMenus = menus?.Where(m => m.Target != Constants.Route).ToMenuItems();
         LoadMenus();
     }
 
