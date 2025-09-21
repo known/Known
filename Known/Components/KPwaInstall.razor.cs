@@ -5,4 +5,20 @@
 /// </summary>
 public partial class KPwaInstall
 {
+    /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        Id = "btnPwaInstall";
+        await base.OnInitAsync();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender && Visible && Config.App.Type == AppType.Web)
+        {
+            await JSRuntime.InvokeVoidAsync("initializePwaInstallButton", Id);
+        }
+    }
 }

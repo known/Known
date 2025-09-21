@@ -22,6 +22,17 @@ public interface INotifyHub
 public class NotifyHub : Hub, INotifyHub
 {
     /// <summary>
+    /// 注册会话连接。
+    /// </summary>
+    /// <param name="sessionId">会话ID。</param>
+    /// <returns></returns>
+    public async Task RegisterSession(string sessionId)
+    {
+        // 将连接ID与会话ID关联
+        await Groups.AddToGroupAsync(Context.ConnectionId, sessionId);
+    }
+
+    /// <summary>
     /// 发送通知到客户端。
     /// </summary>
     /// <param name="method">方法名。</param>

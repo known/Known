@@ -16,7 +16,7 @@ public interface IAuthStateProvider
     /// </summary>
     /// <param name="user">当前用户信息。</param>
     /// <returns></returns>
-    Task SignInAsync(UserInfo user);
+    Task<string> SignInAsync(UserInfo user);
 
     /// <summary>
     /// 异步签出当前登录用户。
@@ -30,12 +30,20 @@ class AuthStateProvider : IAuthStateProvider
     private static UserInfo current;
 
     public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
-    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
-    public Task SignOutAsync() => SetCurrentUser(null);
 
-    private static Task SetCurrentUser(UserInfo user)
+    public Task<string> SignInAsync(UserInfo user)
     {
+        if (user == null)
+            return Task.FromResult(string.Empty);
+
+        user.SessionId = Utils.GetGuid();
         current = user;
+        return Task.FromResult(user.SessionId);
+    }
+
+    public Task SignOutAsync()
+    {
+        current = null;
         return Task.CompletedTask;
     }
 }
@@ -43,11 +51,19 @@ class AuthStateProvider : IAuthStateProvider
 class JSAuthStateProvider(JSService js) : IAuthStateProvider
 {
     public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
-    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
-    public Task SignOutAsync() => SetCurrentUser(null);
 
-    private async Task SetCurrentUser(UserInfo user)
+    public async Task<string> SignInAsync(UserInfo user)
     {
+        if (user == null)
+            return string.Empty;
+
+        user.SessionId = Utils.GetGuid();
         await js.SetUserInfoAsync(user);
+        return user.SessionId;
+    }
+
+    public async Task SignOutAsync()
+    {
+        await js.SetUserInfoAsync(null);
     }
 }

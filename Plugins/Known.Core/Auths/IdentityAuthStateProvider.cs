@@ -112,16 +112,18 @@ sealed class IdentityAuthStateProvider : RevalidatingServerAuthenticationStatePr
         return await AuthHelper.GetUserAsync(platform, userName);
     }
 
-    public Task SignInAsync(UserInfo user)
+    public async Task<string> SignInAsync(UserInfo user)
     {
         if (user == null)
-            return Task.CompletedTask;
+            return string.Empty;
 
+        user.SessionId = Utils.GetGuid();
         var principal = user.ToPrincipal(IdentityConstants.ApplicationScheme);
-        return contextAccessor.HttpContext.SignInAsync(
+        await contextAccessor.HttpContext.SignInAsync(
             IdentityConstants.ApplicationScheme, principal,
             new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1) }
         );
+        return user.SessionId;
     }
 
     public Task SignOutAsync()

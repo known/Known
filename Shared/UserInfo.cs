@@ -136,6 +136,11 @@ public class UserInfo
     public string Station { get; set; }
 
     /// <summary>
+    /// 取得或设置用户会话Id。
+    /// </summary>
+    public string SessionId { get; set; }
+
+    /// <summary>
     /// 取得或设置用户微信OpenId。
     /// </summary>
     public string OpenId { get; set; }

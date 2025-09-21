@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Known.Components;
 
@@ -9,7 +8,7 @@ namespace Known.Components;
 public class KConsole : BaseComponent
 {
     private readonly List<ConsoleLogInfo> Logs = [];
-    private HubConnection connection;
+    //private HubConnection connection;
 
     private string LogId => $"lc-{Id}";
 
@@ -32,8 +31,8 @@ public class KConsole : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        var url = Navigation.ToAbsoluteUri(HubUrl);
-        connection = new HubConnectionBuilder().WithUrl(url).Build();
+        //var url = Navigation.ToAbsoluteUri(HubUrl);
+        //connection = new HubConnectionBuilder().WithUrl(url).Build();
     }
 
     /// <inheritdoc />
@@ -42,18 +41,18 @@ public class KConsole : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            connection?.On(MethodName, (string message) =>
-            {
-                var log = Utils.FromJson<ConsoleLogInfo>(message);
-                if (log.BizId == BizId)
-                {
-                    Logs.Add(log);
-                    StateChangedAsync();
-                    JS.RunVoidAsync($"KUtils.scrollToBottom('{LogId}');");
-                }
-            });
-            if (connection?.State == HubConnectionState.Disconnected)
-                await connection?.StartAsync();
+            //connection?.On(MethodName, (string message) =>
+            //{
+            //    var log = Utils.FromJson<ConsoleLogInfo>(message);
+            //    if (log.BizId == BizId)
+            //    {
+            //        Logs.Add(log);
+            //        StateChangedAsync();
+            //        JS.RunVoidAsync($"KUtils.scrollToBottom('{LogId}');");
+            //    }
+            //});
+            //if (connection?.State == HubConnectionState.Disconnected)
+            //    await connection?.StartAsync();
         }
     }
 
@@ -74,7 +73,7 @@ public class KConsole : BaseComponent
     /// <inheritdoc />
     protected override Task OnDisposeAsync()
     {
-        connection?.Remove(MethodName);
+        //connection?.Remove(MethodName);
         return base.OnDisposeAsync();
     }
 

@@ -64,6 +64,20 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步注册通知回调方法。
+    /// </summary>
+    /// <typeparam name="T">调用组件类型。</typeparam>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="invoker">调用组件对象。</param>
+    /// <param name="method">SignalR连接方法名。</param>
+    /// <param name="invoke">调用组件的[JSInvokable]方法名。</param>
+    /// <returns></returns>
+    public static ValueTask RegisterNotifyAsync<T>(this IJSRuntime runtime, DotNetObjectReference<T> invoker, string method, string invoke) where T : class
+    {
+        return runtime.InvokeVoidAsync("KNotify.register", invoker, method, invoke);
+    }
+
+    /// <summary>
     /// 异步下载文件。
     /// </summary>
     /// <param name="js">JS服务。</param>

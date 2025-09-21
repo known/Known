@@ -1,6 +1,6 @@
 ﻿namespace Known.Auths;
 
-class SessionAuthStateProvider(JSService js) : AuthenticationStateProvider, IAuthStateProvider
+class SessionAuthStateProvider(JSService js, SessionManager session) : AuthenticationStateProvider, IAuthStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -10,7 +10,14 @@ class SessionAuthStateProvider(JSService js) : AuthenticationStateProvider, IAut
     }
 
     public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
-    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
+
+    public async Task<string> SignInAsync(UserInfo user)
+    {
+        session.CreateSession(user);
+        await SetCurrentUser(user);
+        return user?.SessionId;
+    }
+
     public Task SignOutAsync() => SetCurrentUser(null);
 
     private async Task SetCurrentUser(UserInfo user)

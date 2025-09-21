@@ -12,9 +12,9 @@ public class LayoutBase : LayoutComponentBase
     [Inject] internal IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
-    /// 取得或设置注入的实时通讯连接实例。
+    /// 取得或设置JS运行时实例。
     /// </summary>
-    [Inject] public IConnection Connection { get; set; }
+    [Inject] public IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
     /// 取得或设置注入的JS服务实例。
@@ -134,7 +134,7 @@ public class EmptyLayout : LayoutBase
 public class AuthLayout : LayoutBase
 {
     private bool isLayout;
-    [Inject] private IAuthStateProvider AuthProvider { get; set; }
+    [Inject] internal IAuthStateProvider AuthProvider { get; set; }
 
     /// <inheritdoc />
     protected override async Task<bool> OnInitAsync()
@@ -179,6 +179,7 @@ public class AuthLayout : LayoutBase
 public class AdminLayout : AuthLayout
 {
     private bool isRender = false;
+    private DotNetObjectReference<AdminLayout> invoker;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -190,10 +191,9 @@ public class AdminLayout : AuthLayout
             isRender = true;
             if (Context.CurrentUser == null)
                 await JS.InitFilesAsync();
-            //await Connection?.StartAsync<NotifyInfo>(Constants.NotifyHubUrl, Constants.NotifyLayout, info =>
-            //{
-            //    UI.NoticeAsync(info.Title, info.Message, info.Type);
-            //});
+
+            invoker = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("KNotify.init", invoker);
             Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
     }
@@ -205,6 +205,20 @@ public class AdminLayout : AuthLayout
             return;
 
         builder.Div(WrapperClass, () => builder.BuildBody(Context, BuildContent));
+    }
+
+    /// <summary>
+    /// 显示强制退出登录对话框。
+    /// </summary>
+    /// <param name="message">退出提示信息。</param>
+    [JSInvokable]
+    public void ShowForceLogout(string message)
+    {
+        UI.Alert(message, async () =>
+        {
+            await AuthProvider.SignOutAsync();
+            Navigation?.GoLoginPage();
+        });
     }
 
     private void BuildContent(RenderTreeBuilder builder)

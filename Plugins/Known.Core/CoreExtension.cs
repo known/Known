@@ -25,8 +25,6 @@ public static class CoreExtension
         action?.Invoke(CoreOption.Instance);
 
         CoreOption.Instance.App.Type = AppType.Desktop;
-        if (CoreOption.Instance.Database != null)
-            services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownServices();
 
         services.AddHttpContextAccessor();
@@ -45,10 +43,9 @@ public static class CoreExtension
         AppHelper.LoadConnections();
         action?.Invoke(CoreOption.Instance);
 
-        if (CoreOption.Instance.Database != null)
-            services.AddKnownData(CoreOption.Instance.Database);
         services.AddKnownServices();
         services.AddScoped<INotifyService, WebNotifyService>();
+        services.AddSingleton<SessionManager>();
 
         if (CoreOption.Instance.IsCompression)
             services.AddResponseCompression();
@@ -188,6 +185,9 @@ public static class CoreExtension
         Config.OnInitialMenus = OnInitialMenus;
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
+
+        if (CoreOption.Instance.Database != null)
+            services.AddKnownData(CoreOption.Instance.Database);
 
         // 添加服务
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));

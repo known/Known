@@ -10,7 +10,7 @@ partial class AdminService
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
         await Database.SaveSystemAsync(info);
-        Config.System = info;
+        CoreConfig.System = info;
         return Result.Success(Language.SaveSuccess);
     }
 

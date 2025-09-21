@@ -137,7 +137,7 @@ partial class AdminService
         CoreConfig.Load(info);
         await Database.QueryActionAsync(async db =>
         {
-            CoreConfig.System ??= await db.GetSystemAsync();
+            CoreConfig.System = await db.GetSystemAsync();
             info.Actions = await db.GetActionsAsync();
             info.AppName = CurrentUser.AppName; //await db.GetUserSystemNameAsync();
             info.IsChangePwd = await db.CheckUserDefaultPasswordAsync(CoreConfig.System);

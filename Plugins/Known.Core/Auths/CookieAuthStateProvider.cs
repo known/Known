@@ -1,6 +1,6 @@
 ﻿namespace Known.Auths;
 
-class CookieAuthStateProvider(IHttpContextAccessor context, IAdminService platform) : AuthenticationStateProvider, IAuthStateProvider
+class CookieAuthStateProvider(IHttpContextAccessor context, IAdminService platform, SessionManager session) : AuthenticationStateProvider, IAuthStateProvider
 {
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -18,17 +18,19 @@ class CookieAuthStateProvider(IHttpContextAccessor context, IAdminService platfo
         return AuthHelper.GetUserAsync(platform, userName);
     }
 
-    public async Task SignInAsync(UserInfo user)
+    public async Task<string> SignInAsync(UserInfo user)
     {
         var principal = GetPrincipal(user);
         if (user != null)
         {
+            session.CreateSession(user);
             await context.HttpContext.SignInAsync(
                 Constant.KeyAuth, principal,
                 new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1) }
             );
         }
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(principal)));
+        return user?.SessionId;
     }
 
     public async Task SignOutAsync()

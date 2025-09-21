@@ -12,8 +12,18 @@ class WinAuthStateProvider : AuthenticationStateProvider, IAuthStateProvider
     }
 
     public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
-    public Task SignInAsync(UserInfo user) => SetCurrentUser(user);
-    public Task SignOutAsync() => SetCurrentUser(null);
+
+    public async Task<string> SignInAsync(UserInfo user)
+    {
+        user.SessionId = Utils.GetGuid();
+        await SetCurrentUser(user);
+        return user.SessionId;
+    }
+
+    public async Task SignOutAsync()
+    {
+        await SetCurrentUser(null);
+    }
 
     private Task SetCurrentUser(UserInfo user)
     {

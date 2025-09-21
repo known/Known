@@ -58,10 +58,60 @@ window.KUtils = {
     }
 };
 
+window.KNotify = {
+    conn: null,
+    init: function (invoker) {
+        const connection = new signalR.HubConnectionBuilder().withUrl("/notifyHub").build();
+        connection.on("ForceLogout", function (message) {
+            invoker.invokeMethodAsync("ShowForceLogout", message);
+        });
+        connection.start().then(function () {
+            console.log("SignalR连接已建立");
+            const sessionId = sessionStorage.getItem('sessionId');
+            if (sessionId) {
+                connection.invoke("RegisterSession", sessionId);
+            }
+        }).catch(function (err) {
+            console.error("SignalR连接错误: " + err.toString());
+        }) ;
+        this.conn = connection;
+    },
+    addSession: function (sessionId) {
+        if (sessionId) {
+            sessionStorage.setItem("sessionId", sessionId);
+        }
+    },
+    register: function (invoker, method, invoke) {
+        this.conn.on(method, function (message) {
+            invoker.invokeMethodAsync(invoke, message);
+        });
+    }
+};
+
 window.isMobile = function () {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     return /android|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 };
+
+let pwaInitialized = false;
+function initializePwaInstallButton(btnId) {
+    if (pwaInitialized) return;
+    pwaInitialized = true;
+
+    const installButton = document.getElementById(btnId);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if ('serviceWorker' in navigator && 'onbeforeinstallprompt' in window) {
+        if (isIOS || !('onbeforeinstallprompt' in window)) {
+            installButton.style.display = 'none';
+            document.getElementById('iosInstallGuide').style.display = 'block';
+        }
+    }
+    window.addEventListener('load', () => {
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installButton.style.display = 'none';
+        }
+    });
+}
 
 $(function () {
     window.Prism = window.Prism || {};
