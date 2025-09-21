@@ -366,7 +366,7 @@ public sealed class DataHelper
 
     internal static Task<PagingResult<Dictionary<string, object>>> QueryPrototypeDataAsync(PagingCriteria criteria, MenuInfo info)
     {
-        var columns = info?.TablePage?.Page?.Columns;
+        var columns = info?.GetAutoPageParameter()?.Page?.Columns;
         if (columns == null || columns.Count == 0)
             return Task.FromResult(new PagingResult<Dictionary<string, object>>());
 

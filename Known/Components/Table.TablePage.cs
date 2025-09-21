@@ -50,15 +50,21 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
 
     private void BuildOverlay(RenderTreeBuilder builder)
     {
-        var data = Menu.TablePage.Page ?? new PageInfo();
+        var param = Menu.GetAutoPageParameter();
+        if (param == null)
+        {
+            param = new AutoPageInfo();
+            Menu.Plugins.AddPlugin(param);
+        }
+        var data = param.Page ?? new PageInfo();
         var form = new FormModel<PageInfo>(this)
         {
             SmallLabel = true,
             Data = data,
             OnFieldChanged = async v =>
             {
-                Menu.TablePage.Page = data;
-                await SaveSettingAsync(Menu.TablePage);
+                param.Page = data;
+                await SaveSettingAsync(param);
             }
         };
         form.AddRow().AddColumn(c => c.ShowPager);

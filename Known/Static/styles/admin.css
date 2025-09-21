@@ -4,7 +4,7 @@
 .kui-flow .kui-group-box .legend {font-weight:bold;font-size:1.1rem;}
 
 /*Install*/
-.kui-install {position:fixed;top:0;left:0;right:0;bottom:0;overflow:auto;}
+.kui-install {position:absolute;top:40%;left:0;width:100%;transform:translate(0, -40%);}
 .kui-install .button {text-align:center;}
 .kui-install-head {display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.2rem;padding:30px 200px;}
 .kui-install-head .kui-menu {margin:0;padding:0;}

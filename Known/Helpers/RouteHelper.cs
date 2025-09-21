@@ -59,6 +59,9 @@ class RouteHelper
         {
             foreach (var item in exists)
             {
+                if (!item.IsCode)
+                    continue;
+
                 var info = modules.FirstOrDefault(m => m.Id == item.Id || m.Url == item.Url);
                 info.Plugins = item.Plugins;
             }

@@ -130,7 +130,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
         if (menu == null)
             return false;
 
-        var page = menu.TablePage?.Page;//.GetAutoPageParameter();
+        var page = menu.GetAutoPageParameter()?.Page;
         if (page == null)
             return false;
 

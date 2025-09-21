@@ -22,7 +22,7 @@ class MigrateHelper
                 await MigrateLanguagesAsync(db);
                 await MigrateButtonsAsync(db);
                 await MigrateTopNavsAsync(db);
-                //await MigrateModulesAsync(db);
+                await MigrateModulesAsync(db);
                 if (CoreConfig.OnMigrateAppData != null)
                     await CoreConfig.OnMigrateAppData.Invoke(db);
                 Console.WriteLine("AppData is Migrated.");
@@ -51,7 +51,7 @@ class MigrateHelper
 
     private static async Task MigrateButtonsAsync(Database db)
     {
-        var buttons = AppData.Data.Buttons;
+        var buttons = Config.Actions.Select(d => d.ToButton()).ToList();
         if (buttons == null || buttons.Count == 0)
             return;
 
@@ -81,31 +81,76 @@ class MigrateHelper
         await db.SaveConfigAsync(Constant.KeyTopNav, datas, true);
     }
 
-    //private static async Task MigrateModulesAsync(Database db)
-    //{
-    //    var modules = await db.QueryListAsync<SysModule>();
-    //    foreach (var module in modules)
-    //    {
-    //        if (string.IsNullOrWhiteSpace(module.Type))
-    //        {
-    //            module.Type = module.Target == nameof(ModuleType.Menu)
-    //                        ? nameof(MenuType.Menu)
-    //                        : (module.Target == nameof(ModuleType.Custom) ? nameof(MenuType.Link) : nameof(MenuType.Page));
-    //            module.Target = module.Target == nameof(ModuleType.IFrame) ? nameof(LinkTarget.IFrame) : nameof(LinkTarget.None);
-    //        }
-    //        if (string.IsNullOrWhiteSpace(module.PluginData))
-    //        {
-    //            var plugins = module.ToPlugins();
-    //            module.PluginData = plugins?.ZipDataString();
-    //        }
-    //    }
+    class Page2Info
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public bool ShowAdvSearch { get; set; } = true;
+        public bool ShowPager { get; set; } = true;
+        public bool ShowSetting { get; set; } = true;
+        public int? PageSize { get; set; }
+        public int? ToolSize { get; set; }
+        public int? ActionSize { get; set; }
+        public List<string> Tools { get; set; } = [];
+        public List<string> Actions { get; set; } = [];
+        public List<PageColumnInfo> Columns { get; set; } = [];
+    }
 
-    //    var items = AppData.Data.Modules;
-    //    if (items != null && items.Count > 0)
-    //        AddModules(db, modules, items, "0");
-    //    await db.DeleteAllAsync<SysModule>();
-    //    await db.InsertAsync(modules);
-    //}
+    private static async Task MigrateModulesAsync(Database db)
+    {
+        var modules = await db.QueryListAsync<SysModule>();
+        if (modules == null || modules.Count == 0)
+            return;
+
+        foreach (var item in modules)
+        {
+            if (string.IsNullOrWhiteSpace(item.PageData))
+                continue;
+
+            var page = Utils.FromJson<Page2Info>(item.PageData);
+            if (page == null)
+                continue;
+
+            var info = new PageInfo
+            {
+                Name = page.Name,
+                Type = page.Type,
+                ShowAdvSearch = page.ShowAdvSearch,
+                ShowPager = page.ShowPager,
+                ShowSetting = page.ShowSetting,
+                PageSize = page.PageSize,
+                ToolSize = page.ToolSize,
+                ActionSize = page.ActionSize,
+                Tools = page.Tools?.Select(d => new ActionInfo(d)).ToList(),
+                Actions = page.Actions?.Select(d => new ActionInfo(d)).ToList(),
+                Columns = page.Columns
+            };
+            item.PageData = Utils.ToJson(info);
+            await db.SaveAsync(item);
+        }
+
+        //foreach (var module in modules)
+        //{
+        //    if (string.IsNullOrWhiteSpace(module.Type))
+        //    {
+        //        module.Type = module.Target == nameof(ModuleType.Menu)
+        //                    ? nameof(MenuType.Menu)
+        //                    : (module.Target == nameof(ModuleType.Custom) ? nameof(MenuType.Link) : nameof(MenuType.Page));
+        //        module.Target = module.Target == nameof(ModuleType.IFrame) ? nameof(LinkTarget.IFrame) : nameof(LinkTarget.None);
+        //    }
+        //    if (string.IsNullOrWhiteSpace(module.PluginData))
+        //    {
+        //        var plugins = module.ToPlugins();
+        //        module.PluginData = plugins?.ZipDataString();
+        //    }
+        //}
+
+        //var items = AppData.Data.Modules;
+        //if (items != null && items.Count > 0)
+        //    AddModules(db, modules, items, "0");
+        //await db.DeleteAllAsync<SysModule>();
+        //await db.InsertAsync(modules);
+    }
 
     //private static void AddModules(Database db, List<SysModule> modules, List<ModuleInfo> allItems, string parentId)
     //{

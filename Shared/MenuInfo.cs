@@ -201,11 +201,6 @@ public partial class ActionInfo
     public string Position { get; set; }
 
     /// <summary>
-    /// 取得或设置徽章数量。
-    /// </summary>
-    public int Badge { get; set; }
-
-    /// <summary>
     /// 取得或设置操作是否可用。
     /// </summary>
     public bool Enabled { get; set; }
@@ -219,6 +214,12 @@ public partial class ActionInfo
     /// 取得或设置操作按钮所属选项卡集合。
     /// </summary>
     public string[] Tabs { get; set; }
+
+    /// <summary>
+    /// 取得或设置徽章数量。
+    /// </summary>
+    [JsonIgnore]
+    public int Badge { get; set; }
 
     /// <summary>
     /// 取得或设置子操作列表。

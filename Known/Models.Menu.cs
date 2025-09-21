@@ -66,21 +66,6 @@ public partial class MenuInfo
         }
     }
 
-    private AutoPageInfo tablePage;
-    internal AutoPageInfo TablePage
-    {
-        get
-        {
-            tablePage ??= this.GetAutoPageParameter();
-            if (tablePage == null)
-            {
-                tablePage = new AutoPageInfo();
-                Plugins.AddPlugin(tablePage);
-            }
-            return tablePage;
-        }
-    }
-
     /// <summary>
     /// 获取菜单的字符串表示。
     /// </summary>

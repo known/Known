@@ -97,25 +97,25 @@ public class SysModule : EntityBase
     public string Note { get; set; }
 
     /// <summary>
-    /// 取得或设置实体设置。
+    /// 取得或设置实体设置（V2.0字段）。
     /// </summary>
     [DisplayName("实体设置")]
     public string EntityData { get; set; }
 
     /// <summary>
-    /// 取得或设置流程设置。
+    /// 取得或设置流程设置（V2.0字段）。
     /// </summary>
     [DisplayName("流程设置")]
     public string FlowData { get; set; }
 
     /// <summary>
-    /// 取得或设置页面设置。
+    /// 取得或设置页面设置（V2.0字段）。
     /// </summary>
     [DisplayName("页面设置")]
     public string PageData { get; set; }
 
     /// <summary>
-    /// 取得或设置表单设置。
+    /// 取得或设置表单设置（V2.0字段）。
     /// </summary>
     [DisplayName("表单设置")]
     public string FormData { get; set; }
@@ -142,26 +142,26 @@ public class SysModule : EntityBase
         return info;
     }
 
-    internal static SysModule Load(UserInfo user, ModuleInfo info)
-    {
-        return new SysModule
-        {
-            AppId = user.AppId,
-            CompNo = user.CompNo,
-            CreateBy = user.UserName,
-            ParentId = info.ParentId,
-            Code = info.Id,//用于查询上级模块
-            Name = info.Name,
-            Icon = info.Icon,
-            Type = info.Type,
-            Target = info.Target ?? nameof(LinkTarget.None),
-            Url = info.Url,
-            Sort = info.Sort,
-            Enabled = info.Enabled,
-            LayoutData = Utils.ToJson(info.Layout),
-            PluginData = info.Plugins?.ZipDataString()
-        };
-    }
+    //internal static SysModule Load(UserInfo user, ModuleInfo info)
+    //{
+    //    return new SysModule
+    //    {
+    //        AppId = user.AppId,
+    //        CompNo = user.CompNo,
+    //        CreateBy = user.UserName,
+    //        ParentId = info.ParentId,
+    //        Code = info.Id,//用于查询上级模块
+    //        Name = info.Name,
+    //        Icon = info.Icon,
+    //        Type = info.Type,
+    //        Target = info.Target ?? nameof(LinkTarget.None),
+    //        Url = info.Url,
+    //        Sort = info.Sort,
+    //        Enabled = info.Enabled,
+    //        LayoutData = Utils.ToJson(info.Layout),
+    //        PluginData = info.Plugins?.ZipDataString()
+    //    };
+    //}
 
     // 适用于Admin插件迁移
     internal List<PluginInfo> ToPlugins()
