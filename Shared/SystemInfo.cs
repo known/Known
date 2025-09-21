@@ -113,6 +113,11 @@ public class SystemInfo
     public string TipChangePwd { get; set; } = "您当前使用默认密码登录，为了安全，请及时修改。";
 
     /// <summary>
+    /// 取得或设置密码长度。
+    /// </summary>
+    public int? PwdLength { get; set; } = 6;
+
+    /// <summary>
     /// 取得或设置密码复杂度，默认None不限制，包含None、Low、Middle、High四种复杂度。
     /// </summary>
     public string PwdComplexity { get; set; } = nameof(PasswordComplexity.None);

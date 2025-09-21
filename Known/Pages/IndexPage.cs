@@ -12,40 +12,10 @@ public class IndexPage : BasePage
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            if (Config.System.IsChangePwd)
-                ShowUpdatePassword();
-        }
-    }
-
-    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         var menu = Context.Current;
         menu ??= new MenuInfo { Id = "Index", Url = "/", Plugins = [] };
         builder.Component<PluginPage>().Set(c => c.Menu, menu).Build();
-    }
-
-    private void ShowUpdatePassword()
-    {
-        var model = new DialogModel
-        {
-            Title = "修改密码",
-            Width = 450,
-            Content = b => b.Div("kui-form-pwd", () =>
-            {
-                b.Component<PasswordForm>()
-                 .Set(c => c.TipText, Config.System.TipChangePwd)
-                 .Build();
-            }),
-            //Closable = false,
-            Footer = null
-        };
-        model.OnClose = model.CloseAsync;
-        UI.ShowDialog(model);
     }
 }

@@ -28,7 +28,6 @@ class CoreLanguage
     internal const string TipCurPwdRequired = "当前密码不能为空！";
     internal const string TipNewPwdRequired = "新密码不能为空！";
     internal const string TipConPwdRequired = "确认新密码不能为空！";
-    internal const string TipPwdNotEqual = "两次密码输入不一致！";
     internal const string TipUserDefaultPwd = "用户默认密码为：{password}。";
     internal const string TipNotSaveWithoutDev = "非开发环境，不能保存代码！";
     internal const string TipFileExisted = "文件[{file}]已存在！";

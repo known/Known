@@ -5,6 +5,13 @@
 /// </summary>
 public static class SettingExtension
 {
+    internal static async Task<bool> CheckUserDefaultPasswordAsync(this Database db, SystemInfo info)
+    {
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == db.UserName);
+        var password = Utils.ToMd5(info.UserDefaultPwd);
+        return user != null && user.Password == password;
+    }
+
     internal static Task<List<SettingInfo>> GetUserSettingsAsync(this Database db, string bizTypePrefix)
     {
         return db.Query<SysSetting>()

@@ -641,6 +641,12 @@ public partial class Language
     internal const string CaptchaFetch = "获取验证码";
     internal const string CaptchaCountdown = "{SmsCount}秒后重新获取";
     internal const string CaptchaNotValid = "验证码不正确！";
+    internal const string UpdatePassword = "修改密码";
+    internal const string PleaseInputPassword = "请输入密码";
+    /// <summary>
+    /// 两次密码输入不一致！
+    /// </summary>
+    public const string TipPwdNotEqual = "两次密码输入不一致！";
 
     /// <summary>
     /// 官网。

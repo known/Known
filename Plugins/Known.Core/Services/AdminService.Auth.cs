@@ -6,7 +6,7 @@ partial class AdminService
     public async Task<Result> RegisterAsync(RegisterFormInfo info)
     {
         if (info.Password != info.Password1)
-            return Result.Error(CoreLanguage.TipPwdNotEqual);
+            return Result.Error(Language.TipPwdNotEqual);
 
         var database = Database;
         if (CoreConfig.OnRegistering != null)
@@ -140,6 +140,7 @@ partial class AdminService
             CoreConfig.System ??= await db.GetSystemAsync();
             info.Actions = await db.GetActionsAsync();
             info.AppName = CurrentUser.AppName; //await db.GetUserSystemNameAsync();
+            info.IsChangePwd = await db.CheckUserDefaultPasswordAsync(CoreConfig.System);
             info.DatabaseType = db.DatabaseType;
             info.UserMenus = await db.GetUserMenusAsync();
             info.UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
@@ -195,12 +196,19 @@ partial class AdminService
         if (string.IsNullOrEmpty(info.NewPwd1))
             errors.Add(Language[CoreLanguage.TipConPwdRequired]);
         if (info.NewPwd != info.NewPwd1)
-            errors.Add(Language[CoreLanguage.TipPwdNotEqual]);
+            errors.Add(Language[Language.TipPwdNotEqual]);
 
         if (errors.Count > 0)
             return Result.Error(string.Join(Environment.NewLine, errors));
 
+        var database = Database;
+        var sys = await database.GetSystemAsync();
+        var validator = new PasswordValidator();
+        validator.Validate(sys, info.NewPwd, true);
+        if (!string.IsNullOrWhiteSpace(validator.Message))
+            return Result.Error($"{validator.Message}");
+
         info.UserId = user.Id;
-        return await Database.UpdatePasswordAsync(info);
+        return await database.UpdatePasswordAsync(info);
     }
 }

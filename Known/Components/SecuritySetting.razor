@@ -30,8 +30,13 @@
         </DataItem>
     </AntRow>
     <AntRow>
+        <DataItem Label="密码长度">
+            <AntInteger @bind-Value="@Model.PwdLength" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
         <DataItem Label="密码复杂度">
-            <AntSelectCode @bind-Value="@Model.PwdComplexity" Category="@nameof(PasswordComplexity)" Style="width:320px" />
+            <AntSelectCode @bind-Value="@Model.PwdComplexity" Category="@nameof(PasswordComplexity)" Style="width:280px" />
         </DataItem>
     </AntRow>
     <AntRow>

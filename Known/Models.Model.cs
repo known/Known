@@ -32,6 +32,11 @@ public class AdminInfo
     public string AppName { get; set; }
 
     /// <summary>
+    /// 取得或设置当前用户是否要提示修改密码。
+    /// </summary>
+    public bool IsChangePwd { get; set; }
+
+    /// <summary>
     /// 取得或设置当前系统数据库类型。
     /// </summary>
     public DatabaseType DatabaseType { get; set; }

@@ -81,7 +81,7 @@ partial class AdminService
             return Result.Error(CoreLanguage.TipInstallRequired);
 
         if (info.AdminPassword != info.Password1)
-            return Result.Error(CoreLanguage.TipPwdNotEqual);
+            return Result.Error(Language.TipPwdNotEqual);
 
         Console.WriteLine("Known Install");
         Console.WriteLine($"{info.CompNo}-{info.CompName}");

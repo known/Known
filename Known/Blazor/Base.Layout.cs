@@ -49,10 +49,9 @@ public class BaseLayout : BaseComponent
         if (firstRender)
         {
             if (!IsServerMode)
-            {
-                await InitAdminAsync();
-                //App.ReloadPage();
-            }
+                await InitAdminAsync(); //App.ReloadPage();
+            if (Info.IsChangePwd)
+                ShowUpdatePassword();
         }
     }
 
@@ -164,5 +163,29 @@ public class BaseLayout : BaseComponent
         var roles = Context.Current?.Role?.Split(',');
         if (Context.Current == null || !CurrentUser.InRole(roles))
             Navigation.GoErrorPage("403");
+    }
+
+    private void ShowUpdatePassword()
+    {
+        DialogModel model = null;
+        model = new DialogModel
+        {
+            Title = Language.UpdatePassword,
+            Width = 450,
+            Content = b => b.Div("kui-form-pwd", () =>
+            {
+                b.Component<PasswordForm>()
+                 .Set(c => c.TipText, Config.System.TipChangePwd)
+                 .Set(c => c.OnSave, async info =>
+                 {
+                     var result = await Admin.UpdatePasswordAsync(info);
+                     UI.Result(result, model.CloseAsync);
+                 })
+                 .Build();
+            }),
+            Closable = false,
+            Footer = null
+        };
+        UI.ShowDialog(model);
     }
 }

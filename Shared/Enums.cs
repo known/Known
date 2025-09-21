@@ -225,18 +225,18 @@ public enum PasswordComplexity
     [Description("不限制")]
     None,
     /// <summary>
-    /// 低（至少6位）。
+    /// 低。
     /// </summary>
-    [Description("低（至少6位）")]
+    [Description("低（满足长度）")]
     Low,
     /// <summary>
-    /// 中（至少6位，包含字母和数字）。
+    /// 中（包含字母和数字）。
     /// </summary>
-    [Description("中（至少6位，包含字母和数字）")]
+    [Description("中（包含大小写和数字）")]
     Middle,
     /// <summary>
-    /// 高（至少6位，包含字母、数字和特殊字符）。
+    /// 高（包含字母、数字和特殊字符）。
     /// </summary>
-    [Description("高（至少6位，包含字母、数字和特殊字符）")]
+    [Description("高（包含大小写、数字和特殊字符）")]
     High
 }

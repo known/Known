@@ -69,9 +69,10 @@ class UserService(Context context) : ServiceBase(context), IUserService
         UserDataInfo user = null;
         await Database.QueryActionAsync(async db =>
         {
+            var sys = await db.GetSystemAsync();
             user = await db.Query<SysUser>().Where(d => d.Id == id).FirstAsync<UserDataInfo>();
-            user ??= new UserDataInfo { Password = Config.System?.UserDefaultPwd };
-            user.DefaultPassword = Config.System?.UserDefaultPwd;
+            user ??= new UserDataInfo { Password = sys?.UserDefaultPwd };
+            user.DefaultPassword = sys?.UserDefaultPwd;
             var roles = await db.Query<SysRole>().Where(d => d.Enabled).OrderBy(d => d.CreateTime).ToListAsync();
             var userRoles = await db.QueryListAsync<SysUserRole>(d => d.UserId == user.Id);
             var roleIds = userRoles?.Select(r => r.RoleId).ToList();

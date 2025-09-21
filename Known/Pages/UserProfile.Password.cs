@@ -13,41 +13,16 @@ public class PasswordEditForm : BaseComponent
         {
             builder.Div("kui-user-form", () =>
             {
-                builder.Component<PasswordForm>().Build();
+                builder.Component<PasswordForm>()
+                       .Set(c => c.OnSave, OnSaveAsync)
+                       .Build();
             });
         });
     }
 
-    ///// <inheritdoc />
-    //protected override async Task OnInitFormAsync()
-    //{
-    //    await base.OnInitFormAsync();
-    //    Model = new FormModel<PwdFormInfo>(this, true) { Data = new PwdFormInfo() };
-    //}
-
-    ///// <inheritdoc />
-    //protected override void BuildForm(RenderTreeBuilder builder)
-    //{
-    //    builder.FormPage(() =>
-    //    {
-    //        builder.Div("kui-user-form", () =>
-    //        {
-    //            
-    //            //base.BuildForm(builder);
-    //            //builder.FormButton(() =>
-    //            //{
-    //            //    builder.Button(Language.ConfirmUpdate, this.Callback<MouseEventArgs>(OnSaveAsync));
-    //            //});
-    //        });
-    //    });
-    //}
-
-    //private async Task OnSaveAsync(MouseEventArgs arg)
-    //{
-    //    if (!Model.Validate())
-    //        return;
-
-    //    var result = await Admin.UpdatePasswordAsync(Model.Data);
-    //    UI.Result(result);
-    //}
+    private async Task OnSaveAsync(PwdFormInfo info)
+    {
+        var result = await Admin.UpdatePasswordAsync(info);
+        UI.Result(result);
+    }
 }
