@@ -42,18 +42,7 @@ public static class CoreDataExtension
         }
     }
 
-    internal static async Task<Database> GetDatabaseAsync(this Database database, AutoPageInfo info)
-    {
-        if (info == null || string.IsNullOrWhiteSpace(info.Database) || info.Database == database.ConnectionName)
-            return database;
-
-        if (Config.OnDatabase == null)
-            return database;
-
-        return await Config.OnDatabase.Invoke(database, info);
-    }
-
-    public static async Task<Result> InitializeTableAsync(this Database db)
+    internal static async Task<Result> InitializeTableAsync(this Database db)
     {
         try
         {
@@ -73,8 +62,52 @@ public static class CoreDataExtension
         }
     }
 
-    public static Task<Result> MigrateDataAsync(this Database db)
+    internal static Task<Result> MigrateDataAsync(this Database db)
     {
         return MigrateHelper.MigrateDataAsync(db);
+    }
+
+    internal static async Task<Database> GetDatabaseAsync(this Database database, AutoPageInfo info)
+    {
+        if (info == null || string.IsNullOrWhiteSpace(info.Database) || info.Database == database.ConnectionName)
+            return database;
+
+        if (CoreConfig.OnDatabase == null)
+            return database;
+
+        return await CoreConfig.OnDatabase.Invoke(database, info);
+    }
+
+    internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(this Database db)
+    {
+        var settings = await db.GetUserSettingsAsync("UserTable_");
+        if (settings == null || settings.Count == 0)
+            return [];
+
+        var dics = new Dictionary<string, List<TableSettingInfo>>();
+        foreach (var item in settings)
+        {
+            dics[item.BizType] = item.DataAs<List<TableSettingInfo>>();
+        }
+        return dics;
+    }
+
+    internal static async Task SaveUserAsync(this Database db, InstallInfo info)
+    {
+        var userName = info.AdminName.ToLower();
+        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
+        user ??= new SysUser();
+        user.AppId = Config.App.Id;
+        user.CompNo = info.CompNo;
+        user.OrgNo = info.CompNo;
+        user.UserName = userName;
+        user.Password = Utils.ToMd5(info.AdminPassword);
+        user.Name = info.AdminName;
+        user.EnglishName = info.AdminName;
+        user.Gender = "Male";
+        user.Role = "Admin";
+        user.Enabled = true;
+        CoreConfig.OnNewUser?.Invoke(db, user);
+        await db.SaveAsync(user);
     }
 }

@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PlatformExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PluginExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SettingExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PluginInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AutoPageInfo.cs" />
@@ -44,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PasswordValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SettingInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinService.cs" />

@@ -42,20 +42,6 @@ public static class SettingExtension
         return setting.DataAs<T>();
     }
 
-    internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(this Database db)
-    {
-        var settings = await db.GetUserSettingsAsync("UserTable_");
-        if (settings == null || settings.Count == 0)
-            return [];
-
-        var dics = new Dictionary<string, List<TableSettingInfo>>();
-        foreach (var item in settings)
-        {
-            dics[item.BizType] = item.DataAs<List<TableSettingInfo>>();
-        }
-        return dics;
-    }
-
     /// <summary>
     /// 异步保存设置信息。
     /// </summary>

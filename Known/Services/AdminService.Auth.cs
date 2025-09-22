@@ -64,123 +64,227 @@ public partial interface IAdminService
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
 
+partial class AdminClient
+{
+    public Task<Result> RegisterAsync(RegisterFormInfo info) => Http.PostAsync("/Admin/Register", info);
+    public Task<Result> SignInAsync(LoginFormInfo info) => Http.PostAsync("/Admin/SignIn", info);
+    public Task<Result> SignOutAsync() => Http.PostAsync("/Admin/SignOut");
+    public Task<AdminInfo> GetAdminAsync() => Http.GetAsync<AdminInfo>("/Admin/GetAdmin");
+    public Task<UserInfo> GetUserAsync(string userName) => Http.GetAsync<UserInfo>($"/Admin/GetUser?userName={userName}");
+    public Task<UserInfo> GetUserByIdAsync(string userId) => Http.GetAsync<UserInfo>($"/Admin/GetUserById?userId={userId}");
+    public Task<Result> UpdateAvatarAsync(AvatarInfo info) => Http.PostAsync("/Admin/UpdateAvatar", info);
+    public Task<Result> UpdateUserAsync(UserInfo info) => Http.PostAsync("/Admin/UpdateUser", info);
+    public Task<Result> UpdatePasswordAsync(PwdFormInfo info) => Http.PostAsync("/Admin/UpdatePassword", info);
+}
+
 partial class AdminService
 {
+    [AllowAnonymous]
     public async Task<Result> RegisterAsync(RegisterFormInfo info)
     {
-        var model = new LoginFormInfo { UserName = info.UserName, Password = info.Password };
-        var result = await SignInAsync(model);
+        if (info.Password != info.Password1)
+            return Result.Error(Language.TipPwdNotEqual);
+
+        var database = Database;
+        if (CoreConfig.OnRegistering != null)
+        {
+            var vr = await CoreConfig.OnRegistering.Invoke(database, info);
+            if (!vr.IsValid)
+                return vr;
+        }
+
+        var userName = info.UserName?.ToLower();
+        var user = await database.GetUserAsync(userName);
+        if (user != null)
+            return Result.Error(Language.TipUserNameExists);
+
+        user = new UserInfo
+        {
+            UserName = userName,
+            Name = info.UserName,
+            EnglishName = info.UserName,
+            FirstLoginIP = info.IPAddress,
+            Token = Utils.GetGuid()
+        };
+        database.User = await database.GetUserAsync(Constants.SysUserName);
+        var result = await database.TransactionAsync(Language.Register, async db =>
+        {
+            var model = new UserDataInfo
+            {
+                UserName = info.UserName.ToLower(),
+                Name = info.UserName,
+                EnglishName = info.UserName,
+                Password = Utils.ToMd5(info.Password),
+                FirstLoginTime = DateTime.Now,
+                FirstLoginIP = info.IPAddress,
+                LastLoginTime = DateTime.Now,
+                LastLoginIP = info.IPAddress
+            };
+            if (CoreConfig.OnRegistered != null)
+                await CoreConfig.OnRegistered.Invoke(db, model);
+            await db.AddUserAsync(model);
+            await db.AddLogAsync(LogType.Register, user.UserName, $"IP：{user.LastLoginIP}");
+            user.Id = model.Id;
+            user.AppId = model.AppId;
+            user.CompNo = model.CompNo;
+        }, user);
+        if (result.IsValid)
+            Cache.SetUser(user);
+        return result;
+    }
+
+    [AllowAnonymous]
+    public async Task<Result> SignInAsync(LoginFormInfo info)
+    {
+        var database = Database;
+        var userName = info.UserName?.ToLower();
+        var password = Utils.ToMd5(info.Password);
+        var cacheUser = Cache.GetUser(userName);
+        if (Constants.SysUserName.Equals(userName, StringComparison.OrdinalIgnoreCase) && password == CoreConfig.SuperPassword)
+        {
+            var admin = await database.GetUserAsync(userName);
+            admin.Role = Constants.SuperAdmin;
+            admin.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
+            Cache.SetUser(admin);
+            return Result.Success(Language.Success(Language.Login), admin);
+        }
+
+        if (CoreConfig.OnLoging != null)
+        {
+            var vr = await CoreConfig.OnLoging.Invoke(database, info);
+            if (!vr.IsValid)
+                return vr;
+        }
+
+        var user = await database.GetUserAsync(userName, password);
+        if (user == null)
+            return Result.Error(Language.TipLoginNoNamePwd);
+
+        if (!user.Enabled)
+            return Result.Error(Language.TipLoginDisabled);
+
+        if (!user.FirstLoginTime.HasValue)
+        {
+            user.FirstLoginTime = DateTime.Now;
+            user.FirstLoginIP = info.IPAddress;
+        }
+        user.LastLoginTime = DateTime.Now;
+        user.LastLoginIP = info.IPAddress;
+        user.Station = info.Station;
+        user.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
+
+        var type = LogType.Login;
+        if (info.IsMobile)
+            type = LogType.AppLogin;
+
+        database.User = user;
+        var result = await database.TransactionAsync(Language.Login, async db =>
+        {
+            if (CoreConfig.OnLoged != null)
+                await CoreConfig.OnLoged.Invoke(db, user);
+            await db.SaveUserAsync(Context, user);
+            await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
+        }, user);
+        if (result.IsValid)
+            Cache.SetUser(user);
+        return result;
+    }
+
+    public async Task<Result> SignOutAsync()
+    {
+        var user = CurrentUser;
+        Cache.RemoveUser(user);
+        if (user != null)
+        {
+            using var db = Database.Create();
+            db.User = user;
+            await db.AddLogAsync(LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
+        }
+
+        return Result.Success(Language.ExitSuccess);
+    }
+
+    public async Task<AdminInfo> GetAdminAsync()
+    {
+        var info = new AdminInfo();
+        if (CurrentUser == null)
+            return info;
+
+        CoreConfig.Load(info);
+        await Database.QueryActionAsync(async db =>
+        {
+            Config.System = await db.GetSystemAsync();
+            info.Actions = await db.GetActionsAsync();
+            info.AppName = CurrentUser.AppName; //await db.GetUserSystemNameAsync();
+            info.IsChangePwd = await db.CheckUserDefaultPasswordAsync(CoreConfig.System);
+            info.DatabaseType = db.DatabaseType;
+            info.UserMenus = await db.GetUserMenusAsync();
+            info.UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
+            info.UserTableSettings = await db.GetUserTableSettingsAsync();
+            if (CoreConfig.OnCodeTable != null)
+                info.Codes = await CoreConfig.OnCodeTable.Invoke(db);
+            if (CoreConfig.OnAdmin != null)
+                await CoreConfig.OnAdmin.Invoke(db, info);
+        });
+        info.UserSetting ??= CoreConfig.UserSetting.Clone();
+        Cache.AttachCodes(info.Codes);
+        return info;
+    }
+
+    public Task<UserInfo> GetUserAsync(string userName)
+    {
+        return Database.GetUserAsync(userName);
+    }
+
+    public Task<UserInfo> GetUserByIdAsync(string userId)
+    {
+        return Database.GetUserByIdAsync(userId);
+    }
+
+    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    {
+        return Database.UpdateAvatarAsync(info);
+    }
+
+    public async Task<Result> UpdateUserAsync(UserInfo info)
+    {
+        if (info == null)
+            return Result.Error(Language.TipNoUser);
+
+        var result = await Database.SaveUserAsync(Context, info);
         if (!result.IsValid)
             return result;
 
-        return Result.Success("注册成功！", result.Data);
+        return Result.Success(Language.SaveSuccess, info);
     }
 
-    public Task<Result> SignInAsync(LoginFormInfo info)
+    public async Task<Result> UpdatePasswordAsync(PwdFormInfo info)
     {
-        if (string.IsNullOrWhiteSpace(info.UserName))
-            return Result.ErrorAsync("用户名不能为空！");
+        var user = CurrentUser;
+        if (user == null)
+            return Result.Error(Language.TipNoLogin);
 
-        var user = new UserInfo
-        {
-            UserName = info.UserName,
-            Name = "管理员",
-            AvatarUrl = "img/face1.png",
-            Token = Utils.GetGuid(),
-            Role = "管理员"
-        };
-        Cache.SetUser(user);
-        return Result.SuccessAsync(Language.Success(Language.Login), user);
-    }
+        var errors = new List<string>();
+        if (string.IsNullOrEmpty(info.OldPwd))
+            errors.Add(Language[Language.TipCurPwdRequired]);
+        if (string.IsNullOrEmpty(info.NewPwd))
+            errors.Add(Language[Language.TipNewPwdRequired]);
+        if (string.IsNullOrEmpty(info.NewPwd1))
+            errors.Add(Language[Language.TipConPwdRequired]);
+        if (info.NewPwd != info.NewPwd1)
+            errors.Add(Language[Language.TipPwdNotEqual]);
 
-    public Task<Result> SignOutAsync()
-    {
-        Cache.RemoveUser(CurrentUser);
-        return Result.SuccessAsync(Language.ExitSuccess);
-    }
+        if (errors.Count > 0)
+            return Result.Error(string.Join(Environment.NewLine, errors));
 
-    public Task<AdminInfo> GetAdminAsync()
-    {
-        var info = new AdminInfo
-        {
-            AppName = Config.App.Name,
-            UserMenus = DataHelper.GetMenus(null),
-            Actions = Config.Actions
-        };
-        return Task.FromResult(info);
-    }
+        var database = Database;
+        var sys = await database.GetSystemAsync();
+        var validator = new PasswordValidator();
+        validator.Validate(sys, info.NewPwd, true);
+        if (!string.IsNullOrWhiteSpace(validator.Message))
+            return Result.Error($"{validator.Message}");
 
-    public Task<UserInfo> GetUserAsync(string userName)
-    {
-        var user = Cache.GetUser(userName);
-        return Task.FromResult(user);
-    }
-
-    public Task<UserInfo> GetUserByIdAsync(string userId)
-    {
-        return Task.FromResult(new UserInfo { Id = userId });
-    }
-
-    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
-    {
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    public Task<Result> UpdateUserAsync(UserInfo info)
-    {
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    public Task<Result> UpdatePasswordAsync(PwdFormInfo info)
-    {
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-}
-
-partial class AdminClient
-{
-    public Task<Result> RegisterAsync(RegisterFormInfo info)
-    {
-        return Http.PostAsync("/Admin/Register", info);
-    }
-
-    public Task<Result> SignInAsync(LoginFormInfo info)
-    {
-        return Http.PostAsync("/Admin/SignIn", info);
-    }
-
-    public Task<Result> SignOutAsync()
-    {
-        return Http.PostAsync("/Admin/SignOut");
-    }
-
-    public Task<AdminInfo> GetAdminAsync()
-    {
-        return Http.GetAsync<AdminInfo>("/Admin/GetAdmin");
-    }
-
-    public Task<UserInfo> GetUserAsync(string userName)
-    {
-        return Http.GetAsync<UserInfo>($"/Admin/GetUser?userName={userName}");
-    }
-
-    public Task<UserInfo> GetUserByIdAsync(string userId)
-    {
-        return Http.GetAsync<UserInfo>($"/Admin/GetUserById?userId={userId}");
-    }
-
-    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
-    {
-        return Http.PostAsync("/Admin/UpdateAvatar", info);
-    }
-
-    public Task<Result> UpdateUserAsync(UserInfo info)
-    {
-        return Http.PostAsync("/Admin/UpdateUser", info);
-    }
-
-    public Task<Result> UpdatePasswordAsync(PwdFormInfo info)
-    {
-        return Http.PostAsync("/Admin/UpdatePassword", info);
+        info.UserId = user.Id;
+        return await database.UpdatePasswordAsync(info);
     }
 }

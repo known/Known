@@ -6,7 +6,4 @@ class Constant
     /// 框架用户认证键。
     /// </summary>
     public const string KeyAuth = "Known-Auth";
-
-    internal const string SuperAdmin = "SuperAdmin";
-    internal const string UserSetting = "UserSetting";
 }

@@ -26,11 +26,11 @@ public static class AdmExtension
     public static void AddKnownAdminCore(this IServiceCollection services)
     {
         //AppData.Enabled = false;
-        Config.OnInstall = AdminHelper.Install;
-        //Config.OnInstallModules = OnInstallModules;
-        //Config.OnInitialModules = OnInitialModules;
-        Config.OnCodeTable = db => db.GetDictionariesAsync();
-        Config.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
+        CoreConfig.OnInstall = AdminHelper.Install;
+        //CoreConfig.OnInstallModules = OnInstallModules;
+        //CoreConfig.OnInitialModules = OnInitialModules;
+        CoreConfig.OnCodeTable = db => db.GetDictionariesAsync();
+        CoreConfig.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
         AdminExtension.Service = new AdminService();
         UserExtension.OnSyncUser = (db, info) => db.SyncSysUserAsync(info);
         UserExtension.OnUserSystem = (db, user) => db.GetUserSystemAsync(user);

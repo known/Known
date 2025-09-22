@@ -23,42 +23,50 @@ public partial interface IAdminService
     Task<Result> ResetUserSettingAsync();
 }
 
-partial class AdminService
-{
-    public Task<string> GetUserSettingAsync(string bizType)
-    {
-        Configs.TryGetValue(bizType, out var value);
-        return Task.FromResult(value);
-    }
-
-    public Task<Result> SaveUserSettingAsync(SettingFormInfo info)
-    {
-        if (info.BizData != null)
-            Configs[info.BizType] = Utils.ToJson(info.BizData);
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    public Task<Result> ResetUserSettingAsync()
-    {
-        var info = new UserSettingInfo();
-        return Result.SuccessAsync("重置成功！", info);
-    }
-}
-
 partial class AdminClient
 {
-    public Task<string> GetUserSettingAsync(string bizType)
+    public Task<string> GetUserSettingAsync(string bizType) => Http.GetTextAsync($"/Admin/GetUserSetting?bizType={bizType}");
+    public Task<Result> SaveUserSettingAsync(SettingFormInfo info) => Http.PostAsync("/Admin/SaveUserSetting", info);
+    public Task<Result> ResetUserSettingAsync() => Http.PostAsync("/Admin/ResetUserSetting");
+}
+
+partial class AdminService
+{
+    public async Task<string> GetUserSettingAsync(string bizType)
     {
-        return Http.GetTextAsync($"/Admin/GetUserSetting?bizType={bizType}");
+        var setting = await Database.GetUserSettingAsync(bizType);
+        if (setting == null)
+            return default;
+
+        return setting.BizData;
     }
 
-    public Task<Result> SaveUserSettingAsync(SettingFormInfo info)
+    public async Task<Result> SaveUserSettingAsync(SettingFormInfo info)
     {
-        return Http.PostAsync("/Admin/SaveUserSetting", info);
+        var database = Database;
+        var setting = await database.GetUserSettingAsync(info.BizType);
+        if (setting != null && info.BizData == null)
+        {
+            await database.DeleteAsync<SysSetting>(setting.Id);
+        }
+        else
+        {
+            setting ??= new SettingInfo();
+            setting.BizType = info.BizType;
+            setting.BizData = Utils.ToJson(info.BizData);
+            await database.SaveSettingAsync(setting);
+        }
+        return Result.Success(Language.SaveSuccess);
     }
 
-    public Task<Result> ResetUserSettingAsync()
+    public async Task<Result> ResetUserSettingAsync()
     {
-        return Http.PostAsync("/Admin/ResetUserSetting");
+        var result = await SaveUserSettingAsync(new SettingFormInfo
+        {
+            BizType = Constants.UserSetting,
+            BizData = null
+        });
+        result.Data = CoreConfig.UserSetting.Clone();
+        return result;
     }
 }

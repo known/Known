@@ -12,8 +12,7 @@ partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 {
 }
 
-[Service]
+[WebApi, Service]
 partial class AdminService(Context context) : ServiceBase(context), IAdminService
 {
-    private static readonly Dictionary<string, string> Configs = [];
 }

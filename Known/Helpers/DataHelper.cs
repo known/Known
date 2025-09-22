@@ -70,7 +70,7 @@ public sealed class DataHelper
     /// <returns></returns>
     public static async Task<List<MenuInfo>> GetMenusAsync(Database db = null)
     {
-        var menus = Config.OnInitialMenus != null ? await Config.OnInitialMenus.Invoke(db) : [];
+        var menus = CoreConfig.OnInitialMenus != null ? await CoreConfig.OnInitialMenus.Invoke(db) : [];
         menus ??= [];
         return GetMenus(menus);
     }

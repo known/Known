@@ -17,34 +17,21 @@ public partial interface IAdminService
     Task<Result> SaveConfigAsync(ConfigInfo info);
 }
 
+partial class AdminClient
+{
+    public Task<string> GetConfigAsync(string key) => Http.GetTextAsync($"/Admin/GetConfig?key={key}");
+    public Task<Result> SaveConfigAsync(ConfigInfo info) => Http.PostAsync("/Admin/SaveConfig", info);
+}
+
 partial class AdminService
 {
     public Task<string> GetConfigAsync(string key)
     {
-        if (string.IsNullOrWhiteSpace(key))
-            return Task.FromResult("");
-
-        Configs.TryGetValue(key, out var value);
-        return Task.FromResult(value);
+        return Database.GetConfigAsync(key);
     }
 
     public Task<Result> SaveConfigAsync(ConfigInfo info)
     {
-        if (!string.IsNullOrWhiteSpace(info.Key))
-            Configs[info.Key] = Utils.ToJson(info.Value);
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-}
-
-partial class AdminClient
-{
-    public Task<string> GetConfigAsync(string key)
-    {
-        return Http.GetTextAsync($"/Admin/GetConfig?key={key}");
-    }
-
-    public Task<Result> SaveConfigAsync(ConfigInfo info)
-    {
-        return Http.PostAsync("/Admin/SaveConfig", info);
+        return Database.SaveConfigAsync(info.Key, info.Value);
     }
 }

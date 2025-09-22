@@ -17,28 +17,27 @@ public partial interface IAdminService
     Task<Result> DeleteFileAsync(AttachInfo info);
 }
 
+partial class AdminClient
+{
+    public Task<List<AttachInfo>> GetFilesAsync(string bizId) => Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
+    public Task<Result> DeleteFileAsync(AttachInfo info) => Http.PostAsync("/Admin/DeleteFile", info);
+}
+
 partial class AdminService
 {
     public Task<List<AttachInfo>> GetFilesAsync(string bizId)
     {
-        return Task.FromResult(new List<AttachInfo>());
+        return Database.GetFilesAsync(bizId);
     }
 
-    public Task<Result> DeleteFileAsync(AttachInfo info)
+    public async Task<Result> DeleteFileAsync(AttachInfo info)
     {
-        return Result.SuccessAsync(Language.DeleteSuccess);
-    }
-}
+        if (info == null || string.IsNullOrWhiteSpace(info.Path))
+            return Result.Error(Language.TipFileNotExists);
 
-partial class AdminClient
-{
-    public Task<List<AttachInfo>> GetFilesAsync(string bizId)
-    {
-        return Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
-    }
-
-    public Task<Result> DeleteFileAsync(AttachInfo info)
-    {
-        return Http.PostAsync("/Admin/DeleteFile", info);
+        var oldFiles = new List<string>();
+        await Database.DeleteFileAsync(info, oldFiles);
+        AttachFile.DeleteFiles(oldFiles);
+        return Result.Success(Language.DeleteSuccess);
     }
 }

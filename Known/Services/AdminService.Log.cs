@@ -37,15 +37,20 @@ public partial interface IAdminService
     Task<Result> ClearWebLogsAsync();
 }
 
+partial class AdminClient
+{
+    public Task<Result> AddLogAsync(LogInfo info) => Http.PostAsync("/Admin/AddLog", info);
+    public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria) => Http.QueryAsync<LogInfo>("/Admin/QueryWebLogs", criteria);
+    public Task<Result> AddWebLogAsync(LogInfo info) => Http.PostAsync("/Admin/AddWebLog", info);
+    public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos) => Http.PostAsync("/Admin/DeleteWebLogs", infos);
+    public Task<Result> ClearWebLogsAsync() => Http.PostAsync("/Admin/ClearWebLogs");
+}
+
 partial class AdminService
 {
-    private const string KeyLog = "Logs";
-
     public Task<Result> AddLogAsync(LogInfo info)
     {
-        info.CreateBy = CurrentUser.UserName;
-        info.CreateTime = DateTime.Now;
-        return SaveModelAsync(KeyLog, info);
+        return Database.AddLogAsync(info);
     }
 
     public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria)
@@ -56,7 +61,7 @@ partial class AdminService
     public Task<Result> AddWebLogAsync(LogInfo info)
     {
         Logger.Logs.Add(info);
-        return Result.SuccessAsync("添加成功！");
+        return Result.SuccessAsync(Language.AddSuccess);
     }
 
     public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)
@@ -67,33 +72,5 @@ partial class AdminService
     public Task<Result> ClearWebLogsAsync()
     {
         return Logger.ClearLogsAsync();
-    }
-}
-
-partial class AdminClient
-{
-    public Task<Result> AddLogAsync(LogInfo info)
-    {
-        return Http.PostAsync("/Admin/AddLog", info);
-    }
-
-    public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<LogInfo>("/Admin/QueryWebLogs", criteria);
-    }
-
-    public Task<Result> AddWebLogAsync(LogInfo info)
-    {
-        return Http.PostAsync("/Admin/AddWebLog", info);
-    }
-
-    public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos)
-    {
-        return Http.PostAsync("/Admin/DeleteWebLogs", infos);
-    }
-
-    public Task<Result> ClearWebLogsAsync()
-    {
-        return Http.PostAsync("/Admin/ClearWebLogs");
     }
 }

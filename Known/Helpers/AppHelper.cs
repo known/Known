@@ -1,8 +1,14 @@
 ﻿namespace Known.Helpers;
 
-class AppHelper
+/// <summary>
+/// APP帮助者类。
+/// </summary>
+public class AppHelper
 {
-    internal static void LoadLanguages()
+    /// <summary>
+    /// 加载多语言数据。
+    /// </summary>
+    public static void LoadLanguages()
     {
         Task.Run(async () =>
         {
@@ -28,7 +34,10 @@ class AppHelper
         Language.Datas = datas;
     }
 
-    internal static void LoadConnections()
+    /// <summary>
+    /// 加载数据库连接信息。
+    /// </summary>
+    public static void LoadConnections()
     {
         var path = GetConnectionPath();
         if (!File.Exists(path))

@@ -137,21 +137,6 @@ public partial class Config
     /// </summary>
     public static List<ActionInfo> Actions { get; set; } = [];
 
-    /// <summary>
-    /// 取得或设置系统安装时，初始化系统模块数据方法委托。
-    /// </summary>
-    public static Func<Database, Task> OnInstallModules { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统登录时，初始化系统模块数据方法委托。
-    /// </summary>
-    public static Func<Database, Task<List<MenuInfo>>> OnInitialMenus { get; set; }
-
-    /// <summary>
-    /// 取得或设置保存新用户时委托。
-    /// </summary>
-    public static Action<Database, SysUser> OnNewUser { get; set; }
-
     // 取得后端任务类字典。
     internal static Dictionary<string, Type> TaskTypes { get; } = [];
     // 取得后端导入类字典。

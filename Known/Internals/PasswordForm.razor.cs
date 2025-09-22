@@ -1,5 +1,8 @@
 ﻿namespace Known.Internals;
 
+/// <summary>
+/// 修改密码表单组件。
+/// </summary>
 public partial class PasswordForm
 {
     private readonly PwdFormInfo Model = new();

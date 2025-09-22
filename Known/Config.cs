@@ -36,31 +36,6 @@ public partial class Config
     /// </summary>
     public static Action<AdminInfo> OnAdmin { get; set; }
 
-    /// <summary>
-    /// 取得或设置获取用户角色模块ID列表委托。
-    /// </summary>
-    public static Func<Database, string, Task<List<string>>> OnRoleModule { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统安装后附加操作委托。
-    /// </summary>
-    public static Func<Database, InstallInfo, SystemInfo, Task> OnInstall { get; set; }
-
-    /// <summary>
-    /// 取得或设置获取代码表信息列表委托。
-    /// </summary>
-    public static Func<Database, Task<List<CodeInfo>>> OnCodeTable { get; set; }
-
-    /// <summary>
-    /// 取得或设置无代码插件数据服务关联数据库委托，用于根据插件获取关联的数据库对象。
-    /// </summary>
-    public static Func<Database, AutoPageInfo, Task<Database>> OnDatabase { get; set; }
-
-    /// <summary>
-    /// 取得或设置迁移系统配置数据委托。
-    /// </summary>
-    public static Func<Database, Task> OnMigrateAppData { get; set; }
-
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];

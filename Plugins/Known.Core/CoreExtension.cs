@@ -180,7 +180,7 @@ public static class CoreExtension
     {
         var assembly = typeof(CoreOption).Assembly;
         Config.AddModule(assembly);
-        Config.OnInitialMenus = OnInitialMenus;
+        CoreConfig.OnInitialMenus = OnInitialMenus;
         Logger.Initialize(Config.App.WebLogDays);
 
         if (CoreOption.Instance.Database != null)

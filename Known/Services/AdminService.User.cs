@@ -10,20 +10,15 @@ public partial interface IAdminService
     Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
 }
 
-partial class AdminService
-{
-    private const string KeyUser = "Users";
-
-    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
-    {
-        return QueryModelsAsync<UserInfo>(KeyUser, criteria);
-    }
-}
-
 partial class AdminClient
 {
-    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
+    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria) => Http.QueryAsync<UserInfo>("/Admin/QueryUsers", criteria);
+}
+
+partial class AdminService
+{
+    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {
-        return Http.QueryAsync<UserInfo>("/Admin/QueryUsers", criteria);
+        return await Database.Query<SysUser>(criteria).ToPageAsync<UserInfo>();
     }
 }

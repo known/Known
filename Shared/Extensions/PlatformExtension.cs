@@ -1,8 +1,8 @@
 ﻿namespace Known.Extensions;
 
-public static class PlatformExtension
+static class PlatformExtension
 {
-    public static Task<List<LanguageInfo>> GetLanguagesAsync(this Database db)
+    internal static Task<List<LanguageInfo>> GetLanguagesAsync(this Database db)
     {
         return db.Query<SysLanguage>().ToListAsync<LanguageInfo>();
     }
@@ -21,7 +21,7 @@ public static class PlatformExtension
         return datas;
     }
 
-    public static async Task<List<ActionInfo>> GetActionsAsync(this Database db)
+    internal static async Task<List<ActionInfo>> GetActionsAsync(this Database db)
     {
         var actions = Config.Actions;
         var datas = await db.GetConfigAsync<List<ButtonInfo>>(Constants.KeyButton, true);
@@ -32,24 +32,5 @@ public static class PlatformExtension
                 actions.AddRange(items);
         }
         return actions;
-    }
-
-    public static async Task SaveUserAsync(this Database db, InstallInfo info)
-    {
-        var userName = info.AdminName.ToLower();
-        var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
-        user ??= new SysUser();
-        user.AppId = Config.App.Id;
-        user.CompNo = info.CompNo;
-        user.OrgNo = info.CompNo;
-        user.UserName = userName;
-        user.Password = Utils.ToMd5(info.AdminPassword);
-        user.Name = info.AdminName;
-        user.EnglishName = info.AdminName;
-        user.Gender = "Male";
-        user.Role = "Admin";
-        user.Enabled = true;
-        Config.OnNewUser?.Invoke(db, user);
-        await db.SaveAsync(user);
     }
 }

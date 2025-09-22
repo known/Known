@@ -29,58 +29,65 @@ public partial interface IAdminService
     Task<Result> SaveProductKeyAsync(ActiveInfo info);
 }
 
+partial class AdminClient
+{
+    public Task<SystemInfo> GetSystemAsync() => Http.GetAsync<SystemInfo>("/Admin/GetSystem");
+    public Task<Result> SaveSystemAsync(SystemInfo info) => Http.PostAsync("/Admin/SaveSystem", info);
+    public Task<SystemInfo> GetProductAsync() => Http.GetAsync<SystemInfo>("/Admin/GetProduct");
+    public Task<Result> SaveProductKeyAsync(ActiveInfo info) => Http.PostAsync("/Admin/SaveProductKey", info);
+}
+
 partial class AdminService
 {
     public Task<SystemInfo> GetSystemAsync()
     {
-        return Task.FromResult(GetSystem());
+        return Database.GetSystemAsync();
     }
 
-    public Task<Result> SaveSystemAsync(SystemInfo info)
+    public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
-        return Result.SuccessAsync(Language.SaveSuccess);
+        await Database.SaveSystemAsync(info);
+        Config.System = info;
+        return Result.Success(Language.SaveSuccess);
     }
 
-    public Task<SystemInfo> GetProductAsync()
+    public async Task<SystemInfo> GetProductAsync()
     {
-        return Task.FromResult(GetSystem());
-    }
-
-    public Task<Result> SaveProductKeyAsync(ActiveInfo info)
-    {
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    private static SystemInfo GetSystem()
-    {
-        return Config.System ?? new SystemInfo
+        var info = await Database.GetSystemAsync();
+        if (info != null)
         {
-            CompNo = Constants.CompNo,
-            CompName = Constants.CompName,
-            AppName = Config.App.Name
-        };
-    }
-}
-
-partial class AdminClient
-{
-    public Task<SystemInfo> GetSystemAsync()
-    {
-        return Http.GetAsync<SystemInfo>("/Admin/GetSystem");
+            info.ProductId = CoreConfig.ProductId;
+            info.UserDefaultPwd = null;
+        }
+        return info;
     }
 
-    public Task<Result> SaveSystemAsync(SystemInfo info)
+    public async Task<Result> SaveProductKeyAsync(ActiveInfo info)
     {
-        return Http.PostAsync("/Admin/SaveSystem", info);
-    }
+        var db = Database;
+        if (info.Type == ActiveType.System)
+        {
+            var sys = await db.GetSystemAsync();
+            sys.ProductId = info.ProductId;
+            sys.ProductKey = info.ProductKey;
+            await db.SaveSystemAsync(sys);
+            Config.System = sys;
+            return CoreConfig.CheckSystemInfo(sys);
+        }
+        else if (info.Type == ActiveType.Version)
+        {
+            if (CoreConfig.OnActiveSystem != null)
+            {
+                return await CoreConfig.OnActiveSystem.Invoke(db, info);
+            }
+        }
 
-    public Task<SystemInfo> GetProductAsync()
-    {
-        return Http.GetAsync<SystemInfo>("/Admin/GetProduct");
-    }
-
-    public Task<Result> SaveProductKeyAsync(ActiveInfo info)
-    {
-        return Http.PostAsync("/Admin/SaveProductKey", info);
+        foreach (var item in CoreConfig.Actives)
+        {
+            var result = item.Invoke(info);
+            if (!result.IsValid)
+                return result;
+        }
+        return Result.Success("");
     }
 }

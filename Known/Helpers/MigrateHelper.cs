@@ -19,8 +19,8 @@ class MigrateHelper
                 await MigrateButtonsAsync(db);
                 await MigrateTopNavsAsync(db);
                 await MigrateModulesAsync(db);
-                if (Config.OnMigrateAppData != null)
-                    await Config.OnMigrateAppData.Invoke(db);
+                if (CoreConfig.OnMigrateAppData != null)
+                    await CoreConfig.OnMigrateAppData.Invoke(db);
                 Console.WriteLine("AppData is Migrated.");
             });
         }

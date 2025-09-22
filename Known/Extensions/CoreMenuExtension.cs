@@ -1,6 +1,6 @@
 ﻿namespace Known.Extensions;
 
-static class MenuExtension
+static class CoreMenuExtension
 {
     internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db)
     {
@@ -14,7 +14,7 @@ static class MenuExtension
             return menus;
 
         // 如果是角色用户，根据用户角色模块ID列表返回菜单
-        var moduleIds = await Config.OnRoleModule?.Invoke(db, user.Id);
+        var moduleIds = await CoreConfig.OnRoleModule?.Invoke(db, user.Id);
         if (moduleIds == null || moduleIds.Count == 0)
             return [];
 

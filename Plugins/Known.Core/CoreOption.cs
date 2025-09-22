@@ -53,11 +53,6 @@ public class CoreOption
     public bool IsAddWebApi { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置超级管理员用户密码。
-    /// </summary>
-    public string SuperPassword { get; set; }
-
-    /// <summary>
     /// 取得或设置MVC配置选项委托。
     /// </summary>
     public Action<MvcOptions> Mvc { get; set; }
@@ -73,41 +68,9 @@ public class CoreOption
     public Action<DatabaseOption> Database { get; set; }
 
     /// <summary>
-    /// 取得或设置默认用户系统设置信息对象。
-    /// </summary>
-    public UserSettingInfo UserSetting { get; set; } = new();
-
-    /// <summary>
-    /// 取得或设置【关于系统】模块显示的产品ID。
-    /// </summary>
-    public string ProductId { get; set; }
-
-    /// <summary>
-    /// 取得或设置系统授权验证方法，如果设置，则页面会先校验系统License，不通过，则显示框架内置的未授权面板。
-    /// </summary>
-    public Func<SystemInfo, Result> CheckSystem { get; set; }
-
-    /// <summary>
     /// 取得或设置文件内容类型字典。
     /// </summary>
     public Dictionary<string, string> ContentTypes { get; set; } = [];
-
-    /// <summary>
-    /// 检查系统信息。
-    /// </summary>
-    /// <param name="info">系统信息。</param>
-    /// <returns>检查结果。</returns>
-    public Result CheckSystemInfo(SystemInfo info)
-    {
-        if (CheckSystem == null)
-            return Result.Success("");
-
-        info.ProductId = Instance.ProductId;
-        var result = CheckSystem.Invoke(info);
-        CoreConfig.IsAuth = result.IsValid;
-        CoreConfig.AuthStatus = result.Message;
-        return result;
-    }
 
     /// <summary>
     /// 添加后端程序集，自动识别导入和工作流类。
