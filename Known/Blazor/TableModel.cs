@@ -123,9 +123,9 @@ public class TableModel : BaseModel
     public Action OnRefreshed { get; set; }
 
     /// <summary>
-    /// 取得或设置表格额外查询操作按钮。
+    /// 取得表格额外查询操作按钮。
     /// </summary>
-    public List<ActionInfo> QueryActions { get; set; } = [];
+    public List<ActionInfo> QueryActions { get; } = [];
 
     internal virtual string TableId { get; }
     internal virtual Type DataType { get; }

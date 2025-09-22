@@ -22,14 +22,7 @@
                     }
                     <AntCol Span="6" Offset="offset" Style="text-align:right;">
                         <div class="ant-form-item">
-                            <KButton Name="@Language.Search" Icon="search" OnClick="OnSearchAsync" />
-                            @if (IsAdvSearch) {
-                                <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
-                            }
-                            <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@Language.TipReset" />
-                            @foreach (var item in Model.QueryActions) {
-                                <KAction ShowIcon Item="item" OnItemClick="Model.Toolbar.OnItemClick" />
-                            }
+                            @BuildQueryButton
                             @if (Model.QueryColumns.Count > showCount) {
                                 <a class="ant-btn-link" style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
                                     <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language[Language.Collapse] : Language[Language.Expand])
@@ -41,24 +34,38 @@
             </QueryDataForm>
         </div>
     } else {
-        <QueryDataForm Model="Model.QueryData" Layout="@FormLayout.Inline">
-            @for (var i = 0; i < Model.QueryColumns.Count; i++) {
-                var item = Model.QueryColumns[i];
-                var itemName = Language.GetFieldName(item, Model.DataType);
-                <FieldItem Label="@itemName">
-                    <QueryItem IsInline Item="item" Data="context" OnSearch="OnItemSearchAsync" />
-                </FieldItem>
-            }
-            <div class="kui-query-btn">
-                <KButton Name="@Language.Search" Icon="search" OnClick="OnSearchAsync" />
-                @if (IsAdvSearch) {
-                    <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
-                }
-                <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@Language.TipReset" />
-                @foreach (var item in Model.QueryActions) {
-                    <KAction ShowIcon Item="item" OnItemClick="Model.Toolbar.OnItemClick" />
-                }
+        if (Model.QueryActions.Count > 0) {
+            <div class="kui-flex-space">
+                @BuildQueryForm
+                <div class="kui-query-action">
+                    @foreach (var item in Model.QueryActions) {
+                        <KAction ShowIcon Item="item" OnItemClick="Model.Toolbar.OnItemClick" />
+                    }
+                </div>
             </div>
-        </QueryDataForm>
+        } else {
+            @BuildQueryForm
+        }
     } 
+}
+
+@code {
+    private RenderFragment BuildQueryButton => @<div class="kui-query-btn">
+        <KButton Name="@Language.Search" Icon="search" OnClick="OnSearchAsync" />
+        @if (IsAdvSearch) {
+            <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
+        }
+        <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@Language.TipReset" />
+    </div>;
+
+    private RenderFragment BuildQueryForm => @<QueryDataForm Model="Model.QueryData" Layout="@FormLayout.Inline">
+        @for (var i = 0; i < Model.QueryColumns.Count; i++) {
+            var item = Model.QueryColumns[i];
+            var itemName = Language.GetFieldName(item, Model.DataType);
+            <FieldItem Label="@itemName">
+                <QueryItem IsInline Item="item" Data="context" OnSearch="OnItemSearchAsync" />
+            </FieldItem>
+        }
+        @BuildQueryButton
+    </QueryDataForm>;
 }
