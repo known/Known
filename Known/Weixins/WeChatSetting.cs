@@ -2,10 +2,13 @@
 
 class WeChatSetting : BaseEditForm<WeixinInfo>
 {
+    private IWeixinService Service;
+
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        var data = await Admin.GetWeixinAsync("");
+        Service = await CreateServiceAsync<IWeixinService>();
+        var data = await Service.GetWeixinAsync("");
         Model = new FormModel<WeixinInfo>(this)
         {
             Class = "kui-system",
@@ -26,6 +29,6 @@ class WeChatSetting : BaseEditForm<WeixinInfo>
 
     protected override Task<Result> OnSaveAsync(WeixinInfo model)
     {
-        return Admin.SaveWeixinAsync(model);
+        return Service.SaveWeixinAsync(model);
     }
 }

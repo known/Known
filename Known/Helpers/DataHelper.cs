@@ -13,11 +13,6 @@ public sealed class DataHelper
     public static List<EntityInfo> Models { get; } = [];
 
     /// <summary>
-    /// 取得流程模型列表。
-    /// </summary>
-    public static List<FlowInfo> Flows { get; } = [];
-
-    /// <summary>
     /// 根据实体表名获取去表前缀的类名称。
     /// </summary>
     /// <param name="name">实体表名。</param>
@@ -49,7 +44,7 @@ public sealed class DataHelper
 
         //AppData.Data.Modules = modules;
         Models.Clear();
-        Flows.Clear();
+        FlowHelper.Flows.Clear();
         foreach (var item in modules)
         {
             var param = item.Plugins?.GetPluginParameter<AutoPageInfo>();
@@ -63,8 +58,8 @@ public sealed class DataHelper
             }
             if (!string.IsNullOrWhiteSpace(param.FlowData) && param.FlowData.Contains('|'))
             {
-                var flow = GetFlowInfo(param.FlowData);
-                Flows.Add(flow);
+                var flow = FlowHelper.GetFlowInfo(param.FlowData);
+                FlowHelper.Flows.Add(flow);
             }
         }
     }
@@ -260,58 +255,6 @@ public sealed class DataHelper
                 }
 
                 info.Fields.Add(field);
-            }
-        }
-
-        return info;
-    }
-    #endregion
-
-    #region Flow
-    /// <summary>
-    /// 将流程配置转换成流程信息对象。
-    /// </summary>
-    /// <param name="model">流程配置。</param>
-    /// <returns>流程信息。</returns>
-    public static FlowInfo ToFlow(string model)
-    {
-        var info = new FlowInfo();
-        if (string.IsNullOrWhiteSpace(model))
-            return info;
-
-        if (!model.Contains('|'))
-            return Flows.FirstOrDefault(m => m.Id == model);
-
-        return GetFlowInfo(model);
-    }
-
-    private static FlowInfo GetFlowInfo(string model)
-    {
-        var info = new FlowInfo();
-        var lines = model.Split([.. Environment.NewLine])
-                         .Where(s => !string.IsNullOrWhiteSpace(s))
-                         .ToArray();
-
-        if (lines.Length > 0)
-        {
-            var values = lines[0].Split('|');
-            if (values.Length > 0) info.Name = values[0];
-            if (values.Length > 1) info.Id = values[1];
-        }
-
-        if (lines.Length > 1)
-        {
-            for (int i = 1; i < lines.Length; i++)
-            {
-                var step = new FlowStepInfo();
-                var values = lines[i].Split('|');
-                if (values.Length > 0) step.Name = values[0];
-                if (values.Length > 1) step.Id = values[1];
-                if (values.Length > 2) step.User = values[2];
-                if (values.Length > 3) step.Role = values[3];
-                if (values.Length > 4) step.Pass = values[4];
-                if (values.Length > 5) step.Fail = values[5];
-                info.Steps.Add(step);
             }
         }
 

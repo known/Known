@@ -1,18 +1,95 @@
-﻿namespace Known.Services;
+﻿namespace Known.WorkFlows;
 
-partial class AdminService
+/// <summary>
+/// 流程服务接口。
+/// </summary>
+public interface IFlowService : IService
 {
-    private const string StepSubmit = CoreLanguage.FlowSubmit;
-    private const string StepRevoke = CoreLanguage.FlowRevoke;
-    private const string StepVerify = CoreLanguage.FlowVerify;
-    private const string StepAssign = CoreLanguage.FlowAssign;
-    private const string StepStopped = CoreLanguage.FlowStopped;
-    private const string StepRestart = CoreLanguage.FlowRestart;
-    private const string StepEnd = CoreLanguage.FlowEnd;
+    /// <summary>
+    /// 异步分页查询工作流程日志。
+    /// </summary>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria);
 
-    private string FlowNotCreated => CoreLanguage.TipFlowNotCreate;
-    private string UserNotExists(string user) => Language[CoreLanguage.TipUserNotExists].Replace("{user}", user);
-    private string NotExecuteFlow(string user) => Language[CoreLanguage.TipNotExecuteFlow].Replace("{user}", user);
+    /// <summary>
+    /// 异步获取流程配置信息。
+    /// </summary>
+    /// <param name="moduleId">模块ID。</param>
+    /// <param name="bizId">业务数据ID。</param>
+    /// <returns>流程配置信息。</returns>
+    Task<FlowInfo> GetFlowAsync(string moduleId, string bizId);
+
+    /// <summary>
+    /// 异步提交工作流。
+    /// </summary>
+    /// <param name="info">流程表单对象。</param>
+    /// <returns>提交结果。</returns>
+    Task<Result> SubmitFlowAsync(FlowFormInfo info);
+
+    /// <summary>
+    /// 异步撤回工作流。
+    /// </summary>
+    /// <param name="info">流程表单对象。</param>
+    /// <returns>撤回结果。</returns>
+    Task<Result> RevokeFlowAsync(FlowFormInfo info);
+
+    /// <summary>
+    /// 异步指派工作流。
+    /// </summary>
+    /// <param name="info">流程表单对象。</param>
+    /// <returns>指派结果。</returns>
+    Task<Result> AssignFlowAsync(FlowFormInfo info);
+
+    /// <summary>
+    /// 异步审核工作流。
+    /// </summary>
+    /// <param name="info">流程表单对象。</param>
+    /// <returns>审核结果。</returns>
+    Task<Result> VerifyFlowAsync(FlowFormInfo info);
+
+    /// <summary>
+    /// 异步重启工作流。
+    /// </summary>
+    /// <param name="info">流程表单对象。</param>
+    /// <returns>重启结果。</returns>
+    Task<Result> RepeatFlowAsync(FlowFormInfo info);
+
+    /// <summary>
+    /// 异步停止工作流。
+    /// </summary>
+    /// <param name="info">流程表单对象。</param>
+    /// <returns>停止结果。</returns>
+    Task<Result> StopFlowAsync(FlowFormInfo info);
+}
+
+[Client]
+class FlowClient(HttpClient http) : ClientBase(http), IFlowService
+{
+    public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria) => Http.QueryAsync<FlowLogInfo>("/Flow/QueryFlowLogs", criteria);
+    public Task<FlowInfo> GetFlowAsync(string moduleId, string bizId) => Http.GetAsync<FlowInfo>($"/Flow/GetFlow?moduleId={moduleId}&bizId={bizId}");
+    public Task<Result> SubmitFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/SubmitFlow", info);
+    public Task<Result> RevokeFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/RevokeFlow", info);
+    public Task<Result> AssignFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/AssignFlow", info);
+    public Task<Result> VerifyFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/VerifyFlow", info);
+    public Task<Result> RepeatFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/RepeatFlow", info);
+    public Task<Result> StopFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/StopFlow", info);
+}
+
+[WebApi, Service]
+class FlowService(Context context) : ServiceBase(context), IFlowService
+{
+    private const string StepSubmit = FlowLanguage.FlowSubmit;
+    private const string StepRevoke = FlowLanguage.FlowRevoke;
+    private const string StepVerify = FlowLanguage.FlowVerify;
+    private const string StepAssign = FlowLanguage.FlowAssign;
+    private const string StepStopped = FlowLanguage.FlowStopped;
+    private const string StepRestart = FlowLanguage.FlowRestart;
+    private const string StepEnd = FlowLanguage.FlowEnd;
+
+    private string FlowNotCreated => FlowLanguage.TipFlowNotCreate;
+    private string UserNotExists(string user) => Language[FlowLanguage.TipUserNotExists].Replace("{user}", user);
+    private string NotExecuteFlow(string user) => Language[FlowLanguage.TipNotExecuteFlow].Replace("{user}", user);
 
     public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
@@ -79,7 +156,7 @@ partial class AdminService
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, StepSubmit, next);
 
-                var noteText = Language[CoreLanguage.SubmitToUser].Replace("{user}", flow.CurrBy);
+                var noteText = Language[FlowLanguage.SubmitToUser].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -96,7 +173,7 @@ partial class AdminService
     public async Task<Result> RevokeFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(CoreLanguage.TipRevokeReason);
+            return Result.Error(FlowLanguage.TipRevokeReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
@@ -138,10 +215,10 @@ partial class AdminService
 
         var next = await database.GetUserAsync(info.User);
         if (next == null)
-            return Result.Error(Language[CoreLanguage.TipNextUserNotExists].Replace("{user}", info.User));
+            return Result.Error(Language[FlowLanguage.TipNextUserNotExists].Replace("{user}", info.User));
 
         var user = CurrentUser;
-        var name = CoreLanguage.Assign;
+        var name = FlowLanguage.Assign;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -153,7 +230,7 @@ partial class AdminService
                 SetCurrToPrevStep(flow);
                 SetCurrStep(flow, stepName, next);
 
-                var noteText = Language[CoreLanguage.AssignToUser].Replace("{user}", flow.CurrBy);
+                var noteText = Language[FlowLanguage.AssignToUser].Replace("{user}", flow.CurrBy);
                 if (!string.IsNullOrEmpty(info.Note))
                     noteText += $"，{info.Note}";
 
@@ -167,7 +244,7 @@ partial class AdminService
     {
         var isPass = info.BizStatus == FlowStatus.VerifyPass;
         if (!isPass && string.IsNullOrEmpty(info.Note))
-            return Result.Error(CoreLanguage.TipReturnReason);
+            return Result.Error(FlowLanguage.TipReturnReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
@@ -183,7 +260,7 @@ partial class AdminService
         }
 
         var user = CurrentUser;
-        var name = CoreLanguage.Verify;
+        var name = FlowLanguage.Verify;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -210,15 +287,15 @@ partial class AdminService
                     {
                         flow.CurrBy = next.UserName;
                         await db.SaveAsync(flow);
-                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[CoreLanguage.Pass], info.Note);
+                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[FlowLanguage.Pass], info.Note);
                     }
                     else
                     {
                         flow.CurrBy = flow.ApplyBy;
                         flow.FlowStatus = FlowStatus.Over;
                         await db.SaveAsync(flow);
-                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[CoreLanguage.Pass], info.Note);
-                        await db.AddFlowLogAsync(flow.BizId, StepEnd, Language[CoreLanguage.End], "");
+                        await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[FlowLanguage.Pass], info.Note);
+                        await db.AddFlowLogAsync(flow.BizId, StepEnd, Language[FlowLanguage.End], "");
                     }
                 }
                 else
@@ -226,12 +303,12 @@ partial class AdminService
                     SetCurrToNextStep(flow);
                     SetPrevToCurrStep(flow);
 
-                    var noteText = Language[CoreLanguage.ReturnToUser].Replace("{user}", flow.CurrBy);
+                    var noteText = Language[FlowLanguage.ReturnToUser].Replace("{user}", flow.CurrBy);
                     if (!string.IsNullOrEmpty(info.Note))
                         noteText += $"，{info.Note}";
 
                     await db.SaveAsync(flow);
-                    await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[CoreLanguage.Fail], noteText);
+                    await db.AddFlowLogAsync(flow.BizId, StepVerify, Language[FlowLanguage.Fail], noteText);
                 }
                 info.FlowStatus = flow.FlowStatus;
                 await biz.OnVerifiedAsync(db, info);
@@ -242,14 +319,14 @@ partial class AdminService
     public async Task<Result> RepeatFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(CoreLanguage.TipRestartReason);
+            return Result.Error(FlowLanguage.TipRestartReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var name = CoreLanguage.Restart;
+        var name = FlowLanguage.Restart;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -274,14 +351,14 @@ partial class AdminService
     public async Task<Result> StopFlowAsync(FlowFormInfo info)
     {
         if (string.IsNullOrEmpty(info.Note))
-            return Result.Error(CoreLanguage.TipStopReason);
+            return Result.Error(FlowLanguage.TipStopReason);
 
         var database = Database;
         var flows = await GetFlowsAsync(database, info.BizId);
         if (flows == null || flows.Count == 0)
             return Result.Error(FlowNotCreated);
 
-        var name = CoreLanguage.Stop;
+        var name = FlowLanguage.Stop;
         return await database.TransactionAsync(name, async db =>
         {
             foreach (var flow in flows)
@@ -306,7 +383,7 @@ partial class AdminService
     private static async Task<FlowInfo> GetFlowByModuleIdAsync(Database db, string moduleId)
     {
         var param = await db.GetAutoPageAsync(moduleId, "");
-        return DataHelper.ToFlow(param?.FlowData);
+        return FlowHelper.ToFlow(param?.FlowData);
     }
 
     private static Task<List<SysFlow>> GetFlowsAsync(Database db, string bizIds)

@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信UI扩展类。
 /// </summary>
-public static class WeixinExtension
+public static class WeixinUIExtension
 {
     /// <summary>
     /// 异步显示微信二维码。
@@ -13,15 +13,16 @@ public static class WeixinExtension
     /// <returns></returns>
     public static async Task ShowWeixinQRCodeAsync(this BasePage page, QRCodeOption option)
     {
-        var qrCodeUrl = await page.Admin.GetQRCodeUrlAsync(option.SceneId);
+        var service = await page.CreateServiceAsync<IWeixinService>();
+        var qrCodeUrl = await service.GetQRCodeUrlAsync(option.SceneId);
         if (string.IsNullOrWhiteSpace(qrCodeUrl))
             return;
 
         var user = page.CurrentUser;
-        ShowWeixinQRCode(page, option, qrCodeUrl, user);
+        ShowWeixinQRCode(page, service, option, qrCodeUrl, user);
     }
 
-    private static void ShowWeixinQRCode(BasePage page, QRCodeOption option, string qrCodeUrl, UserInfo user)
+    private static void ShowWeixinQRCode(BasePage page, IWeixinService service, QRCodeOption option, string qrCodeUrl, UserInfo user)
     {
         var isManualClose = false;
         var model = new DialogModel
@@ -49,7 +50,7 @@ public static class WeixinExtension
                     break;
                 }
 
-                var weixin = await page.Admin.GetWeixinByUserIdAsync(user.Id);
+                var weixin = await service.GetWeixinByUserIdAsync(user.Id);
                 if (weixin != null)
                 {
                     _ = model.CloseAsync();

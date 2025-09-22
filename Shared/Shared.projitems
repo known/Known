@@ -42,6 +42,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)PageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PasswordValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinTask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinTemplateInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysLanguage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SysModule.cs" />

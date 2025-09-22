@@ -41,6 +41,7 @@ public static partial class Extension
         };
 
         action?.Invoke(Config.App);
+        WeixinApi.Initialize(Config.App.Weixin);
         services.AddScoped<ImportContext>();
     }
 }

@@ -6,6 +6,7 @@
 /// <typeparam name="TItem">表单数据类型。</typeparam>
 public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 {
+    private IFlowService Service;
     private readonly StepModel step = new();
 
     /// <summary>
@@ -20,6 +21,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Service = await CreateServiceAsync<IFlowService>();
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model?.Data?.Id).Build());
     }
 
@@ -34,7 +36,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
         if (firstRender)
         {
             step.Items.Clear();
-            var flow = await Admin.GetFlowAsync(Context.Current.Id, Model?.Data?.Id);
+            var flow = await Service.GetFlowAsync(Context.Current.Id, Model?.Data?.Id);
             var steps = flow.GetFlowStepItems();
             if (steps != null && steps.Count > 0)
                 step.Items.AddRange(steps);

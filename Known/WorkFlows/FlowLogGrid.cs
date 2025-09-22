@@ -5,6 +5,7 @@
 /// </summary>
 public class FlowLogGrid : BaseTable<FlowLogInfo>
 {
+    private IFlowService Service;
     [CascadingParameter] private DrawerForm Drawer { get; set; }
 
     /// <summary>
@@ -19,6 +20,7 @@ public class FlowLogGrid : BaseTable<FlowLogInfo>
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IFlowService>();
         Table.ShowPager = true;
         if (Drawer != null)
             Table.AutoHeight = true;
@@ -35,6 +37,6 @@ public class FlowLogGrid : BaseTable<FlowLogInfo>
     private Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria)
     {
         criteria.SetQuery(nameof(FlowLogInfo.BizId), QueryType.Equal, BizId ?? "0");
-        return Admin.QueryFlowLogsAsync(criteria);
+        return Service.QueryFlowLogsAsync(criteria);
     }
 }

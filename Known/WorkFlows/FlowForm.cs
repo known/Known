@@ -6,6 +6,7 @@
 /// <typeparam name="TItem">表单数据类型。</typeparam>
 public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
 {
+    private IFlowService Service;
     private readonly FlowFormInfo info = new();
     private FlowFormModel flow;
 
@@ -26,6 +27,7 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IFlowService>();
         InitFlowModel();
     }
 
@@ -71,11 +73,11 @@ public class FlowForm<TItem> : BaseComponent where TItem : FlowEntity, new()
         switch (Model.ViewType)
         {
             case FormViewType.Submit:
-                result = await Admin.SubmitFlowAsync(info);
+                result = await Service.SubmitFlowAsync(info);
                 Model.HandleResult(result);
                 break;
             case FormViewType.Verify:
-                result = await Admin.VerifyFlowAsync(info);
+                result = await Service.VerifyFlowAsync(info);
                 Model.HandleResult(result);
                 break;
             default:

@@ -3,7 +3,7 @@
 class FlowDesigner : BaseDesigner<string>
 {
     private List<CodeInfo> addTypes;
-    private List<CodeInfo> flowModels;
+    //private List<CodeInfo> flowModels;
     private string addType;
     private FlowInfo flow = new();
     private FlowView view;
@@ -19,10 +19,10 @@ class FlowDesigner : BaseDesigner<string>
             new CodeInfo("Select", Language["Designer.SelectFlow"])
         ];
         await base.OnInitAsync();
-        flowModels = DataHelper.Flows.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
+        //flowModels = DataHelper.Flows.Select(m => new CodeInfo(m.Id, $"{m.Name}({m.Id})", m)).ToList();
         addType = string.IsNullOrWhiteSpace(Model) || Model.Contains('|')
                 ? addTypes[0].Code : addTypes[1].Code;
-        flow = DataHelper.ToFlow(Model);
+        //flow = DataHelper.ToFlow(Model);
         //Module.Flow = flow;
     }
 
@@ -69,7 +69,7 @@ class FlowDesigner : BaseDesigner<string>
                 builder.Select(new InputModel<string>
                 {
                     Disabled = IsReadOnly,
-                    Codes = flowModels,
+                    //Codes = flowModels,
                     Value = Model,
                     ValueChanged = this.Callback<string>(OnModelChanged)
                 });
@@ -101,7 +101,7 @@ class FlowDesigner : BaseDesigner<string>
     private void OnModelChanged(string model)
     {
         Model = model;
-        flow = DataHelper.ToFlow(model);
+        //flow = DataHelper.ToFlow(model);
         //Module.Flow = flow;
         view?.SetModelAsync(flow);
         OnChanged?.Invoke(model);

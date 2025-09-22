@@ -150,6 +150,11 @@ public class AppInfo
     public CodeConfigInfo Code { get; set; }
 
     /// <summary>
+    /// 取得或设置微信配置信息。
+    /// </summary>
+    public WeixinConfigInfo Weixin { get; set; }
+
+    /// <summary>
     /// 取得或设置系统因未处理异常导致退出的委托，可用于发送报警。
     /// </summary>
     public Action<Exception> OnExit { get; set; }

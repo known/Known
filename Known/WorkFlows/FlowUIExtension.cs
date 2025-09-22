@@ -67,10 +67,10 @@ public static class FlowUIExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static Task SubmitFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task SubmitFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        component.ShowFlowModal(component.Language["Button.Submit"], rows, component.Admin.SubmitFlowAsync);
-        return Task.CompletedTask;
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Submit"], rows, service.SubmitFlowAsync);
     }
 
     /// <summary>
@@ -87,10 +87,10 @@ public static class FlowUIExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static Task RevokeFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task RevokeFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        component.ShowFlowModal(component.Language["Button.Revoke"], rows, component.Admin.RevokeFlowAsync);
-        return Task.CompletedTask;
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Revoke"], rows, service.RevokeFlowAsync);
     }
 
     /// <summary>
@@ -99,10 +99,10 @@ public static class FlowUIExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="row">流程数据对象。</param>
-    public static Task AssignFlowAsync<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new()
+    public static async Task AssignFlowAsync<TItem>(this BaseComponent component, TItem row) where TItem : FlowEntity, new()
     {
-        component.ShowFlowModal(component.Language["Button.Assign"], [row], component.Admin.AssignFlowAsync);
-        return Task.CompletedTask;
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Assign"], [row], service.AssignFlowAsync);
     }
 
     /// <summary>
@@ -122,10 +122,10 @@ public static class FlowUIExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static Task StopFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task StopFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        component.ShowFlowModal(component.Language["Button.Stop"], rows, component.Admin.StopFlowAsync);
-        return Task.CompletedTask;
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Stop"], rows, service.StopFlowAsync);
     }
 
     /// <summary>
@@ -134,10 +134,10 @@ public static class FlowUIExtension
     /// <typeparam name="TItem">表单数据类型。</typeparam>
     /// <param name="component">组件对象。</param>
     /// <param name="rows">流程数据对象列表。</param>
-    public static Task RepeatFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
+    public static async Task RepeatFlowAsync<TItem>(this BaseComponent component, List<TItem> rows) where TItem : FlowEntity, new()
     {
-        component.ShowFlowModal(component.Language["Button.Restart"], rows, component.Admin.RepeatFlowAsync);
-        return Task.CompletedTask;
+        var service = await component.CreateServiceAsync<IFlowService>();
+        component.ShowFlowModal(component.Language["Button.Restart"], rows, service.RepeatFlowAsync);
     }
 
     private static void ShowFlowModal<TItem>(this BaseComponent component, string name, List<TItem> rows, Func<FlowFormInfo, Task<Result>> action) where TItem : FlowEntity, new()
