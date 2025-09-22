@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known;
 
 /// <summary>
 /// 语言信息实体类。

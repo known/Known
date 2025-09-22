@@ -22,12 +22,7 @@
                     }
                     <AntCol Span="6" Offset="offset" Style="text-align:right;">
                         <div class="ant-form-item">
-                            @BuildQueryButton
-                            @if (Model.QueryColumns.Count > showCount) {
-                                <a class="ant-btn-link" style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
-                                    <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language[Language.Collapse] : Language[Language.Expand])
-                                </a>
-                            }
+                            @BuildQueryButton(Model.QueryColumns.Count > showCount)
                         </div>
                     </AntCol>
                 </AntRow>
@@ -50,12 +45,17 @@
 }
 
 @code {
-    private RenderFragment BuildQueryButton => @<div class="kui-query-btn">
+    private RenderFragment BuildQueryButton(bool showMore) => @<div class="kui-query-button">
         <KButton Name="@Language.Search" Icon="search" OnClick="OnSearchAsync" />
         @if (IsAdvSearch) {
             <KButton Name="@Language.AdvSearch" OnClick="ShowAdvSearch" />
         }
         <KButton Name="@Language.Reset" Icon="undo" Type="ButtonType.Default" OnClick="OnReset" Title="@Language.TipReset" />
+        @if (showMore) {
+            <a class="ant-btn-link" style="margin-left:8px;font-size:12px;" @onclick="()=>{_expand=!_expand;}">
+                <Icon Type="@(_expand ? "up" : "down")"></Icon> @(_expand ? Language[Language.Collapse] : Language[Language.Expand])
+            </a>
+        }
     </div>;
 
     private RenderFragment BuildQueryForm => @<QueryDataForm Model="Model.QueryData" Layout="@FormLayout.Inline">
@@ -66,6 +66,6 @@
                 <QueryItem IsInline Item="item" Data="context" OnSearch="OnItemSearchAsync" />
             </FieldItem>
         }
-        @BuildQueryButton
+        @BuildQueryButton(false)
     </QueryDataForm>;
 }

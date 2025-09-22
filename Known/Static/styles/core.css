@@ -59,7 +59,6 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*Query*/
 .kui-query {margin-bottom:10px;padding:10px;}
-.kui-query-btn {display:flex;gap:3px;}
 .kui-query .ant-form-item {margin:0;}
 .kui-query .ant-form-item-control {margin-right:10px;}
 .kui-query .ant-picker-range input {width:98px;}
@@ -68,7 +67,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-query-more .ant-picker-range input {width:100%;}
 .kui-advanced-search {padding:10px;}
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
-.kui-advanced-search .ant-btn, .kui-query-btn .ant-btn {padding:0 10px;}
+.kui-advanced-search .ant-btn, .kui-query .ant-btn {padding:0 10px;}
 
 /*Toolbar*/
 .ant-toolbar {display:flex;gap:3px;}

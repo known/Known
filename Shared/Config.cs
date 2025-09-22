@@ -33,11 +33,6 @@ public partial class Config
     public static bool IsClient { get; internal set; }
 
     /// <summary>
-    /// 取得或设置是否是Admin插件。
-    /// </summary>
-    public static bool IsAdmin { get; set; }
-
-    /// <summary>
     /// 取得或设置是否启用Admin账号操作日志，默认启用。
     /// </summary>
     public static bool IsAdminLog { get; set; } = true;
@@ -61,11 +56,6 @@ public partial class Config
     /// 取得或设置是否弃用AI模式，右下角显示AI图标按钮。
     /// </summary>
     public static bool IsAIMode { get; set; }
-
-    /// <summary>
-    /// 取得或设置模块是否是数据库存储模式，默认否，代码和数据混合模式。
-    /// </summary>
-    public static bool IsDbMode { get; set; }
 
     /// <summary>
     /// 取得或设置系统主机地址或域名。
@@ -158,24 +148,14 @@ public partial class Config
     public static Func<Database, Task<List<MenuInfo>>> OnInitialMenus { get; set; }
 
     /// <summary>
-    /// 取得或设置自动导入数据委托。
-    /// </summary>
-    public static Func<ImportContext, ImportBase> OnAutoImport { get; set; }
-
-    /// <summary>
     /// 取得或设置保存新用户时委托。
     /// </summary>
     public static Action<Database, SysUser> OnNewUser { get; set; }
 
-    /// <summary>
-    /// 取得后端任务类字典。
-    /// </summary>
-    public static Dictionary<string, Type> TaskTypes { get; } = [];
-
-    /// <summary>
-    /// 取得后端导入类字典。
-    /// </summary>
-    public static Dictionary<string, Type> ImportTypes { get; } = [];
+    // 取得后端任务类字典。
+    internal static Dictionary<string, Type> TaskTypes { get; } = [];
+    // 取得后端导入类字典。
+    internal static Dictionary<string, Type> ImportTypes { get; } = [];
 
     /// <summary>
     /// 取得后端工作流类字典。

@@ -6,6 +6,42 @@
 public static class DataExtension
 {
     /// <summary>
+    /// 根据ID获取实体插件参数配置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="moduleId">模块ID。</param>
+    /// <param name="pluginId">插件ID。</param>
+    /// <returns>实体插件参数配置信息。</returns>
+    public static async Task<AutoPageInfo> GetAutoPageAsync(this Database db, string moduleId, string pluginId)
+    {
+        var entity = await db.QueryByIdAsync<SysModule>(moduleId);
+        if (entity?.Target == nameof(ModuleType.Page)) //无代码配置插件
+            return entity?.ToAutoPageInfo();
+
+        var module = entity?.ToMenuInfo();
+        if (module != null && module.Plugins != null && module.Plugins.Count > 0)
+            return module.Plugins.GetPluginParameter<AutoPageInfo>(pluginId);
+
+        return null;
+
+        //var plugins = new List<PluginInfo>();
+        //foreach (var item in AppData.Data.Modules)
+        //{
+        //    if (item.Plugins != null && item.Plugins.Count > 0)
+        //        plugins.AddRange(item.Plugins);
+        //}
+
+        //var plugin = plugins.FirstOrDefault(p => p.Id == pluginId);
+        //if (plugin == null)
+        //    return null;
+
+        //if (AppData.OnAutoPage != null)
+        //    return AppData.OnAutoPage.Invoke(plugin);
+
+        //return Utils.FromJson<AutoPageInfo>(plugin.Setting);
+    }
+
+    /// <summary>
     /// 异步设置数据权限。
     /// </summary>
     /// <typeparam name="T">数据权限类型。</typeparam>

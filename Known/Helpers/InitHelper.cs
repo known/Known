@@ -20,12 +20,24 @@ static class InitHelper
 
         foreach (var type in types)
         {
-            if (type.IsAssignableTo(typeof(ICustomField)) && type.Name != nameof(ICustomField) && type.Name != nameof(CustomField))
+            var attributes = type.GetCustomAttributes(false);
+            var route = attributes.OfType<RouteAttribute>().FirstOrDefault();
+            var menu = attributes.OfType<AppMenuAttribute>().FirstOrDefault();
+            var plugin = attributes.OfType<PluginAttribute>().FirstOrDefault();
+            var code = attributes.OfType<CodeInfoAttribute>().FirstOrDefault();
+
+            if (menu != null)
+                AddAppMenu(type, menu, route);
+            else if (plugin != null)
+                PluginConfig.AddPlugin(type, plugin, route);
+            else if (code != null)
+                Cache.AttachCodes(type);
+            else if (type.IsEnum)
+                AddEnum(type);
+            else if (type.IsAssignableTo(typeof(ICustomField)) && type.Name != nameof(ICustomField) && type.Name != nameof(CustomField))
                 Config.FieldTypes[type.Name] = type;
             else if (type.IsAssignableTo(typeof(BaseForm)))
                 Config.FormTypes[type.Name] = type;
-            else if (type.IsEnum)
-                AddEnum(type);
         }
     }
 
@@ -114,37 +126,22 @@ static class InitHelper
         return Utils.ReadFile(path);
     }
 
-    //private static void AddAppMenu(Type item, IEnumerable<RouteAttribute> routes)
-    //{
-    //    var menu = item.GetCustomAttribute<AppMenuAttribute>();
-    //    if (menu == null)
-    //        return;
-
-    //    menu.Page = item;
-    //    menu.Url = routes?.FirstOrDefault()?.Template;
-    //    Config.AppMenus.Add(new MenuInfo
-    //    {
-    //        Id = item.Name,
-    //        Name = menu.Name,
-    //        Icon = menu.Icon,
-    //        Url = menu.Url,
-    //        Sort = menu.Sort,
-    //        Target = menu.Target,
-    //        Role = menu.Role,
-    //        Color = menu.Color,
-    //        BackUrl = menu.BackUrl,
-    //        PageType = item
-    //    });
-    //}
-
-    //private static void AddMenu(Type item, IEnumerable<RouteAttribute> routes)
-    //{
-    //    var menu = item.GetCustomAttribute<MenuAttribute>();
-    //    if (menu == null)
-    //        return;
-
-    //    menu.Page = item;
-    //    menu.Url = routes?.FirstOrDefault()?.Template;
-    //    Config.Menus.Add(menu);
-    //}
+    private static void AddAppMenu(Type type, AppMenuAttribute menu, RouteAttribute route)
+    {
+        menu.Page = type;
+        menu.Url = route?.Template;
+        Config.AppMenus.Add(new MenuInfo
+        {
+            Id = type.Name,
+            Name = menu.Name,
+            Icon = menu.Icon,
+            Url = menu.Url,
+            Sort = menu.Sort,
+            Target = menu.Target,
+            Role = menu.Role,
+            Color = menu.Color,
+            BackUrl = menu.BackUrl,
+            PageType = type
+        });
+    }
 }

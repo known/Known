@@ -1,7 +1,6 @@
 ﻿using Known.Auths;
 using Known.Cells;
 using Known.Filters;
-using Known.Imports;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -181,7 +180,6 @@ public static class CoreExtension
     {
         var assembly = typeof(CoreOption).Assembly;
         Config.AddModule(assembly);
-        Config.OnAutoImport = context => new AutoImport(context);
         Config.OnInitialMenus = OnInitialMenus;
         WeixinApi.Initialize(CoreOption.Instance.Weixin);
         Logger.Initialize(Config.App.WebLogDays);
@@ -190,7 +188,6 @@ public static class CoreExtension
             services.AddKnownData(CoreOption.Instance.Database);
 
         // 添加服务
-        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
         services.AddKnownCells();
         services.AddKnownCore();
     }

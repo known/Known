@@ -17,13 +17,13 @@ class SessionManager
     public string CreateSession(UserInfo info)
     {
         var sys = CoreConfig.System;
-        if (info == null || !sys.IsLoginOne)
+        if (info == null || sys?.IsLoginOne == true)
             return string.Empty;
 
         info.SessionId = Utils.GetGuid();
         // 如果用户已有活跃会话，移除旧会话
         if (_sessions.TryRemove(info.UserName, out var session))
-            _hubContext.Clients.Group(session.SessionId).SendAsync("ForceLogout", sys.TipLoginOne);
+            _hubContext.Clients.Group(session.SessionId).SendAsync("ForceLogout", sys?.TipLoginOne);
 
         _sessions[info.UserName] = info;
         return info.SessionId;

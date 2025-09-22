@@ -35,29 +35,6 @@ public interface IEntityService<TEntity> : IService
     Task<Result> SaveAsync(TEntity model);
 }
 
-class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity>
-{
-    public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
-    {
-        return Task.FromResult(new PagingResult<TEntity>());
-    }
-
-    public Task<TEntity> GetAsync(object id)
-    {
-        return Task.FromResult(default(TEntity));
-    }
-
-    public Task<Result> DeleteAsync(List<TEntity> models)
-    {
-        return Result.SuccessAsync("添加成功！");
-    }
-
-    public Task<Result> SaveAsync(TEntity model)
-    {
-        return Result.SuccessAsync("保存成功！");
-    }
-}
-
 class EntityClient<TEntity>(HttpClient http) : ClientBase(http), IEntityService<TEntity>
 {
     public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
@@ -78,5 +55,49 @@ class EntityClient<TEntity>(HttpClient http) : ClientBase(http), IEntityService<
     public Task<Result> SaveAsync(TEntity model)
     {
         return Http.PostAsync("/Entity/SaveEntity", model);
+    }
+}
+
+[WebApi]
+class EntityService<TEntity>(Context context) : ServiceBase(context), IEntityService<TEntity> where TEntity : EntityBase, new()
+{
+    //[Route("/api/Entities")]
+    public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
+    {
+        return Database.QueryPageAsync<TEntity>(criteria);
+    }
+
+    //[Route("/api/Entity")]
+    public Task<TEntity> GetAsync(object id)
+    {
+        return Database.QueryByIdAsync<TEntity>(id?.ToString());
+    }
+
+    //[Route("/api/Entity/DeleteEntities")]
+    public async Task<Result> DeleteAsync(List<TEntity> models)
+    {
+        if (models == null || models.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Delete, async db =>
+        {
+            foreach (var item in models)
+            {
+                await db.DeleteAsync(item);
+            }
+        });
+    }
+
+    //[Route("/api/Entity/SaveEntity")]
+    public async Task<Result> SaveAsync(TEntity model)
+    {
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            await db.SaveAsync(model);
+        }, model);
     }
 }

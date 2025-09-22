@@ -6,10 +6,6 @@ class MigrateHelper
     {
         try
         {
-            if (Config.IsAdmin)
-                return Result.Error(CoreLanguage.TipAdminNoMigrate);
-
-            database.EnableLog = false;
             var exists = await database.ExistsAsync<SysConfig>(true);
             if (!exists) //未安装，则安装时初始化
                 return Result.Error(CoreLanguage.TipSystemNotInstall);

@@ -7,12 +7,8 @@ class RouteHelper
     private const string RouteId = "Route";
     private static List<MenuInfo> Routes { get; } = [];
 
-    internal static IEnumerable<RouteAttribute> GetRoutes(Type type)
+    internal static void AddRoute(Type type, List<RouteAttribute> routes)
     {
-        var routes = type.GetCustomAttributes<RouteAttribute>()?.ToList();
-        if (routes == null || routes.Count == 0)
-            return routes;
-
         var target = Constants.Route;
         if (!Routes.Exists(d => d.Id == RouteId))
         {
@@ -45,7 +41,6 @@ class RouteHelper
                 info.Plugins.AddPlugin(table);
             Routes.Add(info);
         }
-        return routes;
     }
 
     internal static void AddTo(List<MenuInfo> modules)

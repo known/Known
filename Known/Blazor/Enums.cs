@@ -39,28 +39,6 @@ public enum StyleType
 }
 
 /// <summary>
-/// 页面布局类型枚举。
-/// </summary>
-public enum PageType
-{
-    /// <summary>
-    /// 一栏布局。
-    /// </summary>
-    [Description("一栏")]
-    None,
-    /// <summary>
-    /// 两栏布局。
-    /// </summary>
-    [Description("两栏")]
-    Column,
-    /// <summary>
-    /// 自定义。
-    /// </summary>
-    [Description("自定义")]
-    Custom
-}
-
-/// <summary>
 /// 表格勾选类型枚举。
 /// </summary>
 public enum TableSelectType
@@ -118,31 +96,4 @@ public enum FormViewType
     /// </summary>
     [Description("审核")]
     Verify
-}
-
-/// <summary>
-/// 数据表单打开方式枚举。
-/// </summary>
-public enum FormOpenType
-{
-    /// <summary>
-    /// 未设置。
-    /// </summary>
-    [CodeIgnore]
-    None,
-    /// <summary>
-    /// 模态对话框。
-    /// </summary>
-    [Description("模态框")]
-    Modal,
-    /// <summary>
-    /// 抽屉。
-    /// </summary>
-    [Description("抽屉")]
-    Drawer,
-    /// <summary>
-    /// 导航连接。
-    /// </summary>
-    [CodeIgnore]
-    Url
 }

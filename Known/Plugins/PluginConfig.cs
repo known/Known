@@ -29,11 +29,8 @@ public class PluginConfig
         return Plugins.FirstOrDefault(p => p.Id == id);
     }
 
-    internal static void AddPlugin(Type item, IEnumerable<RouteAttribute> routes)
+    internal static void AddPlugin(Type item, PluginAttribute plugin, RouteAttribute route)
     {
-        var plugin = item.GetCustomAttribute<PluginAttribute>();
-        if (plugin == null)
-            return;
         if (plugin.Name == Language.NavFontSize && !Config.App.IsSize)
             return;
         if (plugin.Name == Language.NavLanguage && !Config.App.IsLanguage)
@@ -43,7 +40,7 @@ public class PluginConfig
 
         Plugins.Add(new PluginMenuInfo(item, plugin)
         {
-            Url = routes?.FirstOrDefault()?.Template
+            Url = route?.Template
         });
     }
 }

@@ -5,12 +5,8 @@ class RoleHelper
     private const string RoleId = "Role";
     private static List<MenuInfo> Roles { get; } = [];
 
-    internal static void AddRole(Type type)
+    internal static void AddRole(Type type, RoleAttribute role)
     {
-        var role = type.GetCustomAttribute<RoleAttribute>();
-        if (role == null)
-            return;
-
         var target = Constants.Route;
         if (!Roles.Exists(d => d.Id == RoleId))
         {

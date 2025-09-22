@@ -5,33 +5,30 @@ static class CoreHelper
     internal static void LoadType(this IServiceCollection services, XmlDocument doc, Type type)
     {
         var attributes = type.GetCustomAttributes(false);
-        var task = attributes.OfType<TaskAttribute>().FirstOrDefault();
-        var code = attributes.OfType<CodeInfoAttribute>().FirstOrDefault();
-        var import = attributes.OfType<ImportAttribute>().FirstOrDefault();
+        var routes = attributes.OfType<RouteAttribute>().ToList();
+        var role = attributes.OfType<RoleAttribute>().FirstOrDefault();
         var service = attributes.OfType<ServiceAttribute>().FirstOrDefault();
+        var task = attributes.OfType<TaskAttribute>().FirstOrDefault();
+        var import = attributes.OfType<ImportAttribute>().FirstOrDefault();
 
-        if (type.IsInterface && !type.IsGenericTypeDefinition && type.IsAssignableTo(typeof(IService)) && type.Name != nameof(IService))
+        if (routes != null && routes.Count > 0)
+            RouteHelper.AddRoute(type, routes);
+        else if (role != null)
+            RoleHelper.AddRole(type, role);
+        else if (service != null)
+            services.AddServices(service.Lifetime, type);
+        else if (type.IsInterface && !type.IsGenericTypeDefinition && type.IsAssignableTo(typeof(IService)) && type.Name != nameof(IService))
             AddApiMethod(doc, type, type.Name[1..].Replace("Service", ""));
         else if (TypeHelper.IsGenericSubclass(type, typeof(EntityTablePage<>), out var arguments))
             AddApiMethod(doc, typeof(IEntityService<>).MakeGenericType(arguments), type.Name);
-        else if (service != null)
-            services.AddServices(service.Lifetime, type);
         else if (type.IsAssignableTo(typeof(EntityBase)) && type.Name != nameof(EntityBase))
             DbConfig.Models.Add(type);
-        else if (code != null)
-            Cache.AttachCodes(type);
         else if (task != null)
             Config.TaskTypes[task.BizType] = type;
         else if (type.IsAssignableTo(typeof(ImportBase)) && type.Name != nameof(ImportBase))
             services.AddImport(type, import);
         else if (type.IsAssignableTo(typeof(FlowBase)) && type.Name != nameof(FlowBase))
             services.AddFlow(type);
-
-        var routes = RouteHelper.GetRoutes(type);
-        PluginConfig.AddPlugin(type, routes);
-        //AddAppMenu(type, routes);
-        //AddMenu(type, routes);
-        RoleHelper.AddRole(type);
     }
 
     private static void AddApiMethod(XmlDocument doc, Type type, string apiName)

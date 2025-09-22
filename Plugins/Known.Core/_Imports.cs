@@ -1,6 +1,4 @@
 ﻿global using System.Collections.Concurrent;
-global using System.ComponentModel;
-global using System.ComponentModel.DataAnnotations;
 global using System.Diagnostics;
 global using System.Net.Http.Json;
 global using System.Reflection;
@@ -8,10 +6,8 @@ global using System.Security.Claims;
 global using System.Text;
 global using Known.Blazor;
 global using Known.Data;
-global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
-global using Known.Plugins;
 global using Known.Services;
 global using Known.Weixins;
 global using Known.WorkFlows;

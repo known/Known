@@ -1,6 +1,33 @@
 ﻿namespace Known;
 
 /// <summary>
+/// 数据表单打开方式枚举。
+/// </summary>
+public enum FormOpenType
+{
+    /// <summary>
+    /// 未设置。
+    /// </summary>
+    [CodeIgnore]
+    None,
+    /// <summary>
+    /// 模态对话框。
+    /// </summary>
+    [Description("模态框")]
+    Modal,
+    /// <summary>
+    /// 抽屉。
+    /// </summary>
+    [Description("抽屉")]
+    Drawer,
+    /// <summary>
+    /// 导航连接。
+    /// </summary>
+    [CodeIgnore]
+    Url
+}
+
+/// <summary>
 /// 在线表单模型配置信息类。
 /// </summary>
 public class FormInfo

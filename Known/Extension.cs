@@ -26,6 +26,7 @@ public static partial class Extension
         services.AddScoped<UIContext>();
         services.AddScoped<JSService>();
         services.AddScoped<UIService>();
+        services.AddSingleton<ICodeGenerator, CodeGenerator>();
 
         if (Config.App.IsClient)
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
@@ -90,6 +91,8 @@ public static partial class Extension
         //AppData.LoadAppData();
         AppData.LoadBizData();
         LoadBuildTime(Config.Version);
+
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
         services.LoadServers();
     }
 

@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known;
 
 /// <summary>
 /// 系统模块实体类。
@@ -120,7 +120,11 @@ public class SysModule : EntityBase
     [DisplayName("表单设置")]
     public string FormData { get; set; }
 
-    internal MenuInfo ToMenuInfo()
+    /// <summary>
+    /// 模块实体转换为菜单信息。
+    /// </summary>
+    /// <returns></returns>
+    public MenuInfo ToMenuInfo()
     {
         var info = new MenuInfo
         {

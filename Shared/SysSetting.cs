@@ -1,4 +1,4 @@
-﻿namespace Known.Entities;
+﻿namespace Known;
 
 /// <summary>
 /// 系统设置实体类。

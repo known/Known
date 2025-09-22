@@ -145,6 +145,11 @@ public class AppInfo
     public WebApiOption WebApi { get; } = new WebApiOption();
 
     /// <summary>
+    /// 取得或设置代码配置信息。
+    /// </summary>
+    public CodeConfigInfo Code { get; set; }
+
+    /// <summary>
     /// 取得或设置系统因未处理异常导致退出的委托，可用于发送报警。
     /// </summary>
     public Action<Exception> OnExit { get; set; }
@@ -164,4 +169,40 @@ public class WebApiOption
     /// 取得或设置系统WebApi加密传输数据的密码。
     /// </summary>
     public string DataPassword { get; set; }
+}
+
+/// <summary>
+/// 代码配置信息类。
+/// </summary>
+public class CodeConfigInfo
+{
+    /// <summary>
+    /// 取得或设置前实体类路径。
+    /// </summary>
+    public string EntityPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置前信息类路径。
+    /// </summary>
+    public string ModelPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置前端页面路径。
+    /// </summary>
+    public string PagePath { get; set; }
+
+    /// <summary>
+    /// 取得或设置前端表单路径。
+    /// </summary>
+    public string FormPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置服务接口路径。
+    /// </summary>
+    public string ServiceIPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置服务实现类路径。
+    /// </summary>
+    public string ServicePath { get; set; }
 }

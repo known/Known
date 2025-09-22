@@ -145,6 +145,7 @@ partial class AdminService
             };
             if (isCheck)
                 CoreOption.Instance.CheckSystemInfo(sys);
+            CoreConfig.System = sys;
             return info;
         }
         catch

@@ -83,11 +83,6 @@ public class CoreOption
     public WeixinConfigInfo Weixin { get; set; }
 
     /// <summary>
-    /// 取得或设置代码配置信息。
-    /// </summary>
-    public CodeConfigInfo Code { get; set; }
-
-    /// <summary>
     /// 取得或设置【关于系统】模块显示的产品ID。
     /// </summary>
     public string ProductId { get; set; }

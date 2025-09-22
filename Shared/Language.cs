@@ -543,6 +543,9 @@ public partial class Language
     internal const string TipValidSuccess = "校验成功！";
     internal const string TipValidFailed = "校验失败！";
     internal const string TipRowNo = "第{key}行：";
+    internal const string EntityPlugin = "实体插件";
+    internal const string TableName = "数据表名";
+    internal const string Fields = "字段列表";
 
     /// <summary>
     /// 导入文件不存在。
