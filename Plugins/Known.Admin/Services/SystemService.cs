@@ -42,7 +42,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         {
             await database.SaveSystemAsync(info);
         }
-        Config.System = info;
+        CoreConfig.System = info;
         return Result.Success(Language.SaveSuccess);
     }
 }

@@ -47,7 +47,7 @@ partial class AdminService
     public async Task<Result> SaveSystemAsync(SystemInfo info)
     {
         await Database.SaveSystemAsync(info);
-        Config.System = info;
+        CoreConfig.System = info;
         return Result.Success(Language.SaveSuccess);
     }
 
@@ -71,7 +71,7 @@ partial class AdminService
             sys.ProductId = info.ProductId;
             sys.ProductKey = info.ProductKey;
             await db.SaveSystemAsync(sys);
-            Config.System = sys;
+            CoreConfig.System = sys;
             return CoreConfig.CheckSystemInfo(sys);
         }
         else if (info.Type == ActiveType.Version)

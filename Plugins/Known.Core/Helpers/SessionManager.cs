@@ -17,7 +17,7 @@ class SessionManager
     public string CreateSession(UserInfo info)
     {
         var sys = CoreConfig.System;
-        if (info == null || sys?.IsLoginOne == true)
+        if (info == null || sys?.IsLoginOne == false)
             return string.Empty;
 
         info.SessionId = Utils.GetGuid();

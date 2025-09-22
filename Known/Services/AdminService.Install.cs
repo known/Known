@@ -46,7 +46,7 @@ partial class AdminService
         if (Language.Settings == null || Language.Settings.Count == 0)
             await AppHelper.LoadLanguagesAsync(database);
 
-        var sys = await database.GetSystemAsync();
+        var sys = await database.GetSystemAsync(true);
         var info = new InitialInfo
         {
             IsInstalled = sys != null,
@@ -171,7 +171,7 @@ partial class AdminService
         {
             var database = Database;
             database.EnableLog = false;
-            var sys = await database.GetSystemAsync();
+            var sys = await database.GetSystemAsync(isCheck);
             var info = new InstallInfo
             {
                 IsInstalled = sys != null,
@@ -180,8 +180,6 @@ partial class AdminService
                 ProductKey = sys?.ProductKey,
                 AdminName = Constants.SysUserName
             };
-            if (isCheck)
-                CoreConfig.CheckSystemInfo(sys);
             CoreConfig.System = sys;
             return info;
         }

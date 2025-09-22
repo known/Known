@@ -60,8 +60,9 @@ public static class ConfigExtension
     /// 异步获取系统信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
+    /// <param name="isCheck">是否检查系统。</param>
     /// <returns></returns>
-    public static async Task<SystemInfo> GetSystemAsync(this Database db)
+    public static async Task<SystemInfo> GetSystemAsync(this Database db, bool isCheck = false)
     {
         try
         {
@@ -71,8 +72,8 @@ public static class ConfigExtension
 
             var json = await db.GetConfigAsync(Constants.KeySystem);
             var info = Utils.FromJson<SystemInfo>(json);
-            //if (info != null) TODO: 检测系统信息
-            //    CoreOption.Instance.CheckSystemInfo(info);
+            if (info != null && isCheck)
+                CoreConfig.CheckSystemInfo(info);
             return info;
         }
         catch

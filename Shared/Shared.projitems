@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Admin.Log.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Admin.User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CoreConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PlatformExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PluginExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SettingExtension.cs" />
