@@ -236,4 +236,20 @@ public partial class ActionInfo
     /// </summary>
     [JsonIgnore]
     public List<ActionInfo> Children { get; } = [];
+
+    /// <summary>
+    /// 转换成按钮信息。
+    /// </summary>
+    /// <returns></returns>
+    public ButtonInfo ToButton()
+    {
+        return new ButtonInfo
+        {
+            Id = Id,
+            Name = Name,
+            Icon = Icon,
+            Style = Style,
+            Position = Position?.Split(',')
+        };
+    }
 }

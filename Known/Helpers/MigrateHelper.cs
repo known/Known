@@ -8,7 +8,7 @@ class MigrateHelper
         {
             var exists = await database.ExistsAsync<SysConfig>(true);
             if (!exists) //未安装，则安装时初始化
-                return Result.Error(CoreLanguage.TipSystemNotInstall);
+                return Result.Error(Language.TipSystemNotInstall);
 
             database.User ??= await database.GetUserAsync(Constants.SysUserName);
             await database.CreateTablesAsync();
@@ -19,8 +19,8 @@ class MigrateHelper
                 await MigrateButtonsAsync(db);
                 await MigrateTopNavsAsync(db);
                 await MigrateModulesAsync(db);
-                if (CoreConfig.OnMigrateAppData != null)
-                    await CoreConfig.OnMigrateAppData.Invoke(db);
+                if (Config.OnMigrateAppData != null)
+                    await Config.OnMigrateAppData.Invoke(db);
                 Console.WriteLine("AppData is Migrated.");
             });
         }
@@ -53,7 +53,7 @@ class MigrateHelper
 
         var datas = new List<ButtonInfo>();
         datas.AddRange(buttons);
-        var items = await db.GetConfigAsync<List<ButtonInfo>>(Constant.KeyButton, true);
+        var items = await db.GetConfigAsync<List<ButtonInfo>>(Constants.KeyButton, true);
         if (items != null && items.Count > 0)
         {
             foreach (var item in items)
@@ -62,7 +62,7 @@ class MigrateHelper
                     datas.Add(item);
             }
         }
-        await db.SaveConfigAsync(Constant.KeyButton, datas, true);
+        await db.SaveConfigAsync(Constants.KeyButton, datas, true);
     }
 
     private static async Task MigrateTopNavsAsync(Database db)
@@ -71,10 +71,10 @@ class MigrateHelper
         if (datas == null || datas.Count == 0)
             return;
 
-        if (await db.ExistsConfigAsync(Constant.KeyTopNav))
+        if (await db.ExistsConfigAsync(Constants.KeyTopNav))
             return;
 
-        await db.SaveConfigAsync(Constant.KeyTopNav, datas, true);
+        await db.SaveConfigAsync(Constants.KeyTopNav, datas, true);
     }
 
     class Page2Info

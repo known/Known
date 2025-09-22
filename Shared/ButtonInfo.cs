@@ -25,7 +25,7 @@ public class ButtonInfo
     /// </summary>
     [Required]
     [Column(Width = 100)]
-    [Form(Type = nameof(FieldType.Custom), CustomField = nameof(IconPicker))]
+    [Form(Type = nameof(FieldType.Custom), CustomField = "IconPicker")]
     [DisplayName("图标")]
     public string Icon { get; set; }
 

@@ -13,21 +13,18 @@ public partial interface IPlatformService : IService
     Task<Result> SetRenderModeAsync(string mode);
 }
 
-[Service]
+[Client]
+partial class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
+{
+    public Task<Result> SetRenderModeAsync(string mode) => Http.PostAsync($"/Platform/SetRenderMode?mode={mode}");
+}
+
+[WebApi, Service]
 partial class PlatformService(Context context) : ServiceBase(context), IPlatformService
 {
     public Task<Result> SetRenderModeAsync(string mode)
     {
         Config.CurrentMode = Utils.ConvertTo<RenderType>(mode);
         return Result.SuccessAsync(Language.SetSuccess, Config.CurrentMode);
-    }
-}
-
-[Client]
-partial class PlatformClient(HttpClient http) : ClientBase(http), IPlatformService
-{
-    public Task<Result> SetRenderModeAsync(string mode)
-    {
-        return Http.PostAsync($"/Platform/SetRenderMode?mode={mode}");
     }
 }

@@ -31,74 +31,64 @@ public partial interface IPlatformService
     Task<Result> SaveButtonAsync(ButtonInfo info);
 }
 
+partial class PlatformClient
+{
+    public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria) => Http.QueryAsync<ButtonInfo>("/Platform/QueryButtons", criteria);
+    public Task<List<ButtonInfo>> GetButtonsAsync(string position) => Http.GetAsync<List<ButtonInfo>>($"/Platform/GetButtons?position={position}");
+    public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos) => Http.PostAsync("/Platform/DeleteButtons", infos);
+    public Task<Result> SaveButtonAsync(ButtonInfo info) => Http.PostAsync("/Platform/SaveButton", info);
+}
+
 partial class PlatformService
 {
-    public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
+    public async Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {
-        var datas = AppData.GetButtons();
-        var result = datas.ToQueryResult(criteria);
-        return Task.FromResult(result);
+        var datas = await Database.GetButtonsAsync();
+        return datas.ToQueryResult(criteria);
     }
 
-    public Task<List<ButtonInfo>> GetButtonsAsync(string position)
+    public async Task<List<ButtonInfo>> GetButtonsAsync(string position)
     {
-        var datas = AppData.GetButtons();
-        var infos = datas.Where(b => b.Position?.Contains(position) == true).ToList();
-        return Task.FromResult(infos);
+        var datas = await Database.GetButtonsAsync();
+        return [.. datas.Where(b => b.Position?.Contains(position) == true)];
     }
 
-    public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)
+    public async Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
+            return Result.Error(Language.SelectOneAtLeast);
 
+        var datas = await Database.GetButtonsAsync();
         foreach (var info in infos)
         {
-            var item = AppData.Data.Buttons.FirstOrDefault(b => b.Id == info.Id);
+            var item = datas.FirstOrDefault(b => b.Id == info.Id);
             if (item != null)
-                AppData.Data.Buttons.Remove(item);
+                datas.Remove(item);
         }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.DeleteSuccess);
+        await SaveButtonsAsync(datas);
+        return Result.Success(Language.DeleteSuccess);
     }
 
-    public Task<Result> SaveButtonAsync(ButtonInfo info)
+    public async Task<Result> SaveButtonAsync(ButtonInfo info)
     {
-        var item = AppData.Data.Buttons.FirstOrDefault(b => b.Id == info.Id);
+        var datas = await Database.GetButtonsAsync();
+        var item = datas.FirstOrDefault(b => b.Id == info.Id);
         if (item == null)
         {
             item = new ButtonInfo();
-            AppData.Data.Buttons.Add(item);
+            datas.Add(item);
         }
         item.Id = info.Id;
         item.Name = info.Name;
         item.Icon = info.Icon;
         item.Style = info.Style;
         item.Position = info.Position;
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-}
-
-partial class PlatformClient
-{
-    public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<ButtonInfo>("/Platform/QueryButtons", criteria);
+        await SaveButtonsAsync(datas);
+        return Result.Success(Language.SaveSuccess);
     }
 
-    public Task<List<ButtonInfo>> GetButtonsAsync(string position)
+    private Task<Result> SaveButtonsAsync(List<ButtonInfo> datas)
     {
-        return Http.GetAsync<List<ButtonInfo>>($"/Platform/GetButtons?position={position}");
-    }
-
-    public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos)
-    {
-        return Http.PostAsync("/Platform/DeleteButtons", infos);
-    }
-
-    public Task<Result> SaveButtonAsync(ButtonInfo info)
-    {
-        return Http.PostAsync("/Platform/SaveButton", info);
+        return Database.SaveConfigAsync(Constants.KeyButton, datas, true);
     }
 }

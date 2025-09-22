@@ -16,30 +16,23 @@ public partial interface IPlatformService
     Task<Result> SaveTopNavsAsync(List<PluginInfo> infos);
 }
 
-partial class PlatformService
-{
-    public Task<List<PluginInfo>> GetTopNavsAsync()
-    {
-        return Task.FromResult(AppData.Data.TopNavs);
-    }
-
-    public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
-    {
-        AppData.Data.TopNavs = infos;
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-}
-
 partial class PlatformClient
 {
-    public Task<List<PluginInfo>> GetTopNavsAsync()
+    public Task<List<PluginInfo>> GetTopNavsAsync() => Http.GetAsync<List<PluginInfo>>("/Platform/GetTopNavs");
+    public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos) => Http.PostAsync("/Platform/SaveTopNavs", infos);
+}
+
+partial class PlatformService
+{
+    public async Task<List<PluginInfo>> GetTopNavsAsync()
     {
-        return Http.GetAsync<List<PluginInfo>>("/Platform/GetTopNavs");
+        var datas = await Database.GetConfigAsync<List<PluginInfo>>(Constants.KeyTopNav, true);
+        datas ??= [];
+        return datas;
     }
 
     public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
     {
-        return Http.PostAsync("/Platform/SaveTopNavs", infos);
+        return Database.SaveConfigAsync(Constants.KeyTopNav, infos, true);
     }
 }

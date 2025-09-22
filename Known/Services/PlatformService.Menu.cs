@@ -17,55 +17,59 @@ public partial interface IPlatformService
     Task<Result> SaveMenuAsync(MenuInfo info);
 }
 
-partial class PlatformService
-{
-    public Task<Result> DeleteMenuAsync(MenuInfo info)
-    {
-        var module = AppData.GetModule(info.Id);
-        if (module == null)
-            return Result.ErrorAsync("模块不存在！");
-
-        AppData.Data.Modules?.Remove(module);
-        var modules = AppData.Data.Modules.Where(m => m.ParentId == info.ParentId).OrderBy(m => m.Sort).ToList();
-        modules?.Resort();
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.DeleteSuccess);
-    }
-
-    public Task<Result> SaveMenuAsync(MenuInfo info)
-    {
-        var module = AppData.GetModule(info.Id);
-        if (module == null)
-        {
-            module = new ModuleInfo();
-            if (AppData.Data.Modules == null)
-                AppData.Data.Modules = [];
-            AppData.Data.Modules.Add(module);
-        }
-        module.Id = info.Id;
-        module.ParentId = info.ParentId;
-        module.Name = info.Name;
-        module.Icon = info.Icon;
-        module.Type = info.Type;
-        module.Target = info.Target;
-        module.Url = info.Url;
-        module.Sort = info.Sort;
-        module.Layout = info.Layout;
-        module.Plugins = info.Plugins;
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess, info);
-    }
-}
-
 partial class PlatformClient
 {
-    public Task<Result> DeleteMenuAsync(MenuInfo info)
+    public Task<Result> DeleteMenuAsync(MenuInfo info) => Http.PostAsync("/Platform/DeleteMenu", info);
+    public Task<Result> SaveMenuAsync(MenuInfo info) => Http.PostAsync("/Platform/SaveMenu", info);
+}
+
+partial class PlatformService
+{
+    public async Task<Result> DeleteMenuAsync(MenuInfo info)
     {
-        return Http.PostAsync("/Platform/DeleteMenu", info);
+        var database = Database;
+        var module = await database.QueryByIdAsync<SysModule>(info.Id);
+        if (module == null)
+            return Result.Error(Language.TipModuleNotExists);
+
+        return await database.TransactionAsync(Language.Delete, async db =>
+        {
+            await db.DeleteAsync(module);
+            var modules = await db.Query<SysModule>().Where(m => m.ParentId == info.ParentId).ToListAsync();
+            if (modules != null && modules.Count > 0)
+            {
+                var index = 1;
+                foreach (var item in modules)
+                {
+                    item.Sort = index++;
+                    await db.SaveAsync(item);
+                }
+            }
+        });
     }
 
-    public Task<Result> SaveMenuAsync(MenuInfo info)
+    public async Task<Result> SaveMenuAsync(MenuInfo info)
     {
-        return Http.PostAsync("/Platform/SaveMenu", info);
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysModule>(info.Id);
+        model ??= new SysModule();
+        model.FillModel(info);
+
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        if (string.IsNullOrWhiteSpace(model.Icon))
+            model.Icon = "";//AntDesign不识别null值
+
+        if (string.IsNullOrWhiteSpace(model.Code))
+            model.Code = model.Name;
+        model.LayoutData = Utils.ToJson(info.Layout);
+        model.PluginData = info.Plugins?.ZipDataString();
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            await db.SaveAsync(model);
+            info.Id = model.Id;
+        }, info);
     }
 }

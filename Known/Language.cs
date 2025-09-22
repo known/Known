@@ -25,7 +25,12 @@ public partial class Language
     /// 不能操作代码配置的模块。
     /// </summary>
     public const string TipCodeModuleNotOperate = "不能操作代码配置的模块！";
-    
+
+    internal const string TipSystemNotInstall = "系统未安装！";
+    internal const string TipAdminNoMigrate = "Admin插件不支持迁移！";
+    internal const string TipModuleMigrated = "已经迁移过，无需再次迁移！";
+    internal const string TipModuleNotExists = "模块不存在！";
+    internal const string TipModuleDeleteExistsChild = "存在子模块，不能删除！";
 
     internal const string OverMaxTabCount = "超过最大标签页数！";
     internal const string MoreTableSetting = "更多表格属性设置";

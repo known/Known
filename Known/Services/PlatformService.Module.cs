@@ -77,34 +77,58 @@ public partial interface IPlatformService
     Task<Result> SaveModuleAsync(ModuleInfo info);
 }
 
+partial class PlatformClient
+{
+    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<ModuleInfo>("/Platform/QueryModules", criteria);
+    public Task<List<ModuleInfo>> GetModulesAsync() => Http.GetAsync<List<ModuleInfo>>("/Platform/GetModules");
+    public Task<Result> MigrateModulesAsync() => Http.PostAsync("/Platform/MigrateModules");
+    public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Platform/ExportModules");
+    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Platform/ImportModules", info);
+    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/DeleteModules", infos);
+    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/InstallModules", infos);
+    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/CopyModules", infos);
+    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/MoveModules", infos);
+    public Task<Result> MoveModuleAsync(ModuleInfo info) => Http.PostAsync("/Platform/MoveModule", info);
+    public Task<Result> SaveModuleAsync(ModuleInfo info) => Http.PostAsync("/Platform/SaveModule", info);
+}
+
 partial class PlatformService
 {
-    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
+    public async Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
     {
-        var modules = AppData.Data.Modules.OrderBy(d => d.ParentId)
-                                          .ThenBy(d => d.Sort)
-                                          .ToList();
+        var modules = await Database.QueryListAsync<SysModule>();
+        var items = AppData.Data.Modules.Where(m => modules?.Exists(d => d.Url == m.Url) == false)
+                                        .OrderBy(d => d.ParentId)
+                                        .ThenBy(d => d.Sort)
+                                        .ToList();
         var name = criteria.GetQueryValue(nameof(ModuleInfo.Name));
         if (!string.IsNullOrEmpty(name))
-            modules = [.. modules.Where(m => m.Name.Contains(name))];
-        var result = modules.ToPagingResult(criteria);
-        return Task.FromResult(result);
+            items = [.. items.Where(m => m.Name.Contains(name))];
+
+        return items.ToPagingResult(criteria);
     }
 
-    public Task<List<ModuleInfo>> GetModulesAsync()
+    public async Task<List<ModuleInfo>> GetModulesAsync()
     {
-        var infos = AppData.Data.Modules.OrderBy(m => m.Sort).ToList();
-        return Task.FromResult(infos);
+        var modules = await Database.Query<SysModule>().ToListAsync<ModuleInfo>();
+        //var modules = dbModules.Select(m => m.ToMenuInfo()).ToList();
+        //modules = modules.Add(AppData.Data.Modules);
+        //DataHelper.Initialize(modules);
+        return modules;
     }
 
-    public Task<Result> MigrateModulesAsync()
+    public async Task<Result> MigrateModulesAsync()
     {
-        return Result.SuccessAsync("迁移成功！");
+        var topNav = await Database.GetConfigAsync(Constants.KeyTopNav);
+        if (!string.IsNullOrWhiteSpace(topNav))
+            return Result.Error(Language.TipModuleMigrated);
+
+        return await Database.MigrateDataAsync();
     }
 
     public async Task<FileDataInfo> ExportModulesAsync()
     {
-        var modules = AppData.Data.Modules;
+        var modules = await Database.QueryListAsync<SysModule>();
         var info = new FileDataInfo();
         info.Name = $"SysModule_{Config.App.Id}.kmd";
         info.Bytes = await ZipHelper.ZipDataAsync(modules);
@@ -120,8 +144,15 @@ partial class PlatformService
         try
         {
             var file = info.Files[key][0];
-            AppData.Data.Modules = await ZipHelper.UnZipDataAsync<List<ModuleInfo>>(file.Bytes);
-            AppData.SaveData();
+            var modules = await ZipHelper.UnZipDataAsync<List<SysModule>>(file.Bytes);
+            if (modules != null && modules.Count > 0)
+            {
+                await Database.TransactionAsync(Language.Import, async db =>
+                {
+                    await db.DeleteAllAsync<SysModule>();
+                    await db.InsertListAsync(modules);
+                });
+            }
             return Result.Success(Language.ImportSuccess);
         }
         catch (Exception ex)
@@ -130,187 +161,162 @@ partial class PlatformService
         }
     }
 
-    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
+            return Result.Error(Language.SelectOneAtLeast);
 
-        foreach (var item in infos)
+        if (infos.Any(d => d.IsCode))
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
+        var database = Database;
+        foreach (var model in infos)
         {
-            if (AppData.Data.Modules.Any(d => d.ParentId == item.Id))
-                return Result.ErrorAsync(Language["Tip.ModuleDeleteExistsChild"]);
-
-            var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
-            if (module != null)
-                AppData.Data.Modules.Remove(module);
+            if (await database.ExistsAsync<SysModule>(d => d.ParentId == model.Id))
+                return Result.Error(Language.TipModuleDeleteExistsChild);
         }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.DeleteSuccess);
-    }
 
-    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
-    {
-        return Result.SuccessAsync("安装成功！");
-    }
-
-    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
-    {
-        if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
-
-        foreach (var item in infos)
+        return await database.TransactionAsync(Language.Delete, async db =>
         {
-            var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == item.Id);
-            if (module != null)
+            foreach (var item in infos)
             {
-                var newModule = CreateModule(module);
-                newModule.Id = Utils.GetNextId();
-                newModule.ParentId = item.ParentId;
-                AppData.Data.Modules.Add(newModule);
+                await db.DeleteAsync<SysModule>(item.Id);
+                await ResortModulesAsync(db, item.ParentId);
             }
-        }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.Success(Language.Copy));
+        });
     }
 
-    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
     {
         if (infos == null || infos.Count == 0)
-            return Result.ErrorAsync(Language.SelectOneAtLeast);
+            return Result.Error(Language.SelectOneAtLeast);
 
-        foreach (var item in infos)
+        return await Database.TransactionAsync(Language.Install, async db =>
         {
-            SaveModule(item);
-        }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
+            foreach (var item in infos.OrderBy(d => d.Sort))
+            {
+                var model = new SysModule();
+                model.FillModel(item);
+                if (string.IsNullOrWhiteSpace(model.Code))
+                    model.Code = model.Name;
+                model.Sort = ++count;
+                model.LayoutData = Utils.ToJson(item.Layout);
+                model.PluginData = item.Plugins?.ZipDataString();
+                await db.SaveAsync(model);
+            }
+        });
     }
 
-    public Task<Result> MoveModuleAsync(ModuleInfo info)
+    public async Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
+    {
+        if (infos == null || infos.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Copy, async db =>
+        {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
+            foreach (var item in infos)
+            {
+                var module = await db.QueryByIdAsync<SysModule>(item.Id);
+                if (module != null)
+                {
+                    module.Id = Utils.GetNextId();
+                    module.ParentId = item.ParentId;
+                    module.Sort = ++count;
+                    await db.InsertAsync(module);
+                }
+            }
+        });
+    }
+
+    public async Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
+    {
+        if (infos == null || infos.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        if (infos.Any(d => d.IsCode))
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            var count = await db.CountAsync<SysModule>(d => d.ParentId == infos[0].ParentId);
+            foreach (var item in infos)
+            {
+                var module = await db.QueryByIdAsync<SysModule>(item.Id);
+                if (module != null)
+                {
+                    module.ParentId = item.ParentId;
+                    module.Sort = ++count;
+                    await db.SaveAsync(module);
+                }
+            }
+        });
+    }
+
+    public async Task<Result> MoveModuleAsync(ModuleInfo info)
     {
         if (info == null)
-            return Result.ErrorAsync(Language.SelectOne);
+            return Result.Error(Language.SelectOne);
 
-        var sort = info.IsMoveUp ? info.Sort - 1 : info.Sort + 1;
-        var module = AppData.Data.Modules.FirstOrDefault(d => d.ParentId == info.ParentId && d.Sort == sort);
-        if (module != null)
+        if (info.IsCode)
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
+        return await Database.TransactionAsync(Language.Save, async db =>
         {
-            module.Sort = info.Sort;
+            var sort = info.IsMoveUp ? info.Sort - 1 : info.Sort + 1;
+            var model = await db.QueryByIdAsync<SysModule>(info.Id);
+            var module = await db.QueryAsync<SysModule>(d => d.ParentId == info.ParentId && d.Sort == sort);
+            if (model != null && module != null)
+            {
+                module.Sort = info.Sort;
+                await db.SaveAsync(module);
 
-            if (info.IsMoveUp)
-                info.Sort--;
-            else
-                info.Sort++;
+                if (info.IsMoveUp)
+                    model.Sort--;
+                else
+                    model.Sort++;
+                await db.SaveAsync(model);
+            }
+        });
+    }
+
+    public async Task<Result> SaveModuleAsync(ModuleInfo info)
+    {
+        if (info.IsCode)
+            return Result.Error(Language.TipCodeModuleNotOperate);
+
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysModule>(info.Id);
+        model ??= new SysModule();
+        model.FillModel(info);
+
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        if (string.IsNullOrWhiteSpace(model.Code))
+            model.Code = model.Name;
+        if (string.IsNullOrWhiteSpace(model.Icon))
+            model.Icon = "";//AntDesign不识别null值
+
+        model.LayoutData = Utils.ToJson(info.Layout);
+        model.PluginData = info.Plugins?.ZipDataString();
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            await db.SaveAsync(model);
+            info.Id = model.Id;
+        }, info);
+    }
+
+    private static async Task ResortModulesAsync(Database db, string parentId)
+    {
+        var items = await db.Query<SysModule>().Where(d => d.ParentId == parentId).OrderBy(d => d.Sort).ToListAsync();
+        var index = 1;
+        foreach (var item in items)
+        {
+            item.Sort = index++;
+            await db.SaveAsync(item);
         }
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    public Task<Result> SaveModuleAsync(ModuleInfo info)
-    {
-        if (string.IsNullOrWhiteSpace(info.Icon))
-            info.Icon = "";//AntDesign不识别null值
-
-        SaveModule(info);
-        AppData.SaveData();
-        return Result.SuccessAsync(Language.SaveSuccess);
-    }
-
-    private static void SaveModule(ModuleInfo info)
-    {
-        var module = AppData.Data.Modules.FirstOrDefault(d => d.Id == info.Id);
-        if (module != null)
-        {
-            module.ParentId = info.ParentId;
-            module.Name = info.Name;
-            module.Icon = info.Icon;
-            module.Type = info.Type;
-            module.Target = info.Target;
-            module.Url = info.Url;
-            module.Sort = info.Sort;
-            module.Enabled = info.Enabled;
-            module.Layout = info.Layout;
-            module.Plugins = info.Plugins;
-        }
-        else
-        {
-            AppData.Data.Modules.Add(info);
-        }
-    }
-
-    private static ModuleInfo CreateModule(ModuleInfo info)
-    {
-        return new ModuleInfo
-        {
-            Id = info.Id,
-            ParentId = info.ParentId,
-            Name = info.Name,
-            Icon = info.Icon,
-            Type = info.Type,
-            Target = info.Target,
-            Url = info.Url,
-            Sort = info.Sort,
-            Enabled = info.Enabled,
-            Layout = info.Layout,
-            Plugins = info.Plugins
-        };
-    }
-}
-
-partial class PlatformClient
-{
-    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<ModuleInfo>("/Platform/QueryModules", criteria);
-    }
-
-    public Task<List<ModuleInfo>> GetModulesAsync()
-    {
-        return Http.GetAsync<List<ModuleInfo>>("/Platform/GetModules");
-    }
-
-    public Task<Result> MigrateModulesAsync()
-    {
-        return Http.PostAsync("/Platform/MigrateModules");
-    }
-
-    public Task<FileDataInfo> ExportModulesAsync()
-    {
-        return Http.GetAsync<FileDataInfo>("/Platform/ExportModules");
-    }
-
-    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info)
-    {
-        return Http.PostAsync("/Platform/ImportModules", info);
-    }
-
-    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
-    {
-        return Http.PostAsync("/Platform/DeleteModules", infos);
-    }
-
-    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
-    {
-        return Http.PostAsync("/Platform/InstallModules", infos);
-    }
-
-    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
-    {
-        return Http.PostAsync("/Platform/CopyModules", infos);
-    }
-
-    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
-    {
-        return Http.PostAsync("/Platform/MoveModules", infos);
-    }
-
-    public Task<Result> MoveModuleAsync(ModuleInfo info)
-    {
-        return Http.PostAsync("/Platform/MoveModule", info);
-    }
-
-    public Task<Result> SaveModuleAsync(ModuleInfo info)
-    {
-        return Http.PostAsync("/Platform/SaveModule", info);
     }
 }

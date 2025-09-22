@@ -56,11 +56,6 @@ public class CoreConfig
     public static Func<Database, AdminInfo, Task> OnAdmin { get; set; }
 
     /// <summary>
-    /// 取得或设置迁移系统配置数据委托。
-    /// </summary>
-    public static Func<Database, Task> OnMigrateAppData { get; set; }
-
-    /// <summary>
     /// 取得或设置激活系统委托。
     /// </summary>
     public static Func<Database, ActiveInfo, Task<Result>> OnActiveSystem { get; set; }

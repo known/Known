@@ -17,7 +17,7 @@ class AppHelper
         if (!isExist)
             return;
 
-        var infos = await db.GetConfigAsync<List<LanguageSettingInfo>>(Constant.KeyLanguage, true);
+        var infos = await db.GetConfigAsync<List<LanguageSettingInfo>>(Constants.KeyLanguage, true);
         if (infos == null || infos.Count == 0)
             infos = Language.GetDefaultSettings();
         Language.Settings = infos;

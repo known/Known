@@ -60,6 +60,13 @@ public class Constants
     internal const string CompNo = "puman";
     internal const string CompName = "普漫科技";
     internal const string Route = "Route";
+
+    /// <summary>
+    /// 语言数据配置键。
+    /// </summary>
+    public const string KeyLanguage = "AppLanguageData";
+    internal const string KeyButton = "AppButtonData";
+    internal const string KeyTopNav = "AppTopNavData";
 }
 
 /// <summary>

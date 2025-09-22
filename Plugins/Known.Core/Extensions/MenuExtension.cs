@@ -2,14 +2,6 @@
 
 static class MenuExtension
 {
-    internal static string ZipDataString(this List<PluginInfo> plugins)
-    {
-        if (plugins == null || plugins.Count == 0)
-            return string.Empty;
-
-        return ZipHelper.ZipDataAsString(plugins);
-    }
-
     internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db)
     {
         var user = db.User;

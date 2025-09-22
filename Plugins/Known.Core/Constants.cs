@@ -9,8 +9,4 @@ class Constant
 
     internal const string SuperAdmin = "SuperAdmin";
     internal const string UserSetting = "UserSetting";
-
-    internal const string KeyLanguage = "AppLanguageData";
-    internal const string KeyButton = "AppButtonData";
-    internal const string KeyTopNav = "AppTopNavData";
 }

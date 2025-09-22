@@ -56,6 +56,11 @@ public partial class Config
     /// </summary>
     public static Func<Database, AutoPageInfo, Task<Database>> OnDatabase { get; set; }
 
+    /// <summary>
+    /// 取得或设置迁移系统配置数据委托。
+    /// </summary>
+    public static Func<Database, Task> OnMigrateAppData { get; set; }
+
     // 取得路由页面类型，用于权限控制。
     internal static Dictionary<string, Type> RouteTypes { get; } = [];
     internal static Dictionary<string, Type> FormTypes { get; } = [];
