@@ -24,7 +24,7 @@ class VisitLog
             visitPages[context.CurrentUser.Token] = pageUrl;
             var service = ctx.RequestServices.GetRequiredService<IAdminService>();
             service.Context = context;
-            var module = AppData.Data.Modules?.FirstOrDefault(m => m.Url == pageUrl);
+            var module = DataHelper.Routes.FirstOrDefault(m => m.Url == pageUrl);
             await service.AddLogAsync(new LogInfo
             {
                 Type = nameof(LogType.Page),

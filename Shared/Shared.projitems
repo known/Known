@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CoreDataExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CoreMenuExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CsvHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DataHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MigrateHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InitialInfo.cs" />

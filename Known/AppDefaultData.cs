@@ -2,20 +2,6 @@
 
 class AppDefaultData
 {
-    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType = null)
-    {
-        var info = new AutoPageInfo();
-        info.Page.Type = pageType.FullName;
-        SetMethods(info, pageType);
-        if (entityType != null)
-        {
-            info.Page.ShowPager = true;
-            info.Page.PageSize = Config.App.DefaultPageSize;
-            SetProperties(info, entityType);
-        }
-        return info;
-    }
-
     //internal static void Load(AppDataInfo data)
     //{
     //    if (data.TopNavs.Count == 0)
@@ -69,6 +55,20 @@ class AppDefaultData
     //    if (table != null)
     //        info.Plugins.AddPlugin(table);
     //}
+
+    internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType = null)
+    {
+        var info = new AutoPageInfo();
+        info.Page.Type = pageType.FullName;
+        SetMethods(info, pageType);
+        if (entityType != null)
+        {
+            info.Page.ShowPager = true;
+            info.Page.PageSize = Config.App.DefaultPageSize;
+            SetProperties(info, entityType);
+        }
+        return info;
+    }
 
     private static void SetMethods(AutoPageInfo info, Type pageType)
     {

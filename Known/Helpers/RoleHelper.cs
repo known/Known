@@ -14,7 +14,7 @@ class RoleHelper
         }
 
         var info = new MenuInfo { Id = type.FullName, Name = role.Name, Icon = "file", ParentId = RoleId, Target = target };
-        var table = AppData.CreateAutoPage(type);
+        var table = RouteHelper.CreateAutoPage(type);
         if (table != null)
             info.Plugins.AddPlugin(table);
         DataHelper.Roles.Add(info);

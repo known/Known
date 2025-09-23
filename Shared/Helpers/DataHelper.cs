@@ -89,7 +89,11 @@ public sealed class DataHelper
         return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.Sort)];
     }
 
-    internal static List<MenuInfo> Routes { get; } = [];
+    /// <summary>
+    /// 取得初始化加载的路由组件菜单列表。
+    /// </summary>
+    public static List<MenuInfo> Routes { get; } = [];
+
     private static void AddRules(List<MenuInfo> modules)
     {
         if (Routes.Count == 0)

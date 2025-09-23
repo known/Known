@@ -39,7 +39,7 @@ public static class ModuleExtension
         var route = type.GetCustomAttribute<RouteAttribute>();
         var plugin = type.GetCustomAttribute<PagePluginAttribute>();
         var info = modules.AddItem(parentId, type.FullName, plugin?.Name, plugin?.Icon, sort, route?.Template);
-        var table = AppData.CreateAutoPage(type);
+        var table = RouteHelper.CreateAutoPage(type);
         if (table != null)
             info.Plugins.AddPlugin(table);
         return info;

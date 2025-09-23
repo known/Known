@@ -24,7 +24,7 @@ class RouteHelper
                 Config.RouteTypes[route.Template] = type;
                 var info = new MenuInfo { Id = $"{type.FullName}_{route.Template}", ParentId = sub.Id, Target = target, Url = route.Template };
                 SetRouteInfo(info, type);
-                var table = AppData.CreateAutoPage(type);
+                var table = CreateAutoPage(type);
                 if (table != null)
                     info.Plugins.AddPlugin(table);
                 DataHelper.Routes.Add(info);
@@ -35,11 +35,33 @@ class RouteHelper
             Config.RouteTypes[routes[0].Template] = type;
             var info = new MenuInfo { Id = type.FullName, ParentId = RouteId, Target = target, Url = routes[0].Template };
             SetRouteInfo(info, type);
-            var table = AppData.CreateAutoPage(type);
+            var table = CreateAutoPage(type);
             if (table != null)
                 info.Plugins.AddPlugin(table);
             DataHelper.Routes.Add(info);
         }
+    }
+
+    /// <summary>
+    /// 创建自动页面插件配置信息。
+    /// </summary>
+    /// <param name="pageType">页面组件类型。</param>
+    /// <returns>插件配置信息。</returns>
+    internal static AutoPageInfo CreateAutoPage(Type pageType)
+    {
+        if (pageType?.BaseType?.IsGenericType == true)
+        {
+            var arguments = pageType.BaseType.GetGenericArguments();
+            return AppDefaultData.CreateAutoPage(pageType, arguments[0]);
+        }
+
+        if (pageType?.BaseType?.BaseType?.IsGenericType == true)
+        {
+            var arguments = pageType.BaseType.BaseType.GetGenericArguments();
+            return AppDefaultData.CreateAutoPage(pageType, arguments[0]);
+        }
+
+        return AppDefaultData.CreateAutoPage(pageType);
     }
 
     private static void SetRouteInfo(MenuInfo info, Type type)
