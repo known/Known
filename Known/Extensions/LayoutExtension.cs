@@ -111,7 +111,9 @@ public static class LayoutExtension
             }
 
             var bytes = result.ExportData;
-            await app.JS.DownloadFileAsync($"{name}.xlsx", bytes);
+            if (!name.Contains('.'))
+                name = $"{name}.xlsx";
+            await app.JS.DownloadFileAsync(name, bytes);
         });
     }
 
