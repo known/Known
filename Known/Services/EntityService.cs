@@ -37,25 +37,10 @@ public interface IEntityService<TEntity> : IService
 
 class EntityClient<TEntity>(HttpClient http) : ClientBase(http), IEntityService<TEntity>
 {
-    public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<TEntity>("/Entities", criteria);
-    }
-
-    public Task<TEntity> GetAsync(object id)
-    {
-        return Http.GetAsync<TEntity>($"/Entity?id={id}");
-    }
-
-    public Task<Result> DeleteAsync(List<TEntity> models)
-    {
-        return Http.PostAsync("/Entity/DeleteEntities", models);
-    }
-
-    public Task<Result> SaveAsync(TEntity model)
-    {
-        return Http.PostAsync("/Entity/SaveEntity", model);
-    }
+    public Task<PagingResult<TEntity>> QueryAsync(PagingCriteria criteria) => Http.QueryAsync<TEntity>("/Entities", criteria);
+    public Task<TEntity> GetAsync(object id) => Http.GetAsync<TEntity>($"/Entity?id={id}");
+    public Task<Result> DeleteAsync(List<TEntity> models) => Http.PostAsync("/Entity/DeleteEntities", models);
+    public Task<Result> SaveAsync(TEntity model) => Http.PostAsync("/Entity/SaveEntity", model);
 }
 
 [WebApi]

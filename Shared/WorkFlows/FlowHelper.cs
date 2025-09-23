@@ -53,7 +53,7 @@ class FlowHelper
 
     internal static FlowBase Create(Context context, SysFlow flow)
     {
-        if (!Config.FlowTypes.TryGetValue(flow.FlowCode, out Type type))
+        if (!CoreConfig.FlowTypes.TryGetValue(flow.FlowCode, out Type type))
             throw new SystemException(context.Language[FlowLanguage.TipNotRegisterFlow]);
 
         var scope = Config.ServiceProvider.CreateScope();

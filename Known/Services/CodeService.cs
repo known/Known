@@ -56,40 +56,13 @@ public interface ICodeService : IService
 [Client]
 class CodeClient(HttpClient http) : ClientBase(http), ICodeService
 {
-    public Task<List<CodeInfo>> GetDbTablesAsync()
-    {
-        return Http.GetAsync<List<CodeInfo>>("/Code/GetDbTables");
-    }
-
-    public Task<List<CodeFieldInfo>> GetDbFieldsAsync(string tableName)
-    {
-        return Http.GetAsync<List<CodeFieldInfo>>($"/Code/GetDbFields?tableName={tableName}");
-    }
-
-    public Task<List<CodeModelInfo>> GetModelsAsync()
-    {
-        return Http.GetAsync<List<CodeModelInfo>>("/Code/GetModels");
-    }
-
-    public Task<Result> DeleteModelsAsync(List<CodeInfo> infos)
-    {
-        return Http.PostAsync("/Code/DeleteModels", infos);
-    }
-
-    public Task<Result> SaveModelAsync(CodeModelInfo info)
-    {
-        return Http.PostAsync("/Code/SaveModel", info);
-    }
-
-    public Task<Result> SaveCodeAsync(AutoInfo<string> info)
-    {
-        return Http.PostAsync("/Code/SaveCode", info);
-    }
-
-    public Task<Result> CreateTableAsync(AutoInfo<string> info)
-    {
-        return Http.PostAsync("/Code/CreateTable", info);
-    }
+    public Task<List<CodeInfo>> GetDbTablesAsync() => Http.GetAsync<List<CodeInfo>>("/Code/GetDbTables");
+    public Task<List<CodeFieldInfo>> GetDbFieldsAsync(string tableName) => Http.GetAsync<List<CodeFieldInfo>>($"/Code/GetDbFields?tableName={tableName}");
+    public Task<List<CodeModelInfo>> GetModelsAsync() => Http.GetAsync<List<CodeModelInfo>>("/Code/GetModels");
+    public Task<Result> DeleteModelsAsync(List<CodeInfo> infos) => Http.PostAsync("/Code/DeleteModels", infos);
+    public Task<Result> SaveModelAsync(CodeModelInfo info) => Http.PostAsync("/Code/SaveModel", info);
+    public Task<Result> SaveCodeAsync(AutoInfo<string> info) => Http.PostAsync("/Code/SaveCode", info);
+    public Task<Result> CreateTableAsync(AutoInfo<string> info) => Http.PostAsync("/Code/CreateTable", info);
 }
 
 [WebApi, Service]

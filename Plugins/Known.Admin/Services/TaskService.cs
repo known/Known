@@ -10,20 +10,9 @@ public interface ITaskService : IService
 [Client]
 class TaskClient(HttpClient http) : ClientBase(http), ITaskService
 {
-    public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<TaskInfo>("/Task/QueryTasks", criteria);
-    }
-
-    public Task<Result> DeleteTasksAsync(List<TaskInfo> infos)
-    {
-        return Http.PostAsync("/Task/DeleteTasks", infos);
-    }
-
-    public Task<Result> ResetTasksAsync(List<TaskInfo> infos)
-    {
-        return Http.PostAsync("/Task/ResetTasks", infos);
-    }
+    public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria) => Http.QueryAsync<TaskInfo>("/Task/QueryTasks", criteria);
+    public Task<Result> DeleteTasksAsync(List<TaskInfo> infos) => Http.PostAsync("/Task/DeleteTasks", infos);
+    public Task<Result> ResetTasksAsync(List<TaskInfo> infos) => Http.PostAsync("/Task/ResetTasks", infos);
 }
 
 [WebApi, Service]

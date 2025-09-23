@@ -12,7 +12,6 @@ public static partial class Extension
     /// <param name="action">系统配置方法。</param>
     public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
-        Config.StartTime = DateTime.Now;
         action?.Invoke(Config.App);
 
         if (Config.App.Type == AppType.WebApi)

@@ -22,7 +22,7 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
 
         Table.EnableEdit = false;
         Table.ShowPager = true;
-        Table.OnQuery = OnQueryApisAsync;
+        Table.OnQuery = Platform.QueryWebApisAsync;
         Table.AddColumn(c => c.HttpMethod).Width(120).Template(BuildMethod);
         Table.AddColumn(c => c.Route, true).Width(250).Tag().FilterType(false);
         Table.AddColumn(c => c.Description).Filter(false);
@@ -54,17 +54,6 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
         else if (row.HttpMethod == HttpMethod.Put)
             color = "purple";
         builder.Tag(text, color);
-    }
-
-    private Task<PagingResult<ApiMethodInfo>> OnQueryApisAsync(PagingCriteria criteria)
-    {
-        var methods = Config.ApiMethods;
-        var method = criteria.GetQueryValue(nameof(ApiMethodInfo.HttpMethod));
-        if (!string.IsNullOrWhiteSpace(method))
-            methods = [.. methods.Where(m => m.HttpMethod.Method.Equals(method, StringComparison.OrdinalIgnoreCase))];
-        methods = [.. methods.Contains(m => m.Route, criteria)];
-        var result = methods.ToPagingResult(criteria);
-        return Task.FromResult(result);
     }
 }
 

@@ -17,7 +17,7 @@ public partial class Logger
             try
             {
                 var scope = Config.ServiceProvider?.CreateScope();
-                var service = scope?.ServiceProvider?.GetRequiredService<IAdminService>();
+                var service = scope?.ServiceProvider?.GetRequiredService<IPlatformService>();
                 service?.AddWebLogAsync(log);
             }
             catch

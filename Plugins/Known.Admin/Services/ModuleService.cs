@@ -15,45 +15,14 @@ public interface IModuleService : IService
 [Client]
 class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
 {
-    public Task<List<SysModule1>> GetModulesAsync()
-    {
-        return Http.GetAsync<List<SysModule1>>("/Module/GetModules");
-    }
-
-    public Task<FileDataInfo> ExportModulesAsync()
-    {
-        return Http.GetAsync<FileDataInfo>("/Module/ExportModules");
-    }
-
-    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info)
-    {
-        return Http.PostAsync("/Module/ImportModules", info);
-    }
-
-    public Task<Result> DeleteModulesAsync(List<SysModule1> models)
-    {
-        return Http.PostAsync("/Module/DeleteModules", models);
-    }
-
-    public Task<Result> CopyModulesAsync(List<SysModule1> models)
-    {
-        return Http.PostAsync("/Module/CopyModules", models);
-    }
-
-    public Task<Result> MoveModulesAsync(List<SysModule1> models)
-    {
-        return Http.PostAsync("/Module/MoveModules", models);
-    }
-
-    public Task<Result> MoveModuleAsync(SysModule1 model)
-    {
-        return Http.PostAsync("/Module/MoveModule", model);
-    }
-
-    public Task<Result> SaveModuleAsync(SysModule1 model)
-    {
-        return Http.PostAsync("/Module/SaveModule", model);
-    }
+    public Task<List<SysModule1>> GetModulesAsync() => Http.GetAsync<List<SysModule1>>("/Module/GetModules");
+    public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Module/ExportModules");
+    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Module/ImportModules", info);
+    public Task<Result> DeleteModulesAsync(List<SysModule1> models) => Http.PostAsync("/Module/DeleteModules", models);
+    public Task<Result> CopyModulesAsync(List<SysModule1> models) => Http.PostAsync("/Module/CopyModules", models);
+    public Task<Result> MoveModulesAsync(List<SysModule1> models) => Http.PostAsync("/Module/MoveModules", models);
+    public Task<Result> MoveModuleAsync(SysModule1 model) => Http.PostAsync("/Module/MoveModule", model);
+    public Task<Result> SaveModuleAsync(SysModule1 model) => Http.PostAsync("/Module/SaveModule", model);
 }
 
 [WebApi, Service]

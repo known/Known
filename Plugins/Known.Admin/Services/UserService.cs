@@ -15,45 +15,14 @@ public interface IUserService : IService
 [Client]
 class UserClient(HttpClient http) : ClientBase(http), IUserService
 {
-    public Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<UserDataInfo>("/User/QueryUserDatas", criteria);
-    }
-
-    public Task<UserDataInfo> GetUserDataAsync(string id)
-    {
-        return Http.GetAsync<UserDataInfo>($"/User/GetUserData?id={id}");
-    }
-
-    public Task<Result> DeleteUsersAsync(List<UserDataInfo> infos)
-    {
-        return Http.PostAsync("/User/DeleteUsers", infos);
-    }
-
-    public Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos)
-    {
-        return Http.PostAsync("/User/ChangeDepartment", infos);
-    }
-
-    public Task<Result> EnableUsersAsync(List<UserDataInfo> infos)
-    {
-        return Http.PostAsync("/User/EnableUsers", infos);
-    }
-
-    public Task<Result> DisableUsersAsync(List<UserDataInfo> infos)
-    {
-        return Http.PostAsync("/User/DisableUsers", infos);
-    }
-
-    public Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos)
-    {
-        return Http.PostAsync("/User/SetUserPwds", infos);
-    }
-
-    public Task<Result> SaveUserAsync(UserDataInfo info)
-    {
-        return Http.PostAsync("/User/SaveUser", info);
-    }
+    public Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria) => Http.QueryAsync<UserDataInfo>("/User/QueryUserDatas", criteria);
+    public Task<UserDataInfo> GetUserDataAsync(string id) => Http.GetAsync<UserDataInfo>($"/User/GetUserData?id={id}");
+    public Task<Result> DeleteUsersAsync(List<UserDataInfo> infos) => Http.PostAsync("/User/DeleteUsers", infos);
+    public Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos) => Http.PostAsync("/User/ChangeDepartment", infos);
+    public Task<Result> EnableUsersAsync(List<UserDataInfo> infos) => Http.PostAsync("/User/EnableUsers", infos);
+    public Task<Result> DisableUsersAsync(List<UserDataInfo> infos) => Http.PostAsync("/User/DisableUsers", infos);
+    public Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos) => Http.PostAsync("/User/SetUserPwds", infos);
+    public Task<Result> SaveUserAsync(UserDataInfo info) => Http.PostAsync("/User/SaveUser", info);
 }
 
 [WebApi, Service]

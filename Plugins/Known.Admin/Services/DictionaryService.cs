@@ -11,25 +11,10 @@ public interface IDictionaryService : IService
 [Client]
 class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
 {
-    public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<DictionaryInfo>("/Dictionary/QueryDictionaries", criteria);
-    }
-
-    public Task<List<CodeInfo>> GetCategoriesAsync()
-    {
-        return Http.GetAsync<List<CodeInfo>>("/Dictionary/GetCategories");
-    }
-
-    public Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos)
-    {
-        return Http.PostAsync("/Dictionary/DeleteDictionaries", infos);
-    }
-
-    public Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info)
-    {
-        return Http.PostAsync("/Dictionary/SaveDictionary", info);
-    }
+    public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria) => Http.QueryAsync<DictionaryInfo>("/Dictionary/QueryDictionaries", criteria);
+    public Task<List<CodeInfo>> GetCategoriesAsync() => Http.GetAsync<List<CodeInfo>>("/Dictionary/GetCategories");
+    public Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos) => Http.PostAsync("/Dictionary/DeleteDictionaries", infos);
+    public Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info) => Http.PostAsync("/Dictionary/SaveDictionary", info);
 }
 
 [WebApi, Service]

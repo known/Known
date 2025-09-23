@@ -79,6 +79,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-toolbar {margin-bottom:5px;border-bottom:1px solid var(--kui-color-border);}
 .kui-toolbar .kui-title {padding:10px 10px 10px 0;}
 .kui-toolbar .ant-toolbar {padding:5px 0;}
+.form-list .ant-toolbar {padding:10px 0 0 0;}
 
 /*Table*/
 .kui-table.form-list .kui-toolbar {border-bottom:none;}

@@ -9,15 +9,8 @@ public interface ICompanyService : IService
 [Client]
 class CompanyClient(HttpClient http) : ClientBase(http), ICompanyService
 {
-    public Task<string> GetCompanyAsync()
-    {
-        return Http.GetTextAsync("/Company/GetCompany");
-    }
-
-    public Task<Result> SaveCompanyAsync(object model)
-    {
-        return Http.PostAsync("/Company/SaveCompany", model);
-    }
+    public Task<string> GetCompanyAsync() => Http.GetTextAsync("/Company/GetCompany");
+    public Task<Result> SaveCompanyAsync(object model) => Http.PostAsync("/Company/SaveCompany", model);
 }
 
 [WebApi, Service]

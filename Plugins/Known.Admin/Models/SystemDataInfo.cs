@@ -11,7 +11,6 @@ public class SystemDataInfo
     public SystemDataInfo()
     {
         Version = Config.Version;
-        RunTime = Utils.Round((DateTime.Now - Config.StartTime).TotalHours, 2);
     }
 
     /// <summary>

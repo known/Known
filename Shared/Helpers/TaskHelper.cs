@@ -19,7 +19,7 @@ public sealed class TaskHelper
 
     private static Task RunAsync(TaskInfo task, Context context)
     {
-        if (!Config.TaskTypes.TryGetValue(task.Type, out Type type))
+        if (!CoreConfig.TaskTypes.TryGetValue(task.Type, out Type type))
             return Task.CompletedTask;
 
         if (Activator.CreateInstance(type) is not TaskBase handler)

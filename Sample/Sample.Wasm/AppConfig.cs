@@ -23,7 +23,6 @@ public static class AppConfig
             info.Name = AppName;
             info.Assembly = assembly;
         });
-        services.AddKnownAdmin();
         services.AddModules();
         services.ConfigUI();
     }

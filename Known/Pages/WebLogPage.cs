@@ -23,7 +23,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
         Table.EnableSort = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Admin.QueryWebLogsAsync;
+        Table.OnQuery = Platform.QueryWebLogsAsync;
         Table.Tips = Language[Language.TipWebLogSaveDay].Replace("{LogDays}", $"{Config.App.WebLogDays}");
 
         Table.Clear();
@@ -77,12 +77,12 @@ public class WebLogPage : BaseTablePage<LogInfo>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(LogInfo row) => Table.Delete(Admin.DeleteWebLogsAsync, row);
+    [Action] public void Delete(LogInfo row) => Table.Delete(Platform.DeleteWebLogsAsync, row);
 
     /// <summary>
     /// 批量删除数据。
     /// </summary>
-    [Action] public void DeleteM() => Table.DeleteM(Admin.DeleteWebLogsAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Platform.DeleteWebLogsAsync);
 
     /// <summary>
     /// 清空数据。
@@ -93,7 +93,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
     {
         UI.Confirm(Language.TipConfirmClearLog, async () =>
         {
-            await Admin.ClearWebLogsAsync();
+            await Platform.ClearWebLogsAsync();
             await Table.RefreshAsync();
         });
     }

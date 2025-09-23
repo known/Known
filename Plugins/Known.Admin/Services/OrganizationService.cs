@@ -10,20 +10,9 @@ public interface IOrganizationService : IService
 [Client]
 class OrganizationClient(HttpClient http) : ClientBase(http), IOrganizationService
 {
-    public Task<List<OrganizationInfo>> GetOrganizationsAsync()
-    {
-        return Http.GetAsync<List<OrganizationInfo>>("/Organization/GetOrganizations");
-    }
-
-    public Task<Result> DeleteOrganizationsAsync(List<OrganizationInfo> infos)
-    {
-        return Http.PostAsync("/Organization/DeleteOrganizations", infos);
-    }
-
-    public Task<Result> SaveOrganizationAsync(OrganizationInfo info)
-    {
-        return Http.PostAsync("/Organization/SaveOrganization", info);
-    }
+    public Task<List<OrganizationInfo>> GetOrganizationsAsync() => Http.GetAsync<List<OrganizationInfo>>("/Organization/GetOrganizations");
+    public Task<Result> DeleteOrganizationsAsync(List<OrganizationInfo> infos) => Http.PostAsync("/Organization/DeleteOrganizations", infos);
+    public Task<Result> SaveOrganizationAsync(OrganizationInfo info) => Http.PostAsync("/Organization/SaveOrganization", info);
 }
 
 [WebApi, Service]

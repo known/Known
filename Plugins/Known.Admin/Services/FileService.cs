@@ -9,15 +9,8 @@ public interface IFileService : IService
 [Client]
 class FileClient(HttpClient http) : ClientBase(http), IFileService
 {
-    public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<AttachInfo>("/File/QueryFiles", criteria);
-    }
-
-    public Task<Result> DeleteFilesAsync(List<AttachInfo> infos)
-    {
-        return Http.PostAsync("/File/DeleteFiles", infos);
-    }
+    public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria) => Http.QueryAsync<AttachInfo>("/File/QueryFiles", criteria);
+    public Task<Result> DeleteFilesAsync(List<AttachInfo> infos) => Http.PostAsync("/File/DeleteFiles", infos);
 }
 
 [WebApi, Service]

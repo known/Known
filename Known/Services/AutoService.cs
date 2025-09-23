@@ -38,25 +38,10 @@ public interface IAutoService : IService
 [Client]
 class AutoClient(HttpClient http) : ClientBase(http), IAutoService
 {
-    public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<Dictionary<string, object>>("/Auto/QueryModels", criteria);
-    }
-
-    public Task<Dictionary<string, object>> GetModelAsync(string pageId, string id)
-    {
-        return Http.GetAsync<Dictionary<string, object>>($"/Auto/GetModel?pageId={pageId}&id={id}");
-    }
-
-    public Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info)
-    {
-        return Http.PostAsync("/Auto/DeleteModels", info);
-    }
-
-    public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info)
-    {
-        return Http.PostAsync("/Auto/SaveModel", info);
-    }
+    public Task<PagingResult<Dictionary<string, object>>> QueryModelsAsync(PagingCriteria criteria) => Http.QueryAsync<Dictionary<string, object>>("/Auto/QueryModels", criteria);
+    public Task<Dictionary<string, object>> GetModelAsync(string pageId, string id) => Http.GetAsync<Dictionary<string, object>>($"/Auto/GetModel?pageId={pageId}&id={id}");
+    public Task<Result> DeleteModelsAsync(AutoInfo<List<Dictionary<string, object>>> info) => Http.PostAsync("/Auto/DeleteModels", info);
+    public Task<Result> SaveModelAsync(UploadInfo<Dictionary<string, object>> info) => Http.PostAsync("/Auto/SaveModel", info);
 }
 
 [WebApi, Service]

@@ -9,11 +9,32 @@ public partial class CoreConfig
 
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
+    // 取得后端任务类字典。
+    internal static Dictionary<string, Type> TaskTypes { get; } = [];
+    // 取得后端导入类字典。
+    internal static Dictionary<string, Type> ImportTypes { get; } = [];
+    // 取得后端工作流类字典。
+    internal static Dictionary<string, Type> FlowTypes { get; } = [];
+
+    /// <summary>
+    /// 取得系统启动时间。
+    /// </summary>
+    public static DateTime StartTime { get; internal set; }
 
     /// <summary>
     /// 取得或设置系统信息。
     /// </summary>
     public static SystemInfo System { get; set; }
+
+    /// <summary>
+    /// 取得框架自动解析服务接口生成的WebApi类型列表。
+    /// </summary>
+    public static List<Type> ApiTypes { get; } = [];
+
+    /// <summary>
+    /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
+    /// </summary>
+    public static List<ApiMethodInfo> ApiMethods { get; } = [];
 
     /// <summary>
     /// 取得或设置超级管理员用户密码。

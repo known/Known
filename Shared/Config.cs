@@ -103,24 +103,9 @@ public partial class Config
     public static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
-    /// 取得框架自动解析服务接口生成的WebApi类型列表。
-    /// </summary>
-    public static List<Type> ApiTypes { get; } = [];
-
-    /// <summary>
-    /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
-    /// </summary>
-    public static List<ApiMethodInfo> ApiMethods { get; } = [];
-
-    /// <summary>
     /// 取得或设置依赖注入服务提供者。
     /// </summary>
     public static IServiceProvider ServiceProvider { get; set; }
-
-    /// <summary>
-    /// 取得系统启动时间。
-    /// </summary>
-    public static DateTime StartTime { get; internal set; }
 
     /// <summary>
     /// 取得自定义扩展字段组件类型字典。
@@ -136,16 +121,6 @@ public partial class Config
     /// 取得或设置操作按钮信息列表。
     /// </summary>
     public static List<ActionInfo> Actions { get; set; } = [];
-
-    // 取得后端任务类字典。
-    internal static Dictionary<string, Type> TaskTypes { get; } = [];
-    // 取得后端导入类字典。
-    internal static Dictionary<string, Type> ImportTypes { get; } = [];
-
-    /// <summary>
-    /// 取得后端工作流类字典。
-    /// </summary>
-    public static Dictionary<string, Type> FlowTypes { get; } = [];
 
     /// <summary>
     /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。

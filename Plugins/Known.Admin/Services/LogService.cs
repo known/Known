@@ -8,10 +8,7 @@ public interface ILogService : IService
 [Client]
 class LogClient(HttpClient http) : ClientBase(http), ILogService
 {
-    public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<LogInfo>("/Log/QueryLogs", criteria);
-    }
+    public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria) => Http.QueryAsync<LogInfo>("/Log/QueryLogs", criteria);
 }
 
 [WebApi, Service]
