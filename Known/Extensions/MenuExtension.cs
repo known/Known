@@ -119,14 +119,6 @@ public static class MenuExtension
         return items;
     }
 
-    internal static string ZipDataString(this List<PluginInfo> plugins)
-    {
-        if (plugins == null || plugins.Count == 0)
-            return string.Empty;
-
-        return ZipHelper.ZipDataAsString(plugins);
-    }
-
     internal static void Resort(this List<MenuInfo> menus)
     {
         if (menus == null || menus.Count == 0)

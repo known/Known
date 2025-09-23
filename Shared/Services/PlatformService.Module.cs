@@ -94,18 +94,19 @@ partial class PlatformClient
 
 partial class PlatformService
 {
-    public async Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
+    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
     {
-        var modules = await Database.QueryListAsync<SysModule>();
-        var items = AppData.Data.Modules.Where(m => modules?.Exists(d => d.Url == m.Url) == false)
-                                        .OrderBy(d => d.ParentId)
-                                        .ThenBy(d => d.Sort)
-                                        .ToList();
-        var name = criteria.GetQueryValue(nameof(ModuleInfo.Name));
-        if (!string.IsNullOrEmpty(name))
-            items = [.. items.Where(m => m.Name.Contains(name))];
+        //var modules = await Database.QueryListAsync<SysModule>();
+        //var items = AppData.Data.Modules.Where(m => modules?.Exists(d => d.Url == m.Url) == false)
+        //                                .OrderBy(d => d.ParentId)
+        //                                .ThenBy(d => d.Sort)
+        //                                .ToList();
+        //var name = criteria.GetQueryValue(nameof(ModuleInfo.Name));
+        //if (!string.IsNullOrEmpty(name))
+        //    items = [.. items.Where(m => m.Name.Contains(name))];
 
-        return items.ToPagingResult(criteria);
+        //return items.ToPagingResult(criteria);
+        return Database.Query<SysModule>(criteria).ToPageAsync<ModuleInfo>();
     }
 
     public async Task<List<ModuleInfo>> GetModulesAsync()

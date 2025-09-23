@@ -5,21 +5,20 @@ namespace Known.Helpers;
 class RouteHelper
 {
     private const string RouteId = "Route";
-    private static List<MenuInfo> Routes { get; } = [];
 
     internal static void AddRoute(Type type, List<RouteAttribute> routes)
     {
         var target = Constants.Route;
-        if (!Routes.Exists(d => d.Id == RouteId))
+        if (!DataHelper.Routes.Exists(d => d.Id == RouteId))
         {
             var route = new MenuInfo { Id = RouteId, ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Url = "", Sort = 999 };
-            Routes.Add(route);
+            DataHelper.Routes.Add(route);
         }
 
         if (routes.Count > 1)
         {
             var sub = new MenuInfo { Id = type.FullName, Name = type.Name, ParentId = RouteId, Target = target };
-            Routes.Add(sub);
+            DataHelper.Routes.Add(sub);
             foreach (var route in routes)
             {
                 Config.RouteTypes[route.Template] = type;
@@ -28,7 +27,7 @@ class RouteHelper
                 var table = AppData.CreateAutoPage(type);
                 if (table != null)
                     info.Plugins.AddPlugin(table);
-                Routes.Add(info);
+                DataHelper.Routes.Add(info);
             }
         }
         else
@@ -39,31 +38,8 @@ class RouteHelper
             var table = AppData.CreateAutoPage(type);
             if (table != null)
                 info.Plugins.AddPlugin(table);
-            Routes.Add(info);
+            DataHelper.Routes.Add(info);
         }
-    }
-
-    internal static void AddTo(List<MenuInfo> modules)
-    {
-        if (Routes.Count == 0)
-            return;
-
-        var items = Routes.Where(d => !modules.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
-        var exists = Routes.Where(d => modules.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
-        if (exists != null && exists.Count > 0)
-        {
-            foreach (var item in exists)
-            {
-                if (!item.IsCode)
-                    continue;
-
-                var info = modules.FirstOrDefault(m => m.Id == item.Id || m.Url == item.Url);
-                info.Plugins = item.Plugins;
-            }
-        }
-
-        if (items != null && items.Count > 0)
-            modules.AddRange(items);
     }
 
     private static void SetRouteInfo(MenuInfo info, Type type)

@@ -39,6 +39,8 @@ static class InitHelper
             else if (type.IsAssignableTo(typeof(BaseForm)))
                 Config.FormTypes[type.Name] = type;
         }
+
+        MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
     }
 
     internal static void LoadClients(this IServiceCollection services)

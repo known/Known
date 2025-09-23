@@ -8,11 +8,6 @@ public sealed class DataHelper
     private DataHelper() { }
 
     /// <summary>
-    /// 取得实体模型列表。
-    /// </summary>
-    public static List<EntityInfo> Models { get; } = [];
-
-    /// <summary>
     /// 根据实体表名获取去表前缀的类名称。
     /// </summary>
     /// <param name="name">实体表名。</param>
@@ -86,12 +81,47 @@ public sealed class DataHelper
             if (!allMenus.Exists(m => m.Name == item.Name && m.ParentId == item.ParentId))
                 allMenus.Add(item);
         }
-        RouteHelper.AddTo(allMenus);
-        RoleHelper.AddTo(allMenus);
+        AddRules(allMenus);
+        AddRoles(allMenus);
         //var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
         //if (routes != null && routes.Count > 0)
         //    allModules.AddRange(routes);
         return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.Sort)];
+    }
+
+    internal static List<MenuInfo> Routes { get; } = [];
+    private static void AddRules(List<MenuInfo> modules)
+    {
+        if (Routes.Count == 0)
+            return;
+
+        var items = Routes.Where(d => !modules.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
+        var exists = Routes.Where(d => modules.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
+        if (exists != null && exists.Count > 0)
+        {
+            foreach (var item in exists)
+            {
+                if (!item.IsCode)
+                    continue;
+
+                var info = modules.FirstOrDefault(m => m.Id == item.Id || m.Url == item.Url);
+                info.Plugins = item.Plugins;
+            }
+        }
+
+        if (items != null && items.Count > 0)
+            modules.AddRange(items);
+    }
+
+    internal static List<MenuInfo> Roles { get; } = [];
+    private static void AddRoles(List<MenuInfo> modules)
+    {
+        if (Roles.Count == 0)
+            return;
+
+        var items = Roles.Where(d => !modules.Exists(m => m.Id == d.Id)).ToList();
+        if (items != null && items.Count > 0)
+            modules.AddRange(items);
     }
 
     //private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
@@ -186,10 +216,15 @@ public sealed class DataHelper
 
     #region Entity
     /// <summary>
+    /// 取得实体模型列表。
+    /// </summary>
+    public static List<EntityInfo> Models { get; } = [];
+
+    /// <summary>
     /// 将模型配置转换成实体信息对象。
     /// </summary>
-    /// <param name="model">模型配置。</param>
-    /// <returns>实体信息。</returns>
+    /// <param name="model">模型字符串。</param>
+    /// <returns></returns>
     public static EntityInfo ToEntity(string model)
     {
         var info = new EntityInfo();
@@ -202,26 +237,45 @@ public sealed class DataHelper
         return GetEntityInfo(model);
     }
 
-    /// <summary>
-    /// 将实体信息对象转换成模型配置字符串。
-    /// </summary>
-    /// <param name="info">实体信息对象。</param>
-    /// <returns></returns>
-    public static string ToEntityData(EntityInfo info)
+    // 验证无代码字典对象。
+    internal static Result Validate(Context context, EntityInfo entity, Dictionary<string, object> model)
     {
-        if (info == null)
-            return string.Empty;
+        if (entity == null)
+            return Result.Error(context.Language.Required("EntityInfo"));
 
-        var sb = new StringBuilder();
-        sb.AppendLine($"{info.Name}|{info.Id}");
-        foreach (var item in info.Fields)
+        var dicError = new Dictionary<string, List<string>>();
+        foreach (var field in entity.Fields)
         {
-            sb.AppendLine($"{item.Name}|{item.Id}|{item.Type}|{item.Length}|{(item.Required ? "Y" : "N")}");
+            var errors = new List<string>();
+            var value = model.GetValue(field.Id);
+            if (value == null && (field.Type == FieldType.Switch || field.Type == FieldType.CheckBox))
+            {
+                value = "False";
+                model.SetValue(field.Id, false);
+            }
+
+            var valueString = value == null ? "" : value.ToString().Trim();
+            if (field.Required && string.IsNullOrWhiteSpace(valueString))
+                errors.Add(context.Language.Required(field.Name));
+
+            if (errors.Count > 0)
+                dicError.Add(field.Name, errors);
         }
-        return sb.ToString();
+
+        if (dicError.Count > 0)
+        {
+            var result = Result.Error("", dicError);
+            foreach (var item in dicError.Values)
+            {
+                item.ForEach(result.AddError);
+            }
+            return result;
+        }
+
+        return Result.Success("");
     }
 
-    private static EntityInfo GetEntityInfo(string model)
+    internal static EntityInfo GetEntityInfo(string model)
     {
         var info = new EntityInfo();
         var lines = model.Split([.. Environment.NewLine])
@@ -260,74 +314,49 @@ public sealed class DataHelper
 
         return info;
     }
+
+    /// <summary>
+    /// 将实体信息对象转换成模型配置字符串。
+    /// </summary>
+    /// <param name="info">实体信息对象。</param>
+    /// <returns></returns>
+    public static string ToEntityData(EntityInfo info)
+    {
+        if (info == null)
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        sb.AppendLine($"{info.Name}|{info.Id}");
+        foreach (var item in info.Fields)
+        {
+            sb.AppendLine($"{item.Name}|{item.Id}|{item.Type}|{item.Length}|{(item.Required ? "Y" : "N")}");
+        }
+        return sb.ToString();
+    }
     #endregion
 
     #region Dictionary
-    /// <summary>
-    /// 验证无代码字典对象。
-    /// </summary>
-    /// <param name="context">系统上下文。</param>
-    /// <param name="entity">数据实体信息。</param>
-    /// <param name="model">字典对象。</param>
-    /// <returns>验证结果。</returns>
-    public static Result Validate(Context context, EntityInfo entity, Dictionary<string, object> model)
-    {
-        if (entity == null)
-            return Result.Error(context.Language.Required("EntityInfo"));
+    //internal static Task<PagingResult<Dictionary<string, object>>> QueryPrototypeDataAsync(PagingCriteria criteria, MenuInfo info)
+    //{
+    //    var columns = info?.GetAutoPageParameter()?.Page?.Columns;
+    //    if (columns == null || columns.Count == 0)
+    //        return Task.FromResult(new PagingResult<Dictionary<string, object>>());
 
-        var dicError = new Dictionary<string, List<string>>();
-        foreach (var field in entity.Fields)
-        {
-            var errors = new List<string>();
-            var value = model.GetValue(field.Id);
-            if (value == null && (field.Type == FieldType.Switch || field.Type == FieldType.CheckBox))
-            {
-                value = "False";
-                model.SetValue(field.Id, false);
-            }
-
-            var valueString = value == null ? "" : value.ToString().Trim();
-            if (field.Required && string.IsNullOrWhiteSpace(valueString))
-                errors.Add(context.Language.Required(field.Name));
-
-            if (errors.Count > 0)
-                dicError.Add(field.Name, errors);
-        }
-
-        if (dicError.Count > 0)
-        {
-            var result = Result.Error("", dicError);
-            foreach (var item in dicError.Values)
-            {
-                item.ForEach(result.AddError);
-            }
-            return result;
-        }
-
-        return Result.Success("");
-    }
-
-    internal static Task<PagingResult<Dictionary<string, object>>> QueryPrototypeDataAsync(PagingCriteria criteria, MenuInfo info)
-    {
-        var columns = info?.GetAutoPageParameter()?.Page?.Columns;
-        if (columns == null || columns.Count == 0)
-            return Task.FromResult(new PagingResult<Dictionary<string, object>>());
-
-        var datas = new List<Dictionary<string, object>>();
-        for (int i = 0; i < 100; i++)
-        {
-            var data = new Dictionary<string, object>();
-            foreach (var column in columns)
-            {
-                if (UIConfig.OnMockData != null)
-                    data[column.Id] = UIConfig.OnMockData.Invoke(info, column);
-                else
-                    data[column.Id] = "TestData";
-            }
-            datas.Add(data);
-        }
-        var result = datas.ToPagingResult(criteria);
-        return Task.FromResult(result);
-    }
+    //    var datas = new List<Dictionary<string, object>>();
+    //    for (int i = 0; i < 100; i++)
+    //    {
+    //        var data = new Dictionary<string, object>();
+    //        foreach (var column in columns)
+    //        {
+    //            if (UIConfig.OnMockData != null)
+    //                data[column.Id] = UIConfig.OnMockData.Invoke(info, column);
+    //            else
+    //                data[column.Id] = "TestData";
+    //        }
+    //        datas.Add(data);
+    //    }
+    //    var result = datas.ToPagingResult(criteria);
+    //    return Task.FromResult(result);
+    //}
     #endregion
 }

@@ -92,4 +92,24 @@ public class AutoPageInfo
     /// 取得或设置无代码表单配置信息。
     /// </summary>
     public FormInfo Form { get; set; } = new();
+
+    /// <summary>
+    /// 转换成实体信息对象。
+    /// </summary>
+    /// <returns></returns>
+    public EntityInfo ToEntity()
+    {
+        if (!string.IsNullOrWhiteSpace(EntityData))
+            return DataHelper.ToEntity(EntityData);
+
+        var info = new EntityInfo { Id = Id, Name = Name, TableName = Script };
+        foreach (var item in Form.Fields)
+        {
+            var field = item.ToField();
+            field.IsForm = true;
+            field.IsGrid = Page.Columns.Exists(d => d.Id == field.Id);
+            info.Fields.Add(field);
+        }
+        return info;
+    }
 }

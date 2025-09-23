@@ -96,26 +96,6 @@ public static class ModelExtension
     #endregion
 
     #region PageInfo
-    /// <summary>
-    /// 转换成实体信息对象。
-    /// </summary>
-    /// <returns></returns>
-    public static EntityInfo ToEntity(this AutoPageInfo page)
-    {
-        if (!string.IsNullOrWhiteSpace(page.EntityData))
-            return DataHelper.ToEntity(page.EntityData);
-
-        var info = new EntityInfo { Id = page.Id, Name = page.Name, TableName = page.Script };
-        foreach (var item in page.Form.Fields)
-        {
-            var field = item.ToField();
-            field.IsForm = true;
-            field.IsGrid = page.Page.Columns.Exists(d => d.Id == field.Id);
-            info.Fields.Add(field);
-        }
-        return info;
-    }
-
     //internal static List<ActionInfo> GetToolItems(this PageInfo info, Type pageType)
     //{
     //    if (info == null || info.Tools == null || info.Tools.Count == 0)

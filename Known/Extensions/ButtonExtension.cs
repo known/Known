@@ -8,31 +8,6 @@ namespace Known.Extensions;
 public static class ButtonExtension
 {
     /// <summary>
-    /// 获取查询结果。
-    /// </summary>
-    /// <param name="infos">按钮信息列表。</param>
-    /// <param name="criteria">查询条件。</param>
-    /// <returns>查询结果。</returns>
-    public static PagingResult<ButtonInfo> ToQueryResult(this List<ButtonInfo> infos, PagingCriteria criteria)
-    {
-        var query = criteria.Query.FirstOrDefault(q => q.Id == nameof(ButtonInfo.Id));
-        if (query != null && !string.IsNullOrWhiteSpace(query.Value))
-        {
-            if (query.Type == QueryType.NotIn)
-                infos = [.. infos.Where(b => !query.Value.Split(',').Contains(b.Id))];
-            else
-                infos = [.. infos.Where(b => b.Id.Contains(query.Value))];
-        }
-        //infos = [.. infos.Contains(m => m.Id, criteria)];
-        infos = [.. infos.Contains(m => m.Name, criteria)];
-        //infos = [.. infos.Contains(m => m.Position, criteria)];
-        var position = criteria.GetQueryValue(nameof(ButtonInfo.Position));
-        if (!string.IsNullOrWhiteSpace(position))
-            infos = [.. infos.Where(b => b.Position?.Contains(position) == true)];
-        return infos.ToPagingResult(criteria);
-    }
-
-    /// <summary>
     /// 构建按钮组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>

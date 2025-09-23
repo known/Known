@@ -1,103 +1,100 @@
 ﻿namespace Known.Services;
 
 /// <summary>
-/// 管理后台服务接口。
+/// 管理后台数据服务接口。
 /// </summary>
-public interface IAdminPService
+public partial interface IAdminService : IService
 {
-    #region File
     /// <summary>
-    /// 异步获取系统附件信息列表。
+    /// 异步获取系统配置数据。
     /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizIds">业务ID集合。</param>
-    /// <returns></returns>
-    Task<List<AttachInfo>> GetAttachesAsync(Database db, string[] bizIds);
+    /// <param name="key">配置数据键。</param>
+    /// <returns>配置数据JSON字符串。</returns>
+    Task<string> GetConfigAsync(string key);
 
     /// <summary>
-    /// 异步获取系统附件信息列表。
+    /// 异步保存系统配置数据。
     /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizId">业务ID。</param>
+    /// <param name="info">系统配置数据信息。</param>
     /// <returns></returns>
-    Task<List<AttachInfo>> GetAttachesAsync(Database db, string bizId);
+    Task<Result> SaveConfigAsync(ConfigInfo info);
 
     /// <summary>
-    /// 异步获取系统附件信息列表。
+    /// 异步分页查询系统用户。
     /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizId">业务ID。</param>
-    /// <param name="bizType">业务类型。</param>
-    /// <returns></returns>
-    Task<List<AttachInfo>> GetAttachesAsync(Database db, string bizId, string bizType);
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
 
     /// <summary>
-    /// 异步获取系统附件信息。
+    /// 异步获取系统附件列表。
     /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="id">附件ID。</param>
-    /// <returns></returns>
-    Task<AttachInfo> GetAttachAsync(Database db, string id);
+    /// <param name="bizId">附件业务数据ID。</param>
+    /// <returns>系统附件列表。</returns>
+    Task<List<AttachInfo>> GetFilesAsync(string bizId);
 
     /// <summary>
-    /// 异步删除一条系统附件数据。
+    /// 异步删除单条系统附件。
     /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="id">附件ID。</param>
-    /// <returns></returns>
-    Task DeleteFileAsync(Database db, string id);
+    /// <param name="info">系统附件对象。</param>
+    /// <returns>删除结果。</returns>
+    Task<Result> DeleteFileAsync(AttachInfo info);
 
     /// <summary>
-    /// 异步添加附件信息。
+    /// 异步添加系统日志。
     /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">附件信息。</param>
-    /// <returns></returns>
-    Task<AttachInfo> AddFileAsync(Database db, AttachFile info);
-    #endregion
+    /// <param name="info">系统日志</param>
+    /// <returns>添加结果。</returns>
+    Task<Result> AddLogAsync(LogInfo info);
+}
 
-    #region Task
-    /// <summary>
-    /// 异步根据业务ID获取任务信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="bizId">业务ID。</param>
-    /// <returns></returns>
-    Task<TaskInfo> GetTaskAsync(Database db, string bizId);
+[Client]
+partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
+{
+    public Task<string> GetConfigAsync(string key) => Http.GetTextAsync($"/Admin/GetConfig?key={key}");
+    public Task<Result> SaveConfigAsync(ConfigInfo info) => Http.PostAsync("/Admin/SaveConfig", info);
+    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria) => Http.QueryAsync<UserInfo>("/Admin/QueryUsers", criteria);
+    public Task<List<AttachInfo>> GetFilesAsync(string bizId) => Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
+    public Task<Result> DeleteFileAsync(AttachInfo info) => Http.PostAsync("/Admin/DeleteFile", info);
+    public Task<Result> AddLogAsync(LogInfo info) => Http.PostAsync("/Admin/AddLog", info);
+}
 
-    /// <summary>
-    /// 异步创建一个后台任务。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">任务信息。</param>
-    /// <returns></returns>
-    Task CreateTaskAsync(Database db, TaskInfo info);
+[WebApi, Service]
+partial class AdminService(Context context) : ServiceBase(context), IAdminService
+{
+    public Task<string> GetConfigAsync(string key)
+    {
+        return Database.GetConfigAsync(key);
+    }
 
-    /// <summary>
-    /// 异步保存任务信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">任务信息。</param>
-    /// <returns></returns>
-    Task SaveTaskAsync(Database db, TaskInfo info);
-    #endregion
+    public Task<Result> SaveConfigAsync(ConfigInfo info)
+    {
+        return Database.SaveConfigAsync(info.Key, info.Value);
+    }
 
-    #region Log
-    /// <summary>
-    /// 异步获取常用功能菜单信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="userName">用户名。</param>
-    /// <param name="size">Top数量。</param>
-    /// <returns>功能菜单信息。</returns>
-    Task<List<string>> GetVisitMenuIdsAsync(Database db, string userName, int size);
+    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
+    {
+        return await Database.Query<SysUser>(criteria).ToPageAsync<UserInfo>();
+    }
 
-    /// <summary>
-    /// 异步保存日志信息。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">日志信息。</param>
-    /// <returns></returns>
-    Task SaveLogAsync(Database db, LogInfo info);
-    #endregion
+    public Task<List<AttachInfo>> GetFilesAsync(string bizId)
+    {
+        return Database.GetFilesAsync(bizId);
+    }
+
+    public async Task<Result> DeleteFileAsync(AttachInfo info)
+    {
+        if (info == null || string.IsNullOrWhiteSpace(info.Path))
+            return Result.Error(Language.TipFileNotExists);
+
+        var oldFiles = new List<string>();
+        await Database.DeleteFileAsync(info, oldFiles);
+        AttachFile.DeleteFiles(oldFiles);
+        return Result.Success(Language.DeleteSuccess);
+    }
+
+    public Task<Result> AddLogAsync(LogInfo info)
+    {
+        return Database.AddLogAsync(info);
+    }
 }

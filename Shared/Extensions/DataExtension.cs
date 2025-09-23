@@ -73,4 +73,15 @@ public static class DataExtension
     {
         return db.AddLogAsync(new LogInfo { Type = type.ToString(), Target = target, Content = content });
     }
+
+    internal static async Task<Database> GetDatabaseAsync(this Database database, AutoPageInfo info)
+    {
+        if (info == null || string.IsNullOrWhiteSpace(info.Database) || info.Database == database.ConnectionName)
+            return database;
+
+        if (CoreConfig.OnDatabase == null)
+            return database;
+
+        return await CoreConfig.OnDatabase.Invoke(database, info);
+    }
 }

@@ -2,6 +2,25 @@
 
 static class PlatformExtension
 {
+    internal static PagingResult<ButtonInfo> ToQueryResult(this List<ButtonInfo> infos, PagingCriteria criteria)
+    {
+        var query = criteria.Query.FirstOrDefault(q => q.Id == nameof(ButtonInfo.Id));
+        if (query != null && !string.IsNullOrWhiteSpace(query.Value))
+        {
+            if (query.Type == QueryType.NotIn)
+                infos = [.. infos.Where(b => !query.Value.Split(',').Contains(b.Id))];
+            else
+                infos = [.. infos.Where(b => b.Id.Contains(query.Value))];
+        }
+        //infos = [.. infos.Contains(m => m.Id, criteria)];
+        infos = [.. infos.Contains(m => m.Name, criteria)];
+        //infos = [.. infos.Contains(m => m.Position, criteria)];
+        var position = criteria.GetQueryValue(nameof(ButtonInfo.Position));
+        if (!string.IsNullOrWhiteSpace(position))
+            infos = [.. infos.Where(b => b.Position?.Contains(position) == true)];
+        return infos.ToPagingResult(criteria);
+    }
+
     internal static Task<List<LanguageInfo>> GetLanguagesAsync(this Database db)
     {
         return db.Query<SysLanguage>().ToListAsync<LanguageInfo>();
@@ -32,5 +51,13 @@ static class PlatformExtension
                 actions.AddRange(items);
         }
         return actions;
+    }
+
+    internal static string ZipDataString(this List<PluginInfo> plugins)
+    {
+        if (plugins == null || plugins.Count == 0)
+            return string.Empty;
+
+        return ZipHelper.ZipDataAsString(plugins);
     }
 }

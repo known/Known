@@ -2,6 +2,8 @@
 
 class MigrateHelper
 {
+    internal static List<PluginInfo> TopNavs { get; set; } = [];
+
     internal static async Task<Result> MigrateDataAsync(Database database)
     {
         try
@@ -67,14 +69,13 @@ class MigrateHelper
 
     private static async Task MigrateTopNavsAsync(Database db)
     {
-        var datas = AppData.Data.TopNavs;
-        if (datas == null || datas.Count == 0)
+        if (TopNavs == null || TopNavs.Count == 0)
             return;
 
         if (await db.ExistsConfigAsync(Constants.KeyTopNav))
             return;
 
-        await db.SaveConfigAsync(Constants.KeyTopNav, datas, true);
+        await db.SaveConfigAsync(Constants.KeyTopNav, TopNavs, true);
     }
 
     class Page2Info

@@ -10,6 +10,11 @@ class LanguageAttribute(string code, string icon, bool isDefault = false, bool e
 }
 
 /// <summary>
+/// 匿名访问特性类，用于标识控制器或方法允许匿名访问。
+/// </summary>
+public class AllowAnonymousAttribute : Attribute { }
+
+/// <summary>
 /// 任务特性类，用于标识任务类。
 /// </summary>
 /// <param name="bizType">任务关联的业务类型。</param>

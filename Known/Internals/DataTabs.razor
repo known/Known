@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<Tabs Animated Class="@Model.Class" OnChange="OnTabChanged">
+<Tabs Animated Class="@Model.Class" ActiveKey="@Model.Current" OnChange="OnTabChanged">
     <TabBarExtraContentLeft>
         @Model.Left
     </TabBarExtraContentLeft>

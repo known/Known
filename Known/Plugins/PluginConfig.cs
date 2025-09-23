@@ -43,4 +43,21 @@ public class PluginConfig
             Url = route?.Template
         });
     }
+
+    // 加载顶部导航
+    internal static List<PluginInfo> LoadTopNavs()
+    {
+        var infos = new List<PluginInfo>();
+        foreach (var item in TopNavs)
+        {
+            if (item.Type == typeof(NavFontSize) && !Config.App.IsSize)
+                continue;
+            if (item.Type == typeof(NavLanguage) && !Config.App.IsLanguage)
+                continue;
+            if (item.Type == typeof(NavTheme) && !Config.App.IsTheme)
+                continue;
+            infos.Add(new PluginInfo { Id = item.Id, Type = item.Id });
+        }
+        return infos;
+    }
 }

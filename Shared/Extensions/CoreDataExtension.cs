@@ -67,17 +67,6 @@ public static class CoreDataExtension
         return MigrateHelper.MigrateDataAsync(db);
     }
 
-    internal static async Task<Database> GetDatabaseAsync(this Database database, AutoPageInfo info)
-    {
-        if (info == null || string.IsNullOrWhiteSpace(info.Database) || info.Database == database.ConnectionName)
-            return database;
-
-        if (CoreConfig.OnDatabase == null)
-            return database;
-
-        return await CoreConfig.OnDatabase.Invoke(database, info);
-    }
-
     internal static async Task<Dictionary<string, List<TableSettingInfo>>> GetUserTableSettingsAsync(this Database db)
     {
         var settings = await db.GetUserSettingsAsync("UserTable_");

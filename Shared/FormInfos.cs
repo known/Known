@@ -418,3 +418,25 @@ public class AvatarInfo
     /// </summary>
     public FileDataInfo File { get; set; }
 }
+
+/// <summary>
+/// 自动页面数据交互信息类。
+/// </summary>
+/// <typeparam name="TData">交互数据泛型类型。</typeparam>
+public class AutoInfo<TData>
+{
+    /// <summary>
+    /// 取得或设置页面模块ID/建表实体名/生成代码路径。
+    /// </summary>
+    public string PageId { get; set; }
+
+    /// <summary>
+    /// 取得或设置页面插件ID/生成代码类型。
+    /// </summary>
+    public string PluginId { get; set; }
+
+    /// <summary>
+    /// 取得或设置交互数据泛型对象/建表脚本/生成代码。
+    /// </summary>
+    public TData Data { get; set; }
+}

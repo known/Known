@@ -33,12 +33,8 @@ public static class ServiceExtension
         return service;
     }
 
-    /// <summary>
-    /// 设置注入对象构造函数参数为IService的对象上下文属性。
-    /// </summary>
-    /// <param name="service">服务或导入对象。</param>
-    /// <param name="context">系统上下文对象。</param>
-    public static void SetServiceContext(this object service, Context context)
+    // 设置注入对象构造函数参数为IService的对象上下文属性。
+    internal static void SetServiceContext(this object service, Context context)
     {
         if (service == null)
             return;
@@ -62,22 +58,6 @@ public static class ServiceExtension
             }
         }
     }
-
-    /// <summary>
-    /// 添加注入程序集中 Service 特性的服务类、继承 EntityBase 类的实体类、并自动创建新数据库表。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    /// <param name="assembly">程序集。</param>
-    [Obsolete("该方法已无用处，可以删除。")]
-    public static void AddServices(this IServiceCollection services, Assembly assembly) { }
-
-    /// <summary>
-    /// 添加注入程序集中 Client 特性的客户端类。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    /// <param name="assembly">程序集。</param>
-    [Obsolete("该方法已无用处，可以删除。")]
-    public static void AddClients(this IServiceCollection services, Assembly assembly) { }
 
     internal static void AddServices(this IServiceCollection services, ServiceLifetime lifetime, Type type)
     {
