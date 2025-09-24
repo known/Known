@@ -20,7 +20,7 @@
         {
             <img src="@current?.FileUrl?.OriginalUrl" />
         }
-        else if (current?.SourceName.EndsWith(".pdf") == true)
+        else if (current?.SourceName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase) == true)
         {
             var pdfId = $"pdfView-{current?.Id}";
             <div id="@pdfId" style="width:100%;height:100%;" />

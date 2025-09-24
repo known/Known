@@ -134,11 +134,11 @@ public sealed class Utils
         if (string.IsNullOrWhiteSpace(fileName))
             return false;
 
-        return fileName.EndsWith(".jpeg")
-            || fileName.EndsWith(".jpg")
-            || fileName.EndsWith(".png")
-            || fileName.EndsWith(".gif")
-            || fileName.EndsWith(".bmp");
+        return fileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
+            || fileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+            || fileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
+            || fileName.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+            || fileName.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
