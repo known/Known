@@ -73,7 +73,10 @@ public static class AdminExtension
         if (!Config.IsAdminLog && db.User.IsSystemAdmin() && info.Type != nameof(LogType.Register))
             return Result.Success("");
 
-        await Service?.SaveLogAsync(db, info);
+        if (Service == null)
+            return Result.Success("");
+
+        await Service.SaveLogAsync(db, info);
         return Result.Success("");
     }
     #endregion

@@ -29,8 +29,8 @@ public class BaseLayout : BaseComponent
         await base.OnInitAsync();
         Context.App = this;
         Context.TabsService = TabsService;
-        if (IsServerMode)
-            await InitAdminAsync();
+        //if (IsServerMode)
+        await InitAdminAsync();
     }
 
     /// <inheritdoc />
@@ -48,9 +48,9 @@ public class BaseLayout : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            if (!IsServerMode)
-                await InitAdminAsync(); //App.ReloadPage();
-            if (Info.IsChangePwd)
+            //if (!IsServerMode)
+            //    await InitAdminAsync(); //App.ReloadPage();
+            if (Info != null && Info.IsChangePwd)
                 ShowUpdatePassword();
         }
     }

@@ -155,6 +155,11 @@ public class AppInfo
     public WeixinConfigInfo Weixin { get; set; }
 
     /// <summary>
+    /// 取得或设置数据库访问配置选项委托。
+    /// </summary>
+    public Action<DatabaseOption> Database { get; set; }
+
+    /// <summary>
     /// 取得或设置系统因未处理异常导致退出的委托，可用于发送报警。
     /// </summary>
     public Action<Exception> OnExit { get; set; }

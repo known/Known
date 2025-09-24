@@ -14,25 +14,6 @@ namespace Known;
 public static class CoreExtension
 {
     /// <summary>
-    /// 添加桌面框架及身份认证支持。
-    /// </summary>
-    /// <param name="services">服务集合。</param>
-    /// <param name="action">配置委托。</param>
-    public static void AddKnownWin(this IServiceCollection services, Action<CoreOption> action = null)
-    {
-        AppHelper.LoadConnections();
-        action?.Invoke(CoreOption.Instance);
-
-        CoreOption.Instance.App.Type = AppType.Desktop;
-        services.AddKnownServices();
-
-        services.AddHttpContextAccessor();
-        services.AddCascadingAuthenticationState();
-        services.AddScoped<IAuthStateProvider, WinAuthStateProvider>();
-        services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
-    }
-
-    /// <summary>
     /// 添加Web框架及身份认证支持。
     /// </summary>
     /// <param name="services">服务集合。</param>
@@ -122,7 +103,7 @@ public static class CoreExtension
             options.Transports = HttpTransportType.WebSockets | HttpTransportType.LongPolling;
         });
         Config.ServiceProvider = app.Services;
-        if (CoreOption.Instance.Database != null)
+        if (Config.App.Database != null)
             AppHelper.LoadLanguages();
     }
 
@@ -180,31 +161,31 @@ public static class CoreExtension
     {
         var assembly = typeof(CoreOption).Assembly;
         Config.AddModule(assembly);
-        CoreConfig.OnInitialMenus = OnInitialMenus;
-        Logger.Initialize(Config.App.WebLogDays);
+        //CoreConfig.OnInitialMenus = OnInitialMenus;
+        //Logger.Initialize(Config.App.WebLogDays);
 
-        if (CoreOption.Instance.Database != null)
-            services.AddKnownData(CoreOption.Instance.Database);
+        //if (CoreOption.Instance.Database != null)
+        //    services.AddKnownData(CoreOption.Instance.Database);
 
         // 添加服务
         services.AddKnownCells();
         services.AddKnownCore();
     }
 
-    private static async Task<List<MenuInfo>> OnInitialMenus(Database db)
-    {
-        var modules = new List<MenuInfo>();
-        var items = await db.QueryListAsync<SysModule>();
-        if (items != null && items.Count > 0)
-        {
-            foreach (var item in items.OrderBy(m => m.Sort))
-            {
-                modules.Add(item.ToMenuInfo());
-            }
-            //DataHelper.Initialize(modules);
-        }
-        return modules;
-    }
+    //private static async Task<List<MenuInfo>> OnInitialMenus(Database db)
+    //{
+    //    var modules = new List<MenuInfo>();
+    //    var items = await db.QueryListAsync<SysModule>();
+    //    if (items != null && items.Count > 0)
+    //    {
+    //        foreach (var item in items.OrderBy(m => m.Sort))
+    //        {
+    //            modules.Add(item.ToMenuInfo());
+    //        }
+    //        //DataHelper.Initialize(modules);
+    //    }
+    //    return modules;
+    //}
 
     //private static void UseKnownWebApi(this IEndpointRouteBuilder app)
     //{

@@ -36,7 +36,7 @@ public static class AppConfig
 
     private static void AddModules(this IServiceCollection services)
     {
-        //Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
+        Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
     }
 
     private static void ConfigUI(this IServiceCollection services)

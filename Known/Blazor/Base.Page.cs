@@ -10,10 +10,10 @@ public class BasePage : BaseComponent, IReuseTabsPage
 {
     private bool isLogged = false;
 
-    /// <summary>
-    /// 取得或设置注入的实时通讯连接实例。
-    /// </summary>
-    [Inject] public IConnection Connection { get; set; }
+    ///// <summary>
+    ///// 取得或设置注入的实时通讯连接实例。
+    ///// </summary>
+    //[Inject] public IConnection Connection { get; set; }
 
     /// <summary>
     /// 取得当前页面菜单信息。

@@ -22,8 +22,7 @@ public partial class Database : IDisposable
     /// <exception cref="SystemException">数据库访问实现类不支持。</exception>
     public static Database Create(string name = DefaultConnName)
     {
-        var scope = Config.ServiceProvider.CreateScope();
-        var database = scope.ServiceProvider.GetRequiredService<Database>();
+        var database = CreateDatabaseInstance();
         database.SetDatabase(name);
         return database;
     }
@@ -235,6 +234,16 @@ public partial class Database : IDisposable
     /// <param name="value">布尔值。</param>
     /// <returns></returns>
     public object FormatBoolean(bool value) => Provider?.FormatBoolean(value);
+
+    private static Database CreateDatabaseInstance()
+    {
+        if (Config.ServiceProvider == null)
+            return new Database();
+
+        var scope = Config.ServiceProvider.CreateScope();
+        var database = scope.ServiceProvider.GetRequiredService<Database>();
+        return database;
+    }
 
     private void SetDatabase(string connectionName, DatabaseType databaseType, string connectionString)
     {

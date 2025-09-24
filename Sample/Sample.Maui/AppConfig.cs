@@ -21,7 +21,17 @@ public static class AppConfig
             info.Assembly = assembly;
         });
         services.AddModules();
-        services.AddKnownCore();
+        services.AddKnownDesktop(option =>
+        {
+            option.WebRoot = AppContext.BaseDirectory;
+            option.ContentRoot = AppContext.BaseDirectory;
+            option.Database = db =>
+            {
+                db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(@"Data Source=.\Sample.db");
+                //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");
+                //db.OperateMonitors.Add(info => Console.WriteLine(info.ToString()));
+            };
+        });
     }
 
     private static void AddModules(this IServiceCollection services)

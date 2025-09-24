@@ -65,8 +65,18 @@ public sealed class DataHelper
     /// <returns></returns>
     public static async Task<List<MenuInfo>> GetMenusAsync(Database db = null)
     {
-        var menus = CoreConfig.OnInitialMenus != null ? await CoreConfig.OnInitialMenus.Invoke(db) : [];
-        menus ??= [];
+        var menus = new List<MenuInfo>();
+        var items = await db.QueryListAsync<SysModule>();
+        if (items != null && items.Count > 0)
+        {
+            foreach (var item in items.OrderBy(m => m.Sort))
+            {
+                menus.Add(item.ToMenuInfo());
+            }
+        }
+        //return modules;
+        //var menus = CoreConfig.OnInitialMenus != null ? await CoreConfig.OnInitialMenus.Invoke(db) : [];
+        //menus ??= [];
         return GetMenus(menus);
     }
 

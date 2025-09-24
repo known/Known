@@ -12,7 +12,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.*" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="9.*" />
-        <ProjectReference Include="..\..\Plugins\Known.Core\Known.Core.csproj" />
+		<ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 
 </Project>

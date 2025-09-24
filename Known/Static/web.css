@@ -4,6 +4,8 @@
 /* ’Î∂‘Firefox */
 * {scrollbar-width:thin;scrollbar-color:rgba(0,0,0,0.5) transparent;}
 
+.kui-install .kui-logo, .login .kui-logo {width:200px;}
+
 #kuiSpin {position:fixed;top:0;left:0;right:0;bottom:0;z-index:2000;}
 #kuiSpin .mask {position:fixed;top:0;left:0;right:0;bottom:0;z-index:2001;background-color:#000;opacity:0.25;}
 #kuiSpin .spin {position:absolute;z-index:2002;top:50%;left:50%;text-align:center;color:#d8d8d8;}

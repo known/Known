@@ -63,6 +63,7 @@
         <PackageReference Include="Microsoft.Maui.Controls" Version="9.*" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.*" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.*" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.*" />
         <ProjectReference Include="..\..\Known\Known.csproj" />
     </ItemGroup>
 

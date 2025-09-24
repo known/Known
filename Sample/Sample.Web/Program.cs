@@ -13,7 +13,7 @@ builder.Services.AddApplicationWeb(option =>
     Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
     option.App.WebRoot = builder.Environment.WebRootPath;
     option.App.ContentRoot = builder.Environment.ContentRootPath;
-    option.Database = db =>
+    option.App.Database = db =>
     {
         var connString = builder.Configuration.GetSection("ConnString").Get<string>();
         //db.AddAccess<System.Data.OleDb.OleDbFactory>(connString);

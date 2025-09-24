@@ -91,10 +91,10 @@ public class CoreConfig
     /// </summary>
     public static Func<Database, Task> OnInstallModules { get; set; }
 
-    /// <summary>
-    /// 取得或设置系统登录时，初始化系统模块数据方法委托。
-    /// </summary>
-    public static Func<Database, Task<List<MenuInfo>>> OnInitialMenus { get; set; }
+    ///// <summary>
+    ///// 取得或设置系统登录时，初始化系统模块数据方法委托。
+    ///// </summary>
+    //public static Func<Database, Task<List<MenuInfo>>> OnInitialMenus { get; set; }
 
     /// <summary>
     /// 取得或设置保存新用户时委托。

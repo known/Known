@@ -21,10 +21,10 @@ public static class AppConfig
             info.Assembly = assembly;
         });
         services.AddModules();
-        services.AddKnownWin(option =>
+        services.AddKnownDesktop(option =>
         {
-            option.App.WebRoot = AppContext.BaseDirectory;
-            option.App.ContentRoot = AppContext.BaseDirectory;
+            option.WebRoot = AppContext.BaseDirectory;
+            option.ContentRoot = AppContext.BaseDirectory;
             option.Database = db =>
             {
                 db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(@"Data Source=.\Sample.db");

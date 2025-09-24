@@ -31,10 +31,10 @@ public static partial class Extension
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         else
             services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        if (Config.App.Type == AppType.Desktop)
-            services.AddSingleton<IConnection, Connection>();
-        else
-            services.AddScoped<IConnection, WebConnection>();
+        //if (Config.App.Type == AppType.Desktop)
+        //    services.AddSingleton<IConnection, Connection>();
+        //else
+        //    services.AddScoped<IConnection, WebConnection>();
         services.AddScoped<INotifyService, NotifyService>();
         services.AddScoped<IPluginService, PluginService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
@@ -68,7 +68,21 @@ public static partial class Extension
                 return new HttpClient(handler) { BaseAddress = new Uri(option.BaseAddress) };
             });
         }
-        //services.AddInterceptors(option);
+    }
+
+    /// <summary>
+    /// 添加桌面框架及身份认证支持。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">配置委托。</param>
+    public static void AddKnownDesktop(this IServiceCollection services, Action<AppInfo> action = null)
+    {
+        Config.App.Type = AppType.Desktop;
+        //services.AddHttpContextAccessor();
+        //services.AddCascadingAuthenticationState();
+        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        //services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
+        services.AddKnownCore(action);
     }
 
     /// <summary>
@@ -78,20 +92,8 @@ public static partial class Extension
     /// <param name="action">系统配置方法。</param>
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
-        services.AddKnownInnerCore(action);
-        if (Config.App.Type == AppType.WebApi)
-            return;
-
-        //AppData.KmdPath = Path.Combine(Config.App.ContentRoot, "AppData.kmd");
-        //AppData.KcdPath = Path.Combine(Config.App.ContentRoot, "AppData.kcd");
-        //AppData.KdbPath = Path.Combine(Config.App.ContentRoot, "AppData.kdb");
-        // 设置当前路径为程序根目录（适配Maui）
-        //Environment.CurrentDirectory = AppContext.BaseDirectory;
-        //AppData.LoadAppData();
-        //AppData.LoadBizData();
-        LoadBuildTime(Config.Version);
-
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+        services.AddKnownInnerCore(action);
         services.LoadServers();
     }
 
@@ -149,52 +151,5 @@ public static partial class Extension
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs.Set<UserEditForm>(1, Language.MyProfile);
         UIConfig.UserTabs.Set<PasswordEditForm>(2, Language.SecuritySetting);
-    }
-
-    //private static void AddInterceptors(this IServiceCollection services, ClientOption option)
-    //{
-    //    if (option.InterceptorType == null)
-    //        return;
-
-    //    foreach (var type in Config.ApiTypes)
-    //    {
-    //        var interceptorType = option.InterceptorType.Invoke(type);
-    //        if (interceptorType == null)
-    //            continue;
-
-    //        services.AddScoped(interceptorType);
-    //        services.AddScoped(type, provider =>
-    //        {
-    //            var interceptor = provider.GetRequiredService(interceptorType);
-    //            return option.InterceptorProvider?.Invoke(type, interceptor);
-    //        });
-    //    }
-    //}
-
-    private static void LoadBuildTime(VersionInfo info)
-    {
-        if (info == null)
-            return;
-
-        var dateTime = GetBuildTime();
-        var count = dateTime.Year - 2000 + dateTime.Month + dateTime.Day;
-        info.BuildTime = dateTime;
-        info.SoftVersion = $"{info.SoftVersion}.{count}";
-    }
-
-    private static DateTime GetBuildTime()
-    {
-        var path = AppDomain.CurrentDomain.BaseDirectory;
-        var fileName = Directory.GetFiles(path, "*.exe")?.FirstOrDefault();
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            //var version = assembly?.GetName().Version;
-            //return new DateTime(2000, 1, 1) + TimeSpan.FromDays(version.Revision);
-            //return new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
-            return DateTime.Now;
-        }
-
-        var file = new FileInfo(fileName);
-        return file.LastWriteTime;
     }
 }

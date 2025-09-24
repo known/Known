@@ -63,30 +63,25 @@ public class CoreOption
     public Action<JsonOptions> Json { get; set; }
 
     /// <summary>
-    /// 取得或设置数据库访问配置选项委托。
-    /// </summary>
-    public Action<DatabaseOption> Database { get; set; }
-
-    /// <summary>
     /// 取得或设置文件内容类型字典。
     /// </summary>
     public Dictionary<string, string> ContentTypes { get; set; } = [];
 
-    /// <summary>
-    /// 添加后端程序集，自动识别导入和工作流类。
-    /// </summary>
-    /// <param name="assembly">应用程序集。</param>
-    public void AddAssembly(Assembly assembly) { }
+    ///// <summary>
+    ///// 添加后端程序集，自动识别导入和工作流类。
+    ///// </summary>
+    ///// <param name="assembly">应用程序集。</param>
+    //public void AddAssembly(Assembly assembly) { }
 
-    /// <summary>
-    /// 添加附加数据字典代码表委托。
-    /// </summary>
-    /// <param name="func">代码表委托。</param>
-    public void AddCode(Func<List<CodeInfo>> func) => Funcs.Add(func);
+    ///// <summary>
+    ///// 添加附加数据字典代码表委托。
+    ///// </summary>
+    ///// <param name="func">代码表委托。</param>
+    //public void AddCode(Func<List<CodeInfo>> func) => Funcs.Add(func);
 
-    /// <summary>
-    /// 添加附加数据字典代码表异步委托。
-    /// </summary>
-    /// <param name="func">代码表委托。</param>
-    public void AddCode(Func<Database, Task<List<CodeInfo>>> func) => FuncTasks.Add(func);
+    ///// <summary>
+    ///// 添加附加数据字典代码表异步委托。
+    ///// </summary>
+    ///// <param name="func">代码表委托。</param>
+    //public void AddCode(Func<Database, Task<List<CodeInfo>>> func) => FuncTasks.Add(func);
 }
