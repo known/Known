@@ -41,9 +41,11 @@ public static partial class Extension
         };
 
         services.AddScoped<ImportContext>();
+        services.AddScoped<IUserHandler, UserHandler>();
 
         action?.Invoke(Config.App);
         CoreConfig.StartTime = DateTime.Now;
+        CoreConfig.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
         Logger.Initialize(Config.App.WebLogDays);
         WeixinApi.Initialize(Config.App.Weixin);
         AppHelper.LoadConnections();
@@ -51,6 +53,10 @@ public static partial class Extension
 
         if (Config.App.Database != null)
             services.AddKnownData(Config.App.Database);
+
+        // 添加模型
+        DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
+        DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
     }
 
     private static void LoadBuildTime(VersionInfo info)

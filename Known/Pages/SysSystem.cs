@@ -1,10 +1,14 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 关于系统组件类。
+/// </summary>
 [Route("/sys/info")]
 [Menu(Constants.System, "关于系统", "info-circle", 1)]
 //[PagePlugin("关于系统", "info-circle", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 4)]
 public class SysSystem : BaseTabPage
 {
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();

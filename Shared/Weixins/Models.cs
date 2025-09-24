@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Known.Weixins;
+﻿namespace Known.Weixins;
 
 /// <summary>
 /// 微信票据信息类。

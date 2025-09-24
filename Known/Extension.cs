@@ -151,5 +151,10 @@ public static partial class Extension
         UIConfig.UserProfileType = typeof(UserProfileInfo);
         UIConfig.UserTabs.Set<UserEditForm>(1, Language.MyProfile);
         UIConfig.UserTabs.Set<PasswordEditForm>(2, Language.SecuritySetting);
+        //关于系统
+        UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
+        UIConfig.SystemTabs.Set<SecuritySetting>(2, Language.SecuritySetting);
+
+        Config.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
     }
 }

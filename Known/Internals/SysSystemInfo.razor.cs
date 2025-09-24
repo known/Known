@@ -1,16 +1,21 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Internals;
 
+/// <summary>
+/// 系统信息组件。
+/// </summary>
 public partial class SysSystemInfo
 {
     private ISystemService Service;
     private SystemDataInfo Model = new();
 
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         Service = await CreateServiceAsync<ISystemService>();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);

@@ -1,4 +1,4 @@
-﻿namespace Known.Models;
+﻿namespace Known;
 
 /// <summary>
 /// 角色信息类。

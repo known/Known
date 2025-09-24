@@ -1,9 +1,6 @@
 ﻿namespace Known.Extensions;
 
-/// <summary>
-/// 系统数据扩展类。
-/// </summary>
-public static class SystemExtension
+static class SystemExtension
 {
     internal static async Task<SystemInfo> GetUserSystemAsync(this Database db, UserInfo info = null)
     {

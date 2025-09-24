@@ -1,6 +1,6 @@
 ﻿namespace Known.Extensions;
 
-static class SysRoleExtension
+static class RoleExtension
 {
     internal static Task<List<string>> GetRoleModuleIdsAsync(this Database db, string userId)
     {

@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Weixins;
 
 /// <summary>
 /// 系统用户微信信息类。

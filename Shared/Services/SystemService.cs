@@ -1,8 +1,21 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 系统服务接口。
+/// </summary>
 public interface ISystemService : IService
 {
+    /// <summary>
+    /// 异步获取系统信息。
+    /// </summary>
+    /// <returns></returns>
     Task<SystemDataInfo> GetSystemDataAsync();
+
+    /// <summary>
+    /// 异步保存系统信息。
+    /// </summary>
+    /// <param name="info">系统信息。</param>
+    /// <returns></returns>
     Task<Result> SaveSystemAsync(SystemInfo info);
 }
 

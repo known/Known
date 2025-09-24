@@ -24,7 +24,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
     {
         var codes = await Database.GetDictionariesAsync();
         Cache.AttachCodes(codes);
-        return Result.Success(AdminLanguage.RefreshSuccess, codes);
+        return Result.Success(Language.RefreshSuccess, codes);
     }
 
     public async Task<List<CodeInfo>> GetCategoriesAsync()

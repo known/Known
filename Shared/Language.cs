@@ -592,6 +592,20 @@ public partial class Language
     internal const string InstallNewModule = "安装新模块";
     internal const string ConfirmMigrate = "确定迁移AppData或Admin插件配置数据？";
 
+    internal const string SystemManage = "系统管理";
+    internal const string TipUserDefaultPwd = "用户默认密码为：{password}。";
+    internal const string TipNoDefaultPwd = "用户默认密码未配置！";
+    internal const string TipNotDeleteSelf = "自己的账号不能删除！";
+    internal const string TipCompanyNotExists = "企业不存在！";
+
+    internal const string Module = "模块";
+    internal const string Button = "按钮";
+    internal const string Column = "栏位";
+    /// <summary>
+    /// 刷新成功。
+    /// </summary>
+    public const string RefreshSuccess = "刷新成功！";
+
     internal const string PleaseSelect = "请选择";
     internal const string PleaseSelectInput = "请选择或输入";
     internal const string All = "全部";

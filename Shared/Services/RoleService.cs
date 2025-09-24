@@ -1,10 +1,36 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 角色服务接口。
+/// </summary>
 public interface IRoleService : IService
 {
+    /// <summary>
+    /// 异步分页查询角色信息。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns></returns>
     Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步获取角色信息。
+    /// </summary>
+    /// <param name="roleId">角色ID。</param>
+    /// <returns></returns>
     Task<RoleInfo> GetRoleAsync(string roleId);
+
+    /// <summary>
+    /// 异步删除角色。
+    /// </summary>
+    /// <param name="infos">角色列表。</param>
+    /// <returns></returns>
     Task<Result> DeleteRolesAsync(List<RoleInfo> infos);
+
+    /// <summary>
+    /// 异步保存角色。
+    /// </summary>
+    /// <param name="info">角色信息。</param>
+    /// <returns></returns>
     Task<Result> SaveRoleAsync(RoleInfo info);
 }
 

@@ -2,42 +2,6 @@
 
 static class ModelExtension
 {
-    #region Menu
-    internal static List<CodeInfo> GetAllActions(this MenuInfo info, Language language)
-    {
-        var codes = new List<CodeInfo>();
-        var param = info.GetAutoPageParameter();
-        var page = param?.Page;
-        if (page?.Tools != null && page?.Tools.Count > 0)
-            codes.AddRange(page?.Tools.Select(b => GetAction(info, language, b)));
-        if (page?.Actions != null && page?.Actions.Count > 0)
-            codes.AddRange(page?.Actions.Select(b => GetAction(info, language, b)));
-        return codes;
-    }
-
-    internal static List<CodeInfo> GetAllColumns(this MenuInfo info, Language language)
-    {
-        var codes = new List<CodeInfo>();
-        var param = info.GetAutoPageParameter();
-        var page = param?.Page;
-        if (page?.Columns != null && page?.Columns.Count > 0)
-            codes.AddRange(page?.Columns.Select(c => GetColumn(info, language, c)));
-        return codes;
-    }
-
-    private static CodeInfo GetAction(MenuInfo menu, Language language, ActionInfo info)
-    {
-        var code = $"b_{menu.Id}_{info.Id}";
-        return new CodeInfo(code, language[info.Name]);
-    }
-
-    private static CodeInfo GetColumn(MenuInfo menu, Language language, PageColumnInfo info)
-    {
-        var code = $"c_{menu.Id}_{info.Id}";
-        return new CodeInfo(code, language[info.Name]);
-    }
-    #endregion
-
     #region Module
     internal static void RemoveModule(this List<SysModule1> modules, string code)
     {

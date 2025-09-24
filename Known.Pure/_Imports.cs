@@ -18,6 +18,7 @@ global using System.Text.Json.Serialization;
 global using System.Xml;
 global using Known.Cells;
 global using Known.Data;
+global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Services;

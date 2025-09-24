@@ -1,4 +1,4 @@
-﻿namespace Known.Imports;
+﻿namespace Known.Helpers;
 
 [Import(typeof(UserDataInfo))]
 class UserDataImport(ImportContext context) : ImportBase<SysUser>(context)

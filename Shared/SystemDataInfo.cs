@@ -1,4 +1,4 @@
-﻿namespace Known.Models;
+﻿namespace Known;
 
 /// <summary>
 /// 系统数据信息类。

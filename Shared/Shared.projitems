@@ -10,14 +10,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AdminInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysCompany.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysRole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysRoleModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysUserRole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CompanyExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CoreDataExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CoreMenuExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\RoleExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SystemExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CsvHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DataHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MigrateHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\UserDataImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InitialInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LogInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RoleInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Auth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Import.cs" />
@@ -29,6 +39,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Language.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Menu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Module.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\RoleService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SystemService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SystemDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreConfig.cs" />
@@ -74,11 +88,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinTemplateInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysLanguage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysSetting.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SysUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysLanguage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\SysWeixin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinApi.cs" />

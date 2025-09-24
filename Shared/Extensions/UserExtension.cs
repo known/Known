@@ -6,16 +6,6 @@
 public static class UserExtension
 {
     /// <summary>
-    /// 取得或设置同步用户的异步委托。
-    /// </summary>
-    public static Func<Database, UserDataInfo, Task<Result>> OnSyncUser { get; set; } = (db, info) => Result.SuccessAsync("");
-
-    /// <summary>
-    /// 取得或设置用户系统信息的异步委托。
-    /// </summary>
-    public static Func<Database, UserInfo, Task<SystemInfo>> OnUserSystem { get; set; } = (db, user) => Task.FromResult<SystemInfo>(null);
-
-    /// <summary>
     /// 取得或设置用户系统信息的异步委托。
     /// </summary>
     public static Func<Database, UserInfo, Task<string>> OnUserOrgName { get; set; } = (db, user) => Task.FromResult<string>(null);
@@ -159,7 +149,45 @@ public static class UserExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="info">系统用户对象。</param>
     /// <returns></returns>
-    public static Task<Result> SyncUserAsync(this Database db, UserDataInfo info) => OnSyncUser.Invoke(db, info);
+    public static async Task<Result> SyncUserAsync(this Database db, UserDataInfo info)
+    {
+        var model = await db.QueryAsync<SysUser>(d => d.UserName == info.UserName);
+        if (model == null)
+        {
+            model = new SysUser
+            {
+                OrgNo = info.OrgNo,
+                UserName = info.UserName,
+                Password = info.Password,
+                Name = info.Name,
+                Gender = info.Gender,
+                Phone = info.Phone,
+                Mobile = info.Mobile,
+                Email = info.Email,
+                Enabled = true,
+                Role = info.Role
+            };
+            if (!string.IsNullOrWhiteSpace(model.Password))
+            {
+                model.Password = Utils.ToMd5(model.Password);
+            }
+            else
+            {
+                var sys = await db.GetSystemAsync();
+                model.Password = Utils.ToMd5(sys?.UserDefaultPwd);
+            }
+            await db.SaveAsync(model);
+            var role = await db.QueryAsync<SysRole>(d => d.CompNo == model.CompNo && d.Name == model.Role);
+            if (role != null)
+                await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
+        }
+        else
+        {
+            model.Enabled = true;
+            await db.SaveAsync(model);
+        }
+        return Result.Success("同步成功！");
+    }
 
     /// <summary>
     /// 异步修改用户头像。
@@ -215,7 +243,7 @@ public static class UserExtension
             avatarUrl = user.Gender == "Female" ? "img/face2.png" : "img/face1.png";
         info.AvatarUrl = avatarUrl;
 
-        var sys = await OnUserSystem.Invoke(db, info);
+        var sys = await db.GetUserSystemAsync(info);
         info.IsTenant = user.CompNo != sys?.CompNo;
         info.AppName = sys?.AppName;
         if (info.IsAdmin())

@@ -2,46 +2,6 @@
 
 static class SysUserExtension
 {
-    internal static async Task<Result> SyncSysUserAsync(this Database db, UserDataInfo user)
-    {
-        var model = await db.QueryAsync<SysUser>(d => d.UserName == user.UserName);
-        if (model == null)
-        {
-            model = new SysUser
-            {
-                OrgNo = user.OrgNo,
-                UserName = user.UserName,
-                Password = user.Password,
-                Name = user.Name,
-                Gender = user.Gender,
-                Phone = user.Phone,
-                Mobile = user.Mobile,
-                Email = user.Email,
-                Enabled = true,
-                Role = user.Role
-            };
-            if (!string.IsNullOrWhiteSpace(model.Password))
-            {
-                model.Password = Utils.ToMd5(model.Password);
-            }
-            else
-            {
-                var info = await db.GetSystemAsync();
-                model.Password = Utils.ToMd5(info?.UserDefaultPwd);
-            }
-            await db.SaveAsync(model);
-            var role = await db.QueryAsync<SysRole>(d => d.CompNo == model.CompNo && d.Name == model.Role);
-            if (role != null)
-                await db.InsertAsync(new SysUserRole { UserId = model.Id, RoleId = role.Id });
-        }
-        else
-        {
-            model.Enabled = true;
-            await db.SaveAsync(model);
-        }
-        return Result.Success("同步成功！");
-    }
-
     internal static async Task<string> GetUserOrgNameAsync(this Database db, UserInfo info)
     {
         var org = await db.QueryAsync<SysOrganization>(d => d.Id == info.OrgNo || (d.CompNo == info.CompNo && d.Code == info.OrgNo));

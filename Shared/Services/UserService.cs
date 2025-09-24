@@ -1,14 +1,64 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 用户服务接口。
+/// </summary>
 public interface IUserService : IService
 {
+    /// <summary>
+    /// 异步分页查询用户信息。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns></returns>
     Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步获取用户信息。
+    /// </summary>
+    /// <param name="id">用户ID。</param>
+    /// <returns></returns>
     Task<UserDataInfo> GetUserDataAsync(string id);
+
+    /// <summary>
+    /// 异步删除用户。
+    /// </summary>
+    /// <param name="infos">用户列表。</param>
+    /// <returns></returns>
     Task<Result> DeleteUsersAsync(List<UserDataInfo> infos);
+
+    /// <summary>
+    /// 异步改变部门。
+    /// </summary>
+    /// <param name="infos">用户列表。</param>
+    /// <returns></returns>
     Task<Result> ChangeDepartmentAsync(List<UserDataInfo> infos);
+
+    /// <summary>
+    /// 异步启用用户。
+    /// </summary>
+    /// <param name="infos">用户列表。</param>
+    /// <returns></returns>
     Task<Result> EnableUsersAsync(List<UserDataInfo> infos);
+
+    /// <summary>
+    /// 异步禁用用户。
+    /// </summary>
+    /// <param name="infos">用户列表。</param>
+    /// <returns></returns>
     Task<Result> DisableUsersAsync(List<UserDataInfo> infos);
+
+    /// <summary>
+    /// 异步重置密码。
+    /// </summary>
+    /// <param name="infos">用户列表。</param>
+    /// <returns></returns>
     Task<Result> SetUserPwdsAsync(List<UserDataInfo> infos);
+
+    /// <summary>
+    /// 异步保存用户。
+    /// </summary>
+    /// <param name="info">用户信息。</param>
+    /// <returns></returns>
     Task<Result> SaveUserAsync(UserDataInfo info);
 }
 
@@ -26,7 +76,7 @@ class UserClient(HttpClient http) : ClientBase(http), IUserService
 }
 
 [WebApi, Service]
-class UserService(Context context) : ServiceBase(context), IUserService
+class UserService(Context context, IUserHandler handler) : ServiceBase(context), IUserService
 {
     public async Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria)
     {
@@ -57,10 +107,10 @@ class UserService(Context context) : ServiceBase(context), IUserService
             return Result.Error(Language.SelectOneAtLeast);
 
         if (infos.Exists(d => d.UserName == CurrentUser.UserName))
-            return Result.Error(AdminLanguage.TipNotDeleteSelf);
+            return Result.Error(Language.TipNotDeleteSelf);
 
         var database = Database;
-        var result = await UserHelper.OnDeletingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
+        var result = await handler.OnDeletingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -70,7 +120,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             {
                 await db.DeleteAsync<SysUser>(item.Id);
                 await db.DeleteAsync<SysUserRole>(d => d.UserId == item.Id);
-                await UserHelper.OnDeletedAsync(db, item);
+                await handler.OnDeletedAsync(db, item);
             }
         });
     }
@@ -81,7 +131,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnChangingDepartmentAsync(database, [.. infos.Select(u => (UserInfo)u)]);
+        var result = await handler.OnChangingDepartmentAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -94,7 +144,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 {
                     model.OrgNo = item.OrgNo;
                     await db.SaveAsync(model);
-                    await UserHelper.OnChangedDepartmentAsync(db, model);
+                    await handler.OnChangedDepartmentAsync(db, model);
                 }
             }
         });
@@ -106,7 +156,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnEnablingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
+        var result = await handler.OnEnablingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -119,7 +169,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 {
                     model.Enabled = true;
                     await db.SaveAsync(model);
-                    await UserHelper.OnEnabledAsync(db, model);
+                    await handler.OnEnabledAsync(db, model);
                 }
             }
         });
@@ -131,7 +181,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             return Result.Error(Language.SelectOneAtLeast);
 
         var database = Database;
-        var result = await UserHelper.OnDisablingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
+        var result = await handler.OnDisablingAsync(database, [.. infos.Select(u => (UserInfo)u)]);
         if (!result.IsValid)
             return result;
 
@@ -144,7 +194,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 {
                     model.Enabled = false;
                     await db.SaveAsync(model);
-                    await UserHelper.OnDisabledAsync(db, model);
+                    await handler.OnDisabledAsync(db, model);
                 }
             }
         });
@@ -158,7 +208,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
         var database = Database;
         var info = await database.GetSystemAsync();
         if (info == null || string.IsNullOrEmpty(info.UserDefaultPwd))
-            return Result.Error(AdminLanguage.TipNoDefaultPwd);
+            return Result.Error(Language.TipNoDefaultPwd);
 
         return await database.TransactionAsync(Language.Reset, async db =>
         {
@@ -195,7 +245,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
             if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
                 vr.AddError(Language.TipUserNameExists);
 
-            var result = await UserHelper.OnSavingAsync(database, info);
+            var result = await handler.OnSavingAsync(database, info);
             if (!result.IsValid)
                 vr.AddError(result.Message);
         }
@@ -219,7 +269,7 @@ class UserService(Context context) : ServiceBase(context), IUserService
                 }
             }
             await db.SaveAsync(model);
-            await UserHelper.OnSavedAsync(db, model);
+            await handler.OnSavedAsync(db, model);
             info.Id = model.Id;
         }, info);
     }
@@ -233,14 +283,14 @@ left join SysOrganization b on b.Id=a.OrgNo
 where a.CompNo=@CompNo and a.UserName<>'admin'";
         var orgNoId = nameof(UserDataInfo.OrgNo);
         var orgNo = criteria.GetParameter<string>(orgNoId);
-        if (!string.IsNullOrWhiteSpace(orgNo))
-        {
-            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
-            if (org != null && org.Code != db.User?.CompNo)
-                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
-            else
-                criteria.RemoveQuery(orgNoId);
-        }
+        //if (!string.IsNullOrWhiteSpace(orgNo))
+        //{
+        //    var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+        //    if (org != null && org.Code != db.User?.CompNo)
+        //        criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+        //    else
+        //        criteria.RemoveQuery(orgNoId);
+        //}
         criteria.Fields[nameof(UserDataInfo.Name)] = "a.Name";
         return await db.QueryPageAsync<T>(sql, criteria);
     }

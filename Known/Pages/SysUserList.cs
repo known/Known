@@ -1,29 +1,28 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 用户管理页面组件类。
+/// </summary>
+/// <param name="page">页面扩展。</param>
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
 //[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
-public class SysUserList : BaseTablePage<UserDataInfo>
+public class SysUserList(IUserPage page) : BaseTablePage<UserDataInfo>
 {
-    private IOrganizationService Organize;
     private IUserService Service;
-    private List<OrganizationInfo> orgs;
-    private MenuInfo current;
-    private OrganizationInfo currentOrg;
-    private TreeModel Tree;
-    private bool HasOrg => orgs != null && orgs.Count > 1;
 
+    /// <summary>
+    /// 取得或设置当前部门。
+    /// </summary>
+    public string CurrentOrg { get; set; }
+
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Organize = await CreateServiceAsync<IOrganizationService>();
         Service = await CreateServiceAsync<IUserService>();
-
-        Tree = new TreeModel
-        {
-            ExpandRoot = true,
-            OnNodeClick = OnNodeClickAsync
-        };
+        if (page != null)
+            await page.OnInitAsync(this);
 
         Table = new TableModel<UserDataInfo>(this)
         {
@@ -37,100 +36,120 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         Table.Column(c => c.Gender).Tag();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            orgs = await Organize.GetOrganizationsAsync();
-            if (HasOrg)
-            {
-                Tree.Data = orgs.ToMenuItems(ref current);
-                Tree.SelectedKeys = [current.Id];
-                await OnNodeClickAsync(current);
-            }
+            if (page != null)
+                await page.OnAfterRenderAsync();
         }
     }
 
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        if (HasOrg)
-        {
-            builder.Component<KTreeTable<UserDataInfo>>()
-                   .Set(c => c.Tree, Tree)
-                   .Set(c => c.Table, Table)
-                   .Build();
-        }
-        else
-        {
-            base.BuildPage(builder);
-        }
+        var isBuild = page?.BuildPage(builder);
+        if (isBuild == true)
+            return;
+
+        base.BuildPage(builder);
     }
 
     private Task<PagingResult<UserDataInfo>> OnQueryUsersAsync(PagingCriteria criteria)
     {
-        if (currentOrg != null)
-            criteria.Parameters[nameof(UserInfo.OrgNo)] = currentOrg.Id;
+        criteria.Parameters[nameof(UserInfo.OrgNo)] = CurrentOrg;
         return Service.QueryUserDatasAsync(criteria);
     }
 
-    [Action] public void New() => Table.NewForm(Service.SaveUserAsync, new UserDataInfo { OrgNo = currentOrg?.Id });
+    /// <summary>
+    /// 新增用户。
+    /// </summary>
+    [Action] public void New() => Table.NewForm(Service.SaveUserAsync, new UserDataInfo { OrgNo = CurrentOrg });
+
+    /// <summary>
+    /// 编辑用户。
+    /// </summary>
+    /// <param name="row">用户信息。</param>
     [Action] public void Edit(UserDataInfo row) => Table.EditForm(Service.SaveUserAsync, row);
+
+    /// <summary>
+    /// 删除用户。
+    /// </summary>
+    /// <param name="row">用户信息。</param>
     [Action] public void Delete(UserDataInfo row) => Table.Delete(Service.DeleteUsersAsync, row);
+
+    /// <summary>
+    /// 批量删除用户。
+    /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteUsersAsync);
+
+    /// <summary>
+    /// 重置默认密码。
+    /// </summary>
     [Action] public void ResetPassword() => Table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
-    [Action] public void ChangeDepartment() => Table.SelectRows(OnChangeDepartment);
+
+    /// <summary>
+    /// 改变用户部门。
+    /// </summary>
+    [Action]
+    public void ChangeDepartment() => Table.SelectRows(rows => page?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
+
+    /// <summary>
+    /// 启用用户。
+    /// </summary>
     [Action] public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
+
+    /// <summary>
+    /// 禁用用户。
+    /// </summary>
     [Action] public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
+
+    /// <summary>
+    /// 导入用户。
+    /// </summary>
+    /// <returns></returns>
     [Action] public Task Import() => Table.ShowImportAsync();
+
+    /// <summary>
+    /// 导出用户。
+    /// </summary>
+    /// <returns></returns>
     [Action] public Task Export() => Table.ExportDataAsync();
+}
 
-    private void OnChangeDepartment(List<UserDataInfo> rows)
-    {
-        OrganizationInfo node = null;
-        var model = new DialogModel
-        {
-            Title = AdminLanguage.ChangeDepartment,
-            Content = builder =>
-            {
-                builder.Tree(new TreeModel
-                {
-                    ExpandRoot = true,
-                    Data = orgs.ToMenuItems(),
-                    OnNodeClick = n =>
-                    {
-                        node = n.Data as OrganizationInfo;
-                        return Task.CompletedTask;
-                    }
-                });
-            }
-        };
-        model.OnOk = async () =>
-        {
-            if (node == null)
-            {
-                UI.Error(AdminLanguage.TipSelectChangeOrganization);
-                return;
-            }
+/// <summary>
+/// 用户管理页面扩展接口。
+/// </summary>
+public interface IUserPage
+{
+    /// <summary>
+    /// 异步初始化。
+    /// </summary>
+    /// <param name="list">用户管理页面。</param>
+    /// <returns></returns>
+    Task OnInitAsync(SysUserList list);
 
-            rows.ForEach(m => m.OrgNo = node.Id);
-            var result = await Service.ChangeDepartmentAsync(rows);
-            UI.Result(result, async () =>
-            {
-                await model.CloseAsync();
-                await Table.RefreshAsync();
-            });
-        };
-        UI.ShowDialog(model);
-    }
+    /// <summary>
+    /// 异步呈现后。
+    /// </summary>
+    /// <returns></returns>
+    Task OnAfterRenderAsync();
 
-    private async Task OnNodeClickAsync(MenuInfo item)
-    {
-        current = item;
-        currentOrg = item.Data as OrganizationInfo;
-        await Table.RefreshAsync();
-        await StateChangedAsync();
-    }
+    /// <summary>
+    /// 构建页面。
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <returns></returns>
+    bool BuildPage(RenderTreeBuilder builder);
+
+    /// <summary>
+    /// 更换用户部门。
+    /// </summary>
+    /// <param name="onChange">更换委托。</param>
+    /// <param name="rows">用户列表。</param>
+    void OnChangeDepartment(Func<List<UserDataInfo>, Task<Result>> onChange, List<UserDataInfo> rows);
 }
 
 class UserTabForm : BaseTabForm
@@ -162,7 +181,7 @@ class UserForm : BaseForm<UserDataInfo>
     {
         await base.OnInitFormAsync();
         Service = await CreateServiceAsync<IUserService>();
-        
+
         if (!UIConfig.UserFormShowFooter)
         {
             SaveClose = UIConfig.UserFormTabs.Count == 0;
@@ -182,7 +201,7 @@ class UserForm : BaseForm<UserDataInfo>
             defaultPassword = user.DefaultPassword;
             if (Model.IsNew)
                 Model.Data.Password = defaultPassword;
-            var pwdTips = Language[AdminLanguage.TipUserDefaultPwd].Replace("{password}", defaultPassword);
+            var pwdTips = Language[Language.TipUserDefaultPwd].Replace("{password}", defaultPassword);
             Model.Field(f => f.Password).Tooltip(pwdTips);
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;

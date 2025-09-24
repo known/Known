@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 角色管理页面组件类。
+/// </summary>
 [Route("/sys/roles")]
 [Menu(Constants.System, "角色管理", "team", 2)]
 //[PagePlugin("角色管理", "team", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 5)]
@@ -7,6 +10,7 @@ public class SysRoleList : BaseTablePage<RoleInfo>
 {
     private IRoleService Service;
 
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -20,9 +24,26 @@ public class SysRoleList : BaseTablePage<RoleInfo>
         Table.RowKey = r => r.Id;
     }
 
+    /// <summary>
+    /// 新增角色。
+    /// </summary>
     [Action] public void New() => Table.NewForm(Service.SaveRoleAsync, new RoleInfo());
+
+    /// <summary>
+    /// 编辑角色。
+    /// </summary>
+    /// <param name="row">角色信息。</param>
     [Action] public void Edit(RoleInfo row) => Table.EditForm(Service.SaveRoleAsync, row);
+
+    /// <summary>
+    /// 删除角色。
+    /// </summary>
+    /// <param name="row">角色信息。</param>
     [Action] public void Delete(RoleInfo row) => Table.Delete(Service.DeleteRolesAsync, row);
+
+    /// <summary>
+    /// 批量删除角色。
+    /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteRolesAsync);
 }
 
@@ -69,17 +90,17 @@ class RoleForm : BaseForm<RoleInfo>
             builder.Div("kui-role-form", () => base.BuildForm(builder));
             builder.Div("kui-role-module", () =>
             {
-                builder.Div("kui-bold", Language[AdminLanguage.Module]);
+                builder.Div("kui-bold", Language[Language.Module]);
                 builder.Tree(tree);
             });
             builder.Div("kui-role-button", () =>
             {
-                builder.Div("kui-bold", Language[AdminLanguage.Button]);
+                builder.Div("kui-bold", Language[Language.Button]);
                 builder.CheckList(btnModel);
             });
             builder.Div("kui-role-column", () =>
             {
-                builder.Div("kui-bold", Language[AdminLanguage.Column]);
+                builder.Div("kui-bold", Language[Language.Column]);
                 builder.CheckList(colModel);
             });
         });
