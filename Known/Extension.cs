@@ -35,6 +35,7 @@ public static partial class Extension
         //    services.AddSingleton<IConnection, Connection>();
         //else
         //    services.AddScoped<IConnection, WebConnection>();
+        services.AddScoped<IUserPage, UserPage>();
         services.AddScoped<INotifyService, NotifyService>();
         services.AddScoped<IPluginService, PluginService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));

@@ -3,13 +3,13 @@
 /// <summary>
 /// 用户管理页面组件类。
 /// </summary>
-/// <param name="page">页面扩展。</param>
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
 //[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
-public class SysUserList(IUserPage page) : BaseTablePage<UserDataInfo>
+public class SysUserList : BaseTablePage<UserDataInfo>
 {
     private IUserService Service;
+    [Inject] private IUserPage ExtPage { get; set; }
 
     /// <summary>
     /// 取得或设置当前部门。
@@ -21,8 +21,8 @@ public class SysUserList(IUserPage page) : BaseTablePage<UserDataInfo>
     {
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IUserService>();
-        if (page != null)
-            await page.OnInitAsync(this);
+        if (ExtPage != null)
+            await ExtPage.OnInitAsync(this);
 
         Table = new TableModel<UserDataInfo>(this)
         {
@@ -42,15 +42,15 @@ public class SysUserList(IUserPage page) : BaseTablePage<UserDataInfo>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            if (page != null)
-                await page.OnAfterRenderAsync();
+            if (ExtPage != null)
+                await ExtPage.OnAfterRenderAsync();
         }
     }
 
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        var isBuild = page?.BuildPage(builder);
+        var isBuild = ExtPage?.BuildPage(builder);
         if (isBuild == true)
             return;
 
@@ -94,7 +94,7 @@ public class SysUserList(IUserPage page) : BaseTablePage<UserDataInfo>
     /// 改变用户部门。
     /// </summary>
     [Action]
-    public void ChangeDepartment() => Table.SelectRows(rows => page?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
+    public void ChangeDepartment() => Table.SelectRows(rows => ExtPage?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
 
     /// <summary>
     /// 启用用户。
@@ -150,6 +150,14 @@ public interface IUserPage
     /// <param name="onChange">更换委托。</param>
     /// <param name="rows">用户列表。</param>
     void OnChangeDepartment(Func<List<UserDataInfo>, Task<Result>> onChange, List<UserDataInfo> rows);
+}
+
+class UserPage : IUserPage
+{
+    public Task OnInitAsync(SysUserList list) => Task.CompletedTask;
+    public Task OnAfterRenderAsync() => Task.CompletedTask;
+    public bool BuildPage(RenderTreeBuilder builder) => false;
+    public void OnChangeDepartment(Func<List<UserDataInfo>, Task<Result>> onChange, List<UserDataInfo> rows) { }
 }
 
 class UserTabForm : BaseTabForm

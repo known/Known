@@ -277,12 +277,15 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
     private async Task<PagingResult<T>> QueryUsersAsync<T>(PagingCriteria criteria) where T : class, new()
     {
         var db = Database;
-        var sql = $@"select a.*,b.Name as Department 
-from SysUser a 
-left join SysOrganization b on b.Id=a.OrgNo 
-where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var sql = "select * from SysUser a";
         var orgNoId = nameof(UserDataInfo.OrgNo);
         var orgNo = criteria.GetParameter<string>(orgNoId);
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            sql = "select a.*,b.Name as Department from SysUser a left join SysOrganization b on b.Id=a.OrgNo";
+            criteria.RemoveQuery(orgNoId);
+        }
+        sql += " where a.CompNo=@CompNo and a.UserName<>'admin'";
         //if (!string.IsNullOrWhiteSpace(orgNo))
         //{
         //    var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
