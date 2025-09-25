@@ -11,8 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AdminInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysCompany.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysLog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysRoleModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\SysTask.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysUserRole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CompanyExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\CoreDataExtension.cs" />
@@ -24,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DataHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MigrateHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\UserDataImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\FileService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\TaskService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InitialInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LogInfo.cs" />
@@ -78,7 +84,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FormInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PageInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PasswordValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AdminPService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AutoService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SettingInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Weixins\WeixinExtension.cs" />

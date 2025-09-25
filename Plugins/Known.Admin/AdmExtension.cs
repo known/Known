@@ -15,7 +15,6 @@ public static class AdmExtension
         //CoreConfig.OnInstallModules = OnInstallModules;
         //CoreConfig.OnInitialModules = OnInitialModules;
         CoreConfig.OnCodeTable = db => db.GetDictionariesAsync();
-        AdminExtension.Service = new AdminService();
         UserExtension.OnUserOrgName = (db, user) => db.GetUserOrgNameAsync(user);
 
         // 添加一级模块

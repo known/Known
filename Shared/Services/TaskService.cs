@@ -1,9 +1,29 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 后台任务服务接口。
+/// </summary>
 public interface ITaskService : IService
 {
+    /// <summary>
+    /// 异步分页查询后台任务。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns></returns>
     Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步删除后台任务。
+    /// </summary>
+    /// <param name="infos">任务列表。</param>
+    /// <returns></returns>
     Task<Result> DeleteTasksAsync(List<TaskInfo> infos);
+
+    /// <summary>
+    /// 异步重置后台任务。
+    /// </summary>
+    /// <param name="infos">任务列表。</param>
+    /// <returns></returns>
     Task<Result> ResetTasksAsync(List<TaskInfo> infos);
 }
 

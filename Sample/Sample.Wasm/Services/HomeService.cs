@@ -49,7 +49,7 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
     {
         var info = new StatisticsInfo
         {
-            //UserCount = await db.CountAsync<SysUser>(d => d.CompNo == db.User.CompNo),
+            UserCount = await db.CountAsync<SysUser>(d => d.CompNo == db.User.CompNo),
             LogCount = await db.CountAsync<SysLog>(d => d.CompNo == db.User.CompNo)
         };
         var now = DateTime.Now;

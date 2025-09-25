@@ -5,18 +5,53 @@
 /// </summary>
 public static class AdminExtension
 {
-    /// <summary>
-    /// 取得或设置后台管理服务接口实例。
-    /// </summary>
-    public static IAdminPService Service { get; set; }
-
     #region File
-    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string[] bizIds) => Service?.GetAttachesAsync(db, bizIds);
-    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string bizId) => Service?.GetAttachesAsync(db, bizId);
-    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string bizId, string bizType) => Service?.GetAttachesAsync(db, bizId, bizType);
-    internal static Task<AttachInfo> GetAttachAsync(this Database db, string id) => Service?.GetAttachAsync(db, id);
-    internal static Task DeleteFileAsync(this Database db, string id) => Service?.DeleteFileAsync(db, id);
-    internal static Task<AttachInfo> AddFileAsync(this Database db, AttachFile info) => Service?.AddFileAsync(db, info);
+    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string[] bizIds)
+    {
+        return db.Query<SysFile>().ToListAsync<AttachInfo>(d => bizIds.Contains(d.BizId));
+    }
+
+    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string bizId)
+    {
+        return db.Query<SysFile>().ToListAsync<AttachInfo>(d => d.BizId == bizId);
+    }
+
+    internal static Task<List<AttachInfo>> GetAttachesAsync(this Database db, string bizId, string bizType)
+    {
+        return db.Query<SysFile>().ToListAsync<AttachInfo>(d => d.BizId == bizId && d.Type == bizType);
+    }
+
+    internal static Task<AttachInfo> GetAttachAsync(this Database db, string id)
+    {
+        return db.Query<SysFile>().FirstAsync<AttachInfo>(d => d.Id == id);
+    }
+
+    internal static Task DeleteFileAsync(this Database db, string id)
+    {
+        return db.DeleteAsync<SysFile>(id);
+    }
+
+    internal static async Task<AttachInfo> AddFileAsync(this Database db, AttachFile info)
+    {
+        var file = new SysFile
+        {
+            CompNo = db.User.CompNo,
+            AppId = db.User.AppId,
+            Category1 = info.Category1 ?? "File",
+            Category2 = info.Category2,
+            Type = info.BizType,
+            BizId = info.BizId,
+            Name = info.SourceName,
+            Path = info.FilePath,
+            Size = info.Size,
+            SourceName = info.SourceName,
+            ExtName = info.ExtName,
+            ThumbPath = info.ThumbPath,
+            Note = info.Note
+        };
+        await db.SaveAsync(file);
+        return Utils.MapTo<AttachInfo>(file);
+    }
     #endregion
 
     #region Task
@@ -26,7 +61,11 @@ public static class AdminExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="bizId">业务ID。</param>
     /// <returns></returns>
-    public static Task<TaskInfo> GetTaskAsync(this Database db, string bizId) => Service?.GetTaskAsync(db, bizId);
+    public static Task<TaskInfo> GetTaskAsync(this Database db, string bizId)
+    {
+        return db.Query<SysTask>().Where(d => d.CreateBy == db.UserName && d.BizId == bizId)
+                 .OrderByDescending(d => d.CreateTime).FirstAsync<TaskInfo>();
+    }
 
     /// <summary>
     /// 异步创建一个后台任务。
@@ -34,9 +73,31 @@ public static class AdminExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="info">任务信息。</param>
     /// <returns></returns>
-    public static Task CreateTaskAsync(this Database db, TaskInfo info) => Service?.CreateTaskAsync(db, info);
+    public static Task CreateTaskAsync(this Database db, TaskInfo info)
+    {
+        var task = new SysTask();
+        if (!string.IsNullOrWhiteSpace(info.Id))
+            task.Id = info.Id;
+        task.BizId = info.BizId;
+        task.Type = info.Type;
+        task.Name = info.Name;
+        task.Target = info.Target;
+        task.Status = info.Status;
+        return db.SaveAsync(task);
+    }
 
-    internal static Task SaveTaskAsync(this Database db, TaskInfo info) => Service?.SaveTaskAsync(db, info);
+    internal static async Task SaveTaskAsync(this Database db, TaskInfo info)
+    {
+        var task = await db.QueryByIdAsync<SysTask>(info.Id);
+        if (task == null)
+            return;
+
+        task.Status = info.Status;
+        task.BeginTime = info.BeginTime;
+        task.EndTime = info.EndTime;
+        task.Note = info.Note;
+        await db.SaveAsync(task);
+    }
     #endregion
 
     #region Log
@@ -47,9 +108,15 @@ public static class AdminExtension
     /// <param name="userName">用户名。</param>
     /// <param name="size">Top数量。</param>
     /// <returns>功能菜单信息。</returns>
-    public static Task<List<string>> GetVisitMenuIdsAsync(this Database db, string userName, int size)
+    public static async Task<List<string>> GetVisitMenuIdsAsync(this Database db, string userName, int size)
     {
-        return Service?.GetVisitMenuIdsAsync(db, userName, size);
+        var logs = await db.Query<SysLog>()
+                           .Where(d => d.Type == $"{LogType.Page}" && d.CreateBy == userName)
+                           .GroupBy(d => d.Target)
+                           .Select(d => new CountInfo { Field1 = d.Target, TotalCount = DbFunc.Count() })
+                           .ToListAsync();
+        logs = logs?.OrderByDescending(f => f.TotalCount).Take(size).ToList();
+        return logs?.Select(l => l.Field1).ToList();
     }
 
     /// <summary>
@@ -73,10 +140,12 @@ public static class AdminExtension
         if (!Config.IsAdminLog && db.User.IsSystemAdmin() && info.Type != nameof(LogType.Register))
             return Result.Success("");
 
-        if (Service == null)
-            return Result.Success("");
-
-        await Service.SaveLogAsync(db, info);
+        await db.SaveAsync(new SysLog
+        {
+            Type = info.Type.ToString(),
+            Target = info.Target ?? "",
+            Content = info.Content
+        });
         return Result.Success("");
     }
     #endregion

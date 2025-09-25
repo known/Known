@@ -120,9 +120,9 @@ public class AppInfo
     public string DefaultSize { get; set; } = "Default";
 
     /// <summary>
-    /// 取得或设置系统表格默认分页大小，默认10。
+    /// 取得或设置系统表格默认分页大小，默认20。
     /// </summary>
-    public int DefaultPageSize { get; set; } = 10;
+    public int DefaultPageSize { get; set; } = 20;
 
     /// <summary>
     /// 取得或设置系统JS脚本文件路径，该文件中的JS方法，可通过JSService的InvokeAppAsync和InvokeAppVoidAsync调用。

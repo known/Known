@@ -1,7 +1,15 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 日志服务接口。
+/// </summary>
 public interface ILogService : IService
 {
+    /// <summary>
+    /// 异步分页查询日志信息。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns></returns>
     Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria);
 }
 
