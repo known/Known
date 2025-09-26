@@ -22,7 +22,7 @@ class RouteHelper
             foreach (var route in routes)
             {
                 Config.RouteTypes[route.Template] = type;
-                var info = new MenuInfo { Id = $"{type.FullName}_{route.Template}", ParentId = sub.Id, Target = target, Url = route.Template };
+                var info = new MenuInfo { Id = $"{type.FullName}_{route.Template}", ParentId = sub.Id, Target = target, Url = route.Template, PageType = type };
                 SetRouteInfo(info, type);
                 var table = CreateAutoPage(type);
                 if (table != null)
@@ -33,7 +33,7 @@ class RouteHelper
         else
         {
             Config.RouteTypes[routes[0].Template] = type;
-            var info = new MenuInfo { Id = type.FullName, ParentId = RouteId, Target = target, Url = routes[0].Template };
+            var info = new MenuInfo { Id = type.FullName, ParentId = RouteId, Target = target, Url = routes[0].Template, PageType = type };
             SetRouteInfo(info, type);
             var table = CreateAutoPage(type);
             if (table != null)

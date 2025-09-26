@@ -6,42 +6,6 @@
 public static class MenuExtension
 {
     /// <summary>
-    /// 移除一个页面菜单。
-    /// </summary>
-    /// <typeparam name="T">页面类型。</typeparam>
-    /// <param name="menus">菜单信息列表。</param>
-    public static void Remove<T>(this List<MenuAttribute> menus) where T : BaseComponent
-    {
-        if (menus == null || menus.Count == 0)
-            return;
-
-        var item = menus.FirstOrDefault(m => m.Page == typeof(T));
-        if (item != null)
-            menus.Remove(item);
-    }
-
-    /// <summary>
-    /// 修改页面菜单的上级ID。
-    /// </summary>
-    /// <typeparam name="T">页面类型。</typeparam>
-    /// <param name="menus">菜单信息列表。</param>
-    /// <param name="parentId">上级菜单ID。</param>
-    /// <param name="sort">顺序。</param>
-    public static void ChangeParent<T>(this List<MenuAttribute> menus, string parentId, int sort)
-    {
-        if (menus == null || menus.Count == 0)
-            return;
-
-        var item = menus.FirstOrDefault(m => m.Page == typeof(T));
-        if (item != null)
-        {
-            menus.Where(m => m.Parent == parentId && m.Sort >= sort).ToList().ForEach(m => ++m.Sort);
-            item.Parent = parentId;
-            item.Sort = sort;
-        }
-    }
-
-    /// <summary>
     /// 获取系统菜单根节点。
     /// </summary>
     /// <param name="app">系统信息。</param>
@@ -86,6 +50,89 @@ public static class MenuExtension
             info.Target = target;
         menus.Add(info);
         return info;
+    }
+
+    /// <summary>
+    /// 修改页面菜单的上级ID。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="menus">菜单信息列表。</param>
+    /// <param name="parentId">上级菜单ID。</param>
+    /// <param name="sort">顺序。</param>
+    public static void AddItem<T>(this List<MenuInfo> menus, string parentId, int sort)
+    {
+        if (menus == null)
+            return;
+
+        var item = menus.FirstOrDefault(m => m.PageType == typeof(T));
+        if (item == null)
+        {
+            item = DataHelper.Routes.FirstOrDefault(m => m.PageType == typeof(T));
+            if (item != null)
+                menus.Add(item);
+        }
+
+        if (item != null)
+        {
+            item.ParentId = parentId;
+            item.Sort = sort;
+        }
+    }
+
+    /// <summary>
+    /// 移除一个模块菜单。
+    /// </summary>
+    /// <param name="menus">模块菜单列表。</param>
+    /// <param name="idOrName">模块ID或名称。</param>
+    public static void Remove(this List<MenuInfo> menus, string idOrName)
+    {
+        var info = menus.FirstOrDefault(m => m.Id == idOrName || m.Name == idOrName);
+        if (info != null)
+        {
+            menus.Remove(info);
+        }
+        else
+        {
+            var item = DataHelper.Routes.FirstOrDefault(m => m.Id == idOrName || m.Name == idOrName);
+            if (item != null)
+                DataHelper.Routes.Remove(item);
+        }
+    }
+
+    /// <summary>
+    /// 移除一个页面菜单。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="menus">菜单信息列表。</param>
+    public static void Remove<T>(this List<MenuInfo> menus) where T : BaseComponent
+    {
+        if (menus == null || menus.Count == 0)
+            return;
+
+        var item = menus.FirstOrDefault(m => m.PageType == typeof(T));
+        if (item != null)
+            menus.Remove(item);
+    }
+
+    /// <summary>
+    /// 修改页面菜单的上级ID。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="menus">菜单信息列表。</param>
+    /// <param name="parentId">上级菜单ID。</param>
+    /// <param name="sort">顺序。</param>
+    public static void ChangeParent<T>(this List<MenuInfo> menus, string parentId, int sort)
+    {
+        if (menus == null || menus.Count == 0)
+            return;
+
+        var item = menus.FirstOrDefault(m => m.PageType == typeof(T));
+        if (item != null)
+        {
+            menus.Where(m => m.ParentId == parentId && m.Sort >= sort).ToList().ForEach(m => ++m.Sort);
+            item.ParentId = parentId;
+            item.Sort = sort;
+        }
     }
 
     /// <summary>

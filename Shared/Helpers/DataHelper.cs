@@ -91,7 +91,7 @@ public sealed class DataHelper
             if (!allMenus.Exists(m => m.Name == item.Name && m.ParentId == item.ParentId))
                 allMenus.Add(item);
         }
-        AddRules(allMenus);
+        AddRoutes(allMenus);
         AddRoles(allMenus);
         //var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
         //if (routes != null && routes.Count > 0)
@@ -104,7 +104,7 @@ public sealed class DataHelper
     /// </summary>
     public static List<MenuInfo> Routes { get; } = [];
 
-    private static void AddRules(List<MenuInfo> modules)
+    private static void AddRoutes(List<MenuInfo> modules)
     {
         if (Routes.Count == 0)
             return;
