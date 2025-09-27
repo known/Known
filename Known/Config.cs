@@ -22,6 +22,11 @@ public partial class Config
     public static RenderType CurrentMode { get; set; } = RenderType.Server;
 
     /// <summary>
+    /// 取得或设置是否启用通知Hub，默认Web启用，桌面不启用。
+    /// </summary>
+    public static bool IsNotifyHub { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置系统移动端菜单信息列表。
     /// </summary>
     public static List<MenuInfo> AppMenus { get; set; } = [];

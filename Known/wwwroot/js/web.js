@@ -82,7 +82,7 @@ window.KNotify = {
         }
     },
     register: function (invoker, method, invoke) {
-        this.conn.on(method, function (message) {
+        this.conn?.on(method, function (message) {
             invoker.invokeMethodAsync(invoke, message);
         });
     }

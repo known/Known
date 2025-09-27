@@ -90,33 +90,32 @@ public class SysUserList : BaseTablePage<UserDataInfo>
     /// </summary>
     [Action] public void ResetPassword() => Table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
 
-    /// <summary>
-    /// 改变用户部门。
-    /// </summary>
-    [Action]
-    public void ChangeDepartment() => Table.SelectRows(rows => ExtPage?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
+    ///// <summary>
+    ///// 改变用户部门。
+    ///// </summary>
+    //[Action] public void ChangeDepartment() => Table.SelectRows(rows => ExtPage?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
 
-    /// <summary>
-    /// 启用用户。
-    /// </summary>
-    [Action] public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
+    ///// <summary>
+    ///// 启用用户。
+    ///// </summary>
+    //[Action] public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
 
-    /// <summary>
-    /// 禁用用户。
-    /// </summary>
-    [Action] public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
+    ///// <summary>
+    ///// 禁用用户。
+    ///// </summary>
+    //[Action] public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
 
-    /// <summary>
-    /// 导入用户。
-    /// </summary>
-    /// <returns></returns>
-    [Action] public Task Import() => Table.ShowImportAsync();
+    ///// <summary>
+    ///// 导入用户。
+    ///// </summary>
+    ///// <returns></returns>
+    //[Action] public Task Import() => Table.ShowImportAsync();
 
-    /// <summary>
-    /// 导出用户。
-    /// </summary>
-    /// <returns></returns>
-    [Action] public Task Export() => Table.ExportDataAsync();
+    ///// <summary>
+    ///// 导出用户。
+    ///// </summary>
+    ///// <returns></returns>
+    //[Action] public Task Export() => Table.ExportDataAsync();
 }
 
 /// <summary>

@@ -192,8 +192,11 @@ public class AdminLayout : AuthLayout
             if (Context.CurrentUser == null)
                 await JS.InitFilesAsync();
 
-            invoker = DotNetObjectReference.Create(this);
-            await JSRuntime.InvokeVoidAsync("KNotify.init", invoker);
+            if (Config.IsNotifyHub)
+            {
+                invoker = DotNetObjectReference.Create(this);
+                await JSRuntime.InvokeVoidAsync("KNotify.init", invoker);
+            }
             Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
     }

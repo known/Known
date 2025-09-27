@@ -1,6 +1,9 @@
 ﻿namespace Known.Services;
 
-public partial interface IAdminService
+/// <summary>
+/// 导入服务接口。
+/// </summary>
+public interface IImportService : IService
 {
     /// <summary>
     /// 异步获取导入表单数据信息。
@@ -24,14 +27,16 @@ public partial interface IAdminService
     Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
 }
 
-partial class AdminClient
+[Client]
+class ImportClient(HttpClient http) : ClientBase(http), IImportService
 {
-    public Task<ImportFormInfo> GetImportAsync(string bizId) => Http.GetAsync<ImportFormInfo>($"/Admin/GetImport?bizId={bizId}");
-    public Task<byte[]> GetImportRuleAsync(string bizId) => Http.GetAsync<byte[]>($"/Admin/GetImportRule?bizId={bizId}");
-    public Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info) => Http.PostAsync("/Admin/ImportFiles", info);
+    public Task<ImportFormInfo> GetImportAsync(string bizId) => Http.GetAsync<ImportFormInfo>($"/Import/GetImport?bizId={bizId}");
+    public Task<byte[]> GetImportRuleAsync(string bizId) => Http.GetAsync<byte[]>($"/Import/GetImportRule?bizId={bizId}");
+    public Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info) => Http.PostAsync("/Import/ImportFiles", info);
 }
 
-partial class AdminService
+[WebApi, Service]
+class ImportService(Context context) : ServiceBase(context), IImportService
 {
     public async Task<ImportFormInfo> GetImportAsync(string bizId)
     {

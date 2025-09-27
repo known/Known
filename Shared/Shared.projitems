@@ -36,7 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RoleInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Auth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Import.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ImportService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Install.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Setting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.System.cs" />

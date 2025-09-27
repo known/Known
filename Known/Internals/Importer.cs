@@ -8,6 +8,7 @@ class Importer : BaseComponent
     private string message;
     private FileDataInfo file;
     private ImportFormInfo Model;
+    private IImportService Service;
 
     private string ErrorMessage => Language[Language.ImportError];
 
@@ -16,6 +17,7 @@ class Importer : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IImportService>();
 
         var type = Info.EntityType;
         var id = type.Name;
@@ -23,7 +25,7 @@ class Importer : BaseComponent
             id += $"_{Info.Param}";
         if (Info.IsDictionary)
             id = $"{Config.AutoBizIdPrefix}_{Info.PageId}_{Info.PluginId}";
-        Model = await Admin.GetImportAsync(id);
+        Model = await Service.GetImportAsync(id);
         Model.Name = Info.PageName;
         Model.BizName = Language[Language.ImportTitle].Replace("{name}", Info.PageName);
 
@@ -110,7 +112,7 @@ class Importer : BaseComponent
 
         var info = new UploadInfo<ImportFormInfo>(Model);
         info.Files["Upload"] = [file];
-        var result = await Admin.ImportFilesAsync(info);
+        var result = await Service.ImportFilesAsync(info);
         if (!result.IsValid)
         {
             error = result.Message;
@@ -135,7 +137,7 @@ class Importer : BaseComponent
     {
         return App?.DownloadAsync(async () =>
         {
-            var bytes = await Admin.GetImportRuleAsync(Model.BizId);
+            var bytes = await Service.GetImportRuleAsync(Model.BizId);
             if (bytes == null || bytes.Length == 0)
             {
                 UI.Error(Language.ImportFileNotExists);
