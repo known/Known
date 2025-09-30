@@ -113,7 +113,7 @@ public partial class MainMenu
             SmallLabel = true,
             Title = title,
             Data = data,
-            OnSave = Platform.SaveMenuAsync,
+            OnSave = Admin.SaveMenuAsync,
             OnSaved = d =>
             {
                 App?.AddMenuItem(d);

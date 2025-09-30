@@ -2,7 +2,7 @@
 
 class ModuleList : BaseTablePage<SysModule1>
 {
-    private IModuleService Service;
+    private IModule1Service Service;
     private List<SysModule1> modules;
     private MenuInfo current;
     private int total;
@@ -17,7 +17,7 @@ class ModuleList : BaseTablePage<SysModule1>
         }
 
         await base.OnInitPageAsync();
-        Service = await CreateServiceAsync<IModuleService>();
+        Service = await CreateServiceAsync<IModule1Service>();
 
         Tree = new TreeModel
         {

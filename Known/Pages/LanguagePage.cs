@@ -7,6 +7,7 @@
 [DevPlugin("语言管理", "global", Sort = 2)]
 public class LanguagePage : BaseTablePage<LanguageInfo>
 {
+    private ILanguageService Service;
     private readonly List<LanguageSettingInfo> Infos = Language.Settings;
 
     /// <inheritdoc />
@@ -19,6 +20,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         }
 
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<ILanguageService>();
 
         Table = new TableModel<LanguageInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
@@ -28,7 +30,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         Table.AdvSearch = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Platform.QueryLanguagesAsync;
+        Table.OnQuery = Service.QueryLanguagesAsync;
 
         foreach (var info in Infos)
         {
@@ -55,24 +57,24 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    public void New() => Table.NewForm(Platform.SaveLanguageAsync, new LanguageInfo());
+    public void New() => Table.NewForm(Service.SaveLanguageAsync, new LanguageInfo());
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(LanguageInfo row) => Table.EditForm(Platform.SaveLanguageAsync, row);
+    public void Edit(LanguageInfo row) => Table.EditForm(Service.SaveLanguageAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(LanguageInfo row) => Table.Delete(Platform.DeleteLanguagesAsync, row);
+    public void Delete(LanguageInfo row) => Table.Delete(Service.DeleteLanguagesAsync, row);
 
     /// <summary>
     /// 批量删除数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Platform.DeleteLanguagesAsync);
+    public void DeleteM() => Table.DeleteM(Service.DeleteLanguagesAsync);
 
     /// <summary>
     /// 导入数据。
@@ -84,7 +86,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         {
             Title = Language.GetImportTitle(PageName),
             Data = new FileFormInfo(),
-            OnSaveFile = Platform.ImportLanguagesAsync,
+            OnSaveFile = Service.ImportLanguagesAsync,
             OnSaved = async d => await RefreshAsync()
         };
         form.AddRow().AddColumn(Language.ImportFile, c => c.BizType, c => c.Type = FieldType.File);
@@ -104,7 +106,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     {
         UI.Confirm(Language.TipLanguageFetchConfirm, async () =>
         {
-            var result = await Platform.FetchLanguagesAsync();
+            var result = await Service.FetchLanguagesAsync();
             UI.Result(result, () =>
             {
                 Language.Datas = result.DataAs<List<LanguageInfo>>();
@@ -128,7 +130,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         model.AddAction(Language.Reset, this.Callback<MouseEventArgs>(e=> table?.Reset()));
         model.OnOk = async () =>
         {
-            await Platform.SaveLanguageSettingsAsync(table.DataSource);
+            await Service.SaveLanguageSettingsAsync(table.DataSource);
             await model.CloseAsync();
             App.ReloadPage();
         };

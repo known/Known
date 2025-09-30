@@ -1,13 +1,10 @@
 ﻿namespace Known.Services;
 
-public partial interface IAdminService
+/// <summary>
+/// 安装服务接口。
+/// </summary>
+public interface IInstallService : IService
 {
-    /// <summary>
-    /// 异步获取系统初始数据信息，语言等。
-    /// </summary>
-    /// <returns>系统初始数据信息。</returns>
-    [AllowAnonymous] Task<InitialInfo> GetInitialAsync();
-
     /// <summary>
     /// 异步获取系统安装信息。
     /// </summary>
@@ -29,44 +26,17 @@ public partial interface IAdminService
     [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
 }
 
-partial class AdminClient
+[Client]
+class InstallClient(HttpClient http) : ClientBase(http), IInstallService
 {
-    public Task<InitialInfo> GetInitialAsync() => Http.GetAsync<InitialInfo>("/Admin/GetInitial");
-    public Task<InstallInfo> GetInstallAsync() => Http.GetAsync<InstallInfo>("/Admin/GetInstall");
-    public Task<Result> TestConnectionAsync(ConnectionInfo info) => Http.PostAsync("/Admin/TestConnection", info);
-    public Task<Result> SaveInstallAsync(InstallInfo info) => Http.PostAsync("/Admin/SaveInstall", info);
+    public Task<InstallInfo> GetInstallAsync() => Http.GetAsync<InstallInfo>("/Install/GetInstall");
+    public Task<Result> TestConnectionAsync(ConnectionInfo info) => Http.PostAsync("/Install/TestConnection", info);
+    public Task<Result> SaveInstallAsync(InstallInfo info) => Http.PostAsync("/Install/SaveInstall", info);
 }
 
-partial class AdminService
+[WebApi, Service]
+class InstallService(Context context) : ServiceBase(context), IInstallService
 {
-    [AllowAnonymous]
-    public async Task<InitialInfo> GetInitialAsync()
-    {
-        var database = Database;
-        if (Language.Settings == null || Language.Settings.Count == 0)
-            await AppHelper.LoadLanguagesAsync(database);
-
-        var sys = await database.GetSystemAsync(true);
-        var info = new InitialInfo
-        {
-            IsInstalled = sys != null,
-            LanguageSettings = Language.Settings,
-            Languages = Language.Datas
-        };
-        if (sys != null)
-        {
-            info.System = sys.Clone();
-            info.System.ProductId = null;
-            info.System.ProductKey = null;
-            info.System.UserDefaultPwd = null;
-        }
-        CoreConfig.System = sys;
-        CoreConfig.Load(info);
-        if (CoreConfig.OnInitial != null)
-            await CoreConfig.OnInitial.Invoke(database, info);
-        return info;
-    }
-
     [AllowAnonymous]
     public async Task<InstallInfo> GetInstallAsync()
     {

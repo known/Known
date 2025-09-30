@@ -1,6 +1,9 @@
 ﻿namespace Known.Services;
 
-public partial interface IPlatformService
+/// <summary>
+/// 语言服务接口。
+/// </summary>
+public interface ILanguageService : IService
 {
     /// <summary>
     /// 异步分页查询语言信息列表。
@@ -44,17 +47,19 @@ public partial interface IPlatformService
     Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos);
 }
 
-partial class PlatformClient
+[Client]
+class LanguageClient(HttpClient http) : ClientBase(http), ILanguageService
 {
-    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria) => Http.QueryAsync<LanguageInfo>("/Platform/QueryLanguages", criteria);
-    public Task<Result> FetchLanguagesAsync() => Http.PostAsync("/Platform/FetchLanguages");
-    public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos) => Http.PostAsync("/Platform/DeleteLanguages", infos);
-    public Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Platform/ImportLanguages", info);
-    public Task<Result> SaveLanguageAsync(LanguageInfo info) => Http.PostAsync("/Platform/SaveLanguage", info);
-    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos) => Http.PostAsync("/Platform/SaveLanguageSettings", infos);
+    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria) => Http.QueryAsync<LanguageInfo>("/Language/QueryLanguages", criteria);
+    public Task<Result> FetchLanguagesAsync() => Http.PostAsync("/Language/FetchLanguages");
+    public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos) => Http.PostAsync("/Language/DeleteLanguages", infos);
+    public Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Language/ImportLanguages", info);
+    public Task<Result> SaveLanguageAsync(LanguageInfo info) => Http.PostAsync("/Language/SaveLanguage", info);
+    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos) => Http.PostAsync("/Language/SaveLanguageSettings", infos);
 }
 
-partial class PlatformService
+[WebApi, Service]
+class LanguageService(Context context) : ServiceBase(context), ILanguageService
 {
     public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
     {

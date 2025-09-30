@@ -1,6 +1,6 @@
 ﻿namespace Known.Services;
 
-public partial interface IPlatformService
+public partial interface IAdminService
 {
     /// <summary>
     /// 异步设置呈现模式。
@@ -10,12 +10,12 @@ public partial interface IPlatformService
     Task<Result> SetRenderModeAsync(string mode);
 }
 
-partial class PlatformClient
+partial class AdminClient
 {
-    public Task<Result> SetRenderModeAsync(string mode) => Http.PostAsync($"/Platform/SetRenderMode?mode={mode}");
+    public Task<Result> SetRenderModeAsync(string mode) => Http.PostAsync($"/Admin/SetRenderMode?mode={mode}");
 }
 
-partial class PlatformService
+partial class AdminService
 {
     public Task<Result> SetRenderModeAsync(string mode)
     {

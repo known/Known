@@ -9,6 +9,8 @@ namespace Known.Pages;
 [DevPlugin("WebApi", "pull-request", Sort = 99)]
 public class WebApiPage : BaseTablePage<ApiMethodInfo>
 {
+    private IWebApiService Service;
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -19,10 +21,11 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
         }
 
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IWebApiService>();
 
         Table.EnableEdit = false;
         Table.ShowPager = true;
-        Table.OnQuery = Platform.QueryWebApisAsync;
+        Table.OnQuery = Service.QueryWebApisAsync;
         Table.AddColumn(c => c.HttpMethod).Width(120).Template(BuildMethod);
         Table.AddColumn(c => c.Route, true).Width(250).Tag().FilterType(false);
         Table.AddColumn(c => c.Description).Filter(false);

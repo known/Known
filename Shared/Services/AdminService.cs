@@ -6,25 +6,10 @@
 public partial interface IAdminService : IService
 {
     /// <summary>
-    /// 异步获取系统配置数据。
+    /// 异步获取系统初始数据信息，语言等。
     /// </summary>
-    /// <param name="key">配置数据键。</param>
-    /// <returns>配置数据JSON字符串。</returns>
-    Task<string> GetConfigAsync(string key);
-
-    /// <summary>
-    /// 异步保存系统配置数据。
-    /// </summary>
-    /// <param name="info">系统配置数据信息。</param>
-    /// <returns></returns>
-    Task<Result> SaveConfigAsync(ConfigInfo info);
-
-    /// <summary>
-    /// 异步分页查询系统用户。
-    /// </summary>
-    /// <param name="criteria">查询条件对象。</param>
-    /// <returns>分页结果。</returns>
-    Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
+    /// <returns>系统初始数据信息。</returns>
+    [AllowAnonymous] Task<InitialInfo> GetInitialAsync();
 
     /// <summary>
     /// 异步获取系统附件列表。
@@ -46,35 +31,62 @@ public partial interface IAdminService : IService
     /// <param name="info">系统日志</param>
     /// <returns>添加结果。</returns>
     Task<Result> AddLogAsync(LogInfo info);
+
+    /// <summary>
+    /// 异步删除菜单信息。
+    /// </summary>
+    /// <param name="info">菜单信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> DeleteMenuAsync(MenuInfo info);
+
+    /// <summary>
+    /// 异步保存菜单信息。
+    /// </summary>
+    /// <param name="info">菜单信息。</param>
+    /// <returns>保存结果。</returns>
+    Task<Result> SaveMenuAsync(MenuInfo info);
 }
 
 [Client]
 partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 {
-    public Task<string> GetConfigAsync(string key) => Http.GetTextAsync($"/Admin/GetConfig?key={key}");
-    public Task<Result> SaveConfigAsync(ConfigInfo info) => Http.PostAsync("/Admin/SaveConfig", info);
-    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria) => Http.QueryAsync<UserInfo>("/Admin/QueryUsers", criteria);
+    public Task<InitialInfo> GetInitialAsync() => Http.GetAsync<InitialInfo>("/Admin/GetInitial");
     public Task<List<AttachInfo>> GetFilesAsync(string bizId) => Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
     public Task<Result> DeleteFileAsync(AttachInfo info) => Http.PostAsync("/Admin/DeleteFile", info);
     public Task<Result> AddLogAsync(LogInfo info) => Http.PostAsync("/Admin/AddLog", info);
+    public Task<Result> DeleteMenuAsync(MenuInfo info) => Http.PostAsync("/Admin/DeleteMenu", info);
+    public Task<Result> SaveMenuAsync(MenuInfo info) => Http.PostAsync("/Admin/SaveMenu", info);
 }
 
 [WebApi, Service]
 partial class AdminService(Context context) : ServiceBase(context), IAdminService
 {
-    public Task<string> GetConfigAsync(string key)
+    [AllowAnonymous]
+    public async Task<InitialInfo> GetInitialAsync()
     {
-        return Database.GetConfigAsync(key);
-    }
+        var database = Database;
+        if (Language.Settings == null || Language.Settings.Count == 0)
+            await AppHelper.LoadLanguagesAsync(database);
 
-    public Task<Result> SaveConfigAsync(ConfigInfo info)
-    {
-        return Database.SaveConfigAsync(info.Key, info.Value);
-    }
-
-    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
-    {
-        return await Database.Query<SysUser>(criteria).ToPageAsync<UserInfo>();
+        var sys = await database.GetSystemAsync(true);
+        var info = new InitialInfo
+        {
+            IsInstalled = sys != null,
+            LanguageSettings = Language.Settings,
+            Languages = Language.Datas
+        };
+        if (sys != null)
+        {
+            info.System = sys.Clone();
+            info.System.ProductId = null;
+            info.System.ProductKey = null;
+            info.System.UserDefaultPwd = null;
+        }
+        CoreConfig.System = sys;
+        CoreConfig.Load(info);
+        if (CoreConfig.OnInitial != null)
+            await CoreConfig.OnInitial.Invoke(database, info);
+        return info;
     }
 
     public Task<List<AttachInfo>> GetFilesAsync(string bizId)
@@ -96,5 +108,53 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
     public Task<Result> AddLogAsync(LogInfo info)
     {
         return Database.AddLogAsync(info);
+    }
+
+    public async Task<Result> DeleteMenuAsync(MenuInfo info)
+    {
+        var database = Database;
+        var module = await database.QueryByIdAsync<SysModule>(info.Id);
+        if (module == null)
+            return Result.Error(Language.TipModuleNotExists);
+
+        return await database.TransactionAsync(Language.Delete, async db =>
+        {
+            await db.DeleteAsync(module);
+            var modules = await db.Query<SysModule>().Where(m => m.ParentId == info.ParentId).ToListAsync();
+            if (modules != null && modules.Count > 0)
+            {
+                var index = 1;
+                foreach (var item in modules)
+                {
+                    item.Sort = index++;
+                    await db.SaveAsync(item);
+                }
+            }
+        });
+    }
+
+    public async Task<Result> SaveMenuAsync(MenuInfo info)
+    {
+        var database = Database;
+        var model = await database.QueryByIdAsync<SysModule>(info.Id);
+        model ??= new SysModule();
+        model.FillModel(info);
+
+        var vr = model.Validate(Context);
+        if (!vr.IsValid)
+            return vr;
+
+        if (string.IsNullOrWhiteSpace(model.Icon))
+            model.Icon = "";//AntDesign不识别null值
+
+        if (string.IsNullOrWhiteSpace(model.Code))
+            model.Code = model.Name;
+        model.LayoutData = Utils.ToJson(info.Layout);
+        model.PluginData = info.Plugins?.ZipDataString();
+        return await Database.TransactionAsync(Language.Save, async db =>
+        {
+            await db.SaveAsync(model);
+            info.Id = model.Id;
+        }, info);
     }
 }

@@ -2,6 +2,7 @@
 
 class ModuleList : BasePage<ModuleInfo>
 {
+    private IModuleService Service;
     private List<ModuleInfo> modules;
     private MenuInfo current;
     private int total;
@@ -15,6 +16,7 @@ class ModuleList : BasePage<ModuleInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IModuleService>();
 
         Page.Type = PageType.Column;
         Page.Spans = "28";
@@ -114,7 +116,7 @@ class ModuleList : BasePage<ModuleInfo>
             return;
         }
 
-        Table.NewForm(Platform.SaveModuleAsync, new ModuleInfo
+        Table.NewForm(Service.SaveModuleAsync, new ModuleInfo
         {
             ParentId = current?.Id,
             ParentName = current?.Name,
@@ -136,7 +138,7 @@ class ModuleList : BasePage<ModuleInfo>
             return;
         }
 
-        Table.EditForm(Platform.SaveModuleAsync, row);
+        Table.EditForm(Service.SaveModuleAsync, row);
     }
 
     /// <summary>
@@ -151,13 +153,13 @@ class ModuleList : BasePage<ModuleInfo>
             return;
         }
 
-        Table.Delete(Platform.DeleteModulesAsync, row);
+        Table.Delete(Service.DeleteModulesAsync, row);
     }
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Platform.DeleteModulesAsync);
+    public void DeleteM() => Table.DeleteM(Service.DeleteModulesAsync);
 
     /// <summary>
     /// 复制多个模块到另一个模块下面。
@@ -191,7 +193,7 @@ class ModuleList : BasePage<ModuleInfo>
             Title = Language.GetImportTitle(PageName),
             ConfirmText = Language.TipImportModules,
             Data = new FileFormInfo(),
-            OnSaveFile = Platform.ImportModulesAsync,
+            OnSaveFile = Service.ImportModulesAsync,
             OnSaved = async d => await RefreshAsync()
         };
         form.AddRow().AddColumn(Language.ImportFile, c => c.BizType, c => c.Type = FieldType.File);
@@ -205,7 +207,7 @@ class ModuleList : BasePage<ModuleInfo>
     {
         return App?.ShowSpinAsync(Language.DataExporting, async () =>
         {
-            var info = await Platform.ExportModulesAsync();
+            var info = await Service.ExportModulesAsync();
             await JS.DownloadFileAsync(info);
         });
     }
@@ -236,7 +238,7 @@ class ModuleList : BasePage<ModuleInfo>
     {
         UI.Confirm(Language.ConfirmMigrate, async () =>
         {
-            var result = await Platform.MigrateModulesAsync();
+            var result = await Service.MigrateModulesAsync();
             UI.Result(result, RefreshAsync);
         });
     }
@@ -246,7 +248,7 @@ class ModuleList : BasePage<ModuleInfo>
         ShowTreeModal(Language.CopyTo, node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
-            return Platform.CopyModulesAsync(rows);
+            return Service.CopyModulesAsync(rows);
         });
     }
 
@@ -255,7 +257,7 @@ class ModuleList : BasePage<ModuleInfo>
         ShowTreeModal(Language.MoveTo, node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
-            return Platform.MoveModulesAsync(rows);
+            return Service.MoveModulesAsync(rows);
         });
     }
 
@@ -268,7 +270,7 @@ class ModuleList : BasePage<ModuleInfo>
         }
 
         row.IsMoveUp = isMoveUp;
-        var result = await Platform.MoveModuleAsync(row);
+        var result = await Service.MoveModuleAsync(row);
         UI.Result(result, RefreshAsync);
     }
 
@@ -280,7 +282,7 @@ class ModuleList : BasePage<ModuleInfo>
 
     private async Task<TreeModel> OnTreeModelChanged()
     {
-        modules = await Platform.GetModulesAsync();
+        modules = await Service.GetModulesAsync();
         if (modules != null && modules.Count > 0)
         {
             Tree.Data = modules.ToMenuItems(ref current);

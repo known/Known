@@ -7,6 +7,7 @@
 [Layout(typeof(EmptyLayout))]
 public class InstallPage : BaseForm<InstallInfo>
 {
+    private IInstallService Service;
     private readonly StepModel Step = new();
     private readonly Dictionary<string, FormDatabase> formDBs = [];
 
@@ -14,8 +15,10 @@ public class InstallPage : BaseForm<InstallInfo>
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Service = await CreateServiceAsync<IInstallService>();
+
         Model = new FormModel<InstallInfo>(this);
-        Model.Data = await Admin.GetInstallAsync();
+        Model.Data = await Service.GetInstallAsync();
         if (Model.Data.IsInstalled)
         {
             Navigation.GoLoginPage();
@@ -86,7 +89,7 @@ public class InstallPage : BaseForm<InstallInfo>
 
     private async Task OnTestAsync(ConnectionInfo info)
     {
-        var result = await Admin.TestConnectionAsync(info);
+        var result = await Service.TestConnectionAsync(info);
         UI.Result(result);
     }
 
@@ -103,7 +106,7 @@ public class InstallPage : BaseForm<InstallInfo>
 
         if (isComplete)
         {
-            var result = await Admin.SaveInstallAsync(Model.Data);
+            var result = await Service.SaveInstallAsync(Model.Data);
             UI.Result(result, () =>
             {
                 Navigation.GoLoginPage();

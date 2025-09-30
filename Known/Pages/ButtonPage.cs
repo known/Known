@@ -7,6 +7,8 @@
 [DevPlugin("按钮管理", "border", Sort = 3)]
 public class ButtonPage : BaseTablePage<ButtonInfo>
 {
+    private IButtonService Service;
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -17,6 +19,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         }
 
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IButtonService>();
 
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
@@ -24,7 +27,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Table.AdvSearch = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Platform.QueryButtonsAsync;
+        Table.OnQuery = Service.QueryButtonsAsync;
 
         Table.Column(c => c.Id).FilterType(false);
         Table.Column(c => c.Name).FilterType(false);
@@ -40,22 +43,22 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    public void New() => Table.NewForm(Platform.SaveButtonAsync, new ButtonInfo());
+    public void New() => Table.NewForm(Service.SaveButtonAsync, new ButtonInfo());
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(ButtonInfo row) => Table.EditForm(Platform.SaveButtonAsync, row);
+    public void Edit(ButtonInfo row) => Table.EditForm(Service.SaveButtonAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(ButtonInfo row) => Table.Delete(Platform.DeleteButtonsAsync, row);
+    public void Delete(ButtonInfo row) => Table.Delete(Service.DeleteButtonsAsync, row);
 
     /// <summary>
     /// 批量删除多条数据。
     /// </summary>
-    public void DeleteM() => Table.DeleteM(Platform.DeleteButtonsAsync);
+    public void DeleteM() => Table.DeleteM(Service.DeleteButtonsAsync);
 }

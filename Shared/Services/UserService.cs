@@ -6,6 +6,13 @@
 public interface IUserService : IService
 {
     /// <summary>
+    /// 异步分页查询系统用户。
+    /// </summary>
+    /// <param name="criteria">查询条件对象。</param>
+    /// <returns>分页结果。</returns>
+    Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria);
+
+    /// <summary>
     /// 异步分页查询用户信息。
     /// </summary>
     /// <param name="criteria">查询条件。</param>
@@ -65,6 +72,7 @@ public interface IUserService : IService
 [Client]
 class UserClient(HttpClient http) : ClientBase(http), IUserService
 {
+    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria) => Http.QueryAsync<UserInfo>("/User/QueryUsers", criteria);
     public Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria) => Http.QueryAsync<UserDataInfo>("/User/QueryUserDatas", criteria);
     public Task<UserDataInfo> GetUserDataAsync(string id) => Http.GetAsync<UserDataInfo>($"/User/GetUserData?id={id}");
     public Task<Result> DeleteUsersAsync(List<UserDataInfo> infos) => Http.PostAsync("/User/DeleteUsers", infos);
@@ -78,6 +86,11 @@ class UserClient(HttpClient http) : ClientBase(http), IUserService
 [WebApi, Service]
 class UserService(Context context, IUserHandler handler) : ServiceBase(context), IUserService
 {
+    public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
+    {
+        return await QueryUsersAsync<UserInfo>(criteria);
+    }
+
     public async Task<PagingResult<UserDataInfo>> QueryUserDatasAsync(PagingCriteria criteria)
     {
         return await QueryUsersAsync<UserDataInfo>(criteria);

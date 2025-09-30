@@ -20,7 +20,7 @@ public class BaseTablePage : BaseComponent
         if (Menu.Plugins == null)
             Menu.Plugins = [];
         Menu.Plugins.AddPlugin(info);
-        return Platform.SaveMenuAsync(Menu);
+        return Admin.SaveMenuAsync(Menu);
     }
 }
 

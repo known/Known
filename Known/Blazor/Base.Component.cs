@@ -106,11 +106,6 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     public BaseLayout App => Context?.App;
 
     /// <summary>
-    /// 取得框架平台数据服务接口实例。
-    /// </summary>
-    public IPlatformService Platform { get; private set; }
-
-    /// <summary>
     /// 取得框架管理后台数据服务接口实例。
     /// </summary>
     public IAdminService Admin { get; private set; }
@@ -127,7 +122,6 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     protected override async Task OnInitializedAsync()
     {
         UI.Context = Context;
-        Platform = await CreateServiceAsync<IPlatformService>();
         Admin = await CreateServiceAsync<IAdminService>();
         Context.UI = UI;
         Context.Navigation = Navigation;

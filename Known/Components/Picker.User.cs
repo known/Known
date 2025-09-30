@@ -5,6 +5,8 @@
 /// </summary>
 public class UserPicker : TablePicker<UserInfo>, ICustomField
 {
+    private IUserService Service;
+
     /// <summary>
     /// 取得或设置用户角色。
     /// </summary>
@@ -28,6 +30,7 @@ public class UserPicker : TablePicker<UserInfo>, ICustomField
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IUserService>();
         Title = Language.SelectUser;
         Width = 800;
         AllowClear = true;
@@ -57,6 +60,6 @@ public class UserPicker : TablePicker<UserInfo>, ICustomField
         if (OnQuery != null)
             return OnQuery.Invoke(criteria);
 
-        return Admin.QueryUsersAsync(criteria);
+        return Service.QueryUsersAsync(criteria);
     }
 }

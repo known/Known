@@ -146,19 +146,19 @@ class MenuTree : BaseComponent
 
     private async Task SaveMenuAsync(MenuInfo item)
     {
-        await Platform.SaveMenuAsync(item);
+        await Admin.SaveMenuAsync(item);
         await tree.RefreshAsync();
     }
 
     //private async Task MoveUpMenuAsync(MenuInfo item)
     //{
-    //    var result = await Platform.SaveMenuAsync(item);
+    //    var result = await Admin.SaveMenuAsync(item);
     //    UI.Result(result, tree.RefreshAsync);
     //}
 
     //private async Task MoveDownMenuAsync(MenuInfo item)
     //{
-    //    var result = await Platform.SaveMenuAsync(item);
+    //    var result = await Admin.SaveMenuAsync(item);
     //    UI.Result(result, tree.RefreshAsync);
     //}
 
@@ -178,7 +178,7 @@ class MenuTree : BaseComponent
         var text = Language[Language.TipConfirmDelete].Replace("{name}", item.Name);
         UI.Confirm(text, async () =>
         {
-            var result = await Platform.DeleteMenuAsync(item);
+            var result = await Admin.DeleteMenuAsync(item);
             UI.Result(result, () =>
             {
                 if (item.Id == Parent.Id)

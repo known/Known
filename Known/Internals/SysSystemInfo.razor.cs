@@ -46,7 +46,7 @@ public partial class SysSystemInfo
             return;
 
         Model.System.ProductKey = value;
-        await Admin.SaveProductKeyAsync(new ActiveInfo
+        await Service.SaveProductKeyAsync(new ActiveInfo
         {
             ProductId = Model.System.ProductId,
             ProductKey = Model.System.ProductKey

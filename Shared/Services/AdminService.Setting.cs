@@ -3,6 +3,20 @@
 public partial interface IAdminService
 {
     /// <summary>
+    /// 异步获取系统配置数据。
+    /// </summary>
+    /// <param name="key">配置数据键。</param>
+    /// <returns>配置数据JSON字符串。</returns>
+    Task<string> GetConfigAsync(string key);
+
+    /// <summary>
+    /// 异步保存系统配置数据。
+    /// </summary>
+    /// <param name="info">系统配置数据信息。</param>
+    /// <returns></returns>
+    Task<Result> SaveConfigAsync(ConfigInfo info);
+
+    /// <summary>
     /// 异步获取用户设置信息JSON。
     /// </summary>
     /// <param name="bizType">设置业务类型。</param>
@@ -25,6 +39,8 @@ public partial interface IAdminService
 
 partial class AdminClient
 {
+    public Task<string> GetConfigAsync(string key) => Http.GetTextAsync($"/Admin/GetConfig?key={key}");
+    public Task<Result> SaveConfigAsync(ConfigInfo info) => Http.PostAsync("/Admin/SaveConfig", info);
     public Task<string> GetUserSettingAsync(string bizType) => Http.GetTextAsync($"/Admin/GetUserSetting?bizType={bizType}");
     public Task<Result> SaveUserSettingAsync(SettingFormInfo info) => Http.PostAsync("/Admin/SaveUserSetting", info);
     public Task<Result> ResetUserSettingAsync() => Http.PostAsync("/Admin/ResetUserSetting");
@@ -32,6 +48,16 @@ partial class AdminClient
 
 partial class AdminService
 {
+    public Task<string> GetConfigAsync(string key)
+    {
+        return Database.GetConfigAsync(key);
+    }
+
+    public Task<Result> SaveConfigAsync(ConfigInfo info)
+    {
+        return Database.SaveConfigAsync(info.Key, info.Value);
+    }
+
     public async Task<string> GetUserSettingAsync(string bizType)
     {
         var setting = await Database.GetUserSettingAsync(bizType);

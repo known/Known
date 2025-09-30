@@ -2,16 +2,23 @@
 
 class AuthPanel : BaseComponent
 {
+    private ISystemService Service;
     private readonly ActiveInfo Info = new();
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Service = await CreateServiceAsync<ISystemService>();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            var info = await Admin.GetProductAsync();
+            var info = await Service.GetProductAsync();
             Info.ProductId = info?.ProductId;
             Info.ProductKey = info?.ProductKey;
             await StateChangedAsync();

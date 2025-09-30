@@ -1,6 +1,9 @@
 ﻿namespace Known.Services;
 
-public partial interface IPlatformService
+/// <summary>
+/// 模块服务接口。
+/// </summary>
+public interface IModuleService : IService
 {
     /// <summary>
     /// 异步分页查询系统模块列表。
@@ -77,22 +80,24 @@ public partial interface IPlatformService
     Task<Result> SaveModuleAsync(ModuleInfo info);
 }
 
-partial class PlatformClient
+[Client]
+class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
 {
-    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<ModuleInfo>("/Platform/QueryModules", criteria);
-    public Task<List<ModuleInfo>> GetModulesAsync() => Http.GetAsync<List<ModuleInfo>>("/Platform/GetModules");
-    public Task<Result> MigrateModulesAsync() => Http.PostAsync("/Platform/MigrateModules");
-    public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Platform/ExportModules");
-    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Platform/ImportModules", info);
-    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/DeleteModules", infos);
-    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/InstallModules", infos);
-    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/CopyModules", infos);
-    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Platform/MoveModules", infos);
-    public Task<Result> MoveModuleAsync(ModuleInfo info) => Http.PostAsync("/Platform/MoveModule", info);
-    public Task<Result> SaveModuleAsync(ModuleInfo info) => Http.PostAsync("/Platform/SaveModule", info);
+    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<ModuleInfo>("/Module/QueryModules", criteria);
+    public Task<List<ModuleInfo>> GetModulesAsync() => Http.GetAsync<List<ModuleInfo>>("/Module/GetModules");
+    public Task<Result> MigrateModulesAsync() => Http.PostAsync("/Module/MigrateModules");
+    public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Module/ExportModules");
+    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Module/ImportModules", info);
+    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/DeleteModules", infos);
+    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/InstallModules", infos);
+    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/CopyModules", infos);
+    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/MoveModules", infos);
+    public Task<Result> MoveModuleAsync(ModuleInfo info) => Http.PostAsync("/Module/MoveModule", info);
+    public Task<Result> SaveModuleAsync(ModuleInfo info) => Http.PostAsync("/Module/SaveModule", info);
 }
 
-partial class PlatformService
+[WebApi, Service]
+class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
     public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
     {

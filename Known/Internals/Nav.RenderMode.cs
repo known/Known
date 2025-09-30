@@ -27,7 +27,7 @@ class NavRenderMode : BaseNav
             return;
         }
 
-        var result = await Platform.SetRenderModeAsync(info.Id);
+        var result = await Admin.SetRenderModeAsync(info.Id);
         UI.Result(result, () =>
         {
             Navigation.NavigateTo("/", true);

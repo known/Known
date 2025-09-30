@@ -2,18 +2,21 @@
 
 class ModuleInstallList : BaseTablePage<ModuleInfo>
 {
+    private IModuleService Service;
     [Parameter] public List<ModuleInfo> Modules { get; set; }
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<IModuleService>();
+
         Table.Name = Language.NoInstallModule;
         Table.AutoHeight = false;
         Table.EnableSort = false;
         Table.EnableFilter = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Platform.QueryModulesAsync;
+        Table.OnQuery = Service.QueryModulesAsync;
 
         Table.AddColumn(c => c.Name, true).Width(120).Template(BuildName);
         Table.AddColumn(c => c.Type).Width(80).Tag();
@@ -63,7 +66,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
             }
 
             rows.ForEach(m => m.ParentId = node.Id);
-            var result = await Platform.InstallModulesAsync(rows);
+            var result = await Service.InstallModulesAsync(rows);
             UI.Result(result, async () =>
             {
                 rows.ForEach(m => Modules.Add(m));

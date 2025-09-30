@@ -7,6 +7,8 @@
 [DevPlugin("跟踪日志", "exception", Sort = 97)]
 public class WebLogPage : BaseTablePage<LogInfo>
 {
+    private ILogService Service;
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -17,13 +19,14 @@ public class WebLogPage : BaseTablePage<LogInfo>
         }
 
         await base.OnInitPageAsync();
+        Service = await CreateServiceAsync<ILogService>();
 
         Table.Name = PageName;
         Table.EnableEdit = false;
         Table.EnableSort = false;
         Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Platform.QueryWebLogsAsync;
+        Table.OnQuery = Service.QueryWebLogsAsync;
         Table.Tips = Language[Language.TipWebLogSaveDay].Replace("{LogDays}", $"{Config.App.WebLogDays}");
 
         Table.Clear();
@@ -77,12 +80,12 @@ public class WebLogPage : BaseTablePage<LogInfo>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    [Action] public void Delete(LogInfo row) => Table.Delete(Platform.DeleteWebLogsAsync, row);
+    [Action] public void Delete(LogInfo row) => Table.Delete(Service.DeleteWebLogsAsync, row);
 
     /// <summary>
     /// 批量删除数据。
     /// </summary>
-    [Action] public void DeleteM() => Table.DeleteM(Platform.DeleteWebLogsAsync);
+    [Action] public void DeleteM() => Table.DeleteM(Service.DeleteWebLogsAsync);
 
     /// <summary>
     /// 清空数据。
@@ -93,7 +96,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
     {
         UI.Confirm(Language.TipConfirmClearLog, async () =>
         {
-            await Platform.ClearWebLogsAsync();
+            await Service.ClearWebLogsAsync();
             await Table.RefreshAsync();
         });
     }

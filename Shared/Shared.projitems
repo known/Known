@@ -29,6 +29,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\UserDataImport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FileService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ConfigService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WebApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TaskService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InitialInfo.cs" />
@@ -37,14 +39,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Auth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ImportService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Install.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\InstallService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Setting.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.System.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Button.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Language.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Menu.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\PlatformService.Module.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ButtonService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LanguageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ModuleService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\RoleService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\SystemService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />

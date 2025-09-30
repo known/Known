@@ -16,13 +16,13 @@ class PluginPage : BaseComponent, IAutoPage
             return Result.ErrorAsync("插件不存在！");
 
         plugin.Setting = Utils.ToJson(parameter);
-        return Platform.SaveMenuAsync(Menu);
+        return Admin.SaveMenuAsync(Menu);
     }
 
     internal async Task RemovePluginAsync(PluginInfo plugin)
     {
         Menu.Plugins.Remove(plugin);
-        await Platform.SaveMenuAsync(Menu);
+        await Admin.SaveMenuAsync(Menu);
         await StateChangedAsync();
     }
 
@@ -95,7 +95,7 @@ class PluginPage : BaseComponent, IAutoPage
             OnFieldChanged = async v =>
             {
                 Menu.Layout = data;
-                await Platform.SaveMenuAsync(Menu);
+                await Admin.SaveMenuAsync(Menu);
                 await StateChangedAsync();
             }
         };
@@ -196,7 +196,7 @@ class PluginPage : BaseComponent, IAutoPage
         // 向当前页面添加插件实例
         Menu.Plugins ??= [];
         Menu.Plugins.Add(new PluginInfo { Id = Utils.GetNextId(), Type = info.Id });
-        await Platform.SaveMenuAsync(Menu);
+        await Admin.SaveMenuAsync(Menu);
         await StateChangedAsync();
     }
 }

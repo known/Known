@@ -5,6 +5,7 @@
 /// </summary>
 public class SysActive : BaseComponent
 {
+    private ISystemService Service;
     private FormModel<ActiveInfo> model;
 
     /// <summary>
@@ -26,6 +27,7 @@ public class SysActive : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<ISystemService>();
         model = new FormModel<ActiveInfo>(this) { Data = Data };
         model.AddRow().AddColumn(c => c.ProductId, c => c.ReadOnly = true);
         model.AddRow().AddColumn(c => c.ProductKey, c => c.Required = true);
@@ -53,7 +55,7 @@ public class SysActive : BaseComponent
         if (!model.Validate())
             return;
 
-        var result = await Admin.SaveProductKeyAsync(model.Data);
+        var result = await Service.SaveProductKeyAsync(model.Data);
         OnActive?.Invoke(result);
     }
 }

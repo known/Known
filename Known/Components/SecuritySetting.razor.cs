@@ -5,7 +5,15 @@
 /// </summary>
 public partial class SecuritySetting
 {
+    private ISystemService Service;
     private SystemInfo Model = new();
+
+    /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Service = await CreateServiceAsync<ISystemService>();
+    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -13,7 +21,7 @@ public partial class SecuritySetting
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Model = await Admin.GetSystemAsync();
+            Model = await Service.GetSystemAsync();
             Model.MaxFileSize ??= Config.App.UploadMaxSize;
             Model.PwdComplexity ??= nameof(PasswordComplexity.None);
             StateChanged();
@@ -22,7 +30,7 @@ public partial class SecuritySetting
 
     private async Task OnSaveModel()
     {
-        var result = await Admin.SaveSystemAsync(Model);
+        var result = await Service.SaveSystemAsync(Model);
         UI.Result(result);
     }
 }

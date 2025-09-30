@@ -5,6 +5,7 @@
 /// </summary>
 public class TopNavbar : BaseComponent
 {
+    private IConfigService Service;
     private List<PluginInfo> items;
     private PluginInfo dragging;
     private NavAction action;
@@ -28,7 +29,8 @@ public class TopNavbar : BaseComponent
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        items = await Platform.GetTopNavsAsync();
+        Service = await CreateServiceAsync<IConfigService>();
+        items = await Service.GetTopNavsAsync();
         items ??= [];
     }
 
@@ -120,7 +122,7 @@ public class TopNavbar : BaseComponent
             items.Remove(dragging);
         }
         dragging = null;
-        await Platform.SaveTopNavsAsync(items);
+        await Service.SaveTopNavsAsync(items);
         await StateChangedAsync();
         action?.SetValues(Values);
     }
@@ -135,7 +137,7 @@ public class TopNavbar : BaseComponent
     private async Task<Result> OnNavbarAddedAsync(PluginInfo info)
     {
         items.Add(info);
-        await Platform.SaveTopNavsAsync(items);
+        await Service.SaveTopNavsAsync(items);
         await StateChangedAsync();
         action?.SetValues(Values);
         return Result.Success(Language.Success(Language.New));

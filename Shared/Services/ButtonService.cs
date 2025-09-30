@@ -1,6 +1,9 @@
 ﻿namespace Known.Services;
 
-public partial interface IPlatformService
+/// <summary>
+/// 按钮服务接口。
+/// </summary>
+public interface IButtonService : IService
 {
     /// <summary>
     /// 异步分页查询按钮信息列表。
@@ -31,15 +34,17 @@ public partial interface IPlatformService
     Task<Result> SaveButtonAsync(ButtonInfo info);
 }
 
-partial class PlatformClient
+[Client]
+class ButtonClient(HttpClient http) : ClientBase(http), IButtonService
 {
-    public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria) => Http.QueryAsync<ButtonInfo>("/Platform/QueryButtons", criteria);
-    public Task<List<ButtonInfo>> GetButtonsAsync(string position) => Http.GetAsync<List<ButtonInfo>>($"/Platform/GetButtons?position={position}");
-    public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos) => Http.PostAsync("/Platform/DeleteButtons", infos);
-    public Task<Result> SaveButtonAsync(ButtonInfo info) => Http.PostAsync("/Platform/SaveButton", info);
+    public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria) => Http.QueryAsync<ButtonInfo>("/Button/QueryButtons", criteria);
+    public Task<List<ButtonInfo>> GetButtonsAsync(string position) => Http.GetAsync<List<ButtonInfo>>($"/Button/GetButtons?position={position}");
+    public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos) => Http.PostAsync("/Button/DeleteButtons", infos);
+    public Task<Result> SaveButtonAsync(ButtonInfo info) => Http.PostAsync("/Button/SaveButton", info);
 }
 
-partial class PlatformService
+[WebApi, Service]
+class ButtonService(Context context) : ServiceBase(context), IButtonService
 {
     public async Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {
