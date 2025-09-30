@@ -15,6 +15,20 @@ class PgSqlProvider(Database db) : DbProvider(db)
         return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
+    internal override string GetAddFieldScript(string tableName, List<FieldInfo> fields)
+    {
+        if (fields == null || fields.Count == 0)
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var item in fields)
+        {
+            var type = GetPgSqlDbType(item);
+            sb.AppendLine($"ALTER TABLE {tableName} ADD COLUMN {item.Id} {type};");
+        }
+        return sb.ToString();
+    }
+
     internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var sb = new StringBuilder();

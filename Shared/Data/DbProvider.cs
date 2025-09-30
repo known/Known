@@ -176,6 +176,7 @@ class DbProvider(Database db)
 
     internal virtual string GetTableSql(string dbName) => "";
     internal virtual string GetTableScript(string tableName, DbModelInfo info) => "";
+    internal virtual string GetAddFieldScript(string tableName, List<FieldInfo> fields) => "";
 
     internal static string GetColumnName(string column, int maxLength)
     {

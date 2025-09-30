@@ -170,6 +170,37 @@ public partial class Database
         return sb.ToString();
     }
 
+    /// <summary>
+    /// 异步添加表字段。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="selectors">添加的属性选择器数组。</param>
+    /// <returns></returns>
+    public async Task<bool> AddTableFieldAsync<T>(params Expression<Func<T, object>>[] selectors)
+    {
+        if (selectors == null || selectors.Length == 0)
+            return false;
+
+        var tableName = Provider.GetTableName(typeof(T));
+        var exists = await GetTableFieldsAsync(tableName);
+        var fields = new List<FieldInfo>();
+        foreach (var selector in selectors)
+        {
+            var property = TypeHelper.Property(selector);
+            if (exists.Exists(f => f.Id.Equals(property.Name, StringComparison.OrdinalIgnoreCase)))
+                continue;
+
+            var field = TypeHelper.GetField(property);
+            fields.Add(field);
+        }
+        var script = Provider.GetAddFieldScript(tableName, fields);
+        if (string.IsNullOrWhiteSpace(script))
+            return false;
+
+        await ExecuteAsync(script);
+        return true;
+    }
+
     private async Task<bool> ExistsTableAsync(string tableName)
     {
         Tables ??= await GetTableNamesAsync();

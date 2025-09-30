@@ -17,6 +17,20 @@ WHERE TABLE_SCHEMA='{dbName}' AND TABLE_TYPE='BASE TABLE'";
         return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
+    internal override string GetAddFieldScript(string tableName, List<FieldInfo> fields)
+    {
+        if (fields == null || fields.Count == 0)
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var item in fields)
+        {
+            var type = GetMySqlDbType(item);
+            sb.AppendLine($"ALTER TABLE {tableName} ADD COLUMN {item.Id} {type} NULL;");
+        }
+        return sb.ToString();
+    }
+
     internal override string GetTopSql(int size, string text) => $"{text} limit 0, {size}";
 
     internal override string GetPageSql(string text, string order, PagingCriteria criteria)

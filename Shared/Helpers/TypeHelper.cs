@@ -100,22 +100,28 @@ public sealed class TypeHelper
 
             if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
             {
-                var name = item.DisplayName();
-                var field = new FieldInfo
-                {
-                    Id = item.Name,
-                    Name = language?.GetText("", item.Name, name) ?? name,
-                    Type = item.GetFieldType(),
-                    Length = item.MaxLength()?.ToString(),
-                    Required = item.IsRequired(),
-                    IsKey = item.IsKey()
-                };
-                if (item.PropertyType == typeof(bool))
-                    field.Required = true;
+                var field = GetField(item);
+                field.Name = language?.GetText("", item.Name, field.Name) ?? field.Name;
                 fields.Add(field);
             }
         }
         return fields;
+    }
+
+    internal static FieldInfo GetField(PropertyInfo item)
+    {
+        var field = new FieldInfo
+        {
+            Id = item.Name,
+            Name = item.DisplayName(),
+            Type = item.GetFieldType(),
+            Length = item.MaxLength()?.ToString(),
+            Required = item.IsRequired(),
+            IsKey = item.IsKey()
+        };
+        if (item.PropertyType == typeof(bool))
+            field.Required = true;
+        return field;
     }
 
     /// <summary>

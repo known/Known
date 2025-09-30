@@ -10,6 +10,9 @@ public partial class Database
     /// <returns>影响的行数。</returns>
     public virtual Task<int> ExecuteAsync(string sql, object param = null)
     {
+        if (string.IsNullOrWhiteSpace(sql))
+            return Task.FromResult(0);
+
         var info = new CommandInfo(Provider, sql, param);
         return ExecuteNonQueryAsync(info);
     }
@@ -198,7 +201,7 @@ public partial class Database
     /// <returns>影响的行数。</returns>
     protected virtual Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new()
     {
-        var info = entity.IsNew 
+        var info = entity.IsNew
                  ? Provider.GetInsertCommand(entity)
                  : Provider.GetUpdateCommand<T, string>(entity);
         info.IsSave = true;
@@ -246,7 +249,7 @@ public partial class Database
 
     private async Task SetOriginalAsync<T>(T entity) where T : EntityBase, new()
     {
-        DbMonitor.OnSql(new CommandInfo { Text= "The follow SQL is a update query" });
+        DbMonitor.OnSql(new CommandInfo { Text = "The follow SQL is a update query" });
         var info = Provider?.GetSelectCommand<T>(d => d.Id == entity.Id);
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);

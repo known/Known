@@ -16,6 +16,20 @@ class SqlServerProvider(Database db) : DbProvider(db)
         return GetTableScript(tableName, info.Fields, info.Keys);
     }
 
+    internal override string GetAddFieldScript(string tableName, List<FieldInfo> fields)
+    {
+        if (fields == null || fields.Count == 0)
+            return string.Empty;
+
+        var sb = new StringBuilder();
+        foreach (var item in fields)
+        {
+            var type = GetSqlServerDbType(item);
+            sb.AppendLine($"ALTER TABLE {tableName} ADD {item.Id} {type} NULL;");
+        }
+        return sb.ToString();
+    }
+
     internal override string GetTopSql(int size, string text)
     {
         return text.Replace("select", $"select top {size}");
