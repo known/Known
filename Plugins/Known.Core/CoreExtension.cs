@@ -104,7 +104,14 @@ public static class CoreExtension
         });
         Config.ServiceProvider = app.Services;
         if (Config.App.Database != null)
-            AppHelper.LoadLanguages();
+        {
+            var database = Database.Create();
+            _ = database.QueryActionAsync(async db =>
+            {
+                await AppHelper.LoadLanguagesAsync(db);
+                await MigrateHelper.MigrateModulesAsync(db);
+            });
+        }
     }
 
     private static void AddDynamicWebApi(this IMvcBuilder builder)

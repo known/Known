@@ -52,7 +52,7 @@ class ModuleList : BasePage<SysModule>
         Table.Toolbar.AddAction(nameof(Install), Language.TipNewModule);
         //Table.Toolbar.AddAction(nameof(Migrate), Language.MigrateModule);
 
-        Table.AddColumn(c => c.Name).Width(120).Template(BuildName);
+        Table.AddColumn(c => c.Name).Width(160).Template(BuildName);
         Table.AddColumn(c => c.Type).Width(80).Tag();
         Table.AddColumn(c => c.Url);
         Table.AddColumn(c => c.Target).Width(100).Tag();

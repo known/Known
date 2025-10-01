@@ -6,18 +6,9 @@
 public class AppHelper
 {
     /// <summary>
-    /// 加载多语言数据。
+    /// 异步加载多语言数据。
     /// </summary>
-    public static void LoadLanguages()
-    {
-        Task.Run(async () =>
-        {
-            var db = Database.Create();
-            await LoadLanguagesAsync(db);
-        });
-    }
-
-    internal static async Task LoadLanguagesAsync(Database db)
+    public static async Task LoadLanguagesAsync(Database db)
     {
         var isExist = await db.ExistsAsync<SysConfig>();
         if (!isExist)

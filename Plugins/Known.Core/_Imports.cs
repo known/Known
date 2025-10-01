@@ -6,6 +6,7 @@ global using System.Security.Claims;
 global using System.Text;
 global using Known.Blazor;
 global using Known.Data;
+global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Services;
