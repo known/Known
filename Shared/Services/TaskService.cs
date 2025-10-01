@@ -10,42 +10,42 @@ public interface ITaskService : IService
     /// </summary>
     /// <param name="criteria">查询条件。</param>
     /// <returns></returns>
-    Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria);
+    Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria);
 
     /// <summary>
     /// 异步删除后台任务。
     /// </summary>
     /// <param name="infos">任务列表。</param>
     /// <returns></returns>
-    Task<Result> DeleteTasksAsync(List<TaskInfo> infos);
+    Task<Result> DeleteTasksAsync(List<SysTask> infos);
 
     /// <summary>
     /// 异步重置后台任务。
     /// </summary>
     /// <param name="infos">任务列表。</param>
     /// <returns></returns>
-    Task<Result> ResetTasksAsync(List<TaskInfo> infos);
+    Task<Result> ResetTasksAsync(List<SysTask> infos);
 }
 
 [Client]
 class TaskClient(HttpClient http) : ClientBase(http), ITaskService
 {
-    public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria) => Http.QueryAsync<TaskInfo>("/Task/QueryTasks", criteria);
-    public Task<Result> DeleteTasksAsync(List<TaskInfo> infos) => Http.PostAsync("/Task/DeleteTasks", infos);
-    public Task<Result> ResetTasksAsync(List<TaskInfo> infos) => Http.PostAsync("/Task/ResetTasks", infos);
+    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria) => Http.QueryAsync<SysTask>("/Task/QueryTasks", criteria);
+    public Task<Result> DeleteTasksAsync(List<SysTask> infos) => Http.PostAsync("/Task/DeleteTasks", infos);
+    public Task<Result> ResetTasksAsync(List<SysTask> infos) => Http.PostAsync("/Task/ResetTasks", infos);
 }
 
 [WebApi, Service]
 class TaskService(Context context) : ServiceBase(context), ITaskService
 {
-    public Task<PagingResult<TaskInfo>> QueryTasksAsync(PagingCriteria criteria)
+    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria)
     {
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [$"{nameof(TaskInfo.CreateTime)} desc"];
-        return Database.Query<SysTask>(criteria).ToPageAsync<TaskInfo>();
+            criteria.OrderBys = [$"{nameof(SysTask.CreateTime)} desc"];
+        return Database.QueryPageAsync<SysTask>(criteria);
     }
 
-    public async Task<Result> DeleteTasksAsync(List<TaskInfo> infos)
+    public async Task<Result> DeleteTasksAsync(List<SysTask> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -59,7 +59,7 @@ class TaskService(Context context) : ServiceBase(context), ITaskService
         });
     }
 
-    public async Task<Result> ResetTasksAsync(List<TaskInfo> infos)
+    public async Task<Result> ResetTasksAsync(List<SysTask> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);

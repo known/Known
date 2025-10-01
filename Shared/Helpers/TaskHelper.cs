@@ -12,12 +12,12 @@ public sealed class TaskHelper
     /// </summary>
     /// <param name="task">业务类型。</param>
     /// <param name="context">系统上下文。</param>
-    public static void NotifyRun(TaskInfo task, Context context = null)
+    public static void NotifyRun(SysTask task, Context context = null)
     {
         Task.Run(() => RunAsync(task, context));
     }
 
-    private static Task RunAsync(TaskInfo task, Context context)
+    private static Task RunAsync(SysTask task, Context context)
     {
         if (!CoreConfig.TaskTypes.TryGetValue(task.Type, out Type type))
             return Task.CompletedTask;
@@ -29,7 +29,7 @@ public sealed class TaskHelper
         return RunAsync(task, handler.ExecuteAsync);
     }
 
-    private static async Task RunAsync(TaskInfo task, Func<Database, TaskInfo, Task<Result>> action)
+    private static async Task RunAsync(SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
         var db = Database.Create();
         try
@@ -39,19 +39,19 @@ public sealed class TaskHelper
 
             task.BeginTime = DateTime.Now;
             task.Status = TaskJobStatus.Running;
-            await db.SaveTaskAsync(task);
+            await db.SaveAsync(task);
 
             var result = await action.Invoke(db, task);
             task.EndTime = DateTime.Now;
             task.Status = result.IsValid ? TaskJobStatus.Success : TaskJobStatus.Failed;
             task.Note = result.Message;
-            await db.SaveTaskAsync(task);
+            await db.SaveAsync(task);
         }
         catch (Exception ex)
         {
             task.Status = TaskJobStatus.Failed;
             task.Note = ex.ToString();
-            await db.SaveTaskAsync(task);
+            await db.SaveAsync(task);
         }
     }
 }

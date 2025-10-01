@@ -6,7 +6,7 @@
 [Route("/sys/tasks")]
 [Menu(Constants.System, "后台任务", "control", 4)]
 //[PagePlugin("后台任务", "control", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 7)]
-public class SysTaskList : BaseTablePage<TaskInfo>
+public class SysTaskList : BaseTablePage<SysTask>
 {
     private ITaskService Service;
 
@@ -44,7 +44,7 @@ public class SysTaskList : BaseTablePage<TaskInfo>
     /// 删除任务。
     /// </summary>
     /// <param name="row">任务信息。</param>
-    [Action] public void Delete(TaskInfo row) => Table.Delete(Service.DeleteTasksAsync, row);
+    [Action] public void Delete(SysTask row) => Table.Delete(Service.DeleteTasksAsync, row);
 
     /// <summary>
     /// 批量删除任务。

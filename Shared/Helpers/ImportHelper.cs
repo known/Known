@@ -60,7 +60,7 @@ public sealed class ImportHelper
     /// <param name="db">数据库对象。</param>
     /// <param name="task">后台任务。</param>
     /// <returns>执行结果。</returns>
-    public static Task<Result> ExecuteAsync(Context context, Database db, TaskInfo task)
+    public static Task<Result> ExecuteAsync(Context context, Database db, SysTask task)
     {
         var import = CreateImport(context, task.BizId, db);
         if (import == null)

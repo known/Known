@@ -1,9 +1,9 @@
 ﻿namespace Known.Entities;
 
 /// <summary>
-/// 系统任务实体类。
+/// 后台任务实体类。
 /// </summary>
-[DisplayName("系统任务")]
+[DisplayName("后台任务")]
 public class SysTask : EntityBase
 {
     /// <summary>
@@ -19,21 +19,23 @@ public class SysTask : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(Width = 120, IsQuery = true)]
     [DisplayName("类型")]
     public string Type { get; set; }
 
     /// <summary>
-    /// 取得或设置名称。
-    /// </summary>
+    /// 取得或设置名称 
     [Required]
     [MaxLength(50)]
+    [Column(Width = 150, IsQuery = true)]
     [DisplayName("名称")]
     public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置执行目标。
     /// </summary>
-    [DisplayName("执行目标")]
+    [Column(Width = 250)]
+    [DisplayName("目标")]
     public string Target { get; set; }
 
     /// <summary>
@@ -42,24 +44,33 @@ public class SysTask : EntityBase
     [Category(nameof(TaskJobStatus))]
     [Required]
     [MaxLength(50)]
-    [DisplayName("执行状态")]
+    [Column(Width = 100)]
+    [DisplayName("状态")]
     public string Status { get; set; }
 
     /// <summary>
     /// 取得或设置开始时间。
     /// </summary>
+    [Column(Width = 140)]
     [DisplayName("开始时间")]
     public DateTime? BeginTime { get; set; }
 
     /// <summary>
     /// 取得或设置结束时间。
     /// </summary>
+    [Column(Width = 140)]
     [DisplayName("结束时间")]
     public DateTime? EndTime { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
+    [Column(Width = 200)]
     [DisplayName("备注")]
     public string Note { get; set; }
+
+    /// <summary>
+    /// 取得或设置任务关联的附件信息。
+    /// </summary>
+    public virtual AttachInfo File { get; set; }
 }

@@ -5,9 +5,9 @@ class WeixinTask : TaskBase
 {
     private const string BizType = "WeixinTemplate";
 
-    internal static TaskInfo CreateTask(WeixinTemplateInfo info)
+    internal static SysTask CreateTask(WeixinTemplateInfo info)
     {
-        return new TaskInfo
+        return new SysTask
         {
             BizId = info.BizId,
             Type = BizType,
@@ -17,7 +17,7 @@ class WeixinTask : TaskBase
         };
     }
 
-    public override async Task<Result> ExecuteAsync(Database db, TaskInfo task)
+    public override async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
         var info = Utils.FromJson<TemplateInfo>(task.Target);
         if (info == null)

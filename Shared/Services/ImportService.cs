@@ -100,7 +100,7 @@ class ImportService(Context context) : ServiceBase(context), IImportService
 
     public async Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info)
     {
-        TaskInfo task = null;
+        SysTask task = null;
         var form = info.Model;
         var sysFiles = new List<AttachInfo>();
         var database = Database;
@@ -110,13 +110,10 @@ class ImportService(Context context) : ServiceBase(context), IImportService
             sysFiles = await db.AddFilesAsync(files, form.BizId);
             if (form.BizType == ImportHelper.BizType)
             {
-                task = CreateTask(form);
-                task.CreateBy = db.UserName;
-                task.CreateTime = DateTime.Now;
-                task.Target = sysFiles[0].Id;
+                task = CreateTask(form, sysFiles[0].Id);
                 task.File = sysFiles[0];
                 if (form.IsAsync)
-                    await db.CreateTaskAsync(task);
+                    await db.SaveAsync(task);
             }
         });
         result.Data = sysFiles;
@@ -124,7 +121,6 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         {
             if (form.IsAsync)
             {
-                task.File = sysFiles.First();
                 TaskHelper.NotifyRun(task, Context);
                 result.Message += Language[Language.ImportFileImporting];
             }
@@ -136,14 +132,14 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         return result;
     }
 
-    private static TaskInfo CreateTask(ImportFormInfo form)
+    private static SysTask CreateTask(ImportFormInfo form, string target)
     {
-        return new TaskInfo
+        return new SysTask
         {
             BizId = form.BizId,
             Type = form.BizType,
             Name = form.BizName,
-            Target = "",
+            Target = target,
             Status = TaskJobStatus.Pending
         };
     }
