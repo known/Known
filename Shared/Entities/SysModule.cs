@@ -72,9 +72,10 @@ public class SysModule : EntityBase
     public int Sort { get; set; }
 
     /// <summary>
-    /// 取得或设置可用。
+    /// 取得或设置状态。
     /// </summary>
-    [DisplayName("可用")]
+    [Category(nameof(StatusType))]
+    [DisplayName("状态")]
     public bool Enabled { get; set; } = true;
 
     /// <summary>

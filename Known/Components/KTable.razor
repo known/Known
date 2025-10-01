@@ -49,7 +49,7 @@
                             } else {
                                 @if (item.Type == FieldType.Switch) {
                                     var isChecked = Utils.ConvertTo<bool>(value);
-                                    <Switch Disabled Value="isChecked" />
+                                    <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
                                 } else if (item.Type == FieldType.File) {
                                     <KFileCell Value="@value?.ToString()" />
                                 } else {
@@ -77,7 +77,7 @@
                                 } else {
                                     @if (item.Type == FieldType.Switch) {
                                         var isChecked = Utils.ConvertTo<bool>(value);
-                                        <Switch Disabled Value="isChecked" />
+                                        <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
                                     } else if (item.Type == FieldType.File) {
                                         <KFileCell Value="@value?.ToString()" />
                                     } else {

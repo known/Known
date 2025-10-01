@@ -35,6 +35,11 @@ public interface IAutoPage
 public interface IComContainer
 {
     /// <summary>
+    /// 取得是否是表格。
+    /// </summary>
+    bool IsTable { get; }
+
+    /// <summary>
     /// 取得或设置是否只读查看模式。
     /// </summary>
     bool IsView { get; set; }

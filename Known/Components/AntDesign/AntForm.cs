@@ -11,6 +11,11 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
     [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
+    /// 取得是否是表格。
+    /// </summary>
+    public bool IsTable => false;
+
+    /// <summary>
     /// 取得或设置是否查看模式。
     /// </summary>
     public bool IsView { get; set; }

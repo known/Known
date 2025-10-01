@@ -18,6 +18,40 @@ public enum GenderType
 }
 
 /// <summary>
+/// 布尔类型枚举。
+/// </summary>
+public enum BooleanType
+{
+    /// <summary>
+    /// 是。
+    /// </summary>
+    [Description("是")]
+    Yes,
+    /// <summary>
+    /// 否。
+    /// </summary>
+    [Description("否")]
+    No
+}
+
+/// <summary>
+/// 状态类型枚举。
+/// </summary>
+public enum StatusType
+{
+    /// <summary>
+    /// 启用。
+    /// </summary>
+    [Description("启用")]
+    Enabled,
+    /// <summary>
+    /// 禁用。
+    /// </summary>
+    [Description("禁用")]
+    Disabled
+}
+
+/// <summary>
 /// 字段类型枚举。
 /// </summary>
 public enum FieldType

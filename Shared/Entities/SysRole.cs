@@ -30,6 +30,7 @@ public class SysRole : EntityBase
     [Required]
     [Column(Width = 80)]
     [Form(Type = nameof(FieldType.Switch))]
+    [Category(nameof(StatusType))]
     [DisplayName("状态")]
     public bool Enabled { get; set; }
 

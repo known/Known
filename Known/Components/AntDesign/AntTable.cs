@@ -11,6 +11,11 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
     [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
+    /// 取得是否是表格。
+    /// </summary>
+    public bool IsTable => true;
+
+    /// <summary>
     /// 取得或设置UI上下文对象级联值实例。
     /// </summary>
     [CascadingParameter] public UIContext Context { get; set; }

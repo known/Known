@@ -26,7 +26,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true, IsViewLink = true)]
+    [Column(Width = 100, IsQuery = true, IsViewLink = true)]
     [Form(Row = 1, Column = 1)]
     [DisplayName("用户名")]
     public string UserName { get; set; }
@@ -45,7 +45,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(IsQuery = true)]
+    [Column(Width = 100, IsQuery = true)]
     [Form(Row = 2, Column = 1)]
     [DisplayName("姓名")]
     public string Name { get; set; }
@@ -104,6 +104,7 @@ public class SysUser : EntityBase
     [Required]
     [Column(Width = 80)]
     [Form(Row = 5, Column = 1, Type = nameof(FieldType.Switch))]
+    [Category(nameof(StatusType))]
     [DisplayName("状态")]
     public bool Enabled { get; set; } = true;
 
@@ -150,7 +151,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置角色。
     /// </summary>
-    [Column]
+    [Column(Width = 180)]
     [DisplayName("角色")]
     public string Role { get; set; }
 

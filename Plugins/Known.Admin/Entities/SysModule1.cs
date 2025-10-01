@@ -58,6 +58,7 @@ public class SysModule1 : EntityBase
     /// <summary>
     /// 取得或设置可用。
     /// </summary>
+    [Category(nameof(StatusType))]
     public bool Enabled { get; set; } = true;
 
     /// <summary>

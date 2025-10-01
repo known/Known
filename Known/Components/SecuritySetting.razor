@@ -8,12 +8,12 @@
     </AntRow>
     <AntRow>
         <DataItem Label="登录验证码">
-            <AntSwitch @bind-Value="@Model.IsLoginCaptcha" ShowTexts="启用,禁用" />
+            <AntSwitch @bind-Value="@Model.IsLoginCaptcha" Category="@nameof(StatusType)" />
         </DataItem>
     </AntRow>
     <AntRow>
         <DataItem Label="账号单一客户端" Inline>
-            <AntSwitch @bind-Value="@Model.IsLoginOne" ShowTexts="启用,禁用" Style="width:56px" />
+            <AntSwitch @bind-Value="@Model.IsLoginOne" Category="@nameof(StatusType)" Style="width:56px" />
             @if (Model.IsLoginOne)
             {
                 <AntInput @bind-Value="@Model.TipLoginOne" Placeholder="账号单一客户端登录退出提示内容" Style="width:350px" />
@@ -22,7 +22,7 @@
     </AntRow>
     <AntRow>
         <DataItem Label="默认密码修改提醒" Inline>
-            <AntSwitch @bind-Value="@Model.IsChangePwd" ShowTexts="启用,禁用" Style="width:56px" />
+            <AntSwitch @bind-Value="@Model.IsChangePwd" Category="@nameof(StatusType)" Style="width:56px" />
             @if (Model.IsChangePwd)
             {
                 <AntInput @bind-Value="@Model.TipChangePwd" Placeholder="默认密码修改提醒提示内容" Style="width:350px" />
@@ -41,7 +41,7 @@
     </AntRow>
     <AntRow>
         <DataItem Label="账号水印">
-            <AntSwitch @bind-Value="@Model.IsWatermark" ShowTexts="启用,禁用" />
+            <AntSwitch @bind-Value="@Model.IsWatermark" Category="@nameof(StatusType)" />
         </DataItem>
     </AntRow>
     <AntRow>

@@ -53,23 +53,21 @@ public partial class UIService
         var column = model.Column;
         if (!string.IsNullOrWhiteSpace(column.Category))
         {
-            if (column.Type == FieldType.Select)
+            if (column.Type == FieldType.Switch)
+                attributes[nameof(AntSwitch.Category)] = column.Category;
+            else if (column.Type == FieldType.Select)
                 attributes[nameof(AntSelect.DataSource)] = model.GetCodes();
-
-            if (column.Type == FieldType.RadioList)
+            else if (column.Type == FieldType.RadioList)
                 attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
-
-            if (column.Type == FieldType.CheckList)
+            else if (column.Type == FieldType.CheckList)
                 attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
         }
 
         if (column.Type == FieldType.TextArea)
             attributes[nameof(AntTextArea.Rows)] = column.Rows;
-
-        if (column.Type == FieldType.CheckBox)
+        else if (column.Type == FieldType.CheckBox)
             attributes[nameof(AntCheckBox.Label)] = column.Label;
-
-        if (column.Type == FieldType.AutoComplete)
+        else if (column.Type == FieldType.AutoComplete)
             attributes[nameof(AntAutoComplete.Options)] = model.GetCodes("");
     }
 }

@@ -22,12 +22,17 @@ public class AntSwitch : Switch
     /// <summary>
     /// 取得或设置显示文本，逗号分隔，前面为选中时显示，后面为未选中时显示。
     /// </summary>
+    [Parameter] public string Category { get; set; }
+
+    /// <summary>
+    /// 取得或设置显示文本，逗号分隔，前面为选中时显示，后面为未选中时显示。
+    /// </summary>
     [Parameter] public string ShowTexts { get; set; }
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if (AntForm != null)
+        if (AntForm != null && !AntForm.IsTable)
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(bool);
@@ -39,6 +44,14 @@ public class AntSwitch : Switch
                 CheckedChildren = Context?.Language?[texts[0].Trim()];
             if (texts.Length > 1)
                 UnCheckedChildren = Context?.Language[texts[1].Trim()];
+        }
+        else if (!string.IsNullOrWhiteSpace(Category))
+        {
+            var codes = Cache.GetCodes(Category);
+            if (codes.Count > 0)
+                CheckedChildren = Context?.Language?[codes[0].Name];
+            if (codes.Count > 1)
+                UnCheckedChildren = Context?.Language[codes[1].Name];
         }
         base.OnInitialized();
     }

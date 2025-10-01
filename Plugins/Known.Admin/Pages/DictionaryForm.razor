@@ -15,7 +15,7 @@
                 <AntInteger @bind-Value="context.Sort" />
             </DataItem>
             <DataItem Span="12" Label="状态" Required>
-                <AntSwitch @bind-Value="context.Enabled" />
+                <AntSwitch @bind-Value="context.Enabled" Category="@nameof(StatusType)" />
             </DataItem>
         </AntRow>
         <AntRow>
