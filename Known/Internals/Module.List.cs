@@ -3,7 +3,7 @@
 class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
-    private List<SysModule> modules;
+    private List<MenuInfo> menus;
     private MenuInfo current;
     private int total;
     private TreeModel Tree;
@@ -50,14 +50,14 @@ class ModuleList : BasePage<SysModule>
         Table.Toolbar.AddAction(nameof(Import));
         Table.Toolbar.AddAction(nameof(Export));
         Table.Toolbar.AddAction(nameof(Install), Language.TipNewModule);
-        Table.Toolbar.AddAction(nameof(Migrate), Language.MigrateModule);
+        //Table.Toolbar.AddAction(nameof(Migrate), Language.MigrateModule);
 
         Table.AddColumn(c => c.Name).Width(120).Template(BuildName);
         Table.AddColumn(c => c.Type).Width(80).Tag();
         Table.AddColumn(c => c.Url);
         Table.AddColumn(c => c.Target).Width(100).Tag();
         Table.AddColumn(c => c.Sort).Width(60).Align("center");
-        Table.AddColumn(c => c.Enabled).Width(60).Align("center");
+        Table.AddColumn(c => c.Enabled).Width(80).Align("center");
 
         Table.ActionCount = 4;
         Table.ActionWidth = "200";
@@ -99,7 +99,7 @@ class ModuleList : BasePage<SysModule>
 
     private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {
-        var data = current?.Children?.Select(c => (SysModule)c.Data).ToList();
+        var data = current?.Children?.Select(c => c.DataAs<SysModule>()).ToList();
         total = data?.Count ?? 0;
         var result = new PagingResult<SysModule>(data);
         return Task.FromResult(result);
@@ -221,7 +221,7 @@ class ModuleList : BasePage<SysModule>
         {
             Title = Language.InstallNewModule,
             Width = 800,
-            Content = b => b.Component<ModuleInstallList>().Set(c => c.Modules, modules).Build()
+            Content = b => b.Component<ModuleInstallList>().Set(c => c.Menus, menus).Build()
         };
         model.OnOk = async () =>
         {
@@ -282,10 +282,10 @@ class ModuleList : BasePage<SysModule>
 
     private async Task<TreeModel> OnTreeModelChanged()
     {
-        modules = await Service.GetModulesAsync();
-        if (modules != null && modules.Count > 0)
+        menus = await Service.GetModulesAsync();
+        if (menus != null && menus.Count > 0)
         {
-            Tree.Data = modules.ToMenuItems(ref current);
+            Tree.Data = menus.ToMenuItems(ref current);
             Tree.SelectedKeys = [current.Id];
             await Table.RefreshAsync();
         }
@@ -303,10 +303,10 @@ class ModuleList : BasePage<SysModule>
                 builder.Tree(new TreeModel
                 {
                     ExpandRoot = true,
-                    Data = modules.ToMenuItems(),
+                    Data = menus.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as SysModule;
+                        node = n.DataAs<SysModule>();
                         return Task.CompletedTask;
                     }
                 });

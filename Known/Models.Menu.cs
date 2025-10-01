@@ -20,12 +20,6 @@ public partial class MenuInfo
     public List<MenuInfo> Children { get; set; } = [];
 
     /// <summary>
-    /// 取得或设置菜单关联的数据对象。
-    /// </summary>
-    [JsonIgnore]
-    public object Data { get; set; }
-
-    /// <summary>
     /// 取得菜单关联的页面组件类型。
     /// </summary>
     [JsonIgnore]

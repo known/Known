@@ -12,10 +12,8 @@ static class CoreHelper
         var task = attributes.OfType<TaskAttribute>().FirstOrDefault();
         var import = attributes.OfType<ImportAttribute>().FirstOrDefault();
 
-        if (routes != null && routes.Count > 0)
-            RouteHelper.AddRoute(type, routes);
-        else if (role != null)
-            RoleHelper.AddRole(type, role);
+        if (role != null || (routes != null && routes.Count > 0))
+            MenuHelper.AddMenu(type, role, routes, attributes);
         else if (service != null)
             services.AddServices(service.Lifetime, type);
         //else if (type.IsInterface && !type.IsGenericTypeDefinition && type.IsAssignableTo(typeof(IService)) && type.Name != nameof(IService))
@@ -26,7 +24,7 @@ static class CoreHelper
             DbConfig.Models.Add(type);
         else if (task != null)
             CoreConfig.TaskTypes[task.BizType] = type;
-        else if (type.IsAssignableTo(typeof(ImportBase)) && type.Name != nameof(ImportBase))
+        else if (import != null || (type.IsAssignableTo(typeof(ImportBase)) && type.Name != nameof(ImportBase)))
             services.AddImport(type, import);
         else if (type.IsAssignableTo(typeof(FlowBase)) && type.Name != nameof(FlowBase))
             services.AddFlow(type);
@@ -47,7 +45,7 @@ static class CoreHelper
                 var name = method.Name.Replace("Async", "");
                 info.Id = $"{type.Name}.{method.Name}";
                 info.Route = $"/{apiName}/{name}";
-                //info.Description = GetMethodSummary(doc, method);
+                info.Description = GetMethodSummary(doc, method);
                 info.HttpMethod = GetHttpMethod(method);
                 info.MethodInfo = method;
                 info.Parameters = method.GetParameters();
@@ -56,18 +54,18 @@ static class CoreHelper
         }
     }
 
-    //private static string GetMethodSummary(XmlDocument doc, MethodInfo info)
-    //{
-    //    if (doc == null)
-    //        return string.Empty;
+    private static string GetMethodSummary(XmlDocument doc, MethodInfo info)
+    {
+        if (doc == null)
+            return string.Empty;
 
-    //    var name = $"{info.DeclaringType.FullName}.{info.Name}";
-    //    var node = doc.SelectSingleNode($"/doc/members/member[@name[starts-with(., 'M:{name}')]]/summary");
-    //    if (node == null)
-    //        return string.Empty;
+        var name = $"{info.DeclaringType.FullName}.{info.Name}";
+        var node = doc.SelectSingleNode($"/doc/members/member[@name[starts-with(., 'M:{name}')]]/summary");
+        if (node == null)
+            return string.Empty;
 
-    //    return node.InnerText?.Trim('\n').Trim();
-    //}
+        return node.InnerText?.Trim('\n').Trim();
+    }
 
     private static HttpMethod GetHttpMethod(MethodInfo method)
     {

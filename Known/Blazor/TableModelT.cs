@@ -87,7 +87,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     public void Initialize()
     {
-        var info = RouteHelper.CreateAutoPage(Page.GetType());
+        var info = MenuHelper.CreateAutoPage(Page.GetType());
         Initialize(info);
     }
 

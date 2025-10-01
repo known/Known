@@ -1,20 +1,18 @@
 ﻿namespace Known.Internals;
 
-class ModuleInstallList : BaseTablePage<SysModule>
+class ModuleInstallList : BaseTable<SysModule>
 {
     private IModuleService Service;
-    [Parameter] public List<SysModule> Modules { get; set; }
+    [Parameter] public List<MenuInfo> Menus { get; set; }
 
-    protected override async Task OnInitPageAsync()
+    protected override async Task OnInitAsync()
     {
-        await base.OnInitPageAsync();
+        await base.OnInitAsync();
         Service = await CreateServiceAsync<IModuleService>();
 
-        Table.Name = Language.NoInstallModule;
-        Table.AutoHeight = false;
+        //Table.Name = string.Empty;//Language.NoInstallModule;
         Table.EnableSort = false;
         Table.EnableFilter = false;
-        Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Service.QueryModulesAsync;
 
@@ -48,10 +46,10 @@ class ModuleInstallList : BaseTablePage<SysModule>
                 builder.Tree(new TreeModel
                 {
                     ExpandRoot = true,
-                    Data = Modules.ToMenuItems(),
+                    Data = Menus.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as SysModule;
+                        node = n.DataAs<SysModule>();
                         return Task.CompletedTask;
                     }
                 });
@@ -69,7 +67,7 @@ class ModuleInstallList : BaseTablePage<SysModule>
             var result = await Service.InstallModulesAsync(rows);
             UI.Result(result, async () =>
             {
-                rows.ForEach(m => Modules.Add(m));
+                rows.ForEach(m => Menus.Add(m.ToMenuInfo()));
                 await model.CloseAsync();
                 await RefreshAsync();
             });

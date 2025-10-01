@@ -80,7 +80,7 @@ public sealed class DataHelper
         return GetMenus(menus);
     }
 
-    internal static List<MenuInfo> GetMenus(List<MenuInfo> menus)
+    internal static List<MenuInfo> GetMenus(List<MenuInfo> menus, bool isRoute = true)
     {
         // 定义新列表，在新列表中添加路由，不污染原列表
         var allMenus = new List<MenuInfo>();
@@ -91,8 +91,7 @@ public sealed class DataHelper
             if (!allMenus.Exists(m => m.Name == item.Name && m.ParentId == item.ParentId))
                 allMenus.Add(item);
         }
-        AddRoutes(allMenus);
-        AddRoles(allMenus);
+        AddRoutes(allMenus, isRoute);
         //var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
         //if (routes != null && routes.Count > 0)
         //    allModules.AddRange(routes);
@@ -104,13 +103,18 @@ public sealed class DataHelper
     /// </summary>
     public static List<MenuInfo> Routes { get; } = [];
 
-    private static void AddRoutes(List<MenuInfo> modules)
+    private static void AddRoutes(List<MenuInfo> menus, bool isRoute = true)
     {
         if (Routes.Count == 0)
             return;
 
-        var items = Routes.Where(d => !modules.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
-        var exists = Routes.Where(d => modules.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
+        var routes = new List<MenuInfo>();
+        if (isRoute)
+            routes.AddRange(Routes);
+        else
+            routes.AddRange(Routes.Where(m => m.Target != Constants.Route));
+        var items = routes.Where(d => !menus.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
+        var exists = routes.Where(d => menus.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
         if (exists != null && exists.Count > 0)
         {
             foreach (var item in exists)
@@ -118,24 +122,13 @@ public sealed class DataHelper
                 if (!item.IsCode)
                     continue;
 
-                var info = modules.FirstOrDefault(m => m.Id == item.Id || m.Url == item.Url);
+                var info = menus.FirstOrDefault(m => m.Id == item.Id || m.Url == item.Url);
                 info.Plugins = item.Plugins;
             }
         }
 
         if (items != null && items.Count > 0)
-            modules.AddRange(items);
-    }
-
-    internal static List<MenuInfo> Roles { get; } = [];
-    private static void AddRoles(List<MenuInfo> modules)
-    {
-        if (Roles.Count == 0)
-            return;
-
-        var items = Roles.Where(d => !modules.Exists(m => m.Id == d.Id)).ToList();
-        if (items != null && items.Count > 0)
-            modules.AddRange(items);
+            menus.AddRange(items);
     }
 
     //private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)

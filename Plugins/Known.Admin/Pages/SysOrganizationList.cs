@@ -83,7 +83,7 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
 
     private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
     {
-        var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
+        var data = current?.Children?.Select(c => c.DataAs<SysOrganization>()).ToList();
         var result = new PagingResult<SysOrganization>(data);
         return Task.FromResult(result);
     }

@@ -144,11 +144,7 @@ public class SysModule : EntityBase
 
     internal string ParentName { get; set; }
 
-    /// <summary>
-    /// 模块实体转换为菜单信息。
-    /// </summary>
-    /// <returns></returns>
-    public MenuInfo ToMenuInfo()
+    internal MenuInfo ToMenuInfo()
     {
         var info = new MenuInfo
         {
@@ -161,7 +157,8 @@ public class SysModule : EntityBase
             Url = Url,
             Sort = Sort,
             Enabled = Enabled,
-            Layout = Utils.FromJson<LayoutInfo>(LayoutData)
+            Layout = Utils.FromJson<LayoutInfo>(LayoutData),
+            Data = this
         };
         if (!string.IsNullOrWhiteSpace(PluginData))
             info.Plugins = ZipHelper.UnZipDataFromString<List<PluginInfo>>(PluginData);

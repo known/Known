@@ -58,7 +58,7 @@ class UserPage : IUserPage
                     Data = orgs.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as SysOrganization;
+                        node = n.DataAs<SysOrganization>();
                         return Task.CompletedTask;
                     }
                 });
@@ -86,7 +86,7 @@ class UserPage : IUserPage
     private async Task OnNodeClickAsync(MenuInfo item)
     {
         current = item;
-        var org = item.Data as SysOrganization;
+        var org = item.DataAs<SysOrganization>();
         page.CurrentOrg = org?.Id;
         await page.RefreshAsync();
         await page.StateChangedAsync();

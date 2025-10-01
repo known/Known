@@ -16,7 +16,7 @@ public interface IModuleService : IService
     /// 异步获取系统模块列表。
     /// </summary>
     /// <returns>系统模块列表。</returns>
-    Task<List<SysModule>> GetModulesAsync();
+    Task<List<MenuInfo>> GetModulesAsync();
 
     /// <summary>
     /// 异步迁移老框架系统模块数据。
@@ -84,7 +84,7 @@ public interface IModuleService : IService
 class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
 {
     public Task<PagingResult<SysModule>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<SysModule>("/Module/QueryModules", criteria);
-    public Task<List<SysModule>> GetModulesAsync() => Http.GetAsync<List<SysModule>>("/Module/GetModules");
+    public Task<List<MenuInfo>> GetModulesAsync() => Http.GetAsync<List<MenuInfo>>("/Module/GetModules");
     public Task<Result> MigrateModulesAsync() => Http.PostAsync("/Module/MigrateModules");
     public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Module/ExportModules");
     public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Module/ImportModules", info);
@@ -114,13 +114,13 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         return Database.QueryPageAsync<SysModule>(criteria);
     }
 
-    public async Task<List<SysModule>> GetModulesAsync()
+    public async Task<List<MenuInfo>> GetModulesAsync()
     {
         var modules = await Database.QueryListAsync<SysModule>();
-        //var modules = dbModules.Select(m => m.ToMenuInfo()).ToList();
+        var menus = modules.Select(m => m.ToMenuInfo()).ToList();
         //modules = modules.Add(AppData.Data.Modules);
         //DataHelper.Initialize(modules);
-        return modules;
+        return DataHelper.GetMenus(menus, false);
     }
 
     public async Task<Result> MigrateModulesAsync()

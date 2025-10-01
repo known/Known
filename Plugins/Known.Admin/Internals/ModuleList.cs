@@ -83,7 +83,7 @@ class ModuleList : BaseTablePage<SysModule1>
 
     private Task<PagingResult<SysModule1>> OnQueryModulesAsync(PagingCriteria criteria)
     {
-        var data = current?.Children?.Select(c => (SysModule1)c.Data).ToList();
+        var data = current?.Children?.Select(c => c.DataAs<SysModule1>()).ToList();
         total = data?.Count ?? 0;
         var result = new PagingResult<SysModule1>(data);
         return Task.FromResult(result);
@@ -188,7 +188,7 @@ class ModuleList : BaseTablePage<SysModule1>
                     Data = modules.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as SysModule1;
+                        node = n.DataAs<SysModule1>();
                         return Task.CompletedTask;
                     }
                 });

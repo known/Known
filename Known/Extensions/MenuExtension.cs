@@ -136,6 +136,102 @@ public static class MenuExtension
     }
 
     /// <summary>
+    /// 将模块信息列表转成树结构菜单信息列表。
+    /// </summary>
+    /// <param name="models">模块信息列表。</param>
+    /// <param name="showRoot">是否显示根节点。</param>
+    /// <returns></returns>
+    public static List<MenuInfo> ToMenuItems(this List<MenuInfo> models, bool showRoot = true)
+    {
+        MenuInfo current = null;
+        return models.ToMenuItems(ref current, showRoot);
+    }
+
+    internal static List<MenuInfo> ToMenuItems(this List<MenuInfo> models, ref MenuInfo current, bool showRoot = true)
+    {
+        MenuInfo root = null;
+        var menus = new List<MenuInfo>();
+        if (showRoot)
+        {
+            root = root = Config.App.GetRootMenu();
+            if (current != null && current.Id == root.Id)
+                current = root;
+            menus.Add(root);
+        }
+        if (models == null || models.Count == 0)
+            return menus;
+
+        var tops = models.Where(m => m.ParentId == "0").ToList();
+        foreach (var item in tops)
+        {
+            //item.ParentName = Config.App.Name;
+            //var menu = item.ToMenuInfo();
+            //var menu = CreateMenu(item, !showRoot);
+            var menu = item.Clone();
+            if (current != null && current.Id == menu.Id)
+                current = menu;
+
+            if (showRoot)
+                root.Children.Add(menu);
+            else
+                menus.Add(menu);
+            AddChildren(models, menu, ref current, !showRoot);
+        }
+
+        current ??= menus[0];
+        return menus;
+    }
+
+    private static void AddChildren(List<MenuInfo> models, MenuInfo menu, ref MenuInfo current, bool showUrl)
+    {
+        var items = models.Where(m => m.ParentId == menu.Id).ToList();
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            //item.ParentName = menu.Name;
+            //var sub = item.ToMenuInfo();
+            //var sub = CreateMenu(item, showUrl);
+            var sub = item.Clone();
+            sub.Parent = menu;
+            if (current != null && current.Id == sub.Id)
+                current = sub;
+
+            menu.Children.Add(sub);
+            AddChildren(models, sub, ref current, showUrl);
+        }
+    }
+
+    //private static MenuInfo CreateMenu(MenuInfo info, bool showUrl = false)
+    //{
+    //    return new MenuInfo
+    //    {
+    //        Data = info,
+    //        Id = info.Id,
+    //        Name = GetMenuName(info, showUrl),
+    //        Icon = info.Icon,
+    //        ParentId = info.ParentId,
+    //        Type = info.Type,
+    //        Target = info.Target,
+    //        Url = info.Url,
+    //        Sort = info.Sort,
+    //        Enabled = info.Enabled,
+    //        IsCode = info.IsCode,
+    //        Layout = info.Layout,
+    //        Plugins = info.Plugins
+    //    };
+    //}
+
+    //private static string GetMenuName(MenuInfo info, bool showUrl)
+    //{
+    //    if (info.Target != Constants.Route || string.IsNullOrWhiteSpace(info.Url) || !showUrl)
+    //        return info.Name;
+
+    //    return $"{info.Name}({info.Url})";
+    //}
+
+    /// <summary>
     /// 将菜单信息列表转成树形结构。
     /// </summary>
     /// <param name="menus">菜单信息列表。</param>

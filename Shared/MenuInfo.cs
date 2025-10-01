@@ -1,4 +1,5 @@
-﻿namespace Known;
+﻿
+namespace Known;
 
 /// <summary>
 /// 菜单信息类。
@@ -130,6 +131,75 @@ public partial class MenuInfo
     /// 取得或设置插件配置信息列表。
     /// </summary>
     public List<PluginInfo> Plugins { get; set; } = [];
+
+    /// <summary>
+    /// 取得或设置菜单关联的数据对象。
+    /// </summary>
+    public object Data { get; set; }
+
+    /// <summary>
+    /// 将关联的数据对象转换成泛型对象。
+    /// </summary>
+    /// <typeparam name="T">泛型对象类型。</typeparam>
+    /// <returns>泛型对象。</returns>
+    public T DataAs<T>()
+    {
+        if (Data == null)
+            return default;
+
+        if (Data is T data)
+            return data;
+
+        var dataString = Data.ToString();
+        return Utils.FromJson<T>(dataString);
+    }
+
+    internal MenuInfo Clone()
+    {
+        return new MenuInfo
+        {
+            Id = Id,
+            ParentId = ParentId,
+            Code = Code,
+            Name = Name,
+            Icon = Icon,
+            Description = Description,
+            Type = Type,
+            Target = Target,
+            Url = Url,
+            Sort = Sort,
+            Visible = Visible,
+            Enabled = Enabled,
+            CanEdit = CanEdit,
+            IsCode = IsCode,
+            Badge = Badge,
+            Layout = Layout,
+            Plugins = Plugins,
+            Color = Color,
+            Data = Data ?? GetModule()
+        };
+    }
+
+    private SysModule GetModule()
+    {
+        return new SysModule
+        {
+            Id = Id,
+            ParentId = ParentId,
+            Code = Code,
+            Name = Name,
+            Icon = Icon,
+            Description = Description,
+            Type = Type,
+            Target = Target,
+            Url = Url,
+            Sort = Sort,
+            Enabled = Enabled,
+            IsCode = IsCode,
+            Layout = Layout,
+            Plugins = Plugins
+        };
+    }
 }
 
 /// <summary>
