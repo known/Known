@@ -51,10 +51,10 @@ public class CoreConfig
     /// </summary>
     public static SystemInfo System { get; set; }
 
-    /// <summary>
-    /// 取得框架自动解析服务接口生成的WebApi类型列表。
-    /// </summary>
-    public static List<Type> ApiTypes { get; } = [];
+    ///// <summary>
+    ///// 取得框架自动解析服务接口生成的WebApi类型列表。
+    ///// </summary>
+    //public static List<Type> ApiTypes { get; } = [];
 
     /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
@@ -124,7 +124,7 @@ public class CoreConfig
     /// <summary>
     /// 取得或设置用户注册后逻辑委托。
     /// </summary>
-    public static Func<Database, UserInfo, Task> OnRegistered { get; set; }
+    public static Func<Database, SysUser, Task> OnRegistered { get; set; }
 
     /// <summary>
     /// 取得或设置用户登录前验证逻辑委托。

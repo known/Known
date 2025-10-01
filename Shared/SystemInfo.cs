@@ -213,10 +213,12 @@ public class ApiMethodInfo
     /// <summary>
     /// 取得或设置方法信息。
     /// </summary>
+    [JsonIgnore]
     public MethodInfo MethodInfo { get; set; }
 
     /// <summary>
     /// 取得或设置方法参数集合。
     /// </summary>
+    [JsonIgnore]
     public ParameterInfo[] Parameters { get; set; }
 }

@@ -10,56 +10,55 @@ public interface IRoleService : IService
     /// </summary>
     /// <param name="criteria">查询条件。</param>
     /// <returns></returns>
-    Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria);
+    Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria);
 
     /// <summary>
     /// 异步获取角色信息。
     /// </summary>
     /// <param name="roleId">角色ID。</param>
     /// <returns></returns>
-    Task<RoleInfo> GetRoleAsync(string roleId);
+    Task<SysRole> GetRoleAsync(string roleId);
 
     /// <summary>
     /// 异步删除角色。
     /// </summary>
     /// <param name="infos">角色列表。</param>
     /// <returns></returns>
-    Task<Result> DeleteRolesAsync(List<RoleInfo> infos);
+    Task<Result> DeleteRolesAsync(List<SysRole> infos);
 
     /// <summary>
     /// 异步保存角色。
     /// </summary>
     /// <param name="info">角色信息。</param>
     /// <returns></returns>
-    Task<Result> SaveRoleAsync(RoleInfo info);
+    Task<Result> SaveRoleAsync(SysRole info);
 }
 
 [Client]
 class RoleClient(HttpClient http) : ClientBase(http), IRoleService
 {
-    public Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria) => Http.QueryAsync<RoleInfo>("/Role/QueryRoles", criteria);
-    public Task<RoleInfo> GetRoleAsync(string roleId) => Http.GetAsync<RoleInfo>($"/Role/GetRole?roleId={roleId}");
-    public Task<Result> DeleteRolesAsync(List<RoleInfo> infos) => Http.PostAsync("/Role/DeleteRoles", infos);
-    public Task<Result> SaveRoleAsync(RoleInfo info) => Http.PostAsync("/Role/SaveRole", info);
+    public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria) => Http.QueryAsync<SysRole>("/Role/QueryRoles", criteria);
+    public Task<SysRole> GetRoleAsync(string roleId) => Http.GetAsync<SysRole>($"/Role/GetRole?roleId={roleId}");
+    public Task<Result> DeleteRolesAsync(List<SysRole> infos) => Http.PostAsync("/Role/DeleteRoles", infos);
+    public Task<Result> SaveRoleAsync(SysRole info) => Http.PostAsync("/Role/SaveRole", info);
 }
 
 [WebApi, Service]
 class RoleService(Context context) : ServiceBase(context), IRoleService
 {
-    public Task<PagingResult<RoleInfo>> QueryRolesAsync(PagingCriteria criteria)
+    public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
     {
-        return Database.Query<SysRole>(criteria).ToPageAsync<RoleInfo>();
+        return Database.QueryPageAsync<SysRole>(criteria);
     }
 
-    public async Task<RoleInfo> GetRoleAsync(string roleId)
+    public async Task<SysRole> GetRoleAsync(string roleId)
     {
-        RoleInfo info = null;
+        SysRole info = null;
         await Database.QueryActionAsync(async db =>
         {
             info = string.IsNullOrWhiteSpace(roleId)
-                 ? new RoleInfo()
-                 : await db.Query<SysRole>().Where(d => d.Id == roleId).FirstAsync<RoleInfo>();
-            info ??= new RoleInfo();
+                 ? new SysRole()
+                 : await db.QueryByIdAsync<SysRole>(roleId) ?? new SysRole();
             info.Menus = await DataHelper.GetMenusAsync(db);
             var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
             info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
@@ -67,7 +66,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         return info;
     }
 
-    public async Task<Result> DeleteRolesAsync(List<RoleInfo> infos)
+    public async Task<Result> DeleteRolesAsync(List<SysRole> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -87,7 +86,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
         return result;
     }
 
-    public async Task<Result> SaveRoleAsync(RoleInfo info)
+    public async Task<Result> SaveRoleAsync(SysRole info)
     {
         var database = Database;
         var model = await database.QueryByIdAsync<SysRole>(info.Id);

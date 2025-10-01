@@ -26,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CsvHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DataHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MigrateHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\UserDataImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\UserImport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FileService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ConfigService.cs" />
@@ -35,7 +35,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InitialInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LogInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RoleInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.Auth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AdminService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ImportService.cs" />
@@ -48,7 +47,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\SystemService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\UserService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SystemDataInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserDataInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ButtonInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CoreConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\PlatformExtension.cs" />

@@ -26,6 +26,8 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(IsQuery = true, IsViewLink = true)]
+    [Form(Row = 1, Column = 1)]
     [DisplayName("用户名")]
     public string UserName { get; set; }
 
@@ -34,6 +36,7 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Form(Row = 1, Column = 2, Type = nameof(FieldType.Password))]
     [DisplayName("密码")]
     public string Password { get; set; }
 
@@ -42,6 +45,8 @@ public class SysUser : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(IsQuery = true)]
+    [Form(Row = 2, Column = 1)]
     [DisplayName("姓名")]
     public string Name { get; set; }
 
@@ -49,6 +54,7 @@ public class SysUser : EntityBase
     /// 取得或设置英文名。
     /// </summary>
     [MaxLength(50)]
+    [Form(Row = 2, Column = 2)]
     [DisplayName("英文名")]
     public string EnglishName { get; set; }
 
@@ -58,6 +64,8 @@ public class SysUser : EntityBase
     [Required]
     [MaxLength(50)]
     [Category(nameof(GenderType))]
+    [Column(Width = 80)]
+    [Form(Row = 3, Column = 1, Type = nameof(FieldType.RadioList))]
     [DisplayName("性别")]
     public string Gender { get; set; }
 
@@ -66,6 +74,7 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Phone, ErrorMessage = "固定电话格式不正确！")]
+    [Form(Row = 3, Column = 2)]
     [DisplayName("固定电话")]
     public string Phone { get; set; }
 
@@ -74,6 +83,8 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Mobile, ErrorMessage = "移动电话格式不正确！")]
+    [Column(Width = 120)]
+    [Form(Row = 4, Column = 1)]
     [DisplayName("移动电话")]
     public string Mobile { get; set; }
 
@@ -82,6 +93,8 @@ public class SysUser : EntityBase
     /// </summary>
     [MaxLength(50)]
     [RegularExpression(RegexPattern.Email, ErrorMessage = "电子邮件格式不正确！")]
+    [Column(Width = 150)]
+    [Form(Row = 4, Column = 2)]
     [DisplayName("电子邮件")]
     public string Email { get; set; }
 
@@ -89,12 +102,15 @@ public class SysUser : EntityBase
     /// 取得或设置状态。
     /// </summary>
     [Required]
+    [Column(Width = 80)]
+    [Form(Row = 5, Column = 1, Type = nameof(FieldType.Switch))]
     [DisplayName("状态")]
     public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
+    [Column(Width = 200)]
     [DisplayName("备注")]
     public string Note { get; set; }
 
@@ -134,6 +150,7 @@ public class SysUser : EntityBase
     /// <summary>
     /// 取得或设置角色。
     /// </summary>
+    [Column]
     [DisplayName("角色")]
     public string Role { get; set; }
 
@@ -142,4 +159,34 @@ public class SysUser : EntityBase
     /// </summary>
     [DisplayName("数据权限")]
     public string Data { get; set; }
+
+    /// <summary>
+    /// 取得或设置默认密码。
+    /// </summary>
+    public virtual string DefaultPassword { get; set; }
+
+    /// <summary>
+    /// 取得或设置用户关联的角色ID集合。
+    /// </summary>
+    [Category("Roles")]
+    [DisplayName("角色")]
+    public virtual string[] RoleIds { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统角色代码表列表。
+    /// </summary>
+    public virtual List<CodeInfo> Roles { get; set; }
+
+    /// <summary>
+    /// 获取数据权限对象。
+    /// </summary>
+    /// <typeparam name="T">数据权限类型。</typeparam>
+    /// <returns></returns>
+    public T GetDataPurview<T>() => Utils.FromJson<T>(Data);
+
+    /// <summary>
+    /// 设置数据权限对象。
+    /// </summary>
+    /// <param name="data">数据权限对象。</param>
+    public void SetDataPurview(object data) => Data = Utils.ToJson(data);
 }

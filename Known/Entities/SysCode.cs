@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Entities;
 
 /// <summary>
 /// 代码生成实体类。

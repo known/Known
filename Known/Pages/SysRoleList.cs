@@ -6,7 +6,7 @@
 [Route("/sys/roles")]
 [Menu(Constants.System, "角色管理", "team", 2)]
 //[PagePlugin("角色管理", "team", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 5)]
-public class SysRoleList : BaseTablePage<RoleInfo>
+public class SysRoleList : BaseTablePage<SysRole>
 {
     private IRoleService Service;
 
@@ -27,19 +27,19 @@ public class SysRoleList : BaseTablePage<RoleInfo>
     /// <summary>
     /// 新增角色。
     /// </summary>
-    [Action] public void New() => Table.NewForm(Service.SaveRoleAsync, new RoleInfo());
+    [Action] public void New() => Table.NewForm(Service.SaveRoleAsync, new SysRole());
 
     /// <summary>
     /// 编辑角色。
     /// </summary>
     /// <param name="row">角色信息。</param>
-    [Action] public void Edit(RoleInfo row) => Table.EditForm(Service.SaveRoleAsync, row);
+    [Action] public void Edit(SysRole row) => Table.EditForm(Service.SaveRoleAsync, row);
 
     /// <summary>
     /// 删除角色。
     /// </summary>
     /// <param name="row">角色信息。</param>
-    [Action] public void Delete(RoleInfo row) => Table.Delete(Service.DeleteRolesAsync, row);
+    [Action] public void Delete(SysRole row) => Table.Delete(Service.DeleteRolesAsync, row);
 
     /// <summary>
     /// 批量删除角色。
@@ -47,7 +47,7 @@ public class SysRoleList : BaseTablePage<RoleInfo>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteRolesAsync);
 }
 
-class RoleForm : BaseForm<RoleInfo>
+class RoleForm : BaseForm<SysRole>
 {
     private IRoleService Service;
     private TreeModel tree;

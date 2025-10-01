@@ -90,7 +90,7 @@ public static class UserExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="info">系统用户对象。</param>
     /// <returns></returns>
-    public static async Task<Result> AddUserAsync(this Database db, UserDataInfo info)
+    public static async Task<Result> AddUserAsync(this Database db, SysUser info)
     {
         var model = new SysUser
         {
@@ -149,7 +149,7 @@ public static class UserExtension
     /// <param name="db">数据库对象。</param>
     /// <param name="info">系统用户对象。</param>
     /// <returns></returns>
-    public static async Task<Result> SyncUserAsync(this Database db, UserDataInfo info)
+    public static async Task<Result> SyncUserAsync(this Database db, SysUser info)
     {
         var model = await db.QueryAsync<SysUser>(d => d.UserName == info.UserName);
         if (model == null)

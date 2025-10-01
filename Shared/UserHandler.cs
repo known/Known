@@ -11,7 +11,7 @@ public interface IUserHandler
     /// <param name="db">数据库实例。</param>
     /// <param name="infos">用户对象列表。</param>
     /// <returns></returns>
-    Task<Result> OnDeletingAsync(Database db, List<UserInfo> infos);
+    Task<Result> OnDeletingAsync(Database db, List<SysUser> infos);
 
     /// <summary>
     /// 异步删除后处理。
@@ -19,7 +19,7 @@ public interface IUserHandler
     /// <param name="db">数据库实例。</param>
     /// <param name="info">用户对象。</param>
     /// <returns></returns>
-    Task OnDeletedAsync(Database db, UserInfo info);
+    Task OnDeletedAsync(Database db, SysUser info);
 
     /// <summary>
     /// 异步改变部门前处理。
@@ -27,7 +27,7 @@ public interface IUserHandler
     /// <param name="db">数据库实例。</param>
     /// <param name="infos">用户对象列表。</param>
     /// <returns></returns>
-    Task<Result> OnChangingDepartmentAsync(Database db, List<UserInfo> infos);
+    Task<Result> OnChangingDepartmentAsync(Database db, List<SysUser> infos);
 
     /// <summary>
     /// 异步改变部门后处理。
@@ -43,7 +43,7 @@ public interface IUserHandler
     /// <param name="db">数据库实例。</param>
     /// <param name="infos">用户对象列表。</param>
     /// <returns></returns>
-    Task<Result> OnEnablingAsync(Database db, List<UserInfo> infos);
+    Task<Result> OnEnablingAsync(Database db, List<SysUser> infos);
 
     /// <summary>
     /// 异步启用后处理。
@@ -59,7 +59,7 @@ public interface IUserHandler
     /// <param name="db">数据库实例。</param>
     /// <param name="infos">用户对象。</param>
     /// <returns></returns>
-    Task<Result> OnDisablingAsync(Database db, List<UserInfo> infos);
+    Task<Result> OnDisablingAsync(Database db, List<SysUser> infos);
 
     /// <summary>
     /// 异步禁用后处理。
@@ -75,7 +75,7 @@ public interface IUserHandler
     /// <param name="db">数据库实例。</param>
     /// <param name="info">用户对象。</param>
     /// <returns></returns>
-    Task<Result> OnSavingAsync(Database db, UserInfo info);
+    Task<Result> OnSavingAsync(Database db, SysUser info);
 
     /// <summary>
     /// 异步保存后处理者。
@@ -88,14 +88,14 @@ public interface IUserHandler
 
 class UserHandler : IUserHandler
 {
-    public Task<Result> OnDeletingAsync(Database db, List<UserInfo> infos) => Result.SuccessAsync("");
-    public Task OnDeletedAsync(Database db, UserInfo info) => Task.CompletedTask;
-    public Task<Result> OnChangingDepartmentAsync(Database db, List<UserInfo> infos) => Result.SuccessAsync("");
+    public Task<Result> OnDeletingAsync(Database db, List<SysUser> infos) => Result.SuccessAsync("");
+    public Task OnDeletedAsync(Database db, SysUser info) => Task.CompletedTask;
+    public Task<Result> OnChangingDepartmentAsync(Database db, List<SysUser> infos) => Result.SuccessAsync("");
     public Task OnChangedDepartmentAsync(Database db, SysUser info) => Task.CompletedTask;
-    public Task<Result> OnEnablingAsync(Database db, List<UserInfo> infos) => Result.SuccessAsync("");
+    public Task<Result> OnEnablingAsync(Database db, List<SysUser> infos) => Result.SuccessAsync("");
     public Task OnEnabledAsync(Database db, SysUser info) => Task.CompletedTask;
-    public Task<Result> OnDisablingAsync(Database db, List<UserInfo> infos) => Result.SuccessAsync("");
+    public Task<Result> OnDisablingAsync(Database db, List<SysUser> infos) => Result.SuccessAsync("");
     public Task OnDisabledAsync(Database db, SysUser info) => Task.CompletedTask;
-    public Task<Result> OnSavingAsync(Database db, UserInfo info) => Result.SuccessAsync("");
+    public Task<Result> OnSavingAsync(Database db, SysUser info) => Result.SuccessAsync("");
     public Task OnSavedAsync(Database db, SysUser info) => Task.CompletedTask;
 }

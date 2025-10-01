@@ -8,6 +8,7 @@ static class CoreHelper
         var routes = attributes.OfType<RouteAttribute>().ToList();
         var role = attributes.OfType<RoleAttribute>().FirstOrDefault();
         var service = attributes.OfType<ServiceAttribute>().FirstOrDefault();
+        var webApi = attributes.OfType<WebApiAttribute>().FirstOrDefault();
         var task = attributes.OfType<TaskAttribute>().FirstOrDefault();
         var import = attributes.OfType<ImportAttribute>().FirstOrDefault();
 
@@ -29,28 +30,31 @@ static class CoreHelper
             services.AddImport(type, import);
         else if (type.IsAssignableTo(typeof(FlowBase)) && type.Name != nameof(FlowBase))
             services.AddFlow(type);
+
+        if (webApi != null)
+            AddApiMethod(doc, type, type.Name.Replace("Service", ""));
     }
 
-    //private static void AddApiMethod(XmlDocument doc, Type type, string apiName)
-    //{
-    //    Config.ApiTypes.Add(type);
-    //    var methods = type.GetMethods();
-    //    foreach (var method in methods)
-    //    {
-    //        if (method.IsPublic && method.DeclaringType?.Name == type.Name)
-    //        {
-    //            var info = new ApiMethodInfo();
-    //            var name = method.Name.Replace("Async", "");
-    //            info.Id = $"{type.Name}.{method.Name}";
-    //            info.Route = $"/{apiName}/{name}";
-    //            info.Description = GetMethodSummary(doc, method);
-    //            info.HttpMethod = GetHttpMethod(method);
-    //            info.MethodInfo = method;
-    //            info.Parameters = method.GetParameters();
-    //            Config.ApiMethods.Add(info);
-    //        }
-    //    }
-    //}
+    private static void AddApiMethod(XmlDocument doc, Type type, string apiName)
+    {
+        //Config.ApiTypes.Add(type);
+        var methods = type.GetMethods();
+        foreach (var method in methods)
+        {
+            if (method.IsPublic && method.DeclaringType?.Name == type.Name)
+            {
+                var info = new ApiMethodInfo();
+                var name = method.Name.Replace("Async", "");
+                info.Id = $"{type.Name}.{method.Name}";
+                info.Route = $"/{apiName}/{name}";
+                //info.Description = GetMethodSummary(doc, method);
+                info.HttpMethod = GetHttpMethod(method);
+                info.MethodInfo = method;
+                info.Parameters = method.GetParameters();
+                CoreConfig.ApiMethods.Add(info);
+            }
+        }
+    }
 
     //private static string GetMethodSummary(XmlDocument doc, MethodInfo info)
     //{
@@ -65,18 +69,18 @@ static class CoreHelper
     //    return node.InnerText?.Trim('\n').Trim();
     //}
 
-    //private static HttpMethod GetHttpMethod(MethodInfo method)
-    //{
-    //    if (!method.Name.StartsWith("Get"))
-    //        return HttpMethod.Post;
+    private static HttpMethod GetHttpMethod(MethodInfo method)
+    {
+        if (!method.Name.StartsWith("Get"))
+            return HttpMethod.Post;
 
-    //    foreach (var item in method.GetParameters())
-    //    {
-    //        if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
-    //            return HttpMethod.Post;
-    //    }
-    //    return HttpMethod.Get;
-    //}
+        foreach (var item in method.GetParameters())
+        {
+            if (item.ParameterType.IsClass && item.ParameterType != typeof(string))
+                return HttpMethod.Post;
+        }
+        return HttpMethod.Get;
+    }
 
     private static void AddImport(this IServiceCollection services, Type type, ImportAttribute import)
     {

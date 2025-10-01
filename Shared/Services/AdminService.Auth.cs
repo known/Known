@@ -109,7 +109,7 @@ partial class AdminService
         database.User = await database.GetUserAsync(Constants.SysUserName);
         var result = await database.TransactionAsync(Language.Register, async db =>
         {
-            var model = new UserDataInfo
+            var model = new SysUser
             {
                 UserName = info.UserName.ToLower(),
                 Name = info.UserName,

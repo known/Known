@@ -6,7 +6,7 @@
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
 //[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
-public class SysUserList : BaseTablePage<UserDataInfo>
+public class SysUserList : BaseTablePage<SysUser>
 {
     private IUserService Service;
     [Inject] private IUserPage ExtPage { get; set; }
@@ -24,7 +24,7 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         if (ExtPage != null)
             await ExtPage.OnInitAsync(this);
 
-        Table = new TableModel<UserDataInfo>(this)
+        Table = new TableModel<SysUser>(this)
         {
             FormType = UIConfig.UserFormTabs.Count > 0 ? typeof(UserTabForm) : typeof(UserForm),
             Form = new FormInfo { Width = 800, SmallLabel = true, ShowFooter = UIConfig.UserFormShowFooter },
@@ -57,28 +57,28 @@ public class SysUserList : BaseTablePage<UserDataInfo>
         base.BuildPage(builder);
     }
 
-    private Task<PagingResult<UserDataInfo>> OnQueryUsersAsync(PagingCriteria criteria)
+    private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
     {
-        criteria.Parameters[nameof(UserInfo.OrgNo)] = CurrentOrg;
+        criteria.Parameters[nameof(SysUser.OrgNo)] = CurrentOrg;
         return Service.QueryUserDatasAsync(criteria);
     }
 
     /// <summary>
     /// 新增用户。
     /// </summary>
-    [Action] public void New() => Table.NewForm(Service.SaveUserAsync, new UserDataInfo { OrgNo = CurrentOrg });
+    [Action] public void New() => Table.NewForm(Service.SaveUserAsync, new SysUser { OrgNo = CurrentOrg });
 
     /// <summary>
     /// 编辑用户。
     /// </summary>
     /// <param name="row">用户信息。</param>
-    [Action] public void Edit(UserDataInfo row) => Table.EditForm(Service.SaveUserAsync, row);
+    [Action] public void Edit(SysUser row) => Table.EditForm(Service.SaveUserAsync, row);
 
     /// <summary>
     /// 删除用户。
     /// </summary>
     /// <param name="row">用户信息。</param>
-    [Action] public void Delete(UserDataInfo row) => Table.Delete(Service.DeleteUsersAsync, row);
+    [Action] public void Delete(SysUser row) => Table.Delete(Service.DeleteUsersAsync, row);
 
     /// <summary>
     /// 批量删除用户。
@@ -90,32 +90,32 @@ public class SysUserList : BaseTablePage<UserDataInfo>
     /// </summary>
     [Action] public void ResetPassword() => Table.SelectRows(Service.SetUserPwdsAsync, Language.Reset);
 
-    ///// <summary>
-    ///// 改变用户部门。
-    ///// </summary>
-    //[Action] public void ChangeDepartment() => Table.SelectRows(rows => ExtPage?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
+    /// <summary>
+    /// 改变用户部门。
+    /// </summary>
+    [Action] public void ChangeDepartment() => Table.SelectRows(rows => ExtPage?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
 
-    ///// <summary>
-    ///// 启用用户。
-    ///// </summary>
-    //[Action] public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
+    /// <summary>
+    /// 启用用户。
+    /// </summary>
+    [Action] public void Enable() => Table.SelectRows(Service.EnableUsersAsync, Language.Enable);
 
-    ///// <summary>
-    ///// 禁用用户。
-    ///// </summary>
-    //[Action] public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
+    /// <summary>
+    /// 禁用用户。
+    /// </summary>
+    [Action] public void Disable() => Table.SelectRows(Service.DisableUsersAsync, Language.Disable);
 
-    ///// <summary>
-    ///// 导入用户。
-    ///// </summary>
-    ///// <returns></returns>
-    //[Action] public Task Import() => Table.ShowImportAsync();
+    /// <summary>
+    /// 导入用户。
+    /// </summary>
+    /// <returns></returns>
+    [Action] public Task Import() => Table.ShowImportAsync();
 
-    ///// <summary>
-    ///// 导出用户。
-    ///// </summary>
-    ///// <returns></returns>
-    //[Action] public Task Export() => Table.ExportDataAsync();
+    /// <summary>
+    /// 导出用户。
+    /// </summary>
+    /// <returns></returns>
+    [Action] public Task Export() => Table.ExportDataAsync();
 }
 
 /// <summary>
@@ -148,7 +148,7 @@ public interface IUserPage
     /// </summary>
     /// <param name="onChange">更换委托。</param>
     /// <param name="rows">用户列表。</param>
-    void OnChangeDepartment(Func<List<UserDataInfo>, Task<Result>> onChange, List<UserDataInfo> rows);
+    void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows);
 }
 
 class UserPage : IUserPage
@@ -156,12 +156,12 @@ class UserPage : IUserPage
     public Task OnInitAsync(SysUserList list) => Task.CompletedTask;
     public Task OnAfterRenderAsync() => Task.CompletedTask;
     public bool BuildPage(RenderTreeBuilder builder) => false;
-    public void OnChangeDepartment(Func<List<UserDataInfo>, Task<Result>> onChange, List<UserDataInfo> rows) { }
+    public void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows) { }
 }
 
 class UserTabForm : BaseTabForm
 {
-    [Parameter] public FormModel<UserDataInfo> Model { get; set; }
+    [Parameter] public FormModel<SysUser> Model { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
@@ -179,7 +179,7 @@ class UserTabForm : BaseTabForm
     }
 }
 
-class UserForm : BaseForm<UserDataInfo>
+class UserForm : BaseForm<SysUser>
 {
     private IUserService Service;
     private string defaultPassword;

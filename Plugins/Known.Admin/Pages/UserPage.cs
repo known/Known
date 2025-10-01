@@ -37,14 +37,14 @@ class UserPage : IUserPage
         if (!HasOrg)
             return false;
 
-        builder.Component<KTreeTable<UserDataInfo>>()
+        builder.Component<KTreeTable<SysUser>>()
                .Set(c => c.Tree, Tree)
                .Set(c => c.Table, page.Table)
                .Build();
         return true;
     }
 
-    public void OnChangeDepartment(Func<List<UserDataInfo>, Task<Result>> onChange, List<UserDataInfo> rows)
+    public void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows)
     {
         OrganizationInfo node = null;
         var model = new DialogModel

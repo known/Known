@@ -1,7 +1,7 @@
 ﻿namespace Known.Helpers;
 
-[Import(typeof(UserDataInfo))]
-class UserDataImport(ImportContext context) : ImportBase<SysUser>(context)
+[Import(typeof(SysUser))]
+class UserImport(ImportContext context) : ImportBase<SysUser>(context)
 {
     public override void InitColumns()
     {

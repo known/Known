@@ -29,5 +29,5 @@ public class UserFormTab : BaseComponent
     /// <summary>
     /// 取得或设置用户信息。
     /// </summary>
-    [Parameter] public UserDataInfo User { get; set; }
+    [Parameter] public SysUser User { get; set; }
 }
