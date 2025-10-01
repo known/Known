@@ -19,6 +19,7 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column(Width = 120)]
     [DisplayName("类别")]
     public string Category { get; set; }
 
@@ -34,6 +35,8 @@ public class SysDictionary : EntityBase
     /// </summary>
     [Required]
     [MaxLength(100)]
+    [Column(Width = 120, IsQuery = true, IsViewLink = true)]
+    [Form]
     [DisplayName("代码")]
     public string Code { get; set; }
 
@@ -41,6 +44,8 @@ public class SysDictionary : EntityBase
     /// 取得或设置名称。
     /// </summary>
     [MaxLength(150)]
+    [Column(Width = 150, IsQuery = true)]
+    [Form]
     [DisplayName("名称")]
     public string Name { get; set; }
 
@@ -48,19 +53,25 @@ public class SysDictionary : EntityBase
     /// 取得或设置顺序。
     /// </summary>
     [Required]
+    [Column(Width = 80)]
+    [Form]
     [DisplayName("顺序")]
-    public int Sort { get; set; }
+    public int? Sort { get; set; }
 
     /// <summary>
     /// 取得或设置状态。
     /// </summary>
     [Required]
+    [Column(Width = 80)]
+    [Form(Type = nameof(FieldType.Switch))]
     [DisplayName("状态")]
     public bool Enabled { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
+    [Column]
+    [Form(Type = nameof(FieldType.TextArea))]
     [DisplayName("备注")]
     public string Note { get; set; }
 
@@ -69,4 +80,9 @@ public class SysDictionary : EntityBase
     /// </summary>
     [DisplayName("子字典")]
     public string Child { get; set; }
+
+    /// <summary>
+    /// 取得或设置字典类型。
+    /// </summary>
+    public virtual DictionaryType DicType { get; set; }
 }

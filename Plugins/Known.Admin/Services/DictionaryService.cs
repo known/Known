@@ -2,19 +2,19 @@
 
 public interface IDictionaryService : IService
 {
-    Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria);
+    Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria);
     Task<List<CodeInfo>> GetCategoriesAsync();
-    Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos);
-    Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info);
+    Task<Result> DeleteDictionariesAsync(List<SysDictionary> infos);
+    Task<Result> SaveDictionaryAsync(UploadInfo<SysDictionary> info);
 }
 
 [Client]
 class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
 {
-    public Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria) => Http.QueryAsync<DictionaryInfo>("/Dictionary/QueryDictionaries", criteria);
+    public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria) => Http.QueryAsync<SysDictionary>("/Dictionary/QueryDictionaries", criteria);
     public Task<List<CodeInfo>> GetCategoriesAsync() => Http.GetAsync<List<CodeInfo>>("/Dictionary/GetCategories");
-    public Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos) => Http.PostAsync("/Dictionary/DeleteDictionaries", infos);
-    public Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info) => Http.PostAsync("/Dictionary/SaveDictionary", info);
+    public Task<Result> DeleteDictionariesAsync(List<SysDictionary> infos) => Http.PostAsync("/Dictionary/DeleteDictionaries", infos);
+    public Task<Result> SaveDictionaryAsync(UploadInfo<SysDictionary> info) => Http.PostAsync("/Dictionary/SaveDictionary", info);
 }
 
 [WebApi, Service]
@@ -36,16 +36,16 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name, c.CategoryName)).ToList();
     }
 
-    public async Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
+    public async Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
     {
         List<SysDictionary> categories = [];
-        PagingResult<DictionaryInfo> result = null;
+        PagingResult<SysDictionary> result = null;
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
-            criteria.OrderBys = [nameof(DictionaryInfo.Sort)];
+            criteria.OrderBys = [nameof(SysDictionary.Sort)];
         await Database.QueryActionAsync(async db =>
         {
             categories = await db.QueryListAsync<SysDictionary>(d => d.Category == Constants.DicCategory);
-            result = await db.Query<SysDictionary>(criteria).ToPageAsync<DictionaryInfo>();
+            result = await db.QueryPageAsync<SysDictionary>(criteria);
         });
         if (result.TotalCount > 0)
         {
@@ -58,7 +58,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         return result;
     }
 
-    public async Task<Result> DeleteDictionariesAsync(List<DictionaryInfo> infos)
+    public async Task<Result> DeleteDictionariesAsync(List<SysDictionary> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -80,7 +80,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         });
     }
 
-    public async Task<Result> SaveDictionaryAsync(UploadInfo<DictionaryInfo> info)
+    public async Task<Result> SaveDictionaryAsync(UploadInfo<SysDictionary> info)
     {
         var database = Database;
         var model = await database.QueryByIdAsync<SysDictionary>(info.Model.Id);
@@ -95,7 +95,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         if (exists)
             return Result.Error(AdminLanguage.TipDicCodeExists);
 
-        var fileFiles = info.Files?.GetAttachFiles(nameof(DictionaryInfo.Extension), "DictionaryFiles");
+        var fileFiles = info.Files?.GetAttachFiles(nameof(SysDictionary.Extension), "DictionaryFiles");
         var result = await database.TransactionAsync(Language.Save, async db =>
         {
             await db.AddFilesAsync(fileFiles, model.Id, key => model.Extension = key);

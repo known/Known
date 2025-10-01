@@ -3,10 +3,10 @@
 [Route("/sys/dictionaries")]
 [Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
 //[PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
-public class SysDictionaryList : BaseTablePage<DictionaryInfo>
+public class SysDictionaryList : BaseTablePage<SysDictionary>
 {
     private IDictionaryService Service;
-    private KListTable<DictionaryInfo> listTable;
+    private KListTable<SysDictionary> listTable;
     private List<CodeInfo> ListData = [];
     private CodeInfo category;
     private bool isAddCategory;
@@ -37,7 +37,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Component<KListTable<DictionaryInfo>>()
+        builder.Component<KListTable<SysDictionary>>()
                .Set(c => c.ListData, ListData)
                .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.OnAddClick, this.Callback<MouseEventArgs>(e => AddCategory()))
@@ -78,7 +78,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         }
 
         isAddCategory = false;
-        var row = new DictionaryInfo
+        var row = new SysDictionary
         {
             Category = category.Code,
             CategoryName = category.Name ?? category.Code,
@@ -91,13 +91,13 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
 
     [Action]
-    public void Edit(DictionaryInfo row)
+    public void Edit(SysDictionary row)
     {
         isAddCategory = false;
         Table.EditForm(Service.SaveDictionaryAsync, row);
     }
 
-    [Action] public void Delete(DictionaryInfo row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+    [Action] public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
     [Action] public Task Import() => Table.ShowImportAsync();
 
     private Task OnItemClickAsync(CodeInfo info)
@@ -106,12 +106,12 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
         return Table.RefreshAsync();
     }
 
-    private async Task<PagingResult<DictionaryInfo>> QueryDictionarysAsync(PagingCriteria criteria)
+    private async Task<PagingResult<SysDictionary>> QueryDictionarysAsync(PagingCriteria criteria)
     {
         if (category == null)
             return default;
 
-        criteria.SetQuery(nameof(DictionaryInfo.Category), QueryType.Equal, category?.Code);
+        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
         var result = await Service.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
@@ -125,7 +125,7 @@ public class SysDictionaryList : BaseTablePage<DictionaryInfo>
     }
 }
 
-class CategoryGrid : BaseTable<DictionaryInfo>
+class CategoryGrid : BaseTable<SysDictionary>
 {
     private IDictionaryService Service;
     private readonly CodeInfo category = new(Constants.DicCategory, Constants.DicCategory, Constants.DicCategory, null);
@@ -162,7 +162,7 @@ class CategoryGrid : BaseTable<DictionaryInfo>
 
     public void New()
     {
-        Table.NewForm(Service.SaveDictionaryAsync, new DictionaryInfo
+        Table.NewForm(Service.SaveDictionaryAsync, new SysDictionary
         {
             Category = category.Code,
             CategoryName = nameof(DictionaryType.None),
@@ -170,22 +170,22 @@ class CategoryGrid : BaseTable<DictionaryInfo>
         });
     }
 
-    public void Edit(DictionaryInfo row) => Table.EditForm(Service.SaveDictionaryAsync, row);
-    public void Delete(DictionaryInfo row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+    public void Edit(SysDictionary row) => Table.EditForm(Service.SaveDictionaryAsync, row);
+    public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
 
-    private async Task<PagingResult<DictionaryInfo>> QueryDictionariesAsync(PagingCriteria criteria)
+    private async Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria)
     {
         if (category == null)
             return default;
 
-        criteria.SetQuery(nameof(DictionaryInfo.Category), QueryType.Equal, category?.Code);
+        criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
         var result = await Service.QueryDictionariesAsync(criteria);
         total = result.TotalCount;
         return result;
     }
 }
 
-class CategoryForm : BaseForm<DictionaryInfo>
+class CategoryForm : BaseForm<SysDictionary>
 {
     protected override async Task OnInitFormAsync()
     {

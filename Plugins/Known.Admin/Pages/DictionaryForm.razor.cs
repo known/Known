@@ -17,7 +17,7 @@ public partial class DictionaryForm
 
     private Task OnFilesChanged(List<FileDataInfo> files)
     {
-        Model.Files[nameof(DictionaryInfo.Extension)] = files;
+        Model.Files[nameof(SysDictionary.Extension)] = files;
         return Task.CompletedTask;
     }
 
@@ -47,5 +47,5 @@ public class CodeName
     public string Name { get; set; }
 }
 
-public class DictionaryTypeForm : AntForm<DictionaryInfo> { }
+public class DictionaryTypeForm : AntForm<SysDictionary> { }
 public class CodeNameTable : AntTable<CodeName> { }

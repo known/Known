@@ -6,7 +6,7 @@ class UserPage : IUserPage
     private SysUserList page;
     private TreeModel Tree;
     private MenuInfo current;
-    private List<OrganizationInfo> orgs;
+    private List<SysOrganization> orgs;
     private bool HasOrg => orgs != null && orgs.Count > 1;
 
     public async Task OnInitAsync(SysUserList list)
@@ -46,7 +46,7 @@ class UserPage : IUserPage
 
     public void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows)
     {
-        OrganizationInfo node = null;
+        SysOrganization node = null;
         var model = new DialogModel
         {
             Title = AdminLanguage.ChangeDepartment,
@@ -58,7 +58,7 @@ class UserPage : IUserPage
                     Data = orgs.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as OrganizationInfo;
+                        node = n.Data as SysOrganization;
                         return Task.CompletedTask;
                     }
                 });
@@ -86,7 +86,7 @@ class UserPage : IUserPage
     private async Task OnNodeClickAsync(MenuInfo item)
     {
         current = item;
-        var org = item.Data as OrganizationInfo;
+        var org = item.Data as SysOrganization;
         page.CurrentOrg = org?.Id;
         await page.RefreshAsync();
         await page.StateChangedAsync();

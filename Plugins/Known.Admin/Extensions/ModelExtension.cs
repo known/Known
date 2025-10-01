@@ -70,13 +70,13 @@ static class ModelExtension
     #endregion
 
     #region Organization
-    internal static List<MenuInfo> ToMenuItems(this List<OrganizationInfo> models)
+    internal static List<MenuInfo> ToMenuItems(this List<SysOrganization> models)
     {
         MenuInfo current = null;
         return models.ToMenuItems(ref current);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<OrganizationInfo> models, ref MenuInfo current)
+    internal static List<MenuInfo> ToMenuItems(this List<SysOrganization> models, ref MenuInfo current)
     {
         var menus = new List<MenuInfo>();
         if (models == null || models.Count == 0)
@@ -97,7 +97,7 @@ static class ModelExtension
         return menus;
     }
 
-    private static void AddChildren(List<OrganizationInfo> models, MenuInfo menu, ref MenuInfo current)
+    private static void AddChildren(List<SysOrganization> models, MenuInfo menu, ref MenuInfo current)
     {
         var items = models.Where(m => m.ParentId == menu.Id).OrderBy(m => m.Code).ToList();
         if (items == null || items.Count == 0)
@@ -116,7 +116,7 @@ static class ModelExtension
         }
     }
 
-    private static MenuInfo CreateMenuInfo(OrganizationInfo model)
+    private static MenuInfo CreateMenuInfo(SysOrganization model)
     {
         return new MenuInfo
         {

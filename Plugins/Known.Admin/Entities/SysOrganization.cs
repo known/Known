@@ -18,7 +18,9 @@ public class SysOrganization : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [DisplayName("代码")]
+    [Column(IsViewLink = true)]
+    [Form]
+    [DisplayName("编码")]
     public string Code { get; set; }
 
     /// <summary>
@@ -26,6 +28,8 @@ public class SysOrganization : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
+    [Column]
+    [Form]
     [DisplayName("名称")]
     public string Name { get; set; }
 
@@ -40,6 +44,12 @@ public class SysOrganization : EntityBase
     /// 取得或设置备注。
     /// </summary>
     [Column]
+    [Form(Type = nameof(FieldType.TextArea))]
     [DisplayName("备注")]
     public string Note { get; set; }
+
+    /// <summary>
+    /// 取得或设置上级组织名称。
+    /// </summary>
+    public virtual string ParentName { get; set; }
 }

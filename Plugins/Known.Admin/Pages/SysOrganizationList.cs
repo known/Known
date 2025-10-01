@@ -3,7 +3,7 @@
 [Route("/sys/organizations")]
 [Menu(Constants.BaseData, "组织架构", "partition", 3)]
 //[PagePlugin("组织架构", "partition", PagePluginType.Module, AdminLanguage.BaseData, Sort = 3)]
-public class SysOrganizationList : BaseTablePage<OrganizationInfo>
+public class SysOrganizationList : BaseTablePage<SysOrganization>
 {
     private IOrganizationService Service;
     private MenuInfo current;
@@ -21,7 +21,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
             OnModelChanged = OnTreeModelChangedAsync
         };
 
-        Table = new TableModel<OrganizationInfo>(this)
+        Table = new TableModel<SysOrganization>(this)
         {
             FormTitle = row => $"{PageName} - {row.ParentName}",
             Form = new FormInfo { SmallLabel = true },
@@ -34,7 +34,7 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
 
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Component<KTreeTable<OrganizationInfo>>()
+        builder.Component<KTreeTable<SysOrganization>>()
                .Set(c => c.Tree, Tree)
                .Set(c => c.Table, Table)
                .Build();
@@ -55,11 +55,11 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
             return;
         }
 
-        Table.NewForm(Service.SaveOrganizationAsync, new OrganizationInfo { ParentId = current?.Id, ParentName = current?.Name });
+        Table.NewForm(Service.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
-    [Action] public void Edit(OrganizationInfo row) => Table.EditForm(Service.SaveOrganizationAsync, row);
-    [Action] public void Delete(OrganizationInfo row) => Table.Delete(Service.DeleteOrganizationsAsync, row);
+    [Action] public void Edit(SysOrganization row) => Table.EditForm(Service.SaveOrganizationAsync, row);
+    [Action] public void Delete(SysOrganization row) => Table.Delete(Service.DeleteOrganizationsAsync, row);
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteOrganizationsAsync);
 
     private async Task OnNodeClickAsync(MenuInfo item)
@@ -81,10 +81,10 @@ public class SysOrganizationList : BaseTablePage<OrganizationInfo>
         return Tree;
     }
 
-    private Task<PagingResult<OrganizationInfo>> OnQueryOrganizationsAsync(PagingCriteria criteria)
+    private Task<PagingResult<SysOrganization>> OnQueryOrganizationsAsync(PagingCriteria criteria)
     {
-        var data = current?.Children?.Select(c => (OrganizationInfo)c.Data).ToList();
-        var result = new PagingResult<OrganizationInfo>(data);
+        var data = current?.Children?.Select(c => (SysOrganization)c.Data).ToList();
+        var result = new PagingResult<SysOrganization>(data);
         return Task.FromResult(result);
     }
 }
