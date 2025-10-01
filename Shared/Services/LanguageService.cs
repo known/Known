@@ -10,7 +10,7 @@ public interface ILanguageService : IService
     /// </summary>
     /// <param name="criteria">查询条件。</param>
     /// <returns>分页结果。</returns>
-    Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria);
+    Task<PagingResult<SysLanguage>> QueryLanguagesAsync(PagingCriteria criteria);
 
     /// <summary>
     /// 异步提取多语言信息。
@@ -23,7 +23,7 @@ public interface ILanguageService : IService
     /// </summary>
     /// <param name="infos">语言信息列表。</param>
     /// <returns>删除结果。</returns>
-    Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos);
+    Task<Result> DeleteLanguagesAsync(List<SysLanguage> infos);
 
     /// <summary>
     /// 异步导入语言信息数据。
@@ -37,7 +37,7 @@ public interface ILanguageService : IService
     /// </summary>
     /// <param name="info">语言信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveLanguageAsync(LanguageInfo info);
+    Task<Result> SaveLanguageAsync(SysLanguage info);
 
     /// <summary>
     /// 异步保存语言设置信息列表。
@@ -50,20 +50,20 @@ public interface ILanguageService : IService
 [Client]
 class LanguageClient(HttpClient http) : ClientBase(http), ILanguageService
 {
-    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria) => Http.QueryAsync<LanguageInfo>("/Language/QueryLanguages", criteria);
+    public Task<PagingResult<SysLanguage>> QueryLanguagesAsync(PagingCriteria criteria) => Http.QueryAsync<SysLanguage>("/Language/QueryLanguages", criteria);
     public Task<Result> FetchLanguagesAsync() => Http.PostAsync("/Language/FetchLanguages");
-    public Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos) => Http.PostAsync("/Language/DeleteLanguages", infos);
+    public Task<Result> DeleteLanguagesAsync(List<SysLanguage> infos) => Http.PostAsync("/Language/DeleteLanguages", infos);
     public Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Language/ImportLanguages", info);
-    public Task<Result> SaveLanguageAsync(LanguageInfo info) => Http.PostAsync("/Language/SaveLanguage", info);
+    public Task<Result> SaveLanguageAsync(SysLanguage info) => Http.PostAsync("/Language/SaveLanguage", info);
     public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos) => Http.PostAsync("/Language/SaveLanguageSettings", infos);
 }
 
 [WebApi, Service]
 class LanguageService(Context context) : ServiceBase(context), ILanguageService
 {
-    public Task<PagingResult<LanguageInfo>> QueryLanguagesAsync(PagingCriteria criteria)
+    public Task<PagingResult<SysLanguage>> QueryLanguagesAsync(PagingCriteria criteria)
     {
-        return Database.Query<SysLanguage>(criteria).ToPageAsync<LanguageInfo>();
+        return Database.QueryPageAsync<SysLanguage>(criteria);
     }
 
     public async Task<Result> FetchLanguagesAsync()
@@ -72,7 +72,7 @@ class LanguageService(Context context) : ServiceBase(context), ILanguageService
         return Result.Success(Language.FetchSuccess, Language.Datas);
     }
 
-    public async Task<Result> DeleteLanguagesAsync(List<LanguageInfo> infos)
+    public async Task<Result> DeleteLanguagesAsync(List<SysLanguage> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -130,7 +130,7 @@ class LanguageService(Context context) : ServiceBase(context), ILanguageService
         return result;
     }
 
-    public async Task<Result> SaveLanguageAsync(LanguageInfo info)
+    public async Task<Result> SaveLanguageAsync(SysLanguage info)
     {
         var database = Database;
         var model = await database.QueryAsync<SysLanguage>(d => d.Chinese == info.Chinese);

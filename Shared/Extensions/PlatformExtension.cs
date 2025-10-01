@@ -21,9 +21,9 @@ static class PlatformExtension
         return infos.ToPagingResult(criteria);
     }
 
-    internal static Task<List<LanguageInfo>> GetLanguagesAsync(this Database db)
+    internal static Task<List<SysLanguage>> GetLanguagesAsync(this Database db)
     {
-        return db.Query<SysLanguage>().ToListAsync<LanguageInfo>();
+        return db.QueryListAsync<SysLanguage>();
     }
 
     internal static async Task<List<ButtonInfo>> GetButtonsAsync(this Database db)

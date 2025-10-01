@@ -23,7 +23,7 @@ public class InitialInfo
     /// <summary>
     /// 取得或设置多语言数据列表。
     /// </summary>
-    public List<LanguageInfo> Languages { get; set; }
+    public List<SysLanguage> Languages { get; set; }
 
     /// <summary>
     /// 取得或设置系统相关配置信息。

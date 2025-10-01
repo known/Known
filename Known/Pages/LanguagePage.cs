@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/dev/languages")]
 [DevPlugin("语言管理", "global", Sort = 2)]
-public class LanguagePage : BaseTablePage<LanguageInfo>
+public class LanguagePage : BaseTablePage<SysLanguage>
 {
     private ILanguageService Service;
     private readonly List<LanguageSettingInfo> Infos = Language.Settings;
@@ -22,7 +22,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ILanguageService>();
 
-        Table = new TableModel<LanguageInfo>(this, TableColumnMode.Attribute);
+        Table = new TableModel<SysLanguage>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
         Table.FormType = typeof(LanguageForm);
         Table.EnableEdit = false;
@@ -37,7 +37,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
             if (!info.Enabled || Table.AllColumns.Exists(d => d.Id == info.Id))
                 continue;
 
-            var property = TypeHelper.Property<LanguageInfo>(info.Id);
+            var property = TypeHelper.Property<SysLanguage>(info.Id);
             if (property != null)
                 Table.AddColumn(property).Name(info.Name);
         }
@@ -57,19 +57,19 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     /// <summary>
     /// 弹出新增表单对话框。
     /// </summary>
-    public void New() => Table.NewForm(Service.SaveLanguageAsync, new LanguageInfo());
+    public void New() => Table.NewForm(Service.SaveLanguageAsync, new SysLanguage());
 
     /// <summary>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(LanguageInfo row) => Table.EditForm(Service.SaveLanguageAsync, row);
+    public void Edit(SysLanguage row) => Table.EditForm(Service.SaveLanguageAsync, row);
 
     /// <summary>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(LanguageInfo row) => Table.Delete(Service.DeleteLanguagesAsync, row);
+    public void Delete(SysLanguage row) => Table.Delete(Service.DeleteLanguagesAsync, row);
 
     /// <summary>
     /// 批量删除数据。
@@ -109,7 +109,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
             var result = await Service.FetchLanguagesAsync();
             UI.Result(result, () =>
             {
-                Language.Datas = result.DataAs<List<LanguageInfo>>();
+                Language.Datas = result.DataAs<List<SysLanguage>>();
                 return RefreshAsync();
             });
         });
@@ -138,7 +138,7 @@ public class LanguagePage : BaseTablePage<LanguageInfo>
     }
 }
 
-class LanguageForm : BaseForm<LanguageInfo>
+class LanguageForm : BaseForm<SysLanguage>
 {
     protected override async Task OnInitFormAsync()
     {
@@ -149,7 +149,7 @@ class LanguageForm : BaseForm<LanguageInfo>
             if (!info.Enabled)
                 continue;
 
-            var property = TypeHelper.Property<LanguageInfo>(info.Id);
+            var property = TypeHelper.Property<SysLanguage>(info.Id);
             Model.AddRow().AddColumn(property, c => c.Label = info.Name);
         }
     }

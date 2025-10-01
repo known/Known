@@ -25,12 +25,12 @@ public partial class Language
     /// <summary>
     /// 取得或设置多语言数据列表。
     /// </summary>
-    public static List<LanguageInfo> Datas { get; set; } = [];
+    public static List<SysLanguage> Datas { get; set; } = [];
 
     /// <summary>
     /// 取得默认多语言数据列表。
     /// </summary>
-    public static List<LanguageInfo> DefaultDatas { get; } = [];
+    public static List<SysLanguage> DefaultDatas { get; } = [];
 
     /// <summary>
     /// 根据ID取得当前语言字符串。
@@ -809,7 +809,7 @@ public partial class Language
     public static List<LanguageSettingInfo> GetDefaultSettings()
     {
         var infos = new List<LanguageSettingInfo>();
-        var properties = TypeHelper.Properties<LanguageInfo>();
+        var properties = TypeHelper.Properties<SysLanguage>();
         foreach (var item in properties)
         {
             var attr = item.GetCustomAttribute<LanguageAttribute>();
