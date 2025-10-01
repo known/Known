@@ -2,7 +2,7 @@
 
 class ModuleForm : BaseTabForm
 {
-    [Parameter] public FormModel<ModuleInfo> Model { get; set; }
+    [Parameter] public FormModel<SysModule> Model { get; set; }
 
     protected override async Task OnInitFormAsync()
     {
@@ -44,7 +44,7 @@ class ModuleForm : BaseTabForm
 
     private void OnFieldChanged(string field)
     {
-        if (field == nameof(ModuleInfo.Type))
+        if (field == nameof(SysModule.Type))
         {
             SetTabVisible();
             Tab.StateChanged();

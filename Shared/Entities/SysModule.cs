@@ -121,6 +121,29 @@ public class SysModule : EntityBase
     public string FormData { get; set; }
 
     /// <summary>
+    /// 取得或设置是否是代码生成的模块。
+    /// </summary>
+    public virtual bool IsCode { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否移动模块。
+    /// </summary>
+    [JsonIgnore]
+    public virtual bool IsMoveUp { get; set; }
+
+    /// <summary>
+    /// 取得或设置布局信息。
+    /// </summary>
+    public virtual LayoutInfo Layout { get; set; }
+
+    /// <summary>
+    /// 取得或设置插件配置信息列表。
+    /// </summary>
+    public virtual List<PluginInfo> Plugins { get; set; } = [];
+
+    internal string ParentName { get; set; }
+
+    /// <summary>
     /// 模块实体转换为菜单信息。
     /// </summary>
     /// <returns></returns>

@@ -13,7 +13,7 @@ public class ModuleFormTab : BaseComponent
     /// <summary>
     /// 取得或设置模块信息。
     /// </summary>
-    [Parameter] public ModuleInfo Module { get; set; }
+    [Parameter] public SysModule Module { get; set; }
 }
 
 /// <summary>

@@ -1,9 +1,9 @@
 ﻿namespace Known.Internals;
 
-class ModuleInstallList : BaseTablePage<ModuleInfo>
+class ModuleInstallList : BaseTablePage<SysModule>
 {
     private IModuleService Service;
-    [Parameter] public List<ModuleInfo> Modules { get; set; }
+    [Parameter] public List<SysModule> Modules { get; set; }
 
     protected override async Task OnInitPageAsync()
     {
@@ -30,16 +30,16 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
     }
 
     public void Install() => Table.SelectRows(ShowInstallTree);
-    public void Install(ModuleInfo row) => ShowInstallTree([row]);
+    public void Install(SysModule row) => ShowInstallTree([row]);
 
-    private void BuildName(RenderTreeBuilder builder, ModuleInfo row)
+    private void BuildName(RenderTreeBuilder builder, SysModule row)
     {
         builder.IconName(row.Icon, row.Name);
     }
 
-    private void ShowInstallTree(List<ModuleInfo> rows)
+    private void ShowInstallTree(List<SysModule> rows)
     {
-        ModuleInfo node = null;
+        SysModule node = null;
         var model = new DialogModel
         {
             Title = Language.InstallTo,
@@ -51,7 +51,7 @@ class ModuleInstallList : BaseTablePage<ModuleInfo>
                     Data = Modules.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as ModuleInfo;
+                        node = n.Data as SysModule;
                         return Task.CompletedTask;
                     }
                 });

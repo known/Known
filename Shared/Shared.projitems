@@ -105,7 +105,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)WorkFlows\FlowEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Snowflake.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ModuleInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AppInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Cache.Code.cs" />

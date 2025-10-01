@@ -125,7 +125,7 @@ public class SysModule1 : EntityBase
     internal virtual List<string> Actions { get; set; }
     internal virtual List<PageColumnInfo> Columns { get; set; }
 
-    internal static SysModule1 Load(UserInfo user, ModuleInfo info)
+    internal static SysModule1 Load(UserInfo user, SysModule info)
     {
         var plugin = info.Plugins?.GetPluginParameter<AutoPageInfo>();
         var model = new SysModule1
@@ -151,9 +151,9 @@ public class SysModule1 : EntityBase
         return model;
     }
 
-    internal ModuleInfo ToModuleInfo()
+    internal SysModule ToModuleInfo()
     {
-        var info = new ModuleInfo
+        var info = new SysModule
         {
             Id = Id,
             ParentId = ParentId,

@@ -1,13 +1,13 @@
 ﻿namespace Known.Internals;
 
-class ModuleList : BasePage<ModuleInfo>
+class ModuleList : BasePage<SysModule>
 {
     private IModuleService Service;
-    private List<ModuleInfo> modules;
+    private List<SysModule> modules;
     private MenuInfo current;
     private int total;
     private TreeModel Tree;
-    private TableModel<ModuleInfo> Table;
+    private TableModel<SysModule> Table;
 
     /// <summary>
     /// 异步初始化页面。
@@ -30,7 +30,7 @@ class ModuleList : BasePage<ModuleInfo>
             OnModelChanged = OnTreeModelChanged
         };
 
-        Table = new TableModel<ModuleInfo>(this)
+        Table = new TableModel<SysModule>(this)
         {
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language[Language.SysModule]} - {row.ParentName} > {row.Name}",
@@ -92,16 +92,16 @@ class ModuleList : BasePage<ModuleInfo>
     private void BuildTree(RenderTreeBuilder builder) => builder.Tree(Tree);
     private void BuildTable(RenderTreeBuilder builder) => builder.PageTable(Table);
 
-    private void BuildName(RenderTreeBuilder builder, ModuleInfo row)
+    private void BuildName(RenderTreeBuilder builder, SysModule row)
     {
         builder.IconName(row.Icon, row.Name);
     }
 
-    private Task<PagingResult<ModuleInfo>> OnQueryModulesAsync(PagingCriteria criteria)
+    private Task<PagingResult<SysModule>> OnQueryModulesAsync(PagingCriteria criteria)
     {
-        var data = current?.Children?.Select(c => (ModuleInfo)c.Data).ToList();
+        var data = current?.Children?.Select(c => (SysModule)c.Data).ToList();
         total = data?.Count ?? 0;
-        var result = new PagingResult<ModuleInfo>(data);
+        var result = new PagingResult<SysModule>(data);
         return Task.FromResult(result);
     }
 
@@ -116,7 +116,7 @@ class ModuleList : BasePage<ModuleInfo>
             return;
         }
 
-        Table.NewForm(Service.SaveModuleAsync, new ModuleInfo
+        Table.NewForm(Service.SaveModuleAsync, new SysModule
         {
             ParentId = current?.Id,
             ParentName = current?.Name,
@@ -130,7 +130,7 @@ class ModuleList : BasePage<ModuleInfo>
     /// 弹出编辑表单对话框。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Edit(ModuleInfo row)
+    public void Edit(SysModule row)
     {
         if (row.IsCode)
         {
@@ -145,7 +145,7 @@ class ModuleList : BasePage<ModuleInfo>
     /// 删除一条数据。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public void Delete(ModuleInfo row)
+    public void Delete(SysModule row)
     {
         if (row.IsCode)
         {
@@ -175,13 +175,13 @@ class ModuleList : BasePage<ModuleInfo>
     /// 上移一个模块。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public Task MoveUp(ModuleInfo row) => OnMoveAsync(row, true);
+    public Task MoveUp(SysModule row) => OnMoveAsync(row, true);
 
     /// <summary>
     /// 下移一个模块。
     /// </summary>
     /// <param name="row">表格行绑定的对象。</param>
-    public Task MoveDown(ModuleInfo row) => OnMoveAsync(row, false);
+    public Task MoveDown(SysModule row) => OnMoveAsync(row, false);
 
     /// <summary>
     /// 导入模块数据。
@@ -243,7 +243,7 @@ class ModuleList : BasePage<ModuleInfo>
         });
     }
 
-    private void OnCopy(List<ModuleInfo> rows)
+    private void OnCopy(List<SysModule> rows)
     {
         ShowTreeModal(Language.CopyTo, node =>
         {
@@ -252,7 +252,7 @@ class ModuleList : BasePage<ModuleInfo>
         });
     }
 
-    private void OnMove(List<ModuleInfo> rows)
+    private void OnMove(List<SysModule> rows)
     {
         ShowTreeModal(Language.MoveTo, node =>
         {
@@ -261,7 +261,7 @@ class ModuleList : BasePage<ModuleInfo>
         });
     }
 
-    private async Task OnMoveAsync(ModuleInfo row, bool isMoveUp)
+    private async Task OnMoveAsync(SysModule row, bool isMoveUp)
     {
         if (row.IsCode)
         {
@@ -292,9 +292,9 @@ class ModuleList : BasePage<ModuleInfo>
         return Tree;
     }
 
-    private void ShowTreeModal(string title, Func<ModuleInfo, Task<Result>> action)
+    private void ShowTreeModal(string title, Func<SysModule, Task<Result>> action)
     {
-        ModuleInfo node = null;
+        SysModule node = null;
         var model = new DialogModel
         {
             Title = title,
@@ -306,7 +306,7 @@ class ModuleList : BasePage<ModuleInfo>
                     Data = modules.ToMenuItems(),
                     OnNodeClick = n =>
                     {
-                        node = n.Data as ModuleInfo;
+                        node = n.Data as SysModule;
                         return Task.CompletedTask;
                     }
                 });

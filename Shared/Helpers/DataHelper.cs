@@ -32,7 +32,7 @@ public sealed class DataHelper
     /// 初始化模块数据，提取模块中的实体模型和流程模型数据。
     /// </summary>
     /// <param name="modules">系统模块列表。</param>
-    public static void Initialize(List<ModuleInfo> modules)
+    public static void Initialize(List<SysModule> modules)
     {
         if (modules == null || modules.Count == 0)
             return;

@@ -13,7 +13,7 @@ public static class MenuExtension
     public static MenuInfo GetRootMenu(this AppInfo app)
     {
         var root = new MenuInfo { Id = "0", Name = app.Name, Icon = "desktop" };
-        root.Data = new ModuleInfo { Id = root.Id, Name = root.Name };
+        root.Data = new SysModule { Id = root.Id, Name = root.Name };
         return root;
     }
 

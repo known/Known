@@ -11,7 +11,7 @@ public static class ModuleExtension
     /// <param name="modules">模块信息列表。</param>
     /// <param name="lists">要添加的信息列表。</param>
     /// <returns></returns>
-    public static List<ModuleInfo> Add(this List<ModuleInfo> modules, List<ModuleInfo> lists)
+    public static List<SysModule> Add(this List<SysModule> modules, List<SysModule> lists)
     {
         if (lists == null || lists.Count == 0)
             return modules;
@@ -33,7 +33,7 @@ public static class ModuleExtension
     /// <param name="parentId">上级ID。</param>
     /// <param name="sort">排序。</param>
     /// <returns></returns>
-    public static ModuleInfo AddItem<T>(this List<ModuleInfo> modules, string parentId, int sort)
+    public static SysModule AddItem<T>(this List<SysModule> modules, string parentId, int sort)
     {
         var type = typeof(T);
         var route = type.GetCustomAttribute<RouteAttribute>();
@@ -56,9 +56,9 @@ public static class ModuleExtension
     /// <param name="sort">排序。</param>
     /// <param name="url">URL。</param>
     /// <returns>菜单信息。</returns>
-    public static ModuleInfo AddItem(this List<ModuleInfo> modules, string parentId, string id, string name, string icon, int sort, string url = null)
+    public static SysModule AddItem(this List<SysModule> modules, string parentId, string id, string name, string icon, int sort, string url = null)
     {
-        var info = new ModuleInfo
+        var info = new SysModule
         {
             Id = id,
             Type = nameof(MenuType.Menu),
@@ -83,7 +83,7 @@ public static class ModuleExtension
     /// </summary>
     /// <param name="modules">模块列表。</param>
     /// <param name="id">模块ID。</param>
-    public static void Remove(this List<ModuleInfo> modules, string id)
+    public static void Remove(this List<SysModule> modules, string id)
     {
         if (modules == null || modules.Count == 0)
             return;
@@ -99,7 +99,7 @@ public static class ModuleExtension
     /// <param name="modules">模块列表。</param>
     /// <param name="id">模块ID。</param>
     /// <param name="parentId">上级模块ID。</param>
-    public static void ChangeParent(this List<ModuleInfo> modules, string id, string parentId)
+    public static void ChangeParent(this List<SysModule> modules, string id, string parentId)
     {
         if (modules == null || modules.Count == 0)
             return;
@@ -114,7 +114,7 @@ public static class ModuleExtension
     /// </summary>
     /// <param name="modules">模块信息列表。</param>
     /// <returns>菜单信息列表。</returns>
-    public static List<MenuInfo> ToMenus(this List<ModuleInfo> modules)
+    public static List<MenuInfo> ToMenus(this List<SysModule> modules)
     {
         if (modules == null || modules.Count == 0)
             return [];
@@ -137,7 +137,7 @@ public static class ModuleExtension
     /// 重新给模块列表排序。
     /// </summary>
     /// <param name="modules">模块列表。</param>
-    public static void Resort(this List<ModuleInfo> modules)
+    public static void Resort(this List<SysModule> modules)
     {
         if (modules == null || modules.Count == 0)
             return;
@@ -155,13 +155,13 @@ public static class ModuleExtension
     /// <param name="models">模块信息列表。</param>
     /// <param name="showRoot">是否显示根节点。</param>
     /// <returns></returns>
-    public static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, bool showRoot = true)
+    public static List<MenuInfo> ToMenuItems(this List<SysModule> models, bool showRoot = true)
     {
         MenuInfo current = null;
         return models.ToMenuItems(ref current, showRoot);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<ModuleInfo> models, ref MenuInfo current, bool showRoot = true)
+    internal static List<MenuInfo> ToMenuItems(this List<SysModule> models, ref MenuInfo current, bool showRoot = true)
     {
         MenuInfo root = null;
         var menus = new List<MenuInfo>();
@@ -195,7 +195,7 @@ public static class ModuleExtension
         return menus;
     }
 
-    private static void AddChildren(List<ModuleInfo> models, MenuInfo menu, ref MenuInfo current, bool showUrl)
+    private static void AddChildren(List<SysModule> models, MenuInfo menu, ref MenuInfo current, bool showUrl)
     {
         var items = models.Where(m => m.ParentId == menu.Id).ToList();
         if (items == null || items.Count == 0)
@@ -215,7 +215,7 @@ public static class ModuleExtension
         }
     }
 
-    private static MenuInfo CreateMenu(ModuleInfo info, bool showUrl = false)
+    private static MenuInfo CreateMenu(SysModule info, bool showUrl = false)
     {
         return new MenuInfo
         {
@@ -235,7 +235,7 @@ public static class ModuleExtension
         };
     }
 
-    private static string GetMenuName(ModuleInfo info, bool showUrl)
+    private static string GetMenuName(SysModule info, bool showUrl)
     {
         if (info.Target != Constants.Route || string.IsNullOrWhiteSpace(info.Url) || !showUrl)
             return info.Name;

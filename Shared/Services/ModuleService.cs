@@ -10,13 +10,13 @@ public interface IModuleService : IService
     /// </summary>
     /// <param name="criteria">查询条件。</param>
     /// <returns>分页结果。</returns>
-    Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria);
+    Task<PagingResult<SysModule>> QueryModulesAsync(PagingCriteria criteria);
 
     /// <summary>
     /// 异步获取系统模块列表。
     /// </summary>
     /// <returns>系统模块列表。</returns>
-    Task<List<ModuleInfo>> GetModulesAsync();
+    Task<List<SysModule>> GetModulesAsync();
 
     /// <summary>
     /// 异步迁移老框架系统模块数据。
@@ -42,64 +42,64 @@ public interface IModuleService : IService
     /// </summary>
     /// <param name="infos">系统模块列表。</param>
     /// <returns>删除结果。</returns>
-    Task<Result> DeleteModulesAsync(List<ModuleInfo> infos);
+    Task<Result> DeleteModulesAsync(List<SysModule> infos);
 
     /// <summary>
     /// 异步安装系统模块。
     /// </summary>
     /// <param name="infos">系统模块列表。</param>
     /// <returns>安装结果。</returns>
-    Task<Result> InstallModulesAsync(List<ModuleInfo> infos);
+    Task<Result> InstallModulesAsync(List<SysModule> infos);
 
     /// <summary>
     /// 异步复制系统模块。
     /// </summary>
     /// <param name="infos">系统模块列表。</param>
     /// <returns>复制结果。</returns>
-    Task<Result> CopyModulesAsync(List<ModuleInfo> infos);
+    Task<Result> CopyModulesAsync(List<SysModule> infos);
 
     /// <summary>
     /// 异步移动多条系统模块。
     /// </summary>
     /// <param name="infos">系统模块列表。</param>
     /// <returns>移动结果。</returns>
-    Task<Result> MoveModulesAsync(List<ModuleInfo> infos);
+    Task<Result> MoveModulesAsync(List<SysModule> infos);
 
     /// <summary>
     /// 异步移动单条系统模块。
     /// </summary>
     /// <param name="info">系统模块信息。</param>
     /// <returns>移动结果。</returns>
-    Task<Result> MoveModuleAsync(ModuleInfo info);
+    Task<Result> MoveModuleAsync(SysModule info);
 
     /// <summary>
     /// 异步保存系统模块。
     /// </summary>
     /// <param name="info">系统模块信息。</param>
     /// <returns>保存结果。</returns>
-    Task<Result> SaveModuleAsync(ModuleInfo info);
+    Task<Result> SaveModuleAsync(SysModule info);
 }
 
 [Client]
 class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
 {
-    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<ModuleInfo>("/Module/QueryModules", criteria);
-    public Task<List<ModuleInfo>> GetModulesAsync() => Http.GetAsync<List<ModuleInfo>>("/Module/GetModules");
+    public Task<PagingResult<SysModule>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<SysModule>("/Module/QueryModules", criteria);
+    public Task<List<SysModule>> GetModulesAsync() => Http.GetAsync<List<SysModule>>("/Module/GetModules");
     public Task<Result> MigrateModulesAsync() => Http.PostAsync("/Module/MigrateModules");
     public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Module/ExportModules");
     public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Module/ImportModules", info);
-    public Task<Result> DeleteModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/DeleteModules", infos);
-    public Task<Result> InstallModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/InstallModules", infos);
-    public Task<Result> CopyModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/CopyModules", infos);
-    public Task<Result> MoveModulesAsync(List<ModuleInfo> infos) => Http.PostAsync("/Module/MoveModules", infos);
-    public Task<Result> MoveModuleAsync(ModuleInfo info) => Http.PostAsync("/Module/MoveModule", info);
-    public Task<Result> SaveModuleAsync(ModuleInfo info) => Http.PostAsync("/Module/SaveModule", info);
+    public Task<Result> DeleteModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/DeleteModules", infos);
+    public Task<Result> InstallModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/InstallModules", infos);
+    public Task<Result> CopyModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/CopyModules", infos);
+    public Task<Result> MoveModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/MoveModules", infos);
+    public Task<Result> MoveModuleAsync(SysModule info) => Http.PostAsync("/Module/MoveModule", info);
+    public Task<Result> SaveModuleAsync(SysModule info) => Http.PostAsync("/Module/SaveModule", info);
 }
 
 [WebApi, Service]
 class ModuleService(Context context) : ServiceBase(context), IModuleService
 {
-    public Task<PagingResult<ModuleInfo>> QueryModulesAsync(PagingCriteria criteria)
+    public Task<PagingResult<SysModule>> QueryModulesAsync(PagingCriteria criteria)
     {
         //var modules = await Database.QueryListAsync<SysModule>();
         //var items = AppData.Data.Modules.Where(m => modules?.Exists(d => d.Url == m.Url) == false)
@@ -111,12 +111,12 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         //    items = [.. items.Where(m => m.Name.Contains(name))];
 
         //return items.ToPagingResult(criteria);
-        return Database.Query<SysModule>(criteria).ToPageAsync<ModuleInfo>();
+        return Database.QueryPageAsync<SysModule>(criteria);
     }
 
-    public async Task<List<ModuleInfo>> GetModulesAsync()
+    public async Task<List<SysModule>> GetModulesAsync()
     {
-        var modules = await Database.Query<SysModule>().ToListAsync<ModuleInfo>();
+        var modules = await Database.QueryListAsync<SysModule>();
         //var modules = dbModules.Select(m => m.ToMenuInfo()).ToList();
         //modules = modules.Add(AppData.Data.Modules);
         //DataHelper.Initialize(modules);
@@ -167,7 +167,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         }
     }
 
-    public async Task<Result> DeleteModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> DeleteModulesAsync(List<SysModule> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -192,7 +192,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         });
     }
 
-    public async Task<Result> InstallModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> InstallModulesAsync(List<SysModule> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -214,7 +214,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         });
     }
 
-    public async Task<Result> CopyModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> CopyModulesAsync(List<SysModule> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -236,7 +236,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         });
     }
 
-    public async Task<Result> MoveModulesAsync(List<ModuleInfo> infos)
+    public async Task<Result> MoveModulesAsync(List<SysModule> infos)
     {
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
@@ -260,7 +260,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         });
     }
 
-    public async Task<Result> MoveModuleAsync(ModuleInfo info)
+    public async Task<Result> MoveModuleAsync(SysModule info)
     {
         if (info == null)
             return Result.Error(Language.SelectOne);
@@ -287,7 +287,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         });
     }
 
-    public async Task<Result> SaveModuleAsync(ModuleInfo info)
+    public async Task<Result> SaveModuleAsync(SysModule info)
     {
         if (info.IsCode)
             return Result.Error(Language.TipCodeModuleNotOperate);
