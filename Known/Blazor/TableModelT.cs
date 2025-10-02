@@ -91,9 +91,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Initialize(info);
     }
 
-    // 是否使用代码配置
-    //public bool UseCodeConfig { get; set; } = true;
-
     /// <summary>
     /// 初始化页面表格模型配置。
     /// </summary>
@@ -101,8 +98,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public void Initialize(AutoPageInfo info)
     {
         Info = info;
-        //if (info != null && info.Page != null)
-        //    info.Page.UseCodeConfig = UseCodeConfig;
         //FixedWidth = info.Page.FixedWidth;
         //FixedHeight = info.Page.FixedHeight;
         Name = info?.Name ?? info?.Page?.Name;
@@ -117,13 +112,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         if (info?.Page?.ActionSize != null)
             ActionCount = info.Page.ActionSize.Value;
 
-        //var pageType = Page.GetType();
-        //Toolbar.Items = info?.Page?.GetToolItems(pageType) ?? [];
-        //Actions = info?.Page?.GetActionItems(pageType) ?? [];
         Toolbar.Items = info?.Page?.Tools ?? [];
         Actions = info?.Page?.Actions ?? [];
-
-        AllColumns = info?.Page?.GetColumns<TItem>(info.Form) ?? [];
+        AllColumns = info?.Page?.GetColumns<TItem>();
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
 
         Columns.Clear();

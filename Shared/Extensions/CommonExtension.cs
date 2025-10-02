@@ -81,7 +81,7 @@ public static class CommonExtension
     }
 
     /// <summary>
-    /// 采用反射方式克隆对象的新实例。
+    /// 采用反射方式克隆对象的新实例，性能差。
     /// </summary>
     /// <typeparam name="T">对象类型。</typeparam>
     /// <param name="obj">原对象。</param>

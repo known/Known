@@ -99,10 +99,11 @@ partial class TableModel<TItem>
     internal ColumnBuilder<TItem> AddColumn(ColumnInfo column, bool isQuery = false)
     {
         column.IsQuery = isQuery;
-        var allColumn = AllColumns.FirstOrDefault(c => c.Id == column.Id);
+        var allColumn = AllColumns?.FirstOrDefault(c => c.Id == column.Id);
         if (allColumn == null)
         {
             allColumn = column.Clone();
+            AllColumns ??= [];
             AllColumns.Add(allColumn);
         }
         Columns.Add(column);

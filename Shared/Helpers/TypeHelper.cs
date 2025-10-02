@@ -134,24 +134,6 @@ public sealed class TypeHelper
     internal static TypeFieldInfo Field<T>(Expression<Func<T, object>> selector) => ExtractField<T>(selector);
 
     /// <summary>
-    /// 获取数据对象属性值。
-    /// </summary>
-    /// <param name="model">数据对象。</param>
-    /// <param name="name">属性名称。</param>
-    /// <returns>属性值。</returns>
-    public static object GetPropertyValue(object model, string name)
-    {
-        if (model == null || string.IsNullOrWhiteSpace(name))
-            return default;
-
-        var property = Property(model.GetType(), name);
-        if (property == null || !property.CanRead)
-            return default;
-
-        return property.GetValue(model);
-    }
-
-    /// <summary>
     /// 获取数据对象属性泛型值。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
@@ -165,43 +147,20 @@ public sealed class TypeHelper
     }
 
     /// <summary>
+    /// 获取数据对象属性值。
+    /// </summary>
+    /// <param name="model">数据对象。</param>
+    /// <param name="name">属性名称。</param>
+    /// <returns>属性值。</returns>
+    public static object GetPropertyValue(object model, string name) => PropertyAccessor.GetPropertyValue(model, name);
+
+    /// <summary>
     /// 设置数据对象属性值。
     /// </summary>
     /// <param name="model">数据对象。</param>
     /// <param name="name">属性名称。</param>
     /// <param name="value">属性值。</param>
-    public static void SetPropertyValue(object model, string name, object value)
-    {
-        if (model == null || string.IsNullOrWhiteSpace(name))
-            return;
-
-        var property = Property(model.GetType(), name);
-        if (property != null && property.CanWrite)
-        {
-            var value1 = Utils.ConvertTo(property.PropertyType, value);
-            property.SetValue(model, value1, null);
-        }
-    }
-
-    /// <summary>
-    /// 设置泛型对象属性值。
-    /// </summary>
-    /// <typeparam name="T">泛型类型。</typeparam>
-    /// <param name="model">泛型对象。</param>
-    /// <param name="name">属性名称。</param>
-    /// <param name="value">属性值。</param>
-    public static void SetPropertyValue<T>(T model, string name, object value)
-    {
-        if (model == null || string.IsNullOrWhiteSpace(name))
-            return;
-
-        var property = Property<T>(name);
-        if (property != null && property.CanWrite)
-        {
-            var value1 = Utils.ConvertTo(property.PropertyType, value);
-            property.SetValue(model, value1, null);
-        }
-    }
+    public static void SetPropertyValue(object model, string name, object value) => PropertyAccessor.SetPropertyValue(model, name, value);
 
     private static PropertyInfo ExtractProperty<T>(LambdaExpression selector)
     {

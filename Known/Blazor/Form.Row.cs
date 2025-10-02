@@ -83,7 +83,7 @@ public class FormRow<TItem> where TItem : class, new()
         return this;
     }
 
-    internal FormRow<TItem> AddColumn(ColumnInfo column, Action<ColumnInfo> action = null)
+    internal FormRow<TItem> AddColumn(ColumnInfo column, Action<ColumnInfo> action)
     {
         action?.Invoke(column);
         return AddColumn(column);

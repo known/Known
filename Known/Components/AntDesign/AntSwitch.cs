@@ -53,6 +53,11 @@ public class AntSwitch : Switch
             if (codes.Count > 1)
                 UnCheckedChildren = Context?.Language[codes[1].Name];
         }
+        else
+        {
+            CheckedChildren = Context?.Language?["是"];
+            UnCheckedChildren = Context?.Language["否"];
+        }
         base.OnInitialized();
     }
 }

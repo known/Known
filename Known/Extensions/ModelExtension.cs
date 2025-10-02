@@ -132,103 +132,12 @@ public static class ModelExtension
     #endregion
 
     #region PageInfo
-    //internal static List<ActionInfo> GetToolItems(this PageInfo info, Type pageType)
-    //{
-    //    if (info == null || info.Tools == null || info.Tools.Count == 0)
-    //        return [];
-
-    //    var items = info.Tools.Select(t => new ActionInfo(t)).ToList();
-    //    //if (!info.UseCodeConfig)
-    //    //    return items;
-
-    //    //foreach (var item in items)
-    //    //{
-    //    //    SetAction(item, pageType);
-    //    //}
-    //    return items;
-    //}
-
-    //internal static List<ActionInfo> GetActionItems(this PageInfo info, Type pageType)
-    //{
-    //    if (info == null || info.Actions == null || info.Actions.Count == 0)
-    //        return [];
-
-    //    var items = info.Actions.Select(a => new ActionInfo(a)).ToList();
-    //    //if (!info.UseCodeConfig)
-    //    //    return items;
-
-    //    //foreach (var item in items)
-    //    //{
-    //    //    SetAction(item, pageType);
-    //    //}
-    //    return items;
-    //}
-
-    //private static void SetAction(ActionInfo item, Type pageType)
-    //{
-    //    try
-    //    {
-    //        var method = pageType.GetMethod(item.Id);
-    //        var attr = method?.GetCustomAttribute<ActionAttribute>();
-    //        if (attr != null)
-    //        {
-    //            if (!string.IsNullOrWhiteSpace(attr.Icon))
-    //                item.Icon = attr.Icon;
-    //            if (!string.IsNullOrWhiteSpace(attr.Name))
-    //                item.Name = attr.Name;
-    //            item.Title = attr.Title;
-    //            item.Style = attr.Style;
-    //            item.Visible = attr.Visible;
-    //            item.Group = attr.Group;
-    //            item.Tabs = attr.Tabs;
-    //        }
-    //    }
-    //    catch { }
-    //}
-
-    internal static List<ColumnInfo> GetColumns<T>(this PageInfo info, FormInfo form)
+    internal static List<ColumnInfo> GetColumns<T>(this PageInfo info)
     {
         if (info == null || info.Columns == null || info.Columns.Count == 0)
             return [];
 
-        //if (!info.UseCodeConfig)
-        //{
-            return info.Columns.OrderBy(t => t.Position).Select(c =>
-            {
-                var column = new ColumnInfo(c);
-                SetColumn(column, form);
-                return column;
-            }).ToList();
-        //}
-
-        //var properties = TypeHelper.Properties<T>();
-        //return info.Columns.OrderBy(t => t.Position).Select(c =>
-        //{
-        //    var column = new ColumnInfo(c);
-        //    SetColumn(column, form);
-        //    var property = properties.FirstOrDefault(p => p.Name == column.Id);
-        //    if (property != null)
-        //        column.SetColumnInfo(property);
-        //    return column;
-        //}).ToList();
-    }
-
-    private static void SetColumn(ColumnInfo column, FormInfo form)
-    {
-        var item = form?.Fields?.FirstOrDefault(f => f.Id == column.Id);
-        if (item != null)
-        {
-            //column.Type = item.Type;
-            column.Category = item.Category;
-            column.Unit = item.Unit;
-        }
-        //if (column.Type == FieldType.Text)
-        //{
-        //    EntityInfo model = form?.Model;
-        //    var field = model?.Fields?.FirstOrDefault(f => f.Id == column.Id);
-        //    if (field != null)
-        //        column.Type = field.Type;
-        //}
+        return [.. info.Columns.OrderBy(t => t.Position).Select(c => new ColumnInfo(c))];
     }
     #endregion
 

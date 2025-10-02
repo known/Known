@@ -104,8 +104,7 @@ public sealed class Cache
     /// <returns>代码表列表。</returns>
     public static List<CodeInfo> GetCodes<T>() where T : Enum
     {
-        return codeCache.Get(typeof(T));
-        //return GetCodes(typeof(T).Name);
+        return codeCache.Get(typeof(T).Name);
     }
 
     /// <summary>
@@ -202,7 +201,7 @@ public sealed class Cache
         foreach (var category in categories)
         {
             var items = codes.Where(c => c.Category == category).ToList();
-            codeCache.Set(category, codes);
+            codeCache.Set(category, items);
         }
     }
 

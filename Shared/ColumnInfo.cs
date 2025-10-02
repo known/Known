@@ -39,4 +39,9 @@ public partial class ColumnInfo
     /// 取得栏位关联的对象属性。
     /// </summary>
     public PropertyInfo Property { get; internal set; }
+
+    internal ColumnInfo Clone()
+    {
+        return MemberwiseClone() as ColumnInfo;
+    }
 }
