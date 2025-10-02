@@ -17,6 +17,7 @@ class MigrateHelper
         if (modules == null || modules.Count == 0)
             return;
 
+        await db.ExecuteAsync($"create table SysModule{DateTime.Now:yyyyMMdd} as select * from SysModule");
         foreach (var item in modules)
         {
             if (!string.IsNullOrWhiteSpace(item.PageData)) // 升级2.x配置
@@ -49,47 +50,7 @@ class MigrateHelper
         }
 
         await db.SaveConfigAsync(key, "模块已升级！");
-        //foreach (var module in modules)
-        //{
-        //    if (string.IsNullOrWhiteSpace(module.Type))
-        //    {
-        //        module.Type = module.Target == nameof(ModuleType.Menu)
-        //                    ? nameof(MenuType.Menu)
-        //                    : (module.Target == nameof(ModuleType.Custom) ? nameof(MenuType.Link) : nameof(MenuType.Page));
-        //        module.Target = module.Target == nameof(ModuleType.IFrame) ? nameof(LinkTarget.IFrame) : nameof(LinkTarget.None);
-        //    }
-        //    if (string.IsNullOrWhiteSpace(module.PluginData))
-        //    {
-        //        var plugins = module.ToPlugins();
-        //        module.PluginData = plugins?.ZipDataString();
-        //    }
-        //}
-
-        //var items = AppData.Data.Modules;
-        //if (items != null && items.Count > 0)
-        //    AddModules(db, modules, items, "0");
-        //await db.DeleteAllAsync<SysModule>();
-        //await db.InsertAsync(modules);
     }
-
-    //private static void AddModules(Database db, List<SysModule> modules, List<ModuleInfo> allItems, string parentId)
-    //{
-    //    var items = allItems.Where(m => m.ParentId == parentId).OrderBy(m => m.Sort).ToList();
-    //    if (items == null || items.Count == 0)
-    //        return;
-
-    //    foreach (var item in items)
-    //    {
-    //        if (!modules.Exists(m => m.Name == item.Name && m.Url == item.Url))
-    //        {
-    //            var module = SysModule.Load(db.User, item);
-    //            var parent = modules.FirstOrDefault(m => m.Code == item.ParentId);
-    //            module.ParentId = parent?.Id ?? "0";
-    //            modules.Add(module);
-    //            AddModules(db, modules, allItems, module.Code);
-    //        }
-    //    }
-    //}
 
     class AutoPage2Info
     {
@@ -126,9 +87,9 @@ class MigrateHelper
                 IdField = IdField,
                 EntityData = EntityData,
                 FlowData = FlowData,
-                Form = Form
+                Form = Form,
+                Page = Page?.ToPageInfo()
             };
-            info.Page = Page.ToPageInfo();
             return info;
         }
     }
