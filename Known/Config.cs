@@ -42,8 +42,8 @@ public partial class Config
     public static Action<AdminInfo> OnAdmin { get; set; }
 
     // 取得路由页面类型，用于权限控制。
-    internal static Dictionary<string, Type> RouteTypes { get; } = [];
-    internal static Dictionary<string, Type> FormTypes { get; } = [];
+    internal static ConcurrentDictionary<string, Type> RouteTypes { get; } = [];
+    internal static ConcurrentDictionary<string, Type> FormTypes { get; } = [];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。

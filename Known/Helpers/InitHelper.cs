@@ -18,6 +18,7 @@ static class InitHelper
 
         AddActions(assembly);
 
+        var modelTypes = new List<Type>();
         foreach (var type in types)
         {
             var attributes = type.GetCustomAttributes(false);
@@ -26,7 +27,9 @@ static class InitHelper
             var plugin = attributes.OfType<PluginAttribute>().FirstOrDefault();
             var code = attributes.OfType<CodeInfoAttribute>().FirstOrDefault();
 
-            if (menu != null)
+            if (type.IsAssignableTo(typeof(EntityBase)) || type.Name.EndsWith("Info"))
+                modelTypes.Add(type);
+            else if (menu != null)
                 AddAppMenu(type, menu, route);
             else if (plugin != null)
                 PluginConfig.AddPlugin(type, plugin, route);
@@ -40,6 +43,7 @@ static class InitHelper
                 Config.FormTypes[type.Name] = type;
         }
 
+        TypeCache.PreloadTypes(modelTypes);
         MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
     }
 
@@ -50,10 +54,8 @@ static class InitHelper
             foreach (var type in item.Types)
             {
                 var attr = type.GetCustomAttribute<ClientAttribute>();
-                if (attr == null)
-                    continue;
-
-                services.AddServices(attr.Lifetime, type);
+                if (attr != null)
+                    services.AddServices(attr.Lifetime, type);
             }
         }
     }
@@ -69,10 +71,8 @@ static class InitHelper
 
             foreach (var type in item.Types)
             {
-                if (type.IsAbstract)
-                    continue;
-
-                services.LoadType(doc, type);
+                if (!type.IsAbstract)
+                    services.LoadType(doc, type);
             }
         }
     }

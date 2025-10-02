@@ -110,7 +110,7 @@ public partial class Config
     /// <summary>
     /// 取得自定义扩展字段组件类型字典。
     /// </summary>
-    public static Dictionary<string, Type> FieldTypes { get; } = [];
+    public static ConcurrentDictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
     /// 取得框架初始模块信息列表。

@@ -10,11 +10,11 @@ public class CoreConfig
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
     // 取得后端任务类字典。
-    internal static Dictionary<string, Type> TaskTypes { get; } = [];
+    internal static ConcurrentDictionary<string, Type> TaskTypes { get; } = [];
     // 取得后端导入类字典。
-    internal static Dictionary<string, Type> ImportTypes { get; } = [];
+    internal static ConcurrentDictionary<string, Type> ImportTypes { get; } = [];
     // 取得后端工作流类字典。
-    internal static Dictionary<string, Type> FlowTypes { get; } = [];
+    internal static ConcurrentDictionary<string, Type> FlowTypes { get; } = [];
 
     internal static void Load(InitialInfo info)
     {

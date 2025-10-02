@@ -18,8 +18,7 @@ public sealed class TypeHelper
     /// <exception cref="ArgumentNullException">对象不能为空。</exception>
     public static bool IsAnonymousType(object obj)
     {
-        if (obj == null)
-            throw new ArgumentNullException(nameof(obj));
+        ArgumentNullException.ThrowIfNull(obj);
 
         var type = obj.GetType();
         return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
@@ -33,10 +32,7 @@ public sealed class TypeHelper
     /// </summary>
     /// <typeparam name="T">枚举类型。</typeparam>
     /// <returns>代码表信息列表。</returns>
-    public static List<CodeInfo> GetEnumCodes<T>() where T : Enum
-    {
-        return GetEnumCodes(typeof(T));
-    }
+    public static List<CodeInfo> GetEnumCodes<T>() where T : Enum => GetEnumCodes(typeof(T));
 
     /// <summary>
     /// 获取枚举类型代码表信息列表。
@@ -125,6 +121,57 @@ public sealed class TypeHelper
     }
 
     /// <summary>
+    /// 获取内存缓存的类型属性集合。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <returns>属性集合。</returns>
+    public static PropertyInfo[] Properties<T>() => Properties(typeof(T));
+
+    /// <summary>
+    /// 获取内存缓存的类型属性集合。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <returns>属性集合。</returns>
+    public static PropertyInfo[] Properties(Type type) => TypeCache.Properties(type);
+
+    /// <summary>
+    /// 获取内存缓存的类型属性。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <param name="name">属性名。</param>
+    /// <returns>属性信息。</returns>
+    public static PropertyInfo Property<T>(string name) => Property(typeof(T), name);
+
+    /// <summary>
+    /// 获取内存缓存的类型属性。
+    /// </summary>
+    /// <param name="type">类型。</param>
+    /// <param name="name">属性名。</param>
+    /// <returns>属性信息。</returns>
+    public static PropertyInfo Property(Type type, string name) => TypeCache.Property(type, name);
+
+    /// <summary>
+    /// 根据选择表达式获取属性信息。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <typeparam name="TValue">属性值类型。</typeparam>
+    /// <param name="selector">选择表达式。</param>
+    /// <returns>属性信息。</returns>
+    /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
+    /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
+    public static PropertyInfo Property<T, TValue>(Expression<Func<T, TValue>> selector) => ExtractProperty<T>(selector);
+
+    /// <summary>
+    /// 根据选择表达式获取属性信息。
+    /// </summary>
+    /// <typeparam name="T">类型。</typeparam>
+    /// <param name="selector">选择表达式。</param>
+    /// <returns>属性信息。</returns>
+    /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
+    /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
+    public static PropertyInfo Property<T>(Expression<Func<T, object>> selector) => ExtractProperty<T>(selector);
+
+    /// <summary>
     /// 获取数据对象属性值。
     /// </summary>
     /// <param name="model">数据对象。</param>
@@ -151,14 +198,7 @@ public sealed class TypeHelper
     /// <returns>属性泛型值。</returns>
     public static T GetPropertyValue<T>(object model, string name)
     {
-        if (model == null || string.IsNullOrWhiteSpace(name))
-            return default;
-
-        var property = Property(model.GetType(), name);
-        if (property == null || !property.CanRead)
-            return default;
-
-        var value = property.GetValue(model);
+        var value = GetPropertyValue(model, name);
         return Utils.ConvertTo<T>(value);
     }
 
@@ -201,110 +241,24 @@ public sealed class TypeHelper
         }
     }
 
-    private static readonly ConcurrentDictionary<string, System.Reflection.FieldInfo[]> typeFields = new();
-    /// <summary>
-    /// 获取内存缓存的类型字段集合。
-    /// </summary>
-    /// <param name="type">类型。</param>
-    /// <returns>字段集合。</returns>
-    public static System.Reflection.FieldInfo[] Fields(Type type)
+    private static PropertyInfo ExtractProperty<T>(LambdaExpression selector)
     {
-        return typeFields.GetOrAdd(type.FullName, type.GetFields());
-    }
+        ArgumentNullException.ThrowIfNull(selector);
 
-    private static readonly ConcurrentDictionary<string, PropertyInfo[]> typeProperties = new();
-    /// <summary>
-    /// 获取内存缓存的类型属性集合。
-    /// </summary>
-    /// <typeparam name="T">类型。</typeparam>
-    /// <returns>属性集合。</returns>
-    public static PropertyInfo[] Properties<T>() => Properties(typeof(T));
+        var memberExpr = selector.Body switch
+        {
+            MemberExpression m => m,
+            UnaryExpression { NodeType: ExpressionType.Convert, Operand: MemberExpression m } => m,
+            _ => throw new ArgumentException($"Invalid property expression: {selector}")
+        };
 
-    /// <summary>
-    /// 获取内存缓存的类型属性集合。
-    /// </summary>
-    /// <param name="type">类型。</param>
-    /// <returns>属性集合。</returns>
-    public static PropertyInfo[] Properties(Type type)
-    {
-        return typeProperties.GetOrAdd(type.FullName, GetProperties(type));
-    }
+        if (memberExpr.Member is not PropertyInfo property)
+            throw new ArgumentException($"Expression does not resolve to a property: {selector}");
 
-    /// <summary>
-    /// 获取内存缓存的类型属性。
-    /// </summary>
-    /// <typeparam name="T">类型。</typeparam>
-    /// <param name="name">属性名。</param>
-    /// <returns>属性信息。</returns>
-    public static PropertyInfo Property<T>(string name) => Property(typeof(T), name);
+        if (property.DeclaringType == typeof(T))
+            return property;
 
-    /// <summary>
-    /// 获取内存缓存的类型属性。
-    /// </summary>
-    /// <param name="type">类型。</param>
-    /// <param name="name">属性名。</param>
-    /// <returns>属性信息。</returns>
-    public static PropertyInfo Property(Type type, string name)
-    {
-        return Properties(type).FirstOrDefault(p => p.Name == name);
-    }
-
-    /// <summary>
-    /// 根据选择表达式获取属性信息。
-    /// </summary>
-    /// <typeparam name="T">类型。</typeparam>
-    /// <typeparam name="TValue">属性值类型。</typeparam>
-    /// <param name="selector">选择表达式。</param>
-    /// <returns>属性信息。</returns>
-    /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
-    /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
-    public static PropertyInfo Property<T, TValue>(Expression<Func<T, TValue>> selector)
-    {
-        if (selector is null)
-            throw new ArgumentNullException(nameof(selector));
-
-        if (selector.Body is not MemberExpression expression || expression.Member is not PropertyInfo property)
-            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
-
-        var type = typeof(T);
-        if (property.DeclaringType != type)
-            property = Property(property.DeclaringType, property.Name);//, property.PropertyType);
-
-        if (property is null)
-            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
-
-        return property;
-    }
-
-    /// <summary>
-    /// 根据选择表达式获取属性信息。
-    /// </summary>
-    /// <typeparam name="T">类型。</typeparam>
-    /// <param name="selector">选择表达式。</param>
-    /// <returns>属性信息。</returns>
-    /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
-    /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
-    public static PropertyInfo Property<T>(Expression<Func<T, object>> selector)
-    {
-        if (selector is null)
-            throw new ArgumentNullException(nameof(selector));
-
-        var expression = GetMemberExpression(selector);
-        if (expression == null)
-            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
-
-        var property = expression.Member as PropertyInfo;
-        if (property == null)
-            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
-
-        var type = typeof(T);
-        if (property.DeclaringType != type)
-            property = Property(property.DeclaringType, property.Name);
-
-        if (property is null)
-            throw new ArgumentException($"The parameter selector '{selector}' does not resolve to a public property on the type '{typeof(T)}'.", nameof(selector));
-
-        return property;
+        return Property(property.DeclaringType, property.Name);
     }
 
     /// <summary>
@@ -382,33 +336,5 @@ public sealed class TypeHelper
 
         genericArguments = null;
         return false;
-    }
-
-    private static MemberExpression GetMemberExpression<T>(Expression<Func<T, object>> selector)
-    {
-        var member = selector.Body as MemberExpression;
-        if (member != null)
-            return member;
-
-        var unary = selector.Body as UnaryExpression;
-        return unary != null ? unary.Operand as MemberExpression : null;
-    }
-
-    private static PropertyInfo[] GetProperties(Type type)
-    {
-        var properties = type.GetProperties();
-        return [.. properties.OrderBy(p => GetInheritanceDepth(p.DeclaringType))];
-    }
-
-    private static int GetInheritanceDepth(Type type)
-    {
-        int depth = 0;
-        Type current = type;
-        while (current != null && current != typeof(object))
-        {
-            depth++;
-            current = current.BaseType;
-        }
-        return depth;
     }
 }

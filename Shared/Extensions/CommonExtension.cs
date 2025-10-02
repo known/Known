@@ -113,7 +113,7 @@ public static class CommonExtension
 
         // 创建新实例
         var clone = Activator.CreateInstance(type);
-        foreach (var property in TypeHelper.Properties(type)) // 克隆属性
+        foreach (var property in type.GetProperties()) // 克隆属性
         {
             if (property.CanRead && property.CanWrite)
             {
@@ -123,7 +123,7 @@ public static class CommonExtension
             }
         }
         
-        foreach (var field in TypeHelper.Fields(type)) // 克隆字段
+        foreach (var field in type.GetFields()) // 克隆字段
         {
             var value = field.GetValue(obj);
             if (value != null)

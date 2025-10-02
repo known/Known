@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\RoleExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\SystemExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\AppHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\TypeCache.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CsvHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\DataHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MigrateHelper.cs" />
