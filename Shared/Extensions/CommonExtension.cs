@@ -122,7 +122,7 @@ public static class CommonExtension
                     property.SetValue(clone, value.Clone());
             }
         }
-        
+
         foreach (var field in type.GetFields()) // 克隆字段
         {
             var value = field.GetValue(obj);
@@ -198,40 +198,66 @@ public static class CommonExtension
     /// 移动列表中的行。
     /// </summary>
     /// <typeparam name="T">数据类型。</typeparam>
-    /// <param name="lists">数据列表。</param>
+    /// <param name="source">数据列表。</param>
     /// <param name="row">数据项。</param>
     /// <param name="isMoveUp">是否上移。</param>
-    public static void MoveRow<T>(this List<T> lists, T row, bool isMoveUp)
+    public static void MoveRow<T>(this List<T> source, T row, bool isMoveUp)
     {
-        var index = lists.IndexOf(row);
+        var index = source.IndexOf(row);
         var index1 = isMoveUp ? index - 1 : index + 1;
-        if (index1 < 0 || index1 > lists.Count - 1)
+        if (index1 < 0 || index1 > source.Count - 1)
             return;
 
-        var temp = lists[index1];
-        lists[index1] = row;
-        lists[index] = temp;
+        var temp = source[index1];
+        source[index1] = row;
+        source[index] = temp;
     }
 
     /// <summary>
     /// 获取列表分页结果。
     /// </summary>
     /// <typeparam name="T">数据类型。</typeparam>
-    /// <param name="lists">数据列表。</param>
+    /// <param name="source">数据列表。</param>
     /// <param name="criteria">查询条件。</param>
     /// <returns>分页结果。</returns>
-    public static PagingResult<T> ToPagingResult<T>(this List<T> lists, PagingCriteria criteria)
+    public static PagingResult<T> ToPagingResult<T>(this List<T> source, PagingCriteria criteria)
     {
-        if (lists == null || lists.Count == 0)
+        if (source == null || source.Count == 0)
             return new PagingResult<T>(0, []);
 
-        var pageData = lists.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
-        var result = new PagingResult<T>(lists.Count, pageData);
+        var pageData = source.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+        var result = new PagingResult<T>(source.Count, pageData);
 
         if (criteria.ExportMode != ExportMode.None)
             result.ExportData = DbUtils.GetExportData(criteria, pageData);
 
         return result;
+    }
+
+    /// <summary>
+    /// 使用线性扫描法判断列表对象指定属性值是否全部相等。
+    /// </summary>
+    /// <typeparam name="T">对象类型。</typeparam>
+    /// <typeparam name="TValue">属性类型。</typeparam>
+    /// <param name="source">数据列表。</param>
+    /// <param name="selector">属性选择器。</param>
+    /// <returns></returns>
+    public static bool AllValuesEqual<T, TValue>(this IEnumerable<T> source, Func<T, TValue> selector)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        using var enumerator = source.GetEnumerator();
+        if (!enumerator.MoveNext())
+            return true; // 空集合视为所有值相同
+
+        var firstValue = selector(enumerator.Current); // 获取第一个值作为参考
+        while (enumerator.MoveNext()) // 比较后续所有值
+        {
+            if (!EqualityComparer<TValue>.Default.Equals(selector(enumerator.Current), firstValue))
+                return false;
+        }
+
+        return true;
     }
     #endregion
 }
