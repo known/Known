@@ -63,21 +63,9 @@ public class FormRow<TItem> where TItem : class, new()
     /// <returns>表单行对象。</returns>
     public FormRow<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, Action<ColumnInfo> action = null)
     {
-        var property = TypeHelper.Property(selector);
-        return AddColumn(property, action);
-    }
-
-    /// <summary>
-    /// 添加一列表单字段。
-    /// </summary>
-    /// <param name="property">字段属性。</param>
-    /// <param name="action">字段参数设置委托方法。</param>
-    /// <returns>表单行对象。</returns>
-    public FormRow<TItem> AddColumn(PropertyInfo property, Action<ColumnInfo> action = null)
-    {
-        var column = new ColumnInfo(property);
-        action?.Invoke(column);
-        return AddColumn(column);
+        var field = TypeHelper.Field(selector);
+        var column = field.GetColumn();
+        return AddColumn(column, action);
     }
 
     /// <summary>
@@ -93,5 +81,11 @@ public class FormRow<TItem> where TItem : class, new()
             Fields.Add(new FieldModel<TItem>(Form, item));
         }
         return this;
+    }
+
+    internal FormRow<TItem> AddColumn(ColumnInfo column, Action<ColumnInfo> action = null)
+    {
+        action?.Invoke(column);
+        return AddColumn(column);
     }
 }

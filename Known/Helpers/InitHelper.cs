@@ -17,46 +17,24 @@ static class InitHelper
         Inits[assembly.FullName] = new InitInfo(assembly, types);
 
         AddActions(assembly);
-
-        var modelTypes = new List<Type>();
-        foreach (var type in types)
-        {
-            var attributes = type.GetCustomAttributes(false);
-            var route = attributes.OfType<RouteAttribute>().FirstOrDefault();
-            var menu = attributes.OfType<AppMenuAttribute>().FirstOrDefault();
-            var plugin = attributes.OfType<PluginAttribute>().FirstOrDefault();
-            var code = attributes.OfType<CodeInfoAttribute>().FirstOrDefault();
-
-            if (type.IsAssignableTo(typeof(EntityBase)) || type.Name.EndsWith("Info"))
-                modelTypes.Add(type);
-            else if (menu != null)
-                AddAppMenu(type, menu, route);
-            else if (plugin != null)
-                PluginConfig.AddPlugin(type, plugin, route);
-            else if (code != null)
-                Cache.AttachCodes(type);
-            else if (type.IsEnum)
-                AddEnum(type);
-            else if (type.IsAssignableTo(typeof(ICustomField)) && type.Name != nameof(ICustomField) && type.Name != nameof(CustomField))
-                Config.FieldTypes[type.Name] = type;
-            else if (type.IsAssignableTo(typeof(BaseForm)))
-                Config.FormTypes[type.Name] = type;
-        }
-
-        TypeCache.PreloadTypes(modelTypes);
-        MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
     }
 
     internal static void LoadClients(this IServiceCollection services)
     {
         foreach (var item in Inits.Values)
         {
-            foreach (var type in item.Types)
+            var modelTypes = new List<Type>();
+            Parallel.ForEach(item.Types, type =>
             {
-                var attr = type.GetCustomAttribute<ClientAttribute>();
+                var attributes = type.GetCustomAttributes(false);
+                LoadCommon(type, attributes, modelTypes);
+
+                var attr = attributes.OfType<ClientAttribute>().FirstOrDefault();
                 if (attr != null)
                     services.AddServices(attr.Lifetime, type);
-            }
+            });
+            TypeCache.PreloadTypes(modelTypes);
+            MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
         }
     }
 
@@ -69,12 +47,42 @@ static class InitHelper
             if (!string.IsNullOrWhiteSpace(xml))
                 doc.LoadXml(xml);
 
-            foreach (var type in item.Types)
+            var modelTypes = new List<Type>();
+            Parallel.ForEach(item.Types, type =>
             {
-                if (!type.IsAbstract)
-                    services.LoadType(doc, type);
-            }
+                if (type.IsAbstract)
+                    return;
+
+                var attributes = type.GetCustomAttributes(false);
+                LoadCommon(type, attributes, modelTypes);
+                services.LoadType(doc, type);
+            });
+            TypeCache.PreloadTypes(modelTypes);
+            MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
         }
+    }
+
+    private static void LoadCommon(Type type, object[] attributes, List<Type> modelTypes)
+    {
+        var route = attributes.OfType<RouteAttribute>().FirstOrDefault();
+        var menu = attributes.OfType<AppMenuAttribute>().FirstOrDefault();
+        var plugin = attributes.OfType<PluginAttribute>().FirstOrDefault();
+        var code = attributes.OfType<CodeInfoAttribute>().FirstOrDefault();
+
+        if (type.IsAssignableTo(typeof(EntityBase)) || type.Name.EndsWith("Info"))
+            modelTypes.Add(type);
+        else if (menu != null)
+            AddAppMenu(type, menu, route);
+        else if (plugin != null)
+            PluginConfig.AddPlugin(type, plugin, route);
+        else if (code != null)
+            Cache.AttachCodes(type);
+        else if (type.IsEnum)
+            Cache.AttachEnumCodes(type);
+        else if (type.IsAssignableTo(typeof(ICustomField)) && type.Name != nameof(ICustomField) && type.Name != nameof(CustomField))
+            Config.FieldTypes[type.Name] = type;
+        else if (type.IsAssignableTo(typeof(BaseForm)))
+            Config.FormTypes[type.Name] = type;
     }
 
     private static void AddActions(Assembly assembly)
@@ -110,12 +118,6 @@ static class InitHelper
 
             Language.DefaultDatas.Add(info.Name);
         }
-    }
-
-    private static void AddEnum(Type type)
-    {
-        Cache.AttachEnumCodes(type);
-        Language.DefaultDatas.AddEnum(type);
     }
 
     private static string GetAssemblyXml(Assembly assembly)

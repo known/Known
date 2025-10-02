@@ -80,46 +80,6 @@ public sealed class TypeHelper
         ];
     }
 
-    internal static List<FieldInfo> GetFields(Type entityType, Language language = null)
-    {
-        var fields = new List<FieldInfo>();
-        var properties = Properties(entityType);
-        if (properties == null || properties.Length == 0)
-            return fields;
-
-        var isEntity = entityType.IsSubclassOf(typeof(EntityBase));
-        var baseFields = GetBaseFields();
-        foreach (var item in properties)
-        {
-            if (isEntity && baseFields.Exists(f => f.Id == item.Name))
-                continue;
-
-            if (item.CanRead && item.CanWrite && !item.GetMethod.IsVirtual)
-            {
-                var field = GetField(item);
-                field.Name = language?.GetText("", item.Name, field.Name) ?? field.Name;
-                fields.Add(field);
-            }
-        }
-        return fields;
-    }
-
-    internal static FieldInfo GetField(PropertyInfo item)
-    {
-        var field = new FieldInfo
-        {
-            Id = item.Name,
-            Name = item.DisplayName(),
-            Type = item.GetFieldType(),
-            Length = item.MaxLength()?.ToString(),
-            Required = item.IsRequired(),
-            IsKey = item.IsKey()
-        };
-        if (item.PropertyType == typeof(bool))
-            field.Required = true;
-        return field;
-    }
-
     /// <summary>
     /// 获取内存缓存的类型属性集合。
     /// </summary>
@@ -160,6 +120,7 @@ public sealed class TypeHelper
     /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
     /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
     public static PropertyInfo Property<T, TValue>(Expression<Func<T, TValue>> selector) => ExtractProperty<T>(selector);
+    internal static TypeFieldInfo Field<T, TValue>(Expression<Func<T, TValue>> selector) => ExtractField<T>(selector);
 
     /// <summary>
     /// 根据选择表达式获取属性信息。
@@ -170,6 +131,7 @@ public sealed class TypeHelper
     /// <exception cref="ArgumentNullException">选择表达式不能为空。</exception>
     /// <exception cref="ArgumentException">表达式不是类型属性成员。</exception>
     public static PropertyInfo Property<T>(Expression<Func<T, object>> selector) => ExtractProperty<T>(selector);
+    internal static TypeFieldInfo Field<T>(Expression<Func<T, object>> selector) => ExtractField<T>(selector);
 
     /// <summary>
     /// 获取数据对象属性值。
@@ -259,6 +221,23 @@ public sealed class TypeHelper
             return property;
 
         return Property(property.DeclaringType, property.Name);
+    }
+
+    private static TypeFieldInfo ExtractField<T>(LambdaExpression selector)
+    {
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var memberExpr = selector.Body switch
+        {
+            MemberExpression m => m,
+            UnaryExpression { NodeType: ExpressionType.Convert, Operand: MemberExpression m } => m,
+            _ => throw new ArgumentException($"Invalid property expression: {selector}")
+        };
+
+        if (memberExpr.Member is not PropertyInfo property)
+            throw new ArgumentException($"Expression does not resolve to a property: {selector}");
+
+        return TypeCache.Field(property.DeclaringType, property.Name);
     }
 
     /// <summary>

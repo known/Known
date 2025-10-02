@@ -186,11 +186,11 @@ public partial class Database
         var fields = new List<FieldInfo>();
         foreach (var selector in selectors)
         {
-            var property = TypeHelper.Property(selector);
-            if (exists.Exists(f => f.Id.Equals(property.Name, StringComparison.OrdinalIgnoreCase)))
+            var item = TypeHelper.Field(selector);
+            if (exists.Exists(f => f.Id.Equals(item.Name, StringComparison.OrdinalIgnoreCase)))
                 continue;
 
-            var field = TypeHelper.GetField(property);
+            var field = item.GetField();
             fields.Add(field);
         }
         var script = Provider.GetAddFieldScript(tableName, fields);

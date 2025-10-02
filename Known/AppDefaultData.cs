@@ -2,60 +2,6 @@
 
 class AppDefaultData
 {
-    //internal static void Load(AppDataInfo data)
-    //{
-    //    if (data.TopNavs.Count == 0)
-    //        data.TopNavs = LoadTopNavs();
-    //    LoadModules(data);
-    //    LoadMenus(data);
-    //}
-
-    // 加载配置的一级模块
-    //private static void LoadModules(AppDataInfo data)
-    //{
-    //    foreach (var item in Config.Modules)
-    //    {
-    //        if (!data.Modules.Exists(m => m.Id == item.Id))
-    //            data.Modules.Add(item);
-    //    }
-    //}
-
-    // 加载Menu特性的组件菜单
-    //private static void LoadMenus(AppDataInfo data)
-    //{
-    //    foreach (var item in Config.Menus)
-    //    {
-    //        //if (item.Parent != "0" && !data.Modules.Exists(m => m.Id == item.Parent))
-    //        //    continue;
-
-    //        AddModule(data, item);
-    //    }
-    //}
-
-    //private static void AddModule(AppDataInfo data, MenuAttribute item)
-    //{
-    //    var info = data.Modules.FirstOrDefault(m => m.Id == item.Page.FullName);
-    //    if (info == null)
-    //    {
-    //        info = new ModuleInfo
-    //        {
-    //            Id = item.Page.FullName,
-    //            Type = nameof(MenuType.Link),
-    //            Name = item.Name,
-    //            Icon = item.Icon,
-    //            ParentId = item.Parent,
-    //            Sort = item.Sort,
-    //            Url = item.Url,
-    //            Target = nameof(LinkTarget.None),
-    //            IsCode = true
-    //        };
-    //        data.Modules.Add(info);
-    //    }
-    //    var table = AppData.CreateAutoPage(item.Page);
-    //    if (table != null)
-    //        info.Plugins.AddPlugin(table);
-    //}
-
     internal static AutoPageInfo CreateAutoPage(Type pageType, Type entityType = null)
     {
         var info = new AutoPageInfo();
@@ -108,90 +54,21 @@ class AppDefaultData
     private static void SetProperties(AutoPageInfo info, Type entityType)
     {
         var entity = new EntityInfo { Id = entityType.Name, Name = entityType.DisplayName() };
-        var properties = TypeHelper.Properties(entityType);
-        foreach (var item in properties)
+        var fields = TypeCache.Fields(entityType);
+        foreach (var item in fields)
         {
-            var column = item.GetCustomAttribute<ColumnAttribute>();
+            var column = item.GetPageColumn();
             if (column != null)
-                SetPageColumns(info, item, column);
+                info.Page.Columns.Add(column);
 
-            var form = item.GetCustomAttribute<FormAttribute>();
+            var form = item.GetFormField();
             if (form != null)
-                SetFormFields(info, item, form);
+                info.Form.Fields.Add(form);
 
-            var field = GetField(item);
-            if (field != null)
+            var field = item.GetField();
+            if (field != null && !string.IsNullOrWhiteSpace(field.Name))
                 entity.Fields.Add(field);
         }
         info.EntityData = DataHelper.ToEntityData(entity);
-    }
-
-    private static void SetPageColumns(AutoPageInfo info, PropertyInfo item, ColumnAttribute column)
-    {
-        var type = column.Type;
-        if (type == FieldType.Text)
-            type = item.GetFieldType();
-        info.Page.Columns.Add(new PageColumnInfo
-        {
-            Id = item.Name,
-            Name = item.DisplayName(),
-            Length = item.GetFieldLength(),
-            Required = item.IsRequired(),
-            Category = item.Category(),
-            Width = column.Width > 0 ? column.Width : item.GetColumnWidth(type),
-            Ellipsis = column.Ellipsis,
-            IsSum = column.IsSum,
-            IsSort = column.IsSort,
-            DefaultSort = column.DefaultSort,
-            IsViewLink = column.IsViewLink,
-            IsQuery = column.IsQuery,
-            IsQueryAll = column.IsQueryAll,
-            QueryValue = column.QueryValue,
-            Type = type,
-            Fixed = column.Fixed,
-            Align = column.Align
-        });
-    }
-
-    private static void SetFormFields(AutoPageInfo info, PropertyInfo item, FormAttribute form)
-    {
-        var type = FieldType.Text;
-        if (!string.IsNullOrWhiteSpace(form.Type))
-            type = Utils.ConvertTo<FieldType>(form.Type);
-        if (type == FieldType.Text)
-            type = item.PropertyType.GetFieldType();
-        info.Form.Fields.Add(new FormFieldInfo
-        {
-            Id = item.Name,
-            Name = item.DisplayName(),
-            Category = item.Category(),
-            Length = item.GetFieldLength(),
-            Required = item.IsRequired(),
-            Row = form.Row,
-            Column = form.Column,
-            Type = type,
-            CustomField = form.CustomField,
-            ReadOnly = form.ReadOnly,
-            Placeholder = form.Placeholder,
-            FieldValue = form.FieldValue,
-            Rows = form.Rows,
-            Unit = form.Unit
-        });
-    }
-
-    private static FieldInfo GetField(PropertyInfo item)
-    {
-        var name = item.DisplayName();
-        if (string.IsNullOrWhiteSpace(name))
-            return null;
-
-        return new FieldInfo
-        {
-            Id = item.Name,
-            Name = name,
-            Length = item.GetFieldLength(),
-            Required = item.IsRequired(),
-            Type = item.GetFieldType()
-        };
     }
 }

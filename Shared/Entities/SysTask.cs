@@ -24,7 +24,8 @@ public class SysTask : EntityBase
     public string Type { get; set; }
 
     /// <summary>
-    /// 取得或设置名称 
+    /// 取得或设置名称。
+    /// </summary>
     [Required]
     [MaxLength(50)]
     [Column(Width = 150, IsQuery = true)]

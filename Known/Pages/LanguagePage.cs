@@ -37,9 +37,12 @@ public class LanguagePage : BaseTablePage<SysLanguage>
             if (!info.Enabled || Table.AllColumns.Exists(d => d.Id == info.Id))
                 continue;
 
-            var property = TypeHelper.Property<SysLanguage>(info.Id);
-            if (property != null)
-                Table.AddColumn(property).Name(info.Name);
+            var field = TypeCache.Field(typeof(SysLanguage), info.Id);
+            if (field != null)
+            {
+                var column = field.GetColumn();
+                Table.AddColumn(column).Name(info.Name);
+            }
         }
 
         Table.Toolbar.ShowCount = 6;
@@ -127,7 +130,7 @@ public class LanguagePage : BaseTablePage<SysLanguage>
             Width = 600,
             Content = b => b.Component<LanguageSetting>().Set(c => c.DataSource, Infos).Build(value => table = value)
         };
-        model.AddAction(Language.Reset, this.Callback<MouseEventArgs>(e=> table?.Reset()));
+        model.AddAction(Language.Reset, this.Callback<MouseEventArgs>(e => table?.Reset()));
         model.OnOk = async () =>
         {
             await Service.SaveLanguageSettingsAsync(table.DataSource);
@@ -149,8 +152,9 @@ class LanguageForm : BaseForm<SysLanguage>
             if (!info.Enabled)
                 continue;
 
-            var property = TypeHelper.Property<SysLanguage>(info.Id);
-            Model.AddRow().AddColumn(property, c => c.Label = info.Name);
+            var field = TypeCache.Field(typeof(SysLanguage), info.Id);
+            var column = field.GetForm();
+            Model.AddRow().AddColumn(column, c => c.Label = info.Name);
         }
     }
 }

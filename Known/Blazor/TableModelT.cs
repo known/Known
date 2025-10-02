@@ -30,9 +30,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         AdvSearch = true;
         IsDictionary = typeof(TItem).IsDictionary();
         if (mode == TableColumnMode.Property)
-            AllColumns = [.. TypeHelper.Properties<TItem>().Select(p => new ColumnInfo(p))];
+            AllColumns = TypeCache.Model(typeof(TItem)).GetColumns(false);
         else if (mode == TableColumnMode.Attribute)
-            AllColumns = GetAttributeColumns(typeof(TItem));
+            AllColumns = TypeCache.Model(typeof(TItem)).GetColumns(true);
 
         if (page != null)
         {
@@ -170,22 +170,5 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar?.Items?.Clear();
         Actions?.Clear();
         Criteria?.Clear();
-    }
-
-    private static List<ColumnInfo> GetAttributeColumns(Type type)
-    {
-        var columns = new List<ColumnInfo>();
-        var properties = TypeHelper.Properties<TItem>();
-        foreach (var item in properties)
-        {
-            var attr = item.GetCustomAttribute<ColumnAttribute>();
-            if (attr == null)
-                continue;
-
-            attr.Property = item;
-            var column = new ColumnInfo(attr);
-            columns.Add(column);
-        }
-        return columns;
     }
 }

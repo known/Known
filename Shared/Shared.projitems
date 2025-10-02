@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AdminInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModelInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysCompany.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysLog.cs" />

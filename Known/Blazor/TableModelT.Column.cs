@@ -37,31 +37,10 @@ partial class TableModel<TItem>
     /// <returns>栏位建造者对象。</returns>
     public ColumnBuilder<TItem> AddColumn<TValue>(Expression<Func<TItem, TValue>> selector, bool isQuery = false)
     {
-        var property = TypeHelper.Property(selector);
-        return AddColumn(property, isQuery);
-    }
-
-    /// <summary>
-    /// 添加一个表格栏位。
-    /// </summary>
-    /// <param name="property">栏位属性。</param>
-    /// <param name="isQuery">是否是查询字段。</param>
-    /// <returns>栏位建造者对象。</returns>
-    public ColumnBuilder<TItem> AddColumn(PropertyInfo property, bool isQuery = false)
-    {
-        var column = new ColumnInfo(property) { IsQuery = isQuery };
-        if (property.DeclaringType != typeof(TItem))
-            column.Id = $"{property.DeclaringType.Name}.{property.Name}";
-        var allColumn = AllColumns.FirstOrDefault(c => c.Id == property.Name);
-        if (allColumn == null)
-        {
-            allColumn = column.Clone();
-            AllColumns.Add(allColumn);
-        }
-        Columns.Add(column);
-        if (isQuery)
-            AddQueryColumn(column);
-        return new ColumnBuilder<TItem>(column, allColumn, this);
+        var field = TypeHelper.Field(selector);
+        var column = field.GetColumn();
+        column.IsQuery = isQuery;
+        return AddColumn(column, isQuery);
     }
 
     /// <summary>
@@ -69,7 +48,7 @@ partial class TableModel<TItem>
     /// </summary>
     public void AddAttributeColumns()
     {
-        AllColumns = GetAttributeColumns(typeof(TItem));
+        AllColumns = TypeCache.Model(typeof(TItem)).GetColumns(true);
         Columns.Clear();
         if (AllColumns != null && AllColumns.Count > 0)
             Columns.AddRange(AllColumns);
@@ -82,8 +61,8 @@ partial class TableModel<TItem>
     /// <param name="selector">栏位属性选择表达式。</param>
     public void AddQueryColumn(Expression<Func<TItem, object>> selector)
     {
-        var property = TypeHelper.Property(selector);
-        var column = new ColumnInfo(property);
+        var field = TypeHelper.Field(selector);
+        var column = field.GetColumn();
         AddQueryColumn(column);
     }
 
@@ -115,6 +94,21 @@ partial class TableModel<TItem>
         var column = new ColumnInfo { Id = id, Name = name };
         QueryColumns.Add(column);
         QueryData[column.Id] = new QueryInfo(id, type, value);
+    }
+
+    internal ColumnBuilder<TItem> AddColumn(ColumnInfo column, bool isQuery = false)
+    {
+        column.IsQuery = isQuery;
+        var allColumn = AllColumns.FirstOrDefault(c => c.Id == column.Id);
+        if (allColumn == null)
+        {
+            allColumn = column.Clone();
+            AllColumns.Add(allColumn);
+        }
+        Columns.Add(column);
+        if (isQuery)
+            AddQueryColumn(column);
+        return new ColumnBuilder<TItem>(column, allColumn, this);
     }
 
     internal bool SetAutoColumns(List<TItem> dataSource)

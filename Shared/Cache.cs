@@ -5,9 +5,9 @@
 /// </summary>
 public sealed class Cache
 {
-    private static readonly string KeyCodes = $"Known_Codes_{Config.App.Id}";
     private static readonly CacheService<object> cache = new();
-    private static readonly CacheService<UserInfo> user = new();
+    private static readonly CacheService<List<CodeInfo>> codeCache = new();
+    private static readonly CacheService<UserInfo> userCache = new();
 
     private Cache() { }
 
@@ -53,7 +53,7 @@ public sealed class Cache
     /// <returns>用户信息。</returns>
     public static UserInfo GetUser(string userName)
     {
-        return user.Get(userName);
+        return userCache.Get(userName);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public sealed class Cache
         if (string.IsNullOrWhiteSpace(token))
             return null;
 
-        return user.Values.FirstOrDefault(x => x.Token == token);
+        return userCache.Values.FirstOrDefault(x => x.Token == token);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public sealed class Cache
         if (timeSpan == null)
             timeSpan = Config.App.AuthExpired;
 
-        user.Set(info.UserName, info, timeSpan);
+        userCache.Set(info.UserName, info, timeSpan);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public sealed class Cache
         if (info == null)
             return;
 
-        user.Remove(info.UserName);
+        userCache.Remove(info.UserName);
     }
 
     /// <summary>
@@ -104,7 +104,8 @@ public sealed class Cache
     /// <returns>代码表列表。</returns>
     public static List<CodeInfo> GetCodes<T>() where T : Enum
     {
-        return GetCodes(typeof(T).Name);
+        return codeCache.Get(typeof(T));
+        //return GetCodes(typeof(T).Name);
     }
 
     /// <summary>
@@ -124,25 +125,14 @@ public sealed class Cache
     /// <returns>代码表列表。</returns>
     public static List<CodeInfo> GetCodes(string category, string nameFormat, Language language = null)
     {
-        var infos = new List<CodeInfo>();
         if (string.IsNullOrWhiteSpace(category))
-            return infos;
+            return [];
 
-        var codes = GetCodes().Where(c => c.Category == category).ToList();
+        var codes = codeCache.Get(category);
         if (codes == null || codes.Count == 0)
             codes = [.. category.Split(',', ';', '，', '；').Select(d => new CodeInfo(d, d))];
 
-        foreach (var item in codes)
-        {
-            var name = language != null ? language[item.Name] : item.Name;
-            var code = new CodeInfo(item.Category, item.Code, item.Name);
-            if (code.Code != code.Name && !string.IsNullOrWhiteSpace(nameFormat))
-                code.Name = nameFormat.Replace("{Code}", item.Code).Replace("{Name}", name);
-            else
-                code.Name = name;
-            infos.Add(code);
-        }
-        return infos;
+        return codes;
     }
 
     /// <summary>
@@ -208,47 +198,52 @@ public sealed class Cache
         if (codes == null || codes.Count == 0)
             return;
 
-        var datas = new List<CodeInfo>();
-        var items = GetCodes();
-        if (items != null && items.Count > 0)
+        var categories = codes.Select(c => c.Category).Distinct();
+        foreach (var category in categories)
         {
-            foreach (var item in items)
-            {
-                if (!codes.Exists(c => c.Category == item.Category))
-                    datas.Add(item);
-            }
+            var items = codes.Where(c => c.Category == category).ToList();
+            codeCache.Set(category, codes);
         }
-
-        datas.AddRange(codes);
-        Set(KeyCodes, datas);
     }
 
     internal static void AttachCodes(Type type)
     {
-        var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+        var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
         if (fields == null || fields.Length == 0)
             return;
 
-        var datas = new List<CodeInfo>();
+        var codes = new List<CodeInfo>();
         foreach (var item in fields)
         {
             var name = item.GetValue(null).ToString();
             var code = new CodeInfo(type.Name, name, name, null);
-            datas.Add(code);
+            codes.Add(code);
+
+            if (item.IsLiteral && !item.IsInitOnly)
+                Language.DefaultDatas.Add(name);
         }
-        AttachCodes(datas);
+        codeCache.Set(type.Name, codes);
     }
 
     internal static void AttachEnumCodes(Type type)
     {
-        var codes = TypeHelper.GetEnumCodes(type);
-        AttachCodes(codes);
-    }
+        var codes = new List<CodeInfo>();
+        var values = Enum.GetValues(type);
+        foreach (Enum item in values)
+        {
+            var fieldName = Enum.GetName(type, item);
+            var field = type.GetField(fieldName);
+            if (field.GetCustomAttribute<CodeIgnoreAttribute>() != null)
+                continue;
 
-    internal static List<CodeInfo> GetCodes()
-    {
-        var codes = Get<List<CodeInfo>>(KeyCodes);
-        codes ??= [];
-        return codes;
+            var code = Enum.GetName(type, item);
+            var name = item.GetDescription();
+            if (string.IsNullOrWhiteSpace(name))
+                name = code;
+            else
+                Language.DefaultDatas.Add(name);
+            codes.Add(new CodeInfo(type.Name, code, name, null));
+        }
+        codeCache.Set(type.Name, codes);
     }
 }

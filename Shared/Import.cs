@@ -117,8 +117,8 @@ public abstract class ImportBase<TItem>(ImportContext context) : ImportBase(cont
     /// <param name="selector">数据栏位属性选择表达式。</param>
     protected void AddColumn<TValue>(Expression<Func<TItem, TValue>> selector)
     {
-        var property = TypeHelper.Property(selector);
-        var column = new ColumnInfo(property);
+        var field = TypeHelper.Field(selector);
+        var column = field.GetColumn();
         Columns.Add(column);
     }
 }
@@ -256,8 +256,8 @@ public class ImportRow<TItem> : Dictionary<string, string>
 
     private string GetKey<TValue>(Expression<Func<TItem, TValue>> selector)
     {
-        var property = TypeHelper.Property(selector);
-        var column = new ColumnInfo(property);
+        var field = TypeHelper.Field(selector);
+        var column = field.GetColumn();
         return context.Language.GetFieldName<TItem>(column);
     }
 }

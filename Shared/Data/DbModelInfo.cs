@@ -39,10 +39,24 @@ public class DbModelInfo
     /// <returns></returns>
     public List<FieldInfo> GetFields(bool includeBase = false)
     {
-        var allFields = Type.IsSubclassOf(typeof(EntityBase)) && includeBase ? TypeHelper.GetBaseFields() : [];
-        var fields = TypeHelper.GetFields(Type);
+        var isEntity = Type.IsSubclassOf(typeof(EntityBase));
+        var infos = isEntity && includeBase ? TypeHelper.GetBaseFields() : [];
+        var fields = TypeCache.Fields(Type);
         if (fields != null && fields.Count > 0)
-            allFields.AddRange(fields);
-        return allFields;
+        {
+            foreach (var item in fields)
+            {
+                var property = item.Property;
+                if (infos.Exists(f => f.Id == item.Name) || property == null)
+                    continue;
+
+                if (property.CanRead && property.CanWrite && !property.GetMethod.IsVirtual)
+                {
+                    var field = item.GetField();
+                    infos.Add(field);
+                }
+            }
+        }
+        return infos;
     }
 }

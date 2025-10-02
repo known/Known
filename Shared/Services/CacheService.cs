@@ -2,8 +2,8 @@
 
 class CacheService<T>
 {
-    internal static readonly ConcurrentDictionary<string, T> cached = new();
-    private static readonly ConcurrentDictionary<string, Timer> timers = new();
+    internal static readonly ConcurrentDictionary<object, T> cached = new();
+    private static readonly ConcurrentDictionary<object, Timer> timers = new();
 
     public ICollection<T> Values => cached.Values;
 
@@ -17,9 +17,9 @@ class CacheService<T>
         timers.Clear();
     }
 
-    public T Get(string key)
+    public T Get(object key)
     {
-        if (string.IsNullOrWhiteSpace(key))
+        if (key == null)
             return default;
 
         if (!cached.TryGetValue(key, out T value))
@@ -28,9 +28,9 @@ class CacheService<T>
         return value;
     }
 
-    public void Remove(string key)
+    public void Remove(object key)
     {
-        if (string.IsNullOrEmpty(key))
+        if (key == null)
             return;
 
         cached.TryRemove(key, out _);
@@ -40,9 +40,9 @@ class CacheService<T>
         }
     }
 
-    public void Set(string key, T value, TimeSpan? timeSpan = null)
+    public void Set(object key, T value, TimeSpan? timeSpan = null)
     {
-        if (string.IsNullOrEmpty(key))
+        if (key == null)
             return;
 
         cached[key] = value;
@@ -57,9 +57,8 @@ class CacheService<T>
         }
     }
 
-    private void RemoveCacheItem(object state)
+    private void RemoveCacheItem(object key)
     {
-        var key = (string)state;
         Remove(key);
     }
 }

@@ -46,39 +46,9 @@ public static class TypeExtension
     {
         return info?.GetCustomAttribute<DescriptionAttribute>()?.Description;
     }
-
-    /// <summary>
-    /// 获取成员关联的Category特性的显示名称。
-    /// </summary>
-    /// <param name="info">成员对象。</param>
-    /// <returns>属性显示名称。</returns>
-    public static string Category(this MemberInfo info)
-    {
-        return info?.GetCustomAttribute<CategoryAttribute>()?.Category;
-    }
     #endregion
 
     #region Property
-    /// <summary>
-    /// 获取属性是否关联Key特性。
-    /// </summary>
-    /// <param name="info">属性对象。</param>
-    /// <returns>是否必填。</returns>
-    public static bool IsKey(this PropertyInfo info)
-    {
-        return info?.GetCustomAttribute<KeyAttribute>() is not null;
-    }
-
-    /// <summary>
-    /// 获取属性是否关联Required特性。
-    /// </summary>
-    /// <param name="info">属性对象。</param>
-    /// <returns>是否必填。</returns>
-    public static bool IsRequired(this PropertyInfo info)
-    {
-        return info?.GetCustomAttribute<RequiredAttribute>() is not null;
-    }
-
     /// <summary>
     /// 获取属性关联的MinLength特性的长度。
     /// </summary>
@@ -99,37 +69,6 @@ public static class TypeExtension
         return info?.GetCustomAttribute<MaxLengthAttribute>()?.Length;
     }
 
-    internal static string GetFieldLength(this PropertyInfo info)
-    {
-        var type = info.GetFieldType();
-        return info.GetFieldLength(type);
-    }
-
-    internal static string GetFieldLength(this PropertyInfo info, FieldType type)
-    {
-        if (type == FieldType.Switch) return "50";
-        if (type == FieldType.Number) return "18,5";
-        return info.MaxLength()?.ToString();
-    }
-
-    internal static int? GetColumnWidth(this PropertyInfo info)
-    {
-        var type = info.GetFieldType();
-        return info.GetColumnWidth(type);
-    }
-
-    internal static int? GetColumnWidth(this PropertyInfo info, FieldType type)
-    {
-        var width = type.GetColumnWidth();
-        if (width > 0)
-            return width;
-
-        var length = info.MaxLength();
-        if (length == null) return null;
-        if (length < 100) return length * 2;
-        return length;
-    }
-
     /// <summary>
     /// 获取表格栏位宽度。
     /// </summary>
@@ -139,15 +78,6 @@ public static class TypeExtension
     {
         var fieldType = type.GetFieldType();
         return fieldType.GetColumnWidth();
-    }
-
-    internal static FieldType GetFieldType(this PropertyInfo info)
-    {
-        var form = info.GetCustomAttribute<FormAttribute>();
-        if (form != null && !string.IsNullOrWhiteSpace(form.Type))
-            return Utils.ConvertTo<FieldType>(form.Type);
-
-        return info.PropertyType.GetFieldType();
     }
 
     /// <summary>
