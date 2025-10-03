@@ -153,8 +153,15 @@ class LanguageForm : BaseForm<SysLanguage>
                 continue;
 
             var field = TypeCache.Field(typeof(SysLanguage), info.Id);
-            var column = field.GetForm();
-            Model.AddRow().AddColumn(column, c => c.Label = info.Name);
+            var column = new ColumnInfo
+            {
+                IsForm = true,
+                Property = field.Property,
+                Id = field.Name,
+                Name = info.Name,
+                Required = field.Required
+            };
+            Model.AddRow().AddColumn(column);
         }
     }
 }

@@ -58,20 +58,22 @@ public static class ValidationExtension
     {
         //String,Number,Boolean,Regexp,Integer,Float,Array,Object,Enum,Date,Url,Email
         var type = FormFieldType.String;
-        if (propertyType.IsEnum)
-            type = FormFieldType.String;
-        else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
-            type = FormFieldType.Date;
-        else if (propertyType.IsArray)
-            type = FormFieldType.Array;
-        else if (propertyType == typeof(int) || propertyType == typeof(int?) ||
-            propertyType == typeof(long) || propertyType == typeof(long?))
-            type = FormFieldType.Integer;
-        else if (propertyType == typeof(float) || propertyType == typeof(float?) ||
-            propertyType == typeof(decimal) || propertyType == typeof(decimal?) ||
-            propertyType == typeof(double) || propertyType == typeof(double?))
-            type = FormFieldType.Float;
-
+        if (propertyType != null)
+        {
+            if (propertyType.IsEnum)
+                type = FormFieldType.String;
+            else if (propertyType == typeof(DateTime) || propertyType == typeof(DateTime?))
+                type = FormFieldType.Date;
+            else if (propertyType.IsArray)
+                type = FormFieldType.Array;
+            else if (propertyType == typeof(int) || propertyType == typeof(int?) ||
+                propertyType == typeof(long) || propertyType == typeof(long?))
+                type = FormFieldType.Integer;
+            else if (propertyType == typeof(float) || propertyType == typeof(float?) ||
+                propertyType == typeof(decimal) || propertyType == typeof(decimal?) ||
+                propertyType == typeof(double) || propertyType == typeof(double?))
+                type = FormFieldType.Float;
+        }
         return new FormValidationRule { Type = type, Required = true, Message = message };
     }
 

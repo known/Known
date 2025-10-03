@@ -108,7 +108,7 @@ class PropertyAccessor
         // 转换值到目标类型
         var valueCast = Expression.Convert(
             Expression.Call(
-                typeof(PropertyAccessor).GetMethod("ConvertValue", BindingFlags.Static | BindingFlags.NonPublic),
+                typeof(PropertyAccessor).GetMethod(nameof(ConvertValue), BindingFlags.Static | BindingFlags.NonPublic),
                 Expression.Constant(property.PropertyType),
                 value
             ),
@@ -118,4 +118,7 @@ class PropertyAccessor
         var setterCall = Expression.Call(instanceCast, property.GetSetMethod(), valueCast);
         return Expression.Lambda<Action<object, object>>(setterCall, instance, value).Compile();
     }
+
+    // 类型转换方法（复用原有逻辑）
+    private static object ConvertValue(Type targetType, object value) => Utils.ConvertTo(targetType, value);
 }

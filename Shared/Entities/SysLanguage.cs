@@ -9,6 +9,7 @@ public class SysLanguage : EntityBase
     /// <summary>
     /// 取得或设置简体中文。
     /// </summary>
+    [Required]
     [MaxLength(200)]
     [Language("zh-CN", "简", true, true)]
     [Column(IsQuery = true, IsViewLink = true)]

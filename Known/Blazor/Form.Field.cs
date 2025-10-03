@@ -44,7 +44,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             if (Form.IsDictionary)
                 return GetDictionaryValue(Form.Data as Dictionary<string, object>, Column);
 
-            return Property?.GetFieldValue(Form.Data);
+            return TypeHelper.GetPropertyValue(Form.Data, Column.Id);
         }
         set
         {
@@ -53,7 +53,7 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
                 if (Form.IsDictionary)
                     (Form.Data as Dictionary<string, object>).SetValue(Column.Id, value);
                 else if (Property?.SetMethod is not null)
-                    Property?.SetFieldValue(Form.Data, value);
+                    TypeHelper.SetPropertyValue(Form.Data, Column.Id, value);
                 Form.OnFieldChanged?.Invoke(Column.Id);
             }
         }
