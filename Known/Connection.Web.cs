@@ -1,6 +1,6 @@
 ﻿namespace Known;
 
-class WebConnection(NavigationManager navigation) : IConnection
+class WebConnection//(NavigationManager navigation) : IConnection
 {
     //private HubConnection connection;
 

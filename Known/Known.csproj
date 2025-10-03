@@ -21,9 +21,7 @@
     <ItemGroup>
         <SupportedPlatform Include="browser" />
         <PackageReference Include="AntDesign" Version="1.*" />
-        <!--
-        <ProjectReference Include="..\..\..\Codes\Blazor\AntDesignBlazor\components\AntDesign.csproj" />
-        -->
+        <!--<ProjectReference Include="..\..\..\Codes\Blazor\AntDesignBlazor\components\AntDesign.csproj" />-->
     </ItemGroup>
 
     <ItemGroup>
@@ -40,9 +38,10 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
+        <None Include="wwwroot\css\web.css" />
     </ItemGroup>
 
     <Import Project="..\Shared\Shared.projitems" Label="Shared" />
-    <Import Project="..\Library\Minifier\BuildBundlerMinifier.targets" Condition="Exists('..\Library\Minifier\BuildBundlerMinifier.targets')" />
+    <!--<Import Project="..\Library\Minifier\BuildBundlerMinifier.targets" Condition="Exists('..\Library\Minifier\BuildBundlerMinifier.targets')" />-->
 
 </Project>

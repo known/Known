@@ -116,7 +116,7 @@ public static partial class Extension
         KStyleSheet.AddStyle("_content/Known/css/size/default.css");
         KStyleSheet.AddStyle("_content/Known/css/font-awesome.css");
         KStyleSheet.AddStyle("_content/Known/css/prism.css");
-        KStyleSheet.AddStyle("_content/Known/css/web.min.css");
+        KStyleSheet.AddStyle("_content/Known/css/web.css");
     }
 
     private static void AddScripts()
