@@ -2,9 +2,8 @@
 
 static class CoreHelper
 {
-    internal static void LoadType(this IServiceCollection services, XmlDocument doc, Type type)
+    internal static void LoadType(this IServiceCollection services, XmlDocument doc, Type type, object[] attributes)
     {
-        var attributes = type.GetCustomAttributes(false);
         var routes = attributes.OfType<RouteAttribute>().ToList();
         var role = attributes.OfType<RoleAttribute>().FirstOrDefault();
         var service = attributes.OfType<ServiceAttribute>().FirstOrDefault();

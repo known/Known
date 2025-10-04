@@ -38,10 +38,7 @@ public class PluginConfig
         if (plugin.Name == Language.NavTheme && !Config.App.IsTheme)
             return;
 
-        Plugins.Add(new PluginMenuInfo(item, plugin)
-        {
-            Url = route?.Template
-        });
+        Plugins.Add(new PluginMenuInfo(item, plugin) { Url = route?.Template });
     }
 
     // 加载顶部导航

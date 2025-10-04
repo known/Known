@@ -17,8 +17,7 @@ public static partial class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
-        var assembly = typeof(Extension).Assembly;
-        Config.AddApp(assembly);
+        Config.AddApp();
         services.AddAntDesign();
 
         services.AddScoped<Context>();

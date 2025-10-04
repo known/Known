@@ -2,8 +2,7 @@
 
 static class InitHelper
 {
-    private static readonly Dictionary<string, InitInfo> Inits = [];
-    private record InitInfo(Assembly Assembly, Type[] Types);
+    private static readonly Dictionary<string, Assembly> Inits = [];
 
     internal static void Add(Assembly assembly)
     {
@@ -13,53 +12,62 @@ static class InitHelper
         if (Inits.ContainsKey(assembly.FullName))
             return;
 
-        var types = assembly.GetTypes();
-        Inits[assembly.FullName] = new InitInfo(assembly, types);
+        Inits[assembly.FullName] = assembly;
 
         AddActions(assembly);
     }
 
     internal static void LoadClients(this IServiceCollection services)
     {
-        foreach (var item in Inits.Values)
+        Parallel.ForEach(Inits.Values, item =>
         {
             var modelTypes = new List<Type>();
-            Parallel.ForEach(item.Types, type =>
+            var types = item.GetTypes();
+            foreach (var type in types)
             {
+                if (IsIgnoreType(type))
+                    continue;
+
                 var attributes = type.GetCustomAttributes(false);
                 LoadCommon(type, attributes, modelTypes);
 
                 var attr = attributes.OfType<ClientAttribute>().FirstOrDefault();
                 if (attr != null)
                     services.AddServices(attr.Lifetime, type);
-            });
+            }
             TypeCache.PreloadTypes(modelTypes);
             MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
-        }
+        });
     }
 
     internal static void LoadServers(this IServiceCollection services)
     {
-        foreach (var item in Inits.Values)
+        Parallel.ForEach(Inits.Values, item =>
         {
-            var xml = GetAssemblyXml(item.Assembly);
+            var xml = GetAssemblyXml(item);
             var doc = new XmlDocument();
             if (!string.IsNullOrWhiteSpace(xml))
                 doc.LoadXml(xml);
 
             var modelTypes = new List<Type>();
-            Parallel.ForEach(item.Types, type =>
+            var types = item.GetTypes();
+            foreach (var type in types)
             {
-                if (type.IsAbstract)
-                    return;
+                if (IsIgnoreType(type))
+                    continue;
 
                 var attributes = type.GetCustomAttributes(false);
                 LoadCommon(type, attributes, modelTypes);
-                services.LoadType(doc, type);
-            });
+                services.LoadType(doc, type, attributes);
+            }
             TypeCache.PreloadTypes(modelTypes);
             MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
-        }
+        });
+    }
+
+    private static bool IsIgnoreType(Type type)
+    {
+        return type.IsAbstract || type.Name.EndsWith("Extension");
     }
 
     private static void LoadCommon(Type type, object[] attributes, List<Type> modelTypes)

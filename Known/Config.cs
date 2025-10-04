@@ -63,10 +63,10 @@ public partial class Config
         InitHelper.Add(assembly);
     }
 
-    internal static void AddApp(Assembly assembly)
+    internal static void AddApp()
     {
         Version = new VersionInfo(App.Assembly);
-        AddModule(assembly);
+        AddModule(typeof(Extension).Assembly);
         AddModule(App.Assembly);
     }
 }
