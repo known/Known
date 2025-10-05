@@ -34,7 +34,6 @@ static class CoreHelper
 
     private static void AddApiMethod(XmlDocument doc, Type type, string apiName)
     {
-        //Config.ApiTypes.Add(type);
         var methods = type.GetMethods();
         foreach (var method in methods)
         {

@@ -11,7 +11,7 @@ class ActionTable : BaseTable<ActionInfo>
 
     protected override async Task OnInitAsync()
     {
-        actions = Config.Actions;
+        actions = [.. Config.Actions];
         actions.ForEach(a => a.Name = Language.GetString(a));
 
         await base.OnInitAsync();

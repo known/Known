@@ -22,9 +22,7 @@ public class CoreConfig
         info.Settings[nameof(AuthStatus)] = AuthStatus;
     }
 
-    internal static void Load(AdminInfo info)
-    {
-    }
+    internal static void Load(AdminInfo info) { }
 
     /// <summary>
     /// 取得或设置默认用户系统设置信息对象。
@@ -51,15 +49,10 @@ public class CoreConfig
     /// </summary>
     public static SystemInfo System { get; set; }
 
-    ///// <summary>
-    ///// 取得框架自动解析服务接口生成的WebApi类型列表。
-    ///// </summary>
-    //public static List<Type> ApiTypes { get; } = [];
-
     /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
     /// </summary>
-    public static List<ApiMethodInfo> ApiMethods { get; } = [];
+    public static ConcurrentBag<ApiMethodInfo> ApiMethods { get; } = [];
 
     /// <summary>
     /// 取得或设置超级管理员用户密码。
@@ -90,11 +83,6 @@ public class CoreConfig
     /// 取得或设置系统安装时，初始化系统模块数据方法委托。
     /// </summary>
     public static Func<Database, Task> OnInstallModules { get; set; }
-
-    ///// <summary>
-    ///// 取得或设置系统登录时，初始化系统模块数据方法委托。
-    ///// </summary>
-    //public static Func<Database, Task<List<MenuInfo>>> OnInitialMenus { get; set; }
 
     /// <summary>
     /// 取得或设置保存新用户时委托。

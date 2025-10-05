@@ -27,11 +27,6 @@ public partial class Config
     public static bool IsNotifyHub { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置系统移动端菜单信息列表。
-    /// </summary>
-    public static List<MenuInfo> AppMenus { get; set; } = [];
-
-    /// <summary>
     /// 取得或设置获取初始化信息后附加操作委托。
     /// </summary>
     public static Action<InitialInfo> OnInitial { get; set; }
@@ -40,6 +35,11 @@ public partial class Config
     /// 取得或设置获取Admin信息后附加操作委托。
     /// </summary>
     public static Action<AdminInfo> OnAdmin { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统移动端菜单信息列表。
+    /// </summary>
+    public static ConcurrentBag<MenuInfo> AppMenus { get; set; } = [];
 
     // 取得路由页面类型，用于权限控制。
     internal static ConcurrentDictionary<string, Type> RouteTypes { get; } = [];

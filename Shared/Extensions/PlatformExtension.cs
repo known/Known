@@ -42,7 +42,7 @@ static class PlatformExtension
 
     internal static async Task<List<ActionInfo>> GetActionsAsync(this Database db)
     {
-        var actions = Config.Actions;
+        var actions = Config.Actions.ToList();
         var datas = await db.GetConfigAsync<List<ButtonInfo>>(Constants.KeyButton, true);
         if (datas != null && datas.Count > 0)
         {

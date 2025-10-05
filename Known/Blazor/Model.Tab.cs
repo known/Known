@@ -67,14 +67,6 @@ public class TabModel
     /// 添加一个标签。
     /// </summary>
     /// <param name="id">标签ID。</param>
-    /// <param name="title">标签标题。</param>
-    /// <param name="table">标签表格配置模型。</param>
-    public void AddTab(string id, string title, TableModel table) => Items.Add(new ItemModel(id, title) { Table = table });
-
-    /// <summary>
-    /// 添加一个标签。
-    /// </summary>
-    /// <param name="id">标签ID。</param>
     /// <param name="content">标签呈现模板。</param>
     public void AddTab(string id, RenderFragment content) => AddTab(id, id, content);
 

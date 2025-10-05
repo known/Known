@@ -24,7 +24,7 @@ partial class WebApiService(Context context) : ServiceBase(context), IWebApiServ
 {
     public Task<PagingResult<ApiMethodInfo>> QueryWebApisAsync(PagingCriteria criteria)
     {
-        var methods = CoreConfig.ApiMethods;
+        var methods = CoreConfig.ApiMethods.ToList();
         var method = criteria.GetQueryValue(nameof(ApiMethodInfo.HttpMethod));
         if (!string.IsNullOrWhiteSpace(method))
             methods = [.. methods.Where(m => m.HttpMethod.Method.Equals(method, StringComparison.OrdinalIgnoreCase))];

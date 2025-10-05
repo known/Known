@@ -114,7 +114,7 @@ public partial class UIContext
             return;
         }
 
-        var menus = IsMobileApp ? Config.AppMenus : UserMenus;
+        var menus = IsMobileApp ? [.. Config.AppMenus] : UserMenus;
         if (menus == null || menus.Count == 0)
             return;
 
@@ -152,7 +152,7 @@ public partial class UIContext
             if (UserMenus?.Exists(m => m.Id == info.Id) == true)
                 return;
 
-            if (Config.AppMenus?.Exists(m => m.Id == info.Id) == true)
+            if (Config.AppMenus?.Any(m => m.Id == info.Id) == true)
                 return;
         }
 

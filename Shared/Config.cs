@@ -98,19 +98,14 @@ public partial class Config
     public static VersionInfo Version { get; private set; }
 
     /// <summary>
-    /// 取得系统前端程序集列表。
-    /// </summary>
-    public static List<Assembly> Assemblies { get; } = [];
-
-    /// <summary>
     /// 取得或设置依赖注入服务提供者。
     /// </summary>
     public static IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
-    /// 取得自定义扩展字段组件类型字典。
+    /// 取得系统前端程序集列表。
     /// </summary>
-    public static ConcurrentDictionary<string, Type> FieldTypes { get; } = [];
+    public static List<Assembly> Assemblies { get; } = [];
 
     /// <summary>
     /// 取得框架初始模块信息列表。
@@ -120,7 +115,12 @@ public partial class Config
     /// <summary>
     /// 取得或设置操作按钮信息列表。
     /// </summary>
-    public static List<ActionInfo> Actions { get; set; } = [];
+    public static ConcurrentBag<ActionInfo> Actions { get; set; } = [];
+
+    /// <summary>
+    /// 取得自定义扩展字段组件类型字典。
+    /// </summary>
+    public static ConcurrentDictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
     /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。

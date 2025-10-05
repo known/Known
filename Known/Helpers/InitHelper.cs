@@ -63,6 +63,16 @@ static class InitHelper
             TypeCache.PreloadTypes(modelTypes);
             MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
         });
+
+        //foreach (var item in DataHelper.Routes)
+        //{
+        //    if (string.IsNullOrWhiteSpace(item.Url))
+        //        continue;
+
+        //    var plugin = item.Plugins?.GetPluginParameter<AutoPageInfo>();
+        //    var tools = string.Join(",", plugin?.Page?.Tools?.Select(d => $"{d.Id}={string.Join("-", d.Tabs ?? [])}"));
+        //    Console.WriteLine($"{item.Url}-{tools}");
+        //}
     }
 
     private static bool IsIgnoreType(Type type)

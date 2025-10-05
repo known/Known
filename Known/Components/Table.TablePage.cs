@@ -1,7 +1,7 @@
 ﻿namespace Known.Components;
 
 /// <summary>
-/// 泛型页面表格组件类。
+/// 泛型表格页面组件类。
 /// </summary>
 /// <typeparam name="TItem">数据类型。</typeparam>
 public class TablePage<TItem> : BaseTablePage where TItem : class, new()

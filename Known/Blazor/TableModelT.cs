@@ -21,11 +21,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
     /// </summary>
     /// <param name="page">表格关联的页面组件。</param>
-    /// <param name="id">表格关联的页面组件。</param>
+    /// <param name="id">表格ID。</param>
     /// <param name="mode">根据数据类型自动生成表格列。</param>
     public TableModel(IBaseComponent page, string id, TableColumnMode mode = TableColumnMode.None) : base(page, id)
     {
-        Tab = new TabModel();
+        InitializeTab();
         IsAuto = mode != TableColumnMode.None;
         AdvSearch = true;
         IsDictionary = typeof(TItem).IsDictionary();
@@ -65,11 +65,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public bool ShowToolbar { get; set; } = true;
 
     /// <summary>
-    /// 取得表格标签配置对象。
-    /// </summary>
-    public TabModel Tab { get; private set; }
-
-    /// <summary>
     /// 取得或设置树形表格子节点表达式。
     /// </summary>
     public Func<TItem, List<TItem>> TreeChildren { get; set; }
@@ -98,8 +93,6 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     public void Initialize(AutoPageInfo info)
     {
         Info = info;
-        //FixedWidth = info.Page.FixedWidth;
-        //FixedHeight = info.Page.FixedHeight;
         Name = info?.Name ?? info?.Page?.Name;
         AdvSearch = info?.Page?.ShowAdvSearch == true;
         ShowPager = info?.Page?.ShowPager == true;

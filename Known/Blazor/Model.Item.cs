@@ -36,9 +36,4 @@ public class ItemModel(string id, string title)
     /// 取得或设置列表项呈现模板。
     /// </summary>
     public RenderFragment Content { get; set; }
-
-    /// <summary>
-    /// 取得或设置列表项表单配置模型。
-    /// </summary>
-    public TableModel Table { get; set; }
 }

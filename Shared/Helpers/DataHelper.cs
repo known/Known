@@ -37,7 +37,6 @@ public sealed class DataHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        //AppData.Data.Modules = modules;
         Models.Clear();
         FlowHelper.Flows.Clear();
         foreach (var item in modules)
@@ -74,9 +73,6 @@ public sealed class DataHelper
                 menus.Add(item.ToMenuInfo());
             }
         }
-        //return modules;
-        //var menus = CoreConfig.OnInitialMenus != null ? await CoreConfig.OnInitialMenus.Invoke(db) : [];
-        //menus ??= [];
         return GetMenus(menus);
     }
 
@@ -92,20 +88,17 @@ public sealed class DataHelper
                 allMenus.Add(item);
         }
         AddRoutes(allMenus, isRoute);
-        //var routes = GetRouteModules([.. modules.Select(m => m.Url)]);
-        //if (routes != null && routes.Count > 0)
-        //    allModules.AddRange(routes);
         return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.Sort)];
     }
 
     /// <summary>
     /// 取得初始化加载的路由组件菜单列表。
     /// </summary>
-    public static List<MenuInfo> Routes { get; } = [];
+    public static ConcurrentBag<MenuInfo> Routes { get; } = [];
 
     private static void AddRoutes(List<MenuInfo> menus, bool isRoute = true)
     {
-        if (Routes.Count == 0)
+        if (Routes.IsEmpty)
             return;
 
         var routes = new List<MenuInfo>();
@@ -130,95 +123,6 @@ public sealed class DataHelper
         if (items != null && items.Count > 0)
             menus.AddRange(items);
     }
-
-    //private static List<ModuleInfo> GetRouteModules(List<string> moduleUrls)
-    //{
-    //    var routes = Config.RouteTypes;
-    //    if (routes.Count == 0)
-    //        return null;
-
-    //    var infos = new List<ModuleInfo>();
-    //    var routeError = typeof(ErrorPage).RouteTemplate();
-    //    var routeAuto = typeof(AutoPage).RouteTemplate();
-    //    var target = Constants.Route;
-    //    var route = new ModuleInfo { Id = "route", ParentId = "0", Name = "路由", Target = target, Icon = "share-alt", Sort = 999 };
-    //    foreach (var item in routes.OrderBy(r => r.Key))
-    //    {
-    //        if (moduleUrls.Exists(m => m == item.Key) ||
-    //            UIConfig.IgnoreRoutes.Contains(item.Key) ||
-    //            item.Key.StartsWith("/dev") ||
-    //            item.Key == routeError || item.Key == routeAuto)
-    //            continue;
-
-    //        var parentId = route.Id;
-    //        var index = item.Key.TrimStart('/').IndexOf('/');
-    //        if (index > 0)
-    //        {
-    //            var key = item.Key.Substring(0, index + 1);
-    //            var id = $"sub_{key}";
-    //            var sub = infos.FirstOrDefault(m => m.Id == id);
-    //            if (sub == null)
-    //            {
-    //                sub = new ModuleInfo { Id = id, ParentId = route.Id, Name = key, Target = target, Icon = "folder" };
-    //                infos.Add(sub);
-    //            }
-    //            parentId = sub.Id;
-    //        }
-
-    //        var module = GetModule(item, parentId);
-    //        infos.Add(module);
-    //    }
-
-    //    var modules = new List<ModuleInfo>();
-    //    if (infos.Count > 0)
-    //    {
-    //        modules.Add(route);
-    //        modules.AddRange(infos);
-    //    }
-    //    return modules;
-    //}
-
-    //private static ModuleInfo GetModule(KeyValuePair<string, Type> item, string parentId)
-    //{
-    //    var info = new ModuleInfo
-    //    {
-    //        Id = item.Value.FullName,
-    //        ParentId = parentId,
-    //        Name = item.Value.Name,
-    //        Url = item.Key,
-    //        Target = Constants.Route,
-    //        Icon = "file",
-    //        Enabled = true
-    //    };
-    //    SetRouteInfo(info, item.Value);
-    //    info.AddActions(item.Value);
-    //    return info;
-    //}
-
-    //private static void SetRouteInfo(ModuleInfo info, Type type)
-    //{
-    //    var tab = type.GetCustomAttribute<ReuseTabsPageAttribute>();
-    //    if (tab != null)
-    //    {
-    //        info.Name = tab.Title;
-    //        return;
-    //    }
-
-    //    var plugin = type.GetCustomAttribute<PluginAttribute>();
-    //    if (plugin != null)
-    //    {
-    //        info.Name = plugin.Name;
-    //        info.Icon = plugin.Icon;
-    //        return;
-    //    }
-
-    //    var menu = type.GetCustomAttribute<MenuAttribute>();
-    //    if (menu != null)
-    //    {
-    //        info.Name = menu.Name;
-    //        info.Icon = menu.Icon;
-    //    }
-    //}
     #endregion
 
     #region Entity
@@ -340,30 +244,5 @@ public sealed class DataHelper
         }
         return sb.ToString();
     }
-    #endregion
-
-    #region Dictionary
-    //internal static Task<PagingResult<Dictionary<string, object>>> QueryPrototypeDataAsync(PagingCriteria criteria, MenuInfo info)
-    //{
-    //    var columns = info?.GetAutoPageParameter()?.Page?.Columns;
-    //    if (columns == null || columns.Count == 0)
-    //        return Task.FromResult(new PagingResult<Dictionary<string, object>>());
-
-    //    var datas = new List<Dictionary<string, object>>();
-    //    for (int i = 0; i < 100; i++)
-    //    {
-    //        var data = new Dictionary<string, object>();
-    //        foreach (var column in columns)
-    //        {
-    //            if (UIConfig.OnMockData != null)
-    //                data[column.Id] = UIConfig.OnMockData.Invoke(info, column);
-    //            else
-    //                data[column.Id] = "TestData";
-    //        }
-    //        datas.Add(data);
-    //    }
-    //    var result = datas.ToPagingResult(criteria);
-    //    return Task.FromResult(result);
-    //}
     #endregion
 }

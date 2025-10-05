@@ -11,7 +11,7 @@ public class TableModel : BaseModel
     /// 构造函数，创建一个表格组件模型实例。
     /// </summary>
     /// <param name="page">表格关联的页面组件。</param>
-    /// <param name="id">表格关联的页面组件。</param>
+    /// <param name="id">表格ID。</param>
     public TableModel(IBaseComponent page, string id = null) : base(page)
     {
         Page = page;

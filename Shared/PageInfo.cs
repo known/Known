@@ -49,8 +49,6 @@ public class PageInfo
     /// </summary>
     [DisplayName("操作列大小")]
     public int? ActionSize { get; set; }
-    //public string FixedWidth { get; set; }
-    //public string FixedHeight { get; set; }
 
     /// <summary>
     /// 取得或设置表格工具条按钮代码集合。

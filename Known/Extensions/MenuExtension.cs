@@ -93,9 +93,9 @@ public static class MenuExtension
         }
         else
         {
-            var item = DataHelper.Routes.FirstOrDefault(m => m.Id == idOrName || m.Name == idOrName);
-            if (item != null)
-                DataHelper.Routes.Remove(item);
+            //var item = DataHelper.Routes.FirstOrDefault(m => m.Id == idOrName || m.Name == idOrName);
+            //if (item != null)
+            //    DataHelper.Routes.Remove(item);
         }
     }
 

@@ -10,12 +10,12 @@ public static class DbConfigExtension
     /// </summary>
     /// <param name="models">实体模型列表。</param>
     /// <param name="type">实体模型类型。</param>
-    public static void Add(this List<DbModelInfo> models, Type type)
+    public static void Add(this ConcurrentBag<DbModelInfo> models, Type type)
     {
         if (type.Name == nameof(EntityBase) || type.Name == nameof(FlowEntity))
             return;
 
-        if (models.Exists(m => m.Type.FullName == type.FullName))
+        if (models.Any(m => m.Type.FullName == type.FullName))
             return;
 
         models.Add(new DbModelInfo(type, [nameof(EntityBase.Id)]));
@@ -27,10 +27,10 @@ public static class DbConfigExtension
     /// <typeparam name="T">实体类型。</typeparam>
     /// <param name="models">实体模型列表。</param>
     /// <param name="selector">主键选择表达式。</param>
-    public static void Add<T>(this List<DbModelInfo> models, Expression<Func<T, object>> selector)
+    public static void Add<T>(this ConcurrentBag<DbModelInfo> models, Expression<Func<T, object>> selector)
     {
         var type = typeof(T);
-        if (models.Exists(m => m.Type.FullName == type.FullName))
+        if (models.Any(m => m.Type.FullName == type.FullName))
             return;
 
         var keys = new List<string>();

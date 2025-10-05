@@ -82,7 +82,7 @@ class MenuHelper
 
     private static void AddParent(string id, string name, string icon, string target, int sort)
     {
-        if (DataHelper.Routes.Exists(d => d.Id == id))
+        if (DataHelper.Routes.Any(d => d.Id == id))
             return;
 
         var route = new MenuInfo { Id = id, ParentId = "0", Name = name, Target = target, Icon = icon, Url = "", Sort = sort };
