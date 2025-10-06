@@ -19,6 +19,11 @@ public class PluginInfo
     /// 取得或设置插件组件参数配置JSON。
     /// </summary>
     public string Setting { get; set; }
+
+    internal PluginInfo Clone()
+    {
+        return new PluginInfo { Id = Id, Type = Type, Setting = Setting };
+    }
 }
 
 /// <summary>
@@ -47,6 +52,11 @@ public class LayoutInfo
     /// </summary>
     [DisplayName("样式类")]
     public string Custom { get; set; }
+
+    internal LayoutInfo Clone()
+    {
+        return new LayoutInfo { Type = Type, Spans = Spans, Custom = Custom };
+    }
 }
 
 /// <summary>

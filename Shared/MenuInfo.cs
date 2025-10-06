@@ -154,9 +154,9 @@ public partial class MenuInfo
         return Utils.FromJson<T>(dataString);
     }
 
-    internal MenuInfo Clone()
+    internal MenuInfo Clone(bool isData = false)
     {
-        return new MenuInfo
+        var info = new MenuInfo
         {
             Id = Id,
             ParentId = ParentId,
@@ -173,11 +173,13 @@ public partial class MenuInfo
             CanEdit = CanEdit,
             IsCode = IsCode,
             Badge = Badge,
-            Layout = Layout,
-            Plugins = Plugins,
-            Color = Color,
-            Data = Data ?? GetModule()
+            Layout = Layout?.Clone(),
+            Plugins = Plugins?.Select(d => d.Clone()).ToList(),
+            Color = Color
         };
+        if (isData)
+            info.Data = Data ?? GetModule();
+        return info;
     }
 
     private SysModule GetModule()
@@ -196,8 +198,8 @@ public partial class MenuInfo
             Sort = Sort,
             Enabled = Enabled,
             IsCode = IsCode,
-            Layout = Layout,
-            Plugins = Plugins
+            Layout = Layout?.Clone(),
+            Plugins = Plugins?.Select(d => d.Clone()).ToList()
         };
     }
 }

@@ -201,6 +201,26 @@ public partial class Database
         return true;
     }
 
+    /// <summary>
+    /// 更新系统版本，升级数据库结构及数据。
+    /// </summary>
+    /// <param name="key">版本号配置Key。</param>
+    /// <param name="version">版本号。</param>
+    /// <param name="action">升级操作。</param>
+    /// <returns></returns>
+    public async Task UpdateVersionAsync(string key, string version, Func<Database, Task> action)
+    {
+        var versionNo = await this.GetConfigAsync(key);
+        if (versionNo == version)
+            return;
+
+        await QueryActionAsync(async db =>
+        {
+            await action.Invoke(db);
+            await db.SaveConfigAsync(key, version);
+        });
+    }
+
     private async Task<bool> ExistsTableAsync(string tableName)
     {
         Tables ??= await GetTableNamesAsync();

@@ -85,7 +85,7 @@ public sealed class DataHelper
         foreach (var item in Config.Modules)
         {
             if (!allMenus.Exists(m => m.Name == item.Name && m.ParentId == item.ParentId))
-                allMenus.Add(item);
+                allMenus.Add(item.Clone(!isRoute));
         }
         AddRoutes(allMenus, isRoute);
         return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.Sort)];
@@ -102,10 +102,11 @@ public sealed class DataHelper
             return;
 
         var routes = new List<MenuInfo>();
-        if (isRoute)
-            routes.AddRange(Routes);
-        else
-            routes.AddRange(Routes.Where(m => m.Target != Constants.Route));
+        foreach (var item in Routes)
+        {
+            if (isRoute || item.Target != Constants.Route)
+                routes.Add(item.Clone());
+        }
         var items = routes.Where(d => !menus.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
         var exists = routes.Where(d => menus.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
         if (exists != null && exists.Count > 0)
