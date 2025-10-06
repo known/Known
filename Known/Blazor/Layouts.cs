@@ -195,7 +195,14 @@ public class AdminLayout : AuthLayout
             if (Config.IsNotifyHub)
             {
                 invoker = DotNetObjectReference.Create(this);
-                await JSRuntime.InvokeVoidAsync("KNotify.init", invoker);
+                await JSRuntime.InvokeVoidAsync("KNotify.init", invoker, new
+                {
+                    NotifyUrl = Constants.NotifyHubUrl,
+                    ForceLogout = Constants.ForceLogout,
+                    ShowForceLogout = nameof(ShowForceLogout),
+                    NotifyLayout = Constants.NotifyLayout,
+                    ShowNotify = nameof(ShowNotify)
+                });
             }
             Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
@@ -222,6 +229,20 @@ public class AdminLayout : AuthLayout
             await AuthProvider.SignOutAsync();
             Navigation?.GoLoginPage();
         });
+    }
+
+    /// <summary>
+    /// 显示通知。
+    /// </summary>
+    /// <param name="message">通知信息。</param>
+    [JSInvokable]
+    public void ShowNotify(string message)
+    {
+        var info = Utils.FromJson<NotifyInfo>(message);
+        if (info == null)
+            return;
+
+        UI.NoticeAsync(info.Title, info.Message, info.Type);
     }
 
     private void BuildContent(RenderTreeBuilder builder)

@@ -8,9 +8,9 @@ namespace Known.Components;
 public class KConsole : BaseComponent
 {
     private readonly List<ConsoleLogInfo> Logs = [];
-    //private HubConnection connection;
+    private DotNetObjectReference<KConsole> invoker;
 
-    private string LogId => $"lc-{Id}";
+    private string LogId => $"kc-{Id}";
 
     /// <summary>
     /// 取得或设置业务ID。
@@ -18,21 +18,24 @@ public class KConsole : BaseComponent
     [Parameter] public string BizId { get; set; }
 
     /// <summary>
-    /// 取得或设置SignalR的Hub地址。
-    /// </summary>
-    [Parameter] public string HubUrl { get; set; }
-
-    /// <summary>
     /// 取得或设置SignalR的方法名称。
     /// </summary>
     [Parameter] public string MethodName { get; set; }
 
-    /// <inheritdoc />
-    protected override async Task OnInitAsync()
+    /// <summary>
+    /// 显示强制退出登录对话框。
+    /// </summary>
+    /// <param name="message">退出提示信息。</param>
+    [JSInvokable]
+    public void ShowLog(string message)
     {
-        await base.OnInitAsync();
-        //var url = Navigation.ToAbsoluteUri(HubUrl);
-        //connection = new HubConnectionBuilder().WithUrl(url).Build();
+        var info = Utils.FromJson<ConsoleLogInfo>(message);
+        if (info != null && info.BizId == BizId)
+        {
+            Logs.Add(info);
+            StateChangedAsync();
+            JS.RunVoidAsync($"KUtils.scrollToBottom('{LogId}');");
+        }
     }
 
     /// <inheritdoc />
@@ -41,18 +44,8 @@ public class KConsole : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            //connection?.On(MethodName, (string message) =>
-            //{
-            //    var log = Utils.FromJson<ConsoleLogInfo>(message);
-            //    if (log.BizId == BizId)
-            //    {
-            //        Logs.Add(log);
-            //        StateChangedAsync();
-            //        JS.RunVoidAsync($"KUtils.scrollToBottom('{LogId}');");
-            //    }
-            //});
-            //if (connection?.State == HubConnectionState.Disconnected)
-            //    await connection?.StartAsync();
+            invoker = DotNetObjectReference.Create(this);
+            await JSRuntime.RegisterNotifyAsync(invoker, MethodName, nameof(ShowLog));
         }
     }
 
@@ -68,13 +61,6 @@ public class KConsole : BaseComponent
                    .Set(c => c.ItemContent, this.BuildTree<ConsoleLogInfo>(BuildItem))
                    .Build();
         });
-    }
-
-    /// <inheritdoc />
-    protected override Task OnDisposeAsync()
-    {
-        //connection?.Remove(MethodName);
-        return base.OnDisposeAsync();
     }
 
     private void BuildItem(RenderTreeBuilder builder, ConsoleLogInfo item)

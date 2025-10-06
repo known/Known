@@ -3,23 +3,9 @@
 namespace Known;
 
 /// <summary>
-/// 后台通知Hub接口。
-/// </summary>
-public interface INotifyHub
-{
-    /// <summary>
-    /// 发送通知到客户端。
-    /// </summary>
-    /// <param name="method">方法名。</param>
-    /// <param name="message">通知消息。</param>
-    /// <returns></returns>
-    Task Notify(string method, string message);
-}
-
-/// <summary>
 /// 后台通知Hub。
 /// </summary>
-public class NotifyHub : Hub, INotifyHub
+public class NotifyHub : Hub
 {
     /// <summary>
     /// 注册会话连接。
@@ -48,8 +34,9 @@ class WebNotifyService(IHubContext<NotifyHub> hub) : INotifyService
 {
     public string Name => "Web";
 
-    public Task SendAsync<T>(string method, T message, CancellationToken token = default)
+    public Task SendAsync<T>(string method, T info, CancellationToken token = default)
     {
-        return hub.Clients.All.SendAsync(method, message, token);
+        var json = Utils.ToJson(info);
+        return hub.Clients.All.SendAsync(method, json, token);
     }
 }

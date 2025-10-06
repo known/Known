@@ -53,6 +53,11 @@ public class Constants
     public const string NotifyLayout = "NotifyLayout";
 
     /// <summary>
+    /// 强制退出登录。
+    /// </summary>
+    public const string ForceLogout = "ForceLogout";
+
+    /// <summary>
     /// 系统信息配置键。
     /// </summary>
     public const string KeySystem = "SystemInfo";

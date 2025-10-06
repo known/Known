@@ -24,7 +24,7 @@ public static class CoreExtension
         action?.Invoke(CoreOption.Instance);
 
         services.AddKnownServices();
-        services.AddScoped<INotifyService, WebNotifyService>();
+        services.AddSingleton<INotifyService, WebNotifyService>();
         services.AddSingleton<SessionManager>();
 
         if (CoreOption.Instance.IsCompression)

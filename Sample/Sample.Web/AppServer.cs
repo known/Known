@@ -26,6 +26,7 @@ public static class AppServer
         //services.AddServices(assembly);
         services.AddKnownAdminCore();
         services.AddKnownWeb(action);
+        services.AddHostedService<TestWorker>();
     }
 
     internal static void UseApplication(this WebApplication app)

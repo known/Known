@@ -1,6 +1,4 @@
-﻿using Sample.Models;
-
-namespace Sample.Services;
+﻿namespace Sample.Services;
 
 public interface IHomeService : IService
 {
@@ -23,7 +21,7 @@ class HomeClient(HttpClient http) : ClientBase(http), IHomeService
 }
 
 [WebApi, Service]
-class HomeService(Context context) : ServiceBase(context), IHomeService
+class HomeService(Context context, INotifyService service) : ServiceBase(context), IHomeService
 {
     public Task<PagingResult<HomeInfo>> QueryHomesAsync(PagingCriteria criteria)
     {
@@ -37,6 +35,12 @@ class HomeService(Context context) : ServiceBase(context), IHomeService
         if (user == null)
             return info;
 
+        _ = Task.Run(() =>
+        {
+            Thread.Sleep(5000);
+            service.LayoutNotifyAsync("系统通知", "Test服务已启动！");
+        });
+        
         await Database.QueryActionAsync(async db =>
         {
             info.VisitMenuIds = await db.GetVisitMenuIdsAsync(user.UserName, 12);

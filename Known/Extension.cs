@@ -25,6 +25,7 @@ public static partial class Extension
         services.AddScoped<JSService>();
         services.AddScoped<UIService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
+        services.AddSingleton<INotifyService, NotifyService>();
 
         if (Config.App.IsClient)
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
@@ -35,7 +36,6 @@ public static partial class Extension
         //else
         //    services.AddScoped<IConnection, WebConnection>();
         services.AddScoped<IUserPage, UserPage>();
-        services.AddScoped<INotifyService, NotifyService>();
         services.AddScoped<IPluginService, PluginService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 

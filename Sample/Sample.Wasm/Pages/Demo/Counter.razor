@@ -11,6 +11,7 @@
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
+    <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" />
 
     <AntForm Form="model">
         <AntRow>
@@ -67,6 +68,20 @@
             Thread.Sleep(10000);
             return Task.CompletedTask;
         });
+    }
+
+    private void OnLog()
+    {
+        var model = new DialogModel
+        {
+            Title = "控制台日志",
+            Width = 600,
+            Content = b => b.Div("kui-p10", () =>
+            {
+                b.Component<KConsole>().Set(c => c.BizId, "Test").Set(c => c.MethodName, AppConstant.AddLog).Build();
+            })
+        };
+        UI.ShowDialog(model);
     }
 
     private Task OnFilesChanged(string id, List<FileDataInfo> files)

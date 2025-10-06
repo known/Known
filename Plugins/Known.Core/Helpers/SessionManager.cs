@@ -23,7 +23,7 @@ class SessionManager
         info.SessionId = Utils.GetGuid();
         // 如果用户已有活跃会话，移除旧会话
         if (_sessions.TryRemove(info.UserName, out var session))
-            _hubContext.Clients.Group(session.SessionId).SendAsync("ForceLogout", sys?.TipLoginOne);
+            _hubContext.Clients.Group(session.SessionId).SendAsync(Constants.ForceLogout, sys?.TipLoginOne);
 
         _sessions[info.UserName] = info;
         return info.SessionId;

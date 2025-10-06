@@ -60,10 +60,13 @@ window.KUtils = {
 
 window.KNotify = {
     conn: null,
-    init: function (invoker) {
-        const connection = new signalR.HubConnectionBuilder().withUrl("/notifyHub").build();
-        connection.on("ForceLogout", function (message) {
-            invoker.invokeMethodAsync("ShowForceLogout", message);
+    init: function (invoker, info) {
+        const connection = new signalR.HubConnectionBuilder().withUrl(info.notifyUrl).build();
+        connection.on(info.forceLogout, function (message) {
+            invoker.invokeMethodAsync(info.showForceLogout, message);
+        });
+        connection.on(info.notifyLayout, function (message) {
+            invoker.invokeMethodAsync(info.showNotify, message);
         });
         connection.start().then(function () {
             console.log("SignalR连接已建立");
