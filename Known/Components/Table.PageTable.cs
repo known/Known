@@ -21,7 +21,13 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
         {
             builder.Div("kui-table-page", () =>
             {
-                builder.Div("kui-query", () => builder.Query(Model));
+                builder.Div("kui-query", () =>
+                {
+                    if (Model.Tab.HasItem && Model.TabTemplates.TryGetValue(Model.CurrentTab, out (RenderFragment, RenderFragment) value))
+                        builder.Fragment(value.Item1);
+                    else
+                        builder.Query(Model);
+                });
                 BuildTable(builder);
             });
         }
@@ -56,7 +62,10 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
                     builder.Div("right", () => BuildRight(builder));
                 });
             }
-            builder.Table(Model);
+            if (Model.Tab.HasItem && Model.TabTemplates.TryGetValue(Model.CurrentTab, out (RenderFragment, RenderFragment) value))
+                builder.Fragment(value.Item2);
+            else
+                builder.Table(Model);
         });
     }
 

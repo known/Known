@@ -19,7 +19,8 @@ static class InitHelper
 
     internal static void LoadClients(this IServiceCollection services)
     {
-        Parallel.ForEach(Inits.Values, item =>
+        //Parallel.ForEach(Inits.Values, item =>
+        foreach (var item in Inits.Values)
         {
             var modelTypes = new List<Type>();
             var types = item.GetTypes();
@@ -37,12 +38,14 @@ static class InitHelper
             }
             TypeCache.PreloadTypes(modelTypes);
             MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
-        });
+        }//);
     }
 
     internal static void LoadServers(this IServiceCollection services)
     {
-        Parallel.ForEach(Inits.Values, item =>
+        MenuHelper.AddParent();
+        //Parallel.ForEach(Inits.Values, item =>
+        foreach (var item in Inits.Values)
         {
             var xml = GetAssemblyXml(item);
             var doc = new XmlDocument();
@@ -62,16 +65,19 @@ static class InitHelper
             }
             TypeCache.PreloadTypes(modelTypes);
             MigrateHelper.TopNavs = PluginConfig.LoadTopNavs();
-        });
+        }//);
 
         //foreach (var item in DataHelper.Routes)
         //{
         //    if (string.IsNullOrWhiteSpace(item.Url))
         //        continue;
 
-        //    var plugin = item.Plugins?.GetPluginParameter<AutoPageInfo>();
-        //    var tools = string.Join(",", plugin?.Page?.Tools?.Select(d => $"{d.Id}={string.Join("-", d.Tabs ?? [])}"));
-        //    Console.WriteLine($"{item.Url}-{tools}");
+        //    if (item.Url == "/pms/works" || item.Url == "/pms/abnormals")
+        //    {
+        //        var plugin = item.Plugins?.GetPluginParameter<AutoPageInfo>();
+        //        var tools = string.Join(",", plugin?.Page?.Tools?.Select(d => $"{d.Id}={string.Join("-", d.Tabs ?? [])}"));
+        //        Console.WriteLine($"{item.Url}-{tools}");
+        //    }
         //}
     }
 

@@ -8,6 +8,14 @@ class MenuHelper
     private const string PluginId = "KM_Plugin";
     private const string RoleId = "KM_Role";
 
+    internal static void AddParent()
+    {
+        var target = Constants.Route;
+        AddParent(RoleId, "组件", "block", target, 997);
+        AddParent(PluginId, "插件", "appstore-add", target, 998);
+        AddParent(RouteId, "路由", "share-alt", target, 999);
+    }
+
     internal static void AddMenu(Type type, RoleAttribute role, List<RouteAttribute> routes, object[] attributes)
     {
         var tabs = attributes.OfType<ReuseTabsPageAttribute>().FirstOrDefault();
@@ -16,19 +24,10 @@ class MenuHelper
 
         var target = Constants.Route;
         var parentId = RouteId;
-        AddParent(RouteId, "路由", "share-alt", target, 999);
-
         if (role != null)
-        {
             parentId = RoleId;
-            AddParent(RoleId, "组件", "block", target, 997);
-        }
-
         if (plugin != null)
-        {
             parentId = PluginId;
-            AddParent(PluginId, "插件", "appstore-add", target, 998);
-        }
 
         if (routes != null && routes.Count > 1)
         {
@@ -57,7 +56,14 @@ class MenuHelper
             SetRouteInfo(info, type, tabs, role, plugin, menu);
             var table = CreateAutoPage(type);
             if (table != null)
+            {
                 info.Plugins.AddPlugin(table);
+                //if (url == "/pms/works" || url == "/pms/abnormals")
+                //{
+                //    var tools = string.Join(",", table.Page?.Tools?.Select(d => $"{d.Id}={string.Join("-", d.Tabs ?? [])}"));
+                //    Console.WriteLine($"{url}：{tools}");
+                //}
+            }
             DataHelper.Routes.Add(info);
         }
     }

@@ -2,6 +2,10 @@
 
 partial class TableModel<TItem>
 {
+    private bool isFirstChange = true;
+    internal Dictionary<string, (RenderFragment, RenderFragment)> TabTemplates { get; } = [];
+    internal TablePage<TItem> PageComponent { get; set; }
+
     /// <summary>
     /// 取得表格标签配置对象。
     /// </summary>
@@ -47,6 +51,7 @@ partial class TableModel<TItem>
     public void AddTab(string id, string title, RenderFragment query, RenderFragment table)
     {
         AddTab(id, title);
+        TabTemplates[id] = (query, table);
     }
 
     private void InitializeTab()
@@ -56,7 +61,20 @@ partial class TableModel<TItem>
             OnChangeAsync = tab =>
             {
                 ChangeAction(tab);
-                return RefreshAsync();
+                if (TabTemplates.Count > 0)
+                {
+                    if (!isFirstChange)
+                    {
+                        PageComponent?.StateChangedAsync();
+                        return RefreshAsync();
+                    }
+                    isFirstChange = false;
+                    return RefreshAsync();
+                }
+                else
+                {
+                    return RefreshAsync();
+                }
             }
         };
     }

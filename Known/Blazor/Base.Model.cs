@@ -44,10 +44,10 @@ public abstract class BaseModel(IBaseComponent component)
     /// <summary>
     /// 改变组件状态。
     /// </summary>
-    public void StateChange() => OnStateChanged?.Invoke();
+    public void StateChanged() => OnStateChanged?.Invoke();
 
     /// <summary>
     /// 异步改变组件状态。
     /// </summary>
-    public Task StateChangeAsync() => OnStateChangedTask?.Invoke();
+    public Task StateChangedAsync() => OnStateChangedTask?.Invoke();
 }
