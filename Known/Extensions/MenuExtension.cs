@@ -167,7 +167,7 @@ public static class MenuExtension
             //item.ParentName = Config.App.Name;
             //var menu = item.ToMenuInfo();
             //var menu = CreateMenu(item, !showRoot);
-            var menu = item.Clone();
+            var menu = item.Clone(true);
             if (current != null && current.Id == menu.Id)
                 current = menu;
 
@@ -193,7 +193,7 @@ public static class MenuExtension
             //item.ParentName = menu.Name;
             //var sub = item.ToMenuInfo();
             //var sub = CreateMenu(item, showUrl);
-            var sub = item.Clone();
+            var sub = item.Clone(true);
             sub.Parent = menu;
             if (current != null && current.Id == sub.Id)
                 current = sub;

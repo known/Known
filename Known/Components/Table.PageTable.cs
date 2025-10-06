@@ -23,7 +23,9 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
             {
                 builder.Div("kui-query", () =>
                 {
-                    if (Model.Tab.HasItem && Model.TabTemplates.TryGetValue(Model.CurrentTab, out (RenderFragment, RenderFragment) value))
+                    if (Model.Tab.HasItem &&
+                       !string.IsNullOrWhiteSpace(Model.CurrentTab) &&
+                       Model.TabTemplates.TryGetValue(Model.CurrentTab, out (RenderFragment, RenderFragment) value))
                         builder.Fragment(value.Item1);
                     else
                         builder.Query(Model);
@@ -62,7 +64,9 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
                     builder.Div("right", () => BuildRight(builder));
                 });
             }
-            if (Model.Tab.HasItem && Model.TabTemplates.TryGetValue(Model.CurrentTab, out (RenderFragment, RenderFragment) value))
+            if (Model.Tab.HasItem &&
+                !string.IsNullOrWhiteSpace(Model.CurrentTab) &&
+                Model.TabTemplates.TryGetValue(Model.CurrentTab, out (RenderFragment, RenderFragment) value))
                 builder.Fragment(value.Item2);
             else
                 builder.Table(Model);

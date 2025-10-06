@@ -31,13 +31,9 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
         if (UIConfig.EnableEdit && Model.EnableEdit)
         {
             var actions = Plugin?.GetTableActions(this);
-            DropdownModel model = null;
-            if (actions == null || actions.Count == 0)
-                model = new DropdownModel { Icon = "menu", TriggerType = "Click", Overlay = BuildOverlay };
             builder.Component<PluginPanel>()
                    .Set(c => c.Class, "table")
                    .Set(c => c.Name, Language.LowCodeTable)
-                   .Set(c => c.Dropdown, model)
                    .Set(c => c.Actions, actions)
                    .Set(c => c.ChildContent, BuildContent)
                    .Build();
@@ -46,36 +42,6 @@ public class TablePage<TItem> : BaseTablePage where TItem : class, new()
         {
             BuildContent(builder);
         }
-    }
-
-    private void BuildOverlay(RenderTreeBuilder builder)
-    {
-        var param = Menu.GetAutoPageParameter();
-        if (param == null)
-        {
-            param = new AutoPageInfo();
-            Menu.Plugins.AddPlugin(param);
-        }
-        var data = param.Page ?? new PageInfo();
-        var form = new FormModel<PageInfo>(this)
-        {
-            SmallLabel = true,
-            Data = data,
-            OnFieldChanged = async v =>
-            {
-                param.Page = data;
-                await SaveSettingAsync(param);
-            }
-        };
-        form.AddRow().AddColumn(c => c.ShowPager);
-        form.AddRow().AddColumn(c => c.ShowSetting);
-        form.AddRow().AddColumn(c => c.PageSize);
-        form.AddRow().AddColumn(c => c.ToolSize);
-        builder.Overlay(() =>
-        {
-            builder.FormTitle(Language.TableSetting);
-            builder.Form(form);
-        });
     }
 
     private void BuildContent(RenderTreeBuilder builder)

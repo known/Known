@@ -19,11 +19,6 @@ public partial class PluginPanel
     [Parameter] public bool Draggable { get; set; }
 
     /// <summary>
-    /// 取得或设置插件设置按钮下拉模型。
-    /// </summary>
-    [Parameter] public DropdownModel Dropdown { get; set; }
-
-    /// <summary>
     /// 取得或设置插件配置下拉菜单项列表。
     /// </summary>
     [Parameter] public List<ActionInfo> Actions { get; set; }
@@ -37,7 +32,7 @@ public partial class PluginPanel
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        model = Dropdown ?? new DropdownModel
+        model = new DropdownModel
         {
             Icon = "menu",
             Items = Actions,

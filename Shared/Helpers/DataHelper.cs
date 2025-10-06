@@ -105,7 +105,7 @@ public sealed class DataHelper
         foreach (var item in Routes)
         {
             if (isRoute || item.Target != Constants.Route)
-                routes.Add(item.Clone());
+                routes.Add(item.Clone(!isRoute));
         }
         var items = routes.Where(d => !menus.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();
         var exists = routes.Where(d => menus.Exists(m => m.Id == d.Id || m.Url == d.Url)).ToList();

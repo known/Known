@@ -16,6 +16,7 @@ public class TableModel : BaseModel
     {
         Page = page;
         Id = id ?? page?.Context?.Current?.Id;
+        EnableEdit = page?.Context?.Current?.IsCode == false;
         Toolbar = new ToolbarModel { Table = this };
     }
 
