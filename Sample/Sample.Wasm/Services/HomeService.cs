@@ -35,17 +35,12 @@ class HomeService(Context context, INotifyService service) : ServiceBase(context
         if (user == null)
             return info;
 
-        _ = Task.Run(() =>
-        {
-            Thread.Sleep(5000);
-            service.LayoutNotifyAsync("系统通知", "Test服务已启动！");
-        });
-        
         await Database.QueryActionAsync(async db =>
         {
             info.VisitMenuIds = await db.GetVisitMenuIdsAsync(user.UserName, 12);
             info.Statistics = await GetStatisticsInfoAsync(db);
         });
+        _ = service.LayoutNotifyAsync("系统通知", "数据查询成功！");
         return info;
     }
 

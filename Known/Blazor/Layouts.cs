@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using System.Threading.Tasks;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// 模板组件基类。
@@ -51,8 +53,6 @@ public class LayoutBase : LayoutComponentBase
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        Context.RunTimes.Clear();
-        Context.RunTimes.AddTime("Layout.Initializing");
         await base.OnInitializedAsync();
         Admin = await Factory.CreateAsync<IAdminService>(Context);
         Context.UI = UI;
@@ -79,7 +79,6 @@ public class LayoutBase : LayoutComponentBase
 
         IsInstall = true;
         IsLoaded = await OnInitAsync();
-        Context.RunTimes.AddTime("Layout.Initialized");
     }
 
     /// <summary>
@@ -94,7 +93,6 @@ public class LayoutBase : LayoutComponentBase
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender && !isRender)
         {
-            Context.RunTimes.AddTime("Layout.AfterRendering");
             isRender = true;
             if (Config.App.IsLanguage)
             {
@@ -108,7 +106,6 @@ public class LayoutBase : LayoutComponentBase
             if (string.IsNullOrWhiteSpace(setting.Size))
                 setting.Size = Config.App.DefaultSize;
             await JS.SetUserSettingAsync(setting);
-            Context.RunTimes.AddTime("Layout.AfterRendered");
         }
     }
 }
@@ -139,7 +136,6 @@ public class AuthLayout : LayoutBase
     /// <inheritdoc />
     protected override async Task<bool> OnInitAsync()
     {
-        Context.RunTimes.AddTime("AuthLayout.Initing");
         await base.OnInitAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         if (Context.CurrentUser == null)
@@ -153,7 +149,6 @@ public class AuthLayout : LayoutBase
             isLayout = true;
             return isInit;
         }
-        Context.RunTimes.AddTime("AuthLayout.Inited");
         return true;
     }
 
@@ -187,7 +182,6 @@ public class AdminLayout : AuthLayout
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender && !isRender)
         {
-            Context.RunTimes.AddTime("AdminLayout.AfterRendering");
             isRender = true;
             if (Context.CurrentUser == null)
                 await JS.InitFilesAsync();
@@ -198,13 +192,12 @@ public class AdminLayout : AuthLayout
                 await JSRuntime.InvokeVoidAsync("KNotify.init", invoker, new
                 {
                     NotifyUrl = Constants.NotifyHubUrl,
-                    ForceLogout = Constants.ForceLogout,
+                    Constants.ForceLogout,
                     ShowForceLogout = nameof(ShowForceLogout),
-                    NotifyLayout = Constants.NotifyLayout,
+                    Constants.NotifyLayout,
                     ShowNotify = nameof(ShowNotify)
                 });
             }
-            Context.RunTimes.AddTime("AdminLayout.AfterRendered");
         }
     }
 
