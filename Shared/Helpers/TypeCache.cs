@@ -105,20 +105,15 @@ class PropertyAccessor
 
         // 转换实例到声明类型
         var instanceCast = Expression.Convert(instance, property.DeclaringType);
-        // 转换值到目标类型
-        var valueCast = Expression.Convert(
-            Expression.Call(
-                typeof(PropertyAccessor).GetMethod(nameof(ConvertValue), BindingFlags.Static | BindingFlags.NonPublic),
-                Expression.Constant(property.PropertyType),
-                value
-            ),
-            property.PropertyType
+        // 调用通用类型转换方法
+        var convertedValue = Expression.Call(
+            typeof(TypeConverter).GetMethod(nameof(TypeConverter.ConvertTo), BindingFlags.Static | BindingFlags.Public),
+            Expression.Constant(property.PropertyType),
+            value
         );
-        // 属性赋值表达式
+        // 将转换后的值转换为目标类型
+        var valueCast = Expression.Convert(convertedValue, property.PropertyType);
         var setterCall = Expression.Call(instanceCast, property.GetSetMethod(), valueCast);
         return Expression.Lambda<Action<object, object>>(setterCall, instance, value).Compile();
     }
-
-    // 类型转换方法（复用原有逻辑）
-    private static object ConvertValue(Type targetType, object value) => Utils.ConvertTo(targetType, value);
 }
