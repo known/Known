@@ -31,11 +31,14 @@ public class KHeadList : BaseComponent
         builder.Div(Class, () =>
         {
             builder.Fragment(Head);
-            builder.Div("kui-toolbar", () =>
+            if (!string.IsNullOrWhiteSpace(ListTitle) || Toolbar != null)
             {
-                builder.FormTitle(Language[ListTitle]);
-                builder.Div("ant-toolbar", () => builder.Fragment(Toolbar));
-            });
+                builder.Div("kui-toolbar", () =>
+                {
+                    builder.FormTitle(Language[ListTitle]);
+                    builder.Div("ant-toolbar", () => builder.Fragment(Toolbar));
+                });
+            }
             builder.Fragment(List);
         });
     }

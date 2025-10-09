@@ -16,29 +16,6 @@ public enum RenderType
 }
 
 /// <summary>
-/// 样式类型枚举。
-/// </summary>
-public enum StyleType
-{
-    /// <summary>
-    /// 成功。
-    /// </summary>
-    Success,
-    /// <summary>
-    /// 信息。
-    /// </summary>
-    Info,
-    /// <summary>
-    /// 警告。
-    /// </summary>
-    Warning,
-    /// <summary>
-    /// 错误。
-    /// </summary>
-    Error
-}
-
-/// <summary>
 /// 表格勾选类型枚举。
 /// </summary>
 public enum TableSelectType

@@ -154,7 +154,12 @@ public partial class MenuInfo
         return Utils.FromJson<T>(dataString);
     }
 
-    internal MenuInfo Clone(bool isData = false)
+    /// <summary>
+    /// 克隆菜单信息。
+    /// </summary>
+    /// <param name="isData">是否设置Data为SysModule。</param>
+    /// <returns></returns>
+    public MenuInfo Clone(bool isData = false)
     {
         var info = new MenuInfo
         {

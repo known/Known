@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AdminInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventBus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\NotifyExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\TypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModelInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysCompany.cs" />
@@ -33,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\FileService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\LogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ConfigService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\NotifyService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\WebApiService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TaskService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserHandler.cs" />

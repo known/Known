@@ -9,13 +9,9 @@ internal class Program
     {
         var builder = PhotinoBlazorAppBuilder.CreateDefault(args);
         builder.Services.AddApplication();
-
-        // register root component and selector
         builder.RootComponents.Add<App>("app");
 
         var app = builder.Build();
-
-        // customize window
         app.MainWindow.SetIconFile("favicon.ico")
                       .SetTitle("Known信息管理系统")
                       .Center()

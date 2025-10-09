@@ -180,7 +180,7 @@ public class EntityBase : EntityBase<string>
     /// <typeparam name="T">扩展属性类型。</typeparam>
     /// <param name="key">扩展属性键。</param>
     /// <returns>扩展属性对象。</returns>
-    public T GetExtension<T>(string key)
+    internal T GetExtension<T>(string key)
     {
         if (string.IsNullOrWhiteSpace(Extension))
             return default;
@@ -197,7 +197,7 @@ public class EntityBase : EntityBase<string>
     /// </summary>
     /// <param name="key">扩展属性键。</param>
     /// <param name="value">扩展属性对象。</param>
-    public void SetExtension(string key, object value)
+    internal void SetExtension(string key, object value)
     {
         extension ??= [];
         extension[key] = value;

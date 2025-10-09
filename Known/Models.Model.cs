@@ -46,24 +46,3 @@ public class CaptchaOption
     /// </summary>
     public Action SMSAction { get; set; }
 }
-
-/// <summary>
-/// 通知信息类。
-/// </summary>
-public class NotifyInfo
-{
-    /// <summary>
-    /// 取得或设置通知窗口显示类型。
-    /// </summary>
-    public StyleType Type { get; set; }
-
-    /// <summary>
-    /// 取得或设置通知窗口标题。
-    /// </summary>
-    public string Title { get; set; }
-
-    /// <summary>
-    /// 取得或设置通知窗口内容。
-    /// </summary>
-    public string Message { get; set; }
-}

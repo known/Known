@@ -22,7 +22,7 @@ static class CoreHelper
         else if (type.IsAssignableTo(typeof(EntityBase)) && type.Name != nameof(EntityBase))
             DbConfig.Models.Add(type);
         else if (task != null)
-            CoreConfig.TaskTypes[task.BizType] = type;
+            services.AddTask(type, task);
         else if (import != null || (type.IsAssignableTo(typeof(ImportBase)) && type.Name != nameof(ImportBase)))
             services.AddImport(type, import);
         else if (type.IsAssignableTo(typeof(FlowBase)) && type.Name != nameof(FlowBase))
@@ -76,6 +76,12 @@ static class CoreHelper
                 return HttpMethod.Post;
         }
         return HttpMethod.Get;
+    }
+
+    private static void AddTask(this IServiceCollection services, Type type, TaskAttribute task)
+    {
+        CoreConfig.TaskTypes[task.BizType] = type;
+        services.AddScoped(type);
     }
 
     private static void AddImport(this IServiceCollection services, Type type, ImportAttribute import)

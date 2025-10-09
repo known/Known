@@ -52,10 +52,12 @@ public class TaskBase
 }
 
 [Task(ImportHelper.BizType)]
-class ImportTask : TaskBase
+class ImportTask(INotifyService notify) : TaskBase
 {
-    public override Task<Result> ExecuteAsync(Database db, SysTask task)
+    public override async Task<Result> ExecuteAsync(Database db, SysTask task)
     {
-        return ImportHelper.ExecuteAsync(Context, db, task);
+        var result = await ImportHelper.ExecuteAsync(Context, db, task);
+        await notify.LayoutNotifyAsync("任务执行通知", $"任务[{task.Name}]执行完成。{Environment.NewLine}结果：{result.Message}");
+        return result;
     }
 }
