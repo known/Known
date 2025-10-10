@@ -142,9 +142,10 @@ public sealed class DbUtils
     private static object ConvertTo<T>(Dictionary<string, object> dic) where T : new()
     {
         var obj = new T();
+        var info = TypeCache.Model(typeof(T));
         foreach (var item in dic)
         {
-            PropertyAccessor.SetPropertyValue(obj, item.Key, item.Value);
+            info?.SetValue(obj, item.Key, item.Value);
             //var property = TypeHelper.Property<T>(item.Key);
             //if (property != null)
             //{

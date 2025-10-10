@@ -38,6 +38,31 @@ public class TypeModelInfo
     /// <returns></returns>
     public PropertyInfo GetProperty(string name) => Dictionary.GetValueOrDefault(name)?.Property;
 
+    /// <summary>
+    /// 获取指定对象的属性值。
+    /// </summary>
+    /// <param name="instance">对象实例。</param>
+    /// <param name="name">属性名。</param>
+    /// <returns>属性值。</returns>
+    public object GetValue(object instance, string name)
+    {
+        if (Dictionary.TryGetValue(name, out var info))
+            return info.GetValue(instance);
+        return default;
+    }
+
+    /// <summary>
+    /// 设置指定对象的属性值。
+    /// </summary>
+    /// <param name="instance">对象实例。</param>
+    /// <param name="name">属性名。</param>
+    /// <param name="value">属性值。</param>
+    public void SetValue(object instance, string name, object value)
+    {
+        if (Dictionary.TryGetValue(name, out var info))
+            info.SetValue(instance, value);
+    }
+
     internal List<ColumnInfo> GetColumns(bool isAttr)
     {
         var columns = new List<ColumnInfo>();
@@ -69,6 +94,9 @@ public class TypeModelInfo
 /// <param name="property">类型属性。</param>
 public class TypeFieldInfo(PropertyInfo property)
 {
+    private readonly Func<object, object> _getter = CompileGetter(property);
+    private readonly Action<object, object> _setter = property.CanWrite ? CompileSetter(property) : null;
+
     /// <summary>
     /// 取得字段属性名称。
     /// </summary>
@@ -97,6 +125,20 @@ public class TypeFieldInfo(PropertyInfo property)
     /// <typeparam name="T">特性类型。</typeparam>
     /// <returns></returns>
     public T GetAttribute<T>() => Attributes == null ? default : Attributes.OfType<T>().FirstOrDefault();
+
+    /// <summary>
+    /// 获取属性值。
+    /// </summary>
+    /// <param name="instance">对象实例。</param>
+    /// <returns>属性值。</returns>
+    public object GetValue(object instance) => _getter?.Invoke(instance);
+
+    /// <summary>
+    /// 设置属性值。
+    /// </summary>
+    /// <param name="instance">对象实例。</param>
+    /// <param name="value">属性值。</param>
+    public void SetValue(object instance, object value) => _setter?.Invoke(instance, value);
 
     internal string DisplayName => GetAttribute<DisplayNameAttribute>()?.DisplayName;
     internal int? Length => GetAttribute<MaxLengthAttribute>()?.Length;
@@ -246,5 +288,41 @@ public class TypeFieldInfo(PropertyInfo property)
         if (Length == null) return null;
         if (Length < 100) return Length * 2;
         return Length;
+    }
+
+    private static Func<object, object> CompileGetter(PropertyInfo property)
+    {
+        var instance = Expression.Parameter(typeof(object), "instance");
+        var instanceCast = Expression.Convert(instance, property.DeclaringType!);
+        var propertyAccess = Expression.Property(instanceCast, property);
+        var castPropertyValue = Expression.Convert(propertyAccess, typeof(object));
+        return Expression.Lambda<Func<object, object>>(castPropertyValue, instance).Compile();
+    }
+
+    private static Action<object, object> CompileSetter(PropertyInfo property)
+    {
+        var setMethod = property.GetSetMethod(true);
+        if (setMethod == null) return null;
+
+        var instance = Expression.Parameter(typeof(object), "instance");
+        var value = Expression.Parameter(typeof(object), "value");
+        var instanceCast = Expression.Convert(instance, property.DeclaringType!);
+
+        var convertedValue = Expression.Call(
+            typeof(TypeCache).GetMethod(nameof(TypeCache.ConvertTo))!,
+            Expression.Constant(property.PropertyType),
+            value
+        );
+        var valueCast = Expression.Convert(convertedValue, property.PropertyType);
+        var setterCall = Expression.Call(instanceCast, setMethod, valueCast);
+        return Expression.Lambda<Action<object, object>>(setterCall, instance, value).Compile();
+
+        //Expression convertedValue;
+        //if (property.PropertyType.IsValueType)
+        //    convertedValue = Expression.Convert(value, property.PropertyType);
+        //else
+        //    convertedValue = Expression.TypeAs(value, property.PropertyType);
+        //var setterCall = Expression.Call(instanceCast, setMethod, convertedValue);
+        //return Expression.Lambda<Action<object, object>>(setterCall, instance, value).Compile();
     }
 }

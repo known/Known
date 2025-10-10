@@ -6,6 +6,7 @@ class TypeCache
     //private static readonly ConcurrentDictionary<Type, Lazy<TypeModelInfo>> _typeCache = new();
     //private static readonly ConcurrentDictionary<Type, int> _inheritanceDepthCache = new();
 
+    public static object ConvertTo(Type type, object value) => Utils.ConvertTo(type, value);
     public static void PreloadTypes(IEnumerable<Type> types) => Parallel.ForEach(types, type => _typeCache.GetOrAdd(type, CreateLazy));
     public static TypeModelInfo Model(Type type) => _typeCache.GetOrAdd(type, CreateLazy);//.Value;
     public static FrozenDictionary<string, TypeFieldInfo> Dictionary(Type type) => Model(type).Dictionary;
@@ -39,84 +40,4 @@ class TypeCache
     //    for (var t = type; t != null; t = t.BaseType) depth++;
     //    return depth;
     //}
-}
-
-class PropertyAccessor
-{
-    private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Func<object, object>>> _getterCache = new();
-    private static readonly ConcurrentDictionary<Type, ConcurrentDictionary<string, Action<object, object>>> _setterCache = new();
-
-    public static object GetPropertyValue(object model, string name)
-    {
-        if (model == null || string.IsNullOrWhiteSpace(name))
-            return default;
-
-        var type = model.GetType();
-        var typeGetters = _getterCache.GetOrAdd(type, t => new ConcurrentDictionary<string, Func<object, object>>());
-
-        if (!typeGetters.TryGetValue(name, out var getter))
-        {
-            var property = TypeCache.Property(type, name);
-            if (property == null || !property.CanRead)
-                return default;
-
-            getter = CompileGetter(property);
-            typeGetters[name] = getter;
-        }
-
-        return getter(model);
-    }
-
-    public static void SetPropertyValue(object model, string name, object value)
-    {
-        if (model == null || string.IsNullOrWhiteSpace(name))
-            return;
-
-        var type = model.GetType();
-        var typeSetters = _setterCache.GetOrAdd(type, t => new ConcurrentDictionary<string, Action<object, object>>());
-
-        if (!typeSetters.TryGetValue(name, out var setter))
-        {
-            var property = TypeCache.Property(type, name);
-            if (property == null || !property.CanWrite)
-                return;
-
-            setter = CompileSetter(property);
-            typeSetters[name] = setter;
-        }
-
-        setter(model, value);
-    }
-
-    public static object ConvertTo(Type type, object value) => Utils.ConvertTo(type, value);
-
-    // 编译Getter委托（高性能）
-    private static Func<object, object> CompileGetter(PropertyInfo property)
-    {
-        var instance = Expression.Parameter(typeof(object), "instance");
-        var instanceCast = Expression.Convert(instance, property.DeclaringType);
-        var propertyAccess = Expression.Property(instanceCast, property);
-        var castPropertyValue = Expression.Convert(propertyAccess, typeof(object));
-        return Expression.Lambda<Func<object, object>>(castPropertyValue, instance).Compile();
-    }
-
-    // 编译Setter委托（高性能 + 内置类型转换）
-    private static Action<object, object> CompileSetter(PropertyInfo property)
-    {
-        var instance = Expression.Parameter(typeof(object), "instance");
-        var value = Expression.Parameter(typeof(object), "value");
-
-        // 转换实例到声明类型
-        var instanceCast = Expression.Convert(instance, property.DeclaringType);
-        // 调用通用类型转换方法
-        var convertedValue = Expression.Call(
-            typeof(PropertyAccessor).GetMethod(nameof(ConvertTo), BindingFlags.Static | BindingFlags.Public),
-            Expression.Constant(property.PropertyType),
-            value
-        );
-        // 将转换后的值转换为目标类型
-        var valueCast = Expression.Convert(convertedValue, property.PropertyType);
-        var setterCall = Expression.Call(instanceCast, property.GetSetMethod(), valueCast);
-        return Expression.Lambda<Action<object, object>>(setterCall, instance, value).Compile();
-    }
 }

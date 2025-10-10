@@ -152,7 +152,11 @@ public sealed class TypeHelper
     /// <param name="model">数据对象。</param>
     /// <param name="name">属性名称。</param>
     /// <returns>属性值。</returns>
-    public static object GetPropertyValue(object model, string name) => PropertyAccessor.GetPropertyValue(model, name);
+    public static object GetPropertyValue(object model, string name)
+    {
+        var info = TypeCache.Model(model.GetType());
+        return info?.GetValue(model, name);
+    }
 
     /// <summary>
     /// 设置数据对象属性值。
@@ -160,7 +164,11 @@ public sealed class TypeHelper
     /// <param name="model">数据对象。</param>
     /// <param name="name">属性名称。</param>
     /// <param name="value">属性值。</param>
-    public static void SetPropertyValue(object model, string name, object value) => PropertyAccessor.SetPropertyValue(model, name, value);
+    public static void SetPropertyValue(object model, string name, object value)
+    {
+        var info = TypeCache.Model(model.GetType());
+        info?.SetValue(model, name, value);
+    }
 
     private static PropertyInfo ExtractProperty<T>(LambdaExpression selector)
     {
