@@ -33,7 +33,7 @@ public sealed class DbUtils
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="reader">DataReader。</param>
     /// <returns>泛型对象。</returns>
-    public static object ConvertTo<T>(IDataReader reader)
+    public static object ConvertTo<T>(IDataReader reader) where T : new()
     {
         var dic = GetDictionary(reader);
         if (typeof(T).IsDictionary())
@@ -48,7 +48,7 @@ public sealed class DbUtils
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="row">DataRow。</param>
     /// <returns>泛型对象。</returns>
-    public static object ConvertTo<T>(DataRow row)
+    public static object ConvertTo<T>(DataRow row) where T : new()
     {
         var dic = GetDictionary(row);
         if (typeof(T).IsDictionary())
@@ -139,23 +139,21 @@ public sealed class DbUtils
         return dic;
     }
 
-    private static object ConvertTo<T>(Dictionary<string, object> dic)
+    private static object ConvertTo<T>(Dictionary<string, object> dic) where T : new()
     {
-        var obj = Activator.CreateInstance<T>();
-        var properties = TypeHelper.Properties<T>();
+        var obj = new T();
         foreach (var item in dic)
         {
-            var property = properties.FirstOrDefault(p => p.Name.Equals(item.Key, StringComparison.CurrentCultureIgnoreCase));
-            if (property != null)
-            {
-                var value = Utils.ConvertTo(property.PropertyType, item.Value);
-                property.SetValue(obj, value);
-            }
+            PropertyAccessor.SetPropertyValue(obj, item.Key, item.Value);
+            //var property = TypeHelper.Property<T>(item.Key);
+            //if (property != null)
+            //{
+            //    var value = Utils.ConvertTo(property.PropertyType, item.Value);
+            //    property.SetValue(obj, value);
+            //}
         }
         if (obj is BaseEntity)
-        {
             (obj as BaseEntity).SetOriginal(dic);
-        }
         return obj;
     }
 

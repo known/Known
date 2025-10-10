@@ -89,7 +89,7 @@ public interface IQueryBuilder<T> where T : class, new()
     /// </summary>
     /// <typeparam name="TItem">泛型类型。</typeparam>
     /// <returns>单条数据。</returns>
-    Task<TItem> FirstAsync<TItem>();
+    Task<TItem> FirstAsync<TItem>() where TItem : new();
 
     /// <summary>
     /// 异步查询建造者构建的单条数据。
@@ -97,7 +97,7 @@ public interface IQueryBuilder<T> where T : class, new()
     /// <typeparam name="TItem">泛型类型。</typeparam>
     /// <param name="predicate">条件表达式。</param>
     /// <returns>单条数据。</returns>
-    Task<TItem> FirstAsync<TItem>(Expression<Func<T, bool>> predicate);
+    Task<TItem> FirstAsync<TItem>(Expression<Func<T, bool>> predicate) where TItem : new();
 
     /// <summary>
     /// 异步查询建造者构建的多条数据。
@@ -110,7 +110,7 @@ public interface IQueryBuilder<T> where T : class, new()
     /// </summary>
     /// <typeparam name="TItem">泛型类型。</typeparam>
     /// <returns>多条数据。</returns>
-    Task<List<TItem>> ToListAsync<TItem>();
+    Task<List<TItem>> ToListAsync<TItem>() where TItem : new();
 
     /// <summary>
     /// 异步查询建造者构建的多条数据。
@@ -118,7 +118,7 @@ public interface IQueryBuilder<T> where T : class, new()
     /// <typeparam name="TItem">泛型类型。</typeparam>
     /// <param name="predicate">条件表达式。</param>
     /// <returns>多条数据。</returns>
-    Task<List<TItem>> ToListAsync<TItem>(Expression<Func<T, bool>> predicate);
+    Task<List<TItem>> ToListAsync<TItem>(Expression<Func<T, bool>> predicate) where TItem : new();
 }
 
 class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
@@ -204,13 +204,13 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
     public async Task<bool> ExistsAsync() => await CountAsync() > 0;
     public Task<T> FirstAsync() => FirstAsync<T>();
 
-    public Task<TItem> FirstAsync<TItem>()
+    public Task<TItem> FirstAsync<TItem>() where TItem : new()
     {
         var info = GetSelectCommand(true);
         return db.QueryAsync<TItem>(info);
     }
 
-    public Task<TItem> FirstAsync<TItem>(Expression<Func<T, bool>> predicate)
+    public Task<TItem> FirstAsync<TItem>(Expression<Func<T, bool>> predicate) where TItem : new()
     {
         Where(predicate);
         var info = GetSelectCommand(true);
@@ -219,13 +219,13 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
 
     public Task<List<T>> ToListAsync() => ToListAsync<T>();
 
-    public Task<List<TItem>> ToListAsync<TItem>()
+    public Task<List<TItem>> ToListAsync<TItem>() where TItem : new()
     {
         var info = GetSelectCommand();
         return db.QueryListAsync<TItem>(info);
     }
 
-    public Task<List<TItem>> ToListAsync<TItem>(Expression<Func<T, bool>> predicate)
+    public Task<List<TItem>> ToListAsync<TItem>(Expression<Func<T, bool>> predicate) where TItem : new()
     {
         Where(predicate);
         var info = GetSelectCommand();

@@ -16,7 +16,7 @@ public partial class Database
     /// <param name="sql">查询SQL语句。</param>
     /// <param name="param">查询参数。</param>
     /// <returns>单条数据。</returns>
-    public virtual Task<T> QueryAsync<T>(string sql, object param = null)
+    public virtual Task<T> QueryAsync<T>(string sql, object param = null) where T : new()
     {
         var info = new CommandInfo(Provider, typeof(T), sql, param);
         return QueryAsync<T>(info);
@@ -106,7 +106,7 @@ public partial class Database
     /// <param name="sql">查询SQL语句。</param>
     /// <param name="param">查询参数。</param>
     /// <returns>多条数据。</returns>
-    public virtual Task<List<T>> QueryListAsync<T>(string sql, object param = null)
+    public virtual Task<List<T>> QueryListAsync<T>(string sql, object param = null) where T : new()
     {
         var info = new CommandInfo(Provider, typeof(T), sql, param);
         return QueryListAsync<T>(info);
@@ -131,7 +131,7 @@ public partial class Database
     /// <typeparam name="TKey">ID字段类型。</typeparam>
     /// <param name="ids">实体ID集合。</param>
     /// <returns>多条数据。</returns>
-    public virtual Task<List<T>> QueryListByIdAsync<T, TKey>(TKey[] ids)
+    public virtual Task<List<T>> QueryListByIdAsync<T, TKey>(TKey[] ids) where T : new()
     {
         if (ids == null || ids.Length == 0)
             return Task.FromResult<List<T>>(null);
@@ -157,7 +157,7 @@ public partial class Database
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="ids">实体ID集合。</param>
     /// <returns>多条数据。</returns>
-    public Task<List<T>> QueryListByIdAsync<T>(string[] ids) => QueryListByIdAsync<T, string>(ids);
+    public Task<List<T>> QueryListByIdAsync<T>(string[] ids) where T : new() => QueryListByIdAsync<T, string>(ids);
 
     /// <summary>
     /// 异步查询多条数据。
@@ -165,7 +165,7 @@ public partial class Database
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="ids">实体ID集合。</param>
     /// <returns>多条数据。</returns>
-    public Task<List<T>> QueryListByIdAsync<T>(long[] ids) => QueryListByIdAsync<T, long>(ids);
+    public Task<List<T>> QueryListByIdAsync<T>(long[] ids) where T: new() => QueryListByIdAsync<T, long>(ids);
 
     /// <summary>
     /// 异步查询多条数据。
@@ -173,7 +173,7 @@ public partial class Database
     /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="ids">实体ID集合。</param>
     /// <returns>多条数据。</returns>
-    public Task<List<T>> QueryListByIdAsync<T>(int[] ids) => QueryListByIdAsync<T, int>(ids);
+    public Task<List<T>> QueryListByIdAsync<T>(int[] ids) where T : new() => QueryListByIdAsync<T, int>(ids);
 
     /// <summary>
     /// 异步查询DataTable。
@@ -205,7 +205,7 @@ public partial class Database
         await CloseAsync();
     }
 
-    internal async Task<T> QueryAsync<T>(CommandInfo info)
+    internal async Task<T> QueryAsync<T>(CommandInfo info) where T : new()
     {
         T obj = default;
         try
@@ -227,7 +227,7 @@ public partial class Database
         return obj;
     }
 
-    internal async Task<List<T>> QueryListAsync<T>(CommandInfo info)
+    internal async Task<List<T>> QueryListAsync<T>(CommandInfo info) where T : new()
     {
         var lists = new List<T>();
         try

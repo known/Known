@@ -8,6 +8,7 @@ class TypeCache
 
     public static void PreloadTypes(IEnumerable<Type> types) => Parallel.ForEach(types, type => _typeCache.GetOrAdd(type, CreateLazy));
     public static TypeModelInfo Model(Type type) => _typeCache.GetOrAdd(type, CreateLazy);//.Value;
+    public static FrozenDictionary<string, TypeFieldInfo> Dictionary(Type type) => Model(type).Dictionary;
     public static List<TypeFieldInfo> Fields(Type type) => Model(type).Fields;
     public static TypeFieldInfo Field(Type type, string name) => Model(type).Dictionary.GetValueOrDefault(name);
     public static PropertyInfo[] Properties(Type type) => Model(type).Properties;
@@ -87,6 +88,8 @@ class PropertyAccessor
         setter(model, value);
     }
 
+    public static object ConvertTo(Type type, object value) => Utils.ConvertTo(type, value);
+
     // 编译Getter委托（高性能）
     private static Func<object, object> CompileGetter(PropertyInfo property)
     {
@@ -107,7 +110,7 @@ class PropertyAccessor
         var instanceCast = Expression.Convert(instance, property.DeclaringType);
         // 调用通用类型转换方法
         var convertedValue = Expression.Call(
-            typeof(TypeConverter).GetMethod(nameof(TypeConverter.ConvertTo), BindingFlags.Static | BindingFlags.Public),
+            typeof(PropertyAccessor).GetMethod(nameof(ConvertTo), BindingFlags.Static | BindingFlags.Public),
             Expression.Constant(property.PropertyType),
             value
         );

@@ -36,6 +36,9 @@ public class ComponentBuilder<T> where T : Microsoft.AspNetCore.Components.IComp
     public ComponentBuilder<T> Set<TValue>(Expression<Func<T, TValue>> selector, TValue value)
     {
         var property = TypeHelper.Property(selector);
+        if (property == null)
+            return this;
+
         return Add(property.Name, value);
     }
 

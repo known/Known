@@ -1,6 +1,4 @@
-﻿using System.Collections.Frozen;
-
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 类型模型信息类。
@@ -15,7 +13,7 @@ public class TypeModelInfo
     {
         Properties = properties;
         Fields = [.. properties.Select(p => new TypeFieldInfo(p))];
-        Dictionary = Fields.ToFrozenDictionary(p => p.Name);
+        Dictionary = Fields.ToFrozenDictionary(p => p.Name, StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
