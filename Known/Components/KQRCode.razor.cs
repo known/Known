@@ -5,6 +5,8 @@
 /// </summary>
 public partial class KQRCode
 {
+    private string ClassName => CssBuilder.Default("kui-qrcode").AddClass(Class).BuildClass();
+
     /// <summary>
     /// 取得或设置二维码配置对象，配置参考qrcode.js。。
     /// </summary>
