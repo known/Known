@@ -6,7 +6,10 @@
 /// <typeparam name="TItem">表单数据类型。</typeparam>
 public partial class FormModel<TItem> : BaseModel where TItem : class, new()
 {
-    private List<ColumnInfo> columns = [];
+    /// <summary>
+    /// 取得表单字段字典。
+    /// </summary>
+    protected Dictionary<string, ColumnInfo> Columns { get; } = [];
 
     /// <summary>
     /// 构造函数，创建一个表单模型信息类的实例。
@@ -18,7 +21,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
         IsDictionary = typeof(TItem).IsDictionary();
         Page = page;
         if (isAuto)
-            columns = TypeCache.Model(typeof(TItem)).GetFormns();
+            Columns = TypeCache.Model(typeof(TItem)).GetFormns();
     }
 
     internal FormModel(TableModel table, bool isAuto = false) : this(table.Page, isAuto)

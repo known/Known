@@ -39,7 +39,9 @@ partial class FormModel<TItem>
     public ColumnBuilder<TItem> Field<TValue>(Expression<Func<TItem, TValue>> selector)
     {
         var property = TypeHelper.Property(selector);
-        var column = columns?.FirstOrDefault(c => c.Id == property.Name);
+        if (!Columns.TryGetValue(property.Name, out ColumnInfo column))
+            throw new InvalidOperationException($"The field {property.Name} does not exist.");
+
         return new ColumnBuilder<TItem>(column);
     }
 

@@ -49,7 +49,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
                 Model.Tab.Right = BuildRight;
                 builder.Tabs(Model.Tab);
             }
-            else
+            else if (ShowToolbar())
             {
                 builder.Toolbar(() =>
                 {
@@ -71,6 +71,14 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
             else
                 builder.Table(Model);
         });
+    }
+
+    private bool ShowToolbar()
+    {
+        return !string.IsNullOrWhiteSpace(Model.Name) ||
+               Model.TopStatis != null ||
+               Model.ShowSetting ||
+               Model.Toolbar.HasItem;
     }
 
     private void BuildTitle(RenderTreeBuilder builder)

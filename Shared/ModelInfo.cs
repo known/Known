@@ -75,14 +75,14 @@ public class TypeModelInfo
         return columns;
     }
 
-    internal List<ColumnInfo> GetFormns()
+    internal Dictionary<string, ColumnInfo> GetFormns()
     {
-        var forms = new List<ColumnInfo>();
+        var forms = new Dictionary<string, ColumnInfo>();
         foreach (var item in Fields)
         {
             var form = item.GetForm();
             if (form != null)
-                forms.Add(form);
+                forms[item.Name] = form;
         }
         return forms;
     }

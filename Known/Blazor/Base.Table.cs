@@ -7,9 +7,9 @@
 public class BaseTable<TItem> : BaseComponent where TItem : class, new()
 {
     /// <summary>
-    /// 取得表格组件模型对象实例。
+    /// 取得或设置表格组件模型对象实例。
     /// </summary>
-    protected TableModel<TItem> Table { get; private set; }
+    protected TableModel<TItem> Table { get; set; }
 
     /// <summary>
     /// 取得表格选中行对象列表。

@@ -129,7 +129,6 @@ class FormView : BaseView<FormInfo>
     private void SetForm()
     {
         form.SetFormInfo(Model);
-        form.InitColumns();
 
         if (IsCustomPage)
             codeForm = Generator?.GetForm(Model, Module?.Entity);

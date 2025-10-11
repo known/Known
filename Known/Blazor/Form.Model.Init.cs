@@ -4,10 +4,8 @@ partial class FormModel<TItem>
 {
     private bool isInitColumns = false;
 
-    /// <summary>
-    /// 初始化表单布局。
-    /// </summary>
-    public void Initialize()
+    // 初始化表单布局。
+    internal void Initialize()
     {
         if (isInitColumns)
             return;
@@ -16,26 +14,21 @@ partial class FormModel<TItem>
         InitColumns();
     }
 
-    /// <summary>
-    /// 初始化表单布局。
-    /// </summary>
-    /// <param name="info">表单配置信息。</param>
-    public void Initialize(FormInfo info)
+    // 初始化表单布局。
+    // <param name="info">表单配置信息。</param>
+    internal void Initialize(FormInfo info)
     {
         SetFormInfo(info);
-        InitColumns();
     }
 
-    /// <summary>
-    /// 初始化无代码表单栏位。
-    /// </summary>
-    public void InitColumns()
+    // 初始化无代码表单栏位。
+    internal void InitColumns()
     {
-        if (columns == null || columns.Count == 0)
+        if (Columns.Count == 0)
             return;
 
         Rows.Clear();
-        var fields = columns.Where(c => c.IsVisible && c.Type != FieldType.Hidden);
+        var fields = Columns.Values.Where(c => c.IsVisible && c.Type != FieldType.Hidden);
         var rowNos = fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
         {
@@ -64,7 +57,8 @@ partial class FormModel<TItem>
             return;
 
         Info = info;
-        columns = GetFormColumns(info);
+        InitColumns(info);
+        InitColumns();
 
         if (info.IsContinue)
         {
@@ -78,12 +72,18 @@ partial class FormModel<TItem>
         }
     }
 
-    private static List<ColumnInfo> GetFormColumns(FormInfo form)
+    private void InitColumns(FormInfo form)
     {
-        var columns = new List<ColumnInfo>();
+        Columns.Clear();
         if (typeof(TItem).IsDictionary())
         {
-            columns = form?.Fields?.Select(f => new ColumnInfo(f)).ToList();
+            if (form != null && form.Fields != null && form.Fields.Count > 0)
+            {
+                foreach (var item in form.Fields)
+                {
+                    Columns[item.Id] = new ColumnInfo(item);
+                }
+            }
         }
         else
         {
@@ -94,10 +94,9 @@ partial class FormModel<TItem>
                 if (info != null)
                 {
                     column.SetFormFieldInfo(info);
-                    columns.Add(column);
+                    Columns[column.Id] = column;
                 }
             }
         }
-        return columns;
     }
 }
