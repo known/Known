@@ -1,7 +1,7 @@
 ﻿namespace Known.Components;
 
 /// <summary>
-/// 垂直弹性布局。
+/// 水平弹性布局。
 /// </summary>
 public class KFlexRow : BaseComponent
 {
@@ -19,7 +19,7 @@ public class KFlexRow : BaseComponent
 }
 
 /// <summary>
-/// 水平弹性布局。
+/// 垂直弹性布局。
 /// </summary>
 public class KFlexColumn : BaseComponent
 {

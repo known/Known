@@ -23,6 +23,8 @@ public partial class KQRCode
     {
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender && Visible)
+        {
             await JS.ShowQRCodeAsync(Id, Option);
+        }
     }
 }

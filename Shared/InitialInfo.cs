@@ -6,6 +6,11 @@
 public class InitialInfo
 {
     /// <summary>
+    /// 取得或设置系统主机地址或域名。
+    /// </summary>
+    public string HostUrl { get; set; }
+
+    /// <summary>
     /// 取得或设置系统是否已经安装。
     /// </summary>
     public bool IsInstalled { get; set; }

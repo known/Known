@@ -71,6 +71,7 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
         var sys = await database.GetSystemAsync(true);
         var info = new InitialInfo
         {
+            HostUrl = Config.HostUrl,
             IsInstalled = sys != null,
             LanguageSettings = Language.Settings,
             Languages = Language.Datas

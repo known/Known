@@ -64,6 +64,7 @@ public class LayoutBase : LayoutComponentBase
         {
             Language.Settings = info.LanguageSettings;
             Language.Datas = info.Languages;
+            Config.HostUrl = info.HostUrl;
             Config.IsInstalled = info.IsInstalled;
             Config.System = info.System;
             Config.OnInitial?.Invoke(info);

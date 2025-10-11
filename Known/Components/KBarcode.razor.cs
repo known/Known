@@ -1,12 +1,12 @@
 ﻿namespace Known.Components;
 
 /// <summary>
-/// 条形码组件类。
+/// 条形码组件类，配置参考barcode.js。
 /// </summary>
 public partial class KBarcode
 {
-    //条形码组件类，配置参考barcode.js。
     private string lastCode;
+    private string ClassName => CssBuilder.Default("kui-barcode").AddClass(Class).BuildClass();
 
     /// <summary>
     /// 取得或设置条形码组件条码值。

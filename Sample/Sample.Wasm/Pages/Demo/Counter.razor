@@ -39,6 +39,11 @@
         <div>@model.Data.Field</div>
         <div>文件数量：@fileCount</div>
     </AntForm>
+
+    <KFlexRow>
+        <KQRCode Option="@(new { Text = "1234", Width = 100, Height = 100 })" Style="width:100px;height:100px;" />
+        <KBarcode Value="1234567890" Style="width:200px;height:50px;" />
+    </KFlexRow>
 </div>
 
 @code {
