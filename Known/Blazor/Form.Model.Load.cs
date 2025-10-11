@@ -62,16 +62,17 @@ partial class FormModel<TItem>
         }
         else
         {
-            var data = Activator.CreateInstance<TItem>();
-            var baseProperties = TypeHelper.Properties<EntityBase>();
+            var data = new TItem();
+            var baseProperties = TypeHelper.GetBaseFields();
             var properties = TypeHelper.Properties<TItem>();
+            var model = TypeCache.Model<TItem>();
             foreach (var item in properties)
             {
-                if (!item.CanWrite || baseProperties.Any(p => p.Name == item.Name))
+                if (!item.CanWrite || baseProperties.Any(p => p.Id == item.Name))
                     continue;
 
-                var value = item.GetValue(DefaultData);
-                item.SetValue(data, value, null);
+                var value = model.GetValue(DefaultData, item.Name);
+                model.SetValue(data, item.Name, value);
             }
             return data;
         }

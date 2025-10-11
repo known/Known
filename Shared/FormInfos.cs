@@ -344,28 +344,28 @@ public class ImportFormInfo : FileFormInfo
     /// </summary>
     public string Error { get; set; }
 
-    /// <summary>
-    /// 根据模型类型获取导入栏位名称列表，适用于自动生成导入规范（暂未使用）。
-    /// </summary>
-    /// <param name="modelType">模型类型。</param>
-    /// <returns>导入栏位名称列表。</returns>
-    public static List<string> GetImportColumns(string modelType)
-    {
-        var columns = new List<string>();
-        var baseProperties = TypeHelper.Properties<EntityBase>();
-        var type = Type.GetType(modelType);
-        var properties = TypeHelper.Properties(type);
-        foreach (var item in properties)
-        {
-            if (item.GetGetMethod().IsVirtual || baseProperties.Any(p => p.Name == item.Name))
-                continue;
+    ///// <summary>
+    ///// 根据模型类型获取导入栏位名称列表，适用于自动生成导入规范（暂未使用）。
+    ///// </summary>
+    ///// <param name="modelType">模型类型。</param>
+    ///// <returns>导入栏位名称列表。</returns>
+    //public static List<string> GetImportColumns(string modelType)
+    //{
+    //    var columns = new List<string>();
+    //    var baseProperties = TypeHelper.Properties<EntityBase>();
+    //    var type = Type.GetType(modelType);
+    //    var properties = TypeHelper.Properties(type);
+    //    foreach (var item in properties)
+    //    {
+    //        if (item.GetGetMethod().IsVirtual || baseProperties.Any(p => p.Name == item.Name))
+    //            continue;
 
-            var name = item.DisplayName();
-            if (!string.IsNullOrWhiteSpace(name))
-                columns.Add(name);
-        }
-        return columns;
-    }
+    //        var name = item.DisplayName();
+    //        if (!string.IsNullOrWhiteSpace(name))
+    //            columns.Add(name);
+    //    }
+    //    return columns;
+    //}
 }
 
 /// <summary>

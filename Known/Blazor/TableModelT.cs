@@ -30,9 +30,9 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         AdvSearch = true;
         IsDictionary = typeof(TItem).IsDictionary();
         if (mode == TableColumnMode.Property)
-            AllColumns = TypeCache.Model(typeof(TItem)).GetColumns(false);
+            AllColumns = TypeCache.Model<TItem>().GetColumns(false);
         else if (mode == TableColumnMode.Attribute)
-            AllColumns = TypeCache.Model(typeof(TItem)).GetColumns(true);
+            AllColumns = TypeCache.Model<TItem>().GetColumns(true);
 
         if (page != null)
         {

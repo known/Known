@@ -70,8 +70,7 @@ public static class QueryExtension
         if (string.IsNullOrWhiteSpace(propertyName))
             return string.Empty;
 
-        var properties = TypeHelper.Properties(entityType);
-        var property = properties?.FirstOrDefault(p => p.Name.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
+        var property = TypeCache.Property(entityType, propertyName);
         return property?.GetFieldName();
     }
 

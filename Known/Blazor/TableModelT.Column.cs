@@ -48,7 +48,7 @@ partial class TableModel<TItem>
     /// </summary>
     public void AddAttributeColumns()
     {
-        AllColumns = TypeCache.Model(typeof(TItem)).GetColumns(true);
+        AllColumns = TypeCache.Model<TItem>().GetColumns(true);
         Columns.Clear();
         if (AllColumns != null && AllColumns.Count > 0)
             Columns.AddRange(AllColumns);

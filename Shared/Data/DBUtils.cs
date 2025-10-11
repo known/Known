@@ -78,12 +78,13 @@ public sealed class DbUtils
 
         var dic = new Dictionary<string, object>();
         var properties = TypeHelper.Properties<T>();
+        var model = TypeCache.Model<T>();
         foreach (var item in properties)
         {
             if (item.CanRead && !item.GetMethod.IsVirtual)
             {
                 var field = item.GetFieldName();
-                dic[field] = value == null ? null : item.GetValue(value, null);
+                dic[field] = value == null ? null : model.GetValue(value, item.Name);
             }
         }
         return dic;
@@ -142,10 +143,10 @@ public sealed class DbUtils
     private static object ConvertTo<T>(Dictionary<string, object> dic) where T : new()
     {
         var obj = new T();
-        var info = TypeCache.Model(typeof(T));
+        var model = TypeCache.Model<T>();
         foreach (var item in dic)
         {
-            info?.SetValue(obj, item.Key, item.Value);
+            model.SetValue(obj, item.Key, item.Value);
             //var property = TypeHelper.Property<T>(item.Key);
             //if (property != null)
             //{

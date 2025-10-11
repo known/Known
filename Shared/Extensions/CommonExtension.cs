@@ -68,14 +68,18 @@ public static class CommonExtension
         if (obj == null || other == null)
             return;
 
-        var type = typeof(T1);
-        foreach (var property in TypeHelper.Properties(type))
+        var properties = TypeHelper.Properties<T1>();
+        var model1 = TypeCache.Model<T1>();
+        var model2 = TypeCache.Model<T2>();
+        foreach (var item in properties)
         {
-            if (property.CanRead && property.CanWrite)
+            if (item.CanRead && item.CanWrite)
             {
-                var value = property.GetValue(other);
+                //var value = item.GetValue(other);
+                var value = model2.GetValue(other, item.Name);
                 if (value != null)
-                    property.SetValue(obj, value);
+                    model1.SetValue(obj, item.Name, value);
+                //item.SetValue(obj, value);
             }
         }
     }

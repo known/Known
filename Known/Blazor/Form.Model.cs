@@ -21,7 +21,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
         IsDictionary = typeof(TItem).IsDictionary();
         Page = page;
         if (isAuto)
-            Columns = TypeCache.Model(typeof(TItem)).GetFormns();
+            Columns = TypeCache.Model<TItem>().GetFormns();
     }
 
     internal FormModel(TableModel table, bool isAuto = false) : this(table.Page, isAuto)

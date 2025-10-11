@@ -8,8 +8,10 @@ class TypeCache
 
     public static object ConvertTo(Type type, object value) => Utils.ConvertTo(type, value);
     public static void PreloadTypes(IEnumerable<Type> types) => Parallel.ForEach(types, type => _typeCache.GetOrAdd(type, CreateLazy));
+    public static TypeModelInfo Model<T>() => Model(typeof(T));
     public static TypeModelInfo Model(Type type) => _typeCache.GetOrAdd(type, CreateLazy);//.Value;
     public static FrozenDictionary<string, TypeFieldInfo> Dictionary(Type type) => Model(type).Dictionary;
+    public static List<TypeFieldInfo> Fields<T>() => Fields(typeof(T));
     public static List<TypeFieldInfo> Fields(Type type) => Model(type).Fields;
     public static TypeFieldInfo Field(Type type, string name) => Model(type).Dictionary.GetValueOrDefault(name);
     public static PropertyInfo[] Properties(Type type) => Model(type).Properties;
