@@ -1,9 +1,11 @@
-﻿namespace Known.Components;
+﻿using AntDesign;
+
+namespace Known.Components;
 
 /// <summary>
 /// 标签组件类。
 /// </summary>
-public partial class KTag
+public class KTag : BaseComponent
 {
     /// <summary>
     /// 取得或设置标签文本。
@@ -19,6 +21,19 @@ public partial class KTag
     /// 取得或设置标签点击事件。
     /// </summary>
     [Parameter] public EventCallback OnClick { get; set; }
+
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Visible)
+            return;
+
+        builder.Component<Tag>()
+               .Set(c => c.Color, GetColor(Text))
+               .Set(c => c.OnClick, OnClick)
+               .Set(c => c.ChildContent, b => b.Text(Language[Text]))
+               .Build();
+    }
 
     private string GetColor(string text)
     {

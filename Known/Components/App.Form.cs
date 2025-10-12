@@ -3,7 +3,7 @@
 /// <summary>
 /// 移动端表单组件类。
 /// </summary>
-public partial class AppForm
+public class AppForm : BaseComponent
 {
     private string ClassName => CssBuilder.Default("kui-app-form").AddClass(Class).BuildClass();
 
@@ -16,4 +16,17 @@ public partial class AppForm
     /// 取得或设置操作模板。
     /// </summary>
     [Parameter] public RenderFragment Action { get; set; }
+
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        builder.Div().Class(ClassName).Child(() =>
+        {
+            builder.Fragment(ChildContent);
+            if (Action != null)
+            {
+                builder.Div("kui-app-form-action", () => builder.Fragment(Action));
+            }
+        });
+    }
 }

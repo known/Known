@@ -15,10 +15,7 @@ public class KFileLink : BaseComponent
     /// </summary>
     [Parameter] public AttachInfo Item { get; set; }
 
-    /// <summary>
-    /// 呈现组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Config.App.Type != AppType.Web)

@@ -5,7 +5,7 @@ namespace Known.Components;
 /// <summary>
 /// 图标组件类。
 /// </summary>
-public partial class KIcon
+public class KIcon : BaseComponent
 {
     /// <summary>
     /// 取得或设置图标。
@@ -27,15 +27,37 @@ public partial class KIcon
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs>? OnClick { get; set; }
 
-    private RenderFragment RenderItem()
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Visible)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(Title))
+        {
+            builder.Component<Tooltip>()
+                   .Set(c => c.TitleTemplate, TitleTemplate(Title))
+                   .Set(c => c.ChildContent, BuildItem)
+                   .Build();
+        }
+        else
+        {
+            BuildItem(builder);
+        }
+    }
+
+    private void BuildItem(RenderTreeBuilder builder)
     {
         if (string.IsNullOrWhiteSpace(Name))
-            return b => BuildIcon(b, OnClick);
-
-        return b => b.Div().Class("kui-icon").OnClick(OnClick).Child(() =>
         {
-            BuildIcon(b);
-            b.Span("icon-name", Language[Name]);
+            BuildIcon(builder, OnClick);
+            return;
+        }
+
+        builder.Div().Class("kui-icon").OnClick(OnClick).Child(() =>
+        {
+            BuildIcon(builder);
+            builder.Span("icon-name", Language[Name]);
         });
     }
 

@@ -78,10 +78,7 @@ public static class FragmentExtension
     /// <param name="color">标签颜色。</param>
     public static void Tag(this RenderTreeBuilder builder, string text, string color = null)
     {
-        builder.Component<KTag>()
-               .Set(c => c.Text, text)
-               .Set(c => c.Color, color)
-               .Build();
+        builder.Component<KTag>().Set(c => c.Text, text).Set(c => c.Color, color).Build();
     }
 
     /// <summary>
