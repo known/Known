@@ -3,7 +3,7 @@
 /// <summary>
 /// 图表组件类，配置参考highcharts.js。
 /// </summary>
-public partial class KChart
+public class KChart : BaseComponent
 {
     private string ClassName => CssBuilder.Default("chart").AddClass(Class).BuildClass();
 
@@ -46,6 +46,15 @@ public partial class KChart
     /// 取得或设置图表绘制配置对象。
     /// </summary>
     [Parameter] public object PlotOptions { get; set; }
+
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Visible)
+            return;
+
+        builder.Div().Id(Id).Class(ClassName).Style(Style).Close();
+    }
 
     /// <summary>
     /// 异步显示图表。

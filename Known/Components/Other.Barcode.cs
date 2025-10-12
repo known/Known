@@ -3,7 +3,7 @@
 /// <summary>
 /// 条形码组件类，配置参考barcode.js。
 /// </summary>
-public partial class KBarcode
+public class KBarcode : BaseComponent
 {
     private string lastCode;
     private string ClassName => CssBuilder.Default("kui-barcode").AddClass(Class).BuildClass();
@@ -22,6 +22,15 @@ public partial class KBarcode
     protected override void OnInitialized()
     {
         Id = $"bc-{Id}";
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Visible)
+            return;
+
+        builder.Canvas().Id(Id).Class(ClassName).Style(Style).Close();
     }
 
     /// <inheritdoc />

@@ -63,7 +63,12 @@ public sealed class Utils
     public static object ConvertTo(Type type, object value, object defaultValue = null)
     {
         if (value == null || value == DBNull.Value)
-            return type == typeof(bool) ? false : defaultValue;
+        {
+            if (type == typeof(bool)) return false;
+            else if (type == typeof(int)) return 0;
+            else if (type == typeof(decimal)) return 0M;
+            else return defaultValue;
+        }
 
         if (type.IsInstanceOfType(value)) return value;
 

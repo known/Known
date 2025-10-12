@@ -3,8 +3,10 @@
 /// <summary>
 /// PDF查看组件类，配置参考pdfobject.js。
 /// </summary>
-public partial class KPdfView
+public class KPdfView : BaseComponent
 {
+    private string ClassName => CssBuilder.Default("kui-pdf-view").AddClass(Class).BuildClass();
+
     /// <summary>
     /// 取得或设置PDF文件路径。
     /// </summary>
@@ -14,6 +16,15 @@ public partial class KPdfView
     /// 取得或设置PDF组件选项，选项参考pdfobject.js。
     /// </summary>
     [Parameter] public object Option { get; set; }
+
+    /// <inheritdoc />
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        if (!Visible)
+            return;
+
+        builder.Div().Id(Id).Class(ClassName).Style(Style).Close();
+    }
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)

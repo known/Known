@@ -116,6 +116,24 @@ public partial class ColumnBuilder<TItem>
     }
 
     /// <summary>
+    /// 设置表格栏位居左对齐。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Left() => Align("left");
+
+    /// <summary>
+    /// 设置表格栏位居中对齐。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Center() => Align("center");
+
+    /// <summary>
+    /// 设置表格栏位居右对齐。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Right() => Align("right");
+
+    /// <summary>
     /// 设置表格栏位对齐方式。
     /// </summary>
     /// <param name="align">对齐方式（left/center/right）。</param>

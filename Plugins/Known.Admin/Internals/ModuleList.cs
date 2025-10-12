@@ -50,8 +50,8 @@ class ModuleList : BaseTablePage<SysModule1>
         Table.AddColumn(c => c.Description).Width(180);
         Table.AddColumn(c => c.Target).Width(80).Tag();
         Table.AddColumn(c => c.Url).Width(150);
-        Table.AddColumn(c => c.Sort).Width(60).Align("center");
-        Table.AddColumn(c => c.Enabled).Width(60).Align("center");
+        Table.AddColumn(c => c.Sort).Width(60).Center();
+        Table.AddColumn(c => c.Enabled).Width(60).Center();
         Table.AddColumn(c => c.Note).Width(150);
 
         Table.ActionCount = 4;
