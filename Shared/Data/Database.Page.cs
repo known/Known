@@ -156,6 +156,7 @@ public partial class Database
                 return new PagingResult<T>() { ExportData = data };
             }
 
+            var watch = Stopwatcher.Start<T>();
             if (!criteria.IsPaging)
                 criteria.PageIndex = -1;
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
@@ -169,11 +170,11 @@ public partial class Database
             Dictionary<string, object> statis = null;
             List<string> ids = null;
             var pageData = new List<T>();
-            var watch = Stopwatcher.Start<T>();
             var cmd = await PrepareCommandAsync(info);
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
             var total = Utils.ConvertTo<int>(value);
+            watch.Write($"QueryTotal {total}");
             if (total > 0)
             {
                 //if (!string.IsNullOrWhiteSpace(info.IdSql))
@@ -184,6 +185,7 @@ public partial class Database
                 cmd.CommandText = info.PageSql;
                 using (var reader = cmd.ExecuteReader())
                 {
+                    watch.Write("QueryData");
                     while (reader.Read())
                     {
                         var obj = DbUtils.ConvertTo<T>(reader);
@@ -212,8 +214,7 @@ public partial class Database
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0 && criteria.PageIndex > 0)
                 pageData = [.. pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize)];
 
-            watch.Watch("PagingResult");
-            watch.WriteLog();
+            watch.Write("PagingResult");
             return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis, Ids = ids };
         }
         catch (Exception ex)

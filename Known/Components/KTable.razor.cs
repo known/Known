@@ -54,8 +54,8 @@ partial class KTable<TItem>
 
         try
         {
-            isQuering = true;
             var watch = Stopwatcher.Start<TItem>();
+            isQuering = true;
             Model.Criteria.PageIndex = query.PageIndex;
             if (Model.Criteria.IsQuery)
                 Model.Criteria.PageIndex = 1;
@@ -69,7 +69,8 @@ partial class KTable<TItem>
             Model.Criteria.StatisticColumns = [.. Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id })];
             Model.SelectedRows = [];
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
-
+            watch.Write($"Query{Model.Criteria.PageIndex}");
+            
             if (!string.IsNullOrWhiteSpace(Model.Result.Message))
             {
                 UI.Error(Model.Result.Message);
@@ -83,7 +84,7 @@ partial class KTable<TItem>
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
-            watch.Write($"Changed {Model.Criteria.PageIndex}");
+            watch.Write($"Changed{Model.Criteria.PageIndex}");
         }
         catch (Exception ex)
         {

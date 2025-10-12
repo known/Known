@@ -140,7 +140,7 @@ public sealed class DbUtils
         return dic;
     }
 
-    private static object ConvertTo<T>(Dictionary<string, object> dic) where T : new()
+    private static T ConvertTo<T>(Dictionary<string, object> dic) where T : new()
     {
         var obj = new T();
         var model = TypeCache.Model<T>();
