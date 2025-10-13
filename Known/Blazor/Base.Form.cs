@@ -186,7 +186,7 @@ public class BaseForm<THead, TList> : BaseForm<THead>
     /// <summary>
     /// 添加表体数据。
     /// </summary>
-    protected void OnAdd()
+    protected virtual void OnAdd()
     {
         ListItems.Add(DefaultList ?? new TList());
         OnRowChanged();
@@ -196,7 +196,7 @@ public class BaseForm<THead, TList> : BaseForm<THead>
     /// 删除表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnDelete(TList row)
+    protected virtual void OnDelete(TList row)
     {
         ListItems.Remove(row);
         OnRowChanged();
@@ -206,7 +206,7 @@ public class BaseForm<THead, TList> : BaseForm<THead>
     /// 上移表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnMoveUp(TList row)
+    protected virtual void OnMoveUp(TList row)
     {
         ListItems.MoveRow(row, true);
         OnRowChanged();
@@ -216,7 +216,7 @@ public class BaseForm<THead, TList> : BaseForm<THead>
     /// 下移表体数据。
     /// </summary>
     /// <param name="row">表体数据。</param>
-    protected void OnMoveDown(TList row)
+    protected virtual void OnMoveDown(TList row)
     {
         ListItems.MoveRow(row, false);
         OnRowChanged();

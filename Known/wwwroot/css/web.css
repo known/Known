@@ -141,12 +141,13 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-row .kui-capsule {float:left;}
 
 /*FullScreen*/
-.kui-screen {position:relative;background-color:var(--kui-bgcolor);}
-.kui-screen .action {position:absolute;top:0;right:0;z-index:1002;}
-.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;}
+.kui-screen {position:relative;background-color:#f0f2f5;}
+.kui-screen .action {position:absolute;top:0;right:0;z-index:1000;}
+.kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;}
 .kui-screen.is-full .action {top:10px;right:10px;}
 .kui-screen.is-full .action .button {opacity:0;transition:opacity 8s ease;}
 .kui-screen.is-full .action:hover .button {opacity:1;transition:opacity 0s;}
+:root[data-theme=dark] .kui-screen {background-color:#000;}
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-color-border);border-radius:6px;}
@@ -213,8 +214,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-upload input {width:100%;}
 .kui-upload .template {width:60px;text-align:right;}
 .kui-upload .kui-button, .kui-upload-button {
-    border:1px solid var(--kui-color-border);border-radius:3px;padding:0 10px;margin-right:10px;
-    height:30px;line-height:30px;position:relative;
+    border:1px solid var(--kui-color-border);padding:0 10px;margin-right:10px;
+    height:30px;line-height:30px;position:relative;border-radius:5px;
 }
 .kui-upload .kui-button input, 
 .kui-upload.ant-upload-drag input, 
