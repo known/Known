@@ -17,11 +17,12 @@ public static class AppConfig
         Config.RenderMode = RenderType.Auto;
 
         var assembly = typeof(AppConfig).Assembly;
+        Config.AddModule(assembly);
+
         services.AddKnown(info =>
         {
             info.Id = AppId;
             info.Name = AppName;
-            info.Assembly = assembly;
         });
         services.AddModules();
         services.ConfigUI();

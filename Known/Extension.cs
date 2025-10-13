@@ -17,7 +17,7 @@ public static partial class Extension
         if (Config.App.Type == AppType.WebApi)
             return;
 
-        Config.AddApp();
+        Config.AddModule(typeof(Extension).Assembly);
         services.AddAntDesign();
 
         services.AddScoped<Context>();
@@ -87,6 +87,7 @@ public static partial class Extension
     /// <param name="action">系统配置方法。</param>
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
+        Config.AddAppCore();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
         services.AddKnownInnerCore(action);
         services.LoadServers();

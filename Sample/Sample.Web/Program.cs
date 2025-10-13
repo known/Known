@@ -13,6 +13,7 @@ builder.Services.AddApplicationWeb(option =>
     Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();
     option.App.WebRoot = builder.Environment.WebRootPath;
     option.App.ContentRoot = builder.Environment.ContentRootPath;
+    option.App.Assembly = typeof(Program).Assembly;
     option.App.Database = db =>
     {
         var connString = builder.Configuration.GetSection("ConnString").Get<string>();
