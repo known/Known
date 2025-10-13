@@ -1,4 +1,4 @@
-﻿namespace Known.Models;
+﻿namespace Known;
 
 /// <summary>
 /// 企业信息类。

@@ -90,11 +90,6 @@ public class CoreConfig
     public static Action<Database, SysUser> OnNewUser { get; set; }
 
     /// <summary>
-    /// 取得或设置获取代码表信息列表委托。
-    /// </summary>
-    public static Func<Database, Task<List<CodeInfo>>> OnCodeTable { get; set; }
-
-    /// <summary>
     /// 取得或设置无代码插件数据服务关联数据库委托，用于根据插件获取关联的数据库对象。
     /// </summary>
     public static Func<Database, AutoPageInfo, Task<Database>> OnDatabase { get; set; }

@@ -9,20 +9,25 @@
 public class SysUserList : BaseTablePage<SysUser>
 {
     private IUserService Service;
-    [Inject] private IUserPage ExtPage { get; set; }
-
-    /// <summary>
-    /// 取得或设置当前部门。
-    /// </summary>
-    public string CurrentOrg { get; set; }
+    private IOrganizationService Organize;
+    private TreeModel Tree;
+    private MenuInfo current;
+    private List<SysOrganization> orgs;
+    private bool HasOrg => orgs != null && orgs.Count > 1;
+    private string CurrentOrg { get; set; }
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IUserService>();
-        if (ExtPage != null)
-            await ExtPage.OnInitAsync(this);
+        Organize = await CreateServiceAsync<IOrganizationService>();
+
+        Tree = new TreeModel
+        {
+            ExpandRoot = true,
+            OnNodeClick = OnNodeClickAsync
+        };
 
         Table = new TableModel<SysUser>(this)
         {
@@ -42,19 +47,23 @@ public class SysUserList : BaseTablePage<SysUser>
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            if (ExtPage != null)
-                await ExtPage.OnAfterRenderAsync();
+            orgs = await Organize.GetOrganizationsAsync();
+            if (HasOrg)
+            {
+                Tree.Data = orgs.ToMenuItems(ref current);
+                Tree.SelectedKeys = [current.Id];
+                await OnNodeClickAsync(current);
+            }
         }
     }
 
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        var isBuild = ExtPage?.BuildPage(builder);
-        if (isBuild == true)
-            return;
-
-        base.BuildPage(builder);
+        if (HasOrg)
+            builder.Component<KTreeTable<SysUser>>().Set(c => c.Tree, Tree).Set(c => c.Table, Table).Build();
+        else
+            base.BuildPage(builder);
     }
 
     private Task<PagingResult<SysUser>> OnQueryUsersAsync(PagingCriteria criteria)
@@ -93,7 +102,7 @@ public class SysUserList : BaseTablePage<SysUser>
     /// <summary>
     /// 改变用户部门。
     /// </summary>
-    [Action] public void ChangeDepartment() => Table.SelectRows(rows => ExtPage?.OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
+    [Action] public void ChangeDepartment() => Table.SelectRows(rows => OnChangeDepartment(Service.ChangeDepartmentAsync, rows));
 
     /// <summary>
     /// 启用用户。
@@ -116,47 +125,54 @@ public class SysUserList : BaseTablePage<SysUser>
     /// </summary>
     /// <returns></returns>
     [Action] public Task Export() => Table.ExportDataAsync();
-}
 
-/// <summary>
-/// 用户管理页面扩展接口。
-/// </summary>
-public interface IUserPage
-{
-    /// <summary>
-    /// 异步初始化。
-    /// </summary>
-    /// <param name="list">用户管理页面。</param>
-    /// <returns></returns>
-    Task OnInitAsync(SysUserList list);
+    private async Task OnNodeClickAsync(MenuInfo item)
+    {
+        current = item;
+        var org = item.DataAs<SysOrganization>();
+        CurrentOrg = org?.Id;
+        await RefreshAsync();
+        await StateChangedAsync();
+    }
 
-    /// <summary>
-    /// 异步呈现后。
-    /// </summary>
-    /// <returns></returns>
-    Task OnAfterRenderAsync();
+    private void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows)
+    {
+        SysOrganization node = null;
+        var model = new DialogModel
+        {
+            Title = Language.ChangeDepartment,
+            Content = builder =>
+            {
+                builder.Tree(new TreeModel
+                {
+                    ExpandRoot = true,
+                    Data = orgs.ToMenuItems(),
+                    OnNodeClick = n =>
+                    {
+                        node = n.DataAs<SysOrganization>();
+                        return Task.CompletedTask;
+                    }
+                });
+            }
+        };
+        model.OnOk = async () =>
+        {
+            if (node == null)
+            {
+                UI.Error(Language.TipSelectChangeOrganization);
+                return;
+            }
 
-    /// <summary>
-    /// 构建页面。
-    /// </summary>
-    /// <param name="builder"></param>
-    /// <returns></returns>
-    bool BuildPage(RenderTreeBuilder builder);
-
-    /// <summary>
-    /// 更换用户部门。
-    /// </summary>
-    /// <param name="onChange">更换委托。</param>
-    /// <param name="rows">用户列表。</param>
-    void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows);
-}
-
-class UserPage : IUserPage
-{
-    public Task OnInitAsync(SysUserList list) => Task.CompletedTask;
-    public Task OnAfterRenderAsync() => Task.CompletedTask;
-    public bool BuildPage(RenderTreeBuilder builder) => false;
-    public void OnChangeDepartment(Func<List<SysUser>, Task<Result>> onChange, List<SysUser> rows) { }
+            rows.ForEach(m => m.OrgNo = node.Id);
+            var result = await onChange.Invoke(rows);
+            UI.Result(result, async () =>
+            {
+                await model.CloseAsync();
+                await RefreshAsync();
+            });
+        };
+        UI.ShowDialog(model);
+    }
 }
 
 class UserTabForm : BaseTabForm

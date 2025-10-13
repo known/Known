@@ -31,7 +31,6 @@ public static partial class Extension
             services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         else
             services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        services.AddScoped<IUserPage, UserPage>();
         services.AddScoped<IPluginService, PluginService>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
 
@@ -152,7 +151,10 @@ public static partial class Extension
         //关于系统
         UIConfig.SystemTabs.Set<SysSystemInfo>(1, Language.SystemInfo);
         UIConfig.SystemTabs.Set<SecuritySetting>(2, Language.SecuritySetting);
-
+        //企业信息
+        UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
+        // 添加一级模块
+        Config.Modules.AddItem("0", Constants.BaseData, Language.BaseData, "database", 1);
         Config.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
     }
 }

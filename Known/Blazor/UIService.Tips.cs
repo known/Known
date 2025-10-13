@@ -46,7 +46,7 @@ public partial class UIService
             Placement = NotificationPlacement.BottomRight
         };
         if (style == StyleType.Error)
-            config.Duration = 1000;
+            config.Duration = 60;
         return style switch
         {
             StyleType.Success => notice.Success(config),

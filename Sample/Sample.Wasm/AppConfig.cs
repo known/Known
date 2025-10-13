@@ -30,7 +30,6 @@ public static class AppConfig
     // 添加客户端
     internal static void AddApplicationClient(this IServiceCollection services, Action<ClientOption> action)
     {
-        services.AddKnownAdminClient();
         services.AddKnownClient(action);
     }
 

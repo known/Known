@@ -1,4 +1,4 @@
-﻿namespace Known.Imports;
+﻿namespace Known.Helpers;
 
 [Import(typeof(SysDictionary))]
 class DictionaryImport(ImportContext context) : ImportBase<SysDictionary>(context)

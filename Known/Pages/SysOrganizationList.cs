@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 组织架构页面组件类。
+/// </summary>
 [Route("/sys/organizations")]
 [Menu(Constants.BaseData, "组织架构", "partition", 3)]
 //[PagePlugin("组织架构", "partition", PagePluginType.Module, AdminLanguage.BaseData, Sort = 3)]
@@ -9,6 +12,7 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
     private MenuInfo current;
     private TreeModel Tree;
 
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -32,6 +36,7 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
         };
     }
 
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KTreeTable<SysOrganization>>()
@@ -40,26 +45,43 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
                .Build();
     }
 
+    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         await Tree.RefreshAsync();
         await Table.RefreshAsync();
     }
 
+    /// <summary>
+    /// 新增组织架构。
+    /// </summary>
     [Action]
     public void New()
     {
         if (current == null)
         {
-            UI.Error(AdminLanguage.TipSelectParentOrganization);
+            UI.Error(Language.TipSelectParentOrganization);
             return;
         }
 
         Table.NewForm(Service.SaveOrganizationAsync, new SysOrganization { ParentId = current?.Id, ParentName = current?.Name });
     }
 
+    /// <summary>
+    /// 编辑组织架构。
+    /// </summary>
+    /// <param name="row">组织架构信息。</param>
     [Action] public void Edit(SysOrganization row) => Table.EditForm(Service.SaveOrganizationAsync, row);
+
+    /// <summary>
+    /// 删除组织架构。
+    /// </summary>
+    /// <param name="row">组织架构信息。</param>
     [Action] public void Delete(SysOrganization row) => Table.Delete(Service.DeleteOrganizationsAsync, row);
+
+    /// <summary>
+    /// 批量删除组织架构。
+    /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteOrganizationsAsync);
 
     private async Task OnNodeClickAsync(MenuInfo item)

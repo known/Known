@@ -5,10 +5,11 @@
 /// </summary>
 public static class UserExtension
 {
-    /// <summary>
-    /// 取得或设置用户系统信息的异步委托。
-    /// </summary>
-    public static Func<Database, UserInfo, Task<string>> OnUserOrgName { get; set; } = (db, user) => Task.FromResult<string>(null);
+    internal static async Task<string> GetUserOrgNameAsync(this Database db, UserInfo info)
+    {
+        var org = await db.QueryAsync<SysOrganization>(d => d.Id == info.OrgNo || (d.CompNo == info.CompNo && d.Code == info.OrgNo));
+        return org?.Name;
+    }
 
     /// <summary>
     /// 异步根据用户名获取用户信息。
@@ -251,7 +252,7 @@ public static class UserExtension
         info.CompName = sys?.CompName;
         if (!string.IsNullOrEmpty(info.OrgNo))
         {
-            info.OrgName = await OnUserOrgName.Invoke(db, info);
+            info.OrgName = await db.GetUserOrgNameAsync(info);
             if (string.IsNullOrEmpty(info.CompName))
                 info.CompName = info.OrgName;
         }

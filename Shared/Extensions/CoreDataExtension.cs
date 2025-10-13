@@ -81,6 +81,30 @@ public static class CoreDataExtension
         return dics;
     }
 
+    internal static async Task SaveOrganizationAsync(this Database db, InstallInfo info)
+    {
+        var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == info.CompNo && d.Code == info.CompNo);
+        org ??= new SysOrganization();
+        org.AppId = Config.App.Id;
+        org.CompNo = info.CompNo;
+        org.ParentId = "0";
+        org.Code = info.CompNo;
+        org.Name = info.CompName;
+        await db.SaveAsync(org);
+    }
+
+    internal static async Task SaveCompanyAsync(this Database db, InstallInfo info, SystemInfo sys)
+    {
+        var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
+        company ??= new SysCompany();
+        company.AppId = Config.App.Id;
+        company.CompNo = info.CompNo;
+        company.Code = info.CompNo;
+        company.Name = info.CompName;
+        company.SystemData = Utils.ToJson(sys);
+        await db.SaveAsync(company);
+    }
+
     internal static async Task SaveUserAsync(this Database db, InstallInfo info)
     {
         var userName = info.AdminName.ToLower();

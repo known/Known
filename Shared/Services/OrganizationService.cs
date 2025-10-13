@@ -1,9 +1,28 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 组织架构服务接口。
+/// </summary>
 public interface IOrganizationService : IService
 {
+    /// <summary>
+    /// 异步获取组织架构列表。
+    /// </summary>
+    /// <returns></returns>
     Task<List<SysOrganization>> GetOrganizationsAsync();
+
+    /// <summary>
+    /// 异步删除组织架构。
+    /// </summary>
+    /// <param name="infos">组织架构列表。</param>
+    /// <returns></returns>
     Task<Result> DeleteOrganizationsAsync(List<SysOrganization> infos);
+
+    /// <summary>
+    /// 异步保存组织架构。
+    /// </summary>
+    /// <param name="info">组织架构信息。</param>
+    /// <returns></returns>
     Task<Result> SaveOrganizationAsync(SysOrganization info);
 }
 
@@ -32,7 +51,7 @@ class OrganizationService(Context context) : ServiceBase(context), IOrganization
         foreach (var item in infos)
         {
             if (await database.ExistsAsync<SysOrganization>(d => d.ParentId == item.Id))
-                return Result.Error(AdminLanguage.TipOrgDeleteExistsChild);
+                return Result.Error(Language.TipOrgDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -55,7 +74,7 @@ class OrganizationService(Context context) : ServiceBase(context), IOrganization
         if (vr.IsValid)
         {
             if (await database.ExistsAsync<SysOrganization>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Code == model.Code))
-                vr.AddError(Language[AdminLanguage.TipOrgCodeExists]);
+                vr.AddError(Language[Language.TipOrgCodeExists]);
         }
         if (!vr.IsValid)
             return vr;

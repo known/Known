@@ -103,6 +103,11 @@ public class UIConfig
     public static Type ModulePageType { get; set; }
 
     /// <summary>
+    /// 取得企业信息表单组件自定义标签字典。
+    /// </summary>
+    public static Dictionary<string, ComponentInfo> CompanyTabs { get; } = [];
+
+    /// <summary>
     /// 取得模块页面组件自定义标签字典。
     /// </summary>
     public static Dictionary<string, ComponentInfo> ModuleTabs { get; } = [];

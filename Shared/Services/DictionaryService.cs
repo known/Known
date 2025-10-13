@@ -1,10 +1,35 @@
 ﻿namespace Known.Services;
 
+/// <summary>
+/// 数据字典服务接口。
+/// </summary>
 public interface IDictionaryService : IService
 {
+    /// <summary>
+    /// 异步分页查询数据字典。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns></returns>
     Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步获取字典类别列表。
+    /// </summary>
+    /// <returns></returns>
     Task<List<CodeInfo>> GetCategoriesAsync();
+
+    /// <summary>
+    /// 异步删除数据字典。
+    /// </summary>
+    /// <param name="infos">字典列表。</param>
+    /// <returns></returns>
     Task<Result> DeleteDictionariesAsync(List<SysDictionary> infos);
+
+    /// <summary>
+    /// 异步保存数据字典。
+    /// </summary>
+    /// <param name="info">字典信息。</param>
+    /// <returns></returns>
     Task<Result> SaveDictionaryAsync(UploadInfo<SysDictionary> info);
 }
 
@@ -67,7 +92,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         foreach (var item in infos)
         {
             if (await database.ExistsAsync<SysDictionary>(d => d.Category == item.Code))
-                return Result.Error(AdminLanguage.TipDicDeleteExistsChild);
+                return Result.Error(Language.TipDicDeleteExistsChild);
         }
 
         return await database.TransactionAsync(Language.Delete, async db =>
@@ -93,7 +118,7 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
 
         var exists = await database.ExistsAsync<SysDictionary>(d => d.Id != model.Id && d.CompNo == model.CompNo && d.Category == model.Category && d.Code == model.Code);
         if (exists)
-            return Result.Error(AdminLanguage.TipDicCodeExists);
+            return Result.Error(Language.TipDicCodeExists);
 
         var fileFiles = info.Files?.GetAttachFiles(nameof(SysDictionary.Extension), "DictionaryFiles");
         var result = await database.TransactionAsync(Language.Save, async db =>

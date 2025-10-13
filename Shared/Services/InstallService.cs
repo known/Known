@@ -113,6 +113,8 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
             }
             var sys = CreateSystemInfo(info);
             await db.SaveSystemAsync(sys);
+            await db.SaveOrganizationAsync(info);
+            await db.SaveCompanyAsync(info, sys);
             await db.SaveUserAsync(info);
             if (CoreConfig.OnInstall != null)
                 await CoreConfig.OnInstall.Invoke(db, info, sys);

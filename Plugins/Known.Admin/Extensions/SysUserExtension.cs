@@ -2,12 +2,6 @@
 
 static class SysUserExtension
 {
-    internal static async Task<string> GetUserOrgNameAsync(this Database db, UserInfo info)
-    {
-        var org = await db.QueryAsync<SysOrganization>(d => d.Id == info.OrgNo || (d.CompNo == info.CompNo && d.Code == info.OrgNo));
-        return org?.Name;
-    }
-
     //internal const string UTOperation = "Operation";
     internal const string UMTypeReceive = "Receive";
     internal const string UMTypeSend = "Send";

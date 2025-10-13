@@ -1,5 +1,8 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 数据字典页面组件类。
+/// </summary>
 [Route("/sys/dictionaries")]
 [Menu(Constants.BaseData, "数据字典", "unordered-list", 2)]
 //[PagePlugin("数据字典", "unordered-list", PagePluginType.Module, AdminLanguage.BaseData, Sort = 2)]
@@ -12,6 +15,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private bool isAddCategory;
     private int total;
 
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
@@ -28,6 +32,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.Column(c => c.Sort).Filter(false);
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -35,6 +40,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             await LoadCategoriesAsync();
     }
 
+    /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KListTable<SysDictionary>>()
@@ -45,6 +51,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
                .Build(value => listTable = value);
     }
 
+    /// <inheritdoc />
     public override async Task RefreshAsync()
     {
         if (isAddCategory)
@@ -53,13 +60,16 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             await base.RefreshAsync();
     }
 
+    /// <summary>
+    /// 添加数据字典类别。
+    /// </summary>
     [Action]
     public void AddCategory()
     {
         isAddCategory = true;
         var model = new DialogModel
         {
-            Title = AdminLanguage.AddCategory,
+            Title = Language.AddCategory,
             Width = 800,
             Content = b => b.Component<CategoryGrid>()
                             .Set(c => c.OnRefresh, RefreshAsync)
@@ -68,12 +78,15 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         UI.ShowDialog(model);
     }
 
+    /// <summary>
+    /// 新增数据字典。
+    /// </summary>
     [Action]
     public void New()
     {
         if (category == null)
         {
-            UI.Error(AdminLanguage.TipSelectCategory);
+            UI.Error(Language.TipSelectCategory);
             return;
         }
 
@@ -88,8 +101,15 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.NewForm(Service.SaveDictionaryAsync, row);
     }
 
+    /// <summary>
+    /// 批量删除数据字典。
+    /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteDictionariesAsync);
 
+    /// <summary>
+    /// 编辑数据字典。
+    /// </summary>
+    /// <param name="row">数据字典信息。</param>
     [Action]
     public void Edit(SysDictionary row)
     {
@@ -97,7 +117,16 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         Table.EditForm(Service.SaveDictionaryAsync, row);
     }
 
+    /// <summary>
+    /// 删除数据字典。
+    /// </summary>
+    /// <param name="row">数据字典信息。</param>
     [Action] public void Delete(SysDictionary row) => Table.Delete(Service.DeleteDictionariesAsync, row);
+
+    /// <summary>
+    /// 导入数据字典。
+    /// </summary>
+    /// <returns></returns>
     [Action] public Task Import() => Table.ShowImportAsync();
 
     private Task OnItemClickAsync(CodeInfo info)

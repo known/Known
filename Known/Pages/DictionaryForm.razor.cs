@@ -1,7 +1,11 @@
 ﻿namespace Known.Pages;
 
+/// <summary>
+/// 数据字典表单组件类。
+/// </summary>
 public partial class DictionaryForm
 {
+    /// <inheritdoc />
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
@@ -41,11 +45,28 @@ public partial class DictionaryForm
     }
 }
 
+/// <summary>
+/// 代码名称信息类。
+/// </summary>
 public class CodeName
 {
+    /// <summary>
+    /// 取得或设置代码。
+    /// </summary>
     public string Code { get; set; }
+
+    /// <summary>
+    /// 取得或设置名称。
+    /// </summary>
     public string Name { get; set; }
 }
 
+/// <summary>
+/// 数据字典类型表单组件类。
+/// </summary>
 public class DictionaryTypeForm : AntForm<SysDictionary> { }
+
+/// <summary>
+/// 代码名称表格组件类。
+/// </summary>
 public class CodeNameTable : AntTable<CodeName> { }

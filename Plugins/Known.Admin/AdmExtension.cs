@@ -11,14 +11,8 @@ public static class AdmExtension
     {
         services.AddKnownAdmin();
 
-        CoreConfig.OnInstall = AdminHelper.Install;
         //CoreConfig.OnInstallModules = OnInstallModules;
         //CoreConfig.OnInitialModules = OnInitialModules;
-        CoreConfig.OnCodeTable = db => db.GetDictionariesAsync();
-        UserExtension.OnUserOrgName = (db, user) => db.GetUserOrgNameAsync(user);
-
-        // 添加一级模块
-        Config.Modules.AddItem("0", Constants.BaseData, AdminLanguage.BaseData, "database", 1);
     }
 
     private static void AddKnownAdmin(this IServiceCollection services)
@@ -26,13 +20,10 @@ public static class AdmExtension
         var assembly = typeof(AdmExtension).Assembly;
         Config.AddModule(assembly);
 
-        services.AddScoped<IUserPage, UserPage>();
         // 配置UI
         //UIConfig.TopNavType = typeof(KTopNavbar);
         //UIConfig.ModulePageType = typeof(ModuleList);
         //UIConfig.EnableEdit = false;
-        //企业信息
-        AdminConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
         // 添加样式
         KStyleSheet.AddStyle("_content/Known.Admin/css/web.css");
     }
