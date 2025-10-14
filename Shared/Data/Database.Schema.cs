@@ -204,20 +204,21 @@ public partial class Database
     /// <summary>
     /// 更新系统版本，升级数据库结构及数据。
     /// </summary>
-    /// <param name="key">版本号配置Key。</param>
-    /// <param name="version">版本号。</param>
+    /// <param name="key">更新配置Key。</param>
+    /// <param name="time">更新时间。</param>
     /// <param name="action">升级操作。</param>
     /// <returns></returns>
-    public async Task UpdateVersionAsync(string key, string version, Func<Database, Task> action)
+    public async Task UpdateVersionAsync(string key, DateTime time, Func<Database, Task> action)
     {
-        var versionNo = await this.GetConfigAsync(key);
-        if (versionNo == version)
+        var value = await this.GetConfigAsync(key);
+        var current = Utils.ConvertTo<DateTime?>(value);
+        if (current != null && current >= time)
             return;
 
         await QueryActionAsync(async db =>
         {
             await action.Invoke(db);
-            await db.SaveConfigAsync(key, version);
+            await db.SaveConfigAsync(key, $"{time:yyyy-MM-dd HH:mm:ss}");
         });
     }
 

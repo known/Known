@@ -111,7 +111,9 @@ public static class LayoutExtension
             }
 
             var bytes = result.ExportData;
-            if (!name.Contains('.'))
+            if (string.IsNullOrWhiteSpace(name))
+                name = $"{typeof(TItem).Name}_{mode}.xlsx";
+            else if (!name.Contains('.'))
                 name = $"{name}.xlsx";
             await app.JS.DownloadFileAsync(name, bytes);
         });
