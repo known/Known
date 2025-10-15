@@ -11,6 +11,7 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     private PagingResult<TItem> result = new();
     private string searchKey;
     private bool isAdd;
+    private string ClassName => CssBuilder.Default("kui-app-search").AddClass(Class).BuildClass();
 
     /// <summary>
     /// 取得或设置搜索关键字。
@@ -106,9 +107,12 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div("kui-app-search", () => BuildSearch(builder));
-        builder.Div("kui-app-search-result", () => BuildResult(builder));
-        builder.Div("kui-app-search-info", () => BuildInfo(builder));
+        builder.Div(ClassName, () =>
+        {
+            builder.Div("kui-app-search-box", () => BuildSearch(builder));
+            builder.Div("kui-app-search-result", () => BuildResult(builder));
+            builder.Div("kui-app-search-info", () => BuildInfo(builder));
+        });
     }
 
     private void BuildSearch(RenderTreeBuilder builder)
