@@ -108,7 +108,7 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
         //{
             foreach (var item in codes)
             {
-                var info = ZipHelper.UnZipDataFromString<CodeModelInfo>(item.Data);
+                var info = ZipHelper.UnZipDataAsString<CodeModelInfo>(item.Data);
                 infos.Add(info);
             }
         //}

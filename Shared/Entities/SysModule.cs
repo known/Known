@@ -161,7 +161,7 @@ public class SysModule : EntityBase
             Data = this
         };
         if (!string.IsNullOrWhiteSpace(PluginData))
-            info.Plugins = ZipHelper.UnZipDataFromString<List<PluginInfo>>(PluginData);
+            info.Plugins = ZipHelper.UnZipDataAsString<List<PluginInfo>>(PluginData);
         else
             info.Plugins = ToPlugins();
         return info;

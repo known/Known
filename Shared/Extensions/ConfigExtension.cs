@@ -107,7 +107,7 @@ public static class ConfigExtension
         if (!isGZip)
             return Utils.FromJson<T>(value);
 
-        return ZipHelper.UnZipDataFromString<T>(value);
+        return ZipHelper.UnZipDataAsString<T>(value);
     }
 
     /// <summary>

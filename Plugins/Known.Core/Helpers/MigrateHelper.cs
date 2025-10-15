@@ -31,7 +31,7 @@ class MigrateHelper
             }
             if (!string.IsNullOrWhiteSpace(item.PluginData)) // 升级3.x配置
             {
-                var plugins = ZipHelper.UnZipDataFromString<List<PluginInfo>>(item.PluginData);
+                var plugins = ZipHelper.UnZipDataAsString<List<PluginInfo>>(item.PluginData);
                 var plugin = plugins?.FirstOrDefault();
                 if (plugin != null)
                 {
