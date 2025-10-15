@@ -66,7 +66,9 @@ public sealed class Utils
         {
             if (type == typeof(bool)) return false;
             else if (type == typeof(int)) return 0;
+            else if (type == typeof(long)) return 0L;
             else if (type == typeof(decimal)) return 0M;
+            else if (type == typeof(double)) return 0D;
             else return defaultValue;
         }
 
