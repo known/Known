@@ -63,6 +63,37 @@ public class TypeModelInfo
             info.SetValue(instance, value);
     }
 
+    internal void SetDBValue(object instance, string key, object value)
+    {
+        if (!Dictionary.TryGetValue(key, out var info))
+            return;
+
+        var property = info.Property;
+        var type = property.PropertyType;
+        if (type.IsValueType || type == typeof(string))
+        {
+            info.SetValue(instance, value);
+        }
+        else
+        {
+            var data = Utils.FromJson(type, value?.ToString());
+            info.SetValue(instance, data);
+        }
+    }
+
+    internal object GetDBValue(object instance, PropertyInfo item)
+    {
+        if (instance == null)
+            return null;
+
+        var type = item.PropertyType;
+        if (type.IsValueType || type == typeof(string))
+            return GetValue(instance, item.Name);
+
+        var value = GetValue(instance, item.Name);
+        return Utils.ToJson(value);
+    }
+
     internal List<ColumnInfo> GetColumns(bool isAttr)
     {
         var columns = new List<ColumnInfo>();

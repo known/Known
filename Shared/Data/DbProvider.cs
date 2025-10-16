@@ -119,7 +119,7 @@ class DbProvider(Database db)
     public CommandInfo GetInsertCommand<T>(T data = default)
     {
         var tableName = GetTableName(typeof(T));
-        var cmdParams = DbUtils.ToDictionary(data, true);
+        var cmdParams = DbUtils.ToDictionary(data);
         var changes = data == null ? cmdParams : [];
         foreach (var item in cmdParams)
         {
@@ -141,7 +141,7 @@ class DbProvider(Database db)
     public CommandInfo GetUpdateCommand<T, TKey>(T data = default) where T : EntityBase<TKey>
     {
         var tableName = GetTableName(typeof(T));
-        var cmdParams = DbUtils.ToDictionary(data, true);
+        var cmdParams = DbUtils.ToDictionary(data);
         var changes = new Dictionary<string, object>();
         foreach (var item in cmdParams)
         {

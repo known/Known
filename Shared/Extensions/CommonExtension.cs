@@ -75,11 +75,9 @@ public static class CommonExtension
         {
             if (item.CanRead && item.CanWrite)
             {
-                //var value = item.GetValue(other);
                 var value = model2.GetValue(other, item.Name);
                 if (value != null)
                     model1.SetValue(obj, item.Name, value);
-                //item.SetValue(obj, value);
             }
         }
     }

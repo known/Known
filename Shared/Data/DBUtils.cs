@@ -61,20 +61,15 @@ public sealed class DbUtils
     /// 将匿名参数对象转换成字典对象。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
-    /// <param name="value">匿名参数对象。</param>
+    /// <param name="obj">匿名参数对象。</param>
     /// <returns>字典对象。</returns>
-    public static Dictionary<string, object> ToDictionary<T>(T value)
+    public static Dictionary<string, object> ToDictionary<T>(T obj)
     {
-        return ToDictionary(value, false);
-    }
-
-    internal static Dictionary<string, object> ToDictionary<T>(T value, bool isField)
-    {
-        if (value is Dictionary<string, object> dictionary)
+        if (obj is Dictionary<string, object> dictionary)
             return dictionary;
 
-        if (value != null && TypeHelper.IsAnonymousType(value))
-            return Utils.MapTo<Dictionary<string, object>>(value);
+        if (obj != null && TypeHelper.IsAnonymousType(obj))
+            return Utils.MapTo<Dictionary<string, object>>(obj);
 
         var dic = new Dictionary<string, object>();
         var properties = TypeHelper.Properties<T>();
@@ -84,7 +79,7 @@ public sealed class DbUtils
             if (item.CanRead && !item.GetMethod.IsVirtual)
             {
                 var field = item.GetFieldName();
-                dic[field] = value == null ? null : model.GetValue(value, item.Name);
+                dic[field] = model.GetDBValue(obj, item);
             }
         }
         return dic;
@@ -146,13 +141,7 @@ public sealed class DbUtils
         var model = TypeCache.Model<T>();
         foreach (var item in dic)
         {
-            model.SetValue(obj, item.Key, item.Value);
-            //var property = TypeHelper.Property<T>(item.Key);
-            //if (property != null)
-            //{
-            //    var value = Utils.ConvertTo(property.PropertyType, item.Value);
-            //    property.SetValue(obj, value);
-            //}
+            model.SetDBValue(obj, item.Key, item.Value);
         }
         if (obj is BaseEntity)
             (obj as BaseEntity).SetOriginal(dic);
