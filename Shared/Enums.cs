@@ -299,6 +299,28 @@ public enum PasswordComplexity
 }
 
 /// <summary>
+/// 账号水印类型。
+/// </summary>
+public enum WatermarkType
+{
+    /// <summary>
+    /// 账号。
+    /// </summary>
+    [Description("账号")]
+    Account,
+    /// <summary>
+    /// 姓名。
+    /// </summary>
+    [Description("姓名")]
+    Name,
+    /// <summary>
+    /// 姓名和账号。
+    /// </summary>
+    [Description("姓名和账号")]
+    NameAccount
+}
+
+/// <summary>
 /// 样式类型枚举。
 /// </summary>
 public enum StyleType

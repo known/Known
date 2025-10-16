@@ -115,7 +115,8 @@ public static class CommonExtension
 
         // 创建新实例
         var clone = Activator.CreateInstance(type);
-        foreach (var property in type.GetProperties()) // 克隆属性
+        var properties = TypeHelper.Properties(type);
+        foreach (var property in properties) // 克隆属性
         {
             if (property.CanRead && property.CanWrite)
             {

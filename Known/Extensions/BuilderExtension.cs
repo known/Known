@@ -33,18 +33,6 @@ public static class BuilderExtension
     /// 创建水印组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    /// <param name="user">当前用户。</param>
-    /// <param name="content">组件内容。</param>
-    public static void Watermark(this RenderTreeBuilder builder, UserInfo user, RenderFragment content)
-    {
-        var text = user?.Watermark ?? $"{user?.Name}({user?.UserName})";
-        builder.Watermark(text, content);
-    }
-
-    /// <summary>
-    /// 创建水印组件。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
     /// <param name="text">水印文字。</param>
     /// <param name="content">组件内容。</param>
     public static void Watermark(this RenderTreeBuilder builder, string text, RenderFragment content)
@@ -58,8 +46,20 @@ public static class BuilderExtension
     internal static void BuildBody(this RenderTreeBuilder builder, Context context, RenderFragment body)
     {
         if (Config.System?.IsWatermark == true && context != null)
-            builder.Div("kui-watermark", () => builder.Watermark(context.CurrentUser, body));
+        {
+            var user = context.CurrentUser;
+            var type = Utils.ConvertTo<WatermarkType>(Config.System.Watermark);
+            var text = type switch
+            {
+                WatermarkType.Account => user.UserName,
+                WatermarkType.Name => user.Name,
+                _ => $"{user?.Name}({user?.UserName})",
+            };
+            builder.Div("kui-watermark", () => builder.Watermark(user?.Watermark ?? text, body));
+        }
         else
+        {
             builder.Fragment(body);
+        }
     }
 }

@@ -40,8 +40,12 @@
         </DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="账号水印">
-            <AntSwitch @bind-Value="@Model.IsWatermark" Category="@nameof(StatusType)" />
+        <DataItem Label="账号水印" Inline>
+            <AntSwitch @bind-Value="@Model.IsWatermark" Category="@nameof(StatusType)" Style="width:56px" />
+            @if (Model.IsWatermark)
+            {
+                <AntSelectCode @bind-Value="@Model.Watermark" Category="@nameof(WatermarkType)" Style="width:120px" />
+            }
         </DataItem>
     </AntRow>
     <AntRow>
