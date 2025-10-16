@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Known.Blazor;
+﻿namespace Known.Blazor;
 
 /// <summary>
 /// 模板组件基类。
@@ -109,6 +107,15 @@ public class LayoutBase : LayoutComponentBase
             await JS.SetUserSettingAsync(setting);
         }
     }
+
+    internal static void BuildBackgroundBlobs(RenderTreeBuilder builder)
+    {
+        builder.Div("background-blobs", () =>
+        {
+            builder.Div("blob blob-1", "");
+            builder.Div("blob blob-2", "");
+        });
+    }
 }
 
 /// <summary>
@@ -122,7 +129,11 @@ public class EmptyLayout : LayoutBase
         if (!IsInstall)
             return;
 
-        builder.Div(WrapperClass, () => builder.Fragment(Body));
+        builder.Div(WrapperClass, () =>
+        {
+            BuildBackgroundBlobs(builder);
+            builder.Fragment(Body);
+        });
     }
 }
 
@@ -157,7 +168,13 @@ public class AuthLayout : LayoutBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (IsLoaded || isLayout)
-            builder.Div(WrapperClass, () => builder.BuildBody(Context, Body));
+        {
+            builder.Div(WrapperClass, () =>
+            {
+                BuildBackgroundBlobs(builder);
+                builder.BuildBody(Context, Body);
+            });
+        }
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()
@@ -208,7 +225,11 @@ public class AdminLayout : AuthLayout
         if (!IsLoaded)
             return;
 
-        builder.Div(WrapperClass, () => builder.BuildBody(Context, BuildContent));
+        builder.Div(WrapperClass, () =>
+        {
+            BuildBackgroundBlobs(builder);
+            builder.BuildBody(Context, BuildContent);
+        });
     }
 
     /// <summary>

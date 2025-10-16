@@ -61,14 +61,14 @@ class IconHelper
                 continue;
             }
             // 检测 label
-            if (line.Trim().StartsWith("label:"))
+            if (line.Trim().StartsWith("label:") && info != null)
             {
                 inIconsList = false;
                 info.Type = line.Split(':')[1].Trim().Trim('"', '\'');
                 continue;
             }
             // 处理 icons 列表项
-            if (inIconsList && line.Trim().StartsWith("-"))
+            if (inIconsList && line.Trim().StartsWith("-") && info != null)
             {
                 var iconName = line.Trim().Substring(1).Trim().Trim('"', '\'');
                 info.Icons.Add(iconName);

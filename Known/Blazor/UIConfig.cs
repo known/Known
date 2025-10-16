@@ -78,9 +78,9 @@ public class UIConfig
     public static RenderFragment Footer { get; set; }
 
     /// <summary>
-    /// 取得或设置系统图标字典。
+    /// 取得系统图标字典。
     /// </summary>
-    public static Dictionary<string, List<IconMetaInfo>> Icons { get; set; } = [];
+    public static Dictionary<string, List<IconMetaInfo>> Icons { get; } = [];
 
     /// <summary>
     /// 取得错误页面配置字典。
