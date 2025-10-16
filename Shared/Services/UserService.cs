@@ -299,14 +299,14 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
             criteria.RemoveQuery(orgNoId);
         }
         sql += " where a.CompNo=@CompNo and a.UserName<>'admin'";
-        //if (!string.IsNullOrWhiteSpace(orgNo))
-        //{
-        //    var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
-        //    if (org != null && org.Code != db.User?.CompNo)
-        //        criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
-        //    else
-        //        criteria.RemoveQuery(orgNoId);
-        //}
+        if (!string.IsNullOrWhiteSpace(orgNo))
+        {
+            var org = await db.QueryByIdAsync<SysOrganization>(orgNo);
+            if (org != null && org.Code != db.User?.CompNo)
+                criteria.SetQuery(orgNoId, QueryType.Equal, orgNo);
+            else
+                criteria.RemoveQuery(orgNoId);
+        }
         criteria.Fields[nameof(SysUser.Name)] = "a.Name";
         return await db.QueryPageAsync<T>(sql, criteria);
     }

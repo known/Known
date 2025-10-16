@@ -129,11 +129,8 @@ public class EmptyLayout : LayoutBase
         if (!IsInstall)
             return;
 
-        builder.Div(WrapperClass, () =>
-        {
-            BuildBackgroundBlobs(builder);
-            builder.Fragment(Body);
-        });
+        BuildBackgroundBlobs(builder);
+        builder.Div(WrapperClass, () => builder.Fragment(Body));
     }
 }
 
@@ -169,11 +166,8 @@ public class AuthLayout : LayoutBase
     {
         if (IsLoaded || isLayout)
         {
-            builder.Div(WrapperClass, () =>
-            {
-                BuildBackgroundBlobs(builder);
-                builder.BuildBody(Context, Body);
-            });
+            BuildBackgroundBlobs(builder);
+            builder.Div(WrapperClass, () => builder.BuildBody(Context, Body));
         }
     }
 
@@ -225,11 +219,8 @@ public class AdminLayout : AuthLayout
         if (!IsLoaded)
             return;
 
-        builder.Div(WrapperClass, () =>
-        {
-            BuildBackgroundBlobs(builder);
-            builder.BuildBody(Context, BuildContent);
-        });
+        BuildBackgroundBlobs(builder);
+        builder.Div(WrapperClass, () => builder.BuildBody(Context, BuildContent));
     }
 
     /// <summary>

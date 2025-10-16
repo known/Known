@@ -46,7 +46,6 @@
 }
 body {
     background:var(--kui-body-bg);color:var(--kui-body-text);
-    display:flex;justify-content:center;align-items:center;
     min-height:100vh;position:relative;overflow:hidden;
 }
 /* ¹âÕÕÐ§¹û */
