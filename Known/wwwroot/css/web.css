@@ -15,7 +15,7 @@
     --kui-color:#596172;
     --kui-color-border:#f0f0f0;
     --kui-color-hover:#cce4fa;
-    --kui-bgcolor:transparent;
+    /*--kui-bgcolor:transparent;*/
     --gradient-start: #0061ff;
     --gradient-end: #00e5ff;
 }
@@ -34,7 +34,7 @@
     --kui-color:#d8d8d8;
     --kui-color-border:rgba(253, 253, 253, 0.12);
     --kui-color-hover:#cce4fa;
-    --kui-bgcolor:transparent;
+    /*--kui-bgcolor:transparent;*/
     --gradient-start: #0066ff;
     --gradient-end: #00a3ff;
 }
@@ -602,8 +602,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-ai-entry img {width:100%;height:100%;border-radius:50%;}
 
 /*--Home--*/
-.ws-space, .ws-todo {background-color:var(--kui-bgcolor);color:var(--kui-color);}
-.ws-space, .ws-todo, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
+.known, .ws-space, .ws-todo {background-color:var(--kui-bgcolor);}
+.known, .ws-space, .ws-todo, .ws-chart .ant-card, .ws-func .ant-card {border-radius:5px;}
 .ws-chart, .ws-func {height:400px;}
 .ws-chart .ant-card-head-title, .ws-func .ant-card-head-title {font-weight:bold;}
 
