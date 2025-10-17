@@ -110,11 +110,11 @@ public class LayoutBase : LayoutComponentBase
 
     internal static void BuildBackgroundBlobs(RenderTreeBuilder builder)
     {
-        builder.Div("background-blobs", () =>
-        {
-            builder.Div("blob blob-1", "");
-            builder.Div("blob blob-2", "");
-        });
+        //builder.Div("background-blobs", () =>
+        //{
+        //    builder.Div("blob blob-1", "");
+        //    builder.Div("blob blob-2", "");
+        //});
     }
 }
 

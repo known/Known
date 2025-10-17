@@ -3,19 +3,11 @@
     /* 亮色主题变量 */
     --kui-body-bg: linear-gradient(135deg, #f0f5ff 0%, #e6f7ff 100%);
     --kui-body-text: #333;
-    --light-primary: #1976d2;
-    --light-secondary: #2196f3;
-    --light-card-bg: rgba(255, 255, 255, 0.85);
-    --light-text-secondary: #666;
-    --light-accent: #4caf50;
-    --light-border: rgba(0, 0, 0, 0.1);
-    --light-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     --kui-form-label-width:120px;
     --kui-bgcolor:#ffffff;
     --kui-color:#596172;
     --kui-color-border:#f0f0f0;
     --kui-color-hover:#cce4fa;
-    /*--kui-bgcolor:transparent;*/
     --gradient-start: #0061ff;
     --gradient-end: #00e5ff;
 }
@@ -23,18 +15,10 @@
     /* 暗色主题变量 */
     --kui-body-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     --kui-body-text: #e2e8f0;
-    --dark-primary: #64b5f6;
-    --dark-secondary: #90caf9;
-    --dark-card-bg: rgba(30, 41, 59, 0.7);
-    --dark-text-secondary: #94a3b8;
-    --dark-accent: #81c784;
-    --dark-border: rgba(255, 255, 255, 0.1);
-    --dark-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     --kui-bgcolor:#141414;
     --kui-color:#d8d8d8;
     --kui-color-border:rgba(253, 253, 253, 0.12);
     --kui-color-hover:#cce4fa;
-    /*--kui-bgcolor:transparent;*/
     --gradient-start: #0066ff;
     --gradient-end: #00a3ff;
 }
@@ -378,7 +362,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     text-align:left;border-left:5px solid #ed4014;padding:5px;background-color:var(--kui-color-border);border-radius:5px;
 }
 .kui-watermark, .kui-watermark > div {height:100%;}
-.kui-header, .kui-card, .kui-install, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
+.kui-header, .kui-card, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
@@ -793,7 +777,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 }
 .kui-app-nav .back {cursor:pointer;position:absolute;top:0;left:0;bottom:0;width:80px;}
 .kui-app-nav-tool {position:fixed;top:7px;right:10px;color:#fff;font-size:20px;padding:0 10px;z-index:101;}
-.kui-app-page {height:100%;overflow:auto;}
+.kui-app-page {background-color:var(--kui-bgcolor);height:100%;overflow:auto;}
 .kui-app-page.nav {padding-top:45px;}
 .kui-app-page.tab {padding-bottom:50px;}
 
