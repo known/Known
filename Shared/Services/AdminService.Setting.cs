@@ -69,19 +69,7 @@ partial class AdminService
 
     public async Task<Result> SaveUserSettingAsync(SettingFormInfo info)
     {
-        var database = Database;
-        var setting = await database.GetUserSettingAsync(info.BizType);
-        if (setting != null && info.BizData == null)
-        {
-            await database.DeleteAsync<SysSetting>(setting.Id);
-        }
-        else
-        {
-            setting ??= new SettingInfo();
-            setting.BizType = info.BizType;
-            setting.BizData = Utils.ToJson(info.BizData);
-            await database.SaveSettingAsync(setting);
-        }
+        await Database.SaveUserSettingAsync(info.BizType, info.BizData);
         return Result.Success(Language.SaveSuccess);
     }
 

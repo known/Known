@@ -43,12 +43,41 @@ public static class SettingExtension
     }
 
     /// <summary>
-    /// 异步保存设置信息。
+    /// 异步删除用户设置信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
-    /// <param name="info">设置信息。</param>
+    /// <param name="bizType">设置业务类型。</param>
     /// <returns></returns>
-    public static async Task SaveSettingAsync(this Database db, SettingInfo info)
+    public static async Task DeleteUserSettingAsync(this Database db, string bizType)
+    {
+        var userName = db.UserName;
+        await db.DeleteAsync<SysSetting>(d => d.CreateBy == userName && d.BizType == bizType);
+    }
+
+    /// <summary>
+    /// 异步保存用户设置信息。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="bizType">设置业务类型。</param>
+    /// <param name="bizData">设置业务数据。</param>
+    /// <returns></returns>
+    public static async Task SaveUserSettingAsync(this Database db, string bizType, object bizData)
+    {
+        var setting = await db.GetUserSettingAsync(bizType);
+        if (setting != null && bizData == null)
+        {
+            await db.DeleteAsync<SysSetting>(setting.Id);
+        }
+        else
+        {
+            setting ??= new SettingInfo();
+            setting.BizType = bizType;
+            setting.BizData = Utils.ToJson(bizData);
+            await db.SaveSettingAsync(setting);
+        }
+    }
+
+    private static async Task SaveSettingAsync(this Database db, SettingInfo info)
     {
         var model = await db.QueryByIdAsync<SysSetting>(info.Id);
         model ??= new SysSetting();
