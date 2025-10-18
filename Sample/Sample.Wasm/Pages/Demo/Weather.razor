@@ -41,7 +41,7 @@
         model1.ShowPager = true;
         model1.EnableSpin = true;
         model1.Name = "天气1";
-        model1.OnQuery = OnQueryWeatherForecastsAsync;
+        model1.OnQuery = TestData.QueryWeathersAsync;
         model1.Toolbar.AddAction(nameof(New));
         model1.Toolbar.AddAction(nameof(Test1), "", "user", "");
         model1.AddIconAction(nameof(Test2), "user");
@@ -49,7 +49,7 @@
         model2 = new TableModel<WeatherForecast>(this, "Weather2", TableColumnMode.Property);
         model2.ShowPager = true;
         model2.Name = "天气2";
-        model2.OnQuery = OnQueryWeatherForecastsAsync;
+        model2.OnQuery = TestData.QueryWeathersAsync;
     }
 
     public void New()
@@ -70,19 +70,4 @@
 
     public void Test1() => UI.Alert("Test");
     public void Test2(WeatherForecast row) => UI.Alert(row.Summary);
-
-    private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
-    {
-        await Task.Delay(500);
-
-        var startDate = DateTime.Now;
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        var forecasts = Enumerable.Range(1, criteria.PageSize).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToList();
-        return new PagingResult<WeatherForecast>(100, forecasts);
-    }
 }

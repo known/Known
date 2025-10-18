@@ -16,7 +16,7 @@ public class WeatherList : BaseTablePage<WeatherForecast>
         await base.OnInitPageAsync();
         Table = new TableModel<WeatherForecast>(this, TableColumnMode.Attribute);
         Table.ShowPager = true;
-        Table.OnQuery = OnQueryWeatherForecastsAsync;
+        Table.OnQuery = TestData.QueryWeathersAsync;
         Table.FormType = typeof(WeatherForm);
 
         Table.AddColumn(c => c.Info.Summary1).Template((b, r) => b.Text(r.Info.Summary1));
@@ -30,28 +30,7 @@ public class WeatherList : BaseTablePage<WeatherForecast>
         }; 
     }
 
-    [Action] public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
-
-    private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
-    {
-        await Task.Delay(500);
-
-        var startDate = DateTime.Now;
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        var forecasts = Enumerable.Range(1, criteria.PageSize).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)],
-            Info = new WeatherInfo { Date1 = startDate, Summary1 = "Item.Summary" }
-        }).ToList();
-        return new PagingResult<WeatherForecast>(100, forecasts);
-    }
-
-    private Task<Result> SaveDataAsync(WeatherForecast row)
-    {
-        return Result.SuccessAsync("保存成功！");
-    }
+    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new WeatherForecast());
 }
 
 class WeatherForm : BaseForm<WeatherForecast>

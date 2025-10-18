@@ -7,10 +7,8 @@ public class TestRole : BaseTable<WeatherForecast>
     {
         await base.OnInitAsync();
 
-        if (Context.HasButton<TestRole>(nameof(AddTE)))
-            Table.Toolbar.AddAction(nameof(AddTE));
-        if (Context.HasButton<TestRole>(nameof(Save)))
-            Table.Toolbar.AddAction(nameof(Save));
+        Table.Toolbar.AddAction<TestRole>(nameof(AddTE));
+        Table.Toolbar.AddAction<TestRole>(nameof(Save));
     }
 
     [Action(Name = "添加TE", Icon = "plus")]

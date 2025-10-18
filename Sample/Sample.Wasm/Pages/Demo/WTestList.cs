@@ -25,7 +25,7 @@ public class WTestList : BizTablePage<WeatherForecast>
         await base.OnInitPageAsync();
         Table = new TableModel<WeatherForecast>(this);
         Table.ShowPager = true;
-        Table.OnQuery = OnQueryWeatherForecastsAsync;
+        Table.OnQuery = TestData.QueryWeathersAsync;
 
         //Table.AddColumn(c => c.Date, true);
         //Table.AddColumn(c => c.TemperatureC);
@@ -37,6 +37,7 @@ public class WTestList : BizTablePage<WeatherForecast>
 
         Table.ExpandTemplate = (b, r) => b.Text(r.Summary);
         Table.ActionCount = 4;
+        Table.ActionWidth = "180px";
 
         Table.Tab.AddTab("北京");
         Table.Tab.AddTab("上海");
@@ -47,34 +48,13 @@ public class WTestList : BizTablePage<WeatherForecast>
         };
     }
 
-    [Action] public void New() => Table.NewForm(SaveDataAsync, new WeatherForecast());
-    [Action] public void Edit(WeatherForecast row) => Table.EditForm(SaveDataAsync, row);
-    [Action] public void Delete(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
+    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new WeatherForecast());
+    [Action] public void Edit(WeatherForecast row) => Table.EditForm(TestData.SaveWeatherAsync, row);
+    [Action] public void Delete(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
     [Action(Group = "Test", Name = "测试1")] public void Test1(WeatherForecast row) => UI.Alert($"{row.Summary}-Test1");
     [Action(Group = "Test", Name = "测试2")] public void Test2(WeatherForecast row) => UI.Alert($"{row.Summary}-Test2");
-    [Action] public void MoveUp(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
-    [Action] public void MoveDown(WeatherForecast row) => Table.Delete(SaveDataAsync, row);
+    [Action] public void MoveUp(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
+    [Action] public void MoveDown(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
 
     public void Export() => UI.Alert("测试查询导出！");
-
-    private async Task<PagingResult<WeatherForecast>> OnQueryWeatherForecastsAsync(PagingCriteria criteria)
-    {
-        await Task.Delay(500);
-
-        var startDate = DateTime.Now;
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        var forecasts = Enumerable.Range(1, criteria.PageSize).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)],
-            Info = new WeatherInfo { Date1 = startDate, Summary1 = "Item.Summary" }
-        }).ToList();
-        return new PagingResult<WeatherForecast>(100, forecasts);
-    }
-
-    private Task<Result> SaveDataAsync(WeatherForecast row)
-    {
-        return Result.SuccessAsync("保存成功！");
-    }
 }

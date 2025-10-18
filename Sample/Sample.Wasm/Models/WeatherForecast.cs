@@ -11,13 +11,14 @@ public class WeatherForecast
     [Form]
     public int TemperatureC { get; set; }
 
-    [Column(Width = 120, Type = FieldType.File)]
+    [Column(Width = 120)]
     [Form]
     public string Summary { get; set; }
 
     [Column(Width = 150)]
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
+    [Column(Width = 250)]
     public WeatherInfo Info { get; set; }
 }
 

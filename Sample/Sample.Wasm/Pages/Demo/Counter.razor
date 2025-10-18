@@ -5,8 +5,10 @@
 <PageTitle>Counter</PageTitle>
 
 <div class="kui-card" style="padding:20px">
-    <h1>Counter</h1>
-
+    <div style="display:flex;justify-content:space-between">
+        <h1>Counter</h1>
+        <KTimer />
+    </div>
     <p role="status">Current count: @currentCount</p>
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
@@ -15,23 +17,38 @@
 
     <AntForm Form="model">
         <AntRow>
-            <DataItem Span="8" Label="附件">
+            <DataItem Span="6" Label="文本" Required>
+                <AntInput />
+            </DataItem>
+            <DataItem Span="6" Label="日期">
+                <AntDatePicker />
+            </DataItem>
+            <DataItem Span="6" Label="附件">
                 <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="@(files=>OnFilesChanged("Files", files))" />
             </DataItem>
-            <DataItem Span="8" Label="用户">
+            <DataItem Span="6" Label="用户">
                 <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
             </DataItem>
         </AntRow>
         <AntRow>
-            <DataItem Span="8" Label="选项">
+            <DataItem Span="6" Label="单选" Tooltip="测试单选提示信息！">
+                <AntRadioGroup Category="Item1,Item2" ButtonStyle="RadioButtonStyle.Solid" />
+            </DataItem>
+            <DataItem Span="6" Label="选项">
                 <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
+            </DataItem>
+            <DataItem Span="6" Label="下拉树">
+                <AntDropdownTree Items="Context.UserMenus" />
+            </DataItem>
+            <DataItem Span="6" Label="下拉表">
+                <TestSelectTable />
             </DataItem>
         </AntRow>
         <AntRow>
-            <DataItem Span="8" Label="测试1">
-                <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2,Item3" />
+            <DataItem Span="6" Label="测试1">
+                <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2" />
             </DataItem>
-            <DataItem Span="8" Label="测试2" Visible="context.ShowField">
+            <DataItem Span="6" Label="测试2" Visible="context.ShowField">
                 <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
             </DataItem>
         </AntRow>
