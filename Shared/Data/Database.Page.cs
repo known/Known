@@ -49,7 +49,7 @@ public partial class Database
     /// <param name="criteria">查询条件对象。</param>
     /// <param name="onExport">导出扩展委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<List<T>, byte[]> onExport) where T : class, new()
+    public virtual Task<PagingResult<T>> QueryPageAsync<T>(PagingCriteria criteria, Func<List<T>, Task<byte[]>> onExport) where T : class, new()
     {
         return Query<T>(criteria).ToPageAsync(onExport);
     }
@@ -75,7 +75,7 @@ public partial class Database
     /// <param name="criteria">查询条件对象。</param>
     /// <param name="onExport">导出扩展委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Func<List<T>, byte[]> onExport) where T : class, new()
+    public virtual Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Func<List<T>, Task<byte[]>> onExport) where T : class, new()
     {
         return QueryPageAsync(sql, criteria, typeof(T), onExport);
     }
@@ -103,7 +103,7 @@ public partial class Database
     /// <param name="entityType">实体类型。</param>
     /// <param name="onExport">导出扩展字段委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Type entityType, Func<List<T>, byte[]> onExport) where T : class, new()
+    public virtual Task<PagingResult<T>> QueryPageAsync<T>(string sql, PagingCriteria criteria, Type entityType, Func<List<T>, Task<byte[]>> onExport) where T : class, new()
     {
         return QueryInnerPageAsync(sql, criteria, entityType, onExport, null);
     }
@@ -129,12 +129,12 @@ public partial class Database
     /// <param name="criteria">查询条件对象。</param>
     /// <param name="onExport">导出扩展委托。</param>
     /// <returns>分页查询结果。</returns>
-    public virtual Task<PagingResult<T>> QueryPageAsync<T>(CommandInfo info, PagingCriteria criteria, Func<List<T>, byte[]> onExport) where T : class, new()
+    public virtual Task<PagingResult<T>> QueryPageAsync<T>(CommandInfo info, PagingCriteria criteria, Func<List<T>, Task<byte[]>> onExport) where T : class, new()
     {
         return QueryInnerPageAsync(info, criteria, onExport, null);
     }
 
-    private Task<PagingResult<T>> QueryInnerPageAsync<T>(string sql, PagingCriteria criteria, Type entityType, Func<List<T>, byte[]> onExportList, Func<T, ExportColumnInfo, object> onExport) where T : class, new()
+    private Task<PagingResult<T>> QueryInnerPageAsync<T>(string sql, PagingCriteria criteria, Type entityType, Func<List<T>, Task<byte[]>> onExportList, Func<T, ExportColumnInfo, object> onExport) where T : class, new()
     {
         if (string.IsNullOrWhiteSpace(sql))
             return Task.FromResult(new PagingResult<T>());
@@ -145,14 +145,16 @@ public partial class Database
         return QueryInnerPageAsync(info, criteria, onExportList, onExport);
     }
 
-    private async Task<PagingResult<T>> QueryInnerPageAsync<T>(CommandInfo info, PagingCriteria criteria, Func<List<T>, byte[]> onExportList, Func<T, ExportColumnInfo, object> onExport) where T : class, new()
+    private async Task<PagingResult<T>> QueryInnerPageAsync<T>(CommandInfo info, PagingCriteria criteria, Func<List<T>, Task<byte[]>> onExportList, Func<T, ExportColumnInfo, object> onExport) where T : class, new()
     {
         try
         {
             if (criteria.ExportMode == ExportMode.Select)
             {
                 var rows = criteria.GetParameter<List<T>>(nameof(ExportMode.Select));
-                var data = onExportList != null ? onExportList.Invoke(rows) : DbUtils.GetExportData(criteria, rows, onExport);
+                var data = onExportList != null 
+                         ? await onExportList.Invoke(rows) 
+                         : DbUtils.GetExportData(criteria, rows, onExport);
                 return new PagingResult<T>() { ExportData = data };
             }
 
@@ -209,7 +211,11 @@ public partial class Database
                 conn.Close();
 
             if (criteria.ExportMode != ExportMode.None)
-                exportData = onExportList != null ? onExportList.Invoke(pageData) : DbUtils.GetExportData(criteria, pageData, onExport);
+            {
+                exportData = onExportList != null
+                           ? await onExportList.Invoke(pageData)
+                           : DbUtils.GetExportData(criteria, pageData, onExport);
+            }
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0 && criteria.PageIndex > 0)
                 pageData = [.. pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize)];
@@ -251,7 +257,7 @@ public class QueryPageBuilder(Database database)
     /// <typeparam name="TItem">分页数据类型。</typeparam>
     /// <param name="onExport">导出扩展委托。</param>
     /// <returns></returns>
-    public Task<PagingResult<TItem>> ToPageAsync<TItem>(Func<List<TItem>, byte[]> onExport) where TItem : class, new()
+    public Task<PagingResult<TItem>> ToPageAsync<TItem>(Func<List<TItem>, Task<byte[]>> onExport) where TItem : class, new()
     {
         return database.QueryPageAsync(Sql, Criteria, onExport);
     }
