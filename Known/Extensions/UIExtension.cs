@@ -30,14 +30,15 @@ public static class UIExtension
     /// <param name="onStop">停止扫码回调。</param>
     public static void ShowScanner(this UIService service, Func<string, string, Task> onScan, Func<Task> onStop = null)
     {
-        Scanner scanner = null;
+        KScanner scanner = null;
         var model = new DialogModel
         {
-            ClassName = "kui-scanner",
-            Style = "width:280px;height:200px;",
+            ClassName = "kui-scanner-modal",
+            Style = "width:260px;height:220px;",
             OnClosed = () => scanner?.StopAsync()
         };
-        model.Content = b => b.Component<Scanner>()
+        model.Content = b => b.Component<KScanner>()
+                              .Set(c => c.AutoStart, true)
                               .Set(c => c.OnScan, async (r, e) =>
                               {
                                   await onScan?.Invoke(r, e);

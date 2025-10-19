@@ -1,4 +1,5 @@
 ﻿@page "/demo/counter"
+@using System.Threading.Tasks
 @inherits BasePage
 @attribute [Menu(AppConstant.Demo, "计数器", "plus-circle", 2)]
 
@@ -13,6 +14,7 @@
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
+    <KButton Type="@ButtonType.Primary" Name="扫码" OnClick="OnScan" />
     <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" />
 
     <AntForm Form="model">
@@ -60,7 +62,15 @@
     <KFlexRow>
         <KQRCode Option="@(new { Text = "1234", Width = 100, Height = 100 })" Style="width:100px;height:100px;" />
         <KBarcode Value="1234567890" Style="width:200px;height:50px;" />
+        <div style="text-align:center;">
+            <div style="width:200px;height:200px;margin-bottom:10px;">
+                <KScanner @ref="scanner" OnScan="OnScanned" />
+            </div>
+            <KButton Name="@ScanName" Danger="IsScanning" OnClick="OnStartScan" />
+        </div>
     </KFlexRow>
+
+    <p>扫码结果：@scanResult</p>
 </div>
 
 @code {
@@ -69,7 +79,11 @@
     private FormModel<Test> model;
     private Test test = new();
     private KUpload upload;
+    private KScanner scanner;
+    private string scanResult;
     private int fileCount;
+    private bool IsScanning => scanner?.IsScanning == true;
+    private string ScanName => IsScanning ? "停止扫码" : "开始扫码";
 
     protected override void OnInitialized()
     {
@@ -92,6 +106,19 @@
         });
     }
 
+    private async Task OnStartScan()
+    {
+        if (scanner.IsScanning)
+            await scanner.StopAsync();
+        else
+            await scanner.StartAsync();
+    }
+
+    private void OnScan()
+    {
+        UI.ShowScanner(OnScanned);
+    }
+
     private void OnLog()
     {
         var model = new DialogModel
@@ -104,6 +131,14 @@
             })
         };
         UI.ShowDialog(model);
+    }
+
+    private Task OnScanned(string text, string error)
+    {
+        scanResult = text;
+        if (!string.IsNullOrWhiteSpace(error))
+            UI.Error(error);
+        return StateChangedAsync();
     }
 
     private Task OnFilesChanged(string id, List<FileDataInfo> files)
