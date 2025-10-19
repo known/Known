@@ -50,7 +50,7 @@ public static class ModelExtension
     /// <param name="title">按钮提示信息。</param>
     public static void Add(this List<ActionInfo> items, string idOrName, string title = "")
     {
-        items.Add(new ActionInfo(idOrName) { Title = title });
+        items?.Add(new ActionInfo(idOrName) { Title = title });
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public static class ModelExtension
     /// <param name="title">按钮提示信息。</param>
     public static void Add(this List<ActionInfo> items, string idOrName, string group, string title = "")
     {
-        items.Add(new ActionInfo(idOrName) { Group = group, Title = title });
+        items?.Add(new ActionInfo(idOrName) { Group = group, Title = title });
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public static class ModelExtension
     /// <param name="title">按钮提示信息。</param>
     public static void Add(this List<ActionInfo> items, string idOrName, int badge, string title = "")
     {
-        items.Add(new ActionInfo(idOrName) { Badge = badge, Title = title });
+        items?.Add(new ActionInfo(idOrName) { Badge = badge, Title = title });
     }
 
     /// <summary>
@@ -87,13 +87,7 @@ public static class ModelExtension
     /// <param name="title">按钮提示信息。</param>
     public static void Add(this List<ActionInfo> items, string id, string name, string icon, string title = "")
     {
-        items.Add(new ActionInfo
-        {
-            Id = id,
-            Name = name,
-            Icon = icon,
-            Title = title
-        });
+        items?.Add(new ActionInfo { Id = id, Name = name, Icon = icon, Title = title });
     }
 
     internal static List<ActionInfo> Format(this List<ActionInfo> actions)
@@ -117,6 +111,9 @@ public static class ModelExtension
 
     internal static void TabChange(this List<ActionInfo> actions, string tab)
     {
+        if (actions == null || actions.Count == 0)
+            return;
+
         foreach (var item in actions)
         {
             if (item.Tabs == null || item.Tabs.Length == 0)

@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/info")]
 [Menu(Constants.System, "关于系统", "info-circle", 1)]
-//[PagePlugin("关于系统", "info-circle", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 4)]
+//[PagePlugin("关于系统", "info-circle", PagePluginType.Module, Language.SystemManage, Sort = 4)]
 public class SysSystem : BaseTabPage
 {
     /// <inheritdoc />

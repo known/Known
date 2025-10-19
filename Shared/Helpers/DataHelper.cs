@@ -58,11 +58,8 @@ public sealed class DataHelper
         }
     }
 
-    /// <summary>
-    /// 获取所有菜单信息列表。
-    /// </summary>
-    /// <returns></returns>
-    public static async Task<List<MenuInfo>> GetMenusAsync(Database db = null)
+    // 获取所有菜单信息列表。
+    internal static async Task<List<MenuInfo>> GetMenusAsync(Database db = null, bool isRoute = true)
     {
         var menus = new List<MenuInfo>();
         var items = await db.QueryListAsync<SysModule>();
@@ -73,7 +70,7 @@ public sealed class DataHelper
                 menus.Add(item.ToMenuInfo());
             }
         }
-        return GetMenus(menus);
+        return GetMenus(menus, isRoute);
     }
 
     internal static List<MenuInfo> GetMenus(List<MenuInfo> menus, bool isRoute = true)

@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/tasks")]
 [Menu(Constants.System, "后台任务", "control", 4)]
-//[PagePlugin("后台任务", "control", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 7)]
+//[PagePlugin("后台任务", "control", PagePluginType.Module, Language.SystemManage, Sort = 7)]
 public class SysTaskList : BaseTablePage<SysTask>
 {
     private ITaskService Service;

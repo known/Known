@@ -59,7 +59,7 @@ class RoleService(Context context) : ServiceBase(context), IRoleService
             info = string.IsNullOrWhiteSpace(roleId)
                  ? new SysRole()
                  : await db.QueryByIdAsync<SysRole>(roleId) ?? new SysRole();
-            info.Menus = await DataHelper.GetMenusAsync(db);
+            info.Menus = await DataHelper.GetMenusAsync(db, CoreConfig.IsRoleRoute);
             var roleModules = await db.QueryListAsync<SysRoleModule>(d => d.RoleId == roleId);
             info.MenuIds = roleModules?.Select(d => d.ModuleId).ToList();
         });

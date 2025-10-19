@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/logs")]
 [Menu(Constants.System, "系统日志", "clock-circle", 6)]
-//[PagePlugin("系统日志", "clock-circle", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 9)]
+//[PagePlugin("系统日志", "clock-circle", PagePluginType.Module, Language.SystemManage, Sort = 9)]
 public class SysLogList : BaseTablePage<LogInfo>
 {
     private ILogService Service;

@@ -25,6 +25,11 @@ public class CoreConfig
     internal static void Load(AdminInfo info) { }
 
     /// <summary>
+    /// 取得或设置角色管理是否显示路由权限，默认显示。
+    /// </summary>
+    public static bool IsRoleRoute { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置默认用户系统设置信息对象。
     /// </summary>
     public static UserSettingInfo UserSetting { get; set; } = new();

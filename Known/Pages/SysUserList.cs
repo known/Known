@@ -5,7 +5,7 @@
 /// </summary>
 [Route("/sys/users")]
 [Menu(Constants.System, "用户管理", "user", 3)]
-//[PagePlugin("用户管理", "user", PagePluginType.Module, AdminLanguage.SystemManage, Sort = 6)]
+//[PagePlugin("用户管理", "user", PagePluginType.Module, Language.SystemManage, Sort = 6)]
 public class SysUserList : BaseTablePage<SysUser>
 {
     private IUserService Service;
@@ -53,6 +53,15 @@ public class SysUserList : BaseTablePage<SysUser>
                 Tree.Data = orgs.ToMenuItems(ref current);
                 Tree.SelectedKeys = [current.Id];
                 await OnNodeClickAsync(current);
+            }
+            else
+            {
+                var changeDpt = Table.Toolbar.Items.FirstOrDefault(d => d.Id == nameof(ChangeDepartment));
+                if (changeDpt != null)
+                {
+                    Table.Toolbar.Items.Remove(changeDpt);
+                    await StateChangedAsync();
+                }
             }
         }
     }
