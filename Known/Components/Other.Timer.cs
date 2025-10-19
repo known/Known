@@ -59,5 +59,4 @@ public class KTimer : BaseComponent
     }
 
     private void SetTime() => time = DateTime.Now;
-
 }

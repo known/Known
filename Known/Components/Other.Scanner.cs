@@ -103,6 +103,7 @@ public class KScanner : BaseComponent
     [JSInvokable]
     public async Task OnScanned(string text, string error)
     {
+        await StopAsync();
         if (OnScan != null)
             await OnScan.Invoke(text, error);
     }

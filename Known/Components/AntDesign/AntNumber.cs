@@ -32,55 +32,14 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
 /// <summary>
 /// 扩展Ant整数输入组件类。
 /// </summary>
-public class AntInteger : AntDesign.InputNumber<int?>
-{
-    [CascadingParameter] private DataItem Item { get; set; }
-
-    /// <summary>
-    /// 取得或设置表单容器对象。
-    /// </summary>
-    [CascadingParameter] protected IComContainer AntForm { get; set; }
-
-    /// <summary>
-    /// 取得或设置UI上下文对象级联值实例。
-    /// </summary>
-    [CascadingParameter] public UIContext Context { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        if (AntForm != null)
-            Disabled = AntForm.IsView;
-        if (Item != null)
-            Item.Type = typeof(int?);
-        base.OnInitialized();
-    }
-}
+public class AntInteger : AntNumber<int?> { }
 
 /// <summary>
 /// 扩展Ant小数输入框组件类。
 /// </summary>
-public class AntDecimal : AntDesign.InputNumber<decimal?>
-{
-    [CascadingParameter] private DataItem Item { get; set; }
+public class AntDecimal : AntNumber<decimal?> { }
 
-    /// <summary>
-    /// 取得或设置表单容器对象。
-    /// </summary>
-    [CascadingParameter] protected IComContainer AntForm { get; set; }
-
-    /// <summary>
-    /// 取得或设置UI上下文对象级联值实例。
-    /// </summary>
-    [CascadingParameter] public UIContext Context { get; set; }
-
-    /// <inheritdoc />
-    protected override void OnInitialized()
-    {
-        if (AntForm != null)
-            Disabled = AntForm.IsView;
-        if (Item != null)
-            Item.Type = typeof(decimal?);
-        base.OnInitialized();
-    }
-}
+/// <summary>
+/// 扩展Ant双精度小数输入框组件类。
+/// </summary>
+public class AntDouble : AntNumber<double?> { }
