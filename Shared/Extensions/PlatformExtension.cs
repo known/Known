@@ -46,9 +46,9 @@ static class PlatformExtension
         var datas = await db.GetConfigAsync<List<ButtonInfo>>(Constants.KeyButton, true);
         if (datas != null && datas.Count > 0)
         {
-            var items = datas.Where(d => !actions.Exists(a => a.Id == d.Id)).Select(d => d.ToAction()).ToList();
-            if (items != null && items.Count > 0)
-                actions.AddRange(items);
+            actions.RemoveAll(d => datas.Exists(a => a.Id == d.Id));
+            var items = datas.Select(d => d.ToAction()).ToList();
+            actions.AddRange(items);
         }
         return actions;
     }

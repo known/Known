@@ -96,6 +96,25 @@ public static class ModelExtension
         });
     }
 
+    internal static List<ActionInfo> Format(this List<ActionInfo> actions)
+    {
+        if (actions == null || actions.Count == 0)
+            return [];
+
+        foreach (var item in actions)
+        {
+            var info = Config.Actions.FirstOrDefault(d => d.Id == item.Id);
+            if (info != null)
+            {
+                item.Name = info.Name;
+                item.Icon = info.Icon;
+                item.Style = info.Style;
+                item.Group = info.Group;
+            }
+        }
+        return actions;
+    }
+
     internal static void TabChange(this List<ActionInfo> actions, string tab)
     {
         foreach (var item in actions)

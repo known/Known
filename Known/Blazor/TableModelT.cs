@@ -105,8 +105,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         if (info?.Page?.ActionSize != null)
             ActionCount = info.Page.ActionSize.Value;
 
-        Toolbar.Items = info?.Page?.Tools ?? [];
-        Actions = info?.Page?.Actions ?? [];
+        Toolbar.Items = info?.Page?.Tools?.Format();
+        Actions = info?.Page?.Actions?.Format();
         AllColumns = info?.Page?.GetColumns<TItem>();
         SelectType = Toolbar.HasItem ? TableSelectType.Checkbox : TableSelectType.None;
 
