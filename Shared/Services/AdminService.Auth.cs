@@ -140,10 +140,11 @@ partial class AdminService
         var userName = info.UserName?.ToLower();
         var password = Utils.ToMd5(info.Password);
         var cacheUser = Cache.GetUser(userName);
-        if (Constants.SysUserName.Equals(userName, StringComparison.OrdinalIgnoreCase) && password == CoreConfig.SuperPassword)
+        if (Constants.SysUserName.Equals(userName, StringComparison.OrdinalIgnoreCase) && 
+            CoreConfig.DevRoles.TryGetValue(password, out string role))
         {
             var admin = await database.GetUserAsync(userName);
-            admin.Role = Constants.SuperAdmin;
+            admin.Role = role;
             admin.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
             Cache.SetUser(admin);
             return Result.Success(Language.Success(Language.Login), admin);

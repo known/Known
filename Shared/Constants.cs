@@ -28,11 +28,6 @@ public class Constants
     public const string SysUserName = "Admin";
 
     /// <summary>
-    /// 超级管理员。
-    /// </summary>
-    public const string SuperAdmin = "SuperAdmin";
-
-    /// <summary>
     /// 基础数据菜单。
     /// </summary>
     public const string BaseData = "BaseData";

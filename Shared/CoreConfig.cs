@@ -60,9 +60,9 @@ public class CoreConfig
     public static ConcurrentBag<ApiMethodInfo> ApiMethods { get; } = [];
 
     /// <summary>
-    /// 取得或设置超级管理员用户密码。
+    /// 取得超级管理员角色密码。
     /// </summary>
-    public static string SuperPassword { get; set; }
+    public static Dictionary<string, string> DevRoles { get; } = [];
 
     /// <summary>
     /// 取得或设置【关于系统】模块显示的产品ID。

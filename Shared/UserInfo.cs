@@ -164,13 +164,7 @@ public class UserInfo
     /// 获取用户是否是系统或租户管理员。
     /// </summary>
     /// <returns></returns>
-    public bool IsAdmin() => IsSuperAdmin() || IsSystemAdmin() || IsTenantAdmin();
-
-    /// <summary>
-    /// 获取用户是否是超级管理员。
-    /// </summary>
-    /// <returns></returns>
-    public bool IsSuperAdmin() => Role == Constants.SuperAdmin;
+    public bool IsAdmin() => IsSystemAdmin() || IsTenantAdmin();
 
     /// <summary>
     /// 获取用户是否是系统超级管理员。
