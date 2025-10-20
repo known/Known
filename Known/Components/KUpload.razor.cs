@@ -161,6 +161,7 @@ public partial class KUpload
         if (AntForm != null)
             ReadOnly = AntForm.IsView;
         base.OnInitialized();
+        invoker = DotNetObjectReference.Create(this);
     }
 
     /// <inheritdoc />
@@ -169,8 +170,7 @@ public partial class KUpload
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            invoker = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("KBlazor_SetupPasteListener", invoker, container);
+            await JS.InvokeVoidAsync("KUtils.setupPasteListener", invoker, container);
             await RefreshAsync();
         }
     }
@@ -184,7 +184,7 @@ public partial class KUpload
 
     private async Task OnPasteFileAsync()
     {
-        await JS.InvokeVoidAsync("KBlazor_CheckClipboardPermission");
+        await JS.InvokeVoidAsync("KUtils.checkClipboardPermission");
     }
 
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)

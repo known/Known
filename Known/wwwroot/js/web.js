@@ -55,6 +55,42 @@ window.KUtils = {
     },
     highlight: function (code, lang) {
         return Prism.highlight(code, Prism.languages[lang], lang);
+    },
+    showECharts: function (elementId, option) {
+        var myChart = echarts.init(document.getElementById(elementId));
+        myChart.setOption(option);
+        window.addEventListener("resize", function () { myChart.resize(); });
+        return myChart;
+    },
+    checkClipboardPermission: async function () {
+        if (navigator.permissions && navigator.permissions.query) {
+            const { state } = await navigator.permissions.query({ name: 'clipboard-read' });
+            if (state === 'prompt' || state === 'denied') {
+                try {
+                    await navigator.clipboard.read();
+                } catch (error) {
+                    console.warn('Clipboard access denied:', error);
+                }
+            }
+        }
+    },
+    setupPasteListener: function (invoker, element) {
+        element.addEventListener('paste', async (event) => {
+            const clipboardItems = event.clipboardData.items;
+            for (const item of clipboardItems) {
+                if (item.type.indexOf('image') !== -1) {
+                    event.preventDefault();
+                    const blob = item.getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const base64Data = reader.result.split(',')[1]; // 移除 data URL 前缀
+                        invoker.invokeMethodAsync('ReceivePastedImage', base64Data);
+                    };
+                    reader.readAsDataURL(blob);
+                    break;
+                }
+            }
+        });
     }
 };
 

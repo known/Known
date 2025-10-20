@@ -54,15 +54,4 @@ public partial class JSService
     {
         return InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
     }
-
-    /// <summary>
-    /// 高亮显示代码。
-    /// </summary>
-    /// <param name="code">代码。</param>
-    /// <param name="language">代码语言。</param>
-    /// <returns>高亮代码。</returns>
-    public Task<string> HighlightAsync(string code, string language)
-    {
-        return InvokeAsync<string>("KBlazor.highlight", code, language);
-    }
 }

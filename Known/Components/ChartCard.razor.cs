@@ -27,10 +27,8 @@ public partial class ChartCard
         await StateChangedAsync();
         var info = option?.Charts?.FirstOrDefault();
         if (info?.Type == "Line")
-            await chart?.ShowLineAsync(info?.Title, info?.Datas);
+            await chart.ShowLineAsync(info?.Title, info?.Datas);
         else if (info?.Type == "Bar")
-            await chart?.ShowBarAsync(info?.Title, info?.Datas);
-        else if (info?.Type == "Pie")
-            await chart?.ShowPieAsync(info?.Title, info?.Datas);
+            await chart.ShowBarAsync(info?.Title, info?.Datas);
     }
 }

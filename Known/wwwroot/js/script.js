@@ -1,7 +1,4 @@
-﻿import "./libs/highcharts.js";
-import "./libs/highcharts-more.js";
-
-function findLink(match) {
+﻿function findLink(match) {
     var items = document.getElementsByTagName('link');
     return Array.from(items).find((item) => item.getAttribute('href')?.match(match));
 }
@@ -73,40 +70,6 @@ function createCaptcha(canvas, code) {
 
     function getColor() {
         return `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
-    }
-}
-
-export function KBlazor_SetupPasteListener(invoker, element) {
-    element.addEventListener('paste', async (event) => {
-        const clipboardItems = event.clipboardData.items;
-        for (const item of clipboardItems) {
-            if (item.type.indexOf('image') !== -1) {
-                event.preventDefault();
-                const blob = item.getAsFile();
-                // 使用 FileReader 读取为 base64 字符串
-                const reader = new FileReader();
-                reader.onload = function () {
-                    const base64Data = reader.result.split(',')[1]; // 移除 data URL 前缀
-                    invoker.invokeMethodAsync('ReceivePastedImage', base64Data);
-                };
-                reader.readAsDataURL(blob);
-                break;
-            }
-        }
-    });
-}
-
-export async function KBlazor_CheckClipboardPermission() {
-    // Only needed for WebAssembly
-    if (navigator.permissions && navigator.permissions.query) {
-        const { state } = await navigator.permissions.query({ name: 'clipboard-read' });
-        if (state === 'prompt' || state === 'denied') {
-            try {
-                await navigator.clipboard.read();
-            } catch (error) {
-                console.warn('Clipboard access denied:', error);
-            }
-        }
     }
 }
 
@@ -287,16 +250,8 @@ export class KBlazor {
         createCaptcha(canvas, code);
     }
     //Chart
-    static showChart(id, option) {
-        //console.log(option);
-        Highcharts.chart(id, option);
-    }
     static showBarcode(id, value, option) { JsBarcode('#' + id, value, option); }
     static showQRCode(id, option) { $('#' + id).qrcode(option); }
-    static highlight(code, language) {
-        if (!code) return '';
-        return Prism.highlight(code, Prism.languages[language], language);
-    }
     //Spin
     static showSpin(tip) {
         var html = '<div class="mask"></div>';

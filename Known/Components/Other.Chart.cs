@@ -1,7 +1,7 @@
 ﻿namespace Known.Components;
 
 /// <summary>
-/// 图表组件类，配置参考highcharts.js。
+/// 图表组件类，配置参考echarts.js。
 /// </summary>
 public class KChart : BaseComponent
 {
@@ -23,6 +23,26 @@ public class KChart : BaseComponent
     [Parameter] public int? Height { get; set; }
 
     /// <summary>
+    /// 取得或设置图表标题配置对象。
+    /// </summary>
+    [Parameter] public object Title { get; set; }
+
+    /// <summary>
+    /// 取得或设置图表数据提示配置对象。
+    /// </summary>
+    [Parameter] public object Tooltip { get; set; }
+
+    /// <summary>
+    /// 取得或设置图表的图例配置对象。
+    /// </summary>
+    [Parameter] public object Legend { get; set; }
+
+    /// <summary>
+    /// 取得或设置图表网格配置对象。
+    /// </summary>
+    [Parameter] public object Grid { get; set; }
+
+    /// <summary>
     /// 取得或设置图表X轴对象。
     /// </summary>
     [Parameter] public object XAxis { get; set; }
@@ -31,21 +51,6 @@ public class KChart : BaseComponent
     /// 取得或设置图表Y轴对象。
     /// </summary>
     [Parameter] public object YAxis { get; set; }
-
-    /// <summary>
-    /// 取得或设置图表的图例配置对象。
-    /// </summary>
-    [Parameter] public object Legend { get; set; }
-
-    /// <summary>
-    /// 取得或设置图表数据提示配置对象。
-    /// </summary>
-    [Parameter] public object Tooltip { get; set; }
-
-    /// <summary>
-    /// 取得或设置图表绘制配置对象。
-    /// </summary>
-    [Parameter] public object PlotOptions { get; set; }
 
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -61,9 +66,9 @@ public class KChart : BaseComponent
     /// </summary>
     /// <param name="option"></param>
     /// <returns></returns>
-    public Task ShowAsync(object option)
+    public ValueTask ShowAsync(object option)
     {
-        return JS.ShowChartAsync(Id, option);
+        return JSRuntime.InvokeVoidAsync("KUtils.showECharts", Id, option);
     }
 
     /// <summary>
@@ -72,10 +77,10 @@ public class KChart : BaseComponent
     /// <param name="title">折线图标题。</param>
     /// <param name="datas">折线图数据集合。</param>
     /// <returns></returns>
-    public Task ShowLineAsync(string title, ChartDataInfo[] datas)
+    public ValueTask ShowLineAsync(string title, ChartDataInfo[] datas)
     {
         if (!Visible)
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
 
         object series = null;
         string[] categories = [];
@@ -84,22 +89,21 @@ public class KChart : BaseComponent
             categories = datas[0].Series.Keys.ToArray();
             series = datas.Select(d => new
             {
+                type = "line",
                 name = d.Name,
                 data = d.Series.Values.ToArray(),
-                showInLegend = datas.Length > 1
+                smooth = true
             }).ToArray();
         }
 
         var option = new
         {
-            credits = new { enabled = false },
-            chart = new { width = Width, height = Height },
-            title = new { text = title },
-            xAxis = XAxis ?? new { categories },
-            yAxis = YAxis ?? new { },
-            legend = Legend ?? new { },
+            title = Title ?? new { text = title, left = "center" },
             tooltip = Tooltip ?? new { },
-            plotOptions = PlotOptions ?? new { },
+            legend = Legend ?? new { y = "bottom" },
+            grid = Grid ?? new { top = "8%", left = "5%", right = "5%", bottom = "13%" },
+            xAxis = XAxis ?? new { type = "category", categories },
+            yAxis = YAxis ?? new { },
             series
         };
 
@@ -112,10 +116,10 @@ public class KChart : BaseComponent
     /// <param name="title">柱状图标题。</param>
     /// <param name="datas">柱状图数据集合。</param>
     /// <returns></returns>
-    public Task ShowBarAsync(string title, ChartDataInfo[] datas)
+    public ValueTask ShowBarAsync(string title, ChartDataInfo[] datas)
     {
         if (!Visible)
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
 
         object series = null;
         string[] categories = [];
@@ -124,56 +128,21 @@ public class KChart : BaseComponent
             categories = datas[0].Series.Keys.ToArray();
             series = datas.Select(d => new
             {
+                type = "bar",
                 name = d.Name,
+                //barWidth = "50%",
                 data = d.Series.Values.ToArray()
             }).ToArray();
         }
 
         var option = new
         {
-            credits = new { enabled = false },
-            chart = new { type = Type ?? "column", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
-            title = new { text = title },
-            xAxis = XAxis ?? new { categories },
-            yAxis = YAxis ?? new { },
-            legend = Legend ?? new { },
+            title = Title ?? new { text = title, left = "center" },
             tooltip = Tooltip ?? new { },
-            plotOptions = PlotOptions ?? new { },
-            series
-        };
-
-        return ShowAsync(option);
-    }
-
-    /// <summary>
-    /// 异步显示饼图。
-    /// </summary>
-    /// <param name="title">饼图标题。</param>
-    /// <param name="datas">饼图数据集合。</param>
-    /// <returns></returns>
-    public Task ShowPieAsync(string title, ChartDataInfo[] datas)
-    {
-        if (!Visible)
-            return Task.CompletedTask;
-
-        object series = null;
-        if (datas != null && datas.Length > 0)
-        {
-            series = datas.Select(d => new
-            {
-                name = d.Name,
-                data = d.Series.Select(s => new { name = s.Key, y = s.Value }).ToArray()
-            }).ToArray();
-        }
-
-        var option = new
-        {
-            credits = new { enabled = false },
-            chart = new { type = "pie", backgroundColor = "rgba(0,0,0,0)", width = Width, height = Height },
-            title = new { text = title },
-            legend = Legend ?? new { },
-            tooltip = Tooltip ?? new { pointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>" },
-            plotOptions = PlotOptions ?? new { },
+            legend = Legend ?? new { y = "bottom" },
+            grid = Grid ?? new { top ="8%", left ="5%", right = "5%", bottom = "13%" },
+            xAxis = XAxis ?? new { type = "category", data = categories },
+            yAxis = YAxis ?? new { },
             series
         };
 
