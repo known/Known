@@ -6,7 +6,7 @@
         <RootNamespace>Known</RootNamespace>
         <Authors>KnownChen</Authors>
         <Description>Known.Admin是基于Known开发的后台管理模块插件，包含数据字典、组织架构。</Description>
-        <Version>3.4.3</Version>
+        <Version>1.2.4</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Admin, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

@@ -28,12 +28,9 @@ public partial class ChartCard
 
         charts = option?.Charts ?? [];
         tabs = string.Empty;
-        current = string.Empty;
+        current = charts[0].Name;
         if (charts.Count > 1)
-        {
             tabs = string.Join(",", charts.Select(c => c.Name));
-            current = charts[0].Name;
-        }
         isLoad = true;
         await StateChangedAsync();
         await OnChanged(current);
