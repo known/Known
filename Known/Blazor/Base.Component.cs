@@ -10,7 +10,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// </summary>
     public BaseComponent()
     {
-        Id = Utils.GetNextId();
+        Id = Utils.GetGuid();
     }
 
     [Inject] private IServiceScopeFactory Factory { get; set; }

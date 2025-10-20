@@ -37,6 +37,21 @@ public class CountInfo
     public string Field3 { get; set; }
 
     /// <summary>
+    /// 取得或设置统计数量1。
+    /// </summary>
+    public int Count1 { get; set; }
+
+    /// <summary>
+    /// 取得或设置统计数量2。
+    /// </summary>
+    public int Count2 { get; set; }
+
+    /// <summary>
+    /// 取得或设置统计数量3。
+    /// </summary>
+    public int Count3 { get; set; }
+
+    /// <summary>
     /// 取得或设置统计数量。
     /// </summary>
     public int TotalCount { get; set; }

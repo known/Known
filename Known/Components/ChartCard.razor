@@ -7,6 +7,10 @@
             <div class="ant-card-head">
                 <div class="ant-card-head-wrapper">
                     <div class="ant-card-head-title">@Language[Title]</div>
+                    @if (!string.IsNullOrWhiteSpace(tabs))
+                    {
+                        <AntRadioGroup @bind-Value="current" Category="@tabs" OnChange="OnChanged" ButtonStyle="RadioButtonStyle.Solid" />
+                    }
                 </div>
             </div>
             <div class="ant-card-body">
