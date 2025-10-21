@@ -5,7 +5,7 @@
 /// </summary>
 public class KChart : BaseComponent
 {
-    private string ClassName => CssBuilder.Default("chart").AddClass(Class).BuildClass();
+    private string ClassName => CssBuilder.Default("kui-chart").AddClass(Class).BuildClass();
 
     /// <summary>
     /// 取得或设置图表类型。
@@ -130,7 +130,8 @@ public class KChart : BaseComponent
             {
                 type = "bar",
                 name = d.Name,
-                data = d.Series.Values.ToArray()
+                data = d.Series.Values.ToArray(),
+                label = new { show = true, position = "top" }
             }).ToArray();
         }
 

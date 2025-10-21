@@ -103,7 +103,8 @@ public static class ModelExtension
                 item.Name = info.Name;
                 item.Icon = info.Icon;
                 item.Style = info.Style;
-                item.Group = info.Group;
+                if (!string.IsNullOrWhiteSpace(info.Group))
+                    item.Group = info.Group;
             }
         }
         return actions;

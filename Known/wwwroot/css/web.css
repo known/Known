@@ -220,6 +220,9 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .strong .kui-strength-inner {background:#52c41a;width:100%;}
 .strong .kui-strength-text {color:#52c41a;}
 
+/*Chart*/
+.kui-chart {width:100%;height:100%;}
+
 /*Pick*/
 .kui-picker {position:relative;}
 .kui-pick, .kui-pick-clear {
@@ -594,7 +597,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .ws-todo-count .ant-statistic {text-align:center;}
 
 .ws-chart .ant-card-body {padding:5px;}
-.ws-chart .chart {height:330px;}
+.ws-chart .kui-chart {height:330px;}
 
 .ws-func-menu {display:inline-block;width:90px;height:80px;padding:8px;text-align:center;font-size:1rem;cursor:pointer;}
 .ws-func-menu:hover {color:#1c66b9;}
@@ -705,6 +708,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
 .ant-modal-body .nopadding {padding:0;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
+.kui-detail .ant-modal-body {padding:10px;}
 
 /*Form*/
 .kui-drawer {overflow:hidden;}
