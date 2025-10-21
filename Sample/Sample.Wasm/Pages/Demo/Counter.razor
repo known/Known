@@ -47,6 +47,12 @@
             </DataItem>
         </AntRow>
         <AntRow>
+            <DataItem Span="6" Label="下拉联动1">
+                <AntSelectCode DataSource="Items1" OnSelectedItemChanged="OnItem1Changed" />
+            </DataItem>
+            <DataItem Span="6" Label="下拉联动2">
+                <AntSelectCode DataSource="Items2" />
+            </DataItem>
             <DataItem Span="6" Label="测试1">
                 <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2" />
             </DataItem>
@@ -79,11 +85,7 @@
     private FormModel<Test> model;
     private Test test = new();
     private KUpload upload;
-    private KScanner scanner;
-    private string scanResult;
     private int fileCount;
-    private bool IsScanning => scanner?.IsScanning == true;
-    private string ScanName => IsScanning ? "停止扫码" : "开始扫码";
 
     protected override void OnInitialized()
     {
@@ -106,19 +108,6 @@
         });
     }
 
-    private async Task OnStartScan()
-    {
-        if (scanner.IsScanning)
-            await scanner.StopAsync();
-        else
-            await scanner.StartAsync();
-    }
-
-    private void OnScan()
-    {
-        UI.ShowScanner(OnScanned);
-    }
-
     private void OnLog()
     {
         var model = new DialogModel
@@ -131,14 +120,6 @@
             })
         };
         UI.ShowDialog(model);
-    }
-
-    private Task OnScanned(string text, string error)
-    {
-        scanResult = text;
-        if (!string.IsNullOrWhiteSpace(error))
-            UI.Error(error);
-        return StateChangedAsync();
     }
 
     private Task OnFilesChanged(string id, List<FileDataInfo> files)
@@ -159,5 +140,59 @@
             get { return Field?.Split(','); }
             set { Field = string.Join(',', value); }
         }
+    }
+
+    private KScanner scanner;
+    private string scanResult;
+    private bool IsScanning => scanner?.IsScanning == true;
+    private string ScanName => IsScanning ? "停止扫码" : "开始扫码";
+
+    private async Task OnStartScan()
+    {
+        if (scanner.IsScanning)
+            await scanner.StopAsync();
+        else
+            await scanner.StartAsync();
+    }
+
+    private void OnScan()
+    {
+        UI.ShowScanner(OnScanned);
+    }
+
+    private Task OnScanned(string text, string error)
+    {
+        scanResult = text;
+        if (!string.IsNullOrWhiteSpace(error))
+            UI.Error(error);
+        return StateChangedAsync();
+    }
+
+    private List<CodeInfo> Items1 = new()
+    {
+        new CodeInfo { 
+            Code = "A", Name = "选项A", Data = new List<CodeInfo> {
+                new CodeInfo { Code = "A1", Name = "选项A1" },
+                new CodeInfo { Code = "A2", Name = "选项A2" }
+            }
+        },
+        new CodeInfo { 
+            Code = "B", Name = "选项B", Data = new List<CodeInfo> {
+                new CodeInfo { Code = "B1", Name = "选项B1" },
+                new CodeInfo { Code = "B", Name = "选项B2" }
+            }
+        },
+        new CodeInfo { 
+            Code = "C", Name = "选项C", Data = new List<CodeInfo> {
+                new CodeInfo { Code = "C1", Name = "选项C1" },
+                new CodeInfo { Code = "C2", Name = "选项C2" }
+            }
+        }
+    };
+    private List<CodeInfo> Items2 = [];
+
+    private void OnItem1Changed(CodeInfo item)
+    {
+        Items2 = item.DataAs<List<CodeInfo>>();
     }
 }
