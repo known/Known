@@ -84,7 +84,7 @@ export class KBlazor {
     static elemClick(id) { document.getElementById(id).click(); }
     static elemEnabled(id, enabled) { document.getElementById(id).enabled = enabled; }
     //File
-    static initStaticFile(styles, scripts) {
+    static initStaticFile(styles, scripts, info) {
         let known = findLink('Known');
         if (!known) {
             var app = findLink('app');
@@ -102,6 +102,7 @@ export class KBlazor {
                 }
             }
         }
+        KBlazor.setLocalInfo(info);
     }
     static setStyleSheet(match, href) {
         let item = findLink(match);
@@ -130,25 +131,22 @@ export class KBlazor {
             document.head.removeChild(item);
         }
     }
-    static setTheme(theme) {
-        if (!theme)
-            theme = KBlazor.getLocalStorage('Known_Theme');
+    static setLocalInfo(info) {
+        var theme = info.theme;
         if (!theme) {
             var hour = new Date().getHours();
             theme = hour > 6 && hour < 20 ? "light" : "dark";
         }
         $('html').attr('data-theme', theme);
-        KBlazor.setLocalStorage('Known_Theme', theme);
+        if (info.color)
+            KBlazor.setStyleSheet('/theme/', '_content/Known/css/theme/' + info.color + '.css');
+        if (info.size)
+            KBlazor.setStyleSheet('/size/', '_content/Known/css/size/' + info.size + '.css');
         var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
         if (theme == 'dark')
-            KBlazor.insertStyleSheet('/Known/css/size/', darkUrl);
+            KBlazor.insertStyleSheet('/Known/css/font-awesome.css', darkUrl);
         else
             KBlazor.removeStyleSheet(darkUrl);
-        return theme;
-    }
-    static setUserSetting(setting) {
-        KBlazor.setStyleSheet('/theme/', '_content/Known/css/theme/' + setting.themeColor + '.css');
-        KBlazor.setStyleSheet('/size/', '_content/Known/css/size/' + setting.size + '.css');
     }
     //Storage
     static getLocalStorage(key) { return localStorage.getItem(key); }

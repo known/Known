@@ -2,16 +2,11 @@
 
 public partial class JSService
 {
-    internal Task InitFilesAsync()
+    internal Task InitFilesAsync(LocalInfo info)
     {
         var styles = KStyleSheet.Items;
         var scripts = KScript.Items;
-        return InvokeVoidAsync("KBlazor.initStaticFile", styles, scripts);
-    }
-
-    internal Task SetUserSettingAsync(UserSettingInfo setting)
-    {
-        return InvokeVoidAsync("KBlazor.setUserSetting", setting);
+        return InvokeVoidAsync("KBlazor.initStaticFile", styles, scripts, info);
     }
 
     /// <summary>

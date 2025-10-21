@@ -104,6 +104,7 @@ partial class AdminService
             Name = info.UserName,
             EnglishName = info.UserName,
             FirstLoginIP = info.IPAddress,
+            ClientId = info.ClientId,
             Token = Utils.GetGuid()
         };
         database.User = await database.GetUserAsync(Constants.SysUserName);
@@ -123,7 +124,7 @@ partial class AdminService
             if (CoreConfig.OnRegistered != null)
                 await CoreConfig.OnRegistered.Invoke(db, model);
             await db.AddUserAsync(model);
-            await db.AddLogAsync(LogType.Register, user.UserName, $"IP：{user.LastLoginIP}");
+            await db.AddLogAsync(LogType.Register, user.UserName, $"IP：{user.LastLoginIP}，Client：{user.ClientId}");
             user.Id = model.Id;
             user.AppId = model.AppId;
             user.CompNo = model.CompNo;
@@ -172,6 +173,7 @@ partial class AdminService
         user.LastLoginTime = DateTime.Now;
         user.LastLoginIP = info.IPAddress;
         user.Station = info.Station;
+        user.ClientId = info.ClientId;
         user.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
 
         var type = LogType.Login;
@@ -184,7 +186,7 @@ partial class AdminService
             if (CoreConfig.OnLoged != null)
                 await CoreConfig.OnLoged.Invoke(db, user);
             await db.SaveUserAsync(Context, user);
-            await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}");
+            await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}，Client：{user.ClientId}");
         }, user);
         if (result.IsValid)
             Cache.SetUser(user);

@@ -38,53 +38,6 @@ public partial class JSService
     }
 
     /// <summary>
-    /// 异步设置样式文件。
-    /// </summary>
-    /// <param name="match">原匹配样式文件。</param>
-    /// <param name="href">新样式文件。</param>
-    /// <returns></returns>
-    public Task SetStyleSheetAsync(string match, string href)
-    {
-        return InvokeVoidAsync("KBlazor.setStyleSheet", match, href);
-    }
-
-    /// <summary>
-    /// 异步插入样式文件。
-    /// </summary>
-    /// <param name="match">原匹配样式文件。</param>
-    /// <param name="href">新样式文件。</param>
-    /// <returns></returns>
-    public Task InsertStyleSheetAsync(string match, string href)
-    {
-        return InvokeVoidAsync("KBlazor.insertStyleSheet", match, href);
-    }
-
-    /// <summary>
-    /// 异步添加样式文件。
-    /// </summary>
-    /// <param name="href">样式文件。</param>
-    /// <returns></returns>
-    public Task AddStyleSheetAsync(string href)
-    {
-        return InvokeVoidAsync("KBlazor.addStyleSheet", href);
-    }
-
-    /// <summary>
-    /// 异步删除样式文件。
-    /// </summary>
-    /// <param name="href">样式文件。</param>
-    /// <returns></returns>
-    public Task RemoveStyleSheetAsync(string href)
-    {
-        return InvokeVoidAsync("KBlazor.removeStyleSheet", href);
-    }
-
-    internal Task<string> SetThemeAsync(string theme)
-    {
-        return InvokeAsync<string>("KBlazor.setTheme", theme);
-    }
-
-    /// <summary>
     /// 异步获取浏览器加密会话存储的泛型对象。
     /// </summary>
     /// <typeparam name="T">泛型对象类型。</typeparam>

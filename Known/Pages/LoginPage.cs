@@ -86,6 +86,7 @@ public class LoginPage : BasePage
         if (!await OnRegisteringAsync())
             return;
 
+        Register.ClientId = Context.Local.ClientId;
         Register.IPAddress = Context.IPAddress;
         var result = await Admin.RegisterAsync(Register);
         await HandleResultAsync(result);
@@ -100,6 +101,7 @@ public class LoginPage : BasePage
         if (!await OnLoginingAsync())
             return;
 
+        Model.ClientId = Context.Local.ClientId;
         Model.IPAddress = Context.IPAddress;
         var result = await Admin.SignInAsync(Model);
         await HandleResultAsync(result);

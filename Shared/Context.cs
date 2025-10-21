@@ -38,6 +38,11 @@ public class Context
     public string IPAddress { get; set; }
 
     /// <summary>
+    /// 取得或设置本地信息对象。
+    /// </summary>
+    public LocalInfo Local { get; set; }
+
+    /// <summary>
     /// 取得或设置上下文请求对象，用于静态组件与后端交互。
     /// </summary>
     [JsonIgnore] public IRequest Request { get; set; }
@@ -111,6 +116,37 @@ public class Context
 
         return (T)value;
     }
+}
+
+/// <summary>
+/// 系统本地设置信息类。
+/// </summary>
+public class LocalInfo
+{
+    /// <summary>
+    /// 取得或设置客户端唯一标识。
+    /// </summary>
+    public string ClientId { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统界面语言。
+    /// </summary>
+    public string Language { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统界面主题。
+    /// </summary>
+    public string Theme { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统界面主题色。
+    /// </summary>
+    public string Color { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统界面字体大小。
+    /// </summary>
+    public string Size { get; set; }
 }
 
 /// <summary>

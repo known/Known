@@ -141,6 +141,11 @@ public class UserInfo
     public string SessionId { get; set; }
 
     /// <summary>
+    /// 取得或设置客户端唯一标识。
+    /// </summary>
+    public string ClientId { get; set; }
+
+    /// <summary>
     /// 取得或设置用户微信OpenId。
     /// </summary>
     public string OpenId { get; set; }

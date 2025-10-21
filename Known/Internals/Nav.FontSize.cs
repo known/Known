@@ -17,8 +17,9 @@ class NavFontSize : BaseNav
 
     private async Task OnSizeChangedAsync(ActionInfo info)
     {
+        Context.Local.Size = info.Id;
         Context.UserSetting.Size = info.Id;
         await Admin.SaveUserSettingAsync(Context.UserSetting);
-        await JS.SetCurrentSizeAsync(info.Id);
+        await JS.SetLocalInfoAsync(Context.Local);
     }
 }

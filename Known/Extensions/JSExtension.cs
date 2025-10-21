@@ -6,8 +6,7 @@
 public static class JSExtension
 {
     private static readonly string KeyUserInfo = "Known_User";
-    private static readonly string KeySize = "Known_Size";
-    private static readonly string KeyLanguage = "Known_Language";
+    private static readonly string KeyLocalInfo = "Known_LocalInfo";
     private static readonly string KeyLoginInfo = "Known_LoginInfo";
 
     /// <summary>
@@ -136,21 +135,26 @@ public static class JSExtension
         return js.SetLocalStorageAsync(KeyLoginInfo, value);
     }
 
-    internal static async Task SetCurrentSizeAsync(this JSService js, string size)
+    internal static async Task<LocalInfo> GetLocalInfoAsync(this JSService js)
     {
-        var item = UIConfig.Sizes.FirstOrDefault(s => s.Id == size);
-        if (item != null)
-            await js.SetStyleSheetAsync(item.Style, item.Url);
-        await js.SetLocalStorageAsync(KeySize, size);
+        var info = await js.GetLocalStorageAsync<LocalInfo>(KeyLocalInfo);
+        info ??= new LocalInfo { ClientId = $"KC-{Utils.GetGuid()}" };
+        return info;
     }
 
-    internal static Task<string> GetCurrentLanguageAsync(this JSService js)
+    internal static async Task SetLocalInfoAsync(this JSService js, LocalInfo info, UserSettingInfo setting = null, bool isLanguage = false)
     {
-        return js.GetLocalStorageAsync<string>(KeyLanguage);
-    }
-
-    internal static Task SetCurrentLanguageAsync(this JSService js, string language)
-    {
-        return js.SetLocalStorageAsync(KeyLanguage, language);
+        if (!isLanguage)
+        {
+            if (setting != null)
+            {
+                info.Language = setting.Language;
+                info.Theme = setting.Theme;
+                info.Color = setting.ThemeColor;
+                info.Size = setting.Size;
+            }
+            await js.InvokeVoidAsync("KBlazor.setLocalInfo", info);
+        }
+        await js.SetLocalStorageAsync(KeyLocalInfo, info);
     }
 }

@@ -93,18 +93,25 @@ public class LayoutBase : LayoutComponentBase
         if (firstRender && !isRender)
         {
             isRender = true;
+            if (Context.CurrentUser == null)
+            {
+                Context.Local = await JS.GetLocalInfoAsync();
+                await JS.InitFilesAsync(Context.Local);
+            }
+            else
+            {
+                var setting = Context.UserSetting;
+                if (string.IsNullOrWhiteSpace(setting.Size))
+                    setting.Size = Config.App.DefaultSize;
+                await JS.SetLocalInfoAsync(Context.Local, setting);
+            }
             if (Config.App.IsLanguage)
             {
-                var language = await JS.GetCurrentLanguageAsync();
+                var language = Context.Local.Language;
                 if (string.IsNullOrWhiteSpace(language))
                     language = Context.UserSetting.Language;
                 Context.CurrentLanguage = language;
             }
-
-            var setting = Context.UserSetting;
-            if (string.IsNullOrWhiteSpace(setting.Size))
-                setting.Size = Config.App.DefaultSize;
-            await JS.SetUserSettingAsync(setting);
         }
     }
 
@@ -185,19 +192,14 @@ public class AuthLayout : LayoutBase
 /// </summary>
 public class AdminLayout : AuthLayout
 {
-    private bool isRender = false;
     private DotNetObjectReference<AdminLayout> invoker;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender && !isRender)
+        if (firstRender)
         {
-            isRender = true;
-            if (Context.CurrentUser == null)
-                await JS.InitFilesAsync();
-
             if (Config.IsNotifyHub)
             {
                 invoker = DotNetObjectReference.Create(this);

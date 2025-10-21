@@ -13,11 +13,6 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     public bool IsEditMode { get; set; }
 
     /// <summary>
-    /// 取得或设置当前主题。
-    /// </summary>
-    public string Theme { get; set; }
-
-    /// <summary>
     /// 取得当前页面会话生命周期运行时间。
     /// </summary>
     public Dictionary<string, DateTime> RunTimes { get; } = [];

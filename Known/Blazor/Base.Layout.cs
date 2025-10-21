@@ -126,13 +126,6 @@ public class BaseLayout : BaseComponent
         SetUserMenus(menus);
     }
 
-    internal async Task OnThemeColorAsync()
-    {
-        var theme = Context.UserSetting.ThemeColor;
-        var href = $"_content/Known/css/theme/{theme}.css";
-        await JS.SetStyleSheetAsync("/theme/", href);
-    }
-
     private async Task InitAdminAsync()
     {
         Info = await Admin.GetAdminAsync();

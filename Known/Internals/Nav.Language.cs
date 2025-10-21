@@ -48,7 +48,8 @@ public class NavLanguage : BaseNav
             Context.UserSetting.Language = current.Code;
             await Admin.SaveUserSettingAsync(Context.UserSetting);
         }
-        await JS.SetCurrentLanguageAsync(current.Code);
+        Context.Local.Language = current.Code;
+        await JS.SetLocalInfoAsync(Context.Local, isLanguage: true);
         Navigation.Refresh();
     }
 }

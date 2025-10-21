@@ -43,9 +43,9 @@ public partial class SettingForm
 
     private async Task OnThemeColor(string theme)
     {
+        Context.Local.Color = theme;
         Context.UserSetting.ThemeColor = theme;
-        var href = $"_content/Known/css/theme/{theme}.css";
-        await JS.SetStyleSheetAsync("/theme/", href);
+        await JS.SetLocalInfoAsync(Context.Local);
     }
 
     private async Task OnResetAsync()

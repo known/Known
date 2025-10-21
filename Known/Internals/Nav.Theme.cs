@@ -17,29 +17,19 @@ public class NavTheme : BaseNav
         builder.Component<Switch>()
                .Set(c => c.CheckedChildren, "🌜")
                .Set(c => c.UnCheckedChildren, "🌞")
-               .Set(c => c.Value, Context.Theme == "dark")
+               .Set(c => c.Value, Context.Local?.Theme == "dark")
                .Set(c => c.OnChange, this.Callback<bool>(ThemeChangedAsync))
                .Build();
     }
 
-    /// <summary>
-    /// 组件呈现后异步操作。
-    /// </summary>
-    /// <param name="firstRender">是否首次呈现。</param>
-    /// <returns></returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-        {
-            Context.Theme = await JS.SetThemeAsync(null);
-            await StateChangedAsync();
-        }
-    }
-
     private async Task ThemeChangedAsync(bool isDark)
     {
-        Context.Theme = isDark ? "dark" : "default";
-        await JS.SetThemeAsync(Context.Theme);
+        Context.Local.Theme = isDark ? "dark" : "default";
+        if (CurrentUser != null)
+        {
+            Context.UserSetting.Theme = Context.Local.Theme;
+            await Admin.SaveUserSettingAsync(Context.UserSetting);
+        }
+        await JS.SetLocalInfoAsync(Context.Local);
     }
 }

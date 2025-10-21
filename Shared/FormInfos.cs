@@ -127,6 +127,11 @@ public class LoginFormInfo
     public bool IsMobile { get; set; }
 
     /// <summary>
+    /// 取得或设置客户端唯一标识。
+    /// </summary>
+    public string ClientId { get; set; }
+
+    /// <summary>
     /// 取得或设置登录IP地址。
     /// </summary>
     public string IPAddress { get; set; }
@@ -161,6 +166,11 @@ public class RegisterFormInfo
     /// 取得或设置图片验证码。
     /// </summary>
     public string Captcha { get; set; }
+
+    /// <summary>
+    /// 取得或设置客户端唯一标识。
+    /// </summary>
+    public string ClientId { get; set; }
 
     /// <summary>
     /// 取得或设置登录IP地址。
