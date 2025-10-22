@@ -3,24 +3,26 @@
 @inherits AppPage
 @attribute [AppMenu("我的", "user", 5, "Tab")]
 
-<div style="padding:50px 30px;text-align:center;">
-    <Avatar Size="@("5rem")" Src="@user?.AvatarUrl" />
-    <div style="margin-top:10px;">@user?.Name (@user?.UserName)</div>
-</div>
-<div style="padding:20px;">
-    <AppMenuList DataSource="items">
-        <ListItem OnClick="()=>OnItemClick(context)">
-            <div>
-                <Icon Type="@context.Icon" />
-                <span>@Language[context.Name]</span>
-            </div>
-            @if (!string.IsNullOrWhiteSpace(context.Url))
-            {
-                <Icon Type="right" />
-            }
-        </ListItem>
-    </AppMenuList>
-</div>
-<div style="padding:20px;">
-    <Button Type="@ButtonType.Primary" Danger Block OnClick="OnExit">@Language[Language.Exit]</Button>
+<div class="kui-app-profile">
+    <div style="padding:50px 30px;text-align:center;">
+        <Avatar Size="@("5rem")" Src="@user?.AvatarUrl" />
+        <div style="margin-top:10px;">@user?.Name (@user?.UserName)</div>
+    </div>
+    <div style="padding:20px;">
+        <AppMenuList DataSource="items">
+            <ListItem OnClick="()=>OnItemClick(context)">
+                <div>
+                    <Icon Type="@context.Icon" />
+                    <span>@Language[context.Name]</span>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(context.Url))
+                {
+                    <Icon Type="right" />
+                }
+            </ListItem>
+        </AppMenuList>
+    </div>
+    <div style="padding:20px;">
+        <Button Type="@ButtonType.Primary" Danger Block OnClick="OnExit">@Language[Language.Exit]</Button>
+    </div>
 </div>

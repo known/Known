@@ -30,4 +30,9 @@ public partial class AppLayout
     {
         reload?.Reload();
     }
+
+    private void OnBack(MouseEventArgs args)
+    {
+        Context.Back();
+    }
 }

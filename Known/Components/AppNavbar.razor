@@ -1,0 +1,12 @@
+﻿@inherits BaseComponent
+
+<div class="kui-app-nav ant-btn-primary">
+    @if (ShowBack)
+    {
+        <span class="back" @onclick="OnBack">
+            <Icon Type="left" Theme="IconThemeType.Outline" />
+            <span>@Language[Language.Back]</span>
+        </span>
+    }
+    @Name
+</div>
