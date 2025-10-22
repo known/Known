@@ -57,6 +57,8 @@ public class LayoutBase : LayoutComponentBase
         Context.Navigation = Navigation;
         IsInstall = false;
         IsLoaded = false;
+        if (Context.Local == null)
+            Context.Local = await JS.GetLocalInfoAsync();
         var info = await Admin.GetInitialAsync();
         if (info != null)
         {
@@ -78,6 +80,12 @@ public class LayoutBase : LayoutComponentBase
 
         IsInstall = true;
         IsLoaded = await OnInitAsync();
+
+        if (info.ClientHomes?.TryGetValue(Context.Local.ClientId, out string homeUrl) == true)
+        {
+            Navigation?.NavigateTo(homeUrl);
+            return;
+        }
     }
 
     /// <summary>
@@ -95,7 +103,6 @@ public class LayoutBase : LayoutComponentBase
             isRender = true;
             if (Context.CurrentUser == null)
             {
-                Context.Local = await JS.GetLocalInfoAsync();
                 await JS.InitFilesAsync(Context.Local);
             }
             else

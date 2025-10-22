@@ -31,6 +31,11 @@ public class InitialInfo
     public List<SysLanguage> Languages { get; set; }
 
     /// <summary>
+    /// 取得或设置客户端首页字典。
+    /// </summary>
+    public Dictionary<string, string> ClientHomes { get; set; } = [];
+
+    /// <summary>
     /// 取得或设置系统相关配置信息。
     /// </summary>
     public Dictionary<string, object> Settings { get; set; } = [];
