@@ -10,6 +10,8 @@ public partial class KUpload
     private List<AttachInfo> sysFiles = [];
     private readonly List<FileDataInfo> files = [];
     private bool isAdding;
+    private bool showFullscreen = false;
+    private AttachInfo currentFullscreenImage;
 
     private bool IsMultiple => MultiFile || Directory;
 
@@ -30,6 +32,11 @@ public partial class KUpload
     /// 取得或设置是否显示上传按钮。
     /// </summary>
     [Parameter] public bool IsButton { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否是图片组件。
+    /// </summary>
+    [Parameter] public bool IsImage { get; set; }
 
     /// <summary>
     /// 取得或设置是否显示删除按钮，默认显示。
@@ -67,9 +74,9 @@ public partial class KUpload
     [Parameter] public bool Directory { get; set; }
 
     /// <summary>
-    /// 取得或设置上传组件是否压缩图片，默认压缩。
+    /// 取得或设置上传组件是否压缩图片，默认不压缩。
     /// </summary>
-    [Parameter] public bool IsCompress { get; set; } = true;
+    [Parameter] public bool IsCompress { get; set; }
 
     /// <summary>
     /// 取得或设置上传组件允许最大上传的文件大小，单位M。
@@ -162,6 +169,8 @@ public partial class KUpload
             ReadOnly = AntForm.IsView;
         base.OnInitialized();
         invoker = DotNetObjectReference.Create(this);
+        if (IsImage)
+            Accept = "image/*";
     }
 
     /// <inheritdoc />
@@ -223,9 +232,22 @@ public partial class KUpload
             return false;
         }
 
+        if (IsImage)
+        {
+            var image = await item.RequestImageFileAsync(item.ContentType, 60, 60);
+            var info = await image.ReadFileAsync();
+            file.Thumbnails = info.Bytes;
+        }
+
         files.Add(file);
         sysFiles ??= [];
-        sysFiles.Add(new AttachInfo { Id = "", Name = item.Name });
+        sysFiles.Add(new AttachInfo
+        {
+            Id = "",
+            Name = item.Name,
+            OriginalData = file.Bytes,
+            ThumbnailData = file.Thumbnails
+        });
         return true;
     }
 
@@ -256,5 +278,25 @@ public partial class KUpload
     private void OnShowFile(AttachInfo item)
     {
         UI.PreviewFile([item]);
+    }
+
+    private static string GetImageSrc(byte[] imageData)
+    {
+        if (imageData == null || imageData.Length == 0)
+            return string.Empty;
+
+        return $"data:image/jpeg;base64,{Convert.ToBase64String(imageData)}";
+    }
+
+    private void ShowFullscreen(AttachInfo image)
+    {
+        currentFullscreenImage = image;
+        showFullscreen = true;
+    }
+
+    private void CloseFullscreen()
+    {
+        showFullscreen = false;
+        currentFullscreenImage = null;
     }
 }

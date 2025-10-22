@@ -120,6 +120,11 @@ public class FileDataInfo
     /// </summary>
     public byte[] Bytes { get; set; }
 
+    /// <summary>
+    /// 取得或设置缩略图字节数组。
+    /// </summary>
+    public byte[] Thumbnails { get; set; }
+
     internal int? MaxSize { get; set; }
 }
 

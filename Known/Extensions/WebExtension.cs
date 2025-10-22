@@ -69,7 +69,7 @@ public static class WebExtension
     /// <returns>附件数据对象。</returns>
     public static async Task<FileDataInfo> CreateFileAsync(this IBrowserFile file, int? maxSize = null, bool isCompress = true, Size? size = null)
     {
-        if (!Utils.CheckImage(file.Name) || !isCompress)
+        if (!file.ContentType.Contains("image") || !isCompress)
             return await file.ReadFileAsync(maxSize);
 
         if (size == null)

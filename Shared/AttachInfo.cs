@@ -105,6 +105,16 @@ public class AttachInfo
     public string ThumbPath { get; set; }
 
     /// <summary>
+    /// 取得或设置原始文件数据。
+    /// </summary>
+    public virtual byte[] OriginalData { get; set; } = [];
+
+    /// <summary>
+    /// 取得或设置缩略图文件数据。
+    /// </summary>
+    public virtual byte[] ThumbnailData { get; set; } = [];
+
+    /// <summary>
     /// 取得是否是wwwroot附件。
     /// </summary>
     public virtual bool IsWeb => Category1 == "WWW";

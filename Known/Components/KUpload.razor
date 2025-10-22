@@ -4,7 +4,7 @@
 {
     <div @ref="container" class="kui-upload-field" @onpaste="OnPasteFileAsync">
         @if (IsDrag) {
-            <div class="kui-upload ant-upload ant-upload-select-text ant-upload-drag ant-upload-select">
+            <div class="kui-upload ant-upload ant-upload-drag ant-upload-select ant-upload-select-text">
                 <div class="ant-upload" style="display:grid;">
                     @if (!ReadOnly) {
                         @BuildInput
@@ -27,6 +27,41 @@
                     @BuildTemplate
                 </div>
             }
+        } else if (IsImage) {
+            <div class="kui-upload-image">
+                @if (sysFiles != null && sysFiles.Count > 0) {
+                    foreach (var item in sysFiles) {
+                        <div class="kui-image">
+                            @if (!ReadOnly && IsDelete) {
+                                <Icon Type="close-circle" OnClick="e=>OnDeleteFileAsync(item)" />
+                            }
+                            <div class="kui-thumbnail" @onclick="e=>ShowFullscreen(item)">
+                                @if (!string.IsNullOrWhiteSpace(item.Id)) {
+                                    <img src="@item.FileUrl?.OriginalUrl" />
+                                } else {
+                                    <img src="@GetImageSrc(item.ThumbnailData)" />
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                @if (!ReadOnly) {
+                    <div class="kui-upload ant-upload ant-upload-drag">
+                        <Icon Type="camera" />
+                        @BuildInput
+                    </div>
+                }
+            </div>
+            @if (showFullscreen) {
+                <div class="fullscreen-overlay" @onclick="CloseFullscreen">
+                    <span class="close-btn" @onclick="CloseFullscreen">&times;</span>
+                    @if (!string.IsNullOrWhiteSpace(currentFullscreenImage?.Id)) {
+                        <img class="fullscreen-image" src="@currentFullscreenImage?.FileUrl?.OriginalUrl" />
+                    } else {
+                        <img class="fullscreen-image" src="@GetImageSrc(currentFullscreenImage?.ThumbnailData)" />
+                    }
+                </div>
+            }
         } else {
             if (!ReadOnly) {
                 <div class="kui-upload">
@@ -38,7 +73,7 @@
         @if (isAdding) {
             <div class="ant-btn-link">@Language[Language.Loading]</div>
         }
-        @if (sysFiles != null && sysFiles.Count > 0) {
+        @if (sysFiles != null && sysFiles.Count > 0 && !IsImage) {
             <div class="kui-form-files">
                 @foreach (var item in sysFiles) {
                     var url = item.FileUrl;

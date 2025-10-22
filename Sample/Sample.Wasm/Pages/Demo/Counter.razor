@@ -5,6 +5,10 @@
 
 <PageTitle>Counter</PageTitle>
 
+<style>
+    .kui-counter .ant-tabs-nav {margin-bottom:20px;}
+</style>
+
 <div class="kui-card" style="padding:20px">
     <div style="display:flex;justify-content:space-between">
         <h1>Counter</h1>
@@ -14,69 +18,92 @@
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
-    <KButton Type="@ButtonType.Primary" Name="扫码" OnClick="OnScan" />
     <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" />
 
-    <AntForm Form="model">
-        <AntRow>
-            <DataItem Span="6" Label="文本" Required>
-                <AntInput />
-            </DataItem>
-            <DataItem Span="6" Label="日期">
-                <AntDatePicker />
-            </DataItem>
-            <DataItem Span="6" Label="附件">
-                <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="@(files=>OnFilesChanged("Files", files))" />
-            </DataItem>
-            <DataItem Span="6" Label="用户">
-                <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value=>context.User=value?.ToString()" />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="6" Label="单选" Tooltip="测试单选提示信息！">
-                <AntRadioGroup Category="Item1,Item2" ButtonStyle="RadioButtonStyle.Solid" />
-            </DataItem>
-            <DataItem Span="6" Label="选项">
-                <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
-            </DataItem>
-            <DataItem Span="6" Label="下拉树">
-                <AntDropdownTree Items="Context.UserMenus" />
-            </DataItem>
-            <DataItem Span="6" Label="下拉表">
-                <TestSelectTable />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="6" Label="下拉联动1">
-                <AntSelectCode DataSource="Items1" OnSelectedItemChanged="OnItem1Changed" />
-            </DataItem>
-            <DataItem Span="6" Label="下拉联动2">
-                <AntSelectCode DataSource="Items2" />
-            </DataItem>
-            <DataItem Span="6" Label="测试1">
-                <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2" />
-            </DataItem>
-            <DataItem Span="6" Label="测试2" Visible="context.ShowField">
-                <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
-            </DataItem>
-        </AntRow>
-        <div>@string.Join(",", value)</div>
-        <div>@model.Data.Field</div>
-        <div>文件数量：@fileCount</div>
-    </AntForm>
-
-    <KFlexRow>
-        <KQRCode Option="@(new { Text = "1234", Width = 100, Height = 100 })" Style="width:100px;height:100px;" />
-        <KBarcode Value="1234567890" Style="width:200px;height:50px;" />
-        <div style="text-align:center;">
-            <div style="width:200px;height:200px;margin-bottom:10px;">
-                <KScanner @ref="scanner" OnScan="OnScanned" />
-            </div>
-            <KButton Name="@ScanName" Danger="IsScanning" OnClick="OnStartScan" />
-        </div>
-    </KFlexRow>
-
-    <p>扫码结果：@scanResult</p>
+    <div class="kui-counter">
+        <Tabs Animated>
+            <TabPane Key="1" Tab="表单">
+                <AntForm Form="model">
+                    <AntRow>
+                        <DataItem Span="6" Label="文本" Required>
+                            <AntInput />
+                        </DataItem>
+                        <DataItem Span="6" Label="日期">
+                            <AntDatePicker />
+                        </DataItem>
+                        <DataItem Span="6" Label="用户">
+                            <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value => context.User = value?.ToString()" />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="6" Label="单选" Tooltip="测试单选提示信息！">
+                            <AntRadioGroup Category="Item1,Item2" ButtonStyle="RadioButtonStyle.Solid" />
+                        </DataItem>
+                        <DataItem Span="6" Label="选项">
+                            <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
+                        </DataItem>
+                        <DataItem Span="6" Label="下拉树">
+                            <AntDropdownTree Items="Context.UserMenus" />
+                        </DataItem>
+                        <DataItem Span="6" Label="下拉表">
+                            <TestSelectTable />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="6" Label="下拉联动1">
+                            <AntSelectCode DataSource="Items1" OnSelectedItemChanged="OnItem1Changed" />
+                        </DataItem>
+                        <DataItem Span="6" Label="下拉联动2">
+                            <AntSelectCode DataSource="Items2" />
+                        </DataItem>
+                        <DataItem Span="6" Label="测试1">
+                            <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2" />
+                        </DataItem>
+                        <DataItem Span="6" Label="测试2" Visible="context.ShowField">
+                            <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
+                        </DataItem>
+                    </AntRow>
+                    <div>@string.Join(",", value)</div>
+                    <div>@model.Data.Field</div>
+                </AntForm>
+            </TabPane>
+            <TabPane Key="2" Tab="附件">
+                <AntForm Form="model">
+                    <AntRow>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="@(files => OnFilesChanged("Files", files))" />
+                        </DataItem>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload IsButton />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload IsDrag />
+                        </DataItem>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload IsImage />
+                        </DataItem>
+                    </AntRow>
+                </AntForm>
+                <div>文件数量：@fileCount</div>
+            </TabPane>
+            <TabPane Key="3" Tab="扫码">
+                <KButton Type="@ButtonType.Primary" Name="扫码" OnClick="OnScan" />
+                <KFlexRow>
+                    <KQRCode Option="@(new { Text = "1234", Width = 100, Height = 100 })" Style="width:100px;height:100px;" />
+                    <div style="text-align:center;">
+                        <div style="width:200px;height:200px;margin-bottom:10px;">
+                            <KScanner @ref="scanner" OnScan="OnScanned" />
+                        </div>
+                        <KButton Name="@ScanName" Danger="IsScanning" OnClick="OnStartScan" />
+                    </div>
+                    <KBarcode Value="1234567890" Style="width:200px;height:50px;" />
+                </KFlexRow>
+                <p>扫码结果：@scanResult</p>
+            </TabPane>
+        </Tabs>
+    </div>
 </div>
 
 @code {
