@@ -193,7 +193,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-color-border);border-radius:6px;}
 .kui-group-box .legend {position:absolute;top:-13px;left:20px;padding:0 10px;font-weight:bold;}
-.kui-group-box .body {padding:10px;}
+.kui-group-box .body {padding:25px 10px 10px 10px;}
 
 /*ListBox*/
 .kui-list-box {position:relative;height:100%;}

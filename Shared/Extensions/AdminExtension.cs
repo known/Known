@@ -146,4 +146,19 @@ public static class AdminExtension
         return Result.Success("");
     }
     #endregion
+
+    #region Email
+    /// <summary>
+    /// 异步发送邮件。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="info">邮件信息。</param>
+    /// <returns></returns>
+    public static async Task SendMailAsync(this Database db, EmailInfo info)
+    {
+        var task = EmailTask.CreateTask(info);
+        await db.SaveAsync(task);
+        TaskHelper.NotifyRun(task);
+    }
+    #endregion
 }

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AdminInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CompanyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Email.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Entities\SysOrganization.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventBus.cs" />

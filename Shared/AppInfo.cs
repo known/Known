@@ -155,6 +155,11 @@ public class AppInfo
     public WeixinConfigInfo Weixin { get; set; }
 
     /// <summary>
+    /// 取得或设置邮件配置信息。
+    /// </summary>
+    public EmailConfigInfo Email { get; set; }
+
+    /// <summary>
     /// 取得或设置数据库访问配置选项委托。
     /// </summary>
     public Action<DatabaseOption> Database { get; set; }
