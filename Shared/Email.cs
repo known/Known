@@ -133,17 +133,32 @@ class EmailTask : TaskBase
 
         try
         {
+            if (config.SmtpPort == 25)
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                //ServicePointManager.ServerCertificateValidationCallback = (s, cert, chain, errors) => true;
+            }
             using (var client = new SmtpClient(config.SmtpServer, config.SmtpPort))
             {
+                if (config.SmtpPort != 80)
+                    client.EnableSsl = config.EnableSsl;
+                client.UseDefaultCredentials = false;
                 client.Credentials = new NetworkCredential(config.UserName, config.Password);
-                client.EnableSsl = config.EnableSsl;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Timeout = 15000;
+                client.SendCompleted += (sender, e) =>
+                {
+                    if (e.Error != null)
+                        Console.WriteLine($"发送错误: {e.Error.Message}");
+                };
                 var message = GetMailMessage(config, info);
-                await client.SendMailAsync(message);
+                client.Send(message);
             }
             return Result.Success("邮件发送成功！");
         }
         catch (Exception ex)
         {
+            Logger.Exception(LogTarget.Task, db.User, ex);
             return Result.Error($"邮件发送失败：{ex.Message}");
         }
     }
