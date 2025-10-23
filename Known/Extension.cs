@@ -121,10 +121,10 @@ public static partial class Extension
         KScript.AddScript("_content/Known/js/libs/pdfobject.js");
         KScript.AddScript("_content/Known/js/libs/barcode.js");
         KScript.AddScript("_content/Known/js/libs/qrcode.js");
+        KScript.AddScript("_content/Known/js/libs/zxing.js");
         KScript.AddScript("_content/Known/js/libs/prism.js");
         if (Config.IsNotifyHub)
             KScript.AddScript("_content/Known/js/libs/signalr.js");
-        KScript.AddScript("_content/Known/js/libs/zxing.js");
         KScript.AddScript("_content/Known/js/web.js");
         KScript.AddScript("_content/Known/js/serviceWorkerRegister.js");
     }
