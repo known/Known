@@ -50,11 +50,9 @@
 
 ### 项目链接
 
-- 项目模板：[https://gitee.com/known/known-template](https://gitee.com/known/known-template)
-- 项目示例：[https://gitee.com/known/known-sample](https://gitee.com/known/known-sample)
-- `KnownDB`：[https://gitee.com/known/known-db](https://gitee.com/known/known-db)
+- `KnownDB`：[https://gitee.com/known/KnownDB](https://gitee.com/known/KnownDB)
 - `JxcLite`：[https://gitee.com/known/JxcLite](https://gitee.com/known/JxcLite)
-- `KnownCMS`：[https://gitee.com/known/known-cms](https://gitee.com/known/known-cms)
+- `KnownCMS`：[https://gitee.com/known/KnownCMS](https://gitee.com/known/KnownCMS)
 
 ### 界面截图
 

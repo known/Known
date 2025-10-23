@@ -22,8 +22,7 @@ public static class AppServer
     // 添加系统 Web 后端。
     internal static void AddApplicationWeb(this IServiceCollection services, Action<CoreOption> action)
     {
-        //var assembly = typeof(AppServer).Assembly;
-        //services.AddServices(assembly);
+        services.AddApplication();
         services.AddKnownWeb(action);
         services.AddHostedService<TestWorker>();
     }

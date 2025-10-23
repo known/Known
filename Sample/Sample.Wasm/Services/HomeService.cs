@@ -62,10 +62,7 @@ class HomeService(Context context, INotifyService service) : ServiceBase(context
             var date = new DateTime(now.Year, now.Month, i).ToString("yyyy-MM-dd");
             seriesLog[i.ToString("00")] = logs?.Count(l => l.CreateTime.ToString("yyyy-MM-dd") == date);
         }
-        info.LogDatas =
-        [
-            new ChartDataInfo { Name = Language.HomeVisitCount, Series = seriesLog }
-        ];
+        info.LogDatas = [new ChartDataInfo { Name = Language.HomeVisitCount, Series = seriesLog }];
         return info;
     }
 }

@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
-builder.Services.AddApplication();
 builder.Services.AddApplicationWeb(option =>
 {
     Config.IsDevelopment = builder.Configuration.GetSection("IsDevelopment").Get<bool>();

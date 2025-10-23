@@ -6,7 +6,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 //builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddApplication();
 builder.Services.AddApplicationClient(option =>
 {
     option.BaseAddress = builder.HostEnvironment.BaseAddress + "api";

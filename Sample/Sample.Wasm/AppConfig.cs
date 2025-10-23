@@ -31,6 +31,7 @@ public static class AppConfig
     // 添加客户端
     internal static void AddApplicationClient(this IServiceCollection services, Action<ClientOption> action)
     {
+        services.AddApplication();
         services.AddKnownClient(action);
     }
 
@@ -43,5 +44,7 @@ public static class AppConfig
     {
         UIConfig.UserFormShowFooter = true;
         UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
+
+        KStyleSheet.AddStyle("css/app.css");
     }
 }
