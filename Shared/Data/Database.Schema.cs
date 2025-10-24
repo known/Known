@@ -155,6 +155,19 @@ public partial class Database
     }
 
     /// <summary>
+    /// 异步备份表数据。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="suffix">备份表后缀。</param>
+    /// <returns></returns>
+    public async Task BackupTableAsync<T>(string suffix)
+    {
+        var tableName = Provider.GetTableName(typeof(T));
+        var sql = Provider.GetBackupTableSql(tableName, suffix);
+        await ExecuteAsync(sql);
+    }
+
+    /// <summary>
     /// 导出所有实体模型建表脚本。
     /// </summary>
     /// <returns></returns>

@@ -17,7 +17,7 @@ class MigrateHelper
         if (modules == null || modules.Count == 0)
             return;
 
-        await db.ExecuteAsync($"create table SysModule{DateTime.Now:yyyyMMdd} as select * from SysModule");
+        await db.BackupTableAsync<SysModule>($"{DateTime.Now:yyyyMMdd}");
         foreach (var item in modules)
         {
             if (!string.IsNullOrWhiteSpace(item.PageData)) // 升级2.x配置

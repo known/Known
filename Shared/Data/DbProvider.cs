@@ -44,6 +44,7 @@ class DbProvider(Database db)
     public virtual object FormatBoolean(bool value) => value.ToString();
     public virtual string GetBooleanSql(string field, bool isTrue) => isTrue ? $"{field}='True'" : $"{field}='False'";
     public virtual string GetDateSql(string name, bool withTime = true) => $"@{name}";
+    public virtual string GetBackupTableSql(string tableName, string suffix) => $"create table {tableName}{suffix} as select * from {tableName}";
 
     public string GetTableName(Type type)
     {
