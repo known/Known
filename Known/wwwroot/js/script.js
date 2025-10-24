@@ -132,15 +132,15 @@ export class KBlazor {
         }
     }
     static setLocalInfo(info) {
-        var theme = info.theme;
+        var theme = info?.theme;
         if (!theme) {
             var hour = new Date().getHours();
             theme = hour > 6 && hour < 20 ? "light" : "dark";
         }
         $('html').attr('data-theme', theme);
-        if (info.color)
+        if (info && info.color)
             KBlazor.setStyleSheet('/theme/', '_content/Known/css/theme/' + info.color + '.css');
-        if (info.size)
+        if (info && info.size)
             KBlazor.setStyleSheet('/size/', '_content/Known/css/size/' + info.size + '.css');
         var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
         if (theme == 'dark')
