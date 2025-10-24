@@ -9,7 +9,7 @@ public partial interface IAdminService : IService
     /// 异步获取系统初始数据信息，语言等。
     /// </summary>
     /// <returns>系统初始数据信息。</returns>
-    [AllowAnonymous] Task<InitialInfo> GetInitialAsync();
+    [Anonymous] Task<InitialInfo> GetInitialAsync();
 
     /// <summary>
     /// 异步获取系统附件列表。
@@ -61,7 +61,7 @@ partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 [WebApi, Service]
 partial class AdminService(Context context) : ServiceBase(context), IAdminService
 {
-    [AllowAnonymous]
+    [Anonymous]
     public async Task<InitialInfo> GetInitialAsync()
     {
         var database = Database;

@@ -12,7 +12,7 @@ class LanguageAttribute(string code, string icon, bool isDefault = false, bool e
 /// <summary>
 /// 匿名访问特性类，用于标识控制器或方法允许匿名访问。
 /// </summary>
-public class AllowAnonymousAttribute : Attribute { }
+public class AnonymousAttribute : Attribute { }
 
 /// <summary>
 /// 任务特性类，用于标识任务类。

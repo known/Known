@@ -7,14 +7,14 @@ public partial interface IAdminService
     /// </summary>
     /// <param name="info"></param>
     /// <returns></returns>
-    [AllowAnonymous] Task<Result> RegisterAsync(RegisterFormInfo info);
+    [Anonymous] Task<Result> RegisterAsync(RegisterFormInfo info);
 
     /// <summary>
     /// 异步用户登录。
     /// </summary>
     /// <param name="info">登录表单对象。</param>
     /// <returns>登录结果。</returns>
-    [AllowAnonymous] Task<Result> SignInAsync(LoginFormInfo info);
+    [Anonymous] Task<Result> SignInAsync(LoginFormInfo info);
 
     /// <summary>
     /// 异步注销登录。
@@ -79,7 +79,7 @@ partial class AdminClient
 
 partial class AdminService
 {
-    [AllowAnonymous]
+    [Anonymous]
     public async Task<Result> RegisterAsync(RegisterFormInfo info)
     {
         if (info.Password != info.Password1)
@@ -134,7 +134,7 @@ partial class AdminService
         return result;
     }
 
-    [AllowAnonymous]
+    [Anonymous]
     public async Task<Result> SignInAsync(LoginFormInfo info)
     {
         var database = Database;

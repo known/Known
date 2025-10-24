@@ -128,7 +128,7 @@ public static class WebExtension
     /// <returns>是否允许匿名访问。</returns>
     public static bool IsAllowAnonymous(this MemberInfo info)
     {
-        return info?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
+        return info?.GetCustomAttribute<AnonymousAttribute>() is not null;
     }
 
     /// <summary>
@@ -138,7 +138,7 @@ public static class WebExtension
     /// <returns>是否匿名访问方法。</returns>
     public static bool AllowAnonymous(this MethodInfo info)
     {
-        return info?.GetCustomAttribute<AllowAnonymousAttribute>() is not null;
+        return info?.GetCustomAttribute<AnonymousAttribute>() is not null;
     }
     #endregion
 }

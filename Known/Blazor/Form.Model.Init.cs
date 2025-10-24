@@ -4,8 +4,10 @@ partial class FormModel<TItem>
 {
     private bool isInitColumns = false;
 
-    // 初始化表单布局。
-    internal void Initialize()
+    /// <summary>
+    /// 初始化表单布局。
+    /// </summary>
+    public void Initialize()
     {
         if (isInitColumns)
             return;

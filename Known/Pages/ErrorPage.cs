@@ -3,7 +3,7 @@
 /// <summary>
 /// 错误页面组件类。
 /// </summary>
-[AllowAnonymous]
+[Anonymous]
 [Route("/error/{code}")]
 public class ErrorPage : BasePage
 {

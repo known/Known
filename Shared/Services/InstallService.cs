@@ -9,21 +9,21 @@ public interface IInstallService : IService
     /// 异步获取系统安装信息。
     /// </summary>
     /// <returns>系统安装信息。</returns>
-    [AllowAnonymous] Task<InstallInfo> GetInstallAsync();
+    [Anonymous] Task<InstallInfo> GetInstallAsync();
 
     /// <summary>
     /// 异步测试数据库连接。
     /// </summary>
     /// <param name="info">数据库连接信息。</param>
     /// <returns>测试结果。</returns>
-    [AllowAnonymous] Task<Result> TestConnectionAsync(ConnectionInfo info);
+    [Anonymous] Task<Result> TestConnectionAsync(ConnectionInfo info);
 
     /// <summary>
     /// 异步保存系统安装信息。
     /// </summary>
     /// <param name="info">系统安装信息。</param>
     /// <returns>保存结果。</returns>
-    [AllowAnonymous] Task<Result> SaveInstallAsync(InstallInfo info);
+    [Anonymous] Task<Result> SaveInstallAsync(InstallInfo info);
 }
 
 [Client]
@@ -37,7 +37,7 @@ class InstallClient(HttpClient http) : ClientBase(http), IInstallService
 [WebApi, Service]
 class InstallService(Context context) : ServiceBase(context), IInstallService
 {
-    [AllowAnonymous]
+    [Anonymous]
     public async Task<InstallInfo> GetInstallAsync()
     {
         if (CoreConfig.System != null)
@@ -60,7 +60,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
         return info;
     }
 
-    [AllowAnonymous]
+    [Anonymous]
     public async Task<Result> TestConnectionAsync(Data.ConnectionInfo info)
     {
         if (CoreConfig.System != null)
@@ -78,7 +78,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
         }
     }
 
-    [AllowAnonymous]
+    [Anonymous]
     public async Task<Result> SaveInstallAsync(InstallInfo info)
     {
         if (CoreConfig.System != null)
