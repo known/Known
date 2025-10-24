@@ -75,10 +75,8 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
 
     private bool ShowToolbar()
     {
-        return !string.IsNullOrWhiteSpace(Model.Name) ||
-               Model.TopStatis != null ||
-               Model.ShowSetting ||
-               Model.Toolbar.HasItem;
+        return (!string.IsNullOrWhiteSpace(Model.Name) && Model.ShowName) ||
+               Model.TopStatis != null || Model.ShowSetting || Model.Toolbar.HasItem;
     }
 
     private void BuildTitle(RenderTreeBuilder builder)
