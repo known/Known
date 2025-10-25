@@ -70,6 +70,9 @@ public static class QueryExtension
         if (string.IsNullOrWhiteSpace(propertyName))
             return string.Empty;
 
+        if (entityType.IsDictionary())
+            return propertyName;
+
         var property = TypeCache.Property(entityType, propertyName);
         return property?.GetFieldName();
     }

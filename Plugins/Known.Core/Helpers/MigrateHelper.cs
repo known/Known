@@ -32,8 +32,7 @@ class MigrateHelper
             if (!string.IsNullOrWhiteSpace(item.PluginData)) // 升级3.x配置
             {
                 var plugins = ZipHelper.UnZipDataAsString<List<PluginInfo>>(item.PluginData);
-                var plugin = plugins?.FirstOrDefault();
-                if (plugin != null)
+                foreach (var plugin in plugins)
                 {
                     var param = Utils.FromJson<AutoPage2Info>(plugin.Setting);
                     if (param != null)
@@ -50,6 +49,39 @@ class MigrateHelper
         }
 
         await db.SaveConfigAsync(key, "模块已升级！");
+    }
+
+    class Page2Info
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public bool ShowAdvSearch { get; set; } = true;
+        public bool ShowPager { get; set; } = true;
+        public bool ShowSetting { get; set; } = true;
+        public int? PageSize { get; set; }
+        public int? ToolSize { get; set; }
+        public int? ActionSize { get; set; }
+        public List<string> Tools { get; set; } = [];
+        public List<string> Actions { get; set; } = [];
+        public List<PageColumnInfo> Columns { get; set; } = [];
+
+        internal PageInfo ToPageInfo()
+        {
+            return new PageInfo
+            {
+                Name = Name,
+                Type = Type,
+                ShowAdvSearch = ShowAdvSearch,
+                ShowPager = ShowPager,
+                ShowSetting = ShowSetting,
+                PageSize = PageSize,
+                ToolSize = ToolSize,
+                ActionSize = ActionSize,
+                Tools = Tools?.Select(d => new ActionInfo(d)).ToList(),
+                Actions = Actions?.Select(d => new ActionInfo(d)).ToList(),
+                Columns = Columns
+            };
+        }
     }
 
     class AutoPage2Info
@@ -91,39 +123,6 @@ class MigrateHelper
                 Page = Page?.ToPageInfo()
             };
             return info;
-        }
-    }
-
-    class Page2Info
-    {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public bool ShowAdvSearch { get; set; } = true;
-        public bool ShowPager { get; set; } = true;
-        public bool ShowSetting { get; set; } = true;
-        public int? PageSize { get; set; }
-        public int? ToolSize { get; set; }
-        public int? ActionSize { get; set; }
-        public List<string> Tools { get; set; } = [];
-        public List<string> Actions { get; set; } = [];
-        public List<PageColumnInfo> Columns { get; set; } = [];
-
-        internal PageInfo ToPageInfo()
-        {
-            return new PageInfo
-            {
-                Name = Name,
-                Type = Type,
-                ShowAdvSearch = ShowAdvSearch,
-                ShowPager = ShowPager,
-                ShowSetting = ShowSetting,
-                PageSize = PageSize,
-                ToolSize = ToolSize,
-                ActionSize = ActionSize,
-                Tools = Tools?.Select(d => new ActionInfo(d)).ToList(),
-                Actions = Actions?.Select(d => new ActionInfo(d)).ToList(),
-                Columns = Columns
-            };
         }
     }
 }

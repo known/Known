@@ -54,6 +54,11 @@ public class AutoPageInfo
     }
 
     /// <summary>
+    /// 取得或设置实体对应的页面URL。
+    /// </summary>
+    public string PageUrl { get; set; }
+
+    /// <summary>
     /// 取得或设置页面类型。
     /// </summary>
     public AutoPageType PageType { get; set; }
