@@ -43,6 +43,7 @@ public partial class ColumnInfo
         Type = info.Type;
         Category = info.Category;
         Ellipsis = info.Ellipsis;
+        IsVisible = info.IsVisible;
         IsSum = info.IsSum;
         IsSort = info.IsSort;
         DefaultSort = info.DefaultSort;

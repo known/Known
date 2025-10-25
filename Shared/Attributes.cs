@@ -112,6 +112,11 @@ public class ColumnAttribute : Attribute
     public bool Ellipsis { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位是否可见，默认True。
+    /// </summary>
+    public bool IsVisible { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置栏位是否是汇总字段。
     /// </summary>
     public bool IsSum { get; set; }

@@ -197,6 +197,7 @@ public class TypeFieldInfo(PropertyInfo property)
             info.IsQueryAll = column.IsQueryAll;
             info.QueryValue = column.QueryValue;
             info.Ellipsis = column.Ellipsis;
+            info.IsVisible = column.IsVisible;
             info.IsSum = column.IsSum;
             info.IsSort = column.IsSort;
             info.DefaultSort = column.DefaultSort;
@@ -260,6 +261,7 @@ public class TypeFieldInfo(PropertyInfo property)
 
         info.Width = column.Width > 0 ? column.Width : GetColumnWidth(info.Type);
         info.Ellipsis = column.Ellipsis;
+        info.IsVisible = column.IsVisible;
         info.IsSum = column.IsSum;
         info.IsSort = column.IsSort;
         info.DefaultSort = column.DefaultSort;
