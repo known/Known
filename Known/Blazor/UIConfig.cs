@@ -33,6 +33,11 @@ public class UIConfig
     }
 
     /// <summary>
+    /// 取得或设置菜单栏宽度，默认200。
+    /// </summary>
+    public static int SideWidth { get; set; } = 200;
+
+    /// <summary>
     /// 取得或设置是否启用编辑模式，临时使用。
     /// </summary>
     public static bool EnableEdit { get; set; }

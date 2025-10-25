@@ -42,6 +42,7 @@ public static class AppConfig
 
     private static void ConfigUI(this IServiceCollection services)
     {
+        //UIConfig.SideWidth = 250;
         UIConfig.UserFormShowFooter = true;
         UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
 

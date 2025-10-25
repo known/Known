@@ -22,18 +22,18 @@
         <Layout Class="@LayoutClass">
             @if (Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
             {
-                <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
+                <Sider Theme="Context.UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
-                    <div class="kui-scroll">
+                    <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
                     </div>
                 </Sider>
             }
             else
             {
-                <Sider Theme="Context.UserSetting.ToSiderTheme()" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
+                <Sider Theme="Context.UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
-                    <div class="kui-scroll">
+                    <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
                     </div>
                 </Sider>
