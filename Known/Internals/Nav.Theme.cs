@@ -14,10 +14,11 @@ public class NavTheme : BaseNav
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
+        var theme = Context.Local?.Theme;
         builder.Component<Switch>()
                .Set(c => c.CheckedChildren, "🌜")
                .Set(c => c.UnCheckedChildren, "🌞")
-               .Set(c => c.Value, Context.Local?.Theme == "dark")
+               .Set(c => c.Value, theme == "dark")
                .Set(c => c.OnChange, this.Callback<bool>(ThemeChangedAsync))
                .Build();
     }

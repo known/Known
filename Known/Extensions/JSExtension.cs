@@ -139,6 +139,11 @@ public static class JSExtension
     {
         var info = await js.GetLocalStorageAsync<LocalInfo>(KeyLocalInfo);
         info ??= new LocalInfo { ClientId = $"KC-{Utils.GetGuid()}" };
+        if (string.IsNullOrWhiteSpace(info.Theme))
+        {
+            var hour = DateTime.Now.Hour;
+            info.Theme = hour > 6 && hour < 20 ? "light" : "dark";
+        }
         return info;
     }
 
