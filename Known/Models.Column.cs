@@ -51,9 +51,6 @@ public partial class ColumnInfo
         Width = info.Width;
         Align = info.Align;
         Position = info.Position;
-
-        if (info.Id == nameof(EntityBase.CreateTime) || info.Id == nameof(EntityBase.ModifyTime))
-            Type = FieldType.Date;
     }
 
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);

@@ -199,7 +199,10 @@ public sealed class DbUtils
                         cellStyle.Custom = Config.DateFormat;
                     }
                     else if (item.Type == FieldType.DateTime)
+                    {
+                        value = Utils.ConvertTo<DateTime?>(value);
                         cellStyle.Custom = Config.DateTimeFormat;
+                    }
                     else if (item.Type == FieldType.Integer)
                         value = GetIntegerValue(value);
                     else if (item.Type == FieldType.Number)
