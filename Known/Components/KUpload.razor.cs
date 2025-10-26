@@ -109,6 +109,11 @@ public partial class KUpload
     [Parameter] public Func<AttachInfo, Task> OnDelete { get; set; }
 
     /// <summary>
+    /// 取得是否有附件。
+    /// </summary>
+    public bool HasFile => sysFiles != null && sysFiles.Count > 0 || files.Count > 0;
+
+    /// <summary>
     /// 清空文件列表。
     /// </summary>
     public void Clear()

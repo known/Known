@@ -66,7 +66,7 @@ public class PluginBase<T> : BaseComponent, IPlugin
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        AddAction("delete", "删除", OnDelete);
+        AddAction("delete", Language.Delete, OnDelete);
     }
 
     /// <inheritdoc />
