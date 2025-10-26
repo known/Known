@@ -27,6 +27,9 @@ public partial class ChartCard
             return;
 
         charts = option?.Charts ?? [];
+        if (charts.Count == 0)
+            return;
+
         tabs = string.Empty;
         current = charts[0].Name;
         if (charts.Count > 1)

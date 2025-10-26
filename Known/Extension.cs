@@ -138,6 +138,7 @@ public static partial class Extension
             new ActionInfo { Id = "Default", Name = Language.SizeDefault, Style = "size", Url = "_content/Known/css/size/default.css" },
             new ActionInfo { Id = "Compact", Name = Language.SizeCompact, Style = "size", Url = "_content/Known/css/size/compact.css" }
         ];
+        UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "无权限访问！" };
         var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";
         UIConfig.IgnoreRoutes.AddRange(routes.Split(','));
         //模块管理

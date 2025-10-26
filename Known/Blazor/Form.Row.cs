@@ -27,7 +27,7 @@ public class FormRow<TItem> where TItem : class, new()
     /// <param name="id">字段属性ID。</param>
     /// <param name="text">字段显示文本。</param>
     /// <returns>表单行对象。</returns>
-    public FormRow<TItem> AddColumn(string id, string text) => AddColumn(id, b => b.Text(text));
+    public FormRow<TItem> AddColumn(string id, string text) => AddColumn(id, b => b.Markup(text));
 
     /// <summary>
     /// 添加一列表单呈现模板字段。

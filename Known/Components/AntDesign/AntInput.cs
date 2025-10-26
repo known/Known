@@ -25,6 +25,11 @@ public class AntInput : Input<string>
     [Parameter] public string Icon { get; set; }
 
     /// <summary>
+    /// 取得或设置是否是英文输入模式。
+    /// </summary>
+    [Parameter] public bool IsENMode { get; set; }
+
+    /// <summary>
     /// 取得或设置回车键按下时的回调函数。
     /// </summary>
     [Parameter] public EventCallback<string> OnEnter { get; set; }
@@ -38,6 +43,16 @@ public class AntInput : Input<string>
             Item.Type = typeof(string);
         if (!string.IsNullOrWhiteSpace(Icon))
             Prefix = b => b.Icon(Icon);
+        if (IsENMode)
+        {
+            Attributes ??= [];
+            Attributes["lang"] = "en";
+            Attributes["inputmode"] = "text";
+            Attributes["autocorrect"] = "off";
+            Attributes["autocapitalize"] = "off";
+            Attributes["spellcheck"] = "false";
+            AutoComplete = false;
+        }
         if (OnEnter.HasDelegate)
         {
             OnKeyUp = this.Callback<KeyboardEventArgs>(e =>
