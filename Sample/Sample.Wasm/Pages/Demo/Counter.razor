@@ -141,10 +141,10 @@
         {
             Title = "控制台日志",
             Width = 600,
-            Content = b => b.Div("kui-p10", () =>
-            {
-                b.Component<KConsole>().Set(c => c.BizId, "Test").Set(c => c.MethodName, AppConstant.AddLog).Build();
-            })
+            Content = b => b.Component<KConsole>()
+                            .Set(c => c.BizId, "Test")
+                            .Set(c => c.MethodName, AppConstant.AddLog)
+                            .Build()
         };
         UI.ShowDialog(model);
     }

@@ -173,6 +173,8 @@ class CategoryGrid : BaseTable<SysDictionary>
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IDictionaryService>();
 
+        Table.Name = Language.Category;
+        Table.ShowName = false;
         Table.AutoHeight = false;
         Table.ShowPager = true;
         Table.OnQuery = QueryDictionariesAsync;
