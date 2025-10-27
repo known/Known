@@ -259,7 +259,7 @@ public partial class Database
     {
         try
         {
-            var cmd = await PrepareCommandAsync(info);
+            using var cmd = await PrepareCommandAsync(info);
             var value = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
             if (info.IsClose)

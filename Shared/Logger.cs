@@ -212,7 +212,7 @@ public partial class Logger
             using var writer = new StreamWriter(info.FullName, true);
             writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.Message}");
             if (isStack)
-                writer.WriteLine(ex.StackTrace);
+                writer.WriteLine(ex.ToString());
             writer.WriteLine();
             writer.Flush();
         }

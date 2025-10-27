@@ -67,7 +67,7 @@ public partial class Database
     {
         try
         {
-            var cmd = await PrepareCommandAsync(info);
+            using var cmd = await PrepareCommandAsync(info);
             var scalar = cmd.ExecuteScalar();
             cmd.Parameters.Clear();
             if (info.IsClose)
@@ -86,7 +86,7 @@ public partial class Database
         var data = new List<T>();
         try
         {
-            var cmd = await PrepareCommandAsync(info);
+            using var cmd = await PrepareCommandAsync(info);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())

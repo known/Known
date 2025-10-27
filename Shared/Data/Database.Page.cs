@@ -172,7 +172,7 @@ public partial class Database
             Dictionary<string, object> statis = null;
             List<string> ids = null;
             var pageData = new List<T>();
-            var cmd = await PrepareCommandAsync(info);
+            using var cmd = await PrepareCommandAsync(info);
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
             var total = Utils.ConvertTo<int>(value);
