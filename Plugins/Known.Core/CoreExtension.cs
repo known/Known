@@ -18,10 +18,23 @@ public static class CoreExtension
     /// </summary>
     /// <param name="services">服务集合。</param>
     /// <param name="action">配置委托。</param>
+    public static void AddKnownWebApi(this IServiceCollection services, Action<CoreOption> action = null)
+    {
+        action?.Invoke(CoreOption.Instance);
+        AppHelper.LoadConnections();
+        services.AddKnownServices();
+        services.AddKnownControllers();
+    }
+
+    /// <summary>
+    /// 添加Web框架及身份认证支持。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">配置委托。</param>
     public static void AddKnownWeb(this IServiceCollection services, Action<CoreOption> action = null)
     {
-        AppHelper.LoadConnections();
         action?.Invoke(CoreOption.Instance);
+        AppHelper.LoadConnections();
 
         services.AddKnownServices();
         services.AddSingleton<INotifyService, WebNotifyService>();
@@ -31,27 +44,7 @@ public static class CoreExtension
             services.AddResponseCompression();
 
         services.AddHttpContextAccessor();
-        var builder = services.AddControllers(option =>
-        {
-            option.EnableEndpointRouting = false;
-            option.Filters.Add<AuthActionFilter>();
-            option.Filters.Add<LogActionFilter>();
-            option.Filters.Add<ExceptionFilter>();
-            CoreOption.Instance.Mvc?.Invoke(option);
-        })
-        .AddJsonOptions(option =>
-        {
-            //option.JsonSerializerOptions.PropertyNamingPolicy = null;
-            CoreOption.Instance.Json?.Invoke(option);
-        });
-        services.Configure<FormOptions>(options =>
-        {
-            options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
-            options.ValueLengthLimit = 100 * 1024 * 1024;
-        });
-
-        if (CoreOption.Instance.IsAddWebApi)
-            builder.AddDynamicWebApi();
+        services.AddKnownControllers();
 
         services.AddRazorPages();
         services.AddCascadingAuthenticationState();
@@ -112,6 +105,31 @@ public static class CoreExtension
                 await MigrateHelper.MigrateModulesAsync(db);
             });
         }
+    }
+
+    private static void AddKnownControllers(this IServiceCollection services)
+    {
+        var builder = services.AddControllers(option =>
+        {
+            option.EnableEndpointRouting = false;
+            option.Filters.Add<AuthActionFilter>();
+            option.Filters.Add<LogActionFilter>();
+            option.Filters.Add<ExceptionFilter>();
+            CoreOption.Instance.Mvc?.Invoke(option);
+        })
+        .AddJsonOptions(option =>
+        {
+            //option.JsonSerializerOptions.PropertyNamingPolicy = null;
+            CoreOption.Instance.Json?.Invoke(option);
+        });
+        services.Configure<FormOptions>(options =>
+        {
+            options.MultipartBodyLengthLimit = 100 * 1024 * 1024; // 100MB
+            options.ValueLengthLimit = 100 * 1024 * 1024;
+        });
+
+        if (CoreOption.Instance.IsWebApi)
+            builder.AddDynamicWebApi();
     }
 
     private static void AddDynamicWebApi(this IMvcBuilder builder)

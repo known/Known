@@ -50,7 +50,7 @@ public class CoreOption
     /// <summary>
     /// 取得或设置是否根据Service动态生成WebApi，默认启用。
     /// </summary>
-    public bool IsAddWebApi { get; set; } = true;
+    public bool IsWebApi { get; set; } = true;
 
     /// <summary>
     /// 取得或设置MVC配置选项委托。
@@ -66,12 +66,6 @@ public class CoreOption
     /// 取得或设置文件内容类型字典。
     /// </summary>
     public Dictionary<string, string> ContentTypes { get; set; } = [];
-
-    ///// <summary>
-    ///// 添加后端程序集，自动识别导入和工作流类。
-    ///// </summary>
-    ///// <param name="assembly">应用程序集。</param>
-    //public void AddAssembly(Assembly assembly) { }
 
     ///// <summary>
     ///// 添加附加数据字典代码表委托。

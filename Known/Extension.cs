@@ -13,13 +13,13 @@ public static partial class Extension
     public static void AddKnown(this IServiceCollection services, Action<AppInfo> action = null)
     {
         action?.Invoke(Config.App);
+        services.AddScoped<Context>();
 
         if (Config.App.Type == AppType.WebApi)
             return;
 
         Config.AddModule(typeof(Extension).Assembly);
         services.AddAntDesign();
-        services.AddScoped<Context>();
         services.AddScoped<UIContext>();
         services.AddScoped<JSService>();
         services.AddScoped<UIService>();
