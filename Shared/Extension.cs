@@ -25,6 +25,7 @@ public static partial class Extension
 
         TaskScheduler.UnobservedTaskException += (sender, e) =>
         {
+            Logger.Exception(e.Exception);
             var content = e.Exception.ToString();
             if (!content.Contains("JSDisconnectedException"))
                 Logger.Error(LogTarget.Task, new UserInfo { Name = sender.ToString() }, content);

@@ -47,22 +47,22 @@ public class AntInput : Input<string>
         {
             Attributes ??= [];
             Attributes["lang"] = "en";
-            Attributes["inputmode"] = "text";
+            Attributes["inputmode"] = "verbatim";
             Attributes["autocorrect"] = "off";
             Attributes["autocapitalize"] = "off";
             Attributes["spellcheck"] = "false";
             AutoComplete = false;
         }
         if (OnEnter.HasDelegate)
-        {
-            OnKeyUp = this.Callback<KeyboardEventArgs>(e =>
-            {
-                if (e.Key == "Enter")
-                {
-                    OnEnter.InvokeAsync(Value);
-                }
-            });
-        }
+            OnKeyUp = this.Callback<KeyboardEventArgs>(DoKeyUp);
         base.OnInitialized();
+    }
+
+    private void DoKeyUp(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            OnEnter.InvokeAsync(Value);
+        }
     }
 }

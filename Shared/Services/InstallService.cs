@@ -40,10 +40,10 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
     [Anonymous]
     public async Task<InstallInfo> GetInstallAsync()
     {
+        var info = await GetInstallDataAysnc(Database, false);
         if (CoreConfig.System != null)
-            return new InstallInfo();
+            return info;
 
-        var info = await GetInstallDataAysnc(false);
         info.Connections = DbConfig.GetConnections();
         info.IsDatabase = info.Connections?.Count(d => string.IsNullOrWhiteSpace(d.ConnectionString)) > 0;
         if (info.IsDatabase)
@@ -120,7 +120,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
                 await CoreConfig.OnInstall.Invoke(db, info, sys);
         });
         if (result.IsValid)
-            result.Data = await GetInstallDataAysnc(true);
+            result.Data = await GetInstallDataAysnc(database, true);
         return result;
     }
 
@@ -137,13 +137,12 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
         };
     }
 
-    private async Task<InstallInfo> GetInstallDataAysnc(bool isCheck)
+    private static async Task<InstallInfo> GetInstallDataAysnc(Database db, bool isCheck)
     {
         try
         {
-            var database = Database;
-            database.EnableLog = false;
-            var sys = await database.GetSystemAsync(isCheck);
+            db.EnableLog = false;
+            var sys = await db.GetSystemAsync(isCheck);
             var info = new InstallInfo
             {
                 IsInstalled = sys != null,
@@ -155,8 +154,9 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
             CoreConfig.System = sys;
             return info;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger.Exception(ex);
             return null;
         }
     }

@@ -76,8 +76,9 @@ public static class ConfigExtension
                 CoreConfig.CheckSystemInfo(info);
             return info;
         }
-        catch
+        catch (Exception ex)
         {
+            Logger.Exception(ex);
             return null;//系统未安装，返回null
         }
     }

@@ -22,18 +22,22 @@ public class InstallPage : BaseForm<InstallInfo>
         if (Model.Data.IsInstalled)
         {
             Navigation.GoLoginPage();
-            return;
         }
-
-        if (Model.Data.IsDatabase)
-            Step.AddStep(Language.Database, BuildDatabase);
-        Step.AddStep(Language.SystemInfo, BuildSystem);
-        Step.AddStep(Language.AccountInfo, BuildAccount);
+        else
+        {
+            if (Model.Data.IsDatabase)
+                Step.AddStep(Language.Database, BuildDatabase);
+            Step.AddStep(Language.SystemInfo, BuildSystem);
+            Step.AddStep(Language.AccountInfo, BuildAccount);
+        }
     }
 
     /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
+        if (Model.Data.IsInstalled)
+            return;
+
         builder.Div("kui-install", () =>
         {
             builder.Div("kui-install-head", () =>
