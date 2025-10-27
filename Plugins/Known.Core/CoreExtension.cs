@@ -105,7 +105,7 @@ public static class CoreExtension
         Config.ServiceProvider = app.Services;
         if (Config.App.Database != null)
         {
-            var database = Database.Create();
+            using var database = Database.Create();
             _ = database.QueryActionAsync(async db =>
             {
                 await AppHelper.LoadLanguagesAsync(db);

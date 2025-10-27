@@ -24,7 +24,7 @@ public sealed class WeixinHelper
         if (user == null)
             return Result.Error("WeixinUser is null.");
 
-        var db = Database.Create();
+        using var db = Database.Create();
         db.User = Cache.GetUserByToken(token);
         var weixin = await GetWeixinByOpenIdAsync(db, user.OpenId);
         if (weixin == null)

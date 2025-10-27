@@ -68,7 +68,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
 
         try
         {
-            var db = Database.Create(info.Name);
+            using var db = Database.Create(info.Name);
             await db.OpenAsync();
             return Result.Success(Language.ConnectSuccess);
         }
@@ -94,7 +94,7 @@ class InstallService(Context context) : ServiceBase(context), IInstallService
         Console.WriteLine($"{info.CompNo}-{info.CompName}");
         AppHelper.SetConnections(info);
 
-        var database = GetDatabase(info);
+        using var database = GetDatabase(info);
         var result = await database.InitializeTableAsync();
         if (!result.IsValid)
             return result;

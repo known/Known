@@ -32,7 +32,7 @@ public sealed class TaskHelper
 
     private static async Task RunAsync(SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
-        var db = Database.Create();
+        using var db = Database.Create();
         try
         {
             var user = await db.GetUserAsync(task.CreateBy);
