@@ -254,7 +254,7 @@ public partial class Database
     {
         try
         {
-            using var cmd = await PrepareCommandAsync(info);
+            var cmd = await PrepareCommandAsync(info);
             var reader = info.IsClose
                        ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
                        : cmd.ExecuteReader();
