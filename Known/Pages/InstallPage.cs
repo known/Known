@@ -35,7 +35,7 @@ public class InstallPage : BaseForm<InstallInfo>
     /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
-        if (Model.Data.IsInstalled)
+        if (Model.Data == null || Model.Data.IsInstalled)
             return;
 
         builder.Div("kui-install", () =>
