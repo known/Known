@@ -6,7 +6,7 @@
         <Authors>KnownChen</Authors>
         <Description>Known是基于Blazor轻量级、跨平台、极易扩展的插件开发框架。</Description>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <Version>3.4.2.2</Version>
+        <Version>3.4.2.3</Version>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>Known, Framework, .NET, Blazor</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -38,10 +38,8 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
-        <None Include="wwwroot\css\web.css" />
     </ItemGroup>
 
-    <Import Project="..\Shared\Shared.projitems" Label="Shared" />
     <!--<Import Project="..\Library\Minifier\BuildBundlerMinifier.targets" Condition="Exists('..\Library\Minifier\BuildBundlerMinifier.targets')" />-->
 
 </Project>
