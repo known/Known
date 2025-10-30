@@ -1,4 +1,5 @@
 ﻿using Known;
+using Known.Data;
 
 namespace Sample;
 
@@ -22,6 +23,7 @@ public static class AppServer
     // 添加系统 Web 后端。
     internal static void AddApplicationWeb(this IServiceCollection services, Action<CoreOption> action)
     {
+        CoreConfig.OnInitial = OnInitial;
         services.AddApplication();
         services.AddKnownWeb(action);
         services.AddHostedService<TestWorker>();
@@ -30,5 +32,10 @@ public static class AppServer
     internal static void UseApplication(this WebApplication app)
     {
         app.UseKnown();
+    }
+
+    private static async Task OnInitial(Database db, InitialInfo info)
+    {
+        //info.ClientHomes["KC-799f9735efe8468fa290d5486ca7dc6c"] = "/pda";
     }
 }

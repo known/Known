@@ -5,7 +5,19 @@
 /// </summary>
 public class KStyleSheet : ComponentBase
 {
-    internal static readonly List<string> Items = [];
+    private static readonly Dictionary<string, string> Items = [];
+
+    /// <summary>
+    /// 添加LESS样式表文件到集合中。
+    /// </summary>
+    /// <param name="fileName">LESS样式表文件。</param>
+    public static void AddLess(string fileName)
+    {
+        if (Items.ContainsKey(fileName))
+            return;
+
+        Items[fileName] = "less";
+    }
 
     /// <summary>
     /// 添加CSS样式表文件到集合中。
@@ -13,10 +25,10 @@ public class KStyleSheet : ComponentBase
     /// <param name="fileName">CSS样式表文件。</param>
     public static void AddStyle(string fileName)
     {
-        if (Items.Contains(fileName))
+        if (Items.ContainsKey(fileName))
             return;
 
-        Items.Add(fileName);
+        Items[fileName] = "stylesheet";
     }
 
     /// <inheritdoc />
@@ -24,8 +36,11 @@ public class KStyleSheet : ComponentBase
     {
         foreach (var item in Items)
         {
-            var href = Config.GetStaticFileUrl(item);
-            builder.Markup($"<link rel=\"stylesheet\" href=\"{href}\" />");
+            var href = Config.GetStaticFileUrl(item.Key);
+            if (item.Value == "less")
+                builder.Markup($"<link rel=\"stylesheet/less\" type=\"text/css\" href=\"{href}\" />");
+            else
+                builder.Markup($"<link rel=\"{item.Value}\" href=\"{href}\" />");
         }
     }
 }

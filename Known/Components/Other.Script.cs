@@ -5,7 +5,7 @@
 /// </summary>
 public class KScript : ComponentBase
 {
-    internal static readonly Dictionary<string, string> Items = [];
+    private static readonly Dictionary<string, string> Items = [];
 
     /// <summary>
     /// 添加JS模块脚本文件到集合中。

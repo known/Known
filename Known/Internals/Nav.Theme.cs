@@ -25,7 +25,7 @@ public class NavTheme : BaseNav
 
     private async Task ThemeChangedAsync(bool isDark)
     {
-        Context.Local.Theme = isDark ? "dark" : "default";
+        Context.Local.Theme = isDark ? "dark" : "light";
         if (CurrentUser != null)
         {
             Context.UserSetting.Theme = Context.Local.Theme;

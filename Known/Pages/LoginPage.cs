@@ -73,6 +73,7 @@ public class LoginPage : BasePage
     /// <param name="user">登录用户信息。</param>
     protected virtual Task OnLoginedAsync(UserInfo user)
     {
+        Context.CurrentUser = user;
         Context.GoHomePage(ReturnUrl);
         return Task.CompletedTask;
     }

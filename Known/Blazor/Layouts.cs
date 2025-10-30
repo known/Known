@@ -5,10 +5,6 @@
 /// </summary>
 public class LayoutBase : LayoutComponentBase
 {
-    private bool isRender = false;
-    internal bool IsInstall { get; private set; }
-    internal bool IsLoaded { get; set; }
-
     [Inject] internal IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
@@ -55,10 +51,13 @@ public class LayoutBase : LayoutComponentBase
         Admin = await Factory.CreateAsync<IAdminService>(Context);
         Context.UI = UI;
         Context.Navigation = Navigation;
-        IsInstall = false;
-        IsLoaded = false;
         if (Context.Local == null)
             Context.Local = await JS.GetLocalInfoAsync();
+
+        if (Context.IsInitial)
+            return;
+
+        Context.IsInitial = true;
         var info = await Admin.GetInitialAsync();
         if (info != null)
         {
@@ -73,54 +72,56 @@ public class LayoutBase : LayoutComponentBase
 
         if (!Config.IsInstalled)
         {
-            IsInstall = true;
             Navigation?.GoInstallPage();
             return;
         }
-
-        IsInstall = true;
-        IsLoaded = await OnInitAsync();
 
         if (info.ClientHomes?.TryGetValue(Context.Local.ClientId, out string homeUrl) == true)
         {
             Navigation?.NavigateTo(homeUrl);
             return;
         }
+
+        await OnInitAsync();
     }
 
     /// <summary>
     /// 异步初始化模板组件。
     /// </summary>
     /// <returns></returns>
-    protected virtual Task<bool> OnInitAsync() => Task.FromResult(true);
+    protected virtual Task OnInitAsync() => Task.CompletedTask;
 
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender && !isRender)
+        if (firstRender)
         {
-            isRender = true;
-            if (Context.CurrentUser == null)
-            {
-                await JS.InitFilesAsync(Context.Local);
-            }
-            else
-            {
-                var setting = Context.UserSetting;
-                if (string.IsNullOrWhiteSpace(setting.Size))
-                    setting.Size = Config.App.DefaultSize;
-                await JS.SetLocalInfoAsync(Context.Local, setting);
-            }
+            var setting = Context.UserSetting;
+            if (setting != null && string.IsNullOrWhiteSpace(setting.Size))
+                setting.Size = Config.App.DefaultSize;
+            await JS.SetLocalInfoAsync(Context.Local, setting);
             if (Config.App.IsLanguage)
             {
-                var language = Context.Local.Language;
+                var language = Context.Local?.Language;
                 if (string.IsNullOrWhiteSpace(language))
                     language = Context.UserSetting.Language;
                 Context.CurrentLanguage = language;
             }
         }
     }
+
+    /// <inheritdoc />
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        BuildRender(builder);
+    }
+
+    /// <summary>
+    /// 呈现组件内容。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    protected virtual void BuildRender(RenderTreeBuilder builder) { }
 
     internal static void BuildBackgroundBlobs(RenderTreeBuilder builder)
     {
@@ -138,13 +139,13 @@ public class LayoutBase : LayoutComponentBase
 public class EmptyLayout : LayoutBase
 {
     /// <inheritdoc />
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (!IsInstall)
-            return;
-
-        BuildBackgroundBlobs(builder);
-        builder.Div(WrapperClass, () => builder.Fragment(Body));
+        if (Context.IsInitial)
+        {
+            BuildBackgroundBlobs(builder);
+            builder.Div(WrapperClass, () => builder.Fragment(Body));
+        }
     }
 }
 
@@ -153,36 +154,34 @@ public class EmptyLayout : LayoutBase
 /// </summary>
 public class AuthLayout : LayoutBase
 {
-    private bool isLayout;
     [Inject] internal IAuthStateProvider AuthProvider { get; set; }
 
     /// <inheritdoc />
-    protected override async Task<bool> OnInitAsync()
+    protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
         if (Context.CurrentUser == null)
         {
             Navigation?.GoLoginPage();
-            return false;
+            return;
         }
-        if (UIConfig.OnInitLayout != null)
-        {
-            var isInit = UIConfig.OnInitLayout.Invoke(Context);
-            isLayout = true;
-            return isInit;
-        }
-        return true;
+        UIConfig.OnInitLayout?.Invoke(Context);
     }
 
     /// <inheritdoc />
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    protected override void BuildRender(RenderTreeBuilder builder)
     {
-        if (IsLoaded || isLayout)
+        if (Context.IsInitial && Context.CurrentUser != null)
         {
             BuildBackgroundBlobs(builder);
-            builder.Div(WrapperClass, () => builder.BuildBody(Context, Body));
+            builder.Div(WrapperClass, () => builder.BuildBody(Context, BuildContent));
         }
+    }
+
+    internal virtual void BuildContent(RenderTreeBuilder builder)
+    {
+        builder.Fragment(Body);
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()
@@ -205,8 +204,9 @@ public class AdminLayout : AuthLayout
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
+        if (!Context.IsNotifyHub)
         {
+            Context.IsNotifyHub = true;
             if (Config.IsNotifyHub)
             {
                 invoker = DotNetObjectReference.Create(this);
@@ -222,14 +222,19 @@ public class AdminLayout : AuthLayout
         }
     }
 
-    /// <inheritdoc />
-    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    internal override void BuildContent(RenderTreeBuilder builder)
     {
-        if (!IsLoaded)
-            return;
-
-        BuildBackgroundBlobs(builder);
-        builder.Div(WrapperClass, () => builder.BuildBody(Context, BuildContent));
+        if (Context.IsMobileApp)
+        {
+            builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
+        }
+        else
+        {
+            if (UIConfig.AdminBody != null)
+                UIConfig.AdminBody.Invoke(builder, BuildBody);
+            else
+                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
+        }
     }
 
     /// <summary>
@@ -258,21 +263,6 @@ public class AdminLayout : AuthLayout
             return;
 
         UI.NoticeAsync(info.Title, info.Message, info.Type);
-    }
-
-    private void BuildContent(RenderTreeBuilder builder)
-    {
-        if (Context.IsMobileApp)
-        {
-            builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
-        }
-        else
-        {
-            if (UIConfig.AdminBody != null)
-                UIConfig.AdminBody.Invoke(builder, BuildBody);
-            else
-                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
-        }
     }
 
     private void BuildBody(RenderTreeBuilder builder)

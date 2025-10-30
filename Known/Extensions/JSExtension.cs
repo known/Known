@@ -149,6 +149,9 @@ public static class JSExtension
 
     internal static async Task SetLocalInfoAsync(this JSService js, LocalInfo info, UserSettingInfo setting = null, bool isLanguage = false)
     {
+        if (info == null)
+            return;
+
         if (!isLanguage)
         {
             if (setting != null)

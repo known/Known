@@ -11,16 +11,28 @@ function createLink(href) {
     return item;
 }
 
-function findScript(match) {
-    let items = document.getElementsByTagName('script');
-    return Array.from(items).find((item) => item.getAttribute('src')?.match(match));
+function setStyleSheet(match, href) {
+    let item = findLink(match);
+    if (!item) {
+        item = createLink('');
+        document.head.appendChild(item);
+    }
+    item.href = href;
 }
 
-function createScript(src) {
-    if (findScript(src)) return null;
-    var script = document.createElement('script');
-    script.src = src;
-    return script;
+function insertStyleSheet(match, href) {
+    var item1 = createLink(href);
+    if (item1) {
+        let item = findLink(match);
+        document.head.insertBefore(item1, item);
+    }
+}
+
+function removeStyleSheet(href) {
+    let item = findLink(href);
+    if (item) {
+        document.head.removeChild(item);
+    }
 }
 
 function createCaptcha(canvas, code) {
@@ -84,53 +96,6 @@ export class KBlazor {
     static elemClick(id) { document.getElementById(id).click(); }
     static elemEnabled(id, enabled) { document.getElementById(id).enabled = enabled; }
     //File
-    static initStaticFile(styles, scripts, info) {
-        let known = findLink('Known');
-        if (!known) {
-            var app = findLink('app');
-            for (var i in styles) {
-                var link = createLink(styles[i]);
-                if (link) {
-                    document.head.insertBefore(link, app);
-                }
-            }
-            var frame = findScript('_framework');
-            for (var i in scripts) {
-                var script = createScript(scripts[i]);
-                if (script) {
-                    document.body.insertBefore(script, frame);
-                }
-            }
-        }
-        KBlazor.setLocalInfo(info);
-    }
-    static setStyleSheet(match, href) {
-        let item = findLink(match);
-        if (!item) {
-            item = createLink('');
-            document.head.appendChild(item);
-        }
-        item.href = href;
-    }
-    static insertStyleSheet(match, href) {
-        var item1 = createLink(href);
-        if (item1) {
-            let item = findLink(match);
-            document.head.insertBefore(item1, item);
-        }
-    }
-    static addStyleSheet(href) {
-        let item = createLink(href);
-        if (item) {
-            document.head.appendChild(item);
-        }
-    }
-    static removeStyleSheet(href) {
-        let item = findLink(href);
-        if (item) {
-            document.head.removeChild(item);
-        }
-    }
     static setLocalInfo(info) {
         var theme = info?.theme;
         if (!theme) {
@@ -139,14 +104,14 @@ export class KBlazor {
         }
         $('html').attr('data-theme', theme);
         if (info && info.color)
-            KBlazor.setStyleSheet('/theme/', '_content/Known/css/theme/' + info.color + '.css');
+            setStyleSheet('/theme/', '_content/Known/css/theme/' + info.color + '.css');
         if (info && info.size)
-            KBlazor.setStyleSheet('/size/', '_content/Known/css/size/' + info.size + '.css');
+            setStyleSheet('/size/', '_content/Known/css/size/' + info.size + '.css');
         var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
         if (theme == 'dark')
-            KBlazor.insertStyleSheet('/Known/css/font-awesome.css', darkUrl);
+            insertStyleSheet('/Known/css/font-awesome.css', darkUrl);
         else
-            KBlazor.removeStyleSheet(darkUrl);
+            removeStyleSheet(darkUrl);
     }
     //Storage
     static getLocalStorage(key) { return localStorage.getItem(key); }

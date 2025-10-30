@@ -2,13 +2,6 @@
 
 public partial class JSService
 {
-    internal Task InitFilesAsync(LocalInfo info)
-    {
-        var styles = KStyleSheet.Items;
-        var scripts = KScript.Items;
-        return InvokeVoidAsync("KBlazor.initStaticFile", styles, scripts, info);
-    }
-
     /// <summary>
     /// 异步执行一段JS脚本，返回执行结果对象。
     /// </summary>
