@@ -4,9 +4,9 @@
     --kui-body-bg: linear-gradient(135deg, #f0f5ff 0%, #e6f7ff 100%);
     --kui-body-text: #333;
     --kui-form-label-width:120px;
-    --kui-bgcolor:#ffffff;
-    --kui-color:#596172;
-    --kui-color-border:#f0f0f0;
+    --kui-bgcolor:#fff;
+    --kui-color:#2c3e50;
+    --kui-color-border:#e1e8ed;
     --kui-color-hover:#cce4fa;
     --gradient-start: #0061ff;
     --gradient-end: #00e5ff;
@@ -15,9 +15,9 @@
     /* 暗色主题变量 */
     --kui-body-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     --kui-body-text: #e2e8f0;
-    --kui-bgcolor:#141414;
-    --kui-color:#d8d8d8;
-    --kui-color-border:rgba(253, 253, 253, 0.12);
+    --kui-bgcolor:#1f1f1f;
+    --kui-color:#e0e0e0;
+    --kui-color-border:rgba(255,255,255,0.1);
     --kui-color-hover:#cce4fa;
     --gradient-start: #0066ff;
     --gradient-end: #00a3ff;
@@ -189,7 +189,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-screen.is-full .action {top:10px;right:10px;}
 .kui-screen.is-full .action .button {opacity:0;transition:opacity 8s ease;}
 .kui-screen.is-full .action:hover .button {opacity:1;transition:opacity 0s;}
-:root[data-theme=dark] .kui-screen {background-color:#000;}
+:root[data-theme=dark] .kui-screen {background-color:var(--kui-bgcolor);}
 
 /*GroupBox*/
 .kui-group-box {position:relative;border:1px dashed var(--kui-color-border);border-radius:6px;}
@@ -514,18 +514,20 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 /*Install*/
 .kui-install {position:absolute;top:40%;left:0;width:100%;transform:translate(0, -40%);}
 .kui-install .button {text-align:center;}
-.kui-install-head {display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1.2rem;padding:30px 200px;}
+.kui-install-head {
+    display:flex;justify-content:space-between;align-items:center;
+    font-weight:bold;font-size:1.2rem;padding:30px 200px;
+}
 .kui-install-head .kui-menu {margin:0;padding:0;}
 .kui-install-body {
-    background:linear-gradient(135deg, #6da0f5, #c0e9fc);
-    height:500px;padding:50px 200px;overflow: hidden;
+    /*background:linear-gradient(135deg, #6da0f5, #c0e9fc);*/
+    height:500px;padding:50px 200px;overflow:hidden;
     border-radius:50px 0;/*border-radius:0 0 100% 100% / 0 0 8% 8%;*/
 }
 .kui-install-form {border-radius:5px;box-shadow:0 0 10px 3px rgba(0,0,0,.3);padding:20px;width:500px;height:400px;margin:0 auto;}
-.kui-install-form .kui-form-action {margin-top:10px;}
+.kui-install-form .kui-form-action {margin-top:10px;justify-content:end;}
 .kui-install-foot {text-align:center;width:100%;font-size:1.1rem;margin-top:30px;}
 .kui-install-foot span {margin:0 5px;}
-:root[data-theme=dark] .kui-install-body {background:linear-gradient(135deg, rgb(45,46,46), rgb(40,41,41));}
 
 @media screen and (max-width:1200px) {
     .kui-install-head, .kui-install-body {padding-left:100px;padding-right:100px;}
@@ -778,7 +780,10 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-form-item-label > label.kui-primary {color:#1890ff;}
 .ant-form-item-label > label.kui-danger {color:#ed4014;}
 
-:root[data-theme=dark] .ant-layout-sider, :root[data-theme=dark] .kui-menu-dark {
+:root[data-theme=dark] .ant-menu,
+:root[data-theme=dark] .ant-table,
+:root[data-theme=dark] .ant-layout-sider, 
+:root[data-theme=dark] .kui-menu-dark {
     color:var(--kui-color);background-color:var(--kui-bgcolor);
 }
 :root[data-theme=dark] .ant-modal-header .anticon {color:rgba(255 255,255,0.45);}
