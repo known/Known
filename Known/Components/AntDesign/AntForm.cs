@@ -90,7 +90,8 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
 
         builder.Cascading<IComContainer>(this, b =>
         {
-            b.Div(Form.ClassName, () =>
+            var className = CssBuilder.Default(Form.ClassName).AddClass(Class).BuildClass();
+            b.Div(className, () =>
             {
                 if (Form.Header != null)
                     b.Fragment(Form.Header);

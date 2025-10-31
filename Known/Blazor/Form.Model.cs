@@ -133,16 +133,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <summary>
     /// 取得表单CSS类名。
     /// </summary>
-    public string ClassName
-    {
-        get
-        {
-            if (!string.IsNullOrWhiteSpace(Class))
-                return Class;
-
-            return SmallLabel ? "kui-small" : "kui-form";
-        }
-    }
+    public string ClassName => CssBuilder.Default(SmallLabel ? "kui-small" : "kui-form").AddClass(Class).BuildClass();
 
     /// <summary>
     /// 取得或设置表单查看类型， 默认View-查看。

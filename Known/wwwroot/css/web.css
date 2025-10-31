@@ -108,7 +108,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .form-list1 .ant-toolbar {padding:10px 0 0 0;}
 
 /*Table*/
-.kui-table.form-list .kui-toolbar {border-bottom:none;margin-top:5px;}
+.kui-table.form-list .kui-toolbar {border-bottom:none;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
 .kui-table-filter label {display:flex;}
@@ -772,6 +772,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-form-tab .ant-tabs-content-holder {padding:0;}
 .kui-form-body .ant-tabs {margin-top:0;}
 .kui-form-body .ant-tabs-tabpane {padding:10px 0;}
+.kui-table.form-list .ant-form {padding-top:0;}
 .kui-system .ant-form-item-label {width:150px;}
 .kui-development > .ant-tabs-nav {margin:0;}
 .kui-role .ant-checkbox-group {display:flex;flex-direction:column;padding:5px;}
