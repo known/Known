@@ -14,6 +14,7 @@ public partial class KUpload
     private AttachInfo currentFullscreenImage;
 
     private bool IsMultiple => MultiFile || Directory;
+    private bool IsReadOnly => ReadOnly || AntForm?.IsView == true;
 
     [CascadingParameter] private IComContainer AntForm { get; set; }
 
@@ -170,8 +171,6 @@ public partial class KUpload
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if (AntForm != null)
-            ReadOnly = AntForm.IsView;
         base.OnInitialized();
         invoker = DotNetObjectReference.Create(this);
         if (IsImage)

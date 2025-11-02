@@ -6,7 +6,7 @@
         @if (IsDrag) {
             <div class="kui-upload ant-upload ant-upload-drag ant-upload-select ant-upload-select-text">
                 <div class="ant-upload" style="display:grid;">
-                    @if (!ReadOnly) {
+                    @if (!IsReadOnly) {
                         @BuildInput
                     }
                     <div class="ant-upload-drag-container">
@@ -17,7 +17,7 @@
                 </div>
             </div>
         } else if (IsButton) {
-            if (!ReadOnly) {
+            if (!IsReadOnly) {
                 <div class="kui-upload">
                     <div class="kui-button">
                         <KIcon Icon="upload" />
@@ -32,7 +32,7 @@
                 @if (sysFiles != null && sysFiles.Count > 0) {
                     foreach (var item in sysFiles) {
                         <div class="kui-image">
-                            @if (!ReadOnly && IsDelete) {
+                            @if (!IsReadOnly && IsDelete) {
                                 <Icon Type="close-circle" OnClick="e=>OnDeleteFileAsync(item)" />
                             }
                             <div class="kui-thumbnail" @onclick="e=>ShowFullscreen(item)">
@@ -45,7 +45,7 @@
                         </div>
                     }
                 }
-                @if (!ReadOnly) {
+                @if (!IsReadOnly) {
                     <div class="kui-upload ant-upload ant-upload-drag">
                         <Icon Type="camera" />
                         @BuildInput
@@ -63,7 +63,7 @@
                 </div>
             }
         } else {
-            if (!ReadOnly) {
+            if (!IsReadOnly) {
                 <div class="kui-upload">
                     @BuildInput
                     @BuildTemplate
@@ -78,7 +78,7 @@
                 @foreach (var item in sysFiles) {
                     var url = item.FileUrl;
                     <div>
-                        @if (!ReadOnly && IsDelete) {
+                        @if (!IsReadOnly && IsDelete) {
                             <span class="kui-link kui-danger" @onclick="e=>OnDeleteFileAsync(item)">@Language[Language.Delete]</span>
                         }
                         <KFileLink Item="item" />
