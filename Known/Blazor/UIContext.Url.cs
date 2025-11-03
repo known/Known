@@ -6,6 +6,7 @@ public partial class UIContext
 {
     private readonly List<MenuInfo> NavMenus = [];
 
+    internal bool IsReload { get; set; }
     internal bool IsInitial { get; set; }
     internal bool IsNotifyHub { get; set; }
     internal NavigationManager Navigation { get; set; }

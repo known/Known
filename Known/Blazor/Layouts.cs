@@ -52,7 +52,10 @@ public class LayoutBase : LayoutComponentBase
         Context.UI = UI;
         Context.Navigation = Navigation;
         if (Context.Local == null)
+        {
             Context.Local = await JS.GetLocalInfoAsync();
+            Context.IsReload = true;
+        }
 
         if (Context.IsInitial)
             return;
@@ -95,8 +98,9 @@ public class LayoutBase : LayoutComponentBase
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
+        if (firstRender || Context.IsReload)
         {
+            Context.IsReload = false;
             var setting = Context.UserSetting;
             if (setting != null && string.IsNullOrWhiteSpace(setting.Size))
                 setting.Size = Config.App.DefaultSize;
