@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using AntDesign.Filters;
 
 namespace Known.Components;
 
@@ -251,18 +252,20 @@ partial class KTable<TItem>
         Plugin?.AddTableAction();
     }
 
-    private RenderFragment GetFilterTemplate(ColumnInfo item)
+    private RenderFragment<TableFilterDropdownContext> GetFilterTemplate(ColumnInfo item)
     {
         if (!Model.EnableFilter || !item.IsQueryField || !item.IsFilter)
             return null;
 
         if (item.FilterTemplate != null)
-            return item.FilterTemplate;
+            return this.BuildTree<TableFilterDropdownContext>((b, r) => b.Fragment(item.FilterTemplate));
 
-        return b => b.Component<Internals.TableFilter<TItem>>()
-                     .Set(c => c.Table, Model)
-                     .Set(c => c.Item, item)
-                     .Build();
+        return this.BuildTree<TableFilterDropdownContext>(
+            (b, r) => b.Component<Internals.TableFilter<TItem>>()
+                       .Set(c => c.Table, Model)
+                       .Set(c => c.Item, item)
+                       .Build()
+        );
     }
 
     private RenderFragment<RowData<TItem>> ExpandTemplate

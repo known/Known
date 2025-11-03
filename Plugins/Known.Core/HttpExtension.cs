@@ -42,6 +42,7 @@ public static class HttpExtension
         var agent = http.Request.Headers["User-Agent"].ToString();
         if (string.IsNullOrWhiteSpace(agent))
             agent = http.Request.Headers["X-Forwarded-For"].ToString();
+
         return Utils.CheckMobile(agent);
     }
 }

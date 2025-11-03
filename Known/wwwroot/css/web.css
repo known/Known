@@ -742,6 +742,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 .kui-detail .ant-modal-body {padding:10px;}
 .ant-modal-body > .kui-table {padding-top:10px;}
+.ant-modal-body > .kui-watermark > div > .kui-table {padding-top:10px;}
 
 /*Form*/
 .kui-drawer {overflow:hidden;}

@@ -120,7 +120,7 @@ public sealed class Utils
             return false;
 
         bool flag = false;
-        string[] keywords = ["Android", "iPhone", "iPod", "Windows Phone", "MQQBrowser"];
+        string[] keywords = ["Android", "Phone", "iPhone", "iPod", "Windows Phone", "MQQBrowser"];
 
         foreach (string item in keywords)
         {
