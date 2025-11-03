@@ -135,7 +135,12 @@ public static class JSExtension
         return js.SetLocalStorageAsync(KeyLoginInfo, value);
     }
 
-    internal static async Task<LocalInfo> GetLocalInfoAsync(this JSService js)
+    /// <summary>
+    /// 异步获取本地配置信息。
+    /// </summary>
+    /// <param name="js">JS服务。</param>
+    /// <returns></returns>
+    public static async Task<LocalInfo> GetLocalInfoAsync(this JSService js)
     {
         var info = await js.GetLocalStorageAsync<LocalInfo>(KeyLocalInfo);
         info ??= new LocalInfo { ClientId = $"KC-{Utils.GetGuid()}" };

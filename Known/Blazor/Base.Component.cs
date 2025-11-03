@@ -196,6 +196,22 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     protected virtual void BuildRender(RenderTreeBuilder builder) { }
 
     /// <summary>
+    /// 异步改变系统主题。
+    /// </summary>
+    /// <param name="isDark">是否暗色主题。</param>
+    /// <returns></returns>
+    protected async Task ChangeThemeAsync(bool isDark)
+    {
+        Context.Local.Theme = isDark ? "dark" : "light";
+        if (CurrentUser != null)
+        {
+            Context.UserSetting.Theme = Context.Local.Theme;
+            await Admin.SaveUserSettingAsync(Context.UserSetting);
+        }
+        await JS.SetLocalInfoAsync(Context.Local);
+    }
+
+    /// <summary>
     /// 创建依赖注入的后端服务接口实例。
     /// </summary>
     /// <typeparam name="T">继承 IService 的服务接口。</typeparam>

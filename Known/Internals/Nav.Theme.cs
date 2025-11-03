@@ -19,18 +19,7 @@ public class NavTheme : BaseNav
                .Set(c => c.CheckedChildren, "🌜")
                .Set(c => c.UnCheckedChildren, "🌞")
                .Set(c => c.Value, theme == "dark")
-               .Set(c => c.OnChange, this.Callback<bool>(ThemeChangedAsync))
+               .Set(c => c.OnChange, this.Callback<bool>(ChangeThemeAsync))
                .Build();
-    }
-
-    private async Task ThemeChangedAsync(bool isDark)
-    {
-        Context.Local.Theme = isDark ? "dark" : "light";
-        if (CurrentUser != null)
-        {
-            Context.UserSetting.Theme = Context.Local.Theme;
-            await Admin.SaveUserSettingAsync(Context.UserSetting);
-        }
-        await JS.SetLocalInfoAsync(Context.Local);
     }
 }
