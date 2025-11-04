@@ -62,4 +62,11 @@ public static class BuilderExtension
             builder.Fragment(body);
         }
     }
+
+    internal static void BuildTable(this RenderTreeBuilder builder, string width, bool isForm, Action child)
+    {
+        var className = CssBuilder.Default("kui-table").AddClass("form-list", isForm).BuildClass();
+        var style = CssBuilder.Default().Add("width", width).BuildStyle();
+        builder.Div().Class(className).Style(style).Child(child);
+    }
 }

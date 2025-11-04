@@ -35,7 +35,7 @@ public class WTestList : BizTablePage<WeatherForecast>
         Table.QueryActions.Add(nameof(New));
         Table.QueryActions.Add(nameof(Export));
 
-        Table.ExpandTemplate = (b, r) => b.Text(r.Summary);
+        Table.ExpandTemplate = (b, r) => b.Component<InnerTable>().Build();
         Table.ActionCount = 4;
         Table.ActionWidth = "180px";
 
@@ -57,4 +57,19 @@ public class WTestList : BizTablePage<WeatherForecast>
     [Action] public void MoveDown(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
 
     public void Export() => UI.Alert("测试查询导出！");
+}
+
+class InnerTable : BaseTable<WeatherForecast>
+{
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+
+        Table.FixedWidth = "800px";
+        Table.FixedHeight = "200px";
+        Table.AddColumn(c => c.Summary);
+        Table.AddColumn(c => c.TemperatureC);
+        Table.AddColumn(c => c.TemperatureF);
+        Table.AddColumn(c => c.Date);
+    }
 }

@@ -91,6 +91,11 @@ partial class TableModel<TItem>
     public TableSelectType SelectType { get; set; }
 
     /// <summary>
+    /// 取得或设置表格固定宽度。
+    /// </summary>
+    public string FixedWidth { get; set; }
+
+    /// <summary>
     /// 取得或设置表格固定高度。
     /// </summary>
     public string FixedHeight { get; set; }

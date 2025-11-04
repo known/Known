@@ -17,7 +17,7 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
-        builder.Div("kui-table form-list", () =>
+        builder.BuildTable(Model.FixedWidth, true, () =>
         {
             if (ShowToolbar())
             {
