@@ -19,13 +19,12 @@ class AppDefaultData
     private static void SetMethods(AutoPageInfo info, Type pageType)
     {
         var methods = new List<(MethodInfo, ActionAttribute)>();
-        const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        foreach (MethodInfo m in pageType.GetMethods(flags))
+        foreach (var item in pageType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
         {
-            if (m.IsDefined(typeof(ActionAttribute), false))
+            if (item.IsDefined(typeof(ActionAttribute), false))
             {
-                var attr = m.GetCustomAttribute<ActionAttribute>(false);
-                methods.Add((m, attr));
+                var attr = item.GetCustomAttribute<ActionAttribute>(false);
+                methods.Add((item, attr));
             }
         }
         foreach (var item in methods)
