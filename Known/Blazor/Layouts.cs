@@ -230,7 +230,10 @@ public class AdminLayout : AuthLayout
     {
         if (Context.IsMobileApp)
         {
-            builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
+            if (UIConfig.AppBody != null)
+                UIConfig.AppBody.Invoke(builder, BuildBody);
+            else
+                builder.Component<AppLayout>().Set(c => c.ChildContent, BuildBody).Build();
         }
         else
         {

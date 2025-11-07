@@ -136,7 +136,12 @@ public class UIConfig
     /// 取得关于系统页面自定义标签字典。
     /// </summary>
     public static Dictionary<string, ComponentInfo> SystemTabs { get; } = [];
-    
+
+    /// <summary>
+    /// 取得或设置手机模板内容委托。
+    /// </summary>
+    public static Action<RenderTreeBuilder, RenderFragment> AppBody { get; set; }
+
     /// <summary>
     /// 取得或设置管理模板内容委托。
     /// </summary>
