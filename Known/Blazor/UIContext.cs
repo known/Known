@@ -78,17 +78,33 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     }
 
     /// <summary>
+    /// 获取用户组件菜单信息。
+    /// </summary>
+    /// <typeparam name="T">组件类型。</typeparam>
+    /// <returns></returns>
+    public MenuInfo GetMenu<T>() => GetMenu(typeof(T));
+
+    /// <summary>
+    /// 获取用户组件菜单信息。
+    /// </summary>
+    /// <returns></returns>
+    public MenuInfo GetMenu(Type type)
+    {
+        var menuId = type.FullName;
+        return UserMenus?.FirstOrDefault(m => m.Id == menuId || m.Code == menuId);
+    }
+
+    /// <summary>
     /// 判断当前用户是否有菜单权限。
     /// </summary>
-    /// <param name="menuId">菜单ID。</param>
     /// <returns>是否有权限。</returns>
-    public bool HasMenu(string menuId)
+    public bool HasMenu<T>()
     {
         var user = CurrentUser;
         if (user == null)
             return false;
 
-        var menu = UserMenus.FirstOrDefault(m => m.Id == menuId || m.Code == menuId);
+        var menu = GetMenu<T>();
         return menu != null;
     }
 

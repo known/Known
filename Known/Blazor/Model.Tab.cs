@@ -55,7 +55,7 @@ public class TabModel(IBaseComponent component) : BaseModel(component)
     public void AddTab<TTab>(string id, RenderFragment content = null)
          where TTab : notnull, Microsoft.AspNetCore.Components.IComponent
     {
-        if (Context.HasMenu(typeof(TTab).FullName))
+        if (Context.HasMenu<TTab>())
         {
             content ??= b => b.Component<TTab>().Build();
             AddTab(id, content);
