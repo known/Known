@@ -5,7 +5,7 @@
 /// </summary>
 public class CodingTabs : BaseComponent
 {
-    private readonly TabModel Tab = new();
+    private TabModel Tab;
     private ICodeService Service;
     private bool isAutoMode = Config.RenderMode == RenderType.Auto;
     private string firstTab = "";
@@ -50,7 +50,7 @@ public class CodingTabs : BaseComponent
 
         firstTab = ModelTabs.Keys.First();
         currentTab = firstTab;
-        Tab.Class = Class;
+        Tab = new TabModel(this) { Class = Class };
         foreach (var tab in ModelTabs)
         {
             Tab.AddTab(tab.Key, tab.Value);

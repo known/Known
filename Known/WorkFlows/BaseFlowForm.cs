@@ -7,7 +7,7 @@
 public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
 {
     private IFlowService Service;
-    private readonly StepModel step = new();
+    private StepModel step;
 
     /// <summary>
     /// 取得或设置表单配置模型对象。
@@ -22,6 +22,7 @@ public class BaseFlowForm<TItem> : BaseTabForm where TItem : FlowEntity, new()
     {
         await base.OnInitFormAsync();
         Service = await CreateServiceAsync<IFlowService>();
+        step = new StepModel(this);
         Tab.AddTab("FlowLog", b => b.Component<FlowLogGrid>().Set(c => c.BizId, Model?.Data?.Id).Build());
     }
 

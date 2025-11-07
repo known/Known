@@ -234,9 +234,17 @@ public class BaseForm<THead, TList> : BaseForm<THead>
 public class BaseTabForm : BaseForm
 {
     /// <summary>
+    /// 构造函数，创建一个标签页表单实例。
+    /// </summary>
+    public BaseTabForm()
+    {
+        Tab = new TabModel(this);
+    }
+
+    /// <summary>
     /// 取得标签页表单组件模型实例。
     /// </summary>
-    protected TabModel Tab { get; } = new();
+    protected TabModel Tab { get; }
 
     /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
@@ -251,9 +259,17 @@ public class BaseTabForm : BaseForm
 public class BaseStepForm : BaseForm
 {
     /// <summary>
+    /// 构造函数，创建一个步骤表单实例。
+    /// </summary>
+    public BaseStepForm()
+    {
+        Step = new StepModel(this);
+    }
+
+    /// <summary>
     /// 取得步骤表单组件模型实例。
     /// </summary>
-    protected StepModel Step { get; } = new();
+    protected StepModel Step { get; }
 
     /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)

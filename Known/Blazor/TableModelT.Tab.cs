@@ -56,7 +56,7 @@ partial class TableModel<TItem>
 
     private void InitializeTab()
     {
-        Tab = new TabModel
+        Tab = new TabModel(Component)
         {
             OnChangeAsync = tab =>
             {

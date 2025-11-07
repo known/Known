@@ -46,7 +46,7 @@ public class ToolbarModel
     public bool HasItem => Items != null && Items.Count > 0;
 
     /// <summary>
-    /// 添加一个操作按钮。
+    /// 添加一个有权限的工具条按钮。
     /// </summary>
     /// <typeparam name="T">按钮所在组件类型。</typeparam>
     /// <param name="idOrName">按钮ID或名称。</param>
@@ -54,7 +54,7 @@ public class ToolbarModel
     public void AddAction<T>(string idOrName, string title = "")
     {
         if (Table.Context.HasButton<T>(idOrName))
-            Table.Toolbar.AddAction(idOrName);
+            Table.Toolbar.AddAction(idOrName, title);
     }
 
     /// <summary>

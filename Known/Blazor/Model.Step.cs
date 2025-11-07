@@ -3,7 +3,8 @@
 /// <summary>
 /// 步骤配置模型信息类。
 /// </summary>
-public class StepModel
+/// <param name="component">模型关联的组件对象。</param>
+public class StepModel(IBaseComponent component) : BaseModel(component)
 {
     /// <summary>
     /// 取得或设置步骤CSS类名。

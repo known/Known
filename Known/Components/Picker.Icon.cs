@@ -6,7 +6,7 @@
 public class IconPicker : BasePicker<string>, ICustomField
 {
     private const string KeyCustom = "Custom";
-    private readonly TabModel tab = new();
+    private TabModel tab;
     private Dictionary<string, List<IconMetaInfo>> iconMetas = [];
     private IconMetaInfo icon;
     private string faType = "Solid";
@@ -18,6 +18,7 @@ public class IconPicker : BasePicker<string>, ICustomField
         await base.OnInitAsync();
         AllowClear = true;
         Title = Language.SelectIcon;
+        tab = new TabModel(this);
         foreach (var item in UIConfig.Icons)
         {
             tab.AddTab(item.Key, b => BuildContent(b, item.Key));

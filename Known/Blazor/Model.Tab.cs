@@ -3,7 +3,8 @@
 /// <summary>
 /// 标签配置模型信息类。
 /// </summary>
-public class TabModel
+/// <param name="component">模型关联的组件对象。</param>
+public class TabModel(IBaseComponent component) : BaseModel(component)
 {
     /// <summary>
     /// 取得或设置步骤CSS类名。
@@ -41,14 +42,21 @@ public class TabModel
     public Func<string, Task> OnChangeAsync { get; set; }
 
     /// <summary>
-    /// 取得或设置组件状态改变方法委托。
-    /// </summary>
-    internal Action OnStateChanged { get; set; }
-
-    /// <summary>
     /// 取得标签是否有项目。
     /// </summary>
     public bool HasItem => Items != null && Items.Count > 0;
+
+    /// <summary>
+    /// 添加一个有权限的页签组件。
+    /// </summary>
+    /// <typeparam name="T">页签所在组件类型。</typeparam>
+    /// <param name="id">标签ID。</param>
+    /// <param name="content">标签呈现模板。</param>
+    public void AddTab<T>(string id, RenderFragment content)
+    {
+        if (Context.HasButton<T>(id))
+            AddTab(id, content);
+    }
 
     /// <summary>
     /// 添加一个标签。

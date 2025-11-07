@@ -112,19 +112,20 @@ public class BasePage<TItem> : BasePage where TItem : class, new()
 public class BaseTabPage : BasePage
 {
     /// <summary>
-    /// 取得标签Web页面组件模型实例。
+    /// 构造函数，创建一个标签Web页面实例。
     /// </summary>
-    protected TabModel Tab { get; private set; }
-
-    /// <inheritdoc />
-    protected override async Task OnInitPageAsync()
+    public BaseTabPage()
     {
-        await base.OnInitPageAsync();
-        Tab = new TabModel
+        Tab = new TabModel(this)
         {
             Left = b => b.FormTitle(PageName)
         };
     }
+
+    /// <summary>
+    /// 取得标签Web页面组件模型实例。
+    /// </summary>
+    protected TabModel Tab { get; }
 
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
@@ -139,9 +140,17 @@ public class BaseTabPage : BasePage
 public class BaseStepPage : BasePage
 {
     /// <summary>
+    /// 构造函数，创建一个步骤Web页面实例。
+    /// </summary>
+    public BaseStepPage()
+    {
+        Step = new StepModel(this);
+    }
+
+    /// <summary>
     /// 取得步骤Web页面组件模型实例。
     /// </summary>
-    protected StepModel Step { get; } = new();
+    protected StepModel Step { get; }
 
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)

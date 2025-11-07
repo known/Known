@@ -33,6 +33,28 @@ partial class TableModel<TItem>
     public Action<ActionInfo, TItem> OnAction { get; set; }
 
     /// <summary>
+    /// 添加一个有权限的查询表单操作按钮。
+    /// </summary>
+    /// <typeparam name="T">按钮所在组件类型。</typeparam>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    public void AddQueryAction<T>(string idOrName)
+    {
+        if (Context.HasButton<T>(idOrName))
+            QueryActions.Add(idOrName);
+    }
+
+    /// <summary>
+    /// 添加一个有权限的操作按钮。
+    /// </summary>
+    /// <typeparam name="T">按钮所在组件类型。</typeparam>
+    /// <param name="idOrName">按钮ID或名称。</param>
+    public void AddAction<T>(string idOrName)
+    {
+        if (Context.HasButton<T>(idOrName))
+            AddAction(idOrName);
+    }
+
+    /// <summary>
     /// 添加操作列按钮。
     /// </summary>
     /// <param name="idOrName">按钮ID或名称。</param>

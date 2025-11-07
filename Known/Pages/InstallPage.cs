@@ -8,7 +8,7 @@
 public class InstallPage : BaseForm<InstallInfo>
 {
     private IInstallService Service;
-    private readonly StepModel Step = new();
+    private StepModel Step;
     private readonly Dictionary<string, FormDatabase> formDBs = [];
 
     /// <inheritdoc />
@@ -25,6 +25,7 @@ public class InstallPage : BaseForm<InstallInfo>
         }
         else
         {
+            Step = new StepModel(this);
             if (Model.Data.IsDatabase)
                 Step.AddStep(Language.Database, BuildDatabase);
             Step.AddStep(Language.SystemInfo, BuildSystem);

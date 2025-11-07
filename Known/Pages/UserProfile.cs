@@ -9,7 +9,7 @@ namespace Known.Pages;
 [ReuseTabsPage(Title = "个人中心")]
 public class UserProfile : BasePage<UserInfo>
 {
-    private TabModel Tab { get; } = new();
+    private TabModel Tab;
 
     /// <summary>
     /// 异步初始化页面。
@@ -23,6 +23,7 @@ public class UserProfile : BasePage<UserInfo>
         Page.AddItem("kui-card kui-p10", BuildUserInfo);
         Page.AddItem("kui-card", BuildUserTabs);
 
+        Tab = new TabModel(this);
         foreach (var item in UIConfig.UserTabs.OrderBy(t => t.Value.Id))
         {
             Tab.AddTab(item.Key, b => b.DynamicComponent(item.Value));
