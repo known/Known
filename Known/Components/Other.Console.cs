@@ -63,6 +63,13 @@ public class KConsole : BaseComponent
         });
     }
 
+    /// <inheritdoc />
+    protected override async Task OnDisposeAsync()
+    {
+        await base.OnDisposeAsync();
+        await JSRuntime.CloseNotifyAsync(MethodName);
+    }
+
     private void BuildItem(RenderTreeBuilder builder, ConsoleLogInfo item)
     {
         builder.Div().Class(item.Type.ToString()).Child(item.Content);

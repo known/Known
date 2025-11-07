@@ -96,14 +96,15 @@ window.KUtils = {
 
 window.KNotify = {
     conn: null,
+    eventHandlers: new Map(),
     init: function (invoker, info) {
         const connection = new signalR.HubConnectionBuilder().withUrl(info.notifyUrl).build();
-        connection.on(info.forceLogout, function (message) {
-            invoker.invokeMethodAsync(info.showForceLogout, message);
-        });
-        connection.on(info.notifyLayout, function (message) {
-            invoker.invokeMethodAsync(info.showNotify, message);
-        });
+        const forceLogoutHandler = message => invoker.invokeMethodAsync(info.showForceLogout, message);
+        const notifyLayoutHandler = message => invoker.invokeMethodAsync(info.showNotify, message);
+        connection.on(info.forceLogout, forceLogoutHandler);
+        connection.on(info.notifyLayout, notifyLayoutHandler);
+        this.eventHandlers.set(info.forceLogout, forceLogoutHandler);
+        this.eventHandlers.set(info.notifyLayout, notifyLayoutHandler);
         connection.start().then(function () {
             console.log("SignalR连接已建立");
             const sessionId = sessionStorage.getItem('sessionId');
@@ -112,7 +113,7 @@ window.KNotify = {
             }
         }).catch(function (err) {
             console.error("SignalR连接错误: " + err.toString());
-        }) ;
+        });
         this.conn = connection;
     },
     addSession: function (sessionId) {
@@ -121,9 +122,33 @@ window.KNotify = {
         }
     },
     register: function (invoker, method, invoke) {
-        this.conn?.on(method, function (message) {
+        const handler = message => {
+            console.log(message);
             invoker.invokeMethodAsync(invoke, message);
-        });
+        };
+        this.conn?.on(method, handler);
+        this.eventHandlers.set(method, handler);
+    },
+    close: function (method) {
+        const handler = this.eventHandlers.get(method);
+        if (handler && this.conn) {
+            this.conn.off(method, handler);
+            this.eventHandlers.delete(method);
+        }
+    },
+    closeAll: function () {
+        for (const [method, handler] of this.eventHandlers) {
+            this.conn?.off(method, handler);
+        }
+        this.eventHandlers.clear();
+    },
+    dispose: function () {
+        this.closeAll();
+        if (this.conn) {
+            this.conn.stop();
+            this.conn = null;
+            console.log("SignalR连接已停止");
+        }
     }
 };
 

@@ -77,6 +77,17 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步关闭通知事件。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="method">SignalR连接方法名。</param>
+    /// <returns></returns>
+    public static ValueTask CloseNotifyAsync(this IJSRuntime runtime, string method)
+    {
+        return runtime.InvokeVoidAsync("KNotify.close", method);
+    }
+
+    /// <summary>
     /// 异步下载文件。
     /// </summary>
     /// <param name="js">JS服务。</param>
