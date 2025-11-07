@@ -6,13 +6,14 @@ static class CoreHelper
     {
         var routes = attributes.OfType<RouteAttribute>().ToList();
         var role = attributes.OfType<RoleAttribute>().FirstOrDefault();
+        var tabRole = attributes.OfType<TabRoleAttribute>().FirstOrDefault();
         var service = attributes.OfType<ServiceAttribute>().FirstOrDefault();
         var webApi = attributes.OfType<WebApiAttribute>().FirstOrDefault();
         var task = attributes.OfType<TaskAttribute>().FirstOrDefault();
         var import = attributes.OfType<ImportAttribute>().FirstOrDefault();
 
-        if (role != null || (routes != null && routes.Count > 0))
-            MenuHelper.AddMenu(type, role, routes, attributes);
+        if (role != null || tabRole != null || (routes != null && routes.Count > 0))
+            MenuHelper.AddMenu(type, role, tabRole, routes, attributes);
         else if (service != null)
             services.AddServices(service.Lifetime, type);
         //else if (type.IsInterface && !type.IsGenericTypeDefinition && type.IsAssignableTo(typeof(IService)) && type.Name != nameof(IService))

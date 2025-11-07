@@ -167,6 +167,25 @@ public class RoleAttribute(string name) : Attribute
 }
 
 /// <summary>
+/// 标签组件角色特性类，用于标识页面标签组件类需要在角色管理中配置权限。
+/// </summary>
+/// <param name="parent">页面组件类型。</param>
+/// <param name="name">组件名称。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class TabRoleAttribute(Type parent, string name) : Attribute
+{
+    /// <summary>
+    /// 取得上级页面组件类型。
+    /// </summary>
+    public Type Parent { get; } = parent;
+
+    /// <summary>
+    /// 取得角色组件名称。
+    /// </summary>
+    public string Name { get; } = name;
+}
+
+/// <summary>
 /// 动作特性类，用于标识方法是否需要角色权限控制。
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]

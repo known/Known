@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 
-namespace Sample.Pages.Demo;
+namespace Sample.Pages.Demo.Forms;
 
 [Route("/weathers/{id?}")]
 public class WeatherList : BaseTablePage<WeatherForecast>

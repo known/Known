@@ -78,6 +78,21 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     }
 
     /// <summary>
+    /// 判断当前用户是否有菜单权限。
+    /// </summary>
+    /// <param name="menuId">菜单ID。</param>
+    /// <returns>是否有权限。</returns>
+    public bool HasMenu(string menuId)
+    {
+        var user = CurrentUser;
+        if (user == null)
+            return false;
+
+        var menu = UserMenus.FirstOrDefault(m => m.Id == menuId || m.Code == menuId);
+        return menu != null;
+    }
+
+    /// <summary>
     /// 判断当前用户是否有按钮权限。
     /// </summary>
     /// <param name="buttonId">按钮ID。</param>

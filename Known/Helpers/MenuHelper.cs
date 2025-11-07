@@ -16,7 +16,7 @@ class MenuHelper
         AddParent(RouteId, "路由", "share-alt", target, 999);
     }
 
-    internal static void AddMenu(Type type, RoleAttribute role, List<RouteAttribute> routes, object[] attributes)
+    internal static void AddMenu(Type type, RoleAttribute role, TabRoleAttribute tabRole, List<RouteAttribute> routes, object[] attributes)
     {
         var tabs = attributes.OfType<ReuseTabsPageAttribute>().FirstOrDefault();
         var plugin = attributes.OfType<PluginAttribute>().FirstOrDefault();
@@ -37,7 +37,7 @@ class MenuHelper
             {
                 Config.RouteTypes[route.Template] = type;
                 var info = new MenuInfo { Id = $"{type.FullName}_{route.Template}", ParentId = sub.Id, Target = target, Url = route.Template };
-                SetRouteInfo(info, type, tabs, role, plugin, menu);
+                SetRouteInfo(info, type, tabs, role, tabRole, plugin, menu);
                 var table = CreateAutoPage(type);
                 if (table != null)
                     info.Plugins.AddPlugin(table);
@@ -53,7 +53,7 @@ class MenuHelper
                 url = routes[0].Template;
             }
             var info = new MenuInfo { Id = type.FullName, ParentId = parentId, Target = target, Url = url };
-            SetRouteInfo(info, type, tabs, role, plugin, menu);
+            SetRouteInfo(info, type, tabs, role, tabRole, plugin, menu);
             var table = CreateAutoPage(type);
             if (table != null)
             {
@@ -95,7 +95,7 @@ class MenuHelper
         DataHelper.Routes.Add(route);
     }
 
-    private static void SetRouteInfo(MenuInfo info, Type type, ReuseTabsPageAttribute tabs, RoleAttribute role, PluginAttribute plugin, MenuAttribute menu)
+    private static void SetRouteInfo(MenuInfo info, Type type, ReuseTabsPageAttribute tabs, RoleAttribute role, TabRoleAttribute tabRole, PluginAttribute plugin, MenuAttribute menu)
     {
         info.Name = type.Name;
         info.Icon ??= "file";
@@ -110,6 +110,13 @@ class MenuHelper
         if (role != null)
         {
             info.Name = role.Name;
+            return;
+        }
+
+        if (tabRole != null)
+        {
+            info.Name = tabRole.Name;
+            info.ParentId = tabRole.Parent.FullName;
             return;
         }
 

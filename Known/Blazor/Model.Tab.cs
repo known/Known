@@ -49,13 +49,17 @@ public class TabModel(IBaseComponent component) : BaseModel(component)
     /// <summary>
     /// 添加一个有权限的页签组件。
     /// </summary>
-    /// <typeparam name="T">页签所在组件类型。</typeparam>
+    /// <typeparam name="TTab">页签组件类型。</typeparam>
     /// <param name="id">标签ID。</param>
     /// <param name="content">标签呈现模板。</param>
-    public void AddTab<T>(string id, RenderFragment content)
+    public void AddTab<TTab>(string id, RenderFragment content = null)
+         where TTab : notnull, Microsoft.AspNetCore.Components.IComponent
     {
-        if (Context.HasButton<T>(id))
+        if (Context.HasMenu(typeof(TTab).FullName))
+        {
+            content ??= b => b.Component<TTab>().Build();
             AddTab(id, content);
+        }
     }
 
     /// <summary>
