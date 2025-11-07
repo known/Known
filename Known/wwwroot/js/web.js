@@ -96,15 +96,15 @@ window.KUtils = {
 
 window.KNotify = {
     conn: null,
-    eventHandlers: new Map(),
+    handlers: new Map(),
     init: function (invoker, info) {
         const connection = new signalR.HubConnectionBuilder().withUrl(info.notifyUrl).build();
         const forceLogoutHandler = message => invoker.invokeMethodAsync(info.showForceLogout, message);
         const notifyLayoutHandler = message => invoker.invokeMethodAsync(info.showNotify, message);
         connection.on(info.forceLogout, forceLogoutHandler);
         connection.on(info.notifyLayout, notifyLayoutHandler);
-        this.eventHandlers.set(info.forceLogout, forceLogoutHandler);
-        this.eventHandlers.set(info.notifyLayout, notifyLayoutHandler);
+        this.handlers.set(info.forceLogout, forceLogoutHandler);
+        this.handlers.set(info.notifyLayout, notifyLayoutHandler);
         connection.start().then(function () {
             console.log("SignalR连接已建立");
             const sessionId = sessionStorage.getItem('sessionId');
@@ -122,25 +122,22 @@ window.KNotify = {
         }
     },
     register: function (invoker, method, invoke) {
-        const handler = message => {
-            console.log(message);
-            invoker.invokeMethodAsync(invoke, message);
-        };
+        const handler = message => invoker.invokeMethodAsync(invoke, message);
         this.conn?.on(method, handler);
-        this.eventHandlers.set(method, handler);
+        this.handlers.set(method, handler);
     },
     close: function (method) {
-        const handler = this.eventHandlers.get(method);
+        const handler = this.handlers.get(method);
         if (handler && this.conn) {
             this.conn.off(method, handler);
-            this.eventHandlers.delete(method);
+            this.handlers.delete(method);
         }
     },
     closeAll: function () {
-        for (const [method, handler] of this.eventHandlers) {
+        for (const [method, handler] of this.handlers) {
             this.conn?.off(method, handler);
         }
-        this.eventHandlers.clear();
+        this.handlers.clear();
     },
     dispose: function () {
         this.closeAll();
