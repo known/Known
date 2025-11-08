@@ -1,0 +1,215 @@
+﻿@page "/demo/counter"
+@using System.Threading.Tasks
+@inherits BasePage
+@attribute [Menu(AppConstant.Demo, "计数器", "plus-circle", 2)]
+
+<PageTitle>Counter</PageTitle>
+
+<style>
+    .kui-counter .ant-tabs-nav {margin-bottom:20px;}
+</style>
+
+<div class="kui-card" style="padding:20px">
+    <div style="display:flex;justify-content:space-between">
+        <h1>Counter</h1>
+        <div>
+            <KTag Text="当前时间" Title="当前系统时间。" />
+            <KTimer />
+        </div>
+    </div>
+    <p role="status">Current count: @currentCount</p>
+
+    <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
+    <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
+    <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" Title="查看后台实时日志信息。" />
+
+    <div class="kui-counter">
+        <Tabs Animated>
+            <TabPane Key="1" Tab="表单">
+                <TestForm Form="model">
+                    <AntRow>
+                        <DataItem Span="6" Label="文本" Required>
+                            <AntInput />
+                        </DataItem>
+                        <DataItem Span="6" Label="日期">
+                            <AntDatePicker />
+                        </DataItem>
+                        <DataItem Span="6" Label="用户">
+                            <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value => context.User = value?.ToString()" />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="6" Label="单选" Tooltip="测试单选提示信息！">
+                            <AntRadioGroup Category="Item1,Item2" ButtonStyle="RadioButtonStyle.Solid" />
+                        </DataItem>
+                        <DataItem Span="6" Label="选项">
+                            <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
+                        </DataItem>
+                        <DataItem Span="6" Label="下拉树">
+                            <AntDropdownTree Items="Context.UserMenus" />
+                        </DataItem>
+                        <DataItem Span="6" Label="下拉表">
+                            <TestSelectTable />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="6" Label="下拉联动1">
+                            <AntSelectCode DataSource="Items1" OnSelectedItemChanged="OnItem1Changed" />
+                        </DataItem>
+                        <DataItem Span="6" Label="下拉联动2">
+                            <AntSelectCode DataSource="Items2" />
+                        </DataItem>
+                        <DataItem Span="6" Label="测试1">
+                            <AntCheckboxGroup @bind-Value="context.Fields" Category="Item1,Item2" />
+                        </DataItem>
+                        <DataItem Span="6" Label="测试2" Visible="context.ShowField">
+                            <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
+                        </DataItem>
+                    </AntRow>
+                    <div>@string.Join(",", value)</div>
+                    <div>@model.Data.Field</div>
+                </TestForm>
+            </TabPane>
+            <TabPane Key="2" Tab="附件">
+                <TestForm Form="model">
+                    <AntRow>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload @ref="upload" MultiFile Accept=".jpg, .png, .doc" OnFilesChanged="@(files => OnFilesChanged("Files", files))" />
+                        </DataItem>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload IsButton />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload IsDrag />
+                        </DataItem>
+                        <DataItem Span="12" Label="附件">
+                            <KUpload IsImage />
+                        </DataItem>
+                    </AntRow>
+                </TestForm>
+                <div>文件数量：@fileCount</div>
+            </TabPane>
+            <TabPane Key="3" Tab="扫码">
+                <KButton Type="@ButtonType.Primary" Name="扫码" OnClick="OnScan" />
+                <KFlexRow>
+                    <KQRCode Option="@(new { Text = "1234", Width = 100, Height = 100 })" Style="width:100px;height:100px;" />
+                    <div style="text-align:center;">
+                        <div style="width:200px;height:200px;margin-bottom:10px;">
+                            <KScanner @ref="scanner" OnScan="OnScanned" />
+                        </div>
+                        <KButton Name="@ScanName" Danger="IsScanning" OnClick="OnStartScan" />
+                    </div>
+                    <KBarcode Value="1234567890" Style="width:200px;height:50px;" />
+                </KFlexRow>
+                <p>扫码结果：@scanResult</p>
+            </TabPane>
+        </Tabs>
+    </div>
+</div>
+
+@code {
+    private int currentCount = 0;
+    private string[] value = [];
+    private FormModel<TestInfo> model;
+    private TestInfo test = new();
+    private KUpload upload;
+    private int fileCount;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        model = new FormModel<TestInfo>(this);
+        model.Data = new TestInfo();
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private void OnLoad()
+    {
+        App?.ShowSpinAsync("耗时操作中...", () =>
+        {
+            Thread.Sleep(10000);
+            return Task.CompletedTask;
+        });
+    }
+
+    private void OnLog()
+    {
+        var model = new DialogModel
+        {
+            Title = "控制台日志",
+            Width = 600,
+            Content = b => b.Component<KConsole>()
+                            .Set(c => c.BizId, "Test")
+                            .Set(c => c.MethodName, AppConstant.AddLog)
+                            .Build()
+        };
+        UI.ShowDialog(model);
+    }
+
+    private Task OnFilesChanged(string id, List<FileDataInfo> files)
+    {
+        fileCount = files.Count;
+        upload.Clear();
+        return Task.CompletedTask;
+    }
+
+    private KScanner scanner;
+    private string scanResult;
+    private bool IsScanning => scanner?.IsScanning == true;
+    private string ScanName => IsScanning ? "停止扫码" : "开始扫码";
+
+    private async Task OnStartScan()
+    {
+        if (scanner.IsScanning)
+            await scanner.StopAsync();
+        else
+            await scanner.StartAsync();
+    }
+
+    private void OnScan()
+    {
+        UI.ShowScanner(OnScanned);
+    }
+
+    private Task OnScanned(string text, string error)
+    {
+        scanResult = text;
+        if (!string.IsNullOrWhiteSpace(error))
+            UI.Error(error);
+        return StateChangedAsync();
+    }
+
+    private List<CodeInfo> Items1 = new()
+    {
+        new CodeInfo { 
+            Code = "A", Name = "选项A", Data = new List<CodeInfo> {
+                new CodeInfo { Code = "A1", Name = "选项A1" },
+                new CodeInfo { Code = "A2", Name = "选项A2" }
+            }
+        },
+        new CodeInfo { 
+            Code = "B", Name = "选项B", Data = new List<CodeInfo> {
+                new CodeInfo { Code = "B1", Name = "选项B1" },
+                new CodeInfo { Code = "B", Name = "选项B2" }
+            }
+        },
+        new CodeInfo { 
+            Code = "C", Name = "选项C", Data = new List<CodeInfo> {
+                new CodeInfo { Code = "C1", Name = "选项C1" },
+                new CodeInfo { Code = "C2", Name = "选项C2" }
+            }
+        }
+    };
+    private List<CodeInfo> Items2 = [];
+
+    private void OnItem1Changed(CodeInfo item)
+    {
+        Items2 = item.DataAs<List<CodeInfo>>();
+    }
+}

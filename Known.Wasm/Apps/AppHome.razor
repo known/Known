@@ -1,0 +1,42 @@
+﻿@page "/app"
+@inherits AppPage
+
+<div class="carousel">
+    <Carousel Autoplay="TimeSpan.FromSeconds(3)">
+        <CarouselSlick><img src="img/login.png" style="width:100%" /></CarouselSlick>
+        <CarouselSlick><img src="img/login.png" style="width:100%" /></CarouselSlick>
+    </Carousel>
+</div>
+
+<div style="padding:10px 0;">
+    <h1 class="kui-app-name" style="display:block;">@Language[AppConfig.AppName]</h1>
+</div>
+
+<div style="padding:10px 30px;">
+    @* <AppMenu Items="Config.AppMenus" Count="3" /> *@
+    <KButton Name="扫码" OnClick="OnScan" />
+    <span>结果：@testNo</span>
+</div>
+
+@code {
+    private string testNo;
+
+    private void OnScan()
+    {
+        UI.ShowScanner(async (res, err) =>
+        {
+            if (!string.IsNullOrWhiteSpace(err))
+            {
+                UI.Error(err);
+                return;
+            }
+
+            testNo = res;
+            await StateChangedAsync();
+        }, () =>
+        {
+            UI.Info("停止扫码！");
+            return Task.CompletedTask;
+        });
+    }
+}

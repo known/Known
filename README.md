@@ -34,16 +34,17 @@
 ### 项目结构
 
 ```
-├─Known             -> 框架核心类库，定义统一的对象模型、接口、组件和扩展，内置权限、微信、工作流。
-├─Plugins           -> 插件项目
-| ├─Known.Core      -> 基于Asp.Net Core的服务端插件。
-| ├─Known.Cells     -> 基于Aspose.Cells实现的Excel插件。
-├─Sample            -> 示例项目
-  ├─Sample.Wasm     -> 框架WebAssembly示例。
-  ├─Sample.Web      -> 框架WebApp示例。
-  ├─Sample.WinForm  -> 框架WinForm示例。
-  ├─Sample.Maui     -> 框架MAUI示例。
-  ├─Sample.Photino  -> 框架Photino.NET示例。
+├─Known           -> 框架核心类库，定义统一的对象模型、接口、组件和扩展，内置权限、微信、工作流。
+├─Plugins         -> 插件项目文件夹
+| ├─Known.Core    -> 基于Asp.Net Core的服务端插件。
+| ├─Known.Cells   -> 基于Aspose.Cells实现的Excel插件。
+| ├─Known.Sample  -> 示例模块插件。
+├─Known.Wasm      -> 框架WebAssembly示例。
+├─Known.Web       -> 框架WebApp示例。
+├─Known.WinForm   -> 框架WinForm示例。
+├─Known.Maui      -> 框架MAUI示例。
+├─Known.Photino   -> 框架Photino.NET示例。
+├─Known.sln       -> 解决方案文件。
 ```
 
 ### 项目链接

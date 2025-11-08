@@ -1,0 +1,73 @@
+﻿@page "/demo/weather"
+@inherits BasePage
+@attribute [Menu(AppConstant.Demo, "天气", "cloud", 3)]
+
+<PageTitle>天气</PageTitle>
+
+<div class="kui-row">
+    <WeatherTable Model="model1" />
+    <WeatherTable Model="model2" />
+</div>
+
+@* <TabPage PageName="天气" Query="model">
+    <TabContent>
+        <TabPane Key="Order" Tab="北京">
+            <KTable Model="model" />
+        </TabPane>
+        <TabPane Key="Distr" Tab="上海">
+            <KTable Model="model" />
+        </TabPane>
+    </TabContent>
+    <TabRight>
+        <KToolbar Model="model.Toolbar" />
+    </TabRight>
+</TabPage> *@
+
+@code {
+    //private TableModel<WeatherForecast> model;
+    private TableModel<WeatherForecast> model1;
+    private TableModel<WeatherForecast> model2;
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        // model = new TableModel<WeatherForecast>(this, TableColumnMode.Property);
+        // model.ShowPager = true;
+        // model.Name = "天气";
+        // model.OnQuery = OnQueryWeatherForecastsAsync;
+        // model.Toolbar.AddAction(nameof(New));
+
+        model1 = new TableModel<WeatherForecast>(this, "Weather1", TableColumnMode.Property);
+        model1.ShowPager = true;
+        model1.EnableSpin = true;
+        model1.Name = "天气1";
+        model1.OnQuery = TestData.QueryWeathersAsync;
+        model1.Toolbar.AddAction(nameof(New));
+        model1.Toolbar.AddAction(nameof(Test1), "", "user", "");
+        model1.AddIconAction(nameof(Test2), "user");
+
+        model2 = new TableModel<WeatherForecast>(this, "Weather2", TableColumnMode.Property);
+        model2.ShowPager = true;
+        model2.Name = "天气2";
+        model2.OnQuery = TestData.QueryWeathersAsync;
+    }
+
+    public void New()
+    {
+        // model1.NewForm(d =>
+        // {
+        //     UI.Alert($"Summary={d.Summary}");
+        //     return Known.Result.SuccessAsync("");
+        // });
+        var model = new DialogModel
+        {
+            Title = "天气测试",
+            Width = 800,
+            Content = b => b.Component<TestRole>().Build()
+        };
+        UI.ShowDialog(model);
+    }
+
+    public void Test1() => UI.Alert("Test");
+    public void Test2(WeatherForecast row) => UI.Alert(row.Summary);
+}
