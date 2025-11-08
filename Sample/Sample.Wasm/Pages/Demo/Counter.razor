@@ -12,13 +12,16 @@
 <div class="kui-card" style="padding:20px">
     <div style="display:flex;justify-content:space-between">
         <h1>Counter</h1>
-        <KTimer />
+        <div>
+            <KTag Text="当前时间" Title="当前系统时间。" />
+            <KTimer />
+        </div>
     </div>
     <p role="status">Current count: @currentCount</p>
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
-    <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" />
+    <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" Title="查看后台实时日志信息。" />
 
     <div class="kui-counter">
         <Tabs Animated>
