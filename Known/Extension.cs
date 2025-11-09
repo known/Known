@@ -96,13 +96,13 @@ public static partial class Extension
     /// <param name="action">系统配置方法。</param>
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
-        Config.AddAppCore();
         services.AddKnownInnerCore(action);
 
         services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
         services.AddScoped<ImportContext>();
         services.AddScoped<IUserHandler, UserHandler>();
 
+        Config.AddAppCore();
         CoreConfig.StartTime = DateTime.Now;
         CoreConfig.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
         Logger.Initialize(Config.App.WebLogDays);
