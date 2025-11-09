@@ -80,6 +80,16 @@ public static partial class Extension
     }
 
     /// <summary>
+    /// 添加Known框架WebApi应用配置。
+    /// </summary>
+    /// <param name="services">服务集合。</param>
+    /// <param name="action">系统配置方法。</param>
+    public static void AddKnownWebApi(this IServiceCollection services, Action<AppInfo> action = null)
+    {
+        services.AddKnownInnerCore(action);
+    }
+
+    /// <summary>
     /// 添加Known框架后端配置。
     /// </summary>
     /// <param name="services">服务集合。</param>
@@ -87,8 +97,23 @@ public static partial class Extension
     public static void AddKnownCore(this IServiceCollection services, Action<AppInfo> action = null)
     {
         Config.AddAppCore();
-        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
         services.AddKnownInnerCore(action);
+
+        services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+        services.AddScoped<ImportContext>();
+        services.AddScoped<IUserHandler, UserHandler>();
+
+        CoreConfig.StartTime = DateTime.Now;
+        CoreConfig.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
+        Logger.Initialize(Config.App.WebLogDays);
+        WeixinApi.Initialize(Config.App.Weixin);
+        AppHelper.LoadConnections();
+        LoadBuildTime(Config.Version);
+
+        // 添加模型
+        DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
+        DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
+
         services.LoadServers();
     }
 
@@ -168,8 +193,10 @@ public static partial class Extension
         Config.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
     }
 
-    private static void AddKnownInnerCore(this IServiceCollection services, Action<AppInfo> action = null)
+    private static void AddKnownInnerCore(this IServiceCollection services, Action<AppInfo> action)
     {
+        action?.Invoke(Config.App);
+
         if (string.IsNullOrWhiteSpace(Config.App.WebRoot))
             Config.App.WebRoot = AppDomain.CurrentDomain.BaseDirectory;
         if (string.IsNullOrWhiteSpace(Config.App.ContentRoot))
@@ -193,23 +220,8 @@ public static partial class Extension
             }
         };
 
-        services.AddScoped<ImportContext>();
-        services.AddScoped<IUserHandler, UserHandler>();
-
-        action?.Invoke(Config.App);
-        CoreConfig.StartTime = DateTime.Now;
-        CoreConfig.OnRoleModule = (db, id) => db.GetRoleModuleIdsAsync(id);
-        Logger.Initialize(Config.App.WebLogDays);
-        WeixinApi.Initialize(Config.App.Weixin);
-        AppHelper.LoadConnections();
-        LoadBuildTime(Config.Version);
-
         if (Config.App.Database != null)
             services.AddKnownData(Config.App.Database);
-
-        // 添加模型
-        DbConfig.Models.Add<SysRoleModule>(x => new { x.RoleId, x.ModuleId });
-        DbConfig.Models.Add<SysUserRole>(x => new { x.UserId, x.RoleId });
     }
 
     private static void LoadBuildTime(VersionInfo info)
