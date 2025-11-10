@@ -77,8 +77,9 @@ public static class HttpExtension
     /// <param name="http">HTTP客户端对象。</param>
     /// <param name="url">远程URL。</param>
     /// <param name="data">发送的数据对象。</param>
+    /// <param name="func">返回异常结果。</param>
     /// <returns>返回的数据对象。</returns>
-    public static async Task<TResult> PostAsync<TParam, TResult>(this HttpClient http, string url, TParam data)
+    public static async Task<TResult> PostAsync<TParam, TResult>(this HttpClient http, string url, TParam data, Func<Exception, TResult> func = null)
     {
         try
         {
@@ -89,6 +90,8 @@ public static class HttpExtension
         catch (Exception ex)
         {
             HandleException(ex, url, data);
+            if (func != null)
+                return func.Invoke(ex);
             return default;
         }
     }
@@ -155,7 +158,7 @@ public static class HttpExtension
         catch (Exception ex)
         {
             HandleException(ex, url, criteria);
-            return Task.FromResult(new PagingResult<T>());
+            return Task.FromResult(new PagingResult<T> { Message = ex.Message });
         }
     }
 

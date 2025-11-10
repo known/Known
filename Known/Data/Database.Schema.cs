@@ -117,9 +117,7 @@ public partial class Database
     public async Task CreateTableAsync<T>()
     {
         var model = DbConfig.Models.FirstOrDefault(m => m.Type == typeof(T));
-        if (model == null)
-            return;
-
+        model ??= DbConfig.Models.Add<T>();
         await CreateTableAsync(model);
     }
 

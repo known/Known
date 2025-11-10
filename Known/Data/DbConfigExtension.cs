@@ -8,17 +8,27 @@ public static class DbConfigExtension
     /// <summary>
     /// 添加数据实体模型配置。
     /// </summary>
+    /// <typeparam name="T">实体模型类型。</typeparam>
+    /// <param name="models">实体模型列表。</param>
+    public static DbModelInfo Add<T>(this ConcurrentBag<DbModelInfo> models) => models.Add(typeof(T));
+
+    /// <summary>
+    /// 添加数据实体模型配置。
+    /// </summary>
     /// <param name="models">实体模型列表。</param>
     /// <param name="type">实体模型类型。</param>
-    public static void Add(this ConcurrentBag<DbModelInfo> models, Type type)
+    public static DbModelInfo Add(this ConcurrentBag<DbModelInfo> models, Type type)
     {
         if (type.Name == nameof(EntityBase) || type.Name == nameof(FlowEntity))
-            return;
+            return null;
 
-        if (models.Any(m => m.Type.FullName == type.FullName))
-            return;
+        var model = models.FirstOrDefault(m => m.Type.FullName == type.FullName);
+        if (model != null)
+            return model;
 
-        models.Add(new DbModelInfo(type, [nameof(EntityBase.Id)]));
+        model = new DbModelInfo(type, [nameof(EntityBase.Id)]);
+        models.Add(model);
+        return model;
     }
 
     /// <summary>

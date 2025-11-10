@@ -101,7 +101,7 @@ public class KChart : BaseComponent
             title = Title ?? new { text = title, left = "center" },
             tooltip = Tooltip ?? new { },
             legend = Legend ?? new { y = "bottom" },
-            grid = Grid ?? new { top = "8%", left = "8%", right = "3%", bottom = "13%" },
+            grid = Grid ?? new { top = "13%", left = "8%", right = "3%", bottom = "13%" },
             xAxis = XAxis ?? new { type = "category", categories },
             yAxis = YAxis ?? new { },
             series
@@ -140,7 +140,7 @@ public class KChart : BaseComponent
             title = Title ?? new { text = title, left = "center" },
             tooltip = Tooltip ?? new { },
             legend = Legend ?? new { y = "bottom" },
-            grid = Grid ?? new { top ="8%", left ="8%", right = "3%", bottom = "13%" },
+            grid = Grid ?? new { top ="13%", left ="8%", right = "3%", bottom = "13%" },
             xAxis = XAxis ?? new { type = "category", data = categories },
             yAxis = YAxis ?? new { },
             series
