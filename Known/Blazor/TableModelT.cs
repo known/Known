@@ -127,6 +127,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         {
             Clear();
             var menu = Context.GetMenu(Page.GetType());
+            menu ??= Context.Current;
             if (menu != null)
             {
                 var info = menu.GetAutoPageParameter();
