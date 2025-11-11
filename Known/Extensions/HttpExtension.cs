@@ -60,6 +60,7 @@ public static class HttpExtension
         {
             url = http.GetRequestUrl(url);
             var response = await http.PostAsync(url, null);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<Result>();
         }
         catch (Exception ex)
@@ -85,6 +86,7 @@ public static class HttpExtension
         {
             url = http.GetRequestUrl(url);
             var response = await http.PostAsJsonAsync(url, data);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<TResult>();
         }
         catch (Exception ex)
@@ -109,6 +111,7 @@ public static class HttpExtension
         {
             url = http.GetRequestUrl(url);
             var response = await http.PostAsync(url, data);
+            response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<Result>();
         }
         catch (Exception ex)
