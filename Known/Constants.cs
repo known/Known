@@ -67,6 +67,7 @@ public class Constants
     public const string KeyLanguage = "AppLanguageData";
     internal const string KeyButton = "AppButtonData";
     internal const string KeyTopNav = "AppTopNavData";
+    internal const string KeyOnline = "AppOnlineUser";
 }
 
 /// <summary>

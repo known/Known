@@ -67,7 +67,7 @@ partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 }
 
 [WebApi, Service]
-partial class AdminService(Context context) : ServiceBase(context), IAdminService
+partial class AdminService(Context context, INotifyService notify) : ServiceBase(context), IAdminService
 {
     public Task<Result> SetRenderModeAsync(string mode)
     {
@@ -122,6 +122,10 @@ partial class AdminService(Context context) : ServiceBase(context), IAdminServic
 
     public Task<Result> AddLogAsync(LogInfo info)
     {
+        var user = Context.CurrentUser;
+        user.LastPage = info.Target;
+        Cache.RefreshUser(user);
+        notify.NotifyOnlineAsync();
         return Database.AddLogAsync(info);
     }
 

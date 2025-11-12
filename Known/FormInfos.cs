@@ -71,6 +71,11 @@ public class LoginFormInfo
     /// 取得或设置登录窗体标签键。
     /// </summary>
     public string TabKey { get; set; }
+
+    /// <summary>
+    /// 取得或设置客户端代理信息。
+    /// </summary>
+    public string UserAgent { get; set; }
 }
 
 /// <summary>
@@ -107,6 +112,11 @@ public class RegisterFormInfo
     /// 取得或设置登录IP地址。
     /// </summary>
     public string IPAddress { get; set; }
+
+    /// <summary>
+    /// 取得或设置客户端代理信息。
+    /// </summary>
+    public string UserAgent { get; set; }
 }
 
 /// <summary>

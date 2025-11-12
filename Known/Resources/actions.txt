@@ -26,6 +26,7 @@ Setting          | 设置     | setting      | primary    | Toolbar
 Fetch            | 提取     | funnel-plot  | primary    | Toolbar
 Install          | 安装     | download     | primary    | Toolbar
 Migrate          | 迁移     | delivered-procedure | primary    | Toolbar
+Refresh          | 刷新     | sync         | primary    | Toolbar
 Save             | 保存     | save         | primary
 OK               | 确定     | check        | primary
 Cancel           | 取消     | close        | 

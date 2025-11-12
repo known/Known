@@ -8,7 +8,6 @@ namespace Known.Components;
 public class KConsole : BaseComponent
 {
     private readonly List<ConsoleLogInfo> Logs = [];
-    private DotNetObjectReference<KConsole> invoker;
 
     private string LogId => $"kc-{Id}";
 
@@ -44,7 +43,7 @@ public class KConsole : BaseComponent
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            invoker = DotNetObjectReference.Create(this);
+            var invoker = DotNetObjectReference.Create(this);
             await JSRuntime.RegisterNotifyAsync(invoker, MethodName, nameof(ShowLog));
         }
     }

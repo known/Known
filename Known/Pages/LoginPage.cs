@@ -42,6 +42,10 @@ public class LoginPage : BasePage
         if (firstRender)
         {
             await SetCurrentUserAsync(null);
+            var userAgent = await JSRuntime.GetUserAgentAsync();
+            Model.UserAgent = userAgent;
+            Register.UserAgent = userAgent;
+            
             var info = await JS.GetLoginInfoAsync<LoginInfo>();
             if (info != null)
             {

@@ -53,6 +53,13 @@ window.KUtils = {
             el.scrollTop = el.scrollHeight;
         }
     },
+    getUserAgent: function () {
+        return navigator.userAgent;
+    },
+    isMobile: function () {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        return /android|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    },
     highlight: function (code, lang) {
         return Prism.highlight(code, Prism.languages[lang], lang);
     },
@@ -147,11 +154,6 @@ window.KNotify = {
             console.log("SignalR连接已停止");
         }
     }
-};
-
-window.isMobile = function () {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    return /android|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 };
 
 let pwaInitialized = false;

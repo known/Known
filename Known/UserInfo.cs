@@ -138,11 +138,13 @@ public class UserInfo
     /// <summary>
     /// 取得或设置用户会话Id。
     /// </summary>
+    [DisplayName("会话ID")]
     public string SessionId { get; set; }
 
     /// <summary>
     /// 取得或设置客户端唯一标识。
     /// </summary>
+    [DisplayName("客户端ID")]
     public string ClientId { get; set; }
 
     /// <summary>
@@ -164,6 +166,72 @@ public class UserInfo
     /// 取得或设置用户水印文字。
     /// </summary>
     public string Watermark { get; set; }
+
+    /// <summary>
+    /// 取得或设置用户活动状态，5分钟之内没活动显示离开。
+    /// </summary>
+    [DisplayName("状态")]
+    public string Status => (DateTime.Now - LastTime).TotalMinutes < 5 ? "在线" : "离开";
+
+    /// <summary>
+    /// 取得或设置开始时间。
+    /// </summary>
+    [DisplayName("开始时间")]
+    public DateTime StartTime { get; set; }
+
+    /// <summary>
+    /// 取得或设置最近活动时间。
+    /// </summary>
+    [DisplayName("最近活动时间")]
+    public DateTime LastTime { get; set; }
+
+    /// <summary>
+    /// 取得或设置最近活动页面。
+    /// </summary>
+    [DisplayName("最近活动页面")]
+    public string LastPage { get; set; }
+
+    /// <summary>
+    /// 取得在线持续时间。
+    /// </summary>
+    [DisplayName("持续时间")]
+    public string Duration => (LastTime - StartTime).ToString(@"dd\.hh\:mm\:ss");
+
+    /// <summary>
+    /// 取得或设置IP地址。
+    /// </summary>
+    [DisplayName("IP地址")]
+    public string IPAddress { get; set; }
+
+    /// <summary>
+    /// 取得或设置IP所在地。
+    /// </summary>
+    [DisplayName("IP所在地")]
+    public string IPLocal { get; set; }
+
+    /// <summary>
+    /// 取得或设置客户端代理信息。
+    /// </summary>
+    [DisplayName("代理信息")]
+    public string Agent { get; set; }
+
+    /// <summary>
+    /// 取得或设置操作系统。
+    /// </summary>
+    [DisplayName("操作系统")]
+    public string OSName { get; set; }
+
+    /// <summary>
+    /// 取得或设置设备。
+    /// </summary>
+    [DisplayName("设备")]
+    public string Device { get; set; }
+
+    /// <summary>
+    /// 取得或设置浏览器。
+    /// </summary>
+    [DisplayName("浏览器")]
+    public string Browser { get; set; }
 
     /// <summary>
     /// 获取用户是否是系统或租户管理员。

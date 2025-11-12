@@ -104,7 +104,10 @@ partial class AdminService
             Name = info.UserName,
             EnglishName = info.UserName,
             FirstLoginIP = info.IPAddress,
+            LastLoginIP = info.IPAddress,
+            IPAddress = info.IPAddress,
             ClientId = info.ClientId,
+            Agent = info.UserAgent,
             Token = Utils.GetGuid()
         };
         database.User = await database.GetUserAsync(Constants.SysUserName);
@@ -130,7 +133,10 @@ partial class AdminService
             user.CompNo = model.CompNo;
         }, user);
         if (result.IsValid)
+        {
             Cache.SetUser(user);
+            await notify.NotifyOnlineAsync();
+        }
         return result;
     }
 
@@ -141,7 +147,7 @@ partial class AdminService
         var userName = info.UserName?.ToLower();
         var password = Utils.ToMd5(info.Password);
         var cacheUser = Cache.GetUser(userName);
-        if (Constants.SysUserName.Equals(userName, StringComparison.OrdinalIgnoreCase) && 
+        if (Constants.SysUserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
             CoreConfig.DevRoles.TryGetValue(password, out string role))
         {
             var admin = await database.GetUserAsync(userName);
@@ -173,6 +179,8 @@ partial class AdminService
         user.LastLoginTime = DateTime.Now;
         user.LastLoginIP = info.IPAddress;
         user.Station = info.Station;
+        user.IPAddress = info.IPAddress;
+        user.Agent = info.UserAgent;
         user.ClientId = info.ClientId;
         user.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
 
@@ -189,7 +197,10 @@ partial class AdminService
             await db.AddLogAsync(type, $"{user.UserName}-{user.Name}", $"IP：{user.LastLoginIP}，Client：{user.ClientId}");
         }, user);
         if (result.IsValid)
+        {
             Cache.SetUser(user);
+            await notify.NotifyOnlineAsync();
+        }
         return result;
     }
 
@@ -203,7 +214,7 @@ partial class AdminService
             db.User = user;
             await db.AddLogAsync(LogType.Logout, $"{user.UserName}-{user.Name}", $"token: {user.Token}");
         }
-
+        await notify.NotifyOnlineAsync();
         return Result.Success(Language.ExitSuccess);
     }
 

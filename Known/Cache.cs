@@ -11,6 +11,8 @@ public sealed class Cache
 
     private Cache() { }
 
+    internal static ICollection<UserInfo> Users => userCache.Values;
+
     /// <summary>
     /// 根据Key获取缓存泛型对象。
     /// </summary>
@@ -82,7 +84,17 @@ public sealed class Cache
         if (timeSpan == null)
             timeSpan = Config.App.AuthExpired;
 
+        info.StartTime = DateTime.Now;
+        info.LastTime = DateTime.Now;
+        info.LastPage = "登录";
+        ClientHelper.ParseUserAgent(info);
         userCache.Set(info.UserName, info, timeSpan);
+    }
+
+    internal static void RefreshUser(UserInfo info)
+    {
+        info.LastTime = DateTime.Now;
+        userCache.Set(info.UserName, info);
     }
 
     /// <summary>

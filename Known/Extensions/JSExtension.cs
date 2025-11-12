@@ -72,7 +72,7 @@ public static class JSExtension
     /// <returns></returns>
     public static Task<bool> CheckMobileAsync(this IJSRuntime runtime)
     {
-        return runtime.InvokeJsAsync<bool>("isMobile");
+        return runtime.InvokeJsAsync<bool>("KUtils.isMobile");
     }
 
     /// <summary>
@@ -131,6 +131,11 @@ public static class JSExtension
     public static Task CloseNotifyAsync(this IJSRuntime runtime, string method)
     {
         return runtime.InvokeJsAsync("KNotify.close", method);
+    }
+
+    internal static Task<string> GetUserAgentAsync(this IJSRuntime runtime)
+    {
+        return runtime.InvokeJsAsync<string>("KUtils.getUserAgent");
     }
 
     /// <summary>

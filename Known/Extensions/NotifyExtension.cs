@@ -32,4 +32,9 @@ public static class NotifyExtension
         var info = new NotifyInfo { Type = type, Title = title, Message = message };
         return service.SendAsync(method, info);
     }
+
+    internal static Task NotifyOnlineAsync(this INotifyService service)
+    {
+        return service.SendAsync(Constants.KeyOnline, "");
+    }
 }

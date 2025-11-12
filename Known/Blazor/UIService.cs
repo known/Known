@@ -42,7 +42,7 @@ public partial class UIService(ModalService modal, DrawerService drawer, Message
         else if (text == "Custom") return "green";
         else if (text == "Link") return "green";
         //Log
-        else if (text == "Login") return "success";
+        else if (text == "Login" || text == "在线") return "success";
         else if (text == "Logout" || text == nameof(LogLevel.Error)) return "red";
         else if (text == nameof(LogLevel.Critical)) return "magenta";
         else if (text == nameof(LogLevel.Warning)) return "orange";
