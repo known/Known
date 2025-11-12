@@ -10,8 +10,9 @@
 [![Nuget](https://img.shields.io/nuget/v/Known.svg?color=red&logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 [![Nuget](https://img.shields.io/nuget/dt/Known.svg?logo=nuget&logoColor=green)](https://www.nuget.org/packages/Known)
 
-![.NET](https://img.shields.io/badge/.NET-8.0-green)
-![.NET](https://img.shields.io/badge/.NET-9.0-green)
+![.NET](https://img.shields.io/badge/.NET-8.0-512bd4)
+![.NET](https://img.shields.io/badge/.NET-9.0-512bd4)
+![.NET](https://img.shields.io/badge/.NET-10.0-512bd4)
 ![.DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
