@@ -66,9 +66,9 @@ public class KChart : BaseComponent
     /// </summary>
     /// <param name="option"></param>
     /// <returns></returns>
-    public ValueTask ShowAsync(object option)
+    public Task ShowAsync(object option)
     {
-        return JSRuntime.InvokeVoidAsync("KUtils.showECharts", Id, option);
+        return JSRuntime.InvokeJsAsync("KUtils.showECharts", Id, option);
     }
 
     /// <summary>
@@ -77,10 +77,10 @@ public class KChart : BaseComponent
     /// <param name="title">折线图标题。</param>
     /// <param name="datas">折线图数据集合。</param>
     /// <returns></returns>
-    public ValueTask ShowLineAsync(string title, ChartDataInfo[] datas)
+    public Task ShowLineAsync(string title, ChartDataInfo[] datas)
     {
         if (!Visible)
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
 
         object series = null;
         string[] categories = [];
@@ -116,10 +116,10 @@ public class KChart : BaseComponent
     /// <param name="title">柱状图标题。</param>
     /// <param name="datas">柱状图数据集合。</param>
     /// <returns></returns>
-    public ValueTask ShowBarAsync(string title, ChartDataInfo[] datas)
+    public Task ShowBarAsync(string title, ChartDataInfo[] datas)
     {
         if (!Visible)
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
 
         object series = null;
         string[] categories = [];

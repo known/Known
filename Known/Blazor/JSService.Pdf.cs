@@ -15,8 +15,7 @@ public partial class JSService
             return;
 
         option ??= new { forceIframe = true };
-        var module = await moduleTask.Value;
-        await module.InvokeVoidAsync("KBlazor.showPdfByUrl", id, url, option);
+        await InvokeAsync("KBlazor.showPdfByUrl", id, url, option);
     }
 
     /// <summary>
@@ -32,8 +31,7 @@ public partial class JSService
             return;
 
         option ??= new { forceIframe = true };
-        var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KBlazor.showPdfByStream", id, streamRef, option);
+        await InvokeAsync("KBlazor.showPdfByStream", id, streamRef, option);
     }
 }

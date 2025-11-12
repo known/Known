@@ -183,7 +183,7 @@ public partial class KUpload
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("KUtils.setupPasteListener", invoker, container);
+            await JS.InvokeAsync("KUtils.setupPasteListener", invoker, container);
             await RefreshAsync();
         }
     }
@@ -197,7 +197,7 @@ public partial class KUpload
 
     private async Task OnPasteFileAsync()
     {
-        await JS.InvokeVoidAsync("KUtils.checkClipboardPermission");
+        await JS.InvokeAsync("KUtils.checkClipboardPermission");
     }
 
     private async Task OnInputFileChangedAsync(InputFileChangeEventArgs e)

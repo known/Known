@@ -125,11 +125,6 @@ public class AppInfo
     public int DefaultPageSize { get; set; } = 20;
 
     /// <summary>
-    /// 取得或设置系统JS脚本文件路径，该文件中的JS方法，可通过JSService的InvokeAppAsync和InvokeAppVoidAsync调用。
-    /// </summary>
-    public string JsPath { get; set; }
-
-    /// <summary>
     /// 取得或设置Web日志保留天数，默认7天。
     /// </summary>
     public int WebLogDays { get; set; } = 7;

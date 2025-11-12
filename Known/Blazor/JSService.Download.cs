@@ -10,7 +10,7 @@ public partial class JSService
     /// <returns></returns>
     public Task DownloadFileAsync(string fileName, string url)
     {
-        return InvokeVoidAsync("KBlazor.downloadFileByUrl", fileName, url);
+        return InvokeAsync("KBlazor.downloadFileByUrl", fileName, url);
     }
 
     /// <summary>
@@ -21,8 +21,7 @@ public partial class JSService
     /// <returns></returns>
     public async Task DownloadFileAsync(string fileName, Stream stream)
     {
-        var module = await moduleTask.Value;
         using var streamRef = new DotNetStreamReference(stream);
-        await module.InvokeVoidAsync("KBlazor.downloadFileByStream", fileName, streamRef);
+        await InvokeAsync("KBlazor.downloadFileByStream", fileName, streamRef);
     }
 }

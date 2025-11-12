@@ -90,11 +90,6 @@ public class TabModel(IBaseComponent component) : BaseModel(component)
     /// <param name="content">标签呈现模板。</param>
     public void AddTab(string id, string title, RenderFragment content) => Items.Add(new ItemModel(id, title) { Content = content });
 
-    /// <summary>
-    /// 改变组件状态。
-    /// </summary>
-    public void StateChanged() => OnStateChanged?.Invoke();
-
     internal async Task ChangeAsync(string tab)
     {
         Current = tab;

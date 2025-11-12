@@ -10,6 +10,6 @@ public partial class JSService
     /// <returns></returns>
     public Task CaptchaAsync(string id, string code)
     {
-        return InvokeVoidAsync("KBlazor.captcha", id, code);
+        return InvokeAsync("KBlazor.captcha", id, code);
     }
 }

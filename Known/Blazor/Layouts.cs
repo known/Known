@@ -214,7 +214,7 @@ public class AdminLayout : AuthLayout
             if (Config.IsNotifyHub)
             {
                 invoker = DotNetObjectReference.Create(this);
-                await JSRuntime.InvokeVoidAsync("KNotify.init", invoker, new
+                await JSRuntime.InvokeJsAsync("KNotify.init", invoker, new
                 {
                     NotifyUrl = Constants.NotifyHubUrl,
                     Constants.ForceLogout,

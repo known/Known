@@ -116,7 +116,7 @@ public class LoginPage : BasePage
     protected virtual async Task SetCurrentUserAsync(UserInfo user)
     {
         var sessionId = await AuthProvider?.SignInAsync(user);
-        await JSRuntime.InvokeVoidAsync("KNotify.addSession", sessionId);
+        await JSRuntime.InvokeJsAsync("KNotify.addSession", sessionId);
     }
 
     private async Task HandleResultAsync(Result result)

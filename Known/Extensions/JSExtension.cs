@@ -20,13 +20,59 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 安全调用JS互操作。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="method">JS方法。</param>
+    /// <param name="args">JS方法参数。</param>
+    /// <returns></returns>
+    public static async Task InvokeJsAsync(this IJSRuntime runtime, string method, params object[] args)
+    {
+        try
+        {
+            await runtime.InvokeVoidAsync(method, args);
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 安全调用JS互操作。
+    /// </summary>
+    /// <typeparam name="T">返回结果类型。</typeparam>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="method">JS方法。</param>
+    /// <param name="args">JS方法参数。</param>
+    /// <returns></returns>
+    public static async Task<T> InvokeJsAsync<T>(this IJSRuntime runtime, string method, params object[] args)
+    {
+        try
+        {
+            var value = await runtime.InvokeAsync<T>(method, args);
+            return value;
+        }
+        catch (JSDisconnectedException)
+        {
+            return default;
+        }
+        catch (Exception)
+        {
+            return default;
+        }
+    }
+
+    /// <summary>
     /// 异步检查是否是移动端访问。
     /// </summary>
     /// <param name="runtime">JS运行时。</param>
     /// <returns></returns>
-    public static ValueTask<bool> CheckMobileAsync(this IJSRuntime runtime)
+    public static Task<bool> CheckMobileAsync(this IJSRuntime runtime)
     {
-        return runtime.InvokeAsync<bool>("isMobile");
+        return runtime.InvokeJsAsync<bool>("isMobile");
     }
 
     /// <summary>
@@ -34,9 +80,9 @@ public static class JSExtension
     /// </summary>
     /// <param name="runtime">JS运行时。</param>
     /// <returns></returns>
-    public static ValueTask HighlightAllAsync(this IJSRuntime runtime)
+    public static Task HighlightAllAsync(this IJSRuntime runtime)
     {
-        return runtime.InvokeVoidAsync("Prism.highlightAll");
+        return runtime.InvokeJsAsync("Prism.highlightAll");
     }
 
     /// <summary>
@@ -45,9 +91,9 @@ public static class JSExtension
     /// <param name="runtime">JS运行时。</param>
     /// <param name="text">要复制的文本。</param>
     /// <returns></returns>
-    public static ValueTask CopyTextAsync(this IJSRuntime runtime, string text)
+    public static Task CopyTextAsync(this IJSRuntime runtime, string text)
     {
-        return runtime.InvokeVoidAsync("navigator.clipboard.writeText", text);
+        return runtime.InvokeJsAsync("navigator.clipboard.writeText", text);
     }
 
     /// <summary>
@@ -58,7 +104,7 @@ public static class JSExtension
     /// <returns></returns>
     public static async Task PasteTextAsync(this IJSRuntime runtime, Action<string> action)
     {
-        var text = await runtime.InvokeAsync<string>("navigator.clipboard.readText", null);
+        var text = await runtime.InvokeJsAsync<string>("navigator.clipboard.readText");
         action?.Invoke(text);
     }
 
@@ -71,9 +117,9 @@ public static class JSExtension
     /// <param name="method">SignalR连接方法名。</param>
     /// <param name="invoke">调用组件的[JSInvokable]方法名。</param>
     /// <returns></returns>
-    public static ValueTask RegisterNotifyAsync<T>(this IJSRuntime runtime, DotNetObjectReference<T> invoker, string method, string invoke) where T : class
+    public static Task RegisterNotifyAsync<T>(this IJSRuntime runtime, DotNetObjectReference<T> invoker, string method, string invoke) where T : class
     {
-        return runtime.InvokeVoidAsync("KNotify.register", invoker, method, invoke);
+        return runtime.InvokeJsAsync("KNotify.register", invoker, method, invoke);
     }
 
     /// <summary>
@@ -82,9 +128,9 @@ public static class JSExtension
     /// <param name="runtime">JS运行时。</param>
     /// <param name="method">SignalR连接方法名。</param>
     /// <returns></returns>
-    public static ValueTask CloseNotifyAsync(this IJSRuntime runtime, string method)
+    public static Task CloseNotifyAsync(this IJSRuntime runtime, string method)
     {
-        return runtime.InvokeVoidAsync("KNotify.close", method);
+        return runtime.InvokeJsAsync("KNotify.close", method);
     }
 
     /// <summary>
@@ -177,7 +223,7 @@ public static class JSExtension
                 info.Color = setting.ThemeColor;
                 info.Size = setting.Size;
             }
-            await js.InvokeVoidAsync("KBlazor.setLocalInfo", info);
+            await js.InvokeAsync("KBlazor.setLocalInfo", info);
         }
         await js.SetLocalStorageAsync(KeyLocalInfo, info);
     }

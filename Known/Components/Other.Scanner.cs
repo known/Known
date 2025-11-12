@@ -34,23 +34,23 @@ public class KScanner : BaseComponent
     /// 异步开始扫码。
     /// </summary>
     /// <returns></returns>
-    public ValueTask StartAsync()
+    public Task StartAsync()
     {
         if (isScanning)
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
 
         isScanning = true;
-        return JSRuntime.InvokeVoidAsync("KUtils.scanStart", invoker, cameraId);
+        return JSRuntime.InvokeJsAsync("KUtils.scanStart", invoker, cameraId);
     }
 
     /// <summary>
     /// 异步停止扫码。
     /// </summary>
     /// <returns></returns>
-    public ValueTask StopAsync()
+    public Task StopAsync()
     {
         isScanning = false;
-        return JSRuntime.InvokeVoidAsync("KUtils.scanStop");
+        return JSRuntime.InvokeJsAsync("KUtils.scanStop");
     }
 
     /// <inheritdoc />

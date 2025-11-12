@@ -19,7 +19,7 @@ public partial class JSService
     /// <returns></returns>
     public Task RunVoidAsync(string script)
     {
-        return InvokeVoidAsync("KBlazor.runScriptVoid", script);
+        return InvokeAsync("KBlazor.runScriptVoid", script);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public partial class JSService
     /// <returns></returns>
     public Task ClickAsync(string clientId)
     {
-        return InvokeVoidAsync("KBlazor.elemClick", clientId);
+        return InvokeAsync("KBlazor.elemClick", clientId);
     }
 
     /// <summary>
@@ -40,6 +40,6 @@ public partial class JSService
     /// <returns></returns>
     public Task EnabledAsync(string clientId, bool enabled)
     {
-        return InvokeVoidAsync("KBlazor.elemEnabled", clientId, enabled);
+        return InvokeAsync("KBlazor.elemEnabled", clientId, enabled);
     }
 }

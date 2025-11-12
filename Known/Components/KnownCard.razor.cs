@@ -19,6 +19,6 @@ public partial class KnownCard
     {
         var assembly = typeof(T).Assembly;
         var version = assembly.GetName().Version;
-        return $"{version.Major}.{version.Minor}.{version.Build}";
+        return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 }

@@ -18,7 +18,7 @@ public partial class KPwaInstall
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender && Visible && Config.App.Type == AppType.Web)
         {
-            await JSRuntime.InvokeVoidAsync("initializePwaInstallButton", Id);
+            await JSRuntime.InvokeJsAsync("initializePwaInstallButton", Id);
         }
     }
 }

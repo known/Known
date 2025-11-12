@@ -34,7 +34,7 @@ public partial class JSService
     public async Task SetLocalStorageAsync(string key, object data)
     {
         var value = EncryptString(data);
-        await InvokeVoidAsync("KBlazor.setLocalStorage", key, value);
+        await InvokeAsync("KBlazor.setLocalStorage", key, value);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public partial class JSService
     public async Task SetSessionStorageAsync(string key, object data)
     {
         var value = EncryptString(data);
-        await InvokeVoidAsync("KBlazor.setSessionStorage", key, value);
+        await InvokeAsync("KBlazor.setSessionStorage", key, value);
     }
 
     private static string EncryptString(object value)

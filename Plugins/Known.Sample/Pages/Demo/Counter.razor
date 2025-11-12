@@ -22,6 +22,7 @@
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
     <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" Title="查看后台实时日志信息。" />
+    <KButton Type="@ButtonType.Primary" Name="粘贴" OnClick="OnPaste" Title="粘贴复制的文本。" />
 
     <div class="kui-counter">
         <Tabs Animated>
@@ -150,6 +151,11 @@
                             .Build()
         };
         UI.ShowDialog(model);
+    }
+
+    private async Task OnPaste()
+    {
+        await JSRuntime.PasteTextAsync(text => UI.Alert(text));
     }
 
     private Task OnFilesChanged(string id, List<FileDataInfo> files)

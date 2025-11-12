@@ -9,7 +9,7 @@ public partial class JSService
     /// <returns></returns>
     public Task ShowSpinAsync(string tip = null)
     {
-        return InvokeVoidAsync("KBlazor.showSpin", tip);
+        return InvokeAsync("KBlazor.showSpin", tip);
     }
 
     /// <summary>
@@ -18,6 +18,6 @@ public partial class JSService
     /// <returns></returns>
     public Task HideSpinAsync()
     {
-        return InvokeVoidAsync("KBlazor.hideSpin");
+        return InvokeAsync("KBlazor.hideSpin");
     }
 }

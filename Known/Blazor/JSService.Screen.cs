@@ -8,7 +8,7 @@ public partial class JSService
     /// <returns></returns>
     public Task OpenFullScreenAsync()
     {
-        return InvokeVoidAsync("KBlazor.openFullScreen");
+        return InvokeAsync("KBlazor.openFullScreen");
     }
 
     /// <summary>
@@ -17,6 +17,6 @@ public partial class JSService
     /// <returns></returns>
     public Task CloseFullScreenAsync()
     {
-        return InvokeVoidAsync("KBlazor.closeFullScreen");
+        return InvokeAsync("KBlazor.closeFullScreen");
     }
 }

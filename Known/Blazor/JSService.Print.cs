@@ -34,6 +34,6 @@ public partial class JSService
     /// <returns></returns>
     public Task PrintAsync(string content)
     {
-        return InvokeVoidAsync("KBlazor.printContent", content);
+        return InvokeAsync("KBlazor.printContent", content);
     }
 }
