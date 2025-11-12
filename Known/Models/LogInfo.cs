@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Models;
 
 /// <summary>
 /// 日志类型。

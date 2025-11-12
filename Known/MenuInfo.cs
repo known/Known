@@ -1,5 +1,4 @@
-﻿
-namespace Known;
+﻿namespace Known;
 
 /// <summary>
 /// 菜单信息类。

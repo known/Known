@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Models;
 
 /// <summary>
 /// 系统按钮信息类。

@@ -1,4 +1,4 @@
-﻿namespace Known;
+﻿namespace Known.Models;
 
 /// <summary>
 /// 代码生成模型信息类。
