@@ -208,7 +208,7 @@ public static partial class Extension
             if (!content.Contains("JSDisconnectedException"))
             {
                 Logger.Error(LogTarget.Task, new UserInfo { Name = sender.ToString() }, content);
-                Logger.Exception(e.Exception);
+                Logger.Exception("TASK", e.Exception);
             }
             e.SetObserved(); // 标记为已处理
         };
@@ -217,7 +217,7 @@ public static partial class Extension
         {
             if (e.ExceptionObject is Exception ex)
             {
-                Logger.Exception(ex);
+                Logger.Exception("DOMAIN", ex);
                 Config.App.OnExit?.Invoke(ex);
             }
         };

@@ -195,13 +195,38 @@ public partial class Logger
         Error(target, user, ex.ToString());
     }
 
-    private static readonly object fileLock = new();
     /// <summary>
     /// 写异常日志到文件。
     /// </summary>
     /// <param name="ex">异常信息。</param>
     /// <param name="isStack">是否记录异常堆栈信息。</param>
     public static void Exception(Exception ex, bool isStack = true)
+    {
+        Exception("ERROR", ex, isStack);
+    }
+
+    /// <summary>
+    /// 写异常日志到文件。
+    /// </summary>
+    /// <param name="sender">异常发送者。</param>
+    /// <param name="ex">异常信息。</param>
+    /// <param name="isStack">是否记录异常堆栈信息。</param>
+    public static void Exception(string sender, Exception ex, bool isStack = true)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine(ex.Message);
+        if (isStack)
+            sb.AppendLine(ex.ToString());
+        Exception(sender, sb.ToString());
+    }
+
+    private static readonly object fileLock = new();
+    /// <summary>
+    /// 写异常日志到文件。
+    /// </summary>
+    /// <param name="sender">异常发送者。</param>
+    /// <param name="message">异常信息。</param>
+    public static void Exception(string sender, string message)
     {
         var info = new FileInfo($"./logs/error_{DateTime.Now:yyyyMMdd}.log");
         if (!info.Directory.Exists)
@@ -210,9 +235,7 @@ public partial class Logger
         lock (fileLock)
         {
             using var writer = new StreamWriter(info.FullName, true);
-            writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.Message}");
-            if (isStack)
-                writer.WriteLine(ex.ToString());
+            writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] - {sender}：{message}");
             writer.WriteLine();
             writer.Flush();
         }
