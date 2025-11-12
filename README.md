@@ -13,7 +13,7 @@
 ![.NET](https://img.shields.io/badge/.NET-8.0-512bd4)
 ![.NET](https://img.shields.io/badge/.NET-9.0-512bd4)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512bd4)
-![.DEV](https://img.shields.io/badge/DEV-VS2022-brightgreen)
+![.DEV](https://img.shields.io/badge/DEV-VS2026-5c2d91)
 ![QQ群](https://img.shields.io/badge/QQ群-865982686-blue)
 
 </center>
