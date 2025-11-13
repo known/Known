@@ -9,6 +9,11 @@ public class NavLanguage : BaseNav
     private LanguageSettingInfo current;
 
     /// <summary>
+    /// 取得或设置是否显示名称。
+    /// </summary>
+    [Parameter] public bool ShowName { get; set; }
+
+    /// <summary>
     /// 取得图标。
     /// </summary>
     protected override string Icon => "translation";
@@ -33,7 +38,7 @@ public class NavLanguage : BaseNav
         builder.Dropdown(new DropdownModel
         {
             Icon = Icon,
-            Text = current?.Icon,
+            Text = ShowName ? current?.Name : current?.Icon,
             Items = items,
             OnItemClick = OnLanguageChangedAsync
         });

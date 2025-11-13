@@ -37,7 +37,8 @@ public class BaseTable<TItem> : BaseComponent where TItem : class, new()
         Table.OnAction = (info, item) => OnAction(info, [item]);
         Table.Toolbar.OnItemClick = info => OnAction(info, null);
 
-        if (GetType().GetCustomAttribute<TabRoleAttribute>() is not null)
+        var type = GetType();
+        if (type.HasAttribute<TabRoleAttribute>() || type.HasAttribute<RoleAttribute>())
             Table.Initialize(true);
     }
 

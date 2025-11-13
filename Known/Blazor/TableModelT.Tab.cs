@@ -24,6 +24,17 @@ partial class TableModel<TItem>
     /// 添加一个标签。
     /// </summary>
     /// <param name="id">标签ID。</param>
+    /// <param name="name">标签名称。</param>
+    public void AddTab<T>(string id, string name)
+    {
+        if (Context.HasButton<T>(id))
+            AddTab(name, name);
+    }
+
+    /// <summary>
+    /// 添加一个标签。
+    /// </summary>
+    /// <param name="id">标签ID。</param>
     public void AddTab(string id) => AddTab(id, id);
 
     /// <summary>

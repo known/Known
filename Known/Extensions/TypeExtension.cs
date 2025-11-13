@@ -18,6 +18,17 @@ public static class TypeExtension
     }
 
     /// <summary>
+    /// 判断是否有指定类型的特性。
+    /// </summary>
+    /// <typeparam name="T">特性类型。</typeparam>
+    /// <param name="info">成员对象。</param>
+    /// <returns></returns>
+    public static bool HasAttribute<T>(this MemberInfo info) where T : Attribute
+    {
+        return info?.GetCustomAttribute<T>() is not null;
+    }
+
+    /// <summary>
     /// 获取成员关联的Table特性的名称。
     /// </summary>
     /// <param name="info">成员对象。</param>
@@ -101,7 +112,7 @@ public static class TypeExtension
         if (type == typeof(DateOnly) || type == typeof(DateOnly?))
             return FieldType.Date;
 
-        if (type == typeof(DateTime) || type == typeof(DateTime?) || 
+        if (type == typeof(DateTime) || type == typeof(DateTime?) ||
             type == typeof(DateTimeOffset) || type == typeof(DateTimeOffset?))
             return FieldType.DateTime;
 
