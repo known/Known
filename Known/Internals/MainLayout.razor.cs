@@ -12,15 +12,16 @@ public partial class MainLayout
     private MainBody body;
     private MenuInfo root;
 
-    private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(Context.UserSetting.Size).BuildClass();
+    private UserSettingInfo UserSetting => Context.UserSetting ?? new();
+    private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(UserSetting.Size).BuildClass();
     private string HeaderClass => CssBuilder.Default("kui-header")
-                                            .AddClass("kui-menu-dark", Context.UserSetting.MenuTheme == "Dark")
+                                            .AddClass("kui-menu-dark", UserSetting.MenuTheme == "Dark")
                                             .BuildClass();
     private string MenuClass => CssBuilder.Default()
-                                          .AddClass("kui-menu-dark", Context.UserSetting.MenuTheme == "Dark")
-                                          .AddClass("kui-menu-float", Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
+                                          .AddClass("kui-menu-dark", UserSetting.MenuTheme == "Dark")
+                                          .AddClass("kui-menu-float", UserSetting.LayoutMode == LayoutMode.Float.ToString())
                                           .BuildClass();
-
+    
     /// <summary>
     /// 取得或设置子组件内容。
     /// </summary>

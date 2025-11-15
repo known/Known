@@ -5,4 +5,5 @@
 /// </summary>
 public partial class MainFooter
 {
+    private UserSettingInfo UserSetting => Context.UserSetting ?? new();
 }

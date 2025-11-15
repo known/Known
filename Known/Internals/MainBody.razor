@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-@if (Context.UserSetting.MultiTab)
+@if (Context.UserSetting?.MultiTab == true)
 {
     <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" />
 }

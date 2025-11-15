@@ -10,6 +10,7 @@ public partial class MainMenu
     private AntMenu menu;
     private readonly List<ActionInfo> actions = [];
 
+    private UserSettingInfo UserSetting => Context.UserSetting ?? new();
     private bool CanEdit => Parent?.CanEdit == true;
 
     /// <summary>

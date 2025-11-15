@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <KLayout @ref="layout" IsAdmin OnLoadMenus="OnLoadMenus" OnReloadPage="OnReloadPage">
-    @if (Context.UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
+    @if (UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
     {
         <Layout Class="@LayoutClass">
             <div class="@HeaderClass">
@@ -20,9 +20,9 @@
     else
     {
         <Layout Class="@LayoutClass">
-            @if (Context.UserSetting.LayoutMode == LayoutMode.Float.ToString())
+            @if (UserSetting.LayoutMode == LayoutMode.Float.ToString())
             {
-                <Sider Theme="Context.UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
+                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
@@ -31,7 +31,7 @@
             }
             else
             {
-                <Sider Theme="Context.UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
+                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
@@ -41,7 +41,7 @@
             <Layout>
                 <div class="kui-header">
                     <div class="left">
-                        @if (Context.UserSetting.LayoutMode != LayoutMode.Float.ToString())
+                        @if (UserSetting.LayoutMode != LayoutMode.Float.ToString())
                         {
                             <NavToggle OnToggle="OnToggle" />
                         }
