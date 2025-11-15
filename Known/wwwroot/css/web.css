@@ -354,7 +354,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-import-message {padding:10px 0;}
 
 /*Code*/
-.kui-code {position:relative;margin:10px 0 0 0;border-left:3px solid var(--kui-color-border);}
+.kui-code {position:relative;border-left:3px solid var(--kui-color-border);}
 .kui-code .action {position:absolute;top:0;right:10px;font-size:16px;cursor:pointer;z-index:100;}
 .kui-code pre[class*=language-] {margin:0;padding:10px;overflow:auto;max-height:360px;}
 :root[data-theme=dark] :not(pre)>code[class*=language-], pre[class*=language-] {background-color:rgba(255,255,255,0.08);}
@@ -736,6 +736,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
 .ant-modal-body, .ant-drawer-body {position:relative;padding:0 10px;}
+.ant-modal-body .ant-table-wrapper {padding:5px 10px;}
+.ant-modal-body .ant-tabs-tabpane .ant-table-wrapper {padding:0 10px;}
 .ant-modal-body .kui-form-body {height:100%;}
 .ant-modal-body .kui-form-body .ant-form {padding-top:10px;}
 .ant-modal-body .kui-form-action {padding:0 10px 10px 0;}

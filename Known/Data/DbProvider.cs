@@ -246,8 +246,7 @@ class DbProvider(Database db)
 
     private string GetOrderBy(PagingCriteria criteria, string item, string sort)
     {
-        var index = item.IndexOf(sort, StringComparison.OrdinalIgnoreCase);
-        var field = index > 0 ? item[..index].Trim() : item.Trim();
+        var field = item.Replace(sort, "").Trim();
         field = criteria.GetFieldName(field);
         return $"{FormatName(field)} {sort}";
     }
