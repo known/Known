@@ -14,7 +14,7 @@ public class Context
     public Context(IServiceProvider provider)
     {
         Provider = provider;
-        language = new Language(currentLanguage);
+        language = new Language(this, currentLanguage);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public class Context
         set
         {
             currentLanguage = value;
-            language = new Language(value);
+            language = new Language(this, value);
             var culture = new CultureInfo(language.Name);
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
@@ -76,14 +76,7 @@ public class Context
     /// <summary>
     /// 取得当前语言对象。
     /// </summary>
-    public Language Language
-    {
-        get
-        {
-            language ??= new Language(CurrentLanguage);
-            return language;
-        }
-    }
+    public Language Language => language;
 
     /// <summary>
     /// 取得上下文参数字典。

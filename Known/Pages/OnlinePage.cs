@@ -71,7 +71,6 @@ public class OnlinePage : BaseTablePage<UserInfo>
     [JSInvokable]
     public void RefreshUser(string message)
     {
-        Console.WriteLine(message);
         Refresh();
     }
 

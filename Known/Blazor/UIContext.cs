@@ -20,7 +20,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     /// <summary>
     /// 取得或设置当前用户设置用户系统设置信息对象。
     /// </summary>
-    public UserSettingInfo UserSetting { get; set; } = new();
+    public UserSettingInfo UserSetting { get; set; }
 
     /// <summary>
     /// 取得或设置当前用户模块表格设置信息列表。

@@ -5,10 +5,11 @@
 /// </summary>
 public class Language
 {
-    private static readonly ConcurrentDictionary<string, Dictionary<string, object>> caches = new();
+    private readonly Context context;
 
-    internal Language(string name)
+    internal Language(Context context, string name)
     {
+        this.context = context;
         if (string.IsNullOrWhiteSpace(name))
             name = CultureInfo.CurrentCulture.Name;
 
@@ -912,13 +913,7 @@ public class Language
             }
         }
 
-        if (!caches.TryGetValue(Name, out Dictionary<string, object> langs))
-            return "";
-
-        if (langs == null || !langs.TryGetValue(id, out object value))
-            return "";
-
-        return value?.ToString();
+        return "";
     }
 
     /// <summary>

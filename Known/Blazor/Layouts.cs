@@ -55,6 +55,8 @@ public class LayoutBase : LayoutComponentBase
         {
             Context.Local = await JS.GetLocalInfoAsync();
             Context.IsReload = true;
+            if (Config.App.IsLanguage)
+                Context.CurrentLanguage = Context.Local.Language;
         }
 
         if (Context.IsInitial)
@@ -105,13 +107,6 @@ public class LayoutBase : LayoutComponentBase
             if (setting != null && string.IsNullOrWhiteSpace(setting.Size))
                 setting.Size = Config.App.DefaultSize;
             await JS.SetLocalInfoAsync(Context.Local, setting);
-            if (Config.App.IsLanguage)
-            {
-                var language = Context.Local?.Language;
-                if (string.IsNullOrWhiteSpace(language))
-                    language = Context.UserSetting.Language;
-                Context.CurrentLanguage = language;
-            }
         }
     }
 

@@ -236,7 +236,6 @@ public partial class Logger
         {
             using var writer = new StreamWriter(info.FullName, true);
             writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] - {sender}：{message}");
-            writer.WriteLine();
             writer.Flush();
         }
     }
