@@ -3,7 +3,7 @@
 namespace Known.Sample.Pages.Demo.Forms;
 
 [Route("/weathers/{id?}")]
-public class WeatherList : BaseTablePage<WeatherForecast>
+public class WeatherList : BaseTablePage<Weather_Forecast>
 {
     protected override Task OnParameterAsync()
     {
@@ -14,7 +14,7 @@ public class WeatherList : BaseTablePage<WeatherForecast>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table = new TableModel<WeatherForecast>(this, TableColumnMode.Attribute);
+        Table = new TableModel<Weather_Forecast>(this, TableColumnMode.Attribute);
         Table.ShowPager = true;
         Table.OnQuery = TestData.QueryWeathersAsync;
         Table.FormType = typeof(WeatherForm);
@@ -30,10 +30,10 @@ public class WeatherList : BaseTablePage<WeatherForecast>
         }; 
     }
 
-    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new WeatherForecast());
+    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new Weather_Forecast());
 }
 
-class WeatherForm : BaseForm<WeatherForecast>
+class WeatherForm : BaseForm<Weather_Forecast>
 {
     protected override async Task OnInitFormAsync()
     {

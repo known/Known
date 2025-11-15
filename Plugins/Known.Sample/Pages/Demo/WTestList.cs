@@ -12,7 +12,7 @@ public class BizTablePage<TItem> : BaseTablePage<TItem> where TItem : class, new
 
 [Route("/wtests")]
 [Menu(AppConstant.Demo, "天气测试", "cloud", 4)]
-public class WTestList : BizTablePage<WeatherForecast>
+public class WTestList : BizTablePage<Weather_Forecast>
 {
     protected override Task OnParameterAsync()
     {
@@ -23,7 +23,7 @@ public class WTestList : BizTablePage<WeatherForecast>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table = new TableModel<WeatherForecast>(this);
+        Table = new TableModel<Weather_Forecast>(this);
         Table.ShowPager = true;
         Table.OnQuery = TestData.QueryWeathersAsync;
 
@@ -48,18 +48,18 @@ public class WTestList : BizTablePage<WeatherForecast>
         };
     }
 
-    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new WeatherForecast());
-    [Action] public void Edit(WeatherForecast row) => Table.EditForm(TestData.SaveWeatherAsync, row);
-    [Action] public void Delete(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
-    [Action(Group = "Test", Name = "测试1")] public void Test1(WeatherForecast row) => UI.Alert($"{row.Summary}-Test1");
-    [Action(Group = "Test", Name = "测试2")] public void Test2(WeatherForecast row) => UI.Alert($"{row.Summary}-Test2");
-    [Action] public void MoveUp(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
-    [Action] public void MoveDown(WeatherForecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
+    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new Weather_Forecast());
+    [Action] public void Edit(Weather_Forecast row) => Table.EditForm(TestData.SaveWeatherAsync, row);
+    [Action] public void Delete(Weather_Forecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
+    [Action(Group = "Test", Name = "测试1")] public void Test1(Weather_Forecast row) => UI.Alert($"{row.Summary}-Test1");
+    [Action(Group = "Test", Name = "测试2")] public void Test2(Weather_Forecast row) => UI.Alert($"{row.Summary}-Test2");
+    [Action] public void MoveUp(Weather_Forecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
+    [Action] public void MoveDown(Weather_Forecast row) => Table.Delete(TestData.SaveWeatherAsync, row);
 
     public void Export() => UI.Alert("测试查询导出！");
 }
 
-class InnerTable : BaseTable<WeatherForecast>
+class InnerTable : BaseTable<Weather_Forecast>
 {
     protected override async Task OnInitAsync()
     {

@@ -1,6 +1,6 @@
 ﻿namespace Known.Sample.Models;
 
-public class WeatherForecast
+public class Weather_Forecast
 {
     [Column(Width = 120, IsQuery = true)]
     [Form(Type = nameof(FieldType.Date))]

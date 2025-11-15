@@ -1,8 +1,8 @@
 ﻿namespace Known.Sample.Components;
 
-public class TestSelectTable : AntDropdownTable<WeatherForecast>
+public class TestSelectTable : AntDropdownTable<Weather_Forecast>
 {
-    protected override Func<WeatherForecast, string> OnValue => d => d.Summary;
+    protected override Func<Weather_Forecast, string> OnValue => d => d.Summary;
 
     protected override async Task OnInitializeAsync()
     {
@@ -19,5 +19,5 @@ public class TestSelectTable : AntDropdownTable<WeatherForecast>
         Table.Toolbar.AddAction(nameof(New));
     }
 
-    public void New() => Table.NewForm(TestData.SaveWeatherAsync, new WeatherForecast());
+    public void New() => Table.NewForm(TestData.SaveWeatherAsync, new Weather_Forecast());
 }

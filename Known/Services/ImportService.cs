@@ -73,7 +73,7 @@ class ImportService(Context context) : ServiceBase(context), IImportService
         var db = Database;
         if (bizId.StartsWith(Config.AutoBizIdPrefix))
         {
-            var bizIds = bizId.Split('_');
+            var bizIds = bizId.Split('#');
             var pageId = bizIds.Length > 1 ? bizIds[1] : "";
             var pluginId = bizIds.Length > 2 ? bizIds[2] : "";
             var param = await db.GetAutoPageAsync(pageId, pluginId);

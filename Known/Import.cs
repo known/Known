@@ -95,7 +95,7 @@ public class ImportContext(Context context)
         if (string.IsNullOrWhiteSpace(BizId))
             return string.Empty;
 
-        var bizIds = BizId.Split('_');
+        var bizIds = BizId.Split('#');
         if (bizIds.Length > index)
             return bizIds[index];
 

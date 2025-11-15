@@ -1,7 +1,7 @@
 ﻿namespace Known.Sample.Pages.Demo.Forms;
 
 [TabRole(typeof(WTabPage), "列表设置")]
-public class SettingList : BaseTable<WeatherForecast>
+public class SettingList : BaseTable<Weather_Forecast>
 {
     protected override async Task OnInitAsync()
     {
@@ -13,5 +13,5 @@ public class SettingList : BaseTable<WeatherForecast>
         Table.FormType = typeof(WeatherForm);
     }
 
-    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new WeatherForecast());
+    [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new Weather_Forecast());
 }

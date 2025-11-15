@@ -1,7 +1,7 @@
 ﻿namespace Known.Sample.Components;
 
 [Role("测试组件")]
-public class TestRole : BaseTable<WeatherForecast>
+public class TestRole : BaseTable<Weather_Forecast>
 {
     protected override async Task OnInitAsync()
     {

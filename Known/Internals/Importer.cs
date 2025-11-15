@@ -22,9 +22,9 @@ class Importer : BaseComponent
         var type = Info.EntityType;
         var id = type.Name;
         if (!string.IsNullOrWhiteSpace(Info.Param))
-            id += $"_{Info.Param}";
+            id += $"#{Info.Param}";
         if (Info.IsDictionary)
-            id = $"{Config.AutoBizIdPrefix}_{Info.PageId}_{Info.PluginId}";
+            id = $"{Config.AutoBizIdPrefix}#{Info.PageId}#{Info.PluginId}";
         Model = await Service.GetImportAsync(id);
         Model.Name = Info.PageName;
         Model.BizName = Language[Language.ImportTitle].Replace("{name}", Info.PageName);
