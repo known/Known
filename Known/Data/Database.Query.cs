@@ -217,7 +217,7 @@ public partial class Database
                     obj = (T)DbUtils.ConvertTo<T>(reader);
                 }
             }
-            if (info.IsClose)
+            if (info.IsClose && !IsMemoryDB)
                 conn?.Close();
         }
         catch (Exception ex)
@@ -240,7 +240,7 @@ public partial class Database
                     lists.Add((T)obj);
                 }
             }
-            if (info.IsClose)
+            if (info.IsClose && !IsMemoryDB)
                 conn?.Close();
         }
         catch (Exception ex)
@@ -255,7 +255,7 @@ public partial class Database
         try
         {
             var cmd = await PrepareCommandAsync(info);
-            var reader = info.IsClose
+            var reader = info.IsClose && !IsMemoryDB
                        ? cmd.ExecuteReader(CommandBehavior.CloseConnection)
                        : cmd.ExecuteReader();
             cmd.Parameters.Clear();

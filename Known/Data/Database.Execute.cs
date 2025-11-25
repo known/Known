@@ -58,7 +58,7 @@ public partial class Database
             count += await ExecuteNonQueryAsync(info);
         }
 
-        if (conn != null && close)
+        if (conn != null && close && !IsMemoryDB)
             conn.Close();
 
         return count;
@@ -262,7 +262,7 @@ public partial class Database
             using var cmd = await PrepareCommandAsync(info);
             var value = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
-            if (info.IsClose)
+            if (info.IsClose && !IsMemoryDB)
                 conn?.Close();
             DbMonitor.OnOperate(info, true);
             return value;

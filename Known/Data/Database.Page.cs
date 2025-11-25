@@ -207,7 +207,7 @@ public partial class Database
                 }
             }
 
-            if (conn != null && conn.State != ConnectionState.Closed)
+            if (conn != null && conn.State != ConnectionState.Closed && !IsMemoryDB)
                 conn.Close();
 
             if (criteria.ExportMode != ExportMode.None)

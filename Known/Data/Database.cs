@@ -13,6 +13,7 @@ public partial class Database : IDisposable
     private DbConnection conn;
     private DbTransaction trans;
     private string TransId { get; set; }
+    private bool IsMemoryDB { get; set; }
 
     /// <summary>
     /// 创建数据库访问实例。
@@ -112,6 +113,9 @@ public partial class Database : IDisposable
     /// <returns></returns>
     public virtual Task CloseAsync()
     {
+        if (IsMemoryDB)
+            return Task.CompletedTask;
+
         if (conn != null && conn.State != ConnectionState.Closed)
             conn.Close();
 
@@ -177,7 +181,8 @@ public partial class Database : IDisposable
         {
             if (conn.State != ConnectionState.Open)
             {
-                info.IsClose = true;
+                if (!IsMemoryDB)
+                    info.IsClose = true;
                 conn.Open();
             }
         }
@@ -213,7 +218,7 @@ public partial class Database : IDisposable
         trans?.Dispose();
         trans = null;
 
-        if (conn == null)
+        if (conn == null || IsMemoryDB)
             return;
 
         if (conn.State != ConnectionState.Closed)
@@ -245,11 +250,12 @@ public partial class Database : IDisposable
         return database;
     }
 
-    private void SetDatabase(string connectionName, DatabaseType databaseType, string connectionString)
+    private void SetDatabase(string connName, DatabaseType databaseType, string connString)
     {
-        ConnectionName = connectionName;
+        ConnectionName = connName;
         DatabaseType = databaseType;
-        ConnectionString = connectionString;
+        ConnectionString = connString;
+        IsMemoryDB = connString.Contains("memory", StringComparison.CurrentCultureIgnoreCase);
         provider = DbProvider.Create(this);
         var factory = DbProviderFactories.GetFactory(DatabaseType.ToString());
         conn = factory?.CreateConnection();

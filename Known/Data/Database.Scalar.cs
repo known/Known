@@ -63,6 +63,18 @@ public partial class Database
         return count > 0;
     }
 
+    /// <summary>
+    /// 异步获取实体最大整型ID值。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <returns></returns>
+    public Task<int> GetMaxIdAsync<T>()
+    {
+        var tableName = Provider.GetTableName(typeof(T));
+        var sql = $"select max(Id) from {Provider.FormatName(tableName)}";
+        return ScalarAsync<int>(sql);
+    }
+
     internal async Task<T> ScalarAsync<T>(CommandInfo info)
     {
         try
@@ -70,7 +82,7 @@ public partial class Database
             using var cmd = await PrepareCommandAsync(info);
             var scalar = cmd.ExecuteScalar();
             cmd.Parameters.Clear();
-            if (info.IsClose)
+            if (info.IsClose && !IsMemoryDB)
                 conn?.Close();
             return Utils.ConvertTo<T>(scalar);
         }
@@ -97,7 +109,7 @@ public partial class Database
             }
 
             cmd.Parameters.Clear();
-            if (info.IsClose)
+            if (info.IsClose && !IsMemoryDB)
                 conn?.Close();
         }
         catch (Exception ex)
@@ -105,17 +117,5 @@ public partial class Database
             HandException(info, ex);
         }
         return data;
-    }
-
-    /// <summary>
-    /// 异步获取实体最大整型ID值。
-    /// </summary>
-    /// <typeparam name="T">实体类型。</typeparam>
-    /// <returns></returns>
-    public Task<int> GetMaxIdAsync<T>()
-    {
-        var tableName = Provider.GetTableName(typeof(T));
-        var sql = $"select max(Id) from {Provider.FormatName(tableName)}";
-        return ScalarAsync<int>(sql);
     }
 }
