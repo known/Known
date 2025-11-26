@@ -7,6 +7,9 @@ public static class SettingExtension
 {
     internal static async Task<bool> CheckUserDefaultPasswordAsync(this Database db, SystemInfo info)
     {
+        if (!info.IsChangePwd)
+            return false;
+
         var user = await db.QueryAsync<SysUser>(d => d.UserName == db.UserName);
         var password = Utils.ToMd5(info.UserDefaultPwd);
         return user != null && user.Password == password;
