@@ -23,6 +23,7 @@ class UserImport(ImportContext context) : ImportBase<SysUser>(context)
             var model = new SysUser
             {
                 UserName = item.GetValue(c => c.UserName),
+                Password = "1",
                 Name = item.GetValue(c => c.Name),
                 EnglishName = item.GetValue(c => c.EnglishName),
                 Gender = item.GetValue(c => c.Gender),
