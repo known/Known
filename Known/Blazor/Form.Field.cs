@@ -105,7 +105,6 @@ public class FieldModel<TItem> : BaseModel where TItem : class, new()
             var attributes = new Dictionary<string, object>
             {
                 { "id", Column.Id },
-                { "autofocus", true },
                 { "readonly", IsReadOnly },
                 { "required", Column.Required },
                 { "placeholder", Column.Placeholder }
