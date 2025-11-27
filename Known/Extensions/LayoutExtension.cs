@@ -29,7 +29,7 @@ public static class LayoutExtension
             var info = await action.Invoke();
             if (info == null || info.Bytes == null || info.Bytes.Length == 0)
             {
-                app.UI.Error(Language.NoDataDownload);
+                app.UI.Error(info.Message ?? Language.NoDataDownload);
                 return;
             }
             await app.JS.DownloadFileAsync(info);

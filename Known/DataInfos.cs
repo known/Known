@@ -125,6 +125,11 @@ public class FileDataInfo
     /// </summary>
     public byte[] Thumbnails { get; set; }
 
+    /// <summary>
+    /// 取得或设置无数据提示信息。
+    /// </summary>
+    public string Message { get; set; }
+
     internal int? MaxSize { get; set; }
 }
 
