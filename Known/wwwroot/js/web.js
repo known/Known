@@ -47,6 +47,12 @@ window.KUtils = {
     scanStop: function () {
         this.scanner.stop();
     },
+    scrollToTop: function (id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.scrollTop = 0;
+        }
+    },
     scrollToBottom: function (id) {
         var el = document.getElementById(id);
         if (el) {

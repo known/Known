@@ -119,7 +119,6 @@ public partial class Database : IDisposable
         if (conn != null && conn.State != ConnectionState.Closed)
             conn.Close();
 
-        conn.Dispose();
         return Task.CompletedTask;
     }
 
