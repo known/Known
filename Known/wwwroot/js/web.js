@@ -50,13 +50,13 @@ window.KUtils = {
     scrollToTop: function (id) {
         var el = document.getElementById(id);
         if (el) {
-            el.scrollTop = 0;
+            el.scrollTo({ top: 0, behavior: 'smooth' });
         }
     },
     scrollToBottom: function (id) {
         var el = document.getElementById(id);
         if (el) {
-            el.scrollTop = el.scrollHeight;
+            el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
         }
     },
     getUserAgent: function () {
