@@ -145,6 +145,7 @@
         {
             Title = "控制台日志",
             Width = 600,
+            Maximizable = true,
             Content = b => b.Component<KConsole>()
                             .Set(c => c.BizId, "Test")
                             .Set(c => c.MethodName, AppConstant.AddLog)

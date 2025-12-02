@@ -86,6 +86,28 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步将滚动条自动平滑滚动到顶部。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="elemId">滚动元素ID。</param>
+    /// <returns></returns>
+    public static Task ScrollToTopAsync(this IJSRuntime runtime, string elemId)
+    {
+        return runtime.InvokeJsAsync("KUtils.scrollToTop", elemId);
+    }
+
+    /// <summary>
+    /// 异步将滚动条自动平滑滚动到底部。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="elemId">滚动元素ID。</param>
+    /// <returns></returns>
+    public static Task ScrollToBottomAsync(this IJSRuntime runtime, string elemId)
+    {
+        return runtime.InvokeJsAsync("KUtils.scrollToBottom", elemId);
+    }
+
+    /// <summary>
     /// 异步复制文本到剪贴板。
     /// </summary>
     /// <param name="runtime">JS运行时。</param>

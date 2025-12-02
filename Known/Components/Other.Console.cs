@@ -33,7 +33,7 @@ public class KConsole : BaseComponent
         {
             Logs.Add(info);
             StateChangedAsync();
-            JS.RunVoidAsync($"KUtils.scrollToBottom('{LogId}');");
+            JSRuntime.ScrollToBottomAsync(LogId);
         }
     }
 
@@ -51,14 +51,17 @@ public class KConsole : BaseComponent
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div().Id(LogId).Class("kui-console").Child(() =>
+        builder.Div().Class("kui-console").Child(() =>
         {
-            builder.Component<Virtualize<ConsoleLogInfo>>()
-                   .Set(c => c.Items, Logs)
-                   .Set(c => c.ItemSize, 60)
-                   .Set(c => c.OverscanCount, 2)
-                   .Set(c => c.ItemContent, this.BuildTree<ConsoleLogInfo>(BuildItem))
-                   .Build();
+            builder.Div().Id(LogId).Class("logs").Child(() =>
+            {
+                builder.Component<Virtualize<ConsoleLogInfo>>()
+                       .Set(c => c.Items, Logs)
+                       .Set(c => c.ItemSize, 60)
+                       .Set(c => c.OverscanCount, 2)
+                       .Set(c => c.ItemContent, this.BuildTree<ConsoleLogInfo>(BuildItem))
+                       .Build();
+            });
         });
     }
 
