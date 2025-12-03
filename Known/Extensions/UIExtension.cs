@@ -28,7 +28,8 @@ public static class UIExtension
     /// <param name="service">UI服务实例。</param>
     /// <param name="onScan">扫码结果回调。</param>
     /// <param name="onStop">停止扫码回调。</param>
-    public static void ShowScanner(this UIService service, Func<string, string, Task> onScan, Func<Task> onStop = null)
+    /// <param name="isPDA">是否使用PDA扫码器。</param>
+    public static void ShowScanner(this UIService service, Func<string, string, Task> onScan, Func<Task> onStop = null, bool isPDA = false)
     {
         KScanner scanner = null;
         var model = new DialogModel
@@ -39,6 +40,7 @@ public static class UIExtension
         };
         model.Content = b => b.Component<KScanner>()
                               .Set(c => c.AutoStart, true)
+                              .Set(c => c.IsPDA, isPDA)
                               .Set(c => c.OnScan, async (r, e) =>
                               {
                                   await onScan?.Invoke(r, e);
