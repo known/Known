@@ -17,13 +17,15 @@ partial class CodeGenerator
         if (Model.IsAutoMode)
             sb.AppendLine("    private I{0}Service Service;", className);
         else
-            sb.AppendLine("    private {0}Service Service => new {0}Service(Context);", className);
+            sb.AppendLine("    private {0}Service Service;", className);
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitPageAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        await base.OnInitPageAsync();");
         if (Model.IsAutoMode)
             sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
+        else
+            sb.AppendLine("        Service = await CreateServiceAsync<{0}Service>();", className);
         sb.AppendLine("        Table.FormType = typeof({0});", Model.FormName);
         sb.AppendLine("        Table.OnQuery = Service.Query{0}Async;", pluralName);
         sb.AppendLine("    }");

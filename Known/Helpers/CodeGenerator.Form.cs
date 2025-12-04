@@ -38,12 +38,18 @@ partial class CodeGenerator
         sb.AppendLine("</AntForm>");
         sb.AppendLine(" ");
         sb.AppendLine("@code {");
-        sb.AppendLine("    private I{0}Service Service;", className);
+        if (Model.IsAutoMode)
+            sb.AppendLine("    private I{0}Service Service;", className);
+        else
+            sb.AppendLine("    private {0}Service Service;", className);
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnInitFormAsync()");
         sb.AppendLine("    {");
         sb.AppendLine("        await base.OnInitFormAsync();");
-        sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
+        if (Model.IsAutoMode)
+            sb.AppendLine("        Service = await CreateServiceAsync<I{0}Service>();", className);
+        else
+            sb.AppendLine("        Service = await CreateServiceAsync<{0}Service>();", className);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
         sb.AppendLine("    protected override async Task OnAfterRenderAsync(bool firstRender)");

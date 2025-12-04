@@ -34,7 +34,10 @@ partial class CodeGenerator
             sb.AppendLine(" ");
             sb.AppendLine("    public async Task<{0}> Get{1}Async(string id)", modelName, className);
             sb.AppendLine("    {");
-            sb.AppendLine("        var info = await  Database.Query<{0}>().FirstAsync<{1}>(d => d.Id == id);", entityName, modelName);
+            if (Model.IsAutoMode)
+                sb.AppendLine("        var info = await  Database.Query<{0}>().FirstAsync<{1}>(d => d.Id == id);", entityName, modelName);
+            else
+                sb.AppendLine("        var info = await  Database.QueryByIdAsync<{0}>(id);", entityName);
             sb.AppendLine("        info ??= new {0}();", modelName);
             sb.AppendLine("        return info;");
             sb.AppendLine("    }");

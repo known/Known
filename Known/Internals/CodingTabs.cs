@@ -96,8 +96,7 @@ public class CodingTabs : BaseComponent
             builder.Component<AntSwitch>()
                    .Set(c => c.Value, isAutoMode)
                    .Set(c => c.ValueChanged, this.Callback<bool>(value => isAutoMode = value))
-                   .Set(c => c.CheckedChildren, "Auto模式")
-                   .Set(c => c.UnCheckedChildren, "Server模式")
+                   .Set(c => c.ShowTexts, "Auto模式,Server模式")
                    .Build();
         }
 

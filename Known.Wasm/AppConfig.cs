@@ -14,7 +14,7 @@ public static class AppConfig
         Config.IsDevelopment = true;
         Config.IsDebug = true;
 #endif
-        //Config.RenderMode = RenderType.Auto;
+        Config.RenderMode = RenderType.Auto;
         Config.AddModule(typeof(AppConfig).Assembly);
 
         services.AddKnown(info =>
