@@ -63,6 +63,7 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
 class WebApiForm : BaseComponent
 {
     private readonly Dictionary<string, string> request = [];
+    private string getData = "";
     private string postData = "";
     private string result = "";
 
@@ -127,13 +128,20 @@ class WebApiForm : BaseComponent
             var param = Model.Parameters[0];
             if (param.ParameterType != typeof(string))
             {
-                var value = Activator.CreateInstance(param.ParameterType);
-                postData = FormatJson(value);
+                if (string.IsNullOrWhiteSpace(postData))
+                {
+                    var value = Activator.CreateInstance(param.ParameterType);
+                    postData = FormatJson(value);
+                }
                 builder.TextArea(new InputModel<string>
                 {
                     Rows = 6,
                     Value = postData,
-                    ValueChanged = this.Callback<string>(value => request[param.Name] = value)
+                    ValueChanged = this.Callback<string>(value =>
+                    {
+                        postData = value;
+                        request[param.Name] = value;
+                    })
                 });
             }
             else
@@ -158,8 +166,12 @@ class WebApiForm : BaseComponent
                     BuildLabel(builder, param.ParameterType.Name, param.Name);
                     builder.TextBox(new InputModel<string>
                     {
-                        Value = "",
-                        ValueChanged = this.Callback<string>(value => request[param.Name] = value)
+                        Value = getData,
+                        ValueChanged = this.Callback<string>(value =>
+                        {
+                            getData = value;
+                            request[param.Name] = value;
+                        })
                     });
                 });
             }
