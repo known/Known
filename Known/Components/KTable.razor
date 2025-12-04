@@ -33,6 +33,7 @@
                         continue;
 
                     var title = Language?.GetFieldName<TItem>(item);
+                    var isEllipsis = item.ToEllipsis();
                     var width = item.Width > 0 ? item.Width.ToString() : "";
                     RenderFragment<TItem> template = null;
                     Model.Templates?.TryGetValue(item.Id, out template);
@@ -40,7 +41,7 @@
                         var data = context as Dictionary<string, object>;
                         var value = data?.GetValue(item.Id);
                         <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                          Ellipsis="item.ToEllipsis()" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                          Ellipsis="isEllipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
                                           ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                           ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                           FilterDropdown="@GetFilterTemplate(item)">
@@ -58,6 +59,8 @@
                                         <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
                                     } else if (item.LinkAction != null) {
                                         <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
+                                    } else if (isEllipsis) {
+                                        <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip>
                                     } else {
                                         <span>@text</span>
                                     }
@@ -68,7 +71,7 @@
                         if (typeof(TItem).HasProperty(item.Id)) {
                             var value = TypeHelper.GetPropertyValue(context, item.Id);
                             <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                    Ellipsis="item.ToEllipsis()" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                    Ellipsis="isEllipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
                                     ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
                                     ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
                                     FilterDropdown="@GetFilterTemplate(item)">
@@ -86,6 +89,8 @@
                                             <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
                                         } else if (item.LinkAction != null) {
                                             <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
+                                        } else if (isEllipsis) {
+                                            <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip>
                                         } else {
                                             <span>@text</span>
                                         }

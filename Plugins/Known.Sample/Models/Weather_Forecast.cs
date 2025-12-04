@@ -21,7 +21,7 @@ public class Weather_Forecast
     [DisplayName("温度F")]
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-    [Column(Width = 250)]
+    [Column(Width = 150, Ellipsis = true)]
     [DisplayName("信息")]
     public WeatherInfo Info { get; set; }
 }
