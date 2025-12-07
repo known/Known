@@ -50,7 +50,7 @@
                             <AntDropdownTree Items="Context.UserMenus" />
                         </DataItem>
                         <DataItem Span="6" Label="下拉表">
-                            <TestSelectTable />
+                            <TestSelectTable IsSearch OnChange="e => field = e?.Date?.ToString()" />
                         </DataItem>
                     </AntRow>
                     <AntRow>
@@ -69,6 +69,7 @@
                     </AntRow>
                     <div>@string.Join(",", value)</div>
                     <div>@model.Data.Field</div>
+                    <div>@field</div>
                 </TestForm>
             </TabPane>
             <TabPane Key="2" Tab="附件">
@@ -112,6 +113,7 @@
 
 @code {
     private int currentCount = 0;
+    private string field;
     private string[] value = [];
     private FormModel<TestInfo> model;
     private TestInfo test = new();

@@ -235,6 +235,11 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
     [Inject] public UIService UI { get; set; }
 
     /// <summary>
+    /// 取得或设置文本框是否启用搜索，默认不启用。
+    /// </summary>
+    [Parameter] public bool IsSearch { get; set; }
+
+    /// <summary>
     /// 取得或设置选中行改变事件委托。
     /// </summary>
     [Parameter] public EventCallback<TItem> OnChange { get; set; }
@@ -284,11 +289,12 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
     {
         builder.Component<AntInput>()
                .Set(c => c.AllowClear, true)
-               .Set(c => c.ReadOnly, true)
+               .Set(c => c.ReadOnly, !IsSearch)
                .Set(c => c.Value, Value)
                .Set(c => c.ValueChanged, ValueChanged)
                .Set(c => c.Placeholder, Placeholder)
                .Set(c => c.Disabled, AntForm?.IsView == true)
+               .Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput))
                .Set(c => c.OnClear, this.Callback(OnClear))
                .Build();
     }
@@ -310,6 +316,15 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
             OnChange.InvokeAsync(item);
         Close();
         return Task.CompletedTask;
+    }
+
+    private Task OnInput(ChangeEventArgs args)
+    {
+        if (!IsSearch)
+            return Task.CompletedTask;
+
+        Table.Criteria.Parameters["Key"] = args.Value;
+        return Table.RefreshAsync();
     }
 
     private Task OnClear()
