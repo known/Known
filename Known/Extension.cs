@@ -232,7 +232,7 @@ public static partial class Extension
             return;
 
         var dateTime = GetBuildTime();
-        var count = dateTime.Year - 2000 + dateTime.Month + dateTime.Day;
+        var count = (int)(dateTime - new DateTime(2020, 7, 10)).TotalDays;
         info.BuildTime = dateTime;
         info.SoftVersion = $"{info.SoftVersion}.{count}";
     }

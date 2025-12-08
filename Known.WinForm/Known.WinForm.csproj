@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net10.0-windows</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <Version>1.0.0</Version>
@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="10.*" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.*" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.*" />
         <ProjectReference Include="..\Plugins\Known.Sample\Known.Sample.csproj" />
     </ItemGroup>
 

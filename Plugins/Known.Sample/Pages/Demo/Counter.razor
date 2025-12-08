@@ -23,6 +23,7 @@
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
     <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" Title="查看后台实时日志信息。" />
     <KButton Type="@ButtonType.Primary" Name="粘贴" OnClick="OnPaste" Title="粘贴复制的文本。" />
+    <AntRangePicker />
 
     <div class="kui-counter">
         <Tabs Animated>
@@ -30,10 +31,10 @@
                 <TestForm Form="model">
                     <AntRow>
                         <DataItem Span="6" Label="文本" Required>
-                            <AntInput />
+                            <AntInput @bind-Value="context.Text" />
                         </DataItem>
                         <DataItem Span="6" Label="日期">
-                            <AntDatePicker />
+                            <AntDatePicker @bind-Value="context.Date" />
                         </DataItem>
                         <DataItem Span="6" Label="用户">
                             <UserPicker Value="@context.User" Text="@context.User" ValueChanged="value => context.User = value?.ToString()" />
@@ -41,10 +42,10 @@
                     </AntRow>
                     <AntRow>
                         <DataItem Span="6" Label="单选" Tooltip="测试单选提示信息！">
-                            <AntRadioGroup Category="Item1,Item2" ButtonStyle="RadioButtonStyle.Solid" />
+                            <AntRadioGroup @bind-Value="context.Field" Category="Item1,Item2" ButtonStyle="RadioButtonStyle.Solid" />
                         </DataItem>
                         <DataItem Span="6" Label="选项">
-                            <AntCheckBox Label="显示测试2" @bind-Value="context.ShowField" />
+                            <AntCheckBox @bind-Value="context.ShowField" Label="显示测试2" />
                         </DataItem>
                         <DataItem Span="6" Label="下拉树">
                             <AntDropdownTree Items="Context.UserMenus" />

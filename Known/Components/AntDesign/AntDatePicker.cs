@@ -27,7 +27,7 @@ public class AntDatePicker : DatePicker<DateTime?>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(DateTime?);
-        AutoFocus = false;
+        Picker = DatePickerType.Date;
         base.OnInitialized();
     }
 }
@@ -68,7 +68,6 @@ public class AntDateTimePicker : DatePicker<DateTime?>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(DateTime?);
-        AutoFocus = false;
         base.OnInitialized();
     }
 }
