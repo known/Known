@@ -30,7 +30,7 @@ public class NotifyHub : Hub
     }
 }
 
-class WebNotifyService(IHubContext<NotifyHub> hub) : INotifyService
+class WebNotifyService(IHubContext<NotifyHub> hub, SessionManager session) : INotifyService
 {
     public string Name => "Web";
 
@@ -38,5 +38,15 @@ class WebNotifyService(IHubContext<NotifyHub> hub) : INotifyService
     {
         var json = Utils.ToJson(info);
         return hub.Clients.All.SendAsync(method, json, token);
+    }
+
+    public Task SendAsync<T>(string userName, string method, T info, CancellationToken token = default)
+    {
+        var sessionId = session.GetUserSessionId(userName);
+        if (string.IsNullOrWhiteSpace(sessionId))
+            return Task.CompletedTask;
+
+        var json = Utils.ToJson(info);
+        return hub.Clients.Group(sessionId).SendAsync(method, json, token);
     }
 }

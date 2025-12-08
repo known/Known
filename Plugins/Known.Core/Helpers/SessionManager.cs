@@ -2,16 +2,11 @@
 
 namespace Known.Helpers;
 
-class SessionManager
+class SessionManager(IHubContext<NotifyHub> hubContext)
 {
     // 存储用户ID和会话信息的映射
     private readonly ConcurrentDictionary<string, UserInfo> _sessions = new();
-    private readonly IHubContext<NotifyHub> _hubContext;
-
-    public SessionManager(IHubContext<NotifyHub> hubContext)
-    {
-        _hubContext = hubContext;
-    }
+    private readonly IHubContext<NotifyHub> _hubContext = hubContext;
 
     // 添加新会话
     public string CreateSession(UserInfo info)
@@ -46,8 +41,8 @@ class SessionManager
     }
 
     // 获取用户会话ID
-    public string GetUserSessionId(string username)
+    public string GetUserSessionId(string userName)
     {
-        return _sessions.TryGetValue(username, out var session) ? session.SessionId : null;
+        return _sessions.TryGetValue(userName, out var session) ? session.SessionId : null;
     }
 }

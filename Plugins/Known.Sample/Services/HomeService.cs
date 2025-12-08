@@ -40,7 +40,7 @@ class HomeService(Context context, INotifyService service) : ServiceBase(context
             info.VisitMenuIds = await db.GetVisitMenuIdsAsync(user.UserName, 12);
             info.Statistics = await GetStatisticsInfoAsync(db);
         });
-        _ = service.LayoutNotifyAsync("系统通知", "数据查询成功！");
+        _ = service.LayoutNotifyAsync("admin", "系统通知", "数据查询成功！");
         return info;
     }
 

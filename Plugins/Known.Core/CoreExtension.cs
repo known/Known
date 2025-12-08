@@ -37,8 +37,8 @@ public static class CoreExtension
         AppHelper.LoadConnections();
 
         services.AddKnownServices();
-        services.AddSingleton<INotifyService, WebNotifyService>();
         services.AddSingleton<SessionManager>();
+        services.AddSingleton<INotifyService, WebNotifyService>();
 
         if (CoreOption.Instance.IsCompression)
             services.AddResponseCompression();
