@@ -83,7 +83,7 @@ static class InitHelper
 
     private static bool IsIgnoreType(Type type)
     {
-        return type.IsAbstract || type.Name.EndsWith("Extension");
+        return type.IsAbstract || type.Name.EndsWith("Extension") || type.Name.Contains("AnonymousType");
     }
 
     private static void LoadCommon(Type type, object[] attributes, List<Type> modelTypes)
