@@ -19,8 +19,7 @@ public class SysLogList : BaseTablePage<LogInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ILogService>();
 
-        Table.AdvSearch = UIConfig.IsAdvAdmin;
-        Table.EnableFilter = UIConfig.IsAdvAdmin;
+        Table.SetAdminTable();
         Table.ShowIndex = true;
         Table.SelectType = TableSelectType.None;
         Table.OnQuery = Service.QueryLogsAsync;

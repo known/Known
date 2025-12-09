@@ -16,8 +16,7 @@ public class SysFileList : BaseTablePage<AttachInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IFileService>();
 
-        Table.AdvSearch = UIConfig.IsAdvAdmin;
-        Table.EnableFilter = UIConfig.IsAdvAdmin;
+        Table.SetAdminTable();
         Table.OnQuery = Service.QueryFilesAsync;
         Table.ActionWidth = "70";
         Table.Column(c => c.Name).Template(BuildFileName);

@@ -21,12 +21,10 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IDictionaryService>();
 
-        Table.AdvSearch = UIConfig.IsAdvAdmin;
-        Table.EnableFilter = UIConfig.IsAdvAdmin;
+        Table.SetAdminTable();
         Table.FormTitle = row => $"{PageName} - {row.CategoryName}";
         Table.Form = new FormInfo { Width = 600, SmallLabel = true };
         Table.FormType = typeof(DictionaryForm);
-        Table.RowKey = r => r.Id;
         Table.OnQuery = QueryDictionarysAsync;
         Table.Column(c => c.Category).QueryField(false).Template((b, r) => b.Text(r.CategoryName));
         Table.Column(c => c.Sort).Filter(false);

@@ -33,11 +33,9 @@ public class SysUserList : BaseTablePage<SysUser>
         {
             FormType = UIConfig.UserFormTabs.Count > 0 ? typeof(UserTabForm) : typeof(UserForm),
             Form = new FormInfo { Width = 800, SmallLabel = true, ShowFooter = UIConfig.UserFormShowFooter },
-            RowKey = r => r.Id,
             OnQuery = OnQueryUsersAsync
         };
-        Table.AdvSearch = UIConfig.IsAdvAdmin;
-        Table.EnableFilter = UIConfig.IsAdvAdmin;
+        Table.SetAdminTable();
         Table.Column(c => c.Gender).Tag();
     }
 

@@ -23,6 +23,9 @@ class AppDefaultData
         {
             if (item.IsDefined(typeof(ActionAttribute), false))
             {
+                if (!UIConfig.IsAdvAdmin && pageType.Assembly == Config.Frame && Config.AdvMethods.Contains(item.Name))
+                    continue;
+
                 var attr = item.GetCustomAttribute<ActionAttribute>(false);
                 methods.Add((item, attr));
             }

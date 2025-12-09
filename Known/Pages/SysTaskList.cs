@@ -16,8 +16,7 @@ public class SysTaskList : BaseTablePage<SysTask>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ITaskService>();
 
-        Table.AdvSearch = UIConfig.IsAdvAdmin;
-        Table.EnableFilter = UIConfig.IsAdvAdmin;
+        Table.SetAdminTable();
         Table.OnQuery = Service.QueryTasksAsync;
         Table.ActionWidth = "70";
         Table.Column(c => c.Status).Tag();

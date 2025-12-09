@@ -29,11 +29,10 @@ public class SysOrganizationList : BaseTablePage<SysOrganization>
         {
             FormTitle = row => $"{PageName} - {row.ParentName}",
             Form = new FormInfo { SmallLabel = true },
-            RowKey = r => r.Id,
-            EnableFilter = false,
             ShowPager = false,
             OnQuery = OnQueryOrganizationsAsync
         };
+        Table.SetAdminTable();
     }
 
     /// <inheritdoc />

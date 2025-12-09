@@ -35,12 +35,11 @@ class ModuleList : BasePage<SysModule>
             FormType = typeof(ModuleForm),
             FormTitle = row => $"{Language[Language.SysModule]} - {row.ParentName} > {row.Name}",
             Form = new FormInfo { Width = 800, Maximizable = true, ShowFooter = true },
-            EnableEdit = false,
-            EnableFilter = false,
             ShowPager = false,
             SelectType = TableSelectType.Checkbox,
             OnQuery = OnQueryModulesAsync
         };
+        Table.SetDevTable();
 
         Table.Toolbar.ShowCount = 10;
         Table.Toolbar.AddAction(nameof(New));

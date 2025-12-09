@@ -259,6 +259,15 @@ public partial class Config
     // 取得路由页面类型，用于权限控制。
     internal static ConcurrentDictionary<string, Type> RouteTypes { get; } = [];
     internal static ConcurrentDictionary<string, Type> FormTypes { get; } = [];
+    internal static Assembly Frame = typeof(Config).Assembly;
+    internal static string[] AdvMethods = [
+        nameof(SysTaskList.Setting),
+        nameof(SysUserList.ChangeDepartment),
+        nameof(SysUserList.Enable),
+        nameof(SysUserList.Disable),
+        nameof(SysUserList.Import),
+        nameof(SysUserList.Export)
+    ];
 
     /// <summary>
     /// 添加项目模块程序集，自动解析操作按钮、多语言、自定义组件类、路由、导入类和数据库建表脚本，以及CodeInfo特性的代码表类。

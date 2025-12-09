@@ -16,12 +16,10 @@ public class SysRoleList : BaseTablePage<SysRole>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IRoleService>();
 
-        Table.AdvSearch = UIConfig.IsAdvAdmin;
-        Table.EnableFilter = UIConfig.IsAdvAdmin;
+        Table.SetAdminTable();
         Table.FormType = typeof(RoleForm);
         Table.Form = new FormInfo { Width = 1000, SmallLabel = true };
         Table.OnQuery = Service.QueryRolesAsync;
-        Table.RowKey = r => r.Id;
     }
 
     /// <summary>
