@@ -5,6 +5,8 @@
 /// </summary>
 public partial class PasswordForm
 {
+    private ISystemService Service;
+    private SystemInfo system = new();
     private readonly PwdFormInfo Model = new();
     private TypeForm form;
     private string strengthValue = "";
@@ -20,6 +22,24 @@ public partial class PasswordForm
     /// 取得或设置提交表单委托。
     /// </summary>
     [Parameter] public Func<PwdFormInfo, Task> OnSave { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Service = await CreateServiceAsync<ISystemService>();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            system = await Service.GetSystemAsync();
+            StateChanged();
+        }
+    }
 
     private void OnNewPwdInput(ChangeEventArgs args)
     {
