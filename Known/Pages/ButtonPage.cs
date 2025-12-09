@@ -23,11 +23,9 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
 
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
-        Table.EnableEdit = false;
-        Table.AdvSearch = false;
-        Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Service.QueryButtonsAsync;
+        Table.SetDevTable();
 
         Table.Column(c => c.Id).FilterType(false);
         Table.Column(c => c.Name).FilterType(false);

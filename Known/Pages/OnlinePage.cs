@@ -21,12 +21,10 @@ public class OnlinePage : BaseTablePage<UserInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IOnlineService>();
 
+        Table.SetDevTable();
         Table.Name = PageName;
-        Table.EnableEdit = false;
-        Table.EnableFilter = false;
         Table.EnableSort = false;
         Table.ShowSetting = false;
-        Table.ShowPager = true;
         Table.OnQuery = Service.QueryOnlineUsersAsync;
         Table.AddColumn(c => c.UserName).Width(100);
         Table.AddColumn(c => c.Name).Width(100);

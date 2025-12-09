@@ -21,10 +21,8 @@ public class WebLogPage : BaseTablePage<LogInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ILogService>();
 
+        Table.SetDevTable();
         Table.Name = PageName;
-        Table.EnableEdit = false;
-        Table.EnableSort = false;
-        Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Service.QueryWebLogsAsync;
         Table.Tips = Language[Language.TipWebLogSaveDay].Replace("{LogDays}", $"{Config.App.WebLogDays}");
@@ -38,7 +36,8 @@ public class WebLogPage : BaseTablePage<LogInfo>
 
         Table.Toolbar.AddAction(nameof(DeleteM));
         Table.Toolbar.AddAction(nameof(Clear));
-        Table.Toolbar.AddAction(nameof(Export));
+        if (UIConfig.IsAdvAdmin)
+            Table.Toolbar.AddAction(nameof(Export));
 
         Table.AddAction(nameof(View));
         Table.AddAction(nameof(Delete));

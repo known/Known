@@ -23,8 +23,7 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IWebApiService>();
 
-        Table.EnableEdit = false;
-        Table.ShowPager = true;
+        Table.SetDevTable();
         Table.OnQuery = Service.QueryWebApisAsync;
         Table.AddColumn(c => c.HttpMethod).Width(120).Template(BuildMethod);
         Table.AddColumn(c => c.Route, true).Width(250).Tag().FilterType(false);

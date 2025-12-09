@@ -46,10 +46,13 @@ class ModuleList : BasePage<SysModule>
         Table.Toolbar.AddAction(nameof(DeleteM));
         Table.Toolbar.AddAction(nameof(Copy));
         Table.Toolbar.AddAction(nameof(Move));
-        Table.Toolbar.AddAction(nameof(Import));
-        Table.Toolbar.AddAction(nameof(Export));
-        Table.Toolbar.AddAction(nameof(Install), Language.TipNewModule);
-        //Table.Toolbar.AddAction(nameof(Migrate), Language.MigrateModule);
+        if (UIConfig.IsAdvAdmin)
+        {
+            Table.Toolbar.AddAction(nameof(Import));
+            Table.Toolbar.AddAction(nameof(Export));
+            Table.Toolbar.AddAction(nameof(Install), Language.TipNewModule);
+            //Table.Toolbar.AddAction(nameof(Migrate), Language.MigrateModule);
+        }
 
         Table.AddColumn(c => c.Name).Width(160).Template(BuildName);
         Table.AddColumn(c => c.Type).Width(80).Tag();

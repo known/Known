@@ -25,12 +25,9 @@ public class LanguagePage : BaseTablePage<SysLanguage>
         Table = new TableModel<SysLanguage>(this, TableColumnMode.Attribute);
         Table.Name = PageName;
         Table.FormType = typeof(LanguageForm);
-        Table.EnableEdit = false;
-        Table.EnableFilter = false;
-        Table.AdvSearch = false;
-        Table.ShowPager = true;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Service.QueryLanguagesAsync;
+        Table.SetDevTable();
 
         foreach (var info in Infos)
         {
@@ -47,12 +44,15 @@ public class LanguagePage : BaseTablePage<SysLanguage>
 
         Table.Toolbar.ShowCount = 6;
         Table.Toolbar.AddAction(nameof(Setting), Language.TipLanguageSetting);
-        Table.Toolbar.AddAction(nameof(Fetch), Language.TipLanguageFetch);
+        if (UIConfig.IsAdvAdmin)
+            Table.Toolbar.AddAction(nameof(Fetch), Language.TipLanguageFetch);
         Table.Toolbar.AddAction(nameof(New));
         Table.Toolbar.AddAction(nameof(DeleteM));
-        Table.Toolbar.AddAction(nameof(Import));
-        Table.Toolbar.AddAction(nameof(Export));
-
+        if (UIConfig.IsAdvAdmin)
+        {
+            Table.Toolbar.AddAction(nameof(Import));
+            Table.Toolbar.AddAction(nameof(Export));
+        }
         Table.AddAction(nameof(Edit));
         Table.AddAction(nameof(Delete));
     }
