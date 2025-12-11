@@ -1,5 +1,5 @@
 using Known;
-using Known.Web;
+using Known.WasmHost;
 
 var builder = WebApplication.CreateBuilder(args);
 

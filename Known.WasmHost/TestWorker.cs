@@ -1,7 +1,7 @@
 ﻿using Known.Sample;
 using Known.Services;
 
-namespace Known.Web;
+namespace Known.WasmHost;
 
 class TestWorker(INotifyService service) : BackgroundService
 {

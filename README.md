@@ -40,11 +40,12 @@
 | ├─Known.Core    -> 基于Asp.Net Core的服务端插件。
 | ├─Known.Cells   -> 基于Aspose.Cells实现的Excel插件。
 | ├─Known.Sample  -> 示例模块插件。
-├─Known.Wasm      -> 框架WebAssembly示例。
-├─Known.Web       -> 框架WebApp示例。
-├─Known.WinForm   -> 框架WinForm示例。
-├─Known.Maui      -> 框架MAUI示例。
-├─Known.Photino   -> 框架Photino.NET示例。
+├─Known.Server    -> 框架示例（Server模式）。
+├─Known.Wasm      -> 框架示例（Auto模式前端）。
+├─Known.WasmHost  -> 框架示例（Auto模式后端）。
+├─Known.WinForm   -> 框架示例（WinForm）。
+├─Known.Maui      -> 框架示例（MAUI）。
+├─Known.Photino   -> 框架示例（Photino.NET）。
 ├─Known.sln       -> 解决方案文件。
 ```
 

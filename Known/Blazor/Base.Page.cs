@@ -37,10 +37,8 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
-        Context.RunTimes.AddTime("BasePage.Initing");
         await base.OnInitAsync();
         await OnInitPageAsync();
-        Context.RunTimes.AddTime("BasePage.Inited");
     }
 
     /// <inheritdoc />

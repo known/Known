@@ -1,6 +1,6 @@
 ﻿namespace Known.Sample.Models;
 
-class TestData
+public class TestData
 {
     private static readonly List<Weather_Forecast> Datas = [];
 
@@ -17,7 +17,7 @@ class TestData
         })];
     }
 
-    internal static async Task<PagingResult<Weather_Forecast>> QueryWeathersAsync(PagingCriteria criteria)
+    public static async Task<PagingResult<Weather_Forecast>> QueryWeathersAsync(PagingCriteria criteria)
     {
         //await Task.Delay(500);
         var items = Datas;
@@ -27,7 +27,7 @@ class TestData
         return items.ToPagingResult(criteria);
     }
 
-    internal static Task<Result> SaveWeatherAsync(Weather_Forecast row)
+    public static Task<Result> SaveWeatherAsync(Weather_Forecast row)
     {
         return Result.SuccessAsync("保存成功！");
     }

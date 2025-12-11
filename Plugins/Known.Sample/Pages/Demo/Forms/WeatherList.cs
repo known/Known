@@ -33,7 +33,7 @@ public class WeatherList : BaseTablePage<Weather_Forecast>
     [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new Weather_Forecast());
 }
 
-class WeatherForm : BaseForm<Weather_Forecast>
+public class WeatherForm : BaseForm<Weather_Forecast>
 {
     protected override async Task OnInitFormAsync()
     {

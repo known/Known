@@ -1,9 +1,6 @@
-﻿using Known.Data;
-using Known.Wasm;
+﻿namespace Known.Server;
 
-namespace Known.Web;
-
-public static class AppServer
+public static class AppConfig
 {
     //private static readonly List<MenuInfo> AppMenus =
     //[
@@ -19,12 +16,26 @@ public static class AppServer
     //    new MenuInfo { Id = "Test", Name = "波次", Icon = "partition", Target = "Menu", Color = "#1890ff", Url = "/app/test" },
     //    new MenuInfo { Id = "Add", Name = "功能待加", Icon = "plus", Target = "Menu", Color = "#4fa624" }
     //];
+    public static string AppId => "KIMS";
+    public static string AppName => "Known信息管理系统";
 
     // 添加系统 Web 后端。
-    internal static void AddApplicationWeb(this IServiceCollection services, Action<CoreOption> action)
+    internal static void AddApplication(this IServiceCollection services, Action<CoreOption> action)
     {
+        Console.WriteLine(AppName);
+#if DEBUG
+        Config.IsDevelopment = true;
+        Config.IsDebug = true;
+#endif
         CoreConfig.OnInitial = OnInitial;
-        services.AddApplication();
+
+        services.AddKnown(info =>
+        {
+            info.Id = AppId;
+            info.Name = AppName;
+        });
+        services.AddSample();
+        services.ConfigUI();
         services.AddKnownWeb(action);
         services.AddHostedService<TestWorker>();
     }
@@ -32,6 +43,11 @@ public static class AppServer
     internal static void UseApplication(this WebApplication app)
     {
         app.UseKnown();
+    }
+
+    private static void ConfigUI(this IServiceCollection services)
+    {
+        KStyleSheet.AddStyle("css/app.css");
     }
 
     private static async Task OnInitial(Database db, InitialInfo info)
