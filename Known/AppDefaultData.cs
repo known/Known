@@ -18,11 +18,6 @@ class AppDefaultData
 
     private static void SetMethods(AutoPageInfo info, Type pageType)
     {
-        if (pageType.Name.Contains("WTestList"))
-        {
-            info.Page.ShowPager = true;
-        }
-
         foreach (var item in pageType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
         {
             if (item.IsDefined(typeof(ActionAttribute), false))
@@ -45,6 +40,8 @@ class AppDefaultData
                     Visible = attr.Visible,
                     Tabs = attr.Tabs
                 };
+                if (config == null)
+                    Config.Actions.Add(action);
                 if (hasParameter)
                     info.Page.Actions.Add(action);
                 else
