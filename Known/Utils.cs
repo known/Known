@@ -8,6 +8,7 @@ namespace Known;
 /// </summary>
 public sealed class Utils
 {
+    private static readonly Snowflake snowflake = new(1, 1);
     private Utils() { }
 
     #region Common
@@ -42,7 +43,7 @@ public sealed class Utils
     /// 获取一个Snowflake算法的ID。
     /// </summary>
     /// <returns></returns>
-    public static long GetSnowflakeId() => new Snowflake(1, 1).NextId();
+    public static long GetSnowflakeId() => snowflake.NextId();
 
     /// <summary>
     /// 将C#对象转换成指定泛型的对象，适用值类型和String。
