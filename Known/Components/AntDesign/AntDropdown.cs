@@ -189,7 +189,7 @@ public class AntDropdown : Dropdown
                    else if (item.OnClick.HasDelegate)
                        item.OnClick.InvokeAsync();
                }))
-               .Set(c => c.ChildContent, b => b.IconName(item.Icon, item.Name))
+               .Set(c => c.ChildContent, b => b.IconName(item.Icon, item.Name ?? item.Id, item.Title))
                .Build();
     }
 

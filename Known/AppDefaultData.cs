@@ -18,7 +18,11 @@ class AppDefaultData
 
     private static void SetMethods(AutoPageInfo info, Type pageType)
     {
-        var methods = new List<(MethodInfo, ActionAttribute)>();
+        if (pageType.Name.Contains("WTestList"))
+        {
+            info.Page.ShowPager = true;
+        }
+
         foreach (var item in pageType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
         {
             if (item.IsDefined(typeof(ActionAttribute), false))
@@ -27,35 +31,25 @@ class AppDefaultData
                     continue;
 
                 var attr = item.GetCustomAttribute<ActionAttribute>(false);
-                methods.Add((item, attr));
-            }
-        }
-        foreach (var item in methods)
-        {
-            var method = item.Item1;
-            var attr = item.Item2;
-            var hasParameter = method.GetParameters().Length > 0;
-            var action = Config.Actions.FirstOrDefault(b => b.Id == method.Name);
-            if (action == null)
-            {
-                action = new ActionInfo
+                var hasParameter = item.GetParameters().Length > 0;
+                var config = Config.Actions.FirstOrDefault(b => b.Id == item.Name);
+                var action = new ActionInfo
                 {
-                    Id = method.Name,
-                    Name = attr.Name,
-                    Icon = attr.Icon,
-                    Style = attr.Style ?? "primary",
-                    Position = hasParameter ? "Action" : "Toolbar"
+                    Id = item.Name,
+                    Name = attr.Name ?? config?.Name ?? item.Name,
+                    Icon = attr.Icon ?? config?.Icon,
+                    Style = attr.Style ?? config?.Style ?? "primary",
+                    Position = hasParameter ? "Action" : "Toolbar",
+                    Title = attr.Title ?? config?.Title,
+                    Group = attr.Group ?? config?.Group,
+                    Visible = attr.Visible,
+                    Tabs = attr.Tabs
                 };
-                Config.Actions.Add(action);
+                if (hasParameter)
+                    info.Page.Actions.Add(action);
+                else
+                    info.Page.Tools.Add(action);
             }
-            action.Title = attr.Title;
-            action.Group = attr.Group;
-            action.Visible = attr.Visible;
-            action.Tabs = attr.Tabs;
-            if (hasParameter)
-                info.Page.Actions.Add(action);
-            else
-                info.Page.Tools.Add(action);
         }
     }
 

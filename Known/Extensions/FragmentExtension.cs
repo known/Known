@@ -162,4 +162,22 @@ public static class FragmentExtension
     {
         builder.Component<KIcon>().Set(c => c.Icon, icon).Set(c => c.Name, name).Set(c => c.OnClick, onClick).Build();
     }
+
+    /// <summary>
+    /// 呈现一个图标和名称组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="title">提示标题。</param>
+    /// <param name="onClick">图标单击事件。</param>
+    public static void IconName(this RenderTreeBuilder builder, string icon, string name, string title, EventCallback<MouseEventArgs>? onClick = null)
+    {
+        builder.Component<KIcon>()
+               .Set(c => c.Icon, icon)
+               .Set(c => c.Name, name)
+               .Set(c => c.Title, title)
+               .Set(c => c.OnClick, onClick)
+               .Build();
+    }
 }
