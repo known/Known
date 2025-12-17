@@ -71,7 +71,7 @@ partial class KTable<TItem>
             Model.SelectedRows = [];
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
             watch.Write($"Query{Model.Criteria.PageIndex}");
-            
+
             if (!string.IsNullOrWhiteSpace(Model.Result.Message))
             {
                 UI.Error(Model.Result.Message);

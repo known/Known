@@ -63,10 +63,6 @@ body {
 .kui-body > .kui-card > .ant-tabs > .ant-tabs-content-holder {
     position:absolute;top:56px;left:10px;right:10px;bottom:10px;overflow:auto;
 }
-.kui-body > .kui-card > .ant-tabs > .ant-tabs-content-holder > .ant-tabs-content,
-.kui-body > .kui-card > .ant-tabs > .ant-tabs-content-holder > .ant-tabs-content > .ant-tabs-tabpane {
-    height:100%;
-}
 pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-radius:3px;max-height:300px;overflow:auto;}
 .kui-icon {display:flex;align-items:center;gap:3px;cursor:pointer;}
 .kui-run-mode {position:absolute;bottom:5px;left:5px;width:auto;font-weight:bold;border-radius:5px;padding:0 7px;font-size:12px;}
@@ -138,6 +134,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-button {margin-left:200px;}
 .kui-form-button button {margin-right:10px;}
 .kui-form-auth {width:400px;margin:0 auto;}
+.kui-form-tips {color:#a29e9e;padding:5px 0;}
 .kui-form-unit {display:flex;gap:10px;align-items:center;}
 .kui-form-list {padding-bottom:10px;}
 .kui-form-list > div {padding:0 10px 10px 10px;}

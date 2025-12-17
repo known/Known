@@ -77,6 +77,33 @@ public static class HttpExtension
     /// <typeparam name="TResult">返回数据类型。</typeparam>
     /// <param name="http">HTTP客户端对象。</param>
     /// <param name="url">远程URL。</param>
+    /// <param name="func">返回异常结果。</param>
+    /// <returns>返回的数据对象。</returns>
+    public static async Task<TResult> PostAsync<TResult>(this HttpClient http, string url, Func<Exception, TResult> func = null)
+    {
+        try
+        {
+            url = http.GetRequestUrl(url);
+            var response = await http.PostAsync(url, null);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<TResult>();
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex, url);
+            if (func != null)
+                return func.Invoke(ex);
+            return default;
+        }
+    }
+
+    /// <summary>
+    /// 异步发送泛型类型数据搭配服务端。
+    /// </summary>
+    /// <typeparam name="TParam">发送数据类型。</typeparam>
+    /// <typeparam name="TResult">返回数据类型。</typeparam>
+    /// <param name="http">HTTP客户端对象。</param>
+    /// <param name="url">远程URL。</param>
     /// <param name="data">发送的数据对象。</param>
     /// <param name="func">返回异常结果。</param>
     /// <returns>返回的数据对象。</returns>
