@@ -128,7 +128,8 @@ public class BaseTabPage : BasePage
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-card", () => builder.Tabs(Tab));
+        var className = CssBuilder.Default("kui-card kui-tab").AddClass(Class).BuildClass();
+        builder.Div(className, () => builder.Tabs(Tab));
     }
 }
 
@@ -153,6 +154,7 @@ public class BaseStepPage : BasePage
     /// <inheritdoc />
     protected override void BuildPage(RenderTreeBuilder builder)
     {
-        builder.Div("kui-card", () => builder.Steps(Step));
+        var className = CssBuilder.Default("kui-card kui-step").AddClass(Class).BuildClass();
+        builder.Div(className, () => builder.Steps(Step));
     }
 }
