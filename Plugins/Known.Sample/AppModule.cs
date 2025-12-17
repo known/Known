@@ -13,5 +13,9 @@ public static class AppModule
         UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");
 
         KStyleSheet.AddStyle("_content/Known.Sample/css/web.css");
+        KStyleSheet.AddStyle("_content/Known.Sample/css/screen.css");
+        KScript.AddScript("_content/Known.Sample/js/china.js");
+        KScript.AddScript("_content/Known.Sample/js/area_echarts.js");
+        KScript.AddScript("_content/Known.Sample/js/js.js");
     }
 }

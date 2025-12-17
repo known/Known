@@ -187,7 +187,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-row .kui-capsule {float:left;}
 
 /*FullScreen*/
-.kui-screen {position:relative;background-color:#f0f2f5;}
+.kui-screen {position:relative;background-color:#f0f2f5;width:100%;height:100%;}
 .kui-screen .action {position:absolute;top:0;right:0;z-index:1000;}
 .kui-screen.is-full {position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;}
 .kui-screen.is-full .action {top:10px;right:10px;}
