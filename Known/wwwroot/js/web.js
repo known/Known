@@ -38,13 +38,114 @@
     }
 }
 
-window.KUtils = {
-    scanner: null,
-    scanPDA: function (input) {
-        setTimeout(function () {
-            input.value = '';
-            input.focus();
+class PDAScanner {
+    constructor(invoker, input) {
+        this.invoker = invoker;
+        this.input = input;
+        this.buffer = '';
+        this.scanTimer = null;
+        this.lastKeyTime = 0;
+        this.isActive = false;
+        this.keepFocusInterval = null;
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
+        this.stop();
+    }
+
+    start() {
+        if (this.isActive) return;
+        this.isActive = true;
+        this.buffer = '';
+        document.addEventListener('keydown', this.handleKeyDown);
+        this.input.addEventListener('focus', this.handleFocus);
+        this.keepFocus();
+        this.keepFocusInterval = setInterval(() => this.keepFocus(), 1000);
+        console.log('PDA扫码器已启动');
+    }
+
+    stop() {
+        if (!this.isActive) return;
+        this.isActive = false;
+        this.buffer = '';
+        document.removeEventListener('keydown', this.handleKeyDown);
+        this.input.removeEventListener('focus', this.handleFocus);
+        if (this.scanTimer) {
+            clearTimeout(this.scanTimer);
+            this.scanTimer = null;
+        }
+        if (this.keepFocusInterval) {
+            clearInterval(this.keepFocusInterval);
+            this.keepFocusInterval = null;
+        }
+        console.log('PDA扫码器已停止');
+    }
+
+    handleKeyDown(e) {
+        if (!this.isActive) return;
+        const now = Date.now();
+        const isEnter = e.key === 'Enter' || e.keyCode === 13;
+        if (isEnter) {
+            e.preventDefault();
+        }
+        // 判断是否是新的一次扫码
+        if (now - this.lastKeyTime > 500) {
+            this.buffer = '';
+        }
+        // 记录按键时间
+        this.lastKeyTime = now;
+        // 处理按键
+        if (!isEnter) {
+            this.buffer += e.key;
+        } else if (this.buffer) {
+            this.processScan(this.buffer);
+            this.buffer = '';
+        }
+        // 设置超时自动处理（应对无回车结束的扫码枪）
+        if (this.scanTimer)
+            clearTimeout(this.scanTimer);
+        this.scanTimer = setTimeout(() => {
+            if (this.buffer && this.buffer.length > 0) {
+                this.processScan(this.buffer);
+                this.buffer = '';
+            }
         }, 500);
+    }
+
+    handleFocus() {
+        if (!this.isActive) return;
+        // 立即失去焦点，防止键盘弹出
+        setTimeout(() => this.input.blur(), 0);
+    }
+
+    processScan(text) {
+        if (!text || !this.isActive) return;
+        console.log('扫码结果:', text);
+        this.invoker.invokeMethodAsync('OnScanned', text, '');
+        // 触发自定义事件
+        //const event = new CustomEvent('scan', { detail: { data } });
+        //document.dispatchEvent(event);
+        setTimeout(() => this.keepFocus(), 100);
+    }
+
+    keepFocus() {
+        if (!this.isActive) return;
+        try {
+            this.input.focus();
+        } catch (e) {
+            console.warn('无法获取焦点:', e);
+        }
+    }
+}
+
+window.KUtils = {
+    pda: null,
+    scanner: null,
+    scanPDA: function (invoker, input) {
+        this.pda = new PDAScanner(invoker, input);
+        this.pda.start();
+    },
+    stopPDA: function () {
+        this.pda?.stop();
     },
     scanStart: function (invoker, videoId) {
         this.scanner = new KScanner(invoker, videoId);
