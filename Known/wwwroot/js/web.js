@@ -40,6 +40,12 @@
 
 window.KUtils = {
     scanner: null,
+    scanPDA: function (input) {
+        setTimeout(function () {
+            input.value = '';
+            input.focus();
+        }, 500);
+    },
     scanStart: function (invoker, videoId) {
         this.scanner = new KScanner(invoker, videoId);
         this.scanner.start();

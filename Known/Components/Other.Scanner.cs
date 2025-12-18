@@ -60,8 +60,7 @@ public class KScanner : BaseComponent
             return;
         }
 
-        await scannerInput.FocusAsync();
-        SetupScanTimer();
+        await StartPDAAsync();
     }
 
     /// <summary>
@@ -90,7 +89,8 @@ public class KScanner : BaseComponent
         if (!Visible)
             return;
 
-        builder.Div("kui-scanner", () =>
+        var className = CssBuilder.Default("kui-scanner").AddClass("pda", IsPDA).BuildClass();
+        builder.Div(className, () =>
         {
             if (IsPDA)
                 BuildPDA(builder);
@@ -107,6 +107,13 @@ public class KScanner : BaseComponent
         {
             await StartAsync();
         }
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnDisposeAsync()
+    {
+        await base.OnDisposeAsync();
+        scanTimer?.Dispose();
     }
 
     /// <summary>
@@ -149,16 +156,17 @@ public class KScanner : BaseComponent
     private void BuildPDA(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "input");
-        builder.AddAttribute(1, "onkeypress", EventCallback.Factory.Create(this, (Action<KeyboardEventArgs>)HandleKeyPress));
-        builder.AddAttribute(2, "style", "opacity:0;position:absolute;left:-1000px;");
-        builder.AddAttribute(3, "value", BindConverter.FormatValue(scanResult));
+        //builder.AddAttribute(1, "readonly", true);
+        builder.AddAttribute(1, "style", "opacity:0;position:absolute;left:-1000px;");
+        builder.AddAttribute(2, "value", BindConverter.FormatValue(scanResult));
+        builder.AddAttribute(3, "onkeypress", EventCallback.Factory.Create(this, (Action<KeyboardEventArgs>)HandleKeyPress));
         builder.AddAttribute(4, "onchange", EventCallback.Factory.CreateBinder(this, delegate (string value) { scanResult = value; }, scanResult));
         builder.SetUpdatesAttributeName("value");
         builder.AddElementReferenceCapture(5, delegate (ElementReference value) { scannerInput = value; });
         builder.CloseElement();
 
         if (isScanning)
-            builder.Span(Language["请按PDA扫描键，若无结果，请点击此处再按。"], this.Callback<MouseEventArgs>(e => scannerInput.FocusAsync()));
+            builder.Span(Language["请按PDA扫描键，若无结果，请点击此处再按。"], this.Callback<MouseEventArgs>(e => StartPDAAsync()));
         else
             builder.Span(Language["点击下方按钮开始扫描二维码"]);
     }
@@ -180,8 +188,9 @@ public class KScanner : BaseComponent
         }
     }
 
-    private void SetupScanTimer()
+    private async Task StartPDAAsync()
     {
+        await JSRuntime.InvokeJsAsync("KUtils.scanPDA", scannerInput);
         scanTimer = new System.Timers.Timer(100);
         scanTimer.Elapsed += (sender, e) =>
         {
