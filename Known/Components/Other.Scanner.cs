@@ -11,7 +11,6 @@ public class KScanner : BaseComponent
     private readonly string cameraId = "kuiCamera";
     private bool isScanning;
     private string errorMessage = string.Empty;
-    private ElementReference scannerInput;
 
     /// <summary>
     /// 取得是否正在扫码。
@@ -59,7 +58,7 @@ public class KScanner : BaseComponent
             return;
         }
 
-        await JSRuntime.InvokeJsAsync("KUtils.scanPDA", invoker, scannerInput);
+        await JSRuntime.InvokeJsAsync("KUtils.scanPDA", invoker);
     }
 
     /// <summary>
@@ -147,13 +146,6 @@ public class KScanner : BaseComponent
 
     private void BuildPDA(RenderTreeBuilder builder)
     {
-        builder.OpenElement(0, "input");
-        builder.AddAttribute(1, "readonly", true);
-        builder.AddAttribute(2, "style", "opacity:0;position:absolute;left:-1000px;");
-        builder.SetUpdatesAttributeName("value");
-        builder.AddElementReferenceCapture(4, delegate (ElementReference value) { scannerInput = value; });
-        builder.CloseElement();
-
         if (isScanning)
             builder.Span(Language[TipPDA]);
         else

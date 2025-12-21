@@ -39,101 +39,177 @@
 }
 
 class PDAScanner {
-    constructor(invoker, input) {
+    constructor(invoker) {
         this.invoker = invoker;
-        this.input = input;
-        this.buffer = '';
-        this.scanTimer = null;
-        this.lastKeyTime = 0;
+        this.input = null;
+
         this.isActive = false;
         this.keepFocusInterval = null;
+        this.isProcessing = false;
+        this.lastScanText = '';
+        this.lastScanTime = 0;
+
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
-        this.stop();
+        this.stop(); // 确保初始状态是停止的
     }
 
     start() {
         if (this.isActive) return;
         this.isActive = true;
-        this.buffer = '';
-        document.addEventListener('keydown', this.handleKeyDown);
-        this.input.addEventListener('focus', this.handleFocus);
-        this.keepFocus();
-        this.keepFocusInterval = setInterval(() => this.keepFocus(), 1000);
+        this.isProcessing = false;
+        // 创建隐藏输入框
+        this.createInput();
         console.log('PDA扫码器已启动');
     }
 
     stop() {
         if (!this.isActive) return;
         this.isActive = false;
-        this.buffer = '';
-        document.removeEventListener('keydown', this.handleKeyDown);
-        this.input.removeEventListener('focus', this.handleFocus);
-        if (this.scanTimer) {
-            clearTimeout(this.scanTimer);
-            this.scanTimer = null;
-        }
+        this.isProcessing = false;
+
+        // 清除定时器
         if (this.keepFocusInterval) {
             clearInterval(this.keepFocusInterval);
             this.keepFocusInterval = null;
         }
+
+        // 销毁隐藏输入框
+        this.destroyInput();
         console.log('PDA扫码器已停止');
     }
 
-    handleKeyDown(e) {
-        if (!this.isActive) return;
-        const now = Date.now();
-        const isEnter = e.key === 'Enter' || e.keyCode === 13;
-        if (isEnter) {
-            e.preventDefault();
+    createInput() {
+        // 如果已存在，先销毁
+        if (this.input) {
+            this.destroyInput();
         }
-        // 判断是否是新的一次扫码
-        if (now - this.lastKeyTime > 500) {
-            this.buffer = '';
-        }
-        // 记录按键时间
-        this.lastKeyTime = now;
-        // 处理按键
-        if (!isEnter) {
-            this.buffer += e.key;
-        } else if (this.buffer) {
-            this.processScan(this.buffer);
-            this.buffer = '';
-        }
-        // 设置超时自动处理（应对无回车结束的扫码枪）
-        if (this.scanTimer)
-            clearTimeout(this.scanTimer);
-        this.scanTimer = setTimeout(() => {
-            if (this.buffer && this.buffer.length > 0) {
-                this.processScan(this.buffer);
-                this.buffer = '';
+
+        // 创建隐藏输入框
+        this.input = document.createElement('input');
+        this.input.type = 'text';
+        this.input.style.cssText = `
+            position: fixed;
+            top: -100px;
+            left: -100px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        `;
+        this.input.setAttribute('inputmode', 'none'); // 关键：阻止软键盘弹出
+        document.body.appendChild(this.input);
+
+        // 添加事件监听
+        this.input.addEventListener('keydown', this.handleKeyDown);
+        this.input.addEventListener('focus', this.handleFocus);
+        this.input.addEventListener('blur', () => {
+            if (this.isActive) {
+                setTimeout(() => this.keepFocus(), 10);
             }
-        }, 500);
+        });
+
+        // 开始保持焦点
+        this.keepFocus();
+        this.keepFocusInterval = setInterval(() => this.keepFocus(), 1000);
+    }
+
+    destroyInput() {
+        if (this.input) {
+            // 移除事件监听
+            this.input.removeEventListener('keydown', this.handleKeyDown);
+            this.input.removeEventListener('focus', this.handleFocus);
+
+            // 从DOM中移除
+            if (this.input.parentNode) {
+                this.input.parentNode.removeChild(this.input);
+            }
+
+            this.input = null;
+        }
+    }
+
+    handleKeyDown(e) {
+        if (!this.isActive || !this.input || this.isProcessing) return;
+
+        // 检测Enter键（回车键）
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            e.preventDefault(); // 阻止默认行为
+
+            const scanText = this.input.value.trim();
+            // 检查是否有有效数据
+            if (scanText && scanText.length > 0) {
+                this.processScan(scanText);
+            }
+
+            // 立即清空输入框
+            this.input.value = '';
+        }
     }
 
     handleFocus() {
-        if (!this.isActive) return;
-        // 立即失去焦点，防止键盘弹出
-        setTimeout(() => this.input.blur(), 0);
+        if (!this.isActive || !this.input) return;
+
+        // 确保输入框是空的，准备接收新的扫描
+        setTimeout(() => this.input.value = '', 0);
+        this.isProcessing = false;
     }
 
     processScan(text) {
-        if (!text || !this.isActive) return;
+        if (!text || !this.isActive || this.isProcessing) return;
+
+        // 设置处理标志，防止重复处理
+        this.isProcessing = true;
+
+        // 检查是否是重复扫码（简单实现）
+        const now = Date.now();
+        if (this.lastScanText === text && (now - this.lastScanTime) < 300) {
+            console.log('检测到重复扫码，跳过:', text);
+            this.isProcessing = false;
+            return;
+        }
+
+        // 记录本次扫码
+        this.lastScanText = text;
+        this.lastScanTime = now;
+
         console.log('扫码结果:', text);
-        this.invoker.invokeMethodAsync('OnScanned', text, '');
-        // 触发自定义事件
-        //const event = new CustomEvent('scan', { detail: { data } });
-        //document.dispatchEvent(event);
-        setTimeout(() => this.keepFocus(), 100);
+
+        // 调用外部方法
+        try {
+            this.invoker.invokeMethodAsync('OnScanned', text, '');
+        } catch (error) {
+            console.error('调用扫描回调失败:', error);
+        }
+
+        // 延迟重置处理标志，确保不会重复处理同一个扫码
+        setTimeout(() => this.isProcessing = false, 100);
+        // 重新获取焦点，准备下一次扫码
+        setTimeout(() => this.keepFocus(), 50);
     }
 
     keepFocus() {
-        if (!this.isActive) return;
+        if (!this.isActive || !this.input || this.isProcessing) return;
         try {
+            // 隐藏输入框获取焦点，用于接收扫描输入
             this.input.focus();
         } catch (e) {
             console.warn('无法获取焦点:', e);
         }
+    }
+
+    // 添加一个重启方法
+    restart() {
+        this.stop();
+        setTimeout(() => this.start(), 100);
+    }
+
+    // 添加一个销毁方法，用于完全清理
+    destroy() {
+        this.stop();
+        // 移除所有绑定的事件和引用
+        this.invoker = null;
+        this.input = null;
     }
 }
 
@@ -145,7 +221,7 @@ window.KUtils = {
         this.pda.start();
     },
     stopPDA: function () {
-        this.pda?.stop();
+        this.pda?.destroy();
     },
     scanStart: function (invoker, videoId) {
         this.scanner = new KScanner(invoker, videoId);
