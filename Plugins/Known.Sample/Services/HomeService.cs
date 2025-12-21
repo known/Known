@@ -44,6 +44,16 @@ class HomeService(Context context, INotifyService service) : ServiceBase(context
         return info;
     }
 
+    public async Task<string> GetTestAsync(string id, string name)
+    {
+        return $"{id}-{name}";
+    }
+
+    public async Task<string> PostTestAsync(string id, string name)
+    {
+        return $"{id}-{name}";
+    }
+
     private static async Task<StatisticsInfo> GetStatisticsInfoAsync(Database db)
     {
         var info = new StatisticsInfo

@@ -368,6 +368,23 @@ public sealed class Utils
     }
 
     /// <summary>
+    /// 判断字符串是否为JSON格式。
+    /// </summary>
+    /// <param name="input">字符串。</param>
+    /// <returns></returns>
+    public static bool IsJson(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+            return false;
+
+        if (!(input.StartsWith('{') && input.EndsWith('}')) &&
+            !(input.StartsWith('[') && input.EndsWith(']')))
+            return false;
+
+        return true;
+    }
+
+    /// <summary>
     /// 将对象序列化为JSON字符串（使用.NET内置JSON序列化）。
     /// </summary>
     /// <param name="value">对象。</param>

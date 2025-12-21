@@ -62,7 +62,6 @@ public class WebApiPage : BaseTablePage<ApiMethodInfo>
 class WebApiForm : BaseComponent
 {
     private readonly Dictionary<string, string> request = [];
-    private string getData = "";
     private string postData = "";
     private string result = "";
 
@@ -165,12 +164,8 @@ class WebApiForm : BaseComponent
                     BuildLabel(builder, param.ParameterType.Name, param.Name);
                     builder.TextBox(new InputModel<string>
                     {
-                        Value = getData,
-                        ValueChanged = this.Callback<string>(value =>
-                        {
-                            getData = value;
-                            request[param.Name] = value;
-                        })
+                        Value = request.GetValue<string>(param.Name),
+                        ValueChanged = this.Callback<string>(value => request[param.Name] = value)
                     });
                 });
             }
@@ -188,8 +183,11 @@ class WebApiForm : BaseComponent
 
     private void BuildResult(RenderTreeBuilder builder)
     {
-        var value = Utils.FromJson<object>(result);
-        result = FormatJson(value);
+        if (Utils.IsJson(result))
+        {
+            var value = Utils.FromJson<object>(result);
+            result = FormatJson(value);
+        }
         builder.Pre().Class("kui-api-result").Child(result);
     }
 
@@ -233,10 +231,13 @@ class WebApiForm : BaseComponent
         return $"{Config.HostUrl}/api{url}";
     }
 
-    private StringContent GetPostContent()
+    private HttpContent GetPostContent()
     {
         if (Model.Parameters == null || Model.Parameters.Length == 0)
             return null;
+
+        if (Model.Parameters.Length > 1)
+            return new FormUrlEncodedContent(request);
 
         var param = Model.Parameters[0];
         var json = request.GetValue<string>(param.Name);
