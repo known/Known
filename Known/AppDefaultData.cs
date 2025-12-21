@@ -40,6 +40,7 @@ class AppDefaultData
                     Visible = attr.Visible,
                     Tabs = attr.Tabs
                 };
+                Language.DefaultDatas.Add(action.Name);
                 if (config == null)
                     Config.Actions.Add(action);
                 if (hasParameter)
@@ -56,6 +57,8 @@ class AppDefaultData
         var fields = TypeCache.Fields(entityType);
         foreach (var item in fields)
         {
+            Language.DefaultDatas.Add(item.DisplayName);
+
             var column = item.GetPageColumn();
             if (column != null)
                 info.Page.Columns.Add(column);

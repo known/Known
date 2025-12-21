@@ -88,6 +88,8 @@ class MenuHelper
 
     private static void AddParent(string id, string name, string icon, string target, int sort)
     {
+        Language.DefaultDatas.Add(name);
+
         if (DataHelper.Routes.Any(d => d.Id == id))
             return;
 
@@ -104,12 +106,14 @@ class MenuHelper
         if (tabs != null)
         {
             info.Name = tabs.Title;
+            Language.DefaultDatas.Add(info.Name);
             return;
         }
 
         if (role != null)
         {
             info.Name = role.Name;
+            Language.DefaultDatas.Add(info.Name);
             return;
         }
 
@@ -117,6 +121,7 @@ class MenuHelper
         {
             info.Name = tabRole.Name;
             info.ParentId = tabRole.Parent.FullName;
+            Language.DefaultDatas.Add(info.Name);
             return;
         }
 
@@ -125,6 +130,7 @@ class MenuHelper
             info.Name = plugin.Name;
             info.Icon = plugin.Icon;
             info.Sort = plugin.Sort;
+            Language.DefaultDatas.Add(info.Name);
             return;
         }
 
@@ -137,6 +143,7 @@ class MenuHelper
             info.Sort = menu.Sort;
             info.Target = nameof(LinkTarget.None);
             info.IsCode = true;
+            Language.DefaultDatas.Add(info.Name);
         }
     }
 }

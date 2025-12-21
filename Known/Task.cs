@@ -11,22 +11,22 @@ public class TaskJobStatus
     /// <summary>
     /// 待执行。
     /// </summary>
-    public const string Pending = "Pending";
+    public const string Pending = "待执行";
 
     /// <summary>
     /// 执行中。
     /// </summary>
-    public const string Running = "Running";
+    public const string Running = "执行中";
 
     /// <summary>
     /// 执行成功。
     /// </summary>
-    public const string Success = "Success";
+    public const string Success = "执行成功";
 
     /// <summary>
     /// 执行失败。
     /// </summary>
-    public const string Failed = "Failed";
+    public const string Failed = "执行失败";
 }
 
 /// <summary>

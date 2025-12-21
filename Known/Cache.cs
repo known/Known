@@ -230,7 +230,7 @@ public sealed class Cache
             var code = new CodeInfo(type.Name, name, name, null);
             codes.Add(code);
 
-            if (item.IsLiteral && !item.IsInitOnly)
+            if (item.IsLiteral && !item.IsInitOnly && item.Name != name)
                 Language.DefaultDatas.Add(name);
         }
         codeCache.Set(type.Name, codes);

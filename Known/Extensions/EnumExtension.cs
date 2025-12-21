@@ -29,7 +29,8 @@ public static class EnumExtension
         var displayName = field.GetCustomAttribute<DisplayNameAttribute>();
         if (displayName != null)
             return displayName.DisplayName;
-        return name;
+
+        return string.Empty;
     }
 
     /// <summary>
@@ -39,8 +40,7 @@ public static class EnumExtension
     /// <returns></returns>
     public static bool IsBoolean(this FieldType type)
     {
-        return type == FieldType.Switch ||
-               type == FieldType.CheckBox;
+        return type == FieldType.Switch || type == FieldType.CheckBox;
     }
 
     /// <summary>
@@ -50,8 +50,7 @@ public static class EnumExtension
     /// <returns></returns>
     public static bool IsDateTime(this FieldType type)
     {
-        return type == FieldType.Date ||
-               type == FieldType.DateTime;
+        return type == FieldType.Date || type == FieldType.DateTime;
     }
 
     /// <summary>

@@ -158,6 +158,7 @@ static class InitHelper
     {
         menu.Page = type;
         menu.Url = route?.Template;
+        Language.DefaultDatas.Add(menu.Name);
         Config.AppMenus.Add(new MenuInfo
         {
             Id = type.Name,

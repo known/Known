@@ -31,6 +31,8 @@ public class PluginConfig
 
     internal static void AddPlugin(Type item, PluginAttribute plugin, RouteAttribute route)
     {
+        Language.DefaultDatas.Add(plugin.Name);
+
         if (plugin.Name == Language.NavFontSize && !Config.App.IsSize)
             return;
         if (plugin.Name == Language.NavLanguage && !Config.App.IsLanguage)

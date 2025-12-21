@@ -10,6 +10,6 @@ static class LanguageExtension
         if (infos.Exists(l => l.Chinese == name))
             return;
 
-        infos.Add(new SysLanguage { Chinese = name });
+        infos.Add(new SysLanguage { AppId = Config.App.Id, Chinese = name });
     }
 }
