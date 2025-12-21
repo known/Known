@@ -31,6 +31,9 @@ public class PluginConfig
 
     internal static void AddPlugin(Type item, PluginAttribute plugin, RouteAttribute route)
     {
+        if (Config.App.Type == AppType.Desktop && plugin.Name == "WebApi")
+            return;
+
         Language.DefaultDatas.Add(plugin.Name);
 
         if (plugin.Name == Language.NavFontSize && !Config.App.IsSize)
