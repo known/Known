@@ -19,6 +19,16 @@ public class AntAutoComplete : AutoComplete<CodeInfo>
     /// </summary>
     [CascadingParameter] public UIContext Context { get; set; }
 
+    /// <summary>
+    /// 取得或设置最大显示数量，默认10。
+    /// </summary>
+    [Parameter] public int MaxSize { get; set; } = 10;
+
+    /// <summary>
+    /// 取得或设置搜索方法。
+    /// </summary>
+    [Parameter] public Func<string, int, Task<List<CodeInfo>>> OnSearch { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -31,6 +41,15 @@ public class AntAutoComplete : AutoComplete<CodeInfo>
         }
         AllowFilter = true;
         OptionFormat = item => item.Value.Name;
+
+        if (OnSearch != null)
+            OnInput = this.Callback<ChangeEventArgs>(OnInputAsync);
+
         base.OnInitialized();
+    }
+
+    private async Task OnInputAsync(ChangeEventArgs args)
+    {
+        Options = await OnSearch(args.Value.ToString(), MaxSize);
     }
 }
