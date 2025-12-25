@@ -2,7 +2,14 @@
 
 class AccessProvider(Database db) : DbProvider(db)
 {
-    public override string FormatName(string name) => $"`{name}`";
+    public override string FormatName(string name)
+    {
+        if (!name.Contains('.'))
+            return $"`{name}`";
+
+        var names = name.Split('.');
+        return $"{names[0]}.`{names[1]}`";
+    }
 
     internal override string GetTableSql(string dbName)
     {
