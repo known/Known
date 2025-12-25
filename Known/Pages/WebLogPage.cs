@@ -22,7 +22,7 @@ public class WebLogPage : BaseTablePage<LogInfo>
         Service = await CreateServiceAsync<ILogService>();
 
         Table.SetDevTable();
-        Table.Name = PageName;
+        Table.EnableSort = false;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Service.QueryWebLogsAsync;
         Table.Tips = Language[Language.TipWebLogSaveDay].Replace("{LogDays}", $"{Config.App.WebLogDays}");

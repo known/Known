@@ -22,6 +22,7 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         Service = await CreateServiceAsync<IButtonService>();
 
         Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute);
+        Table.EnableSort = false;
         Table.Name = PageName;
         Table.SelectType = TableSelectType.Checkbox;
         Table.OnQuery = Service.QueryButtonsAsync;
