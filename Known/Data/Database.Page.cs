@@ -170,7 +170,6 @@ public partial class Database
             Provider?.SetCommand(info, criteria, User);
             byte[] exportData = null;
             Dictionary<string, object> statis = null;
-            List<string> ids = null;
             var pageData = new List<T>();
             using var cmd = await PrepareCommandAsync(info);
             cmd.CommandText = info.CountSql;
@@ -179,11 +178,6 @@ public partial class Database
             watch.Write($"QueryTotal {total}");
             if (total > 0)
             {
-                //if (!string.IsNullOrWhiteSpace(info.IdSql))
-                //{
-                //    var cmdId = new CommandInfo { Text = info.IdSql, Params = info.Params };
-                //    ids = await ScalarsAsync<string>(cmdId);
-                //}
                 cmd.CommandText = info.PageSql;
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -221,7 +215,7 @@ public partial class Database
                 pageData = [.. pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize)];
 
             watch.Write("PagingResult");
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis, Ids = ids };
+            return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
         }
         catch (Exception ex)
         {

@@ -50,11 +50,6 @@ public class PagingResult<T>
     public List<T> PageData { get; set; }
 
     /// <summary>
-    /// 取得或设置查询结果所有记录ID列表。
-    /// </summary>
-    public List<string> Ids { get; set; }
-
-    /// <summary>
     /// 取得或设置统计字段字典。
     /// </summary>
     public Dictionary<string, object> Statis { get; set; }

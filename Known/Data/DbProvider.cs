@@ -226,12 +226,12 @@ class DbProvider(Database db)
                 }
                 else if (item.Contains("desc"))
                 {
-                    var orderBy = GetOrderBy(criteria, item, "desc");
+                    var orderBy = GetOrderBy(item, "desc");
                     orderBys.Add(orderBy);
                 }
                 else
                 {
-                    var orderBy = GetOrderBy(criteria, item, "asc");
+                    var orderBy = GetOrderBy(item, "asc");
                     orderBys.Add(orderBy);
                 }
             }
@@ -244,10 +244,9 @@ class DbProvider(Database db)
         return order;
     }
 
-    private string GetOrderBy(PagingCriteria criteria, string item, string sort)
+    private string GetOrderBy(string item, string sort)
     {
         var field = item.Replace(sort, "").Trim();
-        field = criteria.GetFieldName(field);
         return $"{FormatName(field)} {sort}";
     }
 
@@ -262,11 +261,5 @@ class DbProvider(Database db)
         });
         var columns = string.Join(",", statisColumns);
         return $"select {columns} from ({text}) t";
-    }
-
-    private string GetIdSql(string text, PagingCriteria criteria)
-    {
-        var order = GetOrderBy(criteria);
-        return $"select Id from ({text} order by {order}) t";
     }
 }
