@@ -123,6 +123,28 @@ public partial class Config
     public static ConcurrentDictionary<string, Type> FieldTypes { get; } = [];
 
     /// <summary>
+    /// 创建注入的服务实例。
+    /// </summary>
+    /// <typeparam name="T">服务类型。</typeparam>
+    /// <returns></returns>
+    public static T CreateService<T>()
+    {
+        var scope = ServiceProvider.CreateScope();
+        return scope.ServiceProvider.GetRequiredService<T>();
+    }
+
+    /// <summary>
+    /// 创建注入的服务实例。
+    /// </summary>
+    /// <param name="type">服务类型。</param>
+    /// <returns></returns>
+    public static object CreateService(Type type)
+    {
+        var scope = ServiceProvider.CreateScope();
+        return scope.ServiceProvider.GetRequiredService(type);
+    }
+
+    /// <summary>
     /// 获取带有版本号的静态文件URL地址（版本号是根据文件修改日期生成）。
     /// </summary>
     /// <param name="url">静态文件URL。</param>

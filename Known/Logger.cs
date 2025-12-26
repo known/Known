@@ -254,8 +254,7 @@ public partial class Logger
         {
             try
             {
-                var scope = Config.ServiceProvider?.CreateScope();
-                var service = scope?.ServiceProvider?.GetRequiredService<ILogService>();
+                var service = Config.CreateService<ILogService>();
                 service?.AddWebLogAsync(log);
             }
             catch

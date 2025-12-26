@@ -22,8 +22,7 @@ public sealed class TaskHelper
         if (!CoreConfig.TaskTypes.TryGetValue(task.Type, out Type type))
             return Task.CompletedTask;
 
-        var scope = Config.ServiceProvider.CreateScope();
-        if (scope.ServiceProvider.GetRequiredService(type) is not TaskBase handler)
+        if (Config.CreateService(type) is not TaskBase handler)
             throw new InvalidOperationException($"The {task.Type} is not register.");
 
         handler.Context = context;

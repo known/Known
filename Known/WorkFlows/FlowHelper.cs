@@ -56,8 +56,7 @@ class FlowHelper
         if (!CoreConfig.FlowTypes.TryGetValue(flow.FlowCode, out Type type))
             throw new SystemException(context.Language[FlowLanguage.TipNotRegisterFlow]);
 
-        var scope = Config.ServiceProvider.CreateScope();
-        if (scope.ServiceProvider.GetRequiredService(type) is FlowBase flowInstance)
+        if (Config.CreateService(type) is FlowBase flowInstance)
         {
             flowInstance.Context = context;
             flowInstance.SetServiceContext(context);

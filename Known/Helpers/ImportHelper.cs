@@ -78,8 +78,7 @@ public sealed class ImportHelper
         if (!CoreConfig.ImportTypes.TryGetValue(impContext.BizType, out Type type))
             return null;
 
-        var scope = Config.ServiceProvider.CreateScope();
-        if (scope.ServiceProvider.GetRequiredService(type) is ImportBase import)
+        if (Config.CreateService(type) is ImportBase import)
         {
             import.ImportContext = impContext;
             import.SetServiceContext(impContext.Context);

@@ -244,9 +244,7 @@ public partial class Database : IDisposable
         if (Config.ServiceProvider == null)
             return new Database();
 
-        var scope = Config.ServiceProvider.CreateScope();
-        var database = scope.ServiceProvider.GetRequiredService<Database>();
-        return database;
+        return Config.CreateService<Database>();
     }
 
     private void SetDatabase(string connName, DatabaseType databaseType, string connString)
