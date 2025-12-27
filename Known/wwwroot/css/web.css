@@ -935,7 +935,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 #components-reconnect-modal > .mask, #blazor-error-ui > .mask {
     text-align:center;position:fixed;z-index:2000;top:0;left:0;right:0;bottom:0;
 }
-#components-reconnect-modal > .mask, #blazor-error-ui > .mask {background-color:#000;opacity:0.75;}
+#components-reconnect-modal > .mask, #blazor-error-ui > .mask {background-color:#000;opacity:0.55;}
 #components-reconnect-modal, #components-reconnect-modal > .mask, #blazor-error-ui {display:none;}
 #blazor-error-ui > .error,
 #components-reconnect-modal > .show,
@@ -945,16 +945,16 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
     background-color:#fff;padding:15px;border-radius:5px;font-size:18px;
 }
 #blazor-error-ui > .error {display:block;}
-#components-reconnect-modal.components-reconnect-show1,
-#components-reconnect-modal.components-reconnect-show1 > .mask,
-#components-reconnect-modal.components-reconnect-show1 > .show,
-#components-reconnect-modal.components-reconnect-failed,
-#components-reconnect-modal.components-reconnect-failed > .mask,
-#components-reconnect-modal.components-reconnect-failed > .failed,
+#components-reconnect-modal.components-reconnect-show,
+#components-reconnect-modal.components-reconnect-show > .mask,
+#components-reconnect-modal.components-reconnect-show > .show,
+#components-reconnect-modal.components-reconnect-resume-failed,
+#components-reconnect-modal.components-reconnect-resume-failed > .mask,
+#components-reconnect-modal.components-reconnect-resume-failed > .failed,
 #components-reconnect-modal.components-reconnect-rejected,
 #components-reconnect-modal.components-reconnect-rejected > .mask,
 #components-reconnect-modal.components-reconnect-rejected > .rejected {display:block;}
 #components-reconnect-modal a, #blazor-error-ui a {margin-top:10px;}
 #components-reconnect-modal .show {color:#1890ff;}
-#components-reconnect-modal .failed, #blazor-error-ui > .error {color:#d9363e;}
-#components-reconnect-modal .rejected {color:#52c41a;}
+#components-reconnect-modal .failed {color:#52c41a;}
+#components-reconnect-modal .rejected, #blazor-error-ui > .error {color:#d9363e;}

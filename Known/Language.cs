@@ -528,7 +528,7 @@ public class Language
 
     internal const string TipEnterKeyword = "输入关键字";
     internal const string TipNotPreview = "不支持在线预览";
-    internal const string TipSystemUpdating = "系统正在更新，请稍候...";
+    internal const string TipSystemReconnect = "系统连接断开，正在重连，请稍候...";
     internal const string TipSystemDisconnect = "系统连接失败，请确认网络，尝试重新连接！";
     internal const string TipSystemConnected = "系统连接成功，请重新加载！";
     internal const string TipSystemError = "抱歉，系统出错了，请重新加载！";

@@ -13,22 +13,15 @@
 }
 <div id="components-reconnect-modal">
     <div class="mask"></div>
-    @* <div class="show">
-        <div class="text">@Language[Language.TipSystemUpdating]</div>
-    </div> *@
-    <div class="failed">
-        <div class="text">@Language[Language.TipSystemDisconnect]</div>
-        <a href="javascript:window.Blazor.reconnect()" class="ant-btn ant-btn-primary">@Language[Language.ReConnect]</a>
+    <div class="show">
+        <div class="text">@Language[Language.TipSystemReconnect]</div>
     </div>
-    <div class="rejected">
+    <div class="failed">
         <div class="text">@Language[Language.TipSystemConnected]</div>
         <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">@Language[Language.ReLoad]</a>
     </div>
-</div>
-<div id="blazor-error-ui">
-    <div class="mask"></div>
-    <div class="error">
-        <div class="text">@Language[Language.TipSystemError]</div>
-        <a href="javascript:location.reload()" class="ant-btn ant-btn-primary">@Language[Language.ReLoad]</a>
+    <div class="rejected">
+        <div class="text">@Language[Language.TipSystemDisconnect]</div>
+        <a href="javascript:window.Blazor.reconnect()" class="ant-btn ant-btn-primary">@Language[Language.ReConnect]</a>
     </div>
 </div>
