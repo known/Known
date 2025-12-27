@@ -361,10 +361,11 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+.codebuddy/
+
 *.db
 *.kmd
 *.kcd
 *.kdb
 Files/
 UploadFiles/
-

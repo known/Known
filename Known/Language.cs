@@ -420,6 +420,7 @@ public class Language
     internal const string SelectIcon = "选择图标";
     internal const string SelectUser = "选择用户";
     internal const string SystemSetting = "系统设置";
+    internal const string TaskNotify = "任务通知";
     /// <summary>
     /// 安全设置。
     /// </summary>

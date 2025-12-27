@@ -42,7 +42,7 @@ public abstract class ClientBase(HttpClient http) : IService
 /// 抽象业务服务基类。
 /// </summary>
 /// <param name="context">系统上下文对象。</param>
-public partial class ServiceBase(Context context) : IService
+public class ServiceBase(Context context) : IService
 {
     /// <summary>
     /// 取得当前系统配置信息。

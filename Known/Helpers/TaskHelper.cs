@@ -31,6 +31,7 @@ public sealed class TaskHelper
 
     private static async Task RunAsync(SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
+        var notify = Config.CreateService<INotifyService>();
         using var db = Database.Create();
         try
         {
@@ -46,12 +47,14 @@ public sealed class TaskHelper
             task.Status = result.IsValid ? TaskJobStatus.Success : TaskJobStatus.Failed;
             task.Note = result.Message;
             await db.SaveAsync(task);
+            await notify.LayoutNotifyAsync(task.CreateBy, Language.TaskNotify, $"{task.Status}：{task.Note}");
         }
         catch (Exception ex)
         {
             task.Status = TaskJobStatus.Failed;
             task.Note = ex.ToString();
             await db.SaveAsync(task);
+            await notify.LayoutNotifyAsync(task.CreateBy, Language.TaskNotify, $"执行错误：{ex.Message}", StyleType.Error);
         }
     }
 }
