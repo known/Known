@@ -25,11 +25,7 @@ public static partial class Extension
         services.AddScoped<UIService>();
         services.AddSingleton<ICodeGenerator, CodeGenerator>();
         services.AddSingleton<INotifyService, NotifyService>();
-
-        if (Config.App.IsClient)
-            services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
-        else
-            services.AddScoped<IAuthStateProvider, AuthStateProvider>();
+        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPluginService, PluginService>();
 
         AddStyles();
@@ -47,7 +43,6 @@ public static partial class Extension
         Config.IsClient = true;
         action?.Invoke(ClientOption.Instance);
 
-        services.AddScoped<IAuthStateProvider, JSAuthStateProvider>();
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
         services.LoadClients();
 
@@ -72,10 +67,6 @@ public static partial class Extension
     {
         Config.IsNotifyHub = false;
         Config.App.Type = AppType.Desktop;
-        //services.AddHttpContextAccessor();
-        //services.AddCascadingAuthenticationState();
-        services.AddScoped<IAuthStateProvider, AuthStateProvider>();
-        //services.AddScoped<AuthenticationStateProvider, WinAuthStateProvider>();
         services.AddKnownCore(action);
     }
 

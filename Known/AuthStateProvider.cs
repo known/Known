@@ -47,23 +47,3 @@ class AuthStateProvider : IAuthStateProvider
         return Task.CompletedTask;
     }
 }
-
-class JSAuthStateProvider(JSService js) : IAuthStateProvider
-{
-    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
-
-    public async Task<string> SignInAsync(UserInfo user)
-    {
-        if (user == null)
-            return string.Empty;
-
-        user.SessionId = Utils.GetGuid();
-        await js.SetUserInfoAsync(user);
-        return user.SessionId;
-    }
-
-    public async Task SignOutAsync()
-    {
-        await js.SetUserInfoAsync(null);
-    }
-}
