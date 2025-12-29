@@ -73,7 +73,6 @@ public static class HttpExtension
     /// <summary>
     /// 异步发送泛型类型数据搭配服务端。
     /// </summary>
-    /// <typeparam name="TParam">发送数据类型。</typeparam>
     /// <typeparam name="TResult">返回数据类型。</typeparam>
     /// <param name="http">HTTP客户端对象。</param>
     /// <param name="url">远程URL。</param>
