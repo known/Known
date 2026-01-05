@@ -32,7 +32,6 @@ class DbProvider(Database db)
         return provider;
     }
 
-    private string IdName => FormatName(nameof(EntityBase.Id));
     private string CreateTimeName => FormatName(nameof(EntityBase.CreateTime));
 
     internal Database Database { get; } = db;
@@ -133,15 +132,16 @@ class DbProvider(Database db)
         {
             keys.Add(key);
         }
-        var cloumn = string.Join(",", keys.Select(FormatName).ToArray());
-        var value = string.Join(",", keys.Select(k => $"@{k}").ToArray());
+        var cloumn = string.Join(",", [.. keys.Select(FormatName)]);
+        var value = string.Join(",", [.. keys.Select(k => $"@{k}")]);
         var sql = $"insert into {FormatName(tableName)}({cloumn}) values({value})";
         return new CommandInfo(this, typeof(T), sql, changes);
     }
 
-    public CommandInfo GetUpdateCommand<T, TKey>(T data = default) where T : EntityBase<TKey>
+    public CommandInfo GetUpdateCommand<T>(T data = default) where T : BaseEntity
     {
-        var tableName = GetTableName(typeof(T));
+        var type = typeof(T);
+        var tableName = GetTableName(type);
         var cmdParams = DbUtils.ToDictionary(data);
         var changes = new Dictionary<string, object>();
         foreach (var item in cmdParams)
@@ -151,13 +151,22 @@ class DbProvider(Database db)
         }
 
         var changeKeys = new List<string>();
-        foreach (var key in changes.Keys)
+        foreach (var item in changes.Keys)
         {
-            changeKeys.Add($"{FormatName(key)}=@{key}");
+            changeKeys.Add($"{FormatName(item)}=@{item}");
         }
-        var column = string.Join(",", [.. changeKeys]);
-        var sql = $"update {FormatName(tableName)} set {column} where {IdName}=@Id";
-        changes["Id"] = data.Id;
+
+        var keys = new List<string>();
+        var keyFields = TypeCache.Fields(type).Where(d => d.IsKey).ToList();
+        foreach (var item in keyFields)
+        {
+            keys.Add($"{FormatName(item.Name)}=@{item.Name}");
+            changes[item.Name] = cmdParams[item.Name];
+        }
+
+        var column = string.Join(",", changeKeys);
+        var key = string.Join(" and ", keys);
+        var sql = $"update {FormatName(tableName)} set {column} where {key}";
         return new CommandInfo(this, typeof(T), sql, changes);
     }
 

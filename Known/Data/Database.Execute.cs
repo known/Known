@@ -194,6 +194,47 @@ public partial class Database
     }
 
     /// <summary>
+    /// 异步执行非查询数据库命令。
+    /// </summary>
+    /// <param name="info">命令信息。</param>
+    /// <returns></returns>
+    public async Task<int> ExecuteNonQueryAsync(CommandInfo info)
+    {
+        try
+        {
+            using var cmd = await PrepareCommandAsync(info);
+            var value = cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            if (info.IsClose && !IsMemoryDB)
+                conn?.Close();
+            DbMonitor.OnOperate(info, true);
+            return value;
+        }
+        catch (Exception ex)
+        {
+            DbMonitor.OnOperate(info, false);
+            HandException(info, ex);
+            throw new SystemException(ex.Message, ex);
+        }
+    }
+
+    /// <summary>
+    /// 异步保存实体对象。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="entity">实体对象。</param>
+    /// <returns>影响的行数。</returns>
+    public Task<int> SaveEntityAsync<T>(T entity) where T : BaseEntity, new()
+    {
+        var info = entity.IsNew
+                 ? Provider.GetInsertCommand(entity)
+                 : Provider.GetUpdateCommand(entity);
+        info.IsSave = true;
+        info.Original = entity.Original;
+        return ExecuteNonQueryAsync(info);
+    }
+
+    /// <summary>
     /// 异步保存实体对象。
     /// </summary>
     /// <typeparam name="T">实体类型。</typeparam>
@@ -201,12 +242,7 @@ public partial class Database
     /// <returns>影响的行数。</returns>
     protected virtual Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new()
     {
-        var info = entity.IsNew
-                 ? Provider.GetInsertCommand(entity)
-                 : Provider.GetUpdateCommand<T, string>(entity);
-        info.IsSave = true;
-        info.Original = entity.Original;
-        return ExecuteNonQueryAsync(info);
+        return SaveEntityAsync(entity);
     }
 
     private async Task SaveAsync<T>(T entity, bool isCheckEntity) where T : EntityBase, new()
@@ -253,25 +289,5 @@ public partial class Database
         var info = Provider?.GetSelectCommand<T>(d => d.Id == entity.Id);
         var original = await QueryAsync<Dictionary<string, object>>(info);
         entity.SetOriginal(original);
-    }
-
-    private async Task<int> ExecuteNonQueryAsync(CommandInfo info)
-    {
-        try
-        {
-            using var cmd = await PrepareCommandAsync(info);
-            var value = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            if (info.IsClose && !IsMemoryDB)
-                conn?.Close();
-            DbMonitor.OnOperate(info, true);
-            return value;
-        }
-        catch (Exception ex)
-        {
-            DbMonitor.OnOperate(info, false);
-            HandException(info, ex);
-            throw new SystemException(ex.Message, ex);
-        }
     }
 }

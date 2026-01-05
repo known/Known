@@ -10,7 +10,7 @@ public class BaseEntity
     /// <summary>
     /// 取得或设置是否是新增实体。
     /// </summary>
-    public virtual bool IsNew { get; set; }
+    public virtual bool IsNew { get; set; } = true;
 
     internal void SetOriginal(Dictionary<string, object> original)
     {
@@ -47,7 +47,7 @@ public class EntityBase<TKey> : BaseEntity
     /// <summary>
     /// 取得或设置实体ID。
     /// </summary>
-    public TKey Id { get; set; }
+    [Key] public TKey Id { get; set; }
 
     /// <summary>
     /// 填充实体对应的数据传输对象属性。

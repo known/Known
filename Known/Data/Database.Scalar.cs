@@ -75,7 +75,13 @@ public partial class Database
         return ScalarAsync<int>(sql);
     }
 
-    internal async Task<T> ScalarAsync<T>(CommandInfo info)
+    /// <summary>
+    /// 异步执行标量查询命令。
+    /// </summary>
+    /// <typeparam name="T">标量类型。</typeparam>
+    /// <param name="info">查询命令。</param>
+    /// <returns></returns>
+    public async Task<T> ScalarAsync<T>(CommandInfo info)
     {
         try
         {

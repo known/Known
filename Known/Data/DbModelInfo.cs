@@ -10,11 +10,13 @@ public class DbModelInfo
     /// </summary>
     /// <param name="type">实体类型。</param>
     /// <param name="keys">主键列表。</param>
-    public DbModelInfo(Type type, List<string> keys)
+    public DbModelInfo(Type type, List<string> keys = null)
     {
         Type = type;
         Keys = keys;
         Fields = GetFields(true);
+        if (keys == null)
+            Keys = [.. Fields.Where(f => f.IsKey).Select(f => f.Id)];
     }
 
     /// <summary>

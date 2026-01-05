@@ -26,7 +26,7 @@ public static class DbConfigExtension
         if (model != null)
             return model;
 
-        model = new DbModelInfo(type, [nameof(EntityBase.Id)]);
+        model = new DbModelInfo(type);
         models.Add(model);
         return model;
     }

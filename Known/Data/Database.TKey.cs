@@ -94,7 +94,7 @@ public partial class Database
     {
         var info = entity.IsNew
                  ? Provider.GetInsertCommand(entity)
-                 : Provider.GetUpdateCommand<T, TKey>(entity);
+                 : Provider.GetUpdateCommand(entity);
         info.IsSave = true;
         info.Original = entity.Original;
         return ExecuteNonQueryAsync(info);

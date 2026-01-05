@@ -205,7 +205,13 @@ public partial class Database
         await CloseAsync();
     }
 
-    internal async Task<T> QueryAsync<T>(CommandInfo info) where T : new()
+    /// <summary>
+    /// 异步执行查询单个对象命令。
+    /// </summary>
+    /// <typeparam name="T">查询对象类型。</typeparam>
+    /// <param name="info">查询命令。</param>
+    /// <returns></returns>
+    public async Task<T> QueryAsync<T>(CommandInfo info) where T : new()
     {
         T obj = default;
         try
@@ -227,7 +233,13 @@ public partial class Database
         return obj;
     }
 
-    internal async Task<List<T>> QueryListAsync<T>(CommandInfo info) where T : new()
+    /// <summary>
+    /// 异步执行查询对象列表命令。
+    /// </summary>
+    /// <typeparam name="T">查询对象类型。</typeparam>
+    /// <param name="info">查询命令。</param>
+    /// <returns></returns>
+    public async Task<List<T>> QueryListAsync<T>(CommandInfo info) where T : new()
     {
         var lists = new List<T>();
         try

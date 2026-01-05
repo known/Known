@@ -68,7 +68,7 @@ public sealed class TypeHelper
     {
         return
         [
-            new() { Id = nameof(EntityBase.Id), Name = "ID", Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.Id), Name = "ID", Type = FieldType.Text, Length = "50", IsKey = true, Required = true },
             new() { Id = nameof(EntityBase.CreateBy), Name = "创建人", Type = FieldType.Text, Length = "50", Required = true },
             new() { Id = nameof(EntityBase.CreateTime), Name = "创建时间", Type = FieldType.DateTime, Required = true },
             new() { Id = nameof(EntityBase.ModifyBy), Name = "修改人", Type = FieldType.Text, Length = "50" },

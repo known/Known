@@ -125,8 +125,16 @@ public class TypeFieldInfo(PropertyInfo property)
 
     internal FieldInfo GetField()
     {
-        var field = new FieldInfo { Id = Name, Name = DisplayName, Type = GetFieldType(), Length = Length?.ToString(), Required = Required, IsKey = IsKey };
-        if (Property.PropertyType == typeof(bool))
+        var field = new FieldInfo
+        {
+            Id = Name,
+            Name = DisplayName,
+            Type = GetFieldType(),
+            Length = Length?.ToString(),
+            Required = Required,
+            IsKey = IsKey
+        };
+        if (field.IsKey || Property.PropertyType == typeof(bool))
             field.Required = true;
         return field;
     }
@@ -136,7 +144,15 @@ public class TypeFieldInfo(PropertyInfo property)
         var column = GetAttribute<ColumnAttribute>();
         if (column == null) return null;
 
-        var info = new PageColumnInfo { Id = Name, Name = DisplayName, Length = Length?.ToString(), Required = Required, Category = Category, Type = column.Type };
+        var info = new PageColumnInfo
+        {
+            Id = Name,
+            Name = DisplayName,
+            Length = Length?.ToString(),
+            Required = Required,
+            Category = Category,
+            Type = column.Type
+        };
         if (info.Type == FieldType.Text)
             info.Type = GetFieldType();
 
