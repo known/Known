@@ -86,6 +86,7 @@ public class CommandInfo
 
     internal void SetParameters<T>(T data)
     {
+        Parameters = [];
         var parameters = DbUtils.ToDictionary(data);
         foreach (var item in parameters)
         {

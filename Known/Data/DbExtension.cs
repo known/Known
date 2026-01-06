@@ -15,13 +15,14 @@ public static class DbExtension
     /// <returns></returns>
     public static DbParamInfo Add(this List<DbParamInfo> infos, string name, object value, ParameterDirection direction = ParameterDirection.Input)
     {
-        var info = new DbParamInfo
+        var info = infos.FirstOrDefault(d => d.Name == name);
+        if (info == null)
         {
-            Name = name,
-            Value = value,
-            Direction = direction
-        };
-        infos.Add(info);
+            info = new DbParamInfo { Name = name };
+            infos.Add(info);
+        }
+        info.Value = value;
+        info.Direction = direction;
         return info;
     }
 
