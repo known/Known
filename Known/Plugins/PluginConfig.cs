@@ -13,6 +13,11 @@ public class PluginConfig
     public static List<PluginMenuInfo> Plugins { get; } = [];
 
     /// <summary>
+    /// 取得框架插件忽略的插件类型列表。
+    /// </summary>
+    public static List<Type> IgnoreTypes { get; } = [];
+
+    /// <summary>
     /// 取得或设置插件ID转换委托，适用于插件组件类名变更。
     /// </summary>
     public static Func<string, string> OnPluginIdTrans { get; set; }
@@ -41,6 +46,8 @@ public class PluginConfig
         if (plugin.Name == Language.NavLanguage && !Config.App.IsLanguage)
             return;
         if (plugin.Name == Language.NavTheme && !Config.App.IsTheme)
+            return;
+        if (IgnoreTypes.Contains(item))
             return;
 
         Plugins.Add(new PluginMenuInfo(item, plugin) { Url = route?.Template });
