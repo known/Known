@@ -1,10 +1,30 @@
 ﻿namespace Known.Data;
 
 /// <summary>
-/// 数据配置扩展类。
+/// 数据库组件扩展类。
 /// </summary>
-public static class DbConfigExtension
+public static class DbExtension
 {
+    /// <summary>
+    /// 添加数据库命令参数信息。
+    /// </summary>
+    /// <param name="infos">参数列表。</param>
+    /// <param name="name">参数名称。</param>
+    /// <param name="value">参数值。</param>
+    /// <param name="direction">参数方向。</param>
+    /// <returns></returns>
+    public static DbParamInfo Add(this List<DbParamInfo> infos, string name, object value, ParameterDirection direction = ParameterDirection.Input)
+    {
+        var info = new DbParamInfo
+        {
+            Name = name,
+            Value = value,
+            Direction = direction
+        };
+        infos.Add(info);
+        return info;
+    }
+
     /// <summary>
     /// 添加数据实体模型配置。
     /// </summary>

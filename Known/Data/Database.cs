@@ -168,6 +168,7 @@ public partial class Database : IDisposable
     {
         info.IsClose = false;
         var cmd = conn.CreateCommand();
+        cmd.CommandType = info.CmdType;
 
         if (trans != null)
         {
@@ -264,17 +265,19 @@ public partial class Database : IDisposable
         DbMonitor.OnSql(info);
         var cmd = GetDbCommandAsync(info);
         cmd.CommandText = info.Text;
-        if (info.Params != null && info.Params.Count > 0)
+        if (info.Parameters != null && info.Parameters.Count > 0)
         {
             cmd.Parameters.Clear();
-            foreach (var item in info.Params)
+            foreach (var item in info.Parameters)
             {
-                var pName = $"{info.Prefix}{item.Key}";
+                var pName = $"{info.Prefix}{item.Name}";
                 if (info.Text.Contains(pName))
                 {
                     var p = cmd.CreateParameter();
                     p.ParameterName = pName;
                     p.Value = GetParameterValue(item, info.IsSave);
+                    if (info.CmdType == CommandType.StoredProcedure)
+                        p.Direction = item.Direction;
                     cmd.Parameters.Add(p);
                 }
             }
@@ -283,7 +286,7 @@ public partial class Database : IDisposable
         return Task.FromResult(cmd);
     }
 
-    private object GetParameterValue(KeyValuePair<string, object> item, bool isTrim)
+    private object GetParameterValue(DbParamInfo item, bool isTrim)
     {
         if (item.Value == null)
             return DBNull.Value;

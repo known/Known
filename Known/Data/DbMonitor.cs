@@ -76,16 +76,16 @@ class DbMonitor
         {
             var operate = new DbOperateInfo
             {
-                Type = info.Text.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase) 
-                     ? "Insert" 
+                Type = info.Text.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase)
+                     ? "Insert"
                      : info.Text.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase)
-                     ? "Update" 
+                     ? "Update"
                      : "Delete",
                 IsSuccess = success,
                 Command = info,
                 ModelType = info.Type,
                 TableName = info.TableName,
-                Params = info.Params,
+                Params = info.Parameters.ToDictionary(k => k.Name, v => v.Value),
                 Original = info.Original,
                 DeleteItems = info.DeleteItems
             };

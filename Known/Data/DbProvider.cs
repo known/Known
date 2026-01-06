@@ -78,7 +78,12 @@ class DbProvider(Database db)
             //    info.IdSql = GetIdSql(info.Text, criteria).Replace("@", Prefix);
             info.PageSql = GetPageSql(info.Text, criteria).Replace("@", Prefix);
         }
-        info.Params = criteria.ToParameters(user);
+        var parameters = criteria.ToParameters(user);
+        info.Parameters = [];
+        foreach (var item in parameters)
+        {
+            info.Parameters.Add(item.Key, item.Value);
+        }
     }
 
     public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
