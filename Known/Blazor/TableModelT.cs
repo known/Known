@@ -126,11 +126,20 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         if (isPage)
         {
             Clear();
-            var menu = Context.GetMenu(Page.GetType());
+            var type = Page.GetType();
+            var menu = Context.GetMenu(type);
             menu ??= Context.Current;
             if (menu != null)
             {
                 var info = menu.GetAutoPageParameter();
+                if (string.IsNullOrWhiteSpace(info.Name))
+                    info.Name = Language.GetString(menu);
+                if (info.Page == null)
+                {
+                    var page = MenuHelper.CreateAutoPage(type);
+                    info.Page = page.Page;
+                    info.Form = page.Form;
+                }
                 Initialize(info);
                 if (string.IsNullOrWhiteSpace(Name))
                     Name = Language.GetString(menu);
