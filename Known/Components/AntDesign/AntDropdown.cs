@@ -240,6 +240,21 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
     [Parameter] public bool IsSearch { get; set; }
 
     /// <summary>
+    /// 取得或设置文本框是否启用按回车搜索，默认不启用。
+    /// </summary>
+    [Parameter] public bool IsEnter { get; set; }
+
+    /// <summary>
+    /// 取得或设置文本框是否启用清空，默认启用。
+    /// </summary>
+    [Parameter] public bool AllowClear { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置文本框搜索与后端交互的Key参数名称，默认：Key。
+    /// </summary>
+    [Parameter] public string SearchKey { get; set; } = "Key";
+
+    /// <summary>
     /// 取得或设置选中行改变事件委托。
     /// </summary>
     [Parameter] public EventCallback<TItem> OnChange { get; set; }
@@ -287,16 +302,23 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
 
     private void BuildContent(RenderTreeBuilder builder)
     {
-        builder.Component<AntInput>()
-               .Set(c => c.AllowClear, true)
-               .Set(c => c.ReadOnly, !IsSearch)
-               .Set(c => c.Value, Value)
-               .Set(c => c.ValueChanged, ValueChanged)
-               .Set(c => c.Placeholder, Placeholder)
-               .Set(c => c.Disabled, AntForm?.IsView == true)
-               .Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput))
-               .Set(c => c.OnClear, this.Callback(OnClear))
-               .Build();
+        var input = builder.Component<AntInput>();
+        input.Set(c => c.AllowClear, AllowClear);
+        input.Set(c => c.ReadOnly, !IsSearch);
+        input.Set(c => c.Value, Value);
+        input.Set(c => c.ValueChanged, ValueChanged);
+        input.Set(c => c.Placeholder, Placeholder);
+        input.Set(c => c.Disabled, AntForm?.IsView == true);
+        if (IsSearch)
+        {
+            if (IsEnter)
+                input.Set(c => c.OnEnter, this.Callback<string>(OnEnter));
+            else
+                input.Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput));
+        }
+        if (AllowClear)
+            input.Set(c => c.OnClear, this.Callback(OnClear));
+        input.Build();
     }
 
     private void BuildOverlay(RenderTreeBuilder builder)
@@ -318,21 +340,23 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         return Task.CompletedTask;
     }
 
+    private async Task OnEnter(string value)
+    {
+        Table.Criteria.Parameters[SearchKey] = value;
+        await Table.RefreshAsync();
+    }
+
     private Task OnInput(ChangeEventArgs args)
     {
-        if (!IsSearch)
-            return Task.CompletedTask;
-
-        Table.Criteria.Parameters["Key"] = args.Value;
+        Table.Criteria.Parameters[SearchKey] = args.Value;
         return Table.RefreshAsync();
     }
 
-    private Task OnClear()
+    private void OnClear()
     {
         OnValueChanged("");
         if (OnChange.HasDelegate)
             OnChange.InvokeAsync(null);
-        return Task.CompletedTask;
     }
 }
 
