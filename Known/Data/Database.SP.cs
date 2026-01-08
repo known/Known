@@ -13,6 +13,7 @@ public partial class Database
         var data = new DataTable();
         var info = new CommandInfo(Provider, spName);
         info.CmdType = CommandType.StoredProcedure;
+        info.Parameters = parameters;
         using (var reader = await ExecuteReaderAsync(info))
         {
             if (reader != null)
@@ -32,6 +33,7 @@ public partial class Database
     {
         var info = new CommandInfo(Provider, typeof(T), spName);
         info.CmdType = CommandType.StoredProcedure;
+        info.Parameters = parameters;
         return QueryListAsync<T>(info);
     }
 
@@ -46,6 +48,7 @@ public partial class Database
     {
         var info = new CommandInfo(Provider, typeof(T), spName);
         info.CmdType = CommandType.StoredProcedure;
+        info.Parameters = parameters;
         return QueryAsync<T>(info);
     }
 
@@ -60,6 +63,7 @@ public partial class Database
     {
         var info = new CommandInfo(Provider, typeof(T), spName);
         info.CmdType = CommandType.StoredProcedure;
+        info.Parameters = parameters;
         return ScalarAsync<T>(info);
     }
 
@@ -73,6 +77,7 @@ public partial class Database
     {
         var info = new CommandInfo(Provider, spName);
         info.CmdType = CommandType.StoredProcedure;
+        info.Parameters = parameters;
         return ExecuteNonQueryAsync(info);
     }
 }

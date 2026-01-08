@@ -271,7 +271,7 @@ public partial class Database : IDisposable
             foreach (var item in info.Parameters)
             {
                 var pName = $"{info.Prefix}{item.Name}";
-                if (info.Text.Contains(pName))
+                if (info.Text.Contains(pName) || info.CmdType == CommandType.StoredProcedure)
                 {
                     var p = cmd.CreateParameter();
                     p.ParameterName = pName;
