@@ -131,6 +131,11 @@ partial class TableModel<TItem>
     public EventCallback<RowData<TItem>> OnExpand { get; set; }
 
     /// <summary>
+    /// 取得或设置自定义表格呈现模板委托。
+    /// </summary>
+    public Action<RenderTreeBuilder, TableModel<TItem>> TableTemplate { get; set; }
+
+    /// <summary>
     /// 取得表格栏位呈现模板字典。
     /// </summary>
     internal Dictionary<string, RenderFragment<TItem>> Templates { get; } = [];

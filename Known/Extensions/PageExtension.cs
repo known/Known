@@ -52,7 +52,10 @@ public static class PageExtension
     /// <param name="action">表格实例委托。</param>
     public static void Table<TItem>(this RenderTreeBuilder builder, TableModel<TItem> model, Action<KTable<TItem>> action = null) where TItem : class, new()
     {
-        builder.Component<KTable<TItem>>().Set(c => c.Model, model).Build(action);
+        if (model.TableTemplate != null)
+            model.TableTemplate.Invoke(builder, model);
+        else
+            builder.Component<KTable<TItem>>().Set(c => c.Model, model).Build(action);
     }
 
     /// <summary>

@@ -10,6 +10,7 @@ public class OrderDetail : BaseTablePage<OrderDetailInfo>
     {
         await base.OnInitPageAsync();
         Table.AutoHeight = !IsDialog;
+        Table.TableTemplate = (b, m) => b.Component<MyTable<OrderDetailInfo>>().Set(c => c.Model, m).Build();
         Table.OnQuery = OrderData.QueryOrderDetailsAsync;
     }
 

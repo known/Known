@@ -131,8 +131,16 @@ public class TableModel : BaseModel
     internal virtual string TableId { get; }
     internal virtual Type DataType { get; }
     internal List<ColumnInfo> AllColumns { get; set; } = [];
-    internal Action OnReload { get; set; }
-    internal Func<bool, Task> OnRefresh { get; set; }
+
+    /// <summary>
+    /// 取得或设置重新加载委托。
+    /// </summary>
+    public Action OnReload { get; set; }
+
+    /// <summary>
+    /// 取得或设置刷新委托。
+    /// </summary>
+    public Func<bool, Task> OnRefresh { get; set; }
 
     internal async Task PageRefreshAsync()
     {

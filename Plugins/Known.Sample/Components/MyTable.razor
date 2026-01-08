@@ -1,0 +1,59 @@
+﻿@inherits BaseComponent
+@typeparam TItem where TItem : class, new()
+
+@if (Model != null && Model.Columns != null && Model.Columns.Count > 0)
+{
+    <table>
+        <tr>
+            @foreach (var column in Model.Columns)
+            {
+                <th>@column.Name</th>
+            }
+        </tr>
+        @if (Model.Result != null && Model.Result.TotalCount > 0)
+        {
+            foreach (var item in Model.Result.PageData)
+            {
+                <tr>
+                    @foreach (var column in Model.Columns)
+                    {
+                        <td>@TypeHelper.GetPropertyValue(item, column.Id)</td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <Empty />
+        }
+    </table>
+}
+
+@code {
+    [Parameter] public TableModel<TItem> Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model.OnStateChanged = StateChanged;
+        Model.OnStateChangedTask = StateChangedAsync;
+        Model.OnRefresh = RefreshTableAsync;
+        Model.OnReload = () => {};
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await RefreshTableAsync(false);
+        }
+    }
+
+    private async Task RefreshTableAsync(bool isQuery)
+    {
+        Model.Criteria.IsQuery = isQuery;
+        Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
+        await StateChangedAsync();
+    }
+}
