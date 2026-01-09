@@ -81,8 +81,9 @@ class OrganizationService(Context context) : ServiceBase(context), IOrganization
 
         return await database.TransactionAsync(Language.Save, async db =>
         {
+            if (model.IsNew)
+                await db.SetNewOrganizationAsync(model);
             await db.SaveAsync(model);
-            //PlatformHelper.SetBizOrganization(db, entity);
             info.Id = model.Id;
         }, info);
     }

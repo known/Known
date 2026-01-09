@@ -269,7 +269,7 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
         return await database.TransactionAsync(Language.Save, async db =>
         {
             if (model.IsNew)
-                CoreConfig.OnNewUser?.Invoke(db, model);
+                await db.SetNewUserAsync(model);
             model.Role = string.Empty;
             await db.DeleteAsync<SysUserRole>(d => d.UserId == model.Id);
             var roles = await db.QueryListByIdAsync<SysRole>(info.RoleIds);

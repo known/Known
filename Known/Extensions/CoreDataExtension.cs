@@ -85,6 +85,7 @@ public static class CoreDataExtension
     {
         var org = await db.QueryAsync<SysOrganization>(d => d.CompNo == info.CompNo && d.Code == info.CompNo);
         org ??= new SysOrganization();
+        await db.SetNewOrganizationAsync(org);
         org.AppId = Config.App.Id;
         org.CompNo = info.CompNo;
         org.ParentId = "0";
@@ -110,6 +111,7 @@ public static class CoreDataExtension
         var userName = info.AdminName.ToLower();
         var user = await db.QueryAsync<SysUser>(d => d.UserName == userName);
         user ??= new SysUser();
+        await db.SetNewUserAsync(user);
         user.AppId = Config.App.Id;
         user.CompNo = info.CompNo;
         user.OrgNo = info.CompNo;
@@ -120,7 +122,22 @@ public static class CoreDataExtension
         user.Gender = "Male";
         user.Role = "Admin";
         user.Enabled = true;
-        CoreConfig.OnNewUser?.Invoke(db, user);
         await db.SaveAsync(user);
+    }
+
+    internal static async Task SetNewUserAsync(this Database db, SysUser info)
+    {
+        if (CoreConfig.OnNewUser == null)
+            return;
+
+        await CoreConfig.OnNewUser.Invoke(db, info);
+    }
+
+    internal static async Task SetNewOrganizationAsync(this Database db, SysOrganization info)
+    {
+        if (CoreConfig.OnNewOrganization == null)
+            return;
+
+        await CoreConfig.OnNewOrganization.Invoke(db, info);
     }
 }

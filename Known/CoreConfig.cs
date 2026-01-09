@@ -92,7 +92,12 @@ public class CoreConfig
     /// <summary>
     /// 取得或设置保存新用户时委托。
     /// </summary>
-    public static Action<Database, SysUser> OnNewUser { get; set; }
+    public static Func<Database, SysUser, Task> OnNewUser { get; set; }
+
+    /// <summary>
+    /// 取得或设置保存新部门时委托。
+    /// </summary>
+    public static Func<Database, SysOrganization, Task> OnNewOrganization { get; set; }
 
     /// <summary>
     /// 取得或设置无代码插件数据服务关联数据库委托，用于根据插件获取关联的数据库对象。
