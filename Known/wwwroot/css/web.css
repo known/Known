@@ -91,7 +91,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-query-more .ant-row {gap:8px 0;}
 .kui-query-more.expand .ant-form-item-label > label {width:80px;}
 .kui-query-more .ant-picker-range input {width:100%;}
-.kui-advanced-search {padding:10px;}
+.kui-advanced-search {padding:16px;}
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
 .kui-advanced-search .ant-btn, .kui-query .ant-btn {padding:0 10px;}
 
@@ -129,7 +129,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-action {display:flex;justify-content:space-between;align-items:center;}
 .kui-form-action button {margin-left:8px;}
 .kui-form-page {padding:24px 50px 20px 0;}
-.kui-form-page-button {margin-left:120px;}
+.kui-form-page-button {margin-left:130px;}
 .kui-form-page-button button {margin-right:10px;}
 .kui-form-button {margin-left:200px;}
 .kui-form-button button {margin-right:10px;}
@@ -336,14 +336,6 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-nav-setting .item > .anticon-close {width:30px;cursor:pointer;}
 .kui-nav-setting > .anticon-plus {display:block;text-align:center;cursor:pointer;margin-top:10px;padding:5px;border:1px dashed #ccc;}
 
-/*Style*/
-.kui-setting-form {padding:10px;}
-.kui-setting-form h4 {font-size:14px;margin-bottom:20px;}
-.kui-setting-form .ant-form-item-label {text-align:left;}
-.kui-setting-form .ant-divider-horizontal {margin-top:0;}
-.kui-theme-color {display:flex;gap:10px;margin-bottom:20px;}
-.kui-theme-color .item {width:20px;height:20px;border-radius:3px;cursor:pointer;color:#fff;text-align:center;}
-
 /*Logo*/
 .kui-header, .kui-layout .kui-logo {border-bottom:1px solid var(--kui-color-border);}
 .kui-menu-dark {background:#001529;color:rgba(255,255,255,0.65);border-bottom:none;}
@@ -415,6 +407,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     text-align:left;border-left:5px solid #ed4014;padding:5px;background-color:var(--kui-color-border);border-radius:5px;
 }
 .kui-watermark, .kui-watermark > div {height:100%;}
+.kui-watermark > div > div {height:100%;overflow:auto;}
 .kui-header, .kui-card, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
@@ -721,7 +714,7 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 .ant-tabs-extra-content {display:flex;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
-.ant-tabs-tabpane .kui-query {margin-bottom:0;}
+.ant-tabs-tabpane .kui-query1 {margin-bottom:0;}
 .ant-table-wrapper {padding:5px 10px 0 10px;}
 .ant-table .ant-tag {cursor:pointer;margin-right:0;line-height:unset;}
 .ant-table-thead > tr > th {font-weight:bold;}
@@ -739,7 +732,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body > .ant-table-wrapper {padding:10px 0;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
-.ant-modal-body, .ant-drawer-body {position:relative;padding:0 10px;}
+.ant-modal-body, .ant-drawer-body {position:relative;padding:0;}
 .ant-modal-body .ant-table-wrapper {padding:5px 10px;}
 .ant-modal-body .ant-tabs-tabpane .ant-table-wrapper {padding:0 10px;}
 .ant-modal-body .kui-form-body {height:100%;}
@@ -749,8 +742,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body .ant-tree {margin:10px 0;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 .kui-detail .ant-modal-body {padding:10px;}
-.ant-modal-body > .kui-table {padding-top:5px;}
-.ant-modal-body > .kui-watermark > div > .kui-table {padding-top:5px;}
+.ant-modal-body > .kui-table {padding:5px;}
+.ant-modal-body > .kui-watermark > div > .kui-table {padding:5px;}
 
 /*Form*/
 .kui-drawer {overflow:hidden;}
@@ -790,6 +783,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-form-setting .ant-radio-group {display:flex;}
 .ant-form-item-label > label.kui-primary {color:#1890ff;}
 .ant-form-item-label > label.kui-danger {color:#ed4014;}
+.ant-form {padding:10px 10px 0 10px;}
+.kui-query .ant-form, .kui-toolbar .ant-form {padding:0;}
 
 :root[data-theme=dark] .ant-menu,
 :root[data-theme=dark] .ant-table,
@@ -831,6 +826,14 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
     .kui-table .ant-toolbar {padding-top:5px;}
     .kui-table .ant-tabs-nav .ant-toolbar {padding-bottom:10px;}
 }
+
+/*Style*/
+.kui-setting-form {padding:20px 20px 0 20px;}
+.kui-setting-form h4 {font-size:14px;margin-bottom:20px;}
+.kui-setting-form .ant-form-item-label {text-align:left;}
+.kui-setting-form .ant-divider-horizontal {margin-top:0;}
+.kui-theme-color {display:flex;gap:10px;margin-bottom:20px;}
+.kui-theme-color .item {width:20px;height:20px;border-radius:3px;cursor:pointer;color:#fff;text-align:center;}
 
 /*--App--*/
 .kui-app {position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;}
