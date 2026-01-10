@@ -68,44 +68,34 @@
                             }
                         </DictionaryColumn>
                     } else {
-                        if (typeof(TItem).HasProperty(item.Id)) {
-                            var value = TypeHelper.GetPropertyValue(context, item.Id);
-                            <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                    Ellipsis="isEllipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
-                                    ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
-                                    ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                    FilterDropdown="@GetFilterTemplate(item)">
-                                @if (template != null) {
-                                    @template(context)
+                        var value = TypeHelper.GetPropertyValue(context, item.Id);
+                        <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
+                                Ellipsis="isEllipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
+                                ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
+                                ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
+                                FilterDropdown="@GetFilterTemplate(item)">
+                            @if (template != null) {
+                                @template(context)
+                            } else {
+                                @if (item.Type == FieldType.Switch || value is bool) {
+                                    var isChecked = Utils.ConvertTo<bool>(value);
+                                    <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
+                                } else if (item.Type == FieldType.File) {
+                                    <KFileCell Value="@value?.ToString()" />
                                 } else {
-                                    @if (item.Type == FieldType.Switch || value is bool) {
-                                        var isChecked = Utils.ConvertTo<bool>(value);
-                                        <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
-                                    } else if (item.Type == FieldType.File) {
-                                        <KFileCell Value="@value?.ToString()" />
+                                    var text = GetColumnText(item, value);
+                                    if (item.IsViewLink) {
+                                        <KLink OnClick="e => OnViewForm(context)">@text</KLink>
+                                    } else if (item.LinkAction != null) {
+                                        <KLink OnClick="e => OnLinkAction(item, context)">@text</KLink>
+                                    } else if (isEllipsis) {
+                                        <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip>
                                     } else {
-                                        var text = GetColumnText(item, value);
-                                        if (item.IsViewLink) {
-                                            <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
-                                        } else if (item.LinkAction != null) {
-                                            <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
-                                        } else if (isEllipsis) {
-                                            <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip>
-                                        } else {
-                                            <span>@text</span>
-                                        }
+                                        <span>@text</span>
                                     }
                                 }
-                            </Column>
-                        } else {
-                            <Column Title="@title" TitleTemplate="@DataTitle(item, title)" TData="object" Width="@width"
-                                    Ellipsis="item.ToEllipsis()" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
-                                    ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
-                                    ColSpan="@GetRowSpan(item, item.Id)" RowSpan="@GetColSpan(item, item.Id)"
-                                    FilterDropdown="@GetFilterTemplate(item)">
-                                <span>@item.Id</span>
-                            </Column>
-                        }
+                            }
+                        </Column>
                     }
                 }
             }
