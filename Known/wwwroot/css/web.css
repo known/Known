@@ -105,10 +105,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     border-bottom:1px solid var(--kui-color-border);
 }
 .kui-toolbar > div {display:flex;align-items:center;}
-.kui-toolbar .kui-title {padding:4px 0;}
+.kui-toolbar .kui-title {padding:4px 5px;}
 
 /*Table*/
-.kui-table.form-list .kui-toolbar {border-bottom:none;padding-top:5px;}
+.kui-table.form-list .kui-toolbar {border-bottom:none;padding:0 0 10px 0;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
 .kui-table-filter label {display:flex;}
@@ -128,7 +128,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-content {padding:10px;}
 .kui-form-action {display:flex;justify-content:space-between;align-items:center;}
 .kui-form-action button {margin-left:8px;}
-.kui-form-page {padding:24px 50px 20px 0;}
+.kui-form-page {padding:10px 20px 20px 0;}
 .kui-form-page-button {margin-left:130px;}
 .kui-form-page-button button {margin-right:10px;}
 .kui-form-button {margin-left:200px;}
@@ -434,7 +434,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .ant-tabs-content > .kui-body {height:calc(100vh - 94px);}
 .ant-tabs-content > .kui-body > .kui-frame {height:calc(100vh - 119px);}
 .ant-tabs-top > .ant-tabs-nav {margin:0;padding:0 10px;}
-/*.ant-modal-body .ant-tabs-top > .ant-tabs-nav {margin-bottom:5px;}*/
+.ant-modal-body .ant-tabs-top > .ant-tabs-nav {padding:0 16px 0 24px;}
 .ant-tabs-top.kui-nav-tabs > .ant-tabs-nav {
     margin:0;padding:5px 2px;background:var(--kui-bgcolor);
     border-bottom:1px solid var(--kui-color-border);
@@ -733,17 +733,21 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-content {border-radius:5px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
 .ant-modal-body, .ant-drawer-body {position:relative;padding:0;}
-.ant-modal-body .ant-table-wrapper {padding:5px 10px;}
-.ant-modal-body .ant-tabs-tabpane .ant-table-wrapper {padding:0 10px;}
+.ant-modal-body .ant-table-wrapper {padding:0;}
+.ant-modal-body > .kui-form-body > .ant-table-wrapper {padding:0 16px 10px 16px;}
+.ant-modal-body > .kui-form-body > .kui-table {padding:10px 16px 10px 16px;}
+.ant-modal-body .ant-tabs-tabpane .kui-table {padding:10px 16px;}
 .ant-modal-body .kui-form-body {height:100%;}
-.ant-modal-body .kui-form-body .ant-form {padding-top:10px;}
-.ant-modal-body .kui-form-action {padding:0 10px 10px 0;}
+.ant-modal-body .kui-form-action {padding:0 16px 16px 16px;}
+.ant-modal-body .kui-form .kui-form-action {padding:0 6px 16px 16px;}
 .ant-modal-body .nopadding {padding:0;}
 .ant-modal-body .ant-tree {margin:10px 0;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 .kui-detail .ant-modal-body {padding:10px;}
-.ant-modal-body > .kui-table {padding:5px;}
+.ant-modal-body .kui-toolbar {padding:5px 16px;}
+.ant-modal-body > .kui-table {padding:10px 16px;}
 .ant-modal-body > .kui-watermark > div > .kui-table {padding:5px;}
+.ant-tabs-tabpane .kui-form1, .ant-tabs-tabpane .kui-small1 {padding:10px 16px 0 0;}
 
 /*Form*/
 .kui-drawer {overflow:hidden;}
@@ -770,11 +774,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-form.small-row .ant-form-item, .kui-small-row .ant-form-item {margin-bottom:10px;}
 .kui-form.readonly .ant-form-item {align-items:center;}
 .kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
-.kui-tab-form .ant-tabs-tabpane .kui-form, .kui-tab-form .ant-tabs-tabpane .kui-small {padding-right:10px;}
-.ant-tabs-tabpane .kui-form, .ant-tabs-tabpane .kui-small {padding:0 10px 0 0;}
 .kui-form-tab .ant-tabs-content-holder {padding:0;}
 .kui-form-body .ant-tabs {margin-top:0;}
-.kui-form-body .ant-tabs-tabpane {padding:10px 0;}
 .kui-table.form-list .ant-form {padding-top:0;}
 .kui-system .ant-form-item-label {width:150px;}
 .kui-development > .ant-tabs-nav {margin:0;}
