@@ -1,4 +1,6 @@
-﻿namespace Known;
+﻿using System.Runtime.InteropServices;
+
+namespace Known;
 
 /// <summary>
 /// 系统激活类型枚举。
@@ -160,8 +162,17 @@ public class VersionInfo
             SoftVersion = $"V{version.Major}.{version.Minor}.{version.Build}";
         }
 
-        var version1 = typeof(VersionInfo).Assembly.GetName().Version;
-        FrameVersion = $"Known V{version1.Major}.{version1.Minor}.{version1.Build}";
+        //var entryAssembly = Assembly.GetEntryAssembly();
+        //var referencedAssemblies = entryAssembly.GetReferencedAssemblies();
+
+        var knownV = typeof(VersionInfo).Assembly.GetName().Version;
+        FrameVersion = $"Known V{knownV.Major}.{knownV.Minor}.{knownV.Build}";
+        Versions["Known"] = $"{knownV}";
+
+        var antV = typeof(AntDesign.Alert).Assembly.GetName().Version;
+        Versions["AntBlazor"] = $"{antV}";
+
+        Versions[".NET"] = RuntimeInformation.FrameworkDescription.Replace(".NET", "").Trim();
     }
 
     /// <summary>
@@ -183,4 +194,11 @@ public class VersionInfo
     /// 取得或设置系统编译时间。
     /// </summary>
     public DateTime BuildTime { get; set; }
+
+    /// <summary>
+    /// 取得系统依赖组件版本列表。
+    /// </summary>
+    public Dictionary<string, string> Versions { get; } = [];
+
+    internal string AllVersion => string.Join("，", Versions.Select(d => $"{d.Key} V{d.Value}"));
 }

@@ -47,7 +47,7 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <inheritdoc />
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && !isLogged && Context.Current != null && !Config.IsClient)
+        if (firstRender && !isLogged && Context.Current != null && !Config.IsClient && Context.Url != "/")
         {
             isLogged = true;
             Admin.AddPageLogAsync(Context);

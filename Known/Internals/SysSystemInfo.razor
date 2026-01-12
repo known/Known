@@ -18,12 +18,10 @@
         <DataItem Label="软件版本">@Model.Version?.SoftVersion</DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="构建时间">
-            @($"{Model.Version?.BuildTime:yyyy-MM-dd HH:mm:ss}")
-        </DataItem>
+        <DataItem Label="构建时间">@($"{Model.Version?.BuildTime:yyyy-MM-dd HH:mm:ss}")</DataItem>
     </AntRow>
     <AntRow>
-        <DataItem Label="框架版本">@Model.Version?.FrameVersion</DataItem>
+        <DataItem Label="框架版本">@Model.Version?.AllVersion</DataItem>
     </AntRow>
     <AntRow>
         <DataItem Label="运行时长">@($"{Model.RunTime} H")</DataItem>
