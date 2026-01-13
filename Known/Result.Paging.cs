@@ -98,7 +98,8 @@ public class PagingResult<T>
 
         var statis = Statis?.First(s => s.Key.Equals(id, StringComparison.OrdinalIgnoreCase));
         var total = statis?.Value;
-        total ??= PageData.Select(d => d.Property<decimal?>(id)).Sum();
+        if (total == null && PageData != null && PageData.Count > 0)
+            total = PageData.Select(d => d.Property<decimal?>(id)).Sum();
         return total;
     }
 }
