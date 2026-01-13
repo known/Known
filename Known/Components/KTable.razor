@@ -156,14 +156,11 @@
                             }
 
                             if (item.IsSum) {
-                                var value = Model.Result?.GetPageSum(item.Id);
-                                var statis = Model.Result?.Statis?.First(s => s.Key.Equals(item.Id, StringComparison.OrdinalIgnoreCase));
-                                var total = statis?.Value;
                                 <SummaryCell Align="@item.ToColumnAlign()">
                                     @if (Model.ShowPager) {
-                                        @value<br/>
+                                        @Model.Result?.GetPageSum(item.Id)<br/>
                                     }
-                                    <strong>@total</strong>
+                                    <strong>@Model.Result?.GetTotalSum(item.Id)</strong>
                                 </SummaryCell>
                             } else {
                                 <SummaryCell />

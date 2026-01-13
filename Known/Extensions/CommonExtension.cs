@@ -228,7 +228,7 @@ public static class CommonExtension
         if (source == null || source.Count == 0)
             return new PagingResult<T>(0, []);
 
-        var pageData = source.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
+        var pageData = !criteria.IsPaging ? source : source.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize).ToList();
         var result = new PagingResult<T>(source.Count, pageData);
 
         if (criteria.ExportMode != ExportMode.None)

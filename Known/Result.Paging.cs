@@ -81,19 +81,24 @@ public class PagingResult<T>
         return Utils.FromJson<TSummary>(dataString);
     }
 
-    /// <summary>
-    /// 获取指定字段的每页数值合计值。
-    /// </summary>
-    /// <param name="id">字段ID。</param>
-    /// <returns></returns>
-    public object GetPageSum(string id)
+    internal object GetPageSum(string id)
     {
         if (string.IsNullOrWhiteSpace(id))
             return 0;
         if (PageData == null || PageData.Count == 0)
             return 0;
 
-        var property = typeof(T).GetProperty(id);
         return PageData.Select(d => d.Property<decimal?>(id)).Sum();
+    }
+
+    internal object GetTotalSum(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return 0;
+
+        var statis = Statis?.First(s => s.Key.Equals(id, StringComparison.OrdinalIgnoreCase));
+        var total = statis?.Value;
+        total ??= PageData.Select(d => d.Property<decimal?>(id)).Sum();
+        return total;
     }
 }

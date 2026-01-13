@@ -7,6 +7,7 @@ public class OrderList : BaseTablePage<OrderInfo>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
+        //Table.ShowPager = false;
         Table.OnQuery = OrderData.QueryOrdersAsync;
     }
 

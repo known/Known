@@ -12,7 +12,7 @@ public class OrderInfo
     [DisplayName("日期")]
     public DateTime OrderDate { get; set; }
 
-    [Column(Width = 120)]
+    [Column(Width = 120, IsSum = true)]
     [DisplayName("金额")]
     public double Amount { get; set; }
 

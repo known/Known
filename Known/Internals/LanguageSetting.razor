@@ -1,19 +1,21 @@
 ﻿@inherits BaseComponent
 
-<LanguageSettingTable DataSource="DataSource" HidePagination>
-    <StringColumn Title="代码">
-        <AntInput @bind-Value="@context.Code" />
-    </StringColumn>
-    <StringColumn Title="名称">
-        <AntInput @bind-Value="@context.Name" />
-    </StringColumn>
-    <StringColumn Title="@Language.Icon">
-        <AntInput @bind-Value="@context.Icon" />
-    </StringColumn>
-    <StringColumn Title="@Language.Default">
-        <AntSwitch @bind-Value="@context.Default" OnChange="v=>OnDefaultChange(context, v)" />
-    </StringColumn>
-    <StringColumn Title="@Language.Enable">
-        <AntSwitch @bind-Value="@context.Enabled" />
-    </StringColumn>
-</LanguageSettingTable>
+<div style="padding:16px;">
+    <LanguageSettingTable DataSource="DataSource" HidePagination>
+        <StringColumn Title="代码">
+            <AntInput @bind-Value="@context.Code" />
+        </StringColumn>
+        <StringColumn Title="名称">
+            <AntInput @bind-Value="@context.Name" />
+        </StringColumn>
+        <StringColumn Title="@Language.Icon">
+            <AntInput @bind-Value="@context.Icon" />
+        </StringColumn>
+        <StringColumn Title="@Language.Default">
+            <AntSwitch @bind-Value="@context.Default" OnChange="v => OnDefaultChange(context, v)" />
+        </StringColumn>
+        <StringColumn Title="@Language.Enable">
+            <AntSwitch @bind-Value="@context.Enabled" />
+        </StringColumn>
+    </LanguageSettingTable>
+</div>
