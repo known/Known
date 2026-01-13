@@ -120,7 +120,7 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
         var menus = modules.Select(m => m.ToMenuInfo()).ToList();
         //modules = modules.Add(AppData.Data.Modules);
         //DataHelper.Initialize(modules);
-        return DataHelper.GetMenus(menus, false);
+        return DataHelper.GetMenus(menus, false, true);
     }
 
     public async Task<Result> MigrateModulesAsync()

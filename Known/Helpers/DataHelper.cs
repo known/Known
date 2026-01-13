@@ -73,7 +73,7 @@ public sealed class DataHelper
         return GetMenus(menus, isRoute);
     }
 
-    internal static List<MenuInfo> GetMenus(List<MenuInfo> menus, bool isRoute = true)
+    internal static List<MenuInfo> GetMenus(List<MenuInfo> menus, bool isRoute = true, bool isModule = false)
     {
         // 定义新列表，在新列表中添加路由，不污染原列表
         var allMenus = new List<MenuInfo>();
@@ -85,7 +85,10 @@ public sealed class DataHelper
                 allMenus.Add(item.Clone(!isRoute));
         }
         AddRoutes(allMenus, isRoute);
-        return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.Sort)];
+        if (isModule)
+            return [.. allMenus.OrderBy(m => m.ParentId).ThenBy(m => m.Sort)];
+
+        return [.. allMenus.Where(m => m.Enabled).OrderBy(m => m.ParentId).ThenBy(m => m.Sort)];
     }
 
     /// <summary>
