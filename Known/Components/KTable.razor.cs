@@ -13,6 +13,7 @@ partial class KTable<TItem>
     private AntTable<TItem> table;
     private int totalCount;
     private List<TItem> dataSource;
+    private bool isRefreshing = false;
     private bool isQuering = false;
     private bool shouldRender = true;
 
@@ -42,14 +43,19 @@ partial class KTable<TItem>
 
     private async Task RefreshTableAsync(bool isQuery)
     {
+        isRefreshing = true;
         Model.Criteria.IsQuery = isQuery;
         var query = table?.GetQueryModel();
         await OnChange(query);
         await StateChangedAsync();
+        isRefreshing = false;
     }
 
     private async Task OnChange(QueryModel query)
     {
+        if (!Model.IsAutoLoad && !isRefreshing)
+            return;
+
         if (Model.OnQuery == null || isQuering)
             return;
 

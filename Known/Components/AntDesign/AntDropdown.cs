@@ -283,6 +283,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
 
         Table = new TableModel<TItem>(this);
         Table.FixedHeight = "200px";
+        Table.IsAutoLoad = false;
         Table.AdvSearch = false;
         Table.AutoHeight = false;
         //Table.IsScroll = false;
@@ -292,12 +293,18 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         Table.OnAction = (info, item) => Context.OnAction(this, info, [item]);
         Table.Toolbar.OnItemClick = info => Context.OnAction(this, info, null);
 
+        OnClick = this.Callback<MouseEventArgs>(OnInnerClick);
         Model = new DropdownModel
         {
             TriggerType = "Click",
             ChildContent = BuildContent,
             Overlay = BuildOverlay
         };
+    }
+
+    private Task OnInnerClick(MouseEventArgs args)
+    {
+        return Table.RefreshAsync();
     }
 
     private void BuildContent(RenderTreeBuilder builder)

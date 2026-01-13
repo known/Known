@@ -13,6 +13,11 @@ partial class TableModel<TItem>
     public bool HasSum => Columns != null && Columns.Any(c => c.IsSum);
 
     /// <summary>
+    /// 取得或设置表格是否自动加载数据，默认自动。
+    /// </summary>
+    public bool IsAutoLoad { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格行是否显示斑马纹，默认显示。
     /// </summary>
     public bool IsStriped { get; set; } = true;
