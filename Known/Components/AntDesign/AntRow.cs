@@ -11,6 +11,11 @@ public class AntRow : BaseComponent
     [Parameter] public int Gutter { get; set; }
 
     /// <summary>
+    /// 取得或设置行内的列是否一行显示。
+    /// </summary>
+    [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
     /// 取得或设置行的子内容。
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
@@ -19,6 +24,7 @@ public class AntRow : BaseComponent
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         var className = CssBuilder.Default("ant-row")
+                          .AddClass("inline", Inline)
                           .AddClass(Class)
                           .BuildClass();
         var style = CssBuilder.Default().AddStyle(Style);

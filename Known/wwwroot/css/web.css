@@ -144,6 +144,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-pwd .ant-alert {margin-left:0;}
 .kui-form-pwd .kui-form {margin-top:10px;}
 .kui-form-pwd .kui-form-button {margin-left:120px;margin-top:10px;}
+.kui-form .ant-row.inline {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
+.kui-form .ant-row.inline .ant-row {display:grid;}
 
 /*Console*/
 .kui-console {height:360px;}
@@ -276,12 +278,13 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-upload-button {display:inline;padding:5px 10px;}
 .kui-upload .ant-form-item-control-input-content {display:flex;align-items:center;}
 
-.kui-upload-image {display:flex;align-items:center;gap:10px;height:60px;}
+.kui-upload-image {display:flex;align-items:center;gap:10px;}
 .kui-upload-image img {width:100%;height:100%;border-radius:5px;object-fit:cover;}
 .kui-upload-image .kui-image, .kui-upload-image .kui-upload {
-    position:relative;width:60px;height:60px;line-height:60px;text-align:center;display:inline-block;
+    position:relative;width:60px;height:60px;text-align:center;display:inline-block;
     margin:0;border-radius:5px;cursor:pointer;box-shadow:0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.kui-upload-image .kui-upload {line-height:60px;}
 .kui-upload-image .kui-image .kui-thumbnail {width:100%;height:100%;}
 .kui-upload-image .kui-image .anticon {
     position:absolute;top:-8px;right:-8px;z-index:100;color:#ed4014;font-size:16px;
