@@ -9,7 +9,7 @@ public partial class FormModel<TItem> : BaseModel where TItem : class, new()
     /// <summary>
     /// 取得表单字段字典。
     /// </summary>
-    protected Dictionary<string, ColumnInfo> Columns { get; } = [];
+    public Dictionary<string, ColumnInfo> Columns { get; } = [];
 
     /// <summary>
     /// 构造函数，创建一个表单模型信息类的实例。

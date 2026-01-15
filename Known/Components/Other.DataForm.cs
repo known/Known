@@ -1,11 +1,6 @@
 ﻿namespace Known.Components;
 
 /// <summary>
-/// 动态表单组件类。
-/// </summary>
-public class DynamicForm : DataForm<Dictionary<string, object>> { }
-
-/// <summary>
 /// 自定义数据表单组件类。
 /// </summary>
 /// <typeparam name="TItem">表单数据对象类型。</typeparam>
@@ -41,4 +36,11 @@ public class DataForm<TItem> : BaseForm where TItem : class, new()
             builder.Component<AntFormRow<TItem>>().Set(c => c.Row, row).Build();
         }
     }
+}
+
+/// <summary>
+/// 动态表单组件类。
+/// </summary>
+public class DynamicForm : DataForm<Dictionary<string, object>>
+{
 }
