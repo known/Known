@@ -64,6 +64,8 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
+        Model.OnStateChanged = StateChanged;
+        Model.OnStateChangedTask = StateChangedAsync;
         Model?.Initialize();
     }
 

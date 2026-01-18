@@ -11,10 +11,15 @@ public class DataForm<TItem> : BaseForm where TItem : class, new()
     /// </summary>
     [Parameter] public FormModel<TItem> Model { get; set; }
 
-    /// <summary>
-    /// 呈现表单组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
+    protected override async Task OnInitFormAsync()
+    {
+        await base.OnInitFormAsync();
+        Model.OnStateChanged = StateChanged;
+        Model.OnStateChangedTask = StateChangedAsync;
+    }
+
+    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         if (Model == null)

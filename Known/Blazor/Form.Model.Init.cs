@@ -2,18 +2,18 @@
 
 partial class FormModel<TItem>
 {
-    private bool isInitColumns = false;
+    private bool isInitField = false;
 
     /// <summary>
     /// 初始化表单布局。
     /// </summary>
     public void Initialize()
     {
-        if (isInitColumns)
+        if (isInitField)
             return;
 
-        isInitColumns = true;
-        InitColumns();
+        isInitField = true;
+        InitFields();
     }
 
     // 初始化表单布局。
@@ -23,13 +23,15 @@ partial class FormModel<TItem>
         SetFormInfo(info);
     }
 
-    // 初始化无代码表单栏位。
-    internal void InitColumns()
+    /// <summary>
+    /// 初始化无代码表单字段。
+    /// </summary>
+    public void InitFields()
     {
+        Rows.Clear();
         if (Columns.Count == 0)
             return;
 
-        Rows.Clear();
         var fields = Columns.Values.Where(c => c.IsVisible && c.Type != FieldType.Hidden);
         var rowNos = fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
@@ -60,7 +62,7 @@ partial class FormModel<TItem>
 
         Info = info;
         InitColumns(info);
-        InitColumns();
+        InitFields();
 
         if (info.IsContinue)
         {
