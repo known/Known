@@ -39,7 +39,8 @@ public static class MenuExtension
             Name = name,
             Icon = icon,
             Sort = sort,
-            Url = url
+            Url = url,
+            IsCode = true
         };
         if (!string.IsNullOrWhiteSpace(url))
         {

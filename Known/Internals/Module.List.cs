@@ -247,6 +247,12 @@ class ModuleList : BasePage<SysModule>
 
     private void OnCopy(List<SysModule> rows)
     {
+        if (rows.Exists(r => r.IsCode))
+        {
+            UI.Error(Language.TipCodeModuleNotOperate);
+            return;
+        }
+
         ShowTreeModal(Language.CopyTo, node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
@@ -256,6 +262,12 @@ class ModuleList : BasePage<SysModule>
 
     private void OnMove(List<SysModule> rows)
     {
+        if (rows.Exists(r => r.IsCode))
+        {
+            UI.Error(Language.TipCodeModuleNotOperate);
+            return;
+        }
+
         ShowTreeModal(Language.MoveTo, node =>
         {
             rows.ForEach(m => m.ParentId = node.Id);
