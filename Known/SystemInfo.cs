@@ -135,6 +135,11 @@ public class SystemInfo
     public string Watermark { get; set; }
 
     /// <summary>
+    /// 取得或设置账号水印日期格式。
+    /// </summary>
+    public string WmDateFormat { get; set; }
+
+    /// <summary>
     /// 取得或设置允许附件大小，单位M。
     /// </summary>
     public int? MaxFileSize { get; set; }

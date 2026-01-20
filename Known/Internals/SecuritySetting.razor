@@ -45,6 +45,7 @@
             @if (Model.IsWatermark)
             {
                 <AntSelectCode @bind-Value="@Model.Watermark" Category="@nameof(WatermarkType)" Style="width:120px" />
+                <AntInput @bind-Value="@Model.WmDateFormat" Placeholder="水印时间格式" Style="width:180px" />
             }
         </DataItem>
     </AntRow>

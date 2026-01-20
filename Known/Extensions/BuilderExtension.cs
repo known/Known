@@ -33,12 +33,12 @@ public static class BuilderExtension
     /// 创建水印组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    /// <param name="text">水印文字。</param>
+    /// <param name="texts">水印文字。</param>
     /// <param name="content">组件内容。</param>
-    public static void Watermark(this RenderTreeBuilder builder, string text, RenderFragment content)
+    public static void Watermark(this RenderTreeBuilder builder, string[] texts, RenderFragment content)
     {
         builder.Component<Watermark>()
-               .Set(c => c.Content, text)
+               .Set(c => c.Contents, texts)
                .Set(c => c.ChildContent, content)
                .Build();
     }
@@ -55,7 +55,11 @@ public static class BuilderExtension
                 WatermarkType.Name => user.Name,
                 _ => $"{user?.Name}({user?.UserName})",
             };
-            builder.Div("kui-watermark", () => builder.Watermark(user?.Watermark ?? text, body));
+            var texts = new List<string> { text };
+            if (!string.IsNullOrWhiteSpace(Config.System.WmDateFormat))
+                texts.Add(DateTime.Now.ToString(Config.System.WmDateFormat));
+            //var watermark = user?.Watermark ?? text;
+            builder.Div("kui-watermark", () => builder.Watermark([.. texts], body));
         }
         else
         {
