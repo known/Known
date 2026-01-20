@@ -28,10 +28,10 @@ partial class FormModel<TItem>
     /// </summary>
     public void InitFields()
     {
-        Rows.Clear();
         if (Columns.Count == 0)
             return;
 
+        Rows.Clear();
         var fields = Columns.Values.Where(c => c.IsVisible && c.Type != FieldType.Hidden);
         var rowNos = fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
