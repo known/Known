@@ -4,7 +4,7 @@
 /// 泛型弹窗选择器组件基类。
 /// </summary>
 /// <typeparam name="TItem">选择对象类型。</typeparam>
-public class BasePicker<TItem> : BaseComponent
+public class BasePicker<TItem> : CustomField
 {
     /// <summary>
     /// 构造函数，创建一个弹窗选择器组件实例。
@@ -53,21 +53,6 @@ public class BasePicker<TItem> : BaseComponent
     /// 取得或设置选择器选择图标，默认 fa fa-ellipsis-h。
     /// </summary>
     [Parameter] public string IconPick { get; set; } = "fa fa-ellipsis-h";
-
-    /// <summary>
-    /// 取得或设置选择器组件字段值。
-    /// </summary>
-    [Parameter] public object Value { get; set; }
-
-    /// <summary>
-    /// 取得或设置选择器组件字段值改变事件处理方法。
-    /// </summary>
-    [Parameter] public EventCallback<object> ValueChanged { get; set; }
-
-    /// <summary>
-    /// 取得字段关联的栏位配置信息。
-    /// </summary>
-    [Parameter] public ColumnInfo Column { get; set; }
 
     /// <summary>
     /// 取得或设置是否是弹窗，框架内使用。

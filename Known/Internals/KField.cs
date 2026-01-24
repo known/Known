@@ -45,7 +45,7 @@ class KField<TItem> : BaseComponent where TItem : class, new()
     }
 }
 
-class CustomField<TItem> : BaseComponent where TItem : class, new()
+class CustomField<TItem> : CustomField where TItem : class, new()
 {
     [Parameter] public FieldModel<TItem> Model { get; set; }
 
@@ -58,11 +58,16 @@ class CustomField<TItem> : BaseComponent where TItem : class, new()
         if (!Config.FieldTypes.TryGetValue(customField, out Type type))
             return;
 
-        var parameters = new Dictionary<string, object>();
-        parameters[nameof(ICustomField.ReadOnly)] = Model.Form.IsView;
-        parameters[nameof(ICustomField.Value)] = Model.Value;
-        parameters[nameof(ICustomField.ValueChanged)] = this.Callback<object>(value => Model.Value = value);
-        parameters[nameof(ICustomField.Column)] = Model.Column;
+        var parameters = new Dictionary<string, object>
+        {
+            [nameof(ReadOnly)] = Model.Form.IsView,
+            [nameof(Value)] = Model.Value,
+            [nameof(Column)] = Model.Column
+        };
+        if (type.IsAssignableTo(typeof(CustomField)))
+            parameters[nameof(ValueChanged)] = this.Callback<object>(value => Model.Value = value);
+        else
+            parameters[nameof(ValueChanged)] = this.Callback<string>(value => Model.Value = value);
         builder.Component(type, parameters);
     }
 }

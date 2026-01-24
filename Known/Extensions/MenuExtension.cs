@@ -89,15 +89,7 @@ public static class MenuExtension
     {
         var info = menus.FirstOrDefault(m => m.Id == idOrName || m.Name == idOrName);
         if (info != null)
-        {
             menus.Remove(info);
-        }
-        else
-        {
-            //var item = DataHelper.Routes.FirstOrDefault(m => m.Id == idOrName || m.Name == idOrName);
-            //if (item != null)
-            //    DataHelper.Routes.Remove(item);
-        }
     }
 
     /// <summary>
@@ -165,9 +157,6 @@ public static class MenuExtension
         var tops = models.Where(m => m.ParentId == "0").ToList();
         foreach (var item in tops)
         {
-            //item.ParentName = Config.App.Name;
-            //var menu = item.ToMenuInfo();
-            //var menu = CreateMenu(item, !showRoot);
             var menu = item.Clone(true);
             if (current != null && current.Id == menu.Id)
                 current = menu;
@@ -191,9 +180,6 @@ public static class MenuExtension
 
         foreach (var item in items)
         {
-            //item.ParentName = menu.Name;
-            //var sub = item.ToMenuInfo();
-            //var sub = CreateMenu(item, showUrl);
             var sub = item.Clone(true);
             sub.Parent = menu;
             if (current != null && current.Id == sub.Id)
@@ -203,34 +189,6 @@ public static class MenuExtension
             AddChildren(models, sub, ref current, showUrl);
         }
     }
-
-    //private static MenuInfo CreateMenu(MenuInfo info, bool showUrl = false)
-    //{
-    //    return new MenuInfo
-    //    {
-    //        Data = info,
-    //        Id = info.Id,
-    //        Name = GetMenuName(info, showUrl),
-    //        Icon = info.Icon,
-    //        ParentId = info.ParentId,
-    //        Type = info.Type,
-    //        Target = info.Target,
-    //        Url = info.Url,
-    //        Sort = info.Sort,
-    //        Enabled = info.Enabled,
-    //        IsCode = info.IsCode,
-    //        Layout = info.Layout,
-    //        Plugins = info.Plugins
-    //    };
-    //}
-
-    //private static string GetMenuName(MenuInfo info, bool showUrl)
-    //{
-    //    if (info.Target != Constants.Route || string.IsNullOrWhiteSpace(info.Url) || !showUrl)
-    //        return info.Name;
-
-    //    return $"{info.Name}({info.Url})";
-    //}
 
     /// <summary>
     /// 将菜单信息列表转成树形结构。

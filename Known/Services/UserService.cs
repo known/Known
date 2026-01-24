@@ -299,6 +299,12 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
             criteria.RemoveQuery(orgNoId);
         }
         sql += " where a.CompNo=@CompNo and a.UserName<>'admin'";
+        var key = criteria.GetParameter<string>("Key");
+        if (!string.IsNullOrWhiteSpace(key))
+        {
+            sql += " and (a.UserName like @Key or a.Name like @Key)";
+            criteria.SetQuery("Key", QueryType.Contain, $"%{key}%");
+        }
         if (!string.IsNullOrWhiteSpace(orgNo))
         {
             var org = await db.QueryByIdAsync<SysOrganization>(orgNo);

@@ -189,7 +189,7 @@ public static class ModelExtension
         var tops = models.Where(m => m.ParentId == "0").OrderBy(m => m.Code).ToList();
         foreach (var item in tops)
         {
-            var menu = CreateMenuInfo(item);
+            var menu = item.ToMenuInfo();
             if (current != null && current.Id == menu.Id)
                 current = menu;
 
@@ -210,7 +210,7 @@ public static class ModelExtension
         foreach (var item in items)
         {
             item.ParentName = menu.Name;
-            var sub = CreateMenuInfo(item);
+            var sub = item.ToMenuInfo();
             sub.Parent = menu;
             if (current != null && current.Id == sub.Id)
                 current = sub;
@@ -220,7 +220,7 @@ public static class ModelExtension
         }
     }
 
-    private static MenuInfo CreateMenuInfo(SysOrganization model)
+    internal static MenuInfo ToMenuInfo(this SysOrganization model)
     {
         return new MenuInfo
         {

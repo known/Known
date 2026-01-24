@@ -20,6 +20,7 @@
     <p role="status">Current count: @currentCount</p>
 
     <KButton Type="@ButtonType.Primary" Name="Click me" OnClick="IncrementCount" />
+    <KButton Type="@ButtonType.Primary" Name="表单" OnClick="OnForm" />
     <KButton Type="@ButtonType.Primary" Name="耗时" OnClick="OnLoad" />
     <KButton Type="@ButtonType.Primary" Name="日志" OnClick="OnLog" Title="查看后台实时日志信息。" />
     <KButton Type="@ButtonType.Primary" Name="粘贴" OnClick="OnPaste" Title="粘贴复制的文本。" />
@@ -66,6 +67,14 @@
                         </DataItem>
                         <DataItem Span="6" Label="测试2" Visible="context.ShowField">
                             <AntSelectCode @bind-Value="context.Field" Category="Test" LabelFormat="{Name}({Code})" />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="6" Label="组织">
+                            <OrgDropdownTree @bind-Value="context.Organize" />
+                        </DataItem>
+                        <DataItem Span="6" Label="用户">
+                            <UserDropdownTable @bind-Value="context.UserName" IsSearch IsEnter />
                         </DataItem>
                     </AntRow>
                     <div>@string.Join(",", value)</div>
@@ -131,6 +140,27 @@
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void OnForm()
+    {
+        var form = new FormModel<TestInfo>(this, true);
+        form.Title = "自动表单";
+        //form.IsView = true;
+        form.Data = new TestInfo
+        {
+            Field = "test",
+            Organize = "研发",
+            UserName = "lily",
+            Date = DateTime.Now,
+            Text = "测试文本"
+        };
+        form.OnSave = d =>
+        {
+            UI.Alert($"保存成功！文本内容：\r\n{Utils.ToJson(d)}");
+            return Known.Result.SuccessAsync("保存成功！");
+        };
+        UI.ShowForm(form);
     }
 
     private void OnLoad()

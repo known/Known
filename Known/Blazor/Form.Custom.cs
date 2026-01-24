@@ -11,16 +11,6 @@ public interface ICustomField
     bool ReadOnly { get; set; }
 
     /// <summary>
-    /// 取得或设置字段组件绑定的值。
-    /// </summary>
-    object Value { get; set; }
-
-    /// <summary>
-    /// 取得或设置字段组件绑定值改变的事件方法委托。
-    /// </summary>
-    EventCallback<object> ValueChanged { get; set; }
-
-    /// <summary>
     /// 取得或设置字段关联的栏位配置信息。
     /// </summary>
     ColumnInfo Column { get; set; }

@@ -372,7 +372,10 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
 /// </summary>
 public class AntDropdownTree : AntDropdown
 {
-    private TreeModel model;
+    /// <summary>
+    /// 树模型字段。
+    /// </summary>
+    protected TreeModel Tree;
 
     /// <summary>
     /// 取得或设置输入组件文本占位符。
@@ -394,9 +397,8 @@ public class AntDropdownTree : AntDropdown
     {
         await base.OnInitializeAsync();
 
-        model = new TreeModel();
-        model.SelectedKeys = [Value];
-        model.OnNodeClick = n =>
+        Tree = new TreeModel();
+        Tree.OnNodeClick = n =>
         {
             OnValueChanged(n.Name ?? n.Code);
             if (OnChange.HasDelegate)
@@ -404,7 +406,6 @@ public class AntDropdownTree : AntDropdown
             Close();
             return Task.CompletedTask;
         };
-        model.Data = Items.ToMenuItems();
 
         Model = new DropdownModel
         {
@@ -412,6 +413,14 @@ public class AntDropdownTree : AntDropdown
             ChildContent = BuildContent,
             Overlay = BuildOverlay
         };
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        Tree.SelectedKeys = [Value];
+        Tree.Data = Items.ToMenuItems(false);
     }
 
     private void BuildContent(RenderTreeBuilder builder)
@@ -431,7 +440,7 @@ public class AntDropdownTree : AntDropdown
     {
         var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
         var style = CssBuilder.Default().Add("min-width", "200px").AddStyle(Style).BuildStyle();
-        builder.Div().Class(className).Style(style).Child(() => builder.Tree(model));
+        builder.Div().Class(className).Style(style).Child(() => builder.Tree(Tree));
     }
 
     private Task OnClear()
