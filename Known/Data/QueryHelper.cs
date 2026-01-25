@@ -104,7 +104,7 @@ class QueryHelper
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
-            query.ParamValue = db.Provider.FormatDate($"{query.Value} 00:00:00");
+            query.ParamValue = GetStartDateValue(db, query.Value);
         }
         else if (criteria.HasQuery(key))
         {
@@ -114,7 +114,7 @@ class QueryHelper
             {
                 sql += $" and {field}{symbol}{date}";
                 var query1 = criteria.SetQuery(paramName, type, value);
-                query1.ParamValue = db.Provider.FormatDate($"{value} 00:00:00");
+                query1.ParamValue = GetStartDateValue(db, value);
             }
         }
     }
@@ -127,7 +127,7 @@ class QueryHelper
         {
             var query = criteria.Query.FirstOrDefault(q => q.Id == paramName);
             sql += $" and {field}{symbol}{date}";
-            query.ParamValue = db.Provider.FormatDate($"{query.Value} 23:59:59");
+            query.ParamValue = GetEndDateValue(db, query.Value);
         }
         else if (criteria.HasQuery(key))
         {
@@ -137,9 +137,25 @@ class QueryHelper
             {
                 sql += $" and {field}{symbol}{date}";
                 var query1 = criteria.SetQuery(paramName, type, value);
-                query1.ParamValue = db.Provider.FormatDate($"{value} 23:59:59");
+                query1.ParamValue = GetEndDateValue(db, value);
             }
         }
+    }
+
+    private static object GetStartDateValue(Database db, string value)
+    {
+        if (value.Contains(':'))
+            return db.Provider.FormatDate(value);
+
+        return db.Provider.FormatDate($"{value} 00:00:00");
+    }
+
+    private static object GetEndDateValue(Database db, string value)
+    {
+        if (value.Contains(':'))
+            return db.Provider.FormatDate(value);
+
+        return db.Provider.FormatDate($"{value} 23:59:59");
     }
 
     private static void SetLikeQuery(Database db, ref string sql, PagingCriteria criteria, string field, string key, string operate)

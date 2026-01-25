@@ -3,7 +3,7 @@
 public class Weather_Forecast
 {
     [Column(Width = 120, IsQuery = true)]
-    [Form(Type = nameof(FieldType.Date))]
+    [Form(Type = nameof(FieldType.DateTime))]
     [DisplayName("日期")]
     public DateTime? Date { get; set; }
 

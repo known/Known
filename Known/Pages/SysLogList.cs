@@ -14,7 +14,7 @@ public class SysLogList : BaseTablePage<LogInfo>
     protected override async Task OnInitPageAsync()
     {
         var date = DateTime.Now.ToString("yyyy-MM-dd");
-        DefaultQuery = new { CreateTime = $"{date}~{date}" };
+        DefaultQuery = new { CreateTime = $"{date} 00:00:00~{date} 23:59:59" };
 
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ILogService>();

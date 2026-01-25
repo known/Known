@@ -58,7 +58,12 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     {
         if (RangeValueChanged.HasDelegate)
         {
-            RangeValue = $"{e.Dates[0]:yyyy-MM-dd}~{e.Dates[1]:yyyy-MM-dd}";
+            var format = ShowTime.AsT1 == "HH:mm:ss"
+                       ? Config.DateTimeFormat
+                       : Config.DateFormat;
+            var start = e.Dates[0] != null ? e.Dates[0].Value.ToString(format) : "";
+            var end = e.Dates[1] != null ? e.Dates[1].Value.ToString(format) : "";
+            RangeValue = $"{start}~{end}";
             RangeValueChanged.InvokeAsync(RangeValue);
         }
     }
