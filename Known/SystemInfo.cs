@@ -201,9 +201,9 @@ public class VersionInfo
     public DateTime BuildTime { get; set; }
 
     /// <summary>
-    /// 取得系统依赖组件版本列表。
+    /// 取得或设置系统依赖组件版本列表。
     /// </summary>
-    public Dictionary<string, string> Versions { get; } = [];
+    public Dictionary<string, string> Versions { get; set; } = [];
 
     internal string AllVersion => string.Join("，", Versions.Select(d => $"{d.Key} V{d.Value}"));
 }
