@@ -47,6 +47,7 @@ public class KTag : BaseComponent
     private void BuildTag(RenderTreeBuilder builder)
     {
         builder.Component<Tag>()
+                       .Set(c => c.Class, Class)
                        .Set(c => c.Color, GetColor(Text))
                        .Set(c => c.OnClick, OnClick)
                        .Set(c => c.ChildContent, b => b.Text(Language[Text]))
