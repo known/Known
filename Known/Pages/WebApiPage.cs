@@ -70,7 +70,7 @@ class WebApiForm : BaseComponent
 
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        builder.Div().Style("padding:10px").Child(() =>
+        builder.Div().Style("padding:10px 16px").Child(() =>
         {
             builder.Div("kui-api-name", Model.Description);
             builder.Div("kui-api-route", () =>

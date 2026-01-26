@@ -561,6 +561,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-system .kui-form-button {margin-left:150px;}
 .kui-user-form {width:400px;margin:0 50px;}
 .kui-user-form .kui-form-button {margin-left:120px;}
+.kui-user-form.user .kui-form-button {margin-left:130px;}
 .kui-form-setting .kui-form {padding:10px;}
 .kui-form-setting .kui-center {margin:10px;}
 .kui-form-setting .kui-center button {margin:0 5px;}
