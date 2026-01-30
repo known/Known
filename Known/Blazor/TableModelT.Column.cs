@@ -77,6 +77,7 @@ partial class TableModel<TItem>
 
         QueryColumns.Add(column);
         QueryData[column.Id] = new QueryInfo(column);
+        SetDefaultQuery();
     }
 
     /// <summary>
@@ -94,6 +95,7 @@ partial class TableModel<TItem>
         var column = new ColumnInfo { Id = id, Name = name };
         QueryColumns.Add(column);
         QueryData[column.Id] = new QueryInfo(id, type, value);
+        SetDefaultQuery();
     }
 
     internal ColumnBuilder<TItem> AddColumn(ColumnInfo column, bool isQuery = false)

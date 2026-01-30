@@ -138,8 +138,9 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-auth {width:400px;margin:0 auto;}
 .kui-form-tips {color:#a29e9e;padding:5px 0;}
 .kui-form-unit {display:flex;gap:10px;align-items:center;}
-.kui-form-list {padding-bottom:10px;}
-.kui-form-list > div {padding:0 10px 10px 10px;}
+.kui-form-list {padding-bottom:16px;}
+.kui-form-list .kui-flex-space {padding-bottom:5px;}
+.kui-form .kui-form-list {padding-left:16px;padding-right:6px;}
 .kui-unit {display:inline-block;margin-left:10px;}
 .kui-form-pwd {padding:10px 20px 20px 20px;}
 .kui-form-pwd .ant-alert {margin-left:0;}
@@ -441,6 +442,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .ant-tabs-content > .kui-body > .kui-frame {height:calc(100vh - 119px);}
 .ant-tabs-top > .ant-tabs-nav {margin:0;padding:0 10px;}
 .ant-modal-body .ant-tabs-top > .ant-tabs-nav {padding:0 16px 0 24px;}
+.ant-modal-body .kui-form .kui-form-list .ant-tabs-top > .ant-tabs-nav {padding:0 5px;}
 .ant-tabs-top.kui-nav-tabs > .ant-tabs-nav {
     margin:0;padding:5px 2px;background:var(--kui-bgcolor);
     border-bottom:1px solid var(--kui-color-border);
@@ -746,6 +748,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body > .kui-form-body > .kui-table {padding:10px 16px 10px 16px;}
 .ant-modal-body .ant-tabs-tabpane .kui-table {padding:10px 16px;}
 .ant-modal-body .ant-tabs-tabpane > .ant-table-wrapper {padding:10px 16px;}
+.ant-modal-body .kui-form .kui-form-list .ant-tabs-tabpane > .ant-table-wrapper {padding:8px 0 0 0;}
 .ant-modal-body .kui-form-body {height:100%;}
 .ant-modal-body .kui-form-action {padding:0 16px 16px 16px;}
 .ant-modal-body .kui-form .kui-form-action {padding:0 6px 16px 16px;}
@@ -777,7 +780,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-inline .ant-form-item-control-input-content {display:flex;flex-direction:row;gap:5px;align-items:center;}
 .kui-form .ant-alert, .kui-small .ant-alert {margin-left:10px;}
 .kui-form .ant-form-item-label {width:var(--kui-form-label-width);}
-.kui-form .ant-form-item-label .anticon {color:#f50;}
+.ant-form-item-label > label .ant-form-item-tooltip {color:#f50;}
 .kui-form.small-label .ant-form-item-label, .kui-small .ant-form-item-label {width:85px;}
 .kui-form.small-row .ant-form-item, .kui-small-row .ant-form-item {margin-bottom:10px;}
 .kui-form.readonly .ant-form-item {align-items:center;}
