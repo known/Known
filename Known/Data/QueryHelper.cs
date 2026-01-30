@@ -142,7 +142,7 @@ class QueryHelper
         }
     }
 
-    private static object GetStartDateValue(Database db, string value)
+    internal static object GetStartDateValue(Database db, string value)
     {
         if (value.Contains(':'))
             return db.Provider.FormatDate(value);
@@ -150,7 +150,7 @@ class QueryHelper
         return db.Provider.FormatDate($"{value} 00:00:00");
     }
 
-    private static object GetEndDateValue(Database db, string value)
+    internal static object GetEndDateValue(Database db, string value)
     {
         if (value.Contains(':'))
             return db.Provider.FormatDate(value);

@@ -152,8 +152,8 @@ public partial class Database
             if (criteria.ExportMode == ExportMode.Select)
             {
                 var rows = criteria.GetParameter<List<T>>(nameof(ExportMode.Select));
-                var data = onExportList != null 
-                         ? await onExportList.Invoke(rows) 
+                var data = onExportList != null
+                         ? await onExportList.Invoke(rows)
                          : DbUtils.GetExportData(criteria, rows, onExport);
                 return new PagingResult<T>() { ExportData = data };
             }

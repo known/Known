@@ -6,6 +6,56 @@
 public static class QueryExtension
 {
     /// <summary>
+    /// 获取日期查询Where条件语句。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="criteria">分页查询条件。</param>
+    /// <param name="id">字段ID。</param>
+    /// <param name="field">数据库字段。</param>
+    /// <returns></returns>
+    public static string GetDateWhere(this Database db, PagingCriteria criteria, string id, string field = null)
+    {
+        var date = criteria.GetQueryValue(id, true);
+        return db.GetDateWhere(criteria, date, id, field);
+    }
+
+    /// <summary>
+    /// 获取日期查询Where条件语句。
+    /// </summary>
+    /// <param name="db">数据库访问对象。</param>
+    /// <param name="criteria">分页查询条件。</param>
+    /// <param name="date">日期查询条件值。</param>
+    /// <param name="id">字段ID。</param>
+    /// <param name="field">数据库字段。</param>
+    /// <returns></returns>
+    public static string GetDateWhere(this Database db, PagingCriteria criteria, string date, string id, string field = null)
+    {
+        if (string.IsNullOrWhiteSpace(date))
+            return string.Empty;
+
+        var where = string.Empty;
+        var dates = date.Split('~');
+        if (string.IsNullOrWhiteSpace(field))
+            field = id;
+
+        if (dates.Length > 0 && !string.IsNullOrWhiteSpace(dates[0]))
+        {
+            where += $" and {field}>=@L{id}";
+            var query = criteria.SetQuery($"L{id}", QueryType.Between, dates[0]);
+            query.ParamValue = QueryHelper.GetStartDateValue(db, dates[0]);
+        }
+
+        if (dates.Length > 1 && !string.IsNullOrWhiteSpace(dates[1]))
+        {
+            where += $" and {field}<=@G{id}";
+            var query = criteria.SetQuery($"G{id}", QueryType.Between, dates[1]);
+            query.ParamValue = QueryHelper.GetEndDateValue(db, dates[1]);
+        }
+
+        return where;
+    }
+
+    /// <summary>
     /// 列表数据包含查询扩展方法。
     /// </summary>
     /// <typeparam name="T">数据类型。</typeparam>
