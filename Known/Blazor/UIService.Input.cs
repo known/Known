@@ -51,19 +51,15 @@ public partial class UIService
     internal void AddInputAttributes<TItem>(Dictionary<string, object> attributes, FieldModel<TItem> model) where TItem : class, new()
     {
         var column = model.Column;
-        if (!string.IsNullOrWhiteSpace(column.Category))
-        {
-            if (column.Type == FieldType.Switch)
-                attributes[nameof(AntSwitch.Category)] = column.Category;
-            else if (column.Type == FieldType.Select)
-                attributes[nameof(AntSelect.DataSource)] = model.GetCodes();
-            else if (column.Type == FieldType.RadioList)
-                attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
-            else if (column.Type == FieldType.CheckList)
-                attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
-        }
-
-        if (column.Type == FieldType.TextArea)
+        if (column.Type == FieldType.Switch)
+            attributes[nameof(AntSwitch.Category)] = column.Category;
+        else if (column.Type == FieldType.Select)
+            attributes[nameof(AntSelect.DataSource)] = model.GetCodes();
+        else if (column.Type == FieldType.RadioList)
+            attributes[nameof(AntRadioGroup.Codes)] = model.GetCodes("");
+        else if (column.Type == FieldType.CheckList)
+            attributes[nameof(AntCheckboxGroup.Codes)] = model.GetCodes("");
+        else if (column.Type == FieldType.TextArea)
             attributes[nameof(AntTextArea.Rows)] = column.Rows;
         else if (column.Type == FieldType.CheckBox)
             attributes[nameof(AntCheckBox.Label)] = column.Label;
