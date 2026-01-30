@@ -3,7 +3,8 @@
 
 <ReloadContainer @ref="reload">
     <AntTable @ref="table" TItem="TItem" Model="Model" ScrollX="@ScrollX" ScrollY="@ScrollY"
-              ExpandTemplate="ExpandTemplate" OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
+              HeaderTemplate="HeaderTemplate" ExpandTemplate="ExpandTemplate"
+              OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
               Total="totalCount" DataSource="dataSource" Loading="Model.EnableSpin && isQuering"
               @bind-SelectedRows="Model.SelectedRows">
         <ColumnDefinitions>

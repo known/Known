@@ -274,6 +274,17 @@ partial class KTable<TItem>
         );
     }
 
+    private RenderFragment<TItem> HeaderTemplate
+    {
+        get
+        {
+            if (Model.HeaderTemplate == null)
+                return null;
+
+            return this.BuildTree<TItem>((b, d) => Model.HeaderTemplate(b, d));
+        }
+    }
+
     private RenderFragment<RowData<TItem>> ExpandTemplate
     {
         get

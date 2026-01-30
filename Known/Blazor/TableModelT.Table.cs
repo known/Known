@@ -126,6 +126,11 @@ partial class TableModel<TItem>
     public Func<TItem, string> RowClass { get; set; }
 
     /// <summary>
+    /// 取得或设置表格表头呈现模板。
+    /// </summary>
+    public Action<RenderTreeBuilder, TItem> HeaderTemplate { get; set; }
+
+    /// <summary>
     /// 取得或设置表格行展开数据呈现模板。
     /// </summary>
     public Action<RenderTreeBuilder, TItem> ExpandTemplate { get; set; }
