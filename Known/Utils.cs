@@ -208,7 +208,7 @@ public sealed class Utils
     /// <param name="value">数值。</param>
     /// <param name="decimals">保留小数位数。</param>
     /// <returns></returns>
-    public static decimal Round(decimal value, int decimals) => Math.Round(value, decimals, MidpointRounding.AwayFromZero);
+    public static decimal Round(decimal? value, int decimals) => Math.Round(value ?? 0, decimals, MidpointRounding.AwayFromZero);
 
     /// <summary>
     /// 获取Double类型的四舍五入值。
@@ -216,7 +216,7 @@ public sealed class Utils
     /// <param name="value">数值。</param>
     /// <param name="decimals">保留小数位数。</param>
     /// <returns></returns>
-    public static double Round(double value, int decimals) => Math.Round(value, decimals, MidpointRounding.AwayFromZero);
+    public static double Round(double? value, int decimals) => Math.Round(value ?? 0, decimals, MidpointRounding.AwayFromZero);
 
     /// <summary>
     /// 获取随机验证码字符串，大小写英文字幕加数字。

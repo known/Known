@@ -11,7 +11,8 @@ class QueryHelper
             {
                 if (item.Value.Contains('~') && item.Type != QueryType.Between)
                     item.Type = QueryType.Between;
-                item.ParamValue = item.Value;
+                if (item.Type != QueryType.Between)
+                    item.ParamValue = item.Value;
                 querys.Add(item);
             }
         }
