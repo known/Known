@@ -74,15 +74,15 @@ public partial class Logger
         var logs = Logs;
         var type = criteria.GetQueryValue(nameof(LogInfo.Type));
         if (!string.IsNullOrWhiteSpace(type))
-            logs = logs.Where(l => l.Type == type).ToList();
+            logs = [.. logs.Where(l => l.Type == type)];
         var createBy = criteria.GetQueryValue(nameof(LogInfo.CreateBy));
         if (!string.IsNullOrWhiteSpace(createBy))
-            logs = logs.Where(l => l.CreateBy == createBy).ToList();
+            logs = [.. logs.Where(l => l.CreateBy == createBy)];
         var content = criteria.GetQueryValue(nameof(LogInfo.Content));
         if (!string.IsNullOrWhiteSpace(content))
-            logs = logs.Where(l => l.Content.Contains(content)).ToList();
+            logs = [.. logs.Where(l => l.Content.Contains(content))];
 
-        logs = logs.OrderByDescending(l => l.CreateTime).ToList();
+        logs = [.. logs.OrderByDescending(l => l.CreateTime)];
         var result = logs.ToPagingResult(criteria);
         return Task.FromResult(result);
     }

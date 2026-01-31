@@ -59,6 +59,7 @@ public class QueryInfo
     public QueryType Type { get; set; }
 
     internal bool IsNew { get; set; }
+    internal bool IsField { get; set; } = true;
     internal object ParamValue { get; set; }
     internal string[] Values => Value?.Split(',');
 }

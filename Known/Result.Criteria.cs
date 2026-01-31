@@ -103,14 +103,16 @@ public class PagingCriteria
     /// 获取查询字段值。
     /// </summary>
     /// <param name="id">查询字段ID。</param>
-    /// <param name="remove">是否移除条件。</param>
+    /// <param name="remove">是否移除条件，默认否。</param>
+    /// <param name="isField">是否查询字段，默认是。</param>
     /// <returns>查询字段值。</returns>
-    public string GetQueryValue(string id, bool remove = false)
+    public string GetQueryValue(string id, bool remove = false, bool isField = true)
     {
         var query = Query?.FirstOrDefault(q => q.Id == id);
         if (query == null)
             return string.Empty;
 
+        query.IsField = isField;
         if (remove)
             Query.Remove(query);
         return query.Value;

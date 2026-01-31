@@ -18,7 +18,7 @@ class QueryHelper
         }
         foreach (var item in querys)
         {
-            if (!sql.Contains($"{db.Provider.Prefix}{item.Id}"))
+            if (!sql.Contains($"{db.Provider.Prefix}{item.Id}") && item.IsField)
                 SetQuery(db, ref sql, criteria, item.Type, item.Id);
             var format = item.Type.ToValueFormat();
             if (!string.IsNullOrWhiteSpace(format))
