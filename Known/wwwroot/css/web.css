@@ -52,6 +52,7 @@ body {
 .kui-error {text-align:center;padding:20px;height:100%;}
 .kui-primary {color:#1890ff;}
 .kui-danger {color:#ed4014;}
+.kui-danger label {color:#ed4014;font-weight:bold;}
 .kui-bg-danger, .kui-bg-danger > td {background-color:#ffccc7 !important;}
 .kui-bg-danger:hover, .kui-bg-danger:hover > td {background-color: #ffa39e !important;}
 .kui-p10 {padding:10px;}
@@ -359,6 +360,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-code {position:relative;border-left:3px solid var(--kui-color-border);}
 .kui-code .action {position:absolute;top:0;right:10px;font-size:16px;cursor:pointer;z-index:100;}
 .kui-code pre[class*=language-] {margin:0;padding:10px;overflow:auto;max-height:360px;}
+.ant-tabs-tabpane .kui-code {margin:10px 16px 16px 16px;}
 :root[data-theme=dark] :not(pre)>code[class*=language-], pre[class*=language-] {background-color:rgba(255,255,255,0.08);}
 
 /*WebApi*/
@@ -743,11 +745,11 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-header {border-radius:5px 5px 0 0;}
 .ant-modal-body, .ant-drawer-body {position:relative;padding:0;}
 .ant-modal-body .ant-table-wrapper {padding:0;}
-.kui-watermark > div > .ant-table-wrapper {padding:10px 16px;}
-.ant-modal-body > .kui-form-body .ant-table-wrapper {padding:0 16px 10px 16px;}
-.ant-modal-body > .kui-form-body > .kui-table {padding:10px 16px 10px 16px;}
-.ant-modal-body .ant-tabs-tabpane .kui-table {padding:10px 16px;}
-.ant-modal-body .ant-tabs-tabpane > .ant-table-wrapper {padding:10px 16px;}
+.kui-watermark > div > .ant-table-wrapper {padding:10px 16px 16px 16px;}
+.ant-modal-body > .kui-form-body .ant-table-wrapper {padding:0 16px 16px 16px;}
+.ant-modal-body > .kui-form-body > .kui-table {padding:10px 16px 16px 16px;}
+.ant-modal-body .ant-tabs-tabpane .kui-table {padding:10px 16px 16px 16px;}
+.ant-modal-body .ant-tabs-tabpane > .ant-table-wrapper {padding:10px 16px 16px 16px;}
 .ant-modal-body .kui-form .kui-form-list .ant-tabs-tabpane > .ant-table-wrapper {padding:8px 0 0 0;}
 .ant-modal-body .kui-form-body {height:100%;}
 .ant-modal-body .kui-form-action {padding:0 16px 16px 16px;}
@@ -757,8 +759,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
 .kui-detail .ant-modal-body {padding:10px;}
 .ant-modal-body .kui-toolbar {padding:5px 16px;}
-.ant-modal-body > .kui-table {padding:10px 16px;}
-.ant-modal-body > .kui-watermark > div > .kui-table {padding:10px 16px;}
+.ant-modal-body > .kui-table {padding:10px 16px 16px 16px;}
+.ant-modal-body > .kui-watermark > div > .kui-table {padding:10px 16px 16px 16px;}
 
 /*Form*/
 .kui-drawer {overflow:hidden;}
