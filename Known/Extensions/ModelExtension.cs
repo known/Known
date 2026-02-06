@@ -154,7 +154,12 @@ public static class ModelExtension
         if (info == null || info.Columns == null || info.Columns.Count == 0)
             return [];
 
-        return [.. info.Columns.OrderBy(t => t.Position).Select(c => new ColumnInfo(c))];
+        if (typeof(T).IsDictionary())
+            return [.. info.Columns.OrderBy(t => t.Position).Select(c => new ColumnInfo(c))];
+
+        var properties = TypeHelper.Properties<T>().ToList();
+        var columns = info.Columns.Where(d => properties.Exists(p => p.Name == d.Id));
+        return [.. columns.OrderBy(t => t.Position).Select(c => new ColumnInfo(c))];
     }
     #endregion
 
