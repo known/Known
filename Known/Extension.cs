@@ -179,9 +179,13 @@ public static partial class Extension
         UIConfig.SystemTabs.Set<SecuritySetting>(2, Language.SecuritySetting);
         //企业信息
         UIConfig.CompanyTabs.Set<CompanyBaseInfo>(1, Language.BasicInfo);
+
         // 添加一级模块
-        Config.Modules.AddItem("0", Constants.BaseData, Language.BaseData, "database", 1);
-        Config.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
+        if (Config.App.IsAddMenu)
+        {
+            Config.Modules.AddItem("0", Constants.BaseData, Language.BaseData, "database", 1);
+            Config.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
+        }
     }
 
     private static void AddKnownInnerCore(this IServiceCollection services, Action<AppInfo> action)

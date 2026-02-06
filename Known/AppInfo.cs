@@ -90,6 +90,11 @@ public class AppInfo
     public bool IsTheme { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置系统是否添加默认一级菜单，默认是。
+    /// </summary>
+    public bool IsAddMenu { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置ID生成器类型。
     /// </summary>
     public NextIdType NextIdType { get; set; }
