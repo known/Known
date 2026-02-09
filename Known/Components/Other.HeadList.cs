@@ -30,7 +30,7 @@ public class KHeadList : BaseComponent
     {
         builder.Div(Class, () =>
         {
-            builder.Fragment(Head);
+            builder.Div("kui-fhl-head", () => builder.Fragment(Head));
             if (!string.IsNullOrWhiteSpace(ListTitle) || Toolbar != null)
             {
                 builder.Div("kui-toolbar", () =>
@@ -39,7 +39,7 @@ public class KHeadList : BaseComponent
                     builder.Div("ant-toolbar", () => builder.Fragment(Toolbar));
                 });
             }
-            builder.Fragment(List);
+            builder.Div("kui-fhl-list", () => builder.Fragment(List));
         });
     }
 }

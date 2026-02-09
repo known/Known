@@ -111,7 +111,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 /*Table*/
 .kui-table.form-list .kui-toolbar {border-bottom:none;}
 .ant-modal-body .kui-table.form-list .kui-toolbar {padding:0 0 10px 0;}
-.ant-tabs-tabpane .kui-table.form-list .kui-toolbar {border-bottom:none;padding:5px 10px;}
+.ant-tabs-tabpane .kui-table.form-list .kui-toolbar1 {border-bottom:none;padding:5px 10px;}
 .kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
 .kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
 .kui-table-filter label {display:flex;}
@@ -149,6 +149,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form-pwd .kui-form-button {margin-left:120px;margin-top:10px;}
 .kui-form .ant-row.inline {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
 .kui-form .ant-row.inline .ant-row {display:grid;}
+.kui-fhl-list {padding:5px 16px 10px 16px;}
 
 /*Console*/
 .kui-console,
@@ -747,8 +748,8 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body, .ant-drawer-body {position:relative;padding:0;}
 .ant-modal-body .ant-table-wrapper {padding:0;}
 .kui-watermark > div > .ant-table-wrapper {padding:10px 16px 16px 16px;}
-.ant-modal-body > .kui-form-body .ant-table-wrapper {padding:0 16px 16px 16px;}
-.ant-modal-body > .kui-form-body > .kui-table {padding:10px 16px 16px 16px;}
+.ant-modal-body > .kui-form-body1 .ant-table-wrapper {padding:0 16px 16px 16px;}
+.ant-modal-body > .kui-form-body1 > .kui-table {padding:10px 16px 16px 16px;}
 .ant-modal-body .ant-tabs-tabpane .kui-table {padding:10px 16px 16px 16px;}
 .ant-modal-body .ant-tabs-tabpane > .ant-table-wrapper {padding:10px 16px 16px 16px;}
 .ant-modal-body .kui-form .kui-form-list .ant-tabs-tabpane > .ant-table-wrapper {padding:8px 0 0 0;}
@@ -758,7 +759,6 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body .nopadding {padding:0;}
 .ant-modal-body .ant-tree {margin:10px 0;}
 .ant-notification .Error .ant-notification-notice-with-icon .ant-notification-notice-description {margin-left:0;}
-.kui-detail .ant-modal-body {padding:10px;}
 .ant-modal-body .kui-toolbar {padding:5px 16px;}
 .ant-modal-body > .kui-table {padding:10px 16px 6px 16px;}
 .ant-modal-body > .kui-watermark > div > .kui-table {padding:10px 16px 6px 16px;}
