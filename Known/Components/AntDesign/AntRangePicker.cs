@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using OneOf;
 
 namespace Known.Components;
 
@@ -44,6 +45,8 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+        Value[0] = null;
+        Value[1] = null;
         if (!string.IsNullOrWhiteSpace(RangeValue))
         {
             var values = RangeValue.Split('~');
@@ -52,6 +55,8 @@ public class AntRangePicker : RangePicker<DateTime?[]>
             if (values.Length > 1)
                 Value[1] = Utils.ConvertTo<DateTime?>(values[1]);
         }
+        var format = ShowTime.AsT1 == "HH:mm:ss" ? "选择日期时间" : "选择日期";
+        Placeholder = OneOf<string, string[]>.FromT1([format, format]);
     }
 
     private void OnDateRangeChange(DateRangeChangedEventArgs<DateTime?[]> e)
