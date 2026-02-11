@@ -95,7 +95,7 @@ public class RegexPattern
     /// <summary>
     /// Email正则匹配。
     /// </summary>
-    public const string Email = "^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
+    public const string Email = "^[a-zA-Z0-9\\u0080-\\uFFFF._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
     /// <summary>
     /// 网址正则匹配。
