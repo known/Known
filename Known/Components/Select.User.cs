@@ -23,7 +23,7 @@ public class UserDropdownTable : AntDropdownTable<UserInfo>, ICustomField
     [Parameter] public string Role { get; set; }
 
     /// <inheritdoc />
-    protected override Func<UserInfo, string> OnValue => d => d.UserName;
+    protected override Func<UserInfo, string> OnValue => d => d?.UserName;
 
     /// <inheritdoc />
     protected override async Task OnInitializeAsync()

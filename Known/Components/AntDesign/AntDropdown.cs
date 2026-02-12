@@ -214,6 +214,8 @@ public class AntDropdown : Dropdown
 /// <typeparam name="TItem">数据项类型。</typeparam>
 public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem : class, new()
 {
+    private TItem currentItem;
+    
     /// <summary>
     /// 取得表格模型。
     /// </summary>
@@ -316,13 +318,9 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         input.Set(c => c.ValueChanged, ValueChanged);
         input.Set(c => c.Placeholder, Placeholder);
         input.Set(c => c.Disabled, AntForm?.IsView == true);
-        if (IsSearch)
-        {
-            if (IsEnter)
-                input.Set(c => c.OnEnter, this.Callback<string>(OnEnter));
-            else
-                input.Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput));
-        }
+        input.Set(c => c.OnKeyUp, this.Callback<KeyboardEventArgs>(OnKeyUp));
+        if (IsSearch && !IsEnter)
+            input.Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput));
         if (AllowClear)
             input.Set(c => c.OnClear, this.Callback(OnClear));
         input.Build();
@@ -344,13 +342,34 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         if (OnChange.HasDelegate)
             OnChange.InvokeAsync(item);
         Close();
+        currentItem = null;
         return Task.CompletedTask;
     }
 
-    private async Task OnEnter(string value)
+    private async Task OnKeyUp(KeyboardEventArgs args)
     {
-        Table.Criteria.Parameters[SearchKey] = value;
-        await Table.RefreshAsync();
+        if (args.Key.Equals("Enter", StringComparison.OrdinalIgnoreCase))
+        {
+            if (currentItem != null)
+            {
+                await OnRowClick(currentItem);
+            }
+            else if (IsSearch && IsEnter)
+            {
+                Table.Criteria.Parameters[SearchKey] = Value;
+                await Table.RefreshAsync();
+                if (!IsOverlayShow())
+                    await OnTriggerClick();
+            }
+        }
+        else if (args.Key.Equals("ArrowUp", StringComparison.OrdinalIgnoreCase))
+        {
+            MoveSelect("Up");
+        }
+        else if (args.Key.Equals("ArrowDown", StringComparison.OrdinalIgnoreCase))
+        {
+            MoveSelect("Down");
+        }
     }
 
     private Task OnInput(ChangeEventArgs args)
@@ -364,6 +383,28 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         OnValueChanged("");
         if (OnChange.HasDelegate)
             OnChange.InvokeAsync(null);
+    }
+
+    private void MoveSelect(string direction)
+    {
+        if (Table.DataSource == null || Table.DataSource.Count == 0)
+            return;
+
+        if (currentItem == null)
+        {
+            currentItem = Table.DataSource.FirstOrDefault();
+            Table.Select(currentItem);
+            return;
+        }
+
+        var index = Table.DataSource.IndexOf(currentItem);
+        if (direction == "Up")
+            index--;
+        else
+            index++;
+
+        currentItem = index < 0 ? Table.DataSource.LastOrDefault() : index > Table.DataSource.Count - 1 ? Table.DataSource.FirstOrDefault() : Table.DataSource[index];
+        Table.Select(currentItem);
     }
 }
 

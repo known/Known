@@ -60,7 +60,7 @@ public class AntInput : Input<string>
 
     private void DoKeyUp(KeyboardEventArgs args)
     {
-        if (args.Key == "Enter")
+        if (args.Key.Equals("Enter", StringComparison.OrdinalIgnoreCase))
         {
             OnEnter.InvokeAsync(Value);
         }

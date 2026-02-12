@@ -299,6 +299,7 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
             criteria.RemoveQuery(orgNoId);
         }
         sql += " where a.CompNo=@CompNo and a.UserName<>'admin'";
+        criteria.RemoveQuery("Key");
         var key = criteria.GetParameter<string>("Key");
         if (!string.IsNullOrWhiteSpace(key))
         {

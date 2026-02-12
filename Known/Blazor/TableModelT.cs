@@ -10,6 +10,8 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
 {
     private bool IsAuto { get; }
 
+    internal KTable<TItem> Table { get; set; }
+
     /// <summary>
     /// 构造函数，创建一个泛型表格组件模型信息类的实例。
     /// </summary>

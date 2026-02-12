@@ -8,6 +8,12 @@ partial class TableModel<TItem>
     public IEnumerable<TItem> SelectedRows { get; set; }
 
     /// <summary>
+    /// 选择表格一行数据。
+    /// </summary>
+    /// <param name="item">行数据。</param>
+    public void Select(TItem item) => Table?.Select(item);
+
+    /// <summary>
     /// 选择表格一行数据操作。
     /// </summary>
     /// <param name="action">操作方法委托。</param>

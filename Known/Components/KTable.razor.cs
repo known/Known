@@ -28,6 +28,7 @@ partial class KTable<TItem>
     /// <inheritdoc />
     protected override void OnInitialized()
     {
+        Model.Table = this;
         Model.OnStateChanged = StateChanged;
         Model.OnStateChangedTask = StateChangedAsync;
         Model.OnRefresh = RefreshTableAsync;
@@ -39,6 +40,12 @@ partial class KTable<TItem>
     protected override bool ShouldRender()
     {
         return shouldRender;
+    }
+
+    internal void Select(TItem item)
+    {
+        Model.SelectedRows = [item];
+        table.SetSelection(item);
     }
 
     private async Task RefreshTableAsync(bool isQuery)
