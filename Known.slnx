@@ -1,0 +1,21 @@
+﻿<Solution>
+    <Folder Name="/Document/">
+        <File Path=".gitattributes" />
+        <File Path=".gitignore" />
+        <File Path="README.md" />
+        <File Path="Document/更新日志.md" />
+        <File Path="Document/示例文档.md" />
+    </Folder>
+    <Folder Name="/Plugins/">
+        <Project Path="Plugins\Known.Core\Known.Core.csproj" />
+        <Project Path="Plugins\Known.Cells\Known.Cells.csproj" />
+        <Project Path="Plugins\Known.Sample\Known.Sample.csproj" />
+    </Folder>
+    <Project Path="Known/Known.csproj" />
+    <Project Path="Known.Server/Known.Server.csproj" />
+    <Project Path="Known.Wasm/Known.Wasm.csproj" />
+    <Project Path="Known.WasmHost/Known.WasmHost.csproj" />
+    <Project Path="Known.WinForm/Known.WinForm.csproj" />
+    <Project Path="Known.Maui/Known.Maui.csproj" />
+    <Project Path="Known.Photino/Known.Photino.csproj" />
+</Solution>

@@ -47,6 +47,17 @@ partial class TableModel<TItem>
     /// <summary>
     /// 添加一个标签。
     /// </summary>
+    /// <typeparam name="T">模型类型。</typeparam>
+    /// <param name="id">标签ID。</param>
+    /// <param name="model">表格模型。</param>
+    public void AddTab<T>(string id, TableModel<T> model) where T : class, new()
+    {
+        AddTab(id, b => b.Query(model), b => b.Table(model));
+    }
+
+    /// <summary>
+    /// 添加一个标签。
+    /// </summary>
     /// <param name="id">标签ID。</param>
     /// <param name="query">查询条件模板。</param>
     /// <param name="table">表格模板。</param>
