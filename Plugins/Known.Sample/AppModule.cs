@@ -9,6 +9,8 @@ public static class AppModule
         Config.AddModule(typeof(AppModule).Assembly);
         Config.Modules.AddItem("0", AppConstant.Demo, "示例页面", "block", 2);
         Config.Modules.AddItem("0", AppConstant.Test, "测试页面", "appstore", 3);
+        Config.Modules.AddItem("0", AppConstant.Produce, "生产管理", "appstore-add", 4);
+        Config.Modules.AddItem("0", AppConstant.Screen, "数据大屏", "desktop", 98);
 
         UIConfig.UserFormShowFooter = true;
         UIConfig.UserFormTabs.Set<UserDataForm>(2, "数据权限");

@@ -43,6 +43,9 @@ public static class AppConfig
     internal static void UseApplication(this WebApplication app)
     {
         app.UseKnown();
+
+        using var db = Database.Create();
+        _ = AppMigrate.UpdateVersionAsync(db);
     }
 
     private static void ConfigUI(this IServiceCollection services)

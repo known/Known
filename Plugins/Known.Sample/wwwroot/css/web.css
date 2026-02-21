@@ -57,3 +57,17 @@
 .kui-code.script pre {height:390px;}
 .kui-code.page {height:358px;margin-left:10px;}
 /*---Designer---*/
+
+/*Label*/
+.label-preview {width:100%;max-width:400px;border:1px solid #e1e4e8;border-radius:8px;padding:10px 20px;background:white;box-shadow:0 2px 10px rgba(0, 0, 0, 0.05);}
+.label-header {text-align:center;margin-bottom:10px;padding-bottom:0;border-bottom:1px dashed #e1e4e8;}
+.label-header h2 {color:#2c3e50;font-size:14px;}
+.label-content {display:flex;gap:10px;}
+.label-info {flex:1;}
+.label-field {margin-bottom:8px;}
+.field-title {font-weight:600;color:#7f8c8d;font-size:10px;margin-bottom:4px;}
+.field-value {font-size:12px;color:#2c3e50;font-weight:500;}
+.qrcode-container {width:100px;height:100px;display:flex;align-items:center;justify-content:center;border:1px solid #e1e4e8;border-radius:6px;padding:5px;}
+
+.demo-pack {display:grid;grid-template-columns:1fr 300px;gap:10px;padding:0 16px;}
+.demo-pack .kui-toolbar {border-bottom:none;padding:15px 0 5px 0;}

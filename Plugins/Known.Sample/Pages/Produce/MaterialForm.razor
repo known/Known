@@ -1,0 +1,65 @@
+﻿@inherits BaseForm<TbMaterial, PackFieldInfo>
+
+<style>
+    
+</style>
+
+<Tabs Animated>
+    <TabPane Key="BaseInfo" Tab="基本信息">
+        <MaterialTypeForm Form="Model">
+            <AntRow>
+                <DataItem Span="24" Label="客户料号" Required>
+                    <AntInput @bind-Value="context.CustGNo" Disabled="!Model.IsNew" />
+                </DataItem>
+            </AntRow>
+            <AntRow>
+                <DataItem Span="24" Label="备注">
+                    <AntTextArea @bind-Value="context.Note" />
+                </DataItem>
+            </AntRow>
+        </MaterialTypeForm>
+    </TabPane>
+    <TabPane Key="PackInfo" Tab="包装信息">
+        <div class="demo-pack">
+            <div>
+                <div class="kui-toolbar">
+                    <KTitle Text="标签字段" />
+                    <div class="ant-toolbar">
+                        @if (!Model.IsView)
+                        {
+                            <KButton Name="添加" Icon="plus" OnClick="OnAdd" />
+                        }
+                    </div>
+                </div>
+                <PackFieldTypeTable DataSource="ListItems" HidePagination IsView="Model.IsView" ScrollY="300px">
+                    <TableColumn Title="字段名称" Value="@context.Name">
+                        <AntInput @bind-Value="context.Name" />
+                    </TableColumn>
+                    <TableColumn Title="工单字段" Width="130" Value="@context.Work.GetDescription()">
+                        <WorkFieldSelect @bind-Value="context.Work" />
+                    </TableColumn>
+                    <TableColumn Title="字段类型" Width="100" Value="@context.GetTypeName()">
+                        @if (context.Work == WorkFieldType.None)
+                        {
+                            <AppFieldSelect @bind-Value="context.Type" />
+                        }
+                    </TableColumn>
+                    @if (!Model.IsView)
+                    {
+                        <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="150" Fixed="ColumnFixPlacement.Right">
+                            <KButton Name="上移" OnClick="e => OnMoveUp(context)" />
+                            <KButton Name="下移" OnClick="e => OnMoveDown(context)" />
+                            <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+                        </ActionColumn>
+                    }
+                </PackFieldTypeTable>
+            </div>
+            <div style="padding:0 15px 20px 0;">
+                <div class="kui-toolbar">
+                    <KTitle Text="标签预览" />
+                </div>
+                <LabelView Title="产品标签" Code="@Model.Data.CustGNo" Data="GetLabelData()" />
+            </div>
+        </div>
+    </TabPane>
+</Tabs>

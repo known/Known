@@ -1,0 +1,39 @@
+﻿@inherits BaseForm<TbWork>
+
+<Tabs Animated>
+    <ChildContent>
+        <TabPane Key="WorkInfo" Tab="工单信息">
+            <WorkTypeForm Form="Model">
+                <AntRow>
+                    <DataItem Span="12" Label="工单编号">
+                        <AntInput @bind-Value="@context.WorkNo" Disabled />
+                    </DataItem>
+                    <DataItem Span="12" Label="客户料号" Required>
+                        <SelectMaterial @bind-Value="@context.CustGNo" OnChange="OnCustGNoChanged" />
+                    </DataItem>
+                </AntRow>
+                <AntRow>
+                    <DataItem Span="24" Label="备注">
+                        <AntTextArea @bind-Value="@context.Note" />
+                    </DataItem>
+                </AntRow>
+            </WorkTypeForm>
+        </TabPane>
+        <TabPane Key="PackInfo" Tab="包装信息">
+            <div class="demo-pack">
+                <div style="padding-right:20px;">
+                    <DynamicForm Model="Pack" />
+                </div>
+                <div style="padding:10px 20px 20px 20px;">
+                    <LabelView Title="出货标签" Code="@Model.Data.CustGNo" Data="Model.Data.PackInfo" />
+                </div>
+            </div>
+        </TabPane>
+        <TabPane Key="FlowLogs" Tab="流程记录">
+            <FlowLogGrid BizId="@Model.Data.Id" />
+        </TabPane>
+    </ChildContent>
+    <TabBarExtraContentRight>
+        <KTag Text="@Model.Data.Status" />
+    </TabBarExtraContentRight>
+</Tabs>

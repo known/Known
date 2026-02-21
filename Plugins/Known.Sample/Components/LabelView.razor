@@ -1,0 +1,24 @@
+﻿@inherits BaseComponent
+
+<div class="label-preview">
+    <div class="label-header">
+        <h2>@Title</h2>
+    </div>
+    <div class="label-content">
+        <div class="label-info">
+            @if (Data != null && Data.Count > 0)
+            {
+                foreach (var item in Data)
+                {
+                    <div class="label-field">
+                        <div class="field-title">@item.Key</div>
+                        <div class="field-value">@item.Value</div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="qrcode-container">
+            <KQRCode Option="QrCode" />
+        </div>
+    </div>
+</div>

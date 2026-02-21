@@ -1,4 +1,4 @@
-﻿<Solution>
+<Solution>
     <Folder Name="/Document/">
         <File Path=".gitattributes" />
         <File Path=".gitignore" />
