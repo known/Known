@@ -82,7 +82,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
             // 执行参数变化时的逻辑
             if (Model != null)
             {
-                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {typeof(TItem).Name}：OnParametersSet");
+                //Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {typeof(TItem).Name}：OnParametersSet");
                 //Console.WriteLine(Environment.StackTrace);
                 Class = CssBuilder.Default(Model.Class).AddClass("kui-striped", Model.IsStriped).BuildClass();
                 Resizable = Model.Resizable;
