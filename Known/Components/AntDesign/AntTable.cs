@@ -8,6 +8,10 @@ namespace Known.Components;
 /// <typeparam name="TItem">表格数据对象类型。</typeparam>
 public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, new()
 {
+    private TableModel<TItem> _prevModel;
+    private object _prevDataSource;
+    private int _prevPageIndex;
+
     [Inject] private IServiceScopeFactory Factory { get; set; }
 
     /// <summary>
@@ -63,18 +67,36 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        if (Model != null)
+        // 检查关键参数是否真的变化
+        bool modelChanged = _prevModel != Model;
+        bool dataSourceChanged = !ReferenceEquals(_prevDataSource, DataSource);
+        bool pageIndexChanged = _prevPageIndex != PageIndex;
+
+        if (modelChanged || dataSourceChanged || pageIndexChanged)
         {
-            Class = CssBuilder.Default(Model.Class).AddClass("kui-striped", Model.IsStriped).BuildClass();
-            Resizable = Model.Resizable;
-            Bordered = Model.Bordered;
-            AutoHeight = Model.AutoHeight;
-            RowKey = Model.RowKey;
-            PageIndex = Model.Criteria.PageIndex;
-            PageSize = Model.Criteria.PageSize;
-            HidePagination = !Model.ShowPager;
-            DataSource = Model.DataSource;
-            Model.OnInitial?.Invoke(this);
+            // 更新缓存
+            _prevModel = Model;
+            _prevDataSource = DataSource;
+            _prevPageIndex = PageIndex;
+
+            // 执行参数变化时的逻辑
+            if (Model != null)
+            {
+                Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {typeof(TItem).Name}：OnParametersSet");
+                //Console.WriteLine(Environment.StackTrace);
+                Class = CssBuilder.Default(Model.Class).AddClass("kui-striped", Model.IsStriped).BuildClass();
+                Resizable = Model.Resizable;
+                Bordered = Model.Bordered;
+                AutoHeight = Model.AutoHeight;
+                RowKey = Model.RowKey;
+                PageIndex = Model.Criteria.PageIndex;
+                PageSize = Model.Criteria.PageSize;
+                HidePagination = !Model.ShowPager;
+                DataSource = Model.DataSource;
+                // 只执行一次初始化，避免重复调用
+                if (modelChanged)
+                    Model.OnInitial?.Invoke(this);
+            }
         }
         base.OnParametersSet();
     }

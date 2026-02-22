@@ -158,7 +158,7 @@ public partial class Database
                 return new PagingResult<T>() { ExportData = data };
             }
 
-            var watch = Stopwatcher.Start<T>();
+            //var watch = Stopwatcher.Start<T>();
             if (!criteria.IsPaging)
                 criteria.PageIndex = -1;
             if (criteria.ExportMode != ExportMode.None && criteria.ExportMode != ExportMode.Page)
@@ -175,13 +175,13 @@ public partial class Database
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
             var total = Utils.ConvertTo<int>(value);
-            watch.Write($"QueryTotal {total}");
+            //watch.Write($"QueryTotal {total}");
             if (total > 0)
             {
                 cmd.CommandText = info.PageSql;
                 using (var reader = cmd.ExecuteReader())
                 {
-                    watch.Write("QueryData");
+                    //watch.Write("QueryData");
                     while (reader.Read())
                     {
                         var obj = DbUtils.ConvertTo<T>(reader);
@@ -214,7 +214,7 @@ public partial class Database
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0 && criteria.PageIndex > 0)
                 pageData = [.. pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize)];
 
-            watch.Write("PagingResult");
+            //watch.Write("PagingResult");
             return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
         }
         catch (Exception ex)

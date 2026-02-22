@@ -42,6 +42,16 @@ partial class KTable<TItem>
         return shouldRender;
     }
 
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //var watch = Stopwatcher.Start<TItem>();
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            shouldRender = false;
+        //watch.Write($"AfterRender-{firstRender}");
+    }
+
     internal void Select(TItem item)
     {
         Model.SelectedRows = [item];
@@ -81,7 +91,6 @@ partial class KTable<TItem>
                 Model.Criteria.OrderBys = [.. sorts.Select(GetOrderBy)];
             }
             Model.Criteria.StatisticColumns = [.. Model.Columns.Where(c => c.IsSum).Select(c => new StatisticColumnInfo { Id = c.Id })];
-            Model.SelectedRows = [];
             Model.Result = await Model.OnQuery.Invoke(Model.Criteria);
             watch.Write($"Query{Model.Criteria.PageIndex}");
 
@@ -94,6 +103,7 @@ partial class KTable<TItem>
             shouldRender = true;
             totalCount = Model.Result.TotalCount;
             dataSource = Model.Result.PageData;
+            Model.SelectedRows = [];
             Model.SetAutoColumns(dataSource);
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
