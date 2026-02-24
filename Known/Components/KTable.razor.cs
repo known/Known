@@ -47,9 +47,10 @@ partial class KTable<TItem>
     {
         //var watch = Stopwatcher.Start<TItem>();
         await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
-            shouldRender = false;
+        //if (firstRender)
+        shouldRender = false;
         //watch.Write($"AfterRender-{firstRender}");
+        //Console.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {typeof(TItem).Name}：AfterRender-{firstRender}");
     }
 
     internal void Select(TItem item)
