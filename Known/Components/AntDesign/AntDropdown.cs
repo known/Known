@@ -318,7 +318,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         input.Set(c => c.Value, Value);
         input.Set(c => c.ValueChanged, ValueChanged);
         input.Set(c => c.Placeholder, Placeholder);
-        input.Set(c => c.Disabled, AntForm?.IsView == true);
+        input.Set(c => c.Disabled, Disabled || AntForm?.IsView == true);
         input.Set(c => c.OnKeyUp, this.Callback<KeyboardEventArgs>(OnKeyUp));
         if (IsSearch && !IsEnter)
             input.Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput));
@@ -473,7 +473,7 @@ public class AntDropdownTree : AntDropdown
                .Set(c => c.Value, Value)
                .Set(c => c.ValueChanged, ValueChanged)
                .Set(c => c.Placeholder, Placeholder)
-               .Set(c => c.Disabled, AntForm?.IsView == true)
+               .Set(c => c.Disabled, Disabled || AntForm?.IsView == true)
                .Set(c => c.OnClear, this.Callback(OnClear))
                .Build();
     }
