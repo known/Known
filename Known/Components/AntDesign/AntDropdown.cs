@@ -296,6 +296,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         Table.Toolbar.OnItemClick = info => Context.OnAction(this, info, null);
 
         OnClick = this.Callback<MouseEventArgs>(OnInnerClick);
+        Style = "width:100%;";
         Model = new DropdownModel
         {
             TriggerType = "Click",
@@ -332,7 +333,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         if (width > 800) width = 800;
         if (width < 500) width = 500;
         var className = CssBuilder.Default("kui-card overlay").AddClass(Class).BuildClass();
-        var style = CssBuilder.Default().AddStyle(Style).Add("width", $"{width}px").BuildStyle();
+        var style = CssBuilder.Default().Add("width", $"{width}px").BuildStyle();
         builder.Div().Class(className).Style(style).Child(() => builder.FormTable(Table));
     }
 
