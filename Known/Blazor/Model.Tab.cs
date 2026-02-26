@@ -92,6 +92,9 @@ public class TabModel(IBaseComponent component) : BaseModel(component)
 
     internal async Task ChangeAsync(string tab)
     {
+        if (Current == tab)
+            return;
+
         Current = tab;
         OnChange?.Invoke(tab);
         if (OnChangeAsync != null)

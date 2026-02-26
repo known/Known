@@ -64,8 +64,11 @@ partial class KTable<TItem>
         isRefreshing = true;
         Model.Criteria.IsQuery = isQuery;
         var query = table?.GetQueryModel();
-        await OnChange(query);
-        await StateChangedAsync();
+        await InvokeAsync(async () =>
+        {
+            await OnChange(query);
+            StateHasChanged();
+        });
         isRefreshing = false;
     }
 

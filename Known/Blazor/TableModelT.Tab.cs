@@ -95,6 +95,8 @@ partial class TableModel<TItem>
                 }
                 else
                 {
+                    if (ExpandTemplate != null)
+                        PageComponent?.StateChangedAsync();
                     return RefreshAsync();
                 }
             }
