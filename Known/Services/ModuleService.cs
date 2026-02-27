@@ -305,9 +305,11 @@ class ModuleService(Context context) : ServiceBase(context), IModuleService
             model.Code = model.Name;
         if (string.IsNullOrWhiteSpace(model.Icon))
             model.Icon = "";//AntDesign不识别null值
+        if (info.Layout != null)
+            model.LayoutData = Utils.ToJson(info.Layout);
+        if (info.Plugins != null && info.Plugins.Count > 0)
+            model.PluginData = info.Plugins?.ZipDataString();
 
-        model.LayoutData = Utils.ToJson(info.Layout);
-        model.PluginData = info.Plugins?.ZipDataString();
         return await Database.TransactionAsync(Language.Save, async db =>
         {
             await db.SaveAsync(model);
