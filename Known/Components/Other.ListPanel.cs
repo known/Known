@@ -48,7 +48,7 @@ public class KListPanel : BaseComponent
         builder.Div("kui-row-28", () =>
         {
             builder.Div("kui-card", () => BuildListBox(builder));
-            builder.Fragment(ChildContent);
+            builder.Div("kui-pane", () => builder.Fragment(ChildContent));
         });
     }
 
