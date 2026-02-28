@@ -10,10 +10,11 @@ public static class LayoutExtension
     /// </summary>
     /// <param name="app">模板基类实例。</param>
     /// <param name="action">下载文件委托。</param>
+    /// <param name="tipText">下载提示文字。</param>
     /// <returns></returns>
-    public static Task DownloadAsync(this BaseLayout app, Func<Task> action)
+    public static Task DownloadAsync(this BaseLayout app, Func<Task> action, string tipText = Language.Downloading)
     {
-        return app?.ShowSpinAsync(Language.Downloading, action);
+        return app?.ShowSpinAsync(tipText, action);
     }
 
     /// <summary>
@@ -21,10 +22,11 @@ public static class LayoutExtension
     /// </summary>
     /// <param name="app">模板基类实例。</param>
     /// <param name="action">下载文件委托</param>
+    /// <param name="tipText">下载提示文字。</param>
     /// <returns></returns>
-    public static Task DownloadFileAsync(this BaseLayout app, Func<Task<FileDataInfo>> action)
+    public static Task DownloadFileAsync(this BaseLayout app, Func<Task<FileDataInfo>> action, string tipText = Language.Downloading)
     {
-        return app.ShowSpinAsync(Language.Downloading, async () =>
+        return app.ShowSpinAsync(tipText, async () =>
         {
             var info = await action.Invoke();
             if (info == null || info.Bytes == null || info.Bytes.Length == 0)
