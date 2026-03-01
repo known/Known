@@ -28,6 +28,12 @@ public static class ContextExtension
     /// <param name="parameters">操作参数。</param>
     public static void OnAction(this UIContext context, object sender, ActionInfo info, object[] parameters)
     {
+        if (info.OnClick.HasDelegate)
+        {
+            info.OnClick.InvokeAsync();
+            return;
+        }
+
         var type = sender.GetType();
         var paramTypes = parameters?.Select(p => p.GetType()).ToArray();
         var method = paramTypes == null
