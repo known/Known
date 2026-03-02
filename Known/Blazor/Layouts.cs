@@ -143,7 +143,7 @@ public class EmptyLayout : LayoutBase
         if (Context.IsInitial)
         {
             BuildBackgroundBlobs(builder);
-            builder.Div(WrapperClass, () => builder.Fragment(Body));
+            builder.Div(WrapperClass, () => builder.Component<KLayout>().Set(c => c.ChildContent, Body).Build());
         }
     }
 }
@@ -180,7 +180,7 @@ public class AuthLayout : LayoutBase
 
     internal virtual void BuildContent(RenderTreeBuilder builder)
     {
-        builder.Fragment(Body);
+        builder.Component<KLayout>().Set(c => c.ChildContent, Body).Build();
     }
 
     private async Task<UserInfo> GetCurrentUserAsync()
