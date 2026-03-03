@@ -216,6 +216,7 @@ public partial class Database
         T obj = default;
         try
         {
+            info.Text = Provider.GetTopSql(1, info.Text);
             using (var reader = await ExecuteReaderAsync(info))
             {
                 if (reader != null && reader.Read())

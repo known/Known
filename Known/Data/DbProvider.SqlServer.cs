@@ -43,6 +43,9 @@ class SqlServerProvider(Database db) : DbProvider(db)
 
     internal override string GetTopSql(int size, string text)
     {
+        if (text.Contains("select top", StringComparison.OrdinalIgnoreCase))
+            return text;
+
         return text.Replace("select", $"select top {size}");
     }
 

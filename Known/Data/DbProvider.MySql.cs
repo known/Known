@@ -31,7 +31,13 @@ WHERE TABLE_SCHEMA='{dbName}' AND TABLE_TYPE='BASE TABLE'";
         return sb.ToString();
     }
 
-    internal override string GetTopSql(int size, string text) => $"{text} limit 0, {size}";
+    internal override string GetTopSql(int size, string text)
+    {
+        if (text.Contains("limit 0,", StringComparison.OrdinalIgnoreCase))
+            return text;
+
+        return $"{text} limit 0, {size}";
+    }
 
     internal override string GetPageSql(string text, string order, PagingCriteria criteria)
     {

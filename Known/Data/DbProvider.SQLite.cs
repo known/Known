@@ -28,6 +28,9 @@ class SQLiteProvider(Database db) : DbProvider(db)
 
     internal override string GetTopSql(int size, string text)
     {
+        if (text.Contains("limit", StringComparison.OrdinalIgnoreCase) && text.Contains("offset 0", StringComparison.OrdinalIgnoreCase))
+            return text;
+
         return $"{text} limit {size} offset 0";
     }
 
