@@ -28,8 +28,9 @@ public static class MenuExtension
     /// <param name="sort">排序。</param>
     /// <param name="url">URL。</param>
     /// <param name="target">打开目标。</param>
+    /// <param name="isToken">是否添加用户token。</param>
     /// <returns>菜单信息。</returns>
-    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null, string target = null)
+    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null, string target = null, bool isToken = false)
     {
         var info = new MenuInfo
         {
@@ -40,7 +41,8 @@ public static class MenuExtension
             Icon = icon,
             Sort = sort,
             Url = url,
-            IsCode = true
+            IsCode = true,
+            IsToken = isToken
         };
         if (!string.IsNullOrWhiteSpace(url))
         {
@@ -265,6 +267,7 @@ public static class MenuExtension
             Enabled = info.Enabled,
             CanEdit = info.CanEdit,
             IsCode = info.IsCode,
+            IsToken = info.IsToken,
             Badge = info.Badge,
             Layout = info.Layout,
             Plugins = info.Plugins,

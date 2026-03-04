@@ -122,6 +122,11 @@ public partial class MenuInfo
     public bool IsCode { get; set; }
 
     /// <summary>
+    /// 取得或设置iFrame页面地址是否添加用户信息token，默认不添加。
+    /// </summary>
+    public bool IsToken { get; set; }
+
+    /// <summary>
     /// 取得或设置布局信息。
     /// </summary>
     public LayoutInfo Layout { get; set; }
@@ -176,6 +181,7 @@ public partial class MenuInfo
             Enabled = Enabled,
             CanEdit = CanEdit,
             IsCode = IsCode,
+            IsToken = IsToken,
             Badge = Badge,
             Layout = Layout?.Clone(),
             Plugins = Plugins?.Select(d => d.Clone()).ToList(),

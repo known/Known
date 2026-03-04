@@ -47,13 +47,25 @@ public class AutoPage : BasePage
         if (Context.Current == null)
             UI.Page404(builder, PageId);
         else if (Context.Current.Target == nameof(ModuleType.IFrame))
-            builder.IFrame(Context.Current.Url);
+            BuildIFramePage(builder);
         else if (Context.Current.Target == nameof(ModuleType.Page))
             BuildAutoTablePage(builder);
         else if (Context.Current.Target == nameof(ModuleType.Form))
             BuildAutoFormPage(builder);
         else
             BuildPluginPage(builder);
+    }
+
+    private void BuildIFramePage(RenderTreeBuilder builder)
+    {
+        var menu = Context.Current;
+        var url = menu.Url;
+        if (menu.IsToken)
+        {
+            var token = ZipHelper.ZipDataAsString(Context.CurrentUser);
+            url = url.Contains('?') ? $"{url}&token={token}" : $"{url}?token={token}";
+        }
+        builder.Div("kui-frame-wrap", () => builder.IFrame(url));
     }
 
     private void BuildAutoTablePage(RenderTreeBuilder builder)
