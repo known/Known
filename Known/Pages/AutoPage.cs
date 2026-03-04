@@ -63,6 +63,7 @@ public class AutoPage : BasePage
         if (menu.IsToken)
         {
             var token = ZipHelper.ZipDataAsString(Context.CurrentUser);
+            token = System.Web.HttpUtility.UrlEncode(token);
             url = url.Contains('?') ? $"{url}&token={token}" : $"{url}?token={token}";
         }
         builder.Div("kui-frame-wrap", () => builder.IFrame(url));

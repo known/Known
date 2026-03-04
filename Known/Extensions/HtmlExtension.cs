@@ -151,7 +151,7 @@ public static class HtmlExtension
     /// <param name="url">iframe的URL。</param>
     public static void IFrame(this RenderTreeBuilder builder, string url)
     {
-        builder.IFrame().Class("kui-frame").Src(url).Close();
+        builder.IFrame().Class("kui-frame").Set("allowfullscreen", true).Src(url).Close();
     }
 
     /// <summary>
