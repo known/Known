@@ -62,6 +62,8 @@ public class AutoPage : BasePage
         var url = menu.Url;
         if (menu.IsToken)
         {
+            if (menu.UrlAction != null)
+                url = menu.UrlAction.Invoke(Context);
             var token = ZipHelper.ZipDataAsString(Context.CurrentUser);
             token = System.Web.HttpUtility.UrlEncode(token);
             url = url.Contains('?') ? $"{url}&token={token}" : $"{url}?token={token}";

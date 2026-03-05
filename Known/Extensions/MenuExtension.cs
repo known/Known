@@ -28,9 +28,10 @@ public static class MenuExtension
     /// <param name="sort">排序。</param>
     /// <param name="url">URL。</param>
     /// <param name="target">打开目标。</param>
+    /// <param name="urlAction">URL动作委托。</param>
     /// <param name="isToken">是否添加用户token。</param>
     /// <returns>菜单信息。</returns>
-    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null, string target = null, bool isToken = false)
+    public static MenuInfo AddItem(this List<MenuInfo> menus, string parentId, string id, string name, string icon, int sort, string url = null, string target = null, Func<Context, string> urlAction = null, bool isToken = false)
     {
         var info = new MenuInfo
         {
@@ -41,6 +42,7 @@ public static class MenuExtension
             Icon = icon,
             Sort = sort,
             Url = url,
+            UrlAction = urlAction,
             IsCode = true,
             IsToken = isToken
         };
@@ -262,6 +264,7 @@ public static class MenuExtension
             Type = info.Type,
             Target = info.Target,
             Url = info.Url,
+            UrlAction = info.UrlAction,
             Sort = info.Sort,
             Visible = info.Visible,
             Enabled = info.Enabled,

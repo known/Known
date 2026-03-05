@@ -33,6 +33,11 @@ public class Context
     public bool IsMobile { get; set; }
 
     /// <summary>
+    /// 获取或设置是否是内网访问系统。
+    /// </summary>
+    public bool IsInternal { get; set; }
+
+    /// <summary>
     /// 取得或设置当前请求IP地址。
     /// </summary>
     public string IPAddress { get; set; }

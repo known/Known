@@ -65,6 +65,11 @@ public partial class MenuInfo
     public string Url { get; set; }
 
     /// <summary>
+    /// 取得或设置菜单URL动作委托。
+    /// </summary>
+    public Func<Context, string> UrlAction { get; set; }
+
+    /// <summary>
     /// 取得或设置顺序。
     /// </summary>
     [Required]
@@ -176,6 +181,7 @@ public partial class MenuInfo
             Type = Type,
             Target = Target,
             Url = Url,
+            UrlAction = UrlAction,
             Sort = Sort,
             Visible = Visible,
             Enabled = Enabled,
