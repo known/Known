@@ -34,6 +34,11 @@ public class AntRadioGroup : RadioGroup<string>
     /// </summary>
     [Parameter] public bool Block { get; set; }
 
+    /// <summary>
+    /// 取得或设置是否显示按钮样式。
+    /// </summary>
+    [Parameter] public bool Solid { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -57,6 +62,8 @@ public class AntRadioGroup : RadioGroup<string>
             else
                 Class += " kui-block";
         }
+        if (Solid)
+            ButtonStyle = RadioButtonStyle.Solid;
         await base.OnParametersSetAsync();
         //Fixed单选按钮组切换不刷新问题
         //OnChange = EventCallback.Factory.Create<string>(this, value => StateHasChanged());
