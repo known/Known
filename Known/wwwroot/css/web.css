@@ -151,6 +151,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-form .ant-row.inline {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));}
 .kui-form .ant-row.inline .ant-row {display:grid;}
 .kui-fhl-list {padding:5px 16px 10px 16px;}
+.kui-fhl-list .kui-flex-space {margin-bottom:5px;}
 
 /*Console*/
 .kui-console,

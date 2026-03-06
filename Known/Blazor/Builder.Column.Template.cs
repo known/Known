@@ -38,9 +38,15 @@ public partial class ColumnBuilder<TItem>
     {
         Template((b, r) =>
         {
-            var text = r.Property(id)?.ToString();
+            var value = r.Property(id);
+            var text = $"{value}";
             if (!string.IsNullOrWhiteSpace(column?.Category))
-                text = Cache.GetCodeName(column.Category, text);
+            {
+                if (value is string[] values)
+                    text = Cache.GetCodeName(column.Category, values);
+                else
+                    text = Cache.GetCodeName(column.Category, text);
+            }
             var color = string.Empty;
             if (colorAction != null)
                 color = colorAction.Invoke(r);
