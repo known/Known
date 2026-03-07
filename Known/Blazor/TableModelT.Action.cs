@@ -104,7 +104,7 @@ partial class TableModel<TItem>
     public void ChangeAction(string tab)
     {
         Toolbar.Items.TabChange(tab);
-        Toolbar.Refresh();
+        //Toolbar.Refresh();
         Actions.TabChange(tab);
     }
 }

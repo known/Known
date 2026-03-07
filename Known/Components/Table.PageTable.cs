@@ -12,6 +12,14 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
     [Parameter] public TableModel<TItem> Model { get; set; }
 
     /// <inheritdoc />
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        if (!string.IsNullOrWhiteSpace(Model.Tab.Current))
+            Model.ChangeAction(Model.Tab.Current);
+    }
+
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         if (Model == null)
