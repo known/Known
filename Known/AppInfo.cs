@@ -50,6 +50,11 @@ public class AppInfo
     public string Name { get; set; }
 
     /// <summary>
+    /// 获取或设置系统创建时间。
+    /// </summary>
+    public DateTime CreateTime { get; set; } = new DateTime(2020, 7, 10);
+
+    /// <summary>
     /// 取得或设置系统类型，默认Web。
     /// </summary>
     public AppType Type { get; set; } = AppType.Web;

@@ -227,7 +227,7 @@ public static partial class Extension
             return;
 
         var dateTime = GetBuildTime();
-        var count = (int)(dateTime - new DateTime(2020, 7, 10)).TotalDays;
+        var count = (int)(dateTime - Config.App.CreateTime).TotalDays;
         info.BuildTime = dateTime;
         info.SoftVersion = $"{info.SoftVersion}.{count}";
     }
