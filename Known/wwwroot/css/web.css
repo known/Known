@@ -515,6 +515,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-coding-form .ant-form-item {margin-bottom:10px;flex-wrap:unset;align-items:center;}
 .kui-coding-form .kui-small .ant-form-item-label {width:70px;}
 .kui-coding-form .kui-row-28 {grid-template-columns:25% 75%;}
+.kui-coding-form .kui-fhl-list {padding:0;}
 
 /*--Admin--*/
 /*Flow*/
@@ -730,6 +731,7 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 .ant-tabs-extra-content {display:flex;align-items:center;}
 .ant-tabs-extra-content .kui-title {padding-right:30px;color:var(--kui-color);}
 .ant-tabs-extra-content .ant-tag {font-size:1rem;padding:5px 10px;}
+.ant-form-item .ant-tag {font-size:1rem;padding:3px 10px;}
 .ant-tabs-tabpane .kui-query1 {margin-bottom:0;}
 .ant-table-wrapper {padding:5px 10px 0 10px;}
 .ant-table .ant-tag {cursor:pointer;margin-right:0;line-height:unset;}
