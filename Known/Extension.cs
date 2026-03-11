@@ -131,9 +131,7 @@ public static partial class Extension
 
     private static void AddStyles()
     {
-        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.css");
-        KStyleSheet.AddStyle("_content/Known/css/theme/default.css");
-        KStyleSheet.AddStyle("_content/Known/css/size/default.css");
+        KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.variable.css");
         KStyleSheet.AddStyle("_content/Known/css/font-awesome.css");
         KStyleSheet.AddStyle("_content/Known/css/prism.css");
         KStyleSheet.AddStyle("_content/Known/css/web.css");
@@ -162,8 +160,8 @@ public static partial class Extension
         IconHelper.LoadAntIcon();
         IconHelper.LoadFAIcon();
         UIConfig.Sizes = [
-            new ActionInfo { Id = "Default", Name = Language.SizeDefault, Style = "size", Url = "_content/Known/css/size/default.css" },
-            new ActionInfo { Id = "Compact", Name = Language.SizeCompact, Style = "size", Url = "_content/Known/css/size/compact.css" }
+            new ActionInfo { Id = "Default", Name = Language.SizeDefault },
+            new ActionInfo { Id = "Compact", Name = Language.SizeCompact }
         ];
         UIConfig.Errors["403"] = new ErrorConfigInfo { Description = "无权限访问！" };
         var routes = "/install,/login,/profile,/profile/user,/profile/password,/app,/app/mine";

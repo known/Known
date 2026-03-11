@@ -1,6 +1,7 @@
 /*--Core--*/
 :root {
     /* 亮色主题变量 */
+    --kui-primary-color: #1890ff;
     --kui-body-bg: linear-gradient(135deg, #f0f5ff 0%, #e6f7ff 100%);
     --kui-body-text: #333;
     --kui-form-label-width:120px;
@@ -39,9 +40,9 @@ body {
 .blob-2 {width:500px;height:500px;background:var(--gradient-end);bottom:-200px;right:-200px;}
 
 /*Common*/
-.kui-link {color:#1890ff;cursor:pointer;}
+.kui-link {color:var(--kui-primary-color);cursor:pointer;}
 .kui-frame {border:none;width:100%;height:100%;min-height:550px;}
-.kui-tips {color:#1890ff;margin-left:10px;}
+.kui-tips {color:var(--kui-primary-color);margin-left:10px;}
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}
 .kui-bold {font-weight:bold;}
@@ -50,7 +51,7 @@ body {
 .kui-flex-column {display:flex;flex-direction:column;align-items:center;gap:10px;}
 .kui-flex-space {display:flex;justify-content:space-between;align-items:center;gap:10px;}
 .kui-error {text-align:center;padding:20px;height:100%;}
-.kui-primary {color:#1890ff;}
+.kui-primary {color:var(--kui-primary-color);}
 .kui-danger {color:#ed4014;}
 .kui-danger label {color:#ed4014;font-weight:bold;}
 .kui-bg-danger, .kui-bg-danger > td {background-color:#ffccc7 !important;}
@@ -122,7 +123,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-table td > .kui-table .ant-table-pagination.ant-pagination {margin:15px 0 0 0;}
 
 /*Form*/
-.kui-caption {font-weight:bold;font-size:16px;margin:5px;padding:2px 10px;border-left:5px solid #1890ff;}
+.kui-caption {font-weight:bold;font-size:16px;margin:5px;padding:2px 10px;border-left:5px solid var(--kui-primary-color);}
 .kui-form, .kui-small {padding:10px 10px 0 0;}
 .kui-steps-content {
     margin-top:16px;padding:10px;background-color:var(--kui-bgcolor);
@@ -217,7 +218,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-list-box-body {position:absolute;left:0;right:0;top:0;bottom:0;padding:10px;overflow:auto;}
 .kui-list-box-body li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
 .kui-list-box-body li:hover {background-color:var(--kui-color-hover);}
-.kui-list-box-body li.active {background-color:#bae7ff;color:#1890ff;border-left-color:#1890ff;}
+.kui-list-box-body li.active {background-color:color-mix(in srgb, var(--kui-primary-color) 20%, white);color:var(--kui-primary-color);border-left-color:var(--kui-primary-color);}
 
 /*EditInput*/
 .kui-edit-input {display:flex;align-items:center;}
@@ -792,7 +793,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-form.small-label .ant-form-item-label, .kui-small .ant-form-item-label {width:85px;}
 .kui-form.small-row .ant-form-item, .kui-small-row .ant-form-item {margin-bottom:10px;}
 .kui-form.readonly .ant-form-item {align-items:center;}
-.kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0 20px;}
+.kui-tab-form .ant-tabs-top > .ant-tabs-nav {padding:0;}
 .kui-form-tab .ant-tabs-content-holder {padding:0;}
 .kui-form-body .ant-tabs {margin-top:0;}
 .kui-table.form-list .ant-form {padding-top:0;}

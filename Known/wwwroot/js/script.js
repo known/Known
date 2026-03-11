@@ -35,6 +35,85 @@ function removeStyleSheet(href) {
     }
 }
 
+const themeColors = {
+    default: '#1890ff',
+    dust: '#F5222D',
+    volcano: '#FA541C',
+    sunset: '#FAAD14',
+    cyan: '#13C2C2',
+    green: '#52C41A',
+    geekblue: '#2F54EB',
+    purple: '#722ED1'
+};
+
+function toRgb(hex) {
+    if (!hex) return null;
+    var value = hex.replace('#', '');
+    if (value.length === 3)
+        value = value.split('').map(x => x + x).join('');
+    var num = parseInt(value, 16);
+    return {
+        r: (num >> 16) & 255,
+        g: (num >> 8) & 255,
+        b: num & 255
+    };
+}
+
+function toHex(rgb) {
+    const n = Math.max(0, Math.min(255, Math.round(rgb)));
+    return n.toString(16).padStart(2, '0');
+}
+
+function mixColor(color, target, amount) {
+    const from = toRgb(color);
+    const to = toRgb(target);
+    if (!from || !to) return color;
+    const p = Math.max(0, Math.min(1, amount));
+    return `#${toHex(from.r + (to.r - from.r) * p)}${toHex(from.g + (to.g - from.g) * p)}${toHex(from.b + (to.b - from.b) * p)}`;
+}
+
+function normalizeColor(color) {
+    if (!color) return themeColors.default;
+    return color.startsWith('#') ? color : (themeColors[color.toLowerCase()] || themeColors.default);
+}
+
+function setAntThemeColor(color) {
+    const root = document.documentElement.style;
+    const primary = normalizeColor(color);
+    const rgb = toRgb(primary);
+
+    root.setProperty('--kui-primary-color', primary);
+    root.setProperty('--ant-primary-color', primary);
+    root.setProperty('--ant-primary-color-hover', mixColor(primary, '#ffffff', 0.18));
+    root.setProperty('--ant-primary-color-active', mixColor(primary, '#000000', 0.12));
+    root.setProperty('--ant-primary-color-outline', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.2)`);
+    root.setProperty('--ant-primary-1', mixColor(primary, '#ffffff', 0.9));
+    root.setProperty('--ant-primary-2', mixColor(primary, '#ffffff', 0.75));
+    root.setProperty('--ant-primary-3', mixColor(primary, '#ffffff', 0.58));
+    root.setProperty('--ant-primary-4', mixColor(primary, '#ffffff', 0.42));
+    root.setProperty('--ant-primary-5', mixColor(primary, '#ffffff', 0.2));
+    root.setProperty('--ant-primary-6', primary);
+    root.setProperty('--ant-primary-7', mixColor(primary, '#000000', 0.14));
+    root.setProperty('--ant-info-color', primary);
+    root.setProperty('--ant-info-color-deprecated-bg', mixColor(primary, '#ffffff', 0.9));
+    root.setProperty('--ant-info-color-deprecated-border', mixColor(primary, '#ffffff', 0.58));
+}
+
+function setSizeMode(size) {
+    const root = document.documentElement.style;
+    if ((size || '').toLowerCase() === 'compact') {
+        root.setProperty('--ant-font-size-base', '12px');
+        root.setProperty('--ant-control-height', '28px');
+        root.setProperty('--ant-control-height-lg', '32px');
+        root.setProperty('--ant-control-height-sm', '22px');
+    } else {
+        root.removeProperty('--ant-font-size-base');
+        root.removeProperty('--ant-control-height');
+        root.removeProperty('--ant-control-height-lg');
+        root.removeProperty('--ant-control-height-sm');
+    }
+}
+
 function createCaptcha(canvas, code) {
     var ctx = canvas.getContext("2d");
     var width = ctx.canvas.width;
@@ -103,10 +182,9 @@ export class KBlazor {
             theme = hour > 6 && hour < 20 ? "light" : "dark";
         }
         $('html').attr('data-theme', theme);
-        if (info && info.color)
-            setStyleSheet('/theme/', '_content/Known/css/theme/' + info.color + '.css');
-        if (info && info.size)
-            setStyleSheet('/size/', '_content/Known/css/size/' + info.size + '.css');
+        setAntThemeColor(info?.color);
+        setSizeMode(info?.size);
+
         var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
         if (theme == 'dark')
             insertStyleSheet('/Known/css/font-awesome.css', darkUrl);
