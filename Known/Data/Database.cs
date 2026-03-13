@@ -271,7 +271,7 @@ public partial class Database : IDisposable
             foreach (var item in info.Parameters)
             {
                 var pName = $"{info.Prefix}{item.Name}";
-                if (info.Text.Contains(pName) || info.CmdType == CommandType.StoredProcedure)
+                if (info.Text.Contains(pName, StringComparison.OrdinalIgnoreCase) || info.CmdType == CommandType.StoredProcedure)
                 {
                     var p = cmd.CreateParameter();
                     p.ParameterName = pName;
@@ -304,12 +304,39 @@ public partial class Database : IDisposable
             return isTrim ? TrimValue(value) : value;
 
         if (item.Value is JsonElement element)
-        {
-            var valueString = element.ToString();
-            return isTrim ? TrimValue(valueString) : valueString;
-        }
+            return GetJsonElementValue(element, isTrim);
 
         return item.Value;
+    }
+
+    private object GetJsonElementValue(JsonElement element, bool isTrim)
+    {
+        if (element.ValueKind == JsonValueKind.Null || element.ValueKind == JsonValueKind.Undefined)
+            return DBNull.Value;
+
+        if (element.ValueKind == JsonValueKind.True || element.ValueKind == JsonValueKind.False)
+            return Provider.FormatBoolean(element.GetBoolean());
+
+        if (element.ValueKind == JsonValueKind.Number)
+        {
+            if (element.TryGetInt32(out var intValue))
+                return intValue;
+            if (element.TryGetInt64(out var longValue))
+                return longValue;
+            if (element.TryGetDecimal(out var decimalValue))
+                return decimalValue;
+            if (element.TryGetDouble(out var doubleValue))
+                return doubleValue;
+        }
+
+        if (element.ValueKind == JsonValueKind.String)
+        {
+            var valueString = element.GetString();
+            return isTrim && valueString != null ? TrimValue(valueString) : valueString;
+        }
+
+        var json = element.ToString();
+        return isTrim ? TrimValue(json) : json;
     }
 
     private static string TrimValue(string value) => value.Trim('\r', '\n').Trim();
