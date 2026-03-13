@@ -1,0 +1,10 @@
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" />
+    </Found>
+    <NotFound>
+        <PageTitle>页面不存在</PageTitle>
+        <h1>404</h1>
+        <p>抱歉，未找到你访问的页面。</p>
+    </NotFound>
+</Router>

@@ -3,6 +3,8 @@
         <File Path=".gitattributes" />
         <File Path=".gitignore" />
         <File Path="README.md" />
+        <File Path="Document/项目文档.md" />
+        <File Path="Document/开发向导.md" />
         <File Path="Document/更新日志.md" />
         <File Path="Document/示例文档.md" />
     </Folder>
@@ -18,4 +20,5 @@
     <Project Path="Known.WinForm/Known.WinForm.csproj" />
     <Project Path="Known.Maui/Known.Maui.csproj" />
     <Project Path="Known.Photino/Known.Photino.csproj" />
+    <Project Path="Known.Web/Known.Web.csproj" />
 </Solution>
