@@ -74,9 +74,9 @@ class RoleForm : BaseForm<SysRole>
         colModel.ValueChanged = this.Callback<string[]>(OnColumnChanged);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
             await tree.RefreshAsync();
     }

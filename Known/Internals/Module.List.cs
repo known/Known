@@ -74,9 +74,9 @@ class ModuleList : BasePage<SysModule>
     /// </summary>
     /// <param name="firstRender">是否首次呈现。</param>
     /// <returns></returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
             await Tree.RefreshAsync();
     }

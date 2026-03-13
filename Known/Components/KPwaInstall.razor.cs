@@ -13,9 +13,9 @@ public partial class KPwaInstall
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender && Visible && Config.App.Type == AppType.Web)
         {
             await JSRuntime.InvokeJsAsync("initializePwaInstallButton", Id);

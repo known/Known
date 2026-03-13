@@ -52,9 +52,9 @@ partial class CodeGenerator
             sb.AppendLine("        Service = await CreateServiceAsync<{0}Service>();", className);
         sb.AppendLine("    }");
         sb.AppendLine(" ");
-        sb.AppendLine("    protected override async Task OnAfterRenderAsync(bool firstRender)");
+        sb.AppendLine("    protected override async Task OnRenderAsync(bool firstRender)");
         sb.AppendLine("    {");
-        sb.AppendLine("        await base.OnAfterRenderAsync(firstRender);");
+        sb.AppendLine("        await base.OnRenderAsync(firstRender);");
         sb.AppendLine("        if (firstRender)");
         sb.AppendLine("        {");
         sb.AppendLine("            Model.Data = await Service.Get{0}Async(Model.Data.Id);", className);

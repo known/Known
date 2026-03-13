@@ -43,10 +43,10 @@ partial class KTable<TItem>
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
         //var watch = Stopwatcher.Start<TItem>();
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         //if (firstRender)
         shouldRender = false;
         //watch.Write($"AfterRender-{firstRender}");

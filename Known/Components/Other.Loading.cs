@@ -32,9 +32,9 @@ public class KLoading : BaseComponent
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         spinning = false;
         if (IsPage)
             await InvokeAsync(StateHasChanged);

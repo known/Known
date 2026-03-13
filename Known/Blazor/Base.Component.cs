@@ -121,20 +121,34 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        UI.Context = Context;
-        Admin = await CreateServiceAsync<IAdminService>();
-        Context.UI = UI;
-        Context.Navigation = Navigation;
-        await OnInitAsync();
+        try
+        {
+            UI.Context = Context;
+            Admin = await CreateServiceAsync<IAdminService>();
+            Context.UI = UI;
+            Context.Navigation = Navigation;
+            await OnInitAsync();
+        }
+        catch (Exception ex)
+        {
+            await OnErrorAsync(ex);
+        }
     }
 
     /// <summary>
     /// 异步设置组件参数，以及全局异常处理；子组件不要覆写该方法，应覆写 OnParameterAsync。
     /// </summary>
     /// <returns></returns>
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        return OnParameterAsync();
+        try
+        {
+            await OnParameterAsync();
+        }
+        catch (Exception ex)
+        {
+            await OnErrorAsync(ex);
+        }
     }
 
     /// <summary>
@@ -143,10 +157,17 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// </summary>
     /// <param name="firstRender">是否首次呈现。</param>
     /// <returns></returns>
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        IsStatic = false;
-        return base.OnAfterRenderAsync(firstRender);
+        try
+        {
+            IsStatic = false;
+            await OnRenderAsync(firstRender);
+        }
+        catch (Exception ex)
+        {
+            await OnErrorAsync(ex);
+        }
     }
 
     /// <summary>
@@ -188,6 +209,13 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnDisposeAsync() => Task.CompletedTask;
+
+    /// <summary>
+    /// 异步呈现组件后执行的方法。
+    /// </summary>
+    /// <param name="firstRender">首次呈现。</param>
+    /// <returns></returns>
+    protected virtual Task OnRenderAsync(bool firstRender) => Task.CompletedTask;
 
     /// <summary>
     /// 呈现组件内容。
@@ -272,7 +300,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
 
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-    
+
     internal void OnAction(ActionInfo info, object[] parameters)
     {
         Context.OnAction(this, info, parameters);

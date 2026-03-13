@@ -40,9 +40,9 @@ public class SysUserList : BaseTablePage<SysUser>
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
             orgs = await Organize.GetOrganizationsAsync();
@@ -222,9 +222,9 @@ class UserForm : BaseForm<SysUser>
         Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
             var user = await Service.GetUserDataAsync(Model.Data.Id);

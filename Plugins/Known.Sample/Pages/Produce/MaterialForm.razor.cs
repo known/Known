@@ -15,9 +15,9 @@ public partial class MaterialForm
         };
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
             var data = await Service.GetMaterialAsync(Model.Data.Id);

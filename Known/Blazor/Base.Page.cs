@@ -45,14 +45,14 @@ public class BasePage : BaseComponent, IReuseTabsPage
     protected override void BuildRender(RenderTreeBuilder builder) => BuildPage(builder);
 
     /// <inheritdoc />
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnRenderAsync(bool firstRender)
     {
         if (firstRender && !isLogged && Context.Current != null && !Config.IsClient && Context.Url != "/")
         {
             isLogged = true;
             Admin.AddPageLogAsync(Context);
         }
-        return base.OnAfterRenderAsync(firstRender);
+        return base.OnRenderAsync(firstRender);
     }
 
     /// <summary>

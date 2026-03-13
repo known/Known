@@ -19,9 +19,9 @@ public partial class KFileView
     [Parameter] public string Value { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
             if (!string.IsNullOrWhiteSpace(Value))

@@ -97,9 +97,9 @@ public class AppSearch<TItem> : BaseComponent where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (firstRender)
             await RefreshAsync();
     }
