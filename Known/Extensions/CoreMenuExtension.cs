@@ -55,7 +55,8 @@ static class CoreMenuExtension
 
     private static void SetPluginPermission(MenuInfo info, List<string> moduleIds)
     {
-        var param = info?.Plugins?.GetPluginParameter<AutoPageInfo>();
+        var pluginId = info?.Plugins?.FirstOrDefault()?.Id;
+        var param = info?.Plugins?.GetPluginParameter<AutoPageInfo>(pluginId);
         if (param == null)
             return;
 
@@ -69,7 +70,7 @@ static class CoreMenuExtension
                 param.Page.Columns = GetUserColumns(param.Page.Columns, moduleIds, info);
         }
 
-        info.Plugins.AddPlugin(param, param.Id, param.Type);
+        info.Plugins.AddPlugin(param, pluginId, param.Type);
     }
 
     private static List<ActionInfo> GetUserButtons(List<ActionInfo> buttons, List<string> moduleIds, MenuInfo info)
