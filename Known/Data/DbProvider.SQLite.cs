@@ -37,7 +37,7 @@ class SQLiteProvider(Database db) : DbProvider(db)
     internal override string GetPageSql(string text, string order, PagingCriteria criteria)
     {
         var startNo = criteria.PageSize * (criteria.PageIndex - 1);
-        return $"{text} order by {order} limit {criteria.PageSize} offset {startNo}";
+        return $"select t.* from ({text}) t order by {order} limit {criteria.PageSize} offset {startNo}";
     }
 
     internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
