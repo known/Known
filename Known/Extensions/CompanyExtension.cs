@@ -46,7 +46,7 @@ public static class CompanyExtension
         if (data == null)
             return Result.Error(Language.TipCompanyNotExists);
 
-        data.SystemData = Utils.ToJson(model);
+        data.CompanyData = Utils.ToJson(model);
         await db.SaveAsync(data);
         return Result.Success(Language.SaveSuccess);
     }

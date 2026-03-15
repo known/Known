@@ -254,9 +254,21 @@ partial class AdminService
         return Database.GetUserByIdAsync(userId);
     }
 
-    public Task<Result> UpdateAvatarAsync(AvatarInfo info)
+    public async Task<Result> UpdateAvatarAsync(AvatarInfo info)
     {
-        return Database.UpdateAvatarAsync(info);
+        var db = Database;
+        var entity = await db.QueryAsync<SysUser>(d => d.Id == info.UserId);
+        if (entity == null)
+            return Result.Error(Language.TipNoUser);
+
+        var attach = new AttachFile(info.File, "Avatars");
+        attach.FilePath = $"Avatars/{entity.Id}{attach.ExtName}";
+        await attach.SaveAsync();
+
+        var url = Config.GetFileUrl(attach.FilePath);
+        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
+        await db.SaveAsync(entity);
+        return Result.Success(Language.SaveSuccess, url);
     }
 
     public async Task<Result> UpdateUserAsync(UserInfo info)

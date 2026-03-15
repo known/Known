@@ -12,7 +12,7 @@ class MenuHelper
     {
         var target = Constants.Route;
         AddParent(RoleId, "组件", "block", target, 997);
-        AddParent(PluginId, "插件", "appstore-add", target, 998);
+        //AddParent(PluginId, "插件", "appstore-add", target, 998);
         AddParent(RouteId, "路由", "share-alt", target, 999);
     }
 

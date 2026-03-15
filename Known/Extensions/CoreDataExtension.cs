@@ -102,7 +102,7 @@ public static class CoreDataExtension
         company.CompNo = info.CompNo;
         company.Code = info.CompNo;
         company.Name = info.CompName;
-        company.SystemData = Utils.ToJson(sys);
+        company.SystemData = sys;
         await db.SaveAsync(company);
     }
 

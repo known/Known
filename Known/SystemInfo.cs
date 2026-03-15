@@ -143,6 +143,26 @@ public class SystemInfo
     /// 取得或设置允许附件大小，单位M。
     /// </summary>
     public int? MaxFileSize { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统访问URL地址。
+    /// </summary>
+    public string SysUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统Logo图片路径。
+    /// </summary>
+    public string LogoPath { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统数据库连接类型，默认空不分库。
+    /// </summary>
+    public string ConnType { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统数据库连接字符串。
+    /// </summary>
+    public string ConnString { get; set; }
 }
 
 /// <summary>

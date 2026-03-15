@@ -19,7 +19,7 @@ builder.Services.AddApplication(option =>
         db.AddSQLite<Microsoft.Data.Sqlite.SqliteFactory>(connString);
         //db.AddSqlServer<Microsoft.Data.SqlClient.SqlClientFactory>(connString);
         //db.AddSqlServer<Oracle.ManagedDataAccess.Client.OracleClientFactory>(connString);
-        //db.AddMySql<MySqlConnector.MySqlConnectorFactory>(connString);
+        db.AddMySql<MySqlConnector.MySqlConnectorFactory>();
         //db.AddPgSql<Npgsql.NpgsqlFactory>(connString);
         //db.AddDM<Dm.DmClientFactory>(connString);
         //db.SqlMonitor = c => Console.WriteLine($"{DateTime.Now:HH:mm:ss} {c}");

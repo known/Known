@@ -90,12 +90,25 @@ class DbProvider(Database db)
     {
         var sb = Sql.SelectCount().From<T>();
         var paramters = new Dictionary<string, object>();
+        var whereSql = string.Empty;
         if (expression != null)
         {
             var qb = new QueryBuilder<T>(this).Where(expression);
             paramters = qb.Parameters;
-            sb.WhereSql(qb.WhereSql);
+            whereSql = qb.WhereSql;
         }
+
+        if (Database.NeedTenantFilter(typeof(T)))
+        {
+            var compNo = nameof(EntityBase.CompNo);
+            var tenantWhere = $"{FormatName(compNo)}=@{compNo}";
+            whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
+            paramters[compNo] = Database.User?.CompNo;
+        }
+
+        if (!string.IsNullOrWhiteSpace(whereSql))
+            sb.WhereSql(whereSql);
+
         var sql = sb.ToSqlString();
         return new CommandInfo(this, typeof(T), sql, paramters);
     }
@@ -104,19 +117,30 @@ class DbProvider(Database db)
     {
         var sb = Sql.SelectAll().From<T>();
         var paramters = new Dictionary<string, object>();
+        var whereSql = string.Empty;
         if (expression != null)
         {
             var qb = new QueryBuilder<T>(this).Where(expression);
             if (!string.IsNullOrWhiteSpace(qb.WhereSql))
             {
                 paramters = qb.Parameters;
-                sb.WhereSql(qb.WhereSql);
+                whereSql = qb.WhereSql;
             }
         }
-        else
+
+        if (Database.NeedTenantFilter(typeof(T)))
         {
-            sb.OrderBy(nameof(EntityBase.CreateTime));
+            var compNo = nameof(EntityBase.CompNo);
+            var tenantWhere = $"{FormatName(compNo)}=@{compNo}";
+            whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
+            paramters[compNo] = Database.User?.CompNo;
         }
+
+        if (!string.IsNullOrWhiteSpace(whereSql))
+            sb.WhereSql(whereSql);
+        else
+            sb.OrderBy(nameof(EntityBase.CreateTime));
+
         var sql = sb.ToSqlString();
         return new CommandInfo(this, typeof(T), sql, paramters);
     }
@@ -169,6 +193,13 @@ class DbProvider(Database db)
             changes[item.Name] = cmdParams[item.Name];
         }
 
+        if (Database.NeedTenantFilter(type))
+        {
+            var compNo = nameof(EntityBase.CompNo);
+            keys.Add($"{FormatName(compNo)}=@{compNo}");
+            changes[compNo] = Database.User?.CompNo;
+        }
+
         var column = string.Join(",", changeKeys);
         var key = string.Join(" and ", keys);
         var sql = $"update {FormatName(tableName)} set {column} where {key}";
@@ -180,12 +211,26 @@ class DbProvider(Database db)
         var tableName = GetTableName(typeof(T));
         var sql = $"delete from {FormatName(tableName)}";
         var paramters = new Dictionary<string, object>();
+        var whereSql = string.Empty;
+
         if (expression != null)
         {
             var qb = new QueryBuilder<T>(this).Where(expression);
             paramters = qb.Parameters;
-            sql += $" where {qb.WhereSql}";
+            whereSql = qb.WhereSql;
         }
+
+        if (Database.NeedTenantFilter(typeof(T)))
+        {
+            var compNo = nameof(EntityBase.CompNo);
+            var tenantWhere = $"{FormatName(compNo)}=@{compNo}";
+            whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
+            paramters[compNo] = Database.User?.CompNo;
+        }
+
+        if (!string.IsNullOrWhiteSpace(whereSql))
+            sql += $" where {whereSql}";
+
         return new CommandInfo(this, typeof(T), sql, paramters);
     }
 

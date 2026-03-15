@@ -191,28 +191,6 @@ public static class UserExtension
     }
 
     /// <summary>
-    /// 异步修改用户头像。
-    /// </summary>
-    /// <param name="db">数据库对象。</param>
-    /// <param name="info">用户头像信息。</param>
-    /// <returns></returns>
-    public static async Task<Result> UpdateAvatarAsync(this Database db, AvatarInfo info)
-    {
-        var entity = await db.QueryAsync<SysUser>(d => d.Id == info.UserId);
-        if (entity == null)
-            return Result.Error(Language.TipNoUser);
-
-        var attach = new AttachFile(info.File, "Avatars");
-        attach.FilePath = $"Avatars/{entity.Id}{attach.ExtName}";
-        await attach.SaveAsync();
-
-        var url = Config.GetFileUrl(attach.FilePath);
-        entity.SetExtension(nameof(UserInfo.AvatarUrl), url);
-        await db.SaveAsync(entity);
-        return Result.Success(Language.SaveSuccess, url);
-    }
-
-    /// <summary>
     /// 异步修改用户密码。
     /// </summary>
     /// <param name="db">数据库对象。</param>

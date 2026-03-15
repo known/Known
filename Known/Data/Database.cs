@@ -240,6 +240,17 @@ public partial class Database : IDisposable
     /// <returns></returns>
     public object FormatBoolean(bool value) => Provider?.FormatBoolean(value);
 
+    internal bool NeedTenantFilter(Type entityType)
+    {
+        if (entityType == null || !entityType.IsAssignableTo(typeof(EntityBase)))
+            return false;
+
+        if (User == null || string.IsNullOrWhiteSpace(User.CompNo))
+            return false;
+
+        return !User.IsSystemAdmin();
+    }
+
     private static Database CreateDatabaseInstance()
     {
         if (Config.ServiceProvider == null)

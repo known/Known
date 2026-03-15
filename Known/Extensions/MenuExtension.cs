@@ -85,6 +85,39 @@ public static class MenuExtension
     }
 
     /// <summary>
+    /// 添加一个页面菜单，并设置上级ID、名称、图标和顺序。
+    /// </summary>
+    /// <typeparam name="T">菜单页面类型。</typeparam>
+    /// <param name="menus">菜单信息列表。</param>
+    /// <param name="parentId">上级菜单ID。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="icon">图标。</param>
+    /// <param name="sort">排序。</param>
+    public static void AddItem<T>(this List<MenuInfo> menus, string parentId, string name, string icon, int sort)
+    {
+        if (menus == null)
+            return;
+
+        var item = menus.FirstOrDefault(m => m.PageType == typeof(T));
+        if (item == null)
+        {
+            item = DataHelper.Routes.FirstOrDefault(m => m.PageType == typeof(T));
+            if (item != null)
+                menus.Add(item);
+        }
+
+        if (item != null)
+        {
+            item.ParentId = parentId;
+            item.Name = name;
+            item.Icon = icon;
+            item.Sort = sort;
+            item.Type = nameof(MenuType.Link);
+            item.Target = nameof(LinkTarget.None);
+        }
+    }
+
+    /// <summary>
     /// 移除一个模块菜单。
     /// </summary>
     /// <param name="menus">模块菜单列表。</param>

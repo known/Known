@@ -1,0 +1,63 @@
+﻿@inherits BaseForm<SysCompany>
+
+<CompanyTypeForm Form="Model">
+    <AntRow>
+        <DataItem Span="8" Label="企业编码" Required>
+            <AntInput @bind-Value="context.Code" Disabled="!Model.IsNew" />
+        </DataItem>
+        <DataItem Span="8" Label="企业名称" Required>
+            <AntInput @bind-Value="context.Name" />
+        </DataItem>
+        <DataItem Span="8" Label="英文名称">
+            <AntInput @bind-Value="context.NameEn" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Span="8" Label="社会信用代码">
+            <AntInput @bind-Value="context.SccNo" />
+        </DataItem>
+        <DataItem Span="8" Label="所属行业">
+            <AntInput @bind-Value="context.Industry" />
+        </DataItem>
+        <DataItem Span="8" Label="所属区域">
+            <AntInput @bind-Value="context.Region" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Span="8" Label="联系人">
+            <AntInput @bind-Value="context.Contact" />
+        </DataItem>
+        <DataItem Span="8" Label="联系电话">
+            <AntInput @bind-Value="context.Phone" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Span="24" Label="中文地址">
+            <AntTextArea @bind-Value="context.Address" />
+        </DataItem>
+    </AntRow>
+    <AntRow>
+        <DataItem Span="8" Label="系统URL" Tooltip="租户私有域名。">
+            <AntInput @bind-Value="context.SystemData.SysUrl" />
+        </DataItem>
+        <DataItem Span="8" Label="系统Logo" Tooltip="租户私有Logo图片。">
+            <KUpload @bind-Value="context.SystemData.LogoPath" IsImage OnLoad="OnLogoLoad" OnFilesChanged="OnFilesChanged" />
+        </DataItem>
+        <DataItem Span="8" Label="数据库类型" Tooltip="租户独立数据库连接类型。">
+            <AntSelectCode @bind-Value="context.SystemData.ConnType" Category="@context.ConnTypes" />
+        </DataItem>
+    </AntRow>
+    @if (!string.IsNullOrWhiteSpace(context.SystemData.ConnType))
+    {
+        <AntRow>
+            <DataItem Span="24" Label="连接字符串">
+                <AntTextArea @bind-Value="context.SystemData.ConnString" />
+            </DataItem>
+        </AntRow>
+    }
+    <AntRow>
+        <DataItem Span="24" Label="备注">
+            <AntTextArea @bind-Value="context.Note" />
+        </DataItem>
+    </AntRow>
+</CompanyTypeForm>

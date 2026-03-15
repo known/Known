@@ -10,6 +10,7 @@ public class SysCompany : EntityBase
     /// 取得或设置企业编码。
     /// </summary>
     [MaxLength(50)]
+    [Column(Width = 120, IsViewLink = true)]
     [DisplayName("企业编码")]
     public string Code { get; set; }
 
@@ -17,6 +18,7 @@ public class SysCompany : EntityBase
     /// 取得或设置企业名称。
     /// </summary>
     [MaxLength(50)]
+    [Column(Width = 180, IsQuery = true)]
     [DisplayName("企业名称")]
     public string Name { get; set; }
 
@@ -24,6 +26,7 @@ public class SysCompany : EntityBase
     /// 取得或设置英文名称。
     /// </summary>
     [MaxLength(250)]
+    [Column(Width = 180)]
     [DisplayName("英文名称")]
     public string NameEn { get; set; }
 
@@ -31,6 +34,7 @@ public class SysCompany : EntityBase
     /// 取得或设置社会信用代码。
     /// </summary>
     [MaxLength(18)]
+    [Column(Width = 140)]
     [DisplayName("社会信用代码")]
     public string SccNo { get; set; }
 
@@ -38,6 +42,7 @@ public class SysCompany : EntityBase
     /// 取得或设置所属行业。
     /// </summary>
     [MaxLength(50)]
+    [Column(Width = 120)]
     [DisplayName("所属行业")]
     public string Industry { get; set; }
 
@@ -45,6 +50,7 @@ public class SysCompany : EntityBase
     /// 取得或设置所属区域。
     /// </summary>
     [MaxLength(50)]
+    [Column(Width = 120)]
     [DisplayName("所属区域")]
     public string Region { get; set; }
 
@@ -52,6 +58,7 @@ public class SysCompany : EntityBase
     /// 取得或设置中文地址。
     /// </summary>
     [MaxLength(500)]
+    [Column(Width = 200)]
     [DisplayName("中文地址")]
     public string Address { get; set; }
 
@@ -66,6 +73,7 @@ public class SysCompany : EntityBase
     /// 取得或设置联系人。
     /// </summary>
     [MaxLength(50)]
+    [Column(Width = 120)]
     [DisplayName("联系人")]
     public string Contact { get; set; }
 
@@ -73,12 +81,14 @@ public class SysCompany : EntityBase
     /// 取得或设置联系人电话。
     /// </summary>
     [MaxLength(50)]
+    [Column(Width = 120)]
     [DisplayName("联系电话")]
     public string Phone { get; set; }
 
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
+    [Column(Width = 200)]
     [DisplayName("备注")]
     public string Note { get; set; }
 
@@ -86,11 +96,17 @@ public class SysCompany : EntityBase
     /// 取得或设置系统信息。
     /// </summary>
     [DisplayName("系统信息")]
-    public string SystemData { get; set; }
+    public SystemInfo SystemData { get; set; } = new SystemInfo();
 
     /// <summary>
     /// 取得或设置企业信息。
     /// </summary>
     [DisplayName("企业信息")]
     public string CompanyData { get; set; }
+
+    // 以下为虚拟属性，不映射到数据库
+    /// <summary>
+    /// 取得或设置连接类型列表，逗号分隔。
+    /// </summary>
+    public virtual string ConnTypes { get; set; }
 }
