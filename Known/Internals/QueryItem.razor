@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 @if (Data.ContainsKey(Item.Id)) {
-    if (Item.Type == FieldType.File) {
+    if (Item.Type == FieldType.Switch) {
         var codes = new List<CodeInfo>();
         codes.Add(new CodeInfo("True", Language[Language.Have]));
         codes.Add(new CodeInfo("False", Language[Language.NotHave]));
@@ -16,7 +16,7 @@
         if (IsFilter) {
             <AntCheckboxGroup Codes="codes" Value="@Data[Item.Id].Values" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" />
         } else {
-            <AntRadioGroup Codes="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" ButtonStyle="RadioButtonStyle.Solid" />
+            <AntRadioGroup Codes="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id,v)" Solid />
         }
     } else if (!string.IsNullOrWhiteSpace(Item.Category) || Item.Type == FieldType.Select) {
         if (IsFilter) {
