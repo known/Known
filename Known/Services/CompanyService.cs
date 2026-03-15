@@ -127,7 +127,9 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         {
             if (string.Equals(item.Code, CurrentUser?.CompNo, StringComparison.OrdinalIgnoreCase))
                 return Result.Error("不能删除当前租户！");
-            if (await database.ExistsAsync<SysUser>(d => d.CompNo == item.Code))
+
+            var userName = item.Code.ToLower();
+            if (await database.ExistsAsync<SysUser>(d => d.CompNo == item.Code && d.UserName != userName))
                 return Result.Error($"租户[{item.Code}]下存在用户，无法删除！");
         }
 
@@ -139,6 +141,9 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
                 if (!string.IsNullOrWhiteSpace(item.SystemData.LogoPath))
                     oldFiles.Add(item.SystemData.LogoPath);
                 await db.DeleteAsync<SysCompany>(item.Id);
+                await db.DeleteAsync<SysOrganization>(d => d.CompNo == item.Code);
+                await db.DeleteAsync<SysUser>(d => d.CompNo == item.Code);
+                await db.DeleteAsync<SysLog>(d => d.CompNo == item.Code);
             }
         });
         if (result.IsValid)
@@ -162,18 +167,20 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
         model.FillModel(info.Model);
 
         if (!model.IsNew && !string.Equals(code, model.Code, StringComparison.OrdinalIgnoreCase))
-            return Result.Error("租户编码不允许修改！");
+            return Result.Error("企业编码不允许修改！");
         if (string.IsNullOrWhiteSpace(model.Code))
-            return Result.Error("租户编码不能为空！");
+            return Result.Error("企业编码不能为空！");
 
         model.CompNo = model.Code;
 
+        var userName = model.Code.ToLower();
         var vr = model.Validate(Context);
         if (vr.IsValid)
         {
-            var exists = await database.ExistsAsync<SysCompany>(d => d.Id != model.Id && d.Code == model.Code);
-            if (exists)
-                vr.AddError("租户编码已存在！");
+            if (await database.ExistsAsync<SysCompany>(d => d.Id != model.Id && d.Code == model.Code))
+                vr.AddError("企业编码已存在！");
+            if (await database.ExistsAsync<SysUser>(d => d.CompNo != model.Code && d.UserName == userName))
+                vr.AddError("企业编码用户账号已存在！");
         }
         if (!vr.IsValid)
             return vr;
@@ -189,6 +196,8 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
                     CompName = model.Name,
                     AppName = Config.App.Name
                 };
+                await db.SaveOrganizationAsync(model);
+                await db.SaveUserAsync(model);
             }
 
             if (fileFiles != null && fileFiles.Count > 0)

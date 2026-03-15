@@ -94,6 +94,18 @@ public static class CoreDataExtension
         await db.SaveAsync(org);
     }
 
+    internal static async Task SaveOrganizationAsync(this Database db, SysCompany info)
+    {
+        var org = new SysOrganization();
+        await db.SetNewOrganizationAsync(org);
+        org.AppId = Config.App.Id;
+        org.CompNo = info.Code;
+        org.ParentId = "0";
+        org.Code = info.Code;
+        org.Name = info.Name;
+        await db.SaveAsync(org);
+    }
+
     internal static async Task SaveCompanyAsync(this Database db, InstallInfo info, SystemInfo sys)
     {
         var company = await db.QueryAsync<SysCompany>(d => d.Code == db.User.CompNo);
@@ -119,7 +131,24 @@ public static class CoreDataExtension
         user.Password = Utils.ToMd5(info.AdminPassword);
         user.Name = info.AdminName;
         user.EnglishName = info.AdminName;
-        user.Gender = "Male";
+        user.Gender = nameof(GenderType.Male);
+        user.Role = "Admin";
+        user.Enabled = true;
+        await db.SaveAsync(user);
+    }
+
+    internal static async Task SaveUserAsync(this Database db, SysCompany info)
+    {
+        var user = new SysUser();
+        await db.SetNewUserAsync(user);
+        user.AppId = Config.App.Id;
+        user.CompNo = info.Code;
+        user.OrgNo = info.Code;
+        user.UserName = info.Code.ToLower();
+        user.Password = Utils.ToMd5(info.Code);
+        user.Name = info.Name;
+        user.EnglishName = info.Code;
+        user.Gender = nameof(GenderType.Male);
         user.Role = "Admin";
         user.Enabled = true;
         await db.SaveAsync(user);

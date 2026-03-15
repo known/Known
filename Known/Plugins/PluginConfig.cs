@@ -47,6 +47,8 @@ public class PluginConfig
             return;
         if (plugin.Name == Language.NavTheme && !Config.App.IsTheme)
             return;
+        if (plugin.Name == Language.DevTenant && !Config.App.IsPlatform)
+            return;
         if (IgnoreTypes.Contains(item))
             return;
 

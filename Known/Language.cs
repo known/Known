@@ -1065,6 +1065,8 @@ public class Language
     internal const string NavFullScreen = "全屏";
     internal const string NavLink = "连接";
 
+    internal const string DevTenant = "租户管理";
+
     internal const string TipNoConfigOnTaskSetting = "未配置 UIConfig.OnTaskSetting 委托！";
     internal const string TipResetTaskStatus = "重置任务执行状态为待执行";
 }
