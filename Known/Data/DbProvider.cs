@@ -98,13 +98,7 @@ class DbProvider(Database db)
             whereSql = qb.WhereSql;
         }
 
-        if (Database.NeedTenantFilter(typeof(T)))
-        {
-            var compNo = nameof(EntityBase.CompNo);
-            var tenantWhere = $"{FormatName(compNo)}=@{compNo}";
-            whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
-            paramters[compNo] = Database.User?.CompNo;
-        }
+        ApplyTenantWhere(typeof(T), ref whereSql, paramters);
 
         if (!string.IsNullOrWhiteSpace(whereSql))
             sb.WhereSql(whereSql);
@@ -128,13 +122,7 @@ class DbProvider(Database db)
             }
         }
 
-        if (Database.NeedTenantFilter(typeof(T)))
-        {
-            var compNo = nameof(EntityBase.CompNo);
-            var tenantWhere = $"{FormatName(compNo)}=@{compNo}";
-            whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
-            paramters[compNo] = Database.User?.CompNo;
-        }
+        ApplyTenantWhere(typeof(T), ref whereSql, paramters);
 
         if (!string.IsNullOrWhiteSpace(whereSql))
             sb.WhereSql(whereSql);
@@ -193,12 +181,7 @@ class DbProvider(Database db)
             changes[item.Name] = cmdParams[item.Name];
         }
 
-        if (Database.NeedTenantFilter(type))
-        {
-            var compNo = nameof(EntityBase.CompNo);
-            keys.Add($"{FormatName(compNo)}=@{compNo}");
-            changes[compNo] = Database.User?.CompNo;
-        }
+        ApplyTenantKey(type, keys, changes);
 
         var column = string.Join(",", changeKeys);
         var key = string.Join(" and ", keys);
@@ -220,18 +203,41 @@ class DbProvider(Database db)
             whereSql = qb.WhereSql;
         }
 
-        if (Database.NeedTenantFilter(typeof(T)))
-        {
-            var compNo = nameof(EntityBase.CompNo);
-            var tenantWhere = $"{FormatName(compNo)}=@{compNo}";
-            whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
-            paramters[compNo] = Database.User?.CompNo;
-        }
+        ApplyTenantWhere(typeof(T), ref whereSql, paramters);
 
         if (!string.IsNullOrWhiteSpace(whereSql))
             sql += $" where {whereSql}";
 
         return new CommandInfo(this, typeof(T), sql, paramters);
+    }
+
+    private void ApplyTenantWhere(Type type, ref string whereSql, Dictionary<string, object> parameters)
+    {
+        if (!TryGetTenantCompNo(type, out var compNo))
+            return;
+
+        var tenantWhere = $"{FormatName(nameof(EntityBase.CompNo))}=@{nameof(EntityBase.CompNo)}";
+        whereSql = string.IsNullOrWhiteSpace(whereSql) ? tenantWhere : $"{whereSql} and {tenantWhere}";
+        parameters[nameof(EntityBase.CompNo)] = compNo;
+    }
+
+    private void ApplyTenantKey(Type type, List<string> keys, Dictionary<string, object> parameters)
+    {
+        if (!TryGetTenantCompNo(type, out var compNo))
+            return;
+
+        keys.Add($"{FormatName(nameof(EntityBase.CompNo))}=@{nameof(EntityBase.CompNo)}");
+        parameters[nameof(EntityBase.CompNo)] = compNo;
+    }
+
+    private bool TryGetTenantCompNo(Type type, out string compNo)
+    {
+        compNo = null;
+        if (!Database.NeedTenantFilter(type))
+            return false;
+
+        compNo = Database.User?.CompNo;
+        return !string.IsNullOrWhiteSpace(compNo);
     }
 
     internal virtual string GetTableSql(string dbName) => "";
