@@ -55,6 +55,11 @@ public class CoreConfig
     public static SystemInfo System { get; set; }
 
     /// <summary>
+    /// 取得用户系统配置信息字典。
+    /// </summary>
+    public static Dictionary<string, SystemInfo> Systems { get; } = [];
+
+    /// <summary>
     /// 取得框架自动解析服务接口生成的WebApi方法信息列表。
     /// </summary>
     public static ConcurrentBag<ApiMethodInfo> ApiMethods { get; } = [];

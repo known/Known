@@ -163,11 +163,6 @@ public class UserInfo
     public string Department { get; set; }
 
     /// <summary>
-    /// 取得或设置用户水印文字。
-    /// </summary>
-    public string Watermark { get; set; }
-
-    /// <summary>
     /// 取得或设置用户活动状态，5分钟之内没活动显示离开。
     /// </summary>
     [DisplayName("状态")]
@@ -232,6 +227,21 @@ public class UserInfo
     /// </summary>
     [DisplayName("浏览器")]
     public string Browser { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统是否启用水印。
+    /// </summary>
+    public bool IsWatermark { get; set; }
+
+    /// <summary>
+    /// 取得或设置账号水印格式。
+    /// </summary>
+    public string Watermark { get; set; }
+
+    /// <summary>
+    /// 取得或设置账号水印日期格式。
+    /// </summary>
+    public string WmDateFormat { get; set; }
 
     /// <summary>
     /// 获取用户是否是系统或租户管理员。

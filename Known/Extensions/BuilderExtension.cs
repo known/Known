@@ -45,26 +45,30 @@ public static class BuilderExtension
 
     internal static void BuildBody(this RenderTreeBuilder builder, Context context, RenderFragment body)
     {
-        if (Config.System?.IsWatermark == true && context != null)
-        {
-            var user = context.CurrentUser;
-            var type = Utils.ConvertTo<WatermarkType>(Config.System.Watermark);
-            var text = type switch
-            {
-                WatermarkType.Account => user.UserName,
-                WatermarkType.Name => user.Name,
-                _ => $"{user?.Name}({user?.UserName})",
-            };
-            var texts = new List<string> { text };
-            if (!string.IsNullOrWhiteSpace(Config.System.WmDateFormat))
-                texts.Add(DateTime.Now.ToString(Config.System.WmDateFormat));
-            //var watermark = user?.Watermark ?? text;
-            builder.Div("kui-watermark", () => builder.Watermark([.. texts], body));
-        }
-        else
+        if (context == null)
         {
             builder.Fragment(body);
+            return;
         }
+
+        var user = context.CurrentUser;
+        if (!user.IsWatermark)
+        {
+            builder.Fragment(body);
+            return;
+        }
+
+        var type = Utils.ConvertTo<WatermarkType>(user.Watermark);
+        var text = type switch
+        {
+            WatermarkType.Account => user.UserName,
+            WatermarkType.Name => user.Name,
+            _ => $"{user?.Name}({user?.UserName})",
+        };
+        var texts = new List<string> { text };
+        if (!string.IsNullOrWhiteSpace(user.WmDateFormat))
+            texts.Add(DateTime.Now.ToString(user.WmDateFormat));
+        builder.Div("kui-watermark", () => builder.Watermark([.. texts], body));
     }
 
     internal static void BuildTable(this RenderTreeBuilder builder, string width, bool isForm, Action child)

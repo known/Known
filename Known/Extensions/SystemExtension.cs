@@ -5,12 +5,12 @@ static class SystemExtension
     internal static async Task<SystemInfo> GetUserSystemAsync(this Database db, UserInfo info = null)
     {
         if (!Config.App.IsPlatform)
-            return CoreConfig.System;
+            return await db.GetSystemAsync();
 
         var user = info ?? db.User;
-        var data = await db.GetCompanyDataAsync(user.CompNo);
-        if (!string.IsNullOrWhiteSpace(data))
-            return Utils.FromJson<SystemInfo>(data);
+        var model = await db.QueryAsync<SysCompany>(d => d.Code == user.CompNo);
+        if (model != null && model.SystemData != null)
+            return model.SystemData;
 
         return new SystemInfo
         {
@@ -18,14 +18,5 @@ static class SystemExtension
             CompName = user.CompName,
             AppName = Config.App.Name
         };
-    }
-
-    internal static async Task<string> GetUserSystemNameAsync(this Database db)
-    {
-        var sys = await db.GetUserSystemAsync();
-        var appName = sys?.AppName;
-        if (string.IsNullOrWhiteSpace(appName))
-            appName = Config.App.Name;
-        return appName;
     }
 }

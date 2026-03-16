@@ -11,8 +11,11 @@ class SessionManager(IHubContext<NotifyHub> hubContext)
     // 添加新会话
     public string CreateSession(UserInfo info)
     {
-        var sys = CoreConfig.System;
-        if (info == null || sys?.IsLoginOne == false)
+        if (info == null)
+            return string.Empty;
+
+        CoreConfig.Systems.TryGetValue(info.CompNo, out SystemInfo sys);
+        if (sys?.IsLoginOne == false)
             return string.Empty;
 
         info.SessionId = Utils.GetGuid();

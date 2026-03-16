@@ -53,7 +53,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 {
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {
-        var info = await Database.GetSystemAsync();
+        var info = await Database.GetUserSystemAsync();
         var data = new SystemDataInfo { System = info };
         data.RunTime = Utils.Round((DateTime.Now - CoreConfig.StartTime).TotalHours, 2);
         return data;
@@ -61,7 +61,7 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
 
     public Task<SystemInfo> GetSystemAsync()
     {
-        return Database.GetSystemAsync();
+        return Database.GetUserSystemAsync();
     }
 
     public async Task<Result> SaveSystemAsync(SystemInfo info)
@@ -69,15 +69,19 @@ class SystemService(Context context) : ServiceBase(context), ISystemService
         var database = Database;
         if (Config.App.IsPlatform)
         {
-            var result = await database.SaveCompanyDataAsync(CurrentUser.CompNo, info);
-            if (!result.IsValid)
-                return result;
+            var data = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
+            if (data == null)
+                return Result.Error(Language.TipCompanyNotExists);
+
+            data.SystemData = info;
+            await database.SaveAsync(data);
+            CoreConfig.Systems[data.Code] = info;
         }
         else
         {
             await database.SaveSystemAsync(info);
+            CoreConfig.System = info;
         }
-        CoreConfig.System = info;
         return Result.Success(Language.SaveSuccess);
     }
 

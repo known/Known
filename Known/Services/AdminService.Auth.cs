@@ -184,6 +184,12 @@ partial class AdminService
         user.ClientId = info.ClientId;
         user.Token = cacheUser != null ? cacheUser.Token : Utils.GetGuid();
 
+        var sys = await database.GetUserSystemAsync(user);
+        user.AppName = sys?.AppName;
+        user.IsWatermark = sys?.IsWatermark == true;
+        user.Watermark = sys?.Watermark;
+        user.WmDateFormat = sys?.WmDateFormat;
+
         var type = LogType.Login;
         if (info.IsMobile)
             type = LogType.AppLogin;
@@ -227,15 +233,16 @@ partial class AdminService
         CoreConfig.Load(info);
         await Database.QueryActionAsync(async db =>
         {
-            CoreConfig.System = await db.GetSystemAsync();
+            var sys = await db.GetUserSystemAsync();
+            info.AppName = sys.AppName;
             info.Actions = await db.GetActionsAsync();
-            info.AppName = CurrentUser.AppName; //await db.GetUserSystemNameAsync();
-            info.IsChangePwd = await db.CheckUserDefaultPasswordAsync(CoreConfig.System);
+            info.IsChangePwd = await db.CheckUserDefaultPasswordAsync(sys);
             info.DatabaseType = db.DatabaseType;
             info.UserMenus = await db.GetUserMenusAsync();
             info.UserSetting = await db.GetUserSettingAsync<UserSettingInfo>(Constants.UserSetting);
             info.UserTableSettings = await db.GetUserTableSettingsAsync();
             info.Codes = await db.GetDictionariesAsync();
+            CoreConfig.Systems[db.User.CompNo] = sys;
             if (CoreConfig.OnAdmin != null)
                 await CoreConfig.OnAdmin.Invoke(db, info);
         });

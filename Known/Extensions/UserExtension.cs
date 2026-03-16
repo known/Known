@@ -174,7 +174,7 @@ public static class UserExtension
             }
             else
             {
-                var sys = await db.GetSystemAsync();
+                var sys = await db.GetUserSystemAsync();
                 model.Password = Utils.ToMd5(sys?.UserDefaultPwd);
             }
             await db.SaveAsync(model);
