@@ -274,9 +274,6 @@ class QueryBuilder<T> : IQueryBuilder<T> where T : class, new()
         if (!string.IsNullOrWhiteSpace(OrderSql))
             sql += $" order by {OrderSql}";
 
-        if (first)
-            sql = provider.GetTopSql(1, sql);
-
         return new CommandInfo(provider, null, TableName, sql, Parameters);
     }
 }

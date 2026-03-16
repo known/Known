@@ -136,7 +136,7 @@ public static class DictionaryExtension
         foreach (var key in data.Keys)
         {
             var value = data[key];
-            data[key] = DataPlaceholder.FormatValue(value?.ToString(), user);
+            data[key] = DataPlaceholder.FormatValue(value, user);
         }
     }
 

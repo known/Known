@@ -60,9 +60,9 @@ public class DataPlaceholder
     /// <param name="value">占位符。</param>
     /// <param name="user">当前用户。</param>
     /// <returns></returns>
-    public static object FormatValue(string value, UserInfo user)
+    public static object FormatValue(object value, UserInfo user)
     {
-        var data = Placeholders.FirstOrDefault(d => d.Key == value);
+        var data = Placeholders.FirstOrDefault(d => d.Key == value?.ToString());
         if (data == null)
             return value;
 
