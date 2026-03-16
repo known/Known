@@ -33,7 +33,7 @@
             <div class="login-form-body">
                 <Tabs Animated>
                     <TabPane Key="Account" Tab="@Language[Language.LoginWithAccount]">
-                        <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
+                        <LoginForm Model="Model" OnLogin="OnUserLogin" />
                     </TabPane>
                     <TabPane Key="Phone" Tab="@Language[Language.LoginWithPhone]">
                         <LoginForm Model="Model" OnLogin="OnUserLogin" OnSendSMS="OnSendSMS" />
@@ -46,8 +46,6 @@
 </div>
 
 @code {
-    private bool IsCaptcha => false;
-
     protected override Task OnInitAsync()
     {
         Model.UserName = "Admin";

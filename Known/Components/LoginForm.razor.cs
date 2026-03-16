@@ -6,13 +6,14 @@
 public partial class LoginForm
 {
     private AntCaptcha captcha;
+    private bool showCaptcha;
     private readonly CaptchaOption option = new() { SMSCount = 60 };
-    private string FormStyle => IsCaptcha || Stations != null ? "" : "kui-nocaptcha";
+    private string FormStyle => showCaptcha || Stations != null ? "" : "kui-nocaptcha";
 
     /// <summary>
     /// 取得或设置是否显示验证码。
     /// </summary>
-    [Parameter] public bool IsCaptcha { get; set; }
+    [Parameter] public bool? IsCaptcha { get; set; }
 
     /// <summary>
     /// 取得或设置表单数据对象。
@@ -38,7 +39,7 @@ public partial class LoginForm
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        IsCaptcha = Config.System?.IsLoginCaptcha == true;
+        showCaptcha = Config.System?.IsLoginCaptcha == true;
         if (OnSendSMS != null)
         {
             option.SMSValidate = () =>
@@ -61,9 +62,16 @@ public partial class LoginForm
         }
     }
 
+    /// <inheritdoc />
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        showCaptcha = IsCaptcha ?? (Config.System?.IsLoginCaptcha == true);
+    }
+
     private async Task OnFinish(EditContext context)
     {
-        if (IsCaptcha && OnSendSMS == null)
+        if (showCaptcha && OnSendSMS == null)
         {
             if (!captcha.Validate(out string message))
             {

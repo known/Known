@@ -48,7 +48,7 @@
             <div class="login-form-body">
                 <Tabs Animated>
                     <TabPane Key="Account" Tab="@Language[Language.LoginWithAccount]">
-                        <LoginForm Model="Model" OnLogin="OnUserLogin" IsCaptcha="IsCaptcha" />
+                        <LoginForm Model="Model" OnLogin="OnUserLogin" />
                     </TabPane>
                     @if (Context.IsMobile)
                     {
@@ -76,7 +76,6 @@
 </div>
 
 @code {
-    private bool IsCaptcha => Config.System?.IsLoginCaptcha == true;
     private object QrCode => new { Text = Config.HostUrl, Width = 200, Height = 200 };
 
     protected override Task OnInitAsync()

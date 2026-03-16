@@ -30,7 +30,7 @@
                 <AntSelect Icon="control" @bind-Value="@context.Station" DataSource="Stations" Placeholder="@Language[Language.Station]" />
             </FormItem>
         }
-        else if (IsCaptcha)
+        else if (showCaptcha)
         {
             <FormItem Label="" Required Rules="@Context.RuleRequired(Language.Captcha)">
                 <AntCaptcha Icon="check" @ref="captcha" @bind-Value="@context.Captcha" Placeholder="@Language[Language.Captcha]" />
