@@ -2,7 +2,7 @@
 
 <CompanyTypeForm Form="Model">
     <AntRow>
-        <DataItem Span="8" Label="企业编码" Required>
+        <DataItem Span="8" Label="企业编码" Required Tooltip="租户管理员用户名和密码默认为该企业编码。">
             <AntInput @bind-Value="context.Code" Disabled="!Model.IsNew" />
         </DataItem>
         <DataItem Span="8" Label="企业名称" Required>
@@ -38,13 +38,13 @@
     </AntRow>
     <AntRow>
         <DataItem Span="8" Label="系统URL" Tooltip="租户私有域名。">
-            <AntInput @bind-Value="context.SystemData.SysUrl" />
+            <AntInput @bind-Value="context.SystemData.SysUrl" Disabled />
         </DataItem>
         <DataItem Span="8" Label="系统Logo" Tooltip="租户私有Logo图片。">
-            <KUpload @bind-Value="context.SystemData.LogoPath" IsImage OnLoad="OnLogoLoad" OnFilesChanged="OnFilesChanged" />
+            <KUpload @bind-Value="context.SystemData.LogoPath" ReadOnly IsImage OnLoad="OnLogoLoad" OnFilesChanged="OnFilesChanged" />
         </DataItem>
         <DataItem Span="8" Label="数据库类型" Tooltip="租户独立数据库连接类型。">
-            <AntSelectCode @bind-Value="context.SystemData.ConnType" Category="@context.ConnTypes" />
+            <AntSelectCode @bind-Value="context.SystemData.ConnType" Disabled Category="@context.ConnTypes" />
         </DataItem>
     </AntRow>
     @if (!string.IsNullOrWhiteSpace(context.SystemData.ConnType))
