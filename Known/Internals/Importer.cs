@@ -9,6 +9,8 @@ class Importer : BaseComponent
     private FileDataInfo file;
     private ImportFormInfo Model;
     private IImportService Service;
+    private CancellationTokenSource monitorCts;
+    private Task monitorTask;
 
     private string ErrorMessage => Language[Language.ImportError];
 
@@ -32,6 +34,15 @@ class Importer : BaseComponent
         isFinished = Model.IsFinished;
         error = Model.Error;
         message = Model.Message;
+
+        if (!isFinished)
+            StartStatusMonitor();
+    }
+
+    protected override Task OnDisposeAsync()
+    {
+        StopStatusMonitor();
+        return Task.CompletedTask;
     }
 
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -126,10 +137,74 @@ class Importer : BaseComponent
         {
             message = result.Message;
             isFinished = false;
+            StartStatusMonitor();
+            await StateChangedAsync();
         }
         else
         {
             Info?.OnSuccess?.Invoke();
+        }
+    }
+
+    private void StartStatusMonitor()
+    {
+        if (monitorTask != null && !monitorTask.IsCompleted)
+            return;
+
+        StopStatusMonitor();
+        monitorCts = new CancellationTokenSource();
+        monitorTask = MonitorStatusAsync(monitorCts.Token);
+    }
+
+    private void StopStatusMonitor()
+    {
+        if (monitorCts == null)
+            return;
+
+        monitorCts.Cancel();
+        monitorCts.Dispose();
+        monitorCts = null;
+    }
+
+    private async Task MonitorStatusAsync(CancellationToken token)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(2));
+        try
+        {
+            while (!token.IsCancellationRequested)
+            {
+                var next = await timer.WaitForNextTickAsync(token);
+                if (!next || IsDisposing)
+                    break;
+
+                var latest = await Service.GetImportAsync(Model.BizId);
+                if (latest == null)
+                    continue;
+
+                var needRefresh = latest.IsFinished != isFinished ||
+                                  latest.Error != error ||
+                                  latest.Message != message;
+
+                isFinished = latest.IsFinished;
+                error = latest.Error;
+                message = latest.Message;
+
+                if (needRefresh)
+                    await StateChangedAsync();
+
+                if (isFinished)
+                {
+                    Info?.OnSuccess?.Invoke();
+                    break;
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        finally
+        {
+            StopStatusMonitor();
         }
     }
 
