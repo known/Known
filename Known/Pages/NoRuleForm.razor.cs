@@ -31,7 +31,7 @@ public partial class NoRuleForm
 
     private void OnItemChange(NoRuleType type) => OnChange();
     private void OnItemChange(string value) => OnChange();
-    private void OnChange() => Model.Data.Sample = Model.Data.GetRuleNo(0);
+    private void OnChange() => Model.Data.Sample = Model.Data.GetMaxRuleNo(DateTime.Now, 0);
 }
 
 /// <summary>

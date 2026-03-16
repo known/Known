@@ -255,12 +255,13 @@ public static class ModelExtension
 
     #region NoRule
     /// <summary>
-    /// 获取编码规则编号。
+    /// 获取编码规则最大编号。
     /// </summary>
     /// <param name="info">规则信息。</param>
+    /// <param name="date">时间。</param>
     /// <param name="maxId">最大ID。</param>
     /// <returns></returns>
-    public static string GetRuleNo(this SysNoRule info, int maxId)
+    public static string GetMaxRuleNo(this SysNoRule info, DateTime date, int maxId)
     {
         if (info == null || info.Rules == null || info.Rules.Count == 0)
             return string.Empty;
@@ -274,7 +275,7 @@ public static class ModelExtension
                     items.Add(item.Value);
                     break;
                 case NoRuleType.DateTime:
-                    items.Add(DateTime.Now.ToString(item.Value));
+                    items.Add(date.ToString(item.Value));
                     break;
                 case NoRuleType.Serial:
                     if (int.TryParse(item.Value, out var length))

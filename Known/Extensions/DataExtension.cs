@@ -6,6 +6,124 @@
 public static class DataExtension
 {
     /// <summary>
+    /// 异步创建数据表。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="tableName">数据表名。</param>
+    /// <param name="script">建表脚本。</param>
+    /// <returns></returns>
+    public static async Task<Result> CreateTableAsync(this Database db, string tableName, string script)
+    {
+        if (string.IsNullOrWhiteSpace(tableName))
+            return Result.Error(Language.TipTableRequired);
+
+        try
+        {
+            try
+            {
+                var sql = $"select count(*) from {tableName}";
+                var count = await db.ScalarAsync<int>(sql);
+                if (count > 0)
+                    return Result.Error(Language.TipTableHasData);
+
+                sql = $"drop table {tableName}";
+                await db.ExecuteAsync(sql);
+            }
+            catch
+            {
+            }
+
+            await db.ExecuteAsync(script);
+            return Result.Success(Language.ExecuteSuccess);
+        }
+        catch (Exception ex)
+        {
+            return Result.Error(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// 异步获取表单最大规则编号。
+    /// </summary>
+    /// <typeparam name="T">实体类型。</typeparam>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="ruleCode">编码规则代码。</param>
+    /// <param name="field">实体字段。</param>
+    /// <param name="id">实体ID。</param>
+    /// <returns></returns>
+    public static async Task<string> GetMaxRuleNoAsync<T>(this Database db, string ruleCode, string field, string id = null)
+    {
+        if (string.IsNullOrWhiteSpace(ruleCode) || string.IsNullOrWhiteSpace(field))
+            return string.Empty;
+
+        var compNo = db.User?.CompNo;
+        if (string.IsNullOrWhiteSpace(compNo))
+            return string.Empty;
+
+        var rule = await db.QueryAsync<SysNoRule>(d => d.CompNo == compNo && d.Code == ruleCode);
+        if (rule?.Rules == null || rule.Rules.Count == 0)
+            return string.Empty;
+
+        var date = DateTime.Now;
+        var serialIndex = rule.Rules.FindIndex(r => r.Type == NoRuleType.Serial);
+        if (serialIndex < 0)
+            return rule.GetMaxRuleNo(date, 0);
+
+        var prefix = string.Join("", rule.Rules.Take(serialIndex).Select(r => r.Type switch
+        {
+            NoRuleType.Fixed => r.Value,
+            NoRuleType.DateTime => date.ToString(r.Value),
+            _ => string.Empty
+        }));
+        var suffix = string.Join("", rule.Rules.Skip(serialIndex + 1).Select(r => r.Type switch
+        {
+            NoRuleType.Fixed => r.Value,
+            NoRuleType.DateTime => date.ToString(r.Value),
+            _ => string.Empty
+        }));
+
+        var tableName = db.Provider.GetTableName(typeof(T));
+        var fieldName = db.FormatName(field);
+        var sql = $"select max({fieldName}) from {db.FormatName(tableName)} where {db.FormatName(nameof(EntityBase.CompNo))}=@CompNo";
+
+        var parameters = new Dictionary<string, object>
+        {
+            [nameof(EntityBase.CompNo)] = compNo
+        };
+
+        if (!string.IsNullOrWhiteSpace(prefix))
+        {
+            sql += $" and {fieldName} like @Prefix";
+            parameters["Prefix"] = $"{prefix}%";
+        }
+
+        if (!string.IsNullOrWhiteSpace(suffix))
+        {
+            sql += $" and {fieldName} like @Suffix";
+            parameters["Suffix"] = $"%{suffix}";
+        }
+
+        if (!string.IsNullOrWhiteSpace(id))
+        {
+            sql += $" and {db.FormatName(nameof(EntityBase.Id))}<>@Id";
+            parameters[nameof(EntityBase.Id)] = id;
+        }
+
+        var maxNo = await db.ScalarAsync<string>(sql, parameters);
+        if (string.IsNullOrWhiteSpace(maxNo))
+            return rule.GetMaxRuleNo(date, 0);
+
+        var serialStart = prefix.Length;
+        var serialLength = maxNo.Length - serialStart - suffix.Length;
+        if (serialStart < 0 || serialLength <= 0 || serialStart + serialLength > maxNo.Length)
+            return rule.GetMaxRuleNo(date, 0);
+
+        var serialText = maxNo.Substring(serialStart, serialLength);
+        var maxId = int.TryParse(serialText, out var value) ? value : 0;
+        return rule.GetMaxRuleNo(date, maxId);
+    }
+
+    /// <summary>
     /// 根据ID获取实体插件参数配置信息。
     /// </summary>
     /// <param name="db">数据库对象。</param>
