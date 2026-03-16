@@ -31,7 +31,11 @@ public sealed class TaskHelper
 
     private static async Task RunAsync(SysTask task, Func<Database, SysTask, Task<Result>> action)
     {
-        var notify = Config.CreateService<INotifyService>();
+        using var scope = Config.ServiceProvider?.CreateScope();
+        var notify = scope?.ServiceProvider.GetServices<INotifyService>()
+                           .OrderByDescending(s => s.Name == "Web")
+                           .FirstOrDefault()
+                  ?? Config.CreateService<INotifyService>();
         using var db = Database.Create();
         try
         {
@@ -47,6 +51,7 @@ public sealed class TaskHelper
             task.Status = result.IsValid ? TaskJobStatus.Success : TaskJobStatus.Failed;
             task.Note = result.Message;
             await db.SaveAsync(task);
+            //Console.WriteLine($"[TaskNotify] biz={task.BizId}, createBy={task.CreateBy}, notify={notify.Name}, status={task.Status}");
             await notify.LayoutNotifyAsync(task.CreateBy, Language.TaskNotify, $"{task.Status}：{task.Note}");
         }
         catch (Exception ex)
@@ -54,6 +59,7 @@ public sealed class TaskHelper
             task.Status = TaskJobStatus.Failed;
             task.Note = ex.ToString();
             await db.SaveAsync(task);
+            //Console.WriteLine($"[TaskNotify] biz={task.BizId}, createBy={task.CreateBy}, notify={notify.Name}, status=Error");
             await notify.LayoutNotifyAsync(task.CreateBy, Language.TaskNotify, $"执行错误：{ex.Message}", StyleType.Error);
         }
     }
