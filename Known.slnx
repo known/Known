@@ -18,7 +18,9 @@
     <Project Path="Known.Wasm/Known.Wasm.csproj" />
     <Project Path="Known.WasmHost/Known.WasmHost.csproj" />
     <Project Path="Known.WinForm/Known.WinForm.csproj" />
-    <Project Path="Known.Maui/Known.Maui.csproj" />
+    <Project Path="Known.Maui/Known.Maui.csproj">
+        <Deploy Solution="Debug|*" />
+    </Project>
     <Project Path="Known.Photino/Known.Photino.csproj" />
     <Project Path="Known.Web/Known.Web.csproj" />
 </Solution>

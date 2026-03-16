@@ -4,7 +4,7 @@
 /// 系统日志页面组件类。
 /// </summary>
 [Route("/sys/logs")]
-[Menu(Constants.System, "系统日志", "clock-circle", 6)]
+[Menu(Constants.System, "系统日志", "clock-circle", 7)]
 //[PagePlugin("系统日志", "clock-circle", PagePluginType.Module, Language.SystemManage, Sort = 9)]
 public class SysLogList : BaseTablePage<LogInfo>
 {

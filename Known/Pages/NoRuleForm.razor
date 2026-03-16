@@ -1,0 +1,52 @@
+﻿@inherits BaseForm<SysNoRule>
+
+<NoRuleTypeForm Form="Model" IsRightList>
+    <ChildContent>
+        <AntRow>
+            <DataItem Span="24" Label="代码" Required>
+                <AntInput @bind-Value="context.Code" Disabled="!Model.IsNew" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="名称" Required>
+                <AntInput @bind-Value="context.Name" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="示例">
+                @context.Sample
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="备注">
+                <AntTextArea @bind-Value="context.Note" />
+            </DataItem>
+        </AntRow>
+    </ChildContent>
+    <ListContent>
+        <KFlexSpace>
+            <KTitle Text="编码规则" />
+            @if (!Model.IsView)
+            {
+                <KButton Icon="plus" Name="添加" OnClick="OnAdd" />
+            }
+        </KFlexSpace>
+        <NoRuleItemTable DataSource="Model.Data.Rules" IsView="Model.IsView" HidePagination ScrollY="200px">
+            <StringColumn Title="序号" Width="50" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left">@(Model.Data.Rules.IndexOf(context) + 1)</StringColumn>
+            <TableColumn Title="类型" Width="120" Value="@context.Type.ToString()">
+                <NoRuleTypeSelect @bind-Value="context.Type" OnSelectedItemChanged="OnItemChange" />
+            </TableColumn>
+            <TableColumn Title="值" Value="@context.Value">
+                <AntInput @bind-Value="context.Value" OnChange="OnItemChange" />
+            </TableColumn>
+            @if (!Model.IsView)
+            {
+                <ActionColumn Title="操作" Width="160" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                    <KButton Name="上移" OnClick="e => OnMoveUp(context)" />
+                    <KButton Name="下移" OnClick="e => OnMoveDown(context)" />
+                    <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+                </ActionColumn>
+            }
+        </NoRuleItemTable>
+    </ListContent>
+</NoRuleTypeForm>

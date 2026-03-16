@@ -102,6 +102,7 @@ public static class CoreExtension
             _ = database.QueryActionAsync(async db =>
             {
                 await db.CreateTableAsync<SysLanguage>();
+                await db.CreateTableAsync<SysNoRule>();
                 await AppHelper.LoadLanguagesAsync(db);
                 await MigrateHelper.MigrateModulesAsync(db);
             });

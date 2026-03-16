@@ -252,4 +252,41 @@ public static class ModelExtension
         return info.Steps.Select(s => new ItemModel(s.Id, s.Name)).ToList();
     }
     #endregion
+
+    #region NoRule
+    /// <summary>
+    /// 获取编码规则编号。
+    /// </summary>
+    /// <param name="info">规则信息。</param>
+    /// <param name="maxId">最大ID。</param>
+    /// <returns></returns>
+    public static string GetRuleNo(this SysNoRule info, int maxId)
+    {
+        if (info == null || info.Rules == null || info.Rules.Count == 0)
+            return string.Empty;
+
+        var items = new List<string>();
+        foreach (var item in info.Rules)
+        {
+            switch (item.Type)
+            {
+                case NoRuleType.Fixed:
+                    items.Add(item.Value);
+                    break;
+                case NoRuleType.DateTime:
+                    items.Add(DateTime.Now.ToString(item.Value));
+                    break;
+                case NoRuleType.Serial:
+                    if (int.TryParse(item.Value, out var length))
+                        items.Add(string.Format("{0:D" + length + "}", maxId + 1));
+                    else
+                        items.Add(item.Value);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return string.Join("", items);
+    }
+    #endregion
 }

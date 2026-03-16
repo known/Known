@@ -4,7 +4,7 @@
 /// 后台任务页面组件类。
 /// </summary>
 [Route("/sys/tasks")]
-[Menu(Constants.System, "后台任务", "control", 4)]
+[Menu(Constants.System, "后台任务", "control", 5)]
 //[PagePlugin("后台任务", "control", PagePluginType.Module, Language.SystemManage, Sort = 7)]
 public class SysTaskList : BaseTablePage<SysTask>
 {
