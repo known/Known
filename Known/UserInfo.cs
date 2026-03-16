@@ -325,6 +325,8 @@ public class UserInfo
             identity.AddClaim(new(ClaimTypes.Name, UserName));
         if (!string.IsNullOrWhiteSpace(Role))
             identity.AddClaim(new(ClaimTypes.Role, Role));
+        if (!string.IsNullOrWhiteSpace(SessionId))
+            identity.AddClaim(new(ClaimTypes.Sid, SessionId));
         return new ClaimsPrincipal(identity);
     }
 }

@@ -9,11 +9,25 @@ class SessionAuthStateProvider(JSService js, SessionManager session) : Authentic
         return new AuthenticationState(principal);
     }
 
-    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
+    public async Task<UserInfo> GetUserAsync()
+    {
+        var user = await js.GetUserInfoAsync();
+        if (user == null)
+            return null;
+
+        CoreConfig.Systems.TryGetValue(user.CompNo, out SystemInfo sys);
+        if (sys?.IsLoginOne == true && !session.ValidateSession(user.UserName, user.SessionId))
+        {
+            await SetCurrentUser(null);
+            return null;
+        }
+
+        return user;
+    }
 
     public async Task<string> SignInAsync(UserInfo user)
     {
-        session.CreateSession(user);
+        await session.CreateSessionAsync(user);
         await SetCurrentUser(user);
         return user?.SessionId;
     }

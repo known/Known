@@ -295,18 +295,34 @@ window.KNotify = {
     handlers: new Map(),
     init: function (invoker, info) {
         const connection = new signalR.HubConnectionBuilder().withUrl(info.notifyUrl).build();
-        const forceLogoutHandler = message => invoker.invokeMethodAsync(info.showForceLogout, message);
+        const forceLogoutHandler = message => {
+            //console.log("[KNotify] ForceLogout received:", message);
+            invoker.invokeMethodAsync(info.showForceLogout, message);
+        };
         const notifyLayoutHandler = message => invoker.invokeMethodAsync(info.showNotify, message);
         connection.on(info.forceLogout, forceLogoutHandler);
         connection.on(info.notifyLayout, notifyLayoutHandler);
         this.handlers.set(info.forceLogout, forceLogoutHandler);
         this.handlers.set(info.notifyLayout, notifyLayoutHandler);
+
+        const registerSession = () => {
+            const sessionId = sessionStorage.getItem('sessionId');
+            //console.log("[KNotify] RegisterSession try:", sessionId);
+            if (sessionId) {
+                connection.invoke("RegisterSession", sessionId)
+                    .then(() => console.log("[KNotify] RegisterSession success:", sessionId))
+                    .catch(err => console.error("[KNotify] RegisterSession failed:", err?.toString?.() ?? err));
+            }
+        };
+
+        connection.onreconnected(() => {
+            //console.log("[KNotify] onreconnected");
+            registerSession();
+        });
+
         connection.start().then(function () {
             console.log("SignalR连接已建立");
-            const sessionId = sessionStorage.getItem('sessionId');
-            if (sessionId) {
-                connection.invoke("RegisterSession", sessionId);
-            }
+            registerSession();
         }).catch(function (err) {
             console.error("SignalR连接错误: " + err.toString());
         });
@@ -315,6 +331,11 @@ window.KNotify = {
     addSession: function (sessionId) {
         if (sessionId) {
             sessionStorage.setItem("sessionId", sessionId);
+            if (this.conn && this.conn.state === signalR.HubConnectionState.Connected) {
+                this.conn.invoke("RegisterSession", sessionId)
+                    .then(() => console.log("[KNotify] RegisterSession success(addSession):", sessionId))
+                    .catch(err => console.error("[KNotify] RegisterSession failed(addSession):", err?.toString?.() ?? err));
+            }
         }
     },
     register: function (invoker, method, invoke) {
