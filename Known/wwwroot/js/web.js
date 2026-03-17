@@ -216,6 +216,51 @@ class PDAScanner {
 window.KUtils = {
     pda: null,
     scanner: null,
+    reconnectObserver: null,
+    reconnectTimer: null,
+    reconnectLoginUrl: '/login',
+    reconnectDelay: 5000,
+    setupReconnectAutoLogin: function (loginUrl, delayMs) {
+        this.reconnectLoginUrl = loginUrl || '/login';
+        this.reconnectDelay = delayMs || 5000;
+
+        const modal = document.getElementById('components-reconnect-modal');
+        if (!modal) return;
+
+        const scheduleRedirect = () => {
+            if (this.reconnectTimer) return;
+            this.reconnectTimer = window.setTimeout(() => {
+                const current = location.pathname + location.search;
+                const target = `${this.reconnectLoginUrl}?returnUrl=${encodeURIComponent(current)}`;
+                location.href = target;
+            }, this.reconnectDelay);
+        };
+
+        const clearRedirect = () => {
+            if (this.reconnectTimer) {
+                window.clearTimeout(this.reconnectTimer);
+                this.reconnectTimer = null;
+            }
+        };
+
+        const handleClass = () => {
+            const cls = modal.className || '';
+            // 仅在服务器明确拒绝重连时跳登录，避免长耗时操作导致的临时重连误判
+            if (cls.includes('components-reconnect-rejected')) {
+                scheduleRedirect();
+            } else {
+                clearRedirect();
+            }
+        };
+
+        handleClass();
+        if (this.reconnectObserver) {
+            this.reconnectObserver.disconnect();
+        }
+
+        this.reconnectObserver = new MutationObserver(handleClass);
+        this.reconnectObserver.observe(modal, { attributes: true, attributeFilter: ['class'] });
+    },
     scanPDA: function (invoker, input) {
         this.pda = new PDAScanner(invoker, input);
         this.pda.start();

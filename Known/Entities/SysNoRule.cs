@@ -11,7 +11,7 @@ public class SysNoRule : EntityBase
     /// </summary>
     [Required]
     [MaxLength(50)]
-    [Column(Width = 120)]
+    [Column(Width = 140, IsViewLink = true)]
     [DisplayName("代码")]
     public string Code { get; set; }
 
