@@ -101,8 +101,7 @@ public static class CoreExtension
             using var database = Database.Create();
             _ = database.QueryActionAsync(async db =>
             {
-                await db.CreateTableAsync<SysLanguage>();
-                await db.CreateTableAsync<SysNoRule>();
+                await AppHelper.MigrateTablesAsync(db);
                 await AppHelper.LoadLanguagesAsync(db);
                 await MigrateHelper.MigrateModulesAsync(db);
             });

@@ -13,6 +13,20 @@ public interface ILogService : IService
     Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria);
 
     /// <summary>
+    /// 异步分页查询同步日志。
+    /// </summary>
+    /// <param name="criteria">查询条件。</param>
+    /// <returns></returns>
+    Task<PagingResult<SysSyncLog>> QuerySyncLogsAsync(PagingCriteria criteria);
+
+    /// <summary>
+    /// 异步删除同步日志。
+    /// </summary>
+    /// <param name="infos">日志列表。</param>
+    /// <returns></returns>
+    Task<Result> DeleteSyncLogsAsync(List<SysSyncLog> infos);
+
+    /// <summary>
     /// 异步分页查询Web日志。
     /// </summary>
     /// <param name="criteria">查询条件对象。</param>
@@ -44,6 +58,8 @@ public interface ILogService : IService
 class LogClient(HttpClient http) : ClientBase(http), ILogService
 {
     public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria) => Http.QueryAsync<LogInfo>("/Log/QueryLogs", criteria);
+    public Task<PagingResult<SysSyncLog>> QuerySyncLogsAsync(PagingCriteria criteria) => Http.QueryAsync<SysSyncLog>("/Log/QuerySyncLogs", criteria);
+    public Task<Result> DeleteSyncLogsAsync(List<SysSyncLog> infos) => Http.PostAsync("/Log/DeleteSyncLogs", infos);
     public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria) => Http.QueryAsync<LogInfo>("/Log/QueryWebLogs", criteria);
     public Task<Result> AddWebLogAsync(LogInfo info) => Http.PostAsync("/Log/AddWebLog", info);
     public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos) => Http.PostAsync("/Log/DeleteWebLogs", infos);
@@ -58,6 +74,27 @@ class LogService(Context context) : ServiceBase(context), ILogService
         if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
             criteria.OrderBys = [$"{nameof(LogInfo.CreateTime)} desc"];
         return Database.Query<SysLog>(criteria).ToPageAsync<LogInfo>();
+    }
+
+    public Task<PagingResult<SysSyncLog>> QuerySyncLogsAsync(PagingCriteria criteria)
+    {
+        if (criteria.OrderBys == null || criteria.OrderBys.Length == 0)
+            criteria.OrderBys = [$"{nameof(SysSyncLog.SyncTime)} desc", $"{nameof(SysSyncLog.CreateTime)} desc"];
+        return Database.QueryPageAsync<SysSyncLog>(criteria);
+    }
+
+    public async Task<Result> DeleteSyncLogsAsync(List<SysSyncLog> infos)
+    {
+        if (infos == null || infos.Count == 0)
+            return Result.Error(Language.SelectOneAtLeast);
+
+        return await Database.TransactionAsync(Language.Delete, async db =>
+        {
+            foreach (var item in infos)
+            {
+                await db.DeleteAsync<SysSyncLog>(item.Id);
+            }
+        });
     }
 
     public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria)

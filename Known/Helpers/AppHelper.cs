@@ -6,6 +6,18 @@
 public class AppHelper
 {
     /// <summary>
+    /// 异步迁移表结构。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <returns></returns>
+    public static async Task MigrateTablesAsync(Database db)
+    {
+        await db.CreateTableAsync<SysLanguage>();
+        await db.CreateTableAsync<SysNoRule>();
+        await db.CreateTableAsync<SysSyncLog>();
+    }
+
+    /// <summary>
     /// 异步加载多语言数据。
     /// </summary>
     public static async Task LoadLanguagesAsync(Database db)
