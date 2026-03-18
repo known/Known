@@ -11,8 +11,11 @@ public partial class MainLayout
     private MainMenu menu;
     private MainBody body;
     private MenuInfo root;
+    private MenuInfo topMenu;
+    private readonly List<MenuInfo> topMenus = new();
 
     private UserSettingInfo UserSetting => Context.UserSetting ?? new();
+    private MenuInfo MenuParent => Config.App.IsTopMenu ? topMenu ?? root : root;
     private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(UserSetting.Size).BuildClass();
     private string HeaderClass => CssBuilder.Default("kui-header")
                                             .AddClass("kui-menu-dark", UserSetting.MenuTheme == "Dark")
@@ -38,7 +41,25 @@ public partial class MainLayout
     {
         root = Config.App.GetRootMenu();
         root.AddChildren(menus);
-        menu?.SetData(root);
+
+        topMenus.Clear();
+        if (root?.Children != null && root.Children.Count > 0)
+            topMenus.AddRange(root.Children);
+
+        if (Config.App.IsTopMenu)
+            topMenu = topMenus.FirstOrDefault() ?? root;
+
+        menu?.SetData(MenuParent);
+    }
+
+    private void OnTopMenuClick(MenuInfo item)
+    {
+        if (item == null || item == topMenu)
+            return;
+
+        topMenu = item;
+        menu?.SetData(topMenu);
+        StateChanged();
     }
 
     private void OnReloadPage()

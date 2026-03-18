@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <KLayout @ref="layout" IsAdmin OnLoadMenus="OnLoadMenus" OnReloadPage="OnReloadPage">
-    @if (UserSetting.LayoutMode == LayoutMode.Horizontal.ToString())
+    @if (UserSetting.LayoutMode == LayoutMode.Horizontal.ToString() && !Config.App.IsTopMenu)
     {
         <Layout Class="@LayoutClass">
             <div class="@HeaderClass">
@@ -20,12 +20,12 @@
     else
     {
         <Layout Class="@LayoutClass">
-            @if (UserSetting.LayoutMode == LayoutMode.Float.ToString())
+            @if (UserSetting.LayoutMode == LayoutMode.Float.ToString() && !Config.App.IsTopMenu)
             {
                 <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
-                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
+                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
                     </div>
                 </Sider>
             }
@@ -34,19 +34,32 @@
                 <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
-                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
+                        <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
                     </div>
                 </Sider>
             }
             <Layout>
                 <div class="kui-header">
                     <div class="left">
-                        @if (UserSetting.LayoutMode != LayoutMode.Float.ToString())
+                        @if (Config.App.IsTopMenu)
                         {
-                            <NavToggle OnToggle="OnToggle" />
+                            <div class="kui-top-menu">
+                                @foreach (var item in topMenus)
+                                {
+                                    var active = item.Id == topMenu?.Id;
+                                    <div class="item @(active ? "active" : "")" @onclick="e => OnTopMenuClick(item)">@item.Name</div>
+                                }
+                            </div>
                         }
-                        <NavRefresh />
-                        <TopBreadcrumb Current="Context.Current" />
+                        else
+                        {
+                            if (UserSetting.LayoutMode != LayoutMode.Float.ToString())
+                            {
+                                <NavToggle OnToggle="OnToggle" />
+                            }
+                            <NavRefresh />
+                            <TopBreadcrumb Current="Context.Current" />
+                        }
                     </div>
                     <TopNavbar OnSetting="OnSetting" />
                 </div>

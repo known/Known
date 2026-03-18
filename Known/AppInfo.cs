@@ -100,6 +100,11 @@ public class AppInfo
     public bool IsAddMenu { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置系统是否支持顶部子系统菜单。
+    /// </summary>
+    public bool IsTopMenu { get; set; }
+
+    /// <summary>
     /// 取得或设置ID生成器类型。
     /// </summary>
     public NextIdType NextIdType { get; set; }

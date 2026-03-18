@@ -21,17 +21,23 @@
     </FormItem>
     <Divider />
     <Title Level="4">@Language[Language.LayoutSetting]</Title>
-    <FormItem Label="@Language[Language.Layout]">
-        <AntRadioGroup @bind-Value="context.LayoutMode" Codes="LayoutModes" OnChange="OnChange" />
-    </FormItem>
+    @if (!Config.App.IsTopMenu)
+    {
+        <FormItem Label="@Language[Language.Layout]">
+            <AntRadioGroup @bind-Value="context.LayoutMode" Codes="LayoutModes" OnChange="OnChange" />
+        </FormItem>
+    }
     <FormItem Label="@Language[Language.Tabs]">
         <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
     </FormItem>
     @if (context.MultiTab)
     {
-        <FormItem Label="@Language[Language.TopTab]">
-            <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
-        </FormItem>
+        if (!Config.App.IsTopMenu)
+        {
+            <FormItem Label="@Language[Language.TopTab]">
+                <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
+            </FormItem>
+        }
         <FormItem Label="@Language[Language.MaxTabCount]">
             <AntInteger @bind-Value="context.MaxTabCount" />
         </FormItem>

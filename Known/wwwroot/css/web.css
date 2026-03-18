@@ -437,6 +437,25 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-header .left > div {margin-right:10px;}
 .kui-header .anticon {cursor:pointer;}
 .kui-header .ant-breadcrumb a {color:var(--kui-color);}
+
+.kui-top-menu {display:flex;align-items:center;gap:22px;height:100%;margin-left:6px;}
+.kui-top-menu .item {
+    position:relative;cursor:pointer;padding:0 2px;line-height:46px;font-size:16px;
+    font-weight:500;color:var(--kui-color);transition:color .25s ease;
+}
+.kui-top-menu .item::after {
+    content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;
+    background:var(--kui-primary-color);transform:scaleX(0);transform-origin:left;transition:transform .28s ease;
+}
+.kui-top-menu .item:hover,
+.kui-top-menu .item.active {color:var(--kui-primary-color);}
+.kui-top-menu .item:hover::after,
+.kui-top-menu .item.active::after {transform:scaleX(1);}
+@media screen and (max-width:768px) {
+    .kui-top-menu {gap:14px;overflow:auto;max-width:65vw;scrollbar-width:none;}
+    .kui-top-menu::-webkit-scrollbar {display:none;}
+}
+
 .kui-nav {display:flex;align-items:center;gap:10px;margin:0;padding-left:10px;}
 .kui-nav li {list-style:none;line-height:normal;padding:0 2px;}
 .kui-nav li.edit {background-color:#f18c63;color:#fff;padding:15px 2px;border-radius:2px;}
