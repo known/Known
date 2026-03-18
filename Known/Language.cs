@@ -1061,6 +1061,7 @@ public class Language
     internal const string Component = "组件";
     internal const string NavFontSize = "字体大小";
     internal const string NavLanguage = "多语言";
+    internal const string NavRefresh = "刷新";
     internal const string NavTheme = "主题";
     internal const string NavFullScreen = "全屏";
     internal const string NavLink = "连接";

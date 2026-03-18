@@ -3,6 +3,7 @@
 /// <summary>
 /// 页面刷新组件。
 /// </summary>
+[NavPlugin(Language.NavRefresh, "reload", Category = Language.Component, Sort = 2)]
 public class NavRefresh : BaseNav
 {
     /// <inheritdoc />
