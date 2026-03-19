@@ -830,6 +830,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 :root[data-theme=dark] .ant-menu,
 :root[data-theme=dark] .ant-table,
 :root[data-theme=dark] .ant-layout-sider, 
+:root[data-theme=dark] .ant-layout-sider-light .ant-layout-sider-trigger, 
 :root[data-theme=dark] .kui-menu-dark {
     color:var(--kui-color);background-color:var(--kui-bgcolor);
 }

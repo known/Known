@@ -607,8 +607,10 @@ public class Language
     /// 刷新成功。
     /// </summary>
     public const string RefreshSuccess = "刷新成功！";
-
-    internal const string BaseData = "基础数据";
+    /// <summary>
+    /// 基础数据。
+    /// </summary>
+    public const string BaseData = "基础数据";
     internal const string Category = "类别";
     internal const string AddCategory = "添加类别";
     internal const string ChangeDepartment = "更换部门";

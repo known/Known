@@ -31,7 +31,7 @@
             }
             else
             {
-                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
+                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger="!Config.App.IsTopMenu">
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
