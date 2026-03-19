@@ -22,18 +22,18 @@
         <Layout Class="@LayoutClass">
             @if (UserSetting.LayoutMode == LayoutMode.Float.ToString() && !Config.App.IsTopMenu)
             {
-                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" CollapsedWidth="60" Collapsed NoTrigger>
+                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@SiderClass" CollapsedWidth="60" Collapsed NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
-                    <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
+                    <div class="@ScrollClass" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
                     </div>
                 </Sider>
             }
             else
             {
-                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@MenuClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger="!Config.App.IsTopMenu">
+                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@SiderClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger="!Config.App.IsTopMenu">
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
-                    <div class="kui-scroll" style="width:@(UIConfig.SideWidth)px;">
+                    <div class="@ScrollClass" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
                     </div>
                 </Sider>

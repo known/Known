@@ -96,6 +96,26 @@ public sealed class DataHelper
     /// </summary>
     public static ConcurrentBag<MenuInfo> Routes { get; } = [];
 
+    /// <summary>
+    /// 修改页面菜单的上级ID。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <param name="parentId">上级菜单ID。</param>
+    /// <param name="sort">顺序。</param>
+    public static void ChangeParent<T>(string parentId, int sort)
+    {
+        if (Routes == null || Routes.IsEmpty)
+            return;
+
+        var item = Routes.FirstOrDefault(m => m.PageType == typeof(T));
+        if (item == null)
+            return;
+
+        Routes.Where(m => m.ParentId == parentId && m.Sort >= sort).ToList().ForEach(m => ++m.Sort);
+        item.ParentId = parentId;
+        item.Sort = sort;
+    }
+
     private static void AddRoutes(List<MenuInfo> menus, bool isRoute = true)
     {
         if (Routes.IsEmpty)

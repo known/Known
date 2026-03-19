@@ -495,6 +495,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 }
 .kui-scroll .ant-menu > .kui-edit {margin:10px;}
 .kui-scroll .ant-menu > .kui-edit > div {padding:5px;}
+.kui-scroll.is-trigger {bottom:48px;}
 .kui-footer {text-align:center;padding:10px;}
 
 @media screen and (max-width:767px) {

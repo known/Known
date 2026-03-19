@@ -20,11 +20,12 @@ public partial class MainLayout
     private string HeaderClass => CssBuilder.Default("kui-header")
                                             .AddClass("kui-menu-dark", UserSetting.MenuTheme == "Dark")
                                             .BuildClass();
-    private string MenuClass => CssBuilder.Default()
+    private string SiderClass => CssBuilder.Default()
                                           .AddClass("kui-menu-dark", UserSetting.MenuTheme == "Dark")
                                           .AddClass("kui-menu-float", UserSetting.LayoutMode == LayoutMode.Float.ToString())
                                           .BuildClass();
-    
+    private string ScrollClass => CssBuilder.Default("kui-scroll").AddClass("is-trigger", Config.App.IsTopMenu).BuildClass();
+
     /// <summary>
     /// 取得或设置子组件内容。
     /// </summary>
