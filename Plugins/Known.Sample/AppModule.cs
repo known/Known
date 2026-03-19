@@ -12,15 +12,11 @@ public static class AppModule
         if (Config.App.IsTopMenu)
         {
             parentId = "TopDemo";
-            var topSystem = "TopSystem";
             Config.Modules.AddItem("0", parentId, "业务", "block", 1);
             Config.Modules.AddItem("0", "TopHuman", "人事", "block", 2);
             Config.Modules.AddItem("0", "TopAsset", "资产", "block", 3);
             Config.Modules.AddItem("0", "TopFinance", "财务", "block", 4);
             Config.Modules.AddItem("0", "TopTax", "税务", "block", 5);
-            Config.Modules.AddItem("0", topSystem, "系统", "setting", 6);
-            Config.Modules.FirstOrDefault(d => d.Id == Constants.BaseData).ParentId = topSystem;
-            Config.Modules.FirstOrDefault(d => d.Id == Constants.System).ParentId = topSystem;
         }
         Config.Modules.AddItem(parentId, AppConstant.Demo, "示例页面", "block", 2);
         Config.Modules.AddItem(parentId, AppConstant.Test, "测试页面", "appstore", 3);

@@ -38,6 +38,11 @@ public class Constants
     public const string System = "System";
 
     /// <summary>
+    /// 顶部系统管理菜单。
+    /// </summary>
+    public const string TopSystem = "TopSystem";
+
+    /// <summary>
     /// 系统通知Hub地址。
     /// </summary>
     public const string NotifyHubUrl = "/notifyHub";

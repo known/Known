@@ -181,8 +181,14 @@ public static partial class Extension
         // 添加一级模块
         if (Config.App.IsAddMenu)
         {
-            Config.Modules.AddItem("0", Constants.BaseData, Language.BaseData, "database", 1);
-            Config.Modules.AddItem("0", Constants.System, Language.SystemManage, "setting", 99);
+            var parentId = "0";
+            if (Config.App.IsTopMenu)
+            {
+                parentId = Constants.TopSystem;
+                Config.Modules.AddItem("0", parentId, Language.System, "setting", 99);
+            }
+            Config.Modules.AddItem(parentId, Constants.BaseData, Language.BaseData, "database", 1);
+            Config.Modules.AddItem(parentId, Constants.System, Language.SystemManage, "setting", 99);
         }
     }
 
