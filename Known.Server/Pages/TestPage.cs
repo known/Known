@@ -1,7 +1,8 @@
-﻿using Known.Sample.Pages.Demo.Forms;
+﻿using Known.Reports;
+using Known.Sample.Pages.Demo.Forms;
 using Microsoft.AspNetCore.Components;
 
-namespace Known.Server.Pages.Demo;
+namespace Known.Server.Pages;
 
 [Route("/web/tabform")]
 [Menu(AppConstant.Demo, "Web标签", "form", 5)]
@@ -31,4 +32,11 @@ public class TestSettingList : BaseTable<Weather_Forecast>
 
     [Action] public void New() => Table.NewForm(TestData.SaveWeatherAsync, new Weather_Forecast());
     [Action] public void DeleteM() { }
+}
+
+[Route("/rpt/test")]
+[Menu(AppConstant.Demo, "报表中心", "line-chart", 7)]
+public class TestReport : ReportList
+{
+    protected override string BizType => "测试模块";
 }

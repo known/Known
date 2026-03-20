@@ -1,0 +1,75 @@
+@inherits BasePage
+
+<div class="kui-report-center">
+    <div class="kui-report-hero">
+        <div>
+            <div class="title">报表中心</div>
+            <div class="desc">集中查看、开发和维护业务报表，支持字段自定义、导出和打印。</div>
+        </div>
+        <div class="meta">
+            <span class="item">@($"报表数 {Reports.Count}")</span>
+            <span class="item">@(string.IsNullOrWhiteSpace(BizType) ? "全局报表" : $"业务 {BizType}")</span>
+        </div>
+    </div>
+
+    <div class="kui-report-main">
+        <div class="kui-report-nav">
+            <div class="head">
+                <div>
+                    <div class="title">报表列表</div>
+                    <div class="desc">点击左侧报表即可查看数据。</div>
+                </div>
+                @if (CanDesign)
+                {
+                    <KButton Icon="plus" Name="新建报表" OnClick="OnNew" />
+                }
+            </div>
+            <KListBox ShowSearch DataSource="ReportItems" OnItemClick="OnReportClick">
+                <ItemTemplate Context="item">
+                    @{ var report = item.DataAs<SysReport>(); }
+                    <div class="report-item">
+                        <div class="icon">
+                            <Icon Type="@(report?.Icon ?? "bar-chart")" />
+                        </div>
+                        <div class="info">
+                            <div class="name">@item.Name</div>
+                            <div class="text">@(string.IsNullOrWhiteSpace(report?.Category) ? (report?.BizType ?? "通用报表") : report.Category)</div>
+                        </div>
+                    </div>
+                </ItemTemplate>
+            </KListBox>
+        </div>
+
+        <div class="kui-report-view">
+            @if (CurrentReport == null)
+            {
+                <Empty Description="@("暂无可用报表")" />
+            }
+            else
+            {
+                <div class="report-header">
+                    <div class="main">
+                        <div class="name">
+                            <Icon Type="@(CurrentReport.Icon ?? "bar-chart")" />
+                            <span>@CurrentReport.Name</span>
+                        </div>
+                        <div class="desc">@(string.IsNullOrWhiteSpace(CurrentReport.Description) ? "在线报表数据中心，可按字段配置查询、导出与打印。" : CurrentReport.Description)</div>
+                    </div>
+                    <div class="actions">
+                        <KButton Icon="reload" Name="刷新" Type="ButtonType.Default" OnClick="OnRefresh" />
+                        <KButton Icon="download" Name="导出" OnClick="OnExport" />
+                        <KButton Icon="printer" Name="打印" Type="ButtonType.Default" OnClick="OnPrint" />
+                        @if (CanDesign)
+                        {
+                            <KButton Icon="edit" Name="编辑" Type="ButtonType.Default" OnClick="OnEdit" />
+                            <KButton Icon="delete" Name="删除" Danger OnClick="OnDelete" />
+                        }
+                    </div>
+                </div>
+                <div class="report-body">
+                    <PageTable TItem="Dictionary<string, object>" Model="Table" />
+                </div>
+            }
+        </div>
+    </div>
+</div>

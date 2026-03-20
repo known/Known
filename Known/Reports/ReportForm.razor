@@ -1,0 +1,138 @@
+@inherits BaseForm<SysReport>
+
+<ReportTypeForm Form="Model" IsRightList>
+    <ChildContent>
+        <AntRow>
+            <DataItem Span="8" Label="报表代码" Required>
+                <AntInput @bind-Value="context.Code" Disabled="!Model.IsNew" />
+            </DataItem>
+            <DataItem Span="8" Label="报表名称" Required>
+                <AntInput @bind-Value="context.Name" />
+            </DataItem>
+            <DataItem Span="8" Label="业务类型">
+                <AntInput @bind-Value="context.BizType" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="8" Label="分组">
+                <AntInput @bind-Value="context.Category" />
+            </DataItem>
+            <DataItem Span="8" Label="图标">
+                <AntInput @bind-Value="context.Icon" />
+            </DataItem>
+            <DataItem Span="4" Label="顺序">
+                <AntInteger @bind-Value="context.Sort" />
+            </DataItem>
+            <DataItem Span="4" Label="分页">
+                <AntSwitch @bind-Value="context.IsPaging" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="8" Label="数据源类型">
+                <AntSelect @bind-Value="context.SourceType" DataSource="SourceTypes" />
+            </DataItem>
+            <DataItem Span="16" Label="说明">
+                <AntInput @bind-Value="context.Description" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="数据源" Required Tooltip="Table 类型填写表名；Sql 类型填写完整查询 SQL，字段别名需与字段ID一致。">
+                <AntTextArea @bind-Value="context.Source" Rows="4" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="备注">
+                <AntTextArea @bind-Value="context.Note" Rows="3" />
+            </DataItem>
+        </AntRow>
+    </ChildContent>
+    <ListContent>
+        <KFlexSpace>
+            <KTitle Text="报表字段设计" />
+            @if (!Model.IsView)
+            {
+                <div>
+                    <KButton Icon="plus" Name="添加字段" OnClick="e => OnAddField()" />
+                    <KButton Icon="table" Name="加载表字段" Type="ButtonType.Default" OnClick="e => OnLoadFieldsAsync()" />
+                    <KButton Icon="eye" Name="在线预览" Type="ButtonType.Default" OnClick="e => OnPreviewAsync()" />
+                </div>
+            }
+        </KFlexSpace>
+        <ReportFieldTable DataSource="Model.Data.Fields" IsView="Model.IsView" HidePagination ScrollY="260px">
+            <StringColumn Title="序号" Width="50" Align="ColumnAlign.Center">@(Model.Data.Fields.IndexOf(context) + 1)</StringColumn>
+            <TableColumn Title="字段ID" Width="140" Value="@context.Id">
+                <AntInput @bind-Value="context.Id" />
+            </TableColumn>
+            <TableColumn Title="名称" Width="120" Value="@context.Name">
+                <AntInput @bind-Value="context.Name" />
+            </TableColumn>
+            <TableColumn Title="表达式" Width="180" Value="@context.Expression">
+                <AntInput @bind-Value="context.Expression" Placeholder="为空时直接取字段ID" />
+            </TableColumn>
+            <TableColumn Title="类型" Width="120" Value="@context.Type.ToString()">
+                <ReportFieldTypeSelect @bind-Value="context.Type" />
+            </TableColumn>
+            <TableColumn Title="查询" Width="70" Align="ColumnAlign.Center" Value="@context.IsQuery">
+                <AntSwitch @bind-Value="context.IsQuery" />
+            </TableColumn>
+            <TableColumn Title="显示" Width="70" Align="ColumnAlign.Center" Value="@context.IsVisible">
+                <AntSwitch @bind-Value="context.IsVisible" />
+            </TableColumn>
+            <TableColumn Title="宽度" Width="80" Value="@context.Width">
+                <AntInteger @bind-Value="context.Width" />
+            </TableColumn>
+            <TableColumn Title="代码表" Width="120" Value="@context.Category">
+                <AntInput @bind-Value="context.Category" />
+            </TableColumn>
+            <TableColumn Title="默认排序" Width="100" Value="@context.DefaultSort">
+                <AntSelectCode @bind-Value="context.DefaultSort" Category="asc,desc" />
+            </TableColumn>
+            @if (!Model.IsView)
+            {
+                <ActionColumn Title="操作" Width="180" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                    <KButton Name="上移" Type="ButtonType.Default" OnClick="e => OnMoveUp(context)" />
+                    <KButton Name="下移" Type="ButtonType.Default" OnClick="e => OnMoveDown(context)" />
+                    <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+                </ActionColumn>
+            }
+        </ReportFieldTable>
+
+        @if (!string.IsNullOrWhiteSpace(Preview.Sql))
+        {
+            <div class="kui-report-preview">
+                <KTitle Text="在线预览" />
+                <div class="sql">@Preview.Sql</div>
+                @if (Preview.Rows != null && Preview.Rows.Count > 0)
+                {
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    @foreach (var field in Preview.Fields.Where(f => f.IsVisible))
+                                    {
+                                        <th>@(field.Name ?? field.Id)</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Preview.Rows)
+                                {
+                                    <tr>
+                                        @foreach (var field in Preview.Fields.Where(f => f.IsVisible))
+                                        {
+                                            <td>@GetPreviewText(field, row)</td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <Empty Description="@("预览无数据")" />
+                }
+            </div>
+        }
+    </ListContent>
+</ReportTypeForm>
