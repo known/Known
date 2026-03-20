@@ -43,7 +43,11 @@
         <div class="kui-report-view">
             @if (CurrentReport == null)
             {
-                <Empty Description="@("暂无可用报表")" />
+                <Empty>
+                    <DescriptionTemplate>
+                        <span>暂无可用报表</span>
+                    </DescriptionTemplate>
+                </Empty>
             }
             else
             {
@@ -53,7 +57,7 @@
                             <Icon Type="@(CurrentReport.Icon ?? "bar-chart")" />
                             <span>@CurrentReport.Name</span>
                         </div>
-                        <div class="desc">@(string.IsNullOrWhiteSpace(CurrentReport.Description) ? "在线报表数据中心，可按字段配置查询、导出与打印。" : CurrentReport.Description)</div>
+                        <div class="desc">@(string.IsNullOrWhiteSpace(CurrentReport.Description) ? "在线报表数据中心，可按字段配置查询、导出、打印与图表展示。" : CurrentReport.Description)</div>
                     </div>
                     <div class="actions">
                         <KButton Icon="reload" Name="刷新" Type="ButtonType.Default" OnClick="OnRefresh" />
@@ -66,6 +70,12 @@
                         }
                     </div>
                 </div>
+                @if (ShowChart)
+                {
+                    <div class="kui-report-chart-wrap">
+                        <KChart @ref="chart" Class="kui-report-chart" Style="@($"height:{CurrentReport.ChartHeight ?? 360}px;")" />
+                    </div>
+                }
                 <div class="report-body">
                     <PageTable TItem="Dictionary<string, object>" Model="Table" />
                 </div>

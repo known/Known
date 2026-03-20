@@ -1,137 +1,238 @@
 @inherits BaseForm<SysReport>
 
-<ReportTypeForm Form="Model" IsRightList>
-    <ChildContent>
-        <AntRow>
-            <DataItem Span="8" Label="报表代码" Required>
-                <AntInput @bind-Value="context.Code" Disabled="!Model.IsNew" />
-            </DataItem>
-            <DataItem Span="8" Label="报表名称" Required>
-                <AntInput @bind-Value="context.Name" />
-            </DataItem>
-            <DataItem Span="8" Label="业务类型">
-                <AntInput @bind-Value="context.BizType" />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="8" Label="分组">
-                <AntInput @bind-Value="context.Category" />
-            </DataItem>
-            <DataItem Span="8" Label="图标">
-                <AntInput @bind-Value="context.Icon" />
-            </DataItem>
-            <DataItem Span="4" Label="顺序">
-                <AntInteger @bind-Value="context.Sort" />
-            </DataItem>
-            <DataItem Span="4" Label="分页">
-                <AntSwitch @bind-Value="context.IsPaging" />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="8" Label="数据源类型">
-                <AntSelect @bind-Value="context.SourceType" DataSource="SourceTypes" />
-            </DataItem>
-            <DataItem Span="16" Label="说明">
-                <AntInput @bind-Value="context.Description" />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="24" Label="数据源" Required Tooltip="Table 类型填写表名；Sql 类型填写完整查询 SQL，字段别名需与字段ID一致。">
-                <AntTextArea @bind-Value="context.Source" Rows="4" />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="24" Label="备注">
-                <AntTextArea @bind-Value="context.Note" Rows="3" />
-            </DataItem>
-        </AntRow>
-    </ChildContent>
-    <ListContent>
-        <KFlexSpace>
-            <KTitle Text="报表字段设计" />
-            @if (!Model.IsView)
+<ReportTypeForm Form="Model" Class="kui-report-form">
+    <ChildContent Context="context">
+        <div class="kui-report-form-body">
+            <div class="kui-report-section">
+                <div class="section-head">
+                    <div class="title">基本信息</div>
+                    <div class="desc">定义报表名称、业务归属和展示方式。</div>
+                </div>
+                <AntRow>
+                    <DataItem Span="8" Label="报表代码" Required>
+                        <AntInput @bind-Value="context.Code" Disabled="!Model.IsNew" />
+                    </DataItem>
+                    <DataItem Span="8" Label="报表名称" Required>
+                        <AntInput @bind-Value="context.Name" />
+                    </DataItem>
+                    <DataItem Span="8" Label="业务类型">
+                        <AntInput @bind-Value="context.BizType" />
+                    </DataItem>
+                </AntRow>
+                <AntRow>
+                    <DataItem Span="8" Label="分组">
+                        <AntInput @bind-Value="context.Category" />
+                    </DataItem>
+                    <DataItem Span="8" Label="图标">
+                        <AntInput @bind-Value="context.Icon" />
+                    </DataItem>
+                    <DataItem Span="4" Label="顺序">
+                        <AntInteger @bind-Value="context.Sort" />
+                    </DataItem>
+                    <DataItem Span="4" Label="分页">
+                        <AntSwitch @bind-Value="context.IsPaging" />
+                    </DataItem>
+                </AntRow>
+                <AntRow>
+                    <DataItem Span="8" Label="视图类型">
+                        <AntSelect @bind-Value="context.ViewType" DataSource="ViewTypes" />
+                    </DataItem>
+                    <DataItem Span="16" Label="说明">
+                        <AntInput @bind-Value="context.Description" />
+                    </DataItem>
+                </AntRow>
+            </div>
+
+            <div class="kui-report-section">
+                <div class="section-head">
+                    <div class="title">数据源配置</div>
+                    <div class="desc">可选择数据表或自定义 SQL，建议先配置数据源再载入字段。</div>
+                </div>
+                <AntRow>
+                    <DataItem Span="8" Label="数据源类型">
+                        <AntSelect @bind-Value="context.SourceType" DataSource="SourceTypes" />
+                    </DataItem>
+                    <DataItem Span="16" Label="备注">
+                        <AntInput @bind-Value="context.Note" />
+                    </DataItem>
+                </AntRow>
+                <AntRow>
+                    <DataItem Span="24" Label="数据源" Required Tooltip="Table 类型填写表名；Sql 类型填写完整查询 SQL，字段别名需与字段ID一致。">
+                        <AntTextArea @bind-Value="context.Source" Rows="6" />
+                    </DataItem>
+                </AntRow>
+            </div>
+
+            @if (context.ViewType != nameof(ReportViewType.Table))
             {
-                <div>
-                    <KButton Icon="plus" Name="添加字段" OnClick="e => OnAddField()" />
-                    <KButton Icon="table" Name="加载表字段" Type="ButtonType.Default" OnClick="e => OnLoadFieldsAsync()" />
-                    <KButton Icon="eye" Name="在线预览" Type="ButtonType.Default" OnClick="e => OnPreviewAsync()" />
+                <div class="kui-report-section chart">
+                    <div class="section-head">
+                        <div class="title">图表配置</div>
+                        <div class="desc">配置维度、指标和系列字段，用于图表报表或图表+表格混合展示。</div>
+                    </div>
+                    <AntRow>
+                        <DataItem Span="6" Label="图表类型">
+                            <AntSelect @bind-Value="context.ChartType" DataSource="ChartTypes" />
+                        </DataItem>
+                        <DataItem Span="6" Label="分类字段">
+                            <AntInput @bind-Value="context.ChartCategoryField" />
+                        </DataItem>
+                        <DataItem Span="6" Label="数值字段">
+                            <AntInput @bind-Value="context.ChartValueField" />
+                        </DataItem>
+                        <DataItem Span="6" Label="系列字段">
+                            <AntInput @bind-Value="context.ChartSeriesField" />
+                        </DataItem>
+                    </AntRow>
+                    <AntRow>
+                        <DataItem Span="8" Label="图表高度">
+                            <AntInteger @bind-Value="context.ChartHeight" />
+                        </DataItem>
+                    </AntRow>
                 </div>
             }
-        </KFlexSpace>
-        <ReportFieldTable DataSource="Model.Data.Fields" IsView="Model.IsView" HidePagination ScrollY="260px">
-            <StringColumn Title="序号" Width="50" Align="ColumnAlign.Center">@(Model.Data.Fields.IndexOf(context) + 1)</StringColumn>
-            <TableColumn Title="字段ID" Width="140" Value="@context.Id">
-                <AntInput @bind-Value="context.Id" />
-            </TableColumn>
-            <TableColumn Title="名称" Width="120" Value="@context.Name">
-                <AntInput @bind-Value="context.Name" />
-            </TableColumn>
-            <TableColumn Title="表达式" Width="180" Value="@context.Expression">
-                <AntInput @bind-Value="context.Expression" Placeholder="为空时直接取字段ID" />
-            </TableColumn>
-            <TableColumn Title="类型" Width="120" Value="@context.Type.ToString()">
-                <ReportFieldTypeSelect @bind-Value="context.Type" />
-            </TableColumn>
-            <TableColumn Title="查询" Width="70" Align="ColumnAlign.Center" Value="@context.IsQuery">
-                <AntSwitch @bind-Value="context.IsQuery" />
-            </TableColumn>
-            <TableColumn Title="显示" Width="70" Align="ColumnAlign.Center" Value="@context.IsVisible">
-                <AntSwitch @bind-Value="context.IsVisible" />
-            </TableColumn>
-            <TableColumn Title="宽度" Width="80" Value="@context.Width">
-                <AntInteger @bind-Value="context.Width" />
-            </TableColumn>
-            <TableColumn Title="代码表" Width="120" Value="@context.Category">
-                <AntInput @bind-Value="context.Category" />
-            </TableColumn>
-            <TableColumn Title="默认排序" Width="100" Value="@context.DefaultSort">
-                <AntSelectCode @bind-Value="context.DefaultSort" Category="asc,desc" />
-            </TableColumn>
+        </div>
+    </ChildContent>
+    <ListContent>
+        <div class="kui-report-section field-design">
+            <div class="section-head action-head">
+                <div>
+                    <div class="title">字段设计</div>
+                    <div class="desc">先从数据源载入字段，再通过拖拽排序、增删字段和补充字段属性完成设计。</div>
+                </div>
+                @if (!Model.IsView)
+                {
+                    <div class="kui-report-actions">
+                        <KButton Icon="plus" Name="添加字段" OnClick="e => OnAddField()" />
+                        <KButton Icon="table" Name="加载表字段" Type="ButtonType.Default" OnClick="e => OnLoadFieldsAsync()" />
+                        <KButton Icon="eye" Name="在线预览" Type="ButtonType.Default" OnClick="e => OnPreviewAsync()" />
+                    </div>
+                }
+            </div>
+
             @if (!Model.IsView)
             {
-                <ActionColumn Title="操作" Width="180" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                    <KButton Name="上移" Type="ButtonType.Default" OnClick="e => OnMoveUp(context)" />
-                    <KButton Name="下移" Type="ButtonType.Default" OnClick="e => OnMoveDown(context)" />
-                    <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
-                </ActionColumn>
+                <div id="@DesignerId" class="kui-report-designer">
+                    <div class="designer-panel source" data-report-list="source">
+                        <div class="title">可用字段</div>
+                        <div class="desc">拖动字段到右侧可快速加入报表。</div>
+                        <div class="designer-items">
+                            @foreach (var field in SourceFields)
+                            {
+                                <div class="designer-item" draggable="true" data-report-field="@field.Id">
+                                    <span class="name">@(field.Name ?? field.Id)</span>
+                                    <span class="meta">@field.Type</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="designer-panel selected" data-report-list="selected">
+                        <div class="title">已选字段</div>
+                        <div class="desc">支持拖拽排序，也可在下方继续细化字段配置。</div>
+                        <div class="designer-items">
+                            @foreach (var field in Model.Data.Fields)
+                            {
+                                <div class="designer-item active" draggable="true" data-report-field="@field.Id">
+                                    <div>
+                                        <span class="name">@(field.Name ?? field.Id)</span>
+                                        <span class="meta">@(field.IsQuery ? "查询" : "展示")</span>
+                                    </div>
+                                    <a class="remove" @onclick="() => OnRemoveFieldAsync(field.Id)">移除</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
             }
-        </ReportFieldTable>
+
+            <div class="kui-report-table-wrap">
+                <ReportFieldTable DataSource="Model.Data.Fields" IsView="Model.IsView" HidePagination ScrollY="320px" Context="field">
+                    <StringColumn Title="序号" Width="50" Align="ColumnAlign.Center">@(Model.Data.Fields.IndexOf(field) + 1)</StringColumn>
+                    <TableColumn Title="字段ID" Width="140" Value="@field.Id">
+                        <AntInput @bind-Value="field.Id" />
+                    </TableColumn>
+                    <TableColumn Title="名称" Width="120" Value="@field.Name">
+                        <AntInput @bind-Value="field.Name" />
+                    </TableColumn>
+                    <TableColumn Title="表达式" Width="180" Value="@field.Expression">
+                        <AntInput @bind-Value="field.Expression" Placeholder="为空时直接取字段ID" />
+                    </TableColumn>
+                    <TableColumn Title="类型" Width="120" Value="@field.Type.ToString()">
+                        <ReportFieldTypeSelect @bind-Value="field.Type" />
+                    </TableColumn>
+                    <TableColumn Title="查询" Width="70" Align="ColumnAlign.Center" Value="@field.IsQuery">
+                        <AntSwitch @bind-Value="field.IsQuery" />
+                    </TableColumn>
+                    <TableColumn Title="显示" Width="70" Align="ColumnAlign.Center" Value="@field.IsVisible">
+                        <AntSwitch @bind-Value="field.IsVisible" />
+                    </TableColumn>
+                    <TableColumn Title="宽度" Width="80" Value="@field.Width">
+                        <AntInteger @bind-Value="field.Width" />
+                    </TableColumn>
+                    <TableColumn Title="代码表" Width="120" Value="@field.Category">
+                        <AntInput @bind-Value="field.Category" />
+                    </TableColumn>
+                    <TableColumn Title="默认排序" Width="100" Value="@field.DefaultSort">
+                        <AntSelect @bind-Value="field.DefaultSort" DataSource="SortTypes" />
+                    </TableColumn>
+                    @if (!Model.IsView)
+                    {
+                        <ActionColumn Title="操作" Width="180" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                            <KButton Name="上移" Type="ButtonType.Default" OnClick="e => OnMoveUp(field)" />
+                            <KButton Name="下移" Type="ButtonType.Default" OnClick="e => OnMoveDown(field)" />
+                            <KButton Name="删除" OnClick="e => OnDelete(field)" Danger />
+                        </ActionColumn>
+                    }
+                </ReportFieldTable>
+            </div>
+        </div>
 
         @if (!string.IsNullOrWhiteSpace(Preview.Sql))
         {
-            <div class="kui-report-preview">
-                <KTitle Text="在线预览" />
-                <div class="sql">@Preview.Sql</div>
-                @if (Preview.Rows != null && Preview.Rows.Count > 0)
-                {
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    @foreach (var field in Preview.Fields.Where(f => f.IsVisible))
-                                    {
-                                        <th>@(field.Name ?? field.Id)</th>
-                                    }
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var row in Preview.Rows)
-                                {
+            <div class="kui-report-section preview">
+                <div class="section-head">
+                    <div>
+                        <div class="title">在线预览</div>
+                        <div class="desc">先检查预览 SQL，再确认字段和数据结果是否符合预期。</div>
+                    </div>
+                </div>
+                <div class="kui-report-preview">
+                    <div class="sql">@Preview.Sql</div>
+                    @if (Preview.Rows != null && Preview.Rows.Count > 0)
+                    {
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
                                     <tr>
                                         @foreach (var field in Preview.Fields.Where(f => f.IsVisible))
                                         {
-                                            <td>@GetPreviewText(field, row)</td>
+                                            <th>@(field.Name ?? field.Id)</th>
                                         }
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {
-                    <Empty Description="@("预览无数据")" />
-                }
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in Preview.Rows)
+                                    {
+                                        <tr>
+                                            @foreach (var field in Preview.Fields.Where(f => f.IsVisible))
+                                            {
+                                                <td>@GetPreviewText(field, row)</td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <Empty>
+                            <DescriptionTemplate>
+                                <span>预览无数据</span>
+                            </DescriptionTemplate>
+                        </Empty>
+                    }
+                </div>
             </div>
         }
     </ListContent>

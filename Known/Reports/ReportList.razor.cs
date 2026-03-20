@@ -3,6 +3,8 @@ namespace Known.Reports;
 /// <summary>
 /// 报表中心页面组件类。
 /// </summary>
+[Route("/sys/reports")]
+[Menu(Constants.System, "报表中心", "bar-chart", 7)]
 public partial class ReportList
 {
     private IReportService Service;
@@ -11,6 +13,7 @@ public partial class ReportList
     private List<CodeInfo> ReportItems = [];
     private List<ReportFieldInfo> CurrentFields = [];
     private List<Dictionary<string, object>> CurrentRows = [];
+    private KChart chart;
 
     /// <summary>
     /// 取得报表业务类型，子类可覆写。
@@ -27,6 +30,11 @@ public partial class ReportList
     /// </summary>
     protected bool CanDesign => CurrentUser?.IsAdmin() == true;
 
+    /// <summary>
+    /// 取得是否显示图表
+    /// </summary>
+    protected bool ShowChart => CurrentReport != null && CurrentRows.Count > 0 && CurrentReport.ViewType != nameof(ReportViewType.Table);
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
@@ -42,6 +50,14 @@ public partial class ReportList
             OnQuery = OnQueryReportAsync
         };
         await LoadReportsAsync();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnRenderAsync(bool firstRender)
+    {
+        await base.OnRenderAsync(firstRender);
+        if (ShowChart && chart != null)
+            await chart.ShowAsync(BuildChartOption());
     }
 
     /// <summary>
@@ -204,7 +220,98 @@ public partial class ReportList
             Table.Columns = columns;
             Table.SetQueryColumns();
         }
+        await StateChangedAsync();
         return result;
+    }
+
+    private object BuildChartOption()
+    {
+        if (CurrentReport == null || CurrentRows.Count == 0)
+            return new { };
+
+        var categoryField = CurrentReport.ChartCategoryField;
+        var valueField = CurrentReport.ChartValueField;
+        var seriesField = CurrentReport.ChartSeriesField;
+        if (string.IsNullOrWhiteSpace(categoryField) || string.IsNullOrWhiteSpace(valueField))
+            return new { title = new { text = $"{CurrentReport.Name}（未配置图表字段）", left = "center" } };
+
+        var chartType = (CurrentReport.ChartType ?? nameof(ReportChartType.Bar)).ToLower();
+        if (chartType == nameof(ReportChartType.Pie).ToLower())
+        {
+            var pieData = CurrentRows.GroupBy(r => r.GetValue(categoryField)?.ToString() ?? "未分类")
+                                     .Select(g => new
+                                     {
+                                         name = g.Key,
+                                         value = g.Sum(r => Utils.ConvertTo<decimal?>(r.GetValue(valueField)) ?? 0)
+                                     }).ToArray();
+            return new
+            {
+                title = new { text = CurrentReport.Name, left = "center" },
+                tooltip = new { trigger = "item" },
+                legend = new { bottom = 0 },
+                series = new[]
+                {
+                    new
+                    {
+                        type = "pie",
+                        radius = new[] { "38%", "68%" },
+                        data = pieData,
+                        label = new { formatter = "{b}: {c}" }
+                    }
+                }
+            };
+        }
+
+        var categories = CurrentRows.Select(r => r.GetValue(categoryField)?.ToString() ?? string.Empty)
+                                    .Distinct()
+                                    .ToArray();
+        if (!string.IsNullOrWhiteSpace(seriesField))
+        {
+            var series = CurrentRows.GroupBy(r => r.GetValue(seriesField)?.ToString() ?? "默认系列")
+                                    .Select(g => new
+                                    {
+                                        name = g.Key,
+                                        type = chartType,
+                                        smooth = chartType == "line",
+                                        label = new { show = chartType == "bar", position = "top" },
+                                        data = categories.Select(c => g.Where(r => (r.GetValue(categoryField)?.ToString() ?? string.Empty) == c)
+                                                                       .Sum(r => Utils.ConvertTo<decimal?>(r.GetValue(valueField)) ?? 0))
+                                                         .ToArray()
+                                    }).ToArray();
+            return new
+            {
+                title = new { text = CurrentReport.Name, left = "center" },
+                tooltip = new { trigger = "axis" },
+                legend = new { bottom = 0 },
+                grid = new { top = "14%", left = "6%", right = "3%", bottom = "16%" },
+                xAxis = new { type = "category", data = categories },
+                yAxis = new { type = "value" },
+                series
+            };
+        }
+
+        var data = categories.Select(c => CurrentRows.Where(r => (r.GetValue(categoryField)?.ToString() ?? string.Empty) == c)
+                                             .Sum(r => Utils.ConvertTo<decimal?>(r.GetValue(valueField)) ?? 0))
+                             .ToArray();
+        return new
+        {
+            title = new { text = CurrentReport.Name, left = "center" },
+            tooltip = new { trigger = "axis" },
+            grid = new { top = "14%", left = "6%", right = "3%", bottom = "12%" },
+            xAxis = new { type = "category", data = categories },
+            yAxis = new { type = "value" },
+            series = new[]
+            {
+                new
+                {
+                    name = valueField,
+                    type = chartType,
+                    smooth = chartType == "line",
+                    label = new { show = chartType == "bar", position = "top" },
+                    data
+                }
+            }
+        };
     }
 
     private void ShowReportForm(SysReport data, string title)
@@ -294,6 +401,12 @@ static class ReportPageExtension
             SourceType = report.SourceType,
             Source = report.Source,
             Sort = report.Sort,
+            ViewType = report.ViewType,
+            ChartType = report.ChartType,
+            ChartCategoryField = report.ChartCategoryField,
+            ChartValueField = report.ChartValueField,
+            ChartSeriesField = report.ChartSeriesField,
+            ChartHeight = report.ChartHeight,
             IsPaging = report.IsPaging,
             Description = report.Description,
             Note = report.Note,

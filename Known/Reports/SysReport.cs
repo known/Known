@@ -87,6 +87,42 @@ public class SysReport : EntityBase
     public string Note { get; set; }
 
     /// <summary>
+    /// 取得或设置报表视图类型。
+    /// </summary>
+    [DisplayName("视图类型")]
+    public string ViewType { get; set; } = nameof(ReportViewType.Table);
+
+    /// <summary>
+    /// 取得或设置图表类型。
+    /// </summary>
+    [DisplayName("图表类型")]
+    public string ChartType { get; set; } = nameof(ReportChartType.Bar);
+
+    /// <summary>
+    /// 取得或设置图表分类字段。
+    /// </summary>
+    [DisplayName("图表分类字段")]
+    public string ChartCategoryField { get; set; }
+
+    /// <summary>
+    /// 取得或设置图表数值字段。
+    /// </summary>
+    [DisplayName("图表数值字段")]
+    public string ChartValueField { get; set; }
+
+    /// <summary>
+    /// 取得或设置图表系列字段。
+    /// </summary>
+    [DisplayName("图表系列字段")]
+    public string ChartSeriesField { get; set; }
+
+    /// <summary>
+    /// 取得或设置图表高度。
+    /// </summary>
+    [DisplayName("图表高度")]
+    public int? ChartHeight { get; set; } = 360;
+
+    /// <summary>
     /// 取得或设置报表字段集合。
     /// </summary>
     [DisplayName("字段")]
@@ -106,6 +142,26 @@ public enum ReportSourceType
     /// 自定义SQL。
     /// </summary>
     Sql
+}
+
+/// <summary>
+/// 报表视图类型枚举。
+/// </summary>
+public enum ReportViewType
+{
+    Table,
+    Chart,
+    Both
+}
+
+/// <summary>
+/// 报表图表类型枚举。
+/// </summary>
+public enum ReportChartType
+{
+    Bar,
+    Line,
+    Pie
 }
 
 /// <summary>
