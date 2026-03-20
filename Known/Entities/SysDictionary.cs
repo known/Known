@@ -15,6 +15,13 @@ public class SysDictionary : EntityBase
     }
 
     /// <summary>
+    /// 取得或设置子系统ID。
+    /// </summary>
+    [MaxLength(50)]
+    [DisplayName("子系统ID")]
+    public string SysId { get; set; }
+
+    /// <summary>
     /// 取得或设置类别。
     /// </summary>
     [Required]
@@ -80,7 +87,7 @@ public class SysDictionary : EntityBase
     /// 取得或设置子字典。
     /// </summary>
     [DisplayName("子字典")]
-    public string Child { get; set; }
+    public List<CodeName> Child { get; set; }
 
     /// <summary>
     /// 取得或设置字典类型。

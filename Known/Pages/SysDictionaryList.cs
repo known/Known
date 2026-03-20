@@ -15,6 +15,11 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     private bool isAddCategory;
     private int total;
 
+    /// <summary>
+    /// 取得子系统ID，子类可覆写。
+    /// </summary>
+    protected virtual string SysId => string.Empty;
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -70,6 +75,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             Title = Language.AddCategory,
             Width = 800,
             Content = b => b.Component<CategoryGrid>()
+                            .Set(c => c.SysId, SysId)
                             .Set(c => c.OnRefresh, RefreshAsync)
                             .Build()
         };
@@ -91,6 +97,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
         isAddCategory = false;
         var row = new SysDictionary
         {
+            SysId = SysId,
             Category = category.Code,
             CategoryName = category.Name ?? category.Code,
             Sort = total + 1,
@@ -146,7 +153,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
 
     private async Task LoadCategoriesAsync()
     {
-        ListData = await Service.GetCategoriesAsync();
+        ListData = await Service.GetCategoriesAsync(SysId);
         category = ListData?.FirstOrDefault();
         listTable?.SetListBox(ListData, category?.Code);
     }
@@ -158,6 +165,7 @@ class CategoryGrid : BaseTable<SysDictionary>
     private readonly CodeInfo category = new(Constants.DicCategory, Constants.DicCategory, Constants.DicCategory, null);
     private int total;
 
+    [Parameter] public string SysId { get; set; }
     [Parameter] public Func<Task> OnRefresh { get; set; }
 
     public override async Task RefreshAsync()
@@ -193,6 +201,7 @@ class CategoryGrid : BaseTable<SysDictionary>
     {
         Table.NewForm(Service.SaveDictionaryAsync, new SysDictionary
         {
+            SysId = SysId,
             Category = category.Code,
             CategoryName = nameof(DictionaryType.None),
             Sort = total + 1
@@ -207,6 +216,7 @@ class CategoryGrid : BaseTable<SysDictionary>
         if (category == null)
             return default;
 
+        criteria.SetQuery(nameof(SysDictionary.SysId), QueryType.Equal, SysId);
         criteria.SetQuery(nameof(SysDictionary.Category), QueryType.Equal, category?.Code);
         var result = await Service.QueryDictionariesAsync(criteria);
         total = result.TotalCount;

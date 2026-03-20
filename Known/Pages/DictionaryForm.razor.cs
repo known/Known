@@ -9,12 +9,12 @@ public partial class DictionaryForm
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        var items = Utils.FromJson<List<CodeName>>(Model.Data.Child);
+        var items = Model.Data.Child;
         if (items != null && items.Count > 0)
             ListItems.AddRange(items);
         Model.OnSaving = data =>
         {
-            data.Child = Utils.ToJson(ListItems);
+            data.Child = ListItems;
             return Task.FromResult(true);
         };
     }

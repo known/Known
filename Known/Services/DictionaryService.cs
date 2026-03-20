@@ -15,8 +15,9 @@ public interface IDictionaryService : IService
     /// <summary>
     /// 异步获取字典类别列表。
     /// </summary>
+    /// <param name="sysId">子系统ID。</param>
     /// <returns></returns>
-    Task<List<CodeInfo>> GetCategoriesAsync();
+    Task<List<CodeInfo>> GetCategoriesAsync(string sysId);
 
     /// <summary>
     /// 异步删除数据字典。
@@ -37,7 +38,7 @@ public interface IDictionaryService : IService
 class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
 {
     public Task<PagingResult<SysDictionary>> QueryDictionariesAsync(PagingCriteria criteria) => Http.QueryAsync<SysDictionary>("/Dictionary/QueryDictionaries", criteria);
-    public Task<List<CodeInfo>> GetCategoriesAsync() => Http.GetAsync<List<CodeInfo>>("/Dictionary/GetCategories");
+    public Task<List<CodeInfo>> GetCategoriesAsync(string sysId) => Http.GetAsync<List<CodeInfo>>($"/Dictionary/GetCategories?sysId={sysId}");
     public Task<Result> DeleteDictionariesAsync(List<SysDictionary> infos) => Http.PostAsync("/Dictionary/DeleteDictionaries", infos);
     public Task<Result> SaveDictionaryAsync(UploadInfo<SysDictionary> info) => Http.PostAsync("/Dictionary/SaveDictionary", info);
 }
@@ -52,12 +53,14 @@ class DictionaryService(Context context) : ServiceBase(context), IDictionaryServ
         return Result.Success(Language.RefreshSuccess, codes);
     }
 
-    public async Task<List<CodeInfo>> GetCategoriesAsync()
+    public async Task<List<CodeInfo>> GetCategoriesAsync(string sysId)
     {
-        var categories = await Database.Query<SysDictionary>()
-                                       .Where(d => d.Enabled && d.Category == Constants.DicCategory)
-                                       .OrderBy(d => d.Sort)
-                                       .ToListAsync();
+        var query = Database.Query<SysDictionary>();
+        if (string.IsNullOrWhiteSpace(sysId))
+            query = query.Where(d => d.Enabled && d.Category == Constants.DicCategory);
+        else
+            query = query.Where(d => d.Enabled && d.Category == Constants.DicCategory && d.SysId == sysId);
+        var categories = await query.OrderBy(d => d.Sort).ToListAsync();
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name, c.CategoryName)).ToList();
     }
 
