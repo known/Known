@@ -134,6 +134,7 @@ public static partial class Extension
         KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.variable.css");
         KStyleSheet.AddStyle("_content/Known/css/font-awesome.css");
         KStyleSheet.AddStyle("_content/Known/css/prism.css");
+        KStyleSheet.AddStyle("_content/Known/css/report.css");
         KStyleSheet.AddStyle("_content/Known/css/web.css");
     }
 
