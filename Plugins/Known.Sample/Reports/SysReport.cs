@@ -1,4 +1,4 @@
-namespace Known.Reports;
+namespace Known.Sample.Reports;
 
 /// <summary>
 /// 报表定义实体类。

@@ -1,4 +1,7 @@
-namespace Known.Reports;
+using System.Text;
+using Microsoft.AspNetCore.Components.Web;
+
+namespace Known.Sample.Reports;
 
 /// <summary>
 /// 报表中心页面组件类。
@@ -200,7 +203,7 @@ public partial class ReportList
         Table.Criteria.PageSize = 20;
 
         var columns = fields.Select(ToColumn).ToList();
-        Table.AllColumns = columns;
+        //Table.AllColumns = columns;
         Table.Columns = columns;
         Table.SetQueryColumns();
     }
@@ -216,7 +219,7 @@ public partial class ReportList
         if ((Table.Columns == null || Table.Columns.Count == 0) && CurrentRows.Count > 0)
         {
             var columns = CurrentRows[0].GetColumns();
-            Table.AllColumns = columns;
+            //Table.AllColumns = columns;
             Table.Columns = columns;
             Table.SetQueryColumns();
         }

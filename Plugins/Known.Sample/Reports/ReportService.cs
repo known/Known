@@ -1,4 +1,4 @@
-namespace Known.Reports;
+namespace Known.Sample.Reports;
 
 /// <summary>
 /// 报表服务接口。
@@ -246,7 +246,8 @@ class ReportService(Context context) : ServiceBase(context), IReportService
             var sql = report.Source?.Trim().TrimEnd(';');
             if (string.IsNullOrWhiteSpace(sql))
                 return [];
-            var rows = await db.QueryListAsync<Dictionary<string, object>>(db.Provider.GetTopSql(1, sql));
+            //var rows = await db.QueryListAsync<Dictionary<string, object>>(db.Provider.GetTopSql(1, sql));
+            var rows = await db.QueryListAsync<Dictionary<string, object>>(sql);
             return [.. rows.FirstOrDefault()?.GetColumns().Select(c => new ReportFieldInfo
             {
                 Id = c.Id,

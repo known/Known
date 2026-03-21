@@ -1,4 +1,6 @@
-namespace Known.Reports;
+using Microsoft.JSInterop;
+
+namespace Known.Sample.Reports;
 
 /// <summary>
 /// 报表设计表单组件类。

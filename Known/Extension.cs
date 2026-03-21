@@ -134,7 +134,7 @@ public static partial class Extension
         KStyleSheet.AddStyle("_content/AntDesign/css/ant-design-blazor.variable.css");
         KStyleSheet.AddStyle("_content/Known/css/font-awesome.css");
         KStyleSheet.AddStyle("_content/Known/css/prism.css");
-        KStyleSheet.AddStyle("_content/Known/css/report.css");
+        //KStyleSheet.AddStyle("_content/Known/css/report.css");
         KStyleSheet.AddStyle("_content/Known/css/web.css");
     }
 
@@ -151,7 +151,7 @@ public static partial class Extension
         KScript.AddScript("_content/Known/js/libs/prism.js");
         if (Config.IsNotifyHub)
             KScript.AddScript("_content/Known/js/libs/signalr.js");
-        KScript.AddScript("_content/Known/js/report.js");
+        //KScript.AddScript("_content/Known/js/report.js");
         KScript.AddScript("_content/Known/js/web.js");
         KScript.AddScript("_content/Known/js/serviceWorkerRegister.js");
     }

@@ -1,4 +1,4 @@
-﻿using Known.Reports;
+﻿using Known.Sample.Reports;
 using Known.Sample.Pages.Demo.Forms;
 using Microsoft.AspNetCore.Components;
 
