@@ -7,14 +7,6 @@
 public class SysDictionary : EntityBase
 {
     /// <summary>
-    /// 构造函数。
-    /// </summary>
-    public SysDictionary()
-    {
-        Enabled = true;
-    }
-
-    /// <summary>
     /// 取得或设置子系统ID。
     /// </summary>
     [MaxLength(50)]
@@ -73,7 +65,7 @@ public class SysDictionary : EntityBase
     [Form(Type = nameof(FieldType.Switch))]
     [Category(nameof(StatusType))]
     [DisplayName("状态")]
-    public bool Enabled { get; set; }
+    public bool Enabled { get; set; } = true;
 
     /// <summary>
     /// 取得或设置备注。

@@ -7,6 +7,13 @@ namespace Known.Entities;
 public class SysNoRule : EntityBase
 {
     /// <summary>
+    /// 取得或设置子系统ID。
+    /// </summary>
+    [MaxLength(50)]
+    [DisplayName("子系统ID")]
+    public string SysId { get; set; }
+
+    /// <summary>
     /// 取得或设置代码。
     /// </summary>
     [Required]

@@ -9,6 +9,11 @@ public class SysNoRuleList : BaseTablePage<SysNoRule>
 {
     private INoRuleService Service;
 
+    /// <summary>
+    /// 取得子系统ID，子类可覆写。
+    /// </summary>
+    protected virtual string SysId => string.Empty;
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -18,28 +23,34 @@ public class SysNoRuleList : BaseTablePage<SysNoRule>
         Table.SetAdminTable();
         Table.FormType = typeof(NoRuleForm);
         Table.Form = new FormInfo { Width = 800, SmallLabel = true };
-        Table.OnQuery = Service.QueryNoRulesAsync;
+        Table.OnQuery = QueryNoRulesAsync;
     }
 
     /// <summary>
     /// 新增编码规则。
     /// </summary>
-    [Action] public void New() => Table.NewForm(Service.SaveNoRuleAsync, new SysNoRule());
+    [Action] public void New() => Table.NewForm(Service.SaveNoRuleAsync, new SysNoRule { SysId = SysId });
 
     /// <summary>
     /// 编辑编码规则。
     /// </summary>
     /// <param name="row"></param>
     [Action] public void Edit(SysNoRule row) => Table.EditForm(Service.SaveNoRuleAsync, row);
-    
+
     /// <summary>
     /// 删除编码规则。
     /// </summary>
     /// <param name="row"></param>
     [Action] public void Delete(SysNoRule row) => Table.Delete(Service.DeleteNoRulesAsync, row);
-    
+
     /// <summary>
     /// 批量删除编码规则。
     /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteNoRulesAsync);
+
+    private Task<PagingResult<SysNoRule>> QueryNoRulesAsync(PagingCriteria criteria)
+    {
+        criteria.SetQuery(nameof(SysNoRule.SysId), QueryType.Equal, SysId);
+        return Service.QueryNoRulesAsync(criteria);
+    }
 }

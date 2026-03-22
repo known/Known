@@ -16,6 +16,7 @@ public class AppHelper
         await db.CreateTableAsync<SysNoRule>();
         await db.CreateTableAsync<SysSyncLog>();
         await db.AddTableFieldAsync<SysDictionary>(d => d.SysId);
+        await db.AddTableFieldAsync<SysNoRule>(d => d.SysId);
     }
 
     /// <summary>
