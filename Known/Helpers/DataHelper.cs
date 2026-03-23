@@ -62,7 +62,7 @@ public sealed class DataHelper
     internal static async Task<List<MenuInfo>> GetMenusAsync(Database db = null, bool isRoute = true)
     {
         var menus = new List<MenuInfo>();
-        var items = await db.QueryListAsync<SysModule>();
+        var items = await db.QueryListAsync<SysModule>("select * from SysModule");
         if (items != null && items.Count > 0)
         {
             foreach (var item in items.OrderBy(m => m.Sort))
