@@ -597,6 +597,8 @@ public class Language
     internal const string SystemManage = "系统管理";
     internal const string TipUserDefaultPwd = "用户默认密码为：{password}。";
     internal const string TipNoDefaultPwd = "用户默认密码未配置！";
+    internal const string TipNotDeleteAdmin = "管理员账号不能删除！";
+    internal const string TipNotDeleteTenant = "租户管理员账号不能删除！";
     internal const string TipNotDeleteSelf = "自己的账号不能删除！";
     internal const string TipCompanyNotExists = "企业不存在！";
 

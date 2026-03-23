@@ -123,6 +123,12 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
         if (infos.Exists(d => d.UserName == CurrentUser.UserName))
             return Result.Error(Language.TipNotDeleteSelf);
 
+        if (infos.Exists(d => d.UserName.Equals(Constants.SysUserName, StringComparison.OrdinalIgnoreCase)))
+            return Result.Error(Language.TipNotDeleteAdmin);
+
+        if (infos.Exists(d => d.UserName.Equals(CurrentUser.CompNo, StringComparison.OrdinalIgnoreCase)))
+            return Result.Error(Language.TipNotDeleteTenant);
+
         var database = Database;
         var result = await handler.OnDeletingAsync(database, infos);
         if (!result.IsValid)
@@ -256,7 +262,10 @@ class UserService(Context context, IUserHandler handler) : ServiceBase(context),
         if (vr.IsValid)
         {
             model.UserName = model.UserName.ToLower();
-            if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
+            var tenants = await database.QueryListAsync<SysCompany>("select * from SysCompany");
+            if (tenants?.Exists(d => d.Code.Equals(model.UserName, StringComparison.OrdinalIgnoreCase)) == true)
+                vr.AddError(Language.TipUserNameExists);
+            else if (await database.ExistsAsync<SysUser>(d => d.Id != model.Id && d.UserName == model.UserName))
                 vr.AddError(Language.TipUserNameExists);
 
             var result = await handler.OnSavingAsync(database, info);
