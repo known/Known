@@ -60,7 +60,9 @@ public partial class MainLayout
 
         topMenu = item;
         menu?.SetData(topMenu);
-        StateChanged();
+
+        if (!string.IsNullOrWhiteSpace(item.Url))
+            Context.NavigateTo(item.Url);
     }
 
     private void OnReloadPage()
