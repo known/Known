@@ -748,15 +748,24 @@ public class Language
     /// </summary>
     public const string KnownQQNo = "交流群号：";
 
-    internal const string Greeting0 = "您好！{name}，您貌似不在我们的时空中！";
-    internal const string Greeting5 = "早安！{name}，开始您一天的工作吧！";
-    internal const string Greeting9 = "上午好！{name}，加油！";
-    internal const string Greeting11 = "午安！{name}，别忘了准备午饭！";
-    internal const string Greeting13 = "下午好！{name}，继续加油！";
-    internal const string Greeting15 = "下午好！{name}，工作一天累了吧，泡杯下午茶解解乏！";
-    internal const string Greeting18 = "晚上好！{name}，晚饭吃了吗？";
-    internal const string Greeting22 = "晚安！{name}，该睡觉了，明天还会天亮的！";
-    internal const string Greeting23 = "{name}，还没休息啊，身体是革命的本钱！";
+    //internal const string Greeting0 = "您好！{name}，您貌似不在我们的时空中！";
+    //internal const string Greeting5 = "早安！{name}，开始您一天的工作吧！";
+    //internal const string Greeting9 = "上午好！{name}，加油！";
+    //internal const string Greeting11 = "午安！{name}，别忘了准备午饭！";
+    //internal const string Greeting13 = "下午好！{name}，继续加油！";
+    //internal const string Greeting15 = "下午好！{name}，工作一天累了吧，泡杯下午茶解解乏！";
+    //internal const string Greeting18 = "晚上好！{name}，晚饭吃了吗？";
+    //internal const string Greeting22 = "晚安！{name}，该睡觉了，明天还会天亮的！";
+    //internal const string Greeting23 = "{name}，还没休息啊，身体是革命的本钱！";
+
+    internal const string Greeting5 = "早安！{name}，元气满满开启新一天的工作～";
+    internal const string Greeting9 = "上午好！{name}，专注工作，稳步推进哦！";
+    internal const string Greeting12 = "午安！{name}，记得好好吃饭，短暂休息更有动力！";
+    internal const string Greeting14 = "下午好！{name}，保持状态，效率加倍！";
+    internal const string Greeting17 = "傍晚好！{name}，再坚持一下，马上就可以放松啦！";
+    internal const string Greeting19 = "晚上好！{name}，辛苦一天，好好享受属于自己的时光～";
+    internal const string Greeting22 = "夜深了，{name}，早点休息，晚安好梦！";
+    internal const string Greeting24 = "{name}，这么晚还在忙碌呀，注意休息，别熬夜太久哦！";
 
     /// <summary>
     /// 访问量。
