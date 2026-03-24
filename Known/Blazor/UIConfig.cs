@@ -63,6 +63,11 @@ public class UIConfig
     public static bool UserFormShowFooter { get; set; }
 
     /// <summary>
+    /// 取得或设置首页URL，默认/。
+    /// </summary>
+    public static string HomeUrl { get; set; } = "/";
+
+    /// <summary>
     /// 取得或设置【关于系统】模块显示的版权信息。
     /// </summary>
     public static string Copyright { get; set; } = $"©2020-{DateTime.Now:yyyy} {Constants.CompName}。保留所有权利。";

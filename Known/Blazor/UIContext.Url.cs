@@ -20,7 +20,7 @@ public partial class UIContext
     /// <summary>
     /// 取得首页URL。
     /// </summary>
-    public string HomeUrl => IsMobileApp ? "/app" : "/";
+    public string HomeUrl => IsMobileApp ? "/app" : UIConfig.HomeUrl;
 
     /// <summary>
     /// 取得当前上下文菜单信息。
