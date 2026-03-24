@@ -1,6 +1,18 @@
 ﻿namespace Known.Blazor;
 
 /// <summary>
+/// 空白模板组件类。
+/// </summary>
+public class BlankLayout : LayoutComponentBase
+{
+    /// <inheritdoc />
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        builder.Fragment(Body);
+    }
+}
+
+/// <summary>
 /// 模板组件基类。
 /// </summary>
 public class LayoutBase : LayoutComponentBase
