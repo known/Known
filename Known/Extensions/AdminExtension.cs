@@ -6,6 +6,65 @@
 public static class AdminExtension
 {
     #region Dictionary
+    /// <summary>
+    /// 异步初始化数据字典数据。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="sysId">子系统ID。</param>
+    /// <param name="category">类别代码。</param>
+    /// <param name="categoryName">类别名称。</param>
+    /// <param name="items">字典项目列表。</param>
+    /// <returns></returns>
+    public static Task InitDictionaryAsync(this Database db, string sysId, string category, string categoryName, List<string> items)
+    {
+        return db.InitDictionaryAsync(sysId, category, categoryName, items.Select(d => (Code: d, Name: "")).ToList());
+    }
+
+    /// <summary>
+    /// 异步初始化数据字典数据。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="sysId">子系统ID。</param>
+    /// <param name="category">类别代码。</param>
+    /// <param name="categoryName">类别名称。</param>
+    /// <param name="items">字典项目列表。</param>
+    /// <returns></returns>
+    public static async Task InitDictionaryAsync(this Database db, string sysId, string category, string categoryName, List<(string Code, string Name)> items)
+    {
+        if (!await db.ExistsAsync<SysDictionary>(d => d.SysId == sysId && d.Category == Constants.DicCategory && d.Code == category))
+        {
+            await db.SaveAsync(new SysDictionary
+            {
+                SysId = sysId,
+                Category = Constants.DicCategory,
+                CategoryName = nameof(DictionaryType.None),
+                Code = category,
+                Name = categoryName,
+                Sort = 1,
+                Enabled = true
+            });
+        }
+
+        var sort = 1;
+        foreach (var (Code, Name) in items)
+        {
+            if (!await db.ExistsAsync<SysDictionary>(d => d.SysId == sysId && d.Category == category && d.Code == Code))
+            {
+                await db.SaveAsync(new SysDictionary
+                {
+                    SysId = sysId,
+                    Category = category,
+                    CategoryName = categoryName,
+                    Code = Code,
+                    Name = Name,
+                    Sort = sort,
+                    Enabled = true
+                });
+            }
+            sort++;
+        }
+    }
+
     internal static async Task<List<CodeInfo>> GetDictionariesAsync(this Database db)
     {
         var entities = await db.QueryListAsync<SysDictionary>();
