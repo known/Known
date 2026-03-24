@@ -60,6 +60,8 @@
                                         <KLink OnClick="e=>OnViewForm(context)">@text</KLink>
                                     } else if (item.LinkAction != null) {
                                         <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
+                                    } else if (!string.IsNullOrWhiteSpace(item.Category)) {
+                                        <KTag Text="@text" />
                                     } else if (isEllipsis) {
                                         @* <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip> *@
                                         <span title="@text" class="kui-ellipsis">@text</span>
@@ -90,6 +92,8 @@
                                         <KLink OnClick="e => OnViewForm(context)">@text</KLink>
                                     } else if (item.LinkAction != null) {
                                         <KLink OnClick="e => OnLinkAction(item, context)">@text</KLink>
+                                    } else if (!string.IsNullOrWhiteSpace(item.Category)) {
+                                        <KTag Text="@text" />
                                     } else if (isEllipsis) {
                                         @* <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip> *@
                                         <span title="@text" class="kui-ellipsis">@text</span>
