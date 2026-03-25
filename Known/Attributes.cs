@@ -154,6 +154,19 @@ public class AppMenuAttribute(string name, string icon, int sort, string target 
 }
 
 /// <summary>
+/// 数据库表名特性类，用于标识实体类关联的数据库表名。
+/// </summary>
+/// <param name="name">数据库表名。</param>
+[AttributeUsage(AttributeTargets.Class)]
+public class TableAttribute(string name) : Attribute
+{
+    /// <summary>
+    /// 取得数据库表名。
+    /// </summary>
+    public string Name { get; } = name;
+}
+
+/// <summary>
 /// 角色特性类，用于标识组件类需要在角色管理中配置按钮权限。
 /// </summary>
 /// <param name="name">组件名称。</param>

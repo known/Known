@@ -35,7 +35,11 @@ public static class TypeExtension
     /// <returns>名称。</returns>
     public static string TableName(this MemberInfo info)
     {
-        return info?.GetCustomAttribute<TableAttribute>()?.Name ?? info.Name;
+        var table = info?.GetCustomAttribute<TableAttribute>();
+        if (table != null)
+            return table.Name ?? info.Name;
+
+        return info?.GetCustomAttribute<System.ComponentModel.DataAnnotations.Schema.TableAttribute>()?.Name ?? info.Name;
     }
 
     /// <summary>
