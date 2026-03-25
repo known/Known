@@ -7,7 +7,7 @@ public partial class NoRuleForm
 {
     private void OnAdd()
     {
-        Model.Data.Rules.Add(new NoRuleItem { Type = NoRuleType.Fixed });
+        Model.Data.Rules.Add(new NoRuleItem(NoRuleType.Fixed, ""));
         OnChange();
     }
 

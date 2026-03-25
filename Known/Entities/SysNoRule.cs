@@ -78,6 +78,22 @@ public enum NoRuleType
 public class NoRuleItem
 {
     /// <summary>
+    /// 构造函数。
+    /// </summary>
+    public NoRuleItem() { }
+
+    /// <summary>
+    /// 构造函数。
+    /// </summary>
+    /// <param name="type">项目类型。</param>
+    /// <param name="value">项目值。</param>
+    public NoRuleItem(NoRuleType type, string value)
+    {
+        Type = type;
+        Value = value;
+    }
+
+    /// <summary>
     /// 取得或设置规则项目类型。
     /// </summary>
     public NoRuleType Type { get; set; }

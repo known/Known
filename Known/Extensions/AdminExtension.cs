@@ -31,6 +31,7 @@ public static class AdminExtension
     /// <returns></returns>
     public static async Task InitDictionaryAsync(this Database db, string sysId, string category, string categoryName, List<(string Code, string Name)> items)
     {
+        db.User ??= await db.GetUserAsync(Constants.SysUserName);
         if (!await db.ExistsAsync<SysDictionary>(d => d.SysId == sysId && d.Category == Constants.DicCategory && d.Code == category))
         {
             await db.SaveAsync(new SysDictionary
@@ -90,6 +91,25 @@ public static class AdminExtension
         //}
 
         return codes;
+    }
+    #endregion
+
+    #region NoRule
+    /// <summary>
+    /// 异步初始化单据编号规则数据。
+    /// </summary>
+    /// <param name="db">数据库对象。</param>
+    /// <param name="sysId">子系统ID。</param>
+    /// <param name="code">编码。</param>
+    /// <param name="name">名称。</param>
+    /// <param name="rules">规则列表。</param>
+    /// <returns></returns>
+    public static async Task InitNoRuleAsync(this Database db, string sysId, string code, string name, List<NoRuleItem> rules)
+    {
+        var model = new SysNoRule { SysId = sysId, Code = code, Name = name, Rules = rules };
+        model.Sample = model.GetMaxRuleNo(DateTime.Now, 0);
+        db.User ??= await db.GetUserAsync(Constants.SysUserName);
+        await db.SaveAsync(model);
     }
     #endregion
 
