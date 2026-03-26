@@ -35,6 +35,16 @@ public class AntDropdown : Dropdown
     /// </summary>
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
 
+    /// <summary>
+    /// 取得或设置下拉框选中值表达式。
+    /// </summary>
+    [Parameter] public Expression<Func<string>> ValueExpression { get; set; }
+
+    /// <summary>
+    /// 取得是否由派生组件提供可见的验证输入组件。
+    /// </summary>
+    protected virtual bool HasVisibleValidationInput => false;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -43,6 +53,22 @@ public class AntDropdown : Dropdown
         if (Item != null)
             Item.Type = typeof(string);
         base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
+        if (Item != null && !HasVisibleValidationInput)
+        {
+            builder.Component<AntInput>()
+                   .Set(c => c.Value, Value)
+                   .Set(c => c.ValueChanged, this.Callback<string>(OnValueChanged))
+                   .Set(c => c.ValueExpression, ValueExpression)
+                   .Set(c => c.Style, "position:absolute;opacity:0;pointer-events:none;width:0;height:0;padding:0;border:0;")
+                   .Build();
+        }
+
+        base.BuildRenderTree(builder);
     }
 
     /// <inheritdoc />
@@ -215,6 +241,9 @@ public class AntDropdown : Dropdown
 public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem : class, new()
 {
     private TItem currentItem;
+
+    /// <inheritdoc />
+    protected override bool HasVisibleValidationInput => true;
     
     /// <summary>
     /// 取得表格模型。
@@ -316,7 +345,8 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
         input.Set(c => c.AllowClear, AllowClear);
         input.Set(c => c.ReadOnly, !IsSearch);
         input.Set(c => c.Value, Value);
-        input.Set(c => c.ValueChanged, ValueChanged);
+        input.Set(c => c.ValueChanged, this.Callback<string>(OnValueChanged));
+        input.Set(c => c.ValueExpression, ValueExpression);
         input.Set(c => c.Placeholder, Placeholder);
         input.Set(c => c.Disabled, Disabled || AntForm?.IsView == true);
         input.Set(c => c.OnKeyUp, this.Callback<KeyboardEventArgs>(OnKeyUp));
@@ -414,6 +444,9 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
 /// </summary>
 public class AntDropdownTree : AntDropdown
 {
+    /// <inheritdoc />
+    protected override bool HasVisibleValidationInput => true;
+
     /// <summary>
     /// 树模型字段。
     /// </summary>
@@ -471,7 +504,8 @@ public class AntDropdownTree : AntDropdown
                .Set(c => c.AllowClear, true)
                .Set(c => c.ReadOnly, true)
                .Set(c => c.Value, Value)
-               .Set(c => c.ValueChanged, ValueChanged)
+               .Set(c => c.ValueChanged, this.Callback<string>(OnValueChanged))
+               .Set(c => c.ValueExpression, ValueExpression)
                .Set(c => c.Placeholder, Placeholder)
                .Set(c => c.Disabled, Disabled || AntForm?.IsView == true)
                .Set(c => c.OnClear, this.Callback(OnClear))

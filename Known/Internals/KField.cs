@@ -58,6 +58,7 @@ class CustomField<TItem> : CustomField where TItem : class, new()
         if (!Config.FieldTypes.TryGetValue(customField, out Type type))
             return;
 
+        var expression = InputExpression.Create(Model);
         var parameters = new Dictionary<string, object>
         {
             [nameof(ReadOnly)] = Model.Form.IsView,
@@ -67,7 +68,11 @@ class CustomField<TItem> : CustomField where TItem : class, new()
         if (type.IsAssignableTo(typeof(CustomField)))
             parameters[nameof(ValueChanged)] = this.Callback<object>(value => Model.Value = value);
         else
-            parameters[nameof(ValueChanged)] = this.Callback<string>(value => Model.Value = value);
+            parameters[nameof(ValueChanged)] = expression?.ValueChanged ?? this.Callback<string>(value => Model.Value = value);
+
+        if (type.IsAssignableTo(typeof(AntDropdown)) && expression?.ValueExpression != null)
+            parameters[nameof(AntDropdown.ValueExpression)] = expression.ValueExpression;
+
         builder.Component(type, parameters);
     }
 }

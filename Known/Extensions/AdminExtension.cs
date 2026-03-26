@@ -106,6 +106,9 @@ public static class AdminExtension
     /// <returns></returns>
     public static async Task InitNoRuleAsync(this Database db, string sysId, string code, string name, List<NoRuleItem> rules)
     {
+        if (await db.ExistsAsync<SysNoRule>(d => d.SysId == sysId && d.Code == code))
+            return;
+
         var model = new SysNoRule { SysId = sysId, Code = code, Name = name, Rules = rules };
         model.Sample = model.GetMaxRuleNo(DateTime.Now, 0);
         db.User ??= await db.GetUserAsync(Constants.SysUserName);
