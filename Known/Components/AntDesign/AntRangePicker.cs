@@ -55,7 +55,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
             if (values.Length > 1)
                 Value[1] = Utils.ConvertTo<DateTime?>(values[1]);
         }
-        var format = ShowTime.AsT0 || ShowTime.AsT1 == "HH:mm:ss" ? "选择日期时间" : "选择日期";
+        var format = IsDateTimeMode() ? "选择日期时间" : "选择日期";
         Placeholder = OneOf<string, string[]>.FromT1([format, format]);
     }
 
@@ -63,7 +63,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     {
         if (RangeValueChanged.HasDelegate)
         {
-            var format = ShowTime.AsT0 || ShowTime.AsT1 == "HH:mm:ss"
+            var format = IsDateTimeMode()
                        ? Config.DateTimeFormat
                        : Config.DateFormat;
             var start = e.Dates[0] != null ? e.Dates[0].Value.ToString(format) : "";
@@ -71,5 +71,12 @@ public class AntRangePicker : RangePicker<DateTime?[]>
             RangeValue = $"{start}~{end}";
             RangeValueChanged.InvokeAsync(RangeValue);
         }
+    }
+
+    private bool IsDateTimeMode()
+    {
+        return ShowTime.IsT0
+            ? ShowTime.AsT0
+            : ShowTime.IsT1 && ShowTime.AsT1 == "HH:mm:ss";
     }
 }
