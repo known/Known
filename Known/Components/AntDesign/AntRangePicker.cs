@@ -56,6 +56,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
                 Value[1] = Utils.ConvertTo<DateTime?>(values[1]);
         }
         var format = IsDateTimeMode() ? "选择日期时间" : "选择日期";
+        format = Context?.Language?[format];
         Placeholder = OneOf<string, string[]>.FromT1([format, format]);
     }
 
@@ -76,7 +77,7 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     private bool IsDateTimeMode()
     {
         return ShowTime.IsT0
-            ? ShowTime.AsT0
-            : ShowTime.IsT1 && ShowTime.AsT1 == "HH:mm:ss";
+             ? ShowTime.AsT0
+             : ShowTime.IsT1 && ShowTime.AsT1 == "HH:mm:ss";
     }
 }
