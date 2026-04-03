@@ -242,6 +242,9 @@ public partial class Database : IDisposable
 
     internal bool NeedTenantFilter(Type entityType)
     {
+        if (!Config.App.IsPlatform)
+            return false;
+
         if (entityType == null || !entityType.IsAssignableTo(typeof(EntityBase)))
             return false;
 
