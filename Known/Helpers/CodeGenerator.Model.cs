@@ -25,8 +25,8 @@ partial class CodeGenerator
         sb.AppendLine("    /// </summary>");
         sb.AppendLine("    public string Id { get; set; }");
         sb.AppendLine(" ");
-        AppendFields(sb, entity, true);
+        AppendFields(sb, entity, true, Model.IsAutoForm);
         sb.AppendLine("}");
-        return sb.ToString().TrimEnd([.. Environment.NewLine]);
+        return sb.ToCode();
     }
 }

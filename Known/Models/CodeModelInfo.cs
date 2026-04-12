@@ -50,6 +50,11 @@ public class CodeModelInfo
     /// <summary>
     /// 取得或设置是否是Auto模式。
     /// </summary>
+    [JsonIgnore] public bool IsAutoForm { set; get; }
+
+    /// <summary>
+    /// 取得或设置是否是Auto模式。
+    /// </summary>
     [JsonIgnore] public bool IsAutoMode { set; get; }
 
     /// <summary>
@@ -108,6 +113,11 @@ public class CodeModelInfo
     [JsonIgnore] public string FormPath => $"Pages/{FormName}.razor";
 
     /// <summary>
+    /// 取得表单C#类路径。
+    /// </summary>
+    [JsonIgnore] public string FormPathCs => $"Pages/{FormName}.razor.cs";
+
+    /// <summary>
     /// 取得服务类名称。
     /// </summary>
     [JsonIgnore] public string ServiceName => $"{Code}Service";
@@ -148,16 +158,20 @@ public class CodeModelInfo
 
     private PageInfo ToPage()
     {
-        var info = new PageInfo();
-        info.Tools = Functions?.Where(f => f != "Edit" && f != "Delete").Select(d => new ActionInfo(d)).ToList();
-        info.Actions = Functions?.Where(f => f == "Edit" || f == "Delete").Select(d => new ActionInfo(d)).ToList();
+        var info = new PageInfo
+        {
+            Tools = Functions?.Where(f => f != "Edit" && f != "Delete").Select(d => new ActionInfo(d)).ToList(),
+            Actions = Functions?.Where(f => f == "Edit" || f == "Delete").Select(d => new ActionInfo(d)).ToList()
+        };
         return info;
     }
 
     private FormInfo ToForm()
     {
-        var info = new FormInfo();
-        info.Fields = [.. Fields.Where(f => f.IsForm).Select(f => f.ToFormField())];
+        var info = new FormInfo
+        {
+            Fields = [.. Fields.Where(f => f.IsForm).Select(f => f.ToFormField())]
+        };
         return info;
     }
 }

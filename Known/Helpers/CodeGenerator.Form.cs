@@ -36,8 +36,17 @@ partial class CodeGenerator
             }
         }
         sb.AppendLine("</AntForm>");
+        return sb.ToCode();
+    }
+
+    public string GetFormCs(FormInfo page, EntityInfo entity)
+    {
+        var className = DataHelper.GetClassName(entity.Id);
+        var sb = new StringBuilder();
+        sb.AppendLine("namespace {0}.Pages;", Model.Namespace);
         sb.AppendLine(" ");
-        sb.AppendLine("@code {");
+        sb.AppendLine("public partial class {0}Form", className);
+        sb.AppendLine("{");
         if (Model.IsAutoMode)
             sb.AppendLine("    private I{0}Service Service;", className);
         else
@@ -71,7 +80,7 @@ partial class CodeGenerator
             sb.AppendLine("    }");
         }
         sb.AppendLine("}");
-        return sb.ToString().TrimEnd([.. Environment.NewLine]);
+        return sb.ToCode();
     }
 
     private static void AppendDataItem(StringBuilder sb, FormFieldInfo item, int span, string modelName)

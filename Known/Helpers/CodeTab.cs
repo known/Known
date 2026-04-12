@@ -31,6 +31,11 @@ public class CodeTab
     public const string Form = "表单组件";
 
     /// <summary>
+    /// 表单C#。
+    /// </summary>
+    public const string FormCs = "表单C#";
+
+    /// <summary>
     /// 服务接口。
     /// </summary>
     public const string ServiceI = "服务接口";

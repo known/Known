@@ -142,6 +142,6 @@ partial class CodeGenerator
         }
 
         sb.AppendLine("}");
-        return sb.ToString().TrimEnd([.. Environment.NewLine]);
+        return sb.ToCode();
     }
 }

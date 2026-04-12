@@ -49,6 +49,14 @@ public interface ICodeGenerator
     string GetForm(FormInfo page, EntityInfo entity);
 
     /// <summary>
+    /// 获取表单组件C#代码。
+    /// </summary>
+    /// <param name="page">表单模型对象。</param>
+    /// <param name="entity">实体模型对象。</param>
+    /// <returns>表单组件C#代码。</returns>
+    string GetFormCs(FormInfo page, EntityInfo entity);
+
+    /// <summary>
     /// 获取业务服务接口代码。
     /// </summary>
     /// <param name="page">页面模型对象。</param>
@@ -117,7 +125,7 @@ partial class CodeGenerator : ICodeGenerator
         sb.AppendLine("        return db.QueryPageAsync<{0}>(sql, criteria);", entity.Id);
         sb.AppendLine("    }");
         sb.AppendLine("}");
-        return sb.ToString().TrimEnd([.. Environment.NewLine]);
+        return sb.ToCode();
     }
 
     private string GetModelName(string entityId)
@@ -126,5 +134,13 @@ partial class CodeGenerator : ICodeGenerator
         if (string.IsNullOrWhiteSpace(modelName))
             modelName = entityId;
         return modelName;
+    }
+}
+
+static class GenerateExtension
+{
+    public static string ToCode(this StringBuilder sb)
+    {
+        return sb.ToString().TrimEnd([.. Environment.NewLine]);
     }
 }

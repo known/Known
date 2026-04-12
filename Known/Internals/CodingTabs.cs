@@ -7,6 +7,7 @@ public class CodingTabs : BaseComponent
 {
     private TabModel Tab;
     private ICodeService Service;
+    private bool isAutoForm = true;
     private bool isAutoMode = Config.RenderMode == RenderType.Auto;
     private string firstTab = "";
     private string currentTab = "";
@@ -60,6 +61,7 @@ public class CodingTabs : BaseComponent
         Tab.AddTab(CodeTab.Entity, BuildCode);
         Tab.AddTab(CodeTab.Page, BuildCode);
         Tab.AddTab(CodeTab.Form, BuildCode);
+        Tab.AddTab(CodeTab.FormCs, BuildCode);
         Tab.AddTab(CodeTab.ServiceI, BuildCode);
         Tab.AddTab(CodeTab.Service, BuildCode);
 
@@ -79,6 +81,8 @@ public class CodingTabs : BaseComponent
     {
         foreach (var item in Tab.Items)
         {
+            if (item.Id == CodeTab.Form || item.Id == CodeTab.FormCs)
+                item.IsVisible = !isAutoForm;
             if (item.Id == CodeTab.Info || item.Id == CodeTab.ServiceI)
                 item.IsVisible = isAutoMode;
         }
@@ -93,6 +97,11 @@ public class CodingTabs : BaseComponent
     {
         if (currentTab == firstTab)
         {
+            builder.Component<AntSwitch>()
+                   .Set(c => c.Value, isAutoForm)
+                   .Set(c => c.ValueChanged, this.Callback<bool>(value => isAutoForm = value))
+                   .Set(c => c.ShowTexts, "AutoForm,RazorForm")
+                   .Build();
             builder.Component<AntSwitch>()
                    .Set(c => c.Value, isAutoMode)
                    .Set(c => c.ValueChanged, this.Callback<bool>(value => isAutoMode = value))
@@ -160,6 +169,7 @@ public class CodingTabs : BaseComponent
             CodeTab.Entity => Model.EntityPath,
             CodeTab.Page => Model.PagePath,
             CodeTab.Form => Model.FormPath,
+            CodeTab.FormCs => Model.FormPathCs,
             CodeTab.ServiceI => Model.ServiceIPath,
             CodeTab.Service => Model.ServicePath,
             _ => ""
@@ -177,6 +187,7 @@ public class CodingTabs : BaseComponent
             CodeTab.Entity => $"{Model.EntityName}.cs",
             CodeTab.Page => $"{Model.PageName}.cs",
             CodeTab.Form => $"{Model.FormName}.razor",
+            CodeTab.FormCs => $"{Model.FormName}.razor.cs",
             CodeTab.ServiceI => $"{Model.ServiceName}.cs",
             CodeTab.Service => $"{Model.ServiceName}.cs",
             _ => ""
@@ -188,6 +199,7 @@ public class CodingTabs : BaseComponent
         if (Model == null)
             return string.Empty;
 
+        Model.IsAutoForm = isAutoForm;
         Model.IsAutoMode = isAutoMode;
         Generator.Model = Model;
         return name switch
@@ -197,6 +209,7 @@ public class CodingTabs : BaseComponent
             CodeTab.Entity => Generator.GetEntity(Model.Entity),
             CodeTab.Page => Generator.GetPage(Model.Page, Model.Entity),
             CodeTab.Form => Generator.GetForm(Model.Form, Model.Entity),
+            CodeTab.FormCs => Generator.GetFormCs(Model.Form, Model.Entity),
             CodeTab.ServiceI => Generator.GetIService(Model.Page, Model.Entity, true),
             CodeTab.Service => Generator.GetService(Model.Page, Model.Entity),
             _ => ""

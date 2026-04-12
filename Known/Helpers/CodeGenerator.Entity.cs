@@ -26,12 +26,12 @@ partial class CodeGenerator
         sb.AppendLine("[DisplayName(\"{0}\")]", entity.Name);
         sb.AppendLine("public class {0}{1}", entityName, baseType);
         sb.AppendLine("{");
-        AppendFields(sb, entity, !Model.IsAutoMode);
+        AppendFields(sb, entity, !Model.IsAutoMode, Model.IsAutoForm);
         sb.AppendLine("}");
-        return sb.ToString().TrimEnd([.. Environment.NewLine]);
+        return sb.ToCode();
     }
 
-    private static void AppendFields(StringBuilder sb, EntityInfo entity, bool addPage)
+    private static void AppendFields(StringBuilder sb, EntityInfo entity, bool addPage, bool addForm)
     {
         var index = 0;
         foreach (var item in entity.Fields)
@@ -54,7 +54,7 @@ partial class CodeGenerator
                 sb.AppendLine("    [MaxLength({0})]", item.Length);
             if (item.IsGrid && addPage)
                 sb.AppendLine("    [Column(Width = 100)]");
-            if (item.IsForm && addPage)
+            if (item.IsForm && addPage && addForm)
             {
                 if (item.Type == FieldType.File)
                     sb.AppendLine("    [Form(Type = nameof(FieldType.File))]");

@@ -180,9 +180,9 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
         if (string.IsNullOrWhiteSpace(code.ServiceIPath))
             code.ServiceIPath = projectPath;
         if (string.IsNullOrWhiteSpace(code.EntityPath))
-            code.EntityPath = Config.App.ContentRoot;
+            code.EntityPath = projectPath;
         if (string.IsNullOrWhiteSpace(code.ServicePath))
-            code.ServicePath = Config.App.ContentRoot;
+            code.ServicePath = projectPath;
 
         return name switch
         {
@@ -190,6 +190,7 @@ class CodeService(Context context) : ServiceBase(context), ICodeService
             CodeTab.Entity => Path.Combine(code.EntityPath, path),
             CodeTab.Page => Path.Combine(code.PagePath, path),
             CodeTab.Form => Path.Combine(code.FormPath, path),
+            CodeTab.FormCs => Path.Combine(code.FormPath, path),
             CodeTab.ServiceI => Path.Combine(code.ServiceIPath, path),
             CodeTab.Service => Path.Combine(code.ServicePath, path),
             _ => ""
