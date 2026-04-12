@@ -10,6 +10,11 @@ public class SysLogList : BaseTablePage<LogInfo>
 {
     private ILogService Service;
 
+    /// <summary>
+    /// 取得或设置是否是标签页。
+    /// </summary>
+    [Parameter] public bool IsTab { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
@@ -21,6 +26,9 @@ public class SysLogList : BaseTablePage<LogInfo>
 
         Table.SetAdminTable();
         Table.ShowIndex = true;
+        Table.ShowName = !IsTab;
+        Table.ShowToolbar = !IsTab;
+        Table.ShowSetting = !IsTab;
         Table.SelectType = TableSelectType.None;
         Table.OnQuery = Service.QueryLogsAsync;
         Table.Column(c => c.Type).Tag();

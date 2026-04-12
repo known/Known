@@ -97,6 +97,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-advanced-search {padding:16px;}
 .kui-advanced-search .item {display:grid;grid-template-columns:140px 140px auto 70px;margin-top:10px;grid-column-gap:5px;}
 .kui-advanced-search .ant-btn, .kui-query .ant-btn {padding:0 10px;}
+.ant-tabs-tabpane > .kui-table-page > .kui-query {margin-bottom:0;padding:4.035px 10px;}
 
 /*Toolbar*/
 .ant-toolbar {display:flex;gap:3px;align-items:center;}
