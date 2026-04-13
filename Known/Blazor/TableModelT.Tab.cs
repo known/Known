@@ -2,7 +2,7 @@
 
 partial class TableModel<TItem>
 {
-    private bool isFirstChange = true;
+    //private bool isFirstChange = true;
     internal Dictionary<string, (RenderFragment, RenderFragment)> TabTemplates { get; } = [];
     internal TablePage<TItem> PageComponent { get; set; }
 
@@ -85,13 +85,15 @@ partial class TableModel<TItem>
                 ChangeAction(tab);
                 if (TabTemplates.Count > 0)
                 {
-                    if (!isFirstChange)
-                    {
-                        PageComponent?.StateChangedAsync();
-                        return RefreshAsync();
-                    }
-                    isFirstChange = false;
-                    return RefreshAsync();
+                    PageComponent?.StateChangedAsync();
+                    return TabTemplates.ContainsKey(tab) ? Task.CompletedTask : RefreshAsync();
+                    //if (!isFirstChange)
+                    //{
+                    //    PageComponent?.StateChangedAsync();
+                    //    return RefreshAsync();
+                    //}
+                    //isFirstChange = false;
+                    //return RefreshAsync();
                 }
                 else
                 {

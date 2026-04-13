@@ -42,7 +42,7 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
             Toolbar.OnItemClick = info => Context.OnAction(page, info, null);
         }
 
-        var isPage = !IsAuto && page is BasePage;
+        var isPage = !IsAuto && IsPageTable(page);
         Initialize(isPage);
     }
 
@@ -169,5 +169,21 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
         Toolbar?.Items?.Clear();
         Actions?.Clear();
         Criteria?.Clear();
+    }
+
+    private static bool IsPageTable(IBaseComponent page)
+    {
+        if (page is not BasePage)
+            return false;
+
+        var type = page.GetType();
+        while (type != null)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(BaseTablePage<>))
+                return type.GetGenericArguments()[0] == typeof(TItem);
+            type = type.BaseType;
+        }
+
+        return false;
     }
 }

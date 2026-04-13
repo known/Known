@@ -7,7 +7,7 @@
     --kui-form-label-width:120px;
     --kui-bgcolor:#fff;
     --kui-color:#2c3e50;
-    --kui-color-border:#e1e8ed;
+    --kui-color-border:#d9d9d9;
     --kui-color-hover:#cce4fa;
     --gradient-start: #0061ff;
     --gradient-end: #00e5ff;
@@ -18,7 +18,7 @@
     --kui-body-text: #e2e8f0;
     --kui-bgcolor:#1f1f1f;
     --kui-color:#e0e0e0;
-    --kui-color-border:rgba(255,255,255,0.1);
+    --kui-color-border:#434343;
     --kui-color-hover:#212324;
     --gradient-start: #0066ff;
     --gradient-end: #00a3ff;
