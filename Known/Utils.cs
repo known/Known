@@ -234,6 +234,26 @@ public sealed class Utils
         }
         return code;
     }
+
+    /// <summary>
+    /// 随机创建一个字符串，大小写英文字幕加数字，适用于API密钥等场景。
+    /// </summary>
+    /// <param name="length">字符串长度。</param>
+    /// <returns></returns>
+    public static string CreateToken(int length)
+    {
+        if (length <= 0)
+            return string.Empty;
+
+        var keyChars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+        var chars = new char[length];
+        var bytes = RandomNumberGenerator.GetBytes(length);
+        for (int i = 0; i < length; i++)
+        {
+            chars[i] = keyChars[bytes[i] % keyChars.Length];
+        }
+        return new string(chars);
+    }
     #endregion
 
     #region Encryptor
