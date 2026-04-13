@@ -12,7 +12,8 @@ ExportSelect     | 勾选导出  | export       | primary    | Toolbar
 ExportPage       | 本页导出  | export       | primary    | Toolbar
 ExportQuery      | 查询导出  | export       | primary    | Toolbar
 ExportAll        | 全部导出  | export       | primary    | Toolbar
-Copy             | 复制     | copy         | primary    | Toolbar
+Copy             | 复制     | copy         | primary    | Toolbar,Action
+Clone            | 克隆     | copy         | primary    | Toolbar,Action
 Move             | 移动     | drag         | primary    | Toolbar
 Backup           | 备份     | block        | primary    | Toolbar
 MoveUp           | 上移     | up           | primary    | Action
