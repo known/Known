@@ -409,13 +409,22 @@ public sealed class Utils
     /// </summary>
     /// <param name="value">对象。</param>
     /// <returns>JSON字符串。</returns>
-    public static string ToJson(object value)
+    public static string ToJson(object value) => ToJson(value, false);
+
+    /// <summary>
+    /// 将对象序列化为JSON字符串（使用.NET内置JSON序列化）。
+    /// </summary>
+    /// <param name="value">对象。</param>
+    /// <param name="indented">是否缩进格式化。</param>
+    /// <returns>JSON字符串。</returns>
+    public static string ToJson(object value, bool indented)
     {
         if (value == null)
             return string.Empty;
 
         return JsonSerializer.Serialize(value, new JsonSerializerOptions
         {
+            WriteIndented = indented,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
         });
     }

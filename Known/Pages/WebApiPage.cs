@@ -130,7 +130,7 @@ class WebApiForm : BaseComponent
                 if (string.IsNullOrWhiteSpace(postData))
                 {
                     var value = Activator.CreateInstance(param.ParameterType);
-                    postData = FormatJson(value);
+                    postData = Utils.ToJson(value, true);
                 }
                 builder.TextArea(new InputModel<string>
                 {
@@ -187,7 +187,7 @@ class WebApiForm : BaseComponent
         if (Utils.IsJson(result))
         {
             var value = Utils.FromJson<object>(result);
-            result = FormatJson(value);
+            result = Utils.ToJson(value, true);
         }
         builder.Pre().Class("kui-api-result").Child(result);
     }
@@ -245,14 +245,5 @@ class WebApiForm : BaseComponent
         if (string.IsNullOrWhiteSpace(json))
             json = postData;
         return new StringContent(json, Encoding.UTF8, "application/json");
-    }
-
-    private static string FormatJson(object value)
-    {
-        return JsonSerializer.Serialize(value, new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        });
     }
 }
