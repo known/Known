@@ -1,4 +1,5 @@
-﻿using Known.Sample;
+﻿using Known.Cells;
+using Known.Sample;
 
 namespace Known.WinForm;
 
@@ -23,6 +24,7 @@ public static class AppConfig
             info.Assembly = assembly;
         });
         services.AddSample();
+        services.AddKnownCells();
         services.AddKnownDesktop(option =>
         {
             option.WebRoot = AppContext.BaseDirectory;

@@ -12,6 +12,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="10.*" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="10.*" />
+        <ProjectReference Include="..\Plugins\Known.Cells\Known.Cells.csproj" />
         <ProjectReference Include="..\Plugins\Known.Sample\Known.Sample.csproj" />
     </ItemGroup>
 

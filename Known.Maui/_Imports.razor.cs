@@ -1,3 +1,5 @@
-﻿global using Known.Extensions;
+﻿global using Known.Blazor;
+global using Known.Components;
 global using Known.Sample;
-global using Microsoft.Extensions.DependencyInjection;
+global using Known.Sample.Services;
+global using Microsoft.AspNetCore.Components;

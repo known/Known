@@ -74,19 +74,3 @@
     </div>
     <div class="login-copyright"><KFooter /></div>
 </div>
-
-@code {
-    private object QrCode => new { Text = Config.HostUrl, Width = 200, Height = 200 };
-
-    protected override Task OnInitAsync()
-    {
-        Model.UserName = "Admin";
-        Model.Password = "1";
-        return base.OnInitAsync();
-    }
-
-    private Task<Known.Result> OnSendSMS(string phone)
-    {
-        return Known.Result.SuccessAsync("发送成功！");
-    }
-}
