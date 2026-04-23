@@ -1,4 +1,6 @@
-﻿namespace Known.Server.Pages;
+﻿using Microsoft.AspNetCore.Components;
+
+namespace Known.Server.Pages;
 
 public partial class Index
 {
