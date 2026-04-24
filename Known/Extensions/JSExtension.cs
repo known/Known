@@ -245,10 +245,14 @@ public static class JSExtension
         {
             if (setting != null)
             {
-                info.Language = setting.Language;
-                info.Theme = setting.Theme;
-                info.Color = setting.ThemeColor;
-                info.Size = setting.Size;
+                if (!string.IsNullOrWhiteSpace(setting.Language))
+                    info.Language = setting.Language;
+                if (!string.IsNullOrWhiteSpace(setting.Theme))
+                    info.Theme = setting.Theme;
+                if (!string.IsNullOrWhiteSpace(setting.ThemeColor))
+                    info.Color = setting.ThemeColor;
+                if (!string.IsNullOrWhiteSpace(setting.Size))
+                    info.Size = setting.Size;
             }
             await js.InvokeAsync("KBlazor.setLocalInfo", info);
         }
