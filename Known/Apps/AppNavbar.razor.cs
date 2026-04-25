@@ -1,4 +1,4 @@
-﻿namespace Known.App;
+﻿namespace Known.Apps;
 
 /// <summary>
 /// 移动端导航栏组件类。

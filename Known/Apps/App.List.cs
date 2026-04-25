@@ -1,6 +1,6 @@
 ﻿using AntDesign;
 
-namespace Known.App;
+namespace Known.Apps;
 
 /// <summary>
 /// APP菜单列表组件类。
