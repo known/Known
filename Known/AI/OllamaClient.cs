@@ -18,7 +18,7 @@ class OllamaClient
     }
 
     // 实现流式接口
-    public async IAsyncEnumerable<string> GetChatCompletionsStreamAsync(List<ChatMessage> messages)
+    public async IAsyncEnumerable<string> GetChatStreamAsync(List<ChatMessage> messages)
     {
         // 构建 Ollama 流式请求体
         var ollamaRequest = new

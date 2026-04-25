@@ -4,7 +4,7 @@
 /// AI聊天记录页面组件类。
 /// </summary>
 [Route("/sys/aichats")]
-[Menu(Constants.System, "聊天记录", "unordered-list", 7)]
+[Menu(Constants.System, "AI聊天记录", "unordered-list", 7)]
 //[PagePlugin("聊天记录", "unordered-list", PagePluginType.Module, AiLanguage.AiManage, Sort = 5)]
 public class ChatList : BaseTablePage<ChatInfo>
 {

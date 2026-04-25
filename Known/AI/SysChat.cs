@@ -35,7 +35,7 @@ public class SysChat : EntityBase
     /// </summary>
     [MaxLength(50)]
     [DisplayName("助理名称")]
-    public string Agent { get; set; }
+    public string AgentName { get; set; }
 
     /// <summary>
     /// 取得或设置是否是发送信息。

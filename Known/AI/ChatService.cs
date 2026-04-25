@@ -194,19 +194,27 @@ class ChatService(Context context, IExtendService extend) : ServiceBase(context)
         {
             case ChatType.Ollama:
                 var client = new OllamaClient(model);
-                var chats = client.GetChatCompletionsStreamAsync(messages);
+                var chats = client.GetChatStreamAsync(messages);
                 await foreach (var item in chats)
                     yield return item;
-                break;
-            case ChatType.Mock:
-                yield return $"这是一条测试数据，你说的是：{messages.LastOrDefault().Content}";
                 break;
             case ChatType.Extend:
                 var items = extend.GetChatStreamAsync(model, messages);
                 await foreach (var item in items)
                     yield return item;
                 break;
+            default:
+                var mocks = GetChatStreamAsync(messages);
+                await foreach (var item in mocks)
+                    yield return item;
+                break;
         }
+    }
+
+    private static async IAsyncEnumerable<string> GetChatStreamAsync(List<ChatMessage> messages)
+    {
+        await Task.Delay(500);
+        yield return $"我是模拟AI模型，这是一条模拟测试数据，你说的是：{messages.LastOrDefault()?.Content}";
     }
 
     private static async Task SaveChatAsync(Database db, ChatInfo item)
@@ -216,7 +224,7 @@ class ChatService(Context context, IExtendService extend) : ServiceBase(context)
             UserId = item.UserId,
             SessionId = item.SessionId,
             AgentId = item.Agent.Id,
-            Agent = item.Agent.Name,
+            AgentName = item.Agent.Name,
             IsSend = item.IsSend,
             Context = item.Context
         });

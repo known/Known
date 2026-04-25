@@ -61,6 +61,7 @@ public class ChatInfo
     /// 取得或设置是否是发送信息。
     /// </summary>
     [Column(Width = 90)]
+    [Category("发,回")]
     [DisplayName("发/回")]
     public bool IsSend { get; set; }
 
