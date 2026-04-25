@@ -1,4 +1,4 @@
-﻿namespace Known.Components;
+﻿namespace Known.App;
 
 /// <summary>
 /// 移动端标签组件类。

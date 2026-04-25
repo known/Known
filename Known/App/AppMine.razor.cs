@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.App;
 
 /// <summary>
 /// 移动端我的页面组件类。

@@ -1,6 +1,6 @@
 ﻿using AntDesign;
 
-namespace Known.Components;
+namespace Known.App;
 
 /// <summary>
 /// 应用搜索组件类。
