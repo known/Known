@@ -1,0 +1,52 @@
+/*--AI--*/
+.kui-ai-entry {position:absolute;bottom:50px;right:15px;width:40px;height:40px;}
+.kui-ai-entry img {width:100%;height:100%;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:all 0.3s ease;}
+.kui-ai-entry:hover img {transform:scale(1.1);box-shadow:0 6px 20px rgba(0,0,0,0.25);}
+
+.kai-drawer {z-index:999999;}
+
+.kai-chat {position:relative;width:100%;height:100%;text-align:center;margin:0 auto;padding:0 20px;}
+.kai-chat .kui-card {margin-top:20px;padding:10px;}
+.kai-chat .new {display:flex;justify-content:center;}
+.kai-chat .new .kui-icon {background-color:#dbeafe;color:#4d6bfe;padding:2px 14px;border-radius:12px;}
+.kai-chat-infos {
+    position:absolute;top:0;left:0;right:8px;bottom:130px;text-align:left;
+    flex:1;overflow-y:auto;overflow-x:hidden;padding:20px 40px;
+}
+.kai-chat-infos .avatar {width:32px;height:32px;border-radius:16px;}
+.kai-chat-infos .think {background-color:#f5f5f5;color:#8b8b8b;padding:0 5px;border-left:3px solid #e5e5e5;}
+
+.kai-chat-send {position:absolute;bottom:0;left:0;right:8px;z-index:1000;padding:0 40px;}
+.kai-chat-send .ant-input {border-radius:20px;padding:10px;margin-top:10px;}
+.kai-chat-send .action {position:absolute;right:48px;bottom:35px;}
+.kai-chat-send .action .anticon {
+    font-size:1.2rem;background:#1890ff;color:#fff;padding:5px;border-radius:50%;cursor:pointer;
+}
+.kai-chat-send .action.disable .anticon {background:#d6dee8;cursor:not-allowed;}
+.kai-chat-send .tips {text-align:center;padding:5px;color:#a3a3a3;font-size:12px;}
+
+.kai-chat-item {display:flex;justify-content:flex-end;margin-bottom:10px;}
+.kai-chat-item p, .kai-chat-item pre {margin-bottom:0;font-family:unset;}
+.kai-chat-item .bubble {display:flex;justify-content:flex-end;max-width:90%;}
+.kai-chat-item .bubble .action {margin-right:10px;padding-top:5px;cursor:pointer;}
+.kai-chat-item .bubble .message {
+    position:relative;padding:5px 10px;border-radius:5px;background-color:#eff6ff;color:#262626;
+}
+.kai-chat-item.send .bubble .action {display:none;}
+.kai-chat-item.send .bubble:hover .action {display:block;}
+.kai-chat-item.receive {justify-content:flex-start;}
+.kai-chat-item.receive .bubble {flex-direction:column;}
+.kai-chat-item.receive .bubble .message {background-color:#fafafa;}
+.kai-chat-item.receive .bubble .action {display:flex;gap:10px;padding:5px 10px;}
+.kai-chat-item.receive .bubble pre {
+    background-color:#f1f1f1;padding:5px 10px;border-left:3px solid #1890ff;overflow-y:hidden;
+}
+
+.kai-chat-item .edit-box {width:100vw;}
+.kai-chat-item .edit-box .button {text-align:right;margin-top:5px;}
+
+:root[data-theme=dark] .kai-chat-send,
+:root[data-theme=dark] .kai-chat-item.receive .bubble .message {background-color:#1f1f1f;}
+:root[data-theme=dark] .kai-chat-item.receive .bubble pre1 {background-color:#141414;}
+:root[data-theme=dark] .kai-chat-item .bubble .message {background-color:#414158;color:#f8faff;}
+:root[data-theme=dark] .kai-chat-infos .think {background-color:#141414;border-left-color:#4e4e56;}

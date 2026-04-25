@@ -15,11 +15,11 @@ public partial class UIService
         var option = new DrawerOptions
         {
             Title = Language?[model.Title],
-            Width = model.Width,
-            Closable = true,
             WrapClassName = className,
-            Placement = DrawerPlacement.Right,
-            MaskClosable = true,
+            Width = model.Width,
+            Closable = model.Closable,
+            MaskClosable = model.MaskClosable,
+            Placement = model.Placement,
             Content = GetDrawerContent(model)
         };
         drawer.CreateAsync(option);

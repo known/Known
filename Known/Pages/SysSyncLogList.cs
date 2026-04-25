@@ -4,7 +4,7 @@ namespace Known.Pages;
 /// 同步日志页面组件类。
 /// </summary>
 [Route("/sys/sync-logs")]
-[Menu(Constants.System, "同步日志", "history", 7)]
+[Menu(Constants.System, "同步日志", "history", 8)]
 public class SysSyncLogList : BaseTablePage<SysSyncLog>
 {
     private ILogService Service;

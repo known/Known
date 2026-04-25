@@ -50,4 +50,22 @@ public static class UIExtension
                               .Build(value => scanner = value);
         service.ShowDialog(model);
     }
+
+    /// <summary>
+    /// 显示AI聊天抽屉。
+    /// </summary>
+    /// <param name="service">UI服务实例。</param>
+    /// <param name="info">AI代理信息。</param>
+    public static void ShowAIDrawer(this UIService service, AgentInfo info)
+    {
+        var model = new DrawerModel
+        {
+            ClassName = "kai-drawer",
+            Title = info.Name,
+            Width = "700px",
+            MaskClosable = false,
+            Content = b => b.Component<ChatView>().Set(c => c.Agent, info).Build()
+        };
+        service.ShowDrawer(model);
+    }
 }

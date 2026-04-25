@@ -27,6 +27,7 @@ public static partial class Extension
         services.AddSingleton<INotifyService, NotifyService>();
         services.AddScoped<IAuthStateProvider, AuthStateProvider>();
         services.AddScoped<IPluginService, PluginService>();
+        services.AddScoped<IExtendService, ExtendService>();
 
         AddStyles();
         AddScripts();
@@ -136,6 +137,8 @@ public static partial class Extension
         KStyleSheet.AddStyle("_content/Known/css/prism.css");
         //KStyleSheet.AddStyle("_content/Known/css/report.css");
         KStyleSheet.AddStyle("_content/Known/css/web.css");
+        KStyleSheet.AddStyle("_content/Known/css/app.css");
+        KStyleSheet.AddStyle("_content/Known/css/ai.css");
     }
 
     private static void AddScripts()
