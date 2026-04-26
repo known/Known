@@ -9,15 +9,20 @@ public enum ChatType
     /// Ollama模型。
     /// </summary>
     [Description("Ollama模型")]
-    Ollama = 1,
+    Ollama,
     /// <summary>
-    /// 模拟输出。
+    /// OpenAI模型。
     /// </summary>
-    [Description("模拟输出")]
-    Mock = 2,
+    [Description("OpenAI模型")]
+    OpenAI,
     /// <summary>
-    /// 扩展。
+    /// 模拟模型。
     /// </summary>
-    [Description("扩展")]
-    Extend = 3
+    [Description("模拟模型")]
+    Mock,
+    /// <summary>
+    /// 扩展模型。
+    /// </summary>
+    [Description("扩展模型")]
+    Extend
 }

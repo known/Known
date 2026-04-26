@@ -25,7 +25,18 @@ class ExtendService : IExtendService
 {
     public async IAsyncEnumerable<string> GetChatStreamAsync(ModelInfo model, List<ChatMessage> messages)
     {
+        if (messages == null || messages.Count == 0)
+        {
+            yield return "消息内容不能为空！";
+            yield break;
+        }
+
         await Task.Delay(500);
-        yield return $"这是一条扩展测试数据，你说的是：{messages.LastOrDefault()?.Content}";
+        var message = $"这是一条扩展测试数据，你说的是：{messages.LastOrDefault()?.Content}";
+        var items = ChatHelper.SplitChunks(message, 10);
+        foreach (var item in items)
+        {
+            yield return item;
+        }
     }
 }

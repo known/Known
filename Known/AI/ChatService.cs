@@ -193,9 +193,15 @@ class ChatService(Context context, IExtendService extend) : ServiceBase(context)
         switch (model.Type)
         {
             case ChatType.Ollama:
-                var client = new OllamaClient(model);
-                var chats = client.GetChatStreamAsync(messages);
+                var ollama = new OllamaClient(model);
+                var chats = ollama.GetChatStreamAsync(messages);
                 await foreach (var item in chats)
+                    yield return item;
+                break;
+            case ChatType.OpenAI:
+                var openai = new OpenAIClient(model);
+                var chats1 = openai.GetChatStreamAsync(messages);
+                await foreach (var item in chats1)
                     yield return item;
                 break;
             case ChatType.Extend:

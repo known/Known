@@ -68,4 +68,31 @@ public static class UIExtension
         };
         service.ShowDrawer(model);
     }
+
+    /// <summary>
+    /// 显示AI聊天抽屉。
+    /// </summary>
+    /// <typeparam name="TComponent">抽屉组件类型。</typeparam>
+    /// <param name="service">UI服务实例。</param>
+    /// <param name="title">抽屉标题。</param>
+    /// <param name="width">抽屉宽度。</param>
+    /// <param name="parameters">组件参数委托。</param>
+    public static void ShowAIDrawer<TComponent>(this UIService service, string title, string width = "700px", Action<ComponentBuilder<TComponent>> parameters = null)
+        where TComponent : Microsoft.AspNetCore.Components.IComponent
+    {
+        var model = new DrawerModel
+        {
+            ClassName = "kai-drawer",
+            Title = title,
+            Width = width,
+            MaskClosable = false,
+            Content = b =>
+            {
+                var component = b.Component<TComponent>();
+                parameters?.Invoke(component);
+                component.Build();
+            }
+        };
+        service.ShowDrawer(model);
+    }
 }

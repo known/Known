@@ -28,6 +28,21 @@ public partial class ChatView
     /// </summary>
     [Parameter] public RenderFragment<ChatInfo> Message { get; set; }
 
+    /// <summary>
+    /// 取得或设置工具栏区域。
+    /// </summary>
+    [Parameter] public RenderFragment Toolbar { get; set; }
+
+    /// <summary>
+    /// 发送消息前回调，用于注入附件和解析结构化输出。
+    /// </summary>
+    [Parameter] public Func<ChatInfo, Task<ChatInfo>> OnSendingAsync { get; set; }
+
+    /// <summary>
+    /// 接收消息后回调。
+    /// </summary>
+    [Parameter] public EventCallback<ChatInfo> OnReceivedAsync { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
@@ -77,95 +92,68 @@ public partial class ChatView
         chats.Clear();
     }
 
-    private void OnEditSend(ChatInfo info)
+    private async Task OnEditSend(ChatInfo info)
     {
         info.IsEdit = false;
-        Send(info.Context);
+        await SendAsync(info.Context);
     }
 
-    private void OnRegenerate(ChatInfo info)
-    {
-    }
-
-    private void OnSend()
+    private async Task OnSend()
     {
         if (sendding || string.IsNullOrWhiteSpace(message))
             return;
 
-        Send(message);
+        await SendAsync(message);
     }
 
-    private void OnMessageChange(ChangeEventArgs args)
-    {
-        message = args.Value?.ToString();
-    }
-
-    private void OnMessageKeyDown(KeyboardEventArgs e)
+    private async void OnMessageKeyDown(KeyboardEventArgs e)
     {
         if (e.Key == "Enter" && !e.ShiftKey)
-        {
-            OnSend();
-        }
+            await OnSend();
     }
 
-    private async Task OnClearAsync()
-    {
-        if (chats == null || chats.Count == 0)
-        {
-            UI.Info("没有会话记录！");
-            return;
-        }
-
-        var result = await Service.ClearChatsAsync(chats[0]);
-        UI.Result(result, () =>
-        {
-            sessionId = Utils.GetNextId();
-            chats.Clear();
-            return StateChangedAsync();
-        });
-    }
-
-    private void Send(string context)
+    private async Task SendAsync(string context)
     {
         try
         {
             var chat = GetChatInfo(context, true);
+            if (OnSendingAsync != null)
+                chat = await OnSendingAsync.Invoke(chat) ?? chat;
+
             chats.Add(chat);
             sendding = true;
-            Task.Run(async () => await SendAsync(chat)).ContinueWith(task =>
+            await StateChangedAsync();
+
+            resp = new ChatInfo { Context = "思考中..." };
+            chats.Add(resp);
+            await StateChangedAsync();
+            await Task.Delay(50);
+
+            var result = Service.SendChatAsync(chat);
+            var sb = new StringBuilder();
+            await foreach (var item in result)
             {
-                message = "";
-                sendding = false;
-                var chat = GetChatInfo(resp.Context, false);
-                Service.SaveChatAsync(chat);
-                StateChangedAsync();
-            });
+                sb.Append(item);
+                resp.Context = sb.ToString();
+                await Task.Delay(30);
+                await StateChangedAsync();
+            }
+            await JSRuntime.HighlightAllAsync();
+
+            message = "";
+            sendding = false;
+            var receive = GetChatInfo(resp.Context, false);
+            await Service.SaveChatAsync(receive);
+            if (OnReceivedAsync.HasDelegate)
+                await OnReceivedAsync.InvokeAsync(receive);
+            await StateChangedAsync();
         }
         catch (Exception ex)
         {
             sendding = false;
             UI.Error(ex.Message);
-        }
-    }
-
-    private async Task SendAsync(ChatInfo info)
-    {
-        resp = new ChatInfo { Context = "思考中..." };
-        chats.Add(resp);
-        await StateChangedAsync();
-        await Task.Delay(50);
-
-        var result = Service.SendChatAsync(info);
-        var sb = new StringBuilder();
-        await foreach (var item in result)
-        {
-            sb.Append(item);
-            resp.Context = sb.ToString();
-            await Task.Delay(30);
             await StateChangedAsync();
-            //await JS.RunVoidAsync("scrollToBottom('kaiScroll');");
         }
-        await JSRuntime.HighlightAllAsync();
     }
 
     private ChatInfo GetChatInfo(string context, bool isSend)
@@ -181,5 +169,10 @@ public partial class ChatView
             IsSend = isSend,
             Agent = Agent
         };
+    }
+
+    private void OnMessageChange(ChangeEventArgs args)
+    {
+        message = args.Value?.ToString();
     }
 }
