@@ -13,6 +13,8 @@ public partial class ChatView
     private string agentId;
     private bool shouldRender = true;
     private ChatInfo resp;
+    private string attachmentName;
+    private string attachmentText;
 
     private string Placeholder => $"给 {Agent?.Name ?? "AI助理"} 发送消息，Enter键发送，Shift+Enter键换行";
     private string TitleSend => string.IsNullOrWhiteSpace(message) ? "请输入你的问题" : "发送消息";
@@ -29,7 +31,7 @@ public partial class ChatView
     [Parameter] public RenderFragment<ChatInfo> Message { get; set; }
 
     /// <summary>
-    /// 取得或设置工具栏区域。
+    /// 取得或设置发送区域左下角工具栏区域。
     /// </summary>
     [Parameter] public RenderFragment Toolbar { get; set; }
 
@@ -117,6 +119,9 @@ public partial class ChatView
         try
         {
             var chat = GetChatInfo(context, true);
+            if (!string.IsNullOrWhiteSpace(attachmentText))
+                chat.Context = $"附件[{attachmentName}]：\n{attachmentText}\n\n{chat.Context}";
+
             if (OnSendingAsync != null)
                 chat = await OnSendingAsync.Invoke(chat) ?? chat;
 
@@ -142,6 +147,7 @@ public partial class ChatView
 
             message = "";
             sendding = false;
+            ClearAttachment();
             var receive = GetChatInfo(resp.Context, false);
             await Service.SaveChatAsync(receive);
             if (OnReceivedAsync.HasDelegate)
@@ -154,6 +160,40 @@ public partial class ChatView
             UI.Error(ex.Message);
             await StateChangedAsync();
         }
+    }
+
+    private async Task OnAttachmentChanged(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null)
+            return;
+
+        attachmentName = file.Name;
+        try
+        {
+            using var stream = file.OpenReadStream(Agent?.FileMaxSize ?? 2 * 1024 * 1024);
+            using var reader = new StreamReader(stream);
+            attachmentText = await reader.ReadToEndAsync();
+            await StateChangedAsync();
+        }
+        catch (Exception ex)
+        {
+            attachmentName = null;
+            attachmentText = null;
+            UI.Error(ex.Message);
+        }
+    }
+
+    private Task OnClearAttachment(MouseEventArgs e)
+    {
+        ClearAttachment();
+        return StateChangedAsync();
+    }
+
+    private void ClearAttachment()
+    {
+        attachmentName = null;
+        attachmentText = null;
     }
 
     private ChatInfo GetChatInfo(string context, bool isSend)

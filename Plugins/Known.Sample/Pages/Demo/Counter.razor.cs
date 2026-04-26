@@ -40,7 +40,7 @@ public partial class Counter
         form.OnSave = d =>
         {
             UI.Alert($"保存成功！文本内容：\r\n{Utils.ToJson(d)}");
-            return Known.Result.SuccessAsync("保存成功！");
+            return Result.SuccessAsync("保存成功！");
         };
         UI.ShowForm(form);
     }
@@ -80,6 +80,7 @@ public partial class Counter
         {
             Id = "test",
             Name = "测试",
+            EnableFile = true,
             Model = new ModelInfo { Type = ChatType.Mock }
         };
         UI.ShowAIDrawer(info);

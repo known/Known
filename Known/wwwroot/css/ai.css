@@ -17,12 +17,26 @@
 .kai-chat-infos .think {background-color:#f5f5f5;color:#8b8b8b;padding:0 5px;border-left:3px solid #e5e5e5;}
 
 .kai-chat-send {position:absolute;bottom:0;left:0;right:8px;z-index:1000;padding:0 40px;}
-.kai-chat-send .ant-input {border-radius:20px;padding:10px;margin-top:10px;}
-.kai-chat-send .action {position:absolute;right:48px;bottom:35px;}
-.kai-chat-send .action .anticon {
-    font-size:1.2rem;background:#1890ff;color:#fff;padding:5px;border-radius:50%;cursor:pointer;
+.kai-chat-send .anticon {
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:1.2rem;width:100%;height:100%;border-radius:50%;cursor:pointer;
 }
+.kai-chat-send .ant-input {border-radius:10px;padding:10px;margin-top:10px;}
+.kai-chat-send .tool {position:absolute;left:48px;bottom:35px;}
+.kai-chat-send .upload, .kai-chat-send .action {
+    position:absolute;right:48px;bottom:35px;width:30px;height:30px;border-radius:50%;
+}
+.kai-chat-send .upload {
+    position:absolute;right:88px;cursor:pointer;transition:all .2s ease;
+    border:1px solid #d9e1f2;background:linear-gradient(180deg,#f9fbff 0%,#eef4ff 100%);color:#4c6fff;
+}
+.kai-chat-send .upload input {position:absolute;inset:0;width:100%;height:100%;opacity:0;}
+.kai-chat-send .action .anticon {background:#1890ff;color:#fff;padding:5px;}
 .kai-chat-send .action.disable .anticon {background:#d6dee8;cursor:not-allowed;}
+.kai-chat-send .attach {position:absolute;left:40px;top:-25px;white-space:nowrap;}
+.kai-chat-send .attach > span {display:inline-block;}
+.kai-chat-send .attach .anticon {width:20px;}
+.kai-chat-send .attach .anticon-close {color:#f1510e;}
 .kai-chat-send .tips {text-align:center;padding:5px;color:#a3a3a3;font-size:12px;}
 
 .kai-chat-item {display:flex;justify-content:flex-end;margin-bottom:10px;}

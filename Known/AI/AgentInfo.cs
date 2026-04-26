@@ -31,6 +31,21 @@ public class AgentInfo
     public string Prompt { get; set; }
 
     /// <summary>
+    /// 取得或设置是否启用文件附件功能。
+    /// </summary>
+    public bool EnableFile { get; set; }
+
+    /// <summary>
+    /// 取得或设置附件文件类型（MIME类型或文件扩展名），多个类型逗号分隔。
+    /// </summary>
+    public string FileAccept { get; set; } = ".txt,.md,.markdown,.json";
+
+    /// <summary>
+    /// 取得或设置附件文件大小限制，单位为字节。
+    /// </summary>
+    public long FileMaxSize { get; set; } = 2 * 1024 * 1024;
+
+    /// <summary>
     /// 取得或设置智能体聊天模型信息。
     /// </summary>
     public ModelInfo Model { get; set; }

@@ -66,11 +66,26 @@
         </div>
     </div>
     <div class="kai-chat-send">
+        <AntTextArea Id="kaiInput" @bind-Value="message" OnInput="OnMessageChange" OnKeyDown="OnMessageKeyDown" Rows="3" Placeholder="@Placeholder" AutoSize Disabled="sendding" />
         @if (Toolbar != null)
         {
-            <div class="kai-chat-toolbar">@Toolbar</div>
+            <div class="tool">@Toolbar</div>
         }
-        <AntTextArea Id="kaiInput" @bind-Value="message" OnInput="OnMessageChange" OnKeyDown="OnMessageKeyDown" Rows="3" Placeholder="@Placeholder" AutoSize Disabled="sendding" />
+        @if (Agent?.EnableFile == true)
+        {
+            if (!string.IsNullOrWhiteSpace(attachmentName))
+            {
+                <div class="attach">
+                    <KIcon Icon="paper-clip" />
+                    <span>@attachmentName</span>
+                    <KIcon Icon="close" OnClick="this.Callback<MouseEventArgs>(OnClearAttachment)" />
+                </div>
+            }
+            <Tooltip Class="upload" Title="上传附件">
+                <KIcon Icon="paper-clip" />
+                <InputFile OnChange="this.Callback<InputFileChangeEventArgs>(OnAttachmentChanged)" accept="@Agent?.FileAccept" />
+            </Tooltip>
+        }
         <div class="@ActionClass">
             <KIcon Icon="arrow-up" Title="@TitleSend" OnClick="this.Callback<MouseEventArgs>(async e => await OnSend())" />
         </div>
