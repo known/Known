@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Known Framework Open Graph Image">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#081120" />
+      <stop offset="100%" stop-color="#0f1d36" />
+    </linearGradient>
+    <linearGradient id="card" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#22d3ee" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="960" cy="120" r="180" fill="#2563eb" fill-opacity="0.15" />
+  <circle cx="180" cy="520" r="220" fill="#22d3ee" fill-opacity="0.12" />
+  <rect x="86" y="92" width="188" height="188" rx="42" fill="url(#card)" />
+  <path d="M136 131h33v47l41-47h42l-54 64 59 71h-46l-42-51v51h-33V131z" fill="#fff" />
+  <text x="86" y="382" fill="#e2e8f0" font-size="76" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Known Framework</text>
+  <text x="86" y="454" fill="#93c5fd" font-size="34" font-family="Segoe UI, Arial, sans-serif">Blazor plugin framework for enterprise applications</text>
+  <text x="86" y="518" fill="#94a3b8" font-size="28" font-family="Segoe UI, Arial, sans-serif">Plugin-first · Multi-host runtime · Unified C# development model</text>
+</svg>

@@ -3,50 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2563eb" />
     <meta name="keywords" content="Known,Known Framework,Blazor,.NET,插件开发,低代码,跨平台,MAUI,WebAssembly" />
     <meta name="description" content="Known Framework 官方网站。Known 是基于 Blazor 的轻量级、跨平台、极易扩展的插件开发框架，支持 Server、WebAssembly、MAUI 等多端宿主。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Known Framework" />
+    <meta property="og:title" content="Known Framework" />
+    <meta property="og:description" content="Blazor plugin framework for enterprise applications with unified C# development model and multi-host runtime." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Known Framework" />
+    <meta name="twitter:description" content="Blazor plugin framework for enterprise applications with unified C# development model and multi-host runtime." />
+    <meta name="twitter:image" content="/og-image.png" />
     <base href="/" />
-    <script>
-        (function () {
-            var key = 'known-theme';
-
-            function readTheme() {
-                try {
-                    var stored = localStorage.getItem(key);
-                    if (stored === 'light' || stored === 'dark') {
-                        return stored;
-                    }
-                } catch (error) {
-                }
-
-                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-
-            function applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.style.colorScheme = theme;
-
-                try {
-                    localStorage.setItem(key, theme);
-                } catch (error) {
-                }
-            }
-
-            var initialTheme = readTheme();
-            applyTheme(initialTheme);
-
-            window.knownTheme = {
-                set: function (theme) {
-                    applyTheme(theme === 'dark' ? 'dark' : 'light');
-                },
-                toggle: function () {
-                    var currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-                    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
-                }
-            };
-        })();
-    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/app.css" />
+    <script src="js/app.js"></script>
     <HeadOutlet />
 </head>
 <body>

@@ -1,6 +1,11 @@
 @page "/"
 
 <PageTitle>Known Framework - 官方网站</PageTitle>
+<HeadContent>
+    <meta name="description" content="Known Framework 官方网站。面向企业应用的 Blazor 插件开发框架，支持统一 C# 开发模型、插件化扩展和多宿主运行。" />
+    <meta property="og:title" content="Known Framework - 官方网站" />
+    <meta property="og:description" content="面向企业应用的 Blazor 插件开发框架，支持插件化扩展和多宿主运行。" />
+</HeadContent>
 
 <SiteFrame Current="home">
     <section class="known-page-shell known-home-hero">
@@ -11,6 +16,20 @@
             <div class="known-page-actions">
                 <a class="known-site-btn primary" href="/docs">阅读文档</a>
                 <a class="known-site-btn" href="/start">快速开始</a>
+            </div>
+            <div class="known-home-stats">
+                <article>
+                    <strong>28+</strong>
+                    <span>核心章节文档</span>
+                </article>
+                <article>
+                    <strong>5</strong>
+                    <span>站点主导航页面</span>
+                </article>
+                <article>
+                    <strong>1</strong>
+                    <span>统一开发模型</span>
+                </article>
             </div>
             <div class="known-home-proof">
                 <div>
@@ -28,6 +47,19 @@
             </div>
         </div>
         <div class="known-home-hero-panel">
+            <article class="known-hero-panel-card known-brand-visual">
+                <div class="known-brand-orbit known-brand-orbit-a"></div>
+                <div class="known-brand-orbit known-brand-orbit-b"></div>
+                <div class="known-brand-core">
+                    <span class="known-card-tag">Plugin-first</span>
+                    <strong>Known</strong>
+                    <span>Framework Core</span>
+                </div>
+                <div class="known-brand-node known-brand-node-top">Service Model</div>
+                <div class="known-brand-node known-brand-node-right">Host Runtime</div>
+                <div class="known-brand-node known-brand-node-bottom">System Modules</div>
+                <div class="known-brand-node known-brand-node-left">Page & Plugin</div>
+            </article>
             <article class="known-hero-panel-card">
                 <span class="known-card-tag">Designed for teams</span>
                 <h3>官网结构重新按决策路径组织</h3>
@@ -43,6 +75,23 @@ dotnet run</code></pre>
     </section>
 
     <section class="known-page-shell known-page-section">
+        <div class="known-showcase-band">
+            <article>
+                <KnownGlyph Code="AR" Tone="blue" />
+                <strong>架构清晰</strong>
+                <span>核心层、插件层、宿主层职责明确</span>
+            </article>
+            <article>
+                <KnownGlyph Code="PL" Tone="violet" />
+                <strong>插件优先</strong>
+                <span>模块拆分自然，适合业务长期演进</span>
+            </article>
+            <article>
+                <KnownGlyph Code="DX" Tone="cyan" />
+                <strong>文档同源</strong>
+                <span>官网内容与仓库 Markdown 共用一份来源</span>
+            </article>
+        </div>
         <div class="known-section-head">
             <span>Why Known</span>
             <h2>官网先回答三件事：它是什么、为什么适合你、从哪里开始</h2>

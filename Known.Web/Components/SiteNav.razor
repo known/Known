@@ -1,11 +1,17 @@
 <nav class="known-site-nav">
-    <div class="known-site-nav-bar">
+    <div class="known-site-nav-bar" data-nav-root>
         <a class="known-site-brand" href="/">
             <span class="known-site-brand-mark">K</span>
             <span>Known</span>
         </a>
 
-        <div class="known-site-nav-links">
+        <button class="known-site-nav-menu" type="button" data-nav-toggle aria-expanded="false" aria-label="切换导航菜单">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="known-site-nav-links" data-nav-panel>
             <a class="@GetNavClass("home")" href="/">首页</a>
             <a class="@GetNavClass("features")" href="/features">框架特性</a>
             <a class="@GetNavClass("architecture")" href="/architecture">架构设计</a>
@@ -14,7 +20,7 @@
             <a class="@GetNavClass("ecosystem")" href="/ecosystem">生态社区</a>
         </div>
 
-        <div class="known-site-nav-actions">
+        <div class="known-site-nav-actions" data-nav-panel>
             <button class="known-theme-toggle" type="button" onclick="window.knownTheme.toggle()" aria-label="切换浅色或深色主题">
                 <span class="known-theme-toggle-dark">切换浅色</span>
                 <span class="known-theme-toggle-light">切换深色</span>
@@ -34,4 +40,5 @@
             ? "known-site-nav-link active"
             : "known-site-nav-link";
     }
+
 }

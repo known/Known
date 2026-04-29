@@ -1,6 +1,10 @@
 @page "/architecture"
 
 <PageTitle>架构设计 - Known Framework</PageTitle>
+<HeadContent>
+    <meta name="description" content="查看 Known Framework 的分层架构，理解核心层、插件层和宿主层之间的职责边界。" />
+    <meta property="og:title" content="架构设计 - Known Framework" />
+</HeadContent>
 
 <SiteFrame Current="architecture">
     <section class="known-page-shell known-page-intro">
@@ -19,21 +23,25 @@
         </div>
         <div class="known-architecture-stack">
             <article class="known-architecture-layer">
+                <KnownGlyph Code="HT" Tone="cyan" />
                 <span>Host Layer</span>
                 <h3>Known.Server / Known.Wasm / Known.Maui</h3>
                 <p>负责启动、承载和部署，不承载复杂业务逻辑。</p>
             </article>
             <article class="known-architecture-layer">
+                <KnownGlyph Code="PL" Tone="blue" />
                 <span>Plugin Layer</span>
                 <h3>Plugins/*</h3>
                 <p>业务实体、页面、服务、资源和模块入口按插件组织，便于拆分与复用。</p>
             </article>
             <article class="known-architecture-layer">
+                <KnownGlyph Code="KR" Tone="violet" />
                 <span>Framework Layer</span>
                 <h3>Known</h3>
                 <p>对象模型、服务模型、页面基类、权限、工作流和平台能力都沉淀在核心层。</p>
             </article>
             <article class="known-architecture-layer">
+                <KnownGlyph Code="IF" Tone="amber" />
                 <span>Infrastructure</span>
                 <h3>Database / Config / Integration</h3>
                 <p>数据库、配置、第三方集成和宿主环境作为底层支撑能力被统一接入。</p>
@@ -49,18 +57,22 @@
         </div>
         <div class="known-card-grid known-card-grid-2">
             <article class="known-card">
+                <KnownGlyph Code="SR" Tone="blue" />
                 <h3>服务复用</h3>
                 <p>同一个服务接口既可以在 Server 模式下本地注入，也可以在 Wasm 模式下转成远程调用。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="UI" Tone="cyan" />
                 <h3>页面复用</h3>
                 <p>页面与组件围绕统一基类和插件机制组织，减少因宿主差异导致的重复实现。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="MD" Tone="violet" />
                 <h3>模块装配</h3>
                 <p>插件入口统一注册，平台能力和业务能力可以按模块方式组合，而不是在启动项中散乱拼接。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="EV" Tone="amber" />
                 <h3>持续演进</h3>
                 <p>适合从单体后台逐步演进为平台化业务系统，或者从单宿主扩展到多宿主。</p>
             </article>

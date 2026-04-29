@@ -4,7 +4,7 @@ using Markdig;
 
 namespace Known.Web.Services;
 
-public sealed class DocumentationCatalog
+public sealed class DocumentService
 {
     private static readonly Regex SummaryLinkPattern = new(@"^\s*-\s*\[(?<title>.+?)\]\((?<path>.+?\.md)\)", RegexOptions.Compiled);
     private static readonly Regex MarkdownLinkPattern = new(@"\[(?<text>[^\]]+)\]\((?<target>(?!https?://|mailto:|#)[^)]+?\.md)(?<anchor>#[^)]+)?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -15,14 +15,14 @@ public sealed class DocumentationCatalog
     private readonly IReadOnlyList<DocPage> orderedPages;
     private readonly Dictionary<string, DocPage> pageMap;
 
-    public DocumentationCatalog(IWebHostEnvironment environment)
+    public DocumentService(IWebHostEnvironment environment)
     {
         docsRoot = Path.Combine(environment.ContentRootPath, "docs");
 
         if (!Directory.Exists(docsRoot))
         {
-            sections = Array.Empty<DocSection>();
-            orderedPages = Array.Empty<DocPage>();
+            sections = [];
+            orderedPages = [];
             pageMap = new(StringComparer.OrdinalIgnoreCase);
             return;
         }
@@ -39,6 +39,19 @@ public sealed class DocumentationCatalog
     public IReadOnlyList<DocSection> Sections => sections;
     public int DocumentCount => orderedPages.Count;
 
+    public IReadOnlyList<string> GetSitemapUrls()
+    {
+        if (orderedPages.Count <= 1)
+            return [];
+
+        var defaultRoute = NormalizeRoute(orderedPages[0].Route);
+        return orderedPages
+            .Select(page => NormalizeRoute(page.Route))
+            .Where(route => !string.IsNullOrEmpty(route) && !string.Equals(route, defaultRoute, StringComparison.OrdinalIgnoreCase))
+            .Select(GetUrl)
+            .ToList();
+    }
+
     public string GetUrl(string? route)
     {
         var normalized = NormalizeRoute(route);
@@ -48,9 +61,7 @@ public sealed class DocumentationCatalog
     public DocPage? GetPage(string? route)
     {
         if (orderedPages.Count == 0)
-        {
             return null;
-        }
 
         var normalized = NormalizeRoute(route);
         return string.IsNullOrEmpty(normalized)
@@ -66,9 +77,7 @@ public sealed class DocumentationCatalog
     public IReadOnlyList<DocPage> Search(string? keyword, int take = 18)
     {
         if (string.IsNullOrWhiteSpace(keyword))
-        {
             return orderedPages.Take(take).ToList();
-        }
 
         var terms = keyword.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         return orderedPages
@@ -78,6 +87,26 @@ public sealed class DocumentationCatalog
             .ThenBy(x => x.Page.Index)
             .Take(take)
             .Select(x => x.Page)
+            .ToList();
+    }
+
+    public IReadOnlyList<DocSearchGroup> SearchGrouped(string? keyword, int take = 18)
+    {
+        var query = keyword?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(query))
+            return [];
+
+        var pages = Search(query, take);
+        return pages
+            .GroupBy(x => x.SectionTitle)
+            .Select(group => new DocSearchGroup(
+                group.Key,
+                group.Select(page => new DocSearchItem(
+                    page.Title,
+                    page.Route,
+                    HighlightText(page.Title, query),
+                    HighlightText(page.Excerpt, query)))
+                .ToList()))
             .ToList();
     }
 
@@ -100,10 +129,9 @@ public sealed class DocumentationCatalog
         foreach (var file in Directory.GetFiles(docsRoot, "*.md", SearchOption.AllDirectories))
         {
             var relativePath = NormalizeRelativePath(Path.GetRelativePath(docsRoot, file));
-            if (relativePath.StartsWith("examples/", StringComparison.OrdinalIgnoreCase))
-            {
+            if (relativePath.StartsWith("examples/", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(relativePath, "SUMMARY.md", StringComparison.OrdinalIgnoreCase))
                 continue;
-            }
 
             var markdown = File.ReadAllText(file);
             var route = relativePath[..^3];
@@ -111,7 +139,7 @@ public sealed class DocumentationCatalog
             var excerpt = ExtractExcerpt(markdown, title);
             var headings = ExtractHeadings(markdown);
             var enhancedMarkdown = AddHeadingAnchors(RewriteLocalLinks(markdown, relativePath), headings);
-            var html = Markdown.ToHtml(enhancedMarkdown, pipeline);
+            var html = EnhanceCodeBlocks(Markdown.ToHtml(enhancedMarkdown, pipeline));
             var searchText = BuildSearchText(title, excerpt, headings, markdown);
 
             pages[relativePath] = new DocPage(
@@ -135,8 +163,8 @@ public sealed class DocumentationCatalog
         if (!File.Exists(summaryPath))
         {
             return allPages.Count == 0
-                ? Array.Empty<DocSection>()
-                : new[] { new DocSection("文档", allPages.Values.Select((page, index) => page with { Index = index }).ToList()) };
+                ? []
+                : [new DocSection("文档", allPages.Values.Select((page, index) => page with { Index = index }).ToList())];
         }
 
         var result = new List<DocSection>();
@@ -151,21 +179,17 @@ public sealed class DocumentationCatalog
             {
                 AddSection(result, currentTitle, currentPages);
                 currentTitle = line[3..].Trim();
-                currentPages = new List<DocPage>();
+                currentPages = [];
                 continue;
             }
 
             var match = SummaryLinkPattern.Match(line);
             if (!match.Success)
-            {
                 continue;
-            }
 
             var relativePath = NormalizeRelativePath(Uri.UnescapeDataString(match.Groups["path"].Value));
             if (!allPages.TryGetValue(relativePath, out var page))
-            {
                 continue;
-            }
 
             currentPages.Add(page with { SectionTitle = currentTitle, Index = orderedIndex++ });
         }
@@ -186,15 +210,11 @@ public sealed class DocumentationCatalog
                 : NormalizeRelativePath(Path.Combine(currentDirectory, target));
 
             if (!combined.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
-            {
                 return match.Value;
-            }
 
             var fullPath = Path.GetFullPath(Path.Combine(docsRoot, combined));
             if (!fullPath.StartsWith(docsRoot, StringComparison.OrdinalIgnoreCase) || !File.Exists(fullPath))
-            {
                 return match.Value;
-            }
 
             var route = NormalizeRelativePath(Path.GetRelativePath(docsRoot, fullPath))[..^3];
             return $"[{match.Groups["text"].Value}]({GetUrl(route)}{anchor})";
@@ -204,9 +224,7 @@ public sealed class DocumentationCatalog
     private static string AddHeadingAnchors(string markdown, IReadOnlyList<DocHeading> headings)
     {
         if (headings.Count == 0)
-        {
             return markdown;
-        }
 
         var headingQueue = new Queue<DocHeading>(headings.Where(x => x.Level <= 3));
         var builder = new StringBuilder();
@@ -239,15 +257,11 @@ public sealed class DocumentationCatalog
             var line = rawLine.Trim();
             var match = HeadingPattern.Match(line);
             if (!match.Success)
-            {
                 continue;
-            }
 
             var level = match.Groups["hashes"].Value.Length;
             if (level > 3)
-            {
                 continue;
-            }
 
             var title = Regex.Replace(match.Groups["title"].Value, @"\s*\{#.*?\}$", string.Empty).Trim();
             var slug = Slugify(title);
@@ -275,35 +289,61 @@ public sealed class DocumentationCatalog
         return $"{title} {excerpt} {headingText} {body}";
     }
 
+    private static string EnhanceCodeBlocks(string html)
+    {
+        return Regex.Replace(
+            html,
+            @"<pre><code class=""language-(?<lang>[\w#+.-]+)"">(?<code>[\s\S]*?)</code></pre>|<pre><code>(?<plain>[\s\S]*?)</code></pre>",
+            match =>
+            {
+                var language = match.Groups["lang"].Success ? match.Groups["lang"].Value.ToLowerInvariant() : "text";
+                var encodedCode = match.Groups["lang"].Success ? match.Groups["code"].Value : match.Groups["plain"].Value;
+                var decodedCode = System.Net.WebUtility.HtmlDecode(encodedCode);
+                var highlighted = HighlightHelper.Highlight(decodedCode, language);
+
+                return $"<div class=\"known-code-block\" data-language=\"{language}\"><div class=\"known-code-toolbar\"><span class=\"known-code-language\">{HighlightHelper.GetLanguageLabel(language)}</span><button class=\"known-code-copy\" type=\"button\" data-copy=\"{System.Net.WebUtility.HtmlEncode(decodedCode)}\">复制</button></div><pre><code class=\"language-{language}\">{highlighted}</code></pre></div>";
+            },
+            RegexOptions.IgnoreCase);
+    }
+
+    private static string HighlightText(string text, string keyword)
+    {
+        if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(keyword))
+            return System.Net.WebUtility.HtmlEncode(text);
+
+        var encoded = System.Net.WebUtility.HtmlEncode(text);
+        var terms = keyword.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderByDescending(x => x.Length);
+
+        foreach (var term in terms)
+        {
+            var escaped = Regex.Escape(System.Net.WebUtility.HtmlEncode(term));
+            encoded = Regex.Replace(encoded, escaped, "<mark>$0</mark>", RegexOptions.IgnoreCase);
+        }
+
+        return encoded;
+    }
+
     private static int GetSearchScore(DocPage page, string[] terms)
     {
         var score = 0;
         foreach (var term in terms)
         {
             if (page.Title.Contains(term, StringComparison.OrdinalIgnoreCase))
-            {
                 score += 12;
-            }
 
             if (page.SectionTitle.Contains(term, StringComparison.OrdinalIgnoreCase))
-            {
                 score += 6;
-            }
 
             if (page.Excerpt.Contains(term, StringComparison.OrdinalIgnoreCase))
-            {
                 score += 4;
-            }
 
             if (page.Headings.Any(x => x.Title.Contains(term, StringComparison.OrdinalIgnoreCase)))
-            {
                 score += 5;
-            }
 
             if (page.SearchText.Contains(term, StringComparison.OrdinalIgnoreCase))
-            {
                 score += 2;
-            }
         }
 
         return score;
@@ -323,9 +363,7 @@ public sealed class DocumentationCatalog
         for (var i = 0; i < orderedPages.Count; i++)
         {
             if (string.Equals(orderedPages[i].Route, normalized, StringComparison.OrdinalIgnoreCase))
-            {
                 return i;
-            }
         }
 
         return -1;
@@ -337,9 +375,7 @@ public sealed class DocumentationCatalog
         {
             var line = rawLine.Trim();
             if (line.StartsWith("# ", StringComparison.Ordinal))
-            {
                 return line[2..].Trim();
-            }
         }
 
         return fallback;
@@ -357,9 +393,7 @@ public sealed class DocumentationCatalog
                 line.StartsWith("|", StringComparison.Ordinal) ||
                 Regex.IsMatch(line, "^\\d+\\.", RegexOptions.CultureInvariant) ||
                 line.StartsWith("- ", StringComparison.Ordinal))
-            {
                 continue;
-            }
 
             return line.Length > 120 ? $"{line[..120]}..." : line;
         }
@@ -431,3 +465,7 @@ public sealed record DocPage(
     int Index);
 
 public sealed record DocHeading(string Title, string Id, int Level);
+
+public sealed record DocSearchGroup(string Title, IReadOnlyList<DocSearchItem> Items);
+
+public sealed record DocSearchItem(string Title, string Route, string TitleHtml, string ExcerptHtml);

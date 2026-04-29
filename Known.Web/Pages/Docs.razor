@@ -1,8 +1,12 @@
 @page "/docs"
 @page "/docs/{*DocumentPath}"
-@inject Known.Web.Services.DocumentationCatalog Documentation
+@inject Known.Web.Services.DocumentService Documents
 
 <PageTitle>@PageTitleText</PageTitle>
+<HeadContent>
+    <meta name="description" content="Known Framework 官方文档中心，内容直接来自仓库中的 Markdown 文档。" />
+    <meta property="og:title" content="Known Framework 文档中心" />
+</HeadContent>
 
 <SiteFrame Current="docs" BodyClass="known-site-docs-shell" MainClass="known-site-docs-main">
         <aside class="known-docs-sidebar">
@@ -21,18 +25,24 @@
                 {
                     <section class="known-docs-nav-section known-docs-search-results">
                         <h3>搜索结果</h3>
-                        @if (SearchResults.Count == 0)
+                        @if (SearchGroups.Count == 0)
                         {
                             <p class="known-docs-search-empty">没有匹配结果。</p>
                         }
                         else
                         {
-                            @foreach (var result in SearchResults)
+                            @foreach (var group in SearchGroups)
                             {
-                                <a class="@(IsActive(result.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documentation.GetUrl(result.Route)">
-                                    <strong>@result.Title</strong>
-                                    <span>@result.SectionTitle</span>
-                                </a>
+                                <div class="known-docs-search-group">
+                                    <h4>@group.Title</h4>
+                                    @foreach (var item in group.Items)
+                                    {
+                                        <a class="@(IsActive(item.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documents.GetUrl(item.Route)">
+                                            <strong>@((MarkupString)item.TitleHtml)</strong>
+                                            <span>@((MarkupString)item.ExcerptHtml)</span>
+                                        </a>
+                                    }
+                                </div>
                             }
                         }
                     </section>
@@ -40,15 +50,17 @@
                 else
                 {
                     <div class="known-docs-nav-wrap">
-                        @foreach (var docSection in Documentation.Sections)
+                        @foreach (var docSection in Documents.Sections)
                         {
-                            <section class="known-docs-nav-section">
-                                <h3>@docSection.Title</h3>
-                                @foreach (var docPage in docSection.Pages)
-                                {
-                                    <a class="@(IsActive(docPage.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documentation.GetUrl(docPage.Route)">@docPage.Title</a>
-                                }
-                            </section>
+                            <details class="known-docs-nav-group" open="@IsSectionOpen(docSection)">
+                                <summary class="known-docs-nav-summary">@docSection.Title</summary>
+                                <div class="known-docs-nav-section">
+                                    @foreach (var docPage in docSection.Pages)
+                                    {
+                                        <a class="@(IsActive(docPage.Route) ? "known-docs-link active" : "known-docs-link")" data-doc-link="@docPage.Route" data-doc-active="@IsActive(docPage.Route)" href="@Documents.GetUrl(docPage.Route)">@docPage.Title</a>
+                                    }
+                                </div>
+                            </details>
                         }
                     </div>
                 }
@@ -81,7 +93,7 @@
                 <div class="known-docs-pager">
                     @if (PreviousPage is not null)
                     {
-                        <a class="known-site-card known-docs-pager-link" href="@Documentation.GetUrl(PreviousPage.Route)">
+                        <a class="known-site-card known-docs-pager-link" href="@Documents.GetUrl(PreviousPage.Route)">
                             <span>上一篇</span>
                             <strong>@PreviousPage.Title</strong>
                         </a>
@@ -89,7 +101,7 @@
 
                     @if (NextPage is not null)
                     {
-                        <a class="known-site-card known-docs-pager-link align-right" href="@Documentation.GetUrl(NextPage.Route)">
+                        <a class="known-site-card known-docs-pager-link align-right" href="@Documents.GetUrl(NextPage.Route)">
                             <span>下一篇</span>
                             <strong>@NextPage.Title</strong>
                         </a>
@@ -113,7 +125,7 @@
                     {
                         @foreach (var heading in CurrentPage.Headings)
                         {
-                            <a class="known-docs-toc-link level-@heading.Level" href="#@heading.Id">@heading.Title</a>
+                            <a class="known-docs-toc-link level-@heading.Level" data-toc-link href="#@heading.Id">@heading.Title</a>
                         }
                     }
                 </div>
@@ -131,11 +143,11 @@
     private string SearchTerm { get; set; } = string.Empty;
     private string PageTitleText => CurrentPage is null ? "Known 文档中心" : $"{CurrentPage.Title} - Known 文档中心";
     private bool HasSearch => !string.IsNullOrWhiteSpace(SearchTerm);
-    private IReadOnlyList<Known.Web.Services.DocPage> SearchResults => Documentation.Search(SearchTerm, 16);
+    private IReadOnlyList<Known.Web.Services.DocSearchGroup> SearchGroups => Documents.SearchGrouped(SearchTerm, 16);
 
     protected override void OnParametersSet()
     {
-        CurrentPage = Documentation.GetPage(DocumentPath);
+        CurrentPage = Documents.GetPage(DocumentPath);
 
         if (CurrentPage is null)
         {
@@ -144,12 +156,17 @@
             return;
         }
 
-        PreviousPage = Documentation.GetPrevious(CurrentPage.Route);
-        NextPage = Documentation.GetNext(CurrentPage.Route);
+        PreviousPage = Documents.GetPrevious(CurrentPage.Route);
+        NextPage = Documents.GetNext(CurrentPage.Route);
     }
 
     private bool IsActive(string route)
     {
         return CurrentPage?.Route.Equals(route, StringComparison.OrdinalIgnoreCase) == true;
+    }
+
+    private bool IsSectionOpen(Known.Web.Services.DocSection section)
+    {
+        return CurrentPage is not null && section.Pages.Any(page => string.Equals(page.Route, CurrentPage.Route, StringComparison.OrdinalIgnoreCase));
     }
 }

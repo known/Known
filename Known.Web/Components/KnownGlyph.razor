@@ -1,0 +1,51 @@
+<div class="known-glyph @ToneClass" aria-hidden="true">
+    <i class="@IconClass"></i>
+</div>
+
+@code {
+    [Parameter]
+    public string Code { get; set; } = "KF";
+
+    [Parameter]
+    public string Tone { get; set; } = "blue";
+
+    private string ToneClass => $"tone-{Tone}";
+
+    private string IconClass => Code.ToUpperInvariant() switch
+    {
+        "KF" => "fa-solid fa-cubes",
+        "PX" => "fa-solid fa-puzzle-piece",
+        "RT" => "fa-solid fa-layer-group",
+        "AU" => "fa-solid fa-shield-halved",
+        "WF" => "fa-solid fa-diagram-project",
+        "AD" => "fa-solid fa-table-cells-large",
+        "DX" => "fa-solid fa-code",
+        "LC" => "fa-solid fa-wand-magic-sparkles",
+        "SV" => "fa-solid fa-server",
+        "WA" => "fa-solid fa-globe",
+        "MU" => "fa-solid fa-mobile-screen-button",
+        "HT" => "fa-solid fa-display",
+        "PL" => "fa-solid fa-plug-circle-bolt",
+        "KR" => "fa-solid fa-cube",
+        "IF" => "fa-solid fa-database",
+        "SR" => "fa-solid fa-arrows-rotate",
+        "UI" => "fa-solid fa-window-maximize",
+        "MD" => "fa-solid fa-boxes-stacked",
+        "EV" => "fa-solid fa-arrow-trend-up",
+        "WB" => "fa-solid fa-earth-asia",
+        "GH" => "fa-brands fa-github",
+        "GT" => "fa-solid fa-code-branch",
+        "PK" => "fa-solid fa-box-open",
+        "DC" => "fa-solid fa-book-open",
+        "CM" => "fa-solid fa-users",
+        "JR" => "fa-solid fa-seedling",
+        "BD" => "fa-solid fa-briefcase",
+        "PF" => "fa-solid fa-sitemap",
+        "AR" => "fa-solid fa-compass-drafting",
+        "01" => "fa-solid fa-play",
+        "02" => "fa-solid fa-rocket",
+        "03" => "fa-solid fa-book",
+        "04" => "fa-solid fa-puzzle-piece",
+        _ => "fa-solid fa-star"
+    };
+}

@@ -1,6 +1,10 @@
 @page "/features"
 
 <PageTitle>框架特性 - Known Framework</PageTitle>
+<HeadContent>
+    <meta name="description" content="了解 Known Framework 的核心能力，包括系统基座、统一服务模型、低代码协同和多宿主运行方式。" />
+    <meta property="og:title" content="框架特性 - Known Framework" />
+</HeadContent>
 
 <SiteFrame Current="features">
     <section class="known-page-shell known-page-intro">
@@ -8,6 +12,23 @@
             <span class="known-page-kicker">Capabilities</span>
             <h1>把框架能力按产品语言讲清楚</h1>
             <p>Known 不是单点组件库，而是一套面向企业应用的平台型框架。这里按开发者最关心的能力维度重新组织信息，而不是把功能散落在首页各处。</p>
+        </div>
+        <div class="known-feature-hero-grid">
+            <article class="known-feature-hero-card">
+                <KnownGlyph Code="KF" Tone="blue" />
+                <strong>Framework Core</strong>
+                <span>统一对象模型、页面基类、服务模型和平台能力。</span>
+            </article>
+            <article class="known-feature-hero-card">
+                <KnownGlyph Code="PX" Tone="violet" />
+                <strong>Plugin Extensions</strong>
+                <span>业务能力按插件沉淀，便于拆分和持续复用。</span>
+            </article>
+            <article class="known-feature-hero-card">
+                <KnownGlyph Code="RT" Tone="cyan" />
+                <strong>Runtime Options</strong>
+                <span>同一套核心逻辑运行在多种宿主，不被单一模式锁死。</span>
+            </article>
         </div>
     </section>
 
@@ -19,16 +40,19 @@
         </div>
         <div class="known-card-grid known-card-grid-3">
             <article class="known-card">
+                <KnownGlyph Code="AU" Tone="blue" />
                 <span class="known-card-tag">System</span>
                 <h3>权限与菜单</h3>
                 <p>角色、菜单、按钮授权和访问控制具备统一模型，业务模块接入不需要重新造轮子。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="WF" Tone="violet" />
                 <span class="known-card-tag">Workflow</span>
                 <h3>工作流与任务</h3>
                 <p>流程、后台任务、导入导出和文件能力都在框架层提供，适合业务平台持续扩展。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="AD" Tone="cyan" />
                 <span class="known-card-tag">Admin</span>
                 <h3>系统后台基座</h3>
                 <p>组织、字典、日志、多语言、配置等模块内置可用，而不是留给每个项目重复实现。</p>
@@ -44,6 +68,7 @@
         </div>
         <div class="known-card-grid known-card-grid-2">
             <article class="known-card known-card-highlight">
+                <KnownGlyph Code="DX" Tone="blue" />
                 <h3>统一服务模型</h3>
                 <p>服务接口、客户端代理和宿主调用方式统一，Server 与 Wasm 的迁移成本更低。</p>
                 <ul class="known-list">
@@ -53,6 +78,7 @@
                 </ul>
             </article>
             <article class="known-card known-card-highlight">
+                <KnownGlyph Code="LC" Tone="amber" />
                 <h3>元数据驱动与低代码协同</h3>
                 <p>自动页面、元数据配置和编码开发并存，适合逐步提升交付效率，而不是强制切到纯配置模式。</p>
                 <ul class="known-list">
@@ -72,18 +98,22 @@
         </div>
         <div class="known-card-grid known-card-grid-4">
             <article class="known-card">
+                <KnownGlyph Code="SV" Tone="blue" />
                 <h3>Server</h3>
                 <p>适合后台系统快速上线与统一部署。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="WA" Tone="cyan" />
                 <h3>WebAssembly</h3>
                 <p>适合前后端分离或离线增强场景。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="WF" Tone="violet" />
                 <h3>WinForm</h3>
                 <p>兼容传统桌面环境，便于增量演进。</p>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="MU" Tone="amber" />
                 <h3>MAUI</h3>
                 <p>适合跨平台移动和桌面端复用同一业务核心。</p>
             </article>

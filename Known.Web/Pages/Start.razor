@@ -1,6 +1,10 @@
 @page "/start"
 
 <PageTitle>快速开始 - Known Framework</PageTitle>
+<HeadContent>
+    <meta name="description" content="按推荐路径快速开始 Known Framework：先运行示例，再理解架构，再进入文档和插件扩展。" />
+    <meta property="og:title" content="快速开始 - Known Framework" />
+</HeadContent>
 
 <SiteFrame Current="start">
     <section class="known-page-shell known-page-intro">
@@ -14,6 +18,7 @@
     <section class="known-page-shell known-page-section">
         <div class="known-card-grid known-card-grid-2">
             <article class="known-card known-code-card">
+                <KnownGlyph Code="01" Tone="blue" />
                 <span class="known-card-tag">Run Demo</span>
                 <h3>1. 先把示例跑起来</h3>
                 <pre><code>git clone https://github.com/known/Known.git
@@ -22,6 +27,7 @@ dotnet run</code></pre>
                 <p>优先运行示例，先对框架能力建立直观印象，再进入代码和文档阅读。</p>
             </article>
             <article class="known-card known-code-card">
+                <KnownGlyph Code="02" Tone="cyan" />
                 <span class="known-card-tag">Install</span>
                 <h3>2. 在项目里接入核心包</h3>
                 <pre><code>dotnet add package Known</code></pre>
@@ -38,16 +44,19 @@ dotnet run</code></pre>
         </div>
         <div class="known-card-grid known-card-grid-3">
             <article class="known-card">
+                <KnownGlyph Code="JR" Tone="blue" />
                 <h3>初学者</h3>
                 <p>先读框架概述、快速开始、架构概述与内置模块，再进入插件模块实战。</p>
                 <a class="known-inline-link" href="/docs/ch01-%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0">从概述开始</a>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="BD" Tone="violet" />
                 <h3>业务开发者</h3>
                 <p>优先阅读实体模型、数据访问、服务模型、页面开发、权限菜单和插件实战。</p>
                 <a class="known-inline-link" href="/docs/ch05-%E5%AE%9E%E4%BD%93%E6%A8%A1%E5%9E%8B">进入开发主线</a>
             </article>
             <article class="known-card">
+                <KnownGlyph Code="PF" Tone="amber" />
                 <h3>平台开发者</h3>
                 <p>重点关注插件体系、开发中心、工作流、配置体系、安全与性能能力。</p>
                 <a class="known-inline-link" href="/docs/ch10-%E6%8F%92%E4%BB%B6%E4%BD%93%E7%B3%BB">查看平台能力</a>
@@ -62,21 +71,25 @@ dotnet run</code></pre>
         </div>
         <div class="known-flow-grid">
             <article class="known-flow-step">
+                <KnownGlyph Code="01" Tone="blue" />
                 <strong>01</strong>
                 <h3>运行示例</h3>
                 <p>先感受完整系统，而不是只看零碎组件。</p>
             </article>
             <article class="known-flow-step">
+                <KnownGlyph Code="02" Tone="cyan" />
                 <strong>02</strong>
                 <h3>理解架构</h3>
                 <p>明确核心层、插件层和宿主层的职责边界。</p>
             </article>
             <article class="known-flow-step">
+                <KnownGlyph Code="03" Tone="violet" />
                 <strong>03</strong>
                 <h3>阅读文档</h3>
                 <p>按角色路线进入实体、服务、页面和插件开发。</p>
             </article>
             <article class="known-flow-step">
+                <KnownGlyph Code="04" Tone="amber" />
                 <strong>04</strong>
                 <h3>开始扩展</h3>
                 <p>以插件方式接入自己的业务模块和平台能力。</p>
