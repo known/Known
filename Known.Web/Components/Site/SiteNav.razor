@@ -1,12 +1,37 @@
 <nav class="known-site-nav">
-    <a class="known-site-brand" href="/">Known</a>
-    <div class="known-site-nav-links">
-        <a href="/#features">框架特性</a>
-        <a href="/#docs">文档</a>
-        <a href="/#architecture">架构</a>
-        <a href="/#quickstart">快速开始</a>
-        <a href="/#community">社区</a>
-        <a href="/docs">Docs</a>
-        <a href="https://github.com/known/Known" target="_blank" rel="noreferrer">GitHub</a>
+    <div class="known-site-nav-bar">
+        <a class="known-site-brand" href="/">
+            <span class="known-site-brand-mark">K</span>
+            <span>Known</span>
+        </a>
+
+        <div class="known-site-nav-links">
+            <a class="@GetNavClass("home")" href="/">首页</a>
+            <a class="@GetNavClass("features")" href="/features">框架特性</a>
+            <a class="@GetNavClass("architecture")" href="/architecture">架构设计</a>
+            <a class="@GetNavClass("start")" href="/start">快速开始</a>
+            <a class="@GetNavClass("docs")" href="/docs">文档</a>
+            <a class="@GetNavClass("ecosystem")" href="/ecosystem">生态社区</a>
+        </div>
+
+        <div class="known-site-nav-actions">
+            <button class="known-theme-toggle" type="button" onclick="window.knownTheme.toggle()" aria-label="切换浅色或深色主题">
+                <span class="known-theme-toggle-dark">切换浅色</span>
+                <span class="known-theme-toggle-light">切换深色</span>
+            </button>
+            <a class="known-site-nav-github" href="https://github.com/known/Known" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
     </div>
 </nav>
+
+@code {
+    [Parameter]
+    public string Current { get; set; } = string.Empty;
+
+    private string GetNavClass(string key)
+    {
+        return string.Equals(Current, key, StringComparison.OrdinalIgnoreCase)
+            ? "known-site-nav-link active"
+            : "known-site-nav-link";
+    }
+}

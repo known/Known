@@ -2,16 +2,112 @@
 
 <PageTitle>Known Framework - 官方网站</PageTitle>
 
-<div class="known-site">
-    <SiteHeader />
+<SiteFrame Current="home">
+    <section class="known-page-shell known-home-hero">
+        <div class="known-home-hero-copy">
+            <span class="known-page-kicker">Known Framework</span>
+            <h1>用插件化方式构建企业级 Blazor 应用，而不是从零拼后台</h1>
+            <p>Known 面向的是需要长期演进的业务系统。它把对象模型、服务模型、页面基类、系统基座、插件机制和多宿主运行能力组织成一套统一开发方式。</p>
+            <div class="known-page-actions">
+                <a class="known-site-btn primary" href="/docs">阅读文档</a>
+                <a class="known-site-btn" href="/start">快速开始</a>
+            </div>
+            <div class="known-home-proof">
+                <div>
+                    <strong>统一 C# 开发</strong>
+                    <span>前端、服务、插件和宿主围绕同一语言与模型组织</span>
+                </div>
+                <div>
+                    <strong>多端宿主复用</strong>
+                    <span>Server、Wasm、WinForm、MAUI 共享核心能力</span>
+                </div>
+                <div>
+                    <strong>站点与文档同源</strong>
+                    <span>官网文档直接渲染仓库 Markdown，减少内容偏差</span>
+                </div>
+            </div>
+        </div>
+        <div class="known-home-hero-panel">
+            <article class="known-hero-panel-card">
+                <span class="known-card-tag">Designed for teams</span>
+                <h3>官网结构重新按决策路径组织</h3>
+                <p>首页只回答“Known 是什么、适合谁、下一步去哪”；具体能力、架构和资源被拆到独立页面，避免内容堆叠混乱。</p>
+            </article>
+            <article class="known-hero-panel-card known-code-card">
+                <span class="known-card-tag">Quick Run</span>
+                <pre><code>git clone https://github.com/known/Known.git
+cd Known/Known.Server
+dotnet run</code></pre>
+            </article>
+        </div>
+    </section>
 
-    <main class="known-site-main">
-        <FeatureSection />
-        <DocsOverviewSection />
-        <ArchitectureSection />
-        <QuickStartSection />
-        <CommunitySection />
-    </main>
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Why Known</span>
+            <h2>官网先回答三件事：它是什么、为什么适合你、从哪里开始</h2>
+            <p>成熟官网不应该把所有信息都塞到一个长页面里。Known 现在按“定位、能力、架构、上手、生态”五个模块拆分站点结构。</p>
+        </div>
+        <div class="known-card-grid known-card-grid-3">
+            <a class="known-card known-card-link" href="/features">
+                <span class="known-card-tag">Features</span>
+                <h3>框架特性</h3>
+                <p>从平台基座、服务模型、低代码协同和多端宿主角度理解 Known 的能力边界。</p>
+            </a>
+            <a class="known-card known-card-link" href="/architecture">
+                <span class="known-card-tag">Architecture</span>
+                <h3>架构设计</h3>
+                <p>明确核心层、插件层和宿主层的职责，了解框架为什么适合长期演进。</p>
+            </a>
+            <a class="known-card known-card-link" href="/start">
+                <span class="known-card-tag">Getting Started</span>
+                <h3>快速开始</h3>
+                <p>给新团队一条实际可执行的路径：先运行、再理解、再阅读、再扩展。</p>
+            </a>
+        </div>
+    </section>
 
-    <SiteFooter />
-</div>
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Site Map</span>
+            <h2>每个页面只承担一类信息</h2>
+            <p>这让导航更像真正官网，而不是“首页锚点索引”。</p>
+        </div>
+        <div class="known-flow-grid">
+            <article class="known-flow-step">
+                <strong>01</strong>
+                <h3>首页</h3>
+                <p>聚焦定位、价值主张和用户下一步动作。</p>
+            </article>
+            <article class="known-flow-step">
+                <strong>02</strong>
+                <h3>框架特性</h3>
+                <p>按能力模型解释平台优势，而不是零散堆功能点。</p>
+            </article>
+            <article class="known-flow-step">
+                <strong>03</strong>
+                <h3>架构设计</h3>
+                <p>聚焦分层、插件边界和宿主运行模式。</p>
+            </article>
+            <article class="known-flow-step">
+                <strong>04</strong>
+                <h3>快速开始与文档</h3>
+                <p>分别承接上手路径和完整参考内容。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section known-page-cta-section">
+        <div class="known-cta-card">
+            <div>
+                <span class="known-page-kicker">Documentation</span>
+                <h2>文档中心继续保留，并接入更完整的阅读体验</h2>
+                <p>支持搜索、页内目录和 Markdown 同源渲染，作为官网站点中的文档模块独立存在。</p>
+            </div>
+            <div class="known-page-actions">
+                <a class="known-site-btn primary" href="/docs">进入文档中心</a>
+                <a class="known-site-btn" href="/ecosystem">查看生态与社区</a>
+            </div>
+        </div>
+    </section>
+</SiteFrame>

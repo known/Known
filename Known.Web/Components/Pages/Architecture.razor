@@ -1,0 +1,83 @@
+@page "/architecture"
+
+<PageTitle>架构设计 - Known Framework</PageTitle>
+
+<SiteFrame Current="architecture">
+    <section class="known-page-shell known-page-intro">
+        <div class="known-page-heading">
+            <span class="known-page-kicker">Architecture</span>
+            <h1>围绕核心层、插件层和宿主层建立清晰边界</h1>
+            <p>专业官网不该只说“支持很多能力”，更要解释系统是如何组织的。Known 的架构重点是分层清晰、宿主轻量、插件可演进。</p>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Layered Design</span>
+            <h2>核心代码放在稳定层，业务能力沉淀在插件层</h2>
+            <p>这样做的结果是：宿主可以变化，业务模块可以增加，但框架核心和业务边界依然清晰。</p>
+        </div>
+        <div class="known-architecture-stack">
+            <article class="known-architecture-layer">
+                <span>Host Layer</span>
+                <h3>Known.Server / Known.Wasm / Known.Maui</h3>
+                <p>负责启动、承载和部署，不承载复杂业务逻辑。</p>
+            </article>
+            <article class="known-architecture-layer">
+                <span>Plugin Layer</span>
+                <h3>Plugins/*</h3>
+                <p>业务实体、页面、服务、资源和模块入口按插件组织，便于拆分与复用。</p>
+            </article>
+            <article class="known-architecture-layer">
+                <span>Framework Layer</span>
+                <h3>Known</h3>
+                <p>对象模型、服务模型、页面基类、权限、工作流和平台能力都沉淀在核心层。</p>
+            </article>
+            <article class="known-architecture-layer">
+                <span>Infrastructure</span>
+                <h3>Database / Config / Integration</h3>
+                <p>数据库、配置、第三方集成和宿主环境作为底层支撑能力被统一接入。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Execution Model</span>
+            <h2>同一套业务能力适配不同运行模式</h2>
+            <p>Known 并不鼓励把业务实现写死在某一种前端形态里，而是通过统一服务与模块模型复用业务能力。</p>
+        </div>
+        <div class="known-card-grid known-card-grid-2">
+            <article class="known-card">
+                <h3>服务复用</h3>
+                <p>同一个服务接口既可以在 Server 模式下本地注入，也可以在 Wasm 模式下转成远程调用。</p>
+            </article>
+            <article class="known-card">
+                <h3>页面复用</h3>
+                <p>页面与组件围绕统一基类和插件机制组织，减少因宿主差异导致的重复实现。</p>
+            </article>
+            <article class="known-card">
+                <h3>模块装配</h3>
+                <p>插件入口统一注册，平台能力和业务能力可以按模块方式组合，而不是在启动项中散乱拼接。</p>
+            </article>
+            <article class="known-card">
+                <h3>持续演进</h3>
+                <p>适合从单体后台逐步演进为平台化业务系统，或者从单宿主扩展到多宿主。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section known-page-cta-section">
+        <div class="known-cta-card">
+            <div>
+                <span class="known-page-kicker">Next Step</span>
+                <h2>先看快速开始，再回到文档中心深入阅读</h2>
+                <p>如果你更关心上手方式和阅读路径，直接进入快速开始页和完整文档中心。</p>
+            </div>
+            <div class="known-page-actions">
+                <a class="known-site-btn primary" href="/start">查看快速开始</a>
+                <a class="known-site-btn" href="/docs">阅读文档</a>
+            </div>
+        </div>
+    </section>
+</SiteFrame>

@@ -1,0 +1,86 @@
+@page "/start"
+
+<PageTitle>快速开始 - Known Framework</PageTitle>
+
+<SiteFrame Current="start">
+    <section class="known-page-shell known-page-intro">
+        <div class="known-page-heading">
+            <span class="known-page-kicker">Quick Start</span>
+            <h1>给第一次接触 Known 的团队一条清晰路径</h1>
+            <p>快速开始页应该告诉开发者先做什么、再看什么、如何把官网内容和仓库代码对应起来，而不是只放一段命令行。</p>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-card-grid known-card-grid-2">
+            <article class="known-card known-code-card">
+                <span class="known-card-tag">Run Demo</span>
+                <h3>1. 先把示例跑起来</h3>
+                <pre><code>git clone https://github.com/known/Known.git
+cd Known/Known.Server
+dotnet run</code></pre>
+                <p>优先运行示例，先对框架能力建立直观印象，再进入代码和文档阅读。</p>
+            </article>
+            <article class="known-card known-code-card">
+                <span class="known-card-tag">Install</span>
+                <h3>2. 在项目里接入核心包</h3>
+                <pre><code>dotnet add package Known</code></pre>
+                <p>将 Known 的核心能力接入你自己的 Blazor 项目，再按插件方式组织业务模块。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Reading Paths</span>
+            <h2>按角色选择阅读路线</h2>
+            <p>这里把文档阅读路线整理成独立页面内容，避免重要信息埋在文档目录中。</p>
+        </div>
+        <div class="known-card-grid known-card-grid-3">
+            <article class="known-card">
+                <h3>初学者</h3>
+                <p>先读框架概述、快速开始、架构概述与内置模块，再进入插件模块实战。</p>
+                <a class="known-inline-link" href="/docs/ch01-%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0">从概述开始</a>
+            </article>
+            <article class="known-card">
+                <h3>业务开发者</h3>
+                <p>优先阅读实体模型、数据访问、服务模型、页面开发、权限菜单和插件实战。</p>
+                <a class="known-inline-link" href="/docs/ch05-%E5%AE%9E%E4%BD%93%E6%A8%A1%E5%9E%8B">进入开发主线</a>
+            </article>
+            <article class="known-card">
+                <h3>平台开发者</h3>
+                <p>重点关注插件体系、开发中心、工作流、配置体系、安全与性能能力。</p>
+                <a class="known-inline-link" href="/docs/ch10-%E6%8F%92%E4%BB%B6%E4%BD%93%E7%B3%BB">查看平台能力</a>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Suggested Flow</span>
+            <h2>建议的上手顺序</h2>
+        </div>
+        <div class="known-flow-grid">
+            <article class="known-flow-step">
+                <strong>01</strong>
+                <h3>运行示例</h3>
+                <p>先感受完整系统，而不是只看零碎组件。</p>
+            </article>
+            <article class="known-flow-step">
+                <strong>02</strong>
+                <h3>理解架构</h3>
+                <p>明确核心层、插件层和宿主层的职责边界。</p>
+            </article>
+            <article class="known-flow-step">
+                <strong>03</strong>
+                <h3>阅读文档</h3>
+                <p>按角色路线进入实体、服务、页面和插件开发。</p>
+            </article>
+            <article class="known-flow-step">
+                <strong>04</strong>
+                <h3>开始扩展</h3>
+                <p>以插件方式接入自己的业务模块和平台能力。</p>
+            </article>
+        </div>
+    </section>
+</SiteFrame>

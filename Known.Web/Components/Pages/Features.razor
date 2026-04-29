@@ -1,0 +1,92 @@
+@page "/features"
+
+<PageTitle>框架特性 - Known Framework</PageTitle>
+
+<SiteFrame Current="features">
+    <section class="known-page-shell known-page-intro">
+        <div class="known-page-heading">
+            <span class="known-page-kicker">Capabilities</span>
+            <h1>把框架能力按产品语言讲清楚</h1>
+            <p>Known 不是单点组件库，而是一套面向企业应用的平台型框架。这里按开发者最关心的能力维度重新组织信息，而不是把功能散落在首页各处。</p>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Core Platform</span>
+            <h2>从基座能力开始，而不是从空模板开始</h2>
+            <p>内置系统能力决定了团队能否把精力放在业务交付上。Known 将企业后台常见需求沉淀到统一基座中。</p>
+        </div>
+        <div class="known-card-grid known-card-grid-3">
+            <article class="known-card">
+                <span class="known-card-tag">System</span>
+                <h3>权限与菜单</h3>
+                <p>角色、菜单、按钮授权和访问控制具备统一模型，业务模块接入不需要重新造轮子。</p>
+            </article>
+            <article class="known-card">
+                <span class="known-card-tag">Workflow</span>
+                <h3>工作流与任务</h3>
+                <p>流程、后台任务、导入导出和文件能力都在框架层提供，适合业务平台持续扩展。</p>
+            </article>
+            <article class="known-card">
+                <span class="known-card-tag">Admin</span>
+                <h3>系统后台基座</h3>
+                <p>组织、字典、日志、多语言、配置等模块内置可用，而不是留给每个项目重复实现。</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Developer Experience</span>
+            <h2>统一 C# 开发模型，让团队协作更稳定</h2>
+            <p>Known 的核心价值之一，是把实体、服务、页面、权限和插件装配统一到同一套开发语言和组织方式上。</p>
+        </div>
+        <div class="known-card-grid known-card-grid-2">
+            <article class="known-card known-card-highlight">
+                <h3>统一服务模型</h3>
+                <p>服务接口、客户端代理和宿主调用方式统一，Server 与 Wasm 的迁移成本更低。</p>
+                <ul class="known-list">
+                    <li>服务端与客户端共享接口定义</li>
+                    <li>便于模块拆分与业务复用</li>
+                    <li>适合平台化团队协作</li>
+                </ul>
+            </article>
+            <article class="known-card known-card-highlight">
+                <h3>元数据驱动与低代码协同</h3>
+                <p>自动页面、元数据配置和编码开发并存，适合逐步提升交付效率，而不是强制切到纯配置模式。</p>
+                <ul class="known-list">
+                    <li>表单、表格和页面模型统一</li>
+                    <li>开发中心可承载可视化扩展</li>
+                    <li>低代码与编码能力可混合使用</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="known-page-shell known-page-section">
+        <div class="known-section-head">
+            <span>Runtime</span>
+            <h2>同一套核心能力，覆盖多种宿主</h2>
+            <p>Known 把核心逻辑放在框架层和插件层，宿主只负责承载与启动，方便按业务需要选择运行模式。</p>
+        </div>
+        <div class="known-card-grid known-card-grid-4">
+            <article class="known-card">
+                <h3>Server</h3>
+                <p>适合后台系统快速上线与统一部署。</p>
+            </article>
+            <article class="known-card">
+                <h3>WebAssembly</h3>
+                <p>适合前后端分离或离线增强场景。</p>
+            </article>
+            <article class="known-card">
+                <h3>WinForm</h3>
+                <p>兼容传统桌面环境，便于增量演进。</p>
+            </article>
+            <article class="known-card">
+                <h3>MAUI</h3>
+                <p>适合跨平台移动和桌面端复用同一业务核心。</p>
+            </article>
+        </div>
+    </section>
+</SiteFrame>

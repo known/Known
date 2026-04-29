@@ -4,10 +4,7 @@
 
 <PageTitle>@PageTitleText</PageTitle>
 
-<div class="known-site known-site-docs-shell">
-    <SiteNav />
-
-    <main class="known-site-docs-main">
+<SiteFrame Current="docs" BodyClass="known-site-docs-shell" MainClass="known-site-docs-main">
         <aside class="known-docs-sidebar">
             <div class="known-docs-sidebar-card">
                 <div class="known-docs-sidebar-head">
@@ -16,15 +13,44 @@
                     <p>文档内容直接来自项目中的 <code>docs</code> 目录。</p>
                 </div>
 
-                @foreach (var docSection in Documentation.Sections)
+                <div class="known-docs-search-box">
+                    <input @bind="SearchTerm" @bind:event="oninput" class="known-docs-search-input" type="search" placeholder="搜索文档、章节、能力点" />
+                </div>
+
+                @if (HasSearch)
                 {
-                    <section class="known-docs-nav-section">
-                        <h3>@docSection.Title</h3>
-                        @foreach (var docPage in docSection.Pages)
+                    <section class="known-docs-nav-section known-docs-search-results">
+                        <h3>搜索结果</h3>
+                        @if (SearchResults.Count == 0)
                         {
-                            <a class="@(IsActive(docPage.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documentation.GetUrl(docPage.Route)">@docPage.Title</a>
+                            <p class="known-docs-search-empty">没有匹配结果。</p>
+                        }
+                        else
+                        {
+                            @foreach (var result in SearchResults)
+                            {
+                                <a class="@(IsActive(result.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documentation.GetUrl(result.Route)">
+                                    <strong>@result.Title</strong>
+                                    <span>@result.SectionTitle</span>
+                                </a>
+                            }
                         }
                     </section>
+                }
+                else
+                {
+                    <div class="known-docs-nav-wrap">
+                        @foreach (var docSection in Documentation.Sections)
+                        {
+                            <section class="known-docs-nav-section">
+                                <h3>@docSection.Title</h3>
+                                @foreach (var docPage in docSection.Pages)
+                                {
+                                    <a class="@(IsActive(docPage.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documentation.GetUrl(docPage.Route)">@docPage.Title</a>
+                                }
+                            </section>
+                        }
+                    </div>
                 }
             </div>
         </aside>
@@ -40,7 +66,10 @@
             else
             {
                 <header class="known-site-card known-docs-hero">
-                    <span class="known-site-eyebrow">@CurrentPage.SectionTitle</span>
+                    <div class="known-docs-hero-meta">
+                        <span class="known-site-eyebrow">@CurrentPage.SectionTitle</span>
+                        <span class="known-docs-hero-path">@CurrentPage.RelativePath</span>
+                    </div>
                     <h1>@CurrentPage.Title</h1>
                     <p>@CurrentPage.Excerpt</p>
                 </header>
@@ -68,10 +97,29 @@
                 </div>
             }
         </section>
-    </main>
 
-    <SiteFooter />
-</div>
+        <aside class="known-docs-toc">
+            @if (CurrentPage is not null)
+            {
+                <div class="known-docs-toc-card">
+                    <span class="known-site-eyebrow">On this page</span>
+                    <h3>当前页目录</h3>
+
+                    @if (CurrentPage.Headings.Count == 0)
+                    {
+                        <p class="known-docs-search-empty">当前页没有可导航标题。</p>
+                    }
+                    else
+                    {
+                        @foreach (var heading in CurrentPage.Headings)
+                        {
+                            <a class="known-docs-toc-link level-@heading.Level" href="#@heading.Id">@heading.Title</a>
+                        }
+                    }
+                </div>
+            }
+        </aside>
+</SiteFrame>
 
 @code {
     [Parameter]
@@ -80,7 +128,10 @@
     private Known.Web.Services.DocPage? CurrentPage { get; set; }
     private Known.Web.Services.DocPage? PreviousPage { get; set; }
     private Known.Web.Services.DocPage? NextPage { get; set; }
+    private string SearchTerm { get; set; } = string.Empty;
     private string PageTitleText => CurrentPage is null ? "Known 文档中心" : $"{CurrentPage.Title} - Known 文档中心";
+    private bool HasSearch => !string.IsNullOrWhiteSpace(SearchTerm);
+    private IReadOnlyList<Known.Web.Services.DocPage> SearchResults => Documentation.Search(SearchTerm, 16);
 
     protected override void OnParametersSet()
     {

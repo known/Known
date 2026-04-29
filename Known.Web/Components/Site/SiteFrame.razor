@@ -1,0 +1,25 @@
+<div class="@SiteClassName">
+    <SiteNav Current="@Current" />
+    <main class="@MainClass">
+        @ChildContent
+    </main>
+    <SiteFooter />
+</div>
+
+@code {
+    [Parameter]
+    public string Current { get; set; } = string.Empty;
+
+    [Parameter]
+    public string MainClass { get; set; } = "known-site-main";
+
+    [Parameter]
+    public string BodyClass { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string SiteClassName => string.IsNullOrWhiteSpace(BodyClass)
+        ? "known-site"
+        : $"known-site {BodyClass}";
+}
