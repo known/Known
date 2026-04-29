@@ -2,13 +2,120 @@
 @inherits IndexPage
 @attribute [ReuseTabsPage(Title = Language.Home, Pin = true, Closable = false)]
 
-<AntRow><AntCol Span="24"><KnownCard /></AntCol></AntRow>
-<AntRow><AntCol Span="24"><SpaceCard @ref="space" /></AntCol></AntRow>
-<AntRow Gutter="10">
-    <AntCol Span="14">
-        <ChartCard @ref="chart" Title="@Language.HomeLogStatistic" />
-    </AntCol>
-    <AntCol Span="10">
-        <CommFuncCard @ref="func" />
-    </AntCol>
-</AntRow>
+<div class="semi-main-container">
+    <div class="semi-center-panel">
+        <section class="semi-hero">
+            <div class="semi-hero-title">👋 你好，@UserName</div>
+            <div class="semi-hero-desc">已处理事项、待办工作和业务导航统一聚合到一个更简洁的后台工作台中。</div>
+
+            <div class="semi-stats">
+                <div class="semi-stat-card">
+                    <div class="semi-stat-label">已处理</div>
+                    <div class="semi-stat-value">1,213</div>
+                </div>
+                <div class="semi-stat-card">
+                    <div class="semi-stat-label">平均处理时长</div>
+                    <div class="semi-stat-value">12pd <span class="semi-stat-up">▲ 12.69%</span></div>
+                </div>
+                <div class="semi-stat-card">
+                    <div class="semi-stat-label">待处理</div>
+                    <div class="semi-stat-value">16</div>
+                </div>
+                <div class="semi-stat-card">
+                    <div class="semi-stat-label">高优</div>
+                    <div class="semi-stat-value">5 <span class="semi-stat-down">▼ 2</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="semi-section">
+            <div class="semi-tabs">
+                <div class="semi-tab active">我的关注</div>
+                <div class="semi-tab">我的项目</div>
+            </div>
+
+            <div class="semi-projects">
+                <div class="semi-project-card">
+                    <div class="semi-project-head">
+                        <div class="semi-project-icon dark">D</div>
+                        <div>
+                            <div class="semi-project-name">抖音极速版</div>
+                            <div class="semi-project-meta">AppID: 10010</div>
+                        </div>
+                    </div>
+                    <div class="semi-project-stats">
+                        <div><span>待处理</span><strong>17</strong></div>
+                        <div><span>已解决</span><strong>22</strong></div>
+                    </div>
+                </div>
+                <div class="semi-project-card">
+                    <div class="semi-project-head">
+                        <div class="semi-project-icon red">头</div>
+                        <div>
+                            <div class="semi-project-name">头条搜索</div>
+                            <div class="semi-project-meta">AppID: 10086</div>
+                        </div>
+                    </div>
+                    <div class="semi-project-stats">
+                        <div><span>待处理</span><strong>17</strong></div>
+                        <div><span>已解决</span><strong>22</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="semi-page-panel">
+            <div class="semi-panel-head">
+                <div class="semi-panel-title">待处理文件</div>
+                <div class="semi-panel-actions">
+                    <select class="semi-select">
+                        <option>所有者</option>
+                    </select>
+                    <button type="button" class="semi-primary-btn">上传文件</button>
+                </div>
+            </div>
+
+            <div class="semi-file-table">
+                <div class="semi-file-row semi-file-header">
+                    <span>标题</span>
+                    <span>大小</span>
+                    <span>所有者</span>
+                    <span>更新日期</span>
+                </div>
+                <div class="semi-file-row">
+                    <span>Known Semi 设计稿.fig</span>
+                    <span>2M</span>
+                    <span>@UserName</span>
+                    <span>@DateTime.Now.ToString("yyyy-MM-dd HH:mm")</span>
+                </div>
+                <div class="semi-file-row">
+                    <span>Known Semi 分享演示文稿</span>
+                    <span>2M</span>
+                    <span>Zoey Edwards</span>
+                    <span>@DateTime.Now.AddDays(-2).ToString("yyyy-MM-dd HH:mm")</span>
+                </div>
+                <div class="semi-file-row">
+                    <span>设计文档</span>
+                    <span>34KB</span>
+                    <span>Jason</span>
+                    <span>@DateTime.Now.AddDays(-5).ToString("yyyy-MM-dd HH:mm")</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="semi-rightbar">
+        <div class="semi-right-title">我的小组</div>
+        @foreach (var member in TeamMembers)
+        {
+            <div class="semi-member">
+                <span class="semi-member-avatar @member.ColorClass">@member.Initial</span>
+                <div>
+                    <div class="semi-member-name">@member.Name</div>
+                    <div class="semi-member-mail">@member.Email</div>
+                </div>
+            </div>
+        }
+        <button type="button" class="semi-ghost-btn">发起群聊</button>
+    </aside>
+</div>

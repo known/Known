@@ -28,13 +28,13 @@ public static class AppConfig
         Config.IsDebug = true;
 #endif
         CoreConfig.OnInitial = OnInitial;
-
         services.AddKnown(info =>
         {
             info.Id = AppId;
             info.Name = AppName;
             info.IsPlatform = true;
             info.IsTopMenu = true;
+            info.IsSemiLayout = true;
         });
         services.AddSample();
         services.ConfigUI();

@@ -1,0 +1,33 @@
+@inherits BaseComponent
+
+<KLayout @ref="layout" IsAdmin OnLoadMenus="OnLoadMenus" OnReloadPage="OnReloadPage">
+    <div class="semi-layout">
+        <aside class="semi-sidebar">
+            <div class="semi-brand" @onclick="OnLogoClick">
+                <span class="semi-brand-icon">K</span>
+                <div class="semi-brand-text">
+                    <div class="semi-brand-title">Known</div>
+                    <div class="semi-brand-subtitle">Semi Admin</div>
+                </div>
+            </div>
+            <div class="semi-search-wrap">
+                <Input TValue="string" @bind-Value="SearchText" Placeholder="搜索" />
+            </div>
+            <div class="semi-nav">
+                <AntTree Model="tree" />
+            </div>
+            <div class="semi-user-panel">
+                <span class="semi-user-avatar">@UserInitial</span>
+                <div class="semi-user-meta">
+                    <div class="semi-user-name">@UserName</div>
+                    <div class="semi-user-role">@UserRole</div>
+                </div>
+            </div>
+        </aside>
+        <div class="semi-shell">
+            <div class="semi-content">
+                <MainBody @ref="body" ChildContent="ChildContent" />
+            </div>
+        </div>
+    </div>
+</KLayout>

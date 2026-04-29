@@ -3,7 +3,7 @@
 namespace Known.WasmHost.Controllers;
 
 [Anonymous]
-[Route("api/[controller]")]
+[Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
 [ApiController]
 public class TestController : ControllerBase
 {

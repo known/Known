@@ -139,6 +139,8 @@ public static partial class Extension
         KStyleSheet.AddStyle("_content/Known/css/web.css");
         KStyleSheet.AddStyle("_content/Known/css/app.css");
         KStyleSheet.AddStyle("_content/Known/css/ai.css");
+        if (Config.App.IsSemiLayout)
+            KStyleSheet.AddStyle("_content/Known/css/semi.css");
     }
 
     private static void AddScripts()

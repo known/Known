@@ -105,6 +105,11 @@ public class AppInfo
     public bool IsTopMenu { get; set; }
 
     /// <summary>
+    /// 取得或设置是否启用Semi模板。
+    /// </summary>
+    public bool IsSemiLayout { get; set; }
+
+    /// <summary>
     /// 取得或设置ID生成器类型。
     /// </summary>
     public NextIdType NextIdType { get; set; }

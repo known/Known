@@ -4,44 +4,26 @@ namespace Known.Server.Pages;
 
 public partial class Index
 {
-    private IHomeService Service;
-    private SpaceCard space;
-    private ChartCard chart;
-    private CommFuncCard func;
+    private string UserName => CurrentUser?.Name ?? CurrentUser?.UserName ?? "Semi";
+
+    private readonly List<TeamMemberInfo> TeamMembers =
+    [
+        new() { Initial = "H", Name = "兰超然", Email = "mrx@example.com", ColorClass = "yellow" },
+        new() { Initial = "Z", Name = "谢天", Email = "jack@example.com", ColorClass = "blue" },
+        new() { Initial = "Z", Name = "周伟", Email = "moto@example.com", ColorClass = "red" },
+        new() { Initial = "L", Name = "李强", Email = "jason@example.com", ColorClass = "teal" }
+    ];
 
     public override RenderFragment GetPageTitle()
     {
         return GetPageTitle("home", Language.Home);
     }
 
-    protected override async Task OnInitPageAsync()
+    private sealed class TeamMemberInfo
     {
-        await base.OnInitPageAsync();
-        Service = await CreateServiceAsync<IHomeService>();
-    }
-
-    protected override async Task OnRenderAsync(bool firstRender)
-    {
-        await base.OnRenderAsync(firstRender);
-        if (firstRender)
-        {
-            var info = await Service.GetHomeAsync();
-            var counts = new List<StatisticCountInfo>
-            {
-                new() { Name = Language.HomeUserCount, Count = info?.Statistics?.UserCount },
-                new() { Name = Language.HomeLogCount, Count = info?.Statistics?.LogCount }
-            };
-            space?.SetCounts(counts);
-
-            var option = new ChartCardOption { Id = "Order", Title = Language.HomeLogStatistic };
-            option.Charts.Add(new CardChartInfo
-            {
-                Type = "Bar",
-                Title = Language[Language.HomeVisitTitle].Replace("{month}", $"{DateTime.Now:yyyyMM}"),
-                Datas = info?.Statistics?.LogDatas
-            });
-            await chart?.SetOptionAsync(option);
-            func?.SetMenus(info?.VisitMenuIds);
-        }
+        public string Initial { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string ColorClass { get; set; }
     }
 }
