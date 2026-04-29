@@ -125,7 +125,7 @@
                     {
                         @foreach (var heading in CurrentPage.Headings)
                         {
-                            <a class="known-docs-toc-link level-@heading.Level" data-toc-link href="#@heading.Id">@heading.Title</a>
+                            <a class="known-docs-toc-link level-@heading.Level" data-toc-link href="@GetHeadingUrl(heading.Id)">@heading.Title</a>
                         }
                     }
                 </div>
@@ -168,5 +168,11 @@
     private bool IsSectionOpen(Known.Web.Services.DocSection section)
     {
         return CurrentPage is not null && section.Pages.Any(page => string.Equals(page.Route, CurrentPage.Route, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private string GetHeadingUrl(string headingId)
+    {
+        var pageUrl = CurrentPage is null ? "/docs" : Documents.GetUrl(CurrentPage.Route);
+        return $"{pageUrl}#{headingId}";
     }
 }

@@ -196,16 +196,45 @@ pre {
 
 .known-theme-toggle {
     font: inherit;
+    width: 42px;
+    min-width: 42px;
+    padding: 0;
 }
 
 .known-theme-toggle-dark,
 :root[data-theme='dark'] .known-theme-toggle-light {
-    display: inline;
+    display: inline-flex;
 }
 
 .known-theme-toggle-light,
 :root[data-theme='dark'] .known-theme-toggle-dark {
     display: none;
+}
+
+.known-theme-toggle i,
+.known-site-nav-menu i {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.known-site-nav-menu {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid var(--known-border);
+    border-radius: 12px;
+    background: var(--known-bg-panel);
+    color: var(--known-text);
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.known-site-nav-menu:hover {
+    transform: translateY(-1px);
+    border-color: var(--known-border-strong);
 }
 
 .known-site-btn.primary {
@@ -953,6 +982,7 @@ pre {
         flex-wrap: wrap;
         align-items: center;
         padding: 16px;
+        gap: 12px;
     }
 
     .known-site-nav-menu {
@@ -986,15 +1016,18 @@ pre {
         opacity: 0;
         transform: translateY(-8px);
         transition: opacity .2s ease, transform .2s ease;
+        gap: 8px;
     }
 
     .known-site-nav-actions {
         display: none;
         width: 100%;
-        justify-content: start;
         opacity: 0;
         transform: translateY(-8px);
         transition: opacity .2s ease, transform .2s ease;
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
     }
 
     .known-site-nav-links.is-open,
@@ -1002,6 +1035,26 @@ pre {
         display: grid;
         opacity: 1;
         transform: translateY(0);
+    }
+
+    .known-site-nav-links.is-open {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--known-border);
+    }
+
+    .known-site-nav-link,
+    .known-site-nav-github {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .known-site-nav-github {
+        min-height: 42px;
+    }
+
+    .known-theme-toggle {
+        justify-self: start;
     }
 
     .known-docs-sidebar,

@@ -54,6 +54,12 @@
                 panel.classList.toggle('is-open', isOpen);
             });
             toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+            var icon = toggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isOpen);
+                icon.classList.toggle('fa-xmark', isOpen);
+            }
         }
 
         toggle.addEventListener('click', function (event) {
@@ -102,7 +108,8 @@
             }
 
             links.forEach(function (link) {
-                link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+                var href = link.getAttribute('href') || '';
+                link.classList.toggle('active', href === '#' + currentId || href.endsWith('#' + currentId));
             });
         }
 
