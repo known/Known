@@ -1,8 +1,10 @@
 using Known.Web;
+using Known.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents();
+builder.Services.AddSingleton<DocumentationCatalog>();
 
 var app = builder.Build();
 

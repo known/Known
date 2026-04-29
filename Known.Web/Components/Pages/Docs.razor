@@ -1,0 +1,104 @@
+@page "/docs"
+@page "/docs/{*DocumentPath}"
+@inject Known.Web.Services.DocumentationCatalog Documentation
+
+<PageTitle>@PageTitleText</PageTitle>
+
+<div class="known-site known-site-docs-shell">
+    <SiteNav />
+
+    <main class="known-site-docs-main">
+        <aside class="known-docs-sidebar">
+            <div class="known-docs-sidebar-card">
+                <div class="known-docs-sidebar-head">
+                    <span class="known-site-eyebrow">Documentation</span>
+                    <h2>Known 文档中心</h2>
+                    <p>文档内容直接来自项目中的 <code>docs</code> 目录。</p>
+                </div>
+
+                @foreach (var docSection in Documentation.Sections)
+                {
+                    <section class="known-docs-nav-section">
+                        <h3>@docSection.Title</h3>
+                        @foreach (var docPage in docSection.Pages)
+                        {
+                            <a class="@(IsActive(docPage.Route) ? "known-docs-link active" : "known-docs-link")" href="@Documentation.GetUrl(docPage.Route)">@docPage.Title</a>
+                        }
+                    </section>
+                }
+            </div>
+        </aside>
+
+        <section class="known-docs-content-wrap">
+            @if (CurrentPage is null)
+            {
+                <article class="known-site-card known-docs-empty">
+                    <h1>文档不存在</h1>
+                    <p>当前地址没有对应的 Markdown 文件，请返回 <a href="/docs">文档中心</a> 继续浏览。</p>
+                </article>
+            }
+            else
+            {
+                <header class="known-site-card known-docs-hero">
+                    <span class="known-site-eyebrow">@CurrentPage.SectionTitle</span>
+                    <h1>@CurrentPage.Title</h1>
+                    <p>@CurrentPage.Excerpt</p>
+                </header>
+
+                <article class="known-site-card known-docs-markdown">
+                    @((MarkupString)CurrentPage.Html)
+                </article>
+
+                <div class="known-docs-pager">
+                    @if (PreviousPage is not null)
+                    {
+                        <a class="known-site-card known-docs-pager-link" href="@Documentation.GetUrl(PreviousPage.Route)">
+                            <span>上一篇</span>
+                            <strong>@PreviousPage.Title</strong>
+                        </a>
+                    }
+
+                    @if (NextPage is not null)
+                    {
+                        <a class="known-site-card known-docs-pager-link align-right" href="@Documentation.GetUrl(NextPage.Route)">
+                            <span>下一篇</span>
+                            <strong>@NextPage.Title</strong>
+                        </a>
+                    }
+                </div>
+            }
+        </section>
+    </main>
+
+    <SiteFooter />
+</div>
+
+@code {
+    [Parameter]
+    public string? DocumentPath { get; set; }
+
+    private Known.Web.Services.DocPage? CurrentPage { get; set; }
+    private Known.Web.Services.DocPage? PreviousPage { get; set; }
+    private Known.Web.Services.DocPage? NextPage { get; set; }
+    private string PageTitleText => CurrentPage is null ? "Known 文档中心" : $"{CurrentPage.Title} - Known 文档中心";
+
+    protected override void OnParametersSet()
+    {
+        CurrentPage = Documentation.GetPage(DocumentPath);
+
+        if (CurrentPage is null)
+        {
+            PreviousPage = null;
+            NextPage = null;
+            return;
+        }
+
+        PreviousPage = Documentation.GetPrevious(CurrentPage.Route);
+        NextPage = Documentation.GetNext(CurrentPage.Route);
+    }
+
+    private bool IsActive(string route)
+    {
+        return CurrentPage?.Route.Equals(route, StringComparison.OrdinalIgnoreCase) == true;
+    }
+}

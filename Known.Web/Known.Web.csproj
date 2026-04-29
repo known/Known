@@ -3,6 +3,18 @@
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Markdig" Version="0.40.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="docs\examples\**\*.cs" />
+        <Content Remove="docs\examples\**\*" />
+        <EmbeddedResource Remove="docs\examples\**\*" />
+        <None Remove="docs\examples\**\*" />
+    </ItemGroup>
 
 </Project>
