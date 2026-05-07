@@ -77,10 +77,27 @@ function normalizeColor(color) {
     return color.startsWith('#') ? color : (themeColors[color.toLowerCase()] || themeColors.default);
 }
 
+function hasInfoValue(info, key) {
+    return !!info && Object.prototype.hasOwnProperty.call(info, key) && info[key] !== undefined;
+}
+
+function getCurrentThemeColor() {
+    const root = document.documentElement;
+    const color = root.getAttribute('data-color') || getComputedStyle(root).getPropertyValue('--ant-primary-color').trim();
+    return color || themeColors.default;
+}
+
+function getCurrentSizeMode() {
+    const root = document.documentElement;
+    return root.getAttribute('data-size') || (root.style.getPropertyValue('--ant-font-size-base') ? 'compact' : 'default');
+}
+
 function setAntThemeColor(color) {
     const root = document.documentElement.style;
     const primary = normalizeColor(color);
     const rgb = toRgb(primary);
+
+    document.documentElement.setAttribute('data-color', primary);
 
     root.setProperty('--kui-primary-color', primary);
     root.setProperty('--ant-primary-color', primary);
@@ -97,21 +114,6 @@ function setAntThemeColor(color) {
     root.setProperty('--ant-info-color', primary);
     root.setProperty('--ant-info-color-deprecated-bg', mixColor(primary, '#ffffff', 0.9));
     root.setProperty('--ant-info-color-deprecated-border', mixColor(primary, '#ffffff', 0.58));
-}
-
-function setSizeMode(size) {
-    const root = document.documentElement.style;
-    if ((size || '').toLowerCase() === 'compact') {
-        root.setProperty('--ant-font-size-base', '12px');
-        root.setProperty('--ant-control-height', '28px');
-        root.setProperty('--ant-control-height-lg', '32px');
-        root.setProperty('--ant-control-height-sm', '22px');
-    } else {
-        root.removeProperty('--ant-font-size-base');
-        root.removeProperty('--ant-control-height');
-        root.removeProperty('--ant-control-height-lg');
-        root.removeProperty('--ant-control-height-sm');
-    }
 }
 
 function createCaptcha(canvas, code) {
@@ -176,20 +178,32 @@ export class KBlazor {
     static elemEnabled(id, enabled) { document.getElementById(id).enabled = enabled; }
     //File
     static setLocalInfo(info) {
-        var theme = info?.theme;
+        var theme = hasInfoValue(info, 'theme') ? info.theme : document.documentElement.getAttribute('data-theme');
         if (!theme) {
             var hour = new Date().getHours();
             theme = hour > 6 && hour < 20 ? "light" : "dark";
         }
-        $('html').attr('data-theme', theme);
-        setAntThemeColor(info?.color);
-        setSizeMode(info?.size);
+        var color = hasInfoValue(info, 'color') ? info.color : getCurrentThemeColor();
+        var size = hasInfoValue(info, 'size') ? info.size : getCurrentSizeMode();
+
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-size', size);
+
+        setAntThemeColor(color);
 
         var darkUrl = '_content/Known/css/ant-dark.css';
         if (theme == 'dark')
             insertStyleSheet('/Known/css/font-awesome.css', darkUrl);
         else
             removeStyleSheet(darkUrl);
+
+        var compactUrl = '_content/Known/css/ant-compact.css';
+        if (size.toLowerCase() === 'compact') {
+            removeStyleSheet(compactUrl);
+            insertStyleSheet('/Known/css/font-awesome.css', compactUrl);
+        } else {
+            removeStyleSheet(compactUrl);
+        }
     }
     //Storage
     static getLocalStorage(key) { return localStorage.getItem(key); }
