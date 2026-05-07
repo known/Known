@@ -185,7 +185,7 @@ export class KBlazor {
         setAntThemeColor(info?.color);
         setSizeMode(info?.size);
 
-        var darkUrl = '_content/AntDesign/css/ant-design-blazor.dark.css';
+        var darkUrl = '_content/Known/css/ant-dark.css';
         if (theme == 'dark')
             insertStyleSheet('/Known/css/font-awesome.css', darkUrl);
         else
