@@ -1,6 +1,4 @@
-﻿using AntDesign;
-
-namespace Known.Internals;
+﻿namespace Known.Internals;
 
 /// <summary>
 /// 自定义Ant主题组件类。
@@ -9,17 +7,21 @@ namespace Known.Internals;
 public class NavTheme : BaseNav
 {
     /// <summary>
+    /// 取得主题组件标题。
+    /// </summary>
+    protected override string Title => Language.NavTheme;
+
+    /// <summary>
     /// 呈现主题组件内容。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
     protected override void BuildRender(RenderTreeBuilder builder)
     {
-        var theme = Context.Local?.Theme;
-        builder.Component<Switch>()
-               .Set(c => c.CheckedChildren, "🌜")
-               .Set(c => c.UnCheckedChildren, "🌞")
-               .Set(c => c.Value, theme == "dark")
-               .Set(c => c.OnChange, this.Callback<bool>(ChangeThemeAsync))
+        var isDark = Context.Local?.Theme == "dark";
+        builder.Component<KIcon>()
+               .Set(c => c.Title, Title)
+               .Set(c => c.Icon, isDark ? "fa fa-moon" : "fa fa-sun")
+               .Set(c => c.OnClick, this.Callback<MouseEventArgs>(async _ => await ChangeThemeAsync(!isDark)))
                .Build();
     }
 }

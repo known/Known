@@ -496,8 +496,9 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 }
 
 .kui-nav {display:flex;align-items:center;gap:10px;margin:0;padding-left:10px;}
-.kui-nav li {list-style:none;line-height:normal;padding:0 2px;}
+.kui-nav li {list-style:none;line-height:normal;padding:0 2px;cursor:pointer;}
 .kui-nav li.edit {background-color:#f18c63;color:#fff;padding:15px 2px;border-radius:2px;}
+.kui-nav li span.fa {width:14px;text-align:center;}
 .kui-menu li {list-style:none;display:inline-block;margin-left:10px;}
 .kui-menu li a {color:var(--kui-color);}
 .kui-nav-tabs {height:calc(100vh - 54px);}
