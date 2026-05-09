@@ -9,6 +9,7 @@ namespace Known.Blazor;
 public class BasePage : BaseComponent, IReuseTabsPage
 {
     private bool isLogged = false;
+    private MenuInfo pageMenu;
 
     ///// <summary>
     ///// 取得或设置注入的实时通讯连接实例。
@@ -18,7 +19,7 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <summary>
     /// 取得当前页面菜单信息。
     /// </summary>
-    public MenuInfo Menu => Context.Current;
+    public MenuInfo Menu => pageMenu ??= GetPageMenu();
 
     /// <summary>
     /// 取得页面模块名称。
@@ -38,7 +39,15 @@ public class BasePage : BaseComponent, IReuseTabsPage
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        pageMenu ??= GetPageMenu();
         await OnInitPageAsync();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnParameterAsync()
+    {
+        await base.OnParameterAsync();
+        pageMenu ??= GetPageMenu();
     }
 
     /// <inheritdoc />
@@ -47,7 +56,7 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <inheritdoc />
     protected override Task OnRenderAsync(bool firstRender)
     {
-        if (firstRender && !isLogged && Context.Current != null && !Config.IsClient && Context.Url != "/")
+        if (firstRender && !isLogged && Menu != null && !Config.IsClient && Context.Url != "/")
         {
             isLogged = true;
             Admin.AddPageLogAsync(Context);
@@ -76,6 +85,19 @@ public class BasePage : BaseComponent, IReuseTabsPage
     protected RenderFragment GetPageTitle(string icon, string name)
     {
         return this.BuildTree(b => b.IconName(icon, name));
+    }
+
+    private MenuInfo GetPageMenu()
+    {
+        var menu = Context?.GetMenu(GetType());
+        if (menu != null)
+            return menu;
+
+        menu = Context?.Current;
+        if (menu?.PageType == GetType())
+            return menu;
+
+        return DataHelper.Routes.FirstOrDefault(m => m.PageType == GetType());
     }
 }
 

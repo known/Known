@@ -123,8 +123,11 @@ partial class AdminService(Context context, INotifyService notify) : ServiceBase
     public Task<Result> AddLogAsync(LogInfo info)
     {
         var user = Context.CurrentUser;
-        user.LastPage = info.Target;
-        Cache.RefreshUser(user);
+        if (user != null)
+        {
+            user.LastPage = info.Target;
+            Cache.RefreshUser(user);
+        }
         notify.NotifyOnlineAsync();
         return Database.AddLogAsync(info);
     }
