@@ -37,4 +37,10 @@ public partial class WorkForm
         Pack.Data = Model.Data.PackInfo;
         Pack.SetPackForm(info?.PackFields);
     }
+
+    private Task OnFilesChangedAsync(List<FileDataInfo> files)
+    {
+        Model.Files[nameof(TbWork.Files)] = files;
+        return Task.CompletedTask;
+    }
 }

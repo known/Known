@@ -25,6 +25,11 @@ public class TbWork : EntityBase
     [DisplayName("备注")]
     public string Note { get; set; }
 
+    [MaxLength(500)]
+    [Column(Width = 100, Type = FieldType.File)]
+    [DisplayName("附件")]
+    public string Files { get; set; }
+
     public Dictionary<string, object> PackInfo { get; set; }
 
     public virtual List<PackFieldInfo> PackFields { get; set; }

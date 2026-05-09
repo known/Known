@@ -17,6 +17,11 @@
                         <AntTextArea @bind-Value="@context.Note" />
                     </DataItem>
                 </AntRow>
+                <AntRow>
+                    <DataItem Span="24" Label="附件">
+                        <KUpload MultiFile Value="@context.Files" OnFilesChanged="OnFilesChangedAsync" />
+                    </DataItem>
+                </AntRow>
             </WorkTypeForm>
         </TabPane>
         <TabPane Key="PackInfo" Tab="包装信息">

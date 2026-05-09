@@ -10,7 +10,7 @@ public interface IProduceService : IService
     Task<PagingResult<TbWork>> QueryWorksAsync(PagingCriteria criteria);
     Task<TbWork> GetWorkAsync(string id);
     Task<Result> DeleteWorksAsync(List<TbWork> infos);
-    Task<Result> SaveWorkAsync(TbWork info);
+    Task<Result> SaveWorkAsync(UploadInfo<TbWork> info);
 }
 
 [Client]
@@ -51,7 +51,7 @@ class ProduceClient(HttpClient http) : ClientBase(http), IProduceService
         return Http.PostAsync("/Produce/DeleteWorks", infos);
     }
 
-    public Task<Result> SaveWorkAsync(TbWork info)
+    public Task<Result> SaveWorkAsync(UploadInfo<TbWork> info)
     {
         return Http.PostAsync("/Produce/SaveWork", info);
     }
@@ -149,22 +149,27 @@ class ProduceService(Context context) : ServiceBase(context), IProduceService
                 return Result.Error($"{item.WorkNo}已开始生产，不能删除！");
         }
 
-        return await Database.TransactionAsync(Language.Delete, async db =>
+        var oldFiles = new List<string>();
+        var result = await Database.TransactionAsync(Language.Delete, async db =>
         {
             foreach (var item in infos)
             {
+                await db.DeleteFilesAsync(item.Id, oldFiles);
                 await db.DeleteFlowAsync(item.Id);
                 await db.DeleteAsync<TbWork>(item.Id);
             }
         });
+        if (result.IsValid)
+            AttachFile.DeleteFiles(oldFiles);
+        return result;
     }
 
-    public async Task<Result> SaveWorkAsync(TbWork info)
+    public async Task<Result> SaveWorkAsync(UploadInfo<TbWork> info)
     {
         var database = Database;
-        var model = await database.QueryByIdAsync<TbWork>(info.Id);
+        var model = await database.QueryByIdAsync<TbWork>(info.Model.Id);
         model ??= new TbWork();
-        model.FillModel(info);
+        model.FillModel(info.Model);
 
         if (model.Status != WorkStatus.Pending)
             return Result.Error($"{model.WorkNo}已开始生产，不能编辑！");
@@ -173,6 +178,7 @@ class ProduceService(Context context) : ServiceBase(context), IProduceService
         if (!vr.IsValid)
             return vr;
 
+        var fileFiles = info.Files?.GetAttachFiles(nameof(TbWork.Files), "WorkFiles");
         return await database.TransactionAsync(Language.Save, async db =>
         {
             if (model.IsNew)
@@ -181,8 +187,9 @@ class ProduceService(Context context) : ServiceBase(context), IProduceService
                 await WorkFlow.CreateAsync(db, model);
             }
 
+            await db.AddFilesAsync(fileFiles, model.Id, key => model.Files = key);
             await db.SaveAsync(model);
-            info.Id = model.Id;
-        }, info);
+            info.Model.Id = model.Id;
+        }, info.Model);
     }
 }
