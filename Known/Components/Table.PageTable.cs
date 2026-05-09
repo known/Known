@@ -49,6 +49,9 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
 
     private void BuildTable(RenderTreeBuilder builder)
     {
+        if (Model.TopTemplate != null)
+            builder.Fragment(Model.TopTemplate);
+
         builder.BuildTable(Model.FixedWidth, false, () =>
         {
             if (Model.Tab.HasItem)
@@ -83,7 +86,7 @@ public class PageTable<TItem> : BaseComponent where TItem : class, new()
 
     private bool ShowToolbar()
     {
-        return Model.TopStatis != null || 
+        return Model.TopStatis != null ||
                Model.ShowSetting ||
                (!string.IsNullOrWhiteSpace(Model.Name) && Model.ShowName) ||
                (Model.ShowToolbar && Model.Toolbar.HasItem);

@@ -13,9 +13,11 @@ public class WTestList : BizTablePage<Weather_Forecast>
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        Table = new TableModel<Weather_Forecast>(this);
-        Table.ShowPager = true;
-        Table.OnQuery = TestData.QueryWeathersAsync;
+        Table = new TableModel<Weather_Forecast>(this)
+        {
+            ShowPager = true,
+            OnQuery = TestData.QueryWeathersAsync
+        };
 
         //Table.AddColumn(c => c.Date, true);
         //Table.AddColumn(c => c.TemperatureC);
@@ -25,6 +27,7 @@ public class WTestList : BizTablePage<Weather_Forecast>
         Table.QueryActions.Add(nameof(New));
         Table.QueryActions.Add(nameof(Export));
 
+        Table.TopTemplate = b => b.Div("", "这是顶部模板");
         Table.ExpandTemplate = (b, r) => b.Component<InnerTable>().Build();
         Table.ActionCount = 5;
         Table.ActionWidth = "200px";

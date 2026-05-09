@@ -76,6 +76,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     public Action<Table<TItem>> OnInitial { get; set; }
 
+    /// <summary>
+    /// 取得或设置表格顶部信息模板。
+    /// </summary>
+    public RenderFragment TopTemplate { get; set; }
+
     internal override string TableId => typeof(TItem).Name;
     internal override Type DataType => typeof(TItem);
 
