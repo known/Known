@@ -9,6 +9,20 @@ partial class TableModel<TItem>
     /// </summary>
     public RenderFragment BottomLeft { get; set; }
 
+    internal Func<Task> OnBottomChanged { get; set; }
+
+    /// <summary>
+    /// 刷新表格底部组件。
+    /// </summary>
+    /// <returns></returns>
+    public Task RefreshBottomAsync()
+    {
+        if (OnBottomChanged == null)
+            return Task.CompletedTask;
+
+        return OnBottomChanged.Invoke();
+    }
+
     /// <summary>
     /// 显示查看表单对话框。
     /// </summary>

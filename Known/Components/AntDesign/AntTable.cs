@@ -83,7 +83,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
         {
             builder.Div("kui-flex-space", () =>
             {
-                builder.Fragment(Model.BottomLeft);
+                builder.Component<BottomSlot<TItem>>().Set(c => c.Table, Model).Build();
                 BuildPager(builder, tuple);
             });
         }

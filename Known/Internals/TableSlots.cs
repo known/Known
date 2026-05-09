@@ -23,3 +23,19 @@ class ToolbarSlot<TItem> : BaseComponent where TItem : class, new()
         return StateChangedAsync();
     }
 }
+
+class BottomSlot<TItem> : BaseComponent where TItem : class, new()
+{
+    [Parameter] public TableModel<TItem> Table { get; set; }
+
+    protected override async Task OnInitAsync()
+    {
+        await base.OnInitAsync();
+        Table.OnBottomChanged = StateChangedAsync;
+    }
+
+    protected override void BuildRender(RenderTreeBuilder builder)
+    {
+        builder.Fragment(Table.BottomLeft);
+    }
+}
