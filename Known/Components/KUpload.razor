@@ -37,7 +37,7 @@
                             }
                             <div class="kui-thumbnail" @onclick="e=>ShowFullscreen(item)">
                                 @if (!string.IsNullOrWhiteSpace(item.Id)) {
-                                    <img src="@item.FileUrl?.OriginalUrl" />
+                                    <img src="@GetImageSrc(item)" />
                                 } else {
                                     <img src="@GetImageSrc(item.ThumbnailData)" />
                                 }
@@ -56,7 +56,7 @@
                 <div class="fullscreen-overlay" @onclick="CloseFullscreen">
                     <span class="close-btn" @onclick="CloseFullscreen">&times;</span>
                     @if (!string.IsNullOrWhiteSpace(currentFullscreenImage?.Id)) {
-                        <img class="fullscreen-image" src="@currentFullscreenImage?.FileUrl?.OriginalUrl" />
+                        <img class="fullscreen-image" src="@GetImageSrc(currentFullscreenImage)" />
                     } else {
                         <img class="fullscreen-image" src="@GetImageSrc(currentFullscreenImage?.ThumbnailData)" />
                     }

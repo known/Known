@@ -11,14 +11,14 @@
             foreach (var item in Items)
             {
                 var className = item.Id == current?.Id ? "kui-link active" : "kui-link";
-                <span class="@className" @onclick="e=>OnFileClick(item)">@item.Name</span>
+                <span class="@className" @onclick="async e => await OnFileClickAsync(item)">@item.Name</span>
             }
         }
     </div>
     <div class="view">
         @if (Utils.CheckImage(current?.SourceName))
         {
-            <img src="@current?.FileUrl?.OriginalUrl" />
+            <img src="@PreviewUrl" />
         }
         else if (current?.SourceName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase) == true)
         {
@@ -35,7 +35,7 @@
                     @if (Config.App.Type != AppType.Web) {
                         <KButton Type="ButtonType.Primary" Name="@Language.Download" OnClick="OnDownload" />
                     } else {
-                        <a class="ant-btn ant-btn-primary" href="@current?.FileUrl?.OriginalUrl" download="@current?.FileUrl?.FileName" target="_blank">@Language[Language.Download]</a>
+                        <a class="ant-btn ant-btn-primary" href="@PreviewUrl" download="@current?.FileUrl?.FileName" target="_blank">@Language[Language.Download]</a>
                     }
                 </ChildContent>
             </Empty>

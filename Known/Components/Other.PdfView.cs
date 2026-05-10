@@ -57,11 +57,15 @@ public class KPdfView : BaseComponent
         if (string.IsNullOrWhiteSpace(pdfFile) || string.IsNullOrWhiteSpace(Id) || !Visible)
             return;
 
-        if (IsServerMode)
+        var localPath = pdfFile;
+        if (Config.App.Type != AppType.Web)
+            localPath = pdfFile.ResolveLocalPath() ?? pdfFile;
+
+        if (IsServerMode || Config.App.Type != AppType.Web)
         {
-            if (File.Exists(pdfFile))
+            if (File.Exists(localPath))
             {
-                var bytes = await File.ReadAllBytesAsync(pdfFile);
+                var bytes = await File.ReadAllBytesAsync(localPath);
                 var stream = new MemoryStream(bytes);
                 await ShowAsync(stream);
                 return;

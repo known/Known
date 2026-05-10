@@ -292,6 +292,11 @@ public partial class KUpload
         return $"data:image/jpeg;base64,{Convert.ToBase64String(imageData)}";
     }
 
+    private static string GetImageSrc(AttachInfo item)
+    {
+        return item.GetImageUrl();
+    }
+
     private void ShowFullscreen(AttachInfo image)
     {
         currentFullscreenImage = image;
