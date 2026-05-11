@@ -69,4 +69,25 @@ public static class PluginExtension
         }
         plugin.Setting = Utils.ToJson(param);
     }
+
+    internal static List<FormFieldInfo> GetFormFields(this AutoPageInfo info)
+    {
+        if (info.Form.Fields == null || info.Form.Fields.Count == 0)
+            info.Form.Fields = [.. info.Page.Columns.Select(CreateField)];
+        return info.Form.Fields;
+    }
+
+    private static FormFieldInfo CreateField(PageColumnInfo item)
+    {
+        return new FormFieldInfo
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Type = item.Type,
+            Length = item.Length,
+            Required = item.Required,
+            CategoryType = item.CategoryType,
+            Category = item.Category
+        };
+    }
 }

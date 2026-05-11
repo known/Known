@@ -1,0 +1,38 @@
+﻿@inherits BaseTableTabForm
+
+<AutoTableTypeForm Form="Model" Class="kui-plugin-head">
+    <AntRow>
+        <DataItem Span="6" Label="ID" Required>
+            <AntInput @bind-Value="context.Id" />
+        </DataItem>
+        <DataItem Span="6" Label="名称">
+            <AntInput @bind-Value="context.Name" OnChange="PreviewPage" />
+        </DataItem>
+        <DataItem Span="6" Label="数据表名" Required>
+            <AntInput @bind-Value="context.Script" />
+        </DataItem>
+        <DataItem Span="6" Label="路由">
+            <AntInput @bind-Value="context.PageUrl" Disabled />
+        </DataItem>
+    </AntRow>
+</AutoTableTypeForm>
+<Tabs OnChange="OnTabChange">
+    <ChildContent>
+        <TabPane Key="Columns" Tab="列表设置">
+            <PageTableForm @ref="pageTable" Model="Model.Data" />
+        </TabPane>
+        <TabPane Key="Fields" Tab="表单设置">
+            <FormTableForm @ref="formTable" Model="Model.Data" />
+        </TabPane>
+        <TabPane Key="@nameof(CodeScript)" Tab="建表脚本">
+            <KCodeView @ref="script" Code="@CodeScript" FileName="@ScriptFile" Lang="csharp" />
+        </TabPane>
+    </ChildContent>
+    <TabBarExtraContentRight>
+        <div class="ant-toolbar">
+            @if (activeTab == nameof(CodeScript)) {
+                <KButton Icon="play-circle" Name="执行" OnClick="OnExecute" />
+            }
+        </div>
+    </TabBarExtraContentRight>
+</Tabs>

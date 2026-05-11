@@ -1,0 +1,35 @@
+﻿@inherits BaseTableForm<FastButtonTable, ButtonInfo, ActionInfo>
+
+<div style="padding:10px 16px;">
+    <AntRow Class="kui-action-form">
+        <AntCol Span="12">
+            <FieldItem Label="工具栏大小">
+                <AntInteger @bind-Value="Model.Page.ToolSize" />
+            </FieldItem>
+        </AntCol>
+        <AntCol Span="12" Style="text-align:right">
+            <KButton Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
+            <KButton Icon="plus" Name="添加" OnClick="OnAdd" />
+        </AntCol>
+    </AntRow>
+
+    <ActionTable DataSource="Items" HidePagination ScrollY="300px">
+        <StringColumn Title="Id" Width="100" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Id" />
+        </StringColumn>
+        <StringColumn Title="名称" Width="120" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Name" />
+        </StringColumn>
+        <StringColumn Title="分组" Width="100">
+            <AntInput @bind-Value="context.Group" />
+        </StringColumn>
+        <StringColumn Title="图标">
+            <IconPicker Value="@context.Icon" Text="@context.Icon" ValueChanged="value => context.Icon = value?.ToString()" />
+        </StringColumn>
+        <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="180" Fixed="ColumnFixPlacement.Right">
+            <KButton Name="上移" OnClick="e => OnMoveUp(context)" />
+            <KButton Name="下移" OnClick="e => OnMoveDown(context)" />
+            <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+        </ActionColumn>
+    </ActionTable>
+</div>

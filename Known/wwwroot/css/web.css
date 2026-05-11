@@ -542,7 +542,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     .kui-header .left .ant-breadcrumb, .kui-nav-full, .kui-nav-setting {display:none;}
 }
 
-/*--Plugin--*/
+/*Plugin*/
 .kui-edit {display:block;color:#f18c63;padding:0 2px;border:1px dashed #f18c63;border-radius:2px;text-align:center;cursor:pointer;}
 .kui-edit-border {border:1px solid #f18c63;border-radius:2px;}
 .kui-edit-menu {display:grid;grid-template-columns:200px auto;}
@@ -563,6 +563,31 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-scroll > .kui-plugin .ant-menu {width:198px;}
 .kui-body > .kui-plugin {margin-bottom:10px;}
 .kui-body > .kui-plugin.table {margin-bottom:0;background:unset;}
+
+.kui-plugin-form .ant-table-wrapper {padding:0;}
+.kui-plugin-form .ant-modal-body {padding-bottom:0;}
+.kui-plugin-form .ant-modal-body .ant-tabs {height:100%;}
+.kui-plugin-form .ant-drawer-body .ant-tabs {height:100%;}
+.kui-plugin-form .ant-tabs-content {height:100%;}
+.kui-plugin-form .ant-tabs-tabpane {position:relative;height:100%;min-height:360px;padding-top:10px;}
+.kui-plugin-form .kui-code {position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;}
+.kui-plugin-form .kui-code pre[class*=language-] {position:absolute;top:0;left:0;right:0;bottom:0;overflow:auto;}
+.kui-plugin-form .ant-modal-max .kui-code {bottom:0;}
+.ant-drawer-body .kui-plugin-form .kui-code {bottom:0;}
+.kui-plugin-head {padding:16px 16px 2px 16px;}
+.kui-plugin-head .ant-form-item {margin-bottom:0;}
+.kui-action-form .ant-form-item {margin-bottom:10px;}
+
+.kui-plugin-table, .kui-sql-table {padding:0 16px;}
+.kui-plugin-table .kui-flex-space {margin-bottom:10px;}
+.kui-plugin-table .kui-flex-row .ant-form-item {margin-bottom:0;}
+.ant-modal-max .kui-plugin-split > div, 
+.ant-modal-max .kui-code pre[class*=language-], 
+.ant-drawer-body .kui-plugin-split > div,
+.ant-drawer-body .kui-code pre[class*=language-] {max-height:unset;}
+
+.kui-plugin-page {background-color:#f7f8f9;padding:10px;}
+.ant-modal-body .kui-plugin-page .kui-toolbar {padding:5px 10px;}
 
 /*Coding*/
 .kui-coding {height:100%;}

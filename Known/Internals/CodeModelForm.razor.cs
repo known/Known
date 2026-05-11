@@ -82,19 +82,14 @@ public partial class CodeModelForm
 
     private void OnAddPlus()
     {
-        if (UIConfig.OnFastAddField == null)
-        {
-            UI.Error(Language.TipNoConfigOnFastAddField);
-            return;
-        }
-
         var selectedItems = Model.Fields.Select(d => d.Id).ToList();
-        UIConfig.OnFastAddField.Invoke(UI, selectedItems, items =>
+        UI.ShowFastTable<FastFieldTable, FieldDataInfo>(selectedItems, items =>
         {
-            var fields = items?.Select(CodeFieldInfo.FromField).ToList();
-            if (fields != null && fields.Count > 0)
+            var fields = items.Select(f => f.ToField()).ToList();
+            var codeFields = fields?.Select(CodeFieldInfo.FromField).ToList();
+            if (codeFields != null && codeFields.Count > 0)
             {
-                Model.Fields.AddRange(fields);
+                Model.Fields.AddRange(codeFields);
                 StateChanged();
             }
         });

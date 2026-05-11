@@ -1,0 +1,80 @@
+﻿@inherits BaseTableForm<FastFieldTable, FieldDataInfo, PageColumnInfo>
+
+<div class="@WrapClass">
+    <div class="kui-flex-space">
+        <div class="kui-flex-row">
+            <FieldItem Label="每页大小">
+                <AntInteger @bind-Value="Model.Page.PageSize" OnChange="PreviewPage" />
+            </FieldItem>
+            <FieldItem Label="选项" Inline>
+                <AntCheckBox Label="显示分页" @bind-Value="Model.Page.ShowPager" OnChange="PreviewPage" />
+                <AntCheckBox Label="显示设置" @bind-Value="Model.Page.ShowSetting" OnChange="PreviewPage" />
+                <AntCheckBox Label="高级搜索" @bind-Value="Model.Page.ShowAdvSearch" OnChange="PreviewPage" />
+            </FieldItem>
+        </div>
+        <div>
+            @if (ShowAdd)
+            {
+                <KButton Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
+                <KButton Icon="plus" Name="添加" OnClick="OnAdd" />
+            }
+            @if (ShowPaste)
+            {
+                <KButton Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。" />
+            }
+            <KButton Icon="tool" Name="@ToolName" OnClick="OnEditToolbar" />
+            <KButton Icon="menu" Name="@ActionName" OnClick="OnEditAction" />
+            <KButton Icon="eye" Name="@Language.Preview" OnClick="OnPreview" />
+        </div>
+    </div>
+    <PageColumnTable DataSource="Items" HidePagination ScrollY="300px">
+        <StringColumn Title="名称" Width="100" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Name" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="代码" Width="100" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Id" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="类型" Width="100" Fixed="ColumnFixPlacement.Left">
+            <FieldSelect @bind-Value="context.Type" OnSelectedItemChanged="v => RefreshPage()" />
+        </StringColumn>
+        <StringColumn Title="宽度" Width="80">
+            <AntInteger @bind-Value="context.Width" Style="width:70px" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="查看" Width="60">
+            <AntSwitch @bind-Value="context.IsViewLink" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="查询条件" Width="80">
+            <AntSwitch @bind-Value="context.IsQuery" OnChange="PreviewPage" />
+            @if (context.IsQuery)
+            {
+                <KIcon Icon="more" Title="更多设置" OnClick="this.Callback<MouseEventArgs>(e => OnQuerySetting(context))" />
+            }
+        </StringColumn>
+        <StringColumn Title="显示" Width="60">
+            <AntSwitch @bind-Value="context.IsVisible" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="汇总" Width="60">
+            <AntSwitch @bind-Value="context.IsSum" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="排序" Width="60">
+            <AntSwitch @bind-Value="context.IsSort" OnChange="PreviewPage" />
+        </StringColumn>
+        <StringColumn Title="默认排序" Width="100">
+            <AntSelectCode @bind-Value="context.DefaultSort" Category="Ascend,Descend"
+                           OnSelectedItemChanged="v=>RefreshPage()" Disabled="!context.IsSort" />
+        </StringColumn>
+        <StringColumn Title="固定" Width="90">
+            <AntSelectCode @bind-Value="context.Fixed" Category="Left,Right"
+                           OnSelectedItemChanged="v=>RefreshPage()" />
+        </StringColumn>
+        <StringColumn Title="对齐方式" Width="100">
+            <AntSelectCode @bind-Value="context.Align" Category="Left,Center,Right"
+                           OnSelectedItemChanged="v=>RefreshPage()" />
+        </StringColumn>
+        <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="140" Fixed="ColumnFixPlacement.Right">
+            <KButton Name="上移" OnClick="e => OnMoveUp(context)" />
+            <KButton Name="下移" OnClick="e => OnMoveDown(context)" />
+            <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+        </ActionColumn>
+    </PageColumnTable>
+</div>

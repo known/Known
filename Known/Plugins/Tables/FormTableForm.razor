@@ -1,0 +1,61 @@
+﻿@inherits BaseTableForm<FastFieldTable, FieldDataInfo, FormFieldInfo>
+
+<div class="@WrapClass">
+    <div class="kui-flex-space">
+        <div class="kui-flex-row">
+            <FieldItem Label="宽度">
+                <AntInteger @bind-Value="Model.Form.Width" />
+            </FieldItem>
+            <FieldItem Label="选项" Inline>
+                <AntCheckBox Label="显示最大化" @bind-Value="Model.Form.Maximizable" />
+                <AntCheckBox Label="默认最大化" @bind-Value="Model.Form.DefaultMaximized" />
+                <AntCheckBox Label="保存继续" @bind-Value="Model.Form.IsContinue" />
+                <AntCheckBox Label="隐藏底部" @bind-Value="Model.Form.NoFooter" />
+            </FieldItem>
+        </div>
+        <div>
+            <KButton Icon="plus" Name="添加" OnClick="OnAdd" />
+            <KButton Icon="eye" Name="@Language.Preview" OnClick="OnPreview" />
+        </div>
+    </div>
+    <FormFieldTable DataSource="Items" HidePagination ScrollY="300px">
+        <StringColumn Title="名称" Width="120" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Name" OnChange="PreviewForm" />
+        </StringColumn>
+        <StringColumn Title="代码" Width="120" Fixed="ColumnFixPlacement.Left">
+            <AntInput @bind-Value="context.Id" OnChange="PreviewForm" />
+        </StringColumn>
+        <StringColumn Title="类型" Width="120" Fixed="ColumnFixPlacement.Left">
+            <div style="display:flex;align-items:center;">
+                <FieldSelect @bind-Value="context.Type" OnSelectedItemChanged="v => RefreshForm()" />
+                <KIcon Icon="more" Title="更多设置" OnClick="this.Callback<MouseEventArgs>(e => OnTypeSetting(context))" />
+            </div>
+        </StringColumn>
+        <StringColumn Title="长度" Width="80">
+            <AntInput @bind-Value="context.Length" OnChange="PreviewForm" />
+        </StringColumn>
+        <StringColumn Title="必填" Width="60">
+            <AntSwitch @bind-Value="context.Required" OnChange="PreviewForm" />
+        </StringColumn>
+        <StringColumn Title="只读" Width="60">
+            <AntSwitch @bind-Value="context.ReadOnly" OnChange="PreviewForm" />
+        </StringColumn>
+        <StringColumn Title="行" Width="70">
+            <AntInteger Value="context.Row" Style="width:60px" ValueChanged="v => { context.Row = v.Value; RefreshForm(); }" />
+        </StringColumn>
+        <StringColumn Title="列" Width="70">
+            <AntInteger Value="context.Column" Style="width:60px" ValueChanged="v => { context.Column = v.Value; RefreshForm(); }" />
+        </StringColumn>
+        <StringColumn Title="跨度" Width="70">
+            <AntInteger Value="context.Span" Style="width:60px" ValueChanged="v => { context.Span = v; RefreshForm(); }" />
+        </StringColumn>
+        <StringColumn Title="占位符" Width="150">
+            <AntInput @bind-Value="context.Placeholder" OnChange="PreviewForm" />
+        </StringColumn>
+        <ActionColumn Title="操作" Align="ColumnAlign.Center" Width="140" Fixed="ColumnFixPlacement.Right">
+            <KButton Name="上移" OnClick="e => OnMoveUp(context)" />
+            <KButton Name="下移" OnClick="e => OnMoveDown(context)" />
+            <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
+        </ActionColumn>
+    </FormFieldTable>
+</div>

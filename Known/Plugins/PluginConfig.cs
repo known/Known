@@ -17,11 +17,6 @@ public class PluginConfig
     /// </summary>
     public static List<Type> IgnoreTypes { get; } = [];
 
-    /// <summary>
-    /// 取得或设置插件ID转换委托，适用于插件组件类名变更。
-    /// </summary>
-    public static Func<string, string> OnPluginIdTrans { get; set; }
-
     internal static List<PluginMenuInfo> TopNavs => [.. Plugins.Where(p => p.IsNavComponent).OrderBy(p => p.Sort)];
     internal static List<PluginMenuInfo> NavPlugins => [.. Plugins.Where(p => p.IsNav)];
     internal static List<PluginMenuInfo> DevPlugins => [.. Plugins.Where(p => p.IsDev).OrderBy(p => p.Sort)];
@@ -29,8 +24,8 @@ public class PluginConfig
 
     internal static PluginMenuInfo GetPlugin(string id)
     {
-        if (OnPluginIdTrans != null)
-            id = OnPluginIdTrans.Invoke(id);
+        if (id == typeof(AutoTablePlugin).FullName)
+            id = typeof(NoCodeTablePlugin).FullName;
         return Plugins.FirstOrDefault(p => p.Id == id);
     }
 

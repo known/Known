@@ -36,10 +36,7 @@
         <KButton Icon="save" Name="保存模型" OnClick="OnSave" />
         @* <KButton Icon="insert-row-above" Name="插入栏位" OnClick="OnInsert" /> *@
         <KButton Icon="plus" Name="添加栏位" OnClick="OnAdd" />
-        @if (UIConfig.OnFastAddField != null)
-        {
-            <KButton Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
-        }
+        <KButton Icon="plus" Name="快速添加" OnClick="OnAddPlus" />
         <KButton Icon="import" Name="导入表" OnClick="OnAddTable" Title="通过现有数据库表生成栏位。" />
         <KButton Icon="inbox" Name="粘贴" OnClick="OnPasteAsync" Title="复制Excel或者Markdown中如下列表字段顺序的表格文本，点击粘贴按钮即可。" />
     </Toolbar>
