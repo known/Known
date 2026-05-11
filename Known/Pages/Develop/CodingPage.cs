@@ -1,4 +1,4 @@
-﻿namespace Known.Pages;
+﻿namespace Known.Pages.Develop;
 
 /// <summary>
 /// 代码生成开发插件页面组件类。

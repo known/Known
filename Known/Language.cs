@@ -1083,4 +1083,10 @@ public class Language
 
     internal const string TipNoConfigOnTaskSetting = "未配置 UIConfig.OnTaskSetting 委托！";
     internal const string TipResetTaskStatus = "重置任务执行状态为待执行";
+
+    internal const string FastAdd = "快速添加";
+    internal const string TipFetchField = @"<pre>从实体类中提取公共字段信息，逻辑如下：
+1.查找 DbConfig.Models 中所有模型的字段信息
+2.提取字段Id和名称出现次数大于1的字段</pre>";
+    internal const string ConfirmFetchField = "确定要提取实体类中的公用字段吗？";
 }
