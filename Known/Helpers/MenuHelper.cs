@@ -8,6 +8,8 @@ class MenuHelper
     private const string PluginId = "KM_Plugin";
     private const string RoleId = "KM_Role";
 
+    internal static List<Type> ExcludeMenus { get; } = [];
+
     internal static void AddParent()
     {
         var target = Constants.Route;
@@ -18,6 +20,9 @@ class MenuHelper
 
     internal static void AddMenu(Type type, RoleAttribute role, TabRoleAttribute tabRole, List<RouteAttribute> routes, object[] attributes)
     {
+        if (ExcludeMenus.Contains(type))
+            return;
+
         var tabs = attributes.OfType<ReuseTabsPageAttribute>().FirstOrDefault();
         var plugin = attributes.OfType<PluginAttribute>().FirstOrDefault();
         var menu = attributes.OfType<MenuAttribute>().FirstOrDefault();

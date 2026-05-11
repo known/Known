@@ -131,6 +131,9 @@ class FieldService(Context context) : ServiceBase(context), IFieldService
         var commonFields = GetCommonFields();
         foreach (var field in commonFields)
         {
+            if (string.IsNullOrWhiteSpace(field.Name))
+                continue;
+
             if (fields.All(f => f.Code != field.Id))
             {
                 newFields.Add(new SysField
@@ -153,7 +156,7 @@ class FieldService(Context context) : ServiceBase(context), IFieldService
         var baseFields = TypeHelper.GetBaseFields().Select(f => f.Id).ToList();
         var fields = new List<FieldInfo>();
         DbConfig.Models.ToList().ForEach(m => fields.AddRange(m.Fields));
-        var items = fields.Where(f => !baseFields.Contains(f.Id))
+        var items = fields.Where(f => !baseFields.Contains(f.Id) && !string.IsNullOrWhiteSpace(f.Name))
                           .GroupBy(c => new { c.Id, c.Name })
                           .Select(g => new { g.Key, Count = g.Count() })
                           .ToList();

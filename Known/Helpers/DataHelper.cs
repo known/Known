@@ -97,6 +97,18 @@ public sealed class DataHelper
     public static ConcurrentBag<MenuInfo> Routes { get; } = [];
 
     /// <summary>
+    /// 排除框架内置菜单。
+    /// </summary>
+    /// <typeparam name="T">菜单类型。</typeparam>
+    public static void RemoveMenu<T>()
+    {
+        var type = typeof(T);
+        if (MenuHelper.ExcludeMenus.Contains(type))
+            return;
+        MenuHelper.ExcludeMenus.Add(type);
+    }
+
+    /// <summary>
     /// 修改页面菜单的上级ID。
     /// </summary>
     /// <typeparam name="T">页面类型。</typeparam>
