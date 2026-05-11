@@ -40,8 +40,14 @@ partial class TableModel<TItem>
             return;
 
         isShowEdit = true;
-        var isShow = ShowForm(new FormModel<T>(this, IsAuto) { Action = action, Data = row, OnSave = onSave });
-        if (isShow)
+        var model = new FormModel<T>(this, IsAuto)
+        {
+            Action = action,
+            Data = row,
+            OnSave = onSave,
+            OnClosed = () => isShowEdit = false
+        };
+        if (!ShowForm(model))
             isShowEdit = false;
     }
 
@@ -81,8 +87,14 @@ partial class TableModel<TItem>
             return;
 
         isShowEdit = true;
-        var isShow = ShowForm(new FormModel<T>(this, IsAuto) { Action = action, Data = row, OnSaveFile = onSave });
-        if (isShow)
+        var model = new FormModel<T>(this, IsAuto)
+        {
+            Action = action,
+            Data = row,
+            OnSaveFile = onSave,
+            OnClosed = () => isShowEdit = false
+        };
+        if (!ShowForm(model))
             isShowEdit = false;
     }
 }

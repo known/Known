@@ -23,10 +23,15 @@ partial class TableModel<TItem>
             return;
 
         isShowNew = true;
-        var model = new FormModel<T>(this, IsAuto) { Action = Language.New, DefaultData = row, OnSave = onSave };
+        var model = new FormModel<T>(this, IsAuto)
+        {
+            Action = Language.New,
+            DefaultData = row,
+            OnSave = onSave,
+            OnClosed = () => isShowNew = false
+        };
         model.LoadDefaultData();
-        var isShow = ShowForm(model);
-        if (isShow)
+        if (!ShowForm(model))
             isShowNew = false;
     }
 
@@ -49,10 +54,15 @@ partial class TableModel<TItem>
             return;
 
         isShowNew = true;
-        var model = new FormModel<T>(this, IsAuto) { Action = Language.New, DefaultData = row, OnSaveFile = onSave };
+        var model = new FormModel<T>(this, IsAuto)
+        {
+            Action = Language.New,
+            DefaultData = row,
+            OnSaveFile = onSave,
+            OnClosed = () => isShowNew = false
+        };
         model.LoadDefaultData();
-        var isShow = ShowForm(model);
-        if (isShow)
+        if (!ShowForm(model))
             isShowNew = false;
     }
 
@@ -75,10 +85,15 @@ partial class TableModel<TItem>
             return;
 
         isShowNew = true;
-        var model = new FormModel<T>(this, IsAuto) { Action = Language.New, DefaultDataAction = row, OnSave = onSave };
+        var model = new FormModel<T>(this, IsAuto)
+        {
+            Action = Language.New,
+            DefaultDataAction = row,
+            OnSave = onSave,
+            OnClosed = () => isShowNew = false
+        };
         await model.LoadDefaultDataAsync();
-        var isShow = ShowForm(model);
-        if (isShow)
+        if (!ShowForm(model))
             isShowNew = false;
     }
 
@@ -101,10 +116,15 @@ partial class TableModel<TItem>
             return;
 
         isShowNew = true;
-        var model = new FormModel<T>(this, IsAuto) { Action = Language.New, DefaultDataAction = row, OnSaveFile = onSave };
+        var model = new FormModel<T>(this, IsAuto)
+        {
+            Action = Language.New,
+            DefaultDataAction = row,
+            OnSaveFile = onSave,
+            OnClosed = () => isShowNew = false
+        };
         await model.LoadDefaultDataAsync();
-        var isShow = ShowForm(model);
-        if (isShow)
+        if (!ShowForm(model))
             isShowNew = false;
     }
 }

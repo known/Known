@@ -8,6 +8,7 @@ namespace Known.Components;
 public partial class KButton
 {
     private bool isLoad;
+    private bool ButtonDisabled => !Enabled || isLoad;
 
     /// <summary>
     /// 取得或设置角色按钮权限的ID。
@@ -55,7 +56,15 @@ public partial class KButton
             return;
 
         isLoad = true;
-        await OnClick.InvokeAsync(args);
-        isLoad = false;
+        await StateChangedAsync();
+        try
+        {
+            await OnClick.InvokeAsync(args);
+        }
+        finally
+        {
+            isLoad = false;
+            await StateChangedAsync();
+        }
     }
 }

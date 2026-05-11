@@ -35,14 +35,15 @@ partial class TableModel<TItem>
             return;
 
         isShowView = true;
-        var isShow = ShowForm(new FormModel<TItem>(this, IsAuto)
+        var model = new FormModel<TItem>(this, IsAuto)
         {
             ViewType = type,
             IsView = true,
             Action = type.GetDescription(),
-            Data = row
-        });
-        if (isShow)
+            Data = row,
+            OnClosed = () => isShowView = false
+        };
+        if (!ShowForm(model))
             isShowView = false;
     }
 }

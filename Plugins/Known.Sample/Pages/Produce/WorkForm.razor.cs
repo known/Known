@@ -13,6 +13,7 @@ public partial class WorkForm
         if (Model.IsNew)
             Model.OnSavedAsync = row => JS.PrintWorkAsync(row, CurrentUser.UserName);
         Pack = new DynamicFormModel(this) { SmallLabel = true };
+        await Task.Delay(1000);// 模拟延时加载，双击按钮打开两个窗口问题
     }
 
     protected override async Task OnRenderAsync(bool firstRender)
