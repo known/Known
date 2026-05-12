@@ -38,6 +38,11 @@ public partial class ColumnInfo
     public Action<object> LinkAction { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位编辑事件委托。
+    /// </summary>
+    public Func<object, Task> EditAction { get; set; }
+
+    /// <summary>
     /// 取得或设置栏位是否是查看连接（设为True，才可在线配置表单，为False，则默认为普通查询表格）。
     /// </summary>
     public bool IsViewLink { get; set; }

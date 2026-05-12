@@ -71,6 +71,18 @@ public partial class ColumnBuilder<TItem>
     }
 
     /// <summary>
+    /// 设置表格栏位为编辑字段。
+    /// </summary>
+    /// <param name="action">编辑操作委托。</param>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Edit(Func<TItem, Task> action)
+    {
+        if (column != null)
+            column.EditAction = item => action.Invoke((TItem)item);
+        return this;
+    }
+
+    /// <summary>
     /// 设置表格栏位为合并行字段。
     /// </summary>
     /// <returns>表格栏位建造者。</returns>

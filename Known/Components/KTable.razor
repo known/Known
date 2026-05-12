@@ -51,7 +51,11 @@
                             } else {
                                 @if (item.Type == FieldType.Switch || value is bool) {
                                     var isChecked = Utils.ConvertTo<bool>(value);
-                                    <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
+                                    if (item.EditAction != null) {
+                                        <AntSwitch Value="isChecked" Category="@item.Category" OnChange="e=>item.EditAction.Invoke(context)" />
+                                    } else {
+                                        <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
+                                    }
                                 } else if (item.Type == FieldType.File) {
                                     <KFileCell Value="@value?.ToString()" />
                                 } else {
@@ -83,7 +87,11 @@
                             } else {
                                 @if (item.Type == FieldType.Switch || value is bool) {
                                     var isChecked = Utils.ConvertTo<bool>(value);
-                                    <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
+                                    if (item.EditAction != null) {
+                                        <AntSwitch Value="isChecked" Category="@item.Category" OnChange="e=>item.EditAction.Invoke(context)" />
+                                    } else {
+                                        <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
+                                    }
                                 } else if (item.Type == FieldType.File) {
                                     <KFileCell Value="@value?.ToString()" />
                                 } else {
