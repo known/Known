@@ -89,15 +89,17 @@ public class BasePage : BaseComponent, IReuseTabsPage
 
     private MenuInfo GetPageMenu()
     {
-        var menu = Context?.GetMenu(GetType());
+        var type = GetType();
+        var menu = Context?.GetMenu(type);
         if (menu != null)
-            return menu;
+            return type == typeof(AutoPage) ? Context?.Current : menu;
 
         menu = Context?.Current;
-        if (menu?.PageType == GetType())
+        var route = DataHelper.Routes.FirstOrDefault(m => m.PageType == type);
+        if (menu?.PageType == type || menu?.Url == route?.Url)
             return menu;
 
-        return DataHelper.Routes.FirstOrDefault(m => m.PageType == GetType());
+        return route;
     }
 }
 
