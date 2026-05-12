@@ -53,6 +53,11 @@ public class UIConfig
     public static bool IsAdvAdmin { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置是否打开第一个菜单，默认打开。
+    /// </summary>
+    public static bool IsOpenFirstMenu { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置表格全局栏位文本超出宽度是否显示省略号，显示则文本不换行，默认不显示。
     /// </summary>
     public static bool IsEllipsisTable { get; set; }

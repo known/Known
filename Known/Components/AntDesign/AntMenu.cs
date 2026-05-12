@@ -28,7 +28,8 @@ public class AntMenu : Menu
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
+        if (UIConfig.IsOpenFirstMenu)
+            DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
         ChildContent = BuildMenu;
     }
 
@@ -41,7 +42,8 @@ public class AntMenu : Menu
     {
         isLoading = false;
         Items = items;
-        DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
+        if (UIConfig.IsOpenFirstMenu)
+            DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
         StateHasChanged();
     }
 
@@ -83,11 +85,6 @@ public class AntMenu : Menu
         }
     }
 
-    private void BuildTitle(RenderTreeBuilder builder, MenuInfo item)
-    {
-        builder.Span().Child(() => BuildItemName(builder, item));
-    }
-
     private void BuildMenuItem(RenderTreeBuilder builder, MenuInfo item)
     {
         if (item.Url?.StartsWith("http") == true && item.Target != nameof(LinkTarget.IFrame))
@@ -111,13 +108,18 @@ public class AntMenu : Menu
         }
     }
 
-    private void BuildItemLink(RenderTreeBuilder builder, MenuInfo item)
+    private static void BuildTitle(RenderTreeBuilder builder, MenuInfo item)
+    {
+        builder.Span().Child(() => BuildItemName(builder, item));
+    }
+
+    private static void BuildItemLink(RenderTreeBuilder builder, MenuInfo item)
     {
         builder.Link().Href(item.Url).Set("target", "_blank")
                .Child(() => BuildItemName(builder, item));
     }
 
-    private void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
+    private static void BuildItemName(RenderTreeBuilder builder, MenuInfo item)
     {
         builder.IconName(item.Icon, item.Name);
     }
