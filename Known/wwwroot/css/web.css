@@ -107,7 +107,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-icon {display:flex;align-items:center;gap:3px;cursor:pointer;}
 .kui-run-mode {position:absolute;bottom:5px;left:5px;width:auto;font-weight:bold;border-radius:5px;padding:0 7px;font-size:12px;}
 .kui-more {display:flex;flex-direction:row;align-items:center;}
-.kui-ellipsis {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;max-width:200px;}
+.kui-ellipsis {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}
@@ -126,6 +126,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*Query*/
 .kui-query {margin-bottom:10px;padding:10px;}
+:root[data-size=Compact] .kui-query {padding:8px;}
 .kui-query .ant-form-item {margin:0;}
 .kui-query .ant-form-item-control {margin-right:10px;}
 .kui-query .ant-picker-range input {width:98px;}
@@ -472,10 +473,11 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-header .left .trigger {font-size:18px;margin-top:2.5px;padding-right:10px;cursor:pointer;transition:color 0.3s;}
 .kui-header .left .trigger:hover {color:#1890ff;}
 .kui-header.kui-menu-dark {background-color:#001529;}
-.Compact .kui-header .left .trigger {font-size:14px;margin-top:0;}
 .kui-header .left > div {margin-right:10px;}
 .kui-header .anticon {cursor:pointer;}
 .kui-header .ant-breadcrumb a {color:var(--kui-color);}
+
+:root[data-size=Compact] .kui-header .left .trigger {font-size:14px;margin-top:0;}
 
 .kui-top-menu {display:flex;align-items:center;gap:22px;height:100%;margin-left:6px;}
 .kui-top-menu .item {
@@ -513,7 +515,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     margin:0;padding:5px 2px;background:var(--kui-bgcolor);
     border-bottom:1px solid var(--kui-color-border);
 }
-.Compact .ant-tabs-top.kui-nav-tabs > .ant-tabs-nav {padding:2px;}
+:root[data-size=Compact] .ant-tabs-top.kui-nav-tabs > .ant-tabs-nav {padding:2px;}
 .ant-tabs-card.ant-tabs-top1 > .ant-tabs-nav .ant-tabs-tab-active {
     border-bottom-color:unset;
 }
@@ -766,10 +768,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     .ws-space .count {flex-direction:column;}
 }
 
-.Compact .known, .Compact .ws-space {padding:10px;}
-.Compact .count li .month {font-size:12px;}
-.Compact .ws-func-menu, .Compact .kui-title {font-size:0.8rem;}
-.Compact .ws-func-menu .anticon {font-size:2rem;}
+:root[data-size=Compact] .known, :root[data-size=Compact] .ws-space {padding:10px;}
+:root[data-size=Compact] .count li .month {font-size:12px;}
+:root[data-size=Compact] .ws-func-menu, :root[data-size=Compact] .kui-title {font-size:0.8rem;}
+:root[data-size=Compact] .ws-func-menu .anticon {font-size:2rem;}
 
 :root[data-theme=dark] .count li {background:linear-gradient(135deg, rgb(46, 46, 46), rgb(35, 40, 40));}
 
@@ -828,6 +830,8 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 .ant-table-pagination.ant-pagination {margin:5px 0 10px 0;}
 .ant-transfer-list-header-title {font-weight:bold;}
 td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
+:root[data-size=Compact] td .ant-btn {height:20px;font-size:11px;padding:0 5px;}
+:root[data-size=Compact] td .ant-tag {font-size:11px;}
 
 .ant-modal {top:30px;}
 .ant-modal-body > .ant-steps {padding:10px;}
