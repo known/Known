@@ -4,6 +4,9 @@ static class AdminSExtension
 {
     internal static Task<Result> AddPageLogAsync(this IAdminService service, UIContext context)
     {
+        if (context.CurrentUser == null)
+            return Result.SuccessAsync("");
+
         if (!Config.IsAdminLog && context.CurrentUser.IsSystemAdmin())
             return Result.SuccessAsync("");
 
