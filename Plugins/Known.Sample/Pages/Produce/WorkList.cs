@@ -35,6 +35,12 @@ public class WorkList : BaseTablePage<TbWork>
 
     [Action] public Task Print(TbWork row) => JS.PrintWorkAsync(row, CurrentUser.UserName);
 
+    [Action]
+    public async Task Export(TbWork row)
+    {
+        await App.ExportFileAsync(() => Service.ExportWorkAsync(row));
+    }
+
     private Task<PagingResult<TbWork>> QueryWorksAsync(PagingCriteria criteria)
     {
         criteria.SetQuery(nameof(TbWork.Status), QueryType.Equal, Table.CurrentTab);

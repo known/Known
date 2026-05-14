@@ -1,4 +1,6 @@
-﻿namespace Known.Sample.Services;
+﻿using Known.Cells;
+
+namespace Known.Sample.Services;
 
 public interface IProduceService : IService
 {
@@ -11,6 +13,7 @@ public interface IProduceService : IService
     Task<TbWork> GetWorkAsync(string id);
     Task<Result> DeleteWorksAsync(List<TbWork> infos);
     Task<Result> SaveWorkAsync(UploadInfo<TbWork> info);
+    Task<FileDataInfo> ExportWorkAsync(TbWork row);
 }
 
 [Client]
@@ -54,6 +57,11 @@ class ProduceClient(HttpClient http) : ClientBase(http), IProduceService
     public Task<Result> SaveWorkAsync(UploadInfo<TbWork> info)
     {
         return Http.PostAsync("/Produce/SaveWork", info);
+    }
+
+    public Task<FileDataInfo> ExportWorkAsync(TbWork row)
+    {
+        return Http.PostAsync<TbWork, FileDataInfo>("/Produce/ExportWork", row);
     }
 }
 
@@ -191,5 +199,35 @@ class ProduceService(Context context) : ServiceBase(context), IProduceService
             await db.SaveAsync(model);
             info.Model.Id = model.Id;
         }, info.Model);
+    }
+
+    public async Task<FileDataInfo> ExportWorkAsync(TbWork row)
+    {
+        var excel = ExcelFactory.Create();
+        var sheet = excel.CreateSheet("Sheet1");
+        sheet.SetCellValue("A1", "工单编号");
+        sheet.SetCellValue("B1", row.WorkNo);
+        sheet.SetCellValue("A2", "客户料号");
+        sheet.SetCellValue("B2", row.CustGNo);
+
+        var files = await Database.GetFilesAsync(row.Files);
+        if (files != null && files.Count > 0)
+        {
+            sheet.SetCellValue("A3", "附件");
+            for (int i = 0; i < files.Count; i++)
+            {
+                var file = files[i];
+                var path = Config.GetUploadPath(file.Path);
+                if (File.Exists(path))
+                {
+                    var fileBytes = await File.ReadAllBytesAsync(path);
+                    sheet.AddPicture(3, 2 * i, 0, 0, 100, 100, fileBytes);
+                }
+            }
+        }
+
+        var stream = excel.SaveToStream();
+        var bytes = stream.ToArray();
+        return new FileDataInfo($"工单{row.WorkNo}.xlsx", bytes);
     }
 }
