@@ -298,9 +298,43 @@ window.KUtils = {
         return Prism.highlight(code, Prism.languages[lang], lang);
     },
     showECharts: function (elementId, option) {
-        var myChart = echarts.init(document.getElementById(elementId));
-        myChart.setOption(option);
-        window.addEventListener("resize", function () { myChart.resize(); });
+        var element = document.getElementById(elementId);
+        if (!element)
+            return null;
+
+        var myChart = echarts.getInstanceByDom(element);
+        if (!myChart)
+            myChart = echarts.init(element);
+
+        myChart.setOption(option, true);
+
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var chart = echarts.getInstanceByDom(element);
+                if (chart)
+                    chart.resize();
+            });
+        });
+
+        if (!element.__kuiChartResizeBound) {
+            element.__kuiChartResizeBound = true;
+            if (window.ResizeObserver) {
+                var observer = new ResizeObserver(function () {
+                    var chart = echarts.getInstanceByDom(element);
+                    if (chart)
+                        chart.resize();
+                });
+                observer.observe(element);
+                element.__kuiChartObserver = observer;
+            } else {
+                window.addEventListener("resize", function () {
+                    var chart = echarts.getInstanceByDom(element);
+                    if (chart)
+                        chart.resize();
+                });
+            }
+        }
+
         return myChart;
     },
     checkClipboardPermission: async function () {
