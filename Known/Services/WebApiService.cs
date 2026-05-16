@@ -20,7 +20,7 @@ partial class WebApiClient(HttpClient http) : ClientBase(http), IWebApiService
 }
 
 [WebApi, Service]
-partial class WebApiService(Context context) : ServiceBase(context), IWebApiService
+partial class WebApiService(Context context) : SysServiceBase(context), IWebApiService
 {
     public Task<PagingResult<ApiMethodInfo>> QueryWebApisAsync(PagingCriteria criteria)
     {

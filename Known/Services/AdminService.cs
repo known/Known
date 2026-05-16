@@ -67,7 +67,7 @@ partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 }
 
 [WebApi, Service]
-partial class AdminService(Context context, INotifyService notify) : ServiceBase(context), IAdminService
+partial class AdminService(Context context, INotifyService notify) : SysServiceBase(context), IAdminService
 {
     public Task<Result> SetRenderModeAsync(string mode)
     {

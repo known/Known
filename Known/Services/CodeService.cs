@@ -66,7 +66,7 @@ class CodeClient(HttpClient http) : ClientBase(http), ICodeService
 }
 
 [WebApi, Service]
-class CodeService(Context context) : ServiceBase(context), ICodeService
+class CodeService(Context context) : SysServiceBase(context), ICodeService
 {
     public async Task<List<CodeInfo>> GetDbTablesAsync()
     {

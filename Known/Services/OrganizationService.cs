@@ -35,7 +35,7 @@ class OrganizationClient(HttpClient http) : ClientBase(http), IOrganizationServi
 }
 
 [WebApi, Service]
-class OrganizationService(Context context) : ServiceBase(context), IOrganizationService
+class OrganizationService(Context context) : SysServiceBase(context), IOrganizationService
 {
     public Task<List<SysOrganization>> GetOrganizationsAsync()
     {

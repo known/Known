@@ -23,7 +23,7 @@ class OnlineClient(HttpClient http) : ClientBase(http), IOnlineService
 }
 
 [WebApi, Service]
-class OnlineService(Context context) : ServiceBase(context), IOnlineService
+class OnlineService(Context context) : SysServiceBase(context), IOnlineService
 {
     public Task<PagingResult<UserInfo>> QueryOnlineUsersAsync(PagingCriteria criteria)
     {

@@ -69,7 +69,7 @@ class FieldClient(HttpClient http) : ClientBase(http), IFieldService
 }
 
 [WebApi, Service]
-class FieldService(Context context) : ServiceBase(context), IFieldService
+class FieldService(Context context) : SysServiceBase(context), IFieldService
 {
     public Task<PagingResult<FieldDataInfo>> QueryFieldsAsync(PagingCriteria criteria)
     {

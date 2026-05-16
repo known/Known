@@ -35,7 +35,7 @@ class InstallClient(HttpClient http) : ClientBase(http), IInstallService
 }
 
 [WebApi, Service]
-class InstallService(Context context) : ServiceBase(context), IInstallService
+class InstallService(Context context) : SysServiceBase(context), IInstallService
 {
     [Anonymous]
     public async Task<InstallInfo> GetInstallAsync()

@@ -44,7 +44,7 @@ class ButtonClient(HttpClient http) : ClientBase(http), IButtonService
 }
 
 [WebApi, Service]
-class ButtonService(Context context) : ServiceBase(context), IButtonService
+class ButtonService(Context context) : SysServiceBase(context), IButtonService
 {
     public async Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria)
     {

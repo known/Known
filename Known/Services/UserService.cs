@@ -84,7 +84,7 @@ class UserClient(HttpClient http) : ClientBase(http), IUserService
 }
 
 [WebApi, Service]
-class UserService(Context context, IUserHandler handler) : ServiceBase(context), IUserService
+class UserService(Context context, IUserHandler handler) : SysServiceBase(context), IUserService
 {
     public async Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria)
     {

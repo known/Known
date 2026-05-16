@@ -44,7 +44,7 @@ class RoleClient(HttpClient http) : ClientBase(http), IRoleService
 }
 
 [WebApi, Service]
-class RoleService(Context context) : ServiceBase(context), IRoleService
+class RoleService(Context context) : SysServiceBase(context), IRoleService
 {
     public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria)
     {

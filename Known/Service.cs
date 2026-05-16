@@ -79,4 +79,14 @@ public class ServiceBase(Context context) : IService
             return db;
         }
     }
+
+    internal virtual Database GetDatabase()
+    {
+        return Database.Create();
+    }
+}
+
+class SysServiceBase(Context context) : ServiceBase(context)
+{
+    internal override Database GetDatabase() => Database.Create();
 }

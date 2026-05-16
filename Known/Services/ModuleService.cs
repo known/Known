@@ -97,7 +97,7 @@ class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
 }
 
 [WebApi, Service]
-class ModuleService(Context context) : ServiceBase(context), IModuleService
+class ModuleService(Context context) : SysServiceBase(context), IModuleService
 {
     public Task<PagingResult<SysModule>> QueryModulesAsync(PagingCriteria criteria)
     {

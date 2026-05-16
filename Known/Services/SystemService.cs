@@ -49,7 +49,7 @@ class SystemClient(HttpClient http) : ClientBase(http), ISystemService
 }
 
 [WebApi, Service]
-class SystemService(Context context) : ServiceBase(context), ISystemService
+class SystemService(Context context) : SysServiceBase(context), ISystemService
 {
     public async Task<SystemDataInfo> GetSystemDataAsync()
     {

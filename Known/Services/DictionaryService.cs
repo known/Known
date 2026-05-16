@@ -44,7 +44,7 @@ class DictionaryClient(HttpClient http) : ClientBase(http), IDictionaryService
 }
 
 [WebApi, Service]
-class DictionaryService(Context context) : ServiceBase(context), IDictionaryService
+class DictionaryService(Context context) : SysServiceBase(context), IDictionaryService
 {
     public async Task<Result> RefreshCacheAsync()
     {

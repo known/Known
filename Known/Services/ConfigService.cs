@@ -27,7 +27,7 @@ class ConfigClient(HttpClient http) : ClientBase(http), IConfigService
 }
 
 [WebApi, Service]
-partial class ConfigService(Context context) : ServiceBase(context), IConfigService
+partial class ConfigService(Context context) : SysServiceBase(context), IConfigService
 {
     public async Task<List<PluginInfo>> GetTopNavsAsync()
     {

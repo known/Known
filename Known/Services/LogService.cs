@@ -67,7 +67,7 @@ class LogClient(HttpClient http) : ClientBase(http), ILogService
 }
 
 [WebApi, Service]
-class LogService(Context context) : ServiceBase(context), ILogService
+class LogService(Context context) : SysServiceBase(context), ILogService
 {
     public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria)
     {

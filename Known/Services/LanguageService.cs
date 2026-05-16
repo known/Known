@@ -59,7 +59,7 @@ class LanguageClient(HttpClient http) : ClientBase(http), ILanguageService
 }
 
 [WebApi, Service]
-class LanguageService(Context context) : ServiceBase(context), ILanguageService
+class LanguageService(Context context) : SysServiceBase(context), ILanguageService
 {
     public Task<PagingResult<SysLanguage>> QueryLanguagesAsync(PagingCriteria criteria)
     {

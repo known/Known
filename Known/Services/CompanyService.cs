@@ -59,7 +59,7 @@ class CompanyClient(HttpClient http) : ClientBase(http), ICompanyService
 }
 
 [WebApi, Service]
-class CompanyService(Context context) : ServiceBase(context), ICompanyService
+class CompanyService(Context context) : SysServiceBase(context), ICompanyService
 {
     private const string KeyCompany = "CompanyInfo";
 
@@ -97,17 +97,12 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
 
     public Task<PagingResult<SysCompany>> QueryTenantsAsync(PagingCriteria criteria)
     {
-        if (!IsSystemAdmin())
-            return Task.FromResult(new PagingResult<SysCompany> { Message = "无权限访问！" });
-
-        return Database.QueryPageAsync<SysCompany>(criteria);
+        var sql = $"select * from SysCompany where CompNo<>'{CurrentUser.CompNo}'";
+        return Database.QueryPageAsync<SysCompany>(sql, criteria);
     }
 
     public async Task<SysCompany> GetTenantAsync(string id)
     {
-        if (!IsSystemAdmin())
-            return null;
-
         var info = await Database.QueryByIdAsync<SysCompany>(id);
         info ??= new SysCompany();
         info.ConnTypes = string.Join(",", DatabaseOption.Types);
@@ -116,9 +111,6 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
 
     public async Task<Result> DeleteTenantsAsync(List<SysCompany> infos)
     {
-        if (!IsSystemAdmin())
-            return Result.Error("无权限访问！");
-
         if (infos == null || infos.Count == 0)
             return Result.Error(Language.SelectOneAtLeast);
 
@@ -153,12 +145,6 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
 
     public async Task<Result> SaveTenantAsync(UploadInfo<SysCompany> info)
     {
-        if (!IsSystemAdmin())
-            return Result.Error("无权限访问！");
-
-        if (info == null)
-            return Result.Error("保存数据不能为空！");
-
         var database = Database;
         var model = await database.QueryByIdAsync<SysCompany>(info.Model.Id);
         model ??= new SysCompany();
@@ -227,6 +213,4 @@ class CompanyService(Context context) : ServiceBase(context), ICompanyService
     {
         return Utils.ToJson(new { Code = user.CompNo, Name = user.CompName });
     }
-
-    private bool IsSystemAdmin() => CurrentUser?.IsSystemAdmin() == true;
 }
