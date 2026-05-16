@@ -12,6 +12,12 @@ public class TenantPage : BaseTablePage<SysCompany>
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
+        if (!CurrentUser.IsSystemAdmin())
+        {
+            Navigation.GoErrorPage("403");
+            return;
+        }
+
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ICompanyService>();
 

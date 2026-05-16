@@ -22,11 +22,13 @@ public class LanguagePage : BaseTablePage<SysLanguage>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ILanguageService>();
 
-        Table = new TableModel<SysLanguage>(this, TableColumnMode.Attribute);
-        Table.Name = PageName;
-        Table.FormType = typeof(LanguageForm);
-        Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Service.QueryLanguagesAsync;
+        Table = new TableModel<SysLanguage>(this, TableColumnMode.Attribute)
+        {
+            Name = PageName,
+            FormType = typeof(LanguageForm),
+            SelectType = TableSelectType.Checkbox,
+            OnQuery = Service.QueryLanguagesAsync
+        };
         Table.SetDevTable();
 
         foreach (var info in Infos)

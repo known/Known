@@ -21,11 +21,13 @@ public class ButtonPage : BaseTablePage<ButtonInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IButtonService>();
 
-        Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute);
-        Table.EnableSort = false;
-        Table.Name = PageName;
-        Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Service.QueryButtonsAsync;
+        Table = new TableModel<ButtonInfo>(this, TableColumnMode.Attribute)
+        {
+            EnableSort = false,
+            Name = PageName,
+            SelectType = TableSelectType.Checkbox,
+            OnQuery = Service.QueryButtonsAsync
+        };
         Table.SetDevTable();
 
         Table.Column(c => c.Id).FilterType(false);

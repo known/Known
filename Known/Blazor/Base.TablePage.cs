@@ -62,5 +62,11 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
     }
 
     /// <inheritdoc />
-    protected override void BuildPage(RenderTreeBuilder builder) => builder.TablePage(Table, page => Table.PageComponent = page);
+    protected override void BuildPage(RenderTreeBuilder builder)
+    {
+        if (Table == null)
+            return;
+
+        builder.TablePage(Table, page => Table.PageComponent = page);
+    }
 }

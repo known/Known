@@ -21,12 +21,14 @@ public class FieldPage : BaseTablePage<FieldDataInfo>
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IFieldService>();
 
-        Table = new TableModel<FieldDataInfo>(this, TableColumnMode.Attribute);
-        Table.Name = PageName;
-        Table.EnableEdit = false;
-        Table.ShowPager = true;
-        Table.SelectType = TableSelectType.Checkbox;
-        Table.OnQuery = Service.QueryFieldsAsync;
+        Table = new TableModel<FieldDataInfo>(this, TableColumnMode.Attribute)
+        {
+            Name = PageName,
+            EnableEdit = false,
+            ShowPager = true,
+            SelectType = TableSelectType.Checkbox,
+            OnQuery = Service.QueryFieldsAsync
+        };
 
         Table.Column(c => c.Code).Width(150).ViewLink();
         Table.Column(c => c.Name).Width(120).Query();

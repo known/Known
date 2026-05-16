@@ -24,6 +24,7 @@ public class CodingPage : BasePage
             Navigation.GoErrorPage("403");
             return;
         }
+
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<ICodeService>();
     }
