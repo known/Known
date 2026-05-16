@@ -136,6 +136,7 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
                 await db.DeleteAsync<SysOrganization>(d => d.CompNo == item.Code);
                 await db.DeleteAsync<SysUser>(d => d.CompNo == item.Code);
                 await db.DeleteAsync<SysLog>(d => d.CompNo == item.Code);
+                RemoveSystemInfo(item.Code);
             }
         });
         if (result.IsValid)
@@ -196,6 +197,11 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
             }
 
             await db.SaveAsync(model);
+
+            RemoveSystemInfo(model.Code);
+            if (!string.IsNullOrWhiteSpace(model.SystemData.ConnString))
+                CoreConfig.SystemInfos[model.Code] = model.SystemData;
+
             info.Model.Id = model.Id;
         }, info.Model);
     }
@@ -212,5 +218,10 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
     private static string GetDefaultData(UserInfo user)
     {
         return Utils.ToJson(new { Code = user.CompNo, Name = user.CompName });
+    }
+
+    private static void RemoveSystemInfo(string code)
+    {
+        CoreConfig.SystemInfos.Remove(code);
     }
 }

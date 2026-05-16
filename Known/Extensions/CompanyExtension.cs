@@ -50,4 +50,23 @@ public static class CompanyExtension
         await db.SaveAsync(data);
         return Result.Success(Language.SaveSuccess);
     }
+
+    internal static async Task InitializeTenantsAsync(this Database db)
+    {
+        if (!Config.App.IsPlatform)
+            return;
+
+        var tenants = await db.QueryListAsync<SysCompany>();
+        if (tenants == null || tenants.Count == 0)
+            return;
+
+        var dbTenants = tenants.Where(d => !string.IsNullOrWhiteSpace(d.SystemData?.ConnString)).ToList();
+        if (dbTenants == null || dbTenants.Count == 0)
+            return;
+
+        foreach (var item in dbTenants)
+        {
+            CoreConfig.SystemInfos[item.Code] = item.SystemData;
+        }
+    }
 }

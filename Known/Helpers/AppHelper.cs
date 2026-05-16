@@ -20,6 +20,7 @@ public class AppHelper
         await db.AddTableFieldAsync<SysDictionary>(d => d.SysId);
         await db.AddTableFieldAsync<SysNoRule>(d => d.SysId);
 
+        await db.InitializeTenantsAsync();
         await FieldService.InitializeDataAsync(db);
     }
 

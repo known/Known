@@ -29,6 +29,20 @@ public partial class Database : IDisposable
     }
 
     /// <summary>
+    /// 创建数据库访问实例。
+    /// </summary>
+    /// <param name="name">数据库连接名。</param>
+    /// <param name="type">数据库类型。</param>
+    /// <param name="connString">数据库连接字符串。</param>
+    /// <returns>数据库访问实例。</returns>
+    public static Database Create(string name, DatabaseType type, string connString)
+    {
+        var database = CreateDatabaseInstance();
+        database.SetDatabase(name, type, connString);
+        return database;
+    }
+
+    /// <summary>
     /// 取得或设置当前操作用户信息。
     /// </summary>
     public UserInfo User { get; set; }

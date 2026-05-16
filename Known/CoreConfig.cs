@@ -9,6 +9,8 @@ public class CoreConfig
 
     internal static bool IsAuth { get; set; } = true;
     internal static string AuthStatus { get; set; }
+    // 租户系统信息字典，Key为租户ID。
+    internal static Dictionary<string, SystemInfo> SystemInfos { get; } = [];
     // 取得后端任务类字典。
     internal static ConcurrentDictionary<string, Type> TaskTypes { get; } = [];
     // 取得后端导入类字典。

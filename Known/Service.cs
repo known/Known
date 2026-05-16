@@ -74,7 +74,7 @@ public class ServiceBase(Context context) : IService
             if (App.IsClient)
                 return null;
 
-            var db = Database.Create();
+            var db = GetDatabase();
             db.User = CurrentUser;
             return db;
         }
@@ -82,7 +82,12 @@ public class ServiceBase(Context context) : IService
 
     internal virtual Database GetDatabase()
     {
-        return Database.Create();
+        var compNo = CurrentUser.CompNo;
+        if (!CoreConfig.SystemInfos.TryGetValue(compNo, out var info))
+            return Database.Create();
+
+        var connType = Utils.ConvertTo<DatabaseType>(info.ConnType);
+        return Database.Create($"Tenant_{compNo}", connType, info.ConnString);
     }
 }
 
