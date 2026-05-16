@@ -21,6 +21,7 @@ public class CommandInfo
     internal CommandInfo(DbProvider provider, Type type, string tableName, string text, object param = null)
     {
         Type = type;
+        ConnName = provider?.Database?.ConnectionName;
         TableName = tableName ?? provider.GetTableName(type);
         Prefix = provider?.Prefix;
         Text = text?.Replace("@", Prefix);
@@ -32,6 +33,7 @@ public class CommandInfo
 
     internal bool IsSave { get; set; }
     internal bool IsClose { get; set; }
+    internal string ConnName { get; set; }
     internal string TableName { get; set; }
     internal Type Type { get; set; }
     internal CommandType CmdType { get; set; } = CommandType.Text;
@@ -95,16 +97,17 @@ public class CommandInfo
     }
 
     /// <summary>
-    /// 获取数据库访问命令对象的显示字符串，显示Text和Params内容。
+    /// 获取数据库访问命令对象的显示字符串，显示ConnName、Text和Params内容。
     /// </summary>
     /// <returns></returns>
     public override string ToString()
     {
         var sb = new StringBuilder();
-        sb.Append($"Text: {Text}");
+        sb.AppendLine($"Conn: {ConnName}");
+        sb.AppendLine($"Text: {Text}");
         if (Parameters != null && Parameters.Count > 0)
         {
-            sb.Append("; Params: ");
+            sb.Append("Parm: ");
             foreach (var item in Parameters)
             {
                 sb.Append($"{item.Name}={item.Value},");
