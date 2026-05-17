@@ -27,6 +27,11 @@ public class BasePage : BaseComponent, IReuseTabsPage
     public string PageName => Language?.GetString(Menu);
 
     /// <summary>
+    /// 取得或设置页面描述信息。
+    /// </summary>
+    public string Description { get; set; }
+
+    /// <summary>
     /// 获取标签页标题模板。
     /// </summary>
     /// <returns>标签页标题模板。</returns>
@@ -74,7 +79,14 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// 构建页面组件。
     /// </summary>
     /// <param name="builder">呈现树建造者。</param>
-    protected virtual void BuildPage(RenderTreeBuilder builder) { }
+    protected virtual void BuildPage(RenderTreeBuilder builder)
+    {
+        builder.Div("kui-card kui-empty-page", () =>
+        {
+            builder.Div("title", PageName);
+            builder.Div("description", Description ?? "页面正在开发中......");
+        });
+    }
 
     /// <summary>
     /// 获取页面标题内容。

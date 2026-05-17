@@ -82,6 +82,9 @@ public class ServiceBase(Context context) : IService
 
     internal virtual Database GetDatabase()
     {
+        if (CurrentUser == null)
+            return Database.Create();
+
         var compNo = CurrentUser.CompNo;
         if (!CoreConfig.SystemInfos.TryGetValue(compNo, out var info))
             return Database.Create();
