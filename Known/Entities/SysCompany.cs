@@ -18,7 +18,7 @@ public class SysCompany : EntityBase
     /// 取得或设置企业名称。
     /// </summary>
     [MaxLength(50)]
-    [Column(Width = 180, IsQuery = true)]
+    [Column(Width = 250, IsQuery = true, Ellipsis = true)]
     [DisplayName("企业名称")]
     public string Name { get; set; }
 
@@ -26,7 +26,6 @@ public class SysCompany : EntityBase
     /// 取得或设置英文名称。
     /// </summary>
     [MaxLength(250)]
-    [Column(Width = 180)]
     [DisplayName("英文名称")]
     public string NameEn { get; set; }
 
@@ -34,7 +33,7 @@ public class SysCompany : EntityBase
     /// 取得或设置社会信用代码。
     /// </summary>
     [MaxLength(18)]
-    [Column(Width = 140)]
+    [Column(Width = 160)]
     [DisplayName("社会信用代码")]
     public string SccNo { get; set; }
 
@@ -58,7 +57,6 @@ public class SysCompany : EntityBase
     /// 取得或设置中文地址。
     /// </summary>
     [MaxLength(500)]
-    [Column(Width = 200)]
     [DisplayName("中文地址")]
     public string Address { get; set; }
 
@@ -88,7 +86,7 @@ public class SysCompany : EntityBase
     /// <summary>
     /// 取得或设置备注。
     /// </summary>
-    [Column(Width = 200)]
+    [Column(Width = 200, Ellipsis = true)]
     [DisplayName("备注")]
     public string Note { get; set; }
 

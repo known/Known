@@ -24,9 +24,9 @@ public partial class Database
     public virtual QueryPageBuilder Query<T>(PagingCriteria criteria) where T : class, new()
     {
         criteria.EntityType = typeof(T);
-        var sb = Provider?.Sql.SelectAll().From<T>();
-        if (NeedTenantFilter(typeof(T)))
-            sb?.Where(nameof(EntityBase.CompNo));
+        var sb = Provider?.Sql.SelectAll().From<T>().Where(nameof(EntityBase.CompNo));
+        //if (NeedTenantFilter(typeof(T)))
+        //sb?.Where(nameof(EntityBase.CompNo));
         return new QueryPageBuilder(this) { Sql = sb?.ToSqlString(), Criteria = criteria };
     }
 

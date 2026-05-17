@@ -23,7 +23,7 @@ public class TenantPage : BaseTablePage<SysCompany>
 
         Table.SetAdminTable();
         Table.FormType = typeof(TenantForm);
-        Table.Form = new FormInfo { Width = 900 };
+        Table.Form = new FormInfo { Width = 1000 };
         Table.OnQuery = Service.QueryTenantsAsync;
     }
 
