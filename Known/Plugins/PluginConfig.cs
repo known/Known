@@ -36,13 +36,15 @@ public class PluginConfig
 
         Language.DefaultDatas.Add(plugin.Name);
 
+        if (plugin.Name == Language.DevTenant && !Config.App.IsPlatform)
+            return;
         if (plugin.Name == Language.NavFontSize && !Config.App.IsSize)
             return;
         if (plugin.Name == Language.NavLanguage && !Config.App.IsLanguage)
             return;
         if (plugin.Name == Language.NavTheme && !Config.App.IsTheme)
             return;
-        if (plugin.Name == Language.DevTenant && !Config.App.IsPlatform)
+        if (plugin.Name == Language.NavUser && Config.App.Layout == LayoutType.Side)
             return;
         if (IgnoreTypes.Contains(item))
             return;
@@ -61,6 +63,8 @@ public class PluginConfig
             if (item.Type == typeof(NavLanguage) && !Config.App.IsLanguage)
                 continue;
             if (item.Type == typeof(NavTheme) && !Config.App.IsTheme)
+                continue;
+            if (item.Type == typeof(NavUser) && Config.App.Layout == LayoutType.Side)
                 continue;
             infos.Add(new PluginInfo { Id = item.Id, Type = item.Id });
         }

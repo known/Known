@@ -44,6 +44,8 @@ partial class ConfigService(Context context) : SysServiceBase(context), IConfigS
                 continue;
             if (item.Type == typeof(NavTheme).FullName && !Config.App.IsTheme)
                 continue;
+            if (item.Type == typeof(NavUser).FullName && Config.App.Layout == LayoutType.Side)
+                continue;
 
             items.Add(item);
         }

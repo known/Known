@@ -19,34 +19,40 @@
     <FormItem Label="@Language[Language.Menu]">
         <AntRadioGroup @bind-Value="context.MenuTheme" Codes="MenuThemes" OnChange="OnChange" />
     </FormItem>
-    <Divider />
-    <Title Level="4">@Language[Language.LayoutSetting]</Title>
-    @if (!Config.App.IsTopMenu)
+    @if (Config.App.Layout != LayoutType.Side)
     {
-        <FormItem Label="@Language[Language.Layout]">
-            <AntRadioGroup @bind-Value="context.LayoutMode" Codes="LayoutModes" OnChange="OnChange" />
-        </FormItem>
-    }
-    <FormItem Label="@Language[Language.Tabs]">
-        <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
-    </FormItem>
-    @if (context.MultiTab)
-    {
-        if (!Config.App.IsTopMenu)
+        <Divider />
+        <Title Level="4">@Language[Language.LayoutSetting]</Title>
+        @if (!Config.App.IsTopMenu)
         {
-            <FormItem Label="@Language[Language.TopTab]">
-                <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
+            <FormItem Label="@Language[Language.Layout]">
+                <AntRadioGroup @bind-Value="context.LayoutMode" Codes="LayoutModes" OnChange="OnChange" />
             </FormItem>
         }
-        <FormItem Label="@Language[Language.MaxTabCount]">
-            <AntInteger @bind-Value="context.MaxTabCount" />
+        <FormItem Label="@Language[Language.Tabs]">
+            <Switch @bind-Checked="context.MultiTab" OnChange="OnChange" />
         </FormItem>
+        @if (context.MultiTab)
+        {
+            if (!Config.App.IsTopMenu)
+            {
+                <FormItem Label="@Language[Language.TopTab]">
+                    <Switch @bind-Checked="context.IsTopTab" OnChange="OnChange" />
+                </FormItem>
+            }
+            <FormItem Label="@Language[Language.MaxTabCount]">
+                <AntInteger @bind-Value="context.MaxTabCount" />
+            </FormItem>
+        }
     }
     <Divider />
     <Title Level="4">@Language[Language.PreferenceSetting]</Title>
-    <FormItem Label="@Language[Language.Accordion]">
-        <Switch @bind-Checked="context.Accordion" OnChange="OnChange" />
-    </FormItem>
+    @if (Config.App.Layout != LayoutType.Side)
+    {
+        <FormItem Label="@Language[Language.Accordion]">
+            <Switch @bind-Checked="context.Accordion" OnChange="OnChange" />
+        </FormItem>
+    }
     <FormItem Label="@Language["表单"]">
         <AntRadioGroup @bind-Value="context.OpenType" Category="@nameof(FormOpenType)" />
     </FormItem>
