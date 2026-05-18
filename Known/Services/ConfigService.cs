@@ -32,8 +32,22 @@ partial class ConfigService(Context context) : SysServiceBase(context), IConfigS
     public async Task<List<PluginInfo>> GetTopNavsAsync()
     {
         var datas = await Database.GetConfigAsync<List<PluginInfo>>(Constants.KeyTopNav, true);
-        datas ??= [];
-        return datas;
+        if (datas == null || datas.Count == 0)
+            return [];
+
+        var items = new List<PluginInfo>();
+        foreach (var item in datas)
+        {
+            if (item.Type == typeof(NavFontSize).FullName && !Config.App.IsSize)
+                continue;
+            if (item.Type == typeof(NavLanguage).FullName && !Config.App.IsLanguage)
+                continue;
+            if (item.Type == typeof(NavTheme).FullName && !Config.App.IsTheme)
+                continue;
+
+            items.Add(item);
+        }
+        return items;
     }
 
     public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos)
