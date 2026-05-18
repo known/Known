@@ -1,1 +1,136 @@
 /*Side*/
+/* 亮色主题变量 (现代浅色基调) */
+:root {
+    --bg-body: #f5f7fb;
+    --sidebar-bg: rgba(255, 255, 255, 0.96);
+    --sidebar-border: rgba(0, 0, 0, 0.05);
+    --header-bg: rgba(255, 255, 255, 0.92);
+    --header-border: rgba(0, 0, 0, 0.06);
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --icon-color: #5b6e8c;
+    --active-bg: linear-gradient(135deg, #f0f2fe 0%, #e9eefc 100%);
+    --active-color: #3b4bff;
+    --hover-bg: #f1f5f9;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.05);
+    --border-radius-lg: 20px;
+    --border-radius-md: 14px;
+    --border-radius-sm: 10px;
+    --transition: all 0.2s ease;
+}
+
+/* 暗黑主题变量 */
+:root[data-theme=dark] {
+    --bg-body: #0f1217;
+    --sidebar-bg: rgba(18, 22, 28, 0.98);
+    --sidebar-border: rgba(255, 255, 255, 0.06);
+    --header-bg: rgba(18, 22, 28, 0.95);
+    --header-border: rgba(255, 255, 255, 0.05);
+    --card-bg: #1e242c;
+    --text-primary: #edf2f7;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --icon-color: #9ca3af;
+    --active-bg: linear-gradient(135deg, #2d3748 0%, #1e2a3a 100%);
+    --active-color: #6b8cff;
+    --hover-bg: #2d3748;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.ks-layout {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg-body);
+    color: var(--text-primary);
+    transition: background 0.25s, color 0.2s;
+}
+
+.ks-side {
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(2px);
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0 24px 0;
+    transition: var(--transition);
+    z-index: 10;
+    box-shadow: var(--shadow-sm);
+}
+
+.ks-side .kui-logo {
+    width: 100%;
+}
+
+.ks-layout .ant-menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.ks-layout .ant-menu .kui-icon {
+    flex-direction: column;
+    text-align: center;
+}
+
+.ks-layout .ant-menu-inline > .ant-menu-item {
+    height: 60px;
+    position: relative;
+}
+
+.ks-layout .ant-menu .ant-menu-item .anticon {
+    font-size: 24px;
+}
+
+.ks-layout .ant-menu .kui-icon > .icon-name {
+    margin-left: 0;
+    line-height: 18px;
+}
+
+.ks-main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-body);
+}
+
+.ks-topbar {
+    background: var(--header-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--header-border);
+    padding: 0 15px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.ks-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--text-secondary);
+}
+
+.ks-layout .kui-nav-user {
+    flex-direction: column;
+}
+
+.ks-layout .kui-nav-user .ant-avatar {
+    width: 40px;
+    height: 40px;
+}

@@ -34,7 +34,7 @@ public static class AppConfig
             info.Name = AppName;
             info.IsPlatform = true;
             info.IsTopMenu = true;
-            //info.IsSemiLayout = true;
+            //info.Layout = LayoutType.Semi;
         });
         services.AddSample();
         services.ConfigUI();

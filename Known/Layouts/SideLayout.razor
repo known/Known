@@ -1,5 +1,23 @@
 ﻿@inherits BaseComponent
 
-<KLayout IsAdmin>
-
+<KLayout @ref="layout" IsAdmin OnLoadMenus="OnLoadMenus" OnReloadPage="OnReloadPage">
+    <div class="ks-layout">
+        <aside class="ks-side">
+            <div class="kui-logo" @onclick="OnLogoClick"></div>
+            <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="root" />
+            <div class="ks-avatar">
+                <NavUser />
+            </div>
+        </aside>
+        <main class="ks-main">
+            <div class="ks-topbar">
+                <div class="ks-breadcrumb">
+                    <NavRefresh />
+                    <TopBreadcrumb Current="Context.Current" />
+                </div>
+                <TopNavbar OnSetting="OnSetting" />
+            </div>
+            <MainBody @ref="body" ChildContent="ChildContent" />
+        </main>
+    </div>
 </KLayout>
