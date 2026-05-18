@@ -28,6 +28,7 @@ global using Known.Entities;
 global using Known.Extensions;
 global using Known.Helpers;
 global using Known.Internals;
+global using Known.Layouts;
 global using Known.Models;
 global using Known.Pages;
 global using Known.Pages.Develop;

@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Layouts;
 
 /// <summary>
 /// 主模板组件类。

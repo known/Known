@@ -20,6 +20,25 @@ public enum AppType
 }
 
 /// <summary>
+/// 模板类型枚举。
+/// </summary>
+public enum LayoutType
+{
+    /// <summary>
+    /// AntDesign模板。
+    /// </summary>
+    Default,
+    /// <summary>
+    /// 简洁边栏模板。
+    /// </summary>
+    Side,
+    /// <summary>
+    /// Semi模板。
+    /// </summary>
+    Semi
+}
+
+/// <summary>
 /// ID生成器类型枚举。
 /// </summary>
 public enum NextIdType
@@ -105,9 +124,9 @@ public class AppInfo
     public bool IsTopMenu { get; set; }
 
     /// <summary>
-    /// 取得或设置是否启用Semi模板。
+    /// 取得或设置后台模板类型，默认AntDesign。
     /// </summary>
-    public bool IsSemiLayout { get; set; }
+    public LayoutType Layout { get; set; } = LayoutType.Default;
 
     /// <summary>
     /// 取得或设置ID生成器类型。

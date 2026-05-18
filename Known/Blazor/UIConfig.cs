@@ -53,9 +53,9 @@ public class UIConfig
     public static bool IsAdvAdmin { get; set; } = true;
 
     /// <summary>
-    /// 取得或设置是否打开第一个菜单，默认打开。
+    /// 取得或设置是否打开第一个菜单，默认不打开。
     /// </summary>
-    public static bool IsOpenFirstMenu { get; set; } = true;
+    public static bool IsOpenFirstMenu { get; set; }
 
     /// <summary>
     /// 取得或设置表格全局栏位文本超出宽度是否显示省略号，显示则文本不换行，默认不显示。
@@ -153,7 +153,7 @@ public class UIConfig
     public static Action<RenderTreeBuilder, RenderFragment> AppBody { get; set; }
 
     /// <summary>
-    /// 取得或设置管理模板内容委托。
+    /// 取得或设置自定义管理模板内容委托。
     /// </summary>
     public static Action<RenderTreeBuilder, RenderFragment> AdminBody { get; set; }
 

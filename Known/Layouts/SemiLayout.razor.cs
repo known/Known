@@ -1,4 +1,4 @@
-namespace Known.Internals;
+namespace Known.Layouts;
 
 /// <summary>
 /// Semi模板组件类。
@@ -15,7 +15,6 @@ public partial class SemiLayout
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    private string AppName => Config.App?.Name ?? "Known";
     private string SearchText { get; set; }
     private string UserName => CurrentUser?.Name ?? CurrentUser?.UserName ?? "Semi";
     private string UserRole => string.IsNullOrWhiteSpace(CurrentUser?.Role) ? "Administrator" : CurrentUser.Role;

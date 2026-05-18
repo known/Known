@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Layouts;
 
 /// <summary>
 /// 移动端模板组件类。

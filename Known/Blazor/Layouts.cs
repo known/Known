@@ -246,10 +246,8 @@ public class AdminLayout : AuthLayout
         {
             if (UIConfig.AdminBody != null)
                 UIConfig.AdminBody.Invoke(builder, BuildBody);
-            else if (Config.App.IsSemiLayout)
-                builder.Component<SemiLayout>().Set(c => c.ChildContent, BuildBody).Build();
             else
-                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
+                BuildLayout(builder);
         }
     }
 
@@ -279,6 +277,22 @@ public class AdminLayout : AuthLayout
             return;
 
         UI.NoticeAsync(info.Title, info.Message, info.Type);
+    }
+
+    private void BuildLayout(RenderTreeBuilder builder)
+    {
+        switch (Config.App.Layout)
+        {
+            case LayoutType.Semi:
+                builder.Component<SemiLayout>().Set(c => c.ChildContent, BuildBody).Build();
+                break;
+            case LayoutType.Side:
+                builder.Component<SideLayout>().Set(c => c.ChildContent, BuildBody).Build();
+                break;
+            default:
+                builder.Component<MainLayout>().Set(c => c.ChildContent, BuildBody).Build();
+                break;
+        }
     }
 
     private void BuildBody(RenderTreeBuilder builder)
