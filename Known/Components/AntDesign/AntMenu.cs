@@ -28,6 +28,8 @@ public class AntMenu : Menu
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        if (Config.App.Layout == LayoutType.Side)
+            InlineIndent = 0;
         if (UIConfig.IsOpenFirstMenu)
             DefaultOpenKeys = [Items?.FirstOrDefault()?.Id];
         ChildContent = BuildMenu;

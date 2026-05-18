@@ -47,13 +47,13 @@
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    background: var(--bg-body);
+    background: var(--kui-bgcolor);
     color: var(--text-primary);
     transition: background 0.25s, color 0.2s;
 }
 
 .ks-side {
-    background: var(--sidebar-bg);
+    background: var(--kui-bgcolor);
     backdrop-filter: blur(2px);
     border-right: 1px solid var(--sidebar-border);
     display: flex;
@@ -72,7 +72,8 @@
 }
 
 .ks-side .kui-logo {
-    width: 100%;
+    background-position-x: 6px;
+    width: 60px;
 }
 
 .ks-layout .ant-menu {
@@ -111,7 +112,7 @@
 }
 
 .ks-topbar {
-    background: var(--header-bg);
+    background: var(--kui-bgcolor);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--header-border);
     padding: 0 15px;
