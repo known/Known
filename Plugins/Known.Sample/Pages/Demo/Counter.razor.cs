@@ -26,21 +26,24 @@ public partial class Counter
 
     private void OnForm()
     {
-        var form = new FormModel<TestInfo>(this, true);
-        form.Title = "自动表单";
-        //form.IsView = true;
-        form.Data = new TestInfo
+        var form = new FormModel<TestInfo>(this, true)
         {
-            Field = "test",
-            Organize = "研发",
-            UserName = "lily",
-            Date = DateTime.Now,
-            Text = "测试文本"
-        };
-        form.OnSave = d =>
-        {
-            UI.Alert($"保存成功！文本内容：\r\n{Utils.ToJson(d)}");
-            return Result.SuccessAsync("保存成功！");
+            Title = "自动表单",
+            Info = new FormInfo { Width = 600, SmallLabel = true },
+            //IsView = true,
+            Data = new TestInfo
+            {
+                Field = "test",
+                Organize = "研发",
+                UserName = "lily",
+                Date = DateTime.Now,
+                Text = "测试文本"
+            },
+            OnSave = d =>
+            {
+                UI.Alert($"保存成功！文本内容：\r\n{Utils.ToJson(d)}");
+                return Result.SuccessAsync("保存成功！");
+            }
         };
         UI.ShowForm(form);
     }
