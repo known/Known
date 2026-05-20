@@ -24,7 +24,7 @@ public partial class MainLayout
                                           .AddClass("kui-menu-dark", UserSetting.MenuTheme == "Dark")
                                           .AddClass("kui-menu-float", UserSetting.LayoutMode == LayoutMode.Float.ToString())
                                           .BuildClass();
-    private string ScrollClass => CssBuilder.Default("kui-scroll").AddClass("is-trigger", Config.App.IsTopMenu).BuildClass();
+    private string ScrollClass => CssBuilder.Default("kui-scroll").BuildClass();
 
     /// <summary>
     /// 取得或设置子组件内容。

@@ -88,6 +88,11 @@ public class UIConfig
     public static List<ActionInfo> Sizes { get; set; } = [];
 
     /// <summary>
+    /// 取得或设置页面顶部左侧内容模板。
+    /// </summary>
+    public static RenderFragment TopLeft { get; set; }
+
+    /// <summary>
     /// 取得或设置页面底部内容组件。
     /// </summary>
     public static RenderFragment Footer { get; set; }

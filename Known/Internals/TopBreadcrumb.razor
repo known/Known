@@ -7,7 +7,7 @@
             <span>@Language[Language.Home]</span>
         </span>
     </BreadcrumbItem>
-    @if (Current != null)
+    @if (Context.Current != null)
     {
         @* if (Current.Parent != null)
         {
@@ -23,11 +23,11 @@
                 <span>@Language.GetString(Current.Parent)</span>
             </BreadcrumbItem>
         } *@
-        if (Current.RouteUrl != "/")
+        if (Context.Current.RouteUrl != "/")
         {
             <BreadcrumbItem>
                 @* <Icon Type="@Current.Icon" /> *@
-                <span>@Language[Current.Name]</span>
+                <span>@Language[Context.Current.Name]</span>
             </BreadcrumbItem>
         }
     }

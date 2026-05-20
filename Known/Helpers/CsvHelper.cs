@@ -24,7 +24,8 @@ public class CsvHelper
     /// <param name="values">行数据项数组。</param>
     public void AddRow(params string[] values)
     {
-        var escapedValues = values.Select(v => v.Contains(",") || v.Contains("\"") ? $"\"{v.Replace("\"", "\"\"")}\"" : v);
+        //var escapedValues = values.Select(v => v.Contains(",") || v.Contains("\"") ? $"\"{v.Replace("\"", "\"\"")}\"" : v);
+        var escapedValues = values.Select(EscapeCsvValue);
         sb.AppendLine(string.Join(",", escapedValues));
     }
 
@@ -44,5 +45,17 @@ public class CsvHelper
     public byte[] ToBytes()
     {
         return Encoding.UTF8.GetBytes(ToText());
+    }
+
+    private static string EscapeCsvValue(object value)
+    {
+        var text = value?.ToString() ?? string.Empty;
+        if (text.Contains('"'))
+            text = text.Replace("\"", "\"\"");
+
+        if (text.IndexOfAny([',', '"', '\r', '\n']) >= 0)
+            return $"\"{text}\"";
+
+        return text;
     }
 }

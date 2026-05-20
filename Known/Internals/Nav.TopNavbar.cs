@@ -22,10 +22,7 @@ public class TopNavbar : BaseComponent
     /// </summary>
     [Parameter] public Action<ActionInfo> OnActionClick { get; set; }
 
-    /// <summary>
-    /// 异步初始化组件。
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
@@ -34,10 +31,7 @@ public class TopNavbar : BaseComponent
         items ??= [];
     }
 
-    /// <summary>
-    /// 呈现组件内容。
-    /// </summary>
-    /// <param name="builder">呈现树建造者。</param>
+    /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
     {
         builder.Ul("kui-nav", () =>

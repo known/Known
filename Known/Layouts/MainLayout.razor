@@ -31,7 +31,7 @@
             }
             else
             {
-                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@SiderClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger="!Config.App.IsTopMenu">
+                <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@SiderClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
                     <div class="kui-logo" @onclick="OnLogoClick"></div>
                     <div class="@ScrollClass" style="width:@(UIConfig.SideWidth)px;">
                         <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
@@ -41,6 +41,10 @@
             <Layout>
                 <div class="kui-header">
                     <div class="left">
+                        @if (UserSetting.LayoutMode != LayoutMode.Float.ToString())
+                        {
+                            <NavToggle OnToggle="OnToggle" />
+                        }
                         @if (Config.App.IsTopMenu)
                         {
                             <div class="kui-top-menu">
@@ -53,12 +57,7 @@
                         }
                         else
                         {
-                            if (UserSetting.LayoutMode != LayoutMode.Float.ToString())
-                            {
-                                <NavToggle OnToggle="OnToggle" />
-                            }
-                            <NavRefresh />
-                            <TopBreadcrumb Current="Context.Current" />
+                            <TopLeftBar />
                         }
                     </div>
                     <TopNavbar OnSetting="OnSetting" />
