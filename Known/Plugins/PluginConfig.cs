@@ -17,10 +17,23 @@ public class PluginConfig
     /// </summary>
     public static List<Type> IgnoreTypes { get; } = [];
 
+    internal static List<Type> Excludes { get; } = [];
     internal static List<PluginMenuInfo> TopNavs => [.. Plugins.Where(p => p.IsNavComponent).OrderBy(p => p.Sort)];
     internal static List<PluginMenuInfo> NavPlugins => [.. Plugins.Where(p => p.IsNav)];
     internal static List<PluginMenuInfo> DevPlugins => [.. Plugins.Where(p => p.IsDev).OrderBy(p => p.Sort)];
     internal static List<PluginMenuInfo> PagePlugins => [.. Plugins.Where(p => p.IsPage)];
+
+    /// <summary>
+    /// 排除框架内置插件。
+    /// </summary>
+    /// <typeparam name="T">插件类型。</typeparam>
+    public static void Remove<T>()
+    {
+        var type = typeof(T);
+        if (Excludes.Contains(type))
+            return;
+        Excludes.Add(type);
+    }
 
     internal static PluginMenuInfo GetPlugin(string id)
     {
@@ -32,6 +45,9 @@ public class PluginConfig
     internal static void AddPlugin(Type item, PluginAttribute plugin, RouteAttribute route)
     {
         if (Config.App.Type == AppType.Desktop && plugin.Name == "WebApi")
+            return;
+
+        if (Excludes.Contains(item))
             return;
 
         Language.DefaultDatas.Add(plugin.Name);
