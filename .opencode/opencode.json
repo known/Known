@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "known-framework": {
+      "type": "local",
+      "command": ["node", "D:\\Publics\\Known\\Tools\\Known.McpServer\\dist\\index.js"],
+      "enabled": true
+    }
+  },
+  "skills": {
+    "paths": [".opencode/skills"]
+  }
+}
