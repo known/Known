@@ -39,6 +39,23 @@ partial class TableModel<TItem>
     /// <summary>
     /// 选择表格一行数据，带确认对话框的操作。
     /// </summary>
+    /// <param name="confirmText">确认提示。</param>
+    /// <param name="action">操作方法委托。</param>
+    public void SelectRow(string confirmText, Func<TItem, Task<Result>> action)
+    {
+        SelectRow(async row =>
+        {
+            UI.Confirm(confirmText, async () =>
+            {
+                var result = await action?.Invoke(row);
+                UI.Result(result, PageRefreshAsync);
+            });
+        });
+    }
+
+    /// <summary>
+    /// 选择表格一行数据，带确认对话框的操作。
+    /// </summary>
     /// <param name="action">操作方法委托。</param>
     /// <param name="buttonId">确认操作按钮ID。</param>
     public void SelectRow(Func<TItem, Task<Result>> action, string buttonId = null)
