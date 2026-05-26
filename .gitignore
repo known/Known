@@ -369,3 +369,4 @@ FodyWeavers.xsd
 *.kdb
 Files/
 UploadFiles/
+/Tools/Known.McpServer
