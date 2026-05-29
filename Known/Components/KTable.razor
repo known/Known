@@ -6,6 +6,7 @@
               HeaderTemplate="HeaderTemplate" ExpandTemplate="ExpandTemplate"
               OnExpand="OnExpand" OnRow="OnRow" OnChange="OnChange"
               Total="totalCount" DataSource="dataSource" Loading="Model.EnableSpin && isQuering"
+              @bind-PageIndex="Model.Criteria.PageIndex"
               @bind-SelectedRows="Model.SelectedRows">
         <ColumnDefinitions>
             @if (Context.IsEditTable) {
