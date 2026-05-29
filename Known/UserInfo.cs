@@ -243,6 +243,8 @@ public class UserInfo
     /// </summary>
     public string WmDateFormat { get; set; }
 
+    internal bool IsChangeTenant { get; set; }
+
     /// <summary>
     /// 获取用户是否是系统或租户管理员。
     /// </summary>

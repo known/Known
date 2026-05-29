@@ -647,6 +647,18 @@ public class Language
     internal const string SizeCompact = "紧凑";
     internal const string Profile = "个人中心";
     internal const string Development = "开发中心";
+    /// <summary>
+    /// 切换租户。
+    /// </summary>
+    public const string SwitchTenant = "切换租户";
+    /// <summary>
+    /// 选择租户。
+    /// </summary>
+    public const string SelectTenant = "选择租户";
+    /// <summary>
+    /// 当前租户。
+    /// </summary>
+    public const string CurrentTenant = "当前租户";
 
     internal const string ThemeSetting = "主题设置";
     internal const string Menu = "菜单";

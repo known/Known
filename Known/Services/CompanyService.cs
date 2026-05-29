@@ -40,6 +40,13 @@ public interface ICompanyService : IService
     Task<Result> DeleteTenantsAsync(List<SysCompany> infos);
 
     /// <summary>
+    /// 异步切换当前用户租户。
+    /// </summary>
+    /// <param name="info">租户信息。</param>
+    /// <returns>切换结果。</returns>
+    Task<Result> SwitchTenantAsync(SysCompany info);
+
+    /// <summary>
     /// 异步保存租户。
     /// </summary>
     /// <param name="info">租户信息。</param>
@@ -55,6 +62,7 @@ class CompanyClient(HttpClient http) : ClientBase(http), ICompanyService
     public Task<PagingResult<SysCompany>> QueryTenantsAsync(PagingCriteria criteria) => Http.QueryAsync<SysCompany>("/Company/QueryTenants", criteria);
     public Task<SysCompany> GetTenantAsync(string id) => Http.GetAsync<SysCompany>($"/Company/GetTenant?id={id}");
     public Task<Result> DeleteTenantsAsync(List<SysCompany> infos) => Http.PostAsync("/Company/DeleteTenants", infos);
+    public Task<Result> SwitchTenantAsync(SysCompany info) => Http.PostAsync("/Company/SwitchTenant", info);
     public Task<Result> SaveTenantAsync(UploadInfo<SysCompany> info) => Http.PostAsync("/Company/SaveTenant", info);
 }
 
@@ -142,6 +150,21 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
         if (result.IsValid)
             AttachFile.DeleteFiles(oldFiles);
         return result;
+    }
+
+    public async Task<Result> SwitchTenantAsync(SysCompany info)
+    {
+        var user = CurrentUser;
+        if (user == null)
+            return Result.Error(Language.TipNoLogin);
+
+        if (info == null)
+            return Result.Error("请选择租户！");
+
+        user.CompNo = info.CompNo;
+        user.CompName = info.Name;
+        Cache.SetUser(user);
+        return Result.Success("租户切换成功！", user);
     }
 
     public async Task<Result> SaveTenantAsync(UploadInfo<SysCompany> info)
