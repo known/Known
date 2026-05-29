@@ -370,3 +370,5 @@ FodyWeavers.xsd
 Files/
 UploadFiles/
 /Tools/Known.McpServer
+/.opencode
+/.workbuddy
