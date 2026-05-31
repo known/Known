@@ -136,9 +136,9 @@ public static partial class Extension
         KStyleSheet.AddStyle("_content/Known/css/font-awesome.css");
         KStyleSheet.AddStyle("_content/Known/css/prism.css");
         //KStyleSheet.AddStyle("_content/Known/css/report.css");
+        KStyleSheet.AddStyle("_content/Known/css/ai.css");
         KStyleSheet.AddStyle("_content/Known/css/web.css");
         KStyleSheet.AddStyle("_content/Known/css/app.css");
-        KStyleSheet.AddStyle("_content/Known/css/ai.css");
 
         if (Config.App.Layout != LayoutType.Default)
         {
