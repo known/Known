@@ -45,15 +45,15 @@ public class AntRangePicker : RangePicker<DateTime?[]>
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        Value[0] = null;
-        Value[1] = null;
         if (!string.IsNullOrWhiteSpace(RangeValue))
         {
+            var range = new DateTime?[2];
             var values = RangeValue.Split('~');
             if (values.Length > 0)
-                Value[0] = Utils.ConvertTo<DateTime?>(values[0]);
+                range[0] = Utils.ConvertTo<DateTime?>(values[0]);
             if (values.Length > 1)
-                Value[1] = Utils.ConvertTo<DateTime?>(values[1]);
+                range[1] = Utils.ConvertTo<DateTime?>(values[1]);
+            Value = range;
         }
         var format = IsDateTimeMode() ? "选择日期时间" : "选择日期";
         format = Context?.Language?[format];
