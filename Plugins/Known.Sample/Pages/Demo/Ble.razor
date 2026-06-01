@@ -1,0 +1,24 @@
+@page "/demo/ble"
+@inherits BasePage
+@attribute [Menu(AppConstant.Demo, "Web蓝牙", "bluetooth", 20)]
+
+<PageTitle>Web蓝牙</PageTitle>
+
+<div class="kui-card" style="padding:20px;display:flex;flex-direction:column;gap:16px;">
+    <div>
+        <h1>Web 蓝牙 BLE 示例</h1>
+        <div>用于浏览器中连接 BLE 设备、发送命令并接收设备返回数据。</div>
+    </div>
+
+    <WebBle ServiceUuid="@serviceUuid"
+            WriteCharacteristicUuid="@writeCharacteristicUuid"
+            NotifyCharacteristicUuid="@notifyCharacteristicUuid"
+            CommandText="@commandText"
+            CommandTextChanged="value => commandText = value"
+            OnReceive="OnReceiveAsync" />
+
+    <div>
+        <div style="margin-bottom:8px;font-weight:600;">最近接收内容</div>
+        <textarea class="ant-input" style="min-height:120px;resize:vertical;" readonly>@receiveText</textarea>
+    </div>
+</div>

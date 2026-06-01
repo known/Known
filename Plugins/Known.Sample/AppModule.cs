@@ -31,5 +31,6 @@ public static class AppModule
         KScript.AddScript("_content/Known.Sample/js/china.js");
         KScript.AddScript("_content/Known.Sample/js/area_echarts.js");
         KScript.AddScript("_content/Known.Sample/js/js.js");
+        KScript.AddScript("_content/Known.Sample/js/ble.js");
     }
 }

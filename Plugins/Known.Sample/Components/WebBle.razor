@@ -1,0 +1,63 @@
+@inherits BaseComponent
+
+<div class="kui-card" style="padding:16px;display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <KButton Name="连接蓝牙" OnClick="ConnectAsync" />
+        <KButton Name="断开连接" OnClick="DisconnectAsync" Enabled="IsConnected" />
+        <KButton Name="开始接收" OnClick="StartNotificationsAsync" Enabled="CanStartNotifications" />
+        <KButton Name="停止接收" OnClick="StopNotificationsAsync" Enabled="CanStopNotifications" />
+    </div>
+
+    <AntRow Gutter="12">
+        <FieldItem Label="服务UUID">
+            <AntInput @bind-Value="ServiceUuid" Placeholder="如：0000fff0-0000-1000-8000-00805f9b34fb" />
+        </FieldItem>
+        <FieldItem Label="写特征UUID">
+            <AntInput @bind-Value="WriteCharacteristicUuid" Placeholder="如：0000fff1-0000-1000-8000-00805f9b34fb" />
+        </FieldItem>
+        <FieldItem Label="通知特征UUID">
+            <AntInput @bind-Value="NotifyCharacteristicUuid" Placeholder="如：0000fff2-0000-1000-8000-00805f9b34fb" />
+        </FieldItem>
+    </AntRow>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <KTag Text="连接状态" Title="当前蓝牙连接状态。" />
+        <span>@StatusText</span>
+        @if (!string.IsNullOrWhiteSpace(DeviceName))
+        {
+            <KTag Text="设备" Title="当前已连接设备。" />
+            <span>@DeviceName</span>
+        }
+    </div>
+
+    <div>
+        <div style="margin-bottom:8px;font-weight:600;">发送命令</div>
+        <textarea class="ant-input" style="min-height:96px;resize:vertical;" value="@CommandText" @oninput="OnCommandInput" placeholder="输入要发送的命令文本"></textarea>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+            <KButton Name="发送文本" OnClick="SendTextAsync" Enabled="CanSendText" />
+            <KButton Name="发送HEX" OnClick="SendHexAsync" Enabled="CanSendHex" />
+            <KButton Name="清空日志" OnClick="ClearMessages" />
+        </div>
+    </div>
+
+    <div>
+        <div style="margin-bottom:8px;font-weight:600;">收发日志</div>
+        <div style="border:1px solid var(--ant-border-color-base);border-radius:6px;padding:12px;max-height:320px;overflow:auto;background:var(--ant-component-background);">
+            @if (Messages.Count == 0)
+            {
+                <span>暂无数据。</span>
+            }
+            else
+            {
+                foreach (var item in Messages)
+                {
+                    <div style="padding:4px 0;border-bottom:1px dashed var(--ant-border-color-split);">
+                        <span style="display:inline-block;min-width:90px;">[@item.Time.ToString("HH:mm:ss")]</span>
+                        <span style="display:inline-block;min-width:50px;">@item.Type</span>
+                        <span>@item.Text</span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
