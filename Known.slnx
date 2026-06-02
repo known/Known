@@ -23,5 +23,5 @@
         <Deploy Solution="Debug|*" />
     </Project>
     <Project Path="Known.Photino/Known.Photino.csproj" />
-    <Project Path="Known.Web/Known.Web.csproj" />
+    <Project Path="WebSite/WebSite.csproj" />
 </Solution>

@@ -1,6 +1,6 @@
 @page "/docs"
 @page "/docs/{*DocumentPath}"
-@inject Known.Web.Services.DocumentService Documents
+@inject WebSite.Services.DocumentService Documents
 
 <PageTitle>@PageTitleText</PageTitle>
 <HeadContent>
@@ -135,15 +135,15 @@
 
 @code {
     [Parameter]
-    public string? DocumentPath { get; set; }
+    public string DocumentPath { get; set; }
 
-    private Known.Web.Services.DocPage? CurrentPage { get; set; }
-    private Known.Web.Services.DocPage? PreviousPage { get; set; }
-    private Known.Web.Services.DocPage? NextPage { get; set; }
+    private WebSite.Services.DocPage CurrentPage { get; set; }
+    private WebSite.Services.DocPage PreviousPage { get; set; }
+    private WebSite.Services.DocPage NextPage { get; set; }
     private string SearchTerm { get; set; } = string.Empty;
     private string PageTitleText => CurrentPage is null ? "Known 文档中心" : $"{CurrentPage.Title} - Known 文档中心";
     private bool HasSearch => !string.IsNullOrWhiteSpace(SearchTerm);
-    private IReadOnlyList<Known.Web.Services.DocSearchGroup> SearchGroups => Documents.SearchGrouped(SearchTerm, 16);
+    private IReadOnlyList<WebSite.Services.DocSearchGroup> SearchGroups => Documents.SearchGrouped(SearchTerm, 16);
 
     protected override void OnParametersSet()
     {
@@ -165,7 +165,7 @@
         return CurrentPage?.Route.Equals(route, StringComparison.OrdinalIgnoreCase) == true;
     }
 
-    private bool IsSectionOpen(Known.Web.Services.DocSection section)
+    private bool IsSectionOpen(WebSite.Services.DocSection section)
     {
         return CurrentPage is not null && section.Pages.Any(page => string.Equals(page.Route, CurrentPage.Route, StringComparison.OrdinalIgnoreCase));
     }

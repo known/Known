@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Known.Web.Services;
+namespace WebSite.Services;
 
 public static class SitemapService
 {

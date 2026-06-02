@@ -1,5 +1,5 @@
-using Known.Web;
-using Known.Web.Services;
+using WebSite;
+using WebSite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

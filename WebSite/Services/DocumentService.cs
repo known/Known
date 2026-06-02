@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Markdig;
 
-namespace Known.Web.Services;
+namespace WebSite.Services;
 
 public sealed class DocumentService
 {
@@ -52,13 +52,13 @@ public sealed class DocumentService
             .ToList();
     }
 
-    public string GetUrl(string? route)
+    public string GetUrl(string route)
     {
         var normalized = NormalizeRoute(route);
         return string.IsNullOrEmpty(normalized) ? "/docs" : $"/docs/{EncodeRoute(normalized)}";
     }
 
-    public DocPage? GetPage(string? route)
+    public DocPage GetPage(string route)
     {
         if (orderedPages.Count == 0)
             return null;
@@ -74,7 +74,7 @@ public sealed class DocumentService
         return orderedPages.Take(count).ToList();
     }
 
-    public IReadOnlyList<DocPage> Search(string? keyword, int take = 18)
+    public IReadOnlyList<DocPage> Search(string keyword, int take = 18)
     {
         if (string.IsNullOrWhiteSpace(keyword))
             return orderedPages.Take(take).ToList();
@@ -90,7 +90,7 @@ public sealed class DocumentService
             .ToList();
     }
 
-    public IReadOnlyList<DocSearchGroup> SearchGrouped(string? keyword, int take = 18)
+    public IReadOnlyList<DocSearchGroup> SearchGrouped(string keyword, int take = 18)
     {
         var query = keyword?.Trim() ?? string.Empty;
         if (string.IsNullOrWhiteSpace(query))
@@ -110,13 +110,13 @@ public sealed class DocumentService
             .ToList();
     }
 
-    public DocPage? GetPrevious(string route)
+    public DocPage GetPrevious(string route)
     {
         var index = FindIndex(route);
         return index > 0 ? orderedPages[index - 1] : null;
     }
 
-    public DocPage? GetNext(string route)
+    public DocPage GetNext(string route)
     {
         var index = FindIndex(route);
         return index >= 0 && index < orderedPages.Count - 1 ? orderedPages[index + 1] : null;
@@ -401,7 +401,7 @@ public sealed class DocumentService
         return $"阅读 {title}，了解 Known Framework 的相关能力。";
     }
 
-    private static string NormalizeRoute(string? route)
+    private static string NormalizeRoute(string route)
     {
         return NormalizeRelativePath(Uri.UnescapeDataString(route ?? string.Empty).Trim('/'));
     }

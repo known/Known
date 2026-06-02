@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Known.Web": {
+    "WebSite": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

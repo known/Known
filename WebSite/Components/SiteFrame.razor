@@ -17,7 +17,7 @@
     public string BodyClass { get; set; } = string.Empty;
 
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    public RenderFragment ChildContent { get; set; }
 
     private string SiteClassName => string.IsNullOrWhiteSpace(BodyClass)
         ? "known-site"

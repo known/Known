@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Known.Web.Services;
+namespace WebSite.Services;
 
 static class HighlightHelper
 {
