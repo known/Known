@@ -103,6 +103,19 @@ public partial class Database
     /// 异步查询多条数据。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="top">要查询的前几条数据。</param>
+    /// <returns>多条数据。</returns>
+    public virtual Task<List<T>> QueryListAsync<T>(int top) where T : class, new()
+    {
+        var info = Provider?.GetSelectCommand<T>();
+        info.Text = Provider.GetTopSql(top, info.Text);
+        return QueryListAsync<T>(info);
+    }
+
+    /// <summary>
+    /// 异步查询多条数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="sql">查询SQL语句。</param>
     /// <param name="param">查询参数。</param>
     /// <returns>多条数据。</returns>
@@ -116,11 +129,40 @@ public partial class Database
     /// 异步查询多条数据。
     /// </summary>
     /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="top">要查询的前几条数据。</param>
+    /// <param name="sql">查询SQL语句。</param>
+    /// <param name="param">查询参数。</param>
+    /// <returns>多条数据。</returns>
+    public virtual Task<List<T>> QueryListAsync<T>(int top, string sql, object param = null) where T : new()
+    {
+        var info = new CommandInfo(Provider, typeof(T), sql, param);
+        info.Text = Provider.GetTopSql(top, info.Text);
+        return QueryListAsync<T>(info);
+    }
+
+    /// <summary>
+    /// 异步查询多条数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
     /// <param name="expression">查询表达式。</param>
     /// <returns>多条数据。</returns>
     public virtual Task<List<T>> QueryListAsync<T>(Expression<Func<T, bool>> expression) where T : class, new()
     {
         var info = Provider?.GetSelectCommand(expression);
+        return QueryListAsync<T>(info);
+    }
+
+    /// <summary>
+    /// 异步查询多条数据。
+    /// </summary>
+    /// <typeparam name="T">泛型类型。</typeparam>
+    /// <param name="top">要查询的前几条数据。</param>
+    /// <param name="expression">查询表达式。</param>
+    /// <returns>多条数据。</returns>
+    public virtual Task<List<T>> QueryListAsync<T>(int top, Expression<Func<T, bool>> expression) where T : class, new()
+    {
+        var info = Provider?.GetSelectCommand(expression);
+        info.Text = Provider.GetTopSql(top, info.Text);
         return QueryListAsync<T>(info);
     }
 
