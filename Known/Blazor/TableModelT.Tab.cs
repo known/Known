@@ -3,6 +3,7 @@
 partial class TableModel<TItem>
 {
     //private bool isFirstChange = true;
+    internal Dictionary<string, TableModel> TableModels { get; } = [];
     internal Dictionary<string, (RenderFragment, RenderFragment)> TabTemplates { get; } = [];
     internal TablePage<TItem> PageComponent { get; set; }
 
@@ -19,6 +20,11 @@ partial class TableModel<TItem>
         get { return Tab.Current; }
         set { Tab.Current = value; }
     }
+
+    /// <summary>
+    /// 取得或设置标签切换事件。当标签切换时触发，参数为切换后的标签ID。
+    /// </summary>
+    public Action<string> OnTabChanged { get; set; }
 
     /// <summary>
     /// 添加一个标签。
@@ -52,6 +58,7 @@ partial class TableModel<TItem>
     /// <param name="model">表格模型。</param>
     public void AddTab<T>(string id, TableModel<T> model) where T : class, new()
     {
+        TableModels[id] = model;
         AddTab(id, b => b.Query(model), b => b.Table(model));
     }
 
@@ -86,6 +93,9 @@ partial class TableModel<TItem>
                 if (TabTemplates.Count > 0)
                 {
                     PageComponent?.StateChangedAsync();
+                    //var model = TableModels.GetValueOrDefault(tab);
+                    //model?.RefreshAsync();
+                    OnTabChanged?.Invoke(tab);
                     return TabTemplates.ContainsKey(tab) ? Task.CompletedTask : RefreshAsync();
                     //if (!isFirstChange)
                     //{
@@ -99,6 +109,7 @@ partial class TableModel<TItem>
                 {
                     if (ExpandTemplate != null)
                         PageComponent?.StateChangedAsync();
+                    OnTabChanged?.Invoke(tab);
                     return RefreshAsync();
                 }
             }
