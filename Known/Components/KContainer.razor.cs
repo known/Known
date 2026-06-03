@@ -11,9 +11,9 @@ public partial class KContainer
     private string ModeName => Runtime.IsServerMode() ? "Server" : "Wasm";
 
     /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
+        await base.OnRenderAsync(firstRender);
         if (reconnectInit || !Runtime.IsServerMode())
             return;
 

@@ -98,6 +98,21 @@ partial class TableModel<TItem>
         SetDefaultQuery();
     }
 
+    /// <summary>
+    /// 移除额外查询条件字段。
+    /// </summary>
+    /// <param name="selector">栏位属性选择表达式。</param>
+    public void RemoveQueryColumn(Expression<Func<TItem, object>> selector)
+    {
+        var field = TypeHelper.Field(selector);
+        if (!QueryColumns.Exists(c => c.Id == field.Name))
+            return;
+
+        QueryColumns.RemoveAll(c => c.Id == field.Name);
+        QueryData.Remove(field.Name);
+        SetDefaultQuery();
+    }
+
     internal ColumnBuilder<TItem> AddColumn(ColumnInfo column, bool isQuery = false)
     {
         column.IsQuery = isQuery;
