@@ -57,7 +57,6 @@ class AccessProvider(Database db) : DbProvider(db)
     internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
         var index = 0;
-        var hasKey = keys != null && keys.Count > 0;
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE `{0}` (", tableName);
         foreach (var item in fields)
@@ -72,7 +71,7 @@ class AccessProvider(Database db) : DbProvider(db)
             else
                 sb.AppendLine($"    {column} {type} {required}{comma}");
         }
-        if (hasKey)
+        if (keys.Count > 1)
         {
             var key = string.Join(", ", keys.Select(k => $"`{k}`"));
             sb.AppendLine($"    CONSTRAINT `PK_{tableName}` PRIMARY KEY ({key})");
