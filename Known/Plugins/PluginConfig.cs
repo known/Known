@@ -32,7 +32,13 @@ public class PluginConfig
         var type = typeof(T);
         if (Excludes.Contains(type))
             return;
+
         Excludes.Add(type);
+    }
+
+    internal static bool IsExclude(string typeName)
+    {
+        return Excludes.Any(t => t.FullName == typeName);
     }
 
     internal static PluginMenuInfo GetPlugin(string id)

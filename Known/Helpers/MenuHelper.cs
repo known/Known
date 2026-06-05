@@ -10,6 +10,11 @@ class MenuHelper
 
     internal static List<Type> ExcludeMenus { get; } = [];
 
+    internal static bool IsExclude(string typeName)
+    {
+        return ExcludeMenus.Any(t => t.FullName == typeName);
+    }
+
     internal static void AddParent()
     {
         var target = Constants.Route;

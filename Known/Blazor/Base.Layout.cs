@@ -156,8 +156,11 @@ public class BaseLayout : BaseComponent
         if (UIConfig.IgnoreRoutes.Contains(Context.Url)) return;
         if (RouteData.PageType.IsAllowAnonymous()) return;
 
-        var roles = Context.Current?.Role?.Split(',');
-        if (Context.Current == null || !CurrentUser.InRole(roles))
+        var current = Context.Current;
+        var roles = current?.Role?.Split(',');
+        if (current == null || !CurrentUser.InRole(roles) ||
+            MenuHelper.IsExclude(current.Id) ||
+            PluginConfig.IsExclude(current.Id))
             Navigation.GoErrorPage("403");
     }
 

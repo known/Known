@@ -97,6 +97,26 @@ public sealed class DataHelper
     public static ConcurrentBag<MenuInfo> Routes { get; } = [];
 
     /// <summary>
+    /// 移除框架全部内置菜单。
+    /// </summary>
+    public static void RemoveBaseMenus()
+    {
+        RemoveMenu<CompanyForm>();
+        RemoveMenu<SysDictionaryList>();
+        RemoveMenu<SysOrganizationList>();
+
+        RemoveMenu<SysSystem>();
+        RemoveMenu<SysNoRuleList>();
+        RemoveMenu<SysRoleList>();
+        RemoveMenu<SysUserList>();
+        RemoveMenu<SysTaskList>();
+        RemoveMenu<SysFileList>();
+        RemoveMenu<ChatList>();
+        RemoveMenu<SysSyncLogList>();
+        RemoveMenu<SysLogList>();
+    }
+
+    /// <summary>
     /// 排除框架内置菜单。
     /// </summary>
     /// <typeparam name="T">菜单类型。</typeparam>
@@ -105,6 +125,7 @@ public sealed class DataHelper
         var type = typeof(T);
         if (MenuHelper.ExcludeMenus.Contains(type))
             return;
+
         MenuHelper.ExcludeMenus.Add(type);
     }
 
