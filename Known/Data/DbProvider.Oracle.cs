@@ -44,9 +44,10 @@ select view_name as Id, view_name as Name from user_views";
 
     internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
+        var index = 0;
+        var hasKey = keys != null && keys.Count > 0;
         var sb = new StringBuilder();
         sb.AppendLine("create table {0}(", tableName);
-        var index = 0;
         foreach (var item in fields)
         {
             var comma = ++index == fields.Count ? "" : ",";
@@ -56,7 +57,7 @@ select view_name as Id, view_name as Name from user_views";
             sb.AppendLine($"    {column} {type} {required}{comma}");
         }
         sb.AppendLine(");");
-        if (keys != null && keys.Count > 0)
+        if (hasKey)
         {
             var key = string.Join(", ", keys);
             sb.AppendLine($"alter table {tableName} add constraint PK_{tableName} primary key({key});");

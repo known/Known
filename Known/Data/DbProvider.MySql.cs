@@ -47,17 +47,20 @@ WHERE TABLE_SCHEMA='{dbName}' AND TABLE_TYPE='BASE TABLE'";
 
     internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
+        var index = 0;
+        var hasKey = keys != null && keys.Count > 0;
         var sb = new StringBuilder();
         sb.AppendLine("create table `{0}` (", tableName);
         foreach (var item in fields)
         {
+            var comma = ++index == fields.Count && !hasKey ? "" : ",";
             var required = item.Required ? "not null" : "null";
             var column = $"`{item.Id}`";
             column = GetColumnName(column, maxLength + 2);
             var type = GetMySqlDbType(item);
-            sb.AppendLine($"    {column} {type} {required},");
+            sb.AppendLine($"    {column} {type} {required}{comma}");
         }
-        if (keys != null && keys.Count > 0)
+        if (hasKey)
         {
             var key = string.Join(", ", keys.Select(k => $"`{k}`"));
             sb.AppendLine($"    PRIMARY KEY({key})");

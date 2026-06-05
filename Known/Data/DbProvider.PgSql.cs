@@ -31,18 +31,21 @@ class PgSqlProvider(Database db) : DbProvider(db)
 
     internal static string GetTableScript(string tableName, List<FieldInfo> fields, List<string> keys, int maxLength = 0)
     {
+        var index = 0;
+        var hasKey = keys != null && keys.Count > 0;
         var sb = new StringBuilder();
         sb.AppendLine("CREATE TABLE {0} (", tableName);
         foreach (var item in fields)
         {
+            var comma = ++index == fields.Count && !hasKey ? "" : ",";
             var required = item.Required ? " NOT NULL" : "";
             var column = item.Id;
             column = GetColumnName(column, maxLength + 2);
             var type = GetPgSqlDbType(item);
             var line = $"    {column} {type}".TrimEnd();
-            sb.AppendLine($"    {line}{required},");
+            sb.AppendLine($"    {line}{required}{comma}");
         }
-        if (keys != null && keys.Count > 0)
+        if (hasKey)
         {
             var key = string.Join(", ", keys);
             sb.AppendLine($"    PRIMARY KEY({key})");
