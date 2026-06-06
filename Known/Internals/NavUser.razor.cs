@@ -18,7 +18,9 @@ public partial class NavUser
         model.Items = [];
         model.Items.Add(new ActionInfo { Id = "profile", Name = Language.Profile, Icon = "user", Url = "/profile" });
         if (Config.App.IsPlatform && CurrentUser.IsSystemAdmin())
+        {
             model.Items.Add(new ActionInfo { Id = "switchTenant", Name = Language.SwitchTenant, Icon = "swap" });
+        }
         model.Items.Add(new ActionInfo { Id = "logout", Name = Language.Exit, Icon = "poweroff" });
         model.OnItemClick = OnItemClickAsync;
     }

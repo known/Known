@@ -69,10 +69,27 @@ public static class MenuExtension
         if (menus == null)
             return;
 
-        var item = menus.FirstOrDefault(m => m.PageType == typeof(T));
+        var type = typeof(T);
+        var item = menus.FirstOrDefault(m => m.PageType == type);
         if (item == null)
         {
-            item = DataHelper.Routes.FirstOrDefault(m => m.PageType == typeof(T));
+            item = DataHelper.Routes.FirstOrDefault(m => m.PageType == type);
+            if (item == null)
+            {
+                var menu = type.GetCustomAttribute<MenuAttribute>();
+                var route = type.GetCustomAttribute<RouteAttribute>();
+                item = new MenuInfo
+                {
+                    Id = type.FullName,
+                    Name = menu?.Name,
+                    Icon = menu?.Icon,
+                    Type = nameof(MenuType.Link),
+                    Target = nameof(LinkTarget.None),
+                    IsCode = true,
+                    Url = route?.Template
+                };
+            }
+
             if (item != null)
                 menus.Add(item);
         }
