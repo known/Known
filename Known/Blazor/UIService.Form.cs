@@ -12,7 +12,7 @@ public partial class UIService
     public bool ShowForm<TItem>(FormModel<TItem> model) where TItem : class, new()
     {
         var openType = model.Info?.OpenType;
-        if (openType == FormOpenType.None)
+        if (openType == FormOpenType.None && model.Context.UserSetting != null)
             openType = Utils.ConvertTo<FormOpenType>(model.Context.UserSetting.OpenType);
         switch (openType)
         {

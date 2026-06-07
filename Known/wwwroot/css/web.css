@@ -464,7 +464,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 }
 .kui-watermark, .kui-watermark > div {height:100%;}
 .kui-watermark > div > div {height:100%;overflow:auto;}
-.kui-header, .kui-card, .kui-install-form, .kui-query, .kui-table, .kui-form, .kui-small {
+.kui-header, .kui-card, .kui-query, .kui-table-page > .kui-table {
     background-color:var(--kui-bgcolor);color:var(--kui-color);
 }
 .kui-card, .kui-query, .kui-table, .kui-form, .kui-small, .kui-form-tab, .kui-form-step {border-radius:5px;}
@@ -903,7 +903,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 
 :root[data-theme=dark] .ant-modal-body .kui-form,
 :root[data-theme=dark] .ant-modal-body .kui-table {
-    color: var(--kui-color);background-color: #1f1f1f;
+    color: var(--kui-color);
 }
 :root[data-theme=dark] .ant-modal .ant-table.ant-table-small thead > tr > th {
     color: var(--kui-color);background-color: #2f2f2f;
