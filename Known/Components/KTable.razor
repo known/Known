@@ -17,6 +17,7 @@
             }
             @if (Model.Columns != null && Model.Columns.Count > 0) {
                 var isDictionary = Model.IsDictionary;
+                var columnStates = GetColumnStates();
                 if (Model.ShowIndex) {
                     var columnId = Model.Columns[0].Id;
                     if (isDictionary) {
@@ -29,26 +30,18 @@
                         </TableColumn>
                     }
                 }
-                var columns = GetColumns();
-                foreach (var item in columns) {
-                    if (string.IsNullOrWhiteSpace(item.Id))
-                        continue;
-
-                    var title = Language?.GetFieldName<TItem>(item);
-                    var isEllipsis = item.ToEllipsis();
-                    var width = item.Width > 0 ? item.Width.ToString() : "";
-                    RenderFragment<TItem> template = null;
-                    Model.Templates?.TryGetValue(item.Id, out template);
+                foreach (var state in columnStates) {
+                    var item = state.Column;
                     if (isDictionary) {
                         var data = context as Dictionary<string, object>;
                         var value = data?.GetValue(item.Id);
-                        <DictionaryColumn Title="@title" TitleTemplate="@DataTitle(item, title)" Property="c=>c.GetValue(item.Id)" Width="@width"
-                                          Ellipsis="isEllipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
-                                          ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
+                        <DictionaryColumn Title="@state.Title" TitleTemplate="@DataTitle(item, state.Title)" Property="c=>c.GetValue(item.Id)" Width="@state.Width"
+                                          Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
+                                          ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
                                           ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                          FilterDropdown="@GetFilterTemplate(item)">
-                            @if (template != null) {
-                                @template(context)
+                                          FilterDropdown="@state.FilterDropdown">
+                            @if (state.Template != null) {
+                                @state.Template(context)
                             } else {
                                 @if (item.Type == FieldType.Switch || value is bool) {
                                     var isChecked = Utils.ConvertTo<bool>(value);
@@ -67,7 +60,7 @@
                                         <KLink OnClick="e=>OnLinkAction(item, context)">@text</KLink>
                                     } else if (!string.IsNullOrWhiteSpace(item.Category)) {
                                         <KTag Text="@text" />
-                                    } else if (isEllipsis) {
+                                    } else if (state.IsEllipsis) {
                                         @* <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip> *@
                                         <span title="@text" class="kui-ellipsis">@text</span>
                                     } else {
@@ -77,41 +70,49 @@
                             }
                         </DictionaryColumn>
                     } else {
-                        var value = TypeHelper.GetPropertyValue(context, item.Id);
-                        <Column Title="@title" TitleTemplate="@DataTitle(item, title)" DataIndex="@item.Id" TData="object" Width="@width"
-                                Ellipsis="isEllipsis" Fixed="@item.ToColumnFixPlacement()" Align="@item.ToColumnAlign()"
-                                ShowSorterTooltip="false" Sortable="GetSortable(item)" DefaultSortOrder="item.ToSortDirection()"
-                                ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                FilterDropdown="@GetFilterTemplate(item)">
-                            @if (template != null) {
-                                @template(context)
-                            } else {
-                                @if (item.Type == FieldType.Switch || value is bool) {
-                                    var isChecked = Utils.ConvertTo<bool>(value);
-                                    if (item.EditAction != null) {
-                                        <AntSwitch Value="isChecked" Category="@item.Category" OnChange="e=>item.EditAction.Invoke(context)" />
-                                    } else {
-                                        <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
-                                    }
-                                } else if (item.Type == FieldType.File) {
-                                    <KFileCell Value="@value?.ToString()" />
+                        @if (state.UseDefaultCellRender) {
+                            <Column Title="@state.Title" TitleTemplate="@DataTitle(item, state.Title)" DataIndex="@item.Id" TData="object" Width="@state.Width"
+                                    Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
+                                    ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
+                                    ColSpan="@GetColSpan(state, context)" RowSpan="@GetRowSpan(state, context)"
+                                    FilterDropdown="@state.FilterDropdown" />
+                        } else {
+                            var value = state.GetValue(context);
+                            <Column Title="@state.Title" TitleTemplate="@DataTitle(item, state.Title)" DataIndex="@item.Id" TData="object" Width="@state.Width"
+                                    Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
+                                    ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
+                                    ColSpan="@GetColSpan(state, context)" RowSpan="@GetRowSpan(state, context)"
+                                    FilterDropdown="@state.FilterDropdown">
+                                @if (state.Template != null) {
+                                    @state.Template(context)
                                 } else {
-                                    var text = GetColumnText(item, value);
-                                    if (item.IsViewLink) {
-                                        <KLink OnClick="e => OnViewForm(context)">@text</KLink>
-                                    } else if (item.LinkAction != null) {
-                                        <KLink OnClick="e => OnLinkAction(item, context)">@text</KLink>
-                                    } else if (!string.IsNullOrWhiteSpace(item.Category)) {
-                                        <KTag Text="@text" />
-                                    } else if (isEllipsis) {
-                                        @* <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip> *@
-                                        <span title="@text" class="kui-ellipsis">@text</span>
+                                    @if (item.Type == FieldType.Switch || value is bool) {
+                                        var isChecked = Utils.ConvertTo<bool>(value);
+                                        if (item.EditAction != null) {
+                                            <AntSwitch Value="isChecked" Category="@item.Category" OnChange="e=>item.EditAction.Invoke(context)" />
+                                        } else {
+                                            <AntSwitch Value="isChecked" Category="@item.Category" Disabled />
+                                        }
+                                    } else if (item.Type == FieldType.File) {
+                                        <KFileCell Value="@value?.ToString()" />
                                     } else {
-                                        <span>@text</span>
+                                        var text = GetColumnText(item, value);
+                                        if (item.IsViewLink) {
+                                            <KLink OnClick="e => OnViewForm(context)">@text</KLink>
+                                        } else if (item.LinkAction != null) {
+                                            <KLink OnClick="e => OnLinkAction(item, context)">@text</KLink>
+                                        } else if (!string.IsNullOrWhiteSpace(item.Category)) {
+                                            <KTag Text="@text" />
+                                        } else if (state.IsEllipsis) {
+                                            @* <Tooltip Placement="Placement.TopLeft" Title="@text" Style="display:inline;">@text</Tooltip> *@
+                                            <span title="@text" class="kui-ellipsis">@text</span>
+                                        } else {
+                                            <span>@text</span>
+                                        }
                                     }
                                 }
-                            }
-                        </Column>
+                            </Column>
+                        }
                     }
                 }
             }
@@ -155,13 +156,11 @@
                     }
                     @if (Model.Columns != null && Model.Columns.Count > 0) {
                         var isTitle = false;
-                        var columns = GetColumns();
-                        foreach (var item in columns) {
-                            if (string.IsNullOrWhiteSpace(item.Id))
-                                continue;
+                        foreach (var state in columnStates) {
+                            var item = state.Column;
 
                             if (!isTitle) {
-                                <SummaryCell Align="@item.ToColumnAlign()">
+                                <SummaryCell Align="@state.Align">
                                     @if (Model.ShowPager) {
                                         @Language[Language.SumPage]<br/>
                                     }
@@ -172,7 +171,7 @@
                             }
 
                             if (item.IsSum) {
-                                <SummaryCell Align="@item.ToColumnAlign()">
+                                <SummaryCell Align="@state.Align">
                                     @if (Model.ShowPager) {
                                         @Model.Result?.GetPageSum(item.Id)<br/>
                                     }

@@ -47,6 +47,7 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
         Size = TableSize.Small;
         Responsive = true;
         ScrollBarWidth = "8px";
+        RerenderStrategy = RerenderStrategy.ParametersHashCodeChanged;
         if (Model != null)
         {
             PageSizeChanged = this.Callback<int>(e => PageIndex = 1);

@@ -9,6 +9,7 @@ namespace Known.Components;
 /// <typeparam name="TItem">表格行数据类型。</typeparam>
 partial class KTable<TItem>
 {
+    private static readonly ConcurrentDictionary<string, Func<TItem, object>> getterCache = new(StringComparer.OrdinalIgnoreCase);
     private ReloadContainer reload;
     private AntTable<TItem> table;
     private int totalCount;
@@ -16,9 +17,11 @@ partial class KTable<TItem>
     private bool isRefreshing = false;
     private bool isQuering = false;
     private bool shouldRender = true;
+    private int columnStateSignature = int.MinValue;
+    private List<ColumnRenderState> columnStates;
 
     private string ScrollX => Model.IsScroll ? Model.TotalWidth : null;
-    private string ScrollY => Model.IsScroll ? (Model.FixedHeight ?? "800px") : null;
+    private string ScrollY => Model.IsScroll ? Model.FixedHeight : null;
 
     /// <summary>
     /// 取得或设置表格数据模型。
@@ -34,6 +37,13 @@ partial class KTable<TItem>
         Model.OnRefresh = RefreshTableAsync;
         Model.OnReload = () => reload?.Reload();
         base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override Task OnParameterAsync()
+    {
+        InvalidateColumnStates();
+        return base.OnParameterAsync();
     }
 
     /// <inheritdoc />
@@ -109,6 +119,7 @@ partial class KTable<TItem>
             dataSource = Model.Result.PageData;
             Model.SelectedRows = [];
             Model.SetAutoColumns(dataSource);
+            InvalidateColumnStates();
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
@@ -171,6 +182,20 @@ partial class KTable<TItem>
         if (rights != null && rights.Count > 0)
             columns.AddRange(rights);
         return columns;
+    }
+
+    private List<ColumnRenderState> GetColumnStates()
+    {
+        var signature = GetColumnStateSignature();
+        if (signature == columnStateSignature && columnStates != null)
+            return columnStates;
+
+        var columns = GetColumns();
+        columnStates = [.. columns
+            .Where(c => !string.IsNullOrWhiteSpace(c.Id))
+            .Select(CreateColumnState)];
+        columnStateSignature = signature;
+        return columnStates;
     }
 
     private int GetIndex(TItem item)
@@ -246,6 +271,95 @@ partial class KTable<TItem>
         return text;
     }
 
+    private void InvalidateColumnStates()
+    {
+        columnStateSignature = int.MinValue;
+        columnStates = null;
+    }
+
+    private int GetColumnStateSignature()
+    {
+        var hash = new HashCode();
+        hash.Add(Model?.EnableFilter ?? false);
+        hash.Add(Model?.EnableSort ?? false);
+        hash.Add(UIConfig.IsEllipsisTable);
+        hash.Add(System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(Language));
+
+        if (Model?.Columns == null)
+            return hash.ToHashCode();
+
+        foreach (var item in Model.Columns)
+        {
+            hash.Add(item.Id, StringComparer.OrdinalIgnoreCase);
+            hash.Add(item.IsVisible);
+            hash.Add(item.Sort);
+            hash.Add(item.Width ?? 0);
+            hash.Add(item.Fixed, StringComparer.OrdinalIgnoreCase);
+            hash.Add(item.Align, StringComparer.OrdinalIgnoreCase);
+            hash.Add(item.DefaultSort, StringComparer.OrdinalIgnoreCase);
+            hash.Add(item.Ellipsis);
+            hash.Add(item.IsSort);
+            hash.Add(item.IsSum);
+            hash.Add(item.IsQueryField);
+            hash.Add(item.IsFilter);
+            hash.Add(item.IsViewLink);
+            hash.Add(item.Type);
+            hash.Add(item.Category, StringComparer.OrdinalIgnoreCase);
+            hash.Add(item.Tooltip, StringComparer.OrdinalIgnoreCase);
+            hash.Add(item.Unit, StringComparer.OrdinalIgnoreCase);
+            hash.Add(Model.Templates?.ContainsKey(item.Id) == true);
+        }
+
+        return hash.ToHashCode();
+    }
+
+    private ColumnRenderState CreateColumnState(ColumnInfo item)
+    {
+        RenderFragment<TItem> template = null;
+        Model.Templates?.TryGetValue(item.Id, out template);
+        var hasTemplate = template != null;
+        var hasCustomText = item.Type == FieldType.Date || item.Type == FieldType.DateTime || !string.IsNullOrWhiteSpace(item.Category) || !string.IsNullOrWhiteSpace(item.Unit);
+        var hasCustomCell = hasTemplate || item.Type == FieldType.Switch || item.Type == FieldType.File || item.IsViewLink || item.LinkAction != null || item.IsMergeRow || item.IsMergeColumn;
+        return new ColumnRenderState
+        {
+            Column = item,
+            Title = Language?.GetFieldName<TItem>(item),
+            IsEllipsis = item.ToEllipsis(),
+            Width = item.Width > 0 ? item.Width.ToString() : string.Empty,
+            Fixed = item.ToColumnFixPlacement(),
+            Align = item.ToColumnAlign(),
+            Sortable = GetSortable(item),
+            DefaultSortOrder = item.ToSortDirection(),
+            Template = template,
+            FilterDropdown = GetFilterTemplate(item),
+            ValueGetter = Model.IsDictionary ? null : GetValueGetter(item),
+            UseDefaultCellRender = !Model.IsDictionary && !hasCustomCell && !hasCustomText
+        };
+    }
+
+    private static Func<TItem, object> GetValueGetter(ColumnInfo item)
+    {
+        if (item == null || string.IsNullOrWhiteSpace(item.Id))
+            return _ => null;
+
+        return getterCache.GetOrAdd(item.Id, _ => CreateValueGetter(item));
+    }
+
+    private static Func<TItem, object> CreateValueGetter(ColumnInfo item)
+    {
+        var property = item.Property ?? TypeHelper.Property(typeof(TItem), item.Id);
+        if (property == null)
+            return row => TypeHelper.GetPropertyValue(row, item.Id);
+
+        var instance = Expression.Parameter(typeof(TItem), "instance");
+        Expression target = instance;
+        if (property.DeclaringType != typeof(TItem))
+            target = Expression.Convert(instance, property.DeclaringType!);
+        var propertyAccess = Expression.Property(target, property);
+        var castPropertyValue = Expression.Convert(propertyAccess, typeof(object));
+        return Expression.Lambda<Func<TItem, object>>(castPropertyValue, instance).Compile();
+    }
+
     //private readonly List<string> mergeRows = [];
     private int GetRowSpan(ColumnInfo item, object value)
     {
@@ -261,12 +375,36 @@ partial class KTable<TItem>
         return 1;
     }
 
+    private int GetRowSpan(ColumnRenderState state, TItem row)
+    {
+        if (state?.Column == null)
+            return 1;
+
+        if (!state.Column.IsMergeRow)
+            return 1;
+
+        var value = state.GetValue(row);
+        return GetRowSpan(state.Column, value);
+    }
+
     private int GetColSpan(ColumnInfo item, object value)
     {
         if (!item.IsMergeColumn || dataSource == null || value == null)
             return 1;
 
         return 1;
+    }
+
+    private int GetColSpan(ColumnRenderState state, TItem row)
+    {
+        if (state?.Column == null)
+            return 1;
+
+        if (!state.Column.IsMergeColumn)
+            return 1;
+
+        var value = state.GetValue(row);
+        return GetColSpan(state.Column, value);
     }
 
     private void OnAddColumn()
@@ -326,5 +464,23 @@ partial class KTable<TItem>
 
             return this.Callback<RowData<TItem>>(e => { });
         }
+    }
+
+    private sealed class ColumnRenderState
+    {
+        public ColumnInfo Column { get; init; }
+        public string Title { get; init; }
+        public bool IsEllipsis { get; init; }
+        public string Width { get; init; }
+        public ColumnFixPlacement? Fixed { get; init; }
+        public ColumnAlign Align { get; init; }
+        public bool Sortable { get; init; }
+        public SortDirection DefaultSortOrder { get; init; }
+        public RenderFragment<TItem> Template { get; init; }
+        public RenderFragment<TableFilterDropdownContext> FilterDropdown { get; init; }
+        public Func<TItem, object> ValueGetter { get; init; }
+        public bool UseDefaultCellRender { get; init; }
+
+        public object GetValue(TItem item) => ValueGetter?.Invoke(item);
     }
 }
