@@ -260,7 +260,7 @@ class DbProvider(Database db)
 
     internal virtual string GetPageSql(string text, string order, PagingCriteria criteria)
     {
-        var startNo = criteria.PageSize * (criteria.PageIndex - 1);
+        var startNo = criteria.StartIndex > 0 ? criteria.StartIndex : criteria.PageSize * (criteria.PageIndex - 1);
         var endNo = startNo + criteria.PageSize;
         return $"select t.* from (select t1.*,row_number() over (order by {order}) row_no from ({text}) t1) t where t.row_no>{startNo} and t.row_no<={endNo}";
     }

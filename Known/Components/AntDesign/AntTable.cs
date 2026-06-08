@@ -61,9 +61,11 @@ public class AntTable<TItem> : Table<TItem>, IComContainer where TItem : class, 
             Bordered = Model.Bordered;
             AutoHeight = Model.AutoHeight;
             RowKey = Model.RowKey;
+            EnableVirtualization = Model.EnableVirtualization;
+            RemoteDataSource = Model.OnQuery != null;
             PageIndex = Model.Criteria.PageIndex;
             PageSize = Model.Criteria.PageSize;
-            HidePagination = !Model.ShowPager;
+            HidePagination = Model.EnableVirtualization || !Model.ShowPager;
             DataSource = Model.DataSource;
             Model.OnInitial?.Invoke(this);
         }

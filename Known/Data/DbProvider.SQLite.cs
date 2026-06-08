@@ -36,7 +36,7 @@ class SQLiteProvider(Database db) : DbProvider(db)
 
     internal override string GetPageSql(string text, string order, PagingCriteria criteria)
     {
-        var startNo = criteria.PageSize * (criteria.PageIndex - 1);
+        var startNo = criteria.StartIndex > 0 ? criteria.StartIndex : criteria.PageSize * (criteria.PageIndex - 1);
         return $"select t.* from ({text}) t order by {order} limit {criteria.PageSize} offset {startNo}";
     }
 

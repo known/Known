@@ -53,6 +53,11 @@ partial class TableModel<TItem>
     public bool EnableFilter { get; set; } = true;
 
     /// <summary>
+    /// 取得或设置表格是否启用虚拟化，默认不启用。
+    /// </summary>
+    public bool EnableVirtualization { get; set; }
+
+    /// <summary>
     /// 取得或设置表格是否启用排序，默认启用。
     /// </summary>
     public bool EnableSort { get; set; } = true;

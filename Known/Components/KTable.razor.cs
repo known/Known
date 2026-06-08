@@ -94,9 +94,17 @@ partial class KTable<TItem>
         {
             var watch = Stopwatcher.Start<TItem>();
             isQuering = true;
+            query ??= new QueryModel<TItem>(Model.Criteria.PageIndex, Model.Criteria.PageSize, Model.Criteria.StartIndex, [], []);
             Model.Criteria.PageIndex = query.PageIndex;
             if (Model.Criteria.IsQuery)
+            {
                 Model.Criteria.PageIndex = 1;
+                Model.Criteria.StartIndex = 0;
+            }
+            else
+            {
+                Model.Criteria.StartIndex = query.StartIndex;
+            }
             Model.Criteria.PageSize = query.PageSize;
             if (query.SortModel != null)
             {
@@ -123,6 +131,8 @@ partial class KTable<TItem>
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
             isQuering = false;
+            if (Model.EnableVirtualization)
+                await InvokeAsync(StateHasChanged);
             watch.Write($"Changed{Model.Criteria.PageIndex}");
         }
         catch (Exception ex)

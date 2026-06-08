@@ -55,6 +55,11 @@ public class PagingCriteria
     public int PageSize { get; set; }
 
     /// <summary>
+    /// 取得或设置从第几条记录开始查询。
+    /// </summary>
+    public int StartIndex { get; set; }
+
+    /// <summary>
     /// 取得或设置查询条件信息列表。
     /// </summary>
     public List<QueryInfo> Query { get; set; }
@@ -97,6 +102,7 @@ public class PagingCriteria
         Fields = [];
         CmdParams = [];
         PageIndex = 1;
+        StartIndex = 0;
     }
 
     /// <summary>

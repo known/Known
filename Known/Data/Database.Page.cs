@@ -212,7 +212,10 @@ public partial class Database
             }
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0 && criteria.PageIndex > 0)
-                pageData = [.. pageData.Skip((criteria.PageIndex - 1) * criteria.PageSize).Take(criteria.PageSize)];
+            {
+                var startIndex = criteria.StartIndex > 0 ? criteria.StartIndex : (criteria.PageIndex - 1) * criteria.PageSize;
+                pageData = [.. pageData.Skip(startIndex).Take(criteria.PageSize)];
+            }
 
             //watch.Write("PagingResult");
             return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };

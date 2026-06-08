@@ -46,10 +46,11 @@ class AccessProvider(Database db) : DbProvider(db)
         else if (order.EndsWith("asc"))
             order1 = order.Replace("asc", "desc");
 
-        var page = criteria.PageIndex;
+        var skip = criteria.StartIndex > 0 ? criteria.StartIndex : (criteria.PageIndex - 1) * criteria.PageSize;
+        var take = skip + criteria.PageSize;
         return $@"select t3.* from (
     select top {criteria.PageSize} t2.* from(
-        select top {page * criteria.PageSize} t1.* from ({text}) t1 order by t1.{order}
+        select top {take} t1.* from ({text}) t1 order by t1.{order}
     ) t2 order by t2.{order1}
 ) t3 order by t3.{order}";
     }
