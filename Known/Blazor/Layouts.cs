@@ -93,7 +93,8 @@ public class LayoutBase : LayoutComponentBase
             return;
         }
 
-        if (info.ClientHomes?.TryGetValue(Context.Local.ClientId, out string homeUrl) == true)
+        var clientId = Context.Local.ClientId;
+        if (!string.IsNullOrWhiteSpace(clientId) && info.ClientHomes?.TryGetValue(clientId, out string homeUrl) == true)
         {
             Navigation?.NavigateTo(homeUrl);
             return;

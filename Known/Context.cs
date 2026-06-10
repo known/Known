@@ -45,7 +45,7 @@ public class Context
     /// <summary>
     /// 取得或设置本地信息对象。
     /// </summary>
-    public LocalInfo Local { get; set; }
+    public LocalInfo Local { get; set; } = new();
 
     /// <summary>
     /// 取得或设置上下文请求对象，用于静态组件与后端交互。
