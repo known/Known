@@ -165,7 +165,7 @@ public static class UserExtension
                 Phone = info.Phone,
                 Mobile = info.Mobile,
                 Email = info.Email,
-                Enabled = true,
+                Enabled = info.Enabled,
                 Type = info.Type,
                 Role = info.Role
             };
@@ -185,7 +185,7 @@ public static class UserExtension
         }
         else
         {
-            model.Enabled = true;
+            model.Enabled = info.Enabled;
             await db.SaveAsync(model);
         }
         return Result.Success("同步成功！");
