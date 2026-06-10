@@ -20,7 +20,11 @@ public partial class TenantForm
         await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
-            Model.Data = await Service.GetTenantAsync(Model.Data.Id);
+            var data = await Service.GetTenantAsync(Model.Data.Id);
+            data.IsManage = Model.Data.IsManage;
+            if (data.IsManage)
+                data.Manager = Model.Data.Manager;
+            Model.Data = data;
             StateChanged();
         }
     }

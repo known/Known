@@ -114,6 +114,7 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
         var info = await Database.QueryByIdAsync<SysCompany>(id);
         info ??= new SysCompany();
         info.ConnTypes = string.Join(",", DatabaseOption.Types);
+        info.SystemData ??= new SystemInfo();
         return info;
     }
 

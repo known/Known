@@ -16,7 +16,7 @@ class TenantSwitch : BaseTable<SysCompany>
         Table.Name = Language.SelectTenant;
         Table.PageSize = 10;
         Table.FixedHeight = "300px";
-        Table.OnQuery = Service.QueryTenantsAsync;
+        Table.OnQuery = QueryTenantsAsync;
 
         Table.AddColumn(c => c.Code).Width(120).ViewLink(false);
         Table.AddColumn(c => c.Name, true).Width(200);
@@ -43,5 +43,11 @@ class TenantSwitch : BaseTable<SysCompany>
                 Navigation.Refresh();
             });
         });
+    }
+
+    private Task<PagingResult<SysCompany>> QueryTenantsAsync(PagingCriteria criteria)
+    {
+        criteria.SetQuery(nameof(SysCompany.Manager), QueryType.Equal, CurrentUser.UserName);
+        return Service.QueryTenantsAsync(criteria);
     }
 }

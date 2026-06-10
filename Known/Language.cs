@@ -659,6 +659,10 @@ public class Language
     /// 当前租户。
     /// </summary>
     public const string CurrentTenant = "当前租户";
+    /// <summary>
+    /// 我的租户。
+    /// </summary>
+    public const string MyTenants = "我的租户";
 
     internal const string ThemeSetting = "主题设置";
     internal const string Menu = "菜单";

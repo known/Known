@@ -126,6 +126,11 @@ public class UserInfo
     public string OrgName { get; set; }
 
     /// <summary>
+    /// 取得或设置用户类型。
+    /// </summary>
+    public string Type { get; set; }
+
+    /// <summary>
     /// 取得或设置用户角色。
     /// </summary>
     public string Role { get; set; }
@@ -256,6 +261,12 @@ public class UserInfo
     /// </summary>
     /// <returns></returns>
     public bool IsSystemAdmin() => UserName.Equals(Constants.SysUserName, StringComparison.CurrentCultureIgnoreCase);
+
+    /// <summary>
+    /// 获取当前用户是否有租户管理权限。
+    /// </summary>
+    /// <returns></returns>
+    public bool HasTenantManage() => IsSystemAdmin() || UIConfig.TenantManagerTypes.Contains(Type);
 
     /// <summary>
     /// 获取用户是否是租户管理员。

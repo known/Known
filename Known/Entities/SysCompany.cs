@@ -84,6 +84,14 @@ public class SysCompany : EntityBase
     public string Phone { get; set; }
 
     /// <summary>
+    /// 取得或设置管理员用户账号，用于"我的租户"场景。
+    /// </summary>
+    [MaxLength(50)]
+    [Column(Width = 100)]
+    [DisplayName("管理员")]
+    public string Manager { get; set; }
+
+    /// <summary>
     /// 取得或设置备注。
     /// </summary>
     [Column(Width = 200, Ellipsis = true)]
@@ -107,4 +115,9 @@ public class SysCompany : EntityBase
     /// 取得或设置连接类型列表，逗号分隔。
     /// </summary>
     public virtual string ConnTypes { get; set; }
+
+    /// <summary>
+    /// 取得或设置是否为管理员租户，用于"我的租户"场景，非数据库字段。
+    /// </summary>
+    public virtual bool IsManage { get; set; }
 }

@@ -201,6 +201,16 @@ public class UIConfig
     /// 取得或设置页面标签颜色委托。
     /// </summary>
     public static Func<string, string> TagColor { get; set; }
+
+    /// <summary>
+    /// 取得租户管理者用户类型列表，符合这些类型的用户可以在用户菜单中看到"我的租户"。
+    /// </summary>
+    public static List<string> TenantManagerTypes { get; } = [];
+
+    /// <summary>
+    /// 取得用户菜单扩展项列表，外部模块可通过此集合向用户头像下拉菜单注入自定义项。
+    /// </summary>
+    public static List<ActionInfo> UserMenuItems { get; } = [];
 }
 
 /// <summary>
