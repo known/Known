@@ -10,7 +10,7 @@ static class CoreMenuExtension
 
         var menus = await DataHelper.GetMenusAsync(db);
         // 如果是管理员，返回所有菜单
-        if (user.IsAdmin())
+        if (user.IsAdmin() || CoreConfig.IsNoRole)
             return menus;
 
         // 如果是角色用户，根据用户角色模块ID列表返回菜单

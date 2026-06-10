@@ -166,6 +166,7 @@ public static class UserExtension
                 Mobile = info.Mobile,
                 Email = info.Email,
                 Enabled = true,
+                Type = info.Type,
                 Role = info.Role
             };
             if (!string.IsNullOrWhiteSpace(model.Password))

@@ -27,6 +27,11 @@ public class CoreConfig
     internal static void Load(AdminInfo info) { }
 
     /// <summary>
+    /// 取得或设置系统是否无角色管理。
+    /// </summary>
+    public static bool IsNoRole { get; set; }
+
+    /// <summary>
     /// 取得或设置角色管理是否显示路由权限，默认显示。
     /// </summary>
     public static bool IsRoleRoute { get; set; } = true;
