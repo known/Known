@@ -162,8 +162,9 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
         if (info == null)
             return Result.Error("请选择租户！");
 
-        user.CompNo = info.CompNo;
-        user.CompName = info.Name;
+        user.IsChangeTenant = true;
+        user.TenantNo = info.Code;
+        user.TenantName = info.Name;
         Cache.SetUser(user);
         return Result.Success("租户切换成功！", user);
     }

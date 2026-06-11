@@ -181,8 +181,6 @@ class DbProvider(Database db)
             changes[item.Name] = cmdParams[item.Name];
         }
 
-        ApplyTenantKey(type, keys, changes);
-
         var column = string.Join(",", changeKeys);
         var key = string.Join(" and ", keys);
         var sql = $"update {FormatName(tableName)} set {column} where {key}";
@@ -203,8 +201,6 @@ class DbProvider(Database db)
             whereSql = qb.WhereSql;
         }
 
-        ApplyTenantWhere(typeof(T), ref whereSql, paramters);
-
         if (!string.IsNullOrWhiteSpace(whereSql))
             sql += $" where {whereSql}";
 
@@ -221,22 +217,17 @@ class DbProvider(Database db)
         parameters[nameof(EntityBase.CompNo)] = compNo;
     }
 
-    private void ApplyTenantKey(Type type, List<string> keys, Dictionary<string, object> parameters)
-    {
-        if (!TryGetTenantCompNo(type, out var compNo))
-            return;
-
-        keys.Add($"{FormatName(nameof(EntityBase.CompNo))}=@{nameof(EntityBase.CompNo)}");
-        parameters[nameof(EntityBase.CompNo)] = compNo;
-    }
-
     private bool TryGetTenantCompNo(Type type, out string compNo)
     {
         compNo = null;
         if (!Database.NeedTenantFilter(type))
             return false;
 
-        compNo = Database.User?.CompNo;
+        var user = Database.User;
+        compNo = user?.CompNo;
+        if (user?.IsChangeTenant == true)
+            compNo = user?.TenantNo;
+
         return !string.IsNullOrWhiteSpace(compNo);
     }
 

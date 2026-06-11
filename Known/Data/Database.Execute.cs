@@ -268,8 +268,13 @@ public partial class Database
             entity.Version = 1;
             if (entity.AppId == "temp")
                 entity.AppId = User?.AppId ?? Config.App.Id;
+
             if (entity.CompNo == "temp")
+            {
                 entity.CompNo = User?.CompNo ?? none;
+                if (User?.IsChangeTenant == true)
+                    entity.CompNo = User?.TenantNo ?? none;
+            }
         }
         else
         {

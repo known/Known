@@ -25,14 +25,13 @@ class TypeCache
         var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         if (properties.Length == 0) return properties;
 
-        //// 创建属性->深度的映射
-        //var depthMap = new Dictionary<PropertyInfo, int>(properties.Length);
-        //foreach (var property in properties)
-        //{
-        //    depthMap[property] = _inheritanceDepthCache.GetOrAdd(property.DeclaringType!, CalculateInheritanceDepth);
-        //}
-        //// 稳定排序
-        //Array.Sort(properties, (x, y) => depthMap[x].CompareTo(depthMap[y]));
+        // 去重：同名属性只保留最后一个（最派生），避免子类 new 隐藏基类属性时重复
+        var distinct = new Dictionary<string, PropertyInfo>(properties.Length, StringComparer.OrdinalIgnoreCase);
+        foreach (var prop in properties)
+        {
+            distinct[prop.Name] = prop;
+        }
+        properties = [.. distinct.Values];
         return properties;
     }
 

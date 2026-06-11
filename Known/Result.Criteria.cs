@@ -195,6 +195,9 @@ public class PagingCriteria
             [nameof(EntityBase.CompNo)] = user?.CompNo
         };
 
+        if (user.IsChangeTenant)
+            parameter[nameof(EntityBase.CompNo)] = user?.TenantNo;
+
         if (Query != null && Query.Count > 0)
         {
             foreach (var item in Query)

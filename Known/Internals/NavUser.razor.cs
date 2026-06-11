@@ -7,7 +7,7 @@ public partial class NavUser
 {
     private readonly DropdownModel model = new();
     private string AvatarUrl => CurrentUser?.AvatarUrl ?? "img/face1.png";
-    private string DisplayName => CurrentUser?.IsChangeTenant == true ? $"{CurrentUser?.Name}({CurrentUser?.CompName})" : CurrentUser?.Name;
+    private string DisplayName => CurrentUser?.IsChangeTenant == true ? $"{CurrentUser?.Name}({CurrentUser?.TenantName})" : CurrentUser?.Name;
 
     [CascadingParameter] private TopNavbar Topbar { get; set; }
 

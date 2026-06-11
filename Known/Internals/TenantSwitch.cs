@@ -35,10 +35,9 @@ class TenantSwitch : BaseTable<SysCompany>
             var result = await Service.SwitchTenantAsync(row);
             UI.Result(result, async () =>
             {
-                Context.CurrentUser.IsChangeTenant = true;
-                Context.CurrentUser.CompNo = row.Code;
-                Context.CurrentUser.CompName = row.Name;
-                await AuthProvider?.SignInAsync(Context.CurrentUser);
+                var user = result.DataAs<UserInfo>();
+                Context.CurrentUser = user;
+                await AuthProvider?.SignInAsync(user);
                 OnChange?.Invoke();
                 Navigation.Refresh();
             });

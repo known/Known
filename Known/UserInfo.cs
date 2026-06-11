@@ -248,7 +248,20 @@ public class UserInfo
     /// </summary>
     public string WmDateFormat { get; set; }
 
-    internal bool IsChangeTenant { get; set; }
+    /// <summary>
+    /// 取得或设置用户是否切换了租户。
+    /// </summary>
+    public bool IsChangeTenant { get; set; }
+
+    /// <summary>
+    /// 取得或设置用户切换的租户编码。
+    /// </summary>
+    public string TenantNo { get; set; }
+
+    /// <summary>
+    /// 取得或设置用户切换的租户名称。
+    /// </summary>
+    public string TenantName { get; set; }
 
     /// <summary>
     /// 获取用户是否是系统或租户管理员。
