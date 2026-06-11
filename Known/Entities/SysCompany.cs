@@ -117,7 +117,7 @@ public class SysCompany : EntityBase
     public virtual string ConnTypes { get; set; }
 
     /// <summary>
-    /// 取得或设置是否为管理员租户，用于"我的租户"场景，非数据库字段。
+    /// 取得或设置是否为"我的租户"管理模式。
     /// </summary>
     public virtual bool IsManage { get; set; }
 }
