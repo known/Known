@@ -64,6 +64,9 @@ public class EntityBase<TKey> : BaseEntity
             if (baseFields.Exists(d => d.Id == item.Name && d.Id != nameof(EntityBase.Extension)) || item.Name == nameof(IsNew))
                 continue;
 
+            if (!item.CanWrite)
+                continue;
+
             var modelProperty = modelProperties.FirstOrDefault(p => p.Name == item.Name);
             if (modelProperty == null)
                 continue;
