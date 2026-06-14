@@ -39,7 +39,7 @@ class PgSqlProvider(Database db) : DbProvider(db)
         {
             var comma = ++index == fields.Count && !hasKey ? "" : ",";
             var required = item.Required ? " NOT NULL" : "";
-            var column = item.Id;
+            var column = item.Field;
             column = GetColumnName(column, maxLength + 2);
             var type = GetPgSqlDbType(item);
             var line = $"    {column} {type}".TrimEnd();

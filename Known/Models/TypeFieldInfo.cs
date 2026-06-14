@@ -129,6 +129,7 @@ public class TypeFieldInfo(PropertyInfo property)
         {
             Id = Name,
             Name = DisplayName,
+            Field = Property.GetFieldName(),
             Type = GetFieldType(),
             Length = Length?.ToString(),
             Required = Required,

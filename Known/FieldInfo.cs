@@ -16,6 +16,11 @@ public class FieldInfo
     public string Name { get; set; }
 
     /// <summary>
+    /// 取得数据库表字段名称。
+    /// </summary>
+    public string Field { get; set; }
+
+    /// <summary>
     /// 取得或设置字段类型。
     /// </summary>
     public FieldType Type { get; set; }

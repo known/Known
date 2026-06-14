@@ -16,7 +16,7 @@ public class DbModelInfo
         Keys = keys;
         Fields = GetFields(true);
         if (keys == null)
-            Keys = [.. Fields.Where(f => f.IsKey).Select(f => f.Id)];
+            Keys = [.. Fields.Where(f => f.IsKey).Select(f => f.Field)];
     }
 
     /// <summary>

@@ -64,7 +64,7 @@ class AccessProvider(Database db) : DbProvider(db)
         {
             var comma = ++index == fields.Count && keys.Count < 2 ? "" : ",";
             var required = item.Required ? "NOT NULL" : "NULL";
-            var column = $"`{item.Id}`";
+            var column = $"`{item.Field}`";
             column = GetColumnName(column, maxLength + 2);
             var type = GetAccessDbType(item);
             if (item.Id == nameof(EntityBase.Id))
