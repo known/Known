@@ -86,7 +86,7 @@ class DbProvider(Database db)
         }
     }
 
-    public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
+    public CommandInfo GetCountCommand<T>(Expression<Func<T, bool>> expression = null, bool applyTenant = true) where T : class, new()
     {
         var sb = Sql.SelectCount().From<T>();
         var paramters = new Dictionary<string, object>();
@@ -98,7 +98,7 @@ class DbProvider(Database db)
             whereSql = qb.WhereSql;
         }
 
-        ApplyTenantWhere(typeof(T), ref whereSql, paramters);
+        ApplyTenantWhere<T>(ref whereSql, paramters, applyTenant);
 
         if (!string.IsNullOrWhiteSpace(whereSql))
             sb.WhereSql(whereSql);
@@ -107,7 +107,7 @@ class DbProvider(Database db)
         return new CommandInfo(this, typeof(T), sql, paramters);
     }
 
-    public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null) where T : class, new()
+    public CommandInfo GetSelectCommand<T>(Expression<Func<T, bool>> expression = null, bool applyTenant = true) where T : class, new()
     {
         var sb = Sql.SelectAll().From<T>();
         var paramters = new Dictionary<string, object>();
@@ -122,7 +122,7 @@ class DbProvider(Database db)
             }
         }
 
-        ApplyTenantWhere(typeof(T), ref whereSql, paramters);
+        ApplyTenantWhere<T>(ref whereSql, paramters, applyTenant);
 
         if (!string.IsNullOrWhiteSpace(whereSql))
             sb.WhereSql(whereSql);
@@ -207,9 +207,12 @@ class DbProvider(Database db)
         return new CommandInfo(this, typeof(T), sql, paramters);
     }
 
-    private void ApplyTenantWhere(Type type, ref string whereSql, Dictionary<string, object> parameters)
+    private void ApplyTenantWhere<T>(ref string whereSql, Dictionary<string, object> parameters, bool applyTenant)
     {
-        if (!TryGetTenantCompNo(type, out var compNo))
+        if (!applyTenant)
+            return;
+
+        if (!TryGetTenantCompNo(typeof(T), out var compNo))
             return;
 
         var tenantWhere = $"{FormatName(nameof(EntityBase.CompNo))}=@{nameof(EntityBase.CompNo)}";

@@ -35,11 +35,7 @@ public class TenantMyPage : BaseTablePage<SysCompany>
     /// </summary>
     /// <param name="row">租户信息。</param>
     [Action]
-    public void Edit(SysCompany row)
-    {
-        row.IsManage = true;
-        Table.EditForm(Service.SaveTenantAsync, row);
-    }
+    public void Edit(SysCompany row) => Table.EditForm(Service.SaveTenantAsync, row);
 
     /// <summary>
     /// 删除租户。
@@ -52,9 +48,14 @@ public class TenantMyPage : BaseTablePage<SysCompany>
     /// </summary>
     [Action] public void DeleteM() => Table.DeleteM(Service.DeleteTenantsAsync);
 
-    private Task<PagingResult<SysCompany>> QueryTenantsAsync(PagingCriteria criteria)
+    private async Task<PagingResult<SysCompany>> QueryTenantsAsync(PagingCriteria criteria)
     {
         criteria.SetQuery(nameof(SysCompany.Manager), QueryType.Equal, CurrentUser.UserName);
-        return Service.QueryTenantsAsync(criteria);
+        var result = await Service.QueryTenantsAsync(criteria);
+        foreach (var item in result.PageData)
+        {
+            item.IsManage = true;
+        }
+        return result;
     }
 }

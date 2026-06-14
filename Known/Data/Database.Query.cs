@@ -43,7 +43,8 @@ public partial class Database
     /// <returns>实体对象。</returns>
     public virtual Task<T> QueryByIdAsync<T, TKey>(TKey id) where T : EntityBase<TKey>, new()
     {
-        return QueryAsync<T>(d => d.Id.Equals(id));
+        var info = Provider?.GetSelectCommand<T>(d => d.Id.Equals(id), false);
+        return QueryAsync<T>(info);
     }
 
     /// <summary>
