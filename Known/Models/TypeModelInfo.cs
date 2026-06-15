@@ -66,7 +66,10 @@ public class TypeModelInfo
     internal void SetDBValue(object instance, string key, object value)
     {
         if (!Dictionary.TryGetValue(key, out var info))
-            return;
+        {
+            if (!Dictionary.TryGetValue(key.Replace("_", ""), out info))
+                return;
+        }
 
         var property = info.Property;
         var type = property.PropertyType;

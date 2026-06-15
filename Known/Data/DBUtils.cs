@@ -110,8 +110,8 @@ public sealed class DbUtils
         var dic = new Dictionary<string, object>();
         for (int i = 0; i < reader.FieldCount; i++)
         {
-            var name = reader.GetName(i).Replace("_", "");
-            if (name == "rowno") //去掉row_number产生的字段
+            var name = reader.GetName(i);
+            if (name == "row_no") //去掉row_number产生的字段
                 continue;
 
             var value = reader[i];
@@ -125,8 +125,8 @@ public sealed class DbUtils
         var dic = new Dictionary<string, object>();
         foreach (DataColumn item in row.Table.Columns)
         {
-            var name = item.ColumnName.Replace("_", "");
-            if (name == "rowno") //去掉row_number产生的字段
+            var name = item.ColumnName;
+            if (name == "row_no") //去掉row_number产生的字段
                 continue;
 
             var value = row[item.ColumnName];
