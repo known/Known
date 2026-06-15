@@ -16,6 +16,11 @@ public class ExportColumnInfo
     public string Name { get; set; }
 
     /// <summary>
+    /// 取得或设置导出栏位分组名称。
+    /// </summary>
+    public string Group { get; set; }
+
+    /// <summary>
     /// 取得或设置导出栏位代码表类别名。
     /// </summary>
     public string Category { get; set; }
@@ -34,6 +39,11 @@ public class ExportColumnInfo
     /// 取得或设置导出栏位是否是附加栏位。
     /// </summary>
     public bool IsAdditional { get; set; }
+
+    /// <summary>
+    /// 取得或设置导出栏位是否被选中。
+    /// </summary>
+    public bool IsSelected { get; set; }
 }
 
 /// <summary>

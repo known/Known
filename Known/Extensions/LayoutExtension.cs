@@ -102,7 +102,8 @@ public static class LayoutExtension
         return app?.ShowSpinAsync(Language.DataExporting, async () =>
         {
             table.Criteria.ExportMode = mode;
-            table.Criteria.ExportColumns = table.GetExportColumns();
+            if (table.Criteria.ExportColumns == null || table.Criteria.ExportColumns.Count == 0)
+                table.Criteria.ExportColumns = table.GetExportColumns();
             var result = await table.OnQuery?.Invoke(table.Criteria);
             table.Criteria.ExportMode = ExportMode.None;
 
