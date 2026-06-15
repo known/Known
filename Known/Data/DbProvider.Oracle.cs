@@ -52,7 +52,7 @@ select view_name as Id, view_name as Name from user_views";
         {
             var comma = ++index == fields.Count ? "" : ",";
             var required = item.Required ? "not null" : "null";
-            var column = GetColumnName(item.Field, maxLength);
+            var column = GetColumnName(item.Field ?? item.Id, maxLength);
             var type = GetOracleDbType(item);
             sb.AppendLine($"    {column} {type} {required}{comma}");
         }

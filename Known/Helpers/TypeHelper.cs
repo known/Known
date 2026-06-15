@@ -68,15 +68,15 @@ public sealed class TypeHelper
     {
         return
         [
-            new() { Id = nameof(EntityBase.Id), Name = "ID", Type = FieldType.Text, Length = "50", IsKey = true, Required = true },
-            new() { Id = nameof(EntityBase.CreateBy), Name = "创建人", Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CreateTime), Name = "创建时间", Type = FieldType.DateTime, Required = true },
-            new() { Id = nameof(EntityBase.ModifyBy), Name = "修改人", Type = FieldType.Text, Length = "50" },
-            new() { Id = nameof(EntityBase.ModifyTime), Name = "修改时间", Type = FieldType.DateTime },
-            new() { Id = nameof(EntityBase.Version), Name = "版本", Type = FieldType.Integer, Required = true },
-            new() { Id = nameof(EntityBase.Extension), Name = "扩展数据", Type = FieldType.Text },
-            new() { Id = nameof(EntityBase.AppId), Name = "系统ID", Type = FieldType.Text, Length = "50", Required = true },
-            new() { Id = nameof(EntityBase.CompNo), Name = "企业编码", Type = FieldType.Text, Length = "50", Required = true }
+            new() { Id = nameof(EntityBase.Id), Field = nameof(EntityBase.Id), Name = "ID", Type = FieldType.Text, Length = "50", IsKey = true, Required = true },
+            new() { Id = nameof(EntityBase.CreateBy), Field = nameof(EntityBase.CreateBy), Name = "创建人", Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CreateTime), Field = nameof(EntityBase.CreateTime), Name = "创建时间", Type = FieldType.DateTime, Required = true },
+            new() { Id = nameof(EntityBase.ModifyBy), Field = nameof(EntityBase.ModifyBy), Name = "修改人", Type = FieldType.Text, Length = "50" },
+            new() { Id = nameof(EntityBase.ModifyTime), Field = nameof(EntityBase.ModifyTime), Name = "修改时间", Type = FieldType.DateTime },
+            new() { Id = nameof(EntityBase.Version), Field = nameof(EntityBase.Version), Name = "版本", Type = FieldType.Integer, Required = true },
+            new() { Id = nameof(EntityBase.Extension), Field = nameof(EntityBase.Extension), Name = "扩展数据", Type = FieldType.Text },
+            new() { Id = nameof(EntityBase.AppId), Field = nameof(EntityBase.AppId), Name = "系统ID", Type = FieldType.Text, Length = "50", Required = true },
+            new() { Id = nameof(EntityBase.CompNo), Field = nameof(EntityBase.CompNo), Name = "企业编码", Type = FieldType.Text, Length = "50", Required = true }
         ];
     }
 
