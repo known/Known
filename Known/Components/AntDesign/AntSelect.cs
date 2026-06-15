@@ -87,11 +87,17 @@ public class AntSelectCode : AntSelectBase<string, CodeInfo>
     /// </summary>
     [Parameter] public string LabelFormat { get; set; }
 
+    /// <summary>
+    /// 取得或设置选择框组件选项被选中时的回调方法。
+    /// </summary>
+    [Parameter] public EventCallback<CodeInfo> OnSelected { get; set; }
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
         ValueName = nameof(CodeInfo.Code);
         LabelName = nameof(CodeInfo.Name);
+        ValueChanged = this.Callback<string>(OnValueChanged);
         base.OnInitialized();
     }
 
@@ -104,6 +110,16 @@ public class AntSelectCode : AntSelectBase<string, CodeInfo>
         if (!string.IsNullOrWhiteSpace(Category))
             DataSource = Cache.GetCodes(Category, LabelFormat, Item?.Language).ToCodes(emptyText);
         base.OnParametersSet();
+    }
+
+    private void OnValueChanged(string value)
+    {
+        if (OnSelected.HasDelegate)
+        {
+            var code = DataSource?.FirstOrDefault(c => c.Code == value);
+            if (code != null)
+                OnSelected.InvokeAsync(code);
+        }
     }
 }
 
