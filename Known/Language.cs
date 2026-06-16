@@ -625,6 +625,19 @@ public class Language
     internal const string TipSelectParentOrganization = "请先选择上级组织！";
     internal const string TipSelectChangeOrganization = "请选择更换的部门！";
 
+    internal const string AddCondition = "添加条件";
+    internal const string AddConditionGroup = "添加条件组";
+    internal const string Normal = "普通";
+    internal const string Advanced = "高级";
+    internal const string QueryScheme = "查询方案：";
+    internal const string SelectScheme = "选择方案";
+    internal const string SchemeName = "方案名称";
+    internal const string SaveScheme = "保存方案";
+    internal const string DeleteScheme = "删除方案";
+    internal const string TipConditionGroup = "请点击「添加条件组」按钮添加查询条件分组，不同分组之间为 OR 关系。";
+    internal const string TipGroupHeader = "组 {index}（组内条件为 AND 关系）";
+    internal const string TipSelectScheme = "请输入方案名称！";
+
     internal const string PleaseSelect = "请选择";
     internal const string PleaseSelectInput = "请选择或输入";
     internal const string All = "全部";

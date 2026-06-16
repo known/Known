@@ -47,7 +47,7 @@ class AdvancedSearch : BaseComponent
         await Admin.SaveUserSettingAsync(new SettingFormInfo
         {
             BizType = SettingKey,
-            BizData = new { Mode = "Advanced", Groups }
+            BizData = new { Mode = ModeAdvanced, Groups }
         });
 
         return groupQueries;
@@ -129,15 +129,15 @@ class AdvancedSearch : BaseComponent
             }
             else
             {
-                builder.Button("添加条件组", this.Callback<MouseEventArgs>(OnAddGroup));
+                builder.Button(Language.AddConditionGroup, this.Callback<MouseEventArgs>(OnAddGroup));
             }
 
             builder.Component<AntRadioGroup>()
-                   .Set(c => c.Codes, new List<CodeInfo>
-                   {
-                       new("Normal", "普通"),
-                       new("Advanced", "高级")
-                   })
+                   .Set(c => c.Codes,
+                   [
+                       new(ModeNormal, Language.Normal),
+                       new(ModeAdvanced, Language.Advanced)
+                   ])
                    .Set(c => c.Value, _mode == SearchMode.Normal ? ModeNormal : ModeAdvanced)
                    .Set(c => c.ValueChanged, this.Callback<string>(OnModeChanged))
                    .Set(c => c.Solid, true)
@@ -175,7 +175,7 @@ class AdvancedSearch : BaseComponent
         {
             builder.Div("kui-adv-search-empty", () =>
             {
-                builder.Span(Language["请点击「添加条件组」按钮添加查询条件分组，不同分组之间为 OR 关系。"]);
+                builder.Span(Language[Language.TipConditionGroup]);
             });
         }
 
@@ -209,10 +209,11 @@ class AdvancedSearch : BaseComponent
     {
         builder.Div("kui-adv-search-group-header", () =>
         {
-            builder.Span($"组 {index + 1}（组内条件为 AND 关系）");
+            var tip = Language[Language.TipGroupHeader];
+            builder.Span(tip.Replace("{index}", (index + 1).ToString()));
             builder.Div(() =>
             {
-                builder.Button("添加条件", this.Callback<MouseEventArgs>(e => OnAddCondition(group)));
+                builder.Button(Language.AddCondition, this.Callback<MouseEventArgs>(e => OnAddCondition(group)));
                 builder.Button(new ActionInfo(Language.Delete), this.Callback<MouseEventArgs>(e => OnDeleteGroup(group)));
             });
         });
@@ -222,7 +223,7 @@ class AdvancedSearch : BaseComponent
     {
         builder.Div("kui-adv-search-scheme", () =>
         {
-            builder.Span("查询方案：");
+            builder.Span(Language[Language.QueryScheme]);
 
             var schemeCodes = Schemes.Select(s => new CodeInfo(s.Id, s.Name)).ToList();
             if (schemeCodes.Count > 0)
@@ -231,7 +232,7 @@ class AdvancedSearch : BaseComponent
                 {
                     builder.Select(new InputModel<string>
                     {
-                        Placeholder = "选择方案",
+                        Placeholder = Language.SelectScheme,
                         Codes = schemeCodes,
                         Value = _schemeId,
                         ValueChanged = this.Callback<string>(OnSchemeSelected)
@@ -241,15 +242,15 @@ class AdvancedSearch : BaseComponent
 
             builder.TextBox(new InputModel<string>
             {
-                Placeholder = "方案名称",
+                Placeholder = Language.SchemeName,
                 Value = _schemeName,
                 ValueChanged = this.Callback<string>(v => _schemeName = v)
             });
 
-            builder.Button("保存方案", this.Callback<MouseEventArgs>(OnSaveScheme));
+            builder.Button(Language.SaveScheme, this.Callback<MouseEventArgs>(OnSaveScheme));
             if (Schemes.Count > 0)
             {
-                builder.Button("删除方案", this.Callback<MouseEventArgs>(OnDeleteScheme));
+                builder.Button(Language.DeleteScheme, this.Callback<MouseEventArgs>(OnDeleteScheme));
             }
         });
     }
@@ -289,7 +290,7 @@ class AdvancedSearch : BaseComponent
     {
         if (string.IsNullOrWhiteSpace(_schemeName))
         {
-            UI.Alert("请输入方案名称！");
+            UI.Alert(Language.TipSelectScheme);
             return;
         }
 
