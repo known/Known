@@ -44,6 +44,11 @@ public class QueryInfo
     }
 
     /// <summary>
+    /// 取得或设置查询分组ID，用于高级搜索OR分组查询。
+    /// </summary>
+    public string GroupId { get; set; }
+
+    /// <summary>
     /// 取得或设置查询字段ID。
     /// </summary>
     public string Id { get; set; }
@@ -62,4 +67,66 @@ public class QueryInfo
     internal bool IsField { get; set; } = true;
     internal object ParamValue { get; set; }
     internal string[] Values => Value?.Split(',');
+}
+
+/// <summary>
+/// 高级搜索模式枚举。
+/// </summary>
+public enum SearchMode
+{
+    /// <summary>
+    /// 普通模式（所有条件AND）。
+    /// </summary>
+    Normal,
+    /// <summary>
+    /// 高级模式（支持分组OR查询）。
+    /// </summary>
+    Advanced
+}
+
+/// <summary>
+/// 查询分组类，组内条件为AND关系，组间为OR关系。
+/// </summary>
+public class QueryGroup
+{
+    /// <summary>
+    /// 取得或设置分组ID。
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置分组内的查询条件列表（AND关系）。
+    /// </summary>
+    public List<QueryInfo> Conditions { get; set; } = [];
+}
+
+/// <summary>
+/// 高级搜索方案类。
+/// </summary>
+public class SearchScheme
+{
+    /// <summary>
+    /// 取得或设置方案ID。
+    /// </summary>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置方案名称。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置搜索模式。
+    /// </summary>
+    public SearchMode Mode { get; set; }
+
+    /// <summary>
+    /// 取得或设置普通模式查询条件列表。
+    /// </summary>
+    public List<QueryInfo> Conditions { get; set; }
+
+    /// <summary>
+    /// 取得或设置高级模式分组列表。
+    /// </summary>
+    public List<QueryGroup> Groups { get; set; }
 }
