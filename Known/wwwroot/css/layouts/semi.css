@@ -286,6 +286,12 @@
     transition: all .2s ease;
 }
 
+.semi-layout td .ant-btn {
+    height: 21px;
+    line-height: 21px;
+    padding: 0 7px;
+}
+
 .semi-layout .ant-btn:hover,
 .semi-layout .ant-btn:focus {
     border-color: var(--semi-primary-hover);
