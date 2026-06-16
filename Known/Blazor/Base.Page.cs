@@ -32,6 +32,11 @@ public class BasePage : BaseComponent, IReuseTabsPage
     public string Description { get; set; }
 
     /// <summary>
+    /// 取得或设置是否添加页面访问日志，默认为true。
+    /// </summary>
+    public bool IsAddLog { get; set; } = true;
+
+    /// <summary>
     /// 获取标签页标题模板。
     /// </summary>
     /// <returns>标签页标题模板。</returns>
@@ -61,7 +66,7 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// <inheritdoc />
     protected override Task OnRenderAsync(bool firstRender)
     {
-        if (firstRender && !isLogged && Menu != null && !Config.IsClient && Context.Url != "/")
+        if (firstRender && !isLogged && IsAddLog && Menu != null && !Config.IsClient && Context.Url != "/")
         {
             isLogged = true;
             Admin.AddPageLogAsync(Context);
