@@ -634,6 +634,7 @@ public class Language
     internal const string SchemeName = "方案名称";
     internal const string SaveScheme = "保存方案";
     internal const string DeleteScheme = "删除方案";
+    internal const string TipCondition = "请点击「新增」按钮添加查询条件，不同条件之间为 AND 关系。";
     internal const string TipConditionGroup = "请点击「添加条件组」按钮添加查询条件分组，不同分组之间为 OR 关系。";
     internal const string TipGroupHeader = "组 {index}（组内条件为 AND 关系）";
     internal const string TipSelectScheme = "请输入方案名称！";

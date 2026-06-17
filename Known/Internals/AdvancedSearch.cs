@@ -125,13 +125,9 @@ class AdvancedSearch : BaseComponent
         builder.Div("kui-adv-search-toolbar", () =>
         {
             if (_mode == SearchMode.Normal)
-            {
                 builder.Button(new ActionInfo(Language.New), this.Callback<MouseEventArgs>(OnAdd));
-            }
             else
-            {
                 builder.Button(Language.AddConditionGroup, this.Callback<MouseEventArgs>(OnAddGroup));
-            }
 
             builder.Component<AntRadioGroup>()
                    .Set(c => c.Codes,
@@ -154,6 +150,14 @@ class AdvancedSearch : BaseComponent
 
     private void BuildNormalContent(RenderTreeBuilder builder)
     {
+        if (Query.Count == 0)
+        {
+            builder.Div("kui-adv-search-empty", () =>
+            {
+                builder.Span(Language[Language.TipCondition]);
+            });
+        }
+
         foreach (var item in Query)
         {
             if (!item.IsNew && !Columns.Exists(c => c.Id == item.Id))

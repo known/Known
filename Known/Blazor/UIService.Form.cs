@@ -147,19 +147,16 @@ public partial class UIService
 
     private static void BuildFormBody<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()
     {
-        builder.Div("kui-form-body", () =>
+        if (model.Type == null)
         {
-            if (model.Type == null)
-            {
-                builder.Form(model);
-            }
-            else
-            {
-                var parameters = model.Parameters ?? [];
-                parameters[nameof(BaseForm<TItem>.Model)] = model;
-                builder.Component(model.Type, parameters);
-            }
-        });
+            builder.Form(model);
+        }
+        else
+        {
+            var parameters = model.Parameters ?? [];
+            parameters[nameof(BaseForm<TItem>.Model)] = model;
+            builder.Component(model.Type, parameters);
+        }
     }
 
     private static void BuildDrawerFooter<TItem>(RenderTreeBuilder builder, FormModel<TItem> model) where TItem : class, new()

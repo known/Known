@@ -859,7 +859,10 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body .ant-tabs-tabpane .kui-table {padding:10px 16px 16px 16px;}
 .ant-modal-body .ant-tabs-tabpane > .ant-table-wrapper {padding:10px 16px 16px 16px;}
 .ant-modal-body .kui-form .kui-form-list .ant-tabs-tabpane > .ant-table-wrapper {padding:8px 0 0 0;}
-.ant-modal-body .kui-form-body {height:100%;}
+.ant-modal-body .kui-form-body,
+.ant-drawer-body .kui-form-tab,
+.ant-drawer-body .ant-tabs,
+.ant-drawer-body .ant-tabs-content {height:100%;}
 .ant-modal-body .kui-form-action {padding:0 16px 16px 16px;}
 .ant-modal-body .kui-form .kui-form-action {padding:0 6px 16px 16px;}
 .ant-modal-body .nopadding {padding:0;}
@@ -871,10 +874,11 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 
 /*Form*/
 .kui-drawer {overflow:hidden;}
-.kui-drawer .kui-form-body {position:absolute;left:10px;right:10px;top:0;bottom:53px;overflow:auto;}
+.kui-drawer .kui-form {position:absolute;left:0;right:0;top:0;bottom:53px;overflow:auto;}
 .kui-drawer .kui-watermark .kui-form-body {left:0;right:0;}
 .kui-drawer .kui-form-action {
-    position:absolute;left:0;right:0;bottom:0;padding:10px;background-color:var(--kui-bgcolor);border-top:1px solid var(--kui-color-border);
+    position:absolute;left:0;right:0;bottom:0;padding:10px;height:53px;
+    background-color:var(--kui-bgcolor);border-top:1px solid var(--kui-color-border);
 }
 .kui-drawer .kui-form-body .ant-tabs,
 .kui-drawer .kui-form-body .ant-tabs .ant-tabs-content,
