@@ -9,6 +9,7 @@ public class AntDropdown : Dropdown
 {
     [Inject] private IServiceScopeFactory Factory { get; set; }
     [CascadingParameter] private DataItem Item { get; set; }
+    private CancellationTokenSource _hoverCts;
 
     /// <summary>
     /// 取得或设置表单容器对象。
@@ -96,7 +97,17 @@ public class AntDropdown : Dropdown
             ChildContent = BuildTextButton;
 
         if (!string.IsNullOrWhiteSpace(Model?.TriggerType))
-            Trigger = GetTriggers(Model?.TriggerType);
+        {
+            if (Model?.TriggerType == "Hover")
+            {
+                Trigger = [];
+                WrapHoverContent();
+            }
+            else
+            {
+                Trigger = GetTriggers(Model?.TriggerType);
+            }
+        }
 
         if (Model?.Overlay != null)
             Overlay = Model?.Overlay;
@@ -109,6 +120,51 @@ public class AntDropdown : Dropdown
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnInitializeAsync() => Task.CompletedTask;
+
+    private async Task OnHoverEnter(MouseEventArgs args)
+    {
+        _hoverCts?.Cancel();
+        Visible = true;
+    }
+
+    private async Task OnHoverLeave(MouseEventArgs args)
+    {
+        _hoverCts?.Cancel();
+        _hoverCts = new CancellationTokenSource();
+        var token = _hoverCts.Token;
+        try
+        {
+            await Task.Delay(300, token);
+            Visible = false;
+        }
+        catch (TaskCanceledException)
+        {
+        }
+    }
+
+    private void WrapHoverContent()
+    {
+        var originalChild = ChildContent;
+        ChildContent = builder =>
+        {
+            var div = builder.Element("div")
+                .Set("onmouseenter", EventCallback.Factory.Create<MouseEventArgs>(this, OnHoverEnter))
+                .Set("onmouseleave", EventCallback.Factory.Create<MouseEventArgs>(this, OnHoverLeave));
+            div.Child(() => originalChild(builder));
+        };
+
+        var originalOverlay = Overlay;
+        if (originalOverlay != null)
+        {
+            Overlay = builder =>
+            {
+                var div = builder.Element("div")
+                    .Set("onmouseenter", EventCallback.Factory.Create<MouseEventArgs>(this, OnHoverEnter))
+                    .Set("onmouseleave", EventCallback.Factory.Create<MouseEventArgs>(this, OnHoverLeave));
+                div.Child(() => originalOverlay(builder));
+            };
+        }
+    }
 
     /// <summary>
     /// 选中值改变事件。
