@@ -43,6 +43,13 @@
         }
     } 
 }
+@if (_schemes.Count > 0) {
+    <div class="kui-query-schemes">
+        @Language["方案"]：@foreach (var scheme in _schemes) {
+            <span class="kui-query-scheme-tag@(scheme.Id == _activeSchemeId ? " active" : "")" @onclick="() => OnSchemeClick(scheme)">@scheme.Name</span>
+        }
+    </div>
+}
 
 @code {
     private RenderFragment BuildQueryButton(bool showMore) => @<div class="kui-query-button">

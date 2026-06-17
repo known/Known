@@ -143,6 +143,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-adv-search-scheme {display:flex;gap:8px;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--kui-color-border);}
 .kui-adv-search-select {width:140px;}
 .kui-adv-search-scheme .ant-input {width:140px;}
+.kui-query-schemes {display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--kui-color-border);}
+.kui-query-scheme-tag {display:inline-block;padding:1px 10px;font-size:12px;border:1px solid var(--ant-primary-color);border-radius:12px;color:var(--ant-primary-color);cursor:pointer;white-space:nowrap;line-height:1.8;}
+.kui-query-scheme-tag:hover {background:var(--ant-primary-color);color:#fff;}
+.kui-query-scheme-tag.active {background:var(--ant-primary-color);color:#fff;font-weight:500;}
 .ant-tabs-tabpane > .kui-table-page > .kui-query {margin-bottom:0;padding:4.035px 10px;}
 
 /*Toolbar*/

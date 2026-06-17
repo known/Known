@@ -188,7 +188,8 @@ public class TableModel : BaseModel
     /// 显示高级搜索对话框。
     /// </summary>
     /// <param name="app">系统模板对象。</param>
-    public void ShowAdvancedSearch(BaseLayout app)
+    /// <param name="onClose">对话框关闭时的回调。</param>
+    public void ShowAdvancedSearch(BaseLayout app, Func<Task> onClose = null)
     {
         AdvancedSearch search = null;
         var isAutoClose = true;
@@ -199,20 +200,22 @@ public class TableModel : BaseModel
             Content = b => b.Component<AdvancedSearch>()
                             .Set(c => c.TableId, TableId)
                             .Set(c => c.Columns, AllColumns)
-                            .Build(value => search = value)
+                            .Build(value => search = value),
+            FooterLeft = b => b.CheckBox(new InputModel<bool>
+            {
+                Label = Language.CloseAdvSearchForm,
+                Value = isAutoClose,
+                ValueChanged = Component.Callback<bool>(value => isAutoClose = value)
+            })
         };
-        model.FooterLeft = b => b.CheckBox(new InputModel<bool>
-        {
-            Label = Language.CloseAdvSearchForm,
-            Value = isAutoClose,
-            ValueChanged = Component.Callback<bool>(value => isAutoClose = value)
-        });
         model.OnOk = async () =>
         {
             await app.QueryDataAsync(async () =>
             {
                 Criteria.Query = await search?.SaveQueryAsync();
                 await RefreshAsync();
+                if (onClose != null)
+                    await onClose.Invoke();
                 if (isAutoClose)
                     await model.CloseAsync();
             });
