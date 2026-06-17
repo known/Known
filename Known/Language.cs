@@ -637,6 +637,7 @@ public class Language
     internal const string TipConditionGroup = "请点击「添加条件组」按钮添加查询条件分组，不同分组之间为 OR 关系。";
     internal const string TipGroupHeader = "组 {index}（组内条件为 AND 关系）";
     internal const string TipSelectScheme = "请输入方案名称！";
+    internal const string TipDeleteScheme = "请先在下拉框中选择要删除的方案！";
 
     internal const string PleaseSelect = "请选择";
     internal const string PleaseSelectInput = "请选择或输入";

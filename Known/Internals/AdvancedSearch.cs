@@ -116,6 +116,7 @@ class AdvancedSearch : BaseComponent
                 BuildNormalContent(builder);
             else
                 BuildAdvancedContent(builder);
+            BuildSchemeBar(builder);
         });
     }
 
@@ -183,26 +184,24 @@ class AdvancedSearch : BaseComponent
         {
             var group = Groups[i];
             builder.Div("kui-adv-search-group", () =>
-        {
-            BuildGroupHeader(builder, i, group);
-            foreach (var condition in group.Conditions)
             {
-                if (!condition.IsNew && !Columns.Exists(c => c.Id == condition.Id))
-                    continue;
-
-                builder.Div("item", () =>
+                BuildGroupHeader(builder, i, group);
+                foreach (var condition in group.Conditions)
                 {
-                    builder.Component<AdvancedSearchItem>()
-                           .Set(c => c.Columns, Columns)
-                           .Set(c => c.Item, condition)
-                           .Build();
-                    builder.Button(new ActionInfo(Language.Delete), this.Callback<MouseEventArgs>(e => OnDeleteCondition(group, condition)));
-                });
-            }
-        });
-        }
+                    if (!condition.IsNew && !Columns.Exists(c => c.Id == condition.Id))
+                        continue;
 
-        BuildSchemeBar(builder);
+                    builder.Div("item", () =>
+                    {
+                        builder.Component<AdvancedSearchItem>()
+                               .Set(c => c.Columns, Columns)
+                               .Set(c => c.Item, condition)
+                               .Build();
+                        builder.Button(new ActionInfo(Language.Delete), this.Callback<MouseEventArgs>(e => OnDeleteCondition(group, condition)));
+                    });
+                }
+            });
+        }
     }
 
     private void BuildGroupHeader(RenderTreeBuilder builder, int index, QueryGroup group)
@@ -225,7 +224,7 @@ class AdvancedSearch : BaseComponent
         {
             builder.Span(Language[Language.QueryScheme]);
 
-            var schemeCodes = Schemes.Select(s => new CodeInfo(s.Id, s.Name)).ToList();
+            var schemeCodes = Schemes.Where(s => s.Mode == _mode).Select(s => new CodeInfo(s.Id, s.Name)).ToList();
             if (schemeCodes.Count > 0)
             {
                 builder.Div("kui-adv-search-select", () =>
@@ -312,8 +311,14 @@ class AdvancedSearch : BaseComponent
     private async void OnDeleteScheme(MouseEventArgs args)
     {
         if (Schemes.Count == 0) return;
-        var last = Schemes[^1];
-        Schemes.Remove(last);
+        var scheme = Schemes.FirstOrDefault(s => s.Id == _schemeId);
+        if (scheme == null)
+        {
+            UI.Alert(Language.TipDeleteScheme);
+            return;
+        }
+        Schemes.Remove(scheme);
+        _schemeId = null;
         await SaveSchemesAsync();
         StateChanged();
     }
