@@ -5,6 +5,10 @@
         <KListBox ShowSearch AddButtonText="添加报表" DataSource="items" OnAddClick="OnAddClick" OnItemClick="OnReportClick">
             <ItemTemplate>
                 <KFlexSpace>
+                    @if (context.Category == "System")
+                    {
+                        <KIcon Icon="pushpin" Style="color:var(--ant-primary-color);font-size:12px;" />
+                    }
                     <div>@context.Name</div>
                     @if (context.IsActive)
                     {
@@ -20,19 +24,34 @@
             <div class="kui-report-preview-title">
                 <KIcon Icon="file-text" />
                 <span>@currentReport.Name</span>
+                @if (currentReport.IsFixed)
+                {
+                    <KTag Color="blue" Text="系统" />
+                }
             </div>
-            @if (reportType == ReportType.Chart || reportType == ReportType.Combination)
+            if (blocks != null && blocks.Count > 0)
             {
-                <div class="kui-report-chart">
-                    <KChart @ref="chart" Type="@chartConfig?.ChartType"
-                            Width="@(chartConfig?.Width ?? 600)"
-                            Height="@(chartConfig?.Height ?? 400)" />
-                </div>
-            }
-            @if (reportType == ReportType.Table || reportType == ReportType.Combination)
-            {
-                <div class="kui-report-table">
-                    <KTable Model="tableModel" />
+                <div class="kui-report-blocks-grid">
+                    @for (int i = 0; i < blocks.Count; i++)
+                    {
+                        var block = blocks[i];
+                        var colSpan = Math.Clamp(block.Width.Value, 4, 24);
+                        var idx = i;
+                        <div class="kui-report-block" style="grid-column: span @colSpan / span @colSpan">
+                            @if (block.BlockType == "Chart")
+                            {
+                                <div class="kui-report-block-title">@block.Title</div>
+                                <KChart @ref="chartRefs[idx]" Type="@(block.Chart?.ChartType ?? "bar")"
+                                        Width="@(block.Chart?.Width ?? 600)"
+                                        Height="@(block.Chart?.Height ?? 400)" />
+                            }
+                            else
+                            {
+                                <div class="kui-report-block-title">@block.Title</div>
+                                <KTable TItem="Dictionary<string, object>" Model="GetTableModel(block)" />
+                            }
+                        </div>
+                    }
                 </div>
             }
         }

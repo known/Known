@@ -12,67 +12,152 @@
             <AntInput @bind-Value="context.Note" />
         </DataItem>
     </AntRow>
+</ReportTypeForm>
 
-    @if (context.Type == "Chart" || context.Type == "Combination")
+<KGroupBox Title="报表块">
+    <KFlexSpace>
+        <div>
+            <KButton Icon="bar-chart" Name="添加图表" OnClick="OnAddChartBlock" />
+            <KButton Icon="table" Name="添加表格" OnClick="OnAddTableBlock" />
+        </div>
+    </KFlexSpace>
+
+    @if (blocks != null && blocks.Count > 0)
+    {
+        <div class="kui-report-blocks">
+            @foreach (var block in blocks)
+            {
+                var isActive = selectedBlock?.Id == block.Id;
+                <div class="kui-report-block-card @(isActive ? "is-active" : "")"
+                     @onclick="() => OnSelectBlock(block)">
+                    <KFlexSpace>
+                        <span class="kui-report-block-type">@GetBlockTypeName(block.BlockType)</span>
+                        <span class="kui-report-block-title">@block.Title</span>
+                        <AntDropdown Model="GetBlockMenu(block)" />
+                    </KFlexSpace>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <Empty Description="@Language["暂无块，请点击上方按钮添加"]" />
+    }
+</KGroupBox>
+
+@if (selectedBlock != null)
+{
+    if (selectedBlock.BlockType == "Chart")
     {
         <KGroupBox Title="图表配置">
             <AntRow>
-                <DataItem Span="8" Label="图表类型">
-                    <AntSelectCode @bind-Value="chartConfig.ChartType" DataSource="ChartTypes" />
+                <DataItem Span="8" Label="数据来源">
+                    <AntSelectCode @bind-Value="selectedBlock.DataSource.SourceType" DataSource="SourceTypes" />
                 </DataItem>
                 <DataItem Span="8" Label="标题">
-                    <AntInput @bind-Value="chartConfig.Title" />
+                    <AntInput @bind-Value="selectedBlock.Title" />
                 </DataItem>
-                <DataItem Span="4" Label="宽度">
-                    <AntInteger @bind-Value="chartConfig.Width" />
+                <DataItem Span="4" Label="宽度(列)">
+                    <AntInteger @bind-Value="selectedBlock.Width" Min="4" Max="24" />
                 </DataItem>
                 <DataItem Span="4" Label="高度">
-                    <AntInteger @bind-Value="chartConfig.Height" />
+                    <AntInteger @bind-Value="selectedBlock.Chart.Height" />
+                </DataItem>
+            </AntRow>
+            @if (selectedBlock.DataSource.SourceType == "Table" || selectedBlock.DataSource.SourceType == "SQL")
+            {
+                <AntRow>
+                    <DataItem Span="24" Label="数据源名称">
+                        <AntInput @bind-Value="selectedBlock.DataSource.SourceName" />
+                    </DataItem>
+                </AntRow>
+            }
+            @if (selectedBlock.DataSource.SourceType == "Api")
+            {
+                <AntRow>
+                    <DataItem Span="12" Label="请求地址">
+                        <AntInput @bind-Value="selectedBlock.DataSource.RequestUrl" />
+                    </DataItem>
+                    <DataItem Span="12" Label="请求方式">
+                        <AntSelectCode @bind-Value="selectedBlock.DataSource.RequestMethod" DataSource="RequestMethods" />
+                    </DataItem>
+                </AntRow>
+            }
+            <AntRow>
+                <DataItem Span="8" Label="图表类型">
+                    <AntSelectCode @bind-Value="selectedBlock.Chart.ChartType" DataSource="ChartTypes" />
+                </DataItem>
+                <DataItem Span="8" Label="X轴字段">
+                    <AntInput @bind-Value="selectedBlock.Chart.XField" />
+                </DataItem>
+                <DataItem Span="8" Label="Y轴字段">
+                    <AntInput @bind-Value="selectedBlock.Chart.YField" />
                 </DataItem>
             </AntRow>
             <AntRow>
-                <DataItem Span="8" Label="X轴字段">
-                    <AntInput @bind-Value="chartConfig.XField" />
-                </DataItem>
-                <DataItem Span="8" Label="Y轴字段">
-                    <AntInput @bind-Value="chartConfig.YField" />
-                    <div style="color:#999;font-size:12px;">多个字段用逗号分隔</div>
-                </DataItem>
                 <DataItem Span="8" Label="分组字段">
-                    <AntInput @bind-Value="chartConfig.CategoryField" />
+                    <AntInput @bind-Value="selectedBlock.Chart.CategoryField" />
                 </DataItem>
             </AntRow>
         </KGroupBox>
     }
-</ReportTypeForm>
-@if (Model.Data.Type == "Table" || Model.Data.Type == "Combination")
-{
-    <KGroupBox Title="表格配置">
-        <KFlexSpace>
-            <KTitle Text="列定义" />
-            <div>
+    else if (selectedBlock.BlockType == "Table")
+    {
+        <KGroupBox Title="表格配置">
+            <AntRow>
+                <DataItem Span="8" Label="数据来源">
+                    <AntSelectCode @bind-Value="selectedBlock.DataSource.SourceType" DataSource="SourceTypes" />
+                </DataItem>
+                <DataItem Span="8" Label="标题">
+                    <AntInput @bind-Value="selectedBlock.Title" />
+                </DataItem>
+                <DataItem Span="4" Label="宽度(列)">
+                    <AntInteger @bind-Value="selectedBlock.Width" Min="4" Max="24" />
+                </DataItem>
+            </AntRow>
+            @if (selectedBlock.DataSource.SourceType == "Table" || selectedBlock.DataSource.SourceType == "SQL")
+            {
+                <AntRow>
+                    <DataItem Span="24" Label="数据源名称">
+                        <AntInput @bind-Value="selectedBlock.DataSource.SourceName" />
+                    </DataItem>
+                </AntRow>
+            }
+            @if (selectedBlock.DataSource.SourceType == "Api")
+            {
+                <AntRow>
+                    <DataItem Span="12" Label="请求地址">
+                        <AntInput @bind-Value="selectedBlock.DataSource.RequestUrl" />
+                    </DataItem>
+                    <DataItem Span="12" Label="请求方式">
+                        <AntSelectCode @bind-Value="selectedBlock.DataSource.RequestMethod" DataSource="RequestMethods" />
+                    </DataItem>
+                </AntRow>
+            }
+            <KFlexSpace>
+                <KTitle Text="列定义" />
                 <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
-            </div>
-        </KFlexSpace>
-        <ColumnConfigTable DataSource="tableConfig.Columns" ScrollY="200px" HidePagination>
-            <TableColumn Title="字段名" Width="150" Value="@context.Field">
-                <AntInput @bind-Value="context.Field" />
-            </TableColumn>
-            <TableColumn Title="标题" Width="150" Value="@context.Title">
-                <AntInput @bind-Value="context.Title" />
-            </TableColumn>
-            <TableColumn Title="类型" Width="100" Value="@context.Type">
-                <AntSelectCode @bind-Value="context.Type" Category="text,number,date" />
-            </TableColumn>
-            <TableColumn Title="宽度" Width="80" Value="@context.Width">
-                <AntInteger @bind-Value="context.Width" />
-            </TableColumn>
-            <TableColumn Title="对齐" Width="80" Value="@context.Align">
-                <AntSelectCode @bind-Value="context.Align" Category="left,center,right" />
-            </TableColumn>
-            <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
-            </ActionColumn>
-        </ColumnConfigTable>
-    </KGroupBox>
+            </KFlexSpace>
+            <ColumnConfigTable DataSource="selectedBlock.Table.Columns" ScrollY="200px" HidePagination>
+                <TableColumn Title="字段名" Width="150" Value="@context.Field">
+                    <AntInput @bind-Value="context.Field" />
+                </TableColumn>
+                <TableColumn Title="标题" Width="150" Value="@context.Title">
+                    <AntInput @bind-Value="context.Title" />
+                </TableColumn>
+                <TableColumn Title="类型" Width="100" Value="@context.Type">
+                    <AntSelectCode @bind-Value="context.Type" Category="text,number,date" />
+                </TableColumn>
+                <TableColumn Title="宽度" Width="80" Value="@context.Width">
+                    <AntInteger @bind-Value="context.Width" />
+                </TableColumn>
+                <TableColumn Title="对齐" Width="80" Value="@context.Align">
+                    <AntSelectCode @bind-Value="context.Align" Category="left,center,right" />
+                </TableColumn>
+                <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                    <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
+                </ActionColumn>
+            </ColumnConfigTable>
+        </KGroupBox>
+    }
 }

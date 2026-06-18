@@ -10,12 +10,14 @@ public class SysReport : EntityBase
     /// 取得或设置子系统ID。
     /// </summary>
     [MaxLength(50)]
+    [Column]
     [DisplayName("子系统ID")]
     public string SysId { get; set; }
 
     /// <summary>
     /// 取得或设置是否是系统固定的，不能删除的报表。
     /// </summary>
+    [Column]
     [DisplayName("是否固定")]
     public bool IsFixed { get; set; }
 

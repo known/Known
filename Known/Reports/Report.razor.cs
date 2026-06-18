@@ -1,7 +1,7 @@
 ﻿namespace Known.Reports;
 
 /// <summary>
-/// 报表中心页面组件类。
+/// 报表页面组件。
 /// </summary>
 public partial class Report
 {
@@ -9,17 +9,12 @@ public partial class Report
     private List<SysReport> reports = [];
     private List<CodeInfo> items = [];
     private SysReport currentReport;
-    private ReportType reportType;
-    private ReportConfig reportConfig;
-    private ChartConfig chartConfig;
-    private TableConfig tableConfig;
-    private KChart chart;
-    private TableModel<Dictionary<string, object>> tableModel;
-    private ReportForm settingRef;
-    private bool needsChartRefresh;
+    private List<ReportBlock> blocks = [];
+    private readonly List<KChart?> chartRefs = [];
+    private readonly Dictionary<string, TableModel<Dictionary<string, object>>> tableModels = [];
 
     /// <summary>
-    /// 取得系统ID。
+    /// 取得子系统ID。
     /// </summary>
     public virtual string SysId { get; } = Config.App.Id;
 
@@ -28,13 +23,6 @@ public partial class Report
     {
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IReportService>();
-        tableModel = new TableModel<Dictionary<string, object>>(this)
-        {
-            IsAutoLoad = false,
-            ShowPager = false,
-            ShowSetting = false,
-            FixedHeight = "400px"
-        };
         await LoadReportsAsync();
     }
 
@@ -42,23 +30,20 @@ public partial class Report
     protected override async Task OnRenderAsync(bool firstRender)
     {
         await base.OnRenderAsync(firstRender);
-        if (firstRender)
-        {
-            if (currentReport != null)
-                await ShowReportAsync(currentReport);
-        }
-
-        if (needsChartRefresh)
-        {
-            needsChartRefresh = false;
-            await ShowChartAsync();
-        }
+        if (firstRender && currentReport != null)
+            await ShowReportAsync(currentReport);
     }
 
     private async Task LoadReportsAsync()
     {
-        var reports = await Service.GetReportsAsync(SysId);
-        items = [.. reports.Select(r => new CodeInfo(r.Id, r.Name))];
+        reports = await Service.GetReportsAsync(SysId);
+        items = [.. reports.Select(r => new CodeInfo(
+            r.IsFixed ? "System" : "",
+            r.Id,
+            r.Name,
+            null
+        ))];
+        StateChanged();
     }
 
     private async Task OnReportClick(CodeInfo item)
@@ -83,8 +68,7 @@ public partial class Report
             if (currentReport?.Id == item.Id)
             {
                 currentReport = null;
-                reportType = ReportType.Table;
-                chartConfig = null;
+                blocks = [];
                 StateChanged();
             }
         }
@@ -96,7 +80,7 @@ public partial class Report
         {
             Title = item.IsNew ? "新建报表" : "编辑报表",
             Type = typeof(ReportForm),
-            Info = new FormInfo { Width = 1000 },
+            Info = new FormInfo { Width = 1100 },
             Data = item,
             OnSave = Service.SaveReportAsync,
             OnSaved = async d => await LoadReportsAsync()
@@ -109,39 +93,70 @@ public partial class Report
         if (report == null)
             return;
 
-        reportConfig = !string.IsNullOrWhiteSpace(report.Config)
+        var config = !string.IsNullOrWhiteSpace(report.Config)
             ? Utils.FromJson<ReportConfig>(report.Config) ?? new ReportConfig()
             : new ReportConfig();
 
-        reportType = (report.Type ?? "Table") switch
+        blocks = config.Blocks ?? [];
+
+        if (blocks.Count == 0)
         {
-            "Table" => ReportType.Table,
-            "Chart" => ReportType.Chart,
-            "Combination" => ReportType.Combination,
-            _ => ReportType.Table
-        };
+            if (config.Charts?.Count > 0)
+            {
+                foreach (var chart in config.Charts)
+                    blocks.Add(new ReportBlock
+                    {
+                        BlockType = "Chart",
+                        Title = chart.Title,
+                        Width = 12,
+                        Chart = chart,
+                        DataSource = chart.DataSource ?? new DataSourceConfig()
+                    });
+            }
+            if (config.Tables?.Count > 0)
+            {
+                foreach (var table in config.Tables)
+                    blocks.Add(new ReportBlock
+                    {
+                        BlockType = "Table",
+                        Title = "数据表格",
+                        Width = 12,
+                        Table = table,
+                        DataSource = table.DataSource ?? new DataSourceConfig()
+                    });
+            }
+        }
 
-        chartConfig = reportConfig.Charts?.FirstOrDefault();
-        tableConfig = reportConfig.Tables?.FirstOrDefault();
+        chartRefs.Clear();
+        tableModels.Clear();
+        for (int i = 0; i < blocks.Count; i++)
+            chartRefs.Add(null);
 
-        if (reportType == ReportType.Table || reportType == ReportType.Combination)
-            SetupTable();
-
-        if (reportType == ReportType.Chart || reportType == ReportType.Combination)
-            needsChartRefresh = true;
+        foreach (var block in blocks.Where(b => b.BlockType == "Table"))
+        {
+            var model = new TableModel<Dictionary<string, object>>(this)
+            {
+                IsAutoLoad = false,
+                ShowPager = false,
+                ShowSetting = false,
+                FixedHeight = "400px"
+            };
+            SetupTable(model, block);
+            tableModels[block.Id] = model;
+        }
 
         StateChanged();
     }
 
-    private void SetupTable()
+    private void SetupTable(TableModel<Dictionary<string, object>> model, ReportBlock block)
     {
-        tableModel.Clear();
+        model.Clear();
 
-        if (tableConfig?.Columns != null)
+        if (block?.Table?.Columns != null)
         {
-            foreach (var col in tableConfig.Columns)
+            foreach (var col in block.Table.Columns)
             {
-                tableModel.Columns.Add(new ColumnInfo
+                model.Columns.Add(new ColumnInfo
                 {
                     Id = col.Field,
                     Name = col.Title,
@@ -152,31 +167,37 @@ public partial class Report
         }
     }
 
-    private async Task ShowChartAsync()
+    private TableModel<Dictionary<string, object>> GetTableModel(ReportBlock block)
     {
-        if (chart == null || chartConfig == null)
-            return;
-
-        var data = new List<ChartDataInfo>();
-        if (chartConfig.ChartType == "bar")
-            await chart.ShowBarAsync(chartConfig.Title, [.. data]);
-        else if (chartConfig.ChartType == "line")
-            await chart.ShowLineAsync(chartConfig.Title, [.. data]);
+        return tableModels.TryGetValue(block.Id, out var model) ? model : null;
     }
 
     private DropdownModel GetDropdownModel(CodeInfo item)
     {
         var report = reports.FirstOrDefault(r => r.Id == item.Code);
-        return new DropdownModel
+        if (report == null)
+            return null;
+
+        var menuItems = new List<ActionInfo>();
+
+        if (!report.IsFixed)
+        {
+            menuItems.Add(new ActionInfo(Language.Edit)
+            {
+                OnClick = this.Callback<MouseEventArgs>(e => OnEditClick(report))
+            });
+            menuItems.Add(new ActionInfo(Language.Delete)
+            {
+                OnClick = this.Callback<MouseEventArgs>(e => OnDeleteClick(report))
+            });
+        }
+
+        return menuItems.Count > 0 ? new DropdownModel
         {
             Icon = "menu",
             TriggerType = "Click",
             Tooltip = Language.Action,
-            Items =
-            [
-                new ActionInfo(Language.Edit) { OnClick = this.Callback<MouseEventArgs>(e => OnEditClick(report)) },
-                new ActionInfo(Language.Delete) { OnClick = this.Callback<MouseEventArgs>(e => OnDeleteClick(report)) }
-            ]
-        };
+            Items = menuItems
+        } : null;
     }
 }
