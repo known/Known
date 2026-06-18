@@ -8,12 +8,12 @@ public enum ReportBlockType
     /// <summary>
     /// 表格。
     /// </summary>
-    [Description("表格")]
+    [Display(Name = "表格")]
     Table,
     /// <summary>
     /// 图表。
     /// </summary>
-    [Description("图表")]
+    [Display(Name = "图表")]
     Chart
 }
 
@@ -25,22 +25,22 @@ public enum DataSourceType
     /// <summary>
     /// 示例数据。
     /// </summary>
-    [Description("示例数据")]
+    [Display(Name = "示例数据")]
     Sample,
     /// <summary>
     /// 数据库表。
     /// </summary>
-    [Description("数据库表")]
+    [Display(Name = "数据库表")]
     Table,
     /// <summary>
     /// SQL语句。
     /// </summary>
-    [Description("SQL语句")]
+    [Display(Name = "SQL语句")]
     SQL,
     /// <summary>
     /// API接口。
     /// </summary>
-    [Description("API接口")]
+    [Display(Name = "API接口")]
     Api
 }
 
@@ -52,26 +52,26 @@ public enum ChartType
     /// <summary>
     /// 柱状图。
     /// </summary>
-    [Description("柱状图")]
+    [Display(Name = "柱状图")]
     Bar,
     /// <summary>
     /// 折线图。
     /// </summary>
-    [Description("折线图")]
+    [Display(Name = "折线图")]
     Line,
     /// <summary>
     /// 饼图。
     /// </summary>
-    [Description("饼图")]
+    [Display(Name = "饼图")]
     Pie,
     /// <summary>
     /// 面积图。
     /// </summary>
-    [Description("面积图")]
+    [Display(Name = "面积图")]
     Area,
     /// <summary>
     /// 散点图。
     /// </summary>
-    [Description("散点图")]
+    [Display(Name = "散点图")]
     Scatter
 }

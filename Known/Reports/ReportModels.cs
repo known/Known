@@ -34,7 +34,7 @@ public class DataSourceConfig
     /// <summary>
     /// 取得或设置API请求方式。
     /// </summary>
-    public RequestMethodType RequestMethod { get; set; }
+    public string RequestMethod { get; set; }
 
     /// <summary>
     /// 取得或设置API请求地址。

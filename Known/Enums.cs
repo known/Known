@@ -344,23 +344,6 @@ public enum StyleType
 }
 
 /// <summary>
-/// 请求方法枚举。
-/// </summary>
-public enum RequestMethodType
-{
-    /// <summary>
-    /// GET请求。
-    /// </summary>
-    [Description("GET")]
-    GET,
-    /// <summary>
-    /// POST请求。
-    /// </summary>
-    [Description("POST")]
-    POST
-}
-
-/// <summary>
 /// 对齐方式枚举。
 /// </summary>
 public enum AlignType
