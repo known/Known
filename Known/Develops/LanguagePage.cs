@@ -1,4 +1,4 @@
-﻿namespace Known.Pages.Develop;
+﻿namespace Known.Develops;
 
 /// <summary>
 /// 多语言管理开发插件页面组件类。

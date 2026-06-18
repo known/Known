@@ -1,4 +1,4 @@
-﻿namespace Known.Pages.Develop;
+﻿namespace Known.Develops;
 
 /// <summary>
 /// 代码生成开发插件页面组件类。
@@ -14,7 +14,7 @@ public class CodingPage : BasePage
     private CodeModelInfo Model = new();
     private KListPanel listPanel;
 
-    private List<CodeInfo> ListData => [.. Models?.Select(m => new CodeInfo(m.Id, m.Name))];
+    private List<CodeInfo> ListData => [.. Models.Select(m => new CodeInfo(m?.Id, m?.Name))];
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()

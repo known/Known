@@ -1,4 +1,4 @@
-namespace Known.Pages.Develop;
+namespace Known.Develops;
 
 /// <summary>
 /// 我的租户页面组件类。

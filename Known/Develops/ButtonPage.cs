@@ -1,4 +1,4 @@
-﻿namespace Known.Pages.Develop;
+﻿namespace Known.Develops;
 
 /// <summary>
 /// 按钮管理开发插件页面组件类。

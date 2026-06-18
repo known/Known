@@ -1,4 +1,4 @@
-﻿namespace Known.Services;
+﻿namespace Known.Develops;
 
 /// <summary>
 /// 模块服务接口。

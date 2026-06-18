@@ -1,4 +1,4 @@
-﻿namespace Known.Services;
+﻿namespace Known.Develops;
 
 /// <summary>
 /// 语言服务接口。

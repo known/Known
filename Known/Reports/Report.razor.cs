@@ -10,7 +10,7 @@ public partial class Report
     private List<CodeInfo> items = [];
     private SysReport currentReport;
     private List<ReportBlock> blocks = [];
-    private readonly List<KChart?> chartRefs = [];
+    private readonly List<KChart> chartRefs = [];
     private readonly Dictionary<string, TableModel<Dictionary<string, object>>> tableModels = [];
 
     /// <summary>

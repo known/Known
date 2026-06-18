@@ -59,7 +59,7 @@ public class CodeFieldInfo : FieldInfo
     /// <summary>
     /// 取得或设置表单栏位信息。
     /// </summary>
-    public FormFieldInfo Field { get; set; }
+    public FormFieldInfo FormField { get; set; }
 
     internal PageColumnInfo ToPageColumn()
     {
@@ -76,7 +76,7 @@ public class CodeFieldInfo : FieldInfo
 
     internal FormFieldInfo ToFormField()
     {
-        Field ??= new FormFieldInfo
+        FormField ??= new FormFieldInfo
         {
             Id = Id,
             Name = Name,
@@ -85,7 +85,7 @@ public class CodeFieldInfo : FieldInfo
             Required = Required,
             IsKey = IsKey
         };
-        return Field;
+        return FormField;
     }
 
     /// <summary>

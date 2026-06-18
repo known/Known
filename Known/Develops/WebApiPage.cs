@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Known.Pages.Develop;
+namespace Known.Develops;
 
 /// <summary>
 /// WebApi文档组件类。

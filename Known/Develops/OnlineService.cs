@@ -1,4 +1,4 @@
-﻿namespace Known.Services;
+﻿namespace Known.Develops;
 
 /// <summary>
 /// 在线信息服务接口。
