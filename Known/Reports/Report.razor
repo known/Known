@@ -1,0 +1,44 @@
+﻿@inherits BasePage
+
+<div class="kui-row-28">
+    <div class="kui-card">
+        <KListBox ShowSearch AddButtonText="添加报表" DataSource="items" OnAddClick="OnAddClick" OnItemClick="OnReportClick">
+            <ItemTemplate>
+                <KFlexSpace>
+                    <div>@context.Name</div>
+                    @if (context.IsActive)
+                    {
+                        <AntDropdown Model="GetDropdownModel(context)" />
+                    }
+                </KFlexSpace>
+            </ItemTemplate>
+        </KListBox>
+    </div>
+    <div class="kui-card">
+        @if (currentReport != null)
+        {
+            <div class="kui-report-preview-title">
+                <KIcon Icon="file-text" />
+                <span>@currentReport.Name</span>
+            </div>
+            @if (reportType == ReportDisplayType.Chart || reportType == ReportDisplayType.Combination)
+            {
+                <div class="kui-report-chart">
+                    <KChart @ref="chart" Type="@chartConfig?.ChartType"
+                            Width="@(chartConfig?.Width ?? 600)"
+                            Height="@(chartConfig?.Height ?? 400)" />
+                </div>
+            }
+            @if (reportType == ReportDisplayType.Table || reportType == ReportDisplayType.Combination)
+            {
+                <div class="kui-report-table">
+                    <KTable TItem="Dictionary<string, object>" Model="tableModel" />
+                </div>
+            }
+        }
+        else
+        {
+            <Empty Description="@Language["请从左侧选择一个报表"]" />
+        }
+    </div>
+</div>

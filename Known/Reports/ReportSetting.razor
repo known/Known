@@ -1,0 +1,82 @@
+@inherits BaseComponent
+
+<ReportTypeForm Model="model">
+    <KGroupBox Title="基本信息">
+        <AntRow>
+            <DataItem Span="12" Label="报表名称" Required>
+                <AntInput @bind-Value="model.Name" />
+            </DataItem>
+            <DataItem Span="12" Label="报表类型" Required>
+                <AntSelectCode @bind-Value="model.Type" DataSource="Types" />
+            </DataItem>
+        </AntRow>
+        <AntRow>
+            <DataItem Span="24" Label="备注">
+                <AntTextArea @bind-Value="model.Note" />
+            </DataItem>
+        </AntRow>
+    </KGroupBox>
+
+    @if (model.Type == "Chart" || model.Type == "Combination")
+    {
+        <KGroupBox Title="图表配置">
+            <AntRow>
+                <DataItem Span="8" Label="图表类型">
+                    <AntSelectCode @bind-Value="chartConfig.ChartType" DataSource="ChartTypes" />
+                </DataItem>
+                <DataItem Span="8" Label="标题">
+                    <AntInput @bind-Value="chartConfig.Title" />
+                </DataItem>
+                <DataItem Span="4" Label="宽度">
+                    <AntInteger @bind-Value="chartConfig.Width" />
+                </DataItem>
+                <DataItem Span="4" Label="高度">
+                    <AntInteger @bind-Value="chartConfig.Height" />
+                </DataItem>
+            </AntRow>
+            <AntRow>
+                <DataItem Span="8" Label="X轴字段">
+                    <AntInput @bind-Value="chartConfig.XField" />
+                </DataItem>
+                <DataItem Span="8" Label="Y轴字段">
+                    <AntInput @bind-Value="chartConfig.YField" />
+                    <div style="color:#999;font-size:12px;">多个字段用逗号分隔</div>
+                </DataItem>
+                <DataItem Span="8" Label="分组字段">
+                    <AntInput @bind-Value="chartConfig.CategoryField" />
+                </DataItem>
+            </AntRow>
+        </KGroupBox>
+    }
+</ReportTypeForm>
+@if (model.Type == "Table" || model.Type == "Combination")
+{
+    <KGroupBox Title="表格配置">
+        <KFlexSpace>
+            <KTitle Text="列定义" />
+            <div>
+                <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
+            </div>
+        </KFlexSpace>
+        <ColumnConfigTable DataSource="tableConfig.Columns" ScrollY="200px" HidePagination>
+            <TableColumn Title="字段名" Width="150" Value="@context.Field">
+                <AntInput @bind-Value="context.Field" />
+            </TableColumn>
+            <TableColumn Title="标题" Width="150" Value="@context.Title">
+                <AntInput @bind-Value="context.Title" />
+            </TableColumn>
+            <TableColumn Title="类型" Width="100" Value="@context.Type">
+                <AntSelectCode @bind-Value="context.Type" Category="text,number,date" />
+            </TableColumn>
+            <TableColumn Title="宽度" Width="80" Value="@context.Width">
+                <AntInteger @bind-Value="context.Width" />
+            </TableColumn>
+            <TableColumn Title="对齐" Width="80" Value="@context.Align">
+                <AntSelectCode @bind-Value="context.Align" Category="left,center,right" />
+            </TableColumn>
+            <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
+            </ActionColumn>
+        </ColumnConfigTable>
+    </KGroupBox>
+}

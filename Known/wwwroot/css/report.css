@@ -1,0 +1,14 @@
+/* Report */
+.kui-report-preview-title {
+    font-size:16px;font-weight:600;margin:0 8px 10px 8px;padding:8px;
+    border-bottom:2px solid var(--ant-primary-color);
+}
+.kui-report-chart {display:flex;justify-content:center;padding:16px 0; }
+.kui-report-table {margin-top:16px; }
+.kui-report-combination .kui-report-table {margin-top:24px;padding-top:16px;border-top:1px solid #f0f0f0;}
+
+/* Setting dialog */
+.kui-report-setting {min-height:400px;}
+.kui-report-setting .kui-report-setting-type {margin-bottom:16px;}
+.kui-report-setting .ant-form-item {margin-bottom:12px;}
+.kui-report-setting .kui-group-box + .kui-group-box {margin-top:16px;}

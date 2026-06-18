@@ -6,8 +6,6 @@ namespace Known.Sample.Reports;
 /// <summary>
 /// 报表中心页面组件类。
 /// </summary>
-[Route("/sys/reports")]
-[Menu(Constants.System, "报表中心", "bar-chart", 7)]
 public partial class ReportList
 {
     private IReportService Service;
