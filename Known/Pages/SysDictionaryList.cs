@@ -47,6 +47,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KListTable<SysDictionary>>()
+               .Set(c => c.ListAddButtonText, Language.AddCategory)
                .Set(c => c.ListData, ListData)
                .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.OnAddClick, this.Callback<MouseEventArgs>(e => AddCategory()))
@@ -61,25 +62,6 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
             await LoadCategoriesAsync();
         else
             await base.RefreshAsync();
-    }
-
-    /// <summary>
-    /// 添加数据字典类别。
-    /// </summary>
-    [Action]
-    public void AddCategory()
-    {
-        isAddCategory = true;
-        var model = new DialogModel
-        {
-            Title = Language.AddCategory,
-            Width = 800,
-            Content = b => b.Component<CategoryGrid>()
-                            .Set(c => c.SysId, SysId)
-                            .Set(c => c.OnRefresh, RefreshAsync)
-                            .Build()
-        };
-        UI.ShowDialog(model);
     }
 
     /// <summary>
@@ -134,6 +116,21 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     /// <returns></returns>
     [Action] public Task Import() => Table.ShowImportAsync();
 
+    private void AddCategory()
+    {
+        isAddCategory = true;
+        var model = new DialogModel
+        {
+            Title = Language.AddCategory,
+            Width = 800,
+            Content = b => b.Component<CategoryGrid>()
+                            .Set(c => c.SysId, SysId)
+                            .Set(c => c.OnRefresh, RefreshAsync)
+                            .Build()
+        };
+        UI.ShowDialog(model);
+    }
+
     private Task OnItemClickAsync(CodeInfo info)
     {
         category = info;
@@ -179,6 +176,7 @@ class CategoryGrid : BaseTable<SysDictionary>
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IDictionaryService>();
 
+        Table.Id = "CategoryGrid";
         Table.Name = Language.Category;
         Table.ShowName = false;
         Table.AutoHeight = false;

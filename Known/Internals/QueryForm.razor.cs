@@ -25,7 +25,8 @@ public partial class QueryForm
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        await LoadSchemesAsync();
+        if (IsAdvSearch)
+            await LoadSchemesAsync();
     }
 
     private async Task LoadSchemesAsync()
