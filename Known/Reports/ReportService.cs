@@ -49,10 +49,10 @@ class ReportService(Context context) : ServiceBase(context), IReportService
     /// <inheritdoc />
     public Task<List<Dictionary<string, object>>> QueryBlockDataAsync(ReportBlock block)
     {
-        var sourceType = block?.DataSource?.SourceType ?? "Sample";
+        var sourceType = block?.DataSource?.SourceType ?? DataSourceType.Sample;
         return sourceType switch
         {
-            "Sample" => Task.FromResult(GetSampleTableData(block)),
+            DataSourceType.Sample => Task.FromResult(GetSampleTableData(block)),
             _ => Task.FromResult(GetSampleTableData(block))
         };
     }
@@ -102,7 +102,7 @@ class ReportService(Context context) : ServiceBase(context), IReportService
 
     private static List<Dictionary<string, object>> GetSampleTableData(ReportBlock block)
     {
-        if (block?.BlockType == "Chart")
+        if (block?.BlockType == ReportBlockType.Chart)
         {
             var months = new[] { "一月", "二月", "三月", "四月", "五月", "六月" };
             return months.Select((m, i) => new Dictionary<string, object>

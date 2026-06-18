@@ -30,14 +30,6 @@ public class SysReport : EntityBase
     public string Name { get; set; }
 
     /// <summary>
-    /// 取得或设置报表类型。
-    /// </summary>
-    [Required]
-    [MaxLength(50)]
-    [DisplayName("报表类型")]
-    public string Type { get; set; } = "Table";
-
-    /// <summary>
     /// 取得或设置报表配置，JSON格式字符串。
     /// </summary>
     [DisplayName("配置信息")]

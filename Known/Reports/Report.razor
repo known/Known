@@ -38,10 +38,10 @@
                         var colSpan = Math.Clamp(block.Width.Value, 4, 24);
                         var idx = i;
                         <div class="kui-report-block" style="grid-column: span @colSpan / span @colSpan">
-                            @if (block.BlockType == "Chart")
+                            @if (block.BlockType == ReportBlockType.Chart)
                             {
                                 <div class="kui-report-block-title">@block.Title</div>
-                                <KChart @ref="chartRefs[idx]" Type="@(block.Chart?.ChartType ?? "bar")"
+                                <KChart @ref="chartRefs[idx]" Type="@(block.Chart?.ChartType.ToString().ToLower() ?? "bar")"
                                         Width="@(block.Chart?.Width ?? 600)"
                                         Height="@(block.Chart?.Height ?? 400)" />
                             }

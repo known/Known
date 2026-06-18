@@ -342,3 +342,42 @@ public enum StyleType
     /// </summary>
     Error
 }
+
+/// <summary>
+/// 请求方法枚举。
+/// </summary>
+public enum RequestMethodType
+{
+    /// <summary>
+    /// GET请求。
+    /// </summary>
+    [Description("GET")]
+    GET,
+    /// <summary>
+    /// POST请求。
+    /// </summary>
+    [Description("POST")]
+    POST
+}
+
+/// <summary>
+/// 对齐方式枚举。
+/// </summary>
+public enum AlignType
+{
+    /// <summary>
+    /// 左对齐。
+    /// </summary>
+    [Description("左对齐")]
+    Left,
+    /// <summary>
+    /// 居中对齐。
+    /// </summary>
+    [Description("居中对齐")]
+    Center,
+    /// <summary>
+    /// 右对齐。
+    /// </summary>
+    [Description("右对齐")]
+    Right
+}

@@ -5,10 +5,7 @@
         <DataItem Span="8" Label="报表名称" Required>
             <AntInput @bind-Value="context.Name" />
         </DataItem>
-        <DataItem Span="8" Label="报表类型" Required>
-            <AntRadioGroup @bind-Value="context.Type" Codes="Types" Solid />
-        </DataItem>
-        <DataItem Span="8" Label="备注">
+        <DataItem Span="16" Label="备注">
             <AntInput @bind-Value="context.Note" />
         </DataItem>
     </AntRow>
@@ -31,7 +28,7 @@
                 <div class="kui-report-block-card @(isActive ? "is-active" : "")"
                      @onclick="() => OnSelectBlock(block)">
                     <KFlexSpace>
-                        <span class="kui-report-block-type">@GetBlockTypeName(block.BlockType)</span>
+                        <span class="kui-report-block-type">@block.BlockType.GetDescription()</span>
                         <span class="kui-report-block-title">@block.Title</span>
                         <AntDropdown Model="GetBlockMenu(block)" />
                     </KFlexSpace>
@@ -47,93 +44,98 @@
 
 @if (selectedBlock != null)
 {
-    if (selectedBlock.BlockType == "Chart")
+    if (selectedBlock.BlockType == ReportBlockType.Chart)
     {
         <KGroupBox Title="图表配置">
-            <AntRow>
-                <DataItem Span="8" Label="数据来源">
-                    <AntSelectCode @bind-Value="selectedBlock.DataSource.SourceType" DataSource="SourceTypes" />
-                </DataItem>
-                <DataItem Span="8" Label="标题">
-                    <AntInput @bind-Value="selectedBlock.Title" />
-                </DataItem>
-                <DataItem Span="4" Label="宽度(列)">
-                    <AntInteger @bind-Value="selectedBlock.Width" Min="4" Max="24" />
-                </DataItem>
-                <DataItem Span="4" Label="高度">
-                    <AntInteger @bind-Value="selectedBlock.Chart.Height" />
-                </DataItem>
-            </AntRow>
-            @if (selectedBlock.DataSource.SourceType == "Table" || selectedBlock.DataSource.SourceType == "SQL")
-            {
+            <ReportBlockForm Model="selectedBlock">
                 <AntRow>
-                    <DataItem Span="24" Label="数据源名称">
-                        <AntInput @bind-Value="selectedBlock.DataSource.SourceName" />
+                    <DataItem Span="8" Label="数据来源">
+                        <SelectDataSourceType @bind-Value="context.DataSource.SourceType" />
+                    </DataItem>
+                    <DataItem Span="8" Label="标题">
+                        <AntInput @bind-Value="context.Title" />
+                    </DataItem>
+                    <DataItem Span="4" Label="宽度(列)">
+                        <AntInteger @bind-Value="context.Width" Min="4" Max="24" />
+                    </DataItem>
+                    <DataItem Span="4" Label="高度">
+                        <AntInteger @bind-Value="context.Chart.Height" />
                     </DataItem>
                 </AntRow>
-            }
-            @if (selectedBlock.DataSource.SourceType == "Api")
-            {
+                @if (context.DataSource.SourceType == DataSourceType.Table || context.DataSource.SourceType == DataSourceType.SQL)
+                {
+                    <AntRow>
+                        <DataItem Span="24" Label="数据源名称">
+                            <AntInput @bind-Value="context.DataSource.SourceName" />
+                        </DataItem>
+                    </AntRow>
+                }
+                @if (context.DataSource.SourceType == DataSourceType.Api)
+                {
+                    <AntRow>
+                        <DataItem Span="12" Label="请求地址">
+                            <AntInput @bind-Value="context.DataSource.RequestUrl" />
+                        </DataItem>
+                        <DataItem Span="12" Label="请求方式">
+                            <SelectRequestMethodType @bind-Value="context.DataSource.RequestMethod" />
+                        </DataItem>
+                    </AntRow>
+                }
                 <AntRow>
-                    <DataItem Span="12" Label="请求地址">
-                        <AntInput @bind-Value="selectedBlock.DataSource.RequestUrl" />
+                    <DataItem Span="8" Label="图表类型">
+                        <SelectChartType @bind-Value="context.Chart.ChartType" />
                     </DataItem>
-                    <DataItem Span="12" Label="请求方式">
-                        <AntSelectCode @bind-Value="selectedBlock.DataSource.RequestMethod" DataSource="RequestMethods" />
+                    <DataItem Span="8" Label="X轴字段">
+                        <AntInput @bind-Value="context.Chart.XField" />
+                    </DataItem>
+                    <DataItem Span="8" Label="Y轴字段">
+                        <AntInput @bind-Value="context.Chart.YField" />
                     </DataItem>
                 </AntRow>
-            }
-            <AntRow>
-                <DataItem Span="8" Label="图表类型">
-                    <AntSelectCode @bind-Value="selectedBlock.Chart.ChartType" DataSource="ChartTypes" />
-                </DataItem>
-                <DataItem Span="8" Label="X轴字段">
-                    <AntInput @bind-Value="selectedBlock.Chart.XField" />
-                </DataItem>
-                <DataItem Span="8" Label="Y轴字段">
-                    <AntInput @bind-Value="selectedBlock.Chart.YField" />
-                </DataItem>
-            </AntRow>
-            <AntRow>
-                <DataItem Span="8" Label="分组字段">
-                    <AntInput @bind-Value="selectedBlock.Chart.CategoryField" />
-                </DataItem>
-            </AntRow>
+                <AntRow>
+                    <DataItem Span="8" Label="分组字段">
+                        <AntInput @bind-Value="context.Chart.CategoryField" />
+                    </DataItem>
+                </AntRow>
+            </ReportBlockForm>
         </KGroupBox>
     }
-    else if (selectedBlock.BlockType == "Table")
+    else if (selectedBlock.BlockType == ReportBlockType.Table)
     {
         <KGroupBox Title="表格配置">
-            <AntRow>
-                <DataItem Span="8" Label="数据来源">
-                    <AntSelectCode @bind-Value="selectedBlock.DataSource.SourceType" DataSource="SourceTypes" />
-                </DataItem>
-                <DataItem Span="8" Label="标题">
-                    <AntInput @bind-Value="selectedBlock.Title" />
-                </DataItem>
-                <DataItem Span="4" Label="宽度(列)">
-                    <AntInteger @bind-Value="selectedBlock.Width" Min="4" Max="24" />
-                </DataItem>
-            </AntRow>
-            @if (selectedBlock.DataSource.SourceType == "Table" || selectedBlock.DataSource.SourceType == "SQL")
-            {
+            <ReportBlockForm Model="selectedBlock">
                 <AntRow>
-                    <DataItem Span="24" Label="数据源名称">
-                        <AntInput @bind-Value="selectedBlock.DataSource.SourceName" />
+                    <DataItem Span="8" Label="数据来源">
+                        <SelectDataSourceType @bind-Value="context.DataSource.SourceType" />
+                    </DataItem>
+                    <DataItem Span="8" Label="标题">
+                        <AntInput @bind-Value="context.Title" />
+                    </DataItem>
+                    <DataItem Span="4" Label="宽度(列)">
+                        <AntInteger @bind-Value="context.Width" Min="4" Max="24" />
                     </DataItem>
                 </AntRow>
-            }
-            @if (selectedBlock.DataSource.SourceType == "Api")
-            {
-                <AntRow>
-                    <DataItem Span="12" Label="请求地址">
-                        <AntInput @bind-Value="selectedBlock.DataSource.RequestUrl" />
-                    </DataItem>
-                    <DataItem Span="12" Label="请求方式">
-                        <AntSelectCode @bind-Value="selectedBlock.DataSource.RequestMethod" DataSource="RequestMethods" />
-                    </DataItem>
-                </AntRow>
-            }
+                @if (context.DataSource.SourceType == DataSourceType.Table || context.DataSource.SourceType == DataSourceType.SQL)
+                {
+                    <AntRow>
+                        <DataItem Span="24" Label="数据源名称">
+                            <AntInput @bind-Value="context.DataSource.SourceName" />
+                        </DataItem>
+                    </AntRow>
+                }
+                @if (context.DataSource.SourceType == DataSourceType.Api)
+                {
+                    <AntRow>
+                        <DataItem Span="12" Label="请求地址">
+                            <AntInput @bind-Value="context.DataSource.RequestUrl" />
+                        </DataItem>
+                        <DataItem Span="12" Label="请求方式">
+                            <SelectRequestMethodType @bind-Value="context.DataSource.RequestMethod" />
+                        </DataItem>
+                    </AntRow>
+                }
+            </ReportBlockForm>
+            
             <KFlexSpace>
                 <KTitle Text="列定义" />
                 <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
@@ -146,13 +148,13 @@
                     <AntInput @bind-Value="context.Title" />
                 </TableColumn>
                 <TableColumn Title="类型" Width="100" Value="@context.Type">
-                    <AntSelectCode @bind-Value="context.Type" Category="text,number,date" />
+                    <SelectFieldType @bind-Value="context.Type" />
                 </TableColumn>
                 <TableColumn Title="宽度" Width="80" Value="@context.Width">
                     <AntInteger @bind-Value="context.Width" />
                 </TableColumn>
                 <TableColumn Title="对齐" Width="80" Value="@context.Align">
-                    <AntSelectCode @bind-Value="context.Align" Category="left,center,right" />
+                    <SelectAlignType @bind-Value="context.Align" />
                 </TableColumn>
                 <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
                     <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />

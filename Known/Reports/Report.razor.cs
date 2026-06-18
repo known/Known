@@ -99,40 +99,12 @@ public partial class Report
 
         blocks = config.Blocks ?? [];
 
-        if (blocks.Count == 0)
-        {
-            if (config.Charts?.Count > 0)
-            {
-                foreach (var chart in config.Charts)
-                    blocks.Add(new ReportBlock
-                    {
-                        BlockType = "Chart",
-                        Title = chart.Title,
-                        Width = 12,
-                        Chart = chart,
-                        DataSource = chart.DataSource ?? new DataSourceConfig()
-                    });
-            }
-            if (config.Tables?.Count > 0)
-            {
-                foreach (var table in config.Tables)
-                    blocks.Add(new ReportBlock
-                    {
-                        BlockType = "Table",
-                        Title = "数据表格",
-                        Width = 12,
-                        Table = table,
-                        DataSource = table.DataSource ?? new DataSourceConfig()
-                    });
-            }
-        }
-
         chartRefs.Clear();
         tableModels.Clear();
         for (int i = 0; i < blocks.Count; i++)
             chartRefs.Add(null);
 
-        foreach (var block in blocks.Where(b => b.BlockType == "Table"))
+        foreach (var block in blocks.Where(b => b.BlockType == ReportBlockType.Table))
         {
             var model = new TableModel<Dictionary<string, object>>(this)
             {
@@ -161,7 +133,7 @@ public partial class Report
                     Id = col.Field,
                     Name = col.Title,
                     Width = col.Width,
-                    Align = col.Align
+                    Align = col.Align.ToString().ToLower()
                 });
             }
         }
