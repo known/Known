@@ -8,6 +8,11 @@ public class KListPanel : BaseComponent
     private KListBox listBox;
 
     /// <summary>
+    /// 取得或设置列表添加按钮名称。
+    /// </summary>
+    [Parameter] public string ListAddButtonText { get; set; }
+
+    /// <summary>
     /// 取得或设置列表项呈现模板。
     /// </summary>
     [Parameter] public RenderFragment<CodeInfo> ListTemplate { get; set; }
@@ -56,6 +61,7 @@ public class KListPanel : BaseComponent
     {
         builder.Component<KListBox>()
                .Set(c => c.ShowSearch, true)
+               .Set(c => c.AddButtonText, ListAddButtonText)
                .Set(c => c.DataSource, ListData)
                .Set(c => c.ItemTemplate, ItemTemplate)
                .Set(c => c.OnItemClick, OnListClick)

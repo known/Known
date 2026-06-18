@@ -5,6 +5,10 @@
     {
         <div class="kui-list-box-search">
             <Search Value="@searchKey" Placeholder="@Language[Language.TipEnterKeyword]" OnSearch="OnSearch" />
+            @if (OnAddClick.HasDelegate)
+            {
+                <KIcon Icon="plus" Title="@AddButtonText" OnClick="OnAddClick" />
+            }
         </div>
     }
     <ul class="kui-list-box-body" style="@(ShowSearch ? $"top:32px" : "")">
@@ -34,7 +38,7 @@
             <Empty>
                 @if (OnAddClick.HasDelegate)
                 {
-                    <KButton Name="@Language.AddData" OnClick="OnAddClick" />
+                    <KButton Name="@AddButtonText" OnClick="OnAddClick" />
                 }
             </Empty>
         }

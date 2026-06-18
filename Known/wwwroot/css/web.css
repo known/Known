@@ -266,7 +266,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*ListBox*/
 .kui-list-box {position:relative;height:100%;}
-.kui-list-box-search {margin:10px;}
+.kui-list-box-search {margin:10px;display:flex;gap:10px;align-items:center;}
+.kui-list-box-search .anticon {font-size:16px;cursor:pointer;}
 .kui-list-box-body {position:absolute;left:0;right:0;top:0;bottom:0;padding:10px;overflow:auto;}
 .kui-list-box-body li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
 .kui-list-box-body li:hover {background-color:var(--kui-color-hover);}
