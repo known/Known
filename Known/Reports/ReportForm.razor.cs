@@ -3,7 +3,7 @@ namespace Known.Reports;
 /// <summary>
 /// 报表类型表单。
 /// </summary>
-public class ReportTypeForm : AntForm<ReportInfo> { }
+public class ReportTypeForm : AntForm<SysReport> { }
 
 /// <summary>
 /// 列配置表格。
@@ -13,9 +13,8 @@ public class ColumnConfigTable : AntTable<ColumnConfig> { }
 /// <summary>
 /// 报表设置表单。
 /// </summary>
-public partial class ReportSetting
+public partial class ReportForm
 {
-    private ReportInfo model;
     private ReportConfig reportConfig;
     private ChartConfig chartConfig;
     private TableConfig tableConfig;
@@ -35,40 +34,20 @@ public partial class ReportSetting
         new CodeInfo("scatter", "散点图")
     ];
 
-    [Parameter]
-    public ReportInfo Report
-    {
-        get => model;
-        set
-        {
-            model = value ?? new ReportInfo();
-            LoadConfig();
-        }
-    }
-
-    [Parameter] public Func<ReportInfo, Task<Result>> OnSave { get; set; }
-
+    /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
-        model ??= new ReportInfo();
         LoadConfig();
     }
 
     private void LoadConfig()
     {
-        reportConfig = !string.IsNullOrWhiteSpace(model.Config)
-            ? Utils.FromJson<ReportConfig>(model.Config) ?? new ReportConfig()
+        reportConfig = !string.IsNullOrWhiteSpace(Model.Data.Config)
+            ? Utils.FromJson<ReportConfig>(Model.Data.Config) ?? new ReportConfig()
             : new ReportConfig();
-        chartConfig = reportConfig.Chart ?? new ChartConfig();
-        tableConfig = reportConfig.Table ?? new TableConfig();
-    }
-
-    public void SaveConfig()
-    {
-        reportConfig.Chart = chartConfig;
-        reportConfig.Table = tableConfig;
-        model.Config = Utils.ToJson(reportConfig);
+        chartConfig = reportConfig.Charts?.FirstOrDefault() ?? new ChartConfig();
+        tableConfig = reportConfig.Tables?.FirstOrDefault() ?? new TableConfig();
     }
 
     private void OnAddColumn()

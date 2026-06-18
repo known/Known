@@ -1,30 +1,26 @@
 namespace Known.Reports;
 
-public class ReportInfo
+public enum ReportType
 {
-    public ReportInfo()
-    {
-        Id = Utils.GetNextId();
-        CreateTime = DateTime.Now;
-    }
-
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public string Type { get; set; } = "Table";
-    public string Config { get; set; }
-    public string Note { get; set; }
-    public DateTime CreateTime { get; set; }
+    Table,
+    Chart,
+    Combination
 }
 
 public class ReportConfig
 {
+    public List<ChartConfig> Charts { get; set; }
+    public List<TableConfig> Tables { get; set; }
+}
+
+public class DataSourceConfig
+{
     public string DataSource { get; set; }
-    public ChartConfig Chart { get; set; }
-    public TableConfig Table { get; set; }
 }
 
 public class ChartConfig
 {
+    public DataSourceConfig DataSource { get; set; }
     public string ChartType { get; set; } = "bar";
     public string Title { get; set; }
     public int? Width { get; set; } = 600;
@@ -36,6 +32,7 @@ public class ChartConfig
 
 public class TableConfig
 {
+    public DataSourceConfig DataSource { get; set; }
     public List<ColumnConfig> Columns { get; set; } = [];
 }
 
@@ -46,11 +43,4 @@ public class ColumnConfig
     public int? Width { get; set; } = 100;
     public string Align { get; set; } = "left";
     public string Type { get; set; } = "text";
-}
-
-public enum ReportDisplayType
-{
-    Table,
-    Chart,
-    Combination
 }

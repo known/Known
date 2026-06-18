@@ -1,23 +1,19 @@
-@inherits BaseComponent
+@inherits BaseForm<SysReport>
 
-<ReportTypeForm Model="model">
-    <KGroupBox Title="基本信息">
-        <AntRow>
-            <DataItem Span="12" Label="报表名称" Required>
-                <AntInput @bind-Value="model.Name" />
-            </DataItem>
-            <DataItem Span="12" Label="报表类型" Required>
-                <AntSelectCode @bind-Value="model.Type" DataSource="Types" />
-            </DataItem>
-        </AntRow>
-        <AntRow>
-            <DataItem Span="24" Label="备注">
-                <AntTextArea @bind-Value="model.Note" />
-            </DataItem>
-        </AntRow>
-    </KGroupBox>
+<ReportTypeForm Form="Model">
+    <AntRow>
+        <DataItem Span="8" Label="报表名称" Required>
+            <AntInput @bind-Value="context.Name" />
+        </DataItem>
+        <DataItem Span="8" Label="报表类型" Required>
+            <AntRadioGroup @bind-Value="context.Type" Codes="Types" Solid />
+        </DataItem>
+        <DataItem Span="8" Label="备注">
+            <AntInput @bind-Value="context.Note" />
+        </DataItem>
+    </AntRow>
 
-    @if (model.Type == "Chart" || model.Type == "Combination")
+    @if (context.Type == "Chart" || context.Type == "Combination")
     {
         <KGroupBox Title="图表配置">
             <AntRow>
@@ -49,7 +45,7 @@
         </KGroupBox>
     }
 </ReportTypeForm>
-@if (model.Type == "Table" || model.Type == "Combination")
+@if (Model.Data.Type == "Table" || Model.Data.Type == "Combination")
 {
     <KGroupBox Title="表格配置">
         <KFlexSpace>
