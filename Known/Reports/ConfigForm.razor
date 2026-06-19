@@ -35,6 +35,38 @@
                 </DataItem>
             </AntRow>
         }
+        @if (context.DataSource.SourceType == DataSourceType.Entity)
+        {
+            <AntRow>
+                <DataItem Span="24" Label="选择实体">
+                    <AntSelectCode Value="context.DataSource.EntityName"
+                                   DataSource="entities"
+                                   ValueChanged="v => OnEntityChanged(v)" />
+                </DataItem>
+            </AntRow>
+            @if (!string.IsNullOrWhiteSpace(context.DataSource.EntityName))
+            {
+                <KFlexSpace Style="margin-bottom:10px;">
+                    <KTitle Text="实体字段配置" />
+                    <KButton Icon="plus" Name="添加字段" OnClick="OnAddEntityField" />
+                </KFlexSpace>
+                <EntityFieldConfigTable DataSource="context.DataSource.EntityFields" ScrollY="200px" HidePagination Context="field">
+                    <TableColumn Title="字段" Width="150">
+                        <AntSelect DataSource="@(entityFields.Select(f => f.Id).ToList())"
+                                   @bind-Value="field.FieldName" />
+                    </TableColumn>
+                    <TableColumn Title="显示名称" Width="150" Value="@field.DisplayName">
+                        <AntInput @bind-Value="field.DisplayName" />
+                    </TableColumn>
+                    <TableColumn Title="聚合函数" Width="150" Value="@field.AggregateType">
+                        <SelectAggregateType @bind-Value="field.AggregateType" />
+                    </TableColumn>
+                    <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                        <KButton Icon="delete" OnClick="e => OnDeleteEntityField(field)" Danger />
+                    </ActionColumn>
+                </EntityFieldConfigTable>
+            }
+        }
         @if (Block.BlockType == ReportBlockType.Chart)
         {
             <AntRow>

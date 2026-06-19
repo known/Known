@@ -276,7 +276,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-list-box-search .anticon {font-size:16px;cursor:pointer;}
 .kui-list-box-body {position:absolute;left:0;right:0;top:0;bottom:0;padding:10px;overflow:auto;}
 .kui-list-box-body .ant-empty {margin:0;padding-top:20px;}
-.kui-list-box-body li {position:relative;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
+.kui-list-box-body li {position:relative;margin-bottom:5px;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
 .kui-list-box-body li:hover {background-color:var(--kui-color-hover);}
 .kui-list-box-body li.active {background-color:color-mix(in srgb, var(--kui-primary-color) 20%, white);color:var(--kui-primary-color);border-left-color:var(--kui-primary-color);}
 

@@ -2,14 +2,16 @@
 
 <div class="kui-report">
     <div class="kui-card">
-        <KListBox ShowSearch AddButtonText="添加报表" DataSource="items" OnAddClick="OnAddClick" OnItemClick="OnReportClick">
+        <KListBox @ref="listBox" ShowSearch AddButtonText="添加报表" DataSource="items" OnAddClick="OnAddClick" OnItemClick="OnReportClick">
             <ItemTemplate>
                 <KFlexSpace>
-                    @if (context.Category == "System")
-                    {
-                        <KIcon Icon="pushpin" Style="color:var(--ant-primary-color);font-size:12px;" />
-                    }
-                    <div>@context.Name</div>
+                    <div>
+                        <span>@context.Name</span>
+                        @if (context.Category == "System")
+                        {
+                            <KIcon Icon="pushpin" Style="color:var(--ant-primary-color);font-size:12px;" />
+                        }
+                    </div>
                     @if (context.IsActive)
                     {
                         <AntDropdown Model="GetDropdownModel(context)" />

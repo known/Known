@@ -41,7 +41,49 @@ public enum DataSourceType
     /// API接口。
     /// </summary>
     [Display(Name = "API接口")]
-    Api
+    Api,
+    /// <summary>
+    /// 系统实体。
+    /// </summary>
+    [Display(Name = "系统实体")]
+    Entity
+}
+
+/// <summary>
+/// 聚合函数类型枚举。
+/// </summary>
+public enum AggregateType
+{
+    /// <summary>
+    /// 无聚合。
+    /// </summary>
+    [Display(Name = "无")]
+    None,
+    /// <summary>
+    /// 计数。
+    /// </summary>
+    [Display(Name = "计数(Count)")]
+    Count,
+    /// <summary>
+    /// 求和。
+    /// </summary>
+    [Display(Name = "求和(Sum)")]
+    Sum,
+    /// <summary>
+    /// 平均值。
+    /// </summary>
+    [Display(Name = "平均值(Avg)")]
+    Avg,
+    /// <summary>
+    /// 最大值。
+    /// </summary>
+    [Display(Name = "最大值(Max)")]
+    Max,
+    /// <summary>
+    /// 最小值。
+    /// </summary>
+    [Display(Name = "最小值(Min)")]
+    Min
 }
 
 /// <summary>

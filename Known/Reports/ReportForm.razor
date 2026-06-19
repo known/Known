@@ -16,6 +16,14 @@
                     <AntInteger @bind-Value="context.GridColumn" Min="1" Max="6" />
                 </DataItem>
             </AntRow>
+            @if (CurrentUser.IsSystemAdmin())
+            {
+                <AntRow>
+                    <DataItem Span="24" Label="固定">
+                        <AntSwitch @bind-Value="context.IsFixed" />
+                    </DataItem>
+                </AntRow>
+            }
             <AntRow>
                 <DataItem Span="24" Label="备注">
                     <AntTextArea @bind-Value="context.Note" />

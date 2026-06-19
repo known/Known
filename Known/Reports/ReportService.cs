@@ -13,6 +13,19 @@ public interface IReportService : IService
     Task<List<Dictionary<string, object>>> QueryBlockDataAsync(ReportBlock block);
 
     /// <summary>
+    /// 获取系统实体列表。
+    /// </summary>
+    /// <returns>实体列表。</returns>
+    Task<List<CodeInfo>> GetEntitiesAsync();
+
+    /// <summary>
+    /// 获取实体字段列表。
+    /// </summary>
+    /// <param name="entityName">实体名称。</param>
+    /// <returns>字段列表。</returns>
+    Task<List<FieldInfo>> GetEntityFieldsAsync(string entityName);
+
+    /// <summary>
     /// 获取系统报表列表。
     /// </summary>
     /// <param name="sysId">子系统ID。</param>
@@ -38,6 +51,8 @@ public interface IReportService : IService
 class ReportClient(HttpClient http) : ClientBase(http), IReportService
 {
     public Task<List<Dictionary<string, object>>> QueryBlockDataAsync(ReportBlock block) => Http.PostAsync<ReportBlock, List<Dictionary<string, object>>>("/Report/QueryBlockData", block);
+    public Task<List<CodeInfo>> GetEntitiesAsync() => Http.GetAsync<List<CodeInfo>>("/Report/GetEntities");
+    public Task<List<FieldInfo>> GetEntityFieldsAsync(string entityName) => Http.GetAsync<List<FieldInfo>>($"/Report/GetEntityFields?entityName={entityName}");
     public Task<List<SysReport>> GetReportsAsync(string sysId) => Http.GetAsync<List<SysReport>>($"/Report/GetReports?sysId={sysId}");
     public Task<Result> DeleteReportAsync(SysReport info) => Http.PostAsync("/Report/DeleteReport", info);
     public Task<Result> SaveReportAsync(SysReport info) => Http.PostAsync("/Report/SaveReport", info);
@@ -47,14 +62,41 @@ class ReportClient(HttpClient http) : ClientBase(http), IReportService
 class ReportService(Context context) : ServiceBase(context), IReportService
 {
     /// <inheritdoc />
-    public Task<List<Dictionary<string, object>>> QueryBlockDataAsync(ReportBlock block)
+    public async Task<List<Dictionary<string, object>>> QueryBlockDataAsync(ReportBlock block)
     {
         var sourceType = block?.DataSource?.SourceType ?? DataSourceType.Sample;
-        return sourceType switch
+        switch (sourceType)
         {
-            DataSourceType.Sample => Task.FromResult(GetSampleTableData(block)),
-            _ => Task.FromResult(GetSampleTableData(block))
-        };
+            case DataSourceType.Sample:
+                return GetSampleTableData(block);
+            case DataSourceType.Entity:
+                return await QueryEntityBlockDataAsync(block);
+            default:
+                return GetSampleTableData(block);
+        }
+    }
+
+    /// <inheritdoc />
+    public Task<List<CodeInfo>> GetEntitiesAsync()
+    {
+        var entities = DbConfig.Models
+            .Select(m => new CodeInfo(m.Type.Name, m.Type.Name, m.Type.DisplayName() ?? m.Type.Name, null))
+            .OrderBy(e => e.Name)
+            .ToList();
+        return Task.FromResult(entities);
+    }
+
+    /// <inheritdoc />
+    public Task<List<FieldInfo>> GetEntityFieldsAsync(string entityName)
+    {
+        if (string.IsNullOrWhiteSpace(entityName))
+            return Task.FromResult(new List<FieldInfo>());
+
+        var model = DbConfig.Models.FirstOrDefault(m => m.Type.Name == entityName);
+        if (model == null)
+            return Task.FromResult(new List<FieldInfo>());
+
+        return Task.FromResult(model.Fields);
     }
 
     /// <inheritdoc />
@@ -98,6 +140,62 @@ class ReportService(Context context) : ServiceBase(context), IReportService
             info.Id = model.Id;
         }, info);
         return result;
+    }
+
+    private async Task<List<Dictionary<string, object>>> QueryEntityBlockDataAsync(ReportBlock block)
+    {
+        var ds = block?.DataSource;
+        if (ds == null || string.IsNullOrWhiteSpace(ds.EntityName))
+            return [];
+
+        var entityFields = ds.EntityFields ?? [];
+        if (entityFields.Count == 0)
+            return [];
+
+        using var db = Database;
+        var entityModel = DbConfig.Models.FirstOrDefault(m => m.Type.Name == ds.EntityName);
+        if (entityModel == null)
+            return [];
+
+        var tableName = db.FormatName(entityModel.Type.TableName());
+        var selectParts = new List<string>();
+        var groupByParts = new List<string>();
+
+        foreach (var ef in entityFields)
+        {
+            var fieldName = db.FormatName(ef.FieldName);
+            var alias = db.FormatName(ef.DisplayName ?? ef.FieldName);
+
+            if (ef.AggregateType != AggregateType.None)
+            {
+                var aggFunc = ef.AggregateType switch
+                {
+                    AggregateType.Count => "count",
+                    AggregateType.Sum => "sum",
+                    AggregateType.Avg => "avg",
+                    AggregateType.Max => "max",
+                    AggregateType.Min => "min",
+                    _ => "count"
+                };
+                selectParts.Add($"{aggFunc}({fieldName}) as {alias}");
+            }
+            else
+            {
+                selectParts.Add($"{fieldName} as {alias}");
+                groupByParts.Add(fieldName);
+            }
+        }
+
+        var selectSql = string.Join(", ", selectParts);
+        var sql = $"select {selectSql} from {tableName}";
+
+        if (groupByParts.Count > 0)
+        {
+            var groupBySql = string.Join(", ", groupByParts);
+            sql += $" group by {groupBySql}";
+        }
+
+        return await db.QueryListAsync<Dictionary<string, object>>(sql);
     }
 
     private static List<Dictionary<string, object>> GetSampleTableData(ReportBlock block)

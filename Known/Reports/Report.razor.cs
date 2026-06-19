@@ -11,6 +11,8 @@ public partial class Report
     private SysReport currentReport;
     private List<ReportBlock> blocks = [];
     private int gridColumns = 3;
+    private bool needLoadData;
+    private KListBox listBox;
     private readonly List<KChart> chartRefs = [];
     private readonly Dictionary<string, TableModel<Dictionary<string, object>>> tableModels = [];
 
@@ -24,27 +26,32 @@ public partial class Report
     {
         await base.OnInitPageAsync();
         Service = await CreateServiceAsync<IReportService>();
-        await LoadReportsAsync();
     }
 
     /// <inheritdoc />
     protected override async Task OnRenderAsync(bool firstRender)
     {
         await base.OnRenderAsync(firstRender);
-        if (firstRender && currentReport != null)
-            await ShowReportAsync(currentReport);
+        if (firstRender)
+        {
+            await LoadReportsAsync();
+        }
+        else if (needLoadData)
+        {
+            needLoadData = false;
+            await LoadBlockDataAsync();
+        }
     }
 
     private async Task LoadReportsAsync()
     {
         reports = await Service.GetReportsAsync(SysId);
-        items = [.. reports.Select(r => new CodeInfo(
-            r.IsFixed ? "System" : "",
-            r.Id,
-            r.Name,
-            null
-        ))];
-        StateChanged();
+        items = [.. reports.Select(r => new CodeInfo(r.IsFixed ? "System" : "", r.Id, r.Name, null))];
+        if (currentReport != null)
+            currentReport = reports.FirstOrDefault(r => r.Id == currentReport.Id);
+        currentReport ??= reports.FirstOrDefault();
+        listBox?.SetListBox(items, currentReport?.Id);
+        await ShowReportAsync(currentReport);
     }
 
     private async Task OnReportClick(CodeInfo item)
@@ -115,7 +122,80 @@ public partial class Report
             tableModels[block.Id] = model;
         }
 
+        needLoadData = true;
         StateChanged();
+    }
+
+    private async Task LoadBlockDataAsync()
+    {
+        foreach (var block in blocks)
+        {
+            var data = await Service.QueryBlockDataAsync(block);
+            if (data == null || data.Count == 0)
+                continue;
+
+            if (block.BlockType == ReportBlockType.Chart)
+            {
+                await ShowChartAsync(block, data);
+            }
+            else
+            {
+                var idx = blocks.IndexOf(block);
+                var model = GetTableModel(block);
+                if (model != null)
+                {
+                    model.DataSource = [.. data];
+                    await model.RefreshAsync();
+                }
+            }
+        }
+    }
+
+    private async Task ShowChartAsync(ReportBlock block, List<Dictionary<string, object>> data)
+    {
+        var chart = chartRefs[blocks.IndexOf(block)];
+        if (chart == null)
+            return;
+
+        var chartConfig = block.Chart;
+        if (chartConfig == null)
+            return;
+
+        var xField = chartConfig.XField;
+        var yField = chartConfig.YField;
+        var categoryField = chartConfig.CategoryField;
+
+        if (string.IsNullOrWhiteSpace(xField) || string.IsNullOrWhiteSpace(yField))
+            return;
+
+        if (!string.IsNullOrWhiteSpace(categoryField))
+        {
+            var groups = data.GroupBy(d => d.GetValue<string>(categoryField) ?? "");
+            var chartDatas = groups.Select(g =>
+            {
+                var values = data.Where(d => (d.GetValue<string>(categoryField) ?? "") == g.Key)
+                                 .ToDictionary(d => d.GetValue<string>(xField) ?? "", d => d.GetValue<object>(yField));
+                return new ChartDataInfo { Name = g.Key, Series = values };
+            }).ToArray();
+
+            if (chartConfig.ChartType == ChartType.Line)
+                await chart.ShowLineAsync(block.Title, chartDatas);
+            else
+                await chart.ShowBarAsync(block.Title, chartDatas);
+        }
+        else
+        {
+            var chartData = new ChartDataInfo
+            {
+                Name = yField,
+                Series = data.ToDictionary(d => d.GetValue<string>(xField) ?? "", d => d.GetValue<object>(yField))
+            };
+
+            if (chartConfig.ChartType == ChartType.Line)
+                await chart.ShowLineAsync(block.Title, [chartData]);
+            else
+                await chart.ShowBarAsync(block.Title, [chartData]);
+        }
     }
 
     private string GetGridStyle()
@@ -127,7 +207,8 @@ public partial class Report
     {
         model.Clear();
 
-        if (block?.Table?.Columns != null)
+        var hasColumns = block?.Table?.Columns != null && block.Table.Columns.Count > 0;
+        if (hasColumns)
         {
             foreach (var col in block.Table.Columns)
             {
@@ -137,6 +218,18 @@ public partial class Report
                     Name = col.Title,
                     Width = col.Width,
                     Align = col.Align.ToString().ToLower()
+                });
+            }
+        }
+        else if (block?.DataSource?.SourceType == DataSourceType.Entity && block.DataSource.EntityFields?.Count > 0)
+        {
+            foreach (var ef in block.DataSource.EntityFields)
+            {
+                var aggSuffix = ef.AggregateType != AggregateType.None ? $"({ef.AggregateType})" : "";
+                model.Columns.Add(new ColumnInfo
+                {
+                    Id = ef.DisplayName ?? ef.FieldName,
+                    Name = $"{ef.DisplayName ?? ef.FieldName}{aggSuffix}"
                 });
             }
         }
@@ -155,7 +248,7 @@ public partial class Report
 
         var menuItems = new List<ActionInfo>();
 
-        if (!report.IsFixed)
+        if (!report.IsFixed || CurrentUser.IsSystemAdmin())
         {
             menuItems.Add(new ActionInfo(Language.Edit)
             {

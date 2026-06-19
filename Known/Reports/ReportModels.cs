@@ -6,7 +6,7 @@ namespace Known.Reports;
 public class DataSourceConfig
 {
     /// <summary>
-    /// 取得或设置数据源类型（Sample、Table、SQL、Api）。
+    /// 取得或设置数据源类型（Sample、Table、SQL、Api、Entity）。
     /// </summary>
     public DataSourceType SourceType { get; set; } = DataSourceType.Sample;
 
@@ -29,6 +29,78 @@ public class DataSourceConfig
     /// 取得或设置API请求地址。
     /// </summary>
     public string RequestUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置实体名称（Entity数据源时使用）。
+    /// </summary>
+    public string EntityName { get; set; }
+
+    /// <summary>
+    /// 取得或设置实体显示名称。
+    /// </summary>
+    public string EntityDisplayName { get; set; }
+
+    /// <summary>
+    /// 取得或设置实体字段配置列表。
+    /// </summary>
+    public List<EntityFieldConfig> EntityFields { get; set; } = [];
+
+    /// <summary>
+    /// 取得或设置实体关联配置列表。
+    /// </summary>
+    public List<EntityJoinConfig> EntityJoins { get; set; } = [];
+}
+
+/// <summary>
+/// 实体字段配置类。
+/// </summary>
+public class EntityFieldConfig
+{
+    /// <summary>
+    /// 取得或设置字段名。
+    /// </summary>
+    public string FieldName { get; set; }
+
+    /// <summary>
+    /// 取得或设置显示名称。
+    /// </summary>
+    public string DisplayName { get; set; }
+
+    /// <summary>
+    /// 取得或设置聚合函数类型。
+    /// </summary>
+    public AggregateType AggregateType { get; set; } = AggregateType.None;
+
+    /// <summary>
+    /// 取得或设置是否分组字段。
+    /// </summary>
+    public bool IsGroupBy => AggregateType == AggregateType.None;
+}
+
+/// <summary>
+/// 实体关联配置类。
+/// </summary>
+public class EntityJoinConfig
+{
+    /// <summary>
+    /// 取得或设置关联实体名称。
+    /// </summary>
+    public string EntityName { get; set; }
+
+    /// <summary>
+    /// 取得或设置关联类型（Inner、Left、Right）。
+    /// </summary>
+    public string JoinType { get; set; } = "Inner";
+
+    /// <summary>
+    /// 取得或设置源字段。
+    /// </summary>
+    public string SourceField { get; set; }
+
+    /// <summary>
+    /// 取得或设置目标字段。
+    /// </summary>
+    public string TargetField { get; set; }
 }
 
 /// <summary>
