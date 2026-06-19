@@ -127,6 +127,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
             Admin = await CreateServiceAsync<IAdminService>();
             Context.UI = UI;
             Context.Navigation = Navigation;
+            Context.Admin = Admin;
             await OnInitAsync();
         }
         catch (Exception ex)
@@ -308,11 +309,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
 
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);
     internal void OnActionClick<TModel>(ActionInfo info, TModel item) => OnAction(info, [item]);
-
-    internal void OnAction(ActionInfo info, object[] parameters)
-    {
-        Context.OnAction(this, info, parameters);
-    }
+    internal void OnAction(ActionInfo info, object[] parameters) => Context.OnAction(this, info, parameters);
 
     private async ValueTask DisposeAsync(bool disposing)
     {

@@ -31,6 +31,7 @@ public static class ContextExtension
         if (info.OnClick.HasDelegate)
         {
             info.OnClick.InvokeAsync();
+            context.Admin?.AddActionLogAsync(context, info);
             return;
         }
 
@@ -48,6 +49,7 @@ public static class ContextExtension
         try
         {
             method.Invoke(sender, parameters);
+            context.Admin?.AddActionLogAsync(context, info);
         }
         catch (Exception ex)
         {

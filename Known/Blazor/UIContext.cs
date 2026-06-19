@@ -6,6 +6,7 @@
 public partial class UIContext(IServiceProvider provider) : Context(provider)
 {
     internal bool IsEditTable => UIConfig.IsEditTable && IsEditMode;
+    internal IAdminService Admin { get; set; }
 
     /// <summary>
     /// 取得或设置界面是否是编辑模式。
