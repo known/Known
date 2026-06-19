@@ -141,14 +141,14 @@ public class ReportBlock
     public int Col { get; set; }
 
     /// <summary>
-    /// 取得或设置宽度（栅格列数）。
+    /// 取得或设置跨列数（栅格列数）。
     /// </summary>
-    public int? Width { get; set; } = 12;
+    public int? ColSpan { get; set; } = 1;
 
     /// <summary>
-    /// 取得或设置高度。
+    /// 取得或设置跨行数。
     /// </summary>
-    public int? Height { get; set; } = 1;
+    public int? RowSpan { get; set; } = 1;
 
     /// <summary>
     /// 取得或设置数据源配置。
@@ -161,9 +161,9 @@ public class ReportBlock
     public ChartConfig Chart { get; set; }
 
     /// <summary>
-    /// 取得或设置表格配置。
+    /// 取得或设置列定义列表。
     /// </summary>
-    public TableConfig Table { get; set; }
+    public List<ColumnConfig> Columns { get; set; } = [];
 }
 
 /// <summary>
@@ -172,19 +172,9 @@ public class ReportBlock
 public class ChartConfig
 {
     /// <summary>
-    /// 取得或设置数据源配置。
-    /// </summary>
-    public DataSourceConfig DataSource { get; set; }
-
-    /// <summary>
     /// 取得或设置图表类型。
     /// </summary>
     public ChartType ChartType { get; set; } = ChartType.Bar;
-
-    /// <summary>
-    /// 取得或设置图表标题。
-    /// </summary>
-    public string Title { get; set; }
 
     /// <summary>
     /// 取得或设置图表宽度。
@@ -210,22 +200,6 @@ public class ChartConfig
     /// 取得或设置分组字段。
     /// </summary>
     public string CategoryField { get; set; }
-}
-
-/// <summary>
-/// 表格配置类。
-/// </summary>
-public class TableConfig
-{
-    /// <summary>
-    /// 取得或设置数据源配置。
-    /// </summary>
-    public DataSourceConfig DataSource { get; set; }
-
-    /// <summary>
-    /// 取得或设置列定义列表。
-    /// </summary>
-    public List<ColumnConfig> Columns { get; set; } = [];
 }
 
 /// <summary>

@@ -36,8 +36,8 @@
                 <div class="kui-report-blocks-grid" style="@GetGridStyle()">
                     @foreach (var block in blocks)
                     {
-                        var colSpan = block.Width ?? 1;
-                        var rowSpan = block.Height;
+                        var colSpan = block.ColSpan ?? 1;
+                        var rowSpan = block.RowSpan ?? 1;
                         var idx = blocks.IndexOf(block);
                         <div class="kui-report-block"
                              style="grid-row: @block.Row / span @rowSpan; grid-column: @block.Col / span @colSpan">

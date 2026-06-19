@@ -36,7 +36,7 @@ public partial class Report
         {
             await LoadReportsAsync();
         }
-        else if (needLoadData)
+        if (needLoadData)
         {
             needLoadData = false;
             await LoadBlockDataAsync();
@@ -140,27 +140,29 @@ public partial class Report
 
     private async Task LoadBlockDataAsync()
     {
+        var hasData = false;
         foreach (var block in blocks)
         {
             var data = await Service.QueryBlockDataAsync(block);
             if (data == null || data.Count == 0)
                 continue;
 
+            hasData = true;
             if (block.BlockType == ReportBlockType.Chart)
             {
                 await ShowChartAsync(block, data);
             }
             else
             {
-                var idx = blocks.IndexOf(block);
                 var model = GetTableModel(block);
                 if (model != null)
                 {
                     model.DataSource = [.. data];
-                    await model.RefreshAsync();
                 }
             }
         }
+        if (hasData)
+            StateChanged();
     }
 
     private async Task ShowChartAsync(ReportBlock block, List<Dictionary<string, object>> data)
@@ -219,10 +221,10 @@ public partial class Report
     {
         model.Clear();
 
-        var hasColumns = block?.Table?.Columns != null && block.Table.Columns.Count > 0;
+        var hasColumns = block?.Columns != null && block.Columns.Count > 0;
         if (hasColumns)
         {
-            foreach (var col in block.Table.Columns)
+            foreach (var col in block.Columns)
             {
                 model.Columns.Add(new ColumnInfo
                 {

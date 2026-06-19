@@ -38,12 +38,12 @@ public partial class ReportForm
         var occupied = new HashSet<(int, int)>();
         foreach (var block in blocks)
         {
-            for (int r = block.Row; r < block.Row + block.Height; r++)
-                for (int c = block.Col; c < block.Col + (block.Width ?? 1); c++)
+            for (int r = block.Row; r < block.Row + (block.RowSpan ?? 1); r++)
+                for (int c = block.Col; c < block.Col + (block.ColSpan ?? 1); c++)
                     occupied.Add((r, c));
-        }
+                }
 
-        var maxRow = blocks.Count > 0 ? blocks.Max(b => b.Row + b.Height - 1) : 0;
+        var maxRow = blocks.Count > 0 ? blocks.Max(b => b.Row + (b.RowSpan ?? 1) - 1) : 0;
         var cols = Math.Clamp(Model.Data.GridColumn ?? 1, 1, 6);
         var empty = new List<(int, int)>();
         for (int r = 1; r <= maxRow + 1; r++)
@@ -63,9 +63,9 @@ public partial class ReportForm
             Title = $"图表 {blocks.Count + 1}",
             Row = pos.Row,
             Col = pos.Col,
-            Width = 1,
-            Height = 1,
-            Chart = new ChartConfig { Title = $"图表 {blocks.Count + 1}", DataSource = new DataSourceConfig() },
+            ColSpan = 1,
+            RowSpan = 1,
+            Chart = new ChartConfig(),
             DataSource = new DataSourceConfig()
         };
         blocks.Add(block);
@@ -83,9 +83,9 @@ public partial class ReportForm
             Title = $"表格 {blocks.Count + 1}",
             Row = pos.Row,
             Col = pos.Col,
-            Width = 1,
-            Height = 1,
-            Table = new TableConfig { Columns = [], DataSource = new DataSourceConfig() },
+            ColSpan = 1,
+            RowSpan = 1,
+            Columns = [],
             DataSource = new DataSourceConfig()
         };
         blocks.Add(block);
@@ -99,8 +99,8 @@ public partial class ReportForm
         var occupied = new HashSet<(int, int)>();
         foreach (var b in blocks)
         {
-            for (int r = b.Row; r < b.Row + b.Height; r++)
-                for (int c = b.Col; c < b.Col + (b.Width ?? 1); c++)
+            for (int r = b.Row; r < b.Row + (b.RowSpan ?? 1); r++)
+                for (int c = b.Col; c < b.Col + (b.ColSpan ?? 1); c++)
                     occupied.Add((r, c));
         }
         int row = 1;

@@ -5,25 +5,37 @@ namespace Known.Reports;
 /// </summary>
 public partial class ConfigForm
 {
-    /// <summary>
-    /// 取得或设置要配置的报表块。
-    /// </summary>
-    [Parameter] public ReportBlock Block { get; set; }
-
+    private IReportService Service;
     private bool isAdmin;
     private List<CodeInfo> dataSourceTypes = [];
     private List<CodeInfo> entities = [];
     private List<FieldInfo> entityFields = [];
 
+    /// <summary>
+    /// 取得或设置要配置的报表块。
+    /// </summary>
+    [Parameter] public ReportBlock Block { get; set; }
+
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        Service = await CreateServiceAsync<IReportService>();
         isAdmin = CurrentUser.IsSystemAdmin();
         dataSourceTypes = GetAvailableDataSourceTypes();
-        var service = await CreateServiceAsync<IReportService>();
-        entities = await service.GetEntitiesAsync();
-        await LoadEntityFieldsAsync();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnRenderAsync(bool firstRender)
+    {
+        await base.OnRenderAsync(firstRender);
+        if (firstRender)
+        {
+            entities = await Service.GetEntitiesAsync();
+            await LoadEntityFieldsAsync();
+            SetSourceType(Block.DataSource.SourceType);
+            StateChanged();
+        }
     }
 
     private List<CodeInfo> GetAvailableDataSourceTypes()
@@ -51,20 +63,24 @@ public partial class ConfigForm
             return;
         }
 
-        var service = await CreateServiceAsync<IReportService>();
-        entityFields = await service.GetEntityFieldsAsync(Block.DataSource.EntityName);
+        entityFields = await Service.GetEntityFieldsAsync(Block.DataSource.EntityName);
     }
 
-    private async Task OnSourceTypeChanged(CodeInfo item)
+    private void OnSourceTypeChanged(CodeInfo item)
+    {
+        if (Enum.TryParse<DataSourceType>(item.Code, out var parsed))
+            SetSourceType(parsed);
+        StateChanged();
+    }
+
+    private void SetSourceType(DataSourceType sourceType)
     {
         Block.Chart ??= new ChartConfig();
-        Block.Table ??= new TableConfig();
-        if (Enum.TryParse<DataSourceType>(item.Code, out var parsed))
-        {
-            if (parsed == DataSourceType.Sample)
-                AutoLoadSampleColumns();
-        }
-        StateChanged();
+        Block.Columns ??= [];
+        if (sourceType == DataSourceType.Sample)
+            AutoLoadSampleColumns();
+        else
+            ClearAutoLoadedFields();
     }
 
     private void AutoLoadSampleColumns()
@@ -73,17 +89,30 @@ public partial class ConfigForm
         {
             Block.Chart.XField = "month";
             Block.Chart.YField = "amount";
-            Block.Chart.Title = Block.Title;
         }
         else if (Block.BlockType == ReportBlockType.Table)
         {
-            Block.Table.Columns =
+            Block.Columns =
             [
                 new() { Field = "name", Title = "名称" },
                 new() { Field = "category", Title = "分类" },
                 new() { Field = "price", Title = "价格" },
                 new() { Field = "stock", Title = "库存" },
             ];
+        }
+    }
+
+    private void ClearAutoLoadedFields()
+    {
+        if (Block.BlockType == ReportBlockType.Chart)
+        {
+            Block.Chart.XField = null;
+            Block.Chart.YField = null;
+            Block.Chart.CategoryField = null;
+        }
+        else if (Block.BlockType == ReportBlockType.Table)
+        {
+            Block.Columns?.Clear();
         }
     }
 
@@ -99,10 +128,7 @@ public partial class ConfigForm
         entityFields = [];
 
         if (!string.IsNullOrWhiteSpace(entityName))
-        {
-            var service = await CreateServiceAsync<IReportService>();
-            entityFields = await service.GetEntityFieldsAsync(entityName);
-        }
+            entityFields = await Service.GetEntityFieldsAsync(entityName);
 
         StateChanged();
     }
@@ -124,13 +150,13 @@ public partial class ConfigForm
 
     private void OnAddColumn()
     {
-        Block?.Table?.Columns?.Add(new ColumnConfig());
+        Block?.Columns?.Add(new ColumnConfig());
         StateChanged();
     }
 
     private void OnDeleteColumn(ColumnConfig column)
     {
-        Block?.Table?.Columns?.Remove(column);
+        Block?.Columns?.Remove(column);
         StateChanged();
     }
 }

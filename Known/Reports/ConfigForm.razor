@@ -10,10 +10,10 @@
                 <AntSelectCode @bind-Value="context.DataSource.SourceType1" DataSource="dataSourceTypes" OnSelectedItemChanged="OnSourceTypeChanged" />
             </DataItem>
             <DataItem Span="4" Label="跨列">
-                <AntInteger @bind-Value="context.Width" Min="1" Max="6" />
+                <AntInteger @bind-Value="context.ColSpan" Min="1" Max="6" />
             </DataItem>
             <DataItem Span="4" Label="跨行">
-                <AntInteger @bind-Value="context.Height" Min="1" Max="6" />
+                <AntInteger @bind-Value="context.RowSpan" Min="1" Max="6" />
             </DataItem>
         </AntRow>
         @if (context.DataSource.SourceType == DataSourceType.SQL)
@@ -62,7 +62,7 @@
                         <SelectAggregateType @bind-Value="field.AggregateType" />
                     </TableColumn>
                     <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                        <KButton Icon="delete" OnClick="e => OnDeleteEntityField(field)" Danger />
+                        <KButton Name="删除" Icon="delete" OnClick="e => OnDeleteEntityField(field)" Danger />
                     </ActionColumn>
                 </EntityFieldConfigTable>
             }
@@ -94,7 +94,7 @@
             <KTitle Text="列定义" />
             <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
         </KFlexSpace>
-        <ColumnConfigTable DataSource="Block.Table.Columns" ScrollY="200px" HidePagination>
+        <ColumnConfigTable DataSource="Block.Columns" ScrollY="200px" HidePagination>
             <TableColumn Title="字段名" Width="150" Value="@context.Field">
                 <AntInput @bind-Value="context.Field" />
             </TableColumn>
@@ -111,7 +111,7 @@
                 <SelectAlignType @bind-Value="context.Align" />
             </TableColumn>
             <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
+                <KButton Name="删除" Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
             </ActionColumn>
         </ColumnConfigTable>
     }

@@ -36,8 +36,8 @@
         <div class="kui-report-grid" style="@GetGridStyle()">
             @foreach (var block in blocks)
             {
-                var colSpan = block.Width ?? 1;
-                var rowSpan = block.Height;
+                var colSpan = block.ColSpan ?? 1;
+                var rowSpan = block.RowSpan ?? 1;
                 var isActive = selectedBlock?.Id == block.Id;
                 <div class="kui-report-grid-block @(isActive ? "is-active" : "") @(draggingBlock?.Id == block.Id ? "is-dragging" : "")"
                      style="grid-row: @block.Row / span @rowSpan; grid-column: @block.Col / span @colSpan"
