@@ -1209,8 +1209,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-report-block .kui-report-chart {display:flex;justify-content:center;padding:8px 0;}
 .kui-report-block .kui-report-table {margin-top:8px;}
 
-/* ---- Misc ---- */
-.kui-report-setting {min-height:400px;}
-.kui-report-setting .kui-report-setting-type {margin-bottom:16px;}
-.kui-report-setting .ant-form-item {margin-bottom:12px;}
-.kui-report-setting .kui-group-box + .kui-group-box {margin-top:16px;}
+/* ---- Setting ---- */
+.kui-report-setting {padding:16px;}
+.kui-report-setting .ant-form {padding:0;}
+.kui-report-setting .ant-form-item {margin-bottom:12px;padding:0 5px;}

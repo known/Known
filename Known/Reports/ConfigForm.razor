@@ -1,12 +1,12 @@
 @inherits BaseComponent
 
-<div class="">
+<div class="kui-report-setting">
     <ReportBlockForm Model="Block" Layout="FormLayout.Vertical">
         <AntRow>
-            <DataItem Span="6" Label="标题">
+            <DataItem Span="8" Label="标题">
                 <AntInput @bind-Value="context.Title" />
             </DataItem>
-            <DataItem Span="6" Label="数据来源">
+            <DataItem Span="8" Label="数据来源">
                 <SelectDataSourceType @bind-Value="context.DataSource.SourceType" />
             </DataItem>
             <DataItem Span="4" Label="跨列">
@@ -27,11 +27,11 @@
         @if (context.DataSource.SourceType == DataSourceType.Api)
         {
             <AntRow>
-                <DataItem Span="12" Label="请求地址">
-                    <AntInput @bind-Value="context.DataSource.RequestUrl" />
-                </DataItem>
-                <DataItem Span="12" Label="请求方式">
+                <DataItem Span="8" Label="请求方式">
                     <AntRadioGroup @bind-Value="context.DataSource.RequestMethod" Category="GET,POST" Solid />
+                </DataItem>
+                <DataItem Span="16" Label="请求地址">
+                    <AntInput @bind-Value="context.DataSource.RequestUrl" />
                 </DataItem>
             </AntRow>
         }
@@ -58,7 +58,7 @@
 
     @if (Block.BlockType == ReportBlockType.Table)
     {
-        <KFlexSpace>
+        <KFlexSpace Style="margin-bottom:10px;">
             <KTitle Text="列定义" />
             <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
         </KFlexSpace>
