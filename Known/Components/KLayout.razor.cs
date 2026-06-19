@@ -84,7 +84,7 @@ public partial class KLayout
         {
             Context.UserSetting = result.DataAs<UserSettingInfo>();
             Context.Local.Color = Context.UserSetting.ThemeColor;
-            await JS.SetLocalInfoAsync(Context.Local);
+            await SetLocalInfoAsync(Context.Local);
         }
     }
 }

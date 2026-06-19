@@ -231,12 +231,7 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
     protected async Task ChangeThemeAsync(bool isDark)
     {
         Context.Local.Theme = isDark ? "dark" : "light";
-        if (CurrentUser != null)
-        {
-            Context.UserSetting.Theme = Context.Local.Theme;
-            await Admin.SaveUserSettingAsync(Context.UserSetting);
-        }
-        await JS.SetLocalInfoAsync(Context.Local);
+        await SetLocalInfoAsync(Context.Local);
     }
 
     /// <summary>
@@ -296,6 +291,19 @@ public abstract class BaseComponent : ComponentBase, IBaseComponent, IAsyncDispo
             return b => b.AddMarkupContent(0, title);
 
         return b => b.Markup(Language[title]);
+    }
+
+    internal async Task SetLocalInfoAsync(LocalInfo info)
+    {
+        if (CurrentUser != null)
+        {
+            Context.UserSetting.Language = info.Language;
+            Context.UserSetting.Theme = info.Theme;
+            Context.UserSetting.ThemeColor = info.Color;
+            Context.UserSetting.Size = info.Size;
+            await Admin.SaveUserSettingAsync(Context.UserSetting);
+        }
+        await JS.SetLocalInfoAsync(info);
     }
 
     internal void OnToolClick(ActionInfo info) => OnAction(info, null);

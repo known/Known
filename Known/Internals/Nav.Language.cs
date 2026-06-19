@@ -48,13 +48,8 @@ public class NavLanguage : BaseNav
     {
         current = Language.Settings.FirstOrDefault(l => l.Id == info.Id);
         Context.CurrentLanguage = current.Code;
-        if (CurrentUser != null)
-        {
-            Context.UserSetting.Language = current.Code;
-            await Admin.SaveUserSettingAsync(Context.UserSetting);
-        }
         Context.Local.Language = current.Code;
-        await JS.SetLocalInfoAsync(Context.Local, isLanguage: true);
+        await SetLocalInfoAsync(Context.Local);
         Navigation.Refresh();
     }
 }

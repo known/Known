@@ -179,10 +179,6 @@ export class KBlazor {
     //File
     static setLocalInfo(info) {
         var theme = hasInfoValue(info, 'theme') ? info.theme : document.documentElement.getAttribute('data-theme');
-        if (!theme) {
-            var hour = new Date().getHours();
-            theme = hour > 6 && hour < 20 ? "light" : "dark";
-        }
         var color = hasInfoValue(info, 'color') ? info.color : getCurrentThemeColor();
         var size = hasInfoValue(info, 'size') ? info.size : getCurrentSizeMode();
 

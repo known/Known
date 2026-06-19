@@ -44,8 +44,7 @@ public partial class SettingForm
     private async Task OnThemeColor(string theme)
     {
         Context.Local.Color = theme;
-        Context.UserSetting.ThemeColor = theme;
-        await JS.SetLocalInfoAsync(Context.Local);
+        await SetLocalInfoAsync(Context.Local);
     }
 
     private async Task OnResetAsync()

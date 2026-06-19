@@ -236,26 +236,12 @@ public static class JSExtension
         return info;
     }
 
-    internal static async Task SetLocalInfoAsync(this JSService js, LocalInfo info, UserSettingInfo setting = null, bool isLanguage = false)
+    internal static async Task SetLocalInfoAsync(this JSService js, LocalInfo info)
     {
         if (info == null)
             return;
 
-        if (!isLanguage)
-        {
-            if (setting != null)
-            {
-                if (!string.IsNullOrWhiteSpace(setting.Language))
-                    info.Language = setting.Language;
-                if (!string.IsNullOrWhiteSpace(setting.Theme))
-                    info.Theme = setting.Theme;
-                if (!string.IsNullOrWhiteSpace(setting.ThemeColor))
-                    info.Color = setting.ThemeColor;
-                if (!string.IsNullOrWhiteSpace(setting.Size))
-                    info.Size = setting.Size;
-            }
-            await js.InvokeAsync("KBlazor.setLocalInfo", info);
-        }
+        await js.InvokeAsync("KBlazor.setLocalInfo", info);
         await js.SetLocalStorageAsync(KeyLocalInfo, info);
     }
 }

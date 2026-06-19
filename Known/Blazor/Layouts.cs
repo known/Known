@@ -63,7 +63,7 @@ public class LayoutBase : LayoutComponentBase
         Admin = await Factory.CreateAsync<IAdminService>(Context);
         Context.UI = UI;
         Context.Navigation = Navigation;
-        if (Context.Local == null)
+        if (!Context.IsReload)
         {
             Context.Local = await JS.GetLocalInfoAsync();
             Context.IsReload = true;
@@ -116,10 +116,7 @@ public class LayoutBase : LayoutComponentBase
         if (firstRender || Context.IsReload)
         {
             Context.IsReload = false;
-            var setting = Context.UserSetting;
-            if (setting != null && string.IsNullOrWhiteSpace(setting.Size))
-                setting.Size = Config.App.DefaultSize;
-            await JS.SetLocalInfoAsync(Context.Local, setting);
+            await JS.SetLocalInfoAsync(Context.Local);
         }
     }
 
