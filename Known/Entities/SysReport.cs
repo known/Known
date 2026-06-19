@@ -1,3 +1,5 @@
+using Known.Reports;
+
 namespace Known.Entities;
 
 /// <summary>
@@ -30,14 +32,23 @@ public class SysReport : EntityBase
     public string Name { get; set; }
 
     /// <summary>
-    /// 取得或设置报表配置，JSON格式字符串。
+    /// 取得或设置栅格行数。
     /// </summary>
-    [DisplayName("配置信息")]
-    public string Config { get; set; }
+    public int? GridRow { get; set; } = 1;
+
+    /// <summary>
+    /// 取得或设置栅格列数。
+    /// </summary>
+    public int? GridColumn { get; set; } = 1;
 
     /// <summary>
     /// 取得或设置备注信息。
     /// </summary>
     [DisplayName("备注")]
     public string Note { get; set; }
+
+    /// <summary>
+    /// 取得或设置报表块列表。
+    /// </summary>
+    public List<ReportBlock> Blocks { get; set; } = [];
 }

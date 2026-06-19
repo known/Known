@@ -1,167 +1,88 @@
 @inherits BaseForm<SysReport>
 
 <div class="kui-report-form">
-    <div class="kui-report-form-top">
-        <KGroupBox Title="@Language.BasicInfo">
-            <ReportTypeForm Form="Model" Layout="FormLayout.Vertical">
-                <AntRow>
-                    <DataItem Span="24" Label="报表名称" Required>
-                        <AntInput @bind-Value="context.Name" />
-                    </DataItem>
-                </AntRow>
-                <AntRow>
-                    <DataItem Span="24" Label="备注">
-                        <AntTextArea @bind-Value="context.Note" />
-                    </DataItem>
-                </AntRow>
-            </ReportTypeForm>
-        </KGroupBox>
-        <KGroupBox Title="报表块">
-            <div class="kui-report-block-action">
-                <KButton Icon="bar-chart" Name="添加图表" OnClick="OnAddChartBlock" />
-                <KButton Icon="table" Name="添加表格" OnClick="OnAddTableBlock" />
-            </div>
+    <KGroupBox Title="@Language.BasicInfo" Style="width:250px;flex-shrink:0;">
+        <ReportTypeForm Form="Model" Layout="FormLayout.Vertical">
+            <AntRow>
+                <DataItem Span="24" Label="报表名称" Required>
+                    <AntInput @bind-Value="context.Name" />
+                </DataItem>
+            </AntRow>
+            <AntRow>
+                <DataItem Span="12" Label="行数">
+                    <AntInteger @bind-Value="context.GridRow" Min="1" Max="6" />
+                </DataItem>
+                <DataItem Span="12" Label="列数">
+                    <AntInteger @bind-Value="context.GridColumn" Min="1" Max="6" />
+                </DataItem>
+            </AntRow>
+            <AntRow>
+                <DataItem Span="24" Label="备注">
+                    <AntTextArea @bind-Value="context.Note" />
+                </DataItem>
+            </AntRow>
+        </ReportTypeForm>
+    </KGroupBox>
 
-            @if (blocks != null && blocks.Count > 0)
+    <KGroupBox Title="报表块">
+        <div class="kui-report-grid" style="@GetGridStyle()">
+            @foreach (var block in blocks)
             {
-                <div class="kui-report-blocks">
-                    @foreach (var block in blocks)
+                var colSpan = block.Width ?? 1;
+                var rowSpan = block.Height;
+                var isActive = selectedBlock?.Id == block.Id;
+                <div class="kui-report-grid-block @(isActive ? "is-active" : "") @(draggingBlock?.Id == block.Id ? "is-dragging" : "")"
+                     style="grid-row: @block.Row / span @rowSpan; grid-column: @block.Col / span @colSpan"
+                     draggable="true"
+                     ondragover="event.preventDefault()"
+                     @ondragstart="e => OnDragStart(e, block)"
+                     @ondrop="e => OnDrop(e, block)">
+                    <div class="kui-report-block-card-header">
+                        <span class="kui-report-block-drag">⠿</span>
+                        <span class="kui-report-block-type">@block.BlockType.GetDescription()</span>
+                        <span class="kui-report-block-title" @onclick="() => OnConfigBlock(block)">@block.Title</span>
+                        <AntDropdown Model="GetBlockMenu(block)" />
+                    </div>
+                    @if (block.BlockType == ReportBlockType.Chart)
                     {
-                        var isActive = selectedBlock?.Id == block.Id;
-                        <div class="kui-report-block-card @(isActive ? "is-active" : "")"
-                             @onclick="() => OnSelectBlock(block)">
-                            <KFlexSpace>
-                                <span class="kui-report-block-type">@block.BlockType.GetDescription()</span>
-                                <span class="kui-report-block-title">@block.Title</span>
-                                <AntDropdown Model="GetBlockMenu(block)" />
-                            </KFlexSpace>
+                        <div class="kui-report-block-card-body kui-report-block-chart-skeleton">
+                            <div class="kui-skeleton-bar" style="height:40%"></div>
+                            <div class="kui-skeleton-bar" style="height:65%"></div>
+                            <div class="kui-skeleton-bar" style="height:30%"></div>
+                            <div class="kui-skeleton-bar" style="height:80%"></div>
+                            <div class="kui-skeleton-bar" style="height:50%"></div>
+                            <div class="kui-skeleton-bar" style="height:70%"></div>
+                            <div class="kui-skeleton-bar" style="height:35%"></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="kui-report-block-card-body kui-report-block-table-skeleton">
+                            <div class="kui-skeleton-table">
+                                <div class="kui-skeleton-table-row kui-skeleton-table-header">
+                                    <span></span><span></span><span></span><span></span>
+                                </div>
+                                <div class="kui-skeleton-table-row"><span></span><span></span><span></span><span></span></div>
+                                <div class="kui-skeleton-table-row"><span></span><span></span><span></span><span></span></div>
+                                <div class="kui-skeleton-table-row"><span></span><span></span><span></span><span></span></div>
+                                <div class="kui-skeleton-table-row"><span></span><span></span><span></span><span></span></div>
+                            </div>
                         </div>
                     }
                 </div>
             }
-            else
+            @foreach (var cell in GetEmptyCells())
             {
-                <Empty Description="@Language["暂无块，请点击上方按钮添加"]" />
-            }
-        </KGroupBox>
-    </div>
-    @if (selectedBlock != null)
-    {
-        <div class="kui-report-form-config">
-            @if (selectedBlock.BlockType == ReportBlockType.Chart)
-            {
-                <KGroupBox Title="图表配置">
-                    <ReportBlockForm Model="selectedBlock" Layout="FormLayout.Vertical">
-                        <AntRow>
-                            <DataItem Span="8" Label="标题">
-                                <AntInput @bind-Value="context.Title" />
-                            </DataItem>
-                            <DataItem Span="8" Label="数据来源">
-                                <SelectDataSourceType @bind-Value="context.DataSource.SourceType" />
-                            </DataItem>
-                            <DataItem Span="4" Label="宽度(列)">
-                                <AntInteger @bind-Value="context.Width" Min="4" Max="24" />
-                            </DataItem>
-                            <DataItem Span="4" Label="高度">
-                                <AntInteger @bind-Value="context.Chart.Height" />
-                            </DataItem>
-                        </AntRow>
-                        @if (context.DataSource.SourceType == DataSourceType.Table || context.DataSource.SourceType == DataSourceType.SQL)
-                        {
-                            <AntRow>
-                                <DataItem Span="24" Label="数据源名称">
-                                    <AntInput @bind-Value="context.DataSource.SourceName" />
-                                </DataItem>
-                            </AntRow>
-                        }
-                        @if (context.DataSource.SourceType == DataSourceType.Api)
-                        {
-                            <AntRow>
-                                <DataItem Span="12" Label="请求地址">
-                                    <AntInput @bind-Value="context.DataSource.RequestUrl" />
-                                </DataItem>
-                                <DataItem Span="12" Label="请求方式">
-                                    <AntRadioGroup @bind-Value="context.DataSource.RequestMethod" Category="GET,POST" Solid />
-                                </DataItem>
-                            </AntRow>
-                        }
-                        <AntRow>
-                            <DataItem Span="8" Label="图表类型">
-                                <SelectChartType @bind-Value="context.Chart.ChartType" />
-                            </DataItem>
-                            <DataItem Span="8" Label="X轴字段">
-                                <AntInput @bind-Value="context.Chart.XField" />
-                            </DataItem>
-                            <DataItem Span="8" Label="Y轴字段">
-                                <AntInput @bind-Value="context.Chart.YField" />
-                            </DataItem>
-                        </AntRow>
-                        <AntRow>
-                            <DataItem Span="8" Label="分组字段">
-                                <AntInput @bind-Value="context.Chart.CategoryField" />
-                            </DataItem>
-                        </AntRow>
-                    </ReportBlockForm>
-                </KGroupBox>
-            }
-            else if (selectedBlock.BlockType == ReportBlockType.Table)
-            {
-                <KGroupBox Title="表格配置">
-                    <ReportBlockForm Model="selectedBlock" Layout="FormLayout.Vertical">
-                        <AntRow>
-                            <DataItem Span="4" Label="标题">
-                                <AntInput @bind-Value="context.Title" />
-                            </DataItem>
-                            <DataItem Span="4" Label="数据来源">
-                                <SelectDataSourceType @bind-Value="context.DataSource.SourceType" />
-                            </DataItem>
-                            <DataItem Span="4" Label="宽度(列)">
-                                <AntInteger @bind-Value="context.Width" Min="4" Max="24" />
-                            </DataItem>
-                            @if (context.DataSource.SourceType == DataSourceType.Table || context.DataSource.SourceType == DataSourceType.SQL)
-                            {
-                                <DataItem Span="24" Label="数据源名称">
-                                    <AntInput @bind-Value="context.DataSource.SourceName" />
-                                </DataItem>
-                            }
-                            @if (context.DataSource.SourceType == DataSourceType.Api)
-                            {
-                                <DataItem Span="12" Label="请求地址">
-                                    <AntInput @bind-Value="context.DataSource.RequestUrl" />
-                                </DataItem>
-                                <DataItem Span="12" Label="请求方式">
-                                    <AntRadioGroup @bind-Value="context.DataSource.RequestMethod" Category="GET,POST" Solid />
-                                </DataItem>
-                            }
-                        </AntRow>
-                    </ReportBlockForm>
-
-                    <KFlexSpace>
-                        <KTitle Text="列定义" />
-                        <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
-                    </KFlexSpace>
-                    <ColumnConfigTable DataSource="selectedBlock.Table.Columns" ScrollY="120px" HidePagination>
-                        <TableColumn Title="字段名" Width="150" Value="@context.Field">
-                            <AntInput @bind-Value="context.Field" />
-                        </TableColumn>
-                        <TableColumn Title="标题" Width="150" Value="@context.Title">
-                            <AntInput @bind-Value="context.Title" />
-                        </TableColumn>
-                        <TableColumn Title="类型" Width="100" Value="@context.Type">
-                            <SelectFieldType @bind-Value="context.Type" />
-                        </TableColumn>
-                        <TableColumn Title="宽度" Width="80" Value="@context.Width">
-                            <AntInteger @bind-Value="context.Width" />
-                        </TableColumn>
-                        <TableColumn Title="对齐" Width="80" Value="@context.Align">
-                            <SelectAlignType @bind-Value="context.Align" />
-                        </TableColumn>
-                        <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
-                            <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
-                        </ActionColumn>
-                    </ColumnConfigTable>
-                </KGroupBox>
+                <div class="kui-report-grid-empty"
+                     style="grid-row: @cell.Row; grid-column: @cell.Col"
+                     ondragover="event.preventDefault()"
+                     @ondrop="e => OnDropEmpty(e, cell.Row, cell.Col)">
+                    <div class="kui-report-grid-empty-actions" @onclick:stopPropagation>
+                        <KButton Icon="bar-chart" OnClick="OnAddChartBlock" />
+                        <KButton Icon="table" OnClick="OnAddTableBlock" />
+                    </div>
+                </div>
             }
         </div>
-    }
+    </KGroupBox>
 </div>

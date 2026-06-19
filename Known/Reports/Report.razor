@@ -31,13 +31,14 @@
             </div>
             if (blocks != null && blocks.Count > 0)
             {
-                <div class="kui-report-blocks-grid">
-                    @for (int i = 0; i < blocks.Count; i++)
+                <div class="kui-report-blocks-grid" style="@GetGridStyle()">
+                    @foreach (var block in blocks)
                     {
-                        var block = blocks[i];
-                        var colSpan = Math.Clamp(block.Width.Value, 4, 24);
-                        var idx = i;
-                        <div class="kui-report-block" style="grid-column: span @colSpan / span @colSpan">
+                        var colSpan = block.Width ?? 1;
+                        var rowSpan = block.Height;
+                        var idx = blocks.IndexOf(block);
+                        <div class="kui-report-block"
+                             style="grid-row: @block.Row / span @rowSpan; grid-column: @block.Col / span @colSpan">
                             @if (block.BlockType == ReportBlockType.Chart)
                             {
                                 <div class="kui-report-block-title">@block.Title</div>

@@ -1,17 +1,6 @@
 namespace Known.Reports;
 
 /// <summary>
-/// 报表配置类。
-/// </summary>
-public class ReportConfig
-{
-    /// <summary>
-    /// 取得或设置报表块列表。
-    /// </summary>
-    public List<ReportBlock> Blocks { get; set; }
-}
-
-/// <summary>
 /// 数据源配置类。
 /// </summary>
 public class DataSourceConfig
@@ -75,7 +64,7 @@ public class ReportBlock
     /// <summary>
     /// 取得或设置高度。
     /// </summary>
-    public int Height { get; set; } = 1;
+    public int? Height { get; set; } = 1;
 
     /// <summary>
     /// 取得或设置标题。

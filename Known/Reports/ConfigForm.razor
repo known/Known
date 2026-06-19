@@ -1,0 +1,86 @@
+@inherits BaseComponent
+
+<div class="">
+    <ReportBlockForm Model="Block" Layout="FormLayout.Vertical">
+        <AntRow>
+            <DataItem Span="6" Label="标题">
+                <AntInput @bind-Value="context.Title" />
+            </DataItem>
+            <DataItem Span="6" Label="数据来源">
+                <SelectDataSourceType @bind-Value="context.DataSource.SourceType" />
+            </DataItem>
+            <DataItem Span="4" Label="跨列">
+                <AntInteger @bind-Value="context.Width" Min="1" Max="6" />
+            </DataItem>
+            <DataItem Span="4" Label="跨行">
+                <AntInteger @bind-Value="context.Height" Min="1" Max="6" />
+            </DataItem>
+        </AntRow>
+        @if (context.DataSource.SourceType == DataSourceType.Table || context.DataSource.SourceType == DataSourceType.SQL)
+        {
+            <AntRow>
+                <DataItem Span="24" Label="数据源名称">
+                    <AntInput @bind-Value="context.DataSource.SourceName" />
+                </DataItem>
+            </AntRow>
+        }
+        @if (context.DataSource.SourceType == DataSourceType.Api)
+        {
+            <AntRow>
+                <DataItem Span="12" Label="请求地址">
+                    <AntInput @bind-Value="context.DataSource.RequestUrl" />
+                </DataItem>
+                <DataItem Span="12" Label="请求方式">
+                    <AntRadioGroup @bind-Value="context.DataSource.RequestMethod" Category="GET,POST" Solid />
+                </DataItem>
+            </AntRow>
+        }
+        @if (Block.BlockType == ReportBlockType.Chart)
+        {
+            <AntRow>
+                <DataItem Span="8" Label="图表类型">
+                    <SelectChartType @bind-Value="context.Chart.ChartType" />
+                </DataItem>
+                <DataItem Span="8" Label="X轴字段">
+                    <AntInput @bind-Value="context.Chart.XField" />
+                </DataItem>
+                <DataItem Span="8" Label="Y轴字段">
+                    <AntInput @bind-Value="context.Chart.YField" />
+                </DataItem>
+            </AntRow>
+            <AntRow>
+                <DataItem Span="8" Label="分组字段">
+                    <AntInput @bind-Value="context.Chart.CategoryField" />
+                </DataItem>
+            </AntRow>
+        }
+    </ReportBlockForm>
+
+    @if (Block.BlockType == ReportBlockType.Table)
+    {
+        <KFlexSpace>
+            <KTitle Text="列定义" />
+            <KButton Icon="plus" Name="添加列" OnClick="OnAddColumn" />
+        </KFlexSpace>
+        <ColumnConfigTable DataSource="Block.Table.Columns" ScrollY="200px" HidePagination>
+            <TableColumn Title="字段名" Width="150" Value="@context.Field">
+                <AntInput @bind-Value="context.Field" />
+            </TableColumn>
+            <TableColumn Title="标题" Width="150" Value="@context.Title">
+                <AntInput @bind-Value="context.Title" />
+            </TableColumn>
+            <TableColumn Title="类型" Width="100" Value="@context.Type">
+                <SelectFieldType @bind-Value="context.Type" />
+            </TableColumn>
+            <TableColumn Title="宽度" Width="80" Value="@context.Width">
+                <AntInteger @bind-Value="context.Width" />
+            </TableColumn>
+            <TableColumn Title="对齐" Width="80" Value="@context.Align">
+                <SelectAlignType @bind-Value="context.Align" />
+            </TableColumn>
+            <ActionColumn Title="操作" Width="80" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Right">
+                <KButton Icon="delete" OnClick="e => OnDeleteColumn(context)" Danger />
+            </ActionColumn>
+        </ColumnConfigTable>
+    }
+</div>

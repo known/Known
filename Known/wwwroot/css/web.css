@@ -977,3 +977,240 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-empty-page {padding:24px;}
 .kui-empty-page .title {font-size:22px;font-weight:600;margin-bottom:8px;}
 .kui-empty-page .description {line-height:1.8;}
+
+/*Report*/
+:root {
+    --kui-card-bg: #fff;
+    --kui-card-border: #e8e8e8;
+    --kui-card-shadow: 0 1px 4px rgba(0,0,0,.06);
+    --kui-card-hover-shadow: 0 2px 8px rgba(0,0,0,.1);
+    --kui-card-active-bg: #e6f4ff;
+    --kui-card-active-border: var(--ant-primary-color);
+    --kui-block-type-fg: #fff;
+    --kui-block-drag-color: #bbb;
+    --kui-report-preview-bg: #fff;
+    --kui-report-preview-border: #f0f0f0;
+    --kui-report-title-bg: #fafafa;
+    --kui-report-empty-color: #999;
+    --kui-grid-empty-border: #d9d9d9;
+    --kui-grid-empty-hover: rgba(22,119,255,.08);
+    --kui-block-height-bg: #f5f5f5;
+}
+
+[data-theme="dark"] {
+    --kui-card-bg: #1f1f1f;
+    --kui-card-border: #333;
+    --kui-card-shadow: 0 1px 4px rgba(0,0,0,.3);
+    --kui-card-hover-shadow: 0 2px 8px rgba(0,0,0,.4);
+    --kui-card-active-bg: #111b26;
+    --kui-card-active-border: var(--ant-primary-color);
+    --kui-block-type-fg: #fff;
+    --kui-block-drag-color: #666;
+    --kui-report-preview-bg: #1f1f1f;
+    --kui-report-preview-border: #333;
+    --kui-report-title-bg: #2a2a2a;
+    --kui-report-empty-color: #666;
+    --kui-grid-empty-border: #444;
+    --kui-grid-empty-hover: rgba(22,119,255,.12);
+    --kui-block-height-bg: #2a2a2a;
+}
+
+/* ---- Layout ---- */
+.kui-report {display:grid;gap:10px;height:100%;grid-template-columns:200px 1fr;}
+
+/* ---- Form ---- */
+.kui-report-form {padding:10px 16px 16px;display:grid;gap:10px;grid-template-columns:250px 1fr;}
+.kui-report-form > .kui-group-box + .kui-group-box {margin-top:10px;}
+.kui-report-form .kui-form,
+.kui-report-form .ant-form {padding:0;}
+
+/* ---- Preview ---- */
+.kui-report-preview-title {
+    font-size:16px;font-weight:600;margin:0 8px 10px 8px;padding:8px;
+    border-bottom:2px solid var(--ant-primary-color);
+}
+.kui-report-block-title {
+    font-size:14px;font-weight:500;padding:4px 8px;
+    background:var(--kui-report-title-bg);border-radius:4px;
+}
+
+/* ---- Grid Editor in Form ---- */
+.kui-report-block-action {
+    position:absolute;top:8px;right:8px;
+    display:flex;flex-direction:column;gap:10px;
+}
+
+.kui-report-grid {
+    display:grid;gap:10px;
+    min-height:200px;
+}
+
+/* Block placed at grid position */
+.kui-report-grid-block {
+    display:flex;flex-direction:column;gap:0;
+    border:1px solid var(--kui-card-border);
+    border-radius:8px;
+    background:var(--kui-card-bg);
+    box-shadow:var(--kui-card-shadow);
+    transition:all .2s ease;
+    user-select:none;
+    overflow:hidden;
+}
+.kui-report-grid-block:hover {
+    border-color:var(--ant-primary-color);
+    box-shadow:var(--kui-card-hover-shadow);
+}
+.kui-report-grid-block.is-active {
+    border-color:var(--kui-card-active-border);
+    background:var(--kui-card-active-bg);
+    box-shadow:0 0 0 2px rgba(22,119,255,.15);
+}
+.kui-report-grid-block.is-dragging {
+    opacity:.4;
+    border-style:dashed;
+}
+
+/* card header */
+.kui-report-block-card-header {
+    display:flex;align-items:center;gap:6px;
+    padding:6px 10px;
+    border-bottom:1px solid var(--kui-card-border);
+    cursor:pointer;
+}
+
+/* drag handle */
+.kui-report-block-drag {
+    cursor:grab;color:var(--kui-block-drag-color);
+    font-size:16px;line-height:1;padding:0 2px;
+    flex-shrink:0;
+}
+.kui-report-block-drag:active {cursor:grabbing;}
+
+/* type badge */
+.kui-report-block-type {
+    font-size:11px;font-weight:600;padding:2px 8px;
+    border-radius:10px;
+    background:var(--ant-primary-color);
+    color:var(--kui-block-type-fg);
+    white-space:nowrap;flex-shrink:0;
+}
+
+/* title */
+.kui-report-block-title {
+    flex:1;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;font-size:13px;min-width:0;
+}
+
+/* card body - skeleton area */
+.kui-report-block-card-body {
+    padding:12px 10px;
+    min-height:60px;
+    display:flex;
+    flex:1;
+}
+
+/* Chart skeleton */
+.kui-report-block-chart-skeleton {
+    gap:4px;
+    justify-content:space-around;
+    align-items:flex-end;
+    min-height:90px;
+    padding:16px 12px;
+}
+.kui-skeleton-bar {
+    flex:1;
+    background:linear-gradient(180deg,var(--kui-card-border) 0%,var(--kui-block-height-bg) 100%);
+    border-radius:3px 3px 0 0;
+    min-height:8px;
+    opacity:.6;
+}
+
+/* Table skeleton */
+.kui-report-block-table-skeleton {
+    align-items:stretch;
+}
+.kui-skeleton-table {
+    width:100%;
+    border:1px solid var(--kui-card-border);
+    border-radius:4px;
+    overflow:hidden;
+}
+.kui-skeleton-table-row {
+    display:flex;
+    border-bottom:1px solid var(--kui-card-border);
+}
+.kui-skeleton-table-row:last-child {border-bottom:none;}
+.kui-skeleton-table-header {
+    background:var(--kui-report-title-bg);
+}
+.kui-skeleton-table-row span {
+    flex:1;height:12px;margin:4px 3px;
+    background:var(--kui-card-border);
+    border-radius:2px;
+    opacity:.5;
+}
+.kui-skeleton-table-header span {height:10px;}
+
+/* Empty cell drop zone */
+.kui-report-grid-empty {
+    border:2px dashed var(--kui-grid-empty-border);
+    border-radius:8px;
+    min-height:80px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s ease;
+    cursor:default;
+}
+.kui-report-grid-empty:hover {
+    border-color:var(--ant-primary-color);
+    background:var(--kui-grid-empty-hover);
+}
+.kui-report-grid-empty-icon {
+    font-size:24px;font-weight:300;
+    color:var(--kui-grid-empty-border);
+    line-height:1;
+}
+.kui-report-grid-empty:hover .kui-report-grid-empty-icon {
+    color:var(--ant-primary-color);
+}
+
+/* empty cell add buttons */
+.kui-report-grid-empty-actions {
+    display:flex;flex-direction:row;gap:6px;
+    margin-right:8px;
+}
+.kui-report-grid-empty-actions .kui-btn {
+    min-width:24px;height:24px;line-height:1;
+    padding:0;font-size:12px;
+    border-radius:4px;
+    background:var(--kui-card-bg);
+    border:1px solid var(--kui-card-border);
+    color:var(--kui-block-drag-color);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s ease;
+}
+.kui-report-grid-empty-actions .kui-btn:hover {
+    border-color:var(--ant-primary-color);
+    color:var(--ant-primary-color);
+}
+
+/* ---- Preview Blocks Grid ---- */
+.kui-report-blocks-grid {
+    display:grid;gap:12px;padding:8px;
+}
+.kui-report-block {
+    border:1px solid var(--kui-report-preview-border);
+    border-radius:4px;padding:8px;
+    background:var(--kui-report-preview-bg);
+    min-height:200px;
+    box-shadow:var(--kui-card-shadow);
+    overflow:hidden;
+}
+.kui-report-block .kui-report-chart {display:flex;justify-content:center;padding:8px 0;}
+.kui-report-block .kui-report-table {margin-top:8px;}
+
+/* ---- Misc ---- */
+.kui-report-setting {min-height:400px;}
+.kui-report-setting .kui-report-setting-type {margin-bottom:16px;}
+.kui-report-setting .ant-form-item {margin-bottom:12px;}
+.kui-report-setting .kui-group-box + .kui-group-box {margin-top:16px;}

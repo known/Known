@@ -10,6 +10,7 @@ public partial class Report
     private List<CodeInfo> items = [];
     private SysReport currentReport;
     private List<ReportBlock> blocks = [];
+    private int gridColumns = 3;
     private readonly List<KChart> chartRefs = [];
     private readonly Dictionary<string, TableModel<Dictionary<string, object>>> tableModels = [];
 
@@ -93,11 +94,8 @@ public partial class Report
         if (report == null)
             return;
 
-        var config = !string.IsNullOrWhiteSpace(report.Config)
-            ? Utils.FromJson<ReportConfig>(report.Config) ?? new ReportConfig()
-            : new ReportConfig();
-
-        blocks = config.Blocks ?? [];
+        blocks = report.Blocks ?? [];
+        gridColumns = Math.Clamp(report.GridColumn ?? 1, 1, 6);
 
         chartRefs.Clear();
         tableModels.Clear();
@@ -118,6 +116,11 @@ public partial class Report
         }
 
         StateChanged();
+    }
+
+    private string GetGridStyle()
+    {
+        return $"grid-template-columns: repeat({gridColumns}, 1fr);";
     }
 
     private void SetupTable(TableModel<Dictionary<string, object>> model, ReportBlock block)
