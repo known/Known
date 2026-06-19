@@ -1208,6 +1208,7 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 }
 .kui-report-block .kui-report-chart {display:flex;justify-content:center;padding:8px 0;}
 .kui-report-block .kui-report-table {margin-top:8px;}
+.kui-report-block .ant-table-wrapper {padding:5px 0;}
 
 /* ---- Setting ---- */
 .kui-report-setting {padding:16px;}

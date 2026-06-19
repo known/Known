@@ -94,7 +94,16 @@ public partial class Report
             Info = new FormInfo { Width = 1100 },
             Data = item,
             OnSave = Service.SaveReportAsync,
-            OnSaved = async d => await LoadReportsAsync()
+            OnSaved = async d =>
+            {
+                await LoadReportsAsync();
+                if (d != null)
+                {
+                    currentReport = reports.FirstOrDefault(r => r.Id == d.Id);
+                    if (currentReport != null)
+                        await ShowReportAsync(currentReport);
+                }
+            }
         };
         UI.ShowForm(model);
     }

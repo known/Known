@@ -115,22 +115,17 @@ public partial class ReportForm
         }
     }
 
-    private void OnSelectBlock(ReportBlock block)
-    {
-        selectedBlock = block;
-        StateChanged();
-    }
-
     private void OnConfigBlock(ReportBlock block)
     {
         selectedBlock = block;
-        UI.ShowDialog(new DialogModel
+        var dialog = new DialogModel
         {
             Title = $"配置 - {block.Title}",
-            Width = 700,
-            Content = b => b.Component<ConfigForm>().Set(c => c.Block, block).Build(),
-            OnOk = async () => await Task.CompletedTask
-        });
+            Width = 800,
+            Content = b => b.Component<ConfigForm>().Set(c => c.Block, block).Build()
+        };
+        dialog.OnOk = dialog.CloseAsync;
+        UI.ShowDialog(dialog);
     }
 
     private void OnRemoveBlock(ReportBlock block)

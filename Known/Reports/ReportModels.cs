@@ -49,6 +49,13 @@ public class DataSourceConfig
     /// 取得或设置实体关联配置列表。
     /// </summary>
     public List<EntityJoinConfig> EntityJoins { get; set; } = [];
+
+    [JsonIgnore]
+    internal string SourceType1
+    {
+        get { return SourceType.ToString(); }
+        set { SourceType = Utils.ConvertTo<DataSourceType>(value); }
+    }
 }
 
 /// <summary>
@@ -114,6 +121,11 @@ public class ReportBlock
     public string Id { get; set; } = Utils.GetGuid();
 
     /// <summary>
+    /// 取得或设置标题。
+    /// </summary>
+    public string Title { get; set; }
+
+    /// <summary>
     /// 取得或设置块类型（Chart、Table）。
     /// </summary>
     public ReportBlockType BlockType { get; set; } = ReportBlockType.Chart;
@@ -137,11 +149,6 @@ public class ReportBlock
     /// 取得或设置高度。
     /// </summary>
     public int? Height { get; set; } = 1;
-
-    /// <summary>
-    /// 取得或设置标题。
-    /// </summary>
-    public string Title { get; set; }
 
     /// <summary>
     /// 取得或设置数据源配置。

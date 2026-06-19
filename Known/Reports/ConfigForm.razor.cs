@@ -10,6 +10,8 @@ public partial class ConfigForm
     /// </summary>
     [Parameter] public ReportBlock Block { get; set; }
 
+    private bool isAdmin;
+    private List<CodeInfo> dataSourceTypes = [];
     private List<CodeInfo> entities = [];
     private List<FieldInfo> entityFields = [];
 
@@ -17,9 +19,28 @@ public partial class ConfigForm
     protected override async Task OnInitAsync()
     {
         await base.OnInitAsync();
+        isAdmin = CurrentUser.IsSystemAdmin();
+        dataSourceTypes = GetAvailableDataSourceTypes();
         var service = await CreateServiceAsync<IReportService>();
         entities = await service.GetEntitiesAsync();
         await LoadEntityFieldsAsync();
+    }
+
+    private List<CodeInfo> GetAvailableDataSourceTypes()
+    {
+        var types = new List<CodeInfo>
+        {
+            new(nameof(DataSourceType.Sample), "示例数据"),
+        };
+
+        if (isAdmin)
+        {
+            types.Add(new(nameof(DataSourceType.SQL), "SQL语句"));
+            types.Add(new(nameof(DataSourceType.Api), "API接口"));
+        }
+
+        types.Add(new(nameof(DataSourceType.Entity), "系统实体"));
+        return types;
     }
 
     private async Task LoadEntityFieldsAsync()
@@ -32,6 +53,38 @@ public partial class ConfigForm
 
         var service = await CreateServiceAsync<IReportService>();
         entityFields = await service.GetEntityFieldsAsync(Block.DataSource.EntityName);
+    }
+
+    private async Task OnSourceTypeChanged(CodeInfo item)
+    {
+        Block.Chart ??= new ChartConfig();
+        Block.Table ??= new TableConfig();
+        if (Enum.TryParse<DataSourceType>(item.Code, out var parsed))
+        {
+            if (parsed == DataSourceType.Sample)
+                AutoLoadSampleColumns();
+        }
+        StateChanged();
+    }
+
+    private void AutoLoadSampleColumns()
+    {
+        if (Block.BlockType == ReportBlockType.Chart)
+        {
+            Block.Chart.XField = "month";
+            Block.Chart.YField = "amount";
+            Block.Chart.Title = Block.Title;
+        }
+        else if (Block.BlockType == ReportBlockType.Table)
+        {
+            Block.Table.Columns =
+            [
+                new() { Field = "name", Title = "名称" },
+                new() { Field = "category", Title = "分类" },
+                new() { Field = "price", Title = "价格" },
+                new() { Field = "stock", Title = "库存" },
+            ];
+        }
     }
 
     private async Task OnEntityChanged(string entityName)
