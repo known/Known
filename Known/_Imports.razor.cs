@@ -34,6 +34,7 @@ global using Known.Models;
 global using Known.Pages;
 global using Known.Plugins;
 global using Known.Plugins.Tables;
+global using Known.Reports;
 global using Known.Services;
 global using Known.Weixins;
 global using Known.WorkFlows;

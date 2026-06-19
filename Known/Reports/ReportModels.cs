@@ -164,6 +164,8 @@ public class ReportBlock
     /// 取得或设置列定义列表。
     /// </summary>
     public List<ColumnConfig> Columns { get; set; } = [];
+
+    internal TableModel<Dictionary<string, object>> Table { get; set; }
 }
 
 /// <summary>

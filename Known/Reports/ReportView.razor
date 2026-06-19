@@ -1,0 +1,45 @@
+﻿@inherits BaseComponent
+
+<div class="kui-card">
+    @if (Report != null)
+    {
+        <div class="kui-report-preview-title">
+            <KIcon Icon="file-text" />
+            <span>@Report.Name</span>
+            @if (Report.IsFixed)
+            {
+                <KTag Color="blue" Text="系统" />
+            }
+        </div>
+        if (Report.Blocks != null && Report.Blocks.Count > 0)
+        {
+            <div class="kui-report-blocks-grid" style="@GetGridStyle()">
+                @foreach (var block in Report.Blocks)
+                {
+                    var colSpan = block.ColSpan ?? 1;
+                    var rowSpan = block.RowSpan ?? 1;
+                    var idx = Report.Blocks.IndexOf(block);
+                    <div class="kui-report-block"
+                         style="grid-row: @block.Row / span @rowSpan; grid-column: @block.Col / span @colSpan">
+                        @if (block.BlockType == ReportBlockType.Chart)
+                        {
+                            <div class="kui-report-block-title">@block.Title</div>
+                            <KChart @ref="chartRefs[block.Id]" Type="@(block.Chart?.ChartType.ToString().ToLower() ?? "bar")"
+                                    Width="@(block.Chart?.Width ?? 400)"
+                                    Height="@(block.Chart?.Height ?? 200)" />
+                        }
+                        else
+                        {
+                            <div class="kui-report-block-title">@block.Title</div>
+                            <KTable Model="block.Table" />
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <Empty Description="@Language["请从左侧选择一个报表！"]" />
+    }
+</div>

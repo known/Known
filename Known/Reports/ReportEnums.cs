@@ -101,14 +101,14 @@ public enum ChartType
     /// </summary>
     [Display(Name = "饼图")]
     Pie,
-    /// <summary>
-    /// 面积图。
-    /// </summary>
-    [Display(Name = "面积图")]
-    Area,
-    /// <summary>
-    /// 散点图。
-    /// </summary>
-    [Display(Name = "散点图")]
-    Scatter
+    ///// <summary>
+    ///// 面积图。
+    ///// </summary>
+    //[Display(Name = "面积图")]
+    //Area,
+    ///// <summary>
+    ///// 散点图。
+    ///// </summary>
+    //[Display(Name = "散点图")]
+    //Scatter
 }

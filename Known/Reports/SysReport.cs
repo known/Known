@@ -1,6 +1,4 @@
-using Known.Reports;
-
-namespace Known.Entities;
+namespace Known.Reports;
 
 /// <summary>
 /// 系统报表实体类。
