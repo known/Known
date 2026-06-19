@@ -16,10 +16,10 @@
                 <AntInteger @bind-Value="context.Height" Min="1" Max="6" />
             </DataItem>
         </AntRow>
-        @if (context.DataSource.SourceType == DataSourceType.Table || context.DataSource.SourceType == DataSourceType.SQL)
+        @if (context.DataSource.SourceType == DataSourceType.SQL)
         {
             <AntRow>
-                <DataItem Span="24" Label="数据源名称">
+                <DataItem Span="24" Label="SQL语句">
                     <AntInput @bind-Value="context.DataSource.SourceName" />
                 </DataItem>
             </AntRow>

@@ -100,10 +100,11 @@ class ReportService(Context context) : ServiceBase(context), IReportService
     }
 
     /// <inheritdoc />
-    public async Task<List<SysReport>> GetReportsAsync(string sysId)
+    public Task<List<SysReport>> GetReportsAsync(string sysId)
     {
-        var reports = await Database.QueryListAsync<SysReport>(d => d.SysId == sysId);
-        return [.. reports.OrderByDescending(r => r.IsFixed).ThenByDescending(r => r.CreateTime)];
+        var createBy = CurrentUser.UserName;
+        var sql = "select * from SysReport where SysId=@sysId and (IsFixed='True' or CreateBy=@createBy) order by IsFixed desc, CreateTime desc";
+        return Database.QueryListAsync<SysReport>(sql, new { sysId, createBy });
     }
 
     /// <inheritdoc />

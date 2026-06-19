@@ -69,24 +69,27 @@ public partial class Report
 
     private async Task OnDeleteClick(SysReport item)
     {
-        var result = await Service.DeleteReportAsync(item);
-        if (result.IsValid)
+        UI.Confirm("确定要删除该报表吗？", async () =>
         {
-            await LoadReportsAsync();
-            if (currentReport?.Id == item.Id)
+            var result = await Service.DeleteReportAsync(item);
+            if (result.IsValid)
             {
-                currentReport = null;
-                blocks = [];
-                StateChanged();
+                await LoadReportsAsync();
+                if (currentReport?.Id == item.Id)
+                {
+                    currentReport = null;
+                    blocks = [];
+                    StateChanged();
+                }
             }
-        }
+        });
     }
 
     private void ShowForm(SysReport item)
     {
         var model = new FormModel<SysReport>(this)
         {
-            Title = item.IsNew ? "新建报表" : "编辑报表",
+            Title = item.IsNew ? "新增报表" : "编辑报表",
             Type = typeof(ReportForm),
             Info = new FormInfo { Width = 1100 },
             Data = item,

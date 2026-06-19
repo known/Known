@@ -300,6 +300,9 @@ partial class KTable<TItem>
 
         foreach (var item in Model.Columns)
         {
+            if (string.IsNullOrWhiteSpace(item.Id))
+                continue;
+
             hash.Add(item.Id, StringComparer.OrdinalIgnoreCase);
             hash.Add(item.IsVisible);
             hash.Add(item.Sort);

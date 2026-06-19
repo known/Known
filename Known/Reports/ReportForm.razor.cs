@@ -135,10 +135,14 @@ public partial class ReportForm
 
     private void OnRemoveBlock(ReportBlock block)
     {
-        blocks.Remove(block);
-        if (selectedBlock?.Id == block.Id)
-            selectedBlock = blocks.FirstOrDefault();
-        StateChanged();
+        UI.Confirm("确定要删除该模块吗？", () =>
+        {
+            blocks.Remove(block);
+            if (selectedBlock?.Id == block.Id)
+                selectedBlock = blocks.FirstOrDefault();
+            StateChanged();
+            return Task.CompletedTask;
+        });
     }
 
     private DropdownModel GetBlockMenu(ReportBlock block)

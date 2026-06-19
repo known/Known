@@ -28,11 +28,6 @@ public enum DataSourceType
     [Display(Name = "示例数据")]
     Sample,
     /// <summary>
-    /// 数据库表。
-    /// </summary>
-    [Display(Name = "数据库表")]
-    Table,
-    /// <summary>
     /// SQL语句。
     /// </summary>
     [Display(Name = "SQL语句")]
