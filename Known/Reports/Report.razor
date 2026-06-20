@@ -2,12 +2,12 @@
 
 <div class="kui-report">
     <div class="kui-card">
-        <KListBox @ref="listBox" ShowSearch AddButtonText="添加报表" DataSource="items" OnAddClick="OnAddClick" OnItemClick="OnReportClick">
+        <KListBox @ref="listBox" ShowSearch ShowAddButton="IsAdd" AddButtonText="添加报表" DataSource="items" OnAddClick="OnAddClick" OnItemClick="OnReportClick">
             <ItemTemplate>
                 <KFlexSpace>
                     <div>
                         <span>@context.Name</span>
-                        @if (context.Category == "System")
+                        @if (context.Category == "Fixed")
                         {
                             <KIcon Icon="pushpin" Style="color:var(--ant-primary-color);font-size:12px;" />
                         }
@@ -20,5 +20,30 @@
             </ItemTemplate>
         </KListBox>
     </div>
-    <ReportView @ref="view" />
+    <div class="kui-card">
+        @if (currentItem == null)
+        {
+            <Empty Description="@Language["请从左侧选择一个报表！"]" />
+        }
+        else
+        {
+            <div class="kui-report-preview-title">
+                <KIcon Icon="file-text" />
+                <span>@currentItem.Name</span>
+                @if (currentItem.Category == "Fixed")
+                {
+                    <KTag Color="blue" Text="系统" />
+                }
+            </div>
+            @if (currentItem.Category == "System")
+            {
+                var component = currentItem.DataAs<ComponentInfo>();
+                <DynamicComponent Type="component.Type" Parameters="component.Parameters" />
+            }
+            else
+            {
+                <ReportView @ref="view" />
+            }
+        }
+    </div>
 </div>

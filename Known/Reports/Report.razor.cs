@@ -6,8 +6,9 @@
 public partial class Report
 {
     private IReportService Service;
+    private readonly List<CodeInfo> items = [];
     private List<SysReport> reports = [];
-    private List<CodeInfo> items = [];
+    private CodeInfo currentItem;
     private SysReport current;
     private KListBox listBox;
     private ReportView view;
@@ -16,6 +17,16 @@ public partial class Report
     /// 取得子系统ID。
     /// </summary>
     public virtual string SysId { get; } = Config.App.Id;
+
+    /// <summary>
+    /// 取得是否允许添加报表，默认允许添加，子类可重写以禁用添加功能。
+    /// </summary>
+    public virtual bool IsAdd { get; } = true;
+
+    /// <summary>
+    /// 取得报表组件列表。
+    /// </summary>
+    public List<ComponentInfo> Reports { get; } = [];
 
     /// <inheritdoc />
     protected override async Task OnInitPageAsync()
@@ -36,22 +47,31 @@ public partial class Report
 
     private async Task LoadReportsAsync()
     {
+        items.Clear();
+        foreach (var item in Reports)
+        {
+            items.Add(new CodeInfo("System", $"{item.Id}", item.Name, item));
+        }
         reports = await Service.GetReportsAsync(SysId);
-        items = [.. reports.Select(r => new CodeInfo(r.IsFixed ? "System" : "", r.Id, r.Name, null))];
+        foreach (var item in reports)
+        {
+            items.Add(new CodeInfo(item.IsFixed ? "Fixed" : "", item.Id, item.Name, null));
+        }
         if (current != null)
             current = reports.FirstOrDefault(r => r.Id == current.Id);
         current ??= reports.FirstOrDefault();
         listBox?.SetListBox(items, current?.Id);
-        await view?.ShowReportAsync(current);
+        await ShowReportAsync(current);
     }
 
     private async Task OnReportClick(CodeInfo item)
     {
+        currentItem = item;
         var report = reports.FirstOrDefault(r => r.Id == item.Code);
         if (report != null)
         {
             current = report;
-            await view?.ShowReportAsync(current);
+            await ShowReportAsync(current);
         }
     }
 
@@ -87,6 +107,12 @@ public partial class Report
             OnSaved = async d => await LoadReportsAsync()
         };
         UI.ShowForm(model);
+    }
+
+    private async Task ShowReportAsync(SysReport current)
+    {
+        if (view != null)
+            await view.ShowReportAsync(current);
     }
 
     private DropdownModel GetDropdownModel(CodeInfo item)

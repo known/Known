@@ -6,9 +6,14 @@
 public class ComponentInfo
 {
     /// <summary>
-    /// 取得或设置组件排序。
+    /// 取得或设置组件ID或排序。
     /// </summary>
     public int Id { get; set; }
+
+    /// <summary>
+    /// 取得或设置组件名称。
+    /// </summary>
+    public string Name { get; set; }
 
     /// <summary>
     /// 取得或设置组件类型。

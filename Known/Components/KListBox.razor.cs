@@ -16,6 +16,11 @@ public partial class KListBox
     [Parameter] public bool ShowSearch { get; set; }
 
     /// <summary>
+    /// 取得或设置是否显示列表添加按钮。
+    /// </summary>
+    [Parameter] public bool ShowAddButton { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置列表添加按钮名称。
     /// </summary>
     [Parameter] public string AddButtonText { get; set; } = Language.AddData;
