@@ -13,7 +13,7 @@ public class DropdownModel
     /// <summary>
     /// 取得或设置触发类型（Click、ContextMenu、Hover、Focus），默认Hover。
     /// </summary>
-    public string TriggerType { get; set; }
+    public string TriggerType { get; set; } = "Click";
 
     /// <summary>
     /// 取得或设置下拉框图标提示信息。
