@@ -239,6 +239,22 @@ public static class CommonExtension
     }
 
     /// <summary>
+    /// 将列表转换为Excel文件数据。
+    /// </summary>
+    /// <typeparam name="T">数据类型。</typeparam>
+    /// <param name="source">数据列表。</param>
+    /// <param name="name">文件名。</param>
+    /// <param name="onExport">导出回调函数。</param>
+    /// <returns>Excel文件数据。</returns>
+    public static FileDataInfo ToExcelFile<T>(this List<T> source, string name, Func<T, ExportColumnInfo, object> onExport = null)
+    {
+        var model = TypeCache.Model<T>();
+        var columns = model.Fields.Select(p => new ExportColumnInfo { Id = p.Name, Name = p.DisplayName }).ToList();
+        var bytes = ExcelHelper.GetExcelBytes(source, columns, onExport);
+        return new FileDataInfo(name, bytes);
+    }
+
+    /// <summary>
     /// 使用线性扫描法判断列表对象指定属性值是否全部相等。
     /// </summary>
     /// <typeparam name="T">对象类型。</typeparam>

@@ -74,6 +74,26 @@ public static class LayoutExtension
     /// <param name="app">模板基类实例。</param>
     /// <param name="action">导出文件委托</param>
     /// <returns></returns>
+    public static Task ExportFileAsync(this BaseLayout app, Func<FileDataInfo> action)
+    {
+        return app.ShowSpinAsync(Language.DataExporting, async () =>
+        {
+            var info = action.Invoke();
+            if (info == null || info.Bytes == null || info.Bytes.Length == 0)
+            {
+                app.UI.Error(Language.NoDataExport);
+                return;
+            }
+            await app.JS.DownloadFileAsync(info);
+        });
+    }
+
+    /// <summary>
+    /// 异步导出文件。
+    /// </summary>
+    /// <param name="app">模板基类实例。</param>
+    /// <param name="action">导出文件委托</param>
+    /// <returns></returns>
     public static Task ExportFileAsync(this BaseLayout app, Func<Task<FileDataInfo>> action)
     {
         return app.ShowSpinAsync(Language.DataExporting, async () =>
