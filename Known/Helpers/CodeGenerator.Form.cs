@@ -9,7 +9,7 @@ partial class CodeGenerator
         var sb = new StringBuilder();
         sb.AppendLine("@inherits BaseForm<{0}>", modelName);
         sb.AppendLine(" ");
-        sb.AppendLine("<AntForm Form=\"Model\">");
+        sb.AppendLine("<AntForm TItem=\"{0}\" Form=\"Model\">", modelName);
         var rowNos = form.Fields.Select(c => c.Row).Distinct().OrderBy(r => r).ToList();
         if (rowNos.Count == 1)
         {
