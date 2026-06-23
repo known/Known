@@ -879,6 +879,16 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .ant-modal-body > .kui-table {padding:10px 16px 6px 16px;}
 .ant-modal-body > .kui-watermark > div > .kui-table {padding:10px 16px 6px 16px;}
 
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
+    background: transparent;
+}
+
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper,
+.ant-input-affix-wrapper-status-error:not(.ant-input-affix-wrapper-disabled):not(.ant-input-affix-wrapper-borderless).ant-input-affix-wrapper:hover {
+    background: transparent;
+}
+
 /*Form*/
 .kui-drawer {overflow:hidden;}
 .kui-drawer .kui-form {position:absolute;left:0;right:0;top:0;bottom:53px;overflow:auto;}
