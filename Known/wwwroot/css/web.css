@@ -107,6 +107,10 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-more {display:flex;flex-direction:row;align-items:center;}
 .kui-ellipsis {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;}
 .kui-card .ant-empty {margin-top:50px;}
+.kui-card-page {display:flex;flex-direction:column;height:100%;}
+.kui-card-page .kui-toolbar {flex-shrink:0;}
+.kui-card-page .body {padding:16px;overflow:auto;flex:1;min-height:0;}
+.kui-card-page.kui-center .body {text-align:center;}
 
 /*Grid*/
 .kui-row {display:grid;grid-template-columns:repeat(auto-fit,minmax(0%,1fr));gap:10px;height:100%;}

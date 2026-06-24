@@ -8,6 +8,24 @@ namespace Known.Extensions;
 public static class PageExtension
 {
     /// <summary>
+    /// 呈现卡片页面组件。
+    /// </summary>
+    /// <param name="builder">呈现树建造者。</param>
+    /// <param name="className">卡片自定义类名。</param>
+    /// <param name="title">卡片标题。</param>
+    /// <param name="child">卡片内容委托。</param>
+    /// <param name="toolbar">工具栏委托。</param>
+    public static void CardPage(this RenderTreeBuilder builder, string className, string title, RenderFragment child, RenderFragment toolbar = null)
+    {
+        builder.Component<CardPage>()
+               .Set(c => c.Class, className)
+               .Set(c => c.Name, title)
+               .Set(c => c.Toolbar, toolbar)
+               .Set(c => c.ChildContent, child)
+               .Build();
+    }
+
+    /// <summary>
     /// 呈现表单表格组件。
     /// </summary>
     /// <typeparam name="TItem">表格数据类型。</typeparam>
