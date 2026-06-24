@@ -255,8 +255,8 @@ public class TableModel : BaseModel
             if (string.IsNullOrWhiteSpace(item.Id))
                 continue;
 
-            var info = new QueryInfo(item);
-            info.Value = item.GetDefaultValue(query, user);
+            var value = item.GetDefaultValue(query, user);
+            var info = new QueryInfo(item.Id, item.QueryType, value);
             QueryData[item.Id] = info;
         }
 

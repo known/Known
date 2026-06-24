@@ -54,6 +54,11 @@ public partial class ColumnInfo
     /// </summary>
     public FieldType Type { get; set; }
 
+    /// <summary>
+    /// 取得或设置栏位查询类型。
+    /// </summary>
+    public QueryType QueryType { get; set; } = QueryType.Contain;
+
     private string customField;
     /// <summary>
     /// 取得或设置自定义字段组件类型名称。

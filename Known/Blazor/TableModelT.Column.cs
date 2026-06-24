@@ -76,7 +76,6 @@ partial class TableModel<TItem>
             return;
 
         QueryColumns.Add(column);
-        QueryData[column.Id] = new QueryInfo(column);
         SetDefaultQuery();
     }
 
@@ -92,9 +91,26 @@ partial class TableModel<TItem>
         if (QueryColumns.Exists(c => c.Id == id))
             return;
 
-        var column = new ColumnInfo { Id = id, Name = name };
+        var column = new ColumnInfo { Id = id, Name = name, QueryType = type, QueryValue = value };
         QueryColumns.Add(column);
-        QueryData[column.Id] = new QueryInfo(id, type, value);
+        SetDefaultQuery();
+    }
+
+    /// <summary>
+    /// 添加额外查询条件字段。
+    /// </summary>
+    /// <param name="id">字段ID。</param>
+    /// <param name="name">字段名称。</param>
+    /// <param name="placeholder">字段占位符。</param>
+    /// <param name="type">查询类型。</param>
+    /// <param name="value">默认值。</param>
+    public void AddQueryColumn(string id, string name, string placeholder, QueryType type = QueryType.Contain, string value = "")
+    {
+        if (QueryColumns.Exists(c => c.Id == id))
+            return;
+
+        var column = new ColumnInfo { Id = id, Name = name, Placeholder = placeholder, QueryType = type, QueryValue = value };
+        QueryColumns.Add(column);
         SetDefaultQuery();
     }
 
