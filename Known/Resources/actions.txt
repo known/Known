@@ -5,7 +5,9 @@ View             | 查看     | eye          | primary    | Action
 Edit             | 编辑     | edit         | primary    | Action
 Delete           | 删除     | delete       | danger     | Action
 DeleteM          | 批量删除 | delete       | danger     | Toolbar
-Clear            | 清空     | delete       | danger     | Toolbar
+Clear            | 清空     | delete       | danger     | Toolbar,Action
+ClearM           | 批量清空  | delete       | danger     | Toolbar
+ClearAll         | 全部清空  | delete       | danger     | Toolbar
 Import           | 导入     | import       | primary    | Toolbar
 Export           | 导出     | export       | primary    | Toolbar
 ExportSelect     | 勾选导出  | export       | primary    | Toolbar
@@ -32,6 +34,7 @@ Save             | 保存     | save         | primary
 OK               | 确定     | check        | primary
 Cancel           | 取消     | close        | 
 Restore          | 恢复     | rollback     | primary    | Toolbar,Action
+RestoreM         | 批量恢复 | rollback     | primary    | Toolbar
 Authorize        | 授权     | safety       | primary    | Toolbar,Action
 Test             | 测试     | experiment   | primary    | Toolbar,Action
 Log              | 日志     | code         | primary    | Toolbar,Action
