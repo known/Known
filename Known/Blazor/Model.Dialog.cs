@@ -21,6 +21,16 @@ public class DialogModel
     public string Title { get; set; }
 
     /// <summary>
+    /// 取得或设置对话框是否显示遮罩，默认是。
+    /// </summary>
+    public bool Mask { get; set; } = true;
+
+    /// <summary>
+    /// 取得或设置对话框是否点击遮罩关闭，默认否。
+    /// </summary>
+    public bool MaskClosable { get; set; }
+
+    /// <summary>
     /// 取得或设置对话框是否可关闭，默认是。
     /// </summary>
     public bool Closable { get; set; } = true;

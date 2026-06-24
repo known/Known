@@ -14,7 +14,8 @@ public partial class UIService
         var option = new ModalOptions
         {
             Title = Language?[model.Title],
-            MaskClosable = false,
+            Mask = model.Mask,
+            MaskClosable = model.MaskClosable,
             DestroyOnClose = true,
             Closable = model.Closable,
             Draggable = model.Draggable,

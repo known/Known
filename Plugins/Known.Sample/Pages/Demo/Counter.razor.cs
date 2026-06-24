@@ -62,6 +62,7 @@ public partial class Counter
         var model = new DialogModel
         {
             Title = "控制台日志",
+            Mask = false,
             Width = 600,
             Maximizable = true,
             Content = b => b.Component<KConsole>()
