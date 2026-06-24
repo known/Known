@@ -119,28 +119,33 @@ public class TableModel : BaseModel
     public Type FormType { get; set; }
 
     /// <summary>
-    /// 取得或设置表格刷新后调用的委托。
-    /// </summary>
-    public Action OnRefreshed { get; set; }
-
-    /// <summary>
     /// 取得表格额外查询操作按钮。
     /// </summary>
     public List<ActionInfo> QueryActions { get; } = [];
 
-    internal virtual string TableId { get; }
-    internal virtual Type DataType { get; }
-    internal List<ColumnInfo> AllColumns { get; set; } = [];
+    /// <summary>
+    /// 取得或设置表格查询条件验证委托。
+    /// </summary>
+    public Func<PagingCriteria, Task<Result>> OnValidQuery { get; set; }
+
+    /// <summary>
+    /// 取得或设置刷新委托。
+    /// </summary>
+    public Func<bool, Task> OnRefresh { get; set; }
+
+    /// <summary>
+    /// 取得或设置表格刷新后调用的委托。
+    /// </summary>
+    public Action OnRefreshed { get; set; }
 
     /// <summary>
     /// 取得或设置重新加载委托。
     /// </summary>
     public Action OnReload { get; set; }
 
-    /// <summary>
-    /// 取得或设置刷新委托。
-    /// </summary>
-    public Func<bool, Task> OnRefresh { get; set; }
+    internal virtual string TableId { get; }
+    internal virtual Type DataType { get; }
+    internal List<ColumnInfo> AllColumns { get; set; } = [];
 
     internal async Task PageRefreshAsync()
     {

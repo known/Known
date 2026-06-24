@@ -117,10 +117,7 @@ partial class KTable<TItem>
             watch.Write($"Query{Model.Criteria.PageIndex}");
 
             if (!string.IsNullOrWhiteSpace(Model.Result.Message))
-            {
                 UI.Error(Model.Result.Message);
-                return;
-            }
 
             shouldRender = true;
             totalCount = Model.Result.TotalCount;
@@ -130,15 +127,17 @@ partial class KTable<TItem>
             InvalidateColumnStates();
             await Model.RefreshStatisAsync();
             Model.Criteria.IsQuery = false;
-            isQuering = false;
             if (Model.EnableVirtualization)
                 await InvokeAsync(StateHasChanged);
             watch.Write($"Changed{Model.Criteria.PageIndex}");
         }
         catch (Exception ex)
         {
-            isQuering = false;
             _ = OnErrorAsync(ex);
+        }
+        finally
+        {
+            isQuering = false;
         }
     }
 

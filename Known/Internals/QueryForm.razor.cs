@@ -73,6 +73,16 @@ public partial class QueryForm
     private async Task OnSearchAsync()
     {
         Model.Criteria.Query = [.. Model.QueryData.Select(d => d.Value)];
+        if (Model.OnValidQuery != null)
+        {
+            var result = await Model.OnValidQuery.Invoke(Model.Criteria);
+            if (!result.IsValid)
+            {
+                UI.Error(result.Message);
+                return;
+            }
+        }
+
         await Model.SearchAsync();
     }
 
