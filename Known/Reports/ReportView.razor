@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-@if (Report.Blocks != null && Report.Blocks.Count > 0)
+@if (Report?.Blocks != null && Report.Blocks.Count > 0)
 {
     <div class="kui-report-blocks-grid" style="@GetGridStyle()">
         @foreach (var block in Report.Blocks)

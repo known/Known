@@ -9,6 +9,12 @@ public class TenantMyPage : BaseTablePage<SysCompany>
     private ICompanyService Service;
 
     /// <inheritdoc />
+    public override RenderFragment GetPageTitle()
+    {
+        return GetPageTitle("apartment", Language.MyTenants);
+    }
+
+    /// <inheritdoc />
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
