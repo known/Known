@@ -13,13 +13,13 @@ public class KListPanel : KPanelBase<CodeInfo>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    /// 设置列表数据。
+    /// 设置列表数据源。
     /// </summary>
     /// <param name="data">列表数据源。</param>
     /// <param name="current">当前选中项目。</param>
-    public void SetListBox(List<CodeInfo> data, string current)
+    public void SetDataSource(List<CodeInfo> data, string current)
     {
-        listBox?.SetListBox(data, current);
+        listBox?.SetDataSource(data, current);
     }
 
     /// <inheritdoc />

@@ -60,7 +60,7 @@ public partial class Report
         if (current != null)
             current = reports.FirstOrDefault(r => r.Id == current.Id);
         current ??= reports.FirstOrDefault();
-        listBox?.SetListBox(items, current?.Id);
+        listBox?.SetDataSource(items, current?.Id);
         await ShowReportAsync(current);
     }
 

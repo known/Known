@@ -154,7 +154,7 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     {
         ListData = await Service.GetCategoriesAsync(SysId);
         category = ListData?.FirstOrDefault();
-        listTable?.SetListBox(ListData, category?.Code);
+        listTable?.SetDataSource(ListData, category?.Code);
     }
 }
 

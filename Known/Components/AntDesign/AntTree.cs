@@ -44,7 +44,8 @@ public class AntTree : Tree<MenuInfo>
             return;
 
         await base.OnParametersSetAsync();
-        DataSource = Model.Data;
+        if (Model.Data != null)
+            DataSource = Model.Data;
         Checkable = Model.Checkable;
         //DefaultExpandParent = Model.ExpandRoot;
         if (Model.DefaultExpandedKeys != null && Model.DefaultExpandedKeys.Length > 0)
@@ -75,13 +76,13 @@ public class AntTree : Tree<MenuInfo>
     {
         var item = e.Node.DataItem;
         item.Checked = e.Node.Checked;
-        Model.OnNodeClick?.Invoke(item);
+        Model?.OnNodeClick?.Invoke(item);
     }
 
     private void OnTreeCheck(TreeEventArgs<MenuInfo> e)
     {
         var item = e.Node.DataItem;
         item.Checked = e.Node.Checked;
-        Model.OnNodeCheck?.Invoke(item);
+        Model?.OnNodeCheck?.Invoke(item);
     }
 }

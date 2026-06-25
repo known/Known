@@ -5,7 +5,7 @@
 /// </summary>
 public class KTreePanel : KPanelBase<MenuInfo>
 {
-    private string searchKey;
+    private KTreeBox treeBox;
 
     /// <summary>
     /// 取得或设置卡片工具条。
@@ -16,6 +16,16 @@ public class KTreePanel : KPanelBase<MenuInfo>
     /// 取得或设置右侧子组件模板。
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// 设置数据源。
+    /// </summary>
+    /// <param name="data">数据源。</param>
+    /// <param name="current">当前选中项目。</param>
+    public void SetDataSource(List<MenuInfo> data, string current)
+    {
+        treeBox?.SetDataSource(data, current);
+    }
 
     /// <inheritdoc />
     protected override void BuildRender(RenderTreeBuilder builder)
@@ -41,6 +51,6 @@ public class KTreePanel : KPanelBase<MenuInfo>
                .Set(c => c.DataSource, DataSource)
                .Set(c => c.ItemTemplate, ItemTemplate)
                .Set(c => c.OnItemClick, OnItemClick)
-               .Build();
+               .Build(value => treeBox = value);
     }
 }

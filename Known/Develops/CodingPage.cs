@@ -37,7 +37,7 @@ public class CodingPage : BasePage
         {
             Models = await Service.GetModelsAsync();
             Model = Models.FirstOrDefault() ?? new CodeModelInfo();
-            listPanel?.SetListBox(ListData, Model.Id);
+            listPanel?.SetDataSource(ListData, Model.Id);
         }
     }
 
@@ -107,7 +107,7 @@ public class CodingPage : BasePage
             Models.Add(info);
         Model = Models.FirstOrDefault(m => m.Id == info.Id);
         Model ??= new CodeModelInfo();
-        listPanel?.SetListBox(ListData, info.Id);
+        listPanel?.SetDataSource(ListData, info.Id);
     }
 
     private void OnDelete(CodeInfo item)
@@ -119,7 +119,7 @@ public class CodingPage : BasePage
             UI.Result(result, () =>
             {
                 Models.RemoveAll(m => m.Id == item.Code);
-                listPanel?.SetListBox(ListData, Model.Id);
+                listPanel?.SetDataSource(ListData, Model.Id);
                 return Task.CompletedTask;
             });
         });
