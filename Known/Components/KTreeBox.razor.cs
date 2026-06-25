@@ -48,9 +48,30 @@ public partial class KTreeBox
     {
         searchKey = key;
         if (!string.IsNullOrWhiteSpace(searchKey))
-            items = dataSource?.Where(c => c.Name.Contains(searchKey)).ToList();
+        {
+            items = [];
+            var matches = dataSource?.Where(c => c.Name.Contains(searchKey)).ToList();
+            if (matches?.Count > 0)
+            {
+                var dict = dataSource?.ToDictionary(d => d.Id);
+                var set = new HashSet<MenuInfo>(matches);
+                foreach (var item in matches)
+                {
+                    var pid = item.ParentId;
+                    while (!string.IsNullOrEmpty(pid) && pid != "0" && dict.TryGetValue(pid, out var p))
+                    {
+                        if (!set.Add(p))
+                            break;
+                        pid = p.ParentId;
+                    }
+                }
+                items = [.. set];
+            }
+        }
         else
+        {
             items = dataSource;
+        }
         treeItems = items.ToMenuItems(false);
         StateChanged();
     }
