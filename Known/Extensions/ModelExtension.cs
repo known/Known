@@ -31,7 +31,8 @@ public static class ModelExtension
     private static CodeInfo GetAction(MenuInfo menu, Language language, ActionInfo info)
     {
         var code = $"b_{menu.Id}_{info.Id}";
-        return new CodeInfo(code, language[info.Name]);
+        var isMulti = info.Id.EndsWith("M") ? "(M)" : string.Empty;
+        return new CodeInfo(code, language[info.Name] + isMulti);
     }
 
     private static CodeInfo GetColumn(MenuInfo menu, Language language, PageColumnInfo info)
