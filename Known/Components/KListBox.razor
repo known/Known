@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-list-box">
+<div class="@ClassName">
     @if (ShowSearch)
     {
         <div class="kui-list-box-search">
@@ -11,7 +11,7 @@
             }
         </div>
     }
-    <ul class="kui-list-box-body" style="@(ShowSearch ? $"top:42px" : "")">
+    <ul class="kui-list-box-body">
         @if (items != null && items.Count > 0)
         {
             if (string.IsNullOrWhiteSpace(curItem))

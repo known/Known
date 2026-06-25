@@ -10,6 +10,8 @@ public partial class KListBox
     private List<CodeInfo> dataSource = [];
     private List<CodeInfo> items = [];
 
+    private string ClassName => CssBuilder.Default("kui-list-box").AddClass(Class).BuildClass();
+
     /// <summary>
     /// 取得或设置是否显示搜索。
     /// </summary>

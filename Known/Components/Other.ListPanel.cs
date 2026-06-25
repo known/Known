@@ -52,7 +52,7 @@ public class KListPanel : BaseComponent
     {
         builder.Div("kui-row-28", () =>
         {
-            builder.Div("kui-card", () => BuildListBox(builder));
+            BuildListBox(builder);
             builder.Div("kui-pane", () => builder.Fragment(ChildContent));
         });
     }
@@ -60,6 +60,7 @@ public class KListPanel : BaseComponent
     private void BuildListBox(RenderTreeBuilder builder)
     {
         builder.Component<KListBox>()
+               .Set(c => c.Class, "kui-card")
                .Set(c => c.ShowSearch, true)
                .Set(c => c.AddButtonText, ListAddButtonText)
                .Set(c => c.DataSource, ListData)

@@ -194,7 +194,14 @@ public static class MenuExtension
         return models.ToMenuItems(ref current, showRoot);
     }
 
-    internal static List<MenuInfo> ToMenuItems(this List<MenuInfo> models, ref MenuInfo current, bool showRoot = true)
+    /// <summary>
+    /// 将模块信息列表转成树结构菜单信息列表。
+    /// </summary>
+    /// <param name="models">模块信息列表。</param>
+    /// <param name="current">当前菜单信息。</param>
+    /// <param name="showRoot">是否显示根节点。</param>
+    /// <returns>树结构菜单信息列表。</returns>
+    public static List<MenuInfo> ToMenuItems(this List<MenuInfo> models, ref MenuInfo current, bool showRoot = true)
     {
         MenuInfo root = null;
         var menus = new List<MenuInfo>();

@@ -181,6 +181,7 @@ class CategoryGrid : BaseTable<SysDictionary>
         Table.ShowName = false;
         Table.AutoHeight = false;
         Table.ShowPager = true;
+        Table.FixedHeight = "300px";
         Table.OnQuery = QueryDictionariesAsync;
         Table.Form = new FormInfo { Width = 600, SmallLabel = true, OpenType = FormOpenType.Modal };
         Table.FormType = typeof(CategoryForm);
