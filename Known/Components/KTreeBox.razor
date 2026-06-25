@@ -1,0 +1,29 @@
+﻿@inherits KPanelBase<MenuInfo>
+
+<div class="@ClassName">
+    @if (ShowSearch)
+    {
+        <div class="kui-panel-box-search">
+            <Search Value="@searchKey" Placeholder="@Language[Language.TipEnterKeyword]" OnSearch="OnSearch" />
+            @if (ShowAddButton)
+            {
+                <KIcon Icon="plus" Title="@AddButtonText" OnClick="OnAddClick" />
+            }
+        </div>
+    }
+    <div class="kui-panel-box-body">
+        @if (items != null && items.Count > 0)
+        {
+            
+        }
+        else
+        {
+            <Empty>
+                @if (ShowAddButton)
+                {
+                    <KButton Name="@AddButtonText" OnClick="OnAddClick" />
+                }
+            </Empty>
+        }
+    </div>
+</div>

@@ -1,9 +1,9 @@
-﻿@inherits BaseComponent
+﻿@inherits KPanelBase<CodeInfo>
 
 <div class="@ClassName">
     @if (ShowSearch)
     {
-        <div class="kui-list-box-search">
+        <div class="kui-panel-box-search">
             <Search Value="@searchKey" Placeholder="@Language[Language.TipEnterKeyword]" OnSearch="OnSearch" />
             @if (ShowAddButton)
             {
@@ -11,7 +11,7 @@
             }
         </div>
     }
-    <ul class="kui-list-box-body">
+    <ul class="kui-panel-box-body">
         @if (items != null && items.Count > 0)
         {
             if (string.IsNullOrWhiteSpace(curItem))

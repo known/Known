@@ -281,17 +281,17 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-card-page .body {padding:16px;overflow:auto;flex:1;min-height:0;}
 .kui-card-page.kui-center .body {text-align:center;}
 
-/*ListBox*/
-.kui-list-box {display:flex;flex-direction:column;position:relative;height:100%;}
-.kui-list-box-search {padding:10px;flex-shrink:0;display:flex;gap:10px;align-items:center;}
-.kui-list-box-search .ant-input {height:32px;}
-:root[data-size=Compact] .kui-list-box-search .ant-input {height:28px;}
-.kui-list-box-search .anticon {font-size:16px;cursor:pointer;}
-.kui-list-box-body {margin:0;padding:0 10px;overflow:auto;flex:1;min-height:0;}
-.kui-list-box-body .ant-empty {margin:0;padding-top:20px;}
-.kui-list-box-body li {position:relative;margin-bottom:5px;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
-.kui-list-box-body li:hover {background-color:var(--kui-color-hover);}
-.kui-list-box-body li.active {background-color:color-mix(in srgb, var(--kui-primary-color) 20%, white);color:var(--kui-primary-color);border-left-color:var(--kui-primary-color);}
+/*ListBox,TreeBox*/
+.kui-panel-box {display:flex;flex-direction:column;position:relative;height:100%;}
+.kui-panel-box-search {padding:10px;flex-shrink:0;display:flex;gap:10px;align-items:center;}
+.kui-panel-box-search .ant-input {height:32px;}
+:root[data-size=Compact] .kui-panel-box-search .ant-input {height:28px;}
+.kui-panel-box-search .anticon {font-size:16px;cursor:pointer;}
+.kui-panel-box-body {margin:0;padding:0 10px;overflow:auto;flex:1;min-height:0;}
+.kui-panel-box-body .ant-empty {margin:0;padding-top:20px;}
+.kui-panel-box-body li {position:relative;margin-bottom:5px;padding:5px 10px;cursor:pointer;border-left:3px solid transparent;}
+.kui-panel-box-body li:hover {background-color:var(--kui-color-hover);}
+.kui-panel-box-body li.active {background-color:color-mix(in srgb, var(--kui-primary-color) 20%, white);color:var(--kui-primary-color);border-left-color:var(--kui-primary-color);}
 
 /*EditInput*/
 .kui-edit-input {display:flex;align-items:center;}

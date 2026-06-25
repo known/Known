@@ -47,9 +47,11 @@ public class SysDictionaryList : BaseTablePage<SysDictionary>
     protected override void BuildPage(RenderTreeBuilder builder)
     {
         builder.Component<KListTable<SysDictionary>>()
-               .Set(c => c.ListAddButtonText, Language.AddCategory)
-               .Set(c => c.ListData, ListData)
-               .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
+               .Set(c => c.ShowSearch, true)
+               .Set(c => c.ShowAddButton, true)
+               .Set(c => c.AddButtonText, Language.AddCategory)
+               .Set(c => c.DataSource, ListData)
+               .Set(c => c.OnItemClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.OnAddClick, this.Callback<MouseEventArgs>(e => AddCategory()))
                .Set(c => c.Table, Table)
                .Build(value => listTable = value);

@@ -10,42 +10,7 @@ public partial class KListBox
     private List<CodeInfo> dataSource = [];
     private List<CodeInfo> items = [];
 
-    private string ClassName => CssBuilder.Default("kui-list-box").AddClass(Class).BuildClass();
-
-    /// <summary>
-    /// 取得或设置是否显示搜索。
-    /// </summary>
-    [Parameter] public bool ShowSearch { get; set; }
-
-    /// <summary>
-    /// 取得或设置是否显示列表添加按钮。
-    /// </summary>
-    [Parameter] public bool ShowAddButton { get; set; } = true;
-
-    /// <summary>
-    /// 取得或设置列表添加按钮名称。
-    /// </summary>
-    [Parameter] public string AddButtonText { get; set; } = Language.AddData;
-
-    /// <summary>
-    /// 取得或设置列表项数据源。
-    /// </summary>
-    [Parameter] public List<CodeInfo> DataSource { get; set; }
-
-    /// <summary>
-    /// 取得或设置列表项单击事件。
-    /// </summary>
-    [Parameter] public EventCallback<CodeInfo> OnItemClick { get; set; }
-
-    /// <summary>
-    /// 取得或设置列表项呈现模板。
-    /// </summary>
-    [Parameter] public RenderFragment<CodeInfo> ItemTemplate { get; set; }
-
-    /// <summary>
-    /// 取得或设置添加数据按钮单击事件。
-    /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
+    private string ClassName => CssBuilder.Default("kui-panel-box").AddClass(Class).BuildClass();
 
     /// <summary>
     /// 设置列表数据。

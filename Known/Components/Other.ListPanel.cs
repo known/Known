@@ -3,34 +3,9 @@
 /// <summary>
 /// 左侧列表和右侧自定义关联组件类。
 /// </summary>
-public class KListPanel : BaseComponent
+public class KListPanel : KPanelBase<CodeInfo>
 {
     private KListBox listBox;
-
-    /// <summary>
-    /// 取得或设置列表添加按钮名称。
-    /// </summary>
-    [Parameter] public string ListAddButtonText { get; set; }
-
-    /// <summary>
-    /// 取得或设置列表项呈现模板。
-    /// </summary>
-    [Parameter] public RenderFragment<CodeInfo> ListTemplate { get; set; }
-
-    /// <summary>
-    /// 取得或设置列表数据源。
-    /// </summary>
-    [Parameter] public List<CodeInfo> ListData { get; set; }
-
-    /// <summary>
-    /// 取得或
-    /// </summary>
-    [Parameter] public EventCallback<CodeInfo> OnListClick { get; set; }
-
-    /// <summary>
-    /// 取得或设置添加数据按钮单击事件。
-    /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> OnAddClick { get; set; }
 
     /// <summary>
     /// 取得或设置右侧子组件模板。
@@ -61,19 +36,20 @@ public class KListPanel : BaseComponent
     {
         builder.Component<KListBox>()
                .Set(c => c.Class, "kui-card")
-               .Set(c => c.ShowSearch, true)
-               .Set(c => c.AddButtonText, ListAddButtonText)
-               .Set(c => c.DataSource, ListData)
-               .Set(c => c.ItemTemplate, ItemTemplate)
-               .Set(c => c.OnItemClick, OnListClick)
+               .Set(c => c.ShowSearch, ShowSearch)
+               .Set(c => c.ShowAddButton, ShowAddButton)
+               .Set(c => c.AddButtonText, AddButtonText)
                .Set(c => c.OnAddClick, OnAddClick)
+               .Set(c => c.DataSource, DataSource)
+               .Set(c => c.ItemTemplate, ListItemTemplate)
+               .Set(c => c.OnItemClick, OnItemClick)
                .Build(value => listBox = value);
     }
 
-    private RenderFragment ItemTemplate(CodeInfo info)
+    private RenderFragment ListItemTemplate(CodeInfo info)
     {
-        if (ListTemplate != null)
-            return b => b.Fragment(ListTemplate, info);
+        if (ItemTemplate != null)
+            return b => b.Fragment(ItemTemplate, info);
 
         if (string.IsNullOrWhiteSpace(info.Name))
             return b => b.Text(info.Code);

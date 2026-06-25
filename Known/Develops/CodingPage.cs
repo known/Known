@@ -60,9 +60,10 @@ public class CodingPage : BasePage
     private void BuildModel(RenderTreeBuilder builder)
     {
         builder.Component<KListPanel>()
-               .Set(c => c.ListData, ListData)
-               .Set(c => c.ListTemplate, this.BuildTree<CodeInfo>(BuildListItem))
-               .Set(c => c.OnListClick, this.Callback<CodeInfo>(OnItemClickAsync))
+               .Set(c => c.ShowSearch, true)
+               .Set(c => c.DataSource, ListData)
+               .Set(c => c.ItemTemplate, this.BuildTree<CodeInfo>(BuildListItem))
+               .Set(c => c.OnItemClick, this.Callback<CodeInfo>(OnItemClickAsync))
                .Set(c => c.ChildContent, BuildModelForm)
                .Build(value => listPanel = value);
     }
