@@ -6,7 +6,8 @@ namespace Known.Pages;
 /// 用户个人中心页面组件类。
 /// </summary>
 [Route("/profile")]
-[ReuseTabsPage(Title = "个人中心")]
+[ReuseTabsPage(Title = Language.Profile)]
+[DisplayName(Language.Profile)]
 public class UserProfile : BasePage<UserInfo>
 {
     private TabModel Tab;

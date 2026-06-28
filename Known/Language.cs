@@ -5,11 +5,8 @@
 /// </summary>
 public class Language
 {
-    private readonly Context context;
-
-    internal Language(Context context, string name)
+    internal Language(string name)
     {
-        this.context = context;
         if (string.IsNullOrWhiteSpace(name))
             name = CultureInfo.CurrentCulture.Name;
 

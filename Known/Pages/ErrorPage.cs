@@ -5,6 +5,7 @@
 /// </summary>
 [Anonymous]
 [Route("/error/{code}")]
+[DisplayName(Language.Error)]
 public class ErrorPage : BasePage
 {
     /// <summary>

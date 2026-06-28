@@ -109,7 +109,7 @@ class MenuHelper
 
     private static void SetRouteInfo(MenuInfo info, Type type, ReuseTabsPageAttribute tabs, RoleAttribute role, TabRoleAttribute tabRole, PluginAttribute plugin, MenuAttribute menu)
     {
-        info.Name = type.Name;
+        info.Name = type.DisplayName() ?? type.Name;
         info.Icon ??= "file";
         info.PageType = type;
 

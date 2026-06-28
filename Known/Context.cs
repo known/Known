@@ -14,7 +14,7 @@ public class Context
     public Context(IServiceProvider provider)
     {
         Provider = provider;
-        language = new Language(this, currentLanguage);
+        language = new Language(currentLanguage);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public class Context
         set
         {
             currentLanguage = value;
-            language = new Language(this, value);
+            language = new Language(value);
             var culture = new CultureInfo(language.Name);
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
