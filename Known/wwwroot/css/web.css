@@ -97,6 +97,7 @@ body {
     font-weight:bold;text-align:center;margin-top:18px;margin-bottom:18px;line-height:22px;font-size:20px;
     -webkit-box-reflect:below 0 -webkit-linear-gradient(transparent,transparent 50%,rgba(0,0,0,.3));
 }
+.kui-tenant-name {font-weight:bold;text-align:center;margin-top:5px;margin-bottom:5px;line-height:22px;font-size:16px;}
 .kui-body > .kui-card {height:100%;}
 .kui-body > .kui-card > .ant-tabs > .ant-tabs-content-holder {
     position:absolute;top:56px;left:10px;right:10px;bottom:10px;overflow:auto;

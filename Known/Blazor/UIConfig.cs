@@ -43,6 +43,11 @@ public class UIConfig
     public static bool EnableEdit { get; set; }
 
     /// <summary>
+    /// 取得或设置TopNav是否显示租户名称，默认不显示。
+    /// </summary>
+    public static bool ShowTenantName { get; set; }
+
+    /// <summary>
     /// 取得或设置是否启用编辑表格。
     /// </summary>
     public static bool IsEditTable { get; set; }
