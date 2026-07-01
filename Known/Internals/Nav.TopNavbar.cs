@@ -38,8 +38,8 @@ public class TopNavbar : BaseComponent
         {
             builder.Cascading(this, b =>
             {
-                if (UIConfig.ShowTenantName && (CurrentUser?.IsTenant == true || CurrentUser?.IsSystemAdmin() == true))
-                    b.Li("kui-tenant-name", () => b.Text(CurrentUser?.CompName));
+                if (UIConfig.TopRight != null)
+                    b.Li("kui-top-right", () => b.Fragment(UIConfig.TopRight));
 
                 if (Context.IsEditMode)
                     BuildNavAction(b);
