@@ -89,7 +89,32 @@ public partial class UIService
             Content = FormatMessage(text)
         };
         if (action != null)
-            options.OnOk = e => action?.Invoke();
+            options.OnOk = e => action.Invoke();
+        modal.Confirm(options);
+        return true;
+    }
+
+    /// <summary>
+    /// 弹出确认消息提示框组件。
+    /// </summary>
+    /// <param name="text">确认消息文本。</param>
+    /// <param name="onOK">点【是】按钮的回调方法。</param>
+    /// <param name="onCancel">点【否】按钮的回调方法。</param>
+    /// <returns></returns>
+    public bool Confirm(string text, Func<Task> onOK, Func<Task> onCancel)
+    {
+        var options = new ConfirmOptions
+        {
+            Title = Language[Language.Question],
+            Icon = b => b.Icon("question-circle"),
+            Content = FormatMessage(text),
+            OkText = Language[Language.Yes],
+            CancelText = Language[Language.No]
+        };
+        if (onOK != null)
+            options.OnOk = e => onOK.Invoke();
+        if (onCancel != null)
+            options.OnCancel = e => onCancel.Invoke();
         modal.Confirm(options);
         return true;
     }
