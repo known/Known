@@ -72,10 +72,10 @@ public class KIcon : BaseComponent
             return;
         }
 
-        var className = CssBuilder.Default(Icon.StartsWith("fa") ? Icon : "")
+        var className = CssBuilder.Default(Icon.StartsWith("fa ") ? Icon : "")
                                   .AddClass("ant-btn-link", IsTheme)
                                   .BuildClass();
-        if (Icon.StartsWith("fa"))
+        if (Icon.StartsWith("fa "))
         {
             builder.Span().Class(className).OnClick(OnClick).Close();
             return;
