@@ -199,6 +199,48 @@ public sealed class Utils
         var no = string.IsNullOrWhiteSpace(lastNo) ? 0 : int.Parse(lastNo);
         return string.Format("{0}{1:D" + length + "}{2}", prefix, no + 1, suffix);
     }
+
+    /// <summary>
+    /// 根据身份证号解析出生日期、性别和年龄。
+    /// </summary>
+    /// <param name="idCard">身份证号。</param>
+    /// <returns>返回包含出生日期、性别和年龄的元组，如果身份证号无效则返回null。</returns>
+    public static (DateTime BirthDate, string Gender, int Age)? ParseIdCard(string idCard)
+    {
+        if (string.IsNullOrWhiteSpace(idCard))
+            return null;
+
+        var id = idCard.Trim();
+        if (id.Length != 18 && id.Length != 15)
+            return null;
+
+        DateTime birthDate;
+        string gender;
+
+        if (id.Length == 18)
+        {
+            var year = int.Parse(id.Substring(6, 4));
+            var month = int.Parse(id.Substring(10, 2));
+            var day = int.Parse(id.Substring(12, 2));
+            birthDate = new DateTime(year, month, day);
+            gender = int.Parse(id[16..17]) % 2 == 1 ? "1" : "2";
+        }
+        else
+        {
+            var year = int.Parse(id.Substring(6, 2)) + 1900;
+            var month = int.Parse(id.Substring(8, 2));
+            var day = int.Parse(id.Substring(10, 2));
+            birthDate = new DateTime(year, month, day);
+            gender = int.Parse(id[14..15]) % 2 == 1 ? "1" : "2";
+        }
+
+        var today = DateTime.Today;
+        var age = today.Year - birthDate.Year;
+        if (birthDate.Date > today.AddYears(-age))
+            age--;
+
+        return (birthDate, gender, age);
+    }
     #endregion
 
     #region Round
