@@ -147,3 +147,35 @@ public class TableColumn : Column<string>
         base.OnParametersSet();
     }
 }
+
+/// <summary>
+/// 操作列组件类。
+/// </summary>
+public class TableAction : ActionColumn
+{
+    [CascadingParameter] private IComContainer AntTable { get; set; }
+    [CascadingParameter] private UIContext UIContext { get; set; }
+
+    /// <summary>
+    /// 取得或设置添加按钮点击事件回调。
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> OnAdd { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Width = "140";
+        Align = ColumnAlign.Center;
+        Fixed = ColumnFixPlacement.Right;
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        if (OnAdd.HasDelegate)
+            TitleTemplate = b => b.Span("kui-link", UIContext.Language[Language.Add], OnAdd);
+
+        base.OnParametersSet();
+    }
+}
