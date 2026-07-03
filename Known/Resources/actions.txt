@@ -35,7 +35,9 @@ Refresh          | 刷新     | sync         | primary    | Toolbar
 Save             | 保存     | save         | primary
 OK               | 确定     | check        | primary
 Cancel           | 取消     | close        | 
-Restore          | 恢复     | rollback     | primary    | Toolbar,Action
+Archive          | 归档     | folder       | primary    | Action
+ArchiveM         | 归档     | folder       | primary    | Toolbar
+Restore          | 恢复     | rollback     | primary    | Action
 RestoreM         | 恢复     | rollback     | primary    | Toolbar
 Authorize        | 授权     | safety       | primary    | Toolbar,Action
 Test             | 测试     | experiment   | primary    | Toolbar,Action
