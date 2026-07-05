@@ -110,9 +110,12 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 
 /*Grid*/
 .kui-row {display:flex;gap:10px;height:100%;}
-.kui-row > * {flex: 1 0 0%;}
+.kui-row > * {flex: 1 0 0%;min-width:0;min-height:0;}
 .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-55, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
     display:flex;gap:10px;height:100%;
+}
+.kui-row-19 > *, .kui-row-28 > *, .kui-row-37 > *, .kui-row-46 > *, .kui-row-55 > *, .kui-row-64 > *, .kui-row-73 > *, .kui-row-82 > *, .kui-row-91 > * {
+    min-width:0;min-height:0;
 }
 .kui-row-19 > :first-child {flex:1 0 0%;}
 .kui-row-19 > :last-child  {flex:9 0 0%;}
@@ -172,6 +175,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-toolbar .kui-title {padding:4px 5px;}
 
 /*Table*/
+.kui-table-page {display:flex;flex-direction:column;gap:10px;height:100%;min-width:0;min-height:0;}
 .kui-table.form-list .kui-toolbar {border-bottom:none;}
 .ant-modal-body .kui-table.form-list .kui-toolbar {padding:0 0 10px 0;}
 .ant-tabs-tabpane .kui-table.form-list .kui-toolbar1 {border-bottom:none;padding:5px 10px;}
@@ -864,6 +868,10 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 :root[data-size=Compact] td .ant-btn {height:20px;font-size:11px;padding:0 5px;}
 :root[data-size=Compact] td .ant-tag {font-size:11px;}
+:root[data-size=Compact] .ant-btn .anticon.anticon-plus > svg,
+:root[data-size=Compact] .ant-btn .anticon.anticon-minus > svg {
+    shape-rendering: auto;
+}
 
 .ant-modal {top:30px;}
 .ant-modal-body > .ant-steps {padding:10px;}
