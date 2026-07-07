@@ -213,54 +213,9 @@ class PDAScanner {
     }
 }
 
-window.KUtils = {
+window.KScan = {
     pda: null,
     scanner: null,
-    reconnectObserver: null,
-    reconnectTimer: null,
-    reconnectLoginUrl: '/login',
-    reconnectDelay: 5000,
-    setupReconnectAutoLogin: function (loginUrl, delayMs) {
-        this.reconnectLoginUrl = loginUrl || '/login';
-        this.reconnectDelay = delayMs || 5000;
-
-        const modal = document.getElementById('components-reconnect-modal');
-        if (!modal) return;
-
-        const scheduleRedirect = () => {
-            if (this.reconnectTimer) return;
-            this.reconnectTimer = window.setTimeout(() => {
-                const current = location.pathname + location.search;
-                const target = `${this.reconnectLoginUrl}?returnUrl=${encodeURIComponent(current)}`;
-                location.href = target;
-            }, this.reconnectDelay);
-        };
-
-        const clearRedirect = () => {
-            if (this.reconnectTimer) {
-                window.clearTimeout(this.reconnectTimer);
-                this.reconnectTimer = null;
-            }
-        };
-
-        const handleClass = () => {
-            const cls = modal.className || '';
-            // 仅在服务器明确拒绝重连时跳登录，避免长耗时操作导致的临时重连误判
-            if (cls.includes('components-reconnect-rejected')) {
-                scheduleRedirect();
-            } else {
-                clearRedirect();
-            }
-        };
-
-        handleClass();
-        if (this.reconnectObserver) {
-            this.reconnectObserver.disconnect();
-        }
-
-        this.reconnectObserver = new MutationObserver(handleClass);
-        this.reconnectObserver.observe(modal, { attributes: true, attributeFilter: ['class'] });
-    },
     scanPDA: function (invoker, input) {
         this.pda = new PDAScanner(invoker, input);
         this.pda.start();
@@ -274,7 +229,10 @@ window.KUtils = {
     },
     scanStop: function () {
         this.scanner.stop();
-    },
+    }
+}
+
+window.KUtils = {
     runScript: function (script) {
         return eval(script);
     },
@@ -354,7 +312,43 @@ window.KUtils = {
     },
     highlight: function (code, lang) {
         return Prism.highlight(code, Prism.languages[lang], lang);
+    }
+};
+
+window.KUpload = {
+    checkPermission: async function () {
+        if (navigator.permissions && navigator.permissions.query) {
+            const { state } = await navigator.permissions.query({ name: 'clipboard-read' });
+            if (state === 'prompt' || state === 'denied') {
+                try {
+                    await navigator.clipboard.read();
+                } catch (error) {
+                    console.warn('Clipboard access denied:', error);
+                }
+            }
+        }
     },
+    setupPasteListener: function (invoker, element) {
+        element.addEventListener('paste', async (event) => {
+            const clipboardItems = event.clipboardData.items;
+            for (const item of clipboardItems) {
+                if (item.type.indexOf('image') !== -1) {
+                    event.preventDefault();
+                    const blob = item.getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const base64Data = reader.result.split(',')[1]; // 移除 data URL 前缀
+                        invoker.invokeMethodAsync('ReceivePastedImage', base64Data);
+                    };
+                    reader.readAsDataURL(blob);
+                    break;
+                }
+            }
+        });
+    }
+}
+
+window.KChart = {
     showECharts: function (elementId, option) {
         var element = document.getElementById(elementId);
         if (!element)
@@ -394,36 +388,54 @@ window.KUtils = {
         }
 
         return myChart;
-    },
-    checkClipboardPermission: async function () {
-        if (navigator.permissions && navigator.permissions.query) {
-            const { state } = await navigator.permissions.query({ name: 'clipboard-read' });
-            if (state === 'prompt' || state === 'denied') {
-                try {
-                    await navigator.clipboard.read();
-                } catch (error) {
-                    console.warn('Clipboard access denied:', error);
-                }
+    }
+}
+
+window.KSetup = {
+    reconnectObserver: null,
+    reconnectTimer: null,
+    reconnectLoginUrl: '/login',
+    reconnectDelay: 5000,
+    reconnectAutoLogin: function (loginUrl, delayMs) {
+        this.reconnectLoginUrl = loginUrl || '/login';
+        this.reconnectDelay = delayMs || 5000;
+
+        const modal = document.getElementById('components-reconnect-modal');
+        if (!modal) return;
+
+        const scheduleRedirect = () => {
+            if (this.reconnectTimer) return;
+            this.reconnectTimer = window.setTimeout(() => {
+                const current = location.pathname + location.search;
+                const target = `${this.reconnectLoginUrl}?returnUrl=${encodeURIComponent(current)}`;
+                location.href = target;
+            }, this.reconnectDelay);
+        };
+
+        const clearRedirect = () => {
+            if (this.reconnectTimer) {
+                window.clearTimeout(this.reconnectTimer);
+                this.reconnectTimer = null;
             }
+        };
+
+        const handleClass = () => {
+            const cls = modal.className || '';
+            // 仅在服务器明确拒绝重连时跳登录，避免长耗时操作导致的临时重连误判
+            if (cls.includes('components-reconnect-rejected')) {
+                scheduleRedirect();
+            } else {
+                clearRedirect();
+            }
+        };
+
+        handleClass();
+        if (this.reconnectObserver) {
+            this.reconnectObserver.disconnect();
         }
-    },
-    setupPasteListener: function (invoker, element) {
-        element.addEventListener('paste', async (event) => {
-            const clipboardItems = event.clipboardData.items;
-            for (const item of clipboardItems) {
-                if (item.type.indexOf('image') !== -1) {
-                    event.preventDefault();
-                    const blob = item.getAsFile();
-                    const reader = new FileReader();
-                    reader.onload = function () {
-                        const base64Data = reader.result.split(',')[1]; // 移除 data URL 前缀
-                        invoker.invokeMethodAsync('ReceivePastedImage', base64Data);
-                    };
-                    reader.readAsDataURL(blob);
-                    break;
-                }
-            }
-        });
+
+        this.reconnectObserver = new MutationObserver(handleClass);
+        this.reconnectObserver.observe(modal, { attributes: true, attributeFilter: ['class'] });
     }
 };
 

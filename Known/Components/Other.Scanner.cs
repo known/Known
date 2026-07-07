@@ -54,11 +54,11 @@ public class KScanner : BaseComponent
         isScanning = true;
         if (!IsPDA)
         {
-            await JSRuntime.InvokeJsAsync("KUtils.scanStart", invoker, cameraId);
+            await JSRuntime.InvokeJsAsync("KScan.scanStart", invoker, cameraId);
             return;
         }
 
-        await JSRuntime.InvokeJsAsync("KUtils.scanPDA", invoker);
+        await JSRuntime.InvokeJsAsync("KScan.scanPDA", invoker);
     }
 
     /// <summary>
@@ -69,9 +69,9 @@ public class KScanner : BaseComponent
     {
         isScanning = false;
         if (!IsPDA)
-            await JSRuntime.InvokeJsAsync("KUtils.scanStop");
+            await JSRuntime.InvokeJsAsync("KScan.scanStop");
         else
-            await JSRuntime.InvokeJsAsync("KUtils.stopPDA");
+            await JSRuntime.InvokeJsAsync("KScan.stopPDA");
     }
 
     /// <inheritdoc />

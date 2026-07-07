@@ -19,7 +19,7 @@ public partial class KContainer
 
         try
         {
-            await Runtime.InvokeVoidAsync("KUtils.setupReconnectAutoLogin", "/login", 1000);
+            await Runtime.InvokeVoidAsync("KSetup.reconnectAutoLogin", "/login", 1000);
             reconnectInit = true;
         }
         catch (JSException)

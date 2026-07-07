@@ -68,7 +68,7 @@ public class KChart : BaseComponent
     /// <returns></returns>
     public Task ShowAsync(object option)
     {
-        return JSRuntime.InvokeJsAsync("KUtils.showECharts", Id, option);
+        return JSRuntime.InvokeJsAsync("KChart.showECharts", Id, option);
     }
 
     /// <summary>
