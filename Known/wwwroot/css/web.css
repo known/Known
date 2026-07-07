@@ -470,7 +470,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
     .kui-nav {justify-content:flex-end;gap:8px;margin:5px 0 0 0;padding:5px;}
     .kui-form-page {padding:10px 10px 20px 10px;background:var(--kui-bgcolor);height:100%;}
     .kui-row-19, .kui-row-28, .kui-row-37, .kui-row-46, .kui-row-56, .kui-row-64, .kui-row-73, .kui-row-82, .kui-row-91 {
-        grid-template-columns:100%;grid-row-gap:10px;padding-right:0;
+        padding-right:0;flex-direction:column;
     }
     .kui-card {min-height:200px;overflow:auto;}
     .kui-table > .kui-toolbar {height:auto;}
