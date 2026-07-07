@@ -427,6 +427,168 @@ window.KUtils = {
     }
 };
 
+window.KHotkey = {
+    hotkeys: new Map(),
+    hotkeyHandler: null,
+    normalizeKey: function (key) {
+        if (!key) return null;
+
+        const value = key.toString().toLowerCase().trim();
+        switch (value) {
+            case 'ctrl':
+            case 'control':
+                return 'ctrl';
+            case 'alt':
+            case 'option':
+                return 'alt';
+            case 'shift':
+                return 'shift';
+            case 'meta':
+            case 'cmd':
+            case 'command':
+            case 'win':
+            case 'windows':
+                return 'meta';
+            case 'esc':
+                return 'escape';
+            case 'del':
+                return 'delete';
+            case 'return':
+                return 'enter';
+            case 'spacebar':
+            case 'space':
+                return ' ';
+            case 'left':
+                return 'arrowleft';
+            case 'right':
+                return 'arrowright';
+            case 'up':
+                return 'arrowup';
+            case 'down':
+                return 'arrowdown';
+            case 'plus':
+                return '+';
+            default:
+                return value;
+        }
+    },
+    normalizeHotkey: function (hotkey) {
+        if (!hotkey) return null;
+
+        const keys = hotkey.toString().split('+').map(x => x.trim()).filter(Boolean);
+        if (keys.length === 0) return null;
+
+        const modifiers = new Set();
+        let key = null;
+
+        keys.forEach(item => {
+            const value = this.normalizeKey(item);
+            if (!value) return;
+
+            if (value === 'ctrl' || value === 'alt' || value === 'shift' || value === 'meta')
+                modifiers.add(value);
+            else
+                key = value;
+        });
+
+        if (!key) return null;
+
+        const result = [];
+        if (modifiers.has('ctrl')) result.push('ctrl');
+        if (modifiers.has('alt')) result.push('alt');
+        if (modifiers.has('shift')) result.push('shift');
+        if (modifiers.has('meta')) result.push('meta');
+        result.push(key);
+        return result.join('+');
+    },
+    getEventHotkey: function (event) {
+        const key = this.normalizeKey(event.key);
+        if (!key || key === 'ctrl' || key === 'alt' || key === 'shift' || key === 'meta')
+            return null;
+
+        const result = [];
+        if (event.ctrlKey) result.push('ctrl');
+        if (event.altKey) result.push('alt');
+        if (event.shiftKey) result.push('shift');
+        if (event.metaKey) result.push('meta');
+        result.push(key);
+        return result.join('+');
+    },
+    ensureHandler: function () {
+        if (this.hotkeyHandler) return;
+
+        this.hotkeyHandler = event => {
+            if (event.repeat) return;
+
+            const hotkey = this.getEventHotkey(event);
+            if (!hotkey) return;
+
+            let matched = false;
+            for (const group of this.hotkeys.values()) {
+                const info = group.get(hotkey);
+                if (!info) continue;
+
+                matched = true;
+                info.invoker.invokeMethodAsync(info.invoke, hotkey);
+            }
+
+            if (matched) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        };
+
+        document.addEventListener('keydown', this.hotkeyHandler);
+    },
+    clearHandler: function () {
+        if (this.hotkeys.size > 0 || !this.hotkeyHandler) return;
+
+        document.removeEventListener('keydown', this.hotkeyHandler);
+        this.hotkeyHandler = null;
+    },
+    register: function (owner, invoker, hotkeys) {
+        if (!owner || !invoker || !hotkeys) return;
+
+        const items = Array.isArray(hotkeys) ? hotkeys : [hotkeys];
+        const group = this.hotkeys.get(owner) || new Map();
+
+        items.forEach(item => {
+            const hotkey = this.normalizeHotkey(item?.key || item?.Key);
+            const invoke = item?.invoke || item?.Invoke;
+            if (hotkey && invoke)
+                group.set(hotkey, { invoker: invoker, invoke: invoke });
+        });
+
+        if (group.size > 0) {
+            this.hotkeys.set(owner, group);
+            this.ensureHandler();
+        }
+    },
+    dispose: function (owner, hotkeys) {
+        if (!owner || !this.hotkeys.has(owner)) return;
+
+        if (!hotkeys || hotkeys.length === 0) {
+            this.hotkeys.delete(owner);
+            this.clearHandler();
+            return;
+        }
+
+        const items = Array.isArray(hotkeys) ? hotkeys : [hotkeys];
+        const group = this.hotkeys.get(owner);
+
+        items.forEach(item => {
+            const hotkey = this.normalizeHotkey(item);
+            if (hotkey)
+                group.delete(hotkey);
+        });
+
+        if (group.size === 0)
+            this.hotkeys.delete(owner);
+
+        this.clearHandler();
+    }
+};
+
 window.KNotify = {
     conn: null,
     handlers: new Map(),

@@ -190,6 +190,59 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步注册快捷键。
+    /// </summary>
+    /// <typeparam name="T">调用组件类型。</typeparam>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="owner">快捷键归属标识。</param>
+    /// <param name="invoker">调用组件对象。</param>
+    /// <param name="hotkey">快捷键。</param>
+    /// <param name="invoke">调用组件的[JSInvokable]方法名。</param>
+    /// <returns></returns>
+    public static Task RegisterHotkeyAsync<T>(this IJSRuntime runtime, string owner, DotNetObjectReference<T> invoker, string hotkey, string invoke) where T : class
+    {
+        return runtime.InvokeJsAsync("KHotkey.register", owner, invoker, new HotkeyInfo(hotkey, invoke));
+    }
+
+    /// <summary>
+    /// 异步注册多个快捷键。
+    /// </summary>
+    /// <typeparam name="T">调用组件类型。</typeparam>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="owner">快捷键归属标识。</param>
+    /// <param name="invoker">调用组件对象。</param>
+    /// <param name="hotkeys">快捷键集合。</param>
+    /// <returns></returns>
+    public static Task RegisterHotkeysAsync<T>(this IJSRuntime runtime, string owner, DotNetObjectReference<T> invoker, params HotkeyInfo[] hotkeys) where T : class
+    {
+        return runtime.InvokeJsAsync("KHotkey.register", owner, invoker, hotkeys);
+    }
+
+    /// <summary>
+    /// 异步释放快捷键。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="owner">快捷键归属标识。</param>
+    /// <param name="hotkey">快捷键。</param>
+    /// <returns></returns>
+    public static Task DisposeHotkeyAsync(this IJSRuntime runtime, string owner, string hotkey)
+    {
+        return runtime.InvokeJsAsync("KHotkey.dispose", owner, new[] { hotkey });
+    }
+
+    /// <summary>
+    /// 异步释放快捷键。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="owner">快捷键归属标识。</param>
+    /// <param name="hotkeys">快捷键集合，为空时释放当前归属下全部快捷键。</param>
+    /// <returns></returns>
+    public static Task DisposeHotkeysAsync(this IJSRuntime runtime, string owner, params string[] hotkeys)
+    {
+        return runtime.InvokeJsAsync("KHotkey.dispose", owner, hotkeys);
+    }
+
+    /// <summary>
     /// 异步关闭通知事件。
     /// </summary>
     /// <param name="runtime">JS运行时。</param>
