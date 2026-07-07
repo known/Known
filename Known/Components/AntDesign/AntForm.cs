@@ -26,6 +26,11 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
     [CascadingParameter] public UIContext Context { get; set; }
 
     /// <summary>
+    /// 取得或设置是否按回车键切换焦点。
+    /// </summary>
+    [Parameter] public bool IsEnterTab { get; set; }
+
+    /// <summary>
     /// 取得或设置是否显示【确定】和【取消】操作按钮。
     /// </summary>
     [Parameter] public bool ShowAction { get; set; }
@@ -82,6 +87,13 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
             Model = Form.Data;
         }
         base.OnParametersSet();
+    }
+
+    /// <inheritdoc />
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        if (IsEnterTab)
+            await Js.InvokeVoidAsync("KUtils.enterToTab", Id);
     }
 
     /// <inheritdoc />

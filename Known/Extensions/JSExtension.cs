@@ -86,6 +86,51 @@ public static class JSExtension
     }
 
     /// <summary>
+    /// 异步执行一段JS脚本，返回执行结果对象。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="script">JS脚本。</param>
+    /// <returns>执行结果对象。</returns>
+    public static Task<object> RunAsync(this IJSRuntime runtime, string script)
+    {
+        return runtime.InvokeJsAsync<object>("KUtils.runScript", script);
+    }
+
+    /// <summary>
+    /// 异步执行一段JS脚本，无返回结果。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="script">JS脚本。</param>
+    /// <returns></returns>
+    public static Task RunVoidAsync(this IJSRuntime runtime, string script)
+    {
+        return runtime.InvokeJsAsync("KUtils.runScriptVoid", script);
+    }
+
+    /// <summary>
+    /// 异步单击前端指定ID的控件。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="clientId">前端控件ID。</param>
+    /// <returns></returns>
+    public static Task ClickAsync(this IJSRuntime runtime, string clientId)
+    {
+        return runtime.InvokeJsAsync("KUtils.elemClick", clientId);
+    }
+
+    /// <summary>
+    /// 异步将前端控件设为是否可用。
+    /// </summary>
+    /// <param name="runtime">JS运行时。</param>
+    /// <param name="clientId">前端控件ID。</param>
+    /// <param name="enabled">是否可用。</param>
+    /// <returns></returns>
+    public static Task EnabledAsync(this IJSRuntime runtime, string clientId, bool enabled)
+    {
+        return runtime.InvokeJsAsync("KUtils.elemEnabled", clientId, enabled);
+    }
+
+    /// <summary>
     /// 异步将滚动条自动平滑滚动到顶部。
     /// </summary>
     /// <param name="runtime">JS运行时。</param>

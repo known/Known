@@ -54,7 +54,10 @@ public class AntInput : Input<string>
             AutoComplete = false;
         }
         if (OnEnter.HasDelegate)
+        {
+            Class = "kui-biz-enter";
             OnKeyUp = this.Callback<KeyboardEventArgs>(DoKeyUp);
+        }
         base.OnInitialized();
     }
 

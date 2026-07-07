@@ -275,6 +275,64 @@ window.KUtils = {
     scanStop: function () {
         this.scanner.stop();
     },
+    runScript: function (script) {
+        return eval(script);
+    },
+    runScriptVoid: function (script) {
+        eval(script);
+    },
+    elemClick: function (id) {
+        document.getElementById(id).click();
+    },
+    elemEnabled: function (id, enabled) {
+        document.getElementById(id).enabled = enabled;
+    },
+    enterToTab: function (id) {
+        var container = document.getElementById(id);
+        if (!container) return;
+        if (container.dataset.enterTab) return;
+        container.dataset.enterTab = '1';
+
+        container.addEventListener('keyup', function (e) {
+            if (e.key !== 'Enter') return;
+
+            var target = e.target;
+            // 排除特殊元素
+            //if (target.tagName === 'TEXTAREA') return;
+            //if (target.type === 'checkbox' || target.type === 'radio' || target.type === 'submit' || target.type === 'button') return;
+            //if (target.closest('button')) return;
+            // 有业务OnEnter的输入框由C#处理跳转
+            //if (target.closest('.kui-biz-enter')) return;
+            // 不在表单区域内
+            if (!target.closest('.kui-form')) return;
+
+            // 收集所有可聚焦元素
+            var selectors = [
+                'input:not([type="hidden"]):not([type="submit"]):not([type="button"])',
+                '.ant-select-selection-search-input',
+                '.ant-picker input',
+                '.ant-input-number-input'
+            ];
+            var all = container.querySelectorAll(selectors.join(','));
+            var focusable = [];
+            for (var i = 0; i < all.length; i++) {
+                var el = all[i];
+                if (!el.offsetParent || el.disabled || el.readOnly) continue;
+                if (focusable.indexOf(el) >= 0) continue;
+                focusable.push(el);
+            }
+
+            var idx = focusable.indexOf(target);
+            if (idx >= 0 && idx < focusable.length - 1) {
+                e.preventDefault();
+                e.stopPropagation();
+                var next = focusable[idx + 1];
+                next.focus();
+                try { next.select(); } catch (ex) { }
+                next.dispatchEvent(new FocusEvent('focus', { bubbles: true }));
+            }
+        });
+    },
     scrollToTop: function (id) {
         var el = document.getElementById(id);
         if (el) {
