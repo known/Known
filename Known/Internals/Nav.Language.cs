@@ -47,6 +47,13 @@ public class NavLanguage : BaseNav
     private async Task OnLanguageChangedAsync(ActionInfo info)
     {
         current = Language.Settings.FirstOrDefault(l => l.Id == info.Id);
+        // 设置当前语言（Culture）
+        var culture = new CultureInfo(current.Code);
+        CultureInfo.CurrentCulture = culture;
+        CultureInfo.CurrentUICulture = culture;
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        // 设置上下文
         Context.CurrentLanguage = current.Code;
         Context.Local.Language = current.Code;
         await SetLocalInfoAsync(Context.Local);
