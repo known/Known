@@ -11,11 +11,6 @@ public class BasePage : BaseComponent, IReuseTabsPage
     private bool isLogged = false;
     private MenuInfo pageMenu;
 
-    ///// <summary>
-    ///// 取得或设置注入的实时通讯连接实例。
-    ///// </summary>
-    //[Inject] public IConnection Connection { get; set; }
-
     /// <summary>
     /// 取得当前页面菜单信息。
     /// </summary>
@@ -79,6 +74,26 @@ public class BasePage : BaseComponent, IReuseTabsPage
     /// </summary>
     /// <returns></returns>
     protected virtual Task OnInitPageAsync() => Task.CompletedTask;
+
+    /// <summary>
+    /// 设置手机端应用页面菜单信息。
+    /// </summary>
+    /// <typeparam name="T">页面类型。</typeparam>
+    /// <returns></returns>
+    protected async Task SetAppPageMenuAsync<T>()
+    {
+        var type = typeof(T);
+        var menu = Context.UserMenus.FirstOrDefault(d => d.Id == type.FullName);
+        if (menu != null)
+            return;
+
+        var info = new MenuInfo { Id = type.FullName };
+        var table = MenuHelper.CreateAutoPage(type);
+        var moduleIds = await Admin.GetUserModuleIdsAsync(CurrentUser.Id);
+        info.Plugins.AddPlugin(table);
+        info.SetPluginPermission(moduleIds);
+        Context.UserMenus.Add(info);
+    }
 
     /// <summary>
     /// 构建页面组件。

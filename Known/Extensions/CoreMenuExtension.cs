@@ -32,28 +32,14 @@ static class CoreMenuExtension
 
             var menu = item.Clone();
             AddParentModule(menus, userMenus, menu);
-            SetPluginPermission(menu, moduleIds);
+            menu.SetPluginPermission(moduleIds);
             userMenus.Add(menu);
         }
 
         return userMenus;
     }
 
-    private static void AddParentModule(List<MenuInfo> allMenus, List<MenuInfo> userMenus, MenuInfo info)
-    {
-        // 如果父模块不存在，则添加父模块
-        if (!userMenus.Exists(m => m.Id == info.ParentId))
-        {
-            var parent = allMenus.FirstOrDefault(m => m.Id == info.ParentId);
-            if (parent != null)
-            {
-                userMenus.Add(parent);
-                AddParentModule(allMenus, userMenus, parent);
-            }
-        }
-    }
-
-    private static void SetPluginPermission(MenuInfo info, List<string> moduleIds)
+    internal static void SetPluginPermission(this MenuInfo info, List<string> moduleIds)
     {
         var pluginId = info?.Plugins?.FirstOrDefault()?.Id;
         var param = info?.Plugins?.GetPluginParameter<AutoPageInfo>(pluginId);
@@ -71,6 +57,20 @@ static class CoreMenuExtension
         }
 
         info.Plugins.AddPlugin(param, pluginId, param.Type);
+    }
+
+    private static void AddParentModule(List<MenuInfo> allMenus, List<MenuInfo> userMenus, MenuInfo info)
+    {
+        // 如果父模块不存在，则添加父模块
+        if (!userMenus.Exists(m => m.Id == info.ParentId))
+        {
+            var parent = allMenus.FirstOrDefault(m => m.Id == info.ParentId);
+            if (parent != null)
+            {
+                userMenus.Add(parent);
+                AddParentModule(allMenus, userMenus, parent);
+            }
+        }
     }
 
     private static List<ActionInfo> GetUserButtons(List<ActionInfo> buttons, List<string> moduleIds, MenuInfo info)

@@ -43,6 +43,13 @@ public partial interface IAdminService
     Task<UserInfo> GetUserByIdAsync(string userId);
 
     /// <summary>
+    /// 异步获取用户模块ID列表。
+    /// </summary>
+    /// <param name="userId">用户ID。</param>
+    /// <returns>用户模块ID列表。</returns>
+    Task<List<string>> GetUserModuleIdsAsync(string userId);
+
+    /// <summary>
     /// 异步修改系统用户头像。
     /// </summary>
     /// <param name="info">用户头像信息。</param>
@@ -72,6 +79,7 @@ partial class AdminClient
     public Task<AdminInfo> GetAdminAsync() => Http.GetAsync<AdminInfo>("/Admin/GetAdmin");
     public Task<UserInfo> GetUserAsync(string userName) => Http.GetAsync<UserInfo>($"/Admin/GetUser?userName={userName}");
     public Task<UserInfo> GetUserByIdAsync(string userId) => Http.GetAsync<UserInfo>($"/Admin/GetUserById?userId={userId}");
+    public Task<List<string>> GetUserModuleIdsAsync(string userId) => Http.GetAsync<List<string>>($"/Admin/GetUserModuleIds?userId={userId}");
     public Task<Result> UpdateAvatarAsync(AvatarInfo info) => Http.PostAsync("/Admin/UpdateAvatar", info);
     public Task<Result> UpdateUserAsync(UserInfo info) => Http.PostAsync("/Admin/UpdateUser", info);
     public Task<Result> UpdatePasswordAsync(PwdFormInfo info) => Http.PostAsync("/Admin/UpdatePassword", info);
@@ -259,6 +267,11 @@ partial class AdminService
     public Task<UserInfo> GetUserByIdAsync(string userId)
     {
         return Database.GetUserByIdAsync(userId);
+    }
+
+    public Task<List<string>> GetUserModuleIdsAsync(string userId)
+    {
+        return CoreConfig.OnRoleModule?.Invoke(Database, userId);
     }
 
     public async Task<Result> UpdateAvatarAsync(AvatarInfo info)

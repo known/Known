@@ -31,7 +31,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     /// <summary>
     /// 取得或设置当前用户权限菜单信息列表。
     /// </summary>
-    public List<MenuInfo> UserMenus { get; set; }
+    public List<MenuInfo> UserMenus { get; set; } = [];
 
     /// <summary>
     /// 取得UI服务实例。
@@ -153,7 +153,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
 
     private bool IsInMenu(string pageId, string buttonId)
     {
-        var menu = UserMenus.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
+        var menu = UserMenus?.FirstOrDefault(m => m.Id == pageId || m.Code == pageId);
         if (menu == null)
             return false;
 
