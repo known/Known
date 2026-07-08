@@ -89,9 +89,14 @@ public class BasePage : BaseComponent, IReuseTabsPage
 
         var info = new MenuInfo { Id = type.FullName };
         var table = MenuHelper.CreateAutoPage(type);
-        var moduleIds = await Admin.GetUserModuleIdsAsync(CurrentUser.Id);
         info.Plugins.AddPlugin(table);
-        info.SetPluginPermission(moduleIds);
+
+        var user = CurrentUser;
+        if (!user.IsSystemAdmin())
+        {
+            var moduleIds = await Admin.GetUserModuleIdsAsync(user.Id);
+            info.SetPluginPermission(moduleIds);
+        }
         Context.UserMenus.Add(info);
     }
 

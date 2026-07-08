@@ -148,7 +148,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     public void SignOut()
     {
         CurrentUser = null;
-        UserMenus = null;
+        UserMenus = [];
     }
 
     private bool IsInMenu(string pageId, string buttonId)
