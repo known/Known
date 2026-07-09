@@ -297,6 +297,12 @@ class AdvancedSearch : BaseComponent
             return;
         }
 
+        if (Schemes.Any(s => s.Name == _schemeName))
+        {
+            UI.Alert(Language.TipSchemeNameExists);
+            return;
+        }
+
         var scheme = new SearchScheme
         {
             Id = Utils.GetGuid(),
