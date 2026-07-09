@@ -263,7 +263,7 @@ class DbProvider(Database db)
     {
         var order = GetOrderBy(criteria);
         if (criteria.PageIndex <= 0)
-            return $"{text} order by {order}";
+            return $"select t.* from ({text}) t order by {order}";
 
         return GetPageSql(text, order, criteria);
     }

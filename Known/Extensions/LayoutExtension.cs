@@ -129,7 +129,7 @@ public static class LayoutExtension
 
             if (result == null || result.ExportData == null || result.ExportData.Length == 0)
             {
-                app.UI.Error(Language.NoDataExport);
+                app.UI.Error(result.Message ?? Language.NoDataExport);
                 return;
             }
 
