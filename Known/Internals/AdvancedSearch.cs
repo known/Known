@@ -291,31 +291,40 @@ class AdvancedSearch : BaseComponent
 
     private async void OnSaveScheme(MouseEventArgs args)
     {
-        if (string.IsNullOrWhiteSpace(_schemeName))
+        SearchScheme scheme = null;
+        if (string.IsNullOrWhiteSpace(_schemeId))
+        {
+            if (string.IsNullOrWhiteSpace(_schemeName))
+            {
+                UI.Alert(Language.TipSelectScheme);
+                return;
+            }
+
+            if (Schemes.Any(s => s.Name == _schemeName))
+            {
+                UI.Alert(Language.TipSchemeNameExists);
+                return;
+            }
+
+            _schemeId = Utils.GetGuid();
+            scheme = new SearchScheme { Id = _schemeId, Name = _schemeName, Mode = _mode };
+            Schemes.Add(scheme);
+        }
+        else
+        {
+            scheme = Schemes.FirstOrDefault(s => s.Id == _schemeId);
+        }
+
+        if (scheme == null)
         {
             UI.Alert(Language.TipSelectScheme);
             return;
         }
 
-        if (Schemes.Any(s => s.Name == _schemeName))
-        {
-            UI.Alert(Language.TipSchemeNameExists);
-            return;
-        }
-
-        var scheme = new SearchScheme
-        {
-            Id = Utils.GetGuid(),
-            Name = _schemeName,
-            Mode = _mode,
-            Conditions = _mode == SearchMode.Normal ? [.. Query] : null,
-            Groups = _mode == SearchMode.Advanced ? [.. Groups] : null
-        };
-
-        Schemes.Add(scheme);
+        scheme.Conditions = _mode == SearchMode.Normal ? [.. Query] : null;
+        scheme.Groups = _mode == SearchMode.Advanced ? [.. Groups] : null;
         _schemeName = null;
         await SaveSchemesAsync();
-        StateChanged();
     }
 
     private async void OnDeleteScheme(MouseEventArgs args)
@@ -330,7 +339,6 @@ class AdvancedSearch : BaseComponent
         Schemes.Remove(scheme);
         _schemeId = null;
         await SaveSchemesAsync();
-        StateChanged();
     }
 
     private async void OnSchemeSelected(string schemeId)
@@ -363,11 +371,12 @@ class AdvancedSearch : BaseComponent
 
     private async Task SaveSchemesAsync()
     {
-        await Admin.SaveUserSettingAsync(new SettingFormInfo
+        var result = await Admin.SaveUserSettingAsync(new SettingFormInfo
         {
             BizType = SchemeKey,
             BizData = Schemes
         });
+        UI.Result(result, StateChangedAsync);
     }
 }
 
