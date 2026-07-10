@@ -89,7 +89,7 @@ public static class WebExtension
     /// <returns>附件数据对象。</returns>
     public static async Task<FileDataInfo> ReadFileAsync(this IBrowserFile file, int? maxSize = null)
     {
-        var maxFileSize = maxSize ?? Config.System.MaxFileSize ?? Config.App.UploadMaxSize;
+        var maxFileSize = maxSize ?? Config.System?.MaxFileSize ?? Config.App.UploadMaxSize;
         try
         {
             var maxAllowedSize = maxFileSize * 1024 * 1024;
