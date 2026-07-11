@@ -8,6 +8,8 @@
     --kui-color:#2c3e50;
     --kui-color-border:#d9d9d9;
     --kui-color-hover:#cce4fa;
+    --kui-color-table-header:#fafafa;
+    --kui-color-table-border:rgba(0, 0, 0, 0.06);
     --gradient-start: #0061ff;
     --gradient-end: #00e5ff;
 }
@@ -18,6 +20,8 @@
     --kui-color:#e0e0e0;
     --kui-color-border:#434343;
     --kui-color-hover:#212324;
+    --kui-color-table-header:#1d1d1d;
+    --kui-color-table-border:#303030;
     --gradient-start: #0066ff;
     --gradient-end: #00a3ff;
 }
