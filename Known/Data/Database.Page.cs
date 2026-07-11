@@ -196,7 +196,7 @@ public partial class Database
                         cmd.CommandText = info.StatSql;
                         using var reader1 = cmd.ExecuteReader();
                         if (reader1 != null && reader1.Read())
-                            statis = DbUtils.GetDictionary(reader1);
+                            statis = DbUtils.GetDictionary<T>(reader1);
                     }
                 }
             }

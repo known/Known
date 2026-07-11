@@ -3,26 +3,44 @@
 /// <summary>
 /// 类型字段信息类。
 /// </summary>
-/// <param name="property">类型属性。</param>
-public class TypeFieldInfo(PropertyInfo property)
+public class TypeFieldInfo
 {
-    private readonly Func<object, object> _getter = CompileGetter(property);
-    private readonly Action<object, object> _setter = property.CanWrite ? CompileSetter(property) : null;
+    private readonly Func<object, object> _getter;
+    private readonly Action<object, object> _setter;
+
+    /// <summary>
+    /// 构造函数，创建一个类型字段信息类的实例。
+    /// </summary>
+    /// <param name="property">类型属性。</param>
+    public TypeFieldInfo(PropertyInfo property)
+    {
+        Property = property;
+        _getter = CompileGetter(property);
+        _setter = property.CanWrite ? CompileSetter(property) : null;
+        Name = property.Name;
+        Attributes = property.GetCustomAttributes(false);
+        Column = GetAttribute<ColumnAttribute>();
+        DisplayName = GetAttribute<DisplayNameAttribute>()?.DisplayName;
+        Length = GetAttribute<MaxLengthAttribute>()?.Length;
+        Required = GetAttribute<RequiredAttribute>() is not null;
+        IsKey = GetAttribute<KeyAttribute>() is not null;
+        Category = GetAttribute<CategoryAttribute>()?.Category;
+    }
 
     /// <summary>
     /// 取得字段属性名称。
     /// </summary>
-    public string Name { get; } = property.Name;
+    public string Name { get; }
 
     /// <summary>
     /// 取得字段属性信息。
     /// </summary>
-    public PropertyInfo Property { get; } = property;
+    public PropertyInfo Property { get; }
 
     /// <summary>
     /// 取得字段属性自定义特性集合。
     /// </summary>
-    public object[] Attributes { get; } = property.GetCustomAttributes(false);
+    public object[] Attributes { get; }
 
     /// <summary>
     /// 获取指定类型的特性列表。
@@ -52,16 +70,16 @@ public class TypeFieldInfo(PropertyInfo property)
     /// <param name="value">属性值。</param>
     public void SetValue(object instance, object value) => _setter?.Invoke(instance, value);
 
-    internal string DisplayName => GetAttribute<DisplayNameAttribute>()?.DisplayName;
-    internal int? Length => GetAttribute<MaxLengthAttribute>()?.Length;
-    internal bool Required => GetAttribute<RequiredAttribute>() is not null;
-    internal bool IsKey => GetAttribute<KeyAttribute>() is not null;
-    internal string Category => GetAttribute<CategoryAttribute>()?.Category;
+    internal ColumnAttribute Column { get; }
+    internal string DisplayName { get; }
+    internal int? Length { get; }
+    internal bool Required { get; }
+    internal bool IsKey { get; }
+    internal string Category { get; }
 
     internal ColumnInfo GetColumn(bool isAttr = false)
     {
-        var column = GetAttribute<ColumnAttribute>();
-        if (isAttr && column == null) return null;
+        if (isAttr && Column == null) return null;
 
         var info = new ColumnInfo
         {
@@ -69,24 +87,24 @@ public class TypeFieldInfo(PropertyInfo property)
             Id = Name,
             Name = DisplayName,
             Required = Required,
-            Category = Category,
+            Category = Category
         };
-        if (column != null)
+        if (Column != null)
         {
-            info.IsViewLink = column.IsViewLink;
-            info.IsQuery = column.IsQuery;
-            info.IsQueryAll = column.IsQueryAll;
-            info.QueryValue = column.QueryValue;
-            info.Ellipsis = column.Ellipsis;
-            info.IsVisible = column.IsVisible;
-            info.IsSum = column.IsSum;
-            info.IsSort = column.IsSort;
-            info.DefaultSort = column.DefaultSort;
-            info.Fixed = column.Fixed;
-            info.Width = column.Width;
-            info.Align = column.Align;
-            if (column.Type != FieldType.Text)
-                info.Type = column.Type;
+            info.IsViewLink = Column.IsViewLink;
+            info.IsQuery = Column.IsQuery;
+            info.IsQueryAll = Column.IsQueryAll;
+            info.QueryValue = Column.QueryValue;
+            info.Ellipsis = Column.Ellipsis;
+            info.IsVisible = Column.IsVisible;
+            info.IsSum = Column.IsSum;
+            info.IsSort = Column.IsSort;
+            info.DefaultSort = Column.DefaultSort;
+            info.Fixed = Column.Fixed;
+            info.Width = Column.Width;
+            info.Align = Column.Align;
+            if (Column.Type != FieldType.Text)
+                info.Type = Column.Type;
         }
         if (info.Type == FieldType.Text)
             info.Type = GetFieldType();

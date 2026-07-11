@@ -63,6 +63,18 @@ public class TypeModelInfo
             info.SetValue(instance, value);
     }
 
+    internal string GetPropertyName(string key)
+    {
+        if (Dictionary.TryGetValue(key, out var info))
+            return info.Name;
+
+        var field = Fields.FirstOrDefault(p => p.Column?.Field == key);
+        if (field != null)
+            return field.Name;
+
+        return key;
+    }
+
     internal void SetDBValue(object instance, string key, object value)
     {
         if (!Dictionary.TryGetValue(key, out var info))

@@ -51,7 +51,7 @@ public sealed class DbUtils
     /// <returns>泛型对象。</returns>
     public static object ConvertTo<T>(IDataReader reader) where T : new()
     {
-        var dic = GetDictionary(reader);
+        var dic = GetDictionary<T>(reader);
         if (typeof(T).IsDictionary())
             return dic;
 
@@ -66,7 +66,7 @@ public sealed class DbUtils
     /// <returns>泛型对象。</returns>
     public static object ConvertTo<T>(DataRow row) where T : new()
     {
-        var dic = GetDictionary(row);
+        var dic = GetDictionary<T>(row);
         if (typeof(T).IsDictionary())
             return dic;
 
@@ -121,8 +121,9 @@ public sealed class DbUtils
         return dic;
     }
 
-    internal static Dictionary<string, object> GetDictionary(IDataReader reader)
+    internal static Dictionary<string, object> GetDictionary<T>(IDataReader reader) where T : new()
     {
+        var model = TypeCache.Model<T>();
         var dic = new Dictionary<string, object>();
         for (int i = 0; i < reader.FieldCount; i++)
         {
@@ -131,13 +132,15 @@ public sealed class DbUtils
                 continue;
 
             var value = reader[i];
+            name = model.GetPropertyName(name);
             dic[name] = value == DBNull.Value ? null : value;
         }
         return dic;
     }
 
-    private static Dictionary<string, object> GetDictionary(DataRow row)
+    private static Dictionary<string, object> GetDictionary<T>(DataRow row) where T : new()
     {
+        var model = TypeCache.Model<T>();
         var dic = new Dictionary<string, object>();
         foreach (DataColumn item in row.Table.Columns)
         {
@@ -146,6 +149,7 @@ public sealed class DbUtils
                 continue;
 
             var value = row[item.ColumnName];
+            name = model.GetPropertyName(name);
             dic[name] = value == DBNull.Value ? null : value;
         }
         return dic;
