@@ -25,7 +25,7 @@ public class FlowLogGrid : BaseTable<FlowLogInfo>
         if (Drawer != null)
             Table.AutoHeight = true;
         else
-            Table.FixedHeight = "450px";
+            Table.FixedHeight = "300px";
         Table.OnQuery = QueryFlowLogsAsync;
         Table.AddColumn(c => c.StepName).Width(110).Tag();
         Table.AddColumn(c => c.ExecuteBy).Width(100);
