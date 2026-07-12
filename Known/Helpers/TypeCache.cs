@@ -22,7 +22,10 @@ class TypeCache
 
     private static PropertyInfo[] CreateSortedProperties(Type type)
     {
-        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var properties = type
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.GetIndexParameters().Length == 0)
+            .ToArray();
         if (properties.Length == 0) return properties;
 
         // 去重：同名属性只保留最后一个（最派生），避免子类 new 隐藏基类属性时重复
