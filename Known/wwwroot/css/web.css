@@ -839,6 +839,7 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 .ant-tree .ant-tree-node-content-wrapper {display:flex;}
 .ant-dropdown-menu-item .ant-dropdown-menu-submenu-expand-icon, 
 .ant-dropdown-menu-submenu-title .ant-dropdown-menu-submenu-expand-icon {top:4px;}
+.ant-checkbox-wrapper + .ant-checkbox-wrapper {margin-left:0;}
 
 .ant-badge-count {z-index:100;}
 .ant-btn > .anticon + span, 
