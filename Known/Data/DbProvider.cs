@@ -171,10 +171,15 @@ class DbProvider(Database db)
         var tableName = GetTableName(type);
         var cmdParams = DbUtils.ToDictionary(data);
         var changes = new Dictionary<string, object>();
-        foreach (var item in cmdParams)
+        var fields = TypeCache.Fields(type);
+        foreach (var item in fields)
         {
-            if (data.IsChanged(item.Key, item.Value))
-                changes[item.Key] = item.Value;
+            var fieldName = item.Property.GetFieldName();
+            if (!cmdParams.TryGetValue(fieldName, out var value))
+                continue;
+
+            if (data.IsChanged(item.Name, value))
+                changes[fieldName] = value;
         }
 
         var changeKeys = new List<string>();
@@ -184,11 +189,12 @@ class DbProvider(Database db)
         }
 
         var keys = new List<string>();
-        var keyFields = TypeCache.Fields(type).Where(d => d.IsKey).ToList();
+        var keyFields = fields.Where(d => d.IsKey).ToList();
         foreach (var item in keyFields)
         {
-            keys.Add($"{FormatName(item.Name)}=@{item.Name}");
-            changes[item.Name] = cmdParams[item.Name];
+            var fieldName = item.Property.GetFieldName();
+            keys.Add($"{FormatName(fieldName)}=@{fieldName}");
+            changes[fieldName] = cmdParams[fieldName];
         }
 
         var column = string.Join(",", changeKeys);
