@@ -301,12 +301,12 @@ class DbProvider(Database db)
                 }
                 else if (item.Contains("desc"))
                 {
-                    var orderBy = GetOrderBy(item, "desc");
+                    var orderBy = GetOrderBy(criteria, item, "desc");
                     orderBys.Add(orderBy);
                 }
                 else
                 {
-                    var orderBy = GetOrderBy(item, "asc");
+                    var orderBy = GetOrderBy(criteria, item, "asc");
                     orderBys.Add(orderBy);
                 }
             }
@@ -319,10 +319,20 @@ class DbProvider(Database db)
         return order;
     }
 
-    private string GetOrderBy(string item, string sort)
+    private string GetOrderBy(PagingCriteria criteria, string item, string sort)
     {
-        var field = item.Replace(sort, "").Trim();
-        return $"{FormatName(field)} {sort}";
+        var field = item.Replace(sort, "", StringComparison.OrdinalIgnoreCase).Trim();
+        var prefix = string.Empty;
+        var key = field;
+        var index = field.LastIndexOf('.');
+        if (index >= 0)
+        {
+            prefix = field[..(index + 1)];
+            key = field[(index + 1)..];
+        }
+
+        key = criteria.GetFieldName(key);
+        return $"{prefix}{FormatName(key)} {sort}";
     }
 
     private string GetStatSql(string text, PagingCriteria criteria)
