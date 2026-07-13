@@ -41,6 +41,11 @@ public class FieldInfo
     public bool IsKey { get; set; }
 
     /// <summary>
+    /// 取得或设置字段是否为数据库自增主键。
+    /// </summary>
+    public bool IsAutoKey { get; set; }
+
+    /// <summary>
     /// 取得或设置字段类型名称。
     /// </summary>
     [JsonIgnore]
@@ -74,6 +79,7 @@ public class FieldInfo
             Length = Length,
             Required = Required,
             IsKey = IsKey,
+            IsAutoKey = IsAutoKey,
             IsGrid = IsGrid,
             IsForm = IsForm
         };

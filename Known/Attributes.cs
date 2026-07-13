@@ -167,6 +167,19 @@ public class TableAttribute(string name) : Attribute
 }
 
 /// <summary>
+/// 主键特性类，用于标识实体类属性作为数据库表主键。
+/// </summary>
+/// <param name="isAuto">是否自动生成主键。</param>
+[AttributeUsage(AttributeTargets.Property)]
+public class KeyAttribute(bool isAuto = false) : Attribute
+{
+    /// <summary>
+    /// 取得是否自动生成主键，默认False。
+    /// </summary>
+    public bool IsAuto { get; } = isAuto;
+}
+
+/// <summary>
 /// 角色特性类，用于标识组件类需要在角色管理中配置按钮权限。
 /// </summary>
 /// <param name="name">组件名称。</param>

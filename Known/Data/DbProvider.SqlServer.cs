@@ -59,10 +59,11 @@ class SqlServerProvider(Database db) : DbProvider(db)
         {
             var comma = ++index == fields.Count && !hasKey ? "" : ",";
             var required = item.Required ? "NOT NULL" : "NULL";
+            var identity = item.IsKey && item.IsAutoKey ? " IDENTITY(1,1)" : "";
             var column = $"[{item.Field ?? item.Id}]";
             column = GetColumnName(column, maxLength + 2);
             var type = GetSqlServerDbType(item);
-            sb.AppendLine($"    {column} {type} {required}{comma}");
+            sb.AppendLine($"    {column} {type}{identity} {required}{comma}");
         }
         if (hasKey)
         {

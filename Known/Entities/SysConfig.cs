@@ -9,7 +9,7 @@ public class SysConfig
     /// <summary>
     /// 取得或设置系统ID。
     /// </summary>
-    [Required, Key]
+    [Required, Known.Key]
     [MaxLength(50)]
     [DisplayName("系统ID")]
     public string AppId { get; set; }
@@ -17,7 +17,7 @@ public class SysConfig
     /// <summary>
     /// 取得或设置配置键。
     /// </summary>
-    [Required, Key]
+    [Required, Known.Key]
     [MaxLength(150)]
     [DisplayName("配置键")]
     public string ConfigKey { get; set; }

@@ -135,12 +135,22 @@ class DbProvider(Database db)
 
     public CommandInfo GetInsertCommand<T>(T data = default)
     {
-        var tableName = GetTableName(typeof(T));
+        var type = typeof(T);
+        var tableName = GetTableName(type);
         var cmdParams = DbUtils.ToDictionary(data);
-        var changes = data == null ? cmdParams : [];
+        var identityFields = Database.DatabaseType == DatabaseType.SqlServer
+                           ? TypeCache.Fields(type)
+                                      .Where(d => d.IsKey && d.IsAutoKey)
+                                      .Select(d => d.Property.GetFieldName())
+                                      .ToHashSet(StringComparer.OrdinalIgnoreCase)
+                           : null;
+        var changes = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
         foreach (var item in cmdParams)
         {
-            if (item.Value != null)
+            if (identityFields?.Contains(item.Key) == true)
+                continue;
+
+            if (data == null || item.Value != null)
                 changes[item.Key] = item.Value;
         }
 

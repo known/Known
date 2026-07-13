@@ -9,7 +9,7 @@ public class SysUserRole
     /// <summary>
     /// 取得或设置用户ID。
     /// </summary>
-    [Required, Key]
+    [Required, Known.Key]
     [MaxLength(50)]
     [DisplayName("用户ID")]
     public string UserId { get; set; }
@@ -17,7 +17,7 @@ public class SysUserRole
     /// <summary>
     /// 取得或设置角色ID。
     /// </summary>
-    [Required, Key]
+    [Required, Known.Key]
     [MaxLength(50)]
     [DisplayName("角色ID")]
     public string RoleId { get; set; }

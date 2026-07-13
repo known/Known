@@ -47,7 +47,7 @@ partial class CodeGenerator
             sb.AppendLine("    /// 取得或设置{0}。", item.Name);
             sb.AppendLine("    /// </summary>");
             if (item.IsKey)
-                sb.AppendLine("    [Required, Key]");
+                sb.AppendLine(item.IsAutoKey ? "    [Required, Known.Key(true)]" : "    [Required, Known.Key]");
             else if (item.Required)
                 sb.AppendLine("    [Required]");
             if (!string.IsNullOrWhiteSpace(item.Length) && type == "string")

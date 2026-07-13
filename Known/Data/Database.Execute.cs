@@ -231,6 +231,12 @@ public partial class Database
                  : Provider.GetUpdateCommand(entity);
         info.IsSave = true;
         info.Original = entity.Original;
+        if (entity.IsNew)
+        {
+            var keyField = GetIdentityKeyField(typeof(T));
+            if (keyField != null)
+                return ExecuteIdentityInsertAsync(entity, info, keyField);
+        }
         return ExecuteNonQueryAsync(info);
     }
 
@@ -243,6 +249,37 @@ public partial class Database
     protected virtual Task<int> SaveDataAsync<T>(T entity) where T : EntityBase, new()
     {
         return SaveEntityAsync(entity);
+    }
+
+    private TypeFieldInfo GetIdentityKeyField(Type type)
+    {
+        if (DatabaseType != DatabaseType.SqlServer || type == null)
+            return null;
+
+        return TypeCache.Fields(type).FirstOrDefault(d => d.IsKey && d.IsAutoKey);
+    }
+
+    private async Task<int> ExecuteIdentityInsertAsync<T>(T entity, CommandInfo info, TypeFieldInfo keyField)
+    {
+        try
+        {
+            using var cmd = await PrepareCommandAsync(info);
+            cmd.CommandText = $"{cmd.CommandText};select scope_identity();";
+            var value = cmd.ExecuteScalar();
+            cmd.Parameters.Clear();
+            if (info.IsClose && !IsMemoryDB)
+                conn?.Close();
+            if (value != null && value != DBNull.Value)
+                keyField.SetValue(entity, TypeCache.ConvertTo(keyField.Property.PropertyType, value));
+            DbMonitor.OnOperate(info, true);
+            return 1;
+        }
+        catch (Exception ex)
+        {
+            DbMonitor.OnOperate(info, false);
+            HandException(info, ex);
+            throw new SystemException(ex.Message, ex);
+        }
     }
 
     private async Task SaveAsync<T>(T entity, bool isCheckEntity) where T : EntityBase, new()

@@ -97,6 +97,12 @@ public partial class Database
                  : Provider.GetUpdateCommand(entity);
         info.IsSave = true;
         info.Original = entity.Original;
+        if (entity.IsNew)
+        {
+            var keyField = GetIdentityKeyField(typeof(T));
+            if (keyField != null)
+                return ExecuteIdentityInsertAsync(entity, info, keyField);
+        }
         return ExecuteNonQueryAsync(info);
     }
 

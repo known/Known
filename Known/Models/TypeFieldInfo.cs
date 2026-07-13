@@ -23,7 +23,9 @@ public class TypeFieldInfo
         DisplayName = GetAttribute<DisplayNameAttribute>()?.DisplayName;
         Length = GetAttribute<MaxLengthAttribute>()?.Length;
         Required = GetAttribute<RequiredAttribute>() is not null;
-        IsKey = GetAttribute<KeyAttribute>() is not null;
+        var key = GetAttribute<KeyAttribute>();
+        IsKey = key != null;
+        IsAutoKey = key?.IsAuto == true;
         Category = GetAttribute<CategoryAttribute>()?.Category;
     }
 
@@ -75,6 +77,7 @@ public class TypeFieldInfo
     internal int? Length { get; }
     internal bool Required { get; }
     internal bool IsKey { get; }
+    internal bool IsAutoKey { get; }
     internal string Category { get; }
 
     internal ColumnInfo GetColumn(bool isAttr = false)
@@ -151,7 +154,8 @@ public class TypeFieldInfo
             Type = GetFieldType(),
             Length = Length?.ToString(),
             Required = Required,
-            IsKey = IsKey
+            IsKey = IsKey,
+            IsAutoKey = IsAutoKey
         };
         if (field.IsKey || Property.PropertyType == typeof(bool))
             field.Required = true;

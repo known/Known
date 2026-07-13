@@ -47,7 +47,8 @@ public class EntityBase<TKey> : BaseEntity
     /// <summary>
     /// 取得或设置实体ID。
     /// </summary>
-    [Key] public TKey Id { get; set; }
+    [Known.Key]
+    public TKey Id { get; set; }
 
     /// <summary>
     /// 填充实体对应的数据传输对象属性。

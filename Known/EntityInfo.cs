@@ -102,7 +102,8 @@ public class CodeFieldInfo : FieldInfo
             Type = info.Type,
             Length = info.Length,
             Required = info.Required,
-            IsKey = info.IsKey
+            IsKey = info.IsKey,
+            IsAutoKey = info.IsAutoKey
         };
     }
 }
