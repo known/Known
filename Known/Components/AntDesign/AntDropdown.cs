@@ -312,16 +312,17 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
     {
         await base.OnInitializeAsync();
 
-        Table = new TableModel<TItem>(this);
-        Table.FixedHeight = "200px";
-        Table.IsAutoLoad = false;
-        Table.AdvSearch = false;
-        Table.AutoHeight = false;
-        //Table.IsScroll = false;
-        Table.ShowSetting = false;
-        Table.ShowPager = true;
-        Table.OnRowClick = OnRowClick;
-        Table.OnAction = (info, item) => Context.OnAction(this, info, [item]);
+        Table = new TableModel<TItem>(this)
+        {
+            FixedHeight = "200px",
+            AdvSearch = false,
+            AutoHeight = false,
+            //IsScroll = false;
+            ShowSetting = false,
+            ShowPager = true,
+            OnRowClick = OnRowClick,
+            OnAction = (info, item) => Context.OnAction(this, info, [item])
+        };
         Table.Toolbar.OnItemClick = info => Context.OnAction(this, info, null);
 
         OnClick = this.Callback<MouseEventArgs>(OnInnerClick);
