@@ -220,7 +220,7 @@ public partial class Logger
         Exception(sender, sb.ToString());
     }
 
-    private static readonly object fileLock = new();
+    private static readonly object errorLock = new();
     /// <summary>
     /// 写异常日志到文件。
     /// </summary>
@@ -228,14 +228,33 @@ public partial class Logger
     /// <param name="message">异常信息。</param>
     public static void Exception(string sender, string message)
     {
-        var info = new FileInfo($"./logs/error_{DateTime.Now:yyyyMMdd}.log");
+        var info = new FileInfo($"./logs/error/{DateTime.Now:yyyyMMdd}.log");
         if (!info.Directory.Exists)
             info.Directory.Create();
 
-        lock (fileLock)
+        lock (errorLock)
         {
             using var writer = new StreamWriter(info.FullName, true);
             writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] - {sender}：{message}");
+            writer.Flush();
+        }
+    }
+
+    private static readonly object infoLock = new();
+    /// <summary>
+    /// 写信息日志到文件。
+    /// </summary>
+    /// <param name="message">信息内容。</param>
+    public static void Info(string message)
+    {
+        var info = new FileInfo($"./logs/info/{DateTime.Now:yyyyMMdd}.log");
+        if (!info.Directory.Exists)
+            info.Directory.Create();
+
+        lock (infoLock)
+        {
+            using var writer = new StreamWriter(info.FullName, true);
+            writer.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}");
             writer.Flush();
         }
     }
