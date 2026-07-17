@@ -331,7 +331,11 @@ class DbProvider(Database db)
             key = field[(index + 1)..];
         }
 
-        key = criteria.GetFieldName(key);
+        var resolvedKey = criteria.GetFieldName(key);
+        // 如果解析后的字段名带表前缀（含 .），而原始字段名不带，
+        // 说明该映射来自 Fields 字典（join 查询），
+        // 分页包装后表别名不可见，需回退用属性名（SELECT 列别名）
+        key = resolvedKey.Contains('.') && !key.Contains('.') ? key : resolvedKey;
         return $"{prefix}{FormatName(key)} {sort}";
     }
 
