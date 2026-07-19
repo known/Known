@@ -4,14 +4,23 @@
 [Menu(AppConstant.Test, "订单列表", "bars", 1)]
 public class OrderList : BaseTablePage<OrderInfo>
 {
+    private MyProgress mp;
+    private int count = 10;
+
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
         //Table.ShowPager = false;
         Table.OnQuery = OrderData.QueryOrdersAsync;
+        Table.Toolbar.Left = b => b.Component<MyProgress>().Build(v => mp = v);
     }
 
-    [Action] public void New() { }
+    [Action]
+    public void New()
+    {
+        count += 5;
+        mp.UpdateProgress(count);
+    }
 
     [Action]
     public void Detail(OrderInfo row)

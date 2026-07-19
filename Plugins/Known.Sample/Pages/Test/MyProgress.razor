@@ -1,0 +1,13 @@
+﻿<div style="width:100px">
+    <Progress Percent="percent" />
+</div>
+
+@code {
+    private int percent = 10;
+
+    public void UpdateProgress(int newPercent)
+    {
+        percent = newPercent;
+        StateHasChanged();
+    }
+}
