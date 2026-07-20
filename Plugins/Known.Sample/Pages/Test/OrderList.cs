@@ -11,6 +11,7 @@ public class OrderList : BaseTablePage<OrderInfo>
     {
         await base.OnInitPageAsync();
         //Table.ShowPager = false;
+        //Table.ShowToolbar = false;
         Table.OnQuery = OrderData.QueryOrdersAsync;
         Table.Toolbar.Left = b => b.Component<MyProgress>().Build(v => mp = v);
     }
