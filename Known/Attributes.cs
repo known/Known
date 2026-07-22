@@ -352,6 +352,11 @@ public class ColumnAttribute : Attribute
     /// 取得或设置栏位对齐方式（left/center/right）。
     /// </summary>
     public string Align { get; set; }
+   
+    /// <summary>
+    /// 取得或设置栏位表头颜色（如 #1a73e8、red 等）。
+    /// </summary>
+    public string HeaderColor { get; set; }
 
     internal PropertyInfo Property { get; set; }
 }

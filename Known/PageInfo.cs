@@ -169,6 +169,11 @@ public class PageColumnInfo
     public int? Position { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位表头颜色。
+    /// </summary>
+    public string HeaderColor { get; set; }
+
+    /// <summary>
     /// 取得或设置字段长度。
     /// </summary>
     public string Length { get; set; }

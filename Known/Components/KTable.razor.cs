@@ -345,7 +345,8 @@ partial class KTable<TItem>
             Template = template,
             FilterDropdown = GetFilterTemplate(item),
             ValueGetter = Model.IsDictionary ? null : GetValueGetter(item),
-            UseDefaultCellRender = !Model.IsDictionary && !hasCustomCell && !hasCustomText
+            UseDefaultCellRender = !Model.IsDictionary && !hasCustomCell && !hasCustomText,
+            HeaderStyle = string.IsNullOrEmpty(item.HeaderColor) ? null : $"color:{item.HeaderColor} !important"
         };
     }
 
@@ -491,6 +492,7 @@ partial class KTable<TItem>
         public RenderFragment<TItem> Template { get; init; }
         public RenderFragment<TableFilterDropdownContext> FilterDropdown { get; init; }
         public Func<TItem, object> ValueGetter { get; init; }
+        public string HeaderStyle { get; init; }
         public bool UseDefaultCellRender { get; init; }
 
         public object GetValue(TItem item) => ValueGetter?.Invoke(item);
