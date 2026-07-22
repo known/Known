@@ -39,7 +39,7 @@
                                           Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
                                           ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
                                           ColSpan="@GetRowSpan(item, value)" RowSpan="@GetColSpan(item, value)"
-                                          FilterDropdown="@state.FilterDropdown">
+                                          FilterDropdown="@state.FilterDropdown" HeaderStyle="@state.HeaderStyle">
                             @if (state.Template != null) {
                                 @state.Template(context)
                             } else {
@@ -73,14 +73,14 @@
                                     Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
                                     ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
                                     ColSpan="@GetColSpan(state, context)" RowSpan="@GetRowSpan(state, context)"
-                                    FilterDropdown="@state.FilterDropdown" />
+                                    FilterDropdown="@state.FilterDropdown" HeaderStyle="@state.HeaderStyle" />
                         } else {
                             var value = state.GetValue(context);
                             <Column Title="@state.Title" TitleTemplate="@DataTitle(item, state.Title)" DataIndex="@item.Id" TData="object" Width="@state.Width"
                                     Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
                                     ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
                                     ColSpan="@GetColSpan(state, context)" RowSpan="@GetRowSpan(state, context)"
-                                    FilterDropdown="@state.FilterDropdown">
+                                    FilterDropdown="@state.FilterDropdown" HeaderStyle="@state.HeaderStyle" />
                                 @if (state.Template != null) {
                                     @state.Template(context)
                                 } else {
@@ -201,7 +201,7 @@
         <KIcon Icon="plus" OnClick="this.Callback<MouseEventArgs>(e => OnAddColumn())" />
     </Tooltip>;
 
-    RenderFragment DataTitle(ColumnInfo item, string title) => @<span>
+    RenderFragment DataTitle(ColumnInfo item, string title) => @<span style="@(string.IsNullOrEmpty(item.HeaderColor) ? "" : $"color:{item.HeaderColor} !important")">
         @if (!string.IsNullOrWhiteSpace(item.Tooltip)) {
             <Tooltip Title="@item.Tooltip">@Language[title]</Tooltip>
         } else {

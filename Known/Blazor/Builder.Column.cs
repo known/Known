@@ -80,4 +80,16 @@ public partial class ColumnBuilder<TItem> where TItem : class, new()
             allColumn.Category = category;
         return this;
     }
+
+    /// <summary>
+    /// 设置表格栏位表头颜色。
+    /// </summary>
+    /// <param name="color">颜色值（如 #1a73e8、red 等）。</param>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> HeaderColor(string color)
+    {
+        if (column != null)
+            column.HeaderColor = color;
+        return this;
+    }
 }

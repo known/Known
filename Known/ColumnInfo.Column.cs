@@ -93,6 +93,12 @@ public partial class ColumnInfo
     public int? Position { get; set; }
 
     /// <summary>
+    /// 取得或设置栏位表头颜色。
+    /// </summary>
+    public string HeaderColor { get; set; }
+
+
+    /// <summary>
     /// 获取查询条件默认值。
     /// </summary>
     /// <param name="defaultValue">默认值对象。</param>

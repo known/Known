@@ -51,6 +51,7 @@ public partial class ColumnInfo
         Width = info.Width;
         Align = info.Align;
         Position = info.Position;
+        HeaderColor = info.HeaderColor;
     }
 
     internal ColumnInfo(FormFieldInfo info) => SetFormFieldInfo(info);

@@ -106,6 +106,7 @@ public class TypeFieldInfo
             info.Fixed = Column.Fixed;
             info.Width = Column.Width;
             info.Align = Column.Align;
+            info.HeaderColor = Column.HeaderColor;
             if (Column.Type != FieldType.Text)
                 info.Type = Column.Type;
         }
@@ -191,6 +192,7 @@ public class TypeFieldInfo
         info.QueryValue = column.QueryValue;
         info.Fixed = column.Fixed;
         info.Align = column.Align;
+        info.HeaderColor = column.HeaderColor;
         return info;
     }
 
