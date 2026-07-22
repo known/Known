@@ -80,7 +80,7 @@
                                     Ellipsis="state.IsEllipsis" Fixed="@state.Fixed" Align="@state.Align"
                                     ShowSorterTooltip="false" Sortable="state.Sortable" DefaultSortOrder="state.DefaultSortOrder"
                                     ColSpan="@GetColSpan(state, context)" RowSpan="@GetRowSpan(state, context)"
-                                    FilterDropdown="@state.FilterDropdown" HeaderStyle="@state.HeaderStyle" />
+                                    FilterDropdown="@state.FilterDropdown" HeaderStyle="@state.HeaderStyle">
                                 @if (state.Template != null) {
                                     @state.Template(context)
                                 } else {
