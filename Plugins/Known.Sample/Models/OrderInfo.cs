@@ -4,7 +4,7 @@ public class OrderInfo
 {
     public int Id { get; set; }
 
-    [Column(Width = 120, IsQuery = true)]
+    [Column(Width = 120, IsQuery = true,HeaderColor = "#1a73e8")]
     [DisplayName("订单号")]
     public string OrderNo { get; set; }
 
