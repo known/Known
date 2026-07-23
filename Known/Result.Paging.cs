@@ -60,6 +60,11 @@ public class PagingResult<T>
     public object Summary { get; set; }
 
     /// <summary>
+    /// 取得或设置是否为CSV格式导出。
+    /// </summary>
+    public bool IsCsv { get; set; }
+
+    /// <summary>
     /// 取得或设置导出数据字节数组。
     /// </summary>
     public byte[] ExportData { get; set; }

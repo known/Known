@@ -233,7 +233,11 @@ public static class CommonExtension
         var result = new PagingResult<T>(source.Count, pageData);
 
         if (criteria.ExportMode != ExportMode.None)
-            result.ExportData = DbUtils.GetExportData(criteria, pageData);
+        {
+            var info = DbUtils.GetExportDataInfo(criteria, pageData);
+            result.IsCsv = info.IsCsv;
+            result.ExportData = info.Bytes;
+        }
 
         return result;
     }
@@ -250,8 +254,8 @@ public static class CommonExtension
     {
         var model = TypeCache.Model<T>();
         var columns = model.Fields.Select(p => new ExportColumnInfo { Id = p.Name, Name = p.DisplayName }).ToList();
-        var bytes = ExcelHelper.GetExcelBytes(source, columns, onExport);
-        return new FileDataInfo(name, bytes);
+        var info = ExcelHelper.GetExcelBytes(source, columns, onExport);
+        return new FileDataInfo(name, info.Bytes);
     }
 
     /// <summary>

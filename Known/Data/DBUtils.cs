@@ -40,6 +40,15 @@ public sealed class DbUtils
         if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)
             return null;
 
+        var info = ExcelHelper.GetExcelBytes(pageData, criteria.ExportColumns, onExport);
+        return info.Bytes;
+    }
+
+    internal static ExcelDataInfo GetExportDataInfo<T>(PagingCriteria criteria, List<T> pageData, Func<T, ExportColumnInfo, object> onExport = null)
+    {
+        if (criteria.ExportColumns == null || criteria.ExportColumns.Count == 0 || pageData.Count == 0)
+            return null;
+
         return ExcelHelper.GetExcelBytes(pageData, criteria.ExportColumns, onExport);
     }
 

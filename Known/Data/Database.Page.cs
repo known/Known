@@ -152,10 +152,7 @@ public partial class Database
             if (criteria.ExportMode == ExportMode.Select)
             {
                 var rows = criteria.GetParameter<List<T>>(nameof(ExportMode.Select));
-                var data = onExportList != null
-                         ? await onExportList.Invoke(rows)
-                         : DbUtils.GetExportData(criteria, rows, onExport);
-                return new PagingResult<T>() { ExportData = data };
+                return await GetExportDataAsync<T>(criteria, rows, onExportList, onExport);
             }
 
             //var watch = Stopwatcher.Start<T>();
@@ -168,9 +165,10 @@ public partial class Database
                 conn.Open();
 
             Provider?.SetCommand(info, criteria, User);
-            byte[] exportData = null;
             Dictionary<string, object> statis = null;
             var pageData = new List<T>();
+            var isCsv = false;
+            byte[] exportData = null;
             using var cmd = await PrepareCommandAsync(info);
             cmd.CommandText = info.CountSql;
             var value = cmd.ExecuteScalar();
@@ -206,9 +204,9 @@ public partial class Database
 
             if (criteria.ExportMode != ExportMode.None)
             {
-                exportData = onExportList != null
-                           ? await onExportList.Invoke(pageData)
-                           : DbUtils.GetExportData(criteria, pageData, onExport);
+                var result = await GetExportDataAsync<T>(criteria, pageData, onExportList, onExport);
+                isCsv = result.IsCsv;
+                exportData = result.ExportData;
             }
 
             if (pageData.Count > criteria.PageSize && criteria.PageSize > 0 && criteria.PageIndex > 0)
@@ -218,13 +216,30 @@ public partial class Database
             }
 
             //watch.Write("PagingResult");
-            return new PagingResult<T>(total, pageData) { ExportData = exportData, Statis = statis };
+            return new PagingResult<T>(total, pageData) { IsCsv = isCsv, ExportData = exportData, Statis = statis };
         }
         catch (Exception ex)
         {
             HandException(info, ex);
             return new PagingResult<T>() { Message = ex.Message };
         }
+    }
+
+    private static async Task<PagingResult<T>> GetExportDataAsync<T>(PagingCriteria criteria, List<T> data, Func<List<T>, Task<byte[]>> onExportList, Func<T, ExportColumnInfo, object> onExport)
+    {
+        var isCsv = false;
+        byte[] exportData = null;
+        if (onExportList != null)
+        {
+            exportData = await onExportList.Invoke(data);
+        }
+        else
+        {
+            var info1 = DbUtils.GetExportDataInfo(criteria, data, onExport);
+            isCsv = info1.IsCsv;
+            exportData = info1.Bytes;
+        }
+        return new PagingResult<T>() { IsCsv = isCsv, ExportData = exportData };
     }
 }
 

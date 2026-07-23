@@ -134,10 +134,11 @@ public static class LayoutExtension
             }
 
             var bytes = result.ExportData;
+            var extName = result.IsCsv ? "csv" : "xlsx";
             if (string.IsNullOrWhiteSpace(name))
-                name = $"{typeof(TItem).Name}_{mode}.xlsx";
+                name = $"{typeof(TItem).Name}_{mode}.{extName}";
             else if (!name.Contains('.'))
-                name = $"{name}.xlsx";
+                name = $"{name}.{extName}";
             await app.JS.DownloadFileAsync(name, bytes);
         });
     }
