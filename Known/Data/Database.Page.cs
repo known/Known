@@ -152,7 +152,7 @@ public partial class Database
             if (criteria.ExportMode == ExportMode.Select)
             {
                 var rows = criteria.GetParameter<List<T>>(nameof(ExportMode.Select));
-                return await GetExportDataAsync<T>(criteria, rows, onExportList, onExport);
+                return await GetExportDataAsync(criteria, rows, onExportList, onExport);
             }
 
             //var watch = Stopwatcher.Start<T>();
@@ -204,7 +204,7 @@ public partial class Database
 
             if (criteria.ExportMode != ExportMode.None)
             {
-                var result = await GetExportDataAsync<T>(criteria, pageData, onExportList, onExport);
+                var result = await GetExportDataAsync(criteria, pageData, onExportList, onExport);
                 isCsv = result.IsCsv;
                 exportData = result.ExportData;
             }
