@@ -2,6 +2,7 @@
 /* 亮色主题变量 (现代浅色基调) */
 :root {
     --bg-body: #f5f7fb;
+    --cell-fix: #fffff;
     --sidebar-bg: rgba(255, 255, 255, 0.96);
     --sidebar-border: rgba(0, 0, 0, 0.05);
     --header-bg: rgba(255, 255, 255, 0.92);
@@ -25,6 +26,7 @@
 /* 暗黑主题变量 */
 :root[data-theme=dark] {
     --bg-body: #0f1217;
+    --cell-fix: #16191f;
     --sidebar-bg: rgba(18, 22, 28, 0.98);
     --sidebar-border: rgba(255, 255, 255, 0.06);
     --header-bg: rgba(18, 22, 28, 0.95);
@@ -39,6 +41,7 @@
     --hover-bg: #2d3748;
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+    --kui-color-striped: #17191e;
 }
 
 .ks-layout {
@@ -159,7 +162,6 @@
     color: var(--kui-color);
     background-color: #16191f;
 }
-
-:root[data-theme=dark] .kui-striped table tr:nth-child(odd) td {
-    background-color: #17181e;
+.ant-table-cell-fix-left, .ant-table-cell-fix-right {
+    background-color: var(--cell-fix);
 }

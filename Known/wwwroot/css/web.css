@@ -7,7 +7,9 @@
     --kui-bgcolor:#fff;
     --kui-color:#2c3e50;
     --kui-color-border:#d9d9d9;
+    --kui-color-striped:#fdfdfd;
     --kui-color-hover:#cce4fa;
+    --kui-color-hover-striped:#dcf4ff;
     --kui-color-table-header:#fafafa;
     --kui-color-table-border:rgba(0, 0, 0, 0.06);
     --gradient-start: #0061ff;
@@ -19,7 +21,9 @@
     --kui-bgcolor:#141414;
     --kui-color:#e0e0e0;
     --kui-color-border:#434343;
+    --kui-color-striped:#1a1a1a;
     --kui-color-hover:#212324;
+    --kui-color-hover-striped:#2f363a;
     --kui-color-table-header:#1d1d1d;
     --kui-color-table-border:#303030;
     --gradient-start: #0066ff;
@@ -183,7 +187,7 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-table.form-list .kui-toolbar {border-bottom:none;}
 .ant-modal-body .kui-table.form-list .kui-toolbar {padding:0 0 10px 0;}
 .ant-tabs-tabpane .kui-table.form-list .kui-toolbar1 {border-bottom:none;padding:5px 10px;}
-.kui-striped table tr:nth-child(odd) td {background-color:#fdfdfd;}
+.kui-striped table tr:nth-child(odd) td {background-color:var(--kui-color-striped);}
 .kui-table-filter {display:flex;justify-items:center;gap:10px;padding:10px;}
 .kui-table-filter label {display:flex;}
 .kui-table-filter input {width:100px;}
@@ -347,8 +351,6 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 :root[data-theme=dark] .kui-toolbar {border-bottom:1px solid #303030;}
 :root[data-theme=dark] .kui-list-box li:hover, 
 :root[data-theme=dark] .kui-list-box li.active {background-color:rgba(255, 255, 255, 0.08);}
-:root[data-theme=dark] .kui-striped table tr:nth-child(odd) td {background-color:#1a1a1a;}
-/*:root[data-theme=dark] .kui-striped table tr:nth-child(even) td {background-color:var(--kui-bgcolor);}*/
 
 /*File*/
 .kui-upload {display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
@@ -867,7 +869,7 @@ body > .ant-result {position:absolute;top:0;bottom:0;left:0;right:0;background-c
 .ant-table.ant-table-small .ant-table-tbody > tr > td {padding:2px 5px;}
 .ant-table-tbody > tr.ant-table-row:hover > td,
 .ant-table-tbody > tr > td.ant-table-cell-row-hover {background:var(--kui-color-hover);}
-.kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background-color:#dcf4ff;}
+.kui-striped .ant-table-tbody > tr.ant-table-row-selected > td {background-color:var(--kui-color-hover-striped);}
 .ant-table-pagination.ant-pagination {margin:5px 0 10px 0;}
 .ant-transfer-list-header-title {font-weight:bold;}
 td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
