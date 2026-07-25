@@ -228,6 +228,7 @@ public partial class Database
 
         await QueryActionAsync(async db =>
         {
+            db.User = await db.GetUserAsync(Constants.SysUserName);
             await action.Invoke(db);
             await db.SaveConfigAsync(key, $"{time:yyyy-MM-dd HH:mm:ss}");
         });

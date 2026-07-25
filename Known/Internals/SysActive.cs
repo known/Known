@@ -38,7 +38,7 @@ public class SysActive : BaseComponent
     {
         builder.Div("kui-card", () =>
         {
-            builder.Result("403", AuthStatus);
+            builder.Result("403", Language[AuthStatus]);
             builder.Div("kui-form-auth", () =>
             {
                 builder.Form(model);
