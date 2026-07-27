@@ -129,4 +129,32 @@ static class CoreDataExtension
 
         await CoreConfig.OnNewOrganization.Invoke(db, info);
     }
+
+    internal static async Task SyncDictionariesAsync(this Database db, SysCompany info)
+    {
+        var compNo = db.User.CompNo;
+        var items = await db.QueryListAsync<SysDictionary>(d => d.CompNo == compNo);
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            item.CompNo = info.Code;
+            await db.InsertAsync(item, true);
+        }
+    }
+
+    internal static async Task SyncNoRulesAsync(this Database db, SysCompany info)
+    {
+        var compNo = db.User.CompNo;
+        var items = await db.QueryListAsync<SysNoRule>(d => d.CompNo == compNo);
+        if (items == null || items.Count == 0)
+            return;
+
+        foreach (var item in items)
+        {
+            item.CompNo = info.Code;
+            await db.InsertAsync(item, true);
+        }
+    }
 }

@@ -210,6 +210,8 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
                 };
                 await db.SaveOrganizationAsync(model);
                 await db.SaveUserAsync(model);
+                await db.SyncDictionariesAsync(model);
+                await db.SyncNoRulesAsync(model);
             }
 
             if (fileFiles != null && fileFiles.Count > 0)

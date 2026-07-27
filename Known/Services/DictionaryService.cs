@@ -55,11 +55,12 @@ class DictionaryService(Context context) : SysServiceBase(context), IDictionaryS
 
     public async Task<List<CodeInfo>> GetCategoriesAsync(string sysId)
     {
+        var compNo = CurrentUser.CompNo;
         var query = Database.Query<SysDictionary>();
         if (string.IsNullOrWhiteSpace(sysId))
-            query = query.Where(d => d.Enabled && d.Category == Constants.DicCategory);
+            query = query.Where(d => d.CompNo == compNo && d.Enabled && d.Category == Constants.DicCategory);
         else
-            query = query.Where(d => d.Enabled && d.Category == Constants.DicCategory && d.SysId == sysId);
+            query = query.Where(d => d.CompNo == compNo && d.Enabled && d.Category == Constants.DicCategory && d.SysId == sysId);
         var categories = await query.OrderBy(d => d.Sort).ToListAsync();
         return categories?.Select(c => new CodeInfo(c.Category, c.Code, c.Name, c.CategoryName)).ToList();
     }
