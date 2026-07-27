@@ -247,6 +247,11 @@ public class IconMetaInfo
 public class ErrorConfigInfo
 {
     /// <summary>
+    /// 取得或设置是否显示返回首页按钮，默认显示。
+    /// </summary>
+    public bool IsBackHome { get; set; } = true;
+
+    /// <summary>
     /// 取得或设置错误代码描述文本。
     /// </summary>
     public string Description { get; set; }

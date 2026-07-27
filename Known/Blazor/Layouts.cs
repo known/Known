@@ -85,6 +85,12 @@ public class LayoutBase : LayoutComponentBase
             Config.System = info.System;
             Config.OnInitial?.Invoke(info);
             UIConfig.Load(info);
+
+            if (!info.IsDbConnected)
+            {
+                Navigation.NavigateTo("/dberror");
+                return;
+            }
         }
 
         if (!Config.IsInstalled)

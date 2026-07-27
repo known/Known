@@ -110,6 +110,27 @@ public partial class Database : IDisposable
     }
 
     /// <summary>
+    /// 检查数据库连接是否可用。
+    /// </summary>
+    /// <returns>如果数据库连接可用，返回true；否则返回false。</returns>
+    public bool CheckConnection()
+    {
+        if (conn == null)
+            return false;
+
+        try
+        {
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
     /// 异步打开数据库。
     /// </summary>
     /// <returns></returns>

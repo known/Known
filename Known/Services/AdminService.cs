@@ -82,14 +82,18 @@ partial class AdminService(Context context, INotifyService notify) : SysServiceB
         if (Language.Settings == null || Language.Settings.Count == 0)
             await AppHelper.LoadLanguagesAsync(database);
 
-        var sys = await database.GetSystemAsync(true);
         var info = new InitialInfo
         {
             HostUrl = Config.HostUrl,
-            IsInstalled = sys != null,
             LanguageSettings = Language.Settings,
-            Languages = Language.Datas
+            Languages = Language.Datas,
+            IsDbConnected = database.CheckConnection()
         };
+        if (!info.IsDbConnected)
+            return info;
+
+        var sys = await database.GetSystemAsync(true);
+        info.IsInstalled = sys != null;
         if (sys != null)
         {
             info.System = sys.Clone();

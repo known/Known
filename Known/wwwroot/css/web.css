@@ -94,7 +94,8 @@ body {
 .kui-flex-row {display:flex;flex-direction:row;align-items:center;gap:10px;}
 .kui-flex-column {display:flex;flex-direction:column;align-items:center;gap:10px;}
 .kui-flex-space {display:flex;justify-content:space-between;align-items:center;gap:10px;}
-.kui-error {text-align:center;padding:20px;height:100%;}
+.kui-error, .kui-dberror {text-align:center;padding:20px;height:100%;}
+.kui-dberror .ant-result-subtitle {font-size:18px;font-weight:bold;}
 .kui-primary {color:var(--kui-primary-color);}
 .kui-danger {color:#ed4014;}
 .kui-danger label {color:#ed4014;font-weight:bold;}

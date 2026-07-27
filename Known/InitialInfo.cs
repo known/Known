@@ -11,6 +11,11 @@ public class InitialInfo
     public string HostUrl { get; set; }
 
     /// <summary>
+    /// 取得或设置系统是否能连接数据库。
+    /// </summary>
+    public bool IsDbConnected { get; set; }
+
+    /// <summary>
     /// 取得或设置系统是否已经安装。
     /// </summary>
     public bool IsInstalled { get; set; }
