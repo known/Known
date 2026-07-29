@@ -61,8 +61,13 @@ public partial class MainLayout
         topMenu = item;
         menu?.SetData(topMenu);
 
-        if (!string.IsNullOrWhiteSpace(item.Url))
-            Context.NavigateTo(item.Url);
+        var url = item.Url;
+        if (string.IsNullOrWhiteSpace(url))
+            url = item.Children?.FirstOrDefault()?.Url;
+        if (string.IsNullOrWhiteSpace(url))
+            url = item.Children?.FirstOrDefault()?.Children?.FirstOrDefault()?.Url;
+        if (!string.IsNullOrWhiteSpace(url))
+            Context.NavigateTo(url);
     }
 
     private void OnReloadPage()
