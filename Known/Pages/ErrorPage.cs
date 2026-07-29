@@ -5,7 +5,6 @@
 /// </summary>
 [Anonymous]
 [Route("/dberror")]
-[DisplayName(Language.Error)]
 [Layout(typeof(EmptyLayout))]
 public class DbErrorPage : BaseComponent
 {
@@ -24,7 +23,6 @@ public class DbErrorPage : BaseComponent
 /// </summary>
 [Anonymous]
 [Route("/error/{code}")]
-[DisplayName(Language.Error)]
 public class ErrorPage : BasePage
 {
     /// <summary>

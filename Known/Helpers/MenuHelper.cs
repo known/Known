@@ -8,7 +8,7 @@ class MenuHelper
     private const string PluginId = "KM_Plugin";
     private const string RoleId = "KM_Role";
 
-    internal static List<Type> ExcludeMenus { get; } = [];
+    internal static List<Type> ExcludeMenus { get; } = [typeof(InstallPage)];
 
     internal static bool IsExclude(string typeName)
     {
@@ -26,6 +26,13 @@ class MenuHelper
     internal static void AddMenu(Type type, RoleAttribute role, TabRoleAttribute tabRole, List<RouteAttribute> routes, object[] attributes)
     {
         if (ExcludeMenus.Contains(type))
+            return;
+
+        var anonymous = attributes.OfType<AnonymousAttribute>().FirstOrDefault();
+        if (anonymous != null)
+            return;
+
+        if (!Config.App.IsPlatform && type == typeof(TenantMyPage))
             return;
 
         var tabs = attributes.OfType<ReuseTabsPageAttribute>().FirstOrDefault();

@@ -4,6 +4,7 @@
 /// 用户修改密码表单组件类。
 /// </summary>
 [Route("/profile/password")]
+[DisplayName("修改密码")]
 public class PasswordEditForm : BaseComponent
 {
     /// <inheritdoc />

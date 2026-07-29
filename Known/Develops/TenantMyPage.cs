@@ -4,6 +4,7 @@ namespace Known.Develops;
 /// 我的租户页面组件类。
 /// </summary>
 [Route("/mytenants")]
+[DisplayName("我的租户")]
 public class TenantMyPage : BaseTablePage<SysCompany>
 {
     private ICompanyService Service;

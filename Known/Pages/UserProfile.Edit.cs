@@ -4,6 +4,7 @@
 /// 用户信息表单组件类。
 /// </summary>
 [Route("/profile/user")]
+[DisplayName("用户信息")]
 public class UserEditForm : BaseEditForm<UserInfo>
 {
     /// <summary>

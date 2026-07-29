@@ -3,6 +3,7 @@
 /// <summary>
 /// 安装页面表单组件类。
 /// </summary>
+[Anonymous]
 [Route("/install")]
 [Layout(typeof(EmptyLayout))]
 public class InstallPage : BaseForm<InstallInfo>
