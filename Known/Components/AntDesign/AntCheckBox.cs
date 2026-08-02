@@ -19,6 +19,11 @@ public class AntCheckBox : Checkbox
     /// </summary>
     [CascadingParameter] public UIContext Context { get; set; }
 
+    /// <summary>
+    /// 设置组件为焦点状态。
+    /// </summary>
+    public Task FocusAsync() => FocusAsync(Ref);
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

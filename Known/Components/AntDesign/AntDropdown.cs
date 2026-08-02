@@ -241,6 +241,7 @@ public class AntDropdown : Dropdown
 public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem : class, new()
 {
     private TItem currentItem;
+    private AntInput inputRef;
 
     /// <inheritdoc />
     protected override bool HasVisibleValidationInput => true;
@@ -307,6 +308,11 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
     /// <returns></returns>
     public Task StateChangedAsync() => InvokeAsync(StateHasChanged);
 
+    /// <summary>
+    /// 设置组件为焦点状态。
+    /// </summary>
+    public Task FocusAsync() => inputRef?.Focus();
+
     /// <inheritdoc />
     protected override async Task OnInitializeAsync()
     {
@@ -355,7 +361,7 @@ public class AntDropdownTable<TItem> : AntDropdown, IBaseComponent where TItem :
             input.Set(c => c.OnInput, this.Callback<ChangeEventArgs>(OnInput));
         if (AllowClear)
             input.Set(c => c.OnClear, this.Callback(OnClear));
-        input.Build();
+        input.Build(v => inputRef = v);
     }
 
     private void BuildOverlay(RenderTreeBuilder builder)

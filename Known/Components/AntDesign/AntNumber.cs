@@ -18,6 +18,16 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
     /// </summary>
     [CascadingParameter] public UIContext Context { get; set; }
 
+    /// <summary>
+    /// 取得或设置回车键按下时的回调函数。
+    /// </summary>
+    [Parameter] public EventCallback<TValue> OnEnter { get; set; }
+
+    /// <summary>
+    /// 设置组件为焦点状态。
+    /// </summary>
+    public Task FocusAsync() => FocusAsync(Ref);
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
@@ -25,7 +35,19 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(TValue);
+        if (OnEnter.HasDelegate)
+        {
+            //AdditionalAttributes["onkeyup"] = this.Callback<KeyboardEventArgs>(DoKeyUp);
+        }
         base.OnInitialized();
+    }
+
+    private void DoKeyUp(KeyboardEventArgs args)
+    {
+        if (args.Key.Equals("Enter", StringComparison.OrdinalIgnoreCase))
+        {
+            OnEnter.InvokeAsync(Value);
+        }
     }
 }
 

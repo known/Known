@@ -29,6 +29,11 @@ public class AntSwitch : Switch
     /// </summary>
     [Parameter] public string ShowTexts { get; set; }
 
+    /// <summary>
+    /// 设置组件为焦点状态。
+    /// </summary>
+    public Task FocusAsync() => FocusAsync(Ref);
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {
