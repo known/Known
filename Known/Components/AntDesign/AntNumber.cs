@@ -35,11 +35,23 @@ public class AntNumber<TValue> : AntDesign.InputNumber<TValue>
             Disabled = AntForm.IsView;
         if (Item != null)
             Item.Type = typeof(TValue);
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc />
+    protected override void BuildRenderTree(RenderTreeBuilder builder)
+    {
         if (OnEnter.HasDelegate)
         {
-            //AdditionalAttributes["onkeyup"] = this.Callback<KeyboardEventArgs>(DoKeyUp);
+            builder.Div().Class("kui-number")
+                   .Set("onkeyup", this.Callback<KeyboardEventArgs>(DoKeyUp))
+                   .Child(() => base.BuildRenderTree(builder));
         }
-        base.OnInitialized();
+        else
+        {
+            base.BuildRenderTree(builder);
+        }
     }
 
     private void DoKeyUp(KeyboardEventArgs args)
