@@ -29,7 +29,7 @@ public class BaseLayout : BaseComponent
         await base.OnInitAsync();
         Context.App = this;
         Context.TabsService = TabsService;
-        if (IsServerMode)
+        if (IsServerMode && CurrentUser != null)
             await InitAdminAsync();
     }
 
@@ -48,7 +48,8 @@ public class BaseLayout : BaseComponent
         await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
-            if (!IsServerMode)
+            // WASM 首屏未登录时不应主动请求受保护的后台初始化接口。
+            if (!IsServerMode && CurrentUser != null)
                 await InitAdminAsync(); //App.ReloadPage();
             if (Info != null && Info.IsChangePwd)
                 ShowUpdatePassword();
