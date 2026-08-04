@@ -80,6 +80,9 @@ class QueryHelper
             return [];
 
         var field = criteria.GetFieldName(key);
+        // 校验字段名，防止通过查询字段ID或Fields字典注入SQL
+        if (!IsSafeField(field))
+            return [];
         field = db.Provider?.FormatName(field);
         var param = paramKey != null ? $"@{paramKey}" : $"@{key}";
 
@@ -89,17 +92,37 @@ class QueryHelper
             QueryType.BetweenNotEqual => GetBetweenClauses(db, criteria, field, key, QueryType.GreatThan, ">", QueryType.LessThan, "<"),
             QueryType.BetweenLessEqual => GetBetweenClauses(db, criteria, field, key, QueryType.GreatEqual, ">=", QueryType.LessThan, "<"),
             QueryType.BetweenGreatEqual => GetBetweenClauses(db, criteria, field, key, QueryType.GreatThan, ">", QueryType.LessEqual, "<="),
-            QueryType.Contain => [db.DatabaseType == DatabaseType.Access ? $"{field} like '{item.Value}'" : $"{field} like {param}"],
-            QueryType.NotContain => [db.DatabaseType == DatabaseType.Access ? $"{field} not like '{item.Value}'" : $"{field} not like {param}"],
-            QueryType.StartWith => [db.DatabaseType == DatabaseType.Access ? $"{field} like '{item.Value}'" : $"{field} like {param}"],
-            QueryType.NotStartWith => [db.DatabaseType == DatabaseType.Access ? $"{field} not like '{item.Value}'" : $"{field} not like {param}"],
-            QueryType.EndWith => [db.DatabaseType == DatabaseType.Access ? $"{field} like '{item.Value}'" : $"{field} like {param}"],
-            QueryType.NotEndWith => [db.DatabaseType == DatabaseType.Access ? $"{field} not like '{item.Value}'" : $"{field} not like {param}"],
+            QueryType.Contain => [db.DatabaseType == DatabaseType.Access ? $"{field} like '{EscapeValue(item.Value)}'" : $"{field} like {param}"],
+            QueryType.NotContain => [db.DatabaseType == DatabaseType.Access ? $"{field} not like '{EscapeValue(item.Value)}'" : $"{field} not like {param}"],
+            QueryType.StartWith => [db.DatabaseType == DatabaseType.Access ? $"{field} like '{EscapeValue(item.Value)}'" : $"{field} like {param}"],
+            QueryType.NotStartWith => [db.DatabaseType == DatabaseType.Access ? $"{field} not like '{EscapeValue(item.Value)}'" : $"{field} not like {param}"],
+            QueryType.EndWith => [db.DatabaseType == DatabaseType.Access ? $"{field} like '{EscapeValue(item.Value)}'" : $"{field} like {param}"],
+            QueryType.NotEndWith => [db.DatabaseType == DatabaseType.Access ? $"{field} not like '{EscapeValue(item.Value)}'" : $"{field} not like {param}"],
             QueryType.Batch => GetBatchClauses(criteria, field, key),
-            QueryType.In => [$"{field} in ('{item.Value.Replace(",", "','")}')"],
-            QueryType.NotIn => [$"{field} not in ('{item.Value.Replace(",", "','")}')"],
+            QueryType.In => GetInClauses(criteria, field, key, paramKey, false),
+            QueryType.NotIn => GetInClauses(criteria, field, key, paramKey, true),
             _ => [$"{field}{item.Type.ToOperator()}{param}"]
         };
+    }
+
+    private static List<string> GetInClauses(PagingCriteria criteria, string field, string key, string paramKey, bool notIn)
+    {
+        var query = criteria.Query.FirstOrDefault(q => q.Id == key);
+        var values = SplitValues(query?.Value);
+        if (values.Count == 0)
+            return [];
+
+        var baseName = !string.IsNullOrWhiteSpace(paramKey) ? paramKey : key;
+        var @params = new List<string>();
+        for (int i = 0; i < values.Count; i++)
+        {
+            var pkey = $"{baseName}{i}";
+            @params.Add($"@{pkey}");
+            criteria.SetQuery(pkey, QueryType.Equal, values[i]);
+        }
+
+        var operate = notIn ? "not in" : "in";
+        return [$"{field} {operate} ({string.Join(",", @params)})"];
     }
 
     private static List<string> GetBetweenClauses(Database db, PagingCriteria criteria, string field, string key, QueryType lessType, string lessSymbol, QueryType greatType, string greatSymbol)
@@ -180,6 +203,10 @@ class QueryHelper
 
         if (string.IsNullOrWhiteSpace(field))
             field = criteria.GetFieldName(key);
+
+        // 校验字段名，防止通过查询字段ID或Fields字典注入SQL
+        if (!IsSafeField(field))
+            return;
 
         if (!sql.Contains("where", StringComparison.OrdinalIgnoreCase))
             sql += " where 1=1";
@@ -303,7 +330,7 @@ class QueryHelper
     {
         var query = criteria.Query.FirstOrDefault(q => q.Id == key);
         if (db.DatabaseType == DatabaseType.Access)
-            sql += $" and {field} {operate} '{query.Value}'";
+            sql += $" and {field} {operate} '{EscapeValue(query?.Value)}'";
         else
             sql += $" and {field} {operate} @{key}";
     }
@@ -329,12 +356,63 @@ class QueryHelper
 
     private static void SetBatchQuery(ref string sql, PagingCriteria criteria, string field, string key, string operate)
     {
-        var query = criteria.Query.FirstOrDefault(q => q.Id == key);
-        var value = query.Value;
-        if (string.IsNullOrWhiteSpace(value))
+        var values = SplitValues(criteria.Query.FirstOrDefault(q => q.Id == key)?.Value);
+        if (values.Count == 0)
             return;
 
-        var values = value.Replace(",", "','");
-        sql += $" and {field} {operate} ('{values}')";
+        var @params = new List<string>();
+        for (int i = 0; i < values.Count; i++)
+        {
+            var pkey = $"{key}{i}";
+            @params.Add($"@{pkey}");
+            criteria.SetQuery(pkey, QueryType.Equal, values[i]);
+        }
+        sql += $" and {field} {operate} ({string.Join(",", @params)})";
+    }
+
+    private static List<string> SplitValues(string value)
+    {
+        var values = new List<string>();
+        if (string.IsNullOrWhiteSpace(value))
+            return values;
+
+        foreach (var item in value.Split(',', '，'))
+        {
+            if (!string.IsNullOrWhiteSpace(item))
+                values.Add(item);
+        }
+        return values;
+    }
+
+    private static string EscapeValue(string value)
+    {
+        return value?.Replace("'", "''") ?? string.Empty;
+    }
+
+    private static bool IsSafeField(string field)
+    {
+        if (string.IsNullOrWhiteSpace(field))
+            return false;
+
+        var parts = field.Split('.');
+        if (parts.Length > 2)
+            return false;
+
+        foreach (var part in parts)
+        {
+            if (string.IsNullOrWhiteSpace(part))
+                return false;
+
+            if (!char.IsLetter(part[0]) && part[0] != '_')
+                return false;
+
+            for (int i = 1; i < part.Length; i++)
+            {
+                var c = part[i];
+                if (!char.IsLetterOrDigit(c) && c != '_')
+                    return false;
+            }
+        }
+        return true;
     }
 }

@@ -297,17 +297,20 @@ class DbProvider(Database db)
 
                 if (item.Contains('('))
                 {
-                    orderBys.Add(item);
+                    if (IsSafeOrderBy(item))
+                        orderBys.Add(item);
                 }
                 else if (item.Contains("desc"))
                 {
                     var orderBy = GetOrderBy(criteria, item, "desc");
-                    orderBys.Add(orderBy);
+                    if (!string.IsNullOrWhiteSpace(orderBy))
+                        orderBys.Add(orderBy);
                 }
                 else
                 {
                     var orderBy = GetOrderBy(criteria, item, "asc");
-                    orderBys.Add(orderBy);
+                    if (!string.IsNullOrWhiteSpace(orderBy))
+                        orderBys.Add(orderBy);
                 }
             }
             order = string.Join(",", orderBys);
@@ -336,6 +339,9 @@ class DbProvider(Database db)
         // 说明该映射来自 Fields 字典（join 查询），
         // 分页包装后表别名不可见，需回退用属性名（SELECT 列别名）
         key = resolvedKey.Contains('.') && !key.Contains('.') ? key : resolvedKey;
+        // 校验排序字段名，防止通过OrderBys注入SQL
+        if (!IsSafeIdentifier(prefix + key))
+            return string.Empty;
         return $"{prefix}{FormatName(key)} {sort}";
     }
 
@@ -344,11 +350,104 @@ class DbProvider(Database db)
         var statisColumns = criteria.StatisticColumns.Select(c =>
         {
             if (!string.IsNullOrWhiteSpace(c.Expression))
+            {
+                // 校验统计表达式，防止SQL注入
+                if (!IsSafeExpression(c.Expression) || !IsSafeIdentifier(c.Id))
+                    return string.Empty;
                 return $"{c.Expression} as {FormatName(c.Id)}";
+            }
 
+            // 统计函数仅允许内置聚合函数
+            if (!IsSafeFunction(c.Function) || !IsSafeIdentifier(c.Id))
+                return string.Empty;
             return $"{c.Function}({FormatName(c.Id)}) as {FormatName(c.Id)}";
         });
-        var columns = string.Join(",", statisColumns);
+        var columns = string.Join(",", statisColumns.Where(s => !string.IsNullOrWhiteSpace(s)));
         return $"select {columns} from ({text}) t";
+    }
+
+    private static readonly HashSet<string> SafeAggregates = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "sum", "count", "avg", "min", "max"
+    };
+
+    private static bool IsSafeFunction(string function)
+    {
+        return !string.IsNullOrWhiteSpace(function) && SafeAggregates.Contains(function);
+    }
+
+    private static bool IsSafeExpression(string expression)
+    {
+        if (string.IsNullOrWhiteSpace(expression))
+            return false;
+
+        var text = expression.Trim();
+        // 屏蔽语句终止符与注释符
+        if (text.Contains(';') || text.Contains("--") || text.Contains('#') ||
+            text.Contains("/*") || text.Contains("*/"))
+            return false;
+
+        // 屏蔽子查询/联合查询等关键字
+        var keywords = new[] { "select", "union", "insert", "update", "delete" };
+        foreach (var keyword in keywords)
+        {
+            if (text.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                return false;
+        }
+        return true;
+    }
+
+    private static bool IsSafeIdentifier(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return false;
+
+        var parts = name.Split('.');
+        if (parts.Length > 2)
+            return false;
+
+        foreach (var part in parts)
+        {
+            if (string.IsNullOrWhiteSpace(part))
+                return false;
+
+            if (!char.IsLetter(part[0]) && part[0] != '_')
+                return false;
+
+            for (int i = 1; i < part.Length; i++)
+            {
+                var c = part[i];
+                if (!char.IsLetterOrDigit(c) && c != '_')
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private static bool IsSafeOrderBy(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return false;
+
+        // 仅允许安全的函数排序表达式，如 sum(field)、count(distinct field)
+        var trimmed = text.Trim();
+        var start = trimmed.IndexOf('(');
+        var end = trimmed.LastIndexOf(')');
+        if (start <= 0 || end != trimmed.Length - 1)
+            return false;
+
+        var function = trimmed[..start];
+        var args = trimmed[(start + 1)..end];
+        if (!IsSafeIdentifier(function))
+            return false;
+
+        foreach (var c in args)
+        {
+            if (!char.IsLetterOrDigit(c) && !char.IsWhiteSpace(c) &&
+                c != '_' && c != '.' && c != ',' && c != '*' &&
+                c != '+' && c != '-' && c != '/' && c != '%' && c != ' ')
+                return false;
+        }
+        return true;
     }
 }
