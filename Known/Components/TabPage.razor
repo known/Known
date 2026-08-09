@@ -1,20 +1,21 @@
 ﻿@inherits BaseComponent
 
-<div class="kui-query">
-    <QueryForm Model="Query" />
-</div>
-
-<div class="kui-table">
-    <Tabs Animated @bind-ActiveKey="@activeKey">
-        <TabBarExtraContentLeft>
-            <KTitle Text="@PageName" />
-        </TabBarExtraContentLeft>
-        <ChildContent>
-            @TabContent
-        </ChildContent>
-        <TabBarExtraContentRight>
-            @TabRight
-        </TabBarExtraContentRight>
-    </Tabs>
-    @TabBottom
+<div class="kui-table-page">
+    <div class="kui-query">
+        <QueryForm Model="Query" />
+    </div>
+    <div class="kui-table">
+        <Tabs Animated @bind-ActiveKey="@activeKey">
+            <TabBarExtraContentLeft>
+                <KTitle Text="@PageName" />
+            </TabBarExtraContentLeft>
+            <ChildContent>
+                @TabContent
+            </ChildContent>
+            <TabBarExtraContentRight>
+                @TabRight
+            </TabBarExtraContentRight>
+        </Tabs>
+        @TabBottom
+    </div>
 </div>
