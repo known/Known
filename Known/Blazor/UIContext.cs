@@ -14,10 +14,15 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     public bool IsEditMode { get; set; }
 
     /// <summary>
+    /// 取得或设置当前用户（租户）系统Logo图片路径。
+    /// </summary>
+    public string LogoUrl { get; set; }
+
+    /// <summary>
     /// 取得当前页面会话生命周期运行时间。
     /// </summary>
     public Dictionary<string, DateTime> RunTimes { get; } = [];
-
+    
     /// <summary>
     /// 取得或设置当前用户设置用户系统设置信息对象。
     /// </summary>
@@ -149,6 +154,16 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     {
         CurrentUser = null;
         UserMenus = [];
+    }
+
+    internal string GetLogoUrl()
+    {
+        var url = LogoUrl;
+        if (!string.IsNullOrWhiteSpace(url))
+            return url;
+
+        var isDark = Local?.Theme == "dark" || UserSetting.MenuTheme == "Dark";
+        return isDark ? "img/logo.png" : "img/logo1.png";
     }
 
     private bool IsInMenu(string pageId, string buttonId)

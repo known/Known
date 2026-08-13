@@ -10,6 +10,7 @@ public partial class SideLayout
     private MainBody body;
     private MenuInfo root;
 
+    private string LogoUrl => Context.GetLogoUrl();
     private UserSettingInfo UserSetting => Context.UserSetting ?? new();
     private string SiderClass => CssBuilder.Default("ks-side")
                                            .AddClass("menu-dark", UserSetting.MenuTheme == "Dark")

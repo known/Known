@@ -135,6 +135,7 @@ public class BaseLayout : BaseComponent
             Config.Actions = [.. Info.Actions];
         Context.UserSetting = Info.UserSetting ?? new();
         Context.UserTableSettings = Info.UserTableSettings ?? [];
+        Context.LogoUrl = Info.LogoPath;
         if (Config.App.IsLanguage)
             Context.CurrentLanguage = Context.UserSetting.Language;
         if (!Context.IsMobileApp)

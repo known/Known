@@ -573,7 +573,8 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .ant-layout-sider-collapsed + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:110px;}
 .kui-menu-float + .ant-layout .kui-nav-tabs.is-top > .ant-tabs-nav {left:85px;}
 .kui-nav-tabs.is-top > .ant-tabs-content-holder > .ant-tabs-content > .kui-body {height:calc(100vh - 54px);}
-.kui-logo {height:54px;padding-left:10px;overflow:hidden;cursor:pointer;}
+.kui-logo {height:54px;overflow:hidden;cursor:pointer;}
+.kui-logo img {width:200px;height:54px;object-fit:contain;display:block;}
 .kui-header .kui-logo {width:180px;padding-left:0;}
 .kui-scroll {
     position:fixed;top:54px;left:0;bottom:0;width:200px;

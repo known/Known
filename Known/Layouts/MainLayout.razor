@@ -6,7 +6,9 @@
         <Layout Class="@LayoutClass">
             <div class="@HeaderClass">
                 <div class="left">
-                    <div class="kui-logo" @onclick="OnLogoClick"></div>
+                    <div class="kui-logo" @onclick="OnLogoClick">
+                        <img src="@LogoUrl" alt="@CurrentUser?.CompName" />
+                    </div>
                     <NavToggle OnToggle="OnToggle" />
                     <div class="kui-top-menu">
                         @foreach (var item in topMenus)
@@ -43,7 +45,9 @@
             <Layout Class="@LayoutClass">
                 <div class="@HeaderClass">
                     <div class="left">
-                        <div class="kui-logo" @onclick="OnLogoClick"></div>
+                        <div class="kui-logo" @onclick="OnLogoClick">
+                            <img src="@LogoUrl" alt="@CurrentUser?.CompName" />
+                        </div>
                         <MainMenu @ref="menu" Mode="MenuMode.Horizontal" Parent="root" />
                     </div>
                     <TopNavbar OnSetting="OnSetting" />
@@ -60,7 +64,9 @@
                 @if (UserSetting.LayoutMode == LayoutMode.Float.ToString())
                 {
                     <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@SiderClass" CollapsedWidth="60" Collapsed NoTrigger>
-                        <div class="kui-logo" @onclick="OnLogoClick"></div>
+                        <div class="kui-logo" @onclick="OnLogoClick">
+                            <img src="@LogoUrl" alt="@CurrentUser?.CompName" />
+                        </div>
                         <div class="@ScrollClass" style="width:@(UIConfig.SideWidth)px;">
                             <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
                         </div>
@@ -69,7 +75,9 @@
                 else
                 {
                     <Sider Theme="UserSetting.ToSiderTheme()" Width="UIConfig.SideWidth" Class="@SiderClass" @bind-Collapsed="collapsed" CollapsedWidth="60" Collapsible NoTrigger>
-                        <div class="kui-logo" @onclick="OnLogoClick"></div>
+                        <div class="kui-logo" @onclick="OnLogoClick">
+                            <img src="@LogoUrl" alt="@CurrentUser?.CompName" />
+                        </div>
                         <div class="@ScrollClass" style="width:@(UIConfig.SideWidth)px;">
                             <MainMenu @ref="menu" Mode="MenuMode.Inline" Parent="MenuParent" />
                         </div>

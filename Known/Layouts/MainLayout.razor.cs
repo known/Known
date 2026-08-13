@@ -14,6 +14,7 @@ public partial class MainLayout
     private MenuInfo topMenu;
     private readonly List<MenuInfo> topMenus = new();
 
+    private string LogoUrl => Context.GetLogoUrl();
     private UserSettingInfo UserSetting => Context.UserSetting ?? new();
     private MenuInfo MenuParent => Config.App.IsTopMenu ? topMenu ?? root : root;
     private string LayoutClass => CssBuilder.Default("kui-layout").AddClass(UserSetting.Size).BuildClass();

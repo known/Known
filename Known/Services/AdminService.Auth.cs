@@ -243,6 +243,7 @@ partial class AdminService
         {
             var sys = await db.GetUserSystemAsync();
             info.AppName = sys.AppName;
+            info.LogoPath = sys?.LogoPath;
             info.Actions = await db.GetActionsAsync();
             info.IsChangePwd = await db.CheckUserDefaultPasswordAsync(sys);
             info.DatabaseType = db.DatabaseType;

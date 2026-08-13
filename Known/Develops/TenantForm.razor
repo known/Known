@@ -49,7 +49,7 @@
                 <AntInput @bind-Value="context.SystemData.SysUrl" Disabled />
             </DataItem>
             <DataItem Span="8" Label="系统Logo" Tooltip="租户私有Logo图片。">
-                <KUpload @bind-Value="context.SystemData.LogoPath" ReadOnly IsImage OnLoad="OnLogoLoad" OnFilesChanged="OnFilesChanged" />
+                <KUpload @bind-Value="context.SystemData.LogoPath" IsImage OnLoad="OnLogoLoad" OnFilesChanged="OnFilesChanged" />
             </DataItem>
             <DataItem Span="8" Label="数据库类型" Tooltip="租户独立数据库连接类型。">
                 <AntSelectCode @bind-Value="context.SystemData.ConnType" Category="@context.ConnTypes" />
