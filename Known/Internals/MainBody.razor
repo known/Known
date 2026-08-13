@@ -2,7 +2,7 @@
 
 @if (Context.UserSetting?.MultiTab == true)
 {
-    <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" />
+    <ReuseTabs Class="@TabsClass" TabPaneClass="kui-body" Body="ChildContent" OnChange="@OnTabChange" />
 }
 else
 {

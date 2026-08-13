@@ -8,6 +8,7 @@ namespace Known.Internals;
 public partial class MainBody
 {
     private ReloadContainer reload;
+    private string oldUrl;
     private string TabsClass => CssBuilder.Default("kui-nav-tabs").AddClass("is-top", Context.UserSetting.IsTopTab).BuildClass();
     [Inject] private ReuseTabsService Service { get; set; }
 
@@ -25,5 +26,18 @@ public partial class MainBody
             Service.ReloadPage();
         else
             reload?.Reload();
+    }
+
+    private void OnTabChange(string newUrl)
+    {
+        var info = new TabsChangeInfo
+        {
+            OldUrl = oldUrl,
+            NewUrl = newUrl,
+            Context = Context,
+            Service = Service
+        };
+        oldUrl = newUrl;
+        UIConfig.OnTabChange?.Invoke(info);
     }
 }

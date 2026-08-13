@@ -1,4 +1,6 @@
-﻿namespace Known.Blazor;
+﻿using AntDesign;
+
+namespace Known.Blazor;
 
 /// <summary>
 /// 框架UI全局配置类。
@@ -216,6 +218,37 @@ public class UIConfig
     /// 取得用户菜单扩展项列表，外部模块可通过此集合向用户头像下拉菜单注入自定义项。
     /// </summary>
     public static List<ActionInfo> UserMenuItems { get; } = [];
+
+    /// <summary>
+    /// 取得或设置多标签页切换回调委托，参数为切换信息，在切换多标签页时调用。
+    /// </summary>
+    public static Action<TabsChangeInfo> OnTabChange { get; set; }
+}
+
+/// <summary>
+/// 多标签页切换信息类。
+/// </summary>
+public class TabsChangeInfo
+{
+    /// <summary>
+    /// 取得或设置切换前标签页URL。
+    /// </summary>
+    public string OldUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置切换后标签页URL。
+    /// </summary>
+    public string NewUrl { get; set; }
+
+    /// <summary>
+    /// 取得或设置切换时的UI上下文实例。
+    /// </summary>
+    public UIContext Context { get; set; }
+
+    /// <summary>
+    /// 取得或设置切换时使用的多标签页服务实例。
+    /// </summary>
+    public ReuseTabsService Service { get; set; }
 }
 
 /// <summary>
