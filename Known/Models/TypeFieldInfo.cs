@@ -130,6 +130,7 @@ public class TypeFieldInfo
             Category = Category,
             Row = form.Row,
             Column = form.Column,
+            Span = form.Span,
             FieldValue = form.FieldValue,
             ReadOnly = form.ReadOnly,
             Placeholder = form.Placeholder
@@ -210,6 +211,7 @@ public class TypeFieldInfo
             Required = Required,
             Row = form.Row,
             Column = form.Column,
+            Span = form.Span,
             Type = FieldType.Text,
             CustomField = form.CustomField,
             ReadOnly = form.ReadOnly,

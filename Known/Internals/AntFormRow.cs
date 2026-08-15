@@ -22,7 +22,7 @@ class AntFormRow<TItem> : BaseComponent where TItem : class, new()
             var column = field.Column;
             var label = column.ShowLabel ? Language?.GetFieldName<TItem>(column) : "";
             builder.Component<DataItem>()
-                   .Set(c => c.Span, column.Span ?? colSpan)
+                   .Set(c => c.Span, column.Span > 0 ? column.Span : colSpan)
                    .Set(c => c.Label, label)
                    .Set(c => c.Tooltip, column.Tooltip)
                    .Set(c => c.Required, column.Required)

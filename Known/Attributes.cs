@@ -378,6 +378,11 @@ public class FormAttribute() : Attribute
     public int Column { get; set; } = 1;
 
     /// <summary>
+    /// 取得或设置表单字段跨度大小，整行跨度为24。
+    /// </summary>
+    public int Span { get; set; }
+
+    /// <summary>
     /// 取得或设置字段组件类型。
     /// </summary>
     public string Type { get; set; }
