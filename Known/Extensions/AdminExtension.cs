@@ -68,7 +68,7 @@ public static class AdminExtension
 
     internal static async Task<List<CodeInfo>> GetDictionariesAsync(this Database db)
     {
-        var entities = await db.QueryListAsync<SysDictionary>();
+        var entities = await db.QueryListAsync<SysDictionary>(d => d.CompNo == db.User.CompNo);
         var codes = entities.Where(d => d.Enabled).OrderBy(d => d.Category).ThenBy(d => d.Sort).Select(e =>
         {
             var code = e.Code;

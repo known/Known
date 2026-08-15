@@ -2,7 +2,7 @@
 name: known-framework
 description: >
   Known 框架全栈开发专家。掌握 Known 框架（基于 Blazor 的插件化 C# 全栈框架）的完整开发流程：
-  项目初始化与模块注册、实体模型设计（特性驱动）、三段式服务开发（接口+客户端代理+服务端实现）、
+  项目初始化与模块注册、实体模型设计（特性驱动）、一段/三段式服务开发（接口+客户端代理+服务端实现）、
   低代码列表页与表单页开发、权限菜单配置、工作流集成、Excel 导入/导出、附件处理等。
   遇到与 Known 框架相关的开发任务时，优先调用此 Skill。
 agent_created: true
@@ -30,7 +30,7 @@ YourPlugin/
 ├── AppModule.cs          # 模块注册入口
 ├── Entities/             # 实体定义（数据库表映射）
 │   └── TbXxx.cs
-├── Services/             # 三段式服务
+├── Services/             # 一段/三段式服务
 │   └── XxxService.cs
 ├── Pages/                # Blazor 页面
 │   └── Xxx/
@@ -941,122 +941,3 @@ var param = Context.GetParameter<string>("key");
    - 参数为 `TItem` → 行操作按钮
 
 10. **表单中禁止直接修改 `Model.Data`**，应通过双向绑定 `@bind-Value` 让 Blazor 自动同步，或在 `OnSaving` 回调中修改。
-
----
-
-## 15. 打印功能（Print）
-
-### 15.1 核心 API
-
-```csharp
-// JSService 打印泛型组件，渲染为 HTML 后调用浏览器打印
-// JS 属性在 BaseComponent 中通过 [Inject] 注入，页面可直接使用
-await JS.PrintAsync<XxxPrint>(f => f.Set(c => c.Model, data));
-
-// IPrintRenderer<T> 的 Set 方法：设置组件参数（链式）
-// f.Set(c => c.Param1, val1).Set(c => c.Param2, val2)
-```
-
-### 15.2 创建打印组件
-
-打印组件是**纯静态渲染的 Razor 组件**（不参与交互），放在页面同目录：
-
-**XxxPrint.razor.cs：**
-
-```csharp
-namespace YourApp.Pages.Xxx;
-
-public partial class XxxPrint
-{
-    [Parameter] public TbXxx Model { get; set; }
-
-    /// <summary>HTML 编码防止 XSS 攻击。</summary>
-    private static string SafeHtmlEncode(string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-        return input.Replace("&", "&amp;")
-                    .Replace("<", "&lt;")
-                    .Replace(">", "&gt;")
-                    .Replace("\"", "&quot;")
-                    .Replace("'", "&#x27;");
-    }
-}
-```
-
-**XxxPrint.razor：**
-
-```razor
-@* @@page 是 Razor 转义后的 @page，控制打印边距 *@
-<style>
-    @@page {margin:0 24px;size:auto;}
-    .print {padding:20px;font-size:14px;}
-    .print .title {font-size:22px;font-weight:bold;text-align:center;margin:12px 0;}
-    .table {width:100%;border-collapse:collapse;}
-    .table th,.table td {border:1px solid #ccc;padding:5px;}
-    .table th {background-color:#f5f5f5;font-weight:bold;text-align:center;}
-</style>
-
-<div class="print">
-    <div class="title">单据标题</div>
-    <table class="table">
-        <tr>
-            <th>单号</th><td>@SafeHtmlEncode(Model?.Name)</td>
-            <th>客户</th><td>@SafeHtmlEncode(Model?.PartnerName)</td>
-        </tr>
-        @* 明细行遍历 Model 的列表子属性 *@
-    </table>
-    <div>制单人：@Model?.CreateBy　制单日期：@Model?.CreateTime.ToString("yyyy-MM-dd")</div>
-</div>
-```
-
-### 15.3 列表页触发打印
-
-```csharp
-// [Action] 方法：SelectRow 选中单行后异步加载完整数据再打印
-[Action]
-public void Print() => Table.SelectRow(async row =>
-{
-    var data = await Service.GetXxxAsync(row.Id);  // 加载含关联 Name 字段的完整数据
-    await JS.PrintAsync<XxxPrint>(f => f.Set(c => c.Model, data));
-});
-```
-
-### 15.4 多模板打印（按来源切换打印模板）
-
-当需要按不同维度（如多工厂、多单据类型）切换打印抬头时，参考以下模式：
-
-```csharp
-// [Action(Visible=false)] 作为按钮分组锚点
-[Action(Visible = false)] public void Print() { }
-
-// OnInitPageAsync 中动态添加分组按钮
-if (Context.HasButton(nameof(Print)))
-{
-    foreach (var factory in Factories)
-    {
-        Table.Toolbar.Items.Add(new ActionInfo
-        {
-            Name = factory.ShortName,
-            Group = nameof(Print),
-            OnClick = this.Callback<MouseEventArgs>(e => Print(factory.ShortName))
-        });
-    }
-}
-
-// 私有打印方法：选中行 + 按参数切换模板
-private void Print(string factory) => Table.SelectRow(async row =>
-{
-    var data = await Service.GetXxxAsync(row.Id);
-    data.Factory = Factories?.FirstOrDefault(d => d.ShortName == factory);
-    await JS.PrintAsync<XxxPrint>(f => f.Set(c => c.Model, data));
-});
-```
-
-### 15.5 注意事项
-
-1. **打印组件必须为 `partial class`**（razor 编译器要求）。
-2. **`@@page` 双 `@` 是 Razor 转义**，最终输出为 CSS 的 `@page` 规则，控制打印页边距。
-3. **打印组件不经过 DI 容器**，`JS.PrintAsync` 内部用 `ComponentRenderer` 静态渲染，因此组件内无法注入服务，只能依赖传入的 `[Parameter]`。
-4. **动态字段需 `SafeHtmlEncode`**，防止用户输入破坏打印 HTML。
-5. **打印数据需含关联 Name 字段**：打印前调用 `GetXxxAsync(id)` 重新加载（而非直接用列表行数据），确保 PartnerName 等 left join 字段已填充。
-6. **`JS` 属性来源**：`BaseComponent` 中 `[Inject] public JSService JS`，任何页面/组件均可直接使用。
