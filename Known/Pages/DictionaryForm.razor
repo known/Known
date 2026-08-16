@@ -1,6 +1,6 @@
 ﻿@inherits BaseForm<SysDictionary, CodeName>
 
-<DictionaryTypeForm Form="Model">
+<AntForm TItem="SysDictionary" Form="Model">
     <ChildContent>
         <AntRow>
             <DataItem Span="12" Label="代码" Required>
@@ -53,7 +53,7 @@
                     </div>
                 }
             </KFlexSpace>
-            <CodeNameTable DataSource="ListItems" IsView="Model.IsView" HidePagination ScrollY="200px">
+            <AntTable TItem="CodeName" DataSource="ListItems" IsView="Model.IsView" HidePagination ScrollY="200px">
                 <StringColumn Title="序号" Width="50">@(ListItems.IndexOf(context) + 1)</StringColumn>
                 <TableColumn Title="代码" Width="120" Value="@context.Code">
                     <AntInput @bind-Value="context.Code" />
@@ -69,7 +69,7 @@
                         <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
                     </ActionColumn>
                 }
-            </CodeNameTable>
+            </AntTable>
         }
     </ListContent>
-</DictionaryTypeForm>
+</AntForm>

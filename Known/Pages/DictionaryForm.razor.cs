@@ -60,13 +60,3 @@ public class CodeName
     /// </summary>
     public string Name { get; set; }
 }
-
-/// <summary>
-/// 数据字典类型表单组件类。
-/// </summary>
-public class DictionaryTypeForm : AntForm<SysDictionary> { }
-
-/// <summary>
-/// 代码名称表格组件类。
-/// </summary>
-public class CodeNameTable : AntTable<CodeName> { }

@@ -1,6 +1,6 @@
 ﻿@inherits BaseForm<SysNoRule>
 
-<NoRuleTypeForm Form="Model" IsRightList>
+<AntForm TItem="SysNoRule" Form="Model" IsRightList>
     <ChildContent>
         <AntRow>
             <DataItem Span="24" Label="代码" Required>
@@ -31,10 +31,10 @@
                 <KButton Icon="plus" Name="添加" OnClick="OnAdd" />
             }
         </KFlexSpace>
-        <NoRuleItemTable DataSource="Model.Data.Rules" IsView="Model.IsView" HidePagination ScrollY="200px">
+        <AntTable TItem="NoRuleItem" DataSource="Model.Data.Rules" IsView="Model.IsView" HidePagination ScrollY="200px">
             <StringColumn Title="序号" Width="50" Align="ColumnAlign.Center" Fixed="ColumnFixPlacement.Left">@(Model.Data.Rules.IndexOf(context) + 1)</StringColumn>
             <TableColumn Title="类型" Width="120" Value="@context.Type.ToString()">
-                <NoRuleTypeSelect @bind-Value="context.Type" OnSelectedItemChanged="OnItemChange" />
+                <AntSelectEnum T="NoRuleType" @bind-Value="context.Type" OnSelectedItemChanged="OnItemChange" />
             </TableColumn>
             <TableColumn Title="值" Value="@context.Value">
                 <AntInput @bind-Value="context.Value" OnChange="OnItemChange" />
@@ -47,6 +47,6 @@
                     <KButton Name="删除" OnClick="e => OnDelete(context)" Danger />
                 </ActionColumn>
             }
-        </NoRuleItemTable>
+        </AntTable>
     </ListContent>
-</NoRuleTypeForm>
+</AntForm>

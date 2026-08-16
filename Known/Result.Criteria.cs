@@ -263,6 +263,20 @@ public class PagingCriteria
         return Utils.ConvertTo<T>(value);
     }
 
+    /// <summary>
+    /// 设置命令参数值。
+    /// </summary>
+    /// <param name="id">参数ID。</param>
+    /// <param name="value">参数值。</param>
+    public void SetCmdParameter(string id, object value)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+
+        CmdParams ??= [];
+        CmdParams[id] = value;
+    }
+
     private void AddQuery(QueryInfo query)
     {
         Query ??= [];

@@ -1,6 +1,6 @@
 ﻿@inherits BaseComponent
 
-<SettingTypeForm Class="kui-setting-form" Model="Context.UserSetting" LabelColSpan="6" OnFinish="OnSave">
+<Form TModel="UserSettingInfo" Class="kui-setting-form" Model="Context.UserSetting" LabelColSpan="6" OnFinish="OnSave">
     <Title Level="4">@Language[Language.ThemeSetting]</Title>
     <div class="kui-theme-color">
         @foreach (var item in Colors)
@@ -64,4 +64,4 @@
         <Button Type="ButtonType.Primary" HtmlType="submit">@Language[Language.Save]</Button>
         <Button OnClick="OnResetAsync">@Language[Language.Reset]</Button>
     </FormItem>
-</SettingTypeForm>
+</Form>

@@ -89,6 +89,11 @@ public class AutoPageInfo
     public string FlowData { get; set; }
 
     /// <summary>
+    /// 取得或设置SQL自定义参数列表。
+    /// </summary>
+    public List<SqlParamInfo> Parameters { get; set; } = [];
+
+    /// <summary>
     /// 取得或设置无代码页面配置信息。
     /// </summary>
     public PageInfo Page { get; set; } = new();
@@ -117,4 +122,20 @@ public class AutoPageInfo
         }
         return info;
     }
+}
+
+/// <summary>
+/// SQL自定义参数信息类。
+/// </summary>
+public class SqlParamInfo
+{
+    /// <summary>
+    /// 取得或设置参数名。
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// 取得或设置参数值。
+    /// </summary>
+    public string Value { get; set; }
 }

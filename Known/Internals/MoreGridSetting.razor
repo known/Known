@@ -1,6 +1,6 @@
 ﻿@inherits BaseForm<PageColumnInfo>
 
-<PageColumnForm Form="Model">
+<AntForm TItem="PageColumnInfo" Form="Model">
     @if (context.Type.IsDictionary()) {
         <AntRow>
             <DataItem Span="24" Label="显示全部">
@@ -44,4 +44,4 @@
             </DataItem>
         </AntRow>
     }
-</PageColumnForm>
+</AntForm>

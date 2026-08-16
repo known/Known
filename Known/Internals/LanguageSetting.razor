@@ -1,7 +1,7 @@
 ﻿@inherits BaseComponent
 
 <div style="padding:16px;">
-    <LanguageSettingTable DataSource="DataSource" HidePagination>
+    <AntTable TItem="LanguageSettingInfo" DataSource="DataSource" HidePagination>
         <StringColumn Title="代码">
             <AntInput @bind-Value="@context.Code" />
         </StringColumn>
@@ -17,5 +17,5 @@
         <StringColumn Title="@Language.Enable">
             <AntSwitch @bind-Value="@context.Enabled" />
         </StringColumn>
-    </LanguageSettingTable>
+    </AntTable>
 </div>

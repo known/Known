@@ -1,6 +1,6 @@
 ﻿@inherits BaseForm<FormFieldInfo>
 
-<FormFieldForm Form="Model">
+<AntForm TItem="FormFieldInfo" Form="Model">
     @if (context.Type.IsDictionary()) {
         <AntRow>
             <DataItem Span="24" Label="字典类型">
@@ -47,4 +47,4 @@
             </DataItem>
         </AntRow>
     }
-</FormFieldForm>
+</AntForm>

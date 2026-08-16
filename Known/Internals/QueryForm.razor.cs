@@ -6,10 +6,10 @@
 public partial class QueryForm
 {
     private bool _expand = false;
-    private bool IsAdvSearch => AdvSearch || Model.AdvSearch;
+    private bool IsAdvSearch => AdvSearch || Model?.AdvSearch == true;
     private List<SearchScheme> _schemes = [];
     private string _activeSchemeId;
-    private string SchemeKey => $"UserSearchScheme_{Context.Current?.Id}_{Model.TableId}";
+    private string SchemeKey => $"UserSearchScheme_{Context.Current?.Id}_{Model?.TableId}";
 
     /// <summary>
     /// 取得或设置表格模型。
