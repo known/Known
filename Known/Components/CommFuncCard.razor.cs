@@ -11,6 +11,11 @@ public partial class CommFuncCard
     [Parameter] public List<string> Menus { get; set; }
 
     /// <summary>
+    /// 取得或设置常用功能菜单的工具栏。
+    /// </summary>
+    [Parameter] public RenderFragment Tool { get; set; }
+
+    /// <summary>
     /// 设置常用功能菜单ID列表。
     /// </summary>
     /// <param name="menus">菜单ID列表。</param>
