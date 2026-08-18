@@ -406,9 +406,9 @@ window.KSetup = {
         const scheduleRedirect = () => {
             if (this.reconnectTimer) return;
             this.reconnectTimer = window.setTimeout(() => {
-                const current = location.pathname + location.search;
-                const target = `${this.reconnectLoginUrl}?returnUrl=${encodeURIComponent(current)}`;
-                location.href = target;
+                //const current = location.pathname + location.search;
+                //const target = `${this.reconnectLoginUrl}?returnUrl=${encodeURIComponent(current)}`;
+                location.href = this.reconnectLoginUrl;
             }, this.reconnectDelay);
         };
 
