@@ -21,6 +21,8 @@ public class FlowLogGrid : BaseTable<FlowLogInfo>
     {
         await base.OnInitAsync();
         Service = await CreateServiceAsync<IFlowService>();
+
+        Table.ShowIndex = true;
         Table.ShowPager = true;
         if (Drawer != null)
             Table.AutoHeight = true;
