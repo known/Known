@@ -7,6 +7,23 @@ public static class TypeExtension
 {
     #region Type
     /// <summary>
+    /// 判断类型是否为集合类型。
+    /// </summary>
+    /// <param name="type">要判断的类型。</param>
+    /// <returns>是否为集合类型。</returns>
+    public static bool IsCollectionType(this Type type)
+    {
+        if (type == null) return false;
+
+        // 1. 排除 string 类型
+        if (type == typeof(string)) return false;
+
+        // 2. 检查是否实现了 IEnumerable
+        //    这是判断一个类型是否为集合的最基本标准
+        return typeof(IEnumerable).IsAssignableFrom(type);
+    }
+
+    /// <summary>
     /// 判断类型是否包含指定属性。
     /// </summary>
     /// <param name="type">类型。</param>

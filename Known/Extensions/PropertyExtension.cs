@@ -12,6 +12,9 @@ static class PropertyExtension
 
     internal static void Validate(this PropertyInfo property, Language language, object value, List<string> errors)
     {
+        if (property.PropertyType.IsCollectionType())
+            return;
+
         var label = property.DisplayName();
         if (string.IsNullOrWhiteSpace(label))
             label = language.GetString(property.Name);
