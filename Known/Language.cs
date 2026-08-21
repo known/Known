@@ -543,6 +543,7 @@ public class Language
     internal const string SelectInstallDesktop = "，选择“添加到主屏幕”安装。";
     internal const string SumPage = "本页合计";
     internal const string SumQuery = "查询总计";
+    internal const string Sum = "汇总";
     internal const string EditToolbar = "编辑工具条按钮";
     internal const string DragFileUpload = "单击或拖动文件到此区域进行上传";
     internal const string RenderMode = "呈现模式";

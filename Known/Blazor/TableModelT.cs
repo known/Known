@@ -81,6 +81,11 @@ public partial class TableModel<TItem> : TableModel where TItem : class, new()
     /// </summary>
     public RenderFragment TopTemplate { get; set; }
 
+    /// <summary>
+    /// 取得或设置汇总栏位模板。
+    /// </summary>
+    public RenderFragment<TableSumCellInfo<TItem>> SumTemplate { get; set; }
+
     internal override string TableId => typeof(TItem).Name;
     internal override Type DataType => typeof(TItem);
 

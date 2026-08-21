@@ -21,9 +21,9 @@
                 if (Model.ShowIndex) {
                     var columnId = Model.Columns[0].Id;
                     if (isDictionary) {
-                        @*<DictionaryColumn Title="@Language.Index" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
+                        <DictionaryColumn Title="@Language.Index" Property="c=>c.GetValue(columnId)" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                             <span>@GetIndex(context)</span>
-                        </DictionaryColumn>*@
+                        </DictionaryColumn>
                     } else {
                         <TableColumn Title="@Language.Index" Align="ColumnAlign.Center" Width="50" Fixed="ColumnFixPlacement.Left">
                             <span>@GetIndex(context)</span>
@@ -159,8 +159,10 @@
                                 <SummaryCell Align="@state.Align">
                                     @if (Model.ShowPager) {
                                         @Language[Language.SumPage]<br/>
+                                        <strong>@Language[Language.SumQuery]</strong>
+                                    } else {
+                                        <strong>@Language[Language.Sum]</strong>
                                     }
-                                    <strong>@Language[Language.SumQuery]</strong>
                                 </SummaryCell>
                                 isTitle = true;
                                 continue;
@@ -168,10 +170,14 @@
 
                             if (item.IsSum) {
                                 <SummaryCell Align="@state.Align">
-                                    @if (Model.ShowPager) {
-                                        @Model.Result?.GetPageSum(item.Id)<br/>
+                                    @if (Model.SumTemplate != null) {
+                                        @Model.SumTemplate(new TableSumCellInfo<TItem> { Table = Model, Column = item })
+                                    } else {
+                                        if (Model.ShowPager) {
+                                            @Model.Result?.GetPageSum(item.Id)<br />
+                                        }
+                                        <strong>@Model.Result?.GetTotalSum(item.Id)</strong>
                                     }
-                                    <strong>@Model.Result?.GetTotalSum(item.Id)</strong>
                                 </SummaryCell>
                             } else {
                                 <SummaryCell />

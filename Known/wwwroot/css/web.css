@@ -90,6 +90,7 @@ body {
 .kui-right {text-align:right;}
 .kui-center {text-align:center;}
 .kui-bold {font-weight:bold;}
+.kui-line {display:block;}
 .kui-flex {display:flex;}
 .kui-flex-row {display:flex;flex-direction:row;align-items:center;gap:10px;}
 .kui-flex-column {display:flex;flex-direction:column;align-items:center;gap:10px;}

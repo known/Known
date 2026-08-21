@@ -93,7 +93,7 @@ public class PagingResult<T>
         if (PageData == null || PageData.Count == 0)
             return 0;
 
-        return PageData.Select(d => d.Property<decimal?>(id)).Sum();
+        return PageData.Sum(d => d.Property<double?>(id));
     }
 
     internal object GetTotalSum(string id)
@@ -104,7 +104,7 @@ public class PagingResult<T>
         var statis = Statis?.First(s => s.Key.Equals(id, StringComparison.OrdinalIgnoreCase));
         var total = statis?.Value;
         if (total == null && PageData != null && PageData.Count > 0)
-            total = PageData.Select(d => d.Property<decimal?>(id)).Sum();
+            total = PageData.Sum(d => d.Property<double?>(id));
         return total;
     }
 }
