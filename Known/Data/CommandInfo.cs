@@ -75,27 +75,6 @@ public class CommandInfo
     /// </summary>
     public List<DbParamInfo> Parameters { get; set; } = [];
 
-    internal void SetParameters(DataRow row)
-    {
-        Parameters = [];
-        var keys = new List<string>();
-        foreach (DataColumn item in row.Table.Columns)
-        {
-            keys.Add(item.ColumnName);
-            Parameters.Add(item.ColumnName, row[item]);
-        }
-    }
-
-    internal void SetParameters<T>(T data)
-    {
-        Parameters = [];
-        var parameters = DbUtils.ToDictionary(data);
-        foreach (var item in parameters)
-        {
-            Parameters.Add(item.Key, item.Value);
-        }
-    }
-
     /// <summary>
     /// 获取数据库访问命令对象的显示字符串，显示ConnName、Text和Params内容。
     /// </summary>
@@ -114,5 +93,81 @@ public class CommandInfo
             }
         }
         return sb.ToString().TrimEnd(',');
+    }
+
+    internal void SetParameters(DataRow row)
+    {
+        Parameters = [];
+        var keys = new List<string>();
+        foreach (DataColumn item in row.Table.Columns)
+        {
+            keys.Add(item.ColumnName);
+            Parameters.Add(item.ColumnName, row[item]);
+        }
+    }
+
+    internal void SetParameters<T>(T data)
+    {
+        Parameters = [];
+        var parameters = DbUtils.ToDictionary(data);
+        foreach (var item in parameters)
+        {
+            if (IsCollection(item.Value))
+                ExpandParameter(item.Key, item.Value);
+            else
+                Parameters.Add(item.Key, item.Value);
+        }
+    }
+
+    //判断参数值是否为集合类型（字符串和字节数组除外）。
+    private static bool IsCollection(object value)
+    {
+        if (value == null || value is string || value is byte[])
+            return false;
+
+        if (value is JsonElement element)
+            return element.ValueKind == JsonValueKind.Array;
+
+        return value is IEnumerable;
+    }
+
+    //Dapper式集合参数展开，将in @Names展开为in (@Names_1,@Names_2,...)，并逐项添加参数。
+    private void ExpandParameter(string name, object value)
+    {
+        var pName = $"{Prefix}{name}";
+        if (string.IsNullOrEmpty(Text) || !Text.Contains(pName, StringComparison.OrdinalIgnoreCase))
+            return;
+
+        var items = GetCollectionItems(value);
+        if (items.Count == 0)
+        {
+            //空集合展开为(NULL)，确保查询不返回数据且不报语法错误
+            Text = ReplaceParameter(Text, pName, "(NULL)");
+            return;
+        }
+
+        var names = new string[items.Count];
+        for (int i = 0; i < items.Count; i++)
+        {
+            var itemName = $"{name}_{i + 1}";
+            Parameters.Add(itemName, items[i]);
+            names[i] = $"{Prefix}{itemName}";
+        }
+        Text = ReplaceParameter(Text, pName, $"({string.Join(", ", names)})");
+    }
+
+    //获取集合参数的元素列表（兼容JSON反序列化后的JsonElement数组）。
+    private static List<object> GetCollectionItems(object value)
+    {
+        if (value is JsonElement element && element.ValueKind == JsonValueKind.Array)
+            return [.. element.EnumerateArray()];
+
+        return [.. ((IEnumerable)value).Cast<object>()];
+    }
+
+    //替换SQL中的参数占位符（忽略大小写，不匹配更长参数名）。
+    private static string ReplaceParameter(string text, string name, string newValue)
+    {
+        return Regex.Replace(text, $"{Regex.Escape(name)}(?![A-Za-z0-9_])", newValue, RegexOptions.IgnoreCase);
     }
 }
