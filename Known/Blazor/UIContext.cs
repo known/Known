@@ -162,7 +162,7 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
         if (!string.IsNullOrWhiteSpace(url))
             return url;
 
-        var isDark = Local?.Theme == "dark" || UserSetting.MenuTheme == "Dark";
+        var isDark = Local?.Theme == "dark" || UserSetting?.MenuTheme == "Dark";
         return isDark ? "img/logo.png" : "img/logo1.png";
     }
 
