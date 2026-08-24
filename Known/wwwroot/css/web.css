@@ -269,8 +269,9 @@ pre.error {padding:10px;border-left:5px solid #ffccc7;background:#fff2f0;border-
 .kui-scanner-modal .ant-modal-body { position:absolute; top:0; left:0; right:0; bottom:0; padding:0; }
 
 /*Capsule*/
-.kui-capsule {display:flex;border-radius:5px;background-color:#5d5d5d;color:#fff;font-size:12px;height:20px;}
-.kui-capsule span {display:inline-block;padding:0 5px;height:20px;line-height:20px;}
+.kui-capsule {font-size:12px;height:20px;line-height:20px;}
+.kui-capsule span {display:inline-block;padding:0 5px;background-color:#5d5d5d;color:#fff;}
+.kui-capsule span:first-child {border-radius:5px 0 0 5px;}
 .kui-capsule-value {border-radius:0 5px 5px 0;}
 .kui-row .kui-capsule {float:left;}
 
