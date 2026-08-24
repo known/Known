@@ -90,16 +90,15 @@ class CompanyService(Context context) : SysServiceBase(context), ICompanyService
     public async Task<Result> SaveCompanyAsync(object model)
     {
         var database = Database;
-        if (Config.App.IsPlatform)
-        {
-            var result = await database.SaveCompanyDataAsync(CurrentUser.CompNo, model);
-            if (!result.IsValid)
-                return result;
-        }
-        else
-        {
+        var data = await database.QueryAsync<SysCompany>(d => d.Code == CurrentUser.CompNo);
+        if (data == null)
+            return Result.Error(Language.TipCompanyNotExists);
+
+        data.FillModel(model);
+        data.CompanyData = Utils.ToJson(model);
+        await database.SaveAsync(data);
+        if (!Config.App.IsPlatform)
             await database.SaveConfigAsync(KeyCompany, model);
-        }
         return Result.Success(Language.SaveSuccess);
     }
 

@@ -19,6 +19,12 @@ public partial interface IAdminService : IService
     [Anonymous] Task<InitialInfo> GetInitialAsync();
 
     /// <summary>
+    /// 异步获取当前用户公司信息。
+    /// </summary>
+    /// <returns>当前用户公司信息。</returns>
+    Task<CompanyInfo> GetCompanyAsync();
+
+    /// <summary>
     /// 异步获取系统附件列表。
     /// </summary>
     /// <param name="bizId">附件业务数据ID。</param>
@@ -59,6 +65,7 @@ partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
 {
     public Task<Result> SetRenderModeAsync(string mode) => Http.PostAsync($"/Admin/SetRenderMode?mode={mode}");
     public Task<InitialInfo> GetInitialAsync() => Http.GetAsync<InitialInfo>("/Admin/GetInitial");
+    public Task<CompanyInfo> GetCompanyAsync() => Http.GetAsync<CompanyInfo>("/Admin/GetCompany");
     public Task<List<AttachInfo>> GetFilesAsync(string bizId) => Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
     public Task<Result> DeleteFileAsync(AttachInfo info) => Http.PostAsync("/Admin/DeleteFile", info);
     public Task<Result> AddLogAsync(LogInfo info) => Http.PostAsync("/Admin/AddLog", info);
@@ -106,6 +113,15 @@ partial class AdminService(Context context, INotifyService notify) : SysServiceB
         if (CoreConfig.OnInitial != null)
             await CoreConfig.OnInitial.Invoke(database, info);
         return info;
+    }
+
+    public async Task<CompanyInfo> GetCompanyAsync()
+    {
+        var user = Context.CurrentUser;
+        if (user == null)
+            return new CompanyInfo();
+
+        return await Database.Query<SysCompany>().Where(d => d.CompNo == user.CompNo).FirstAsync<CompanyInfo>();
     }
 
     public Task<List<AttachInfo>> GetFilesAsync(string bizId)
