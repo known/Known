@@ -63,19 +63,6 @@ public interface IFlowService : IService
     Task<Result> StopFlowAsync(FlowFormInfo info);
 }
 
-[Client]
-class FlowClient(HttpClient http) : ClientBase(http), IFlowService
-{
-    public Task<PagingResult<FlowLogInfo>> QueryFlowLogsAsync(PagingCriteria criteria) => Http.QueryAsync<FlowLogInfo>("/Flow/QueryFlowLogs", criteria);
-    public Task<FlowInfo> GetFlowAsync(string moduleId, string bizId) => Http.GetAsync<FlowInfo>($"/Flow/GetFlow?moduleId={moduleId}&bizId={bizId}");
-    public Task<Result> SubmitFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/SubmitFlow", info);
-    public Task<Result> RevokeFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/RevokeFlow", info);
-    public Task<Result> AssignFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/AssignFlow", info);
-    public Task<Result> VerifyFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/VerifyFlow", info);
-    public Task<Result> RepeatFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/RepeatFlow", info);
-    public Task<Result> StopFlowAsync(FlowFormInfo info) => Http.PostAsync("/Flow/StopFlow", info);
-}
-
 [WebApi, Service]
 class FlowService(Context context) : ServiceBase(context), IFlowService
 {

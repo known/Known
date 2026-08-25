@@ -71,20 +71,6 @@ public partial interface IAdminService
     Task<Result> UpdatePasswordAsync(PwdFormInfo info);
 }
 
-partial class AdminClient
-{
-    public Task<Result> RegisterAsync(RegisterFormInfo info) => Http.PostAsync("/Admin/Register", info);
-    public Task<Result> SignInAsync(LoginFormInfo info) => Http.PostAsync("/Admin/SignIn", info);
-    public Task<Result> SignOutAsync() => Http.PostAsync("/Admin/SignOut");
-    public Task<AdminInfo> GetAdminAsync() => Http.GetAsync<AdminInfo>("/Admin/GetAdmin");
-    public Task<UserInfo> GetUserAsync(string userName) => Http.GetAsync<UserInfo>($"/Admin/GetUser?userName={userName}");
-    public Task<UserInfo> GetUserByIdAsync(string userId) => Http.GetAsync<UserInfo>($"/Admin/GetUserById?userId={userId}");
-    public Task<List<string>> GetUserModuleIdsAsync(string userId) => Http.GetAsync<List<string>>($"/Admin/GetUserModuleIds?userId={userId}");
-    public Task<Result> UpdateAvatarAsync(AvatarInfo info) => Http.PostAsync("/Admin/UpdateAvatar", info);
-    public Task<Result> UpdateUserAsync(UserInfo info) => Http.PostAsync("/Admin/UpdateUser", info);
-    public Task<Result> UpdatePasswordAsync(PwdFormInfo info) => Http.PostAsync("/Admin/UpdatePassword", info);
-}
-
 partial class AdminService
 {
     [Anonymous]

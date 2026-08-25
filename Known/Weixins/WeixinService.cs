@@ -41,16 +41,6 @@ public interface IWeixinService : IService
     Task<Result> SaveWeixinAsync(WeixinInfo info);
 }
 
-[Client]
-class WeixinClient(HttpClient http) : ClientBase(http), IWeixinService
-{
-    public Task<string> GetQRCodeUrlAsync(string sceneId) => Http.GetTextAsync($"/Weixin/GetQRCodeUrl?sceneId={sceneId}");
-    public Task<WeixinInfo> GetWeixinAsync(string userId) => Http.GetAsync<WeixinInfo>($"/Weixin/GetWeixin?userId={userId}");
-    public Task<WeixinUserInfo> GetWeixinByUserIdAsync(string userId) => Http.GetAsync<WeixinUserInfo>($"/Weixin/GetWeixinByUserId?userId={userId}");
-    public Task<UserInfo> CheckWeixinAsync(UserInfo info) => Http.PostAsync<UserInfo, UserInfo>("/Weixin/CheckWeixin", info);
-    public Task<Result> SaveWeixinAsync(WeixinInfo info) => Http.PostAsync("/Weixin/SaveWeixin", info);
-}
-
 [WebApi, Service]
 class WeixinService(Context context) : ServiceBase(context), IWeixinService
 {

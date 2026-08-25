@@ -26,14 +26,6 @@ public interface IOrganizationService : IService
     Task<Result> SaveOrganizationAsync(SysOrganization info);
 }
 
-[Client]
-class OrganizationClient(HttpClient http) : ClientBase(http), IOrganizationService
-{
-    public Task<List<SysOrganization>> GetOrganizationsAsync() => Http.GetAsync<List<SysOrganization>>("/Organization/GetOrganizations");
-    public Task<Result> DeleteOrganizationsAsync(List<SysOrganization> infos) => Http.PostAsync("/Organization/DeleteOrganizations", infos);
-    public Task<Result> SaveOrganizationAsync(SysOrganization info) => Http.PostAsync("/Organization/SaveOrganization", info);
-}
-
 [WebApi, Service]
 class OrganizationService(Context context) : SysServiceBase(context), IOrganizationService
 {

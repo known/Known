@@ -34,15 +34,6 @@ public interface IButtonService : IService
     Task<Result> SaveButtonAsync(ButtonInfo info);
 }
 
-[Client]
-class ButtonClient(HttpClient http) : ClientBase(http), IButtonService
-{
-    public Task<PagingResult<ButtonInfo>> QueryButtonsAsync(PagingCriteria criteria) => Http.QueryAsync<ButtonInfo>("/Button/QueryButtons", criteria);
-    public Task<List<ButtonInfo>> GetButtonsAsync(string position) => Http.GetAsync<List<ButtonInfo>>($"/Button/GetButtons?position={position}");
-    public Task<Result> DeleteButtonsAsync(List<ButtonInfo> infos) => Http.PostAsync("/Button/DeleteButtons", infos);
-    public Task<Result> SaveButtonAsync(ButtonInfo info) => Http.PostAsync("/Button/SaveButton", info);
-}
-
 [WebApi, Service]
 class ButtonService(Context context) : SysServiceBase(context), IButtonService
 {

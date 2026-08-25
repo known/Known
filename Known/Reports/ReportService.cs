@@ -47,17 +47,6 @@ public interface IReportService : IService
     Task<Result> SaveReportAsync(SysReport info);
 }
 
-[Client]
-class ReportClient(HttpClient http) : ClientBase(http), IReportService
-{
-    public Task<List<Dictionary<string, object>>> QueryBlockDataAsync(ReportBlock block) => Http.PostAsync<ReportBlock, List<Dictionary<string, object>>>("/Report/QueryBlockData", block);
-    public Task<List<CodeInfo>> GetEntitiesAsync() => Http.GetAsync<List<CodeInfo>>("/Report/GetEntities");
-    public Task<List<FieldInfo>> GetEntityFieldsAsync(string entityName) => Http.GetAsync<List<FieldInfo>>($"/Report/GetEntityFields?entityName={entityName}");
-    public Task<List<SysReport>> GetReportsAsync(string sysId) => Http.GetAsync<List<SysReport>>($"/Report/GetReports?sysId={sysId}");
-    public Task<Result> DeleteReportAsync(SysReport info) => Http.PostAsync("/Report/DeleteReport", info);
-    public Task<Result> SaveReportAsync(SysReport info) => Http.PostAsync("/Report/SaveReport", info);
-}
-
 [WebApi, Service]
 class ReportService(Context context) : ServiceBase(context), IReportService
 {

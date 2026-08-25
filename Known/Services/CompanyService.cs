@@ -54,18 +54,6 @@ public interface ICompanyService : IService
     Task<Result> SaveTenantAsync(UploadInfo<SysCompany> info);
 }
 
-[Client]
-class CompanyClient(HttpClient http) : ClientBase(http), ICompanyService
-{
-    public Task<string> GetCompanyAsync() => Http.GetTextAsync("/Company/GetCompany");
-    public Task<Result> SaveCompanyAsync(object model) => Http.PostAsync("/Company/SaveCompany", model);
-    public Task<PagingResult<SysCompany>> QueryTenantsAsync(PagingCriteria criteria) => Http.QueryAsync<SysCompany>("/Company/QueryTenants", criteria);
-    public Task<SysCompany> GetTenantAsync(string id) => Http.GetAsync<SysCompany>($"/Company/GetTenant?id={id}");
-    public Task<Result> DeleteTenantsAsync(List<SysCompany> infos) => Http.PostAsync("/Company/DeleteTenants", infos);
-    public Task<Result> SwitchTenantAsync(SysCompany info) => Http.PostAsync("/Company/SwitchTenant", info);
-    public Task<Result> SaveTenantAsync(UploadInfo<SysCompany> info) => Http.PostAsync("/Company/SaveTenant", info);
-}
-
 [WebApi, Service]
 class CompanyService(Context context) : SysServiceBase(context), ICompanyService
 {

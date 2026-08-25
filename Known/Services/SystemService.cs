@@ -38,16 +38,6 @@ public interface ISystemService : IService
     Task<Result> SaveProductKeyAsync(ActiveInfo info);
 }
 
-[Client]
-class SystemClient(HttpClient http) : ClientBase(http), ISystemService
-{
-    public Task<SystemDataInfo> GetSystemDataAsync() => Http.GetAsync<SystemDataInfo>("/System/GetSystemData");
-    public Task<SystemInfo> GetSystemAsync() => Http.GetAsync<SystemInfo>("/System/GetSystem");
-    public Task<Result> SaveSystemAsync(SystemInfo info) => Http.PostAsync("/System/SaveSystem", info);
-    public Task<SystemInfo> GetProductAsync() => Http.GetAsync<SystemInfo>("/System/GetProduct");
-    public Task<Result> SaveProductKeyAsync(ActiveInfo info) => Http.PostAsync("/System/SaveProductKey", info);
-}
-
 [WebApi, Service]
 class SystemService(Context context) : SysServiceBase(context), ISystemService
 {

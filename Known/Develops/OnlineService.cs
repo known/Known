@@ -13,15 +13,6 @@ public interface IOnlineService : IService
     Task<PagingResult<UserInfo>> QueryOnlineUsersAsync(PagingCriteria criteria);
 }
 
-[Client]
-class OnlineClient(HttpClient http) : ClientBase(http), IOnlineService
-{
-    public Task<PagingResult<UserInfo>> QueryOnlineUsersAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<UserInfo>("/Online/QueryOnlineUsers", criteria);
-    }
-}
-
 [WebApi, Service]
 class OnlineService(Context context) : SysServiceBase(context), IOnlineService
 {

@@ -39,35 +39,6 @@ public interface IFieldService : IService
     Task<Result> SaveFieldAsync(FieldDataInfo info);
 }
 
-[Client]
-class FieldClient(HttpClient http) : ClientBase(http), IFieldService
-{
-    public Task<PagingResult<FieldDataInfo>> QueryFieldsAsync(PagingCriteria criteria)
-    {
-        return Http.QueryAsync<FieldDataInfo>("/Field/QueryFields", criteria);
-    }
-
-    public Task<List<FieldDataInfo>> GetFieldsAsync()
-    {
-        return Http.GetAsync<List<FieldDataInfo>>("/Field/GetFields");
-    }
-
-    public Task<Result> FetchFieldsAsync()
-    {
-        return Http.PostAsync("/Field/FetchFields");
-    }
-
-    public Task<Result> DeleteFieldsAsync(List<FieldDataInfo> infos)
-    {
-        return Http.PostAsync("/Field/DeleteFields", infos);
-    }
-
-    public Task<Result> SaveFieldAsync(FieldDataInfo info)
-    {
-        return Http.PostAsync("/Field/SaveField", info);
-    }
-}
-
 [WebApi, Service]
 class FieldService(Context context) : SysServiceBase(context), IFieldService
 {

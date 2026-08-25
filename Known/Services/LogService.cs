@@ -54,18 +54,6 @@ public interface ILogService : IService
     Task<Result> ClearWebLogsAsync();
 }
 
-[Client]
-class LogClient(HttpClient http) : ClientBase(http), ILogService
-{
-    public Task<PagingResult<LogInfo>> QueryLogsAsync(PagingCriteria criteria) => Http.QueryAsync<LogInfo>("/Log/QueryLogs", criteria);
-    public Task<PagingResult<SysSyncLog>> QuerySyncLogsAsync(PagingCriteria criteria) => Http.QueryAsync<SysSyncLog>("/Log/QuerySyncLogs", criteria);
-    public Task<Result> DeleteSyncLogsAsync(List<SysSyncLog> infos) => Http.PostAsync("/Log/DeleteSyncLogs", infos);
-    public Task<PagingResult<LogInfo>> QueryWebLogsAsync(PagingCriteria criteria) => Http.QueryAsync<LogInfo>("/Log/QueryWebLogs", criteria);
-    public Task<Result> AddWebLogAsync(LogInfo info) => Http.PostAsync("/Log/AddWebLog", info);
-    public Task<Result> DeleteWebLogsAsync(List<LogInfo> infos) => Http.PostAsync("/Log/DeleteWebLogs", infos);
-    public Task<Result> ClearWebLogsAsync() => Http.PostAsync("/Log/ClearWebLogs");
-}
-
 [WebApi, Service]
 class LogService(Context context) : SysServiceBase(context), ILogService
 {

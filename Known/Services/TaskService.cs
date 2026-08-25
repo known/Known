@@ -27,14 +27,6 @@ public interface ITaskService : IService
     Task<Result> ResetTasksAsync(List<SysTask> infos);
 }
 
-[Client]
-class TaskClient(HttpClient http) : ClientBase(http), ITaskService
-{
-    public Task<PagingResult<SysTask>> QueryTasksAsync(PagingCriteria criteria) => Http.QueryAsync<SysTask>("/Task/QueryTasks", criteria);
-    public Task<Result> DeleteTasksAsync(List<SysTask> infos) => Http.PostAsync("/Task/DeleteTasks", infos);
-    public Task<Result> ResetTasksAsync(List<SysTask> infos) => Http.PostAsync("/Task/ResetTasks", infos);
-}
-
 [WebApi, Service]
 class TaskService(Context context) : ServiceBase(context), ITaskService
 {

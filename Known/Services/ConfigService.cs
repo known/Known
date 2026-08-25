@@ -19,13 +19,6 @@ public interface IConfigService : IService
     Task<Result> SaveTopNavsAsync(List<PluginInfo> infos);
 }
 
-[Client]
-class ConfigClient(HttpClient http) : ClientBase(http), IConfigService
-{
-    public Task<List<PluginInfo>> GetTopNavsAsync() => Http.GetAsync<List<PluginInfo>>("/Config/GetTopNavs");
-    public Task<Result> SaveTopNavsAsync(List<PluginInfo> infos) => Http.PostAsync("/Config/SaveTopNavs", infos);
-}
-
 [WebApi, Service]
 partial class ConfigService(Context context) : SysServiceBase(context), IConfigService
 {

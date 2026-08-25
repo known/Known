@@ -13,12 +13,6 @@ public interface IWebApiService : IService
     Task<PagingResult<ApiMethodInfo>> QueryWebApisAsync(PagingCriteria criteria);
 }
 
-[Client]
-partial class WebApiClient(HttpClient http) : ClientBase(http), IWebApiService
-{
-    public Task<PagingResult<ApiMethodInfo>> QueryWebApisAsync(PagingCriteria criteria) => Http.QueryAsync<ApiMethodInfo>("/WebApi/QueryWebApis", criteria);
-}
-
 [WebApi, Service]
 partial class WebApiService(Context context) : SysServiceBase(context), IWebApiService
 {

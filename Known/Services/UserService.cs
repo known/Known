@@ -69,20 +69,6 @@ public interface IUserService : IService
     Task<Result> SaveUserAsync(SysUser info);
 }
 
-[Client]
-class UserClient(HttpClient http) : ClientBase(http), IUserService
-{
-    public Task<PagingResult<UserInfo>> QueryUsersAsync(PagingCriteria criteria) => Http.QueryAsync<UserInfo>("/User/QueryUsers", criteria);
-    public Task<PagingResult<SysUser>> QueryUserDatasAsync(PagingCriteria criteria) => Http.QueryAsync<SysUser>("/User/QueryUserDatas", criteria);
-    public Task<SysUser> GetUserDataAsync(string id) => Http.GetAsync<SysUser>($"/User/GetUserData?id={id}");
-    public Task<Result> DeleteUsersAsync(List<SysUser> infos) => Http.PostAsync("/User/DeleteUsers", infos);
-    public Task<Result> ChangeDepartmentAsync(List<SysUser> infos) => Http.PostAsync("/User/ChangeDepartment", infos);
-    public Task<Result> EnableUsersAsync(List<SysUser> infos) => Http.PostAsync("/User/EnableUsers", infos);
-    public Task<Result> DisableUsersAsync(List<SysUser> infos) => Http.PostAsync("/User/DisableUsers", infos);
-    public Task<Result> SetUserPwdsAsync(List<SysUser> infos) => Http.PostAsync("/User/SetUserPwds", infos);
-    public Task<Result> SaveUserAsync(SysUser info) => Http.PostAsync("/User/SaveUser", info);
-}
-
 [WebApi, Service]
 class UserService(Context context, IUserHandler handler) : SysServiceBase(context), IUserService
 {

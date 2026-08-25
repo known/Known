@@ -34,15 +34,6 @@ public interface IRoleService : IService
     Task<Result> SaveRoleAsync(SysRole info);
 }
 
-[Client]
-class RoleClient(HttpClient http) : ClientBase(http), IRoleService
-{
-    public Task<PagingResult<SysRole>> QueryRolesAsync(PagingCriteria criteria) => Http.QueryAsync<SysRole>("/Role/QueryRoles", criteria);
-    public Task<SysRole> GetRoleAsync(string roleId) => Http.GetAsync<SysRole>($"/Role/GetRole?roleId={roleId}");
-    public Task<Result> DeleteRolesAsync(List<SysRole> infos) => Http.PostAsync("/Role/DeleteRoles", infos);
-    public Task<Result> SaveRoleAsync(SysRole info) => Http.PostAsync("/Role/SaveRole", info);
-}
-
 [WebApi, Service]
 class RoleService(Context context) : SysServiceBase(context), IRoleService
 {

@@ -60,19 +60,6 @@ public partial interface IAdminService : IService
     Task<Result> SaveMenuAsync(MenuInfo info);
 }
 
-[Client]
-partial class AdminClient(HttpClient http) : ClientBase(http), IAdminService
-{
-    public Task<Result> SetRenderModeAsync(string mode) => Http.PostAsync($"/Admin/SetRenderMode?mode={mode}");
-    public Task<InitialInfo> GetInitialAsync() => Http.GetAsync<InitialInfo>("/Admin/GetInitial");
-    public Task<CompanyInfo> GetCompanyAsync() => Http.GetAsync<CompanyInfo>("/Admin/GetCompany");
-    public Task<List<AttachInfo>> GetFilesAsync(string bizId) => Http.GetAsync<List<AttachInfo>>($"/Admin/GetFiles?bizId={bizId}");
-    public Task<Result> DeleteFileAsync(AttachInfo info) => Http.PostAsync("/Admin/DeleteFile", info);
-    public Task<Result> AddLogAsync(LogInfo info) => Http.PostAsync("/Admin/AddLog", info);
-    public Task<Result> DeleteMenuAsync(MenuInfo info) => Http.PostAsync("/Admin/DeleteMenu", info);
-    public Task<Result> SaveMenuAsync(MenuInfo info) => Http.PostAsync("/Admin/SaveMenu", info);
-}
-
 [WebApi, Service]
 partial class AdminService(Context context, INotifyService notify) : SysServiceBase(context), IAdminService
 {

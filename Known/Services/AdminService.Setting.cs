@@ -37,15 +37,6 @@ public partial interface IAdminService
     Task<Result> ResetUserSettingAsync();
 }
 
-partial class AdminClient
-{
-    public Task<string> GetConfigAsync(string key) => Http.GetTextAsync($"/Admin/GetConfig?key={key}");
-    public Task<Result> SaveConfigAsync(ConfigInfo info) => Http.PostAsync("/Admin/SaveConfig", info);
-    public Task<string> GetUserSettingAsync(string bizType) => Http.GetTextAsync($"/Admin/GetUserSetting?bizType={bizType}");
-    public Task<Result> SaveUserSettingAsync(SettingFormInfo info) => Http.PostAsync("/Admin/SaveUserSetting", info);
-    public Task<Result> ResetUserSettingAsync() => Http.PostAsync("/Admin/ResetUserSetting");
-}
-
 partial class AdminService
 {
     public Task<string> GetConfigAsync(string key)

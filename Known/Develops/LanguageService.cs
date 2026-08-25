@@ -47,17 +47,6 @@ public interface ILanguageService : IService
     Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos);
 }
 
-[Client]
-class LanguageClient(HttpClient http) : ClientBase(http), ILanguageService
-{
-    public Task<PagingResult<SysLanguage>> QueryLanguagesAsync(PagingCriteria criteria) => Http.QueryAsync<SysLanguage>("/Language/QueryLanguages", criteria);
-    public Task<Result> FetchLanguagesAsync() => Http.PostAsync("/Language/FetchLanguages");
-    public Task<Result> DeleteLanguagesAsync(List<SysLanguage> infos) => Http.PostAsync("/Language/DeleteLanguages", infos);
-    public Task<Result> ImportLanguagesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Language/ImportLanguages", info);
-    public Task<Result> SaveLanguageAsync(SysLanguage info) => Http.PostAsync("/Language/SaveLanguage", info);
-    public Task<Result> SaveLanguageSettingsAsync(List<LanguageSettingInfo> infos) => Http.PostAsync("/Language/SaveLanguageSettings", infos);
-}
-
 [WebApi, Service]
 class LanguageService(Context context) : SysServiceBase(context), ILanguageService
 {

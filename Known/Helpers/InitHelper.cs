@@ -41,6 +41,39 @@ static class InitHelper
         }//);
     }
 
+    internal static void LoadServiceProxies(this IServiceCollection services)
+    {
+        foreach (var assembly in Inits.Values)
+        {
+            foreach (var type in assembly.GetTypes())
+            {
+                if (!type.IsInterface || !type.IsAssignableTo(typeof(IService)))
+                    continue;
+                if (type == typeof(IService))
+                    continue;
+                if (type.IsGenericTypeDefinition)
+                    continue;
+                if (services.Any(s => s.ServiceType == type))
+                    continue;
+
+                services.AddScoped(type, sp =>
+                {
+                    var http = sp.GetRequiredService<HttpClient>();
+                    var context = sp.GetRequiredService<Context>();
+                    var proxyType = typeof(ServiceProxy<>).MakeGenericType(type);
+                    var createMethod = typeof(DispatchProxy).GetMethod("Create",
+                        BindingFlags.Public | BindingFlags.Static, null,
+                        [typeof(Type), typeof(Type)], null)!;
+                    var proxy = (DispatchProxy)createMethod.Invoke(null, [type, proxyType])!;
+                    var initMethod = proxyType.GetMethod("Initialize",
+                        BindingFlags.NonPublic | BindingFlags.Instance)!;
+                    initMethod.Invoke(proxy, [http, context]);
+                    return proxy;
+                });
+            }
+        }
+    }
+
     internal static void LoadServers(this IServiceCollection services)
     {
         MenuHelper.AddParent();

@@ -27,14 +27,6 @@ public interface IImportService : IService
     Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info);
 }
 
-[Client]
-class ImportClient(HttpClient http) : ClientBase(http), IImportService
-{
-    public Task<ImportFormInfo> GetImportAsync(string bizId) => Http.GetAsync<ImportFormInfo>($"/Import/GetImport?bizId={bizId}");
-    public Task<byte[]> GetImportRuleAsync(string bizId) => Http.GetAsync<byte[]>($"/Import/GetImportRule?bizId={bizId}");
-    public Task<Result> ImportFilesAsync(UploadInfo<ImportFormInfo> info) => Http.PostAsync("/Import/ImportFiles", info);
-}
-
 [WebApi, Service]
 class ImportService(Context context) : ServiceBase(context), IImportService
 {

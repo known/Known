@@ -46,6 +46,7 @@ public static partial class Extension
 
         services.AddScoped(typeof(IEntityService<>), typeof(EntityClient<>));
         services.LoadClients();
+        services.LoadServiceProxies();
 
         var option = ClientOption.Instance;
         if (!string.IsNullOrWhiteSpace(option.BaseAddress))

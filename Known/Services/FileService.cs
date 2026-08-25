@@ -20,13 +20,6 @@ public interface IFileService : IService
     Task<Result> DeleteFilesAsync(List<AttachInfo> infos);
 }
 
-[Client]
-class FileClient(HttpClient http) : ClientBase(http), IFileService
-{
-    public Task<PagingResult<AttachInfo>> QueryFilesAsync(PagingCriteria criteria) => Http.QueryAsync<AttachInfo>("/File/QueryFiles", criteria);
-    public Task<Result> DeleteFilesAsync(List<AttachInfo> infos) => Http.PostAsync("/File/DeleteFiles", infos);
-}
-
 [WebApi, Service]
 class FileService(Context context) : ServiceBase(context), IFileService
 {

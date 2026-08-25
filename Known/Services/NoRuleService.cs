@@ -27,14 +27,6 @@ public interface INoRuleService : IService
     Task<Result> SaveNoRuleAsync(SysNoRule info);
 }
 
-[Client]
-class NoRuleClient(HttpClient http) : ClientBase(http), INoRuleService
-{
-    public Task<PagingResult<SysNoRule>> QueryNoRulesAsync(PagingCriteria criteria) => Http.QueryAsync<SysNoRule>("/NoRule/QueryNoRules", criteria);
-    public Task<Result> DeleteNoRulesAsync(List<SysNoRule> infos) => Http.PostAsync("/NoRule/DeleteNoRules", infos);
-    public Task<Result> SaveNoRuleAsync(SysNoRule info) => Http.PostAsync("/NoRule/SaveNoRule", info);
-}
-
 [WebApi, Service]
 class NoRuleService(Context context) : ServiceBase(context), INoRuleService
 {

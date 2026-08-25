@@ -80,22 +80,6 @@ public interface IModuleService : IService
     Task<Result> SaveModuleAsync(SysModule info);
 }
 
-[Client]
-class ModuleClient(HttpClient http) : ClientBase(http), IModuleService
-{
-    public Task<PagingResult<SysModule>> QueryModulesAsync(PagingCriteria criteria) => Http.QueryAsync<SysModule>("/Module/QueryModules", criteria);
-    public Task<List<MenuInfo>> GetModulesAsync() => Http.GetAsync<List<MenuInfo>>("/Module/GetModules");
-    public Task<Result> MigrateModulesAsync() => Http.PostAsync("/Module/MigrateModules");
-    public Task<FileDataInfo> ExportModulesAsync() => Http.GetAsync<FileDataInfo>("/Module/ExportModules");
-    public Task<Result> ImportModulesAsync(UploadInfo<FileFormInfo> info) => Http.PostAsync("/Module/ImportModules", info);
-    public Task<Result> DeleteModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/DeleteModules", infos);
-    public Task<Result> InstallModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/InstallModules", infos);
-    public Task<Result> CopyModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/CopyModules", infos);
-    public Task<Result> MoveModulesAsync(List<SysModule> infos) => Http.PostAsync("/Module/MoveModules", infos);
-    public Task<Result> MoveModuleAsync(SysModule info) => Http.PostAsync("/Module/MoveModule", info);
-    public Task<Result> SaveModuleAsync(SysModule info) => Http.PostAsync("/Module/SaveModule", info);
-}
-
 [WebApi, Service]
 class ModuleService(Context context) : SysServiceBase(context), IModuleService
 {

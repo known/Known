@@ -26,14 +26,6 @@ public interface IInstallService : IService
     [Anonymous] Task<Result> SaveInstallAsync(InstallInfo info);
 }
 
-[Client]
-class InstallClient(HttpClient http) : ClientBase(http), IInstallService
-{
-    public Task<InstallInfo> GetInstallAsync() => Http.GetAsync<InstallInfo>("/Install/GetInstall");
-    public Task<Result> TestConnectionAsync(ConnectionInfo info) => Http.PostAsync("/Install/TestConnection", info);
-    public Task<Result> SaveInstallAsync(InstallInfo info) => Http.PostAsync("/Install/SaveInstall", info);
-}
-
 [WebApi, Service]
 class InstallService(Context context) : SysServiceBase(context), IInstallService
 {
