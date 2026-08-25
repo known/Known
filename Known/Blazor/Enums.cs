@@ -12,7 +12,11 @@ public enum RenderType
     /// <summary>
     /// SSR模式。
     /// </summary>
-    Server
+    Server,
+    /// <summary>
+    /// WebAssembly模式。
+    /// </summary>
+    WebAssembly
 }
 
 /// <summary>

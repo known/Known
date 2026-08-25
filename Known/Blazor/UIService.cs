@@ -78,4 +78,11 @@ public partial class UIService(ModalService modal, DrawerService drawer, Message
     {
         return delegate (RenderTreeBuilder builder) { action(builder); };
     }
+
+    private string GetLanguageText(string text)
+    {
+        if (Language == null)
+            return text;
+        return Language[text];
+    }
 }

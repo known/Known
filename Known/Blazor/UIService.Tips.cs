@@ -40,7 +40,7 @@ public partial class UIService
 
         var config = new NotificationConfig
         {
-            Message = title,
+            Message = GetLanguageText(title),
             ClassName = style.ToString(),
             Description = FormatMessage(text),
             Placement = NotificationPlacement.BottomRight
@@ -66,7 +66,7 @@ public partial class UIService
     {
         var options = new ConfirmOptions
         {
-            Title = Language[Language.Prompt],
+            Title = GetLanguageText(Language.Prompt),
             Content = FormatMessage(text)
         };
         if (action != null)
@@ -84,7 +84,7 @@ public partial class UIService
     {
         var options = new ConfirmOptions
         {
-            Title = Language[Language.Question],
+            Title = GetLanguageText(Language.Question),
             Icon = b => b.Icon("question-circle"),
             Content = FormatMessage(text)
         };
@@ -105,11 +105,11 @@ public partial class UIService
     {
         var options = new ConfirmOptions
         {
-            Title = Language[Language.Question],
+            Title = GetLanguageText(Language.Question),
             Icon = b => b.Icon("question-circle"),
             Content = FormatMessage(text),
-            OkText = Language[Language.Yes],
-            CancelText = Language[Language.No]
+            OkText = GetLanguageText(Language.Yes),
+            CancelText = GetLanguageText(Language.No)
         };
         if (onOK != null)
             options.OnOk = e => onOK.Invoke();
@@ -123,7 +123,7 @@ public partial class UIService
     {
         if (!string.IsNullOrWhiteSpace(text))
         {
-            text = Language[text];
+            text = GetLanguageText(text);
             text = text.Trim([.. Environment.NewLine]);
             if (text.Contains(Environment.NewLine))
             {

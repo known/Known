@@ -15,7 +15,7 @@ else
 @code {
     private RenderFragment RenderButton => @<Button Class="@Class" Icon="@Icon" Type="@Type" Style="@Style"
                                                     Block="Block" Danger="Danger" Disabled="ButtonDisabled" Loading="isLoad"
-                                                    OnClick="OnButtonClickAsync">@Language[Name]</Button>;
+                                                    OnClick="OnButtonClickAsync">@GetLanguageText(Name)</Button>;
 
     private RenderFragment RenderButtonComponent()
     {

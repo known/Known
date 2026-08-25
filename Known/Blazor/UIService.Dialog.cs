@@ -13,7 +13,7 @@ public partial class UIService
         var className = CssBuilder.Default("kui-modal").AddClass(model.ClassName).BuildClass();
         var option = new ModalOptions
         {
-            Title = Language?[model.Title],
+            Title = GetLanguageText(model.Title),
             Mask = model.Mask,
             MaskClosable = model.MaskClosable,
             DestroyOnClose = true,

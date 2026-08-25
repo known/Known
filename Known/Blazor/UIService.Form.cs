@@ -49,8 +49,8 @@ public partial class UIService
             Maximizable = model.Info?.Maximizable == true,
             DefaultMaximized = model.Info?.DefaultMaximized == true,
             Title = model.GetFormTitle(),
-            OkText = Language.OK,
-            CancelText = Language.Cancel,
+            OkText = GetLanguageText(Language.OK),
+            CancelText = GetLanguageText(Language.Cancel),
             WrapClassName = GetWrapperClass("kui-modal", model, model.IsView),
             OnCancel = e => model.CloseAsync(),
             Content = GetFormContent(model)

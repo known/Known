@@ -14,7 +14,7 @@ public partial class UIService
         var className = CssBuilder.Default("kui-drawer").AddClass(model.ClassName).BuildClass();
         var option = new DrawerOptions
         {
-            Title = Language?[model.Title],
+            Title = GetLanguageText(model.Title),
             WrapClassName = className,
             Width = model.Width,
             Closable = model.Closable,

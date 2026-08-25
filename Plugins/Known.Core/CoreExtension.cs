@@ -45,7 +45,7 @@ public static class CoreExtension
 
         services.AddHttpContextAccessor();
         services.AddKnownControllers();
-
+        services.AddSignalR();
         services.AddRazorPages();
         services.AddCascadingAuthenticationState();
         services.AddAuthProvider();

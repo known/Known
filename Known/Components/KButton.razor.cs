@@ -67,4 +67,11 @@ public partial class KButton
             await StateChangedAsync();
         }
     }
+
+    private string GetLanguageText(string text)
+    {
+        if (Language == null)
+            return text;
+        return Language[text];
+    }
 }

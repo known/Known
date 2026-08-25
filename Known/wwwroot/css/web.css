@@ -1256,3 +1256,10 @@ td .ant-btn {height:21px;font-size:12px;padding:0 7px;}
 .kui-report-setting {padding:16px;}
 .kui-report-setting .ant-form {padding:0;}
 .kui-report-setting .ant-form-item {margin-bottom:12px;padding:0 5px;}
+
+/* ── Loading ── */
+.loading-progress {position:relative;display:block;width:8rem;height:8rem;margin:20vh auto 1rem auto;}
+.loading-progress circle {fill:none;stroke:#e0e0e0;stroke-width:0.6rem;transform-origin:50% 50%;transform:rotate(-90deg);}
+.loading-progress circle:last-child {stroke:#1b6ec2;stroke-dasharray:calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;transition:stroke-dasharray 0.05s ease-in-out;}
+.loading-progress-text {position:absolute;text-align:center;font-weight:bold;inset:calc(20vh + 3.25rem) 0 auto 0.2rem;}
+.loading-progress-text:after {content:var(--blazor-load-percentage-text, "Loading");}
