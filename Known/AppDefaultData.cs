@@ -18,7 +18,9 @@ class AppDefaultData
 
     private static void SetMethods(AutoPageInfo info, Type pageType)
     {
-        foreach (var item in pageType.GetMethods(BindingFlags.Public | BindingFlags.Instance))
+        var items = pageType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                            .OrderByDescending(m => GetInheritanceDepth(pageType, m.DeclaringType));
+        foreach (var item in items)
         {
             if (item.IsDefined(typeof(ActionAttribute), false))
             {
@@ -72,5 +74,18 @@ class AppDefaultData
                 entity.Fields.Add(field);
         }
         info.EntityData = DataHelper.ToEntityData(entity);
+    }
+
+    private static int GetInheritanceDepth(Type currentType, Type declaringType)
+    {
+        int depth = 0;
+        Type baseType = currentType;
+        while (baseType != null && baseType != declaringType)
+        {
+            baseType = baseType.BaseType;
+            depth++;
+        }
+        // 如果 declaringType 不在当前类型的继承链中（罕见情况，例如接口方法），返回 int.MaxValue 排在最后
+        return baseType == null ? int.MaxValue : depth;
     }
 }
