@@ -2,13 +2,24 @@
 
 partial class FormModel<TItem>
 {
+    private TItem data;
     internal TItem DefaultData { get; set; }
+    internal int DataVersion { get; private set; }
     internal Func<Task<TItem>> DefaultDataAction { get; set; }
 
     /// <summary>
     /// 取得或设置表单关联的数据对象。
     /// </summary>
-    public TItem Data { get; set; }
+    public TItem Data
+    {
+        get { return data; }
+        set
+        {
+            data = value;
+            DataVersion++;
+            StateChanged();
+        }
+    }
 
     /// <summary>
     /// 取得或设置表单加载时调用的委托。

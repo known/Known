@@ -37,13 +37,11 @@ internal class ServiceProxy<T> : DispatchProxy where T : class
         }
 
         var returnType = targetMethod.ReturnType;
-
         if (!returnType.IsGenericType || returnType.GetGenericTypeDefinition() != typeof(Task<>))
             return null;
 
         var resultType = returnType.GetGenericArguments()[0];
-        var method = typeof(ServiceProxy<T>).GetMethod(nameof(InvokeAsync), BindingFlags.NonPublic | BindingFlags.Instance)!
-            .MakeGenericMethod(resultType);
+        var method = typeof(ServiceProxy<T>).GetMethod(nameof(InvokeAsync), BindingFlags.NonPublic | BindingFlags.Instance)!.MakeGenericMethod(resultType);
         return method.Invoke(this, [targetMethod, args]);
     }
 
@@ -59,11 +57,14 @@ internal class ServiceProxy<T> : DispatchProxy where T : class
             {
                 if (targetMethod.GetParameters().Length > 0)
                 {
-                    var queryString = string.Join("&", targetMethod.GetParameters().Select((p, i) =>
-                        $"{p.Name}={Uri.EscapeDataString(args[i]?.ToString() ?? "")}"));
+                    var parameters = targetMethod.GetParameters().Select((p, i) => $"{p.Name}={Uri.EscapeDataString(args[i]?.ToString() ?? "")}");
+                    var queryString = string.Join("&", parameters);
                     url = $"{url}?{queryString}";
                 }
                 url = _http.GetRequestUrl(url);
+                //Console.WriteLine($"TYPE：{typeof(TResult).Name}");
+                if (typeof(TResult) == typeof(string))
+                    return (TResult)(object)await _http.GetStringAsync(url);
                 return await _http.GetFromJsonAsync<TResult>(url);
             }
             else
@@ -77,8 +78,7 @@ internal class ServiceProxy<T> : DispatchProxy where T : class
         }
         catch (Exception ex)
         {
-            Logger.Error(LogTarget.FrontEnd, new UserInfo { Name = "Proxy" },
-                $"URL：{url}\r\n{ex}");
+            Logger.Error(LogTarget.FrontEnd, new UserInfo { Name = "Proxy" }, $"URL：{url}\r\n{ex}");
             return default;
         }
     }

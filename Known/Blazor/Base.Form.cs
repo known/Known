@@ -61,18 +61,6 @@ public class BaseForm<TItem> : BaseForm where TItem : class, new()
     [Parameter] public FormModel<TItem> Model { get; set; }
 
     /// <inheritdoc />
-    protected override async Task OnInitFormAsync()
-    {
-        await base.OnInitFormAsync();
-        if (Model != null)
-        {
-            Model.OnStateChanged = StateChanged;
-            Model.OnStateChangedTask = StateChangedAsync;
-            Model.Initialize();
-        }
-    }
-
-    /// <inheritdoc />
     protected override void BuildForm(RenderTreeBuilder builder)
     {
         if (Model == null)

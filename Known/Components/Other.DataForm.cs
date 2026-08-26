@@ -26,6 +26,7 @@ public class DataForm<TItem> : BaseForm where TItem : class, new()
             return;
 
         builder.Component<AntForm<TItem>>()
+               .Key(Model.DataVersion)
                .Set(c => c.IsEnterTab, true)
                .Set(c => c.Form, Model)
                .Set(c => c.ChildContent, this.BuildTree<TItem>(BuildFormBody))

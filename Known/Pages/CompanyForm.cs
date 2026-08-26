@@ -29,9 +29,17 @@ class CompanyBaseInfo : BaseEditForm<CompanyInfo>
         await base.OnInitFormAsync();
         Service = await CreateServiceAsync<ICompanyService>();
 
+        Model = new FormModel<CompanyInfo>(this, true) { IsView = true, Data = new() };
+    }
+
+    protected override async Task OnRenderAsync(bool firstRender)
+    {
+        await base.OnRenderAsync(firstRender);
+        if (!firstRender)
+            return;
+
         var json = await Service.GetCompanyAsync();
-        var data = Utils.FromJson<CompanyInfo>(json) ?? new CompanyInfo();
-        Model = new FormModel<CompanyInfo>(this, true) { IsView = true, Data = data };
+        Model.Data = Utils.FromJson<CompanyInfo>(json) ?? new CompanyInfo();
     }
 
     protected override Task<Result> OnSaveAsync(CompanyInfo model)

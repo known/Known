@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-
-namespace Known.Extensions;
+﻿namespace Known.Extensions;
 
 /// <summary>
 /// HTTP客户端请求扩展类。

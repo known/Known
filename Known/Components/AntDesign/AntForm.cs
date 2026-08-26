@@ -10,6 +10,8 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
 {
     [Inject] private IServiceScopeFactory Factory { get; set; }
 
+    private TItem previousData;
+
     /// <summary>
     /// 取得是否是表格。
     /// </summary>
@@ -87,6 +89,12 @@ public class AntForm<TItem> : Form<TItem>, IComContainer where TItem : class, ne
             Model = Form.Data;
         }
         base.OnParametersSet();
+
+        if (!ReferenceEquals(previousData, Form?.Data))
+        {
+            previousData = Form?.Data;
+            StateHasChanged();
+        }
     }
 
     /// <inheritdoc />

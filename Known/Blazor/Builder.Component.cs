@@ -8,6 +8,7 @@ public class ComponentBuilder<T> where T : Microsoft.AspNetCore.Components.IComp
 {
     private readonly RenderTreeBuilder builder;
     private readonly Dictionary<string, object> Parameters = new(StringComparer.Ordinal);
+    private object KeyValue;
 
     internal ComponentBuilder(RenderTreeBuilder builder)
     {
@@ -23,6 +24,17 @@ public class ComponentBuilder<T> where T : Microsoft.AspNetCore.Components.IComp
     public ComponentBuilder<T> Add(string name, object value)
     {
         Parameters[name] = value;
+        return this;
+    }
+
+    /// <summary>
+    /// 设置组件 Key，用于强制 Blazor 在 Key 变化时重建组件。
+    /// </summary>
+    /// <param name="value">Key 值。</param>
+    /// <returns>组件建造者。</returns>
+    public ComponentBuilder<T> Key(object value)
+    {
+        KeyValue = value;
         return this;
     }
 
@@ -49,6 +61,8 @@ public class ComponentBuilder<T> where T : Microsoft.AspNetCore.Components.IComp
     public void Build(Action<T> action = null)
     {
         builder.OpenComponent<T>(0);
+        if (KeyValue != null)
+            builder.SetKey(KeyValue);
         if (Parameters.Count > 0)
             builder.AddMultipleAttributes(1, Parameters);
         if (action != null)
