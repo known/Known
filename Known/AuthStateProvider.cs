@@ -25,25 +25,19 @@ public interface IAuthStateProvider
     Task SignOutAsync();
 }
 
-class AuthStateProvider : IAuthStateProvider
+class AuthStateProvider(JSService js) : IAuthStateProvider
 {
-    private static UserInfo current;
+    public Task<UserInfo> GetUserAsync() => js.GetUserInfoAsync();
 
-    public Task<UserInfo> GetUserAsync() => Task.FromResult(current);
-
-    public Task<string> SignInAsync(UserInfo user)
+    public async Task<string> SignInAsync(UserInfo user)
     {
         if (user == null)
-            return Task.FromResult(string.Empty);
+            return string.Empty;
 
         user.SessionId = Utils.GetGuid();
-        current = user;
-        return Task.FromResult(user.SessionId);
+        await js.SetUserInfoAsync(user);
+        return user.SessionId;
     }
 
-    public Task SignOutAsync()
-    {
-        current = null;
-        return Task.CompletedTask;
-    }
+    public Task SignOutAsync() => js.SetUserInfoAsync(null);
 }
