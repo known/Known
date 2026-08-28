@@ -29,7 +29,7 @@ public class BaseLayout : BaseComponent
         await base.OnInitAsync();
         Context.App = this;
         Context.TabsService = TabsService;
-        if (IsServerMode && CurrentUser != null)
+        if (CurrentUser != null)
             await InitAdminAsync();
     }
 
@@ -39,7 +39,7 @@ public class BaseLayout : BaseComponent
         await base.OnParameterAsync();
         Context.Url = Navigation.GetPageUrl();
         Context.SetCurrentMenu(RouteData);
-        CheckUrlAuthentication();
+        await CheckUrlAuthenticationAsync();
     }
 
     /// <inheritdoc />
@@ -48,9 +48,6 @@ public class BaseLayout : BaseComponent
         await base.OnRenderAsync(firstRender);
         if (firstRender)
         {
-            // WASM 首屏未登录时不应主动请求受保护的后台初始化接口。
-            if (!IsServerMode && CurrentUser != null)
-                await InitAdminAsync(); //App.ReloadPage();
             if (Info != null && Info.IsChangePwd)
                 ShowUpdatePassword();
         }
@@ -143,6 +140,7 @@ public class BaseLayout : BaseComponent
         Cache.AttachCodes(Info.Codes);
         Config.OnAdmin?.Invoke(Info);
         UIConfig.Load(Info);
+        Context.OnMenusLoaded?.Invoke();
     }
 
     private void SetUserMenus(List<MenuInfo> menus)
@@ -152,13 +150,21 @@ public class BaseLayout : BaseComponent
         LoadMenus();
     }
 
-    private void CheckUrlAuthentication()
+    private async Task CheckUrlAuthenticationAsync()
     {
         if (Context.Url == "/") return;
         if (UIConfig.IgnoreRoutes.Contains(Context.Url)) return;
         if (RouteData.PageType.IsAllowAnonymous()) return;
 
         var current = Context.Current;
+        // 登录后菜单尚未加载完成时（如Wasm刷新后），重新加载菜单后再校验，避免误判403
+        if (current == null && Info == null && CurrentUser != null)
+        {
+            await InitAdminAsync();
+            Context.SetCurrentMenu(RouteData);
+            current = Context.Current;
+        }
+
         var roles = current?.Role?.Split(',');
         if (current == null || !CurrentUser.InRole(roles) ||
             MenuHelper.IsExclude(current.Id) ||

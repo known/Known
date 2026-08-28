@@ -59,6 +59,17 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
         if (string.IsNullOrWhiteSpace(Table.Name))
             Table.Name = PageName;
         Table.DefaultQuery = DefaultQuery;
+        // 浏览器刷新直达页面时，菜单在页面初始化之后才加载完成，
+        // 导致表格列/按钮等配置初始化为空，这里菜单加载完成后重新初始化并刷新
+        Context.OnMenusLoaded += OnMenusLoadedAsync;
+    }
+
+    /// <inheritdoc />
+    protected override Task OnDisposeAsync()
+    {
+        if (Context != null)
+            Context.OnMenusLoaded -= OnMenusLoadedAsync;
+        return base.OnDisposeAsync();
     }
 
     /// <inheritdoc />
@@ -68,5 +79,25 @@ public class BaseTablePage<TItem> : BasePage<TItem> where TItem : class, new()
             return;
 
         builder.TablePage(Table, page => Table.PageComponent = page);
+    }
+
+    private void OnMenusLoadedAsync()
+    {
+        _ = InvokeAsync(async () =>
+        {
+            try
+            {
+                if (Table == null || Table.Columns.Count > 0)
+                    return;
+
+                Table.Initialize(true);
+                StateHasChanged();
+                await Table.RefreshAsync();
+            }
+            catch (Exception ex)
+            {
+                await OnErrorAsync(ex);
+            }
+        });
     }
 }

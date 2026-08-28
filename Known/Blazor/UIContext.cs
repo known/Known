@@ -9,6 +9,11 @@ public partial class UIContext(IServiceProvider provider) : Context(provider)
     internal IAdminService Admin { get; set; }
 
     /// <summary>
+    /// 取得或设置用户当前菜单（权限菜单）加载完成回调。
+    /// </summary>
+    internal Action OnMenusLoaded { get; set; }
+
+    /// <summary>
     /// 取得或设置界面是否是编辑模式。
     /// </summary>
     public bool IsEditMode { get; set; }

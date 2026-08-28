@@ -174,8 +174,8 @@ public class AuthLayout : LayoutBase
     /// <inheritdoc />
     protected override async Task OnInitAsync()
     {
-        await base.OnInitAsync();
         Context.CurrentUser = await GetCurrentUserAsync();
+        await base.OnInitAsync();
         if (Context.CurrentUser == null)
         {
             Navigation?.GoLoginPage();
