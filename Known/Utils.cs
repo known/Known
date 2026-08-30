@@ -429,6 +429,20 @@ public sealed class Utils
         return (T)serializer.Deserialize(reader);
     }
 
+    private static readonly JsonSerializerOptions jsonOptions = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+    private static readonly JsonSerializerOptions dsOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString
+    };
+
+    private static string FormatDSJson(string json) => json.Replace("{}", "null").Replace("\"\"", "null");
+
+
     /// <summary>
     /// 判断字符串是否为JSON格式。
     /// </summary>
@@ -451,7 +465,13 @@ public sealed class Utils
     /// </summary>
     /// <param name="value">对象。</param>
     /// <returns>JSON字符串。</returns>
-    public static string ToJson(object value) => ToJson(value, false);
+    public static string ToJson(object value)
+    {
+        if (value == null)
+            return string.Empty;
+
+        return JsonSerializer.Serialize(value, jsonOptions);
+    }
 
     /// <summary>
     /// 将对象序列化为JSON字符串（使用.NET内置JSON序列化）。
@@ -459,7 +479,7 @@ public sealed class Utils
     /// <param name="value">对象。</param>
     /// <param name="indented">是否缩进格式化。</param>
     /// <returns>JSON字符串。</returns>
-    public static string ToJson(object value, bool indented)
+    internal static string ToJson(object value, bool indented)
     {
         if (value == null)
             return string.Empty;
@@ -490,15 +510,6 @@ public sealed class Utils
 
         return obj;
     }
-
-    private static readonly JsonSerializerOptions dsOptions = new()
-    {
-        PropertyNameCaseInsensitive = true,
-        UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-        NumberHandling = JsonNumberHandling.AllowReadingFromString
-    };
-
-    private static string FormatDSJson(string json) => json.Replace("{}", "null").Replace("\"\"", "null");
 
     /// <summary>
     /// 将JSON字符串反序列化成指定泛型的对象（使用.NET内置JSON序列化）。
