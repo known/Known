@@ -138,9 +138,11 @@ class InstallService(Context context) : SysServiceBase(context), IInstallService
             var info = new InstallInfo
             {
                 IsInstalled = sys != null,
+                CompNo = CoreConfig.CompNo ?? sys?.CompNo,
+                CompName = CoreConfig.CompName ?? sys?.CompName,
                 AppName = Config.App.Name,
                 ProductId = CoreConfig.ProductId,
-                ProductKey = sys?.ProductKey,
+                ProductKey = CoreConfig.ProductKey ?? sys?.ProductKey,
                 AdminName = Constants.SysUserName
             };
             CoreConfig.System = sys;

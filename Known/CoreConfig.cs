@@ -77,9 +77,24 @@ public class CoreConfig
     public static Dictionary<string, string> DevRoles { get; } = [];
 
     /// <summary>
+    /// 取得或设置系统公司编号。
+    /// </summary>
+    public static string CompNo { get; set; }
+
+    /// <summary>
+    /// 取得或设置系统公司名称。
+    /// </summary>
+    public static string CompName { get; set; }
+
+    /// <summary>
     /// 取得或设置【关于系统】模块显示的产品ID。
     /// </summary>
     public static string ProductId { get; set; }
+
+    /// <summary>
+    /// 取得或设置【关于系统】模块显示的产品Key。
+    /// </summary>
+    public static string ProductKey { get; set; }
 
     /// <summary>
     /// 取得或设置系统授权验证方法，如果设置，则页面会先校验系统License，不通过，则显示框架内置的未授权面板。
