@@ -219,7 +219,6 @@ class UserForm : BaseForm<SysUser>
         }
         //Model.Header = b => b.Alert();
         Model.Field(f => f.UserName).ReadOnly(!Model.Data.IsNew);
-        Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
     }
 
     protected override async Task OnRenderAsync(bool firstRender)
@@ -235,6 +234,8 @@ class UserForm : BaseForm<SysUser>
             Model.Field(f => f.Password).Tooltip(pwdTips);
             Model.Data.RoleIds = user.RoleIds;
             Model.Codes["Roles"] = user.Roles;
+            Model.AddRow().AddColumn(c => c.RoleIds, c => c.Type = FieldType.CheckList);
+            await StateChangedAsync();
         }
     }
 }
