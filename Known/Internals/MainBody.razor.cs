@@ -22,7 +22,7 @@ public partial class MainBody
     /// </summary>
     public void ReloadPage()
     {
-        if (Context.UserSetting.MultiTab)
+        if (Context.UserSetting?.MultiTab == true)
             Service.ReloadPage();
         else
             reload?.Reload();
