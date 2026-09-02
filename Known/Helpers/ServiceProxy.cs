@@ -73,6 +73,8 @@ internal class ServiceProxy<T> : DispatchProxy where T : class
                 var body = args.Length == 1 ? args[0] : args;
                 var response = await _http.PostAsJsonAsync(url, body);
                 response.EnsureSuccessStatusCode();
+                if (typeof(TResult) == typeof(string))
+                    return (TResult)(object)await response.Content.ReadAsStringAsync();
                 return await response.Content.ReadFromJsonAsync<TResult>();
             }
         }
