@@ -91,7 +91,7 @@ partial class FormModel<TItem>
             return;
         }
 
-        UI.Confirm(confirmText, async () => await OnSaveDataAsync(isClose, isContinue));
+        UI.Confirm(confirmText, () => OnSaveDataAsync(isClose, isContinue));
     }
 
     private async Task OnSaveDataAsync(bool isClose, bool isContinue)
