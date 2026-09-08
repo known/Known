@@ -127,6 +127,9 @@ public class BaseLayout : BaseComponent
     private async Task InitAdminAsync()
     {
         Info = await Admin.GetAdminAsync();
+        if (Info == null)
+            return;
+
         Config.DatabaseType = Info.DatabaseType;
         if (Info.Actions != null)
             Config.Actions = [.. Info.Actions];
