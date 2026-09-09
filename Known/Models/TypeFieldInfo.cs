@@ -70,7 +70,17 @@ public class TypeFieldInfo
     /// </summary>
     /// <param name="instance">对象实例。</param>
     /// <param name="value">属性值。</param>
-    public void SetValue(object instance, object value) => _setter?.Invoke(instance, value);
+    public void SetValue(object instance, object value)
+    {
+        try
+        {
+            _setter?.Invoke(instance, value);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
 
     internal ColumnAttribute Column { get; }
     internal string DisplayName { get; }
