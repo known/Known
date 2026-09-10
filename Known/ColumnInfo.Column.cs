@@ -97,6 +97,15 @@ public partial class ColumnInfo
     /// </summary>
     public string HeaderColor { get; set; }
 
+    /// <summary>
+    /// 取得或设置栏位查询类型。
+    /// </summary>
+    public QueryType QueryType { get; set; } = QueryType.Contain;
+
+    /// <summary>
+    /// 取得或设置栏位查询模板。
+    /// </summary>
+    public RenderFragment<QueryItem> QueryTemplate { get; set; }
 
     /// <summary>
     /// 获取查询条件默认值。

@@ -46,6 +46,13 @@
             <AntSelectCode Style="@SelectStyle" DataSource="codes" Value="@Data[Item.Id].Value" ValueChanged="v=>OnSelectChangedAsync(Item.Id, v)" Placeholder="@Language[Item.Placeholder]" />
         }
     } else {
-        <AntInput Style="@InputStyle" Value="@Data[Item.Id].Value" ValueChanged="v=>Data[Item.Id].Value=v" OnEnter="SearchDataAsync" Placeholder="@Language[Item.Placeholder ?? Language.QueryByEnter]" />
+        if (Item.QueryTemplate != null)
+        {
+            @Item.QueryTemplate(this)
+        }
+        else
+        {
+            <AntInput Style="@InputStyle" Value="@Data[Item.Id].Value" ValueChanged="v=>Data[Item.Id].Value=v" OnEnter="SearchDataAsync" Placeholder="@Language[Item.Placeholder ?? Language.QueryByEnter]" />
+        }
     }
 }

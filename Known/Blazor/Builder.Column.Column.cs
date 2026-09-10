@@ -21,10 +21,33 @@ public partial class ColumnBuilder<TItem>
     /// <returns>表格栏位建造者。</returns>
     public ColumnBuilder<TItem> Query()
     {
-        if (column != null)
+        if (column != null && !column.IsQuery)
         {
             column.IsQuery = true;
             Table?.AddQueryColumn(column);
+        }
+        return this;
+    }
+
+    /// <summary>
+    /// 设置表格栏位为查询字段。
+    /// </summary>
+    /// <returns>表格栏位建造者。</returns>
+    public ColumnBuilder<TItem> Query(RenderFragment<QueryItem> template)
+    {
+        if (column != null)
+        {
+            var query = Table?.QueryColumns?.FirstOrDefault(c => c.Id == column.Id);
+            if (query != null)
+            {
+                query.QueryTemplate = template;
+            }
+            else
+            {
+                column.IsQuery = true;
+                column.QueryTemplate = template;
+                Table?.AddQueryColumn(column);
+            }
         }
         return this;
     }

@@ -17,7 +17,7 @@ public class TbWork : EntityBase
 
     [Required]
     [MaxLength(50)]
-    [Column(Width = 120)]
+    [Column(Width = 120, IsQuery = true)]
     [DisplayName("客户料号")]
     public string CustGNo { get; set; }
 

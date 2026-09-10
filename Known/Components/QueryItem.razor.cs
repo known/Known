@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 查询字段项目组件类。
@@ -46,6 +46,16 @@ public partial class QueryItem
         return base.OnInitAsync();
     }
 
+    /// <summary>
+    /// 搜索数据。
+    /// </summary>
+    /// <returns></returns>
+    public async Task SearchDataAsync()
+    {
+        var query = Data.Select(d => d.Value).ToList();
+        await OnSearch?.Invoke(query);
+    }
+
     private async Task OnSelectChangedAsync(string id, string[] values)
     {
         var value = string.Join(",", values ?? []);
@@ -64,11 +74,5 @@ public partial class QueryItem
 
         Data[id].Value = value;
         await SearchDataAsync();
-    }
-
-    private async Task SearchDataAsync()
-    {
-        var query = Data.Select(d => d.Value).ToList();
-        await OnSearch?.Invoke(query);
     }
 }

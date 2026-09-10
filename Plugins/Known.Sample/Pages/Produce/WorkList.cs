@@ -18,6 +18,16 @@ public class WorkList : BaseTablePage<TbWork>
         Table.FormType = typeof(WorkForm);
         Table.Form = new FormInfo { Width = 900 };
         Table.OnQuery = QueryWorksAsync;
+        Table.Column(c => c.CustGNo).Query(this.BuildTree<QueryItem>((b, q) =>
+        {
+            b.Component<SelectMaterial>()
+             .Set(c => c.OnChange, this.Callback<TbMaterial>(async d =>
+             {
+                 q.Data[q.Item.Id].Value = d.CustGNo;
+                 await q.SearchDataAsync();
+             }))
+             .Build();
+        }));
         Table.Column(c => c.Status).Tag();
     }
 

@@ -1,4 +1,4 @@
-﻿namespace Known.Internals;
+﻿namespace Known.Components;
 
 /// <summary>
 /// 查询表单组件类。
