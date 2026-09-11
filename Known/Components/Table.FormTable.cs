@@ -17,6 +17,9 @@ public class FormTable<TItem> : BaseComponent where TItem : class, new()
         if (Model == null)
             return;
 
+        if (Model.TopTemplate != null)
+            builder.Fragment(Model.TopTemplate);
+
         builder.BuildTable(Model.FixedWidth, true, () =>
         {
             if (ShowToolbar())
