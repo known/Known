@@ -14,6 +14,14 @@ public class MaterialList : BaseTablePage<TbMaterial>
         Table.FormType = typeof(MaterialForm);
         Table.Form = new FormInfo { Width = 900 };
         Table.OnQuery = Service.QueryMaterialsAsync;
+
+        Table.AddColumn(c => c.Name, true);
+        //Table.Columns.Add(new ColumnInfo
+        //{
+        //    Id = "Name",
+        //    Name = "名称",
+        //    IsQuery = true // 这样添加查询条件不显示
+        //});
     }
 
     [Action] public void New() => Table.NewForm(Service.SaveMaterialAsync, new TbMaterial());

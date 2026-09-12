@@ -12,5 +12,6 @@ public class TbMaterial : EntityBase
     [DisplayName("备注")]
     public string Note { get; set; }
 
+    public virtual string Name { get; set; }
     public List<PackFieldInfo> PackFields { get; set; } = [];
 }
