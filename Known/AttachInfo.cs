@@ -149,4 +149,44 @@ public class AttachInfo
             };
         }
     }
+
+    /// <summary>
+    /// 从base64图片数据创建附件信息。
+    /// </summary>
+    /// <param name="dataUri">base64图片数据。</param>
+    /// <returns>附件信息。</returns>
+    public static AttachInfo FromBase64Data(string dataUri)
+    {
+        try
+        {
+            var commaIndex = dataUri.IndexOf(',');
+            if (commaIndex <= 0)
+                return null;
+
+            var meta = dataUri[..commaIndex];
+            var data = dataUri[(commaIndex + 1)..];
+            var mime = meta.Split(';')[0].Split(':')[1];
+            var ext = mime.Split('/')[1];
+            if (string.IsNullOrWhiteSpace(ext))
+                ext = "png";
+
+            var bytes = Convert.FromBase64String(data);
+            var name = $"{DateTime.Now:yyyyMMddHHmmss}.{ext}";
+            return new AttachInfo
+            {
+                Id = "",
+                Name = name,
+                SourceName = name,
+                ExtName = ext,
+                Type = mime,
+                Size = bytes.Length,
+                OriginalData = bytes,
+                ThumbnailData = bytes
+            };
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }

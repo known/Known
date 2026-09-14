@@ -8,7 +8,22 @@ public partial class KFileView
     private AttachInfo current;
     private string currentImageUrl;
     private bool showPdf;
-    private string PreviewUrl => Config.App.Type == AppType.Web ? current?.FileUrl?.OriginalUrl : currentImageUrl;
+    private string PreviewUrl
+    {
+        get
+        {
+            if (current != null && (current.OriginalData?.Length > 0 || current.ThumbnailData?.Length > 0))
+                return GetDataUrl(current);
+            return Config.App.Type == AppType.Web ? current?.FileUrl?.OriginalUrl : currentImageUrl;
+        }
+    }
+
+    private static string GetDataUrl(AttachInfo item)
+    {
+        var data = item.OriginalData?.Length > 0 ? item.OriginalData : item.ThumbnailData;
+        var contentType = string.IsNullOrWhiteSpace(item.Type) ? "image/jpeg" : item.Type;
+        return $"data:{contentType};base64,{Convert.ToBase64String(data)}";
+    }
 
     /// <summary>
     /// 取得或设置附件列表。

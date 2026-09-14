@@ -194,6 +194,19 @@ class ExpressionHelper(DbProvider provider)
         var isNot = WhereSql.EndsWith("Not");
         if (isNot)
             WhereSql = WhereSql[..^3];
+        if (mce.Method.DeclaringType == typeof(System.MemoryExtensions))
+        {
+            var field = RouteExpression<T>(mce.Arguments[1]);
+            var spanArg = mce.Arguments[0];
+            while (spanArg is MethodCallExpression { Method.Name: "op_Implicit" } conv)
+                spanArg = conv.Arguments[0];
+            while (spanArg is UnaryExpression ue)
+                spanArg = ue.Operand;
+            var value = RouteExpression<T>(spanArg);
+            var operate = isNot ? "not in" : "in";
+            WhereSql += $"{field} {operate} ({value})";
+            return null;
+        }
         if (mce.Object == null)
         {
             var isValue = mce.Arguments[0].ToString().StartsWith("value");

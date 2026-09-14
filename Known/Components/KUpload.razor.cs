@@ -130,10 +130,19 @@ public partial class KUpload
         if (string.IsNullOrWhiteSpace(Value))
             return;
 
-        if (OnLoad != null)
+        if (Value.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+        {
+            var file = AttachInfo.FromBase64Data(Value);
+            sysFiles = file == null ? [] : [file];
+        }
+        else if (OnLoad != null)
+        {
             sysFiles = await OnLoad.Invoke(Value);
+        }
         else
+        {
             sysFiles = await Admin.GetFilesAsync(Value);
+        }
         await StateChangedAsync();
     }
 

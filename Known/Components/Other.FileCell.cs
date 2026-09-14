@@ -27,7 +27,15 @@ public class KFileCell : BaseComponent
 
     private async Task OnShowFile()
     {
-        var files = await Admin.GetFilesAsync(Value);
-        UI.PreviewFile(files);
+        if (Value.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+        {
+            var file = AttachInfo.FromBase64Data(Value);
+            UI.PreviewFile(file == null ? [] : [file]);
+        }
+        else
+        {
+            var files = await Admin.GetFilesAsync(Value);
+            UI.PreviewFile(files);
+        }
     }
 }
