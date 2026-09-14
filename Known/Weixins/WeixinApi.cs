@@ -104,8 +104,10 @@ public static class WeixinApi
             using var http = new HttpClient();
             var url = $"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appId}&secret={appSecret}";
             var result = await http.GetFromJsonAsync<Dictionary<string, object>>(url);
-            WriteInfo("AT=" + Utils.ToJson(result));
-            return result.GetValue<string>("access_token");
+            var token = result.GetValue<string>("access_token");
+            if (string.IsNullOrWhiteSpace(token))
+                Logger.Exception("WeiXin", "AT=" + Utils.ToJson(result));
+            return token;
         }
         catch (Exception ex)
         {

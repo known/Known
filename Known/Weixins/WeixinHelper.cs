@@ -18,7 +18,7 @@ public sealed class WeixinHelper
         using var http = new HttpClient();
         var authToken = await http.GetAuthorizeTokenAsync(code);
         if (authToken == null || string.IsNullOrWhiteSpace(authToken.AccessToken))
-            return Result.Error("AccessToken is null.");
+            return Result.Error("AuthorizeToken is null.");
 
         var user = await http.GetUserInfoAsync(authToken.AccessToken, authToken.OpenId);
         if (user == null)

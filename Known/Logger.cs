@@ -192,7 +192,10 @@ public partial class Logger
         if (ex.IsNotAuthorized())
             return;
 
-        Error(target, user, ex.ToString());
+        if (target == LogTarget.BackEnd)
+            Exception("BackEnd", ex);
+        else
+            Error(target, user, ex.ToString());
     }
 
     /// <summary>
