@@ -308,7 +308,7 @@ window.KUtils = {
     },
     isMobile: function () {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        return /android|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+        return /android|Phone|iPad|iPhone|iPod|MQQBrowser/.test(userAgent) && !window.MSStream;
     },
     highlight: function (code, lang) {
         return Prism.highlight(code, Prism.languages[lang], lang);
