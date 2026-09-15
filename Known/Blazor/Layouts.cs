@@ -66,6 +66,7 @@ public class LayoutBase : LayoutComponentBase
         if (!Context.IsReload)
         {
             Context.Local = await JS.GetLocalInfoAsync();
+            Context.IsMobile = await JSRuntime.CheckMobileAsync();
             Context.IsReload = true;
             if (Config.App.IsLanguage)
                 Context.CurrentLanguage = Context.Local.Language;
