@@ -2,7 +2,7 @@
 name: known-framework
 description: >
   Known 框架全栈开发专家。掌握 Known 框架（基于 Blazor 的插件化 C# 全栈框架）的完整开发流程：
-  项目初始化与模块注册、实体模型设计（特性驱动）、三段式服务开发（接口+客户端代理+服务端实现）、
+  项目初始化与模块注册、实体模型设计（特性驱动）、二段式服务开发（接口+服务端实现）、
   低代码列表页与表单页开发、权限菜单配置、工作流集成、Excel 导入/导出、附件处理等。
   遇到与 Known 框架相关的开发任务时，优先调用此 Skill。
 agent_created: true
@@ -30,7 +30,7 @@ YourPlugin/
 ├── AppModule.cs          # 模块注册入口
 ├── Entities/             # 实体定义（数据库表映射）
 │   └── TbXxx.cs
-├── Services/             # 三段式服务
+├── Services/             # 二段式服务
 │   └── XxxService.cs
 ├── Pages/                # Blazor 页面
 │   └── Xxx/
@@ -100,10 +100,10 @@ BaseEntity
 ### 2.2 实体字段特性
 
 ```csharp
-[DisplayName("显示名称")]          // 字段显示名
 [Required]                          // 必填校验
 [MaxLength(200)]                    // 最大长度
 [Category("CategoryCode")]          // 下拉字典分类
+[DisplayName("显示名称")]          // 字段显示名
 
 // 表格列配置
 [Column(
@@ -146,45 +146,45 @@ RichText / Code
 [Table("TB_Material")]
 public class TbMaterial : EntityBase
 {
-    [DisplayName("物料编码")]
     [Required, MaxLength(50)]
     [Column(IsQuery = true, IsSort = true, Width = 120)]
     [Form(Row = 1, Column = 1)]
+    [DisplayName("物料编码")]
     public string Code { get; set; }
 
-    [DisplayName("物料名称")]
     [Required, MaxLength(100)]
     [Column(IsQuery = true, Width = 150)]
     [Form(Row = 1, Column = 2)]
+    [DisplayName("物料名称")]
     public string Name { get; set; }
 
-    [DisplayName("规格型号")]
     [MaxLength(200)]
     [Form(Row = 2, Column = 1)]
+    [DisplayName("规格型号")]
     public string Spec { get; set; }
 
-    [DisplayName("单位")]
     [MaxLength(20)]
-    [Category("Unit")]                // 绑定字典
     [Form(Row = 2, Column = 2)]
+    [Category("Unit")]                // 绑定字典
+    [DisplayName("单位")]
     public string Unit { get; set; }
 
-    [DisplayName("库存数量")]
     [Column(IsSum = true, Align = "right")]
     [Form(Row = 3, Column = 1, Type = nameof(FieldType.Number), Unit = "件")]
+    [DisplayName("库存数量")]
     public decimal Qty { get; set; }
 
-    [DisplayName("备注")]
     [Form(Row = 4, Column = 1, Type = nameof(FieldType.TextArea), Rows = 3)]
+    [DisplayName("备注")]
     public string Remark { get; set; }
 }
 ```
 
 ---
 
-## 3. 三段式服务（Services）
+## 3. 二段式服务（Services）
 
-所有业务逻辑的标准结构：**接口** → **客户端代理** → **服务端实现**，三者定义在同一文件中。
+所有业务逻辑的标准结构：**接口** → **服务端实现**，二者定义在同一文件中。
 
 ### 3.1 接口定义
 
@@ -203,37 +203,7 @@ public interface IXxxService : IService
 }
 ```
 
-### 3.2 客户端代理（Wasm/混合模式必须）
-
-```csharp
-// [Client] 特性标记，框架自动注册为 Scoped 服务
-[Client]
-class XxxClient(HttpClient http) : ClientBase(http), IXxxService
-{
-    public Task<PagingResult<TbXxx>> QueryXxxsAsync(PagingCriteria criteria)
-        => PostAsync<PagingResult<TbXxx>>("Xxx/QueryXxxs", criteria);
-
-    public Task<Result> SaveXxxAsync(XxxFormInfo info)
-        => PostAsync<Result>("Xxx/SaveXxx", info);
-
-    public Task<Result> DeleteXxxsAsync(List<TbXxx> models)
-        => PostAsync<Result>("Xxx/DeleteXxxs", models);
-
-    // 带附件的 HTTP 上传
-    public Task<Result> SaveXxxAsync(UploadInfo<TbXxx> info)
-        => PostAsync<Result>("Xxx/SaveXxx", info);
-}
-```
-
-**ClientBase 常用方法：**
-
-| 方法 | 说明 |
-|------|------|
-| `PostAsync<T>(url, data)` | POST 请求，返回泛型结果 |
-| `GetAsync<T>(url)` | GET 请求，返回泛型结果 |
-| `GetFileAsync(url, fileName)` | 下载文件 |
-
-### 3.3 服务端实现
+### 3.2 服务端实现
 
 ```csharp
 // [WebApi] 暴露为 API 端点
@@ -314,7 +284,7 @@ class XxxService(Context context) : ServiceBase(context), IXxxService
 | `DeleteFilesAsync(key, bizId)` | 删除附件 |
 | `CreateFlowAsync(info)` | 创建工作流实例 |
 | `DeleteFlowAsync(bizId)` | 删除工作流实例 |
-| `QueryActionAsync<T>(criteria)` | 查询操作日志 |
+| `QueryActionAsync<T>(criteria)` | 批量查询操作 |
 
 **Result 统一返回：**
 
@@ -348,13 +318,13 @@ if (!result.IsValid) return result;
 [Route("/module/xxx")]
 class XxxList : BaseTablePage<TbXxx>
 {
-    private IXxxService _service;
+    private IXxxService Service;
 
     // 服务注入
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        _service = await CreateServiceAsync<IXxxService>();
+        Service = await CreateServiceAsync<IXxxService>();
 
         // 绑定查询方法
         Table.OnQuery = QueryXxxsAsync;
@@ -366,16 +336,16 @@ class XxxList : BaseTablePage<TbXxx>
         // Table.Form.Init<TbXxx>();  // 使用 [Form] 特性生成
     }
 
+    // [Action] 定义工具栏/行操作按钮
+    [Action] public void New()         => Table.NewForm(Service.SaveXxxAsync);
+    [Action] public void DeleteM()     => Table.DeleteM(Service.DeleteXxxsAsync);
+    [Action] public void Edit(TbXxx row)   => Table.EditForm(Service.SaveXxxAsync, row);
+    [Action] public void Delete(TbXxx row) => Table.Delete(Service.DeleteXxxsAsync, row);
+    [Action] public async void Export() => await ExportDataAsync();
+
     // 分页查询回调
     private Task<PagingResult<TbXxx>> QueryXxxsAsync(PagingCriteria criteria)
-        => _service.QueryXxxsAsync(criteria);
-
-    // [Action] 定义工具栏/行操作按钮
-    [Action] public void New()         => Table.NewForm(_service.SaveXxxAsync);
-    [Action] public void DeleteM()     => Table.DeleteM(_service.DeleteXxxsAsync);
-    [Action] public void Edit(TbXxx row)   => Table.EditForm(_service.SaveXxxAsync, row);
-    [Action] public void Delete(TbXxx row) => Table.Delete(_service.DeleteXxxsAsync, row);
-    [Action] public async void Export() => await ExportDataAsync();
+        => Service.QueryXxxsAsync(criteria);
 }
 ```
 
@@ -385,12 +355,12 @@ class XxxList : BaseTablePage<TbXxx>
 [Menu("工单管理")]
 class WorkList : BaseTablePage<TbWork>
 {
-    private IWorkService _service;
+    private IWorkService Service;
 
     protected override async Task OnInitPageAsync()
     {
         await base.OnInitPageAsync();
-        _service = await CreateServiceAsync<IWorkService>();
+        Service = await CreateServiceAsync<IWorkService>();
 
         Table.OnQuery = QueryWorksAsync;
         Table.FormType = typeof(WorkForm);
@@ -401,19 +371,19 @@ class WorkList : BaseTablePage<TbWork>
         Table.AddTab<WorkList>(WorkStatus.Approved, "已审批");
     }
 
+    // [Action(Tabs = [...])] 限定按钮仅在指定 Tab 显示
+    [Action] public void New()  => Table.NewForm(Service.SaveWorkAsync);
+    [Action(Tabs = [WorkStatus.Pending])] public void Submit(TbWork row)   => SubmitWork(row);
+    [Action(Tabs = [WorkStatus.Submitted])] public void Approve(TbWork row) => ApproveWork(row);
+    [Action] public void Edit(TbWork row)   => Table.EditForm(Service.SaveWorkAsync, row);
+    [Action] public void Delete(TbWork row) => Table.Delete(Service.DeleteWorksAsync, row);
+
     private Task<PagingResult<TbWork>> QueryWorksAsync(PagingCriteria criteria)
     {
         // 根据当前 Tab 动态注入查询条件
         criteria.SetQuery(nameof(TbWork.Status), QueryType.Equal, Table.CurrentTab);
-        return _service.QueryWorksAsync(criteria);
+        return Service.QueryWorksAsync(criteria);
     }
-
-    // [Action(Tabs = [...])] 限定按钮仅在指定 Tab 显示
-    [Action] public void New()  => Table.NewForm(_service.SaveWorkAsync);
-    [Action(Tabs = [WorkStatus.Pending])] public void Submit(TbWork row)   => SubmitWork(row);
-    [Action(Tabs = [WorkStatus.Submitted])] public void Approve(TbWork row) => ApproveWork(row);
-    [Action] public void Edit(TbWork row)   => Table.EditForm(_service.SaveWorkAsync, row);
-    [Action] public void Delete(TbWork row) => Table.Delete(_service.DeleteWorksAsync, row);
 }
 ```
 
@@ -421,7 +391,7 @@ class WorkList : BaseTablePage<TbWork>
 
 ```csharp
 // 绑定查询
-Table.OnQuery = async criteria => await _service.QueryXxxsAsync(criteria);
+Table.OnQuery = async criteria => await Service.QueryXxxsAsync(criteria);
 
 // 指定自定义 Razor 表单（推荐）
 Table.FormType = typeof(XxxForm);
@@ -495,18 +465,18 @@ Table.AddQueryColumn("fieldId", "字段名", QueryType.Equal, "defaultValue");
 ```csharp
 partial class XxxForm : BaseForm<TbXxx>
 {
-    private IXxxService _service;
+    private IXxxService Service;
 
     // 初始化（OnInitFormAsync 在 SetParametersAsync 之后调用）
     protected override async Task OnInitFormAsync()
     {
         await base.OnInitFormAsync();
-        _service = await CreateServiceAsync<IXxxService>();
+        Service = await CreateServiceAsync<IXxxService>();
 
         // 绑定保存（普通）
-        Model.OnSave = _service.SaveXxxAsync;
+        Model.OnSave = Service.SaveXxxAsync;
         // 绑定保存（带附件）
-        Model.OnSaveFile = _service.SaveXxxAsync;
+        Model.OnSaveFile = Service.SaveXxxAsync;
         // 保存前回调（返回 false 阻止保存）
         Model.OnSaving = async item =>
         {
@@ -525,7 +495,7 @@ partial class XxxForm : BaseForm<TbXxx>
         if (firstRender && !Model.IsNew)
         {
             // 加载关联数据
-            var detail = await _service.GetXxxDetailAsync(Model.Data.Id);
+            var detail = await Service.GetXxxDetailAsync(Model.Data.Id);
             // 更新 UI
             await StateChangedAsync();
         }
@@ -723,14 +693,14 @@ class XxxImport : ImportBase<TbXxx>
     }
 
     // 可选：覆盖导入逻辑（每行数据处理）
-    public override async Task<Result> ExecuteAsync(Database db, List<TbXxx> models)
+    public override async Task<Result> ExecuteAsync(Database database, List<TbXxx> models)
     {
-        return await db.TransactionAsync("导入", async transaction =>
+        return await database.TransactionAsync("导入", async db =>
         {
             foreach (var model in models)
             {
                 model.CompNo = CurrentUser.CompNo;
-                await transaction.SaveAsync(model);
+                await db.SaveAsync(model);
             }
         });
     }
@@ -791,8 +761,8 @@ public async void Export()
 ### 10.1 实体中定义附件字段
 
 ```csharp
-[DisplayName("附件")]
 [Form(Type = nameof(FieldType.File))]
+[DisplayName("附件")]
 public string AttachFile { get; set; }
 ```
 
@@ -870,47 +840,42 @@ var param = Context.GetParameter<string>("key");
 开始开发新功能时，按以下顺序检查：
 
 ```
-□ 1. 实体（Entities/TbXxx.cs）
+1. 实体（Entities/TbXxx.cs）
       - 继承 EntityBase
-      - 每个字段添加 [DisplayName]、[Column]、[Form] 特性
+      - 每个字段添加 [Column]、[Form]（可选，无razor表单页使用）、[DisplayName]特性
       - 必填字段添加 [Required]
       - 字典字段添加 [Category("Code")]
 
-□ 2. 服务接口（IXxxService）
+2. 服务接口（IXxxService）
       - 继承 IService
       - 定义 QueryXxxsAsync / SaveXxxAsync / DeleteXxxsAsync
 
-□ 3. 客户端代理（XxxClient）
-      - [Client] 特性
-      - 继承 ClientBase(http)
-      - 实现接口所有方法，调用 PostAsync
-
-□ 4. 服务端实现（XxxService）
+3. 服务端实现（XxxService）
       - [WebApi, Service] 特性
       - 继承 ServiceBase(context)
       - QueryPageAsync / SaveAsync / TransactionAsync
 
-□ 5. 列表页（XxxList.cs）
+4. 列表页（XxxList.cs）
       - [Menu] + [Route] 特性
       - 继承 BaseTablePage<TbXxx>
       - OnInitPageAsync 中绑定 OnQuery、FormType
       - [Action] 定义 New、Edit、Delete、DeleteM
 
-□ 6. 表单页（XxxForm.razor + .cs）
+5. 表单页（XxxForm.razor + .cs）
       - @inherits BaseForm<TbXxx>
       - OnInitFormAsync 中绑定 OnSave/OnSaveFile
       - 复杂逻辑在 OnRenderAsync(firstRender) 中加载
 
-□ 7. 模块注册（AppModule.cs）
+6. 模块注册（AppModule.cs）
       - Config.AddModule(assembly)
       - Config.Modules.AddItem(...)
 
-□ 8. （可选）导入（XxxImport.cs）
+7. （可选）导入（XxxImport.cs）
       - [Import(typeof(TbXxx))]
       - 继承 ImportBase<TbXxx>
       - InitColumns() 定义列映射
 
-□ 9. （可选）工作流（XxxFlow.cs）
+8. （可选）工作流（XxxFlow.cs）
       - 继承 FlowBase
       - 服务端 CreateFlowAsync / DeleteFlowAsync
       - 表单 <FlowLogGrid BizId="..." />
@@ -920,9 +885,9 @@ var param = Context.GetParameter<string>("key");
 
 ## 14. 常见问题与注意事项
 
-1. **`[Client]` 和 `[Service]` 类必须是 `internal class`，不能是 `public`**，接口是 `public interface`。
+1.  `[Service]` 类必须是 `internal class`，不能是 `public`**，接口是 `public interface`。
 
-2. **三段式中客户端 URL 必须与服务端路由匹配**：`[WebApi]` 会自动注册路由，格式为 `{ControllerName}/{MethodName}`，其中 ControllerName 来自类名去掉 `Service` 后缀（如 `XxxService` → `Xxx`）。
+2. **二段式中客户端 URL 必须与服务端路由匹配**：`[WebApi]` 会自动注册路由，格式为 `{ControllerName}/{MethodName}`，其中 ControllerName 来自类名去掉 `Service` 后缀（如 `XxxService` → `Xxx`）。
 
 3. **`Database.SaveAsync` 自动判断新增/更新**：通过 `entity.Id` 是否为空或 `entity.IsNew` 来区分。如果是新增，`Id` 会自动生成 GUID。
 
