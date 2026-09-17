@@ -20,6 +20,8 @@ public class SysRoleList : BaseTablePage<SysRole>
         Table.FormType = typeof(RoleForm);
         Table.Form = new FormInfo { Width = 1000, SmallLabel = true };
         Table.OnQuery = Service.QueryRolesAsync;
+        Table.AddColumn(c => c.CreateBy).Name("创建人").Width(100);
+        Table.AddColumn(c => c.CreateTime).Name("创建时间").Width(140);
     }
 
     /// <summary>

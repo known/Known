@@ -2,13 +2,13 @@
 
 static class CoreMenuExtension
 {
-    internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db)
+    internal static async Task<List<MenuInfo>> GetUserMenusAsync(this Database db, bool isRoute = true)
     {
         var user = db.User;
         if (user == null)
             return [];
 
-        var menus = await DataHelper.GetMenusAsync(db);
+        var menus = await DataHelper.GetMenusAsync(db, isRoute);
         // 如果是管理员，返回所有菜单
         if (user.IsAdmin() || CoreConfig.IsNoRole)
             return menus;
