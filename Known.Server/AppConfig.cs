@@ -33,6 +33,7 @@ public static class AppConfig
             info.Id = AppId;
             info.Name = AppName;
             info.IsPlatform = true;
+            info.IsMobile = true;
             //info.IsTopMenu = true;
             //info.Layout = LayoutType.Semi;
         });

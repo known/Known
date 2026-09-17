@@ -1,0 +1,18 @@
+﻿@page "/app"
+@inherits AppPage
+@attribute [AppMenu("首页", "home", 1, "Tab")]
+
+<div class="carousel">
+    <Carousel Autoplay="TimeSpan.FromSeconds(3)">
+        <CarouselSlick><img src="./img/login.png" style="width:100%" /></CarouselSlick>
+    </Carousel>
+</div>
+
+<div style="padding:30px 0;">
+    @* <div class="kui-logo" style="width:100%;background-position:center;background-size:200px 50px;"></div> *@
+    <h1 class="kui-app-name" style="display:block;">Known信息管理系统</h1>
+</div>
+
+<div style="padding:20px 30px;">
+    <AppMenu Items="Config.AppMenus.ToList()" ShowPending />
+</div>
